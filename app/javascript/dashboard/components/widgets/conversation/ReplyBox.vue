@@ -111,10 +111,11 @@
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
       :is-on-private-note="isOnPrivateNote"
-      :is-format-mode="showRichContentEditor"
-      :enter-to-send-enabled="enterToSendEnabled"
+      :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      @toggleEnterToSend="toggleEnterToSend"
+      :has-whatsapp-templates="hasWhatsappTemplates"
+      @selectWhatsappTemplate="openWhatsappTemplateModal"
+      @toggle-editor="toggleRichContentEditor"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -149,19 +150,18 @@ import {
   MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
-import {
-  isEscape,
-  isEnter,
-  hasPressedShift,
-  hasPressedCommandPlusKKey,
-} from 'shared/helpers/KeyboardHelpers';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
+import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
+import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -215,6 +215,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
     };
   },
@@ -230,6 +231,13 @@ export default {
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
+      }
+
+      if (this.isAPIInbox) {
+        const {
+          display_rich_content_editor: displayRichContentEditor = false,
+        } = this.uiSettings;
+        return displayRichContentEditor;
       }
 
       return false;
@@ -266,9 +274,6 @@ export default {
     hasWhatsappTemplates() {
       return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
         .length;
-    },
-    enterToSendEnabled() {
-      return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
@@ -343,13 +348,16 @@ export default {
       );
     },
     replyButtonLabel() {
+      let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
-        return this.$t('CONVERSATION.REPLYBOX.CREATE');
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
+      } else if (this.conversationType === 'tweet') {
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
-      if (this.conversationType === 'tweet') {
-        return this.$t('CONVERSATION.REPLYBOX.TWEET');
-      }
-      return this.$t('CONVERSATION.REPLYBOX.SEND');
+      const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
+        ? '(⌘ + ↵)'
+        : '(↵)';
+      return `${sendMessageText} ${keyLabel}`;
     },
     replyBoxClass() {
       return {
@@ -430,17 +438,31 @@ export default {
     profilePath() {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
+    editorMessageKey() {
+      const { editor_message_key: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    commandPlusEnterToSendEnabled() {
+      return this.editorMessageKey === 'cmd_enter';
+    },
+    enterToSendEnabled() {
+      return this.editorMessageKey === 'enter';
+    },
     conversationId() {
       return this.currentChat.id;
     },
+    conversationIdByRoute() {
+      const { conversation_id: conversationId } = this.$route.params;
+      return conversationId;
+    },
     editorStateId() {
-      const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-      return key;
+      return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
   },
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
+
       if (this.isOnPrivateNote) {
         return;
       }
@@ -453,34 +475,135 @@ export default {
 
       this.setCCEmailFromLastChat();
     },
+    conversationIdByRoute(conversationId, oldConversationId) {
+      if (conversationId !== oldConversationId) {
+        this.setToDraft(oldConversationId, this.replyType);
+        this.getFromDraft();
+      }
+    },
     message(updatedMessage) {
       this.hasSlashCommand =
         updatedMessage[0] === '/' && !this.showRichContentEditor;
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
+        this.mentionSearchKey = updatedMessage.substring(1);
         this.showMentions = true;
       } else {
         this.mentionSearchKey = '';
         this.showMentions = false;
       }
+      this.doAutoSaveDraft();
+    },
+    replyType(updatedReplyType, oldReplyType) {
+      this.setToDraft(this.conversationIdByRoute, oldReplyType);
+      this.getFromDraft();
     },
   },
 
   mounted() {
+    this.getFromDraft();
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
-    document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
-
+    document.addEventListener('keydown', this.handleKeyEvents);
     this.setCCEmailFromLastChat();
+    this.doAutoSaveDraft = debounce(
+      () => {
+        this.saveDraft(this.conversationIdByRoute, this.replyType);
+      },
+      500,
+      true
+    );
   },
   destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
     document.removeEventListener('paste', this.onPaste);
+    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    toggleRichContentEditor() {
+      this.updateUISettings({
+        display_rich_content_editor: !this.showRichContentEditor,
+      });
+    },
+    getSavedDraftMessages() {
+      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
+    },
+    saveDraft(conversationId, replyType) {
+      if (this.message || this.message === '') {
+        const savedDraftMessages = this.getSavedDraftMessages();
+        const key = `draft-${conversationId}-${replyType}`;
+        const draftToSave = trimContent(this.message || '');
+        const {
+          [key]: currentDraft,
+          ...restOfDraftMessages
+        } = savedDraftMessages;
+
+        const updatedDraftMessages = draftToSave
+          ? {
+              ...restOfDraftMessages,
+              [key]: draftToSave,
+            }
+          : restOfDraftMessages;
+
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
+      }
+    },
+    setToDraft(conversationId, replyType) {
+      this.saveDraft(conversationId, replyType);
+      this.message = '';
+    },
+    getFromDraft() {
+      if (this.conversationIdByRoute) {
+        try {
+          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+          const savedDraftMessages = this.getSavedDraftMessages();
+          this.message = `${savedDraftMessages[key] || ''}`;
+        } catch (error) {
+          this.message = '';
+        }
+      }
+    },
+    removeFromDraft() {
+      if (this.conversationIdByRoute) {
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        const draftMessages = this.getSavedDraftMessages();
+        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
+      }
+    },
+    handleKeyEvents(e) {
+      const keyCode = buildHotKeys(e);
+      if (keyCode === 'escape') {
+        this.hideEmojiPicker();
+        this.hideMentions();
+      } else if (keyCode === 'meta+k') {
+        const ninja = document.querySelector('ninja-keys');
+        ninja.open();
+        e.preventDefault();
+      } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
+        this.onSendReply();
+      } else if (
+        ['meta+enter', 'ctrl+enter'].includes(keyCode) &&
+        this.isAValidEvent('cmd_enter')
+      ) {
+        this.onSendReply();
+      }
+    },
+    isAValidEvent(selectedKey) {
+      return (
+        !this.hasUserMention &&
+        !this.showCannedMenu &&
+        this.isFocused &&
+        isEditorHotKeyEnabled(this.uiSettings, selectedKey)
+      );
+    },
     onPaste(e) {
       const data = e.clipboardData.files;
       if (!this.showRichContentEditor && data.length !== 0) {
@@ -499,34 +622,6 @@ export default {
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
-    },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.hideEmojiPicker();
-        this.hideMentions();
-      } else if (isEnter(e)) {
-        const hasSendOnEnterEnabled =
-          (this.showRichContentEditor &&
-            this.enterToSendEnabled &&
-            !this.hasUserMention &&
-            !this.showCannedMenu) ||
-          !this.showRichContentEditor;
-        const shouldSendMessage =
-          hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
-        if (shouldSendMessage) {
-          e.preventDefault();
-          this.onSendReply();
-        }
-      } else if (hasPressedCommandPlusKKey(e)) {
-        this.openCommandBar();
-      }
-    },
-    openCommandBar() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open();
-    },
-    toggleEnterToSend(enterToSendEnabled) {
-      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;
@@ -567,11 +662,13 @@ export default {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
+
         this.clearMessage();
         if (!this.isPrivate) {
           this.clearEmailField();
         }
         this.sendMessage(messagePayload);
+        this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
@@ -583,6 +680,7 @@ export default {
           messagePayload
         );
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        this.removeFromDraft();
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
@@ -603,7 +701,6 @@ export default {
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
-
       if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
@@ -662,6 +759,7 @@ export default {
     },
     onBlur() {
       this.isFocused = false;
+      this.saveDraft(this.conversationIdByRoute, this.replyType);
     },
     onFocus() {
       this.isFocused = true;
@@ -887,7 +985,7 @@ export default {
 
   &::before {
     transform: rotate(0deg);
-    left: var(--space-half);
+    left: var(--space-smaller);
     bottom: var(--space-minus-slab);
   }
 }

@@ -77,7 +77,7 @@ export default {
   methods: {
     initValues() {
       const { message_signature: messageSignature } = this.currentUser;
-      this.messageSignature = messageSignature;
+      this.messageSignature = messageSignature || '';
     },
     async updateSignature() {
       this.$v.$touch();

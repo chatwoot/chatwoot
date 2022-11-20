@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Apăsați enter pentru a selecta",
       "ENTER_TO_REMOVE": "Introduceți numele complet al persoanei de contact",
-      "SELECT_ONE": "Alege una"
+      "SELECT_ONE": "Alege una",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
       "UNTIL_TOMORROW": "Până mâine"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div v-on-clickaway="onClose" class="actions-container">
-    <div class="triangle">
+    <div class="triangle" :style="cssVars">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
           d="M20 12l-8-8-12 12"
@@ -45,12 +45,14 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import bulkActionsMixin from 'dashboard/mixins/bulkActionsMixin.js';
+
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, bulkActionsMixin],
   props: {
     selectedInboxes: {
       type: Array,
@@ -131,7 +133,7 @@ export default {
   box-shadow: var(--shadow-dropdown-pane);
   position: absolute;
   right: var(--space-small);
-  top: 48px;
+  top: var(--space-larger);
   transform-origin: top right;
   width: auto;
   z-index: var(--z-index-twenty);
@@ -152,7 +154,7 @@ export default {
   .triangle {
     display: block;
     position: absolute;
-    right: 2.8rem;
+    right: var(--triangle-position);
     text-align: left;
     top: calc(var(--space-slab) * -1);
     z-index: var(--z-index-one);

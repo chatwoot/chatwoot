@@ -1,6 +1,6 @@
 <template>
   <div class="bulk-action__agents">
-    <div class="triangle">
+    <div class="triangle" :style="cssVars">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
           d="M20 12l-8-8-12 12"
@@ -57,7 +57,7 @@
           </li>
         </ul>
         <div v-else class="agent-confirmation-container">
-          <p>
+          <p v-if="selectedAgent.id">
             {{
               $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', {
                 conversationCount,
@@ -67,6 +67,15 @@
             <strong>
               {{ selectedAgent.name }}
             </strong>
+            <span>?</span>
+          </p>
+          <p v-else>
+            {{
+              $t('BULK_ACTION.UNASSIGN_CONFIRMATION_LABEL', {
+                conversationCount,
+                conversationLabel,
+              })
+            }}
           </p>
           <div class="agent-confirmation-actions">
             <woot-button
@@ -82,7 +91,7 @@
               :is-loading="uiFlags.isUpdating"
               @click="submit"
             >
-              {{ $t('BULK_ACTION.ASSIGN_LABEL') }}
+              {{ $t('BULK_ACTION.YES') }}
             </woot-button>
           </div>
         </div>
@@ -96,13 +105,14 @@ import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner';
 import { mixin as clickaway } from 'vue-clickaway';
+import bulkActionsMixin from 'dashboard/mixins/bulkActionsMixin.js';
 
 export default {
   components: {
     Thumbnail,
     Spinner,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, bulkActionsMixin],
   props: {
     selectedInboxes: {
       type: Array,
@@ -131,7 +141,17 @@ export default {
           agent.name.toLowerCase().includes(this.query.toLowerCase())
         );
       }
-      return this.assignableAgents;
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.assignableAgents,
+      ];
     },
     assignableAgents() {
       return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
@@ -214,7 +234,7 @@ export default {
     z-index: var(--z-index-one);
     position: absolute;
     top: calc(var(--space-slab) * -1);
-    right: var(--space-micro);
+    right: var(--triangle-position);
     text-align: left;
   }
 }

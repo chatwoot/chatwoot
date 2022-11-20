@@ -1,51 +1,8 @@
-const OPERATOR_TYPES_1 = [
-  {
-    value: 'equal_to',
-    label: 'Equal to',
-  },
-  {
-    value: 'not_equal_to',
-    label: 'Not equal to',
-  },
-];
-
-const OPERATOR_TYPES_2 = [
-  {
-    value: 'equal_to',
-    label: 'Equal to',
-  },
-  {
-    value: 'not_equal_to',
-    label: 'Not equal to',
-  },
-  {
-    value: 'contains',
-    label: 'Contains',
-  },
-  {
-    value: 'does_not_contain',
-    label: 'Does not contain',
-  },
-];
-
-const OPERATOR_TYPES_3 = [
-  {
-    value: 'equal_to',
-    label: 'Equal to',
-  },
-  {
-    value: 'not_equal_to',
-    label: 'Not equal to',
-  },
-  {
-    value: 'is_present',
-    label: 'Is present',
-  },
-  {
-    value: 'is_not_present',
-    label: 'Is not present',
-  },
-];
+import {
+  OPERATOR_TYPES_1,
+  OPERATOR_TYPES_2,
+  OPERATOR_TYPES_3,
+} from './operators';
 
 export const AUTOMATIONS = {
   message_created: {
@@ -343,7 +300,7 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'assign_team',
     label: 'Assign a team',
-    inputType: 'multi_select',
+    inputType: 'search_select',
   },
   {
     key: 'add_label',

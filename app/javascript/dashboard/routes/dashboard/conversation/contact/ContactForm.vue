@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/this-in-template -->
 <template>
   <form class="contact--form" @submit.prevent="handleSubmit">
     <div class="row">
@@ -58,8 +59,8 @@
             v-model.trim="phoneNumber"
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-            @input="$v.phoneNumber.$touch"
             :readonly="this.contact.phone_number"
+            @input="$v.phoneNumber.$touch"
           />
           <span v-if="$v.phoneNumber.$error" class="message">
             {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR') }}

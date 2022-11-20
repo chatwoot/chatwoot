@@ -1,9 +1,8 @@
 import Cookies from 'js-cookie';
 import {
-  wootOn,
-  addClass,
+  addClasses,
   loadCSS,
-  removeClass,
+  removeClasses,
   onLocationChangeListener,
 } from './DOMHelpers';
 import {
@@ -68,7 +67,7 @@ export const IFrameHelper = {
       holderClassName += ` woot-widget-holder--flat`;
     }
 
-    addClass(widgetHolder, holderClassName);
+    addClasses(widgetHolder, holderClassName);
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -99,7 +98,7 @@ export const IFrameHelper = {
     };
   },
   initWindowSizeListener: () => {
-    wootOn(window, 'resize', () => IFrameHelper.toggleCloseButton());
+    window.addEventListener('resize', () => IFrameHelper.toggleCloseButton());
   },
   preventDefaultScroll: () => {
     widgetHolder.addEventListener('wheel', event => {
@@ -241,9 +240,9 @@ export const IFrameHelper = {
         event.unreadMessageCount > 0 &&
         !bubbleElement.classList.contains('unread-notification')
       ) {
-        addClass(bubbleElement, 'unread-notification');
+        addClasses(bubbleElement, 'unread-notification');
       } else if (event.unreadMessageCount === 0) {
-        removeClass(bubbleElement, 'unread-notification');
+        removeClasses(bubbleElement, 'unread-notification');
       }
     },
 
@@ -284,7 +283,7 @@ export const IFrameHelper = {
       target: chatBubble,
     });
 
-    addClass(closeBubble, closeBtnClassName);
+    addClasses(closeBubble, closeBtnClassName);
 
     chatIcon.style.background = widgetColor;
     closeBubble.style.background = widgetColor;

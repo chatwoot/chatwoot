@@ -195,4 +195,27 @@ RSpec.describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'PUT /api/v1/profile/set_active_account' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        put '/api/v1/profile/set_active_account'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+      it 'updates the last active account id' do
+        put '/api/v1/profile/set_active_account',
+            params: { profile: { account_id: account.id } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end

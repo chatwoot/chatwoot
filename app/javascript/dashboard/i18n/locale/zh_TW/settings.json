@@ -19,6 +19,21 @@
         "TITLE": "個人資訊",
         "NOTE": "您的電子信箱地址是您的身份並用於登入。"
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "下載",
       "UPLOADING": "上傳中..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "送出"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "聯絡人",
     "HOME": "首頁",
     "AGENTS": "客服",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "收件匣",
     "NOTIFICATIONS": "通知",
     "CANNED_RESPONSES": "預設回覆",
@@ -174,6 +193,7 @@
     "LABELS": "標籤",
     "CUSTOM_ATTRIBUTES": "自訂屬性",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "團隊",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",

@@ -19,6 +19,21 @@
         "TITLE": "Profil",
         "NOTE": "Vaša adresa e-pošte je vaš identitet i koristi se za prijavu."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Potpis privatne poruke",
         "NOTE": "Napravite potpis privatne poruke koji će se dodavati svakoj poruci koju pošaljete u prijemno sanduče e-pošte. Koristite bogati uređivač sadržaja da bi ste napravili personalizovan potpis.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "Preuzmi",
       "UPLOADING": "Dodavanje..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Pošalji"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "Kontakti",
     "HOME": "Početak",
     "AGENTS": "Agenti",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Prijemni sandučići",
     "NOTIFICATIONS": "Obaveštenja",
     "CANNED_RESPONSES": "Gotovi odgovori",
@@ -174,6 +193,7 @@
     "LABELS": "Oznake",
     "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
     "AUTOMATION": "Automatizacija",
+    "MACROS": "Macros",
     "TEAMS": "Timovi",
     "BILLING": "Plaćanje",
     "CUSTOM_VIEWS_FOLDER": "Fascikle",

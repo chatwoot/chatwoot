@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 lv:
-  hello: "Sveika pasaule"
+  hello: 'Sveika pasaule'
   messages:
     reset_password_success: Urā! Paroles atiestatīšanas pieprasījums ir veiksmīgs. Pārbaudiet savu e-pastu, lai iegūtu norādījumus.
     reset_password_failure: Ak, vai! Mēs nevarējām atrast nevienu lietotāju ar norādīto e -pastu.
@@ -29,7 +29,7 @@ lv:
     signup:
       disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
       invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
-      email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
+      email_already_exists: 'Jūs jau esat reģistrējis kontu ar %{email}'
       failed: Reģistrēšanās neizdevās
     data_import:
       data_type:
@@ -43,7 +43,7 @@ lv:
         invalid: vajadzētu būt E.164 formātā
     categories:
       locale:
-        unique: vajadzētu būt unikālai, kategorijā un portālā 
+        unique: vajadzētu būt unikālai, kategorijā un portālā
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -89,63 +89,71 @@ lv:
         recorded_at: Reģistrētais datums
   notifications:
     notification_title:
-      conversation_creation: "[Jauna saruna] - #%{display_id} ir izveidota iesūtnē %{inbox_name}"
-      conversation_assignment: "[Piešķirts Jums] - Jums ir piešķirts #%{display_id}"
-      assigned_conversation_new_message: "[Jauns ziņojums] - #%{display_id} %{content}"
-      conversation_mention: "Jūs pieminēja sarunā [ID - %{display_id}] kā %{name}"
+      conversation_creation: '[Jauna saruna] - #%{display_id} ir izveidota iesūtnē %{inbox_name}'
+      conversation_assignment: '[Piešķirts Jums] - Jums ir piešķirts #%{display_id}'
+      assigned_conversation_new_message: '[Jauns ziņojums] - #%{display_id} %{content}'
+      conversation_mention: 'Jūs pieminēja sarunā [ID - %{display_id}] kā %{name}'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
+      instagram_story_content: '%{story_sender} pieminēja jūs stāstā: '
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
       deleted: Šis ziņojums ir izdzēsts
     activity:
       status:
-        resolved: "%{user_name} sarunu atzīmēja kā atrisinātu"
-        contact_resolved: "%{contact_name} atrisināja sarunu"
-        open: "%{user_name} atkārtoti atvēra sarunu"
-        pending: "%{user_name} sarunu atzīmēja kā neapstiprinātu"
-        snoozed: "%{user_name} atlika sarunu"
-        auto_resolved: "Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ"
+        resolved: '%{user_name} sarunu atzīmēja kā atrisinātu'
+        contact_resolved: '%{contact_name} atrisināja sarunu'
+        open: '%{user_name} atkārtoti atvēra sarunu'
+        pending: '%{user_name} sarunu atzīmēja kā neapstiprinātu'
+        snoozed: '%{user_name} atlika sarunu'
+        auto_resolved: 'Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ'
       assignee:
-        self_assigned: "%{user_name} sev piešķīra šo sarunu"
-        assigned: "%{user_name} piešķīra sarunu %{assignee_name}"
-        removed: "%{user_name} noņēma piešķiršanu"
+        self_assigned: '%{user_name} sev piešķīra šo sarunu'
+        assigned: '%{user_name} piešķīra sarunu %{assignee_name}'
+        removed: '%{user_name} noņēma piešķiršanu'
       team:
-        assigned: "%{user_name} piešķīra sarunu %{team_name}"
-        assigned_with_assignee: "%{user_name} caur %{team_name} piešķīra sarunu %{assignee_name}"
-        removed: "%{user_name} noņēma piešķiršanu %{team_name}"
+        assigned: '%{user_name} piešķīra sarunu %{team_name}'
+        assigned_with_assignee: '%{user_name} caur %{team_name} piešķīra sarunu %{assignee_name}'
+        removed: '%{user_name} noņēma piešķiršanu %{team_name}'
       labels:
-        added: "%{user_name} pievienoja %{labels}"
-        removed: "%{user_name} noņēma %{labels}"
-      muted: "%{user_name} izslēdza sarunu"
-      unmuted: "%{user_name} ieslēdza sarunu"
+        added: '%{user_name} pievienoja %{labels}'
+        removed: '%{user_name} noņēma %{labels}'
+      muted: '%{user_name} izslēdza sarunu'
+      unmuted: '%{user_name} ieslēdza sarunu'
     templates:
-      greeting_message_body: "%{account_name} parasti atbild dažu stundu laikā."
-      ways_to_reach_you_message_body: "Dodiet komandai iespēju ar jums sazināties."
-      email_input_box_message_body: "Saņemiet paziņojumus pa e-pastu"
-      csat_input_message_body: "Lūdzu, novērtējiet sarunu"
+      greeting_message_body: '%{account_name} parasti atbild dažu stundu laikā.'
+      ways_to_reach_you_message_body: 'Dodiet komandai iespēju ar jums sazināties.'
+      email_input_box_message_body: 'Saņemiet paziņojumus pa e-pastu'
+      csat_input_message_body: 'Lūdzu, novērtējiet sarunu'
     reply:
       email:
         header:
           from_with_name: '%{assignee_name} no %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} no %{inbox_name} <reply+%{reply_email}>'
-      email_subject: "Jauni ziņojumi šajā sarunā"
-      transcript_subject: "Sarunas Transkripts"
+      email_subject: 'Jauni ziņojumi šajā sarunā'
+      transcript_subject: 'Sarunas Transkripts'
     survey:
-      response: "Lūdzu, novērtējiet šo sarunu, %{link}"
+      response: 'Lūdzu, novērtējiet šo sarunu, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
+      delete: '%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz'
   integration_apps:
     slack:
-      name: "Slack"
-      description: "Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack."
+      name: 'Slack'
+      description: 'Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack.'
     webhooks:
-      name: "Webhooks"
-      description: "WebHook notikumi sniedz Jums reāllaika informāciju par to, kas notiek Jūsu kontā. Jūs varat izmantot webhook, lai paziņotu notikumus savām iecienītākajām lietotnēm, piemēram, Slack vai Github. Noklikšķiniet uz Konfigurēt, lai iestatītu savus webhook."
+      name: 'Webhooks'
+      description: 'WebHook notikumi sniedz Jums reāllaika informāciju par to, kas notiek Jūsu kontā. Jūs varat izmantot webhook, lai paziņotu notikumus savām iecienītākajām lietotnēm, piemēram, Slack vai Github. Noklikšķiniet uz Konfigurēt, lai iestatītu savus webhook.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un ātri savienojiet tos ar iesūtni. Ļaujiet botiem apstrādāt vaicājumus, pirms tos nododat klientu apkalpošanas aģentam."
+      name: 'Dialogflow'
+      description: 'Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un ātri savienojiet tos ar iesūtni. Ļaujiet botiem apstrādāt vaicājumus, pirms tos nododat klientu apkalpošanas aģentam.'
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."
+      name: 'Fullcontact'
+      description: 'FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu.'
+  public_portal:
+    search:
+      search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
+      empty_placeholder: Nav atrasts.
+      loading_placeholder: Meklēšana...
+      results_title: Meklēšanas rezultāti
+    hero:
+      sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.

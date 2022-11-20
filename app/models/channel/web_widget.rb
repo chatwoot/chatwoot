@@ -98,19 +98,9 @@ class Channel::WebWidget < ApplicationRecord
   end
 
   def create_contact_inbox(additional_attributes = {})
-    ActiveRecord::Base.transaction do
-      contact = inbox.account.contacts.create!(
-        name: ::Haikunator.haikunate(1000),
-        additional_attributes: additional_attributes
-      )
-      contact_inbox = ::ContactInbox.create!(
-        contact_id: contact.id,
-        inbox_id: inbox.id,
-        source_id: SecureRandom.uuid
-      )
-      contact_inbox
-    rescue StandardError => e
-      Rails.logger.error e
-    end
+    ::ContactInboxWithContactBuilder.new({
+                                           inbox: inbox,
+                                           contact_attributes: { additional_attributes: additional_attributes }
+                                         }).perform
   end
 end

@@ -10,6 +10,13 @@ export const MESSAGE_TYPE = {
   ACTIVITY: 2,
   TEMPLATE: 3,
 };
+
+export const CONVERSATION_STATUS = {
+  OPEN: 'open',
+  RESOLVED: 'resolved',
+  PENDING: 'pending',
+  SNOOZED: 'snoozed',
+};
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
 export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;

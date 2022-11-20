@@ -1,0 +1,32 @@
+{
+  "recommendations": [
+    // Spell check
+    "streetsidesoftware.code-spell-checker",
+    // Better Comments
+    "aaron-bond.better-comments",
+    // Rails Test Runner
+    "davidpallinder.rails-test-runner",
+    // Eslint
+    "dbaeumer.vscode-eslint",
+    // Auto Close Tag
+    "formulahendry.auto-close-tag",
+    // Auto Rename Tag
+    "formulahendry.auto-rename-tag",
+    // Hight light colors
+    "naumovs.color-highlight",
+    // GitLens
+    "eamodio.gitlens",
+    // Ruby
+    "rebornix.ruby",
+    // Vue
+    "octref.vetur",
+    // Prettier
+    "esbenp.prettier-vscode",
+    // Dot Env
+    "mikestead.dotenv",
+    // HTML CSS Support
+    "ecmel.vscode-html-css",
+    // Tailwind CSS Intellisense
+    "bradlc.vscode-tailwindcss",
+  ]
+}

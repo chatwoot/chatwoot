@@ -104,7 +104,7 @@ export default {
       .new-popover-link {
         display: flex;
         align-items: center;
-        padding: var(--space-half) var(--space-one);
+        padding: var(--space-smaller) var(--space-small);
         background-color: var(--s-25);
         font-size: var(--font-size-mini);
         color: var(--s-500);

@@ -116,7 +116,6 @@
           <woot-color-picker v-model="inbox.widget_color" />
         </label>
 
-        <!--<label class="medium-9 columns settings-item">
         <label v-if="isAWhatsAppChannel" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
           <input v-model="whatsAppAPIProviderName" type="text" disabled />
@@ -165,7 +164,7 @@
             "
             :richtext="!textAreaChannels"
           />
-        </div>-->
+        </div>
         <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
@@ -334,6 +333,9 @@
     <div v-if="selectedTabKey === 'widgetBuilder'">
       <widget-builder :inbox="inbox" />
     </div>
+    <div v-if="selectedTabKey === 'botConfiguration'">
+      <bot-configuration :inbox="inbox" />
+    </div>
   </div>
 </template>
 
@@ -352,17 +354,20 @@ import WeeklyAvailability from './components/WeeklyAvailability';
 import ConfigurationPage from './settingsPage/ConfigurationPage';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 import WidgetBuilder from './WidgetBuilder';
+import BotConfiguration from './components/BotConfiguration';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 
 export default {
   components: {
+    BotConfiguration,
+    CollaboratorsPage,
+    ConfigurationPage,
+    FacebookReauthorize,
+    // GreetingsEditor,
+    PreChatFormSettings,
     SettingIntroBanner,
     SettingsSection,
-    FacebookReauthorize,
-    PreChatFormSettings,
     WeeklyAvailability,
-    // GreetingsEditor,
-    ConfigurationPage,
-    CollaboratorsPage,
     WidgetBuilder,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
@@ -389,6 +394,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'inboxes/getUIFlags',
     }),
     selectedTabKey() {
@@ -407,7 +414,7 @@ export default {
       return '';
     },
     tabs() {
-      const visibleToAllChannelTabs = [
+      let visibleToAllChannelTabs = [
         {
           key: 'inbox_settings',
           name: this.$t('INBOX_MGMT.TABS.SETTINGS'),
@@ -423,15 +430,11 @@ export default {
       ];
 
       if (this.isAWebWidgetInbox) {
-        return [
+        visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
           {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
-          },
-          {
-            key: 'configuration',
-            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
           },
           {
             key: 'widgetBuilder',
@@ -445,9 +448,10 @@ export default {
         this.isALineChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isAWhatsAppChannel
+        this.isAWhatsAppChannel ||
+        this.isAWebWidgetInbox
       ) {
-        return [
+        visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
           {
             key: 'configuration',
@@ -456,6 +460,21 @@ export default {
         ];
       }
 
+      if (
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.AGENT_BOTS
+        ) &&
+        !(this.isAnEmailChannel || this.isATwitterInbox)
+      ) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'botConfiguration',
+            name: this.$t('INBOX_MGMT.TABS.BOT_CONFIGURATION'),
+          },
+        ];
+      }
       return visibleToAllChannelTabs;
     },
     currentInboxId() {

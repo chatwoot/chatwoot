@@ -12,16 +12,20 @@
         v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
-        :is-help-center-sidebar="true"
       />
       <secondary-nav-item
         v-for="menuItem in additionalSecondaryMenuItems"
         :key="menuItem.key"
         :menu-item="menuItem"
-        :is-help-center-sidebar="true"
-        :is-category-empty="!hasCategory"
         @open="onClickOpenAddCatogoryModal"
       />
+      <p
+        v-if="!hasCategory"
+        key="empty-category-nessage"
+        class="empty-text text-muted"
+      >
+        {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
+      </p>
     </transition-group>
   </div>
 </template>
@@ -122,5 +126,9 @@ export default {
     padding: var(--space-small);
     overflow-y: auto;
   }
+}
+
+.empty-text {
+  padding: var(--space-smaller) var(--space-normal);
 }
 </style>

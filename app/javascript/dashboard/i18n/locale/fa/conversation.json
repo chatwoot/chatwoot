@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "ضبط صدا",
       "TIP_AUDIORECORDER_PERMISSION": "اجازه دسترسی به صدا",
       "TIP_AUDIORECORDER_ERROR": "صدا را نمی‌توان باز کند",
-      "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
       "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
       "START_AUDIO_RECORDING": "در حال شروع ضبط صدا",
       "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "کپی",
-      "DELETE": "حذف"
+      "DELETE": "حذف",
+      "CREATE_A_CANNED_RESPONSE": "اضافه کردن به پاسخ‌های آماده"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "برچسب‌های گفتگو",
       "CONVERSATION_INFO": "اطلاعات مکالمه",
       "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
-      "PREVIOUS_CONVERSATION": "گفتگوهای قبلی"
+      "PREVIOUS_CONVERSATION": "گفتگوهای قبلی",
+      "MACROS": "ماکروها"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
