@@ -87,6 +87,7 @@
     "@storybook/addons": "6.5.9",
     "@storybook/vue": "6.5.9",
     "@vue/test-utils": "1.1.4",
+    "babel": "^6.23.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
