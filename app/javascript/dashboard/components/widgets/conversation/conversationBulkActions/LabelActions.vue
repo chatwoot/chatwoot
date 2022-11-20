@@ -1,6 +1,6 @@
 <template>
   <div v-on-clickaway="onClose" class="labels-container">
-    <div class="triangle">
+    <div class="triangle" :style="cssVars">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
           d="M20 12l-8-8-12 12"
@@ -75,9 +75,10 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
+import bulkActionsMixin from 'dashboard/mixins/bulkActionsMixin.js';
 
 export default {
-  mixins: [clickaway],
+  mixins: [clickaway, bulkActionsMixin],
   data() {
     return {
       query: '',
@@ -160,7 +161,7 @@ export default {
   max-width: var(--space-giga);
   min-width: var(--space-giga);
   position: absolute;
-  right: 4.5rem;
+  right: var(--space-small);
   top: var(--space-larger);
   transform-origin: top right;
   width: auto;
@@ -204,7 +205,7 @@ export default {
   .triangle {
     display: block;
     position: absolute;
-    right: var(--space-two);
+    right: var(--triangle-position);
     text-align: left;
     top: calc(var(--space-slab) * -1);
     z-index: var(--z-index-one);
