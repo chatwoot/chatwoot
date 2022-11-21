@@ -46,6 +46,7 @@ export default {
     return {
       articleTitle: '',
       articleContent: '',
+      saveArticle: () => {},
     };
   },
   mounted() {

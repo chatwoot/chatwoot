@@ -15,6 +15,8 @@ def generate_source_id(contact_inbox)
     contact_inbox.inbox.channel.medium == 'sms' ? Faker::PhoneNumber.cell_phone_in_e164 : "whatsapp:#{Faker::PhoneNumber.cell_phone_in_e164}"
   when 'Channel::Email'
     "#{SecureRandom.uuid}@acme.inc"
+  when 'Channel::Whatsapp'
+    Faker::PhoneNumber.cell_phone_in_e164.delete('+')
   else
     SecureRandom.uuid
   end

@@ -19,6 +19,21 @@
         "TITLE": "ข้อมูลส่วนตัว",
         "NOTE": "อีเมลเป็นข้อมูลระบุตัวตนของคุณ และใช้ในการเข้าสู่ระบบ"
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "ลายเซ็นส่วนตัว",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "ดาวโหลด",
       "UPLOADING": "กำลังอัปโหลด"
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "ส่ง"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "ผู้ติดต่อ",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "กล่องข้อความ",
     "NOTIFICATIONS": "การแจ้งเตือน",
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
@@ -174,6 +193,7 @@
     "LABELS": "ป้ายกำกับ",
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
     "AUTOMATION": "เงื่อนไขอัตโนมัติ",
+    "MACROS": "Macros",
     "TEAMS": "ทีม",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",

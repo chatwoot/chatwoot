@@ -5,7 +5,7 @@ json.status resource.status
 json.agent_last_seen_at resource.agent_last_seen_at.to_i
 json.messages do
   json.array! resource.messages do |message|
-    json.partial! 'public/api/v1/models/message.json.jbuilder', resource: message
+    json.partial! 'public/api/v1/models/message', formats: [:json], resource: message
   end
 end
 json.contact resource.contact

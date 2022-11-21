@@ -309,6 +309,7 @@ describe ::Conversations::FilterService do
 
       context 'with x_days_before filter' do
         before do
+          Time.zone = 'UTC'
           en_conversation_1.update!(last_activity_at: (Time.zone.today - 4.days))
           en_conversation_2.update!(last_activity_at: (Time.zone.today - 5.days))
           user_2_assigned_conversation.update!(last_activity_at: (Time.zone.today - 2.days))

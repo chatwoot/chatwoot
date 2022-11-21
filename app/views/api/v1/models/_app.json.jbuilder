@@ -6,6 +6,6 @@ json.action resource.action
 json.button resource.action
 json.hooks do
   json.array! @current_account.hooks.where(app_id: resource.id) do |hook|
-    json.partial! 'api/v1/models/hook.json.jbuilder', resource: hook
+    json.partial! 'api/v1/models/hook', formats: [:json], resource: hook
   end
 end

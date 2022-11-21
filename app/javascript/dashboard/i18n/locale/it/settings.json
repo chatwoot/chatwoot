@@ -19,6 +19,21 @@
         "TITLE": "Profilo",
         "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
         "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "Scarica",
       "UPLOADING": "Caricamento..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Invia"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "Contatti",
     "HOME": "Home",
     "AGENTS": "Agenti",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Posta",
     "NOTIFICATIONS": "Notifiche",
     "CANNED_RESPONSES": "Risposte predefinite",
@@ -174,6 +193,7 @@
     "LABELS": "Etichette",
     "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
     "AUTOMATION": "Automazione",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Fatturazione",
     "CUSTOM_VIEWS_FOLDER": "Cartelle",

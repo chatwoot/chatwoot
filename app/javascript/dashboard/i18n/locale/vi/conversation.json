@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Ghi âm thanh",
       "TIP_AUDIORECORDER_PERMISSION": "Cho phép truy cập ghi âm",
       "TIP_AUDIORECORDER_ERROR": "Không thể mở bản ghi âm",
-      "ENTER_TO_SEND": "Nhấn Enter để gửi",
       "DRAG_DROP": "Kéo thả vào đây để đính kèm",
       "START_AUDIO_RECORDING": "Bắt đầu ghi âm",
       "STOP_AUDIO_RECORDING": "Dừng ghi âm",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
-      "DELETE": "Xoá"
+      "DELETE": "Xoá",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Nhãn hội thoại",
       "CONVERSATION_INFO": "Thông tin hội thoại",
       "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
-      "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó"
+      "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

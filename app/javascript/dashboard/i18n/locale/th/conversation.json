@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "บันทึกเสียง",
       "TIP_AUDIORECORDER_PERMISSION": "ให้สิทธิ์เข้าถึงการใช้งานเสียง",
       "TIP_AUDIORECORDER_ERROR": "ไม่สามารถเปิดการใช้งานเสียงได้",
-      "ENTER_TO_SEND": "กด Enter เพื่อส่ง",
       "DRAG_DROP": "ลากเเละปล่อยที่นี่เพื่อเพิ่ม",
       "START_AUDIO_RECORDING": "เริ่มบันทึกเสียง",
       "STOP_AUDIO_RECORDING": "หยุดบันทึกเสียง",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
-      "DELETE": "ลบ"
+      "DELETE": "ลบ",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
-      "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
+      "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

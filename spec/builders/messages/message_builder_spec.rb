@@ -50,5 +50,33 @@ describe ::Messages::MessageBuilder do
         expect(message.message_type).to eq params[:message_type]
       end
     end
+
+    context 'when attachment messages' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           attachments: [Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png')]
+                                         })
+      end
+
+      it 'creates message with attachments' do
+        message = message_builder
+        expect(message.attachments.first.file_type).to eq 'image'
+      end
+
+      context 'when DIRECT_UPLOAD_ENABLED' do
+        let(:params) do
+          ActionController::Parameters.new({
+                                             content: 'test',
+                                             attachments: [get_blob_for('spec/assets/avatar.png', 'image/png').signed_id]
+                                           })
+        end
+
+        it 'creates message with attachments' do
+          message = message_builder
+          expect(message.attachments.first.file_type).to eq 'image'
+        end
+      end
+    end
   end
 end

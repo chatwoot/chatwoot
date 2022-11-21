@@ -147,4 +147,13 @@ export default {
   deleteAvatar() {
     return axios.delete(endPoints('deleteAvatar').url);
   },
+
+  setActiveAccount({ accountId }) {
+    const urlData = endPoints('setActiveAccount');
+    return axios.put(urlData.url, {
+      profile: {
+        account_id: accountId,
+      },
+    });
+  },
 };

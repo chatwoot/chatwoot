@@ -19,6 +19,21 @@
         "TITLE": "プロフィール",
         "NOTE": "あなたのメールアドレスはあなたのIDであり、ログインに使用されます。"
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "ダウンロード",
       "UPLOADING": "アップロード中..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "送信"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "Contacts",
     "HOME": "ホーム",
     "AGENTS": "担当者",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "受信トレイ",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "定型文",
@@ -174,6 +193,7 @@
     "LABELS": "ラベル",
     "CUSTOM_ATTRIBUTES": "カスタム属性",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
