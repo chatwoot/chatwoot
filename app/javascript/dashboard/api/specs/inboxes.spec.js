@@ -11,6 +11,8 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('update');
     expect(inboxesAPI).toHaveProperty('delete');
     expect(inboxesAPI).toHaveProperty('getCampaigns');
+    expect(inboxesAPI).toHaveProperty('getAgentBot');
+    expect(inboxesAPI).toHaveProperty('setAgentBot');
   });
   describeWithAPIMock('API calls', context => {
     it('#getCampaigns', () => {

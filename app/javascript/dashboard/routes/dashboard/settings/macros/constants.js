@@ -5,7 +5,7 @@ export const MACRO_ACTION_TYPES = [
     inputType: 'search_select',
   },
   {
-    key: 'assign_best_agent',
+    key: 'assign_agent',
     label: 'Assign an agent',
     inputType: 'search_select',
   },
@@ -13,6 +13,16 @@ export const MACRO_ACTION_TYPES = [
     key: 'add_label',
     label: 'Add a label',
     inputType: 'multi_select',
+  },
+  {
+    key: 'remove_label',
+    label: 'Remove a label',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'remove_assigned_team',
+    label: 'Remove Assigned Team',
+    inputType: null,
   },
   {
     key: 'send_email_transcript',

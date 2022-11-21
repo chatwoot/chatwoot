@@ -72,3 +72,5 @@
   value:
 - name: DEPLOYMENT_ENV
   value: self-hosted
+- name: CSML_EDITOR_HOST
+  value:

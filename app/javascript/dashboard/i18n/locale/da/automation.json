@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Ændring af begivenhedstype vil nulstille de betingelser og begivenheder, du har tilføjet nedenfor"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Du skal have mindst én betingelse for at gemme"
+      "DELETE_MESSAGE": "Du skal have mindst én betingelse for at gemme",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Du skal have mindst én handling for at gemme",

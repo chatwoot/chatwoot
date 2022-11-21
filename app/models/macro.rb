@@ -30,7 +30,7 @@ class Macro < ApplicationRecord
 
   validate :json_actions_format
 
-  ACTIONS_ATTRS = %w[send_message add_label assign_team assign_best_agent mute_conversation change_status
+  ACTIONS_ATTRS = %w[send_message add_label assign_team assign_agent mute_conversation change_status remove_label remove_assigned_team
                      resolve_conversation snooze_conversation send_email_transcript send_attachment add_private_note].freeze
 
   def set_visibility(user, params)

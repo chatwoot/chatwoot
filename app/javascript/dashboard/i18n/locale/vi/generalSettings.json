@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Bấm enter để chọn",
       "ENTER_TO_REMOVE": "Bấm enter để xoá",
-      "SELECT_ONE": "Chọn một"
+      "SELECT_ONE": "Chọn một",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
