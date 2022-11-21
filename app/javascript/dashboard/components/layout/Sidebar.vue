@@ -12,8 +12,21 @@
       @open-notification-panel="openNotificationPanel"
     />
     <div class="secondary-sidebar">
+      <div
+        v-if="isConversationView"
+        class="sidebar-toggle__wrap"
+        >
+        <woot-button
+          variant="smooth"
+          size="tiny"
+          color-scheme="secondary"
+          class="sidebar-toggle--button"
+          :icon="isLeftOrRightIcon"
+          @click="toggleSecondaryPanel"
+        />
+      </div>
       <secondary-sidebar
-        v-if="showSecondarySidebar"
+        v-if="showSecondary"
         :class="sidebarClassName"
         :account-id="accountId"
         :inboxes="inboxes"
@@ -35,6 +48,7 @@ import { mapGetters } from 'vuex';
 import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 import PrimarySidebar from './sidebarComponents/Primary';
 import SecondarySidebar from './sidebarComponents/Secondary';
@@ -54,7 +68,7 @@ export default {
     PrimarySidebar,
     SecondarySidebar,
   },
-  mixins: [adminMixin, alertMixin, eventListenerMixins],
+  mixins: [adminMixin, alertMixin, eventListenerMixins, uiSettingsMixin],
   props: {
     showSecondarySidebar: {
       type: Boolean,
@@ -142,6 +156,27 @@ export default {
         ) || {};
       return activePrimaryMenu;
     },
+    isConversationView() {
+      return this.activeCustomView == 'conversation';
+    },
+    0() {
+      if (this.uiSettings.hasOwnProperty('is_secondary_sidebar_open')) {
+        return this.uiSettings.is_secondary_sidebar_open;
+      }
+      return true;
+    },
+    showSecondary() {
+      if (this.isConversationView) {
+        return this.isSecondarySidebarOpenUI;
+      }
+      return this.showSecondarySidebar;
+    },
+    isLeftOrRightIcon() {
+      if (this.isSecondarySidebarOpenUI) {
+        return 'arrow-chevron-left';
+      }
+      return 'arrow-chevron-right';
+    },
   },
 
   watch: {
@@ -211,6 +246,11 @@ export default {
     openNotificationPanel() {
       this.$emit('open-notification-panel');
     },
+    toggleSecondaryPanel() {
+      this.updateUISettings({
+        is_secondary_sidebar_open: !this.isSecondarySidebarOpenUI,
+      });
+    },
   },
 };
 </script>
@@ -240,6 +280,21 @@ export default {
 .secondary-sidebar {
   overflow-y: auto;
   height: 100%;
+
+  .sidebar-toggle__wrap {
+    display: flex;
+    justify-content: flex-end;
+
+    .sidebar-toggle--button {
+      position: fixed;
+      top: calc(var(--space-mega) - 33px);
+      z-index: var(--z-index-low);
+      background: var(--white);
+      border: 1px solid var(--color-border-light);
+      border-radius: calc(var(--space-medium) + 1px);
+      margin-right: -12px;
+    }
+  }
 }
 
 .account-selector {
