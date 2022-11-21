@@ -20,6 +20,14 @@
       },
       "SUBMIT": "Validate and save"
     },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Select an agent bot",
+      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "SUBMIT": "Update",
+      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
+      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
+      "SELECT_PLACEHOLDER": "Select Bot"
+    },
     "ADD": {
       "TITLE": "Configure new bot",
       "CANCEL_BUTTON_TEXT": "Cancel",
