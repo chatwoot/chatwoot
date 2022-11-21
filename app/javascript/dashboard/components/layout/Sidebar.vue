@@ -159,7 +159,7 @@ export default {
     isConversationView() {
       return this.activeCustomView == 'conversation';
     },
-    0() {
+    isSecondarySidebarOpenUI() {
       if (this.uiSettings.hasOwnProperty('is_secondary_sidebar_open')) {
         return this.uiSettings.is_secondary_sidebar_open;
       }
