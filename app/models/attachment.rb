@@ -1,4 +1,5 @@
 # == Schema Information
+# == Schema Information
 #
 # Table name: attachments
 #
@@ -70,12 +71,16 @@ class Attachment < ApplicationRecord
   private
 
   def file_metadata
-    {
+    metadata = {
       extension: extension,
       data_url: file_url,
       thumb_url: thumb_url,
       file_size: file.byte_size
     }
+
+    metadata = merge_story_mention_image(metadata) if message.inbox.instagram?
+
+    metadata
   end
 
   def location_metadata
@@ -128,5 +133,40 @@ class Attachment < ApplicationRecord
 
   def media_file?(file_content_type)
     file_content_type.start_with?('image/', 'video/', 'audio/')
+  end
+
+  def merge_story_mention_image(metadata)
+    if message.try(:content_attributes)[:image_type] == 'story_mention' && message.inbox.instagram?
+      begin
+        metadata = fetch_story_link(message, metadata)
+      rescue Koala::Facebook::ClientError
+        delete_instagram_story(message)
+      end
+    end
+
+    metadata
+  end
+
+  def fetch_story_link(message, metadata)
+    k = Koala::Facebook::API.new(message.inbox.channel.page_access_token)
+    result = k.get_object(message.source_id, fields: %w[story]) || {}
+
+    if result['story']['mention']['link'].blank?
+      delete_instagram_story(message)
+    else
+      metadata = add_ig_story_data_url(metadata)
+    end
+    metadata
+  end
+
+  def delete_instagram_story(message)
+    message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
+    message.attachments.delete_all
+  end
+
+  def add_ig_story_data_url(metadata)
+    metadata[:data_url] = external_url
+    metadata[:thumb_url] = external_url
+    metadata
   end
 end

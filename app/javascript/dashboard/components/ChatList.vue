@@ -116,7 +116,7 @@
         :team-id="teamId"
         :folders-id="foldersId"
         :chat="chat"
-        :inboxType="inbox.channel_type"
+        :inbox-type="inbox.channel_type"
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
         :selected="isConversationSelected(chat.id)"
