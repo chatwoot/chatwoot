@@ -161,7 +161,7 @@ class Attachment < ApplicationRecord
 
   def delete_instagram_story(message)
     message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
-    message.attachments.delete_all
+    message.attachments.destroy_all
   end
 
   def add_ig_story_data_url(metadata)
