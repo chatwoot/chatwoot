@@ -15,6 +15,7 @@ import id from './locale/id.json';
 import it from './locale/it.json';
 import ja from './locale/ja.json';
 import ko from './locale/ko.json';
+import lv from './locale/lv.json';
 import ml from './locale/ml.json';
 import nl from './locale/nl.json';
 import no from './locale/no.json';
@@ -51,6 +52,7 @@ export default {
   it,
   ja,
   ko,
+  lv,
   ml,
   nl,
   no,
