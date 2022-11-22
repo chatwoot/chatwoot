@@ -34,8 +34,7 @@ export const applyPageFilters = (conversation, filters) => {
     shouldFilter = shouldFilter && filterByLabels;
   }
   if (conversationType === 'unattended') {
-    const hasNoFirstReply = !firstReplyOn;
-    shouldFilter = shouldFilter && hasNoFirstReply;
+    shouldFilter = shouldFilter && !firstReplyOn;
   }
 
   return shouldFilter;
