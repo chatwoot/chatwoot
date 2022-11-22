@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     handleResize() {
-      if (window.innerWidth > 1200) {
+      if (window.innerWidth >= 1200) {
         this.isOnDesktop = true;
       } else {
         this.isOnDesktop = false;
