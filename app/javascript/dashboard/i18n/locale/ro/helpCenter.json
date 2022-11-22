@@ -1,409 +1,409 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Filtrați după",
+      "SORT": "Sortați după",
       "SETTINGS_BUTTON": "Setări",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Articol nou",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publicat",
+        "DRAFT": "Ciornă",
+        "ARCHIVED": "Arhivat"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Toate articolele",
+        "MINE": "Articolele mele",
+        "DRAFT": "Ciorne",
+        "ARCHIVED": "Articole arhivate"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Toate articolele",
+      "PUBLISH_BUTTON": "Publicați",
+      "MOVE_TO_ARCHIVE_BUTTON": "Mutați în arhivă",
+      "PREVIEW": "Previzualizați",
+      "ADD_TRANSLATION": "Adăugați traducere",
+      "OPEN_SIDEBAR": "Deschideți bara laterală",
+      "CLOSE_SIDEBAR": "Închideți bara laterală",
+      "SAVING": "Se salvează...",
+      "SAVED": "Salvat"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Setări articol",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Categorie",
+          "TITLE": "Selectați categoria",
+          "PLACEHOLDER": "Selectați categoria",
+          "NO_RESULT": "Nicio categorie găsită",
+          "SEARCH_PLACEHOLDER": "Căutare categorie"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autor",
+          "TITLE": "Selectați autorul",
+          "PLACEHOLDER": "Selectați autorul",
+          "NO_RESULT": "Nu s-au găsit autori",
+          "SEARCH_PLACEHOLDER": "Căutare autor"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Titlu meta",
+          "PLACEHOLDER": "Adaugați un titlu meta"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Descriere meta",
+          "PLACEHOLDER": "Adăugați descrierea meta pentru rezultate SEO mai bune..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Etichete meta",
+          "PLACEHOLDER": "Adăugați etichete meta separate prin virgulă..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arhivați articolul",
+        "DELETE": "Ștergeți articolul"
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
+      "HEADER": "Portaluri",
+      "DEFAULT": "Implicit",
+      "NEW_BUTTON": "Portal nou",
       "ACTIVE_BADGE": "activ",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "CHOOSE_LOCALE_LABEL": "Alegeți o limbă",
+      "LOADING_MESSAGE": "Se încarcă portalurile...",
+      "ARTICLES_LABEL": "articole",
+      "NO_PORTALS_MESSAGE": "Nu există portaluri disponibile",
+      "ADD_NEW_LOCALE": "Adaugați o nouă limba",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "Portaluri",
+        "PORTAL_SETTINGS": "Setări portal",
+        "SUBTITLE": "Aveți mai multe portaluri și puteți avea limbi diferite pentru fiecare portal.",
         "CANCEL_BUTTON_LABEL": "Renunță",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Alegeți limba"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "articole",
+            "ADD": "Adaugă limba",
+            "VISIT": "Vizitați site-ul",
             "SETTINGS": "Setări",
             "DELETE": "Şterge"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Configurații portal",
             "ITEMS": {
               "NAME": "Nume",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "Domeniu personalizat",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Titlu portal",
+              "THEME": "Culoare temă",
+              "SUB_TEXT": "Subtext portal"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Limbi disponibile",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Nume limbă",
+              "CODE": "Cod limbă",
+              "ARTICLE_COUNT": "Nr. articole",
+              "CATEGORIES": "Nr. categorii",
+              "SWAP": "Schimbă",
               "DELETE": "Şterge",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Implicit"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Ştergeţi portalul",
+          "MESSAGE": "Sigur doriți să ștergeți acest portal",
+          "YES": "Da, șterge portalul",
+          "NO": "Nu, păstrează portalul",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Portalul a fost sters",
+            "DELETE_ERROR": "Eroare la ștergerea portalului"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "Editare portal",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Informaţii de bază"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "Personalizare portal"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "Categorii"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Limbi"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "Categorii în",
+          "NEW_CATEGORY": "Categorie nouă",
           "TABLE": {
             "NAME": "Nume",
             "DESCRIPTION": "Descriere",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "LOCALE": "Limbă",
+            "ARTICLE_COUNT": "Nr. articole",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Editare categorie",
+              "DELETE": "Ștergere categorie"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Nu au fost găsite categorii"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "Actualizați setările de bază"
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
+            "title": "Informații centru de asistență",
             "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "body": "Informații de bază despre portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Creează setări de bază portal"
           },
           {
-            "title": "Help center customization",
+            "title": "Personalizare centru de asistență",
             "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "body": "Personalizați portalul",
+            "UPDATE_PORTAL_BUTTON": "Actualizați setările portalului"
           },
           {
             "title": "Voila! 🎉",
             "route": "portal_finish",
-            "body": "You're all set!",
+            "body": "Totul este pregătit!",
             "FINISH": "Finalizează"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Înapoi",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Creează Portal",
+            "TITLE": "Informații centru de asistență",
+            "CREATE_BASIC_SETTING_BUTTON": "Creează setări de bază portal"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Personalizare portal",
+            "TITLE": "Personalizare centru de asistență",
+            "UPDATE_PORTAL_BUTTON": "Actualizați setările portalului"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Voila!🎉 Totul este pregătit!",
+            "MESSAGE": "Puteți vedea acum acest portal creat pe pagina de portaluri.",
+            "FINISH": "Mergeți la toate pagina portalurilor"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "UPLOAD_BUTTON": "Încărcaţi logo",
+          "HELP_TEXT": "Acest logo va fi afișat in antetul portalului."
         },
         "NAME": {
           "LABEL": "Nume",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "PLACEHOLDER": "Nume portal",
+          "HELP_TEXT": "Denumirea va fi utilizată la nivel intern în portalul public.",
           "ERROR": "Numele este obligatoriu"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Slug-ul portalului pentru url-uri",
+          "ERROR": "Slug-ul este necesar"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "Domeniu personalizat",
+          "PLACEHOLDER": "Domeniu personalizat portal",
+          "HELP_TEXT": "Adaugați doar dacă dorești să folosiți un domeniu personalizat pentru portalurile dvs. De exemplu: https://example.com",
+          "ERROR": "Introduceți o adresă URL validă"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "Link pagină de pornire",
+          "PLACEHOLDER": "Link pagină portal",
+          "HELP_TEXT": "Link-ul folosit pentru a reveni din portal pe pagina principală. De exemplu: https://example.com",
+          "ERROR": "Introduceți un URL valid pentru pagina principală"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Culoare temă portal",
+          "HELP_TEXT": "Această culoare va fi afișată ca culoare temă pentru portal."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "Titlu pagină",
+          "PLACEHOLDER": "Titlu pagină portal",
+          "HELP_TEXT": "Titlul paginii va fi utilizat în portalul destinat publicului.",
+          "ERROR": "Titlul paginii este obligatoriu"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Text antet",
+          "PLACEHOLDER": "Text antet portal",
+          "HELP_TEXT": "Textul din antetul portalului va fi utilizat în portalul public.",
+          "ERROR": "Textul antetului portalului este obligatoriu"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portalul a fost creat.",
+          "ERROR_MESSAGE_FOR_BASIC": "Portalul nu a putut fi creat. Încercați din nou.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portalul a fost actualizat.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Portalul nu a putut fi actualizat. Încercați din nou."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "TITLE": "Adaugați o nouă limba",
+        "SUB_TITLE": "Aceasta adaugă o nouă limbă în lista dvs de traduceri disponibile.",
         "PORTAL": "Portal",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "Limbă",
+          "PLACEHOLDER": "Alegeți o limbă",
+          "ERROR": "Limba este obligatorie"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "Creează limba",
           "CANCEL": "Renunță"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "Limbă adăugata cu succes",
+          "ERROR_MESSAGE": "Nu se poate adăuga limba. Încercați din nou."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "Limba implicită a fost actualizată",
+          "ERROR_MESSAGE": "Nu se poate actualiza limba implicită. Încercați din nou."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "Limbă ștearsă din portal cu succes",
+          "ERROR_MESSAGE": "Nu s-a putut elimina limba din portal. Încercați din nou."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Se încarcă articolele...",
+      "404": "Nici un articol nu corespunde căutării tale 🔍",
+      "NO_ARTICLES": "Nu există articole disponibile",
       "HEADERS": {
         "TITLE": "Titlu",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "CATEGORY": "Categorie",
+        "READ_COUNT": "Contor citire",
         "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Ultima modificare"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "de"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Se încarcă articolul...",
+      "TITLE_PLACEHOLDER": "Titlul articolului este introdus aici",
+      "CONTENT_PLACEHOLDER": "Scrieți articolul aici",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Eroare la salvarea articolului"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "Eroare la publicarea articolului",
+        "SUCCESS": "Articolul a fost publicat"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "Eroare la arhivarea articolului",
+        "SUCCESS": "Articolul a fost arhivat"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Confirmă ștergerea",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "Sigur doriți să ștergeți articolul?",
           "YES": "Da, șterge",
           "NO": "Nu, păstreaza"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "Articolul a fost şters",
+        "ERROR_MESSAGE": "Eroare la ștergerea articolului"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Vă rugăm să adăugați titlul articolului și conținutul pentru a putea actualiza setările"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Căutați articole"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "TITLE": "Creați o categorie",
+        "SUB_TITLE": "Categoria va fi folosită în portalul public pentru a clasifica articolele.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Limbă",
         "NAME": {
           "LABEL": "Nume",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Nume categorie",
+          "HELP_TEXT": "Numele categoriei va fi folosit în portalul public pentru a clasifica articolele.",
           "ERROR": "Numele este obligatoriu"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug-ul categoriei pentru url-uri",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug-ul este obligatoriu"
         },
         "DESCRIPTION": {
           "LABEL": "Descriere",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Oferiți o scurtă descriere pentru categorie.",
           "ERROR": "Descrierea este obligatorie"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "Creați categoria",
           "CANCEL": "Renunță"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Categoria a fost creată",
+          "ERROR_MESSAGE": "Nu s-a putut crea categoria"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "TITLE": "Editați o categorie",
+        "SUB_TITLE": "Editarea unei categorii va actualiza categoria în portalul public.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Limbă",
         "NAME": {
           "LABEL": "Nume",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Nume categorie",
+          "HELP_TEXT": "Numele categoriei va fi folosit în portalul public pentru a clasifica articolele.",
           "ERROR": "Numele este obligatoriu"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug-ul categoriei pentru url-uri",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug-ul este obligatoriu"
         },
         "DESCRIPTION": {
           "LABEL": "Descriere",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Oferiți o scurtă descriere pentru categorie.",
           "ERROR": "Descrierea este obligatorie"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "Actualizați categoria",
           "CANCEL": "Renunță"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Categoria a fost actualizată",
+          "ERROR_MESSAGE": "Nu s-a putut actualiza categoria"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Categoria a fost ștearsă",
+          "ERROR_MESSAGE": "Nu s-a putut șterge categoria"
         }
       }
     }

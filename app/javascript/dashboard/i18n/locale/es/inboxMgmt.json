@@ -416,7 +416,8 @@
       "CAMPAIGN": "Campañas",
       "PRE_CHAT_FORM": "Pre-formulario de chat",
       "BUSINESS_HOURS": "Horarios",
-      "WIDGET_BUILDER": "Constructor de Widget"
+      "WIDGET_BUILDER": "Constructor de Widget",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Ajustes",
     "FEATURES": {
