@@ -46,6 +46,7 @@ class Messages::Messenger::MessageBuilder
   end
 
   def update_attachment_file_type(attachment)
+    return if @message.attachments.blank?
     return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
 
     attachment.file_type = file_type(attachment.file&.content_type)
@@ -75,8 +76,8 @@ class Messages::Messenger::MessageBuilder
     raise
   rescue Koala::Facebook::ClientError => e
     # The exception occurs when we are trying fetch the deleted story or blocked story.
-    @message.attachments.destroy_all
     @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
+    @message.attachments.destroy_all
     Rails.logger.error e
     {}
   rescue StandardError => e

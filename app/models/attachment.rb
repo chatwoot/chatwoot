@@ -79,7 +79,6 @@ class Attachment < ApplicationRecord
     }
 
     metadata = merge_story_mention_image(metadata) if message.inbox.instagram?
-
     metadata
   end
 
@@ -161,7 +160,7 @@ class Attachment < ApplicationRecord
 
   def delete_instagram_story(message)
     message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
-    message.attachments.destroy_all
+    message.attachments.delete_all
   end
 
   def add_ig_story_data_url(metadata)
