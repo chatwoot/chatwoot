@@ -31,10 +31,10 @@
     "TEAMS": {
       "TEAM_SELECT_LABEL": "Izvēlieties Komandu",
       "NONE": "Nav",
-      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
-      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
-      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
-      "ASSIGN_FAILED": "Failed to assign team, please try again"
+      "NO_TEAMS_AVAILABLE": "Šim kontam vēl nav pievienota neviena komanda.",
+      "ASSIGN_SELECTED_TEAMS": "Piešķirt izvēlēto komandu",
+      "ASSIGN_SUCCESFUL": "Komandas ir veiksmīgi piešķirtas",
+      "ASSIGN_FAILED": "Neizdevās piešķirt komandu. Lūdzu, mēģiniet vēlreiz"
     }
   }
 }
