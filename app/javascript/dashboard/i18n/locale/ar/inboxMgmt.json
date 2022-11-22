@@ -416,7 +416,8 @@
       "CAMPAIGN": "الحملات",
       "PRE_CHAT_FORM": "نموذج ما قبل الدردشة",
       "BUSINESS_HOURS": "ساعات العمل",
-      "WIDGET_BUILDER": "منشئ اللايف شات"
+      "WIDGET_BUILDER": "منشئ اللايف شات",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "الإعدادات",
     "FEATURES": {
