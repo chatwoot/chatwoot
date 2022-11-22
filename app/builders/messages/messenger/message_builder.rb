@@ -46,6 +46,7 @@ class Messages::Messenger::MessageBuilder
   end
 
   def update_attachment_file_type(attachment)
+    return if @message.reload.attachments.blank?
     return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
 
     attachment.file_type = file_type(attachment.file&.content_type)

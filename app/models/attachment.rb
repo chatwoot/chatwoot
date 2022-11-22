@@ -79,7 +79,6 @@ class Attachment < ApplicationRecord
     }
 
     metadata = merge_story_mention_image(metadata) if message.inbox.instagram?
-
     metadata
   end
 
