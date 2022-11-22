@@ -106,8 +106,20 @@ class Message < ApplicationRecord
       conversation: { assignee_id: conversation.assignee_id }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
+    remove_deleted_ig_story if inbox.instagram? && try(:content_attributes)[:image_type] == 'story_mention'
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  def remove_deleted_ig_story
+    k = Koala::Facebook::API.new(inbox.channel.page_access_token)
+    result = k.get_object(source_id, fields: %w[story]) || {}
+
+    if result['story']['mention']['link'].blank?
+      attachments.destroy_all
+      update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
+      reload
+    end
   end
 
   def merge_sender_attributes(data)

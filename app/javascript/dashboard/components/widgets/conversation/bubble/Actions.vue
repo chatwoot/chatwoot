@@ -44,7 +44,7 @@
         size="16"
       />
     </button>
-    <a
+    <!-- <a
       v-if="hasInstagramStory && (isIncoming || isOutgoing) && linkToStory"
       :href="linkToStory"
       target="_blank"
@@ -56,7 +56,7 @@
         class="action--icon cursor-pointer"
         size="16"
       />
-    </a>
+    </a> -->
     <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
