@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "שייך",
     "YES": "כן",
     "ASSIGN_AGENT_TOOLTIP": "שייך סוכן",
+    "ASSIGN_TEAM_TOOLTIP": "שייך צוות",
     "ASSIGN_SUCCESFUL": "שיוך בוצע בהצלחה",
     "ASSIGN_FAILED": "שיוך נכשל, נסה שנית",
     "RESOLVE_SUCCESFUL": "שיחה טופלה בהצלחה",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "שייך תוויות נבחרות",
       "ASSIGN_SUCCESFUL": "תוויות שוייכו בהצלחה",
       "ASSIGN_FAILED": "שיוך תוויות נכשל, נסה שנית"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Select Team",
+      "NONE": "כלום",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }

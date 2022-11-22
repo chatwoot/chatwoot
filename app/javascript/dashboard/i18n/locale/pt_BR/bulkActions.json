@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "Atribua",
     "YES": "Sim",
     "ASSIGN_AGENT_TOOLTIP": "Atribuir Agente",
+    "ASSIGN_TEAM_TOOLTIP": "Atribuir equipe",
     "ASSIGN_SUCCESFUL": "Conversas atribuídas com sucesso",
     "ASSIGN_FAILED": "Falha ao atribuir conversas, por favor, tente novamente",
     "RESOLVE_SUCCESFUL": "Conversas resolvidas com sucesso",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Atribuir rótulos selecionados",
       "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso",
       "ASSIGN_FAILED": "Falha ao atribuir rótulos, por favor, tente novamente"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Selecionar time",
+      "NONE": "Nenhuma",
+      "NO_TEAMS_AVAILABLE": "Ainda não há equipes adicionadas a esta conta ainda.",
+      "ASSIGN_SELECTED_TEAMS": "Atribuir equipe selecionada",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }

@@ -105,7 +105,7 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "DESC": "Twilio'yu entegre edin ve müşterilerinizi SMS veya WhatsApp ile desteklemeye başlayın.",
         "ACCOUNT_SID": {
           "LABEL": "Hesap SID'si",
           "PLACEHOLDER": "Lütfen Twilio Hesabı SID'nizi girin",
@@ -147,7 +147,7 @@
       },
       "SMS": {
         "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "DESC": "Müşterilerinizi SMS ile desteklemeye başlayın.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
@@ -199,7 +199,7 @@
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "DESC": "Müşterilerinizi WhatsApp ile desteklemeye başlayın.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
@@ -287,7 +287,7 @@
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "DESC": "LINEi ile entegre edin ve müşterilerinizi desteklemeye başlayın.",
         "CHANNEL_NAME": {
           "LABEL": "Kanal ismi",
           "PLACEHOLDER": "Lütfen bir kanal adı girin",
@@ -316,7 +316,7 @@
       },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "DESC": "Telegram ile entegre edin ve müşterilerinizi desteklemeye başlayın.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
           "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
@@ -416,7 +416,8 @@
       "CAMPAIGN": "Kampanyalar",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Ayarlar",
     "FEATURES": {
@@ -646,7 +647,7 @@
         "IN_A_DAY": "Genellikle bir gün içinde yanıtlar"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Çatı başla",
+        "START_CONVERSATION_BUTTON_TEXT": "Görüşmeyi Başlatın",
         "CHAT_INPUT_PLACEHOLDER": "Mesajınız"
       },
       "BODY": {

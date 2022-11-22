@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "تكليف",
     "YES": "نعم",
     "ASSIGN_AGENT_TOOLTIP": "إسناد وكيل",
+    "ASSIGN_TEAM_TOOLTIP": "تعيين فريق",
     "ASSIGN_SUCCESFUL": "تم تعيين المحادثات بنجاح",
     "ASSIGN_FAILED": "فشل في تعيين المحادثات، الرجاء المحاولة مرة أخرى",
     "RESOLVE_SUCCESFUL": "تم تسوية المحادثات بنجاح",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "تعيين التسميات المحددة",
       "ASSIGN_SUCCESFUL": "تم تعيين التسميات بنجاح",
       "ASSIGN_FAILED": "فشل في تعيين التسميات ، الرجاء المحاولة مرة أخرى"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "اختيار فريق",
+      "NONE": "لا شيء",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }

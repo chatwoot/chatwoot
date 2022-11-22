@@ -1,5 +1,70 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots"
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Notiek Redaktora Ielāde...",
+    "HEADER_BTN_TXT": "Pievienot Robota Konfigurāciju",
+    "SIDEBAR_TXT": "<p><b>Aģenti Roboti</b> <p>Aģenti roboti ļauj automatizēt sarunas</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Robota Nosaukums",
+        "PLACEHOLDER": "Piešķiriet savam robotam nosaukumu",
+        "ERROR": "Jānorāda robota nosaukums"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Robota Apraksts",
+        "PLACEHOLDER": "Ko dara šis robots?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Lūdzu, ievadiet sava robota CSML konfigurāciju",
+        "API_ERROR": "Jūsu CSML konfigurācija nav pareiza. Lūdzu, izlabojiet to un mēģiniet vēlreiz."
+      },
+      "SUBMIT": "Apstiprināt un saglabāt"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Izvēlieties aģentu robotu",
+      "DESC": "Jūs varat piesaistīt šai iesūtnei aģentu robotu, no saraksta. Robots sākotnēji var apstrādāt sarunu un nepieciešamības gadījumā pārsūtīt to aģentam.",
+      "SUBMIT": "Atjaunināt",
+      "SUCCESS_MESSAGE": "Aģents robots ir veiksmīgi atjaunināts",
+      "ERROR_MESSAGE": "Nevarēja atjaunināt aģentu robotu. Lūdzu, vēlāk mēģiniet vēlreiz",
+      "SELECT_PLACEHOLDER": "Izvēlieties Robotu"
+    },
+    "ADD": {
+      "TITLE": "Konfigurēt jaunu robotu",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Nevarēja pievienot robotu. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "LIST": {
+      "404": "Robots nav atrasts. Jūs varat izveidot robotu, noklikšķinot uz pogas 'Konfigurēt jaunu robotu' ↗",
+      "LOADING": "Notiek robotu iegūšana...",
+      "TYPE": "Robota Tips"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "TITLE": "Dzēst Robotu",
+      "SUBMIT": "Dzēst",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "DESCRIPTION": "Vai tiešām vēlaties dzēst šo robotu? Šī darbība ir neatgriezeniska",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevarēja izdzēst robotu. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Rediģēt",
+      "LOADING": "Notiek robotu iegūšana...",
+      "TITLE": "Rediģēt Robotu",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Nevarēja atjaunināt robotu. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Robots",
+      "CSML": "CSML Robots"
+    }
   }
 }
