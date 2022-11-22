@@ -1,70 +1,70 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "LOADING_EDITOR": "Notiek Redaktora Ielāde...",
+    "HEADER_BTN_TXT": "Pievienot Robota Konfigurāciju",
+    "SIDEBAR_TXT": "<p><b>Aģenti Roboti</b> <p>Aģenti roboti ļauj automatizēt sarunas</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "LABEL": "Robota Nosaukums",
+        "PLACEHOLDER": "Piešķiriet savam robotam nosaukumu",
+        "ERROR": "Jānorāda robota nosaukums"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "Robota Apraksts",
+        "PLACEHOLDER": "Ko dara šis robots?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "Lūdzu, ievadiet sava robota CSML konfigurāciju",
+        "API_ERROR": "Jūsu CSML konfigurācija nav pareiza. Lūdzu, izlabojiet to un mēģiniet vēlreiz."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "Apstiprināt un saglabāt"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "Izvēlieties aģentu robotu",
+      "DESC": "Jūs varat piesaistīt šai iesūtnei aģentu robotu, no saraksta. Robots sākotnēji var apstrādāt sarunu un nepieciešamības gadījumā pārsūtīt to aģentam.",
       "SUBMIT": "Atjaunināt",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "SUCCESS_MESSAGE": "Aģents robots ir veiksmīgi atjaunināts",
+      "ERROR_MESSAGE": "Nevarēja atjaunināt aģentu robotu. Lūdzu, vēlāk mēģiniet vēlreiz",
+      "SELECT_PLACEHOLDER": "Izvēlieties Robotu"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "Konfigurēt jaunu robotu",
       "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Nevarēja pievienot robotu. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
-      "TYPE": "Bot Type"
+      "404": "Robots nav atrasts. Jūs varat izveidot robotu, noklikšķinot uz pogas 'Konfigurēt jaunu robotu' ↗",
+      "LOADING": "Notiek robotu iegūšana...",
+      "TYPE": "Robota Tips"
     },
     "DELETE": {
       "BUTTON_TEXT": "Dzēst",
-      "TITLE": "Delete Bot",
+      "TITLE": "Dzēst Robotu",
       "SUBMIT": "Dzēst",
       "CANCEL_BUTTON_TEXT": "Atcelt",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "DESCRIPTION": "Vai tiešām vēlaties dzēst šo robotu? Šī darbība ir neatgriezeniska",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevarēja izdzēst robotu. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Rediģēt",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
+      "LOADING": "Notiek robotu iegūšana...",
+      "TITLE": "Rediģēt Robotu",
       "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Nevarēja atjaunināt robotu. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook Robots",
+      "CSML": "CSML Robots"
     }
   }
 }
