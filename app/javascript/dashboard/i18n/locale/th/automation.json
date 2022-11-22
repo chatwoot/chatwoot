@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "การเปลี่ยนประเภทเหตุการณ์ จะรีเช็ทเงื่อนไขและเหตุการณ์ที่คุณเพิ่มไว้ด้านล่าง"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "คุณต้องมีอย่างน้อย 1 เงื่อนไขเพื่อบันทึก"
+      "DELETE_MESSAGE": "คุณต้องมีอย่างน้อย 1 เงื่อนไขเพื่อบันทึก",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย 1 การกระทำเพื่อบันทึก",
@@ -109,7 +111,7 @@
       "UPLOAD_ERROR": "ไม่สามารถอัปโหลดไฟล์แนบได้ โปรดลองใหม่อีกครั้ง",
       "LABEL_IDLE": "อัปโหลดไฟล์แนบ",
       "LABEL_UPLOADING": "กำลังอัปโหลด",
-      "LABEL_UPLOADED": "อัปโหลดสำเร็จแล้ว",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "อัปโหลดไม่สำเร็จ"
     }
   }

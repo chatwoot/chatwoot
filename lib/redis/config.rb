@@ -23,13 +23,20 @@ module Redis::Config
       ENV.fetch('REDIS_SENTINELS', nil).presence
     end
 
+    def sentinel_url_config(sentinel_url)
+      host, port = sentinel_url.split(':').map(&:strip)
+      sentinel_url_config = { host: host, port: port || DEFAULT_SENTINEL_PORT }
+      password = ENV.fetch('REDIS_SENTINEL_PASSWORD', base_config[:password])
+      sentinel_url_config[:password] = password if password.present?
+      sentinel_url_config
+    end
+
     def sentinel_config
       redis_sentinels = ENV.fetch('REDIS_SENTINELS', nil)
 
       # expected format for REDIS_SENTINELS url string is host1:port1, host2:port2
       sentinels = redis_sentinels.split(',').map do |sentinel_url|
-        host, port = sentinel_url.split(':').map(&:strip)
-        { host: host, port: port.presence || DEFAULT_SENTINEL_PORT, password: base_config[:password] }
+        sentinel_url_config(sentinel_url)
       end
 
       # over-write redis url as redis://:<your-redis-password>@<master-name>/ when using sentinel

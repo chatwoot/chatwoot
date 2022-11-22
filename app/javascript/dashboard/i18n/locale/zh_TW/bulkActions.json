@@ -2,9 +2,11 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
     "AGENT_SELECT_LABEL": "選擇客服",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "指派",
+    "YES": "是",
     "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
     "ASSIGN_FAILED": "Failed to assign conversations, please try again",

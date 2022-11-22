@@ -19,6 +19,21 @@
         "TITLE": "Hồ sơ cá nhân",
         "NOTE": "Địa chỉ email của bạn là danh tính của bạn và được sử dụng để đăng nhập."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Chữ ký tin nhắn cá nhân",
         "NOTE": "Tạo chữ ký thư cá nhân sẽ được thêm vào tất cả các thư bạn gửi từ hộp thư email của mình. Sử dụng trình chỉnh sửa nội dung phong phú để tạo chữ ký được cá nhân hóa cao.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "Tải xuống",
       "UPLOADING": "Đang tải lên..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Gửi"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "Liên hệ",
     "HOME": "Trang Chủ",
     "AGENTS": "Đại lý",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Hộp thư đến",
     "NOTIFICATIONS": "Thông báo",
     "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
@@ -174,6 +193,7 @@
     "LABELS": "Nhãn",
     "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
     "AUTOMATION": "Tự động hoá",
+    "MACROS": "Macros",
     "TEAMS": "Nhóm",
     "BILLING": "Phí",
     "CUSTOM_VIEWS_FOLDER": "Thư mục",

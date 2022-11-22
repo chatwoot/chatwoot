@@ -94,14 +94,14 @@
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
         "TABLE_HEADER": [
-          "Vārds",
+          "Nosaukums",
           "Endpoint"
         ],
         "EDIT_TOOLTIP": "Rediģēt lietotni",
         "DELETE_TOOLTIP": "Dzēst lietotni"
       },
       "FORM": {
-        "TITLE_LABEL": "Vārds",
+        "TITLE_LABEL": "Nosaukums",
         "TITLE_PLACEHOLDER": "Ievadiet informācijas paneļa lietotnes nosaukumu",
         "TITLE_ERROR": "Informācijas paneļa lietotnei ir jānorāda nosaukums",
         "URL_LABEL": "Endpoint",

@@ -3,7 +3,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
-  before_action :contact_inbox, only: [:create]
+  before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   def index
     result = conversation_finder.perform
@@ -109,22 +109,35 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     authorize @conversation.inbox, :show?
   end
 
+  def inbox
+    return if params[:inbox_id].blank?
+
+    @inbox = Current.account.inboxes.find(params[:inbox_id])
+    authorize @inbox, :show?
+  end
+
+  def contact
+    return if params[:contact_id].blank?
+
+    @contact = Current.account.contacts.find(params[:contact_id])
+  end
+
   def contact_inbox
     @contact_inbox = build_contact_inbox
 
+    # fallback for the old case where we do look up only using source id
+    # In future we need to change this and make sure we do look up on combination of inbox_id and source_id
+    # and deprecate the support of passing only source_id as the param
     @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
     authorize @contact_inbox.inbox, :show?
   end
 
   def build_contact_inbox
-    return if params[:contact_id].blank? || params[:inbox_id].blank?
-
-    inbox = Current.account.inboxes.find(params[:inbox_id])
-    authorize inbox, :show?
+    return if @inbox.blank? || @contact.blank?
 
     ContactInboxBuilder.new(
-      contact_id: params[:contact_id],
-      inbox_id: inbox.id,
+      contact: @contact,
+      inbox: @inbox,
       source_id: params[:source_id]
     ).perform
   end

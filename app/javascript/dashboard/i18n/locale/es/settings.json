@@ -19,6 +19,21 @@
         "TITLE": "Perfil",
         "NOTE": "Su dirección de correo electrónico es su identidad y se utiliza para iniciar sesión."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Tecla rápida para enviar mensajes",
+        "NOTE": "Puede seleccionar una tecla de acceso rápido (Enter o Cmd/Ctrl+Enter) basándose en su preferencia de escritura.",
+        "UPDATE_SUCCESS": "Su configuración se ha actualizado correctamente",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Envía mensajes presionando la tecla Intro en lugar de hacer clic en el botón Enviar."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Envía mensajes pulsando Cmd/Ctrl + tecla Intro en lugar de hacer clic en el botón Enviar."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma de mensaje personal",
         "NOTE": "Cree una firma de mensaje personal que se añadirá a todos los mensajes que envíe desde su buzón de correo electrónico. Utilice el rico editor de contenidos para crear una firma altamente personalizada.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "Descargar",
       "UPLOADING": "Subiendo..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Ver en el mapa"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "Contactos",
     "HOME": "Inicio",
     "AGENTS": "Agentes",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
@@ -174,6 +193,7 @@
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "AUTOMATION": "Automatización",
+    "MACROS": "Macros",
     "TEAMS": "Equipos",
     "BILLING": "Facturación",
     "CUSTOM_VIEWS_FOLDER": "Carpetas",

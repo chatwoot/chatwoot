@@ -86,49 +86,49 @@
       "BUTTON_TEXT": "Σύνδεση"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "Εφαρμογές Dashboard",
+      "HEADER_BTN_TXT": "Προσθήκη νέας εφαρμογής Dashboard",
+      "SIDEBAR_TXT": "<p><b>Εφαρμογές Dashboard</b></p><p>Οι εφαρμογές Dashboard επιτρέπουν σε οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στο ταμπλό Chatwoot για να παρέχουν το πλαίσιο για τους πράκτορες υποστήριξης πελατών. Αυτό το χαρακτηριστικό σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που μέσα στον πίνακα ελέγχου για να παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.</p><p>Όταν ενσωματώσετε την εφαρμογή σας χρησιμοποιώντας το Dashboard στο Chatwoot, η εφαρμογή σας θα πάρει το πλαίσιο της συνομιλίας και θα επικοινωνήσει ως ένα παράθυρο εκδήλωσης. Εφαρμόστε έναν ακροατή για το γεγονός του μηνύματος στη σελίδα σας για να λάβετε το πλαίσιο.</p><p>Για να προσθέσετε μια νέα εφαρμογή ταμπλό, κάντε κλικ στο κουμπί 'Προσθήκη μιας νέας εφαρμογής Dashboard'.</p>",
+      "DESCRIPTION": "Οι εφαρμογές Dashboard επιτρέπουν στους οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στον πίνακα ελέγχου για να παρέχουν το περιεχόμενο για τους πράκτορες υποστήριξης πελατών. Αυτή η λειτουργία σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που θα παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Δεν έχουν δημιουργηθεί εφαρμογές Dashboard για αυτόν το λογαριασμό",
+        "LOADING": "Λήψη εφαρμογών dashboard ...",
         "TABLE_HEADER": [
           "Όνομα",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Επεξεργασία εφαρμογής",
+        "DELETE_TOOLTIP": "Διαγραφή εφαρμογής"
       },
       "FORM": {
         "TITLE_LABEL": "Όνομα",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_PLACEHOLDER": "Εισάγετε όνομα για την εφαρμογή dashboard",
+        "TITLE_ERROR": "Απαιτείται ένα όνομα για την εφαρμογή dashboard",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Εισάγετε το URL του endpoint όπου φιλοξενείται η εφαρμογή σας",
+        "URL_ERROR": "Απαιτείται ένα έγκυρο URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Προσθήκη νέας εφαρμογής Dashboard",
         "FORM_SUBMIT": "Καταχώρηση",
         "FORM_CANCEL": "Άκυρο",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Η εφαρμογή dashboard ρυθμίστηκε επιτυχώς",
+        "API_ERROR": "Δεν μπορούμε να δημιουργήσουμε μια εφαρμογή. Παρακαλώ δοκιμάστε ξανά αργότερα"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Επεξεργασία εφαρμογής dashboard",
         "FORM_SUBMIT": "Ενημέρωση",
         "FORM_CANCEL": "Άκυρο",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Η εφαρμογή dashboard ενημερώθηκε με επιτυχία",
+        "API_ERROR": "Δεν ήταν δυνατή η ενημέρωση της εφαρμογής. Παρακαλώ δοκιμάστε ξανά αργότερα"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Ναι, Διέγραψε την",
+        "CONFIRM_NO": "Όχι, Κράτησε την",
         "TITLE": "Επιβεβαίωση Διαγραφής",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "Είστε βέβαιοι να διαγράψετε την εφαρμογή - %{appName};",
+        "API_SUCCESS": "Η εφαρμογή dashboard διαγράφηκε επιτυχώς",
+        "API_ERROR": "Δεν μπορούμε να διαγράψουμε την εφαρμογή. Παρακαλώ δοκιμάστε ξανά αργότερα"
       }
     }
   }

@@ -14,7 +14,7 @@ json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_
 if defined?(with_contact_inboxes) && with_contact_inboxes.present?
   json.contact_inboxes do
     json.array! resource.contact_inboxes do |contact_inbox|
-      json.partial! 'api/v1/models/contact_inbox.json.jbuilder', resource: contact_inbox
+      json.partial! 'api/v1/models/contact_inbox', formats: [:json], resource: contact_inbox
     end
   end
 end

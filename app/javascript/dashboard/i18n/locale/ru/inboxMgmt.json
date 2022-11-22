@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL",
-          "SUBTITLE": "Вы должны настроить URL webhook в портале разработчиков Facebook с URL-адресом, указанным здесь."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL вебхука",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Создать канал WhatsApp",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Истоник готов!",
-      "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки ",
+      "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки",
       "BUTTON_TEXT": "Перейти",
       "MORE_SETTINGS": "Больше параметров",
       "WEBSITE_SUCCESS": "Вы успешно создали источник-сайт. Скопируйте указанный ниже код и вставьте его на ваш сайт. В следующий раз, когда клиент напишет в чат, диалог автоматически появится здесь."

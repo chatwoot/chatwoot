@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Modificarea tipului de eveniment va reseta condițiile și evenimentele pe care le-ați adăugat mai jos"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva"
+      "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
@@ -109,7 +111,7 @@
       "UPLOAD_ERROR": "Could not upload attachment, Please try again",
       "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "Încărcare...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }

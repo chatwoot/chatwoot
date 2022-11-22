@@ -19,6 +19,21 @@
         "TITLE": "Profil",
         "NOTE": "Ihre E-Mail-Adresse ist Ihre Identität und wird zum Anmelden verwendet."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey zum Senden von Nachrichten",
+        "NOTE": "Sie können einen Hotkey (entweder Enter oder Cmd/Strg+Enter) basierend auf Ihrer Schreibpräferenz auswählen.",
+        "UPDATE_SUCCESS": "Ihre Einstellungen wurden erfolgreich aktualisiert",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Eingabe (↵)",
+            "CONTENT": "Senden Sie Nachrichten, indem Sie die Eingabetaste drücken, anstatt auf die Schaltfläche \"Senden\" zu klicken."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Strg + Enter (⌘ + ↵)",
+            "CONTENT": "Senden Sie Nachrichten, indem Sie Cmd/Strg + Eingabetaste drücken, anstatt auf die Schaltfläche „Senden“ zu klicken."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Persönliche Nachrichtensignatur",
         "NOTE": "Erstellen Sie eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Sie aus Ihrem E-Mail-Posteingang senden. Verwenden Sie den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
@@ -143,6 +158,9 @@
       "DOWNLOAD": "Herunterladen",
       "UPLOADING": "Wird hochgeladen..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Abschicken"
     }
@@ -164,6 +182,7 @@
     "CONTACTS": "Kontakte",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Posteingänge",
     "NOTIFICATIONS": "Push-Benachrichtigungen",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
@@ -174,6 +193,7 @@
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
     "AUTOMATION": "Automatisierung",
+    "MACROS": "Makros",
     "TEAMS": "Teams",
     "BILLING": "Rechnungen",
     "CUSTOM_VIEWS_FOLDER": "Ordner",

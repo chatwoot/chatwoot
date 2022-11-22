@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Adresa povratnog poziva",
-          "SUBTITLE": "Morate da podesite adresu veb zakačke u fejsbuk portalu programera sa adresom pomenutom ovde."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Adresa veb zakačke",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Napravite WhatsApp kanal",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Vaše prijemno sanduče je spremno!",
-      "MESSAGE": "Možete se povezati sa vašim potrošačima kroz vaš novi kanal. Srećna podrška ",
+      "MESSAGE": "Možete se povezati sa vašim potrošačima kroz vaš novi kanal. Srećna podrška",
       "BUTTON_TEXT": "Odvedi me tamo",
       "MORE_SETTINGS": "Više podešavanja",
       "WEBSITE_SUCCESS": "Uspešno ste završili pravljenje kanala veb sajta. Iskopirajte kod prikazan ispod i nalepite ga u vaš vab sajt. Sledeći put kada potrošač koristi ćaskanje uživo, razgovor će se automatski pojaviti u prijemnom sandučetu."

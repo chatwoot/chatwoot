@@ -149,3 +149,11 @@ ro:
     fullcontact:
       name: "Fullcontact"
       description: "Integrarea FullContact ajută la îmbogățirea profilurilor vizitatorilor. Identificați utilizatorii imediat ce își partajează adresa de e-mail și oferiți-le servicii personalizate pentru clienți. Conectați FullContact la contul dvs., partajând cheia API FullContact."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Niciun rezultat găsit.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.

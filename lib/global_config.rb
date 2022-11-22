@@ -20,9 +20,9 @@ class GlobalConfig
     end
 
     def clear_cache
-      cached_keys = $alfred.keys("#{VERSION}:#{KEY_PREFIX}:*")
+      cached_keys = $alfred.with { |conn| conn.keys("#{VERSION}:#{KEY_PREFIX}:*") }
       (cached_keys || []).each do |cached_key|
-        $alfred.expire(cached_key, 0)
+        $alfred.with { |conn| conn.expire(cached_key, 0) }
       end
     end
 
@@ -30,12 +30,12 @@ class GlobalConfig
 
     def load_from_cache(config_key)
       cache_key = "#{VERSION}:#{KEY_PREFIX}:#{config_key}"
-      cached_value = $alfred.get(cache_key)
+      cached_value = $alfred.with { |conn| conn.get(cache_key) }
 
       if cached_value.blank?
         value_from_db = db_fallback(config_key)
         cached_value = { value: value_from_db }.to_json
-        $alfred.set(cache_key, cached_value, { ex: DEFAULT_EXPIRY })
+        $alfred.with { |conn| conn.set(cache_key, cached_value, { ex: DEFAULT_EXPIRY }) }
       end
 
       JSON.parse(cached_value)['value']
