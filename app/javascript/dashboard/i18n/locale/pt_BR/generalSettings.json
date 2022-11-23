@@ -23,7 +23,7 @@
         "ERROR": "Por favor, insira um nome de conta válido"
       },
       "LANGUAGE": {
-        "LABEL": "Idioma do site (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Nome da sua conta",
         "ERROR": ""
       },
