@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Agents::DestroyService do
-  let(:account) { create(:account) }
+  let!(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   let(:team1) { create(:team, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
@@ -20,6 +20,25 @@ describe Agents::DestroyService do
       expect(user.inboxes.length).to eq 0
       expect(user.notification_settings.length).to eq 0
       expect(user.assigned_conversations.where(account: account).length).to eq 0
+    end
+  end
+
+  describe '#performance perform' do
+    before do
+      10.times do |_i|
+        create(:conversation, account: account, assignee: user, inbox: inbox)
+      end
+    end
+
+    it 'update assigned conversations when removed from account' do
+      expect(user.assigned_conversations.where(account: account).length).to eq 11
+      time_to_unassign = Benchmark.measure { user.assigned_conversations.where(account: account).find_each(&:update_assignee) }
+      Conversation.update(assignee: user)
+      expect(user.assigned_conversations.where(account: account).length).to eq 11
+      time_to_perform = Benchmark.measure { described_class.new(account: account, user: user).send(:unassign_conversations) }
+      user.reload
+      expect(user.assigned_conversations.where(account: account).length).to eq 0
+      expect(time_to_perform.real < time_to_unassign.real).to be_truthy
     end
   end
 end
