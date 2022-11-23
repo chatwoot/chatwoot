@@ -120,7 +120,10 @@ class Message < ApplicationRecord
 
     if result['story']['mention']['link'].blank?
       attachments.destroy_all
-      update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
+      update(
+        content: I18n.t('conversations.messages.instagram_deleted_story_content'),
+        content_attributes: {}
+      )
       reload
     end
   end
