@@ -416,7 +416,8 @@
       "CAMPAIGN": "Кампании",
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
       "BUSINESS_HOURS": "Время работы",
-      "WIDGET_BUILDER": "Конструктор виджетов"
+      "WIDGET_BUILDER": "Конструктор виджетов",
+      "BOT_CONFIGURATION": "Конфигурация бота"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
