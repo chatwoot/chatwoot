@@ -23,7 +23,7 @@
         "ERROR": "Vui lòng nhập tên tài khoản hợp lệ"
       },
       "LANGUAGE": {
-        "LABEL": "Ngôn ngữ trang web (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Tên tài khoản của bạn",
         "ERROR": ""
       },
