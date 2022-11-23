@@ -81,6 +81,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def unread
+    last_incoming_message = @conversation.messages.incoming.last
+    if last_incoming_message.present?
+      last_seen_at = last_incoming_message.created_at - 1.second
+      # rubocop:disable Rails/SkipsModelValidations
+      @conversation.update_column(:agent_last_seen_at, last_seen_at)
+      @conversation.update_column(:assignee_last_seen_at, last_seen_at)
+      # rubocop:enable Rails/SkipsModelValidations
+    end
+    head :ok
+  end
+
   def custom_attributes
     @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
     @conversation.save!
@@ -163,10 +175,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def conversation_finder
-    @conversation_finder ||= ConversationFinder.new(current_user, params)
+    @conversation_finder ||= ConversationFinder.new(Current.user, params)
   end
 
   def assignee?
-    @conversation.assignee_id? && current_user == @conversation.assignee
+    @conversation.assignee_id? && Current.user == @conversation.assignee
   end
 end
