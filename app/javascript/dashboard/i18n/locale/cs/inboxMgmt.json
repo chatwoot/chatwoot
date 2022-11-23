@@ -416,7 +416,8 @@
       "CAMPAIGN": "Kampaně",
       "PRE_CHAT_FORM": "Formulář před chatem",
       "BUSINESS_HOURS": "Pracovní doba",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Nastavení",
     "FEATURES": {

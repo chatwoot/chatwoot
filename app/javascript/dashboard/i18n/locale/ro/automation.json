@@ -87,13 +87,13 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atribute de contact personalizate",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atribute personalizate pentru conversație"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduceți mesajul aici",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selectați echipe"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activați regula de automatizare",
@@ -108,11 +108,11 @@
       "CANCEL_LABEL": "Nu"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Nu s-a putut încărca atașamentul, încercați din nou",
+      "LABEL_IDLE": "Fişier ataşat",
       "LABEL_UPLOADING": "Încărcare...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Încărcare reușită",
+      "LABEL_UPLOAD_FAILED": "Încărcare eșuată"
     }
   }
 }
