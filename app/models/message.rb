@@ -107,12 +107,14 @@ class Message < ApplicationRecord
       conversation: { assignee_id: conversation.assignee_id }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
-    remove_deleted_ig_story if inbox.instagram? && try(:content_attributes)[:image_type] == 'story_mention'
+    remove_deleted_ig_story if instagram_story_attachment?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
   end
 
   def remove_deleted_ig_story
+    return if attachments.blank?
+
     k = Koala::Facebook::API.new(inbox.channel.page_access_token)
     result = k.get_object(source_id, fields: %w[story]) || {}
 
@@ -165,6 +167,10 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def instagram_story_attachment?
+    inbox.instagram? && try(:content_attributes)[:image_type] == 'story_mention'
+  end
 
   def ensure_content_type
     self.content_type ||= Message.content_types[:text]
