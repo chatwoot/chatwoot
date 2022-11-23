@@ -32,13 +32,11 @@ describe Agents::DestroyService do
 
     it 'update assigned conversations when removed from account' do
       expect(user.assigned_conversations.where(account: account).length).to eq 11
-      time_to_unassign = Benchmark.measure { user.assigned_conversations.where(account: account).find_each(&:update_assignee) }
       Conversation.update(assignee: user)
-      expect(user.assigned_conversations.where(account: account).length).to eq 11
-      time_to_perform = Benchmark.measure { described_class.new(account: account, user: user).send(:unassign_conversations) }
+
+      described_class.new(account: account, user: user).send(:unassign_conversations)
       user.reload
       expect(user.assigned_conversations.where(account: account).length).to eq 0
-      expect(time_to_perform.real < time_to_unassign.real).to be_truthy
     end
   end
 end

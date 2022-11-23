@@ -30,6 +30,6 @@ class Agents::DestroyService
   end
 
   def unassign_conversations
-    user.assigned_conversations.where(account: account).update_all(assignee_id: nil)
+    user.assigned_conversations.where(account: account).update(assignee_id: nil)
   end
 end
