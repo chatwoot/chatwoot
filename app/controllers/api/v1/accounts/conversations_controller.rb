@@ -90,7 +90,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @conversation.update_column(:assignee_last_seen_at, last_seen_at)
       # rubocop:enable Rails/SkipsModelValidations
     end
-    head :ok
+    render
   end
 
   def custom_attributes
