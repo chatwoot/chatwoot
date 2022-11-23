@@ -201,7 +201,6 @@ export default {
     return {
       message: '',
       isFocused: false,
-      richContentEditorSelection: null,
       showEmojiPicker: false,
       showMentions: false,
       attachedFiles: [],
