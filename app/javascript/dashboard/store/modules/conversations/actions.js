@@ -8,6 +8,7 @@ import {
   buildConversationList,
   isOnMentionsView,
 } from './helpers/actionHelpers';
+import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 // actions
 const actions = {
@@ -262,9 +263,23 @@ const actions = {
       const {
         data: { id, agent_last_seen_at: lastSeen },
       } = await ConversationApi.markMessageRead(data);
-      setTimeout(() => commit(types.MARK_MESSAGE_READ, { id, lastSeen }), 4000);
+      setTimeout(
+        () => commit(types.UPDATE_MESSAGE_UNREAD_COUNT, { id, lastSeen }),
+        4000
+      );
     } catch (error) {
       // Handle error
+    }
+  },
+
+  markMessagesUnread: async ({ commit }, { id }) => {
+    try {
+      const {
+        data: { agent_last_seen_at: lastSeen, unread_count: unreadCount },
+      } = await ConversationApi.markMessagesUnread({ id });
+      commit(types.UPDATE_MESSAGE_UNREAD_COUNT, { id, lastSeen, unreadCount });
+    } catch (error) {
+      throwErrorMessage(error);
     }
   },
 

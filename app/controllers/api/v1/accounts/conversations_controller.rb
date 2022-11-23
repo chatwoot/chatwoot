@@ -75,22 +75,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen
-    # rubocop:disable Rails/SkipsModelValidations
-    @conversation.update_column(:agent_last_seen_at, DateTime.now.utc)
-    @conversation.update_column(:assignee_last_seen_at, DateTime.now.utc) if assignee?
-    # rubocop:enable Rails/SkipsModelValidations
+    update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
 
   def unread
     last_incoming_message = @conversation.messages.incoming.last
-    if last_incoming_message.present?
-      last_seen_at = last_incoming_message.created_at - 1.second
-      # rubocop:disable Rails/SkipsModelValidations
-      @conversation.update_column(:agent_last_seen_at, last_seen_at)
-      @conversation.update_column(:assignee_last_seen_at, last_seen_at)
-      # rubocop:enable Rails/SkipsModelValidations
-    end
-    render
+    last_seen_at = last_incoming_message.created_at - 1.second if last_incoming_message.present?
+    update_last_seen_on_conversation(last_seen_at, true)
   end
 
   def custom_attributes
@@ -99,6 +90,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   private
+
+  def update_last_seen_on_conversation(last_seen_at, update_assignee)
+    # rubocop:disable Rails/SkipsModelValidations
+    @conversation.update_column(:agent_last_seen_at, last_seen_at)
+    @conversation.update_column(:assignee_last_seen_at, last_seen_at) if update_assignee.present?
+    # rubocop:enable Rails/SkipsModelValidations
+  end
 
   def set_conversation_status
     status = params[:status] == 'bot' ? 'pending' : params[:status]
