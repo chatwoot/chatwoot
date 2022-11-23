@@ -8,8 +8,7 @@ import {
   buildConversationList,
   isOnMentionsView,
 } from './helpers/actionHelpers';
-import { throwErrorMessage } from 'dashboard/store/utils/api';
-
+import messageReadActions from './actions/messageReadActions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -258,31 +257,6 @@ const actions = {
     dispatch('contacts/setContact', sender);
   },
 
-  markMessagesRead: async ({ commit }, data) => {
-    try {
-      const {
-        data: { id, agent_last_seen_at: lastSeen },
-      } = await ConversationApi.markMessageRead(data);
-      setTimeout(
-        () => commit(types.UPDATE_MESSAGE_UNREAD_COUNT, { id, lastSeen }),
-        4000
-      );
-    } catch (error) {
-      // Handle error
-    }
-  },
-
-  markMessagesUnread: async ({ commit }, { id }) => {
-    try {
-      const {
-        data: { agent_last_seen_at: lastSeen, unread_count: unreadCount },
-      } = await ConversationApi.markMessagesUnread({ id });
-      commit(types.UPDATE_MESSAGE_UNREAD_COUNT, { id, lastSeen, unreadCount });
-    } catch (error) {
-      throwErrorMessage(error);
-    }
-  },
-
   setChatFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
   },
@@ -351,6 +325,7 @@ const actions = {
   clearConversationFilters({ commit }) {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
+  ...messageReadActions,
 };
 
 export default actions;
