@@ -60,12 +60,12 @@
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
+        :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
-        @selection-change="onRichContentEditorSelectionChange"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
       />
@@ -217,6 +217,7 @@ export default {
       ccEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
+      updateEditorSelectionWith: '',
     };
   },
   computed: {
@@ -710,9 +711,6 @@ export default {
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
-    onRichContentEditorSelectionChange(selection) {
-      this.richContentEditorSelection = selection;
-    },
     insertEmoji(emoji, selectionStart, selectionEnd) {
       const { message } = this;
       const newMessage =
@@ -722,13 +720,9 @@ export default {
       this.message = newMessage;
     },
     emojiOnClick(emoji) {
-      if (this.showRichContentEditor && this.richContentEditorSelection) {
-        const {
-          from: selectionStart,
-          to: selectionEnd,
-        } = this.richContentEditorSelection;
-        this.insertEmoji(emoji, selectionStart - 1, selectionEnd - 1);
-        this.richContentEditorSelection = null;
+      if (this.showRichContentEditor) {
+        this.updateEditorSelectionWith = emoji;
+        this.onFocus();
       }
       if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;

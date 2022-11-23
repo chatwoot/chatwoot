@@ -65,6 +65,7 @@ export default {
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     enableSuggestions: { type: Boolean, default: true },
+    updateSelectionWith: { type: String, default: '' },
   },
   data() {
     return {
@@ -162,6 +163,22 @@ export default {
     isPrivate() {
       this.reloadState();
     },
+
+    updateSelectionWith() {
+      if (!this.editorView) {
+        return null;
+      }
+      if (this.updateSelectionWith !== '') {
+        const node = this.editorView.state.schema.text(
+          this.updateSelectionWith
+        );
+        const tr = this.editorView.state.tr.replaceSelectionWith(node);
+        this.editorView.focus();
+        this.state = this.editorView.state.apply(tr);
+        this.emitOnChange();
+      }
+      return null;
+    },
   },
   created() {
     this.state = createState(this.value, this.placeholder, this.plugins);
@@ -217,11 +234,6 @@ export default {
 
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();
-    },
-    onSelectionChange() {
-      const { tr } = this.editorView.state;
-      const selection = Selection.findFrom(tr.selection.$from, 1, true);
-      this.$emit('selection-change', selection);
     },
     insertMentionNode(mentionItem) {
       if (!this.editorView) {
@@ -296,7 +308,6 @@ export default {
     onBlur() {
       this.turnOffIdleTimer();
       this.resetTyping();
-      this.onSelectionChange();
       this.$emit('blur');
     },
     onFocus() {
