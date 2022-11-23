@@ -416,7 +416,8 @@
       "CAMPAIGN": "קמפיין",
       "PRE_CHAT_FORM": "טופס צ'אט מקדים",
       "BUSINESS_HOURS": "שעות פעילות",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "הגדרות",
     "FEATURES": {

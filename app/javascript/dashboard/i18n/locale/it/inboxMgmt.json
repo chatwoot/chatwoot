@@ -416,7 +416,8 @@
       "CAMPAIGN": "Campagne",
       "PRE_CHAT_FORM": "Modulo pre-chat",
       "BUSINESS_HOURS": "Ore di lavoro",
-      "WIDGET_BUILDER": "Costruttore Widget"
+      "WIDGET_BUILDER": "Costruttore Widget",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Impostazioni",
     "FEATURES": {
