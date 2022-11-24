@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "تحديد كمعلق",
       "RESOLVED": "تحديد كمحلولة",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
         "TITLE": "غفوة",
