@@ -131,9 +131,6 @@ export default {
   watch: {
     search() {
       this.selectedKey = 'Search';
-      this.$nextTick(() => {
-        this.$refs.searchbar.focus();
-      });
     },
   },
   mounted() {
