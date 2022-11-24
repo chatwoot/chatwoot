@@ -68,6 +68,7 @@ export const conversationListPageURL = ({
   inboxId,
   label,
   teamId,
+  customViewId,
 }) => {
   let url = `accounts/${accountId}/dashboard`;
   if (label) {
@@ -78,6 +79,8 @@ export const conversationListPageURL = ({
     url = `accounts/${accountId}/mentions/conversations`;
   } else if (inboxId) {
     url = `accounts/${accountId}/inbox/${inboxId}`;
+  } else if (customViewId) {
+    url = `accounts/${accountId}/custom_view/${customViewId}`;
   }
   return frontendURL(url);
 };
