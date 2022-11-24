@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "เปิดการสนทนาอีกครั้ง",
       "SNOOZE": {
         "TITLE": "Snooze",
