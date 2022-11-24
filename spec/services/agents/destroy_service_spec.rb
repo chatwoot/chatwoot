@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Agents::DestroyService do
+  include ActiveJob::TestHelper
   let!(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   let(:team1) { create(:team, account: account) }
@@ -14,7 +15,9 @@ describe Agents::DestroyService do
 
   describe '#perform' do
     it 'remove inboxes, teams, and conversations when removed from account' do
-      described_class.new(account: account, user: user).perform
+      perform_enqueued_jobs do
+        described_class.new(account: account, user: user).perform
+      end
       user.reload
       expect(user.teams.length).to eq 0
       expect(user.inboxes.length).to eq 0
