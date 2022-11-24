@@ -30,6 +30,6 @@ class Agents::DestroyService
   end
 
   def unassign_conversations
-    user.assigned_conversations.where(account: account).in_batches.update(assignee_id: nil)
+    Conversations::UnassignConversationJob.perform_later(user, account)
   end
 end

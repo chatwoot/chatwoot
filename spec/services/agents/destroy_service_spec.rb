@@ -22,21 +22,4 @@ describe Agents::DestroyService do
       expect(user.assigned_conversations.where(account: account).length).to eq 0
     end
   end
-
-  describe '#performance perform' do
-    before do
-      10.times do |_i|
-        create(:conversation, account: account, assignee: user, inbox: inbox)
-      end
-    end
-
-    it 'update assigned conversations when removed from account' do
-      expect(user.assigned_conversations.where(account: account).length).to eq 11
-      Conversation.update(assignee: user)
-
-      described_class.new(account: account, user: user).send(:unassign_conversations)
-      user.reload
-      expect(user.assigned_conversations.where(account: account).length).to eq 0
-    end
-  end
 end
