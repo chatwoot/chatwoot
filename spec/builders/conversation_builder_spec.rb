@@ -31,7 +31,8 @@ describe ::ConversationBuilder do
         expect(conversation.contact_inbox_id).to eq(contact_inbox.id)
       end
 
-      it 'returns existing conversation when existing conversation is not present' do
+      it 'returns last from existing conversations when existing conversation is not present' do
+        create(:conversation, contact_inbox: contact_inbox)
         existing_conversation = create(:conversation, contact_inbox: contact_inbox)
         conversation = described_class.new(
           contact_inbox: contact_inbox,
