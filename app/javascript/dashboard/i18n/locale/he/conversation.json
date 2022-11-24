@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "סמן כממתין",
       "RESOLVED": "סמן כפתור",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "פתח מחדש את השיחה",
       "SNOOZE": {
         "TITLE": "נודניק",
