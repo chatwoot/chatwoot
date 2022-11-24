@@ -416,7 +416,8 @@
       "CAMPAIGN": "Καμπάνιες",
       "PRE_CHAT_FORM": "Φόρμα Προ-Συνομιλίας",
       "BUSINESS_HOURS": "Ώρες Εργασίας",
-      "WIDGET_BUILDER": "Δημιουργός Widget"
+      "WIDGET_BUILDER": "Δημιουργός Widget",
+      "BOT_CONFIGURATION": "Ρυθμίσεις Bot"
     },
     "SETTINGS": "Ρυθμίσεις",
     "FEATURES": {
