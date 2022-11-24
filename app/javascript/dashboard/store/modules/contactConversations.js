@@ -89,11 +89,18 @@ export const mutations = {
   },
   [types.default.ADD_CONTACT_CONVERSATION]: ($state, { id, data }) => {
     const conversations = $state.records[id] || [];
-    const updatedConversations = conversations.map(conversation => {
-      return conversation.id === data.id
-        ? { ...conversation, ...data }
-        : conversation;
-    });
+
+    const updatedConversations = [...conversations];
+    const index = conversations.findIndex(
+      conversation => conversation.id === data.id
+    );
+
+    if (index !== -1) {
+      updatedConversations[index] = { ...conversations[index], ...data };
+    } else {
+      updatedConversations.push(data);
+    }
+
     Vue.set($state.records, id, updatedConversations);
   },
   [types.default.DELETE_CONTACT_CONVERSATION]: ($state, id) => {
