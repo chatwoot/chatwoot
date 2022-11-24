@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Σήμανση ως εκκρεμής",
       "RESOLVED": "Σήμανση ως επιλυμένου",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Άνοιγμα συνομιλίας",
       "SNOOZE": {
         "TITLE": "Αναβολή",
