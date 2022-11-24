@@ -416,7 +416,8 @@
       "CAMPAIGN": "Kampanje",
       "PRE_CHAT_FORM": "Formular pre ćaskanja",
       "BUSINESS_HOURS": "Radno vreme",
-      "WIDGET_BUILDER": "Izgrađivač vidžeta"
+      "WIDGET_BUILDER": "Izgrađivač vidžeta",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Podešavanja",
     "FEATURES": {

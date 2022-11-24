@@ -11,20 +11,20 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#MARK_MESSAGE_READ', () => {
+  describe('#UPDATE_MESSAGE_UNREAD_COUNT', () => {
     it('mark conversation as read', () => {
       const state = { allConversations: [{ id: 1 }] };
       const lastSeen = new Date().getTime() / 1000;
-      mutations[types.MARK_MESSAGE_READ](state, { id: 1, lastSeen });
+      mutations[types.UPDATE_MESSAGE_UNREAD_COUNT](state, { id: 1, lastSeen });
       expect(state.allConversations).toEqual([
-        { id: 1, agent_last_seen_at: lastSeen },
+        { id: 1, agent_last_seen_at: lastSeen, unread_count: 0 },
       ]);
     });
 
     it('doesnot send any mutation if chat doesnot exist', () => {
       const state = { allConversations: [] };
       const lastSeen = new Date().getTime() / 1000;
-      mutations[types.MARK_MESSAGE_READ](state, { id: 1, lastSeen });
+      mutations[types.UPDATE_MESSAGE_UNREAD_COUNT](state, { id: 1, lastSeen });
       expect(state.allConversations).toEqual([]);
     });
   });

@@ -1,6 +1,8 @@
+import Vue from 'vue';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import AgentBotsAPI from '../../api/agentBots';
+import InboxesAPI from '../../api/inboxes';
 import { throwErrorMessage } from '../utils/api';
 
 export const state = {
@@ -11,7 +13,10 @@ export const state = {
     isCreating: false,
     isDeleting: false,
     isUpdating: false,
+    isFetchingAgentBot: false,
+    isSettingAgentBot: false,
   },
+  agentBotInbox: {},
 };
 
 export const getters = {
@@ -24,6 +29,10 @@ export const getters = {
   getBot: $state => botId => {
     const [bot] = $state.records.filter(record => record.id === Number(botId));
     return bot || {};
+  },
+  getActiveAgentBot: $state => inboxId => {
+    const associatedAgentBotId = $state.agentBotInbox[Number(inboxId)];
+    return getters.getBot($state)(associatedAgentBotId);
   },
 };
 
@@ -44,11 +53,13 @@ export const actions = {
     try {
       const response = await AgentBotsAPI.create(agentBotObj);
       commit(types.ADD_AGENT_BOT, response.data);
+      return response.data;
     } catch (error) {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isCreating: false });
     }
+    return null;
   },
   update: async ({ commit }, { id, ...agentBotObj }) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: true });
@@ -76,11 +87,36 @@ export const actions = {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingItem: true });
     try {
       const { data } = await AgentBotsAPI.show(id);
-      commit(types.DELETE_AGENT_BOT, data);
+      commit(types.ADD_AGENT_BOT, data);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingItem: false });
+    }
+  },
+
+  fetchAgentBotInbox: async ({ commit }, inboxId) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingAgentBot: true });
+    try {
+      const { data } = await InboxesAPI.getAgentBot(inboxId);
+      const { agent_bot: agentBot = {} } = data || {};
+      commit(types.SET_AGENT_BOT_INBOX, { agentBotId: agentBot.id, inboxId });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingAgentBot: false });
+    }
+  },
+
+  setAgentBotInbox: async ({ commit }, { inboxId, botId }) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isSettingAgentBot: true });
+    try {
+      await InboxesAPI.setAgentBot(inboxId, botId);
+      commit(types.SET_AGENT_BOT_INBOX, { agentBotId: botId, inboxId });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isSettingAgentBot: false });
     }
   },
 };
@@ -92,10 +128,13 @@ export const mutations = {
       ...data,
     };
   },
-  [types.ADD_AGENT_BOT]: MutationHelpers.create,
+  [types.ADD_AGENT_BOT]: MutationHelpers.setSingleRecord,
   [types.SET_AGENT_BOTS]: MutationHelpers.set,
   [types.EDIT_AGENT_BOT]: MutationHelpers.update,
   [types.DELETE_AGENT_BOT]: MutationHelpers.destroy,
+  [types.SET_AGENT_BOT_INBOX]($state, { agentBotId, inboxId }) {
+    Vue.set($state.agentBotInbox, inboxId, agentBotId);
+  },
 };
 
 export default {
