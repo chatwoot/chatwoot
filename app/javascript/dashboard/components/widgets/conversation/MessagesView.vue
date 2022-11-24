@@ -44,11 +44,11 @@
         "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
-      <li v-show="getUnreadCount != 0" class="unread--toast">
+      <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span class="text-uppercase">
-          {{ getUnreadCount }}
+          {{ unreadMessageCount }}
           {{
-            getUnreadCount > 1
+            unreadMessageCount > 1
               ? $t('CONVERSATION.UNREAD_MESSAGES')
               : $t('CONVERSATION.UNREAD_MESSAGE')
           }}
@@ -137,7 +137,6 @@ export default {
       allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
-      getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
     }),
     inboxId() {
@@ -271,6 +270,9 @@ export default {
       }
       return '';
     },
+    unreadMessageCount() {
+      return this.currentChat.unread_count;
+    },
   },
 
   watch: {
@@ -331,7 +333,7 @@ export default {
     },
     scrollToBottom() {
       let relevantMessages = [];
-      if (this.getUnreadCount > 0) {
+      if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
         relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
