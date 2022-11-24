@@ -23,6 +23,13 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
       expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
       job.perform_now(params)
     end
+
+    it 'will not enques Whatsapp::IncomingMessageWhatsappCloudService if channel reauthorization required' do
+      channel.prompt_reauthorization!
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      job.perform_now(params)
+    end
   end
 
   context 'when default provider' do
