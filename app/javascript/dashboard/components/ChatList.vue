@@ -126,6 +126,7 @@
         @assign-label="onAssignLabels"
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
+        @mark-as-unread="markAsUnread"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -185,6 +186,7 @@ import {
   hasPressedAltAndJKey,
   hasPressedAltAndKKey,
 } from 'shared/helpers/KeyboardHelpers';
+import { conversationListPageURL } from '../helper/URLHelper';
 
 export default {
   components: {
@@ -635,6 +637,29 @@ export default {
         }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async markAsUnread(conversationId) {
+      try {
+        await this.$store.dispatch('markMessagesUnread', {
+          id: conversationId,
+        });
+        const {
+          params: { accountId, inbox_id: inboxId, label, teamId },
+          name,
+        } = this.$route;
+        this.$router.push(
+          conversationListPageURL({
+            accountId,
+            conversationType: name === 'conversation_mentions' ? 'mention' : '',
+            customViewId: this.foldersId,
+            inboxId,
+            label,
+            teamId,
+          })
+        );
+      } catch (error) {
+        // Ignore error
       }
     },
     async onAssignTeam(team, conversationId = null) {
