@@ -5150,6 +5150,10 @@
           "type": "string",
           "description": "Welcome tagline to be displayed on the widget"
         },
+        "csat_message": {
+          "type": "string",
+          "description": "Welcome tagline to be displayed on the widget"
+        },
         "greeting_enabled": {
           "type": "boolean",
           "description": "The flag which shows whether greeting is enabled"

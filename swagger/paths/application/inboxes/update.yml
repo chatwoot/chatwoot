@@ -41,6 +41,9 @@ patch:
               welcome_tagline:
                 type: string
                 description: Welcome tagline to be displayed on the widget
+              csat_message:
+                type: string
+                description: CSAT Message
               agent_away_message:
                 type: string
                 description: A message which will be sent if there is not agent available. This is not available if agentbot is connected

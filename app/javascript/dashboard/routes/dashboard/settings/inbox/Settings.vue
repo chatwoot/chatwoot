@@ -97,6 +97,23 @@
           "
         />
 
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
+          {{ $t('INBOX_MGMT.CSAT_MESSSAGE.LABEL') }}
+         <greetings-editor
+          v-if="isAWebWidgetInbox"
+          v-model.trim="channelCsatMessage"
+          :label="
+            $t('INBOX_MGMT.CSAT_MESSSAGE.LABEL')
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.CSAT_MESSSAGE.PLACEHOLDER'
+            )
+          "
+            :richtext="!textAreaChannels"
+          />
+        </label>
+
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWelcomeTagline"
@@ -381,6 +398,7 @@ export default {
       webhookUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
+      channelCsatMessage: '',
       selectedFeatureFlags: [],
       replyTime: '',
       selectedTabIndex: 0,
@@ -545,6 +563,7 @@ export default {
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
+        this.channelCsatMessage = this.inbox.csat_message;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
       });
@@ -559,6 +578,7 @@ export default {
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
+          csat_message: this.channelCsatMessage || '',
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
