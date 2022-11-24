@@ -132,9 +132,12 @@ export default {
     search() {
       this.selectedKey = 'Search';
     },
+    selectedKey() {
+      return this.selectedKey === 'Search' ? this.focusSearchInput() : null;
+    },
   },
   mounted() {
-    this.$refs.searchbar.focus();
+    this.focusSearchInput();
   },
   methods: {
     changeCategory(category) {
@@ -146,6 +149,9 @@ export default {
         category.name === categoryName ? category : null
       );
       return categoryItem ? categoryItem.emojis[0].emoji : '';
+    },
+    focusSearchInput() {
+      this.$refs.searchbar.focus();
     },
   },
 };
