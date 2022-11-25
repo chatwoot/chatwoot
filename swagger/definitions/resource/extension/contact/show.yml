@@ -1,9 +1,0 @@
-type: object
-properties:
-  id:
-    type: number
-    description: Id of the user
-  availability_status:
-    type: string
-    enum: ['online', 'offline']
-    description: Availability status of the user
