@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "保留としてマークする",
       "RESOLVED": "解決済みとしてマークする",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
         "TITLE": "スヌーズ",
