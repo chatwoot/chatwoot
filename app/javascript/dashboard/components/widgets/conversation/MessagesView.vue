@@ -431,7 +431,7 @@ export default {
       position: fixed;
       left: unset;
       position: absolute;
-      bottom: -4px;
+      bottom: var(--space-smaller);
     }
   }
 }

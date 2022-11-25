@@ -187,40 +187,47 @@ $color-text-light: #c9d7e3;
   border-radius: $space-small;
   box-sizing: content-box;
   height: 300px;
-  overflow-y: hidden;
   position: absolute;
   right: 0;
   top: -95px;
   width: 320px;
   z-index: 1;
-  .emoji-list--wrap {
-    display: flex;
-    flex-direction: column;
+
+  &::before {
+    @include arrow(bottom, $color-white, $space-slab);
+    bottom: -$space-slab;
+    position: absolute;
+    right: $space-two;
   }
+}
+
+.emoji-list--wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.emoji--item {
+  background: transparent;
+  border: 0;
+  border-radius: $space-smaller;
+  cursor: pointer;
+  font-size: $font-size-medium;
+  height: $space-medium;
+  margin: 0;
+  padding: 0 $space-smaller;
+
+  &:hover {
+    background: $color-bg;
+  }
+}
+
+.emoji--row {
+  box-sizing: border-box;
+  padding: $space-smaller;
 
   .emoji--item {
-    background: transparent;
-    border: 0;
-    border-radius: $space-smaller;
-    cursor: pointer;
-    font-size: $font-size-medium;
-    height: $space-medium;
-    margin: 0;
-    padding: 0 $space-smaller;
-
-    &:hover {
-      background: $color-bg;
-    }
-  }
-
-  .emoji--row {
-    box-sizing: border-box;
-    padding: $space-smaller;
-
-    .emoji--item {
-      line-height: 1.5;
-      margin: $space-smaller;
-    }
+    line-height: 1.5;
+    margin: $space-smaller;
   }
 }
 

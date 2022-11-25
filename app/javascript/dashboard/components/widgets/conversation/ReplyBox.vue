@@ -399,7 +399,7 @@ export default {
       return conversationDisplayType !== CONDENSED;
     },
     emojiDialogClassOnExpanedLayout() {
-      return this.isOnExpandedLayout && !this.popoutReplyBox
+      return this.isOnExpandedLayout || this.popoutReplyBox
         ? 'emoji-dialog--expanded'
         : '';
     },
@@ -965,15 +965,28 @@ export default {
 
 .emoji-dialog {
   top: unset;
-  bottom: 12px;
-  left: -310px;
+  bottom: var(--space-slab);
+  left: -320px;
   right: unset;
+
+  &::before {
+    right: var(--space-minus-normal);
+    bottom: var(--space-one);
+    transform: rotate(270deg);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
 }
 .emoji-dialog--expanded {
   left: unset;
   bottom: var(--space-jumbo);
   position: absolute;
   z-index: var(--z-index-normal);
+
+  &::before {
+    transform: rotate(0deg);
+    left: var(--space-half);
+    bottom: var(--space-minus-one);
+  }
 }
 .message-signature {
   margin-bottom: 0;

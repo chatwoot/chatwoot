@@ -193,6 +193,10 @@ export default {
   right: 0;
   top: -302px;
   max-width: 100%;
+
+  &::before {
+    right: $space-one;
+  }
 }
 
 .button-wrap {
