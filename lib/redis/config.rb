@@ -5,6 +5,15 @@ module Redis::Config
       config
     end
 
+    def redis_ssl_verify_mode
+      # Introduced this method to fix the issue in heroku where redis connections fail for redis 6
+      # ref: https://github.com/chatwoot/chatwoot/issues/2420
+      #
+      # unless the redis verify mode is explicitly specified as none, we will fall back to the default 'verify peer'
+      # ref: https://www.rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLContext#DEFAULT_PARAMS-constant
+      ENV['REDIS_OPENSSL_VERIFY_MODE'] == 'none' ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+    end
+
     def config
       @config ||= sentinel? ? sentinel_config : base_config
     end
@@ -13,7 +22,7 @@ module Redis::Config
       {
         url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
         password: ENV.fetch('REDIS_PASSWORD', nil).presence,
-        ssl_params: { verify_mode: Chatwoot.redis_ssl_verify_mode },
+        ssl_params: { verify_mode: redis_ssl_verify_mode },
         reconnect_attempts: 2,
         network_timeout: 5
       }
