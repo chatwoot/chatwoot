@@ -83,6 +83,7 @@
 <script>
 import emojis from './emojisGroup.json';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+const SEARCH_KEY = 'Search';
 
 export default {
   components: { FluentIcon },
@@ -101,7 +102,7 @@ export default {
   },
   computed: {
     categories() {
-      return this.emojis.map(category => category);
+      return [...this.emojis];
     },
     filterEmojisByCategory() {
       const selectedCategoryName = this.emojis.find(category =>
@@ -112,7 +113,7 @@ export default {
     filterAllEmojisBySearch() {
       return this.emojis.map(category => {
         const allEmojis = category.emojis.filter(emoji =>
-          emoji.name.includes(this.search)
+          emoji.slug.replaceAll('_', ' ').includes(this.search)
         );
         return allEmojis.length > 0
           ? { ...category, emojis: allEmojis }
@@ -120,7 +121,7 @@ export default {
       });
     },
     hasNoSearch() {
-      return this.selectedKey !== 'Search' && this.search === '';
+      return this.selectedKey !== SEARCH_KEY && this.search === '';
     },
     hasEmptySearchResult() {
       return this.filterAllEmojisBySearch.every(
@@ -156,7 +157,7 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 /**
  * All the units used below are pixels due to variable name conflict in widget and dashboard
  **/
@@ -189,7 +190,7 @@ $color-text-light: #c9d7e3;
   overflow-y: hidden;
   position: absolute;
   right: 0;
-  top: -220px;
+  top: -95px;
   width: 320px;
   z-index: 1;
   .emoji-list--wrap {

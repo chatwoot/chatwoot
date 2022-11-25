@@ -130,7 +130,6 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
@@ -160,6 +159,8 @@ import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
+
+const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   components: {

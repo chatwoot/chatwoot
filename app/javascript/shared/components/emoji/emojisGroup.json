@@ -11,42 +11,42 @@
       {
         "emoji": "😃",
         "name": "grinning face with big eyes",
-        "slug": "grinning_face_with_big_eyes"
+        "slug": "grinning_face_with_big_eyes_mouth_open_smile"
       },
       {
         "emoji": "😄",
         "name": "grinning face with smiling eyes",
-        "slug": "grinning_face_with_smiling_eyes"
+        "slug": "grinning_face_with_smiling_eyes_mouth_open_smile"
       },
       {
         "emoji": "😁",
         "name": "beaming face with smiling eyes",
-        "slug": "beaming_face_with_smiling_eyes"
+        "slug": "beaming_face_with_smiling_eyes_grin_smile"
       },
       {
         "emoji": "😆",
         "name": "grinning squinting face",
-        "slug": "grinning_squinting_face"
+        "slug": "grinning_squinting_face_laugh_mouth_satisfied_smile"
       },
       {
         "emoji": "😅",
         "name": "grinning face with sweat",
-        "slug": "grinning_face_with_sweat"
+        "slug": "grinning_face_with_sweat_open_smile_sweating"
       },
       {
         "emoji": "🤣",
         "name": "rolling on the floor laughing",
-        "slug": "rolling_on_the_floor_laughing"
+        "slug": "rolling_on_the_floor_laughing_laugh_floor_rofl"
       },
       {
         "emoji": "😂",
         "name": "face with tears of joy",
-        "slug": "face_with_tears_of_joy"
+        "slug": "face_with_tears_of_joy_laugh"
       },
       {
         "emoji": "🙂",
         "name": "slightly smiling face",
-        "slug": "slightly_smiling_face"
+        "slug": "slightly_smiling_face_smile"
       },
       {
         "emoji": "🙃",
@@ -56,7 +56,7 @@
       {
         "emoji": "🫠",
         "name": "melting face",
-        "slug": "melting_face"
+        "slug": "melting_face_disappear_dissolve_melt_liquid"
       },
       {
         "emoji": "😉",
@@ -66,27 +66,27 @@
       {
         "emoji": "😊",
         "name": "smiling face with smiling eyes",
-        "slug": "smiling_face_with_smiling_eyes"
+        "slug": "smiling_face_with_smiling_eyes_blush"
       },
       {
         "emoji": "😇",
         "name": "smiling face with halo",
-        "slug": "smiling_face_with_halo"
+        "slug": "smiling_face_with_halo_angel_fantasy_innocent"
       },
       {
         "emoji": "🥰",
         "name": "smiling face with hearts",
-        "slug": "smiling_face_with_hearts"
+        "slug": "smiling_face_with_hearts_adore_crush_in_love"
       },
       {
         "emoji": "😍",
         "name": "smiling face with heart-eyes",
-        "slug": "smiling_face_with_heart_eyes"
+        "slug": "smiling_face_with_heart_eyes_love"
       },
       {
         "emoji": "🤩",
         "name": "star-struck",
-        "slug": "star_struck"
+        "slug": "star_struck_starry_eyed_grinning_face"
       },
       {
         "emoji": "😘",
@@ -111,12 +111,12 @@
       {
         "emoji": "🥲",
         "name": "smiling face with tear",
-        "slug": "smiling_face_with_tear"
+        "slug": "smiling_face_with_tear_grateful_proud_relieved_touched"
       },
       {
         "emoji": "😋",
         "name": "face savoring food",
-        "slug": "face_savoring_food"
+        "slug": "face_savoring_food_delicious_yum_tongue_savouring"
       },
       {
         "emoji": "😛",
@@ -126,17 +126,17 @@
       {
         "emoji": "😜",
         "name": "winking face with tongue",
-        "slug": "winking_face_with_tongue"
+        "slug": "winking_face_with_tongue_eye_joke_wink "
       },
       {
         "emoji": "🤪",
         "name": "zany face",
-        "slug": "zany_face"
+        "slug": "zany_face_eye_goofy_large_small "
       },
       {
         "emoji": "😝",
         "name": "squinting face with tongue",
-        "slug": "squinting_face_with_tongue"
+        "slug": "squinting_face_with_tongue_eye_face_horrible_tongue"
       },
       {
         "emoji": "🤑",
@@ -146,27 +146,27 @@
       {
         "emoji": "🤗",
         "name": "smiling face with open hands",
-        "slug": "smiling_face_with_open_hands"
+        "slug": "smiling_face_with_open_hands_hug_hugging_open_hands"
       },
       {
         "emoji": "🤭",
         "name": "face with hand over mouth",
-        "slug": "face_with_hand_over_mouth"
+        "slug": "face_with_hand_over_mouth_whoops_shock_sudden_realization_surprise"
       },
       {
         "emoji": "🫢",
         "name": "face with open eyes and hand over mouth",
-        "slug": "face_with_open_eyes_and_hand_over_mouth"
+        "slug": "face_with_open_eyes_and_hand_over_mouth_amazement_awe_disbelief_embarrass_scared_surprise"
       },
       {
         "emoji": "🫣",
         "name": "face with peeking eye",
-        "slug": "face_with_peeking_eye"
+        "slug": "face_with_peeking_eye_captivated_peep_stare"
       },
       {
         "emoji": "🤫",
         "name": "shushing face",
-        "slug": "shushing_face"
+        "slug": "shushing_face_quiet_silence"
       },
       {
         "emoji": "🤔",
@@ -176,7 +176,7 @@
       {
         "emoji": "🫡",
         "name": "saluting face",
-        "slug": "saluting_face"
+        "slug": "saluting_face_ok_salute_sunny_troops_yes"
       },
       {
         "emoji": "🤐",
@@ -186,32 +186,32 @@
       {
         "emoji": "🤨",
         "name": "face with raised eyebrow",
-        "slug": "face_with_raised_eyebrow"
+        "slug": "face_with_raised_eyebrow_distrust_skeptic_disapproval_disbelief_mild_surprise_skepticism"
       },
       {
         "emoji": "😐",
         "name": "neutral face",
-        "slug": "neutral_face"
+        "slug": "neutral_face_deadpan_meh"
       },
       {
         "emoji": "😑",
         "name": "expressionless face",
-        "slug": "expressionless_face"
+        "slug": "expressionless_face_inexpressive_meh_unexpressive"
       },
       {
         "emoji": "😶",
         "name": "face without mouth",
-        "slug": "face_without_mouth"
+        "slug": "face_without_mouth_quiet_silent"
       },
       {
         "emoji": "🫥",
         "name": "dotted line face",
-        "slug": "dotted_line_face"
+        "slug": "dotted_line_face_depressed_disappear_introvert_invisible"
       },
       {
         "emoji": "😶‍🌫️",
         "name": "face in clouds",
-        "slug": "face_in_clouds"
+        "slug": "face_in_clouds_absentminded_fog"
       },
       {
         "emoji": "😏",
@@ -221,12 +221,12 @@
       {
         "emoji": "😒",
         "name": "unamused face",
-        "slug": "unamused_face"
+        "slug": "unamused_face_unhappy"
       },
       {
         "emoji": "🙄",
         "name": "face with rolling eyes",
-        "slug": "face_with_rolling_eyes"
+        "slug": "face_with_rolling_eyes_eyeroll"
       },
       {
         "emoji": "😬",
@@ -236,12 +236,12 @@
       {
         "emoji": "😮‍💨",
         "name": "face exhaling",
-        "slug": "face_exhaling"
+        "slug": "face_exhaling_exhale_relief_whisper_whistle_groan_gasp"
       },
       {
         "emoji": "🤥",
         "name": "lying face",
-        "slug": "lying_face"
+        "slug": "lying_face_lie_pinocchio"
       },
       {
         "emoji": "😌",
@@ -251,12 +251,12 @@
       {
         "emoji": "😔",
         "name": "pensive face",
-        "slug": "pensive_face"
+        "slug": "pensive_face_dejected"
       },
       {
         "emoji": "😪",
         "name": "sleepy face",
-        "slug": "sleepy_face"
+        "slug": "sleepy_face_good_night"
       },
       {
         "emoji": "🤤",
@@ -266,107 +266,107 @@
       {
         "emoji": "😴",
         "name": "sleeping face",
-        "slug": "sleeping_face"
+        "slug": "sleeping_face_zzz_good_night"
       },
       {
         "emoji": "😷",
         "name": "face with medical mask",
-        "slug": "face_with_medical_mask"
+        "slug": "face_with_medical_mask_cold_doctor_sick"
       },
       {
         "emoji": "🤒",
         "name": "face with thermometer",
-        "slug": "face_with_thermometer"
+        "slug": "face_with_thermometer_sick"
       },
       {
         "emoji": "🤕",
         "name": "face with head-bandage",
-        "slug": "face_with_head_bandage"
+        "slug": "face_with_head_bandage_hurt_injury"
       },
       {
         "emoji": "🤢",
         "name": "nauseated face",
-        "slug": "nauseated_face"
+        "slug": "nauseated_face_vomit"
       },
       {
         "emoji": "🤮",
         "name": "face vomiting",
-        "slug": "face_vomiting"
+        "slug": "face_vomiting_puke"
       },
       {
         "emoji": "🤧",
         "name": "sneezing face",
-        "slug": "sneezing_face"
+        "slug": "sneezing_face_gesundheit"
       },
       {
         "emoji": "🥵",
         "name": "hot face",
-        "slug": "hot_face"
+        "slug": "hot_face_feverish_heat_stroke_red_faced_sweating"
       },
       {
         "emoji": "🥶",
         "name": "cold face",
-        "slug": "cold_face"
+        "slug": "cold_face_blue-faced_frostbite_icicles"
       },
       {
         "emoji": "🥴",
         "name": "woozy face",
-        "slug": "woozy_face"
+        "slug": "woozy_face_dizzy_ intoxicated_tipsy_uneven_eyes_wavy_mouth"
       },
       {
         "emoji": "😵",
         "name": "face with crossed-out eyes",
-        "slug": "face_with_crossed_out_eyes"
+        "slug": "face_with_crossed_out_eyes_knocked_out"
       },
       {
         "emoji": "😵‍💫",
         "name": "face with spiral eyes",
-        "slug": "face_with_spiral_eyes"
+        "slug": "face_with_spiral_eyes_dizzy_hypnotized_spiral_trouble_whoa"
       },
       {
         "emoji": "🤯",
         "name": "exploding head",
-        "slug": "exploding_head"
+        "slug": "exploding_head_mind_blown_shocked"
       },
       {
         "emoji": "🤠",
         "name": "cowboy hat face",
-        "slug": "cowboy_hat_face"
+        "slug": "cowboy_hat_face_cowgirl"
       },
       {
         "emoji": "🥳",
         "name": "partying face",
-        "slug": "partying_face"
+        "slug": "partying_face_celebration_hat_horn_party"
       },
       {
         "emoji": "🥸",
         "name": "disguised face",
-        "slug": "disguised_face"
+        "slug": "disguised_face_glasses_incognito_nose"
       },
       {
         "emoji": "😎",
         "name": "smiling face with sunglasses",
-        "slug": "smiling_face_with_sunglasses"
+        "slug": "smiling_face_with_sunglasses_bright_cool_shades"
       },
       {
         "emoji": "🤓",
         "name": "nerd face",
-        "slug": "nerd_face"
+        "slug": "nerd_face_geek"
       },
       {
         "emoji": "🧐",
         "name": "face with monocle",
-        "slug": "face_with_monocle"
+        "slug": "face_with_monocle_stuffy_wealthy"
       },
       {
         "emoji": "😕",
         "name": "confused face",
-        "slug": "confused_face"
+        "slug": "confused_face_meh"
       },
       {
         "emoji": "🫤",
         "name": "face with diagonal mouth",
-        "slug": "face_with_diagonal_mouth"
+        "slug": "face_with_diagonal_mouth_disappointed_meh_skeptical_unsure"
       },
       {
         "emoji": "😟",
@@ -381,32 +381,32 @@
       {
         "emoji": "😮",
         "name": "face with open mouth",
-        "slug": "face_with_open_mouth"
+        "slug": "face_with_open_mouth_sympathy_surprise"
       },
       {
         "emoji": "😯",
         "name": "hushed face",
-        "slug": "hushed_face"
+        "slug": "hushed_face_stunned_hushed"
       },
       {
         "emoji": "😲",
         "name": "astonished face",
-        "slug": "astonished_face"
+        "slug": "astonished_face_shocked_totally"
       },
       {
         "emoji": "😳",
         "name": "flushed face",
-        "slug": "flushed_face"
+        "slug": "flushed_face_dazed"
       },
       {
         "emoji": "🥺",
         "name": "pleading face",
-        "slug": "pleading_face"
+        "slug": "pleading_face_angry_cry_proud_resist_sad"
       },
       {
         "emoji": "🥹",
         "name": "face holding back tears",
-        "slug": "face_holding_back_tears"
+        "slug": "face_holding_back_tears_frown_open_mouth"
       },
       {
         "emoji": "😦",
@@ -421,32 +421,32 @@
       {
         "emoji": "😨",
         "name": "fearful face",
-        "slug": "fearful_face"
+        "slug": "fearful_face_scared"
       },
       {
         "emoji": "😰",
         "name": "anxious face with sweat",
-        "slug": "anxious_face_with_sweat"
+        "slug": "anxious_face_with_sweat_cold_rushed"
       },
       {
         "emoji": "😥",
         "name": "sad but relieved face",
-        "slug": "sad_but_relieved_face"
+        "slug": "sad_but_relieved_face_disappointed_whew"
       },
       {
         "emoji": "😢",
         "name": "crying face",
-        "slug": "crying_face"
+        "slug": "crying_face_cry_sad_tear"
       },
       {
         "emoji": "😭",
         "name": "loudly crying face",
-        "slug": "loudly_crying_face"
+        "slug": "loudly_crying_face_sad_sob_tear"
       },
       {
         "emoji": "😱",
         "name": "face screaming in fear",
-        "slug": "face_screaming_in_fear"
+        "slug": "face_screaming_in_fear_munch_scared_scream"
       },
       {
         "emoji": "😖",
@@ -466,12 +466,12 @@
       {
         "emoji": "😓",
         "name": "downcast face with sweat",
-        "slug": "downcast_face_with_sweat"
+        "slug": "downcast_face_with_sweat_cold"
       },
       {
         "emoji": "😩",
         "name": "weary face",
-        "slug": "weary_face"
+        "slug": "weary_face_tired"
       },
       {
         "emoji": "😫",
@@ -481,52 +481,52 @@
       {
         "emoji": "🥱",
         "name": "yawning face",
-        "slug": "yawning_face"
+        "slug": "yawning_face_bored_yawn"
       },
       {
         "emoji": "😤",
         "name": "face with steam from nose",
-        "slug": "face_with_steam_from_nose"
+        "slug": "face_with_steam_from_nose_triumph_won"
       },
       {
         "emoji": "😡",
         "name": "enraged face",
-        "slug": "enraged_face"
+        "slug": "enraged_face_angry_enraged_mad_red_face"
       },
       {
         "emoji": "😠",
         "name": "angry face",
-        "slug": "angry_face"
+        "slug": "angry_face_mad"
       },
       {
         "emoji": "🤬",
         "name": "face with symbols on mouth",
-        "slug": "face_with_symbols_on_mouth"
+        "slug": "face_with_symbols_on_mouth_swearing_cursing"
       },
       {
         "emoji": "😈",
         "name": "smiling face with horns",
-        "slug": "smiling_face_with_horns"
+        "slug": "smiling_face_with_horns_fantasy_fairy_tail"
       },
       {
         "emoji": "👿",
         "name": "angry face with horns",
-        "slug": "angry_face_with_horns"
+        "slug": "angry_face_with_horns_demo_devil_fantasy"
       },
       {
         "emoji": "💀",
         "name": "skull",
-        "slug": "skull"
+        "slug": "skull_fairy_tail_skeleton_monster_death_face"
       },
       {
         "emoji": "☠️",
         "name": "skull and crossbones",
-        "slug": "skull_and_crossbones"
+        "slug": "skull_and_crossbones_death_pirate_monster_skeleton"
       },
       {
         "emoji": "💩",
         "name": "pile of poo",
-        "slug": "pile_of_poo"
+        "slug": "pile_of_poo_poop_dung_monster"
       },
       {
         "emoji": "🤡",
@@ -536,122 +536,122 @@
       {
         "emoji": "👹",
         "name": "ogre",
-        "slug": "ogre"
+        "slug": "ogre_fantasy_ogre_troll_creature_face"
       },
       {
         "emoji": "👺",
         "name": "goblin",
-        "slug": "goblin"
+        "slug": "goblin_creature_fantasy_goblin_monster_face"
       },
       {
         "emoji": "👻",
         "name": "ghost",
-        "slug": "ghost"
+        "slug": "ghost_face_monster_fantasy"
       },
       {
         "emoji": "👽",
         "name": "alien",
-        "slug": "alien"
+        "slug": "alien_creature_extraterrestrial_ufo_fantasy_face"
       },
       {
         "emoji": "👾",
         "name": "alien monster",
-        "slug": "alien_monster"
+        "slug": "alien_monster_face_monster_creature_ufo"
       },
       {
         "emoji": "🤖",
         "name": "robot",
-        "slug": "robot"
+        "slug": "robot_face_monster_robot"
       },
       {
         "emoji": "😺",
         "name": "grinning cat",
-        "slug": "grinning_cat"
+        "slug": "grinning_cat_face_open_mouth_smile"
       },
       {
         "emoji": "😸",
         "name": "grinning cat with smiling eyes",
-        "slug": "grinning_cat_with_smiling_eyes"
+        "slug": "grinning_cat_with_smiling_eyes_face"
       },
       {
         "emoji": "😹",
         "name": "cat with tears of joy",
-        "slug": "cat_with_tears_of_joy"
+        "slug": "cat_with_tears_of_joy_face"
       },
       {
         "emoji": "😻",
         "name": "smiling cat with heart-eyes",
-        "slug": "smiling_cat_with_heart_eyes"
+        "slug": "smiling_cat_with_heart_eyes_love_smile"
       },
       {
         "emoji": "😼",
         "name": "cat with wry smile",
-        "slug": "cat_with_wry_smile"
+        "slug": "cat_with_wry_smile_wry_ironic"
       },
       {
         "emoji": "😽",
         "name": "kissing cat",
-        "slug": "kissing_cat"
+        "slug": "kissing_cat_kiss_face_eye"
       },
       {
         "emoji": "🙀",
         "name": "weary cat",
-        "slug": "weary_cat"
+        "slug": "weary_cat_surprised_face_oh"
       },
       {
         "emoji": "😿",
         "name": "crying cat",
-        "slug": "crying_cat"
+        "slug": "crying_cat_cry_sad_tear"
       },
       {
         "emoji": "😾",
         "name": "pouting cat",
-        "slug": "pouting_cat"
+        "slug": "pouting_cat_face"
       },
       {
         "emoji": "🙈",
         "name": "see-no-evil monkey",
-        "slug": "see_no_evil_monkey"
+        "slug": "see_no_evil_monkey_forbidden_face"
       },
       {
         "emoji": "🙉",
         "name": "hear-no-evil monkey",
-        "slug": "hear_no_evil_monkey"
+        "slug": "hear_no_evil_monkey_forbidden_face"
       },
       {
         "emoji": "🙊",
         "name": "speak-no-evil monkey",
-        "slug": "speak_no_evil_monkey"
+        "slug": "speak_no_evil_monkey_face_forbidden"
       },
       {
         "emoji": "💌",
         "name": "love letter",
-        "slug": "love_letter"
+        "slug": "love_letter_mail"
       },
       {
         "emoji": "💘",
         "name": "heart with arrow",
-        "slug": "heart_with_arrow"
+        "slug": "heart_with_arrow_cupid"
       },
       {
         "emoji": "💝",
         "name": "heart with ribbon",
-        "slug": "heart_with_ribbon"
+        "slug": "heart_with_ribbon_valentine"
       },
       {
         "emoji": "💖",
         "name": "sparkling heart",
-        "slug": "sparkling_heart"
+        "slug": "sparkling_heart_excited_love"
       },
       {
         "emoji": "💗",
         "name": "growing heart",
-        "slug": "growing_heart"
+        "slug": "growing_heart_beating_heart_heartbeat_nervous_pulse"
       },
       {
         "emoji": "💓",
         "name": "beating heart",
-        "slug": "beating_heart"
+        "slug": "beating_heart_heartbeat_pulsating"
       },
       {
         "emoji": "💞",
@@ -661,7 +661,7 @@
       {
         "emoji": "💕",
         "name": "two hearts",
-        "slug": "two_hearts"
+        "slug": "two_hearts_love"
       },
       {
         "emoji": "💟",
@@ -671,22 +671,22 @@
       {
         "emoji": "❣️",
         "name": "heart exclamation",
-        "slug": "heart_exclamation"
+        "slug": "heart_exclamation_mark_punctuation"
       },
       {
         "emoji": "💔",
         "name": "broken heart",
-        "slug": "broken_heart"
+        "slug": "broken_heart_break_broken"
       },
       {
         "emoji": "❤️‍🔥",
         "name": "heart on fire",
-        "slug": "heart_on_fire"
+        "slug": "heart_on_fire_burn_heart_lust_scared_heart"
       },
       {
         "emoji": "❤️‍🩹",
         "name": "mending heart",
-        "slug": "mending_heart"
+        "slug": "mending_heart_healthier_improving_recovery_recuperating_well"
       },
       {
         "emoji": "❤️",
@@ -736,37 +736,37 @@
       {
         "emoji": "💋",
         "name": "kiss mark",
-        "slug": "kiss_mark"
+        "slug": "kiss_mark_lips"
       },
       {
         "emoji": "💯",
         "name": "hundred points",
-        "slug": "hundred_points"
+        "slug": "hundred_points_100_score"
       },
       {
         "emoji": "💢",
         "name": "anger symbol",
-        "slug": "anger_symbol"
+        "slug": "anger_symbol_comic_mad"
       },
       {
         "emoji": "💥",
         "name": "collision",
-        "slug": "collision"
+        "slug": "collision_boom_comic_explode"
       },
       {
         "emoji": "💫",
         "name": "dizzy",
-        "slug": "dizzy"
+        "slug": "dizzy_star_comic"
       },
       {
         "emoji": "💦",
         "name": "sweat droplets",
-        "slug": "sweat_droplets"
+        "slug": "sweat_droplets_splashing_comic_water"
       },
       {
         "emoji": "💨",
         "name": "dashing away",
-        "slug": "dashing_away"
+        "slug": "dashing_away_running_comic"
       },
       {
         "emoji": "🕳️",
@@ -776,32 +776,32 @@
       {
         "emoji": "💬",
         "name": "speech balloon",
-        "slug": "speech_balloon"
+        "slug": "speech_balloon_dialogue_speech_comic_bubble"
       },
       {
         "emoji": "👁️‍🗨️",
         "name": "eye in speech bubble",
-        "slug": "eye_in_speech_bubble"
+        "slug": "eye_in_speech_bubble_witness"
       },
       {
         "emoji": "🗨️",
         "name": "left speech bubble",
-        "slug": "left_speech_bubble"
+        "slug": "left_speech_bubble_ballon_bubble"
       },
       {
         "emoji": "🗯️",
         "name": "right anger bubble",
-        "slug": "right_anger_bubble"
+        "slug": "right_anger_bubble_mad"
       },
       {
         "emoji": "💭",
         "name": "thought balloon",
-        "slug": "thought_balloon"
+        "slug": "thought_balloon_comic_thought"
       },
       {
         "emoji": "💤",
         "name": "ZZZ",
-        "slug": "zzz"
+        "slug": "zzz_good_night_sleep_comic_sleeping"
       }
     ]
   },
@@ -812,12 +812,12 @@
       {
         "emoji": "👋",
         "name": "waving hand",
-        "slug": "waving_hand"
+        "slug": "waving_hand_wave_hi_hello"
       },
       {
         "emoji": "🤚",
         "name": "raised back of hand",
-        "slug": "raised_back_of_hand"
+        "slug": "raised_back_of_hand_backhand"
       },
       {
         "emoji": "🖐️",
@@ -827,32 +827,32 @@
       {
         "emoji": "✋",
         "name": "raised hand",
-        "slug": "raised_hand"
+        "slug": "raised_hand_high_5_high_five"
       },
       {
         "emoji": "🖖",
         "name": "vulcan salute",
-        "slug": "vulcan_salute"
+        "slug": "vulcan_salute_finger_spock_hand"
       },
       {
         "emoji": "🫱",
         "name": "rightwards hand",
-        "slug": "rightwards_hand"
+        "slug": "rightwards_hand_right"
       },
       {
         "emoji": "🫲",
         "name": "leftwards hand",
-        "slug": "leftwards_hand"
+        "slug": "leftwards_hand_left"
       },
       {
         "emoji": "🫳",
         "name": "palm down hand",
-        "slug": "palm_down_hand"
+        "slug": "palm_down_hand_dismiss_drop_shoo"
       },
       {
         "emoji": "🫴",
         "name": "palm up hand",
-        "slug": "palm_up_hand"
+        "slug": "palm_up_hand_catch_beckon_come_offer"
       },
       {
         "emoji": "👌",
@@ -862,122 +862,122 @@
       {
         "emoji": "🤌",
         "name": "pinched fingers",
-        "slug": "pinched_fingers"
+        "slug": "pinched_fingers_hand_gesture_interrogation_sarcastic"
       },
       {
         "emoji": "🤏",
         "name": "pinching hand",
-        "slug": "pinching_hand"
+        "slug": "pinching_hand_small_amount"
       },
       {
         "emoji": "✌️",
         "name": "victory hand",
-        "slug": "victory_hand"
+        "slug": "victory_hand_v"
       },
       {
         "emoji": "🤞",
         "name": "crossed fingers",
-        "slug": "crossed_fingers"
+        "slug": "crossed_fingers_hand_cross_luck"
       },
       {
         "emoji": "🫰",
         "name": "hand with index finger and thumb crossed",
-        "slug": "hand_with_index_finger_and_thumb_crossed"
+        "slug": "hand_with_index_finger_and_thumb_crossed_expensive_heart_love_money_snap"
       },
       {
         "emoji": "🤟",
         "name": "love-you gesture",
-        "slug": "love_you_gesture"
+        "slug": "love_you_gesture_ILY_hand"
       },
       {
         "emoji": "🤘",
         "name": "sign of the horns",
-        "slug": "sign_of_the_horns"
+        "slug": "sign_of_the_horns_finger_hand_horns_rock-on"
       },
       {
         "emoji": "🤙",
         "name": "call me hand",
-        "slug": "call_me_hand"
+        "slug": "call_me_hand_Shaka_hand_loose"
       },
       {
         "emoji": "👈",
         "name": "backhand index pointing left",
-        "slug": "backhand_index_pointing_left"
+        "slug": "backhand_index_pointing_left_index_point_finger_hand"
       },
       {
         "emoji": "👉",
         "name": "backhand index pointing right",
-        "slug": "backhand_index_pointing_right"
+        "slug": "backhand_index_pointing_right_index_point_finger_hand"
       },
       {
         "emoji": "👆",
         "name": "backhand index pointing up",
-        "slug": "backhand_index_pointing_up"
+        "slug": "backhand_index_pointing_up_hand_point_up_finger"
       },
       {
         "emoji": "🖕",
         "name": "middle finger",
-        "slug": "middle_finger"
+        "slug": "middle_finger_hand"
       },
       {
         "emoji": "👇",
         "name": "backhand index pointing down",
-        "slug": "backhand_index_pointing_down"
+        "slug": "backhand_index_pointing_down_hand_point_down_finger"
       },
       {
         "emoji": "☝️",
         "name": "index pointing up",
-        "slug": "index_pointing_up"
+        "slug": "index_pointing_up_hand_finger_point_up"
       },
       {
         "emoji": "🫵",
         "name": "index pointing at the viewer",
-        "slug": "index_pointing_at_the_viewer"
+        "slug": "index_pointing_at_the_viewer_you_point"
       },
       {
         "emoji": "👍",
         "name": "thumbs up",
-        "slug": "thumbs_up"
+        "slug": "thumbs_up_+1_hand"
       },
       {
         "emoji": "👎",
         "name": "thumbs down",
-        "slug": "thumbs_down"
+        "slug": "thumbs_down_-1_hand"
       },
       {
         "emoji": "✊",
         "name": "raised fist",
-        "slug": "raised_fist"
+        "slug": "raised_fist_hand_punch_clenched_fist"
       },
       {
         "emoji": "👊",
         "name": "oncoming fist",
-        "slug": "oncoming_fist"
+        "slug": "oncoming_fist_clenched_fist_hand_punch"
       },
       {
         "emoji": "🤛",
         "name": "left-facing fist",
-        "slug": "left_facing_fist"
+        "slug": "left_facing_fist_leftwards"
       },
       {
         "emoji": "🤜",
         "name": "right-facing fist",
-        "slug": "right_facing_fist"
+        "slug": "right_facing_fist_rightwards"
       },
       {
         "emoji": "👏",
         "name": "clapping hands",
-        "slug": "clapping_hands"
+        "slug": "clapping_hands_clap"
       },
       {
         "emoji": "🙌",
         "name": "raising hands",
-        "slug": "raising_hands"
+        "slug": "raising_hands_celebration_gesture_hooray_raised_hands"
       },
       {
         "emoji": "🫶",
         "name": "heart hands",
-        "slug": "heart_hands"
+        "slug": "heart_hands_love"
       },
       {
         "emoji": "👐",
@@ -987,37 +987,37 @@
       {
         "emoji": "🤲",
         "name": "palms up together",
-        "slug": "palms_up_together"
+        "slug": "palms_up_together_prayer_cupped_hands"
       },
       {
         "emoji": "🤝",
         "name": "handshake",
-        "slug": "handshake"
+        "slug": "handshake_agreement_hand_deal_handshake"
       },
       {
         "emoji": "🙏",
         "name": "folded hands",
-        "slug": "folded_hands"
+        "slug": "folded_hands_ask_hand_high_5_high_five_please_pray_thanks"
       },
       {
         "emoji": "✍️",
         "name": "writing hand",
-        "slug": "writing_hand"
+        "slug": "writing_hand_write"
       },
       {
         "emoji": "💅",
         "name": "nail polish",
-        "slug": "nail_polish"
+        "slug": "nail_polish_care_manicure_cosmetics"
       },
       {
         "emoji": "🤳",
         "name": "selfie",
-        "slug": "selfie"
+        "slug": "selfie_camera_phone_selfie"
       },
       {
         "emoji": "💪",
         "name": "flexed biceps",
-        "slug": "flexed_biceps"
+        "slug": "flexed_biceps_comic_flex_muscle_strength"
       },
       {
         "emoji": "🦾",
@@ -1027,107 +1027,107 @@
       {
         "emoji": "🦿",
         "name": "mechanical leg",
-        "slug": "mechanical_leg"
+        "slug": "mechanical_leg_kick"
       },
       {
         "emoji": "🦵",
         "name": "leg",
-        "slug": "leg"
+        "slug": "leg_kick_limb"
       },
       {
         "emoji": "🦶",
         "name": "foot",
-        "slug": "foot"
+        "slug": "foot_kick_stomp"
       },
       {
         "emoji": "👂",
         "name": "ear",
-        "slug": "ear"
+        "slug": "ear_body_hearing_listen_listen_to"
       },
       {
         "emoji": "🦻",
         "name": "ear with hearing aid",
-        "slug": "ear_with_hearing_aid"
+        "slug": "ear_with_hearing_aid_accessibility"
       },
       {
         "emoji": "👃",
         "name": "nose",
-        "slug": "nose"
+        "slug": "nose_body"
       },
       {
         "emoji": "🧠",
         "name": "brain",
-        "slug": "brain"
+        "slug": "brain_intelligent"
       },
       {
         "emoji": "🫀",
         "name": "anatomical heart",
-        "slug": "anatomical_heart"
+        "slug": "anatomical_heart_cardiology_organs_pulse"
       },
       {
         "emoji": "🫁",
         "name": "lungs",
-        "slug": "lungs"
+        "slug": "lungs_organ_exhalation_inhalation_respiration"
       },
       {
         "emoji": "🦷",
         "name": "tooth",
-        "slug": "tooth"
+        "slug": "tooth_dentist"
       },
       {
         "emoji": "🦴",
         "name": "bone",
-        "slug": "bone"
+        "slug": "bone_skeleton"
       },
       {
         "emoji": "👀",
         "name": "eyes",
-        "slug": "eyes"
+        "slug": "eyes_face_eye"
       },
       {
         "emoji": "👁️",
         "name": "eye",
-        "slug": "eye"
+        "slug": "eye_body"
       },
       {
         "emoji": "👅",
         "name": "tongue",
-        "slug": "tongue"
+        "slug": "tongue_body"
       },
       {
         "emoji": "👄",
         "name": "mouth",
-        "slug": "mouth"
+        "slug": "mouth_lips"
       },
       {
         "emoji": "🫦",
         "name": "biting lip",
-        "slug": "biting_lip"
+        "slug": "biting_lip_anxious_fear_flirting_nervous_uncomfortable_worried"
       },
       {
         "emoji": "👶",
         "name": "baby",
-        "slug": "baby"
+        "slug": "baby_young"
       },
       {
         "emoji": "🧒",
         "name": "child",
-        "slug": "child"
+        "slug": "child_gender_neutral_young_unspecified_gender"
       },
       {
         "emoji": "👦",
         "name": "boy",
-        "slug": "boy"
+        "slug": "boy_young"
       },
       {
         "emoji": "👧",
         "name": "girl",
-        "slug": "girl"
+        "slug": "girl_Virgo_young_zodiac"
       },
       {
         "emoji": "🧑",
         "name": "person",
-        "slug": "person"
+        "slug": "person_adult_unspecified_gender"
       },
       {
         "emoji": "👱",
@@ -1137,12 +1137,12 @@
       {
         "emoji": "👨",
         "name": "man",
-        "slug": "man"
+        "slug": "man_adult_man"
       },
       {
         "emoji": "🧔",
         "name": "person beard",
-        "slug": "person_beard"
+        "slug": "person_beard_bewhiskered"
       },
       {
         "emoji": "🧔‍♂️",
@@ -1177,7 +1177,7 @@
       {
         "emoji": "👩",
         "name": "woman",
-        "slug": "woman"
+        "slug": "woman_adult"
       },
       {
         "emoji": "👩‍🦰",
@@ -1187,7 +1187,7 @@
       {
         "emoji": "🧑‍🦰",
         "name": "person red hair",
-        "slug": "person_red_hair"
+        "slug": "person_red_hair_unspecified_gender"
       },
       {
         "emoji": "👩‍🦱",
@@ -1197,12 +1197,12 @@
       {
         "emoji": "🧑‍🦱",
         "name": "person curly hair",
-        "slug": "person_curly_hair"
+        "slug": "person_curly_hair_unspecified_gender"
       },
       {
         "emoji": "👩‍🦳",
         "name": "woman white hair",
-        "slug": "woman_white_hair"
+        "slug": "woman_white_hair_adult"
       },
       {
         "emoji": "🧑‍🦳",
@@ -1247,97 +1247,97 @@
       {
         "emoji": "🙍",
         "name": "person frowning",
-        "slug": "person_frowning"
+        "slug": "person_frowning_gesture"
       },
       {
         "emoji": "🙍‍♂️",
         "name": "man frowning",
-        "slug": "man_frowning"
+        "slug": "man_frowning_gesture"
       },
       {
         "emoji": "🙍‍♀️",
         "name": "woman frowning",
-        "slug": "woman_frowning"
+        "slug": "woman_frowning_gesture"
       },
       {
         "emoji": "🙎",
         "name": "person pouting",
-        "slug": "person_pouting"
+        "slug": "person_pouting_gesture"
       },
       {
         "emoji": "🙎‍♂️",
         "name": "man pouting",
-        "slug": "man_pouting"
+        "slug": "man_pouting_gesture"
       },
       {
         "emoji": "🙎‍♀️",
         "name": "woman pouting",
-        "slug": "woman_pouting"
+        "slug": "woman_pouting_gesture"
       },
       {
         "emoji": "🙅",
         "name": "person gesturing NO",
-        "slug": "person_gesturing_no"
+        "slug": "person_gesturing_no_gesture_hand_prohibited"
       },
       {
         "emoji": "🙅‍♂️",
         "name": "man gesturing NO",
-        "slug": "man_gesturing_no"
+        "slug": "man_gesturing_no_gesture"
       },
       {
         "emoji": "🙅‍♀️",
         "name": "woman gesturing NO",
-        "slug": "woman_gesturing_no"
+        "slug": "woman_gesturing_no_gesture_hand"
       },
       {
         "emoji": "🙆",
         "name": "person gesturing OK",
-        "slug": "person_gesturing_ok"
+        "slug": "person_gesturing_ok_gesture_hand"
       },
       {
         "emoji": "🙆‍♂️",
         "name": "man gesturing OK",
-        "slug": "man_gesturing_ok"
+        "slug": "man_gesturing_ok_gesture_hand"
       },
       {
         "emoji": "🙆‍♀️",
         "name": "woman gesturing OK",
-        "slug": "woman_gesturing_ok"
+        "slug": "woman_gesturing_ok_gesture_hand"
       },
       {
         "emoji": "💁",
         "name": "person tipping hand",
-        "slug": "person_tipping_hand"
+        "slug": "person_tipping_hand_help_information_sassy_tipping"
       },
       {
         "emoji": "💁‍♂️",
         "name": "man tipping hand",
-        "slug": "man_tipping_hand"
+        "slug": "man_tipping_hand_sassy_tipping"
       },
       {
         "emoji": "💁‍♀️",
         "name": "woman tipping hand",
-        "slug": "woman_tipping_hand"
+        "slug": "woman_tipping_hand_sassy"
       },
       {
         "emoji": "🙋",
         "name": "person raising hand",
-        "slug": "person_raising_hand"
+        "slug": "person_raising_hand_gesture_hand"
       },
       {
         "emoji": "🙋‍♂️",
         "name": "man raising hand",
-        "slug": "man_raising_hand"
+        "slug": "man_raising_hand_gesture_hand"
       },
       {
         "emoji": "🙋‍♀️",
         "name": "woman raising hand",
-        "slug": "woman_raising_hand"
+        "slug": "woman_raising_hand_gesture_hand"
       },
       {
         "emoji": "🧏",
         "name": "deaf person",
-        "slug": "deaf_person"
+        "slug": "deaf_person_ear_deafness_accessibility"
       },
       {
         "emoji": "🧏‍♂️",
@@ -1352,127 +1352,127 @@
       {
         "emoji": "🙇",
         "name": "person bowing",
-        "slug": "person_bowing"
+        "slug": "person_bowing_apology_gesture_blow_sorry"
       },
       {
         "emoji": "🙇‍♂️",
         "name": "man bowing",
-        "slug": "man_bowing"
+        "slug": "man_bowing_apology_gesture_favor_sorry"
       },
       {
         "emoji": "🙇‍♀️",
         "name": "woman bowing",
-        "slug": "woman_bowing"
+        "slug": "woman_bowing_apology_gesture_favor_sorry"
       },
       {
         "emoji": "🤦",
         "name": "person facepalming",
-        "slug": "person_facepalming"
+        "slug": "person_facepalming_disbelief_facepalm_exasperation_palm"
       },
       {
         "emoji": "🤦‍♂️",
         "name": "man facepalming",
-        "slug": "man_facepalming"
+        "slug": "man_facepalming_disbelief_facepalm_exasperation_palm"
       },
       {
         "emoji": "🤦‍♀️",
         "name": "woman facepalming",
-        "slug": "woman_facepalming"
+        "slug": "woman_facepalming_disbelief_facepalm_exasperation_palm"
       },
       {
         "emoji": "🤷",
         "name": "person shrugging",
-        "slug": "person_shrugging"
+        "slug": "person_shrugging_ignorance_indifference_shrug_doubt"
       },
       {
         "emoji": "🤷‍♂️",
         "name": "man shrugging",
-        "slug": "man_shrugging"
+        "slug": "man_shrugging_ignorance_indifference_shrug_doubt"
       },
       {
         "emoji": "🤷‍♀️",
         "name": "woman shrugging",
-        "slug": "woman_shrugging"
+        "slug": "woman_shrugging_ignorance_indifference_shrug_doubt"
       },
       {
         "emoji": "🧑‍⚕️",
         "name": "health worker",
-        "slug": "health_worker"
+        "slug": "health_worker_doctor_nurse_therapist"
       },
       {
         "emoji": "👨‍⚕️",
         "name": "man health worker",
-        "slug": "man_health_worker"
+        "slug": "man_health_worker_doctor_nurse_therapist"
       },
       {
         "emoji": "👩‍⚕️",
         "name": "woman health worker",
-        "slug": "woman_health_worker"
+        "slug": "woman_health_worker_doctor_nurse_therapist"
       },
       {
         "emoji": "🧑‍🎓",
         "name": "student",
-        "slug": "student"
+        "slug": "student_graduate"
       },
       {
         "emoji": "👨‍🎓",
         "name": "man student",
-        "slug": "man_student"
+        "slug": "man_student_graduate"
       },
       {
         "emoji": "👩‍🎓",
         "name": "woman student",
-        "slug": "woman_student"
+        "slug": "woman_student_graduate"
       },
       {
         "emoji": "🧑‍🏫",
         "name": "teacher",
-        "slug": "teacher"
+        "slug": "teacher_instructor_professor"
       },
       {
         "emoji": "👨‍🏫",
         "name": "man teacher",
-        "slug": "man_teacher"
+        "slug": "man_teacher_instructor_professor"
       },
       {
         "emoji": "👩‍🏫",
         "name": "woman teacher",
-        "slug": "woman_teacher"
+        "slug": "woman_teacher_instructor_professor"
       },
       {
         "emoji": "🧑‍⚖️",
         "name": "judge",
-        "slug": "judge"
+        "slug": "judge_scales_justice"
       },
       {
         "emoji": "👨‍⚖️",
         "name": "man judge",
-        "slug": "man_judge"
+        "slug": "man_judge_scales_justice"
       },
       {
         "emoji": "👩‍⚖️",
         "name": "woman judge",
-        "slug": "woman_judge"
+        "slug": "woman_judge_scales_justice"
       },
       {
         "emoji": "🧑‍🌾",
         "name": "farmer",
-        "slug": "farmer"
+        "slug": "farmer_gardener_rancher"
       },
       {
         "emoji": "👨‍🌾",
         "name": "man farmer",
-        "slug": "man_farmer"
+        "slug": "man_farmer_gardener_rancher"
       },
       {
         "emoji": "👩‍🌾",
         "name": "woman farmer",
-        "slug": "woman_farmer"
+        "slug": "woman_farmer_gardener_rancher"
       },
       {
         "emoji": "🧑‍🍳",
         "name": "cook",
-        "slug": "cook"
+        "slug": "cook_chef"
       },
       {
         "emoji": "👨‍🍳",
@@ -1487,92 +1487,92 @@
       {
         "emoji": "🧑‍🔧",
         "name": "mechanic",
-        "slug": "mechanic"
+        "slug": "mechanic_electrician_plumber_tradesperson"
       },
       {
         "emoji": "👨‍🔧",
         "name": "man mechanic",
-        "slug": "man_mechanic"
+        "slug": "man_mechanic_electrician_plumber_tradesperson"
       },
       {
         "emoji": "👩‍🔧",
         "name": "woman mechanic",
-        "slug": "woman_mechanic"
+        "slug": "woman_mechanic_electrician_plumber_tradesperson"
       },
       {
         "emoji": "🧑‍🏭",
         "name": "factory worker",
-        "slug": "factory_worker"
+        "slug": "factory_worker_assembly_industry"
       },
       {
         "emoji": "👨‍🏭",
         "name": "man factory worker",
-        "slug": "man_factory_worker"
+        "slug": "man_factory_worker_assembly_industry"
       },
       {
         "emoji": "👩‍🏭",
         "name": "woman factory worker",
-        "slug": "woman_factory_worker"
+        "slug": "woman_factory_worker_assembly_industry"
       },
       {
         "emoji": "🧑‍💼",
         "name": "office worker",
-        "slug": "office_worker"
+        "slug": "office_worker_business_manager_architect_white_collar"
       },
       {
         "emoji": "👨‍💼",
         "name": "man office worker",
-        "slug": "man_office_worker"
+        "slug": "man_office_worker_business_manager_architect"
       },
       {
         "emoji": "👩‍💼",
         "name": "woman office worker",
-        "slug": "woman_office_worker"
+        "slug": "woman_office_worker_business_manager_architect"
       },
       {
         "emoji": "🧑‍🔬",
         "name": "scientist",
-        "slug": "scientist"
+        "slug": "scientist_biologist_researcher_engineer_chemist"
       },
       {
         "emoji": "👨‍🔬",
         "name": "man scientist",
-        "slug": "man_scientist"
+        "slug": "man_scientist_biologist_researcher_engineer_chemist"
       },
       {
         "emoji": "👩‍🔬",
         "name": "woman scientist",
-        "slug": "woman_scientist"
+        "slug": "woman_scientist_biologist_researcher_engineer_chemist"
       },
       {
         "emoji": "🧑‍💻",
         "name": "technologist",
-        "slug": "technologist"
+        "slug": "technologist_coder_developer_programmer_engineer_software_inventor"
       },
       {
         "emoji": "👨‍💻",
         "name": "man technologist",
-        "slug": "man_technologist"
+        "slug": "man_technologist_coder_developer_programmer_engineer_software_inventor"
       },
       {
         "emoji": "👩‍💻",
         "name": "woman technologist",
-        "slug": "woman_technologist"
+        "slug": "woman_technologist_coder_developer_programmer_engineer_software_inventor"
       },
       {
         "emoji": "🧑‍🎤",
         "name": "singer",
-        "slug": "singer"
+        "slug": "singer_actor_entertainer_rock_star"
       },
       {
         "emoji": "👨‍🎤",
         "name": "man singer",
-        "slug": "man_singer"
+        "slug": "man_singer_actor_entertainer_rock_star"
       },
       {
         "emoji": "👩‍🎤",
         "name": "woman singer",
-        "slug": "woman_singer"
+        "slug": "woman_singer_actress_entertainer_rock_star"
       },
       {
         "emoji": "🧑‍🎨",
@@ -1592,7 +1592,7 @@
       {
         "emoji": "🧑‍✈️",
         "name": "pilot",
-        "slug": "pilot"
+        "slug": "pilot_plane"
       },
       {
         "emoji": "👨‍✈️",
@@ -1637,32 +1637,32 @@
       {
         "emoji": "👮",
         "name": "police officer",
-        "slug": "police_officer"
+        "slug": "police_officer_cop"
       },
       {
         "emoji": "👮‍♂️",
         "name": "man police officer",
-        "slug": "man_police_officer"
+        "slug": "man_police_officer_cop"
       },
       {
         "emoji": "👮‍♀️",
         "name": "woman police officer",
-        "slug": "woman_police_officer"
+        "slug": "woman_police_officer_cop"
       },
       {
         "emoji": "🕵️",
         "name": "detective",
-        "slug": "detective"
+        "slug": "detective_spy_sleuth"
       },
       {
         "emoji": "🕵️‍♂️",
         "name": "man detective",
-        "slug": "man_detective"
+        "slug": "man_detective_spy_sleuth"
       },
       {
         "emoji": "🕵️‍♀️",
         "name": "woman detective",
-        "slug": "woman_detective"
+        "slug": "woman_detective_spy_sleuth"
       },
       {
         "emoji": "💂",
@@ -1681,7 +1681,7 @@
       },
       {
         "emoji": "🥷",
-        "name": "ninja",
+        "name": "ninja_fighter_stealth",
         "slug": "ninja"
       },
       {
@@ -1737,7 +1737,7 @@
       {
         "emoji": "🧕",
         "name": "woman with headscarf",
-        "slug": "woman_with_headscarf"
+        "slug": "woman_with_headscarf_hijab"
       },
       {
         "emoji": "🤵",
@@ -1812,12 +1812,12 @@
       {
         "emoji": "🎅",
         "name": "Santa Claus",
-        "slug": "santa_claus"
+        "slug": "santa_claus_christmas_father_santa_claus"
       },
       {
         "emoji": "🤶",
         "name": "Mrs. Claus",
-        "slug": "mrs_claus"
+        "slug": "mrs_claus_christmas_mother_santa_claus"
       },
       {
         "emoji": "🧑‍🎄",
@@ -1842,32 +1842,32 @@
       {
         "emoji": "🦹",
         "name": "supervillain",
-        "slug": "supervillain"
+        "slug": "supervillain_criminal_evil"
       },
       {
         "emoji": "🦹‍♂️",
         "name": "man supervillain",
-        "slug": "man_supervillain"
+        "slug": "man_supervillain_criminal_evil"
       },
       {
         "emoji": "🦹‍♀️",
         "name": "woman supervillain",
-        "slug": "woman_supervillain"
+        "slug": "woman_supervillain_criminal_evil"
       },
       {
         "emoji": "🧙",
         "name": "mage",
-        "slug": "mage"
+        "slug": "mage_sorceress_wizard"
       },
       {
         "emoji": "🧙‍♂️",
         "name": "man mage",
-        "slug": "man_mage"
+        "slug": "man_mage_sorceress_wizard"
       },
       {
         "emoji": "🧙‍♀️",
         "name": "woman mage",
-        "slug": "woman_mage"
+        "slug": "witch"
       },
       {
         "emoji": "🧚",
@@ -1967,47 +1967,47 @@
       {
         "emoji": "💆",
         "name": "person getting massage",
-        "slug": "person_getting_massage"
+        "slug": "person_getting_massage_face_massage"
       },
       {
         "emoji": "💆‍♂️",
         "name": "man getting massage",
-        "slug": "man_getting_massage"
+        "slug": "man_getting_massage_face_massage"
       },
       {
         "emoji": "💆‍♀️",
         "name": "woman getting massage",
-        "slug": "woman_getting_massage"
+        "slug": "woman_getting_massage_face_massage"
       },
       {
         "emoji": "💇",
         "name": "person getting haircut",
-        "slug": "person_getting_haircut"
+        "slug": "person_getting_haircut_hair"
       },
       {
         "emoji": "💇‍♂️",
         "name": "man getting haircut",
-        "slug": "man_getting_haircut"
+        "slug": "man_getting_haircut_hair"
       },
       {
         "emoji": "💇‍♀️",
         "name": "woman getting haircut",
-        "slug": "woman_getting_haircut"
+        "slug": "woman_getting_haircut_hair"
       },
       {
         "emoji": "🚶",
         "name": "person walking",
-        "slug": "person_walking"
+        "slug": "person_walking_hike"
       },
       {
         "emoji": "🚶‍♂️",
         "name": "man walking",
-        "slug": "man_walking"
+        "slug": "man_walking_hike"
       },
       {
         "emoji": "🚶‍♀️",
         "name": "woman walking",
-        "slug": "woman_walking"
+        "slug": "woman_walking_hike"
       },
       {
         "emoji": "🧍",
@@ -2042,47 +2042,47 @@
       {
         "emoji": "🧑‍🦯",
         "name": "person with white cane",
-        "slug": "person_with_white_cane"
+        "slug": "person_with_white_cane_accessibility"
       },
       {
         "emoji": "👨‍🦯",
         "name": "man with white cane",
-        "slug": "man_with_white_cane"
+        "slug": "man_with_white_cane_accessibility"
       },
       {
         "emoji": "👩‍🦯",
         "name": "woman with white cane",
-        "slug": "woman_with_white_cane"
+        "slug": "woman_with_white_cane_accessibility"
       },
       {
         "emoji": "🧑‍🦼",
         "name": "person in motorized wheelchair",
-        "slug": "person_in_motorized_wheelchair"
+        "slug": "person_in_motorized_wheelchair_accessibility"
       },
       {
         "emoji": "👨‍🦼",
         "name": "man in motorized wheelchair",
-        "slug": "man_in_motorized_wheelchair"
+        "slug": "man_in_motorized_wheelchair_accessibility"
       },
       {
         "emoji": "👩‍🦼",
         "name": "woman in motorized wheelchair",
-        "slug": "woman_in_motorized_wheelchair"
+        "slug": "woman_in_motorized_wheelchair_accessibility"
       },
       {
         "emoji": "🧑‍🦽",
         "name": "person in manual wheelchair",
-        "slug": "person_in_manual_wheelchair"
+        "slug": "person_in_manual_wheelchair_accessibility"
       },
       {
         "emoji": "👨‍🦽",
         "name": "man in manual wheelchair",
-        "slug": "man_in_manual_wheelchair"
+        "slug": "man_in_manual_wheelchair_accessibility"
       },
       {
         "emoji": "👩‍🦽",
         "name": "woman in manual wheelchair",
-        "slug": "woman_in_manual_wheelchair"
+        "slug": "woman_in_manual_wheelchair_accessibility"
       },
       {
         "emoji": "🏃",
@@ -2117,17 +2117,17 @@
       {
         "emoji": "👯",
         "name": "people with bunny ears",
-        "slug": "people_with_bunny_ears"
+        "slug": "people_with_bunny_ears_dancer"
       },
       {
         "emoji": "👯‍♂️",
         "name": "men with bunny ears",
-        "slug": "men_with_bunny_ears"
+        "slug": "men_with_bunny_ears_dancer"
       },
       {
         "emoji": "👯‍♀️",
         "name": "women with bunny ears",
-        "slug": "women_with_bunny_ears"
+        "slug": "women_with_bunny_ears_dancer"
       },
       {
         "emoji": "🧖",
@@ -3359,42 +3359,42 @@
       {
         "emoji": "🍇",
         "name": "grapes",
-        "slug": "grapes"
+        "slug": "grapes_fruit"
       },
       {
         "emoji": "🍈",
         "name": "melon",
-        "slug": "melon"
+        "slug": "melon_fruit"
       },
       {
         "emoji": "🍉",
         "name": "watermelon",
-        "slug": "watermelon"
+        "slug": "watermelon_fruit"
       },
       {
         "emoji": "🍊",
         "name": "tangerine",
-        "slug": "tangerine"
+        "slug": "tangerine_fruit"
       },
       {
         "emoji": "🍋",
         "name": "lemon",
-        "slug": "lemon"
+        "slug": "lemon_fruit"
       },
       {
         "emoji": "🍌",
         "name": "banana",
-        "slug": "banana"
+        "slug": "banana_fruit"
       },
       {
         "emoji": "🍍",
         "name": "pineapple",
-        "slug": "pineapple"
+        "slug": "pineapple_fruit"
       },
       {
         "emoji": "🥭",
         "name": "mango",
-        "slug": "mango"
+        "slug": "mango_fruit"
       },
       {
         "emoji": "🍎",
@@ -3409,37 +3409,37 @@
       {
         "emoji": "🍐",
         "name": "pear",
-        "slug": "pear"
+        "slug": "pear_fruit"
       },
       {
         "emoji": "🍑",
         "name": "peach",
-        "slug": "peach"
+        "slug": "peach_fruit"
       },
       {
         "emoji": "🍒",
         "name": "cherries",
-        "slug": "cherries"
+        "slug": "cherries_fruit"
       },
       {
         "emoji": "🍓",
         "name": "strawberry",
-        "slug": "strawberry"
+        "slug": "strawberry_fruit"
       },
       {
         "emoji": "🫐",
         "name": "blueberries",
-        "slug": "blueberries"
+        "slug": "blueberries_blue"
       },
       {
         "emoji": "🥝",
         "name": "kiwi fruit",
-        "slug": "kiwi_fruit"
+        "slug": "kiwi_fruit_fruit"
       },
       {
         "emoji": "🍅",
         "name": "tomato",
-        "slug": "tomato"
+        "slug": "tomato_fruit"
       },
       {
         "emoji": "🫒",
@@ -3449,12 +3449,12 @@
       {
         "emoji": "🥥",
         "name": "coconut",
-        "slug": "coconut"
+        "slug": "coconut_palm"
       },
       {
         "emoji": "🥑",
         "name": "avocado",
-        "slug": "avocado"
+        "slug": "avocado_fruit"
       },
       {
         "emoji": "🍆",
@@ -3529,12 +3529,12 @@
       {
         "emoji": "🍞",
         "name": "bread",
-        "slug": "bread"
+        "slug": "bread_loaf"
       },
       {
         "emoji": "🥐",
         "name": "croissant",
-        "slug": "croissant"
+        "slug": "croissant_breakfast"
       },
       {
         "emoji": "🥖",
@@ -3579,7 +3579,7 @@
       {
         "emoji": "🍗",
         "name": "poultry leg",
-        "slug": "poultry_leg"
+        "slug": "poultry_leg_chicken"
       },
       {
         "emoji": "🥩",
@@ -4020,22 +4020,22 @@
       {
         "emoji": "🌍",
         "name": "globe showing Europe-Africa",
-        "slug": "globe_showing_europe_africa"
+        "slug": "globe_showing_europe_africa_Africa_earth_Europe_world"
       },
       {
         "emoji": "🌎",
         "name": "globe showing Americas",
-        "slug": "globe_showing_americas"
+        "slug": "globe_showing_americas_Americas_earth_globe_world "
       },
       {
         "emoji": "🌏",
         "name": "globe showing Asia-Australia",
-        "slug": "globe_showing_asia_australia"
+        "slug": "globe_showing_asia_australia_Asia_Australia_earth_world"
       },
       {
         "emoji": "🌐",
         "name": "globe with meridians",
-        "slug": "globe_with_meridians"
+        "slug": "globe_with_meridians_world_earth"
       },
       {
         "emoji": "🗺️",
@@ -4050,7 +4050,7 @@
       {
         "emoji": "🧭",
         "name": "compass",
-        "slug": "compass"
+        "slug": "compass_navigation_orientation_magnetic"
       },
       {
         "emoji": "🏔️",
@@ -4730,7 +4730,7 @@
       {
         "emoji": "⌚",
         "name": "watch",
-        "slug": "watch"
+        "slug": "watch_clock"
       },
       {
         "emoji": "⏰",
@@ -4755,127 +4755,127 @@
       {
         "emoji": "🕛",
         "name": "twelve o’clock",
-        "slug": "twelve_o_clock"
+        "slug": "twelve_o_clock_00_12_12:00"
       },
       {
         "emoji": "🕧",
         "name": "twelve-thirty",
-        "slug": "twelve_thirty"
+        "slug": "twelve_thirty_12_12:30"
       },
       {
         "emoji": "🕐",
         "name": "one o’clock",
-        "slug": "one_o_clock"
+        "slug": "one_o_clock_00_1_1:00"
       },
       {
         "emoji": "🕜",
         "name": "one-thirty",
-        "slug": "one_thirty"
+        "slug": "one_thirty_1_1:30"
       },
       {
         "emoji": "🕑",
         "name": "two o’clock",
-        "slug": "two_o_clock"
+        "slug": "two_o_clock_00_2_2:00"
       },
       {
         "emoji": "🕝",
         "name": "two-thirty",
-        "slug": "two_thirty"
+        "slug": "two_thirty_2_2:30"
       },
       {
         "emoji": "🕒",
         "name": "three o’clock",
-        "slug": "three_o_clock"
+        "slug": "three_o_clock_00_3_3:00"
       },
       {
         "emoji": "🕞",
         "name": "three-thirty",
-        "slug": "three_thirty"
+        "slug": "three_thirty_3_3:30"
       },
       {
         "emoji": "🕓",
         "name": "four o’clock",
-        "slug": "four_o_clock"
+        "slug": "four_o_clock_00_4_4:00"
       },
       {
         "emoji": "🕟",
         "name": "four-thirty",
-        "slug": "four_thirty"
+        "slug": "four_thirty_4_4:30"
       },
       {
         "emoji": "🕔",
         "name": "five o’clock",
-        "slug": "five_o_clock"
+        "slug": "five_o_clock_00_5_5:00"
       },
       {
         "emoji": "🕠",
         "name": "five-thirty",
-        "slug": "five_thirty"
+        "slug": "five_thirty_5_5:30"
       },
       {
         "emoji": "🕕",
         "name": "six o’clock",
-        "slug": "six_o_clock"
+        "slug": "six_o_clock_00_6_6:00"
       },
       {
         "emoji": "🕡",
         "name": "six-thirty",
-        "slug": "six_thirty"
+        "slug": "six_thirty_6_6:30"
       },
       {
         "emoji": "🕖",
         "name": "seven o’clock",
-        "slug": "seven_o_clock"
+        "slug": "seven_o_clock_00_7_7:00"
       },
       {
         "emoji": "🕢",
         "name": "seven-thirty",
-        "slug": "seven_thirty"
+        "slug": "seven_thirty_7_7:30"
       },
       {
         "emoji": "🕗",
         "name": "eight o’clock",
-        "slug": "eight_o_clock"
+        "slug": "eight_o_clock_00_8_8:00"
       },
       {
         "emoji": "🕣",
         "name": "eight-thirty",
-        "slug": "eight_thirty"
+        "slug": "eight_thirty_8_8:30"
       },
       {
         "emoji": "🕘",
         "name": "nine o’clock",
-        "slug": "nine_o_clock"
+        "slug": "nine_o_clock_00_9_9:00"
       },
       {
         "emoji": "🕤",
         "name": "nine-thirty",
-        "slug": "nine_thirty"
+        "slug": "nine_thirty_9_9:30"
       },
       {
         "emoji": "🕙",
         "name": "ten o’clock",
-        "slug": "ten_o_clock"
+        "slug": "ten_o_clock_00_10_10:00"
       },
       {
         "emoji": "🕥",
         "name": "ten-thirty",
-        "slug": "ten_thirty"
+        "slug": "ten_thirty_10_10:30"
       },
       {
         "emoji": "🕚",
         "name": "eleven o’clock",
-        "slug": "eleven_o_clock"
+        "slug": "eleven_o_clock_00_11_11:00"
       },
       {
         "emoji": "🕦",
         "name": "eleven-thirty",
-        "slug": "eleven_thirty"
+        "slug": "eleven_thirty_11_11:30"
       },
       {
         "emoji": "🌑",
         "name": "new moon",
-        "slug": "new_moon"
+        "slug": "new_moon_dark"
       },
       {
         "emoji": "🌒",
@@ -5116,7 +5116,7 @@
       {
         "emoji": "🎃",
         "name": "jack-o-lantern",
-        "slug": "jack_o_lantern"
+        "slug": "jack_o_lantern_halloween_jack"
       },
       {
         "emoji": "🎄",
@@ -5126,22 +5126,22 @@
       {
         "emoji": "🎆",
         "name": "fireworks",
-        "slug": "fireworks"
+        "slug": "fireworks_celebration"
       },
       {
         "emoji": "🎇",
         "name": "sparkler",
-        "slug": "sparkler"
+        "slug": "sparkler_celebration"
       },
       {
         "emoji": "🧨",
         "name": "firecracker",
-        "slug": "firecracker"
+        "slug": "firecracker_explosive"
       },
       {
         "emoji": "✨",
         "name": "sparkles",
-        "slug": "sparkles"
+        "slug": "sparkles_star"
       },
       {
         "emoji": "🎈",
@@ -5151,12 +5151,12 @@
       {
         "emoji": "🎉",
         "name": "party popper",
-        "slug": "party_popper"
+        "slug": "party_popper_celebration"
       },
       {
         "emoji": "🎊",
         "name": "confetti ball",
-        "slug": "confetti_ball"
+        "slug": "confetti_ball_celebration"
       },
       {
         "emoji": "🎋",
@@ -5196,7 +5196,7 @@
       {
         "emoji": "🎀",
         "name": "ribbon",
-        "slug": "ribbon"
+        "slug": "ribbon_celebration"
       },
       {
         "emoji": "🎁",
@@ -6222,12 +6222,12 @@
       {
         "emoji": "✉️",
         "name": "envelope",
-        "slug": "envelope"
+        "slug": "envelope_email_letter"
       },
       {
         "emoji": "📧",
         "name": "e-mail",
-        "slug": "e_mail"
+        "slug": "e_mail_email"
       },
       {
         "emoji": "📨",
@@ -6237,22 +6237,22 @@
       {
         "emoji": "📩",
         "name": "envelope with arrow",
-        "slug": "envelope_with_arrow"
+        "slug": "envelope_with_arrow_email_letter"
       },
       {
         "emoji": "📤",
         "name": "outbox tray",
-        "slug": "outbox_tray"
+        "slug": "outbox_tray_sent"
       },
       {
         "emoji": "📥",
         "name": "inbox tray",
-        "slug": "inbox_tray"
+        "slug": "inbox_tray_receive"
       },
       {
         "emoji": "📦",
         "name": "package",
-        "slug": "package"
+        "slug": "package_parcel_box"
       },
       {
         "emoji": "📫",
@@ -6467,7 +6467,7 @@
       {
         "emoji": "🔨",
         "name": "hammer",
-        "slug": "hammer"
+        "slug": "hammer_tool"
       },
       {
         "emoji": "🪓",
@@ -6477,32 +6477,32 @@
       {
         "emoji": "⛏️",
         "name": "pick",
-        "slug": "pick"
+        "slug": "pick_tool"
       },
       {
         "emoji": "⚒️",
         "name": "hammer and pick",
-        "slug": "hammer_and_pick"
+        "slug": "hammer_and_pick_tool"
       },
       {
         "emoji": "🛠️",
         "name": "hammer and wrench",
-        "slug": "hammer_and_wrench"
+        "slug": "hammer_and_wrench_tool"
       },
       {
         "emoji": "🗡️",
         "name": "dagger",
-        "slug": "dagger"
+        "slug": "dagger_knife_weapon"
       },
       {
         "emoji": "⚔️",
         "name": "crossed swords",
-        "slug": "crossed_swords"
+        "slug": "crossed_swords_weapon"
       },
       {
         "emoji": "💣",
         "name": "bomb",
-        "slug": "bomb"
+        "slug": "bomb_comic"
       },
       {
         "emoji": "🪃",
@@ -6527,32 +6527,32 @@
       {
         "emoji": "🔧",
         "name": "wrench",
-        "slug": "wrench"
+        "slug": "wrench_tool"
       },
       {
         "emoji": "🪛",
         "name": "screwdriver",
-        "slug": "screwdriver"
+        "slug": "screwdriver_tool"
       },
       {
         "emoji": "🔩",
         "name": "nut and bolt",
-        "slug": "nut_and_bolt"
+        "slug": "nut_and_bolt_tool"
       },
       {
         "emoji": "⚙️",
         "name": "gear",
-        "slug": "gear"
+        "slug": "gear_tool"
       },
       {
         "emoji": "🗜️",
         "name": "clamp",
-        "slug": "clamp"
+        "slug": "clamp_tool"
       },
       {
         "emoji": "⚖️",
         "name": "balance scale",
-        "slug": "balance_scale"
+        "slug": "balance_scale_justice"
       },
       {
         "emoji": "🦯",
@@ -6637,7 +6637,7 @@
       {
         "emoji": "💊",
         "name": "pill",
-        "slug": "pill"
+        "slug": "pill_medical_medicine_sick"
       },
       {
         "emoji": "🩹",
@@ -6838,7 +6838,7 @@
       {
         "emoji": "🏧",
         "name": "ATM sign",
-        "slug": "atm_sign"
+        "slug": "atm_sign_bank_automated_teller_machine"
       },
       {
         "emoji": "🚮",
@@ -6858,12 +6858,12 @@
       {
         "emoji": "🚹",
         "name": "men’s room",
-        "slug": "men_s_room"
+        "slug": "men_s_room_bathroom"
       },
       {
         "emoji": "🚺",
         "name": "women’s room",
-        "slug": "women_s_room"
+        "slug": "women_s_room_bathroom"
       },
       {
         "emoji": "🚻",
@@ -6953,7 +6953,7 @@
       {
         "emoji": "🔞",
         "name": "no one under eighteen",
-        "slug": "no_one_under_eighteen"
+        "slug": "no_one_under_eighteen_18_age_limit_prohibited"
       },
       {
         "emoji": "☢️",
@@ -7949,42 +7949,42 @@
       {
         "emoji": "🏁",
         "name": "chequered flag",
-        "slug": "chequered_flag"
+        "slug": "chequered_flag_racing_race"
       },
       {
         "emoji": "🚩",
         "name": "triangular flag",
-        "slug": "triangular_flag"
+        "slug": "triangular_flag_post"
       },
       {
         "emoji": "🎌",
         "name": "crossed flags",
-        "slug": "crossed_flags"
+        "slug": "crossed_flags_celebration"
       },
       {
         "emoji": "🏴",
         "name": "black flag",
-        "slug": "black_flag"
+        "slug": "black_flag_waving"
       },
       {
         "emoji": "🏳️",
         "name": "white flag",
-        "slug": "white_flag"
+        "slug": "white_flag_waving"
       },
       {
         "emoji": "🏳️‍🌈",
         "name": "rainbow flag",
-        "slug": "rainbow_flag"
+        "slug": "rainbow_flag_pride"
       },
       {
         "emoji": "🏳️‍⚧️",
         "name": "transgender flag",
-        "slug": "transgender_flag"
+        "slug": "transgender_flag_pink_white"
       },
       {
         "emoji": "🏴‍☠️",
         "name": "pirate flag",
-        "slug": "pirate_flag"
+        "slug": "pirate_flag_treasure"
       },
       {
         "emoji": "🇦🇨",
