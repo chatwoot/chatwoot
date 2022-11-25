@@ -7,7 +7,6 @@ RSpec.describe User do
 
   let!(:account_user) { create(:account_user) }
   let!(:inbox) { create(:inbox, account: account_user.account) }
-  let(:conversation) { create(:conversation, account: account_user.account, assignee: account_user.user, inbox: inbox) }
 
   describe 'notification_settings' do
     it 'gets created with the right default settings' do
@@ -20,6 +19,7 @@ RSpec.describe User do
 
   describe 'destroy call agent::destroy service' do
     it 'gets created with the right default settings' do
+      create(:conversation, account: account_user.account, assignee: account_user.user, inbox: inbox)
       user = account_user.user
 
       expect(user.assigned_conversations.count).to eq(1)
