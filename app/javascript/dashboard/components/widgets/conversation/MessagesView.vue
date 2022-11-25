@@ -35,7 +35,7 @@
       <message
         v-for="message in getReadMessages"
         :key="message.id"
-        class="message--read"
+        class="message--read ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
@@ -57,7 +57,7 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
-        class="message--unread"
+        class="message--unread ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
