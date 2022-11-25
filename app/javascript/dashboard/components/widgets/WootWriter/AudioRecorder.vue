@@ -14,7 +14,7 @@ import inboxMixin from '../../../../shared/mixins/inboxMixin';
 import alertMixin from '../../../../shared/mixins/alertMixin';
 
 import Recorder from 'opus-recorder';
-import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
+// import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
 
 import WaveSurfer from 'wavesurfer.js';
 import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
@@ -70,13 +70,24 @@ export default {
           record: {
             audio: true,
             video: false,
-            displayMilliseconds: false,
-            maxLength: 300,
-            audioEngine: 'opus-recorder',
-            audioWorkerURL: encoderWorker,
-            audioChannels: 1,
-            audioSampleRate: 48000,
-            audioBitRate: 128,
+            // displayMilliseconds: false,
+            // maxLength: 300,
+            // audioEngine: 'opus-recorder',
+            // audioWorkerURL: encoderWorker,
+            // audioChannels: 1,
+            // audioSampleRate: 48000,
+            // audioBitRate: 128,
+            monitorGain: 0,
+            recordingGain: 1,
+            numberOfChannels: 1,
+            encoderSampleRate: 16000,
+            originalSampleRateOverride: 16000,
+            streamPages: true,
+            maxFramesPerPage: 1,
+            encoderFrameSize: 1,
+            encoderPath:
+              '../../../../../../node_modules//opus-recorder/dist/waveWorker.min.js',
+            // opus-recorder/dist/encoderWorker.min
           },
         },
       },
