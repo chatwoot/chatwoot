@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Позначити як \"В очікуванні\"",
       "RESOLVED": "Позначити як вирішене",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Повторно відкрити розмову",
       "SNOOZE": {
         "TITLE": "Відкласти",
