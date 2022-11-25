@@ -179,7 +179,8 @@ $font-size-default: 16px;
 $font-size-medium: 18px;
 
 $color-bg: #ebf0f5;
-$color-text-light: #c9d7e3;
+
+$border-radius-normal: 5px;
 
 .emoji-dialog {
   @include elegant-card;
@@ -217,7 +218,7 @@ $color-text-light: #c9d7e3;
   padding: 0 $space-smaller;
 
   &:hover {
-    background: $color-bg;
+    background: var(--s-75);
   }
 }
 
@@ -232,7 +233,6 @@ $color-text-light: #c9d7e3;
 }
 
 .emoji-search--wrap {
-  background-color: $color-white;
   margin: $space-small;
   position: sticky;
   top: $space-small;
@@ -240,7 +240,7 @@ $color-text-light: #c9d7e3;
   .emoji-search--input {
     background-color: $color-bg;
     border: 1px solid transparent;
-    border-radius: 5px;
+    border-radius: $border-radius-normal;
     font-size: $font-size-small;
     height: $space-larger;
     margin: 0;
@@ -261,11 +261,11 @@ $color-text-light: #c9d7e3;
   justify-content: center;
 
   .emoji-icon {
-    color: $color-text-light;
+    color: var(--s-200);
     margin-bottom: $space-small;
   }
   .empty-message--text {
-    color: $color-text-light;
+    color: var(--s-200);
     font-size: $font-size-small;
     font-weight: 500;
   }

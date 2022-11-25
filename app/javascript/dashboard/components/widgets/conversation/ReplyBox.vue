@@ -965,13 +965,13 @@ export default {
 
 .emoji-dialog {
   top: unset;
-  bottom: var(--space-slab);
+  bottom: var(--space-normal);
   left: -320px;
   right: unset;
 
   &::before {
     right: var(--space-minus-normal);
-    bottom: var(--space-one);
+    bottom: var(--space-small);
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
@@ -984,8 +984,8 @@ export default {
 
   &::before {
     transform: rotate(0deg);
-    left: var(--space-half);
-    bottom: var(--space-minus-one);
+    left: var(--space-smaller);
+    bottom: var(--space-minus-small);
   }
 }
 .message-signature {
