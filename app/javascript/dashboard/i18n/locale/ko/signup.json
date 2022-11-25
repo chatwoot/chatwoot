@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "계정 생성",
     "TITLE": "회원가입",
-    "TERMS_ACCEPT": "회원가입 시, 당신은 우리의 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 및<a href=\"https://www.chatwoot.com/privacy-policy\">개인 정보 보호 정책</a>에 동의하게 됩니다.",
+    "TERMS_ACCEPT": "회원가입 시, 당신은 우리의 <a href=\"https://www.quicksales.vn/terms\">T & C</a> 및<a href=\"https://www.quicksales.vn/privacy-policy\">개인 정보 보호 정책</a>에 동의하게 됩니다.",
     "ACCOUNT_NAME": {
       "LABEL": "계정 이름",
       "PLACEHOLDER": "계정 이름을 입력합니다. 예: Girls Generation",

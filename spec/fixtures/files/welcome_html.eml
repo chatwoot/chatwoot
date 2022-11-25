@@ -1,4 +1,4 @@
-Delivered-To: tejaswini@chatwoot.com
+Delivered-To: tejaswini@quicksales.vn
 Received: by 2002:a05:7110:a0a6:b0:11b:be8b:591e with SMTP id o6csp4217866gee;
         Mon, 20 Dec 2021 22:29:33 -0800 (PST)
 X-Received: by 2002:a05:6638:38a0:: with SMTP id b32mr1050456jav.200.1640068173387;
@@ -23,18 +23,18 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc
          AuXg==
 ARC-Authentication-Results: i=1; mx.google.com;
        dkim=pass header.i=@gmail.com header.s=20210112 header.b=CGxGg1rV;
-       spf=pass (google.com: domain of Sony@chatwoot.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=Sony@chatwoot.com;
+       spf=pass (google.com: domain of Sony@quicksales.vn designates 209.85.220.41 as permitted sender) smtp.mailfrom=Sony@quicksales.vn;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Return-Path: <Sony@chatwoot.com>
+Return-Path: <Sony@quicksales.vn>
 Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
         by mx.google.com with SMTPS id i11sor5238056ilu.143.2021.12.20.22.29.33
-        for <tejaswini@chatwoot.com>
+        for <tejaswini@quicksales.vn>
         (Google Transport Security);
         Mon, 20 Dec 2021 22:29:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of Sony@chatwoot.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Received-SPF: pass (google.com: domain of Sony@quicksales.vn designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
 Authentication-Results: mx.google.com;
        dkim=pass header.i=@gmail.com header.s=20210112 header.b=CGxGg1rV;
-       spf=pass (google.com: domain of Sony@chatwoot.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=Sony@chatwoot.com;
+       spf=pass (google.com: domain of Sony@quicksales.vn designates 209.85.220.41 as permitted sender) smtp.mailfrom=Sony@quicksales.vn;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
@@ -63,11 +63,11 @@ X-Received: by 2002:a92:db51:: with SMTP id w17mr849806ilq.213.1640068172521; Mo
 MIME-Version: 1.0
 References: <mW2kUpR9gPvKQwucWUfXr0NM9ZJM8Zef4VLQ0itNtJYsB0O9fHpB6wHrckNJXMAmpIfYWkt-X11WxL2ohnxm6_ysGjHg4-9e-WVOlxg7hYOQiHNy_YpqN9Nr4i59Lq3B8DKlK_tPTbsq7y54XplAAAECAA==@t1.msgid.testmail.com>
 In-Reply-To: <mW2kUpR9gPvKQwucWUfXr0NM9ZJM8Zef4VLQ0itNtJYsB0O9fHpB6wHrckNJXMAmpIfYWkt-X11WxL2ohnxm6_ysGjHg4-9e-WVOlxg7hYOQiHNy_YpqN9Nr4i59Lq3B8DKlK_tPTbsq7y54XplAAAECAA==@t1.msgid.testmail.com>
-From: Sony Mathew <Sony@chatwoot.com>
+From: Sony Mathew <Sony@quicksales.vn>
 Date: Tue, 21 Dec 2021 11:29:20 +0500
 Message-ID: <CA+SD1Kyr7pCMgB=Z-fJ_a4v=MyisAZsgZSMr9Ji4zhFmF+mcgA@mail.gmail.com>
 Subject: Fwd: How good are you in English? How did you improve your English?
-To: tejaswini@chatwoot.com
+To: tejaswini@quicksales.vn
 Content-Type: multipart/alternative; boundary="000000000000d4a5b005d3a220ef"
 
 --000000000000d4a5b005d3a220ef

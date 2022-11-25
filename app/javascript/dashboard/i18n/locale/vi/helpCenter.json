@@ -352,7 +352,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Danh mục slug cho url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.quicksales.vn/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Phải có Slug"
         },
         "DESCRIPTION": {
@@ -383,7 +383,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Danh mục slug cho url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.quicksales.vn/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Phải có Slug"
         },
         "DESCRIPTION": {

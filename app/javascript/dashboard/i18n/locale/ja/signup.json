@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "アカウントを登録",
     "TITLE": "登録",
-    "TERMS_ACCEPT": "サインアップすることで、 <a href=\"https://www.chatwoot.com/terms\">T & C</a> および <a href=\"https://www.chatwoot.com/privacy-policy\">プライバシー ポリシー</a> に同意したことになります。",
+    "TERMS_ACCEPT": "サインアップすることで、 <a href=\"https://www.quicksales.vn/terms\">T & C</a> および <a href=\"https://www.quicksales.vn/privacy-policy\">プライバシー ポリシー</a> に同意したことになります。",
     "ACCOUNT_NAME": {
       "LABEL": "アカウント名",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",

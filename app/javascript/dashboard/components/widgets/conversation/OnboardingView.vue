@@ -19,7 +19,7 @@
           </p>
           <p v-if="globalConfig.installationName === 'Chatwoot'">
             <a
-              href="https://www.chatwoot.com/changelog"
+              href="https://www.quicksales.vn/changelog"
               target="_blank"
               rel="noopener nofollow noreferrer"
               class="onboarding--link"

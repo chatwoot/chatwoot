@@ -21,7 +21,7 @@ export default [
     account_id: 1,
     campaign_type: 'one_off',
     trigger_rules: {
-      url: 'https://chatwoot.com',
+      url: 'https://quicksales.vn',
       time_on_page: '20',
     },
     created_at: '2021-05-03T08:15:35.828Z',

@@ -25,7 +25,7 @@ RSpec.describe 'Public Portals API', type: :request do
       json_response = JSON.parse(response.body)
 
       expect(json_response['error']).to eql "Domain: www.example.com is not registered with us. \
-      Please send us an email at support@chatwoot.com with the custom domain name and account API key"
+      Please send us an email at support@quicksales.vn with the custom domain name and account API key"
     end
   end
 end

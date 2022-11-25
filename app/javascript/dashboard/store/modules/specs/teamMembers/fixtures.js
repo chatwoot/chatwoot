@@ -2,9 +2,9 @@ export default [
   {
     id: 1,
     provider: 'email',
-    uid: 'agent1@chatwoot.com',
+    uid: 'agent1@quicksales.vn',
     name: 'Agent1',
-    email: 'agent1@chatwoot.com',
+    email: 'agent1@quicksales.vn',
     account_id: 1,
     created_at: '2019-11-18T02:21:06.225Z',
     updated_at: '2019-12-20T07:43:35.794Z',
@@ -15,9 +15,9 @@ export default [
   {
     id: 2,
     provider: 'email',
-    uid: 'agent2@chatwoot.com',
+    uid: 'agent2@quicksales.vn',
     name: 'Agent2',
-    email: 'agent2@chatwoot.com',
+    email: 'agent2@quicksales.vn',
     account_id: 1,
     created_at: '2019-11-18T02:21:06.225Z',
     updated_at: '2019-12-20T07:43:35.794Z',

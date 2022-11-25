@@ -7,13 +7,13 @@ describe('#getters', () => {
         {
           id: 1,
           name: 'Agent 1',
-          email: 'agent1@chatwoot.com',
+          email: 'agent1@quicksales.vn',
           confirmed: true,
         },
         {
           id: 2,
           name: 'Agent 2',
-          email: 'agent2@chatwoot.com',
+          email: 'agent2@quicksales.vn',
           confirmed: false,
         },
       ],
@@ -22,13 +22,13 @@ describe('#getters', () => {
       {
         id: 1,
         name: 'Agent 1',
-        email: 'agent1@chatwoot.com',
+        email: 'agent1@quicksales.vn',
         confirmed: true,
       },
       {
         id: 2,
         name: 'Agent 2',
-        email: 'agent2@chatwoot.com',
+        email: 'agent2@quicksales.vn',
         confirmed: false,
       },
     ]);
@@ -40,13 +40,13 @@ describe('#getters', () => {
         {
           id: 1,
           name: 'Agent 1',
-          email: 'agent1@chatwoot.com',
+          email: 'agent1@quicksales.vn',
           confirmed: true,
         },
         {
           id: 2,
           name: 'Agent 2',
-          email: 'agent2@chatwoot.com',
+          email: 'agent2@quicksales.vn',
           confirmed: false,
         },
       ],
@@ -55,7 +55,7 @@ describe('#getters', () => {
       {
         id: 1,
         name: 'Agent 1',
-        email: 'agent1@chatwoot.com',
+        email: 'agent1@quicksales.vn',
         confirmed: true,
       },
     ]);
@@ -84,14 +84,14 @@ describe('#getters', () => {
         {
           id: 1,
           name: 'Agent 1',
-          email: 'agent1@chatwoot.com',
+          email: 'agent1@quicksales.vn',
           confirmed: true,
           availability_status: 'online',
         },
         {
           id: 2,
           name: 'Agent 2',
-          email: 'agent2@chatwoot.com',
+          email: 'agent2@quicksales.vn',
           confirmed: false,
           availability_status: 'offline',
         },
@@ -110,14 +110,14 @@ describe('#getters', () => {
         {
           id: 1,
           name: 'Agent 1',
-          email: 'agent1@chatwoot.com',
+          email: 'agent1@quicksales.vn',
           confirmed: true,
           availability_status: 'online',
         },
         {
           id: 2,
           name: 'Agent 2',
-          email: 'agent2@chatwoot.com',
+          email: 'agent2@quicksales.vn',
           confirmed: false,
           availability_status: 'offline',
         },

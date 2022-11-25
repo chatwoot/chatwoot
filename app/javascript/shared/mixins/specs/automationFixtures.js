@@ -597,7 +597,7 @@ export const inboxes = [
     reply_time: null,
     phone_number: null,
     forward_to_email: '9ae8ebb96c7f2d6705009f5add6d1a2d@false',
-    email: 'fayaz@chatwoot.com',
+    email: 'fayaz@quicksales.vn',
     imap_login: '',
     imap_password: '',
     imap_address: '',

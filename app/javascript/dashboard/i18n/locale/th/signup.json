@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "สร้างบัญชี",
     "TITLE": "สร้างบัญชี",
-    "TERMS_ACCEPT": "การสมัครบ่งบอกว่าคุณได้การยอมรับ <a href=\"https://www.chatwoot.com/terms\">ข้อตกลง</a> และ <a href=\"https://www.chatwoot.com/privacy-policy\">นโยบายความเป็นส่วนตัว</a> ของเรา",
+    "TERMS_ACCEPT": "การสมัครบ่งบอกว่าคุณได้การยอมรับ <a href=\"https://www.quicksales.vn/terms\">ข้อตกลง</a> และ <a href=\"https://www.quicksales.vn/privacy-policy\">นโยบายความเป็นส่วนตัว</a> ของเรา",
     "ACCOUNT_NAME": {
       "LABEL": "ชื่อบัญชี",
       "PLACEHOLDER": "ใส่ชื่อบัญชี เช่น ชื่อบริษัทของคุณ",

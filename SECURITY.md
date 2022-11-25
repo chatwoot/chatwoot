@@ -4,7 +4,7 @@ Chatwoot is looking forward to working with security researchers worldwide to ke
 
 We use [huntr.dev](https://huntr.dev/) for security issues that affect our project. If you believe you have found a vulnerability, please disclose it via this [form](https://huntr.dev/bounties/disclose). This will enable us to review the vulnerability, fix it promptly, and reward you for your efforts.
 
-If you have any questions about the process, contact security@chatwoot.com. 
+If you have any questions about the process, contact security@quicksales.vn. 
 
 Please try your best to describe a clear and realistic impact for your report, and please don't open any public issues on GitHub or social media; we're doing our best to respond through Huntr as quickly as possible.
 
@@ -27,7 +27,7 @@ Please try your best to describe a clear and realistic impact for your report, a
 - Performing limited admin actions without authorization
 - CSRF
 
-You can learn more about our triaging process [here](https://www.chatwoot.com/docs/contributing-guide/security-reports).
+You can learn more about our triaging process [here](https://www.quicksales.vn/docs/contributing-guide/security-reports).
 
 ## Non-Qualifying Vulnerabilities
 

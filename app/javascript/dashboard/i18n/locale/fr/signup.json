@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Créer un compte",
     "TITLE": "Inscription",
-    "TERMS_ACCEPT": "En vous inscrivant, vous acceptez nos <a href=\"https://www.chatwoot.com/terms\">CGU</a> et notre <a href=\"https://www.chatwoot.com/privacy-policy\">politique de confidentialité</a>",
+    "TERMS_ACCEPT": "En vous inscrivant, vous acceptez nos <a href=\"https://www.quicksales.vn/terms\">CGU</a> et notre <a href=\"https://www.quicksales.vn/privacy-policy\">politique de confidentialité</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nom du compte",
       "PLACEHOLDER": "Entrez un nom de compte. Ex : Wayne Enterprises",

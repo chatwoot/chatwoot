@@ -12,8 +12,8 @@ describe('#Campaigns Helper', () => {
   describe('stripTrailingSlash', () => {
     it('should return striped trailing slash if url with trailing slash is passed', () => {
       expect(
-        stripTrailingSlash({ URL: 'https://www.chatwoot.com/pricing/' })
-      ).toBe('https://www.chatwoot.com/pricing');
+        stripTrailingSlash({ URL: 'https://www.quicksales.vn/pricing/' })
+      ).toBe('https://www.quicksales.vn/pricing');
     });
   });
 
@@ -24,13 +24,13 @@ describe('#Campaigns Helper', () => {
           id: 1,
           timeOnPage: 3,
           triggerOnlyDuringBusinessHours: false,
-          url: 'https://www.chatwoot.com/pricing',
+          url: 'https://www.quicksales.vn/pricing',
         },
         {
           id: 2,
           triggerOnlyDuringBusinessHours: false,
           timeOnPage: 6,
-          url: 'https://www.chatwoot.com/about',
+          url: 'https://www.quicksales.vn/about',
         },
       ]);
     });
@@ -43,23 +43,23 @@ describe('#Campaigns Helper', () => {
             {
               id: 1,
               timeOnPage: 3,
-              url: 'https://www.chatwoot.com/pricing',
+              url: 'https://www.quicksales.vn/pricing',
               triggerOnlyDuringBusinessHours: false,
             },
             {
               id: 2,
               timeOnPage: 6,
-              url: 'https://www.chatwoot.com/about',
+              url: 'https://www.quicksales.vn/about',
               triggerOnlyDuringBusinessHours: false,
             },
           ],
-          currentURL: 'https://www.chatwoot.com/about/',
+          currentURL: 'https://www.quicksales.vn/about/',
         })
       ).toStrictEqual([
         {
           id: 2,
           timeOnPage: 6,
-          url: 'https://www.chatwoot.com/about',
+          url: 'https://www.quicksales.vn/about',
           triggerOnlyDuringBusinessHours: false,
         },
       ]);
@@ -71,24 +71,24 @@ describe('#Campaigns Helper', () => {
             {
               id: 1,
               timeOnPage: 3,
-              url: 'https://www.chatwoot.com/pricing',
+              url: 'https://www.quicksales.vn/pricing',
               triggerOnlyDuringBusinessHours: false,
             },
             {
               id: 2,
               timeOnPage: 6,
-              url: 'https://www.chatwoot.com/about',
+              url: 'https://www.quicksales.vn/about',
               triggerOnlyDuringBusinessHours: true,
             },
           ],
-          currentURL: 'https://www.chatwoot.com/about/',
+          currentURL: 'https://www.quicksales.vn/about/',
           isInBusinessHours: true,
         })
       ).toStrictEqual([
         {
           id: 2,
           timeOnPage: 6,
-          url: 'https://www.chatwoot.com/about',
+          url: 'https://www.quicksales.vn/about',
           triggerOnlyDuringBusinessHours: true,
         },
       ]);
@@ -100,17 +100,17 @@ describe('#Campaigns Helper', () => {
             {
               id: 1,
               timeOnPage: 3,
-              url: 'https://www.chatwoot.com/pricing',
+              url: 'https://www.quicksales.vn/pricing',
               triggerOnlyDuringBusinessHours: true,
             },
             {
               id: 2,
               timeOnPage: 6,
-              url: 'https://www.chatwoot.com/about',
+              url: 'https://www.quicksales.vn/about',
               triggerOnlyDuringBusinessHours: true,
             },
           ],
-          currentURL: 'https://www.chatwoot.com/about/',
+          currentURL: 'https://www.quicksales.vn/about/',
           isInBusinessHours: false,
         })
       ).toStrictEqual([]);

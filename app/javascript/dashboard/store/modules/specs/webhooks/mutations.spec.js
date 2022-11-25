@@ -37,7 +37,7 @@ describe('#mutations', () => {
         records: [webhooks[0]],
       };
       mutations[types.default.UPDATE_WEBHOOK](state, webhooks[0]);
-      expect(state.records[0].url).toEqual('https://1.chatwoot.com');
+      expect(state.records[0].url).toEqual('https://1.quicksales.vn');
     });
   });
 });

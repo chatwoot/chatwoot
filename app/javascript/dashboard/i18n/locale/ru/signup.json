@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Создать аккаунт",
     "TITLE": "Регистрация",
-    "TERMS_ACCEPT": "Зарегистрировавшись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">правилами пользования</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
+    "TERMS_ACCEPT": "Зарегистрировавшись, вы соглашаетесь с нашими <a href=\"https://www.quicksales.vn/terms\">правилами пользования</a> и <a href=\"https://www.quicksales.vn/privacy-policy\">политикой конфиденциальности</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Имя аккаунта",
       "PLACEHOLDER": "Введите имя аккаунта, например: Wayne Enterprises",

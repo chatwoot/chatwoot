@@ -163,7 +163,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id' do
-    let(:message) { create(:message, account: account, content_attributes: { bcc_emails: ['hello@chatwoot.com'] }) }
+    let(:message) { create(:message, account: account, content_attributes: { bcc_emails: ['hello@quicksales.vn'] }) }
     let(:conversation) { message.conversation }
 
     context 'when it is an unauthenticated user' do

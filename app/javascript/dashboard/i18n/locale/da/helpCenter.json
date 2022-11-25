@@ -352,7 +352,7 @@
         "SLUG": {
           "LABEL": "Snegl",
           "PLACEHOLDER": "Kategori slug for webls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/da-DK/categories/my-slug",
+          "HELP_TEXT": "app.quicksales.vn/hc/my-portal/da-DK/categories/my-slug",
           "ERROR": "Slug er påkrævet"
         },
         "DESCRIPTION": {
@@ -383,7 +383,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Kategori slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/da-DK/categories/my-slug",
+          "HELP_TEXT": "app.quicksales.vn/hc/my-portal/da-DK/categories/my-slug",
           "ERROR": "Slug er påkrævet"
         },
         "DESCRIPTION": {

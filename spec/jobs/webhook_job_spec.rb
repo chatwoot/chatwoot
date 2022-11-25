@@ -5,7 +5,7 @@ RSpec.describe WebhookJob, type: :job do
 
   subject(:job) { described_class.perform_later(url, payload) }
 
-  let(:url) { 'https://test.chatwoot.com' }
+  let(:url) { 'https://test.quicksales.vn' }
   let(:payload) { { name: 'test' } }
 
   it 'queues the job' do
