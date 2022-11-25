@@ -22,7 +22,7 @@
         :custom-views="customViews"
         :menu-config="activeSecondaryMenu"
         :current-role="currentRole"
-        :is-on-chatwoot-cloud="isOnChatwootCloud"
+        :is-on-chatwoot-cloud="isOnChatquickCloud"
         @add-label="showAddLabelPopup"
         @toggle-accounts="toggleAccountModal"
       />
@@ -80,7 +80,7 @@ export default {
       inboxes: 'inboxes/getInboxes',
       isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      isOnChatquickCloud: 'globalConfig/isOnChatquickCloud',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),

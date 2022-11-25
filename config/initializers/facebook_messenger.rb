@@ -1,5 +1,5 @@
 # ref: https://github.com/jgorset/facebook-messenger#make-a-configuration-provider
-class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
+class ChatquickFbProvider < Facebook::Messenger::Configuration::Providers::Base
   def valid_verify_token?(_verify_token)
     GlobalConfigService.load('FB_VERIFY_TOKEN', '')
   end
@@ -15,13 +15,13 @@ class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
   private
 
   def bot
-    Chatwoot::Bot
+    Chatquick::Bot
   end
 end
 
 Rails.application.reloader.to_prepare do
   Facebook::Messenger.configure do |config|
-    config.provider = ChatwootFbProvider.new
+    config.provider = ChatquickFbProvider.new
   end
 
   Facebook::Messenger::Bot.on :message do |message|

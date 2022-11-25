@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
       }
     },
-    "UPDATE_CHATWOOT": "%{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
+    "UPDATE_CHATWOOT": "%{latestChatquickVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
     "LEARN_MORE": "Daha fazla"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Chatwoot ile bağlantı kesildi"
+      "TEXT": "Chatquick ile bağlantı kesildi"
     },
     "BUTTON": {
       "REFRESH": "Yenile"

@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "คุณสามารถรับอีเมล์ในโดเมนเเบบกำหนดเองได้เเล้ว"
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot เวอร์ชั่น %{latestChatwootVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
+    "UPDATE_CHATWOOT": "Chatquick เวอร์ชั่น %{latestChatquickVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
     "LEARN_MORE": "เรียนรู้เพิ่มเติม"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "ยกเลิกการเชื่อมต่อกับ Chatwoot"
+      "TEXT": "ยกเลิกการเชื่อมต่อกับ Chatquick"
     },
     "BUTTON": {
       "REFRESH": "โหลดใหม่"

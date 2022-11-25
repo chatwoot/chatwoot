@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Innhólf</b></p> <p> Þegar þú tengir vefsíðu eða Facebook-síðu við Chatwoot er það kallað <b>Innhólf</b>. Þú getur haft ótakmörkuð innhólf á Chatwoot reikningnum þínum. </p><p> Smelltu á <b>Bæta við innhólfi</b> til að tengja vefsíðu eða Facebook-síðu. </p><p> Í stjórnborðinu geturðu séð öll samtölin úr öllum innhólfunum þínum á einum stað og svarað þeim undir flipanum 'Samtöl'. </p><p> Þú getur líka séð samtöl sem eru sértæk fyrir innhólf með því að smella á innhólfsnafnið í vinstri glugganum á mælaborðinu. </p>",
+    "SIDEBAR_TXT": "<p><b>Innhólf</b></p> <p> Þegar þú tengir vefsíðu eða Facebook-síðu við Chatquick er það kallað <b>Innhólf</b>. Þú getur haft ótakmörkuð innhólf á Chatquick reikningnum þínum. </p><p> Smelltu á <b>Bæta við innhólfi</b> til að tengja vefsíðu eða Facebook-síðu. </p><p> Í stjórnborðinu geturðu séð öll samtölin úr öllum innhólfunum þínum á einum stað og svarað þeim undir flipanum 'Samtöl'. </p><p> Þú getur líka séð samtöl sem eru sértæk fyrir innhólf með því að smella á innhólfsnafnið í vinstri glugganum á mælaborðinu. </p>",
     "LIST": {
       "404": "Það eru engin innhólf tengd við þennan reikning."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Choose Channel",
         "route": "settings_inbox_new",
-        "body": "Veldu þjónustuveituna sem þú vilt samþætta við Chatwoot."
+        "body": "Veldu þjónustuveituna sem þú vilt samþætta við Chatquick."
       },
       {
         "title": "Create Inbox",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Með því að skrá þig inn fáum við aðeins aðgang að skilaboðum síðunnar þinnar. Chatwoot getur aldrei nálgast einkaskilaboðin þín.",
+        "HELP": "PS: Með því að skrá þig inn fáum við aðeins aðgang að skilaboðum síðunnar þinnar. Chatquick getur aldrei nálgast einkaskilaboðin þín.",
         "CHOOSE_PAGE": "Choose Page",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
         "INBOX_NAME": "Inbox Name",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot styður vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef þú vilt búa til sérsniðna rás geturðu búið hana til með því að nota API rásina. Til að byrja skaltu velja eina af rásunum hér að neðan."
+        "DESC": "Chatquick styður vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef þú vilt búa til sérsniðna rás geturðu búið hana til með því að nota API rásina. Til að byrja skaltu velja eina af rásunum hér að neðan."
       },
       "AGENTS": {
         "TITLE": "Þjónustufulltrúar",
@@ -339,11 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Inbox Details",
-        "DESC": "Í fellilistanum hér að neðan, veldu Facebook síðuna sem þú vilt tengja við Chatwoot. Þú getur líka gefið innhólfinu sérsniðið nafn til að þekkja það betur."
+        "DESC": "Í fellilistanum hér að neðan, veldu Facebook síðuna sem þú vilt tengja við Chatquick. Þú getur líka gefið innhólfinu sérsniðið nafn til að þekkja það betur."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "Þú hefur lokið við að innleiða Facebook síðuna þína í Chatwoot. Næst þegar viðskiptavinur sendir skilaboð á síðunni þinni birtist samtalið sjálfkrafa í innhólfinu þínu.<br>Við erum líka að útvega þér netspjalls skriftu sem þú getur auðveldlega bætt við vefsíðuna þína. Þegar þetta er komið á vefsvæðið þitt geta viðskiptavinir sent þér skilaboð beint frá vefsíðunni þinni án hjálpar utanaðkomandi tóla og samtalið mun birtast hér, í Chatwoot.<br>Svalt, ha? Jæja, við reynum að vera það :)"
+        "DESC": "Þú hefur lokið við að innleiða Facebook síðuna þína í Chatquick. Næst þegar viðskiptavinur sendir skilaboð á síðunni þinni birtist samtalið sjálfkrafa í innhólfinu þínu.<br>Við erum líka að útvega þér netspjalls skriftu sem þú getur auðveldlega bætt við vefsíðuna þína. Þegar þetta er komið á vefsvæðið þitt geta viðskiptavinir sent þér skilaboð beint frá vefsíðunni þinni án hjálpar utanaðkomandi tóla og samtalið mun birtast hér, í Chatquick.<br>Svalt, ha? Jæja, við reynum að vera það :)"
       }
     },
     "DETAILS": {
@@ -658,7 +658,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Keyrt af Chatwoot",
+      "BRANDING_TEXT": "Keyrt af Chatquick",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }

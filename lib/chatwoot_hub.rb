@@ -1,4 +1,4 @@
-class ChatwootHub
+class ChatquickHub
   BASE_URL = ENV.fetch('CHATWOOT_HUB_URL', 'https://hub.2.quicksales.vn')
   PING_URL = "#{BASE_URL}/ping".freeze
   REGISTRATION_URL = "#{BASE_URL}/instances".freeze
@@ -14,7 +14,7 @@ class ChatwootHub
   def self.instance_config
     {
       installation_identifier: installation_identifier,
-      installation_version: Chatwoot.config[:version],
+      installation_version: Chatquick.config[:version],
       installation_host: URI.parse(ENV.fetch('FRONTEND_URL', '')).host,
       installation_env: ENV.fetch('INSTALLATION_ENV', ''),
       edition: ENV.fetch('CW_EDITION', '')
@@ -42,7 +42,7 @@ class ChatwootHub
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
       Rails.logger.error "Exception: #{e.message}"
     rescue StandardError => e
-      ChatwootExceptionTracker.new(e).capture_exception
+      ChatquickExceptionTracker.new(e).capture_exception
     end
     version
   end
@@ -53,7 +53,7 @@ class ChatwootHub
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
+    ChatquickExceptionTracker.new(e).capture_exception
   end
 
   def self.send_browser_push(fcm_token_list, fcm_options)
@@ -62,7 +62,7 @@ class ChatwootHub
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
+    ChatquickExceptionTracker.new(e).capture_exception
   end
 
   def self.emit_event(event_name, event_data)
@@ -73,6 +73,6 @@ class ChatwootHub
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
+    ChatquickExceptionTracker.new(e).capture_exception
   end
 end

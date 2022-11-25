@@ -20,7 +20,7 @@ export const initializeAnalyticsEvents = () => {
   });
 };
 
-export const initializeChatwootEvents = () => {
+export const initializeChatquickEvents = () => {
   window.bus.$on(CHATWOOT_RESET, () => {
     if (window.$chatwoot) {
       window.$chatwoot.reset();

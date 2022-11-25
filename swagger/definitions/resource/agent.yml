@@ -22,7 +22,7 @@ properties:
   availability_status: 
     type: string
     enum: ['available', 'busy', 'offline']
-    description: The availability status of the agent computed by Chatwoot.
+    description: The availability status of the agent computed by Chatquick.
   auto_offline:
     type: boolean
     description: Whether the availability status of agent is configured to go offline automatically when away.

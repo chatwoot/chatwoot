@@ -7,7 +7,7 @@ class MessageTemplates::Template::EmailCollect
       conversation.messages.create!(email_input_box_template_message_params)
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    ChatquickExceptionTracker.new(e, account: conversation.account).capture_exception
     true
   end
 

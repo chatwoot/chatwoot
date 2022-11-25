@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sie können jetzt E-Mails in Ihrer benutzerdefinierten Domäne empfangen."
       }
     },
-    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
+    "UPDATE_CHATWOOT": "Ein Update %{latestChatquickVersion} für Chatquick ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
     "LEARN_MORE": "Mehr erfahren"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Verbindung zu Chatwoot getrennt"
+      "TEXT": "Verbindung zu Chatquick getrennt"
     },
     "BUTTON": {
       "REFRESH": "Neu laden"

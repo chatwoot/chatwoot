@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."
       }
     },
-    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
+    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatquickVersion} cho Chatquick. Vui lòng cập nhật phiên bản của bạn.",
     "LEARN_MORE": "Tìm hiểu thêm"
   },
   "FORMS": {

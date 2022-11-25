@@ -142,7 +142,7 @@ ca:
       description: "Slack és una eina de xat que uneix tota la teva comunicació en un sol lloc. Integrant Slack, podràs rebre notificacions de totes les noves conversacions a la teva compte directament a dins l'Slack."
     webhooks:
       name: "Webhooks"
-      description: "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web."
+      description: "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatquick. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web."
     dialogflow:
       name: "Dialogflow"
       description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."

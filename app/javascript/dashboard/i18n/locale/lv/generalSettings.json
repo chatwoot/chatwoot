@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Tagad Jūs varat saņemt e-pasta ziņojumus savā pielāgotajā domēnā."
       }
     },
-    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
+    "UPDATE_CHATWOOT": "Ir pieejams Chatquick %{latestChatquickVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
     "LEARN_MORE": "Uzzināt vairāk"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Atvienots no Chatwoot"
+      "TEXT": "Atvienots no Chatquick"
     },
     "BUTTON": {
       "REFRESH": "Atjaunot"

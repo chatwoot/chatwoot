@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ChatwootExceptionTracker do
+describe ChatquickExceptionTracker do
   it 'use rails logger if no tracker is configured' do
     expect(Rails.logger).to receive(:error).with('random')
     described_class.new('random').capture_exception

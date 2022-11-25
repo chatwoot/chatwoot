@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan modtage e-mails på dit brugerdefinerede domæne nu."
       }
     },
-    "UPDATE_CHATWOOT": "En opdatering %{latestChatwootVersion} til Chatwoot er tilgængelig. Opdater venligst din instans.",
+    "UPDATE_CHATWOOT": "En opdatering %{latestChatquickVersion} til Chatquick er tilgængelig. Opdater venligst din instans.",
     "LEARN_MORE": "Lær mere"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Afbrudt fra Chatwoot"
+      "TEXT": "Afbrudt fra Chatquick"
     },
     "BUTTON": {
       "REFRESH": "Opdater"

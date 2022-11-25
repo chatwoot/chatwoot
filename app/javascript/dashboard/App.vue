@@ -1,6 +1,6 @@
 <template>
   <div v-if="!authUIFlags.isFetching" id="app" class="app-wrapper app-root">
-    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
+    <update-banner :latest-chatwoot-version="latestChatquickVersion" />
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       showAddAccountModal: false,
-      latestChatwootVersion: null,
+      latestChatquickVersion: null,
     };
   },
 
@@ -92,11 +92,11 @@ export default {
       });
       const {
         locale,
-        latest_chatwoot_version: latestChatwootVersion,
+        latest_chatwoot_version: latestChatquickVersion,
       } = this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
-      this.latestChatwootVersion = latestChatwootVersion;
+      this.latestChatquickVersion = latestChatquickVersion;
       vueActionCable.init(pubsubToken);
     },
   },

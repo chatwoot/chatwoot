@@ -4,7 +4,7 @@
 # # This is set to run against every PR.
 # #
 
-name: Run Chatwoot CE spec
+name: Run Chatquick CE spec
 on:
   push:
     branches:

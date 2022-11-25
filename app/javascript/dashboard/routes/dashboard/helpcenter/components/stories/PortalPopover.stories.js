@@ -25,7 +25,7 @@ export const Primary = Template.bind({});
 Primary.args = {
   portals: [
     {
-      name: 'Chatwoot Help Center',
+      name: 'Chatquick Help Center',
       id: 1,
       color: null,
       custom_domain: 'doc',
@@ -93,7 +93,7 @@ Primary.args = {
       ],
     },
     {
-      name: 'Chatwoot Docs',
+      name: 'Chatquick Docs',
       id: 2,
       color: null,
       custom_domain: 'doc',

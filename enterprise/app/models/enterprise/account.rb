@@ -15,7 +15,7 @@ module Enterprise::Account
 
   def get_limits(limit_name)
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
-    self[:limits][limit_name.to_s] || GlobalConfig.get(config_name)[config_name] || ChatwootApp.max_limit
+    self[:limits][limit_name.to_s] || GlobalConfig.get(config_name)[config_name] || ChatquickApp.max_limit
   end
 
   def validate_limit_keys

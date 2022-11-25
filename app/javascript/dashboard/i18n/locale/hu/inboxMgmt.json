@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Fiókok",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p><p>Amikor egy weboldalt vagy facebook oldalt összekötsz a Chatwoottal, <b>inbox</b>-nak vagy fióknak hívjuk. Korlátlan inboxod lehet a Chatwoot fiókodban. </p><p>Kattints a <b>Inbox hozzáadása</b> gombra hogy összekapcsold a weboldaladdal vagy Facebook oldaladdal.</p><p>A műszerfaladon láthatod az összes beszélgetésedet az összes fiókodból egy helyen és válszolhatsz a 'Beszélgetések' fülön.</p><p>Láthatsz továbbá fiókhoz kapcsolódó beszélgetéseket a fiók nevére kattintva a műszerfal bal sávjában.</p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p><p>Amikor egy weboldalt vagy facebook oldalt összekötsz a Chatquicktal, <b>inbox</b>-nak vagy fióknak hívjuk. Korlátlan inboxod lehet a Chatquick fiókodban. </p><p>Kattints a <b>Inbox hozzáadása</b> gombra hogy összekapcsold a weboldaladdal vagy Facebook oldaladdal.</p><p>A műszerfaladon láthatod az összes beszélgetésedet az összes fiókodból egy helyen és válszolhatsz a 'Beszélgetések' fülön.</p><p>Láthatsz továbbá fiókhoz kapcsolódó beszélgetéseket a fiók nevére kattintva a műszerfal bal sávjában.</p>",
     "LIST": {
       "404": "Nincs Inbox kapcsolva ehhez a fiókhoz."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Csatorna kiválasztása",
         "route": "settings_inbox_new",
-        "body": "Válasz egy szolgáltatót, melyet össze akarsz integrálni a Chatwoottal."
+        "body": "Válasz egy szolgáltatót, melyet össze akarsz integrálni a Chatquicktal."
       },
       {
         "title": "Fiók létrehozása",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)"
       },
       "FB": {
-        "HELP": "UI: A bejelentkezéseddel csak az oldalad üzeneteihez kapunk hozzáférést. Privát üzeneteidhez sosem férhet hozzá a Chatwoot.",
+        "HELP": "UI: A bejelentkezéseddel csak az oldalad üzeneteihez kapunk hozzáférést. Privát üzeneteidhez sosem férhet hozzá a Chatquick.",
         "CHOOSE_PAGE": "Oldal kiválasztása",
         "CHOOSE_PLACEHOLDER": "Válaszd ki az oldalt a listából",
         "INBOX_NAME": "Fiók név",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatquick supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Ügynökök",
@@ -339,11 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Fiók részletek",
-        "DESC": "A legördülő listából kérjük válaszd ki hogy melyik Facebook oldalt szeretnéd a Chatwoothoz kötni. Egyedi nevet is adhatsz az Inboxnak a jobb azonosíthatóság érdekében."
+        "DESC": "A legördülő listából kérjük válaszd ki hogy melyik Facebook oldalt szeretnéd a Chatquickhoz kötni. Egyedi nevet is adhatsz az Inboxnak a jobb azonosíthatóság érdekében."
       },
       "FINISH": {
         "TITLE": "Sikerült!",
-        "DESC": "Sikeresen integráltad a Facebook oldaladat a Chatwoottal. Legközelebb amikor egy ügyfél üzenetet ír az oldaladra, a beszélgetés automatiksuan megjelenik az inboxodban.<br> Ezen kívül egy widget kódot biztosítunk számodra, amelyet könnyen hozzáadhatsz a weboldaladhoz. Amint ez kiélesítésre kerül, az ügyfelek üzenetet küldhetnek Neked a weboldaladról bármilyen külső eszköz igénybevétele nélkül és ez a beszélgetés itt a Chatwootban fog megjelenni. <br>Menő, nem? Hát megpróbáljuk :)"
+        "DESC": "Sikeresen integráltad a Facebook oldaladat a Chatquicktal. Legközelebb amikor egy ügyfél üzenetet ír az oldaladra, a beszélgetés automatiksuan megjelenik az inboxodban.<br> Ezen kívül egy widget kódot biztosítunk számodra, amelyet könnyen hozzáadhatsz a weboldaladhoz. Amint ez kiélesítésre kerül, az ügyfelek üzenetet küldhetnek Neked a weboldaladról bármilyen külső eszköz igénybevétele nélkül és ez a beszélgetés itt a Chatquickban fog megjelenni. <br>Menő, nem? Hát megpróbáljuk :)"
       }
     },
     "DETAILS": {
@@ -658,7 +658,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Chatwoot",
+      "BRANDING_TEXT": "Chatquick",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }

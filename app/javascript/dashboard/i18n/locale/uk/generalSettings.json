@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Тепер ви можете отримувати електронні листи на власний домен."
       }
     },
-    "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
+    "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatquickVersion} для Chatquick. Будь ласка, оновіть вашу копію.",
     "LEARN_MORE": "Детальніше"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Відключено від Chatwoot"
+      "TEXT": "Відключено від Chatquick"
     },
     "BUTTON": {
       "REFRESH": "Оновити"

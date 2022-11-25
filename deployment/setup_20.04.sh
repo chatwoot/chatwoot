@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Description: Install and manage a Chatwoot installation.
+# Description: Install and manage a Chatquick installation.
 # OS: Ubuntu 20.04 LTS
 # Script Version: 2.2.0
 # Run this script as root
@@ -145,12 +145,12 @@ function exit_handler() {
 #   None
 ##############################################################################
 function get_domain_info() {
-  read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com): ' domain_name
+  read -rp 'Enter the domain/subdomain for Chatquick (e.g., chatwoot.domain.com): ' domain_name
   read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal: ' le_email
   cat << EOF
 
 This script will generate SSL certificates via LetsEncrypt and
-serve Chatwoot at https://$domain_name.
+serve Chatquick at https://$domain_name.
 Proceed further once you have pointed your DNS to the IP of the instance.
 
 EOF
@@ -311,7 +311,7 @@ EOF
 }
 
 ##############################################################################
-# Install Chatwoot
+# Install Chatquick
 # This includes setting up ruby, cloning repo and installing dependencies.
 # Globals:
 #   pg_pass
@@ -367,7 +367,7 @@ EOF
 }
 
 ##############################################################################
-# Setup Chatwoot systemd services and cwctl CLI
+# Setup Chatquick systemd services and cwctl CLI
 # Globals:
 #   None
 # Arguments:
@@ -438,7 +438,7 @@ function ssl_success_message() {
     cat << EOF
 
 ***************************************************************************
-Woot! Woot!! Chatwoot server installation is complete.
+Woot! Woot!! Chatquick server installation is complete.
 The server will be accessible at https://$domain_name
 
 Join the community at https://quicksales.vn/community?utm_source=cwctl
@@ -448,7 +448,7 @@ EOF
 }
 
 function cwctl_message() {
-  echo $'\U0001F680 Try out the all new Chatwoot CLI tool to manage your installation.'
+  echo $'\U0001F680 Try out the all new Chatquick CLI tool to manage your installation.'
   echo $'\U0001F680 Type "cwctl --help" to learn more.'
 }
 
@@ -481,7 +481,7 @@ function install() {
   cat << EOF
 
 ***************************************************************************
-              Chatwoot Installation (v$CW_VERSION)
+              Chatquick Installation (v$CW_VERSION)
 ***************************************************************************
 
 For more verbose logs, open up a second terminal and follow along using,
@@ -490,7 +490,7 @@ For more verbose logs, open up a second terminal and follow along using,
 EOF
 
   sleep 3
-  read -rp 'Would you like to configure a domain and SSL for Chatwoot?(yes or no): ' configure_webserver
+  read -rp 'Would you like to configure a domain and SSL for Chatquick?(yes or no): ' configure_webserver
 
   if [ "$configure_webserver" == "yes" ]; then
     get_domain_info
@@ -526,7 +526,7 @@ EOF
     echo "➥ 5/9 Skipping database setup."
   fi
 
-  echo "➥ 6/9 Installing Chatwoot. This takes a long while."
+  echo "➥ 6/9 Installing Chatquick. This takes a long while."
   setup_chatwoot &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]; then
@@ -547,7 +547,7 @@ EOF
 ➥ 9/9 Skipping SSL/TLS setup.
 
 ***************************************************************************
-Woot! Woot!! Chatwoot server installation is complete.
+Woot! Woot!! Chatquick server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
 To configure a domain and SSL certificate, follow the guide at
@@ -611,7 +611,7 @@ function help() {
 
   cat <<EOF
 Usage: cwctl [OPTION]...
-Install and manage your Chatwoot installation.
+Install and manage your Chatquick installation.
 
 Example: cwctl -i master
 Example: cwctl -l web
@@ -620,16 +620,16 @@ Example: cwctl --upgrade
 Example: cwctl -c
 
 Installation/Upgrade:
-  -i, --install             Install the latest stable version of Chatwoot
-  -I                        Install Chatwoot from a git branch
-  -u, --upgrade             Upgrade Chatwoot to the latest stable version
+  -i, --install             Install the latest stable version of Chatquick
+  -I                        Install Chatquick from a git branch
+  -u, --upgrade             Upgrade Chatquick to the latest stable version
   -s, --ssl                 Fetch and install SSL certificates using LetsEncrypt
   -w, --webserver           Install and configure Nginx webserver with SSL
 
 Management:
   -c, --console             Open ruby console
-  -l, --logs                View logs from Chatwoot. Supported values include web/worker.
-  -r, --restart             Restart Chatwoot server
+  -l, --logs                View logs from Chatquick. Supported values include web/worker.
+  -r, --restart             Restart Chatquick server
   
 Miscellaneous:
   -d, --debug               Show debug messages
@@ -646,7 +646,7 @@ EOF
 }
 
 ##############################################################################
-# Get Chatwoot web/worker logs (-l/--logs)
+# Get Chatquick web/worker logs (-l/--logs)
 # Globals:
 #   None
 # Arguments:
@@ -719,12 +719,12 @@ EOF
 ##############################################################################
 function upgrade() {
   get_cw_version
-  echo "Upgrading Chatwoot to v$CW_VERSION"
+  echo "Upgrading Chatquick to v$CW_VERSION"
   sleep 3
   upgrade_prereq
   sudo -i -u chatwoot << "EOF"
 
-  # Navigate to the Chatwoot directory
+  # Navigate to the Chatquick directory
   cd chatwoot
 
   # Pull the latest version of the master branch
@@ -764,7 +764,7 @@ EOF
 }
 
 ##############################################################################
-# Restart Chatwoot server (-r/--restart)
+# Restart Chatquick server (-r/--restart)
 # Globals:
 #   None
 # Arguments:

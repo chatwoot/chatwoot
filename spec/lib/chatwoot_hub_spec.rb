@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ChatwootHub do
+describe ChatquickHub do
   it 'generates installation identifier' do
     installation_identifier = described_class.installation_identifier
     expect(installation_identifier).not_to be_nil

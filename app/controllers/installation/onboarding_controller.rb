@@ -30,7 +30,7 @@ class Installation::OnboardingController < ApplicationController
     ::Redis::Alfred.delete(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)
     return if onboarding_params[:subscribe_to_updates].blank?
 
-    ChatwootHub.register_instance(
+    ChatquickHub.register_instance(
       onboarding_params.dig(:user, :company),
       onboarding_params.dig(:user, :name),
       onboarding_params.dig(:user, :email)

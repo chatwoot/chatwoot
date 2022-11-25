@@ -4,16 +4,16 @@ describe('#MessageFormatter', () => {
   describe('content with links', () => {
     it('should format correctly', () => {
       const message =
-        'Chatwoot is an opensource tool. [Chatwoot](https://www.quicksales.vn)';
+        'Chatquick is an opensource tool. [Chatquick](https://www.quicksales.vn)';
       expect(new MessageFormatter(message).formattedMessage).toMatch(
-        '<p>Chatwoot is an opensource tool. <a title="" class="link" href="https://www.quicksales.vn" rel="noreferrer noopener nofollow" target="_blank">Chatwoot</a></p>'
+        '<p>Chatquick is an opensource tool. <a title="" class="link" href="https://www.quicksales.vn" rel="noreferrer noopener nofollow" target="_blank">Chatquick</a></p>'
       );
     });
     it('should format correctly', () => {
       const message =
-        'Chatwoot is an opensource tool. https://www.quicksales.vn';
+        'Chatquick is an opensource tool. https://www.quicksales.vn';
       expect(new MessageFormatter(message).formattedMessage).toMatch(
-        '<p>Chatwoot is an opensource tool. <a title="" class="link" href="https://www.quicksales.vn" rel="noreferrer noopener nofollow" target="_blank">https://www.quicksales.vn</a></p>'
+        '<p>Chatquick is an opensource tool. <a title="" class="link" href="https://www.quicksales.vn" rel="noreferrer noopener nofollow" target="_blank">https://www.quicksales.vn</a></p>'
       );
     });
   });
@@ -29,7 +29,7 @@ describe('#MessageFormatter', () => {
 
   describe('tweets', () => {
     it('should return the same string if not tags or @mentions', () => {
-      const message = 'Chatwoot is an opensource tool';
+      const message = 'Chatquick is an opensource tool';
       expect(new MessageFormatter(message).formattedMessage).toMatch(message);
     });
 
@@ -55,7 +55,7 @@ describe('#MessageFormatter', () => {
 
   describe('private notes', () => {
     it('should return the same string if not tags or @mentions', () => {
-      const message = 'Chatwoot is an opensource tool';
+      const message = 'Chatquick is an opensource tool';
       expect(new MessageFormatter(message).formattedMessage).toMatch(message);
     });
 
@@ -78,9 +78,9 @@ describe('#MessageFormatter', () => {
   describe('plain text content', () => {
     it('returns the plain text without HTML', () => {
       const message =
-        '<b>Chatwoot is an opensource tool. https://www.quicksales.vn</b>';
+        '<b>Chatquick is an opensource tool. https://www.quicksales.vn</b>';
       expect(new MessageFormatter(message).plainText).toMatch(
-        'Chatwoot is an opensource tool. https://www.quicksales.vn'
+        'Chatquick is an opensource tool. https://www.quicksales.vn'
       );
     });
   });

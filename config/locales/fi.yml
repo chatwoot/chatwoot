@@ -142,7 +142,7 @@ fi:
       description: "Slack on chat-työkalu, joka tuo kaiken viestintäsi yhteen paikkaan. Integroimalla Slackin voit saada ilmoituksen kaikista uusista keskusteluista Slackin sisällä."
     webhooks:
       name: "Webhookit"
-      description: "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwoot-tililläsi tapahtuu. Voit käyttää webhookeja ja välittää tapahtumat suosikkiohjelmillesi, kuten Slackiin tai Githubiiin. Klikkaa \"Määrittele\" määrittääksesi webhookisi."
+      description: "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatquick-tililläsi tapahtuu. Voit käyttää webhookeja ja välittää tapahtumat suosikkiohjelmillesi, kuten Slackiin tai Githubiiin. Klikkaa \"Määrittele\" määrittääksesi webhookisi."
     dialogflow:
       name: "Dialogflow"
       description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."

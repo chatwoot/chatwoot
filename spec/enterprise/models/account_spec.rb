@@ -14,7 +14,7 @@ RSpec.describe Account do
       expect(account.usage_limits).to eq(
         {
           agents: 20,
-          inboxes: ChatwootApp.max_limit
+          inboxes: ChatquickApp.max_limit
         }
       )
     end
@@ -24,7 +24,7 @@ RSpec.describe Account do
       expect(account.usage_limits).to eq(
         {
           agents: 10,
-          inboxes: ChatwootApp.max_limit
+          inboxes: ChatquickApp.max_limit
         }
       )
     end
@@ -34,7 +34,7 @@ RSpec.describe Account do
       expect(account.usage_limits).to eq(
         {
           agents: 5,
-          inboxes: ChatwootApp.max_limit
+          inboxes: ChatquickApp.max_limit
         }
       )
     end

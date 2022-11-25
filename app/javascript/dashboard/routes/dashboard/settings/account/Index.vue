@@ -97,7 +97,7 @@
         <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
           {{
             $t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
-              latestChatwootVersion: latestChatwootVersion,
+              latestChatquickVersion: latestChatquickVersion,
             })
           }}
         </div>
@@ -133,7 +133,7 @@ export default {
       supportEmail: '',
       features: {},
       autoResolveDuration: null,
-      latestChatwootVersion: null,
+      latestChatquickVersion: null,
     };
   },
   validations: {
@@ -155,13 +155,13 @@ export default {
       uiFlags: 'accounts/getUIFlags',
     }),
     hasAnUpdateAvailable() {
-      if (!semver.valid(this.latestChatwootVersion)) {
+      if (!semver.valid(this.latestChatquickVersion)) {
         return false;
       }
 
       return semver.lt(
         this.globalConfig.appVersion,
-        this.latestChatwootVersion
+        this.latestChatquickVersion
       );
     },
     languagesSortedByCode() {
@@ -204,7 +204,7 @@ export default {
           custom_email_domain_enabled,
           features,
           auto_resolve_duration,
-          latest_chatwoot_version: latestChatwootVersion,
+          latest_chatwoot_version: latestChatquickVersion,
         } = this.getAccount(this.accountId);
 
         this.$root.$i18n.locale = locale;
@@ -216,7 +216,7 @@ export default {
         this.customEmailDomainEnabled = custom_email_domain_enabled;
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
-        this.latestChatwootVersion = latestChatwootVersion;
+        this.latestChatquickVersion = latestChatquickVersion;
       } catch (error) {
         // Ignore error
       }

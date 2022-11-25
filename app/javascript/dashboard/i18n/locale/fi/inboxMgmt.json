@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Saapuneet-kansiot",
-    "SIDEBAR_TXT": "<p><b>Postilaatikko</b></p> <p> Kun yhdistät sivuston tai facebook-sivun Chatwotiin, sitä kutsutaan <b>postilaatikoksi</b>. Sinulla voi olla rajoittamaton määrä postilaatikoita Chatwoot tililläsi. </p><p> Klikkaa <b>Lisää postilaatikko</b> yhdistääksesi verkkosivuston tai Facebook-sivun. </p><p> Kojelaudalla näet kaikki keskustelut kaikista saapuneet-kansiostasi yhdessä paikassa ja vastaat niihin `Keskustelut`-välilehdessä. </p><p> Voit myös nähdä postilaatikkoon liittyviä keskusteluja klikkaamalla postilaatikon nimeä kojelaudan vasemmassa paneelissa. </p>",
+    "SIDEBAR_TXT": "<p><b>Postilaatikko</b></p> <p> Kun yhdistät sivuston tai facebook-sivun Chatwotiin, sitä kutsutaan <b>postilaatikoksi</b>. Sinulla voi olla rajoittamaton määrä postilaatikoita Chatquick tililläsi. </p><p> Klikkaa <b>Lisää postilaatikko</b> yhdistääksesi verkkosivuston tai Facebook-sivun. </p><p> Kojelaudalla näet kaikki keskustelut kaikista saapuneet-kansiostasi yhdessä paikassa ja vastaat niihin `Keskustelut`-välilehdessä. </p><p> Voit myös nähdä postilaatikkoon liittyviä keskusteluja klikkaamalla postilaatikon nimeä kojelaudan vasemmassa paneelissa. </p>",
     "LIST": {
       "404": "Tähän tiliin ei ole liitetty saapuneet-kansiota."
     },
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
       },
       "FB": {
-        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatwoot ei koskaan näe yksityisviestejäsi.",
+        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatquick ei koskaan näe yksityisviestejäsi.",
         "CHOOSE_PAGE": "Valitse sivu",
         "CHOOSE_PLACEHOLDER": "Valitse sivu listasta",
         "INBOX_NAME": "Kansion nimi",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatquick supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Edustajat",
@@ -658,7 +658,7 @@
         "USER_MESSAGE": "Hei",
         "AGENT_MESSAGE": "Moi"
       },
-      "BRANDING_TEXT": "Palvelun tarjoaa Chatwoot",
+      "BRANDING_TEXT": "Palvelun tarjoaa Chatquick",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }

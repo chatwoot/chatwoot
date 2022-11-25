@@ -142,7 +142,7 @@ de:
       description: "Slack ist ein Chat-Tool, das all deine Kommunikation an einem Ort zusammenbringt. Durch die Integration von Slack kannst du über alle neuen Unterhaltungen in deinem Account direkt in deinem Slack benachrichtigt werden."
     webhooks:
       name: "Webhooks"
-      description: "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Sie können die Webhooks verwenden, um die Ereignisse an Ihre Lieblings-Apps wie Slack oder Github zu kommunizieren. Klicken Sie auf Konfigurieren, um Ihre Webhooks einzurichten."
+      description: "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatquick-Konto passiert. Sie können die Webhooks verwenden, um die Ereignisse an Ihre Lieblings-Apps wie Slack oder Github zu kommunizieren. Klicken Sie auf Konfigurieren, um Ihre Webhooks einzurichten."
     dialogflow:
       name: "Dialogflow"
       description: "Erstellen Sie Chatbots mit Dialogflow und verbinden Sie diesen mit Ihrem Posteingang. Lassen Sie die Bots Anfragen bearbeiten, bevor Sie an einen Kundendienst-Agent weitergeben werden."

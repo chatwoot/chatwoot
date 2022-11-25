@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "받은 메시지함",
-    "SIDEBAR_TXT": "<p><b>받은 메시지함</b></p> <p> 웹사이트나 페이스북 페이지를 Chatwoot에 연결한 것을 <b>받은 메시지함</b>이라고 합니다. 당신은 당신의 Chatwoot 계정에 무제한의 받은 편지함을 가질 수 있습니다. </p><p> 받은 메시지함 추가를 클릭하여 웹 사이트 또는 Facebook 페이지를 연결하십시오.</p><p> 대시보드에서는 모든 받은 메시지함의 모든 대화를 한 곳에서 볼 수 있으며 대화 탭에서는 이에 응답할 수 있습니다.\n</p><p> 대시보드의 왼쪽 창에서 받은 메시지함 이름을 눌러 관련 대화를 볼 수 있습니다.\n </p>",
+    "SIDEBAR_TXT": "<p><b>받은 메시지함</b></p> <p> 웹사이트나 페이스북 페이지를 Chatquick에 연결한 것을 <b>받은 메시지함</b>이라고 합니다. 당신은 당신의 Chatquick 계정에 무제한의 받은 편지함을 가질 수 있습니다. </p><p> 받은 메시지함 추가를 클릭하여 웹 사이트 또는 Facebook 페이지를 연결하십시오.</p><p> 대시보드에서는 모든 받은 메시지함의 모든 대화를 한 곳에서 볼 수 있으며 대화 탭에서는 이에 응답할 수 있습니다.\n</p><p> 대시보드의 왼쪽 창에서 받은 메시지함 이름을 눌러 관련 대화를 볼 수 있습니다.\n </p>",
     "LIST": {
       "404": "이 계정에는 첨부된 받은 메시지함이 없습니다."
     },
@@ -9,7 +9,7 @@
       {
         "title": "채널 선택",
         "route": "settings_inbox_new",
-        "body": "Chatwoot와 통합할 공급자를 선택하십시오."
+        "body": "Chatquick와 통합할 공급자를 선택하십시오."
       },
       {
         "title": "받은 메시지함 만들기",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
       },
       "FB": {
-        "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있다. 당신의 사적인 메시지에 Chatwoot는 절대 접근할 수 없습니다.",
+        "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있다. 당신의 사적인 메시지에 Chatquick는 절대 접근할 수 없습니다.",
         "CHOOSE_PAGE": "페이지 선택",
         "CHOOSE_PLACEHOLDER": "목록에서 페이지 선택",
         "INBOX_NAME": "받은 메시지함 이름",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatquick supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "에이전트",
@@ -339,11 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "받은 메시지함 자세히",
-        "DESC": "아래 드롭다운에서 Chatwoot에 연결할 Facebook 페이지를 선택하십시오. 더 나은 식별을 위해 받은 메시지함에 사용자 정의 이름을 지정할 수 있습니다."
+        "DESC": "아래 드롭다운에서 Chatquick에 연결할 Facebook 페이지를 선택하십시오. 더 나은 식별을 위해 받은 메시지함에 사용자 정의 이름을 지정할 수 있습니다."
       },
       "FINISH": {
         "TITLE": "못 박았다!",
-        "DESC": "Facebook 페이지를 Chatwoot와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 Chatwoot에 나타납니다.<<br> 멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
+        "DESC": "Facebook 페이지를 Chatquick와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 Chatquick에 나타납니다.<<br> 멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
       }
     },
     "DETAILS": {
@@ -658,7 +658,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Chatwoot 작동중",
+      "BRANDING_TEXT": "Chatquick 작동중",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }

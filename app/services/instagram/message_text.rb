@@ -39,7 +39,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
       raise
     rescue StandardError, Koala::Facebook::ClientError => e
       result = {}
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+      ChatquickExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
 
     find_or_create_contact(result) if result.present?

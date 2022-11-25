@@ -28,7 +28,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   rescue Koala::Facebook::AuthenticationError
     @inbox.channel.authorization_error!
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+    ChatquickExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
   end
 
@@ -116,10 +116,10 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       result = {}
       # OAuthException, code: 100, error_subcode: 2018218, message: (#100) No profile available for this user
       # We don't need to capture this error as we don't care about contact params in case of echo messages
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception unless @outgoing_echo
+      ChatquickExceptionTracker.new(e, account: @inbox.account).capture_exception unless @outgoing_echo
     rescue StandardError => e
       result = {}
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+      ChatquickExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
     process_contact_params_result(result)
   end

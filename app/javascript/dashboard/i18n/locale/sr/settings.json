@@ -246,7 +246,7 @@
     "NO_BILLING_USER": "Vaš nalog za plaćanje se podešava. Molim vas osvežite stranicu i pokušajte ponovo."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan Chatwoot nalog. Molim vas kreirajte novi da bi ste nastavili.",
+    "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan Chatquick nalog. Molim vas kreirajte novi da bi ste nastavili.",
     "NEW_ACCOUNT": "Novi nalog",
     "SELECTOR_SUBTITLE": "Napravite novi nalog",
     "API": {

@@ -15,7 +15,7 @@ class Integrations::Facebook::MessageCreator
       create_contact_message
     end
     # rescue => e
-    # ChatwootExceptionTracker.new(e).capture_exception
+    # ChatquickExceptionTracker.new(e).capture_exception
     # end
   end
 

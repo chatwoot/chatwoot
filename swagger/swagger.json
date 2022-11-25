@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is the API documentation for Chatwoot server.",
+    "description": "This is the API documentation for Chatquick server.",
     "version": "1.0.0",
-    "title": "Chatwoot",
+    "title": "Chatquick",
     "termsOfService": "https://www.quicksales.vn/terms-of-service/",
     "contact": {
       "email": "hello@quicksales.vn"
@@ -2576,7 +2576,7 @@
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
-        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
+        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatquick:-Importing-Existing-Contacts-and-Creating-Conversations",
         "security": [
           {
             "userApiKey": [
@@ -5091,7 +5091,7 @@
             "busy",
             "offline"
           ],
-          "description": "The availability status of the agent computed by Chatwoot."
+          "description": "The availability status of the agent computed by Chatquick."
         },
         "auto_offline": {
           "type": "boolean",
@@ -6375,7 +6375,7 @@
       "name": "source_id",
       "required": true,
       "type": "string",
-      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatquick generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
     },
     "contact_sort_param": {
       "in": "query",

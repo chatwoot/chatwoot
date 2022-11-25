@@ -1,7 +1,7 @@
 const path = require('path');
 const resolve = require('../config/webpack/resolve');
 
-// Chatwoot's webpack.config.js
+// Chatquick's webpack.config.js
 process.env.NODE_ENV = 'development';
 const custom = require('../config/webpack/environment');
 

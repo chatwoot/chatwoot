@@ -246,7 +246,7 @@
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
+    "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatquick. Veuillez créer un nouveau compte pour continuer.",
     "NEW_ACCOUNT": "Nouveau compte",
     "SELECTOR_SUBTITLE": "Créer un nouveau compte",
     "API": {

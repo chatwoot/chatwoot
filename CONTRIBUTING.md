@@ -1,4 +1,4 @@
-# Contributing to Chatwoot
+# Contributing to Chatquick
 
 Thanks for taking the time to contribute! :tada::+1:
 

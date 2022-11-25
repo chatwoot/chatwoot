@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Vous pouvez maintenant recevoir des courriels dans votre domaine personnalisé."
       }
     },
-    "UPDATE_CHATWOOT": "Une mise à jour %{latestChatwootVersion} de Chatwoot est disponible. Veuillez mettre à jour votre instance.",
+    "UPDATE_CHATWOOT": "Une mise à jour %{latestChatquickVersion} de Chatquick est disponible. Veuillez mettre à jour votre instance.",
     "LEARN_MORE": "Learn more"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from Chatquick"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

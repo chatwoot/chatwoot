@@ -23,7 +23,7 @@ const Template = (args, { argTypes }) => ({
 
 export const AddCategory = Template.bind({});
 AddCategory.args = {
-  portalName: 'Chatwoot help center',
+  portalName: 'Chatquick help center',
   locale: 'En-US',
   onCreate: action('create'),
   onClose: action('cancel'),

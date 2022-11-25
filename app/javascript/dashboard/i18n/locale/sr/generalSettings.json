@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sada možete da dobijate e-poruke u vaš prilagođeni domen."
       }
     },
-    "UPDATE_CHATWOOT": "Dostupna je nadogradnja %{latestChatwootVersion} za Chatwoot. Molim vas nadogradite vaše izdanje.",
+    "UPDATE_CHATWOOT": "Dostupna je nadogradnja %{latestChatquickVersion} za Chatquick. Molim vas nadogradite vaše izdanje.",
     "LEARN_MORE": "Saznajte više"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Prekini vezu sa Chatwoot"
+      "TEXT": "Prekini vezu sa Chatquick"
     },
     "BUTTON": {
       "REFRESH": "Osveži"

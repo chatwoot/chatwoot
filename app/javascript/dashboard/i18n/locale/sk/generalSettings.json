@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Teraz môžete prijímať e-maily vo vlastnej doméne."
       }
     },
-    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre Chatwoot. Prosím, aktualizujte svoju inštanciu.",
+    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatquickVersion} pre Chatquick. Prosím, aktualizujte svoju inštanciu.",
     "LEARN_MORE": "Learn more"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Chatwoot je odpojený"
+      "TEXT": "Chatquick je odpojený"
     },
     "BUTTON": {
       "REFRESH": "Obnoviť"

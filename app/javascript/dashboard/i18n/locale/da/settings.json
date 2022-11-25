@@ -246,7 +246,7 @@
     "NO_BILLING_USER": "Din faktureringskonto er ved at blive konfigureret. Opdater venligst siden og prøv igen."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Vi kunne ikke finde nogen Chatwoot-konti. Opret venligst en ny konto for at fortsætte.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Vi kunne ikke finde nogen Chatquick-konti. Opret venligst en ny konto for at fortsætte.",
     "NEW_ACCOUNT": "Ny Konto",
     "SELECTOR_SUBTITLE": "Opret en ny konto",
     "API": {

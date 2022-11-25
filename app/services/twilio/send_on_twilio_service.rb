@@ -9,7 +9,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
     begin
       twilio_message = channel.send_message(**message_params)
     rescue Twilio::REST::TwilioError => e
-      ChatwootExceptionTracker.new(e, user: message.sender, account: message.account).capture_exception
+      ChatquickExceptionTracker.new(e, user: message.sender, account: message.account).capture_exception
     end
     message.update!(source_id: twilio_message.sid) if twilio_message
   end

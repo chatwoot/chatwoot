@@ -6,7 +6,7 @@ class MessageTemplates::Template::Greeting
       conversation.messages.create!(greeting_message_params)
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    ChatquickExceptionTracker.new(e, account: conversation.account).capture_exception
     true
   end
 

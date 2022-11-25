@@ -14,7 +14,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   rescue EOFError => e
     Rails.logger.error e
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
+    ChatquickExceptionTracker.new(e, account: channel.account).capture_exception
   end
 
   private
@@ -44,6 +44,6 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   def process_mail(inbound_mail, channel)
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
+    ChatquickExceptionTracker.new(e, account: channel.account).capture_exception
   end
 end

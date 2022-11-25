@@ -17,7 +17,7 @@
               })
             }}
           </p>
-          <p v-if="globalConfig.installationName === 'Chatwoot'">
+          <p v-if="globalConfig.installationName === 'Chatquick'">
             <a
               href="https://www.quicksales.vn/changelog"
               target="_blank"

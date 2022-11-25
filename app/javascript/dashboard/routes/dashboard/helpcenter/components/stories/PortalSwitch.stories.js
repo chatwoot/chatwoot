@@ -25,7 +25,7 @@ export const Primary = Template.bind({});
 Primary.args = {
   active: false,
   portal: {
-    name: 'Chatwoot Help Center',
+    name: 'Chatquick Help Center',
     articles_count: 124,
     locales: [
       {

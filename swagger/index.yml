@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: This is the API documentation for Chatwoot server.
+  description: This is the API documentation for Chatquick server.
   version: 1.0.0
-  title: Chatwoot
+  title: Chatquick
   termsOfService:	https://www.quicksales.vn/terms-of-service/
   contact:
     email: hello@quicksales.vn

@@ -53,7 +53,7 @@ module Api::V1::InboxesHelper
   rescue StandardError => e
     raise StandardError, e.message
   ensure
-    ChatwootExceptionTracker.new(e).capture_exception if e.present?
+    ChatquickExceptionTracker.new(e).capture_exception if e.present?
   end
 
   def check_smtp_connection(channel_data, smtp)

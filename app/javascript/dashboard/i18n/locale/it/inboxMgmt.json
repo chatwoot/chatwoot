@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posta",
-    "SIDEBAR_TXT": "<p><b>Casella</b></p> <p> Quando colleghi un sito web o una pagina facebook a Chatwoot, si chiama <b>Casella</b>. Puoi avere caselle illimitate nel tuo account Chatwoot. </p><p> Clicca su <b>Aggiungi Casella</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella facendo clic sul nome della casella nel riquadro sinistro del cruscotto. </p>",
+    "SIDEBAR_TXT": "<p><b>Casella</b></p> <p> Quando colleghi un sito web o una pagina facebook a Chatquick, si chiama <b>Casella</b>. Puoi avere caselle illimitate nel tuo account Chatquick. </p><p> Clicca su <b>Aggiungi Casella</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella facendo clic sul nome della casella nel riquadro sinistro del cruscotto. </p>",
     "LIST": {
       "404": "Non ci sono caselle allegate a questo account."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Scegli il canale",
         "route": "Nuovo",
-        "body": "Scegli il provider che vuoi integrare con Chatwoot."
+        "body": "Scegli il provider che vuoi integrare con Chatquick."
       },
       {
         "title": "Crea casella",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Inserisci il nome del tuo sito web (ad esempio: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot, non potrà accedere ai tuoi messaggi privati.",
+        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatquick, non potrà accedere ai tuoi messaggi privati.",
         "CHOOSE_PAGE": "Scegli una pagina",
         "CHOOSE_PLACEHOLDER": "Seleziona una pagina dalla lista",
         "INBOX_NAME": "Nome casella",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Scegli un canale",
-        "DESC": "Chatwoot supporta i widget di chat live, Facebook Messenger, profili Twitter, WhatsApp, Email, ecc., come canali. Se vuoi costruire un canale personalizzato, puoi crearlo usando il canale API. Per iniziare, scegli uno dei canali qui sotto."
+        "DESC": "Chatquick supporta i widget di chat live, Facebook Messenger, profili Twitter, WhatsApp, Email, ecc., come canali. Se vuoi costruire un canale personalizzato, puoi crearlo usando il canale API. Per iniziare, scegli uno dei canali qui sotto."
       },
       "AGENTS": {
         "TITLE": "Agenti",
@@ -339,11 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Dettagli casella",
-        "DESC": "Dal menu a tendina qui sotto, seleziona la pagina Facebook che vuoi collegare a Chatwoot. Puoi anche assegnare un nome personalizzato alla tua casella per una migliore identificazione."
+        "DESC": "Dal menu a tendina qui sotto, seleziona la pagina Facebook che vuoi collegare a Chatquick. Puoi anche assegnare un nome personalizzato alla tua casella per una migliore identificazione."
       },
       "FINISH": {
         "TITLE": "Azzeccato!",
-        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, cerchiamo di esserlo :)"
+        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Chatquick. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatquick.<br>Bello, eh? Beh, cerchiamo di esserlo :)"
       }
     },
     "DETAILS": {
@@ -658,7 +658,7 @@
         "USER_MESSAGE": "Salve",
         "AGENT_MESSAGE": "Ciao"
       },
-      "BRANDING_TEXT": "Offerto da Chatwoot",
+      "BRANDING_TEXT": "Offerto da Chatquick",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }
