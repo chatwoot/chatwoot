@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendiente",
       "RESOLVED": "Marcar como resuelto",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Resolver conversación",
       "SNOOZE": {
         "TITLE": "Posponer",
