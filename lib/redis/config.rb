@@ -11,7 +11,8 @@ module Redis::Config
       #
       # unless the redis verify mode is explicitly specified as none, we will fall back to the default 'verify peer'
       # ref: https://www.rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLContext#DEFAULT_PARAMS-constant
-      ENV['REDIS_OPENSSL_VERIFY_MODE'] == 'none' ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+      # ENV['REDIS_OPENSSL_VERIFY_MODE'] == 'none' ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+      ENV['REDIS_OPENSSL_VERIFY_MODE'] == 'none' ? 0 : 1
     end
 
     def config
