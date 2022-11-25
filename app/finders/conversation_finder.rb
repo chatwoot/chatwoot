@@ -56,7 +56,6 @@ class ConversationFinder
     filter_by_team if @team
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
-    filter_by_conversation_type if params[:conversation_type]
   end
 
   def set_inboxes
@@ -77,6 +76,7 @@ class ConversationFinder
 
   def find_all_conversations
     @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
 
