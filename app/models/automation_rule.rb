@@ -30,7 +30,7 @@ class AutomationRule < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id].freeze
-  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agent send_webhook_event mute_conversation send_attachment
+  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation send_attachment
                      change_status resolve_conversation snooze_conversation send_email_transcript].freeze
 
   def file_base_data

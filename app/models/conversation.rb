@@ -210,7 +210,7 @@ class Conversation < ApplicationRecord
 
   def mark_conversation_pending_if_bot
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
-    self.status = :pending if inbox.agent_bot_inbox&.active? || inbox.hooks.pluck(:app_id).include?('dialogflow')
+    self.status = :pending if inbox.active_bot?
   end
 
   def notify_conversation_creation
@@ -261,6 +261,8 @@ class Conversation < ApplicationRecord
 
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
+
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)

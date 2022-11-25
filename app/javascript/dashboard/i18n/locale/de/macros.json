@@ -1,5 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Makros"
+    "HEADER": "Makros",
+    "HEADER_BTN_TXT": "Neues Makro hinzufügen",
+    "HEADER_BTN_TXT_SAVE": "Makro speichern",
+    "LOADING": "Makros abrufen",
+    "SIDEBAR_TXT": "<p><b>Makros</b><p> Ein Makro ist eine Reihe gespeicherter Aktionen, mit denen Kundendienstmitarbeiter Aufgaben einfach erledigen können. Die Agenten können eine Reihe von Aktionen definieren, z. B. das Markieren einer Konversation mit einem Label, das Senden einer E-Mail-Transkription, das Aktualisieren eines benutzerdefinierten Attributs usw., und sie können diese Aktionen mit einem einzigen Klick ausführen. Wenn die Agenten das Makro ausführen, werden die Aktionen nacheinander in der definierten Reihenfolge ausgeführt. Makros verbessern die Produktivität und erhöhen die Konsistenz der Aktionen. </p><p>Ein Makro kann auf zwei Arten hilfreich sein. </p><p><b>Als Unterstützung eines Agenten:</b> Wenn ein Agent eine Reihe von Aktionen mehrmals durchführt, kann er sie als Makro speichern und alle Aktionen zusammen mit einem einzigen Klick ausführen.</p><p><b>Als Option zum Onboarding eines Teammitglieds:</b> Alle Der Agent muss während jedes Gesprächs viele verschiedene Überprüfungen/Aktionen durchführen. Das Onboarding eines neuen Support-Teammitglieds ist einfach, wenn vordefinierte Makros für das Konto verfügbar sind. Anstatt jeden Schritt im Detail zu beschreiben, kann der Manager/Teamleiter auf die Makros verweisen, die in verschiedenen Szenarien verwendet werden.</p>",
+    "ERROR": "Etwas ist schiefgelaufen. Bitte versuche es erneut",
+    "ORDER_INFO": "Makros werden in der Reihenfolge ausgeführt, in der Sie Ihre Aktionen hinzufügen. Sie können sie neu anordnen, indem Sie sie am Griff neben jedem Knoten ziehen.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Makroname",
+          "PLACEHOLDER": "Geben Sie einen Namen für Ihr Makro ein",
+          "ERROR": "Der Name ist zum Erstellen eines Makros erforderlich"
+        },
+        "ACTIONS": {
+          "LABEL": "Aktionen"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Makro kann nicht erstellt werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Name",
+        "Erstellt von",
+        "Zuletzt aktualisiert von",
+        "Sichtbarkeit"
+      ],
+      "404": "Keine Makros gefunden"
+    },
+    "DELETE": {
+      "TOOLTIP": "Makro löschen",
+      "CONFIRM": {
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+        "YES": "Ja, löschen",
+        "NO": "Nein"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Beim Löschen des Makros ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Makro bearbeiten",
+      "API": {
+        "SUCCESS_MESSAGE": "Makro erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Makro konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Flow starten",
+      "END_FLOW": "Flow beenden",
+      "LOADING": "Makro abrufen",
+      "ADD_BTN_TOOLTIP": "Neue Aktion hinzufügen",
+      "DELETE_BTN_TOOLTIP": "Aktion löschen",
+      "VISIBILITY": {
+        "LABEL": "Makrosichtbarkeit",
+        "GLOBAL": {
+          "LABEL": "Öffentlich",
+          "DESCRIPTION": "Dieses Makro ist öffentlich für alle Agenten in diesem Konto verfügbar."
+        },
+        "PERSONAL": {
+          "LABEL": "Privat",
+          "DESCRIPTION": "Dieses Makro ist für Sie privat und steht anderen nicht zur Verfügung."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Ausführen",
+      "PREVIEW": "Makrovorschau",
+      "EXECUTED_SUCCESSFULLY": "Makro erfolgreich ausgeführt"
+    }
   }
 }

@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Prilagođeni domen",
           "PLACEHOLDER": "Prilagođeni domen portala",
-          "HELP_TEXT": "Dodajte samo ako želite da koristite prilagođen domen za vaše portale.",
-          "ERROR": "Prilagođeni domen je obavezan"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Veza početne stranice",
           "PLACEHOLDER": "Veza do početne stranice portala",
-          "HELP_TEXT": "Veza koja se koristi kao povratna sa portala na početnu stranicu.",
-          "ERROR": "Veza početne stranice je obavezna"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Portal theme color",

@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Appuyer sur Entrée pour sélectionner",
       "ENTER_TO_REMOVE": "Appuyer sur Entrée pour supprimer",
-      "SELECT_ONE": "Sélectionnez un"
+      "SELECT_ONE": "Sélectionnez un",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

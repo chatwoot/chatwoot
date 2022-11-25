@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Bấm enter để chọn",
       "ENTER_TO_REMOVE": "Bấm enter để xoá",
-      "SELECT_ONE": "Chọn một"
+      "SELECT_ONE": "Chọn một",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Cho đến tuần sau",
       "UNTIL_TOMORROW": "Cho đến ngày mai"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

@@ -73,6 +73,7 @@ class Message < ApplicationRecord
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
+  scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   default_scope { order(created_at: :asc) }
 
@@ -193,7 +194,18 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.open! if conversation.resolved? || conversation.snoozed?
+    conversation.open! if conversation.snoozed?
+
+    reopen_resolved_conversation if conversation.resolved?
+  end
+
+  def reopen_resolved_conversation
+    # mark resolved bot conversation as pending to be reopened by bot processor service
+    if conversation.inbox.active_bot?
+      conversation.pending!
+    else
+      conversation.open!
+    end
   end
 
   def execute_message_template_hooks

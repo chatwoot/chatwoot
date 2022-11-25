@@ -158,6 +158,9 @@
       "DOWNLOAD": "Stiahnuť",
       "UPLOADING": "Nahrávanie..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Odoslať"
     }

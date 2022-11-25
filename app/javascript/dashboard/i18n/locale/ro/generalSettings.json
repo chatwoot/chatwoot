@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Apăsați enter pentru a selecta",
       "ENTER_TO_REMOVE": "Introduceți numele complet al persoanei de contact",
-      "SELECT_ONE": "Alege una"
+      "SELECT_ONE": "Alege una",
+      "SELECT": "Selectați"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -108,7 +109,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
       "GO_TO_CONTACTS_DASHBOARD": "Accesați Tabloul de bord persoane de contact",
       "GO_TO_REPORTS_OVERVIEW": "Accesați Prezentare generală a rapoartelor",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_CONVERSATION_REPORTS": "Accesați Rapoartele conversațiilor",
       "GO_TO_AGENT_REPORTS": "Accesați povestea Instagram",
       "GO_TO_LABEL_REPORTS": "Accesați Etichetarea rapoartelor",
       "GO_TO_INBOX_REPORTS": "Accesați Rapoarte Inbox",
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
       "UNTIL_TOMORROW": "Până mâine"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Se încarcă aplicația Dashboard..."
   }
 }

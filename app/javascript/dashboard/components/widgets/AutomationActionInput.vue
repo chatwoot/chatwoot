@@ -18,14 +18,32 @@
       <div v-if="showActionInput" class="filter__answer--wrap">
         <div v-if="inputType">
           <div
-            v-if="inputType === 'multi_select'"
+            v-if="inputType === 'search_select'"
             class="multiselect-wrap--small"
           >
             <multiselect
               v-model="action_params"
               track-by="id"
               label="name"
-              :placeholder="'Select'"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :options="dropdownValues"
+              :allow-empty="false"
+              :option-height="104"
+            />
+          </div>
+          <div
+            v-else-if="inputType === 'multi_select'"
+            class="multiselect-wrap--small"
+          >
+            <multiselect
+              v-model="action_params"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
               :multiple="true"
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
@@ -33,6 +51,7 @@
               :max-height="160"
               :options="dropdownValues"
               :allow-empty="false"
+              :option-height="104"
             />
           </div>
           <input
@@ -260,6 +279,6 @@ export default {
   margin-bottom: var(--space-zero);
 }
 .action-message {
-  margin: var(--space-small) 0 0;
+  margin: var(--space-small) var(--space-zero) var(--space-zero);
 }
 </style>

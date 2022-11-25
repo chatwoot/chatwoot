@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Stlačením tlačidla enter vyberte",
       "ENTER_TO_REMOVE": "Stlačením tlačidla enter vymažte",
-      "SELECT_ONE": "Vyberte jeden"
+      "SELECT_ONE": "Vyberte jeden",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

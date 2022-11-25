@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Nospiediet enter, lai izvēlētos",
       "ENTER_TO_REMOVE": "Nospiediet enter, lai noņemtu",
-      "SELECT_ONE": "Izvēlieties vienu"
+      "SELECT_ONE": "Izvēlieties vienu",
+      "SELECT": "Izvēlieties"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Līdz nākamajai nedēļai",
       "UNTIL_TOMORROW": "Līdz rītdienai"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Notiek informācijas paneļa lietotnes ielāde..."
   }
 }

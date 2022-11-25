@@ -416,7 +416,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "대화 전 설문",
       "BUSINESS_HOURS": "영업시간",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "설정",
     "FEATURES": {
