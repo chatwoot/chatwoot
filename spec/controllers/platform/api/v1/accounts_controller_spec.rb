@@ -42,7 +42,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eq('Test Account')
         expect(json_response['locale']).to eq('es')
-        expect(json_response['enabled_features']['agent_management']).to be(true)
+        expect(json_response['features']['agent_management']).to be(true)
       end
 
       it 'creates an account with feature flags' do
@@ -60,10 +60,10 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to include('Test Account')
-        expect(json_response['enabled_features']['inbox_management']).to be(true)
-        expect(json_response['enabled_features']['ip_lookup']).to be(true)
-        expect(json_response['enabled_features']['help_center']).to be(true)
-        expect(json_response['enabled_features']['disable_branding']).to be_nil
+        expect(json_response['features']['inbox_management']).to be(true)
+        expect(json_response['features']['ip_lookup']).to be(true)
+        expect(json_response['features']['help_center']).to be(true)
+        expect(json_response['features']['disable_branding']).to be_nil
       end
 
       it 'creates an account with limits settings' do
@@ -155,8 +155,8 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(response).to have_http_status(:success)
         account.reload
         expect(account.name).to eq('Test Account')
-        expect(account.enabled_features.keys).to match_array(%w[inbox_management ip_lookup help_center])
-        expect(account.enabled_features['channel_facebook']).to be_nil
+        expect(account.features.keys).to match_array(%w[inbox_management ip_lookup help_center])
+        expect(account.features['channel_facebook']).to be_nil
         expect(account.limits['agents']).to eq(5)
         expect(account.limits['inboxes']).to eq(10)
       end
