@@ -33,7 +33,7 @@ class Platform::Api::V1::AccountsController < PlatformController
     return if permitted_params[:features].blank?
 
     permitted_params[:features].each do |key, value|
-      value.present? ? @resource.enable_features(key) : @resource.disable_features(key)
+      value ? @resource.enable_features(key) : @resource.disable_features(key)
     end
   end
 
