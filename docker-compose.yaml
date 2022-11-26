@@ -67,3 +67,11 @@ services:
     container_name: nginx-chatwoot
     depends_on:
       - rails
+
+  nginx-postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx_postgres
+    container_name: nginx-chatwoot-postgres
+    ports:
+      - "5432:5432"

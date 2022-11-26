@@ -1,0 +1,7 @@
+# Image for serving NGINX with all its static
+# All right reserved PT. SUMBER MAKMUR SURYA PERKASA
+
+FROM nginx:1.12
+
+COPY ./nginx_postgres/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx_postgres/postgres.nginx.conf /etc/nginx/postgres.nginx.conf
