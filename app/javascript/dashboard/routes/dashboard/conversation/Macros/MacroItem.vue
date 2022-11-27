@@ -1,5 +1,5 @@
 <template>
-  <div class="macro">
+  <div class="macro button clear ">
     <span class="text-truncate">{{ macro.name }}</span>
     <div class="macros-actions">
       <woot-button
