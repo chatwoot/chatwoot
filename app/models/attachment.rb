@@ -151,6 +151,8 @@ class Attachment < ApplicationRecord
     result = k.get_object(message.source_id, fields: %w[story]) || {}
 
     if result['story']['mention']['link'].blank?
+      metadata[:data_url] = nil
+      metadata[:thumb_url] = nil
       delete_instagram_story(message)
     else
       metadata = add_ig_story_data_url(metadata)
