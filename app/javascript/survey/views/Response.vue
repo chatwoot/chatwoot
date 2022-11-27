@@ -135,6 +135,9 @@ export default {
       this.feedbackMessage = message;
       this.updateSurveyDetails();
     },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](2);
+    },    
     async getSurveyDetails() {
       this.isLoading = true;
       try {
@@ -142,6 +145,12 @@ export default {
         this.logo = result.data.inbox_avatar_url;
         this.inboxName = result.data.inbox_name;
         this.surveyDetails = result?.data?.csat_survey_response;
+        console.log("aaaaaaa");
+        var dada = this.inbox();
+
+        console.log(dada);
+        console.log("bbbbbbb");
+
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
         this.setLocale(result.data.locale);
