@@ -54,17 +54,26 @@ export default {
     onClose() {
       this.$emit('cancel');
     },
-    onConfirm() {
+    showAlert(message) {
+      bus.$emit('newToastMessage', message);
+    },
+    async onConfirm() {
       if (this.contact.phone_number) {
         const body = {
           accountId: this.currentAccountId,
           phoneNumber: this.contact.phone_number,
         };
-        axios.post(
-          'https://app.bitespeed.co/cxIntegrations/chatwoot/unsubscribe',
-          body
-        );
         this.onClose();
+        this.showAlert('Unsubscribing contact');
+        try {
+          await axios.post(
+            'https://app.bitespeed.co/cxIntegrations/chatwoot/unsubscribe',
+            body
+          );
+          this.showAlert('Contact unsubscribed successfully');
+        } catch (err) {
+          this.showAlert('Error unsubscribing contact');
+        }
       } else {
         this.onClose();
       }
