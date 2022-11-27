@@ -1,6 +1,8 @@
 class Public::Api::V1::CsatMessageController < PublicController
   before_action :get_message
 
+  def show; end
+
   private
 
   def get_message
