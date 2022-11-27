@@ -7,13 +7,13 @@ const getSurvey = ({ uuid }) => ({
   url: `/public/api/v1/csat_survey/${uuid}`,
 });
 
-const getInbox = ({ id }) => ({
-  url: `/public/api/v1/inboxes/${id}`,
+const getCsatMessage = ({ uuid }) => ({
+  url: `/public/api/v1/csat_message/${uuid}`,
 });
 
 
 export default {
   getSurvey,
   updateSurvey,
-  getInbox
+  getCsatMessage
 };

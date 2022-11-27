@@ -12,4 +12,10 @@ const updateSurvey = async ({ uuid, data }) => {
   await API.put(urlData.url, { ...urlData.data });
 };
 
-export { getSurveyDetails, updateSurvey };
+const getCsatMessage = async ({ uuid }) => {
+  const urlData = endPoints.getCsatMessage({ uuid });
+  const result = await API.get(urlData.url, { params: urlData.params });
+  return result;
+};
+
+export { getSurveyDetails, updateSurvey, getCsatMessage };
