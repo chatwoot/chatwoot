@@ -67,7 +67,7 @@ export default {
         this.showAlert('Unsubscribing contact');
         try {
           // eslint-disable-next-line no-console
-          console.log('START UNSUB PROCESS');
+          console.log('START UNSUBSCRIBING PROCESS');
 
           await axios.post(
             'https://app.bitespeed.co/cxIntegrations/chatwoot/unsubscribe',
