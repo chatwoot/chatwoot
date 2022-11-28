@@ -97,23 +97,6 @@
           "
         />
 
-        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
-          {{ $t('INBOX_MGMT.CSAT_MESSSAGE.LABEL') }}
-         <greetings-editor
-          v-if="isAWebWidgetInbox"
-          v-model.trim="channelCsatMessage"
-          :label="
-            $t('INBOX_MGMT.CSAT_MESSSAGE.LABEL')
-          "
-          :placeholder="
-            $t(
-              'INBOX_MGMT.CSAT_MESSSAGE.PLACEHOLDER'
-            )
-          "
-            :richtext="!textAreaChannels"
-          />
-        </label>
-
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWelcomeTagline"
@@ -235,6 +218,22 @@
           <p class="help-text">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
           </p>
+        </label>
+
+        <label v-if="csatSurveyEnabled" class="medium-9 columns settings-item">
+          {{ $t('INBOX_MGMT.CSAT_MESSSAGE.LABEL') }}
+         <greetings-editor
+          v-model.trim="channelCsatMessage"
+          :label="
+            $t('INBOX_MGMT.CSAT_MESSSAGE.LABEL')
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.CSAT_MESSSAGE.PLACEHOLDER'
+            )
+          "
+            :richtext="!textAreaChannels"
+          />
         </label>
 
         <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
