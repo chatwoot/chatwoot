@@ -120,7 +120,7 @@ export default {
       return !!this.errorMessage;
     },
     shouldShowCsatMesage() {
-      return this.surveyDetails.rating && this.surveyDetails.rating>1;
+      return this.surveyDetails.rating && this.surveyDetails.rating>3;
     },
     shouldShowSuccessMesage() {
       return !!this.isRatingSubmitted;
