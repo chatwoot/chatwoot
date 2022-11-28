@@ -26,7 +26,9 @@ describe ::NotificationBuilder do
     end
 
     it 'will not throw error if notification setting is not present' do
-      user.account_users.destroy_all
+      perform_enqueued_jobs do
+        user.account_users.destroy_all
+      end
       expect(
         described_class.new(
           notification_type: 'conversation_creation',
