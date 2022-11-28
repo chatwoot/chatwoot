@@ -113,7 +113,7 @@ export default {
     filterAllEmojisBySearch() {
       return this.emojis.map(category => {
         const allEmojis = category.emojis.filter(emoji =>
-          emoji.slug.replaceAll('_', ' ').includes(this.search)
+          emoji.slug.replaceAll('_', ' ').includes(this.search.toLowerCase())
         );
         return allEmojis.length > 0
           ? { ...category, emojis: allEmojis }
