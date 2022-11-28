@@ -33,6 +33,9 @@ properties:
   welcome_tagline:
     type: string
     description: Welcome tagline to be displayed on the widget
+  csat_message:
+    type: string
+    description: CSAT Message
   greeting_enabled:
     type: boolean
     description: The flag which shows whether greeting is enabled

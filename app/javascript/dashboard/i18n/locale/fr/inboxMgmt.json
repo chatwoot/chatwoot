@@ -1,7 +1,11 @@
 {
   "INBOX_MGMT": {
+    "CSAT_MESSSAGE": {
+      "LABEL": "CSAT Message",
+      "PLACEHOLDER": ""
+    },    
     "HEADER": "Boîtes de réception",
-    "SIDEBAR_TXT": "<p><b>Boîte de réception</b></p> <p> Lorsque vous connectez un site Web ou une page Facebook à Chatwoot, elle est appelée une <b>Boîte de réception</b>. Vous pouvez avoir des boîtes de réception illimitées dans votre compte Chatwoot. </p><p> Cliquez sur <b>Ajouter Boîte de réception</b> pour connecter un site Web ou une page Facebook. </p><p> Dans le tableau de bord, vous pouvez voir toutes les conversations de toutes vos boîtes de réception en un seul endroit et y répondre dans l'onglet `Conversations`. </p><p> Vous pouvez également voir les conversations spécifiques à une boîte de réception en cliquant sur le nom de la boîte de réception sur le volet gauche du tableau de bord. </p>",
+    "SIDEBAR_TXT": "<p><b>Boîte de réception</b></p> <p> Lorsque vous connectez un site Web ou une page Facebook à Atoomo, elle est appelée une <b>Boîte de réception</b>. Vous pouvez avoir des boîtes de réception illimitées dans votre compte Atoomo. </p><p> Cliquez sur <b>Ajouter Boîte de réception</b> pour connecter un site Web ou une page Facebook. </p><p> Dans le tableau de bord, vous pouvez voir toutes les conversations de toutes vos boîtes de réception en un seul endroit et y répondre dans l'onglet `Conversations`. </p><p> Vous pouvez également voir les conversations spécifiques à une boîte de réception en cliquant sur le nom de la boîte de réception sur le volet gauche du tableau de bord. </p>",
     "LIST": {
       "404": "Il n'y a aucune boîte de réception associée à ce compte."
     },
@@ -9,7 +13,7 @@
       {
         "title": "Choisir un canal",
         "route": "settings_inbox_new",
-        "body": "Choisissez le fournisseur que vous souhaitez intégrer avec Chatwoot."
+        "body": "Choisissez le fournisseur que vous souhaitez intégrer avec Atoomo."
       },
       {
         "title": "Créer une boîte de réception",
@@ -38,7 +42,7 @@
         "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
+        "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Atoomo.",
         "CHOOSE_PAGE": "Choisir la page",
         "CHOOSE_PLACEHOLDER": "Sélectionnez une page dans la liste",
         "INBOX_NAME": "Nom de la boîte de réception",
@@ -329,7 +333,7 @@
       },
       "AUTH": {
         "TITLE": "Choisir un canal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Atoomo supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -339,11 +343,11 @@
       },
       "DETAILS": {
         "TITLE": "Détails de la boîte de réception",
-        "DESC": "Dans le menu déroulant ci-dessous, sélectionnez la page Facebook que vous voulez connecter à Chatwoot. Vous pouvez également donner un nom personnalisé à votre boîte de réception pour une meilleure identification."
+        "DESC": "Dans le menu déroulant ci-dessous, sélectionnez la page Facebook que vous voulez connecter à Atoomo. Vous pouvez également donner un nom personnalisé à votre boîte de réception pour une meilleure identification."
       },
       "FINISH": {
         "TITLE": "Mission accomplie !",
-        "DESC": "Vous avez terminé avec succès l’intégration de votre page Facebook avec Chatwoot. La prochaine fois qu’un client enverra un message à votre page, la conversation apparaîtra automatiquement dans votre boîte de réception.<br>Nous fournissons également un script de widget que vous pouvez facilement ajouter à votre site Web. Une fois que cela est configuré sur votre site web, les clients peuvent vous envoyer des messages directement depuis votre site Web sans l'aide d'un outil externe et la conversation apparaîtra ici, sur Chatwoot.<br>Cool, hein ? Eh bien, nous essayons de l'être :)"
+        "DESC": "Vous avez terminé avec succès l’intégration de votre page Facebook avec Atoomo. La prochaine fois qu’un client enverra un message à votre page, la conversation apparaîtra automatiquement dans votre boîte de réception.<br>Nous fournissons également un script de widget que vous pouvez facilement ajouter à votre site Web. Une fois que cela est configuré sur votre site web, les clients peuvent vous envoyer des messages directement depuis votre site Web sans l'aide d'un outil externe et la conversation apparaîtra ici, sur Atoomo.<br>Cool, hein ? Eh bien, nous essayons de l'être :)"
       }
     },
     "DETAILS": {
@@ -657,7 +661,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Propulsé par Chatwoot",
+      "BRANDING_TEXT": "Propulsé par Atoomo",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }

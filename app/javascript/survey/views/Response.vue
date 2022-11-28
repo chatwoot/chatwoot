@@ -12,8 +12,8 @@
     <div
       class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto"
     >
-      <div class="w-full my-0 m-auto px-12 pt-12 pb-6">
-        <img v-if="logo" :src="logo" alt="Chatwoot logo" class="logo mb-6" />
+      <div class="w-full my-0 m-auto px-12 pt-12 pb-6" >
+        <img v-if="logo" :src="logo" class="logo mb-6" />
         <p
           v-if="!isRatingSubmitted"
           class="text-black-700 text-lg leading-relaxed mb-8"
@@ -21,7 +21,7 @@
           {{ $t('SURVEY.DESCRIPTION', { inboxName }) }}
         </p>
         <banner
-          v-if="shouldShowBanner"
+          v-if="!(isRatingSubmitted&&shouldShowCsatMesage&&!enableFeedbackForm)"
           :show-success="shouldShowSuccessMesage"
           :show-error="shouldShowErrorMesage"
           :message="message"
@@ -33,9 +33,14 @@
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>
         <rating
+          v-if="!(isRatingSubmitted&&shouldShowCsatMesage&&!enableFeedbackForm)"
           :selected-rating="selectedRating"
           @selectRating="selectRating"
         />
+        <p
+          v-if="isRatingSubmitted&&shouldShowCsatMesage&&!enableFeedbackForm"
+          class="text-black-700 text-lg leading-relaxed"
+        >{{ csatMessage }}</p>        
         <feedback
           v-if="enableFeedbackForm"
           :is-updating="isUpdating"
@@ -43,7 +48,7 @@
           :selected-rating="selectedRating"
           @sendFeedback="sendFeedback"
         />
-      </div>
+      </div>   
       <div class="mb-3">
         <branding />
       </div>
@@ -58,7 +63,7 @@ import Rating from 'survey/components/Rating';
 import Feedback from 'survey/components/Feedback';
 import Banner from 'survey/components/Banner';
 import configMixin from 'shared/mixins/configMixin';
-import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
+import { getSurveyDetails, updateSurvey, getCsatMessage } from 'survey/api/survey';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -85,6 +90,7 @@ export default {
       errorMessage: null,
       selectedRating: null,
       feedbackMessage: '',
+      csatMessage: '',
       isUpdating: false,
       logo: '',
       inboxName: '',
@@ -113,9 +119,13 @@ export default {
     shouldShowErrorMesage() {
       return !!this.errorMessage;
     },
+    shouldShowCsatMesage() {
+      return this.surveyDetails.rating && this.surveyDetails.rating>3;
+    },
     shouldShowSuccessMesage() {
       return !!this.isRatingSubmitted;
     },
+
     message() {
       if (this.errorMessage) {
         return this.errorMessage;
@@ -138,10 +148,13 @@ export default {
     async getSurveyDetails() {
       this.isLoading = true;
       try {
+
+        const csatmessage = await getCsatMessage({ uuid: this.surveyId });
         const result = await getSurveyDetails({ uuid: this.surveyId });
         this.logo = result.data.inbox_avatar_url;
         this.inboxName = result.data.inbox_name;
         this.surveyDetails = result?.data?.csat_survey_response;
+        this.csatMessage = csatmessage?.data?.csat_message;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
         this.setLocale(result.data.locale);
