@@ -102,10 +102,12 @@
       <conversation-context-menu
         :status="chat.status"
         :inbox-id="inbox.id"
+        :has-unread-messages="hasUnread"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
         @assign-team="onAssignTeam"
+        @mark-as-unread="markAsUnread"
       />
     </woot-context-menu>
   </div>
@@ -241,7 +243,7 @@ export default {
     },
 
     unreadCount() {
-      return this.unreadMessagesCount(this.chat);
+      return this.chat.unread_count;
     },
 
     hasUnread() {
@@ -357,6 +359,10 @@ export default {
     },
     async onAssignTeam(team) {
       this.$emit('assign-team', team, this.chat.id);
+      this.closeContextMenu();
+    },
+    async markAsUnread() {
+      this.$emit('mark-as-unread', this.chat.id);
       this.closeContextMenu();
     },
   },
