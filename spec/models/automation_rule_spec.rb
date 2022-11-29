@@ -37,7 +37,7 @@ RSpec.describe AutomationRule, type: :model do
             action_params: %w[support priority_customer]
           },
           {
-            action_name: :assign_best_agent,
+            action_name: :assign_agent,
             action_params: [1]
           }
         ]

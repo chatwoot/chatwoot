@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Thay đổi loại sự kiện sẽ đặt lại điều kiện và sự kiện mà bạn đã thêm bên dưới"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu"
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
