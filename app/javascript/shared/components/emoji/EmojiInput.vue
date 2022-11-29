@@ -10,7 +10,7 @@
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
       </div>
-      <div v-if="hasNoSearch" class="emoji-item">
+      <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
         <h5 class="emoji-category--title">
           {{ selectedKey }}
         </h5>
@@ -25,7 +25,7 @@
           />
         </div>
       </div>
-      <div v-else class="emoji-item">
+      <div v-else ref="emojiItem" class="emoji-item">
         <div v-for="category in filterAllEmojisBySearch" :key="category.slug">
           <h5 v-if="category.emojis.length > 0" class="emoji-category--title">
             {{ category.name }}
@@ -143,6 +143,7 @@ export default {
   methods: {
     changeCategory(category) {
       this.search = '';
+      this.$refs.emojiItem.scrollTo({ top: 0 });
       this.selectedKey = category;
     },
     getFirstEmojiByCategoryName(categoryName) {
@@ -195,7 +196,7 @@ $border-radius-normal: 5px;
   z-index: 1;
 
   &::before {
-    @include arrow(bottom, $color-white, $space-slab);
+    @include arrow(bottom, $color-bg, $space-slab);
     bottom: -$space-slab;
     position: absolute;
     right: $space-two;
