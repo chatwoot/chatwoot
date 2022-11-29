@@ -227,8 +227,10 @@ $border-radius-normal: 5px;
   padding: $space-smaller;
 
   .emoji--item {
+    height: 26px;
     line-height: 1.5;
     margin: $space-smaller;
+    width: 26px;
   }
 }
 
