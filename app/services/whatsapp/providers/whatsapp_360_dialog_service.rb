@@ -69,17 +69,18 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    attachment_url = attachment.download_url
+    type_content = {
+      'link': attachment.download_url
+    }
+    type_content['caption'] = message.content unless %w[audio sticker].include?(type)
+    type_content['filename'] = attachment.file.filename if type == 'document'
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
         'to' => phone_number,
         'type' => type,
-        type.to_s => {
-          'link': attachment_url,
-          'caption': message.content
-        }
+        type.to_s => type_content
       }.to_json
     )
 
