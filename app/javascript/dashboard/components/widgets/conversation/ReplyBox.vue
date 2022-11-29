@@ -68,6 +68,7 @@
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
+        @clear-selection="clearEditorSelection"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
@@ -709,6 +710,9 @@ export default {
         return;
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
+    },
+    clearEditorSelection() {
+      this.updateEditorSelectionWith = '';
     },
     insertEmoji(emoji, selectionStart, selectionEnd) {
       const { message } = this;
