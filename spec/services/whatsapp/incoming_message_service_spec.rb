@@ -71,47 +71,42 @@ describe Whatsapp::IncomingMessageService do
     end
 
     context 'when valid status params' do
-      it 'update status message to read' do
-        source_id = 'SDFADSf23sfasdafasdfa'
-        from = '2423423243'
-        params = {
+      let(:from) { '2423423243' }
+      let(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: from) }
+      let(:params) do
+        {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => from }],
-          'messages' => [{ 'from' => from, 'id' => source_id, 'text' => { 'body' => 'Test' },
+          'messages' => [{ 'from' => from, 'id' => from, 'text' => { 'body' => 'Test' },
                            'timestamp' => '1633034394', 'type' => 'text' }]
         }.with_indifferent_access
-        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+      end
+
+      before do 
         create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+      end
 
+      it 'update status message to read' do
         status_params = {
-          'statuses' => [{ 'recipient_id' => from, 'id' => source_id, 'status' => 'read' }]
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'read' }]
         }.with_indifferent_access
-        expect(Message.find_by!(source_id: source_id).status).to eq('sent')
+        message = Message.find_by!(source_id: from)
+        expect(message.status).to eq('sent')
         described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
-        expect(Message.find_by!(source_id: source_id).status).to eq('read')
+        expect(message.reload.status).to eq('read')
       end
 
       it 'update status message to failed' do
-        source_id = 'SDFADSf23sfasdafasdfa'
-        from = '2423423243'
-        params = {
-          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => from }],
-          'messages' => [{ 'from' => from, 'id' => source_id, 'text' => { 'body' => 'Test' },
-                           'timestamp' => '1633034394', 'type' => 'text' }]
-        }.with_indifferent_access
-        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
-        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
-        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-
         status_params = {
-          'statuses' => [{ 'recipient_id' => from, 'id' => source_id, 'status' => 'failed',
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
                            'errors' => [{ 'code': 123, 'title': 'abc' }] }]
         }.with_indifferent_access
-        expect(Message.find_by!(source_id: source_id).status).to eq('sent')
-        expect(last_conversation.messages.count).to eq(1)
+        
+        message = Message.find_by!(source_id: from)
+        expect(message.status).to eq('sent')
         described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
-        expect(last_conversation.messages.count).to eq(2)
-        expect(Message.find_by!(source_id: source_id).status).to eq('failed')
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('123: abc')
       end
     end
 
