@@ -38,6 +38,7 @@
         class="message--read ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
         :has-user-read-message="
           hasUserReadMessage(message.created_at, getLastSeenAt)
@@ -60,6 +61,7 @@
         class="message--unread ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
         :has-user-read-message="
           hasUserReadMessage(message.created_at, getLastSeenAt)
