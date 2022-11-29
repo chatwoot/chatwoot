@@ -5,10 +5,11 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
   let(:account) { create(:account) }
   let(:agent_1) { create(:user, account: account, role: :agent) }
   let(:agent_2) { create(:user, account: account, role: :agent) }
+  let(:team_1) { create(:team, account: account) }
 
   before do
-    create(:conversation, account_id: account.id, status: :open)
-    create(:conversation, account_id: account.id, status: :open)
+    create(:conversation, account_id: account.id, status: :open, team_id: team_1.id)
+    create(:conversation, account_id: account.id, status: :open, team_id: team_1.id)
     create(:conversation, account_id: account.id, status: :open)
     create(:conversation, account_id: account.id, status: :open)
   end
@@ -53,6 +54,44 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(Conversation.first.status).to eq('snoozed')
         expect(Conversation.last.status).to eq('open')
         expect(Conversation.first.assignee_id).to be_nil
+      end
+
+      it 'Bulk update conversation team id to none' do
+        params = { type: 'Conversation', fields: { team_id: 0 }, ids: Conversation.first(1).pluck(:display_id) }
+        expect(Conversation.first.team).not_to be_nil
+
+        perform_enqueued_jobs do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
+        end
+
+        expect(Conversation.first.team).to be_nil
+
+        last_activity_message = Conversation.first.messages.activity.last
+
+        expect(last_activity_message.content).to eq("Unassigned from #{team_1.name} by #{agent.name}")
+      end
+
+      it 'Bulk update conversation team id to team' do
+        params = { type: 'Conversation', fields: { team_id: team_1.id }, ids: Conversation.last(2).pluck(:display_id) }
+        expect(Conversation.last.team_id).to be_nil
+
+        perform_enqueued_jobs do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
+        end
+
+        expect(Conversation.last.team).to eq(team_1)
+
+        last_activity_message = Conversation.last.messages.activity.last
+
+        expect(last_activity_message.content).to eq("Assigned to #{team_1.name} by #{agent.name}")
       end
 
       it 'Bulk update conversation assignee id' do
