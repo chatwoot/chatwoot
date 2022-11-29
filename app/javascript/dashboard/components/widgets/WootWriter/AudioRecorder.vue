@@ -14,7 +14,7 @@ import inboxMixin from '../../../../shared/mixins/inboxMixin';
 import alertMixin from '../../../../shared/mixins/alertMixin';
 
 import Recorder from 'opus-recorder';
-// import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
+import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
 
 import WaveSurfer from 'wavesurfer.js';
 import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
@@ -23,6 +23,7 @@ import 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import 'videojs-record/dist/videojs.record.js';
 import 'videojs-record/dist/plugins/videojs.record.opus-recorder.js';
 import { format, addSeconds } from 'date-fns';
+import { AUDIO_FORMATS } from 'shared/constants/messages';
 
 WaveSurfer.microphone = MicrophonePlugin;
 
@@ -70,24 +71,26 @@ export default {
           record: {
             audio: true,
             video: false,
-            // displayMilliseconds: false,
-            // maxLength: 300,
-            // audioEngine: 'opus-recorder',
-            // audioWorkerURL: encoderWorker,
-            // audioChannels: 1,
-            // audioSampleRate: 48000,
-            // audioBitRate: 128,
-            monitorGain: 0,
-            recordingGain: 1,
-            numberOfChannels: 1,
-            encoderSampleRate: 16000,
-            originalSampleRateOverride: 16000,
-            streamPages: true,
-            maxFramesPerPage: 1,
-            encoderFrameSize: 1,
-            encoderPath:
-              '../../../../../../node_modules//opus-recorder/dist/waveWorker.min.js',
-            // opus-recorder/dist/encoderWorker.min
+            ...(this.audioRecordFormat === AUDIO_FORMATS.WEBM && {
+              monitorGain: 0,
+              recordingGain: 1,
+              numberOfChannels: 1,
+              encoderSampleRate: 16000,
+              originalSampleRateOverride: 16000,
+              streamPages: true,
+              maxFramesPerPage: 1,
+              encoderFrameSize: 1,
+              encoderPath: 'opus-recorder/dist/waveWorker.min.js',
+            }),
+            ...(this.audioRecordFormat === AUDIO_FORMATS.OGG && {
+              displayMilliseconds: false,
+              maxLength: 300,
+              audioEngine: 'opus-recorder',
+              audioWorkerURL: encoderWorker,
+              audioChannels: 1,
+              audioSampleRate: 48000,
+              audioBitRate: 128,
+            }),
           },
         },
       },
@@ -96,6 +99,12 @@ export default {
   computed: {
     isRecording() {
       return this.player && this.player.record().isRecording();
+    },
+    audioRecordFormat() {
+      if (this.isAWebWidgetInbox) {
+        return AUDIO_FORMATS.WEBM;
+      }
+      return AUDIO_FORMATS.OGG;
     },
   },
   mounted() {
