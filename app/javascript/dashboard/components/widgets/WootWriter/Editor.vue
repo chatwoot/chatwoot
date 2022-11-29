@@ -68,6 +68,7 @@ export default {
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     enableSuggestions: { type: Boolean, default: true },
+    isHelpCenter: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -294,7 +295,11 @@ export default {
       }
     },
     handleEnterKeyWhenEnterToSendEnabled(event) {
-      if (hasPressedEnterAndNotShift(event) && this.isEnterToSendEnabled()) {
+      if (
+        hasPressedEnterAndNotShift(event) &&
+        this.isEnterToSendEnabled() &&
+        !this.isHelpCenter
+      ) {
         event.preventDefault();
       }
     },
