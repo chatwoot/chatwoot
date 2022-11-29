@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "不可用",
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
+    "IDENTIFIER": "标识符",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
     "COMPANY": "公司",
     "LOCATION": "位置",
@@ -106,8 +107,8 @@
         "LABEL": "名字"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "输入联系人的简历",
+        "LABEL": "简历"
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "输入联系人的电子邮件地址",

@@ -8,7 +8,7 @@ import {
   buildConversationList,
   isOnMentionsView,
 } from './helpers/actionHelpers';
-
+import messageReadActions from './actions/messageReadActions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -199,10 +199,6 @@ const actions = {
     }
   },
 
-  updateConversationRead({ commit }, timestamp) {
-    commit(types.SET_CONVERSATION_LAST_SEEN, timestamp);
-  },
-
   updateMessage({ commit }, message) {
     commit(types.ADD_MESSAGE, message);
   },
@@ -252,18 +248,13 @@ const actions = {
       meta: { sender },
     } = conversation;
     commit(types.UPDATE_CONVERSATION, conversation);
-    dispatch('contacts/setContact', sender);
-  },
 
-  markMessagesRead: async ({ commit }, data) => {
-    try {
-      const {
-        data: { id, agent_last_seen_at: lastSeen },
-      } = await ConversationApi.markMessageRead(data);
-      setTimeout(() => commit(types.MARK_MESSAGE_READ, { id, lastSeen }), 4000);
-    } catch (error) {
-      // Handle error
-    }
+    dispatch('conversationLabels/setConversationLabel', {
+      id: conversation.id,
+      data: conversation.labels,
+    });
+
+    dispatch('contacts/setContact', sender);
   },
 
   setChatFilter({ commit }, data) {
@@ -334,6 +325,7 @@ const actions = {
   clearConversationFilters({ commit }) {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
+  ...messageReadActions,
 };
 
 export default actions;

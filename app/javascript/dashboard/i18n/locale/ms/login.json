@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
+      "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi",
       "UNAUTH": "Username / Password Incorrect. Please try again"
     },
     "FORGOT_PASSWORD": "Forgot your password?",

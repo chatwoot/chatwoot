@@ -48,6 +48,7 @@
       "size": "standard-1x"
     }
   },
+  "stack": "heroku-20",
   "image": "heroku/ruby",
   "addons": [
     {

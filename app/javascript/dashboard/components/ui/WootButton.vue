@@ -14,7 +14,9 @@
       :icon="icon"
       :icon-size="iconSize"
     />
-    <span v-if="$slots.default" class="button__content"><slot /></span>
+    <span v-if="$slots.default" class="button__content">
+      <slot />
+    </span>
   </button>
 </template>
 <script>

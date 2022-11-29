@@ -3,8 +3,8 @@
     <div class="header-left--wrap">
       <woot-button
         icon="chevron-left"
-        class-names="article-back-buttons"
         variant="clear"
+        size="small"
         color-scheme="primary"
         @click="onClickGoBack"
       >
@@ -26,7 +26,9 @@
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.PREVIEW') }}
       </woot-button>
+      <!-- Hidden since this is in V2
       <woot-button
+        v-if="shouldShowAddLocaleButton"
         class-names="article--buttons"
         icon="add"
         color-scheme="secondary"
@@ -35,7 +37,7 @@
         @click="onClickAdd"
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
-      </woot-button>
+      </woot-button> -->
       <woot-button
         v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
@@ -44,6 +46,7 @@
         variant="hollow"
         size="small"
         color-scheme="secondary"
+        :is-disabled="enableOpenSidebarButton"
         @click="openSidebar"
       />
       <woot-button
@@ -56,19 +59,59 @@
         color-scheme="secondary"
         @click="closeSidebar"
       />
-      <woot-button
-        class-names="article--buttons"
-        size="small"
-        color-scheme="primary"
-      >
-        {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
-      </woot-button>
+      <div class="article--buttons">
+        <div class="button-group">
+          <woot-button
+            class-names="publish-button"
+            size="small"
+            icon="checkmark"
+            color-scheme="primary"
+            :is-disabled="!articleSlug || isPublishedArticle"
+            @click="updateArticleStatus(ARTICLE_STATUS_TYPES.PUBLISH)"
+          >
+            {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
+          </woot-button>
+          <woot-button
+            ref="arrowDownButton"
+            size="small"
+            icon="chevron-down"
+            :is-disabled="!articleSlug || isArchivedArticle"
+            @click="openActionsDropdown"
+          />
+        </div>
+        <div
+          v-if="showActionsDropdown"
+          v-on-clickaway="closeActionsDropdown"
+          class="dropdown-pane dropdown-pane--open"
+        >
+          <woot-dropdown-menu>
+            <woot-dropdown-item>
+              <woot-button
+                variant="clear"
+                color-scheme="secondary"
+                size="small"
+                icon="book-clock"
+                @click="updateArticleStatus(ARTICLE_STATUS_TYPES.ARCHIVE)"
+              >
+                {{ $t('HELP_CENTER.EDIT_HEADER.MOVE_TO_ARCHIVE_BUTTON') }}
+              </woot-button>
+            </woot-dropdown-item>
+          </woot-dropdown-menu>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import alertMixin from 'shared/mixins/alertMixin';
+import { mixin as clickaway } from 'vue-clickaway';
+import wootConstants from 'dashboard/constants.js';
+
+const { ARTICLE_STATUS_TYPES } = wootConstants;
+
 export default {
+  mixins: [alertMixin, clickaway],
   props: {
     backButtonLabel: {
       type: String,
@@ -82,10 +125,21 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableOpenSidebarButton: {
+      type: Boolean,
+      default: false,
+    },
+    shouldShowAddLocaleButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isSidebarOpen: false,
+      showActionsDropdown: false,
+      alertMessage: '',
+      ARTICLE_STATUS_TYPES: ARTICLE_STATUS_TYPES,
     };
   },
   computed: {
@@ -93,6 +147,21 @@ export default {
       return this.isUpdating
         ? this.$t('HELP_CENTER.EDIT_HEADER.SAVING')
         : this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
+    },
+    articleSlug() {
+      return this.$route.params.articleSlug;
+    },
+    currentPortalSlug() {
+      return this.$route.params.portalSlug;
+    },
+    currentArticleStatus() {
+      return this.$store.getters['articles/articleStatus'](this.articleSlug);
+    },
+    isPublishedArticle() {
+      return this.currentArticleStatus === 'published';
+    },
+    isArchivedArticle() {
+      return this.currentArticleStatus === 'archived';
     },
   },
   methods: {
@@ -105,6 +174,36 @@ export default {
     onClickAdd() {
       this.$emit('add');
     },
+    async updateArticleStatus(status) {
+      try {
+        await this.$store.dispatch('articles/update', {
+          portalSlug: this.currentPortalSlug,
+          articleId: this.articleSlug,
+          status: status,
+        });
+        this.statusUpdateSuccessMessage(status);
+        this.closeActionsDropdown();
+      } catch (error) {
+        this.alertMessage =
+          error?.message || this.statusUpdateErrorMessage(status);
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
+    statusUpdateSuccessMessage(status) {
+      if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+        this.alertMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.SUCCESS');
+      } else if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
+        this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
+      }
+    },
+    statusUpdateErrorMessage(status) {
+      if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+        this.alertMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.ERROR');
+      } else if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
+        this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
+      }
+    },
     openSidebar() {
       this.isSidebarOpen = true;
       this.$emit('open');
@@ -112,6 +211,12 @@ export default {
     closeSidebar() {
       this.isSidebarOpen = false;
       this.$emit('close');
+    },
+    openActionsDropdown() {
+      this.showActionsDropdown = !this.showActionsDropdown;
+    },
+    closeActionsDropdown() {
+      this.showActionsDropdown = false;
     },
   },
 };
@@ -123,7 +228,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: var(--space-larger);
+  height: var(--space-jumbo);
+  padding-top: var(--space-small);
 }
 .header-left--wrap {
   display: flex;
@@ -133,11 +239,13 @@ export default {
   display: flex;
   align-items: center;
 }
-.article-back-buttons {
-  padding-left: 0;
-}
 .article--buttons {
+  position: relative;
   margin-left: var(--space-smaller);
+  .dropdown-pane {
+    position: absolute;
+    right: 0;
+  }
 }
 .draft-status {
   margin-right: var(--space-smaller);

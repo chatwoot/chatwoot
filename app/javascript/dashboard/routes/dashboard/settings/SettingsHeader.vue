@@ -1,7 +1,7 @@
 <template>
   <div class="settings-header">
     <h1 class="page-title">
-      <woot-sidemenu-icon />
+      <woot-sidemenu-icon v-if="showSidemenuIcon" />
       <back-button
         v-if="showBackButton"
         :button-label="backButtonLabel"
@@ -59,6 +59,10 @@ export default {
     backButtonLabel: {
       type: String,
       default: '',
+    },
+    showSidemenuIcon: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {

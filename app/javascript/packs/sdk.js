@@ -10,7 +10,7 @@ import {
   getUserCookieName,
   hasUserKeys,
 } from '../sdk/cookieHelpers';
-import { addClass, removeClass } from '../sdk/DOMHelpers';
+import { addClasses, removeClasses } from '../sdk/DOMHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
@@ -18,6 +18,11 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   }
 
   const chatwootSettings = window.chatwootSettings || {};
+  let locale = chatwootSettings.locale || 'en';
+  if (chatwootSettings.useBrowserLanguage) {
+    locale = window.navigator.language.replace('-', '_');
+  }
+
   window.$chatwoot = {
     baseUrl,
     hasLoaded: false,
@@ -25,7 +30,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     isOpen: false,
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
-    locale: chatwootSettings.locale,
+    locale,
+    useBrowserLanguage: chatwootSettings.useBrowserLanguage || false,
     type: getBubbleView(chatwootSettings.type),
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
@@ -41,12 +47,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       let widgetElm = document.querySelector('.woot--bubble-holder');
       let widgetHolder = document.querySelector('.woot-widget-holder');
       if (visibility === 'hide') {
-        addClass(widgetHolder, 'woot-widget--without-bubble');
-        addClass(widgetElm, 'woot-hidden');
+        addClasses(widgetHolder, 'woot-widget--without-bubble');
+        addClasses(widgetElm, 'woot-hidden');
         window.$chatwoot.hideMessageBubble = true;
       } else if (visibility === 'show') {
-        removeClass(widgetElm, 'woot-hidden');
-        removeClass(widgetHolder, 'woot-widget--without-bubble');
+        removeClasses(widgetElm, 'woot-hidden');
+        removeClasses(widgetHolder, 'woot-widget--without-bubble');
         window.$chatwoot.hideMessageBubble = false;
       }
       IFrameHelper.sendMessage(SDK_SET_BUBBLE_VISIBILITY, {
@@ -58,7 +64,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.events.popoutChatWindow({
         baseUrl: window.$chatwoot.baseUrl,
         websiteToken: window.$chatwoot.websiteToken,
-        locale: window.$chatwoot.locale,
+        locale,
       });
     },
 

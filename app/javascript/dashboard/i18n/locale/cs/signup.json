@@ -22,7 +22,7 @@
       "LABEL": "Heslo",
       "PLACEHOLDER": "Heslo",
       "ERROR": "Heslo je příliš krátké",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Heslo by mělo obsahovat alespoň jedno velké písmeno, jedno malé písmeno, jedno číslo a jeden speciální znak"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Potvrzení hesla",

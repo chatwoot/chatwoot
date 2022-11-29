@@ -1,0 +1,70 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Loading Editor...",
+    "HEADER_BTN_TXT": "Add Bot Configuration",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Bot Name",
+        "PLACEHOLDER": "Give your bot a name",
+        "ERROR": "Bot name is required"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Bot Description",
+        "PLACEHOLDER": "What does this bot do?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Please enter your CSML bot configuration above",
+        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+      },
+      "SUBMIT": "Validate and save"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Select an agent bot",
+      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "SUBMIT": "Update",
+      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
+      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
+      "SELECT_PLACEHOLDER": "Select Bot"
+    },
+    "ADD": {
+      "TITLE": "Configure new bot",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot added successfully",
+        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+      }
+    },
+    "LIST": {
+      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
+      "LOADING": "Fetching Bots...",
+      "TYPE": "Bot Type"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف کریں۔",
+      "TITLE": "Delete Bot",
+      "SUBMIT": "حذف کریں۔",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "ترمیم",
+      "LOADING": "Fetching Bots...",
+      "TITLE": "Edit Bot",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot updated successfully",
+        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Bot",
+      "CSML": "CSML Bot"
+    }
+  }
+}

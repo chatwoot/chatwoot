@@ -47,7 +47,7 @@
         "REQUIRED_ERROR": "Full Name is required"
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Email Address",
+        "LABEL": "Emel",
         "PLACEHOLDER": "Please enter your email address",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "Please enter a valid email address"

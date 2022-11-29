@@ -1,0 +1,54 @@
+<% content_for :head do %>
+  <title><%= @article.title %> | <%= @portal.name %></title>
+  <% if @article.meta["title"].present? %>
+    <meta name="title" content="<%= @article.meta["title"] %>">
+  <% end %>
+  <% if @article.meta["description"].present? %>
+    <meta name="description" content="<%= @article.meta["description"] %>">
+  <% end %>
+  <% if @article.meta["tags"].present? %>
+    <meta name="tags" content="<%= @article.meta["tags"].join(',') %>">
+  <% end %>
+<% end %>
+
+<div class="bg-gradient-to-b from-white to-slate-50">
+  <div class="max-w-5xl px-8 lg:px-4 pt-8 pb-16 mx-auto space-y-4 w-full">
+    <div>
+      <a
+        class="text-slate-700 hover:underline leading-8 text-sm font-medium"
+        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
+      >
+        Home
+      </a>
+      <span class="text-xs text-slate-600 px-1">/</span>
+      <a
+        class="text-slate-700 hover:underline leading-8 text-sm font-medium"
+        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/<%= @article.category.slug %>"
+      >
+        <%= @article.category.name %>
+      </a>
+    </div>
+    <h1 class="text-3xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
+      <%= @article.title %>
+    </h1>
+    <div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
+      <div class="flex items-center space-x-2">
+        <% if @article.author&.avatar_url&.present? %>
+          <img src="<%= @article.author.avatar_url %>" alt="<%= @article.author.display_name %>" class="w-12 h-12 border rounded-full">
+        <% end %>
+        <div class="pl-1">
+          <h5 class="text-base font-medium text-slate-900 mb-2"><%= @article.author.available_name %></h5>
+          <p class="text-sm font-normal text-slate-700">
+            Last updated on <%= @article.updated_at.strftime("%b %d, %Y") %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="max-w-5xl flex-grow w-full px-6 py-8 mx-auto space-y-12">
+  <article class="space-y-8 ">
+    <div class="text-slate-800 leading-8 text-lg subpixel-antialiased max-w-3xl prose">
+      <p><%= @parsed_content %></p>
+    </div>
+  </article>
+</div>

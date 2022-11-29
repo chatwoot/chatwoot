@@ -5,23 +5,36 @@ const ListAllPortals = () => import('./pages/portals/ListAllPortals');
 const NewPortal = () => import('./pages/portals/NewPortal');
 
 const EditPortal = () => import('./pages/portals/EditPortal');
+const EditPortalBasic = () => import('./pages/portals/EditPortalBasic');
+const EditPortalCustomization = () =>
+  import('./pages/portals/EditPortalCustomization');
+const EditPortalLocales = () => import('./pages/portals/EditPortalLocales.vue');
 const ShowPortal = () => import('./pages/portals/ShowPortal');
 const PortalDetails = () => import('./pages/portals/PortalDetails');
 const PortalCustomization = () => import('./pages/portals/PortalCustomization');
 const PortalSettingsFinish = () =>
   import('./pages/portals/PortalSettingsFinish');
+
 const ListAllCategories = () => import('./pages/categories/ListAllCategories');
 const NewCategory = () => import('./pages/categories/NewCategory');
 const EditCategory = () => import('./pages/categories/EditCategory');
 const ListCategoryArticles = () =>
   import('./pages/articles/ListCategoryArticles');
 const ListAllArticles = () => import('./pages/articles/ListAllArticles');
+const DefaultPortalArticles = () =>
+  import('./pages/articles/DefaultPortalArticles');
 const NewArticle = () => import('./pages/articles/NewArticle');
 const EditArticle = () => import('./pages/articles/EditArticle');
 
 const portalRoutes = [
   {
     path: getPortalRoute(''),
+    name: 'default_portal_articles',
+    roles: ['administrator', 'agent'],
+    component: DefaultPortalArticles,
+  },
+  {
+    path: getPortalRoute('all'),
     name: 'list_all_portals',
     roles: ['administrator', 'agent'],
     component: ListAllPortals,
@@ -37,13 +50,13 @@ const portalRoutes = [
         roles: ['administrator'],
       },
       {
-        path: ':portal_slug/customization',
+        path: ':portalSlug/customization',
         name: 'portal_customization',
         component: PortalCustomization,
         roles: ['administrator'],
       },
       {
-        path: ':portal_slug/finish',
+        path: ':portalSlug/finish',
         name: 'portal_finish',
         component: PortalSettingsFinish,
         roles: ['administrator'],
@@ -52,15 +65,40 @@ const portalRoutes = [
   },
   {
     path: getPortalRoute(':portalSlug'),
-    name: 'portal_slug',
+    name: 'portalSlug',
     roles: ['administrator', 'agent'],
     component: ShowPortal,
   },
   {
     path: getPortalRoute(':portalSlug/edit'),
-    name: 'edit_portal',
     roles: ['administrator', 'agent'],
     component: EditPortal,
+    children: [
+      {
+        path: '',
+        name: 'edit_portal_information',
+        component: EditPortalBasic,
+        roles: ['administrator'],
+      },
+      {
+        path: 'customizations',
+        name: 'edit_portal_customization',
+        component: EditPortalCustomization,
+        roles: ['administrator'],
+      },
+      {
+        path: 'locales',
+        name: 'edit_portal_locales',
+        component: EditPortalLocales,
+        roles: ['administrator'],
+      },
+      {
+        path: 'categories',
+        name: 'list_all_locale_categories',
+        roles: ['administrator', 'agent'],
+        component: ListAllCategories,
+      },
+    ],
   },
 ];
 
@@ -108,7 +146,7 @@ const articleRoutes = [
 const categoryRoutes = [
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
-    name: 'list_all_locale_categories',
+    name: 'all_locale_categories',
     roles: ['administrator', 'agent'],
     component: ListAllCategories,
   },

@@ -35,7 +35,7 @@
       <message
         v-for="message in getReadMessages"
         :key="message.id"
-        class="message--read"
+        class="message--read ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
@@ -44,11 +44,11 @@
         "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
-      <li v-show="getUnreadCount != 0" class="unread--toast">
+      <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span class="text-uppercase">
-          {{ getUnreadCount }}
+          {{ unreadMessageCount }}
           {{
-            getUnreadCount > 1
+            unreadMessageCount > 1
               ? $t('CONVERSATION.UNREAD_MESSAGES')
               : $t('CONVERSATION.UNREAD_MESSAGE')
           }}
@@ -57,7 +57,7 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
-        class="message--unread"
+        class="message--unread ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
@@ -137,9 +137,7 @@ export default {
       allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
-      getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
-      conversationLastSeen: 'getConversationLastSeen',
     }),
     inboxId() {
       return this.currentChat.inbox_id;
@@ -234,7 +232,6 @@ export default {
       return 'arrow-chevron-left';
     },
     getLastSeenAt() {
-      if (this.conversationLastSeen) return this.conversationLastSeen;
       const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
       return contactLastSeenAt;
     },
@@ -272,6 +269,9 @@ export default {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
       }
       return '';
+    },
+    unreadMessageCount() {
+      return this.currentChat.unread_count;
     },
   },
 
@@ -333,7 +333,7 @@ export default {
     },
     scrollToBottom() {
       let relevantMessages = [];
-      if (this.getUnreadCount > 0) {
+      if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
         relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
@@ -431,12 +431,12 @@ export default {
       position: fixed;
       left: unset;
       position: absolute;
-    }
 
-    .emoji-dialog::before {
-      transform: rotate(0deg);
-      left: 5px;
-      bottom: var(--space-minus-slab);
+      &::before {
+        transform: rotate(0deg);
+        left: var(--space-smaller);
+        bottom: var(--space-minus-slab);
+      }
     }
   }
 }

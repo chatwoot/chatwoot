@@ -3,39 +3,40 @@
     "NOT_AVAILABLE": "Ikke Tilgængelig",
     "EMAIL_ADDRESS": "E-Mail Adresse",
     "PHONE_NUMBER": "Telefonnummer",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopiering til udklipsholder lykkedes",
     "COMPANY": "Virksomhed",
     "LOCATION": "Lokation",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "Browser Sprog",
     "CONVERSATION_TITLE": "Samtaledetaljer",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Vis Profil",
     "BROWSER": "Browser",
     "OS": "Operativsystem",
     "INITIATED_FROM": "Startet fra",
     "INITIATED_AT": "Startet fra",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "IP_ADDRESS": "Ip Adresse",
+    "NEW_MESSAGE": "Ny besked",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Der er ingen tidligere samtaler tilknyttet denne kontakt.",
       "TITLE": "Tidligere Samtaler"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Kontakt Labels",
+        "ERROR": "Kunne ikke opdatere etiketter"
       },
       "CONVERSATION": {
         "TITLE": "Samtale Etiketter",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Tilføj Labels"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Tilføj Labels",
+        "PLACEHOLDER": "Søg efter labels",
+        "NO_RESULT": "Ingen labels fundet"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Sammenflet kontakt",
+    "CONTACT_ACTIONS": "Kontakt handlinger",
     "MUTE_CONTACT": "Gør Samtale Lydløs",
     "UNMUTE_CONTACT": "Fjern Lydløs",
     "MUTED_SUCCESS": "Denne samtale er gjort tavs i 6 timer",
@@ -44,7 +45,7 @@
     "EDIT_LABEL": "Rediger",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
-      "CONTACT_LABELS": "Contact Labels",
+      "CONTACT_LABELS": "Kontakt Labels",
       "PREVIOUS_CONVERSATIONS": "Tidligere Samtaler"
     }
   },
@@ -54,35 +55,35 @@
     "DESC": "Rediger kontaktoplysninger"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Ny Kontakt",
+    "TITLE": "Opret ny kontakt",
+    "DESC": "Tilføj grundlæggende oplysninger om kontakten."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importér",
+    "TITLE": "Importér Kontakter",
+    "DESC": "Importér kontakter via en CSV-fil.",
+    "DOWNLOAD_LABEL": "Download en prøve csv.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "CSV Fil",
+      "SUBMIT": "Importer",
       "CANCEL": "Annuller"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Kontakter gemt",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Bekræft Sletning",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "Er du sikker på at slette denne note?",
+      "YES": "Ja, Slet",
       "NO": "Nej, behold det"
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Slet Kontakt",
+    "TITLE": "Slet kontakt",
+    "DESC": "Slet kontaktoplysninger",
     "CONFIRM": {
       "TITLE": "Bekræft Sletning",
       "MESSAGE": "Er du sikker på du vil slette ",
@@ -90,8 +91,8 @@
       "NO": "Nej, Behold"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Kontakten blev slettet",
+      "ERROR_MESSAGE": "Kunne ikke slette kontakten. Prøv igen senere."
     }
   },
   "CONTACT_FORM": {
@@ -118,9 +119,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Indtast telefonnummeret på kontaktpersonen",
         "LABEL": "Telefonnummer",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "HELP": "Telefonnummer skal være af E.164 format fx: +1415555555 [+] [landekode] [områdekode] [lokalt telefonnummer]",
+        "ERROR": "Telefonnummer skal være enten tomt eller i E.164-format",
+        "DUPLICATE": "Dette telefonnummer er i brug for en anden kontakt."
       },
       "LOCATION": {
         "PLACEHOLDER": "Angiv placeringen af kontaktpersonen",
@@ -151,30 +152,30 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Kontakt avatar slettet",
+        "ERROR_MESSAGE": "Kunne ikke slette kontakten avatar. Prøv igen senere."
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Kontakt gemt med succes",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
+    "BUTTON_LABEL": "Start samtale",
+    "TITLE": "Ny samtale",
     "DESC": "Start en samtale ved at sende en besked.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "NO_INBOX": "Kunne ikke finde en indbakke til at starte en ny samtale med denne kontakt.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Til"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Indbakke",
+        "ERROR": "Vælg en indbakke"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "Emne",
+        "PLACEHOLDER": "Emne",
+        "ERROR": "Emne må ikke være tomt"
       },
       "MESSAGE": {
         "LABEL": "Besked",
@@ -190,157 +191,157 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakter",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Kontakt felter",
     "SEARCH_BUTTON": "Søg",
     "SEARCH_INPUT_PLACEHOLDER": "Søg efter kontakter",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS": "Filtrer",
+    "FILTER_CONTACTS_SAVE": "Gem filter",
+    "FILTER_CONTACTS_DELETE": "Slet filter",
     "LIST": {
       "LOADING_MESSAGE": "Indlæser kontakter...",
       "404": "Ingen kontakter matcher din søgning 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "Der er ingen tilgængelige kontakter",
       "TABLE_HEADER": {
         "NAME": "Navn",
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Samtaler",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "LAST_ACTIVITY": "Sidste Aktivitet",
+        "COUNTRY": "Land",
+        "CITY": "By",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Virksomhed",
         "EMAIL_ADDRESS": "E-Mail Adresse"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Se detaljer"
     }
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Kontakter",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "Indlæser kontaktprofil..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Tilføj",
+      "TITLE": "Shift + Enter for at oprette en opgave"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Forfaldsdato",
+      "LABEL_TITLE": "Angiv type"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "Henter noter...",
+    "NOT_AVAILABLE": "Der er ingen noter oprettet til denne kontakt",
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "Noter"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "tilføjede en note"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Tilføj",
+      "PLACEHOLDER": "Tilføj en note",
+      "TITLE": "Skift + Enter for at oprette en note"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Slet note"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Aktiviteter"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "noter",
+      "PILL_BUTTON_EVENTS": "begivenheder",
       "PILL_BUTTON_CONVO": "samtaler"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "Tilføj attributter",
+    "BUTTON": "Tilføj brugerdefineret attribut",
+    "NOT_AVAILABLE": "Der er ingen brugerdefinerede attributter tilgængelige for denne kontakt.",
     "COPY_SUCCESSFUL": "Kopiering til udklipsholder lykkedes",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "Kopier attribut",
+      "DELETE": "Slet egenskab",
+      "EDIT": "Rediger attribut"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Opret brugerdefineret attribut",
+      "DESC": "Tilføj brugerdefineret information til denne kontakt."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Tilføj attribut",
       "CANCEL": "Annuller",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Brugerdefineret attributnavn",
+        "PLACEHOLDER": "F. eks.: shopify id",
+        "ERROR": "Ugyldigt brugerdefineret attributnavn"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Egenskab værdi",
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "Opret ny egenskab ",
+        "SUCCESS": "Egenskab tilføjet",
+        "ERROR": "Kan ikke tilføje attribut. Prøv igen senere"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "Attributten er opdateret",
+        "ERROR": "Kan ikke opdatere attributten. Prøv igen senere"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Attributten blev slettet",
+        "ERROR": "Kan ikke slette attributten. Prøv igen senere"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Tilføj attributter",
+        "PLACEHOLDER": "Søg attributter",
+        "NO_RESULT": "Ingen attributter fundet"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Vælg værdi",
+          "SEARCH_INPUT_PLACEHOLDER": "Søg værdi",
+          "NO_RESULT": "Ingen resultater fundet"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Gyldig værdi er påkrævet",
+      "INVALID_URL": "Ugyldig URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "Sammenflet kontakter",
+    "DESCRIPTION": "Sammenflet kontakter for at kombinere to profiler til én, herunder alle attributter og samtaler. I tilfælde af konflikter vil den primære kontakts attributter have forrang.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Primær kontakt",
+      "HELP_LABEL": "Skal opbevares"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Kontakt for sammenfletning",
+      "PLACEHOLDER": "Søg efter en kontakt",
+      "HELP_LABEL": "Skal slettes"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Oversigt",
+      "DELETE_WARNING": "Kontakt af <strong>%{childContactName}</strong> vil blive slettet.",
+      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>%{childContactName}</strong> vil blive kopieret til <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "FEJL_MEDDELELSE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Sammenflet kontakter",
       "CANCEL": "Annuller",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Vælg en underordnet kontakt at flette"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "Kontakt flettet med succes",
+      "ERROR_MESSAGE": "Kunne ikke sammenflette kontakter, prøv igen!"
     }
   }
 }

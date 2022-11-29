@@ -40,15 +40,16 @@
       <tr v-for="locale in locales" :key="locale.code">
         <td>
           <span>{{ localeName(locale.code) }}</span>
-          <Label
+          <woot-label
             v-if="locale.code === selectedLocaleCode"
             :title="
               $t(
                 'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.DEFAULT_LOCALE'
               )
             "
-            color-scheme="primary"
+            color-scheme="warning"
             :small="true"
+            variant="smooth"
             class="default-status"
           />
         </td>
@@ -73,7 +74,7 @@
             icon="arrow-swap"
             color-scheme="primary"
             :disabled="locale.code === selectedLocaleCode"
-            @click="swapLocale"
+            @click="changeDefaultLocale(locale.code)"
           />
           <woot-button
             v-tooltip.top-end="
@@ -85,7 +86,8 @@
             variant="smooth"
             icon="delete"
             color-scheme="secondary"
-            @click="deleteLocale"
+            :disabled="locale.code === selectedLocaleCode"
+            @click="deleteLocale(locale.code)"
           />
         </td>
       </tr>
@@ -94,12 +96,8 @@
 </template>
 
 <script>
-import Label from 'dashboard/components/ui/Label';
 import portalMixin from '../mixins/portalMixin';
 export default {
-  components: {
-    Label,
-  },
   mixins: [portalMixin],
   props: {
     locales: {
@@ -113,11 +111,11 @@ export default {
   },
 
   methods: {
-    swapLocale() {
-      this.$emit('swap');
+    changeDefaultLocale(localeCode) {
+      this.$emit('change-default-locale', { localeCode });
     },
-    deleteLocale() {
-      this.$emit('delete');
+    deleteLocale(localeCode) {
+      this.$emit('delete', { localeCode });
     },
   },
 };

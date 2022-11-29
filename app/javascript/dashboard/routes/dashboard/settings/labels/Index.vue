@@ -91,7 +91,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('LABEL_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -136,9 +137,7 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.title
-      } ?`;
+      return ` ${this.selectedResponse.title}?`;
     },
   },
   mounted() {

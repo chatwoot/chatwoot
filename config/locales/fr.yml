@@ -23,9 +23,9 @@ fr:
     reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.
   errors:
     validations:
-      presence: must not be blank
+      presence: Ne peut être vide
     webhook:
-      invalid: Invalid events
+      invalid: Événements non valides
     signup:
       disposable_email: Nous n'autorisons pas les courriels jetables
       invalid_email: Vous avez entré un courriel non valide
@@ -33,21 +33,21 @@ fr:
       failed: L'inscription a échoué
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Type de données incorrect
     contacts:
       import:
         failed: Le fichier est vide
       email:
-        invalid: Invalid email
+        invalid: Email non valide
       phone_number:
-        invalid: should be in e164 format
+        invalid: Doit être au format e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: Doit être unique dans la catégorie et le portail
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
+        socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
+        no_response_error: Veuillez vérifier les identifiants IMAP et réessayez.
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
         connection_timed_out_error: Connection timed out for %{address}:%{port}
         connection_closed_error: Connection closed.
@@ -149,3 +149,11 @@ fr:
     fullcontact:
       name: "Fullcontact"
       description: "L'intégration FullContact permet d'enrichir les profils de visiteurs. Identifiez les utilisateurs dès qu'ils partagent leur adresse de courriel et offrez-leur un service client sur mesure. Connectez FullContact à votre compte en partageant la clé API FullContact."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Aucun résultat trouvé.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.

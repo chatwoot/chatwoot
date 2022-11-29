@@ -16,14 +16,14 @@ class DeviseOverrides::SessionsController < ::DeviseTokenAuth::SessionsControlle
   end
 
   def render_create_success
-    render partial: 'devise/auth.json', locals: { resource: @resource }
+    render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
   end
 
   private
 
   def authenticate_resource_with_sso_token
     @token = @resource.create_token
-    @resource.save
+    @resource.save!
 
     sign_in(:user, @resource, store: false, bypass: false)
     # invalidate the token after the user is signed in

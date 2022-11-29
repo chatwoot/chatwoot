@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Reģistrēt kontu",
+    "TITLE": "Reģistrēt",
+    "TERMS_ACCEPT": "Reģistrējoties Jūs piekrītat mūsu <a href=\"https://www.chatwoot.com/terms\">T & C</a> un <a href=\"https://www.chatwoot.com/privacy-policy\">Konfidencialitātes Politikai</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account name",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "LABEL": "Konta nosaukums",
+      "PLACEHOLDER": "Ievadiet konta nosaukumu. Piemēram: Wayne Enterprises",
+      "ERROR": "Konta nosaukums ir pārāk īss"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Pilnais vārds",
+      "PLACEHOLDER": "Ievadiet savu pilno vārdu. Piemēram: Bruce Wayne",
+      "ERROR": "Pilnais vārds ir pārāk īss"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "Darba e-pasts",
+      "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram: bruce@wayne.enterprises",
+      "ERROR": "E-pasta adrese nav derīga"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "Parole",
+      "PLACEHOLDER": "Parole",
+      "ERROR": "Parole ir pārāk īsa",
+      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Apstipriniet Paroli",
+      "PLACEHOLDER": "Apstipriniet Paroli",
+      "ERROR": "Parole nesakrīt"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Reģistrācija sekmīga",
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     },
-    "SUBMIT": "Submit",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "Iesniegt",
+    "HAVE_AN_ACCOUNT": "Jau ir konts?"
   }
 }

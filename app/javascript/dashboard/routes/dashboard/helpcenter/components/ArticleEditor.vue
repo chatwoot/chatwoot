@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="edit-article--container"
-    :class="{ 'is-settings-sidebar-open': isSettingsSidebarOpen }"
-  >
-    <input
+  <div class="edit-article--container">
+    <resizable-text-area
       v-model="articleTitle"
       type="text"
+      rows="1"
       class="article-heading"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
       @focus="onFocus"
@@ -26,11 +24,13 @@
 
 <script>
 import { debounce } from '@chatwoot/utils';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 export default {
   components: {
     WootMessageEditor,
+    ResizableTextArea,
   },
   props: {
     article: {
@@ -46,6 +46,7 @@ export default {
     return {
       articleTitle: '',
       articleContent: '',
+      saveArticle: () => {},
     };
   },
   mounted() {
@@ -82,17 +83,15 @@ export default {
   width: 640px;
 }
 
-.is-settings-sidebar-open {
-  margin: var(--space-large) var(--space-small);
-}
-
 .article-heading {
   font-size: var(--font-size-giga);
   font-weight: var(--font-weight-bold);
   min-height: var(--space-jumbo);
-  max-height: var(--space-jumbo);
+  max-height: 64rem;
+  height: auto;
   border: 0px solid transparent;
   padding: 0;
+  color: var(--s-900);
 }
 
 ::v-deep {

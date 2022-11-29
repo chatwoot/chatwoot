@@ -3,7 +3,7 @@
     "HEADER": "Các cuộc hội thoại",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
+    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo tổng đài viên",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc trò chuyện",
@@ -18,16 +18,16 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -65,7 +65,7 @@
       "PLACEHOLDER": "Chọn phạm vi ngày"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nhóm theo",
-    "DURATION_FILTER_LABEL": "Duration",
+    "DURATION_FILTER_LABEL": "Thời lượng",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -136,16 +136,16 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -203,16 +203,16 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -270,16 +270,16 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -337,16 +337,16 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -387,10 +387,10 @@
   "CSAT_REPORTS": {
     "HEADER": "Báo cáo CSAT",
     "NO_RECORDS": "Không có phản hồi báo cáo CSAT có sẵn.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD": "Tải về các báo cáo CSAT",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Chọn tổng đài viên"
       }
     },
     "TABLE": {
@@ -418,27 +418,27 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Tổng quan",
-    "LIVE": "Live",
+    "LIVE": "Trực tuyến",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "Mở cuộc hội thoại",
+      "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
       "OPEN": "Mở",
-      "UNATTENDED": "Unattended",
+      "UNATTENDED": "Không giám sát",
       "UNASSIGNED": "Chưa được phân công"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Cuộc hội thoại của các tổng đài viên",
+      "LOADING_MESSAGE": "Đang tải chỉ số tổng đài viên...",
+      "NO_AGENTS": "Không có cuộc hội thoại nào của các tổng đài viên",
       "TABLE_HEADER": {
         "AGENT": "Nhà cung cấp",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
+        "OPEN": "MỞ",
+        "UNATTENDED": "Không giám sát",
         "STATUS": "Trạng thái"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "Trạng thái tổng đài viên",
       "ONLINE": "Trực Tuyến",
       "BUSY": "Bận",
       "OFFLINE": "Không Trực Tuyến"

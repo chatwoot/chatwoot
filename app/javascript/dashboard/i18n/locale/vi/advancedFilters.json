@@ -1,14 +1,14 @@
 {
   "FILTER": {
-    "TITLE": "Lọc cuộc trò chuyện",
-    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc cuộc trò chuyện.",
+    "TITLE": "Lọc hội thoại",
+    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc hội thoại.",
     "ADD_NEW_FILTER": "Thêm Bộ lọc",
     "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",
     "SUBMIT_BUTTON_LABEL": "Áp dụng bộ lọc",
     "CANCEL_BUTTON_LABEL": "Huỷ",
     "CLEAR_BUTTON_LABEL": "Xoá bộ lọc",
     "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có",
-    "TOOLTIP_LABEL": "Lọc cuộc trò chuyện",
+    "TOOLTIP_LABEL": "Lọc cuộc hội thoại",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "VÀ",
       "OR": "HOẶC"
@@ -16,7 +16,7 @@
     "OPERATOR_LABELS": {
       "equal_to": "Bằng",
       "not_equal_to": "Không bằng",
-      "contains": "Bao gồm",
+      "contains": "Chứa",
       "does_not_contain": "Không bao gồm",
       "is_present": "Có",
       "is_not_present": "Không có",
@@ -30,10 +30,10 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Trạng thái",
-      "ASSIGNEE_NAME": "Tên Người được phân công",
+      "ASSIGNEE_NAME": "Tên người được phân công",
       "INBOX_NAME": "Tên hộp thư đến",
       "TEAM_NAME": "Tên Nhóm",
-      "CONVERSATION_IDENTIFIER": "Định danh cuộc trò chuyện",
+      "CONVERSATION_IDENTIFIER": "Định danh cuộc hội thoại",
       "CAMPAIGN_NAME": "Tên Chiến dịch",
       "LABELS": "Nhãn",
       "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
@@ -43,7 +43,7 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
       "CUSTOM_ATTRIBUTE_NUMBER": "Số",
       "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Hộp kiểm",
       "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng"
     },
@@ -56,8 +56,8 @@
       "ADD": {
         "TITLE": "Bạn có muốn lưu bộ lọc này không?",
         "LABEL": "Đặt tên bộ lọc này",
-        "PLACEHOLDER": "Điền tên cho bộ lọc này",
-        "ERROR_MESSAGE": "Tên bắt buộc có",
+        "PLACEHOLDER": "Nhập tên cho bộ lọc này",
+        "ERROR_MESSAGE": "Cần phải có Tên",
         "SAVE_BUTTON": "Lưu bộ lọc",
         "CANCEL_BUTTON": "Huỷ",
         "API_FOLDERS": {

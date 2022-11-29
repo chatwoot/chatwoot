@@ -40,7 +40,6 @@ export default {
         1: { isFetching: false, isUpdating: true, isDeleting: false },
       },
     },
-    selectedPortalId: 1,
   },
   uiFlags: {
     allFetched: false,

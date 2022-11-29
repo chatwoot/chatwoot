@@ -8,8 +8,8 @@
       "SUBMIT": "Send"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Send besked igen",
+      "ERROR_MESSAGE": "Kunne ikke sende, prøv igen"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,8 +22,8 @@
     "IN_A_DAY": "Svarer typisk på en dag"
   },
   "START_CONVERSATION": "Start Samtale",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "Afslut Samtale",
+  "CONTINUE_CONVERSATION": "Fortsæt samtale",
   "START_NEW_CONVERSATION": "Start en ny samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye beskeder",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail Adresse",
         "PLACEHOLDER": "Indtast venligst din e-mail adresse",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "E-mail adresse er påkrævet",
         "VALID_ERROR": "Indtast venligst en gyldig e-mailadresse"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Indtast venligst dit telefonnummer",
+        "REQUIRED_ERROR": "Telefonnummer er påkrævet",
+        "VALID_ERROR": "Telefonnummer skal være i E.164 format fx: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Besked",
@@ -64,8 +64,8 @@
         "ERROR": "Beskeden er for kort"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "Angiv venligst dit navn og e-mail, før du starter samtalen",
+    "IS_REQUIRED": "er påkrævet"
   },
   "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
   "CHAT_FORM": {

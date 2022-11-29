@@ -49,7 +49,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def clone
     automation_rule = Current.account.automation_rules.find_by(id: params[:automation_rule_id])
     new_rule = automation_rule.dup
-    new_rule.save
+    new_rule.save!
     @automation_rule = new_rule
   end
 

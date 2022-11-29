@@ -23,7 +23,7 @@
         "ERROR": "Please enter a valid account name"
       },
       "LANGUAGE": {
-        "LABEL": "Site language (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Your account name",
         "ERROR": ""
       },
@@ -48,13 +48,14 @@
       }
     },
     "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",
-    "LEARN_MORE":"Learn more"
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Press enter to select",
       "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "SELECT_ONE": "Select one",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -122,7 +123,6 @@
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
       "GO_TO_NOTIFICATIONS": "Go to Notifications",
-
       "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
       "ASSIGN_AN_AGENT": "Assign an agent",
       "ASSIGN_A_TEAM": "Assign a team",
@@ -137,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

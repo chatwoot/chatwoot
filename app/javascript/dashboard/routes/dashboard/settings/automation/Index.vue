@@ -98,7 +98,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -165,12 +166,16 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.name
-      } ?`;
+      return ` ${this.selectedResponse.name}?`;
     },
   },
   mounted() {
+    this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('agents/get');
+    this.$store.dispatch('contacts/get');
+    this.$store.dispatch('teams/get');
+    this.$store.dispatch('labels/get');
+    this.$store.dispatch('campaigns/get');
     this.$store.dispatch('automations/get');
   },
   methods: {
@@ -221,18 +226,18 @@ export default {
     async submitAutomation(payload, mode) {
       try {
         const action =
-          mode === 'EDIT' ? 'automations/update' : 'automations/create';
+          mode === 'edit' ? 'automations/update' : 'automations/create';
         const successMessage =
-          mode === 'EDIT'
+          mode === 'edit'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-        await await this.$store.dispatch(action, payload);
-        this.showAlert(this.$t(successMessage));
+        await this.$store.dispatch(action, payload);
+        this.showAlert(successMessage);
         this.hideAddPopup();
         this.hideEditPopup();
       } catch (error) {
         const errorMessage =
-          mode === 'EDIT'
+          mode === 'edit'
             ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);

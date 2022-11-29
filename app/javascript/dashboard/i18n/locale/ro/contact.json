@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nu este disponibil",
     "EMAIL_ADDRESS": "Adresa Email",
     "PHONE_NUMBER": "Număr de telefon",
+    "IDENTIFIER": "Identificator",
     "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes",
     "COMPANY": "Companie",
     "LOCATION": "Locaţie",
@@ -151,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Avatar de contact șters cu succes",
+        "ERROR_MESSAGE": "Avatarul de contact nu a putut fi șters. Vă rugăm să încercați din nou mai târziu."
       }
     },
     "SUCCESS_MESSAGE": "Contact salvat cu succes",

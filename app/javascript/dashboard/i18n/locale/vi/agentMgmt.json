@@ -95,7 +95,7 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Không có",
       "TITLE": {
-        "AGENT": "Chọn thành viên",
+        "AGENT": "Chọn t\bổng đài viên",
         "TEAM": "Chọn nhóm"
       },
       "SEARCH": {
@@ -104,7 +104,7 @@
           "TEAM": "Không tìm thấy nhóm nào"
         },
         "PLACEHOLDER": {
-          "AGENT": "Tìm kiếm thành viên",
+          "AGENT": "Tìm kiếm tổng đài viên",
           "TEAM": "Tìm kiếm nhóm"
         }
       }

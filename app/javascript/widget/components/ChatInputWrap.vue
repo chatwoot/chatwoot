@@ -189,7 +189,13 @@ export default {
 }
 
 .emoji-dialog {
-  right: $space-one;
+  right: $space-smaller;
+  top: -278px;
+  max-width: 100%;
+
+  &::before {
+    right: $space-one;
+  }
 }
 
 .button-wrap {
@@ -204,9 +210,7 @@ export default {
   min-height: $space-large;
   max-height: 2.4 * $space-mega;
   resize: none;
-  padding: 0;
-  padding-top: $space-smaller;
-  padding-bottom: $space-smaller;
+  padding: $space-smaller 0;
   margin-top: $space-small;
   margin-bottom: $space-small;
 }

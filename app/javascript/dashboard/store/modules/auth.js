@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
-import { setUser, clearCookiesOnLogout } from '../utils/api';
+
+import {
+  setUser,
+  clearCookiesOnLogout,
+  clearLocalStorageOnLogout,
+} from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const initialState = {
@@ -89,6 +94,7 @@ export const actions = {
       authAPI
         .login(credentials)
         .then(response => {
+          clearLocalStorageOnLogout();
           window.location = getLoginRedirectURL({
             ssoAccountId,
             ssoConversationId,
@@ -171,6 +177,14 @@ export const actions = {
   setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
       commit(types.SET_CURRENT_USER_AVAILABILITY, data[$state.currentUser.id]);
+    }
+  },
+
+  setActiveAccount: async (_, { accountId }) => {
+    try {
+      await authAPI.setActiveAccount({ accountId });
+    } catch (error) {
+      // Ignore error
     }
   },
 };

@@ -102,6 +102,7 @@
       @assign-agent="onAssignAgent"
       @update-conversations="onUpdateConversations"
       @assign-labels="onAssignLabels"
+      @assign-team="onAssignTeamsForBulk"
     />
     <div
       ref="activeConversation"
@@ -125,6 +126,7 @@
         @assign-label="onAssignLabels"
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
+        @mark-as-unread="markAsUnread"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -184,6 +186,7 @@ import {
   hasPressedAltAndJKey,
   hasPressedAltAndKKey,
 } from 'shared/helpers/KeyboardHelpers';
+import { conversationListPageURL } from '../helper/URLHelper';
 
 export default {
   components: {
@@ -636,6 +639,29 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
     },
+    async markAsUnread(conversationId) {
+      try {
+        await this.$store.dispatch('markMessagesUnread', {
+          id: conversationId,
+        });
+        const {
+          params: { accountId, inbox_id: inboxId, label, teamId },
+          name,
+        } = this.$route;
+        this.$router.push(
+          conversationListPageURL({
+            accountId,
+            conversationType: name === 'conversation_mentions' ? 'mention' : '',
+            customViewId: this.foldersId,
+            inboxId,
+            label,
+            teamId,
+          })
+        );
+      } catch (error) {
+        // Ignore error
+      }
+    },
     async onAssignTeam(team, conversationId = null) {
       try {
         await this.$store.dispatch('assignTeam', {
@@ -683,6 +709,21 @@ export default {
         }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
+      }
+    },
+    async onAssignTeamsForBulk(team) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            team_id: team.id,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
       }
     },
     async onUpdateConversations(status) {

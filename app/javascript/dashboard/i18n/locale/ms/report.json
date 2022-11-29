@@ -431,7 +431,7 @@
       "LOADING_MESSAGE": "Loading agent metrics...",
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
+        "AGENT": "Ejen",
         "OPEN": "OPEN",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"

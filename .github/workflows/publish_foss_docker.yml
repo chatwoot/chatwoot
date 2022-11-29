@@ -58,5 +58,6 @@ jobs:
         with:
           context: .
           file: docker/Dockerfile
+          platforms: linux/amd64
           push: true
           tags: ${{ env.DOCKER_TAG }}

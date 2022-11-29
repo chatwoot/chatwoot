@@ -104,8 +104,7 @@ export default {
       ) {
         return false;
       }
-      if (!this.message.content) return false;
-      return true;
+      return this.message.content;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;

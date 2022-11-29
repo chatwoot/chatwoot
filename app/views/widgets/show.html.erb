@@ -24,7 +24,8 @@
         workingHours: <%= @web_widget.inbox.working_hours.to_json.html_safe %>,
         outOfOfficeMessage: <%= @web_widget.inbox.out_of_office_message.to_json.html_safe %>,
         utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset %>',
-        allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>
+        allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
+        disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>
       }
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,

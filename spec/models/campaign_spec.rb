@@ -15,7 +15,7 @@ RSpec.describe Campaign, type: :model do
     let(:campaign) { build(:campaign, inbox: website_inbox, display_id: nil, trigger_rules: { url: 'https://test.com' }) }
 
     before do
-      campaign.save
+      campaign.save!
       campaign.reload
     end
 

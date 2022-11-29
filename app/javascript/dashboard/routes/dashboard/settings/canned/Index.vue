@@ -46,7 +46,7 @@
                 {{ cannedItem.short_code }}
               </td>
               <!-- Content -->
-              <td>{{ cannedItem.content }}</td>
+              <td class="wrap-break-words">{{ cannedItem.content }}</td>
               <!-- Action Buttons -->
               <td class="button-wrapper">
                 <woot-button
@@ -99,7 +99,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('CANNED_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('CANNED_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -144,9 +145,7 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('CANNED_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.short_code
-      } ?`;
+      return ` ${this.selectedResponse.short_code}?`;
     },
   },
   mounted() {
@@ -209,5 +208,9 @@ export default {
 <style scoped>
 .short-code {
   width: 14rem;
+}
+.wrap-break-words {
+  word-break: break-all;
+  white-space: normal;
 }
 </style>

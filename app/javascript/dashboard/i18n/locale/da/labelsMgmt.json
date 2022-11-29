@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "Etiket Navn",
         "PLACEHOLDER": "Etiket Navn",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "Etiketnavn er påkrævet",
+        "MINIMUM_LENGTH_ERROR": "Mindste længde 2 er påkrævet",
+        "VALID_ERROR": "Kun alfabeter, tal, bindestreger og understregning er tilladt"
       },
       "DESCRIPTION": {
         "LABEL": "Beskrivelse",

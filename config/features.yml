@@ -9,3 +9,33 @@
   enabled: true
 - name: ip_lookup
   enabled: false
+- name: disable_branding
+  enabled: false
+- name: email_continuity_on_api_channel
+  enabled: false
+- name: help_center
+  enabled: true
+- name: agent_bots
+  enabled: false
+- name: macros
+  enabled: true
+- name: agent_management
+  enabled: true
+- name: team_management
+  enabled: true
+- name: inbox_management
+  enabled: true
+- name: labels
+  enabled: true
+- name: custom_attributes
+  enabled: true
+- name: automations
+  enabled: true
+- name: canned_responses
+  enabled: true
+- name: integrations
+  enabled: true
+- name: voice_recorder
+  enabled: true
+- name: mobile_v2
+  enabled: false

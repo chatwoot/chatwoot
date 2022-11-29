@@ -65,6 +65,10 @@ export default {
   },
   mixins: [alertMixin],
   props: {
+    responseContent: {
+      type: String,
+      default: '',
+    },
     onClose: {
       type: Function,
       default: () => {},
@@ -73,10 +77,7 @@ export default {
   data() {
     return {
       shortCode: '',
-      content: '',
-
-      vertical: 'bottom',
-      horizontal: 'center',
+      content: this.responseContent || '',
       addCanned: {
         showLoading: false,
         message: '',

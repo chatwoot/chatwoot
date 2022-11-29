@@ -11,7 +11,7 @@ describe Webhooks::InstagramEventsJob do
   end
 
   let!(:account) { create(:account) }
-  let(:return_onject) do
+  let(:return_object) do
     { name: 'Jane',
       id: 'Sender-id-1',
       account_id: instagram_inbox.account_id,
@@ -24,6 +24,7 @@ describe Webhooks::InstagramEventsJob do
   let!(:unsend_event) { build(:instagram_message_unsend_event).with_indifferent_access }
   let!(:attachment_params) { build(:instagram_message_attachment_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
+  let!(:story_mention_echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
   let(:fb_object) { double }
 
   describe '#perform' do
@@ -31,7 +32,7 @@ describe Webhooks::InstagramEventsJob do
       it 'creates incoming message in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
-          return_onject.with_indifferent_access
+          return_object.with_indifferent_access
         )
         instagram_webhook.perform_now(dm_params[:entry])
 
@@ -45,7 +46,7 @@ describe Webhooks::InstagramEventsJob do
       it 'creates test text message in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
-          return_onject.with_indifferent_access
+          return_object.with_indifferent_access
         )
         instagram_webhook.perform_now(test_params[:entry])
 
@@ -78,7 +79,7 @@ describe Webhooks::InstagramEventsJob do
       it 'creates incoming message with attachments in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
-          return_onject.with_indifferent_access
+          return_object.with_indifferent_access
         )
         instagram_webhook.perform_now(attachment_params[:entry])
 
@@ -92,7 +93,7 @@ describe Webhooks::InstagramEventsJob do
       it 'creates incoming message with attachments in the instagram inbox for story mention' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
-          return_onject.with_indifferent_access,
+          return_object.with_indifferent_access,
           { story:
             {
               mention: {
@@ -112,6 +113,19 @@ describe Webhooks::InstagramEventsJob do
 
         expect(instagram_inbox.messages.count).to be 1
         expect(instagram_inbox.messages.last.attachments.count).to be 1
+      end
+
+      it 'creates does not create contact or messages' do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError)
+
+        instagram_webhook.perform_now(story_mention_echo_params[:entry])
+
+        instagram_inbox.reload
+
+        expect(instagram_inbox.contacts.count).to be 0
+        expect(instagram_inbox.contact_inboxes.count).to be 0
+        expect(instagram_inbox.messages.count).to be 0
       end
     end
   end

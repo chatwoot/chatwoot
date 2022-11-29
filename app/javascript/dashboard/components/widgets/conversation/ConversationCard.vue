@@ -87,7 +87,7 @@
       </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          {{ dynamicTime(chat.timestamp) }}
+          <time-ago :timestamp="chat.timestamp" />
         </span>
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
@@ -102,10 +102,12 @@
       <conversation-context-menu
         :status="chat.status"
         :inbox-id="inbox.id"
+        :has-unread-messages="hasUnread"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
         @assign-team="onAssignTeam"
+        @mark-as-unread="markAsUnread"
       />
     </woot-context-menu>
   </div>
@@ -123,6 +125,7 @@ import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import timeAgo from 'dashboard/components/ui/TimeAgo';
 
 const ATTACHMENT_ICONS = {
   image: 'image',
@@ -138,6 +141,7 @@ export default {
     InboxName,
     Thumbnail,
     ConversationContextMenu,
+    timeAgo,
   },
 
   mixins: [
@@ -239,7 +243,7 @@ export default {
     },
 
     unreadCount() {
-      return this.unreadMessagesCount(this.chat);
+      return this.chat.unread_count;
     },
 
     hasUnread() {
@@ -355,6 +359,10 @@ export default {
     },
     async onAssignTeam(team) {
       this.$emit('assign-team', team, this.chat.id);
+      this.closeContextMenu();
+    },
+    async markAsUnread() {
+      this.$emit('mark-as-unread', this.chat.id);
       this.closeContextMenu();
     },
   },

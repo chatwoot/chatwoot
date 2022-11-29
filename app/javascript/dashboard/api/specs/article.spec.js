@@ -52,4 +52,15 @@ describe('#PortalAPI', () => {
       );
     });
   });
+  describeWithAPIMock('API calls', context => {
+    it('#deleteArticle', () => {
+      articlesAPI.deleteArticle({
+        articleId: 1,
+        portalSlug: 'room-rental',
+      });
+      expect(context.axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/portals/room-rental/articles/1'
+      );
+    });
+  });
 });

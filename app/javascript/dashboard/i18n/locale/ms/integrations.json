@@ -4,7 +4,7 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
-        "CANCEL": "Cancel",
+        "CANCEL": "Batalkan",
         "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Events",
@@ -37,7 +37,7 @@
         "TITLE": "Manage webhooks",
         "TABLE_HEADER": [
           "Webhook endpoint",
-          "Actions"
+          "Tindakan-tindakan"
         ]
       },
       "EDIT": {
@@ -45,27 +45,27 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
+        "CANCEL": "Batalkan",
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Padamkan",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
+          "TITLE": "Pasti Padamkan",
           "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
-          "YES": "Yes, Delete ",
+          "YES": "Ya, Padamkan ",
           "NO": "No, Keep it"
         }
       }
@@ -77,7 +77,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Padamkan",
       "API": {
         "SUCCESS_MESSAGE": "Integration deleted successfully"
       }
@@ -94,14 +94,14 @@
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
         "TABLE_HEADER": [
-          "Name",
+          "Nama",
           "Endpoint"
         ],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
+        "TITLE_LABEL": "Nama",
         "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
         "TITLE_ERROR": "A name for the dashboard app is required",
         "URL_LABEL": "Endpoint",
@@ -111,14 +111,14 @@
       "CREATE": {
         "HEADER": "Add a new dashboard app",
         "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
+        "FORM_CANCEL": "Batalkan",
         "API_SUCCESS": "Dashboard app configured successfully",
         "API_ERROR": "We couldn't create an app. Please try again later"
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
         "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
+        "FORM_CANCEL": "Batalkan",
         "API_SUCCESS": "Dashboard app updated successfully",
         "API_ERROR": "We couldn't update the app. Please try again later"
       },

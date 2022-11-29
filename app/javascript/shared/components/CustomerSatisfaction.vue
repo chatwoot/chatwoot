@@ -32,7 +32,11 @@
       <button
         class="button small"
         :disabled="isButtonDisabled"
-        :style="{ background: widgetColor, borderColor: widgetColor }"
+        :style="{
+          background: widgetColor,
+          borderColor: widgetColor,
+          color: textColor,
+        }"
       >
         <spinner v-if="isUpdating && feedback" />
         <fluent-icon v-else icon="chevron-right" />
@@ -47,6 +51,7 @@ import Spinner from 'shared/components/Spinner';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
@@ -88,6 +93,9 @@ export default {
     inputColor() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')}
         ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+    },
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
     },
     title() {
       return this.isRatingSubmitted

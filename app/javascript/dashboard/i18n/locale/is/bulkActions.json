@@ -1,0 +1,40 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} samtöl valin",
+    "AGENT_SELECT_LABEL": "Select Agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Ertu viss um að úthluta %{conversationCount} %{conversationLabel} á",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ertu viss um að hætta við úthlutun %{conversationCount} %{conversationLabel}?",
+    "GO_BACK_LABEL": "Go back",
+    "ASSIGN_LABEL": "Assign",
+    "YES": "Yes",
+    "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
+    "ASSIGN_TEAM_TOOLTIP": "Assign team",
+    "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
+    "ASSIGN_FAILED": "Ekki tókst að úthluta samtölum, vinsamlegast reyndu aftur",
+    "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
+    "RESOLVE_FAILED": "Ekki tókst að leysa úr samtölum, vinsamlegast reyndu aftur",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Samtöl sem sjást á þessari síðu eru aðeins valin.",
+    "AGENT_LIST_LOADING": "Loading Agents",
+    "UPDATE": {
+      "CHANGE_STATUS": "Change status",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
+      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
+      "UPDATE_FAILED": "Ekki tókst að uppfæra samtölin, vinsamlegast reyndu aftur"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign Labels",
+      "NO_LABELS_FOUND": "No labels found for",
+      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
+      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
+      "ASSIGN_FAILED": "Failed to assign labels, please try again"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Select Team",
+      "NONE": "None",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
+    }
+  }
+}

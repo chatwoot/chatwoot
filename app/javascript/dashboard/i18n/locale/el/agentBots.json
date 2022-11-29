@@ -1,0 +1,70 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Φόρτωση Επεξεργαστή...",
+    "HEADER_BTN_TXT": "Προσθήκη Ρυθμίσεων Bot",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Τα Agent bots σας επιτρέπουν να αυτοματοποιήσετε τις συνομιλίες</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Όνομα Bot",
+        "PLACEHOLDER": "Δώστε στο bot σας ένα όνομα",
+        "ERROR": "Το Όνομα Bot είναι απαραίτητο"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Περιγραφή Bot",
+        "PLACEHOLDER": "Τι κάνει αυτό το bot?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Παρακαλώ εισάγετε την διαμόρφωση του CSML bot παραπάνω",
+        "API_ERROR": "Η ρύθμιση παραμέτρων CSML δεν είναι έγκυρη, παρακαλώ διορθώστε την και προσπαθήστε ξανά."
+      },
+      "SUBMIT": "Επαλήθευση και αποθήκευση"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Επιλέξτε ενός Agent Bot",
+      "DESC": "Μπορείτε να ορίσετε ένα agent bot από τη λίστα σε αυτά τα εισερχόμενα. Το bot μπορεί αρχικά να χειριστεί τη συνομιλία και να την μεταφέρει σε έναν πράκτορα όταν χρειάζεται.",
+      "SUBMIT": "Ενημέρωση",
+      "SUCCESS_MESSAGE": "Επιτυχής ενημέρωση του agent bot",
+      "ERROR_MESSAGE": "Δεν ήταν δυνατή η ενημέρωση του agent bot, δοκιμάστε ξανά αργότερα",
+      "SELECT_PLACEHOLDER": "Επιλογή Bot"
+    },
+    "ADD": {
+      "TITLE": "Ρύθμιση νέου bot",
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "API": {
+        "SUCCESS_MESSAGE": "Το bot προστέθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η προσθήκη bot, παρακαλώ προσπαθήστε ξανά αργότερα"
+      }
+    },
+    "LIST": {
+      "404": "Δεν βρέθηκαν bots, μπορείτε να δημιουργήσετε ένα bot κάνοντας κλικ στο κουμπί 'Ρύθμιση νέου Bot' ↗",
+      "LOADING": "Λήψη Bots...",
+      "TYPE": "Τύπος Bot"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Διαγραφή",
+      "TITLE": "Διαγραφή Bot",
+      "SUBMIT": "Διαγραφή",
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "DESCRIPTION": "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το bot? Αυτή η ενέργεια είναι μη αναστρέψιμη",
+      "API": {
+        "SUCCESS_MESSAGE": "Το bot διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή του bot, παρακαλώ προσπαθήστε ξανά αργότερα"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Επεξεργασία",
+      "LOADING": "Λήψη Bots...",
+      "TITLE": "Επεξεργασία Bot",
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "API": {
+        "SUCCESS_MESSAGE": "Το bot ενημερώθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η ενημέρωση του bot, παρακαλώ προσπαθήστε ξανά αργότερα"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Bot",
+      "CSML": "CSML Bot"
+    }
+  }
+}

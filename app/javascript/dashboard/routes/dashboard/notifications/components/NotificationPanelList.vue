@@ -144,7 +144,7 @@ export default {
 .notification-list-item--wrap {
   flex-direction: column;
   padding: var(--space-small) var(--space-slab);
-  overflow: scroll;
+  overflow: auto;
 }
 
 .empty {
