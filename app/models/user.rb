@@ -13,8 +13,10 @@
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
+#  failed_attempts        :integer
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  locked_at              :datetime
 #  message_signature      :text
 #  name                   :string           not null
 #  provider               :string           default("email"), not null
@@ -28,6 +30,7 @@
 #  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
+#  unlock_token           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -56,6 +59,7 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
+         :lockable,
          :password_has_required_content
 
   # TODO: remove in a future version once online status is moved to account users
@@ -170,10 +174,8 @@ class User < ApplicationRecord
 
   def push_event_data
     {
-      id: id,
-      name: name,
-      available_name: available_name,
-      avatar_url: avatar_url,
+      id: id, name: name,
+      available_name: available_name, avatar_url: avatar_url,
       type: 'user',
       availability_status: availability_status,
       thumbnail: avatar_url
