@@ -3,28 +3,28 @@
     <span class="time" :class="{ delivered: messageRead }">{{
       readableTime
     }}</span>
-    <span v-if="showReadIndicator" class="time">
+    <span v-if="showReadIndicator" class="read-indicator-wrap">
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
         icon="checkmark-double"
         class="action--icon read-tick read-indicator"
-        size="16"
+        size="14"
       />
     </span>
-    <span v-if="showDeliveredIndicator" class="time">
+    <span v-if="showDeliveredIndicator" class="read-indicator-wrap">
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.DELIVERED')"
         icon="checkmark-double"
         class="action--icon read-tick"
-        size="16"
+        size="14"
       />
     </span>
-    <span v-if="showSentIndicator" class="time">
+    <span v-if="showSentIndicator" class="read-indicator-wrap">
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.SENT')"
         icon="checkmark"
         class="action--icon read-tick"
-        size="16"
+        size="14"
       />
     </span>
     <fluent-icon
@@ -222,22 +222,22 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/woot';
 
-.read-indicator {
-  color: #44ce4b !important;
-}
-
 .right {
   .message-text--metadata {
+    align-items: center;
     .time {
       color: var(--w-100);
     }
 
     .action--icon {
+      color: var(--white);
       &.read-tick {
         color: var(--v-100);
-        margin-top: calc(var(--space-micro) + var(--space-micro) / 2);
       }
-      color: var(--white);
+
+      &.read-indicator {
+        color: var(--g-300);
+      }
     }
 
     .lock--icon--private {
@@ -338,5 +338,11 @@ export default {
 
 .delivered-icon {
   margin-left: -var(--space-normal);
+}
+
+.read-indicator-wrap {
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 </style>
