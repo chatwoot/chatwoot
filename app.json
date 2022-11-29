@@ -41,21 +41,21 @@
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "standard-1x"
+      "size": "basic"
     },
     "worker": {
       "quantity": 1,
-      "size": "standard-1x"
+      "size": "basic"
     }
   },
   "stack": "heroku-20",
   "image": "heroku/ruby",
   "addons": [
     {
-      "plan": "heroku-redis:premium-0"
+      "plan": "heroku-redis:mini"
     },
     {
-      "plan": "heroku-postgresql:standard-0"
+      "plan": "heroku-postgresql:mini"
     }
   ],
   "stack": "heroku-20",
