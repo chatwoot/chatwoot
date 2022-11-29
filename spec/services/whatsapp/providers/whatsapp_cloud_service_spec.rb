@@ -38,7 +38,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    messaging_product: 'whatsapp',
                                    to: '+123456789',
                                    type: 'image',
-                                   image: WebMock::API.hash_including({caption: message.content, link: anything})
+                                   image: WebMock::API.hash_including({ caption: message.content, link: anything })
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
@@ -57,7 +57,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    messaging_product: 'whatsapp',
                                    to: '+123456789',
                                    type: 'document',
-                                   document: WebMock::API.hash_including({filename: 'sample.pdf', caption: message.content, link: anything})
+                                   document: WebMock::API.hash_including({ filename: 'sample.pdf', caption: message.content, link: anything })
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
