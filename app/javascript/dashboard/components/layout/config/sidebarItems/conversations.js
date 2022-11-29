@@ -36,7 +36,7 @@ const conversations = accountId => ({
       toStateName: 'conversation_mentions',
     },
     {
-      icon: 'mail-inbox-all',
+      icon: 'mail-unread',
       label: 'UNATTENDED_CONVERSATIONS',
       key: 'conversation_unattended',
       toState: frontendURL(`accounts/${accountId}/unattended/conversations`),

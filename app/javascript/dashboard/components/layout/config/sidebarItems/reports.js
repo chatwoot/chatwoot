@@ -48,7 +48,7 @@ const reports = accountId => ({
       toStateName: 'label_reports',
     },
     {
-      icon: 'mail-inbox',
+      icon: 'mail-inbox-all',
       label: 'REPORTS_INBOX',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/inboxes`),
