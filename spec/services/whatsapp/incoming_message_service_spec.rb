@@ -81,7 +81,7 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
       end
 
-      before do 
+      before do
         create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
       end
@@ -101,7 +101,7 @@ describe Whatsapp::IncomingMessageService do
           'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
                            'errors' => [{ 'code': 123, 'title': 'abc' }] }]
         }.with_indifferent_access
-        
+
         message = Message.find_by!(source_id: from)
         expect(message.status).to eq('sent')
         described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
