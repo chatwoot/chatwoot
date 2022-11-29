@@ -69,11 +69,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    attachment_url = attachment.download_url
     type_content = {
-      'link': attachment_url
+      'link': attachment.download_url
     }
-    type_content['caption'] = message.content if type != 'audio'
+    type_content['caption'] = message.content unless %w[audio sticker].include?(type)
+    type_content['filename'] = attachment.file.filename if type == 'document'
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
