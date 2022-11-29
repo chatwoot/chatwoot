@@ -86,6 +86,15 @@ describe ::Conversations::FilterService do
         expect(result.length).to be conversations.count
       end
 
+      it 'filter conversations by additional_attributes with NOT_IN filter' do
+        payload = [{ attribute_key: 'conversation_type', filter_operator: 'not_equal_to', values: 'platinum', query_operator: nil,
+                     custom_attribute_type: 'conversation_attribute' }.with_indifferent_access]
+        params[:payload] = payload
+        result = filter_service.new(params, user_1).perform
+        conversations = Conversation.where("custom_attributes ->> 'conversation_type' NOT IN (?)", ['platinum'])
+        expect(result[:count][:all_count]).to be conversations.count
+      end
+
       it 'filter conversations by tags' do
         unassigned_conversation.update_labels('support')
         params[:payload] = [
