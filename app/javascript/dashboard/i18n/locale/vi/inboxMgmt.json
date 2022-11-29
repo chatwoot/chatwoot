@@ -416,7 +416,8 @@
       "CAMPAIGN": "Chiến dịch",
       "PRE_CHAT_FORM": "Biểu mẫu trước khi trò chuyện",
       "BUSINESS_HOURS": "Giờ làm việc",
-      "WIDGET_BUILDER": "Trình tạo widget"
+      "WIDGET_BUILDER": "Trình tạo widget",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Cài đặt",
     "FEATURES": {

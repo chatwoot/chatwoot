@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Avatar de contact șters cu succes",
+        "ERROR_MESSAGE": "Avatarul de contact nu a putut fi șters. Vă rugăm să încercați din nou mai târziu."
       }
     },
     "SUCCESS_MESSAGE": "Contact salvat cu succes",

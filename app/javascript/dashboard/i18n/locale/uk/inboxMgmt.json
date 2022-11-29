@@ -416,7 +416,8 @@
       "CAMPAIGN": "Розсилка",
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
-      "WIDGET_BUILDER": "Конструктор віджетів"
+      "WIDGET_BUILDER": "Конструктор віджетів",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
