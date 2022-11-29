@@ -30,6 +30,9 @@ Rails.application.configure do
   # You can use letter opener for your local development by setting the environment variable
   config.action_mailer.delivery_method = :letter_opener if Rails.env.development? && ENV['LETTER_OPENER']
 
+  # Use sendmail if using postfix for email
+  config.action_mailer.delivery_method = :sendmail if ENV['SMTP_ADDRESS'].blank?
+
   #########################################
   # Configuration Related to Action MailBox
   #########################################
