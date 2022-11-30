@@ -1,6 +1,10 @@
 import {
   findPendingMessageIndex,
   applyPageFilters,
+  filterByInbox,
+  filterByTeam,
+  filterByLabel,
+  filterByUnattended,
 } from '../../conversations/helpers';
 
 const conversationList = [
@@ -117,5 +121,54 @@ describe('#applyPageFilters', () => {
       };
       expect(applyPageFilters(conversationList[1], filters)).toEqual(true);
     });
+  });
+});
+
+describe('#filterByInbox', () => {
+  it('returns true if conversation has inbox filter active', () => {
+    const inboxId = '1';
+    const chatInboxId = 1;
+    expect(filterByInbox(true, inboxId, chatInboxId)).toEqual(true);
+  });
+  it('returns false if inbox filter is not active', () => {
+    const inboxId = '1';
+    const chatInboxId = 13;
+    expect(filterByInbox(true, inboxId, chatInboxId)).toEqual(false);
+  });
+});
+
+describe('#filterByTeam', () => {
+  it('returns true if conversation has team and team filter is active', () => {
+    const [teamId, chatTeamId] = ['1', 1];
+    expect(filterByTeam(true, teamId, chatTeamId)).toEqual(true);
+  });
+  it('returns false if team filter is not active', () => {
+    const [teamId, chatTeamId] = ['1', 12];
+    expect(filterByTeam(true, teamId, chatTeamId)).toEqual(false);
+  });
+});
+
+describe('#filterByLabel', () => {
+  it('returns true if conversation has labels and labels filter is active', () => {
+    const labels = ['dev', 'cs'];
+    const chatLabels = ['dev', 'cs', 'sales'];
+    expect(filterByLabel(true, labels, chatLabels)).toEqual(true);
+  });
+  it('returns false if conversation has not all labels', () => {
+    const labels = ['dev', 'cs', 'sales'];
+    const chatLabels = ['cs', 'sales'];
+    expect(filterByLabel(true, labels, chatLabels)).toEqual(false);
+  });
+});
+
+describe('#filterByUnattended', () => {
+  it('returns true if conversation type is unattended and has no first reply', () => {
+    expect(filterByUnattended(true, 'unattended', undefined)).toEqual(true);
+  });
+  it('returns false if conversation type is not unattended and has no first reply', () => {
+    expect(filterByUnattended(false, 'mentions', undefined)).toEqual(false);
+  });
+  it('returns true if conversation type is unattended and has first reply', () => {
+    expect(filterByUnattended(true, 'mentions', 123)).toEqual(true);
   });
 });

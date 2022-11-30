@@ -180,4 +180,60 @@ RSpec.describe Message, type: :model do
       expect(message.email_notifiable_message?).to be true
     end
   end
+
+  context 'when facebook channel with unavailable story link' do
+    before do
+      stub_request(:post, /graph.facebook.com/)
+      stub_request(:get, 'https://www.example.com/test.jpeg').to_return(status: 200, body: '', headers: {})
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        return_object.with_indifferent_access,
+        { story:
+          {
+            mention: {
+              link: 'https://www.example.com/test.jpeg',
+              id: '17920786367196703'
+            }
+          },
+          from: {
+            username: 'Sender-id-1', id: 'Sender-id-1'
+          },
+          id: 'instagram-message-id-1234' }.with_indifferent_access
+      )
+    end
+
+    let!(:instagram_webhook) { Webhooks::InstagramEventsJob }
+    let!(:account) { create(:account) }
+    let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
+    let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
+    let(:fb_object) { double }
+    let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
+    let(:return_object) do
+      { name: 'Jane',
+        id: 'Sender-id-1',
+        account_id: instagram_inbox.account_id,
+        profile_pic: 'https://chatwoot-assets.local/sample.png' }
+    end
+
+    it 'deletes the attachment for unavailable story' do
+      instagram_webhook.perform_now(story_mention_params[:entry])
+
+      expect(instagram_inbox.messages.count).to be 1
+      expect(instagram_inbox.messages.last.attachments.count).to be 1
+
+      message = instagram_inbox.messages.last
+
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          story: { mention: { link: '', id: '17920786367196703' } },
+          from: { username: 'Sender-id-1', id: 'Sender-id-1' },
+          id: 'instagram-message-id-1234'
+        }.with_indifferent_access
+      )
+
+      message.push_event_data
+      expect(message.attachments.count).to be 0
+    end
+  end
 end

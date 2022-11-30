@@ -33,7 +33,7 @@ json.website_token resource.channel.try(:website_token)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 if resource.web_widget?
-  json.hmac_token resource.channel.try(:hmac_token)
+  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
   json.continuity_via_email resource.channel.try(:continuity_via_email)
@@ -56,29 +56,33 @@ if resource.email?
   json.email resource.channel.try(:email)
 
   ## IMAP
-  json.imap_login resource.channel.try(:imap_login)
-  json.imap_password resource.channel.try(:imap_password)
-  json.imap_address resource.channel.try(:imap_address)
-  json.imap_port resource.channel.try(:imap_port)
-  json.imap_enabled resource.channel.try(:imap_enabled)
-  json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
+  if Current.account_user&.administrator?
+    json.imap_login resource.channel.try(:imap_login)
+    json.imap_password resource.channel.try(:imap_password)
+    json.imap_address resource.channel.try(:imap_address)
+    json.imap_port resource.channel.try(:imap_port)
+    json.imap_enabled resource.channel.try(:imap_enabled)
+    json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
+  end
 
   ## SMTP
-  json.smtp_login resource.channel.try(:smtp_login)
-  json.smtp_password resource.channel.try(:smtp_password)
-  json.smtp_address resource.channel.try(:smtp_address)
-  json.smtp_port resource.channel.try(:smtp_port)
-  json.smtp_enabled resource.channel.try(:smtp_enabled)
-  json.smtp_domain resource.channel.try(:smtp_domain)
-  json.smtp_enable_ssl_tls resource.channel.try(:smtp_enable_ssl_tls)
-  json.smtp_enable_starttls_auto resource.channel.try(:smtp_enable_starttls_auto)
-  json.smtp_openssl_verify_mode resource.channel.try(:smtp_openssl_verify_mode)
-  json.smtp_authentication resource.channel.try(:smtp_authentication)
+  if Current.account_user&.administrator?
+    json.smtp_login resource.channel.try(:smtp_login)
+    json.smtp_password resource.channel.try(:smtp_password)
+    json.smtp_address resource.channel.try(:smtp_address)
+    json.smtp_port resource.channel.try(:smtp_port)
+    json.smtp_enabled resource.channel.try(:smtp_enabled)
+    json.smtp_domain resource.channel.try(:smtp_domain)
+    json.smtp_enable_ssl_tls resource.channel.try(:smtp_enable_ssl_tls)
+    json.smtp_enable_starttls_auto resource.channel.try(:smtp_enable_starttls_auto)
+    json.smtp_openssl_verify_mode resource.channel.try(:smtp_openssl_verify_mode)
+    json.smtp_authentication resource.channel.try(:smtp_authentication)
+  end
 end
 
 ## API Channel Attributes
 if resource.api?
-  json.hmac_token resource.channel.try(:hmac_token)
+  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
