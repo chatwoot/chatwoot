@@ -142,6 +142,22 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(data[:imap_enabled]).to be_truthy
         expect(data[:imap_login]).to eq('test@test.com')
       end
+
+      it 'fetch API inbox without hmac token when admin' do
+        api_channel = create(:channel_api, account: account)
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+        create(:inbox_member, user: agent, inbox: api_inbox)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:hmac_token]).to be_nil
+      end
     end
   end
 
