@@ -8,6 +8,12 @@ import { frontendURL } from '../../helper/URLHelper';
 export default {
   routes: [
     {
+      path: frontendURL('auth/signup'),
+      name: 'auth_signup',
+      component: Signup,
+      meta: { requireSignupEnabled: true },
+    },
+    {
       path: frontendURL('auth'),
       name: 'auth',
       component: Auth,
@@ -31,12 +37,6 @@ export default {
             resetPasswordToken: route.query.reset_password_token,
             redirectUrl: route.query.route_url,
           }),
-        },
-        {
-          path: 'signup',
-          name: 'auth_signup',
-          component: Signup,
-          meta: { requireSignupEnabled: true },
         },
         {
           path: 'reset/password',
