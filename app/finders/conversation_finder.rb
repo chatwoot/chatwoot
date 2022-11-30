@@ -56,7 +56,6 @@ class ConversationFinder
     filter_by_team if @team
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
-    filter_by_reply_status
   end
 
   def set_inboxes
@@ -76,12 +75,9 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    if params[:conversation_type] == 'mention'
-      conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
-      @conversations = current_account.conversations.where(id: conversation_ids)
-    else
-      @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
-    end
+    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    filter_by_conversation_type if params[:conversation_type]
+    @conversations
   end
 
   def filter_by_assignee_type
@@ -96,8 +92,15 @@ class ConversationFinder
     @conversations
   end
 
-  def filter_by_reply_status
-    @conversations = @conversations.where(first_reply_created_at: nil) if params[:reply_status] == 'unattended'
+  def filter_by_conversation_type
+    case @params[:conversation_type]
+    when 'mention'
+      conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
+      @conversations = @conversations.where(id: conversation_ids)
+    when 'unattended'
+      @conversations = @conversations.where(first_reply_created_at: nil)
+    end
+    @conversations
   end
 
   def filter_by_query

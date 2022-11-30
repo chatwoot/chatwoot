@@ -15,11 +15,12 @@ json.working_hours resource.weekly_schedule
 json.timezone resource.timezone
 json.callback_webhook_url resource.callback_webhook_url
 json.allow_messages_after_resolved resource.allow_messages_after_resolved
-
-json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
+json.lock_to_single_conversation resource.lock_to_single_conversation
 
 ## Channel specific settings
 ## TODO : Clean up and move the attributes into channel sub section
+
+json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
 
 ## WebWidget Attributes
 json.widget_color resource.channel.try(:widget_color)
