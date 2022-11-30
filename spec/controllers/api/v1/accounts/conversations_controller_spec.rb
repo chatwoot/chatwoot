@@ -53,7 +53,7 @@ RSpec.describe 'Conversations API', type: :request do
 
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent_1.create_new_auth_token,
-            params: { reply_status: 'unattended' },
+            params: { conversation_type: 'unattended' },
             as: :json
 
         expect(response).to have_http_status(:success)
