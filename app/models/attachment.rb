@@ -134,6 +134,7 @@ class Attachment < ApplicationRecord
     file_content_type.start_with?('image/', 'video/', 'audio/')
   end
 
+  # TODO: We will be removing this code after instagram_manage_insights is implemented
   def merge_story_mention_image(metadata)
     if message.try(:content_attributes)[:image_type] == 'story_mention' && message.inbox.instagram?
       begin
@@ -147,27 +148,19 @@ class Attachment < ApplicationRecord
   end
 
   def fetch_story_link(message, metadata)
-    k = Koala::Facebook::API.new(message.inbox.channel.page_access_token)
-    result = k.get_object(message.source_id, fields: %w[story]) || {}
+    story_link = message.inbox.channel.fetch_story_link(message.source_id)
 
-    if result['story']['mention']['link'].blank?
-      metadata[:data_url] = nil
-      metadata[:thumb_url] = nil
+    if story_link.blank?
+      metadata[:data_url] = metadata[:thumb_url] = nil
       delete_instagram_story(message)
     else
-      metadata = add_ig_story_data_url(metadata)
+      metadata[:thumb_url] = metadata[:data_url] = external_url
     end
     metadata
   end
 
   def delete_instagram_story(message)
+    delete
     message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
-    destroy
-  end
-
-  def add_ig_story_data_url(metadata)
-    metadata[:data_url] = external_url
-    metadata[:thumb_url] = external_url
-    metadata
   end
 end

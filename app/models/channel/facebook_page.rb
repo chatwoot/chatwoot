@@ -63,4 +63,11 @@ class Channel::FacebookPage < ApplicationRecord
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
+
+  def fetch_story_link(source_id)
+    k = Koala::Facebook::API.new(page_access_token)
+    result = k.get_object(source_id, fields: %w[story]) || {}
+
+    result['story']['mention']['link']
+  end
 end

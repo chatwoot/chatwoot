@@ -112,13 +112,13 @@ class Message < ApplicationRecord
     merge_sender_attributes(data)
   end
 
+  # TODO: We will be removing this code after instagram_manage_insights is implemented
   def remove_deleted_ig_story
     return if attachments.blank?
 
-    k = Koala::Facebook::API.new(inbox.channel.page_access_token)
-    result = k.get_object(source_id, fields: %w[story]) || {}
+    story_link = inbox.channel.fetch_story_link(source_id)
 
-    if result['story']['mention']['link'].blank?
+    if story_link.blank?
       attachments.destroy_all
       update(
         content: I18n.t('conversations.messages.instagram_deleted_story_content'),
