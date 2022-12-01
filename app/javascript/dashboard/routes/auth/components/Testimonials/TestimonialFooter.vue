@@ -31,12 +31,11 @@ export default {
   .heading {
     color: var(--white);
     font-size: var(--font-size-bigger);
-    font-weight: var(--font-weight-black);
   }
 
   .sub-heading {
     color: var(--white);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
   }
 }
 </style>

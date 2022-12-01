@@ -1,6 +1,10 @@
 <template>
   <div class="row h-full">
-    <div class="large-6 signup-form--container">
+    <div
+      :class="
+        `${showTestimonials ? 'large-6' : 'large-12'} signup-form--container`
+      "
+    >
       <div class="signup-form--content">
         <div class="signup--hero">
           <img
@@ -26,7 +30,10 @@
         </div>
       </div>
     </div>
-    <testimonials class="medium-6 testimonial--container" />
+    <testimonials
+      class="medium-6 testimonial--container"
+      @resize-containers="resizeContainers"
+    />
   </div>
 </template>
 
@@ -42,8 +49,16 @@ export default {
     Testimonials,
   },
   mixins: [globalConfigMixin],
+  data() {
+    return { showTestimonials: false };
+  },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
+  },
+  methods: {
+    resizeContainers(hasTestimonials) {
+      this.showTestimonials = hasTestimonials;
+    },
   },
 };
 </script>

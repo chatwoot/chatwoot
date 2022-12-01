@@ -1,47 +1,24 @@
 <template>
-  <div class="testimonial--section">
+  <div v-if="testimonials.length" class="testimonial--section">
     <img src="/assets/images/auth/top-left.svg" class="top-left--img" />
     <img src="/assets/images/auth/bottom-right.svg" class="bottom-right--img" />
     <img src="/assets/images/auth/auth--bg.svg" class="center--img" />
     <div class="testimonial--content">
-      <div v-show="!showTestimonials" class="image-bottom--text">
-        <h3 class="heading">{{ 'Get Realtime Reports ' }}</h3>
-        <span class="sub-block-title sub-heading">{{
-          'Stay on top of SLAs, agents, inboxes, multiple channels'
-        }}</span>
-      </div>
-      <div v-show="showTestimonials" class="testimonial--content-card">
+      <div class="testimonial--content-card">
         <testimonial-card
-          :review-content="LEFT_CARD.AUTHOR_REVIEW"
-          :author-image="LEFT_CARD.AUTHOR_IMAGE"
-          :author-name="LEFT_CARD.AUTHOR_NAME"
-          :author-designation="LEFT_CARD.AUTHOR_COMAPNY"
-          class="testimonial-left--card"
-        />
-
-        <testimonial-card
-          :review-content="RIGHT_CARD.AUTHOR_REVIEW"
-          :author-image="RIGHT_CARD.AUTHOR_IMAGE"
-          :author-name="RIGHT_CARD.AUTHOR_NAME"
-          :author-designation="RIGHT_CARD.AUTHOR_COMAPNY"
-          class="testimonial-right--card"
+          v-for="(testimonial, index) in testimonials"
+          :key="testimonial.id"
+          :review-content="testimonial.authorReview"
+          :author-image="testimonial.authorImage"
+          :author-name="testimonial.authorName"
+          :author-designation="testimonial.authorCompany"
+          :class="`testimonial-${index ? 'right' : 'left'}--card`"
         />
       </div>
       <testimonial-footer
         title="Loved by small and big teams, alike"
         sub-title="We put your needs first. That is what keeps us going."
       />
-
-      <div v-show="!showTestimonials">
-        <img
-          src="/assets/images/auth/reports-left-card.svg"
-          class="reports-card absolute reports-left-card"
-        />
-        <img
-          src="/assets/images/auth/reports-right-card.svg"
-          class="reports-card absolute reports-right-card"
-        />
-      </div>
     </div>
   </div>
 </template>
@@ -49,8 +26,7 @@
 <script>
 import TestimonialCard from './TestimonialCard.vue';
 import TestimonialFooter from './TestimonialFooter.vue';
-
-import content from './content';
+import { getTestimonialContent } from 'dashboard/api/testimonials';
 export default {
   components: {
     TestimonialCard,
@@ -58,29 +34,20 @@ export default {
   },
   data() {
     return {
-      showTestimonials: true,
-      timer: null,
-      LEFT_CARD: content.LEFT_CARD,
-      RIGHT_CARD: content.RIGHT_CARD,
+      testimonials: [],
     };
   },
-  computed: {},
-  mounted() {
-    this.switchImage();
-  },
-  beforeDestroy() {
-    this.clearTimer();
+  beforeMount() {
+    this.fetchTestimonials();
   },
   methods: {
-    switchImage() {
-      this.timer = setTimeout(() => {
-        this.showTestimonials = !this.showTestimonials;
-        this.switchImage();
-      }, 50000000);
-    },
-    clearTimer() {
-      if (this.timer) {
-        clearTimeout(this.timer);
+    async fetchTestimonials() {
+      try {
+        const { data } = await getTestimonialContent();
+        this.testimonials = data;
+        this.$emit('resize-containers', !!this.testimonials.length);
+      } catch (error) {
+        // Ignoring the error as the UI wouldn't break
       }
     },
   },
