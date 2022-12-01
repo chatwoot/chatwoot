@@ -451,8 +451,7 @@ export default {
       return this.currentChat.id;
     },
     conversationIdByRoute() {
-      const { conversation_id: conversationId } = this.$route.params;
-      return conversationId;
+      return this.conversationId;
     },
     editorStateId() {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
