@@ -3,13 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe User do
-  let!(:account_user) { create(:account_user) }
-  let(:agent_destroy_service) { double }
+  include ActiveJob::TestHelper
 
-  before do
-    allow(Agents::DestroyService).to receive(:new).and_return(agent_destroy_service)
-    allow(agent_destroy_service).to receive(:perform).and_return(agent_destroy_service)
-  end
+  let!(:account_user) { create(:account_user) }
+  let!(:inbox) { create(:inbox, account: account_user.account) }
 
   describe 'notification_settings' do
     it 'gets created with the right default settings' do
@@ -22,12 +19,16 @@ RSpec.describe User do
 
   describe 'destroy call agent::destroy service' do
     it 'gets created with the right default settings' do
+      create(:conversation, account: account_user.account, assignee: account_user.user, inbox: inbox)
       user = account_user.user
-      account = account_user.account
-      account_user.destroy!
-      expect(Agents::DestroyService).to have_received(:new).with({
-                                                                   user: user, account: account
-                                                                 })
+
+      expect(user.assigned_conversations.count).to eq(1)
+
+      perform_enqueued_jobs do
+        account_user.destroy!
+      end
+
+      expect(user.assigned_conversations.count).to eq(0)
     end
   end
 end
