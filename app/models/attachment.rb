@@ -78,8 +78,7 @@ class Attachment < ApplicationRecord
       file_size: file.byte_size
     }
 
-    metadata = merge_story_mention_image(metadata) if message.inbox.instagram?
-
+    metadata = append_instagram_metadata(metadata) if message.inbox.instagram?
     metadata
   end
 
@@ -136,32 +135,17 @@ class Attachment < ApplicationRecord
   end
 
   # TODO: We will be removing this code after instagram_manage_insights is implemented
-  def merge_story_mention_image(metadata)
-    if message.try(:content_attributes)[:image_type] == 'story_mention' && message.inbox.instagram?
-      begin
-        metadata = fetch_story_link(message, metadata)
-      rescue Koala::Facebook::ClientError
-        delete_instagram_story(message)
-      end
-    end
+  def append_instagram_metadata(metadata)
+    return metadata unless message.try(:content_attributes)[:image_type] == 'story_mention'
 
-    metadata
-  end
-
-  def fetch_story_link(message, metadata)
-    story_link = message.inbox.channel.fetch_story_link(message.source_id)
+    story_link = message.inbox.channel.fetch_story_link(message)
 
     if story_link.blank?
       metadata[:data_url] = metadata[:thumb_url] = nil
-      delete_instagram_story(message)
     else
-      metadata[:thumb_url] = metadata[:data_url] = external_url
+      # story link still exists, so we can use the external link we have in database.
+      metadata[:data_url] = metadata[:thumb_url] = external_url
     end
     metadata
-  end
-
-  def delete_instagram_story(message)
-    delete
-    message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
   end
 end
