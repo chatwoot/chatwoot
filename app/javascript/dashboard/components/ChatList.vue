@@ -435,9 +435,6 @@ export default {
   },
   methods: {
     onApplyFilter(payload) {
-      if (this.$route.name !== 'home') {
-        this.$router.push({ name: 'home' });
-      }
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
