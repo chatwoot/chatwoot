@@ -91,7 +91,9 @@ describe ::Conversations::FilterService do
                      custom_attribute_type: 'conversation_attribute' }.with_indifferent_access]
         params[:payload] = payload
         result = filter_service.new(params, user_1).perform
-        conversations = Conversation.where("custom_attributes ->> 'conversation_type' NOT IN (?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum'])
+        conversations = Conversation.where(
+          "custom_attributes ->> 'conversation_type' NOT IN (?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum']
+        )
         expect(result[:count][:all_count]).to be conversations.count
       end
 

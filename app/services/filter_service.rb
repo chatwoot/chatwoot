@@ -126,11 +126,7 @@ class FilterService
               "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
             end
 
-    if query_hash[:filter_operator] == 'not_equal_to' || query_hash[:filter_operator] == 'not_present'
-      query += " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL "
-    end
-
-    query
+    query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
   end
 
   def custom_attribute(attribute_key, account, custom_attribute_type)
@@ -139,6 +135,12 @@ class FilterService
     @custom_attribute = current_account.custom_attribute_definitions.where(
       attribute_model: attribute_model
     ).find_by(attribute_key: attribute_key)
+  end
+
+  def not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
+    return '' unless query_hash[:filter_operator] == 'not_equal_to'
+
+    " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL "
   end
 
   def equals_to_filter_string(filter_operator, current_index)
