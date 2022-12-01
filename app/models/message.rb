@@ -116,7 +116,7 @@ class Message < ApplicationRecord
   # Better logic is to listen to webhook and remove stories proactively rather than trying
   # a fetch every time a message is returned
   def validate_instagram_story
-    inbox.channel.fetch_story_link(message)
+    inbox.channel.fetch_instagram_story_link(self)
     # we want to reload the message in case the story has expired and data got removed
     reload
   end
@@ -163,10 +163,6 @@ class Message < ApplicationRecord
   end
 
   private
-
-  def instagram_story_mention?
-    inbox.instagram? && try(:content_attributes)[:image_type] == 'story_mention'
-  end
 
   def ensure_content_type
     self.content_type ||= Message.content_types[:text]
