@@ -3,12 +3,7 @@ require 'json'
 class FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
-    date: 'date',
-    text: 'text',
-    number: 'numeric',
-    link: 'text',
-    list: 'text',
-    checkbox: 'boolean'
+    date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
 
   def initialize(params, user)
@@ -125,11 +120,17 @@ class FilterService
     query_operator = query_hash[:query_operator]
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
-    if attribute_data_type == 'text'
-      "  LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-    else
-      "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+    query = if attribute_data_type == 'text'
+              "  LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+            else
+              "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+            end
+
+    if query_hash[:filter_operator] == 'not_equal_to' || query_hash[:filter_operator] == 'not_present'
+      query += " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL "
     end
+
+    query
   end
 
   def custom_attribute(attribute_key, account, custom_attribute_type)
