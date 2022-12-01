@@ -137,15 +137,15 @@ class Attachment < ApplicationRecord
   # TODO: We will be removing this code after instagram_manage_insights is implemented
   def append_instagram_metadata(metadata)
     return metadata unless message.try(:content_attributes)[:image_type] == 'story_mention'
-    
+
     story_link = message.inbox.channel.fetch_story_link(message)
 
-    if story_link.blank?
-      metadata[:data_url] = metadata[:thumb_url] = nil
-    else
-      # story link still exists, so we can use the external link we have in database.
-      metadata[:data_url] = metadata[:thumb_url] = external_url
-    end
+    metadata[:data_url] = metadata[:thumb_url] = if story_link.blank?
+                                                   nil
+                                                 else
+                                                   # story link still exists, so we can use the external link we have in database.
+                                                   external_url
+                                                 end
     metadata
   end
 end
