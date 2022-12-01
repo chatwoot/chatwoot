@@ -107,25 +107,20 @@ class Message < ApplicationRecord
       conversation: { assignee_id: conversation.assignee_id }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
-    remove_deleted_ig_story if instagram_story_attachment?
+    validate_instagram_story if instagram_story_mention?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
   end
 
   # TODO: We will be removing this code after instagram_manage_insights is implemented
-  def remove_deleted_ig_story
+  # Better logic is to listen to webhook and remove stories proactively rather than trying 
+  # a fetch every time a message is returned
+  def validate_instagram_story
     return if attachments.blank?
 
-    story_link = inbox.channel.fetch_story_link(source_id)
-
-    if story_link.blank?
-      attachments.destroy_all
-      update(
-        content: I18n.t('conversations.messages.instagram_deleted_story_content'),
-        content_attributes: {}
-      )
-      reload
-    end
+    inbox.channel.fetch_story_link(message)
+    # we want to reload the message in case the story has expired and data got removed
+    reload
   end
 
   def merge_sender_attributes(data)
@@ -171,7 +166,7 @@ class Message < ApplicationRecord
 
   private
 
-  def instagram_story_attachment?
+  def instagram_story_mention?
     inbox.instagram? && try(:content_attributes)[:image_type] == 'story_mention'
   end
 

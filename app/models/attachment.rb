@@ -78,7 +78,7 @@ class Attachment < ApplicationRecord
       file_size: file.byte_size
     }
 
-    metadata = append_instagram_metadata(metadata) if message.inbox.instagram?
+    metadata[:data_url] = metadata[:thumb_url] = external_url if message.instagram_story_mention?
     metadata
   end
 
@@ -132,20 +132,5 @@ class Attachment < ApplicationRecord
 
   def media_file?(file_content_type)
     file_content_type.start_with?('image/', 'video/', 'audio/')
-  end
-
-  # TODO: We will be removing this code after instagram_manage_insights is implemented
-  def append_instagram_metadata(metadata)
-    return metadata unless message.try(:content_attributes)[:image_type] == 'story_mention'
-
-    story_link = message.inbox.channel.fetch_story_link(message)
-
-    metadata[:data_url] = metadata[:thumb_url] = if story_link.blank?
-                                                   nil
-                                                 else
-                                                   # story link still exists, so we can use the external link we have in database.
-                                                   external_url
-                                                 end
-    metadata
   end
 end
