@@ -64,10 +64,19 @@ class Channel::FacebookPage < ApplicationRecord
     true
   end
 
-  def fetch_story_link(source_id)
+  # TODO: We will be removing this code after instagram_manage_insights is implemented
+  def fetch_instagram_story_link(message)
     k = Koala::Facebook::API.new(page_access_token)
-    result = k.get_object(source_id, fields: %w[story]) || {}
+    result = k.get_object(message.source_id, fields: %w[story]) || {}
+    story_link = result['story']['mention']['link']
+    delete_instagram_story(message) if story_link.blank?
+    story_link
+  rescue Koala::Facebook::ClientError => e
+    delete_instagram_story(message)
+  end
 
-    result['story']['mention']['link']
+  def delete_instagram_story(message)
+    message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
+    message.attachments.destroy_all
   end
 end
