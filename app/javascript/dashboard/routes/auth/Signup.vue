@@ -73,7 +73,7 @@ export default {
 
 .signup-form--content {
   padding: var(--space-jumbo);
-  max-width: 600px;
+  max-width: 680px;
   width: 100%;
 }
 

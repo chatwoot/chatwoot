@@ -1,25 +1,30 @@
 <template>
   <div v-if="testimonials.length" class="testimonial--section">
-    <img src="/assets/images/auth/top-left.svg" class="top-left--img" />
-    <img src="/assets/images/auth/bottom-right.svg" class="bottom-right--img" />
-    <img src="/assets/images/auth/auth--bg.svg" class="center--img" />
-    <div class="testimonial--content">
-      <div class="testimonial--content-card">
-        <testimonial-card
-          v-for="(testimonial, index) in testimonials"
-          :key="testimonial.id"
-          :review-content="testimonial.authorReview"
-          :author-image="testimonial.authorImage"
-          :author-name="testimonial.authorName"
-          :author-designation="testimonial.authorCompany"
-          :class="`testimonial-${index ? 'right' : 'left'}--card`"
-        />
-      </div>
-      <testimonial-footer
-        title="Loved by small and big teams, alike"
-        sub-title="We put your needs first. That is what keeps us going."
+    <div class="testimonial">
+      <img src="/assets/images/auth/top-left.svg" class="top-left--img" />
+      <img
+        src="/assets/images/auth/bottom-right.svg"
+        class="bottom-right--img"
       />
+      <img src="/assets/images/auth/auth--bg.svg" class="center--img" />
+      <div class="testimonial--content">
+        <div class="testimonial--content-card">
+          <testimonial-card
+            v-for="(testimonial, index) in testimonials"
+            :key="testimonial.id"
+            :review-content="testimonial.authorReview"
+            :author-image="testimonial.authorImage"
+            :author-name="testimonial.authorName"
+            :author-designation="testimonial.authorCompany"
+            :class="`testimonial-${index ? 'right' : 'left'}--card`"
+          />
+        </div>
+      </div>
     </div>
+    <testimonial-footer
+      title="All it takes is one step to move forward."
+      sub-title="You're one step away from engaging your customers, retaining them and finding new ones."
+    />
   </div>
 </template>
 
@@ -74,11 +79,11 @@ export default {
 }
 
 .center--img {
+  height: 84%;
   left: 5%;
-  max-height: 86%;
-  max-width: 90%;
   position: absolute;
   top: 2%;
+  width: 90%;
 }
 
 .center-container {
@@ -89,7 +94,13 @@ export default {
   background: var(--w-300);
   display: flex;
   flex: 1 1;
+  flex-direction: column;
+  justify-content: center;
   position: relative;
+
+  .testimonial {
+    display: flex;
+  }
 }
 
 .testimonial--content {
@@ -107,7 +118,6 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  margin-bottom: var(--space-larger);
 }
 
 .testimonial-left--card {
