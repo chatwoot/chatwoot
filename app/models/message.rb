@@ -113,11 +113,9 @@ class Message < ApplicationRecord
   end
 
   # TODO: We will be removing this code after instagram_manage_insights is implemented
-  # Better logic is to listen to webhook and remove stories proactively rather than trying 
+  # Better logic is to listen to webhook and remove stories proactively rather than trying
   # a fetch every time a message is returned
   def validate_instagram_story
-    return if attachments.blank?
-
     inbox.channel.fetch_story_link(message)
     # we want to reload the message in case the story has expired and data got removed
     reload
