@@ -10,7 +10,6 @@ RSpec.describe 'Conversation Participants API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/conversations/<id>/paricipants' do
-
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get api_v1_account_conversation_participants_url(account_id: account.id, conversation_id: conversation.display_id)
@@ -49,7 +48,7 @@ RSpec.describe 'Conversation Participants API', type: :request do
 
       it 'creates a new participants when its authorized agent' do
         params = { user_ids: [participant.id] }
-      
+
         expect(conversation.conversation_participants.count).to eq(0)
         post api_v1_account_conversation_participants_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -83,9 +82,9 @@ RSpec.describe 'Conversation Participants API', type: :request do
 
         expect(conversation.conversation_participants.count).to eq(2)
         put api_v1_account_conversation_participants_url(account_id: account.id, conversation_id: conversation.display_id),
-             params: params,
-             headers: agent.create_new_auth_token,
-             as: :json
+            params: params,
+            headers: agent.create_new_auth_token,
+            as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(participant.email)
@@ -109,12 +108,12 @@ RSpec.describe 'Conversation Participants API', type: :request do
       it 'deletes participants when its authorized agent' do
         params = { user_ids: [participant.id] }
         create(:conversation_participant, conversation: conversation, user: participant)
-      
+
         expect(conversation.conversation_participants.count).to eq(1)
         delete api_v1_account_conversation_participants_url(account_id: account.id, conversation_id: conversation.display_id),
-             params: params,
-             headers: agent.create_new_auth_token,
-             as: :json
+               params: params,
+               headers: agent.create_new_auth_token,
+               as: :json
 
         expect(response).to have_http_status(:success)
         expect(conversation.conversation_participants.count).to eq(0)
