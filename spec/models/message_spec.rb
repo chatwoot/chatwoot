@@ -180,4 +180,36 @@ RSpec.describe Message, type: :model do
       expect(message.email_notifiable_message?).to be true
     end
   end
+
+  context 'when facebook channel with unavailable story link' do
+    before do
+      stub_request(:post, /graph.facebook.com/)
+      allow(fb_object).to receive(:get_object).and_return(
+        return_object.with_indifferent_access, {
+          story: { mention: { link: 'https://www.example.com/test.jpeg' } }, id: 'instagram-message-id-1234'
+        }.with_indifferent_access
+      )
+    end
+
+    let!(:account) { create(:account) }
+    let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
+    let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
+    let(:fb_object) { double }
+    let(:return_object) do
+      { id: 'Sender-id-1', account_id: account.id }
+    end
+
+    it 'deletes the attachment for unavailable story' do
+      message = create(:message, inbox_id: instagram_inbox.id)
+
+      allow(fb_object).to receive(:get_object).and_return({
+        story: { mention: { link: '', id: '17920786367196703' } },
+        from: { username: 'Sender-id-1', id: 'Sender-id-1' },
+        id: 'instagram-message-id-1234'
+      }.with_indifferent_access)
+
+      message.push_event_data
+      expect(message.attachments.count).to be 0
+    end
+  end
 end
