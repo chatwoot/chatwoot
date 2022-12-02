@@ -83,11 +83,10 @@ export default {
   }
 
   .auth-input {
-    font-size: var(--font-size-small) !important;
     height: 4rem !important;
     padding: var(--space-small) !important;
     width: 100% !important;
-    background: var(--b-50) !important;
+    background: var(--s-75) !important;
   }
 }
 </style>

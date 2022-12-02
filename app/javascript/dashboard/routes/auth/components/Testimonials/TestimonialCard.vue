@@ -47,17 +47,17 @@ export default {
   align-items: center;
   background: var(--white);
   border-radius: var(--border-radius-normal);
-  box-shadow: var(--shadow-large);
+  box-shadow: var(--shadow);
   display: flex;
   justify-content: center;
-  padding: var(--space-medium);
+  padding: var(--space-medium) var(--space-large);
   width: 32rem;
 }
 
 .content-author--details {
   align-items: center;
   display: flex;
-  margin-top: var(--space-small);
+  margin-top: var(--space-normal);
 
   .author-image--wrap {
     background: white;
@@ -83,5 +83,11 @@ export default {
       font-size: var(--font-size-mini);
     }
   }
+}
+
+.card-content {
+  font-size: var(--font-size-default);
+  line-height: 1.7;
+  color: var(--s-600);
 }
 </style>

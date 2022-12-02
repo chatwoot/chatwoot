@@ -91,7 +91,7 @@ export default {
 }
 
 .testimonial--section {
-  background: var(--w-300);
+  background: var(--w-500);
   display: flex;
   flex: 1 1;
   flex-direction: column;
