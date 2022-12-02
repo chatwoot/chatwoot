@@ -87,6 +87,10 @@ import {
 } from 'dashboard/helper/inbox';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
+import {
+  isOnMentionsView,
+  isOnUnattendedView,
+} from '../../../store/modules/conversations/helpers/actionHelpers';
 
 export default {
   components: { SecondaryChildNavItem },
@@ -123,15 +127,13 @@ export default {
     },
     isMentions() {
       return (
-        (this.$store.state.route.name === 'conversation_mentions' ||
-          this.$store.state.route.name === 'conversation_through_mentions') &&
+        isOnMentionsView({ route: this.$route }) &&
         this.menuItem.toStateName === 'conversation_mentions'
       );
     },
     isUnattended() {
       return (
-        (this.$store.state.route.name === 'conversation_unattended' ||
-          this.$store.state.route.name === 'conversation_through_unattended') &&
+        isOnUnattendedView({ route: this.$route }) &&
         this.menuItem.toStateName === 'conversation_unattended'
       );
     },
@@ -164,8 +166,7 @@ export default {
     },
 
     computedClass() {
-      // If active Inbox is present
-      // donot highlight conversations
+      // If active inbox is present, do not highlight conversations
       if (this.activeInbox) return ' ';
       if (
         this.isAllConversations ||

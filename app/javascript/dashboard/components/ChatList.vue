@@ -187,6 +187,10 @@ import {
   hasPressedAltAndKKey,
 } from 'shared/helpers/KeyboardHelpers';
 import { conversationListPageURL } from '../helper/URLHelper';
+import {
+  isOnMentionsView,
+  isOnUnattendedView,
+} from '../store/modules/conversations/helpers/actionHelpers';
 
 export default {
   components: {
@@ -650,15 +654,9 @@ export default {
           name,
         } = this.$route;
         let conversationType = '';
-        if (
-          name === 'conversation_through_mentions' ||
-          name === 'conversation_mentions'
-        ) {
+        if (isOnMentionsView({ route: { name } })) {
           conversationType = 'mention';
-        } else if (
-          name === 'conversation_through_unattended' ||
-          name === 'conversation_unattended'
-        ) {
+        } else if (isOnUnattendedView({ route: { name } })) {
           conversationType = 'unattended';
         }
         this.$router.push(
