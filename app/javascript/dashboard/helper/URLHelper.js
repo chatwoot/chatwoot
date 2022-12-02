@@ -77,6 +77,8 @@ export const conversationListPageURL = ({
     url = `accounts/${accountId}/team/${teamId}`;
   } else if (conversationType === 'mention') {
     url = `accounts/${accountId}/mentions/conversations`;
+  } else if (conversationType === 'unattended') {
+    url = `accounts/${accountId}/unattended/conversations`;
   } else if (inboxId) {
     url = `accounts/${accountId}/inbox/${inboxId}`;
   } else if (customViewId) {

@@ -649,10 +649,22 @@ export default {
           params: { accountId, inbox_id: inboxId, label, teamId },
           name,
         } = this.$route;
+        let setConversationType = '';
+        if (
+          name === 'conversation_through_mentions' ||
+          name === 'conversation_mentions'
+        ) {
+          setConversationType = 'mention';
+        } else if (
+          name === 'conversation_through_unattended' ||
+          name === 'conversation_unattended'
+        ) {
+          setConversationType = 'unattended';
+        }
         this.$router.push(
           conversationListPageURL({
             accountId,
-            conversationType: name === 'conversation_mentions' ? 'mention' : '',
+            conversationType: setConversationType,
             customViewId: this.foldersId,
             inboxId,
             label,

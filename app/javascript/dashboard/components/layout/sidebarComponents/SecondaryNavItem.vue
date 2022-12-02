@@ -115,10 +115,24 @@ export default {
         this.menuItem.featureFlag
       );
     },
-    isInboxConversation() {
+    isAllConversations() {
       return (
         this.$store.state.route.name === 'inbox_conversation' &&
         this.menuItem.toStateName === 'home'
+      );
+    },
+    isMentions() {
+      return (
+        (this.$store.state.route.name === 'conversation_mentions' ||
+          this.$store.state.route.name === 'conversation_through_mentions') &&
+        this.menuItem.toStateName === 'conversation_mentions'
+      );
+    },
+    isUnattended() {
+      return (
+        (this.$store.state.route.name === 'conversation_unattended' ||
+          this.$store.state.route.name === 'conversation_through_unattended') &&
+        this.menuItem.toStateName === 'conversation_unattended'
       );
     },
     isTeamsSettings() {
@@ -127,7 +141,7 @@ export default {
         this.menuItem.toStateName === 'settings_teams_list'
       );
     },
-    isInboxsSettings() {
+    isInboxSettings() {
       return (
         this.$store.state.route.name === 'settings_inbox_show' &&
         this.menuItem.toStateName === 'settings_inbox_list'
@@ -153,21 +167,24 @@ export default {
       // If active Inbox is present
       // donot highlight conversations
       if (this.activeInbox) return ' ';
+      if (
+        this.isAllConversations ||
+        this.isMentions ||
+        this.isUnattended ||
+        this.isCurrentRoute
+      ) {
+        return 'is-active';
+      }
       if (this.hasSubMenu) {
         if (
-          this.isInboxConversation ||
           this.isTeamsSettings ||
-          this.isInboxsSettings ||
+          this.isInboxSettings ||
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
           return 'is-active';
         }
         return ' ';
-      }
-
-      if (this.isCurrentRoute) {
-        return 'is-active';
       }
 
       return '';
