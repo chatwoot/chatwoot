@@ -68,7 +68,7 @@ export default {
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     enableSuggestions: { type: Boolean, default: true },
-    isHelpCenter: { type: Boolean, default: false },
+    overrideLineBreaks: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -298,7 +298,7 @@ export default {
       if (
         hasPressedEnterAndNotShift(event) &&
         this.isEnterToSendEnabled() &&
-        !this.isHelpCenter
+        !this.overrideLineBreaks
       ) {
         event.preventDefault();
       }
