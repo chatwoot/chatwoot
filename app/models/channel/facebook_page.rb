@@ -69,6 +69,7 @@ class Channel::FacebookPage < ApplicationRecord
     k = Koala::Facebook::API.new(page_access_token)
     result = k.get_object(message.source_id, fields: %w[story]) || {}
     story_link = result['story']['mention']['link']
+    # If the story is expired then it raises the ClientError and if the story is deleted with valid story-id it responses with nil
     delete_instagram_story(message) if story_link.blank?
     story_link
   rescue Koala::Facebook::ClientError => e
