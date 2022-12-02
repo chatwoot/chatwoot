@@ -192,7 +192,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .h-captcha--box {
-  margin-bottom: var(--space-one);
+  margin-bottom: var(--space-small);
 
   .captcha-error {
     color: var(--r-400);
