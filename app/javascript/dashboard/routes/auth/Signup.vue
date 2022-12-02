@@ -69,6 +69,7 @@ export default {
   height: 100%;
   min-height: 640px;
   overflow: auto;
+  justify-content: center;
 }
 
 .signup-form--content {
