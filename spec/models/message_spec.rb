@@ -184,23 +184,36 @@ RSpec.describe Message, type: :model do
   context 'when facebook channel with unavailable story link' do
     before do
       stub_request(:post, /graph.facebook.com/)
-      allow(fb_object).to receive(:get_object).and_return(
+
+      stub_request(:get, /graph.facebook.com/)
+        .with(
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'User-Agent' => 'Faraday v1.10.0'
+          }
+        ).to_return(status: 200, body: '', headers: {})
+
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).with('instagram-message-id-1234', hash_including(fields: 'story')).and_return(
         return_object.with_indifferent_access, {
           story: { mention: { link: 'https://www.example.com/test.jpeg' } }, id: 'instagram-message-id-1234'
         }.with_indifferent_access
       )
     end
 
-    let!(:account) { create(:account) }
-    let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
-    let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
-    let(:fb_object) { double }
+    let!(:fb_object) { double }
+    let(:message) { create(:instagram_message) }
     let(:return_object) do
-      { id: 'Sender-id-1', account_id: account.id }
+      { id: 'Sender-id-1', account_id: message.account.id }
     end
 
     it 'deletes the attachment for unavailable story' do
-      message = create(:message, inbox_id: instagram_inbox.id)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.save
+
+      expect(message.attachments.count).to be 1
 
       allow(fb_object).to receive(:get_object).and_return({
         story: { mention: { link: '', id: '17920786367196703' } },
@@ -209,7 +222,7 @@ RSpec.describe Message, type: :model do
       }.with_indifferent_access)
 
       message.push_event_data
-      expect(message.attachments.count).to be 0
+      expect(message.reload.attachments.count).to be 0
     end
   end
 end
