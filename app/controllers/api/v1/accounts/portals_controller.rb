@@ -29,6 +29,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def update
     ActiveRecord::Base.transaction do
       @portal.update!(portal_params) if params[:portal].present?
+      # @portal.custom_domain = parsed_custom_domain
       process_attached_logo
     rescue StandardError => e
       Rails.logger.error e
