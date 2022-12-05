@@ -10,12 +10,12 @@ export const hasPressedShift = e => {
   return e.shiftKey;
 };
 
-export const hasPressedEnterAndNotShift = e => {
-  return isEnter(e) && !hasPressedShift(e);
-};
-
 export const hasPressedCommand = e => {
   return e.metaKey;
+};
+
+export const hasPressedEnterAndNotCmdOrShift = e => {
+  return isEnter(e) && !hasPressedCommand(e) && !hasPressedShift(e);
 };
 
 export const hasPressedCommandAndEnter = e => {

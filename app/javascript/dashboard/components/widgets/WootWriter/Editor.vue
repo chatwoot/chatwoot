@@ -39,7 +39,8 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 
 import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 import {
-  hasPressedEnterAndNotShift,
+  hasPressedEnterAndNotCmdOrShift,
+  hasPressedCommandAndEnter,
   hasPressedAltAndPKey,
   hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
@@ -213,6 +214,9 @@ export default {
     isEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'enter');
     },
+    isCmdPlusEnterToSendEnabled() {
+      return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
+    },
     handleKeyEvents(e) {
       if (hasPressedAltAndPKey(e)) {
         this.focusEditorInputField();
@@ -294,10 +298,19 @@ export default {
         clearTimeout(this.idleTimer);
       }
     },
-    handleEnterKeyWhenEnterToSendEnabled(event) {
+    handleLineBreakWhenEnterToSendEnabled(event) {
       if (
-        hasPressedEnterAndNotShift(event) &&
+        hasPressedEnterAndNotCmdOrShift(event) &&
         this.isEnterToSendEnabled() &&
+        !this.overrideLineBreaks
+      ) {
+        event.preventDefault();
+      }
+    },
+    handleLineBreakWhenCmdAndEnterToSendEnabled(event) {
+      if (
+        hasPressedCommandAndEnter(event) &&
+        this.isCmdPlusEnterToSendEnabled() &&
         !this.overrideLineBreaks
       ) {
         event.preventDefault();
@@ -314,7 +327,12 @@ export default {
       );
     },
     onKeydown(event) {
-      this.handleEnterKeyWhenEnterToSendEnabled(event);
+      if (this.isEnterToSendEnabled()) {
+        this.handleLineBreakWhenEnterToSendEnabled(event);
+      }
+      if (this.isCmdPlusEnterToSendEnabled()) {
+        this.handleLineBreakWhenCmdAndEnterToSendEnabled(event);
+      }
     },
     onBlur() {
       this.turnOffIdleTimer();
