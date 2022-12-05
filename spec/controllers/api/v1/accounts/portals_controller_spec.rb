@@ -91,7 +91,8 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         portal_params = {
           portal: {
             name: 'test_portal',
-            slug: 'test_kbase'
+            slug: 'test_kbase',
+            custom_domain: 'https://support.chatwoot.dev'
           },
           logo: file
         }
@@ -103,6 +104,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eql('test_portal')
         expect(json_response['logo']['filename']).to eql('avatar.png')
+        expect(json_response['custom_domain']).to eql('support.chatwoot.dev')
       end
     end
   end
