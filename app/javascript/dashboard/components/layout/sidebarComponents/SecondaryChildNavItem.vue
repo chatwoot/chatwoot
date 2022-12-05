@@ -112,6 +112,7 @@ $label-badge-size: var(--space-slab);
   padding: var(--space-smaller) var(--space-smaller);
   margin: var(--space-smaller) 0;
   text-align: left;
+  line-height: 1.2;
 
   &:hover {
     background: var(--s-25);
