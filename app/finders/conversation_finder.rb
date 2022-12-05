@@ -104,11 +104,8 @@ class ConversationFinder
   end
 
   def filter_by_query
-    allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
-    @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
-                                  .where(messages: { message_type: allowed_message_types }).includes(:messages)
-                                  .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
-                                  .where(messages: { message_type: allowed_message_types })
+    conversation_ids = PgSearch.multisearch("#{params[:q]}%").where(account_id: current_account).pluck(:conversation_id)
+    @conversations = Conversation.where(id: conversation_ids).includes(:messages)
   end
 
   def filter_by_status

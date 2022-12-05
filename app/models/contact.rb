@@ -26,6 +26,13 @@ class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
   include Labelable
+  include PgSearch::Model
+  include MultiSearchableHelpers
+
+  # multisearchable(
+  #   against: [:email, :name, :phone_number, :id],
+  #   additional_attributes: -> (contact) { { conversation_id: nil, account_id: contact.account_id } }
+  # )
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },

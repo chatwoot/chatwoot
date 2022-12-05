@@ -10,7 +10,7 @@ json.inbox do
   json.channel_type conversation.inbox.channel_type
 end
 json.messages do
-  json.array! conversation.messages do |message|
+  json.array! conversation.messages.last(1) do |message|
     json.content message.content
     json.id message.id
     json.sender_name message.sender.name if message.sender
