@@ -21,6 +21,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def create
     @portal = Current.account.portals.build(portal_params)
+    @portal.custom_domain = parsed_custom_domain
     @portal.save!
     process_attached_logo
   end
@@ -28,6 +29,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def update
     ActiveRecord::Base.transaction do
       @portal.update!(portal_params) if params[:portal].present?
+      # @portal.custom_domain = parsed_custom_domain
       process_attached_logo
     rescue StandardError => e
       Rails.logger.error e
@@ -72,5 +74,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def set_current_page
     @current_page = params[:page] || 1
+  end
+
+  def parsed_custom_domain
+    domain = URI.parse(@portal.custom_domain)
+    domain.is_a?(URI::HTTP) ? domain.host : @portal.custom_domain
   end
 end
