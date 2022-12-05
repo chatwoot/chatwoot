@@ -60,6 +60,7 @@
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
+        :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
@@ -67,6 +68,7 @@
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
+        @clear-selection="clearEditorSelection"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
@@ -215,6 +217,7 @@ export default {
       ccEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
+      updateEditorSelectionWith: '',
     };
   },
   computed: {
@@ -707,8 +710,26 @@ export default {
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
+    clearEditorSelection() {
+      this.updateEditorSelectionWith = '';
+    },
+    insertEmoji(emoji, selectionStart, selectionEnd) {
+      const { message } = this;
+      const newMessage =
+        message.slice(0, selectionStart) +
+        emoji +
+        message.slice(selectionEnd, message.length);
+      this.message = newMessage;
+    },
     emojiOnClick(emoji) {
-      this.message = `${this.message}${emoji} `;
+      if (this.showRichContentEditor) {
+        this.updateEditorSelectionWith = emoji;
+        this.onFocus();
+      }
+      if (!this.showRichContentEditor) {
+        const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
+        this.insertEmoji(emoji, selectionStart, selectionEnd);
+      }
     },
     clearMessage() {
       this.message = '';
