@@ -65,6 +65,7 @@ export default {
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     enableSuggestions: { type: Boolean, default: true },
+    updateSelectionWith: { type: String, default: '' },
   },
   data() {
     return {
@@ -161,6 +162,25 @@ export default {
     },
     isPrivate() {
       this.reloadState();
+    },
+
+    updateSelectionWith(newValue, oldValue) {
+      if (!this.editorView) {
+        return null;
+      }
+      if (newValue !== oldValue) {
+        if (this.updateSelectionWith !== '') {
+          const node = this.editorView.state.schema.text(
+            this.updateSelectionWith
+          );
+          const tr = this.editorView.state.tr.replaceSelectionWith(node);
+          this.editorView.focus();
+          this.state = this.editorView.state.apply(tr);
+          this.emitOnChange();
+          this.$emit('clear-selection');
+        }
+      }
+      return null;
     },
   },
   created() {
