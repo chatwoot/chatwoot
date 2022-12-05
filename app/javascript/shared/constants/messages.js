@@ -72,3 +72,8 @@ export const CSAT_RATINGS = [
     color: '#44CE4B',
   },
 ];
+
+export const AUDIO_FORMATS = {
+  WEBM: 'audio/webm',
+  OGG: 'audio/ogg',
+};
