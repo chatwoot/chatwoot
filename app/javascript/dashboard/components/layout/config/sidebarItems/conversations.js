@@ -43,14 +43,13 @@ const conversations = accountId => ({
       key: 'conversation_participating',
       toState: frontendURL(`accounts/${accountId}/participating/conversations`),
       toStateName: 'conversation_participating',
-     },
-     {
+    },
+    {
       icon: 'mail-unread',
       label: 'UNATTENDED_CONVERSATIONS',
       key: 'conversation_unattended',
       toState: frontendURL(`accounts/${accountId}/unattended/conversations`),
       toStateName: 'conversation_unattended',
-
     },
   ],
 });

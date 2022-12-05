@@ -257,9 +257,11 @@ export default {
 .actions {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .message-text {
   margin: 0;
+  font-size: var(--font-size-small);
 }
 </style>
