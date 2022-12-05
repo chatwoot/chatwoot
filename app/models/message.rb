@@ -33,6 +33,14 @@
 class Message < ApplicationRecord
   include MessageFilterHelpers
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  include PgSearch::Model
+  include MultiSearchableHelpers
+
+  multisearchable(
+    against: [:content],
+    if: :allowed_message_types?,
+    additional_attributes: ->(message) { { conversation_id: message.conversation_id, account_id: message.account_id } }
+  )
 
   before_validation :ensure_content_type
 
@@ -273,5 +281,9 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def allowed_message_types?
+    incoming? || outgoing?
   end
 end

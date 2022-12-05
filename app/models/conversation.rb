@@ -48,7 +48,13 @@ class Conversation < ApplicationRecord
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
+  include PgSearch::Model
+  include MultiSearchableHelpers
 
+  multisearchable(
+    against: [:display_id],
+    additional_attributes: ->(conversation) { { conversation_id: conversation.id, account_id: conversation.account_id } }
+  )
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
@@ -93,6 +99,7 @@ class Conversation < ApplicationRecord
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
+  after_create :update_contact_search_document
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
