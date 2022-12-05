@@ -164,19 +164,21 @@ export default {
       this.reloadState();
     },
 
-    updateSelectionWith() {
+    updateSelectionWith(newValue, oldValue) {
       if (!this.editorView) {
         return null;
       }
-      if (this.updateSelectionWith !== '') {
-        const node = this.editorView.state.schema.text(
-          this.updateSelectionWith
-        );
-        const tr = this.editorView.state.tr.replaceSelectionWith(node);
-        this.editorView.focus();
-        this.state = this.editorView.state.apply(tr);
-        this.emitOnChange();
-        this.$emit('clear-selection');
+      if (newValue !== oldValue) {
+        if (this.updateSelectionWith !== '') {
+          const node = this.editorView.state.schema.text(
+            this.updateSelectionWith
+          );
+          const tr = this.editorView.state.tr.replaceSelectionWith(node);
+          this.editorView.focus();
+          this.state = this.editorView.state.apply(tr);
+          this.emitOnChange();
+          this.$emit('clear-selection');
+        }
       }
       return null;
     },
