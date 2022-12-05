@@ -87,6 +87,10 @@ import {
 } from 'dashboard/helper/inbox';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
+import {
+  isOnMentionsView,
+  isOnUnattendedView,
+} from '../../../store/modules/conversations/helpers/actionHelpers';
 
 export default {
   components: { SecondaryChildNavItem },
@@ -115,10 +119,22 @@ export default {
         this.menuItem.featureFlag
       );
     },
-    isInboxConversation() {
+    isAllConversations() {
       return (
         this.$store.state.route.name === 'inbox_conversation' &&
         this.menuItem.toStateName === 'home'
+      );
+    },
+    isMentions() {
+      return (
+        isOnMentionsView({ route: this.$route }) &&
+        this.menuItem.toStateName === 'conversation_mentions'
+      );
+    },
+    isUnattended() {
+      return (
+        isOnUnattendedView({ route: this.$route }) &&
+        this.menuItem.toStateName === 'conversation_unattended'
       );
     },
     isTeamsSettings() {
@@ -127,7 +143,7 @@ export default {
         this.menuItem.toStateName === 'settings_teams_list'
       );
     },
-    isInboxsSettings() {
+    isInboxSettings() {
       return (
         this.$store.state.route.name === 'settings_inbox_show' &&
         this.menuItem.toStateName === 'settings_inbox_list'
@@ -150,24 +166,26 @@ export default {
     },
 
     computedClass() {
-      // If active Inbox is present
-      // donot highlight conversations
+      // If active inbox is present, do not highlight conversations
       if (this.activeInbox) return ' ';
+      if (
+        this.isAllConversations ||
+        this.isMentions ||
+        this.isUnattended ||
+        this.isCurrentRoute
+      ) {
+        return 'is-active';
+      }
       if (this.hasSubMenu) {
         if (
-          this.isInboxConversation ||
           this.isTeamsSettings ||
-          this.isInboxsSettings ||
+          this.isInboxSettings ||
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
           return 'is-active';
         }
         return ' ';
-      }
-
-      if (this.isCurrentRoute) {
-        return 'is-active';
       }
 
       return '';
