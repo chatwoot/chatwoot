@@ -136,8 +136,6 @@ $label-badge-size: var(--space-slab);
 
 .menu-label {
   flex-grow: 1;
-  display: inline-flex;
-  align-items: center;
 }
 
 .inbox-icon {
