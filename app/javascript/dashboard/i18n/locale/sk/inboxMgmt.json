@@ -163,7 +163,7 @@
             "ERROR": "Toto pole je povinné"
           },
           "API_KEY": {
-            "LABEL": "API Key",
+            "LABEL": "API kľúč",
             "PLACEHOLDER": "Please enter your Bandwith API Key",
             "ERROR": "Toto pole je povinné"
           },
@@ -198,7 +198,7 @@
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
+        "TITLE": "WhatsApp kanál",
         "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
@@ -208,7 +208,7 @@
         },
         "INBOX_NAME": {
           "LABEL": "Meno schránky",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "Prosím vyplňte názov schránky",
           "ERROR": "Toto pole je povinné"
         },
         "PHONE_NUMBER": {
@@ -232,9 +232,9 @@
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "API kľúč",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
+          "PLACEHOLDER": "API kľúč",
           "ERROR": "Please enter a valid value."
         },
         "API_CALLBACK": {
@@ -350,25 +350,25 @@
       "LOADING_FB": "Spájame vás s Facebookom...",
       "ERROR_FB_AUTH": "Niečo sa pokazilo, prosím, obnovte stránku...",
       "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "TITLE": "Konfigurovať detaily schránky",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Pridať agentov",
+      "ADD_AGENTS": "Pridávajú sa agenti do schránky..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
+      "TITLE": "Vaša schránka je pripravená!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Take me there",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
     },
     "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "VIEW": "Zobraziť",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "SUCCESS_MESSAGE": "Úspešná aktualizácia nastavenia schránky",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
@@ -388,8 +388,12 @@
         "ENABLED": "Zapnuté",
         "DISABLED": "Vypnuté"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Zapnuté",
+        "DISABLED": "Vypnuté"
+      },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Zapnúť"
       }
     },
     "DELETE": {
@@ -410,16 +414,16 @@
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
+      "SETTINGS": "Nastavenia",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
+      "BUSINESS_HOURS": "Otváracie hodiny",
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Nastavenia",
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
@@ -455,7 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_TITLE": "API kľúč"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -477,7 +483,7 @@
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Key",
         "TYPE": "Type",
-        "REQUIRED": "Required"
+        "REQUIRED": "Povinné"
       },
       "ENABLE": {
         "LABEL": "Povoliť formulár pred konverzáciou",
@@ -487,7 +493,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "Správa pred konverzáciou",
         "PLACEHOLDER": "Táto správa sa zobrazí používateľom spolu s formulárom"
       },
       "REQUIRE_EMAIL": {
@@ -565,12 +571,12 @@
         "PLACE_HOLDER": "Prihlásenie"
       },
       "PASSWORD": {
-        "LABEL": "Password",
+        "LABEL": "Heslo",
         "PLACE_HOLDER": "Password"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "Doména",
+        "PLACE_HOLDER": "Doména"
       },
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",

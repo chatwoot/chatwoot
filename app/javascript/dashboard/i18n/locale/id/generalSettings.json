@@ -23,7 +23,7 @@
         "ERROR": "Harap masukkan nama akun yang valid"
       },
       "LANGUAGE": {
-        "LABEL": "Bahasa Situs (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Nama akun Anda",
         "ERROR": ""
       },
