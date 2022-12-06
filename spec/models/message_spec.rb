@@ -203,7 +203,7 @@ RSpec.describe Message, type: :model do
     let(:fb_object) { double }
     let(:message) { create(:instagram_message, content_attributes: { image_type: 'story_mention' }) }
     let(:return_object) { { id: 'Sender-id-1', account_id: message.account.id } }
-    let(:attachment) { message.attachments.new(file_type: 'story_mention', account_id: message.account_id, file_type: :image, external_url: 'https://www.example.com/test.jpeg') }
+    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image, external_url: 'https://www.example.com/test.jpeg') }
 
     it 'deletes the attachment for unavailable story' do
       attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
