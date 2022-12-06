@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markér som afventende",
       "RESOLVED": "Marker som løst",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Genåbn samtale",
       "SNOOZE": {
         "TITLE": "Udsæt",

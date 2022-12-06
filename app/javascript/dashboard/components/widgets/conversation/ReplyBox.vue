@@ -60,6 +60,7 @@
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
+        :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
@@ -67,6 +68,7 @@
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
+        @clear-selection="clearEditorSelection"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
@@ -130,7 +132,6 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
@@ -160,6 +161,8 @@ import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
+
+const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   components: {
@@ -215,6 +218,7 @@ export default {
       ccEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
+      updateEditorSelectionWith: '',
     };
   },
   computed: {
@@ -398,7 +402,7 @@ export default {
       return conversationDisplayType !== CONDENSED;
     },
     emojiDialogClassOnExpanedLayout() {
-      return this.isOnExpandedLayout && !this.popoutReplyBox
+      return this.isOnExpandedLayout || this.popoutReplyBox
         ? 'emoji-dialog--expanded'
         : '';
     },
@@ -707,8 +711,26 @@ export default {
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
+    clearEditorSelection() {
+      this.updateEditorSelectionWith = '';
+    },
+    insertEmoji(emoji, selectionStart, selectionEnd) {
+      const { message } = this;
+      const newMessage =
+        message.slice(0, selectionStart) +
+        emoji +
+        message.slice(selectionEnd, message.length);
+      this.message = newMessage;
+    },
     emojiOnClick(emoji) {
-      this.message = `${this.message}${emoji} `;
+      if (this.showRichContentEditor) {
+        this.updateEditorSelectionWith = emoji;
+        this.onFocus();
+      }
+      if (!this.showRichContentEditor) {
+        const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
+        this.insertEmoji(emoji, selectionStart, selectionEnd);
+      }
     },
     clearMessage() {
       this.message = '';
@@ -963,13 +985,13 @@ export default {
 
 .emoji-dialog {
   top: unset;
-  bottom: 12px;
+  bottom: var(--space-normal);
   left: -320px;
   right: unset;
 
   &::before {
-    right: -16px;
-    bottom: 10px;
+    right: var(--space-minus-normal);
+    bottom: var(--space-small);
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
@@ -983,7 +1005,7 @@ export default {
   &::before {
     transform: rotate(0deg);
     left: var(--space-smaller);
-    bottom: var(--space-minus-slab);
+    bottom: var(--space-minus-small);
   }
 }
 .message-signature {
