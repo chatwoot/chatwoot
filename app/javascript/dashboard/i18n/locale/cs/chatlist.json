@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Konverzace",
     "MENTION_HEADING": "Zmínky",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Odpovědět na tento tweet",
     "LINK_TO_STORY": "Přejít na instagram příběh",
     "SENT": "Úspěšně odesláno",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Žádné zprávy",
     "NO_CONTENT": "Žádný obsah k dispozici",
     "HIDE_QUOTED_TEXT": "Skrýt citovaný text",

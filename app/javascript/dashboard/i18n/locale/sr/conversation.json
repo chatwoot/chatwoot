@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označeno na čekanju",
       "RESOLVED": "Označi kao rešeno",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Ponovo otvori razgovor",
       "SNOOZE": {
         "TITLE": "Odloži",

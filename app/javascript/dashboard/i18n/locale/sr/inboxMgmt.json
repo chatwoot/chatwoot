@@ -388,6 +388,10 @@
         "ENABLED": "Omogućeno",
         "DISABLED": "Onemogućeno"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Omogućeno"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Omogući/onemogući upitnik o zadovoljstvu korisnika nakon rešavanja razgovora",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Omogući nastavljanje razgovora putem e-pošte",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Razgovori će se nastaviti putem e-pošte ako je dostupna adresa e-pošte kontakta.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Podešavanja prijemnog sandučeta",
       "INBOX_UPDATE_SUB_TEXT": "Izmenite podešavanja vašeg prijemnog sandučeta",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Omogući ili onemogući automatsku dodelu novih razgovora agentima dodatih ovom prijemnom sandučetu.",

@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marchează ca în așteptare",
       "RESOLVED": "Marcați ca rezolvat",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Redeschiderea conversației",
       "SNOOZE": {
         "TITLE": "Amânați",

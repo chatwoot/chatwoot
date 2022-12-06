@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "സംഭാഷണങ്ങൾ",
     "MENTION_HEADING": "പരാമർശിക്കുന്നു",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "ആളുകൾ, ചാറ്റുകൾ, ക്യാൻഡ് മറുപടികൾ എന്നിവയ്ക്കായി തിരയുക .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "വിജയകരമായി അയച്ചു",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "സന്ദേശങ്ങളൊന്നുമില്ല",
     "NO_CONTENT": "ഉള്ളടക്കമൊന്നും ലഭ്യമല്ല",
     "HIDE_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം മറയ്ക്കുക",
