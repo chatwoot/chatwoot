@@ -319,18 +319,18 @@
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Xác nhận xoá",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "Bạn có chắc chắn xóa bài viết?",
           "YES": "Có, Xoá",
           "NO": "Không, Giữ"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "Đã xóa bài viết thành công",
+        "ERROR_MESSAGE": "Lỗi khi xóa bài viết"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Vui lòng thêm tiêu đề và nội dung bài viết sau đó mới có thể cập nhật cài đặt"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -370,8 +370,8 @@
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "TITLE": "Chỉnh sửa danh mục",
+        "SUB_TITLE": "Chỉnh sửa danh mục sẽ cập nhật danh mục trong cổng thông tin công khai.",
         "PORTAL": "Cổng",
         "LOCALE": "Ngôn ngữ",
         "NAME": {
@@ -392,7 +392,7 @@
           "ERROR": "Mô tả bắt buộc có"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "Cập nhật danh mục",
           "CANCEL": "Huỷ"
         },
         "API": {

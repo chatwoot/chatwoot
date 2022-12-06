@@ -14,7 +14,7 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "ID Tài khoản",
+        "TITLE": "Tài khoản SID",
         "NOTE": "ID này là bắt buộc nếu bạn đang xây dựng tích hợp dựa trên API"
       },
       "NAME": {
@@ -23,7 +23,7 @@
         "ERROR": "Vui lòng nhập tên tài khoản hợp lệ"
       },
       "LANGUAGE": {
-        "LABEL": "Ngôn ngữ trang web (Beta)",
+        "LABEL": "Ngôn ngữ",
         "PLACEHOLDER": "Tên tài khoản của bạn",
         "ERROR": ""
       },
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "Bấm enter để chọn",
       "ENTER_TO_REMOVE": "Bấm enter để xoá",
       "SELECT_ONE": "Chọn một",
-      "SELECT": "Select"
+      "SELECT": "Chọn"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -139,6 +139,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Đang tải dữ liệu..."
   }
 }
