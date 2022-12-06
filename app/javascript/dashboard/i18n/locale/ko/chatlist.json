@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "대화",
     "MENTION_HEADING": "멘션",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "사람 검색, 채팅, 저장된 응답..."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "트윗에 응답하기",
     "LINK_TO_STORY": "인스타그램 스토리로 가기",
     "SENT": "성공적으로 보내짐",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "메시지 없음",
     "NO_CONTENT": "콘텐츠 이용 불가",
     "HIDE_QUOTED_TEXT": "인용문 가리기",

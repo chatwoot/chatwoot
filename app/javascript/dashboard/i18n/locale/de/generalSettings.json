@@ -23,7 +23,7 @@
         "ERROR": "Bitte geben Sie einen gültigen Kontonamen ein"
       },
       "LANGUAGE": {
-        "LABEL": "Site-Sprache (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Ihr Kontoname",
         "ERROR": ""
       },

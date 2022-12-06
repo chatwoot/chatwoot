@@ -159,7 +159,7 @@
       "UPLOADING": "Enviando..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Ver Localização"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
@@ -177,6 +177,7 @@
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
+    "UNATTENDED_CONVERSATIONS": "Não atendidas",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",

@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označit jako nevyřízené",
       "RESOLVED": "Označit jako vyřešené",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Znovu otevřít konverzaci",
       "SNOOZE": {
         "TITLE": "Odložit",

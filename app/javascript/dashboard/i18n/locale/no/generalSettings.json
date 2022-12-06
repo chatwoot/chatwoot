@@ -23,7 +23,7 @@
         "ERROR": "Vennligst oppgi et gyldig kontonavn"
       },
       "LANGUAGE": {
-        "LABEL": "Nettstedspråk (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Ditt kontonavn",
         "ERROR": ""
       },
