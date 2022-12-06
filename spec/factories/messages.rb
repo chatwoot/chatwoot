@@ -9,6 +9,7 @@ FactoryBot.define do
     account { create(:account) }
 
     after(:build) do |message|
+      # Setting callbacks again if the instgram_message factory works first then specs related to this factory breaks
       message.class.set_callback(:commit, :after, :execute_after_create_commit_callbacks)
       message.class.set_callback(:create, :after)
       message.sender ||= message.outgoing? ? create(:user, account: message.account) : create(:contact, account: message.account)
