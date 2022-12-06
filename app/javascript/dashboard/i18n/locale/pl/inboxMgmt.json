@@ -388,6 +388,10 @@
         "ENABLED": "Włączone",
         "DISABLED": "Wyłączone"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Włącz/Wyłącz ankietę CSAT(Customer satisfraction) po rozwiązaniu rozmowy",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Włącz ciągłość rozmowy przez e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Rozmowy będą kontynuowane przez e-mail, jeśli adres e-mail kontaktu jest dostępny.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",

@@ -388,6 +388,10 @@
         "ENABLED": "Aktiverad",
         "DISABLED": "Inaktiverad"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Aktiverad",
+        "DISABLED": "Inaktiverad"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Aktivera"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Aktivera/inaktivera CSAT(kundnöjdhet) undersökning efter att ha löst ett samtal",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inkorgsinställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",

@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Các cuộc hội thoại",
     "MENTION_HEADING": "Nhắn đến",
+    "UNATTENDED_HEADING": "Không giám sát",
     "SEARCH": {
       "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Trả lời cho tweet này",
     "LINK_TO_STORY": "Đến xem lịch sử instagram",
     "SENT": "Gửi thành công",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Không có tin nhắn",
     "NO_CONTENT": "Không có nội dung",
     "HIDE_QUOTED_TEXT": "Ẩn văn bản được trích dẫn",

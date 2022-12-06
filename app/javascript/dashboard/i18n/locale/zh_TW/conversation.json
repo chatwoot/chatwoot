@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "標記為待處理",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
         "TITLE": "Snooze",

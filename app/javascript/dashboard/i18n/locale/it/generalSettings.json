@@ -23,7 +23,7 @@
         "ERROR": "Inserisci un nome account valido"
       },
       "LANGUAGE": {
-        "LABEL": "Lingua del sito (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Nome del tuo account",
         "ERROR": ""
       },

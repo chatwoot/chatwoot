@@ -232,11 +232,18 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
+      // Disable audio recorder for safari browser as recording is not supported
+      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
+        navigator.userAgent
+      );
+
       return (
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.VOICE_RECORDER
-        ) && this.showAudioRecorder
+        ) &&
+        this.showAudioRecorder &&
+        !isSafari
       );
     },
     showAudioPlayStopButton() {

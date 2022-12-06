@@ -73,7 +73,8 @@ module ActivityMessageHandler
   end
 
   def generate_team_change_activity_key
-    key = team_id ? 'assigned' : 'removed'
+    team = Team.find_by(id: team_id)
+    key = team.present? ? 'assigned' : 'removed'
     key += '_with_assignee' if key == 'assigned' && saved_change_to_assignee_id? && assignee
     key
   end
