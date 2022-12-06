@@ -27,6 +27,8 @@ FactoryBot.define do
     source_id { 'instagram-message-id-1234' }
 
     after(:build) do |message|
+      # Skipping callbacks not to send extra stub request for FB subscription and message creation send_webhook_event
+      # We are testing the subscription part and send_webhook_event in instagram_event_job spec
       message.class.skip_callback(:commit, :after, :execute_after_create_commit_callbacks)
       message.class.skip_callback(:create, :after)
       channel ||= create(:channel_instagram_fb_page, account: message.account, instagram_id: 'instagram-message-id-1234')
