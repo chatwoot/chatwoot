@@ -9,6 +9,8 @@ FactoryBot.define do
     account { create(:account) }
 
     after(:build) do |message|
+      message.class.set_callback(:commit, :after, :execute_after_create_commit_callbacks)
+      message.class.set_callback(:create, :after)
       message.sender ||= message.outgoing? ? create(:user, account: message.account) : create(:contact, account: message.account)
       message.inbox ||= message.conversation&.inbox || create(:inbox, account: message.account)
       message.conversation ||= create(:conversation, account: message.account, inbox: message.inbox)
@@ -24,7 +26,7 @@ FactoryBot.define do
     source_id { 'instagram-message-id-1234' }
 
     after(:build) do |message|
-      message.class.skip_callback(:commit, :after, :execute_after_create_commit_callbacks, raise: false)
+      message.class.skip_callback(:commit, :after, :execute_after_create_commit_callbacks)
       message.class.skip_callback(:create, :after)
       channel ||= create(:channel_instagram_fb_page, account: message.account, instagram_id: 'instagram-message-id-1234')
       message.content_attributes = { image_type: 'story_mention' }

@@ -184,15 +184,13 @@ RSpec.describe Message, type: :model do
   context 'when facebook channel with unavailable story link' do
     before do
       stub_request(:post, /graph.facebook.com/)
-
-      stub_request(:get, /graph.facebook.com/)
-        .with(
-          headers: {
-            'Accept' => '*/*',
-            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-            'User-Agent' => 'Faraday v1.10.0'
-          }
-        ).to_return(status: 200, body: '', headers: {})
+      stub_request(:get, /graph.facebook.com/).with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Faraday v1.10.0'
+        }
+      ).to_return(status: 200, body: '', headers: {})
 
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).with('instagram-message-id-1234', hash_including(fields: 'story')).and_return(
@@ -202,11 +200,9 @@ RSpec.describe Message, type: :model do
       )
     end
 
-    let!(:fb_object) { double }
+    let(:fb_object) { double }
     let(:message) { create(:instagram_message) }
-    let(:return_object) do
-      { id: 'Sender-id-1', account_id: message.account.id }
-    end
+    let(:return_object) { { id: 'Sender-id-1', account_id: message.account.id } }
 
     it 'deletes the attachment for unavailable story' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
