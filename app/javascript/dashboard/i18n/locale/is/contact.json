@@ -87,11 +87,11 @@
     "CONFIRM": {
       "TITLE": "Staðfesta eyðingu",
       "MESSAGE": "Ertu viss um að þú viljir eyða",
-      "YES": "Yes, Delete",
-      "NO": "No, Keep"
+      "YES": "Já, eyða",
+      "NO": "Nei, hætta við eyðingu"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "SUCCESS_MESSAGE": "Tengilið eytt",
       "ERROR_MESSAGE": "Gat ekki eytt tengilið. Vinsamlegast reyndu aftur síðar."
     }
   },

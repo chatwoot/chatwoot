@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Conversaciones",
     "MENTION_HEADING": "Menciones",
+    "UNATTENDED_HEADING": "Desatendido",
     "SEARCH": {
       "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Responder a éste trino",
     "LINK_TO_STORY": "Ir a la historia de Instagram",
     "SENT": "Enviado con éxito",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "No hay mensajes",
     "NO_CONTENT": "No hay contenido disponible",
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",

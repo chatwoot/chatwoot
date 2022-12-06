@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Konuşmalar",
     "MENTION_HEADING": "Bahsedilmeler",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
     "LINK_TO_STORY": "Instagram hikayesine git",
     "SENT": "Başarıyla gönderildi",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Mesaj yok",
     "NO_CONTENT": "Kullanılabilir içerik yok",
     "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",

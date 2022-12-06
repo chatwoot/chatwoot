@@ -23,7 +23,7 @@
         "ERROR": "请输入有效的帐户名称"
       },
       "LANGUAGE": {
-        "LABEL": "网站语言(Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "您的帐户名称",
         "ERROR": ""
       },
