@@ -39,10 +39,14 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 
 import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 import {
+  hasPressedEnterAndNotCmdOrShift,
+  hasPressedCommandAndEnter,
   hasPressedAltAndPKey,
   hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
@@ -58,13 +62,14 @@ const createState = (content, placeholder, plugins = []) => {
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse },
-  mixins: [eventListenerMixins],
+  mixins: [eventListenerMixins, uiSettingsMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     enableSuggestions: { type: Boolean, default: true },
+    overrideLineBreaks: { type: Boolean, default: false },
     updateSelectionWith: { type: String, default: '' },
   },
   data() {
@@ -208,6 +213,9 @@ export default {
           keyup: () => {
             this.onKeyup();
           },
+          keydown: (view, event) => {
+            this.onKeydown(event);
+          },
           focus: () => {
             this.onFocus();
           },
@@ -222,6 +230,12 @@ export default {
           },
         },
       });
+    },
+    isEnterToSendEnabled() {
+      return isEditorHotKeyEnabled(this.uiSettings, 'enter');
+    },
+    isCmdPlusEnterToSendEnabled() {
+      return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
     },
     handleKeyEvents(e) {
       if (hasPressedAltAndPKey(e)) {
@@ -304,6 +318,24 @@ export default {
         clearTimeout(this.idleTimer);
       }
     },
+    handleLineBreakWhenEnterToSendEnabled(event) {
+      if (
+        hasPressedEnterAndNotCmdOrShift(event) &&
+        this.isEnterToSendEnabled() &&
+        !this.overrideLineBreaks
+      ) {
+        event.preventDefault();
+      }
+    },
+    handleLineBreakWhenCmdAndEnterToSendEnabled(event) {
+      if (
+        hasPressedCommandAndEnter(event) &&
+        this.isCmdPlusEnterToSendEnabled() &&
+        !this.overrideLineBreaks
+      ) {
+        event.preventDefault();
+      }
+    },
     onKeyup() {
       if (!this.idleTimer) {
         this.$emit('typing-on');
@@ -313,6 +345,14 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
+    },
+    onKeydown(event) {
+      if (this.isEnterToSendEnabled()) {
+        this.handleLineBreakWhenEnterToSendEnabled(event);
+      }
+      if (this.isCmdPlusEnterToSendEnabled()) {
+        this.handleLineBreakWhenCmdAndEnterToSendEnabled(event);
+      }
     },
     onBlur() {
       this.turnOffIdleTimer();
