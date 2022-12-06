@@ -345,26 +345,26 @@ export default {
       };
     },
     pageTitle() {
-      if (!this.hasAppliedFilters) {
-        if (this.inbox.name) {
-          return this.inbox.name;
-        }
-        if (this.activeTeam.name) {
-          return this.activeTeam.name;
-        }
-        if (this.label) {
-          return `#${this.label}`;
-        }
-        if (this.conversationType === 'mention') {
-          return this.$t('CHAT_LIST.MENTION_HEADING');
-        }
-        if (this.conversationType === 'unattended') {
-          return this.$t('CHAT_LIST.UNATTENDED_HEADING');
-        }
-        if (this.hasActiveFolders) {
-          return this.activeFolder.name;
-        }
+      if (this.hasAppliedFilters) {
         return this.$t('CHAT_LIST.TAB_HEADING');
+      }
+      if (this.inbox.name) {
+        return this.inbox.name;
+      }
+      if (this.activeTeam.name) {
+        return this.activeTeam.name;
+      }
+      if (this.label) {
+        return `#${this.label}`;
+      }
+      if (this.conversationType === 'mention') {
+        return this.$t('CHAT_LIST.MENTION_HEADING');
+      }
+      if (this.conversationType === 'unattended') {
+        return this.$t('CHAT_LIST.UNATTENDED_HEADING');
+      }
+      if (this.hasActiveFolders) {
+        return this.activeFolder.name;
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
