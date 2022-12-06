@@ -388,6 +388,10 @@
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Activer"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Activer/Désactiver l'enquête CSAT(satisfaction du client) après avoir résolu une conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activer la continuité de la conversation par e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Les conversations se poursuivront par courrier électronique si l'adresse e-mail du contact est disponible.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",

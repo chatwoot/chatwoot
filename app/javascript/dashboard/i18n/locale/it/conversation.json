@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Segna come in sospeso",
       "RESOLVED": "Contrassegna come risolto",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Riapri la conversazione",
       "SNOOZE": {
         "TITLE": "Posticipa",

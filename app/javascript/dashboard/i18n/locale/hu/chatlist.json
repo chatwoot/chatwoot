@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Beszélgetések",
     "MENTION_HEADING": "Megemlítések",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Válasz",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Sikeresen elküldve",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Nincs üzenet",
     "NO_CONTENT": "Nincs elérhető tartalom",
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",

@@ -64,12 +64,13 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Beklemede olarak işaretle",
       "RESOLVED": "Çözüldü olarak işaretle",
+      "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
       "REOPEN": "Görüşmeyi yeniden açın",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "Sustur",
+        "NEXT_REPLY": "Sonraki yanıta kadar",
+        "TOMORROW": "Yarına kadar",
+        "NEXT_WEEK": "Gelecek haftaya kadar"
       },
       "ASSIGN_AGENT": "Temsilci ata",
       "ASSIGN_LABEL": "Etiket ata",
@@ -142,7 +143,7 @@
     "SENT_BY": "Tarafından gönderildi:",
     "BOT": "Bot",
     "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "TRY_AGAIN": "tekrar dene",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
@@ -192,28 +193,28 @@
     "LABELS": {
       "TITLE": "Organize conversations with labels",
       "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "NEW_LINK": "Tag oluşturmak için tıklayın"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Atanan Temsilci",
+    "SELF_ASSIGN": "Bana ata",
+    "TEAM_LABEL": "Atanan Takım",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Hiç"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Kişi Detayları",
+      "CONVERSATION_ACTIONS": "Görüşme Aksiyonları",
       "CONVERSATION_LABELS": "Konuşma Etiketleri",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Görüşme Bilgisi",
+      "CONTACT_ATTRIBUTES": "Kişi Nitelikleri",
       "PREVIOUS_CONVERSATION": "Önceki Sohbetler",
       "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Nitelik oluştur",
     "UPDATE": {
       "SUCCESS": "Öznitelik başarıyla güncellendi",
       "ERROR": "Nitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"
@@ -234,10 +235,10 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "Kimden",
     "TO": "ya",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Konu"
   }
 }

@@ -388,6 +388,10 @@
         "ENABLED": "เปิด",
         "DISABLED": "ปิด"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "เปิด",
+        "DISABLED": "ปิด"
+      },
       "ENABLE_HMAC": {
         "LABEL": "เปิดใช้งาน"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "เปิดหรือปิด CSAT(แบบสอบถามความพีงพอใจลูกค้า) หลังจากเสร็จสิ้นการสนทนา",
       "ENABLE_CONTINUITY_VIA_EMAIL": "เปิดให้มีการสนทนาต่อทางอีเมลได้",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "การสนทนาจะสามารถดำเนินการต่อผ่านทางอีเมลได้ หากลูกค้าให้อีเมลไว้",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "ตั้งค่ากล่องข้อความ",
       "INBOX_UPDATE_SUB_TEXT": "อัปเดตกล่องข้อความ",
       "AUTO_ASSIGNMENT_SUB_TEXT": "เปิดหรือปิดระบบมอบหมายงานอัตโนมัติสำหรับข้อความใหม่ให้กับพนักงานในกล่องสนทนานี้",

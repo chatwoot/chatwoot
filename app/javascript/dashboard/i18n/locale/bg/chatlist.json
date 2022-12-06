@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Разговори",
     "MENTION_HEADING": "Споменавания",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Търсене на хора, чатове, запазени отговори .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Отговори на този туит",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Успено изпратено",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Няма съобщения",
     "NO_CONTENT": "Няма налично съдържание",
     "HIDE_QUOTED_TEXT": "Скриване на цитирания текст",

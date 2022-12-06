@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "标记为待处理",
       "RESOLVED": "标记为已解决",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
         "TITLE": "推迟",

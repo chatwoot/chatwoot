@@ -388,6 +388,10 @@
         "ENABLED": "Aktiveret",
         "DISABLED": "Deaktiveret"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Aktiveret",
+        "DISABLED": "Deaktiveret"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Aktiver"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Aktiver/deaktivér CSAT(Customer satisfaction) undersøgelse efter at have løst en samtale",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Aktivér konversationskontinuitet via e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtaler vil fortsætte via e-mail, hvis kontaktpersonens e-mailadresse er tilgængelig.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
       "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke.",
