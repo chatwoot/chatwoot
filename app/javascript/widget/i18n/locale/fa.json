@@ -73,6 +73,10 @@
       "FIELD": "فیلد نامتعارف"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "به گفتگوی خود امتیاز دهید",
     "SUBMITTED_TITLE": "با تشکر از شما برای ثبت امتیاز",
