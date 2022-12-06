@@ -37,6 +37,9 @@
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
       validation="required"
+      :validation-messages="{
+        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
+      }"
     />
 
     <custom-button
