@@ -16,7 +16,7 @@
       <input
         :value="selected"
         :checked="selected"
-        class="checkbox"
+        class="checkbox select-conversation"
         type="checkbox"
         @change="onSelectConversation($event.target.checked)"
       />
@@ -25,73 +25,99 @@
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
-      class="columns"
+      class="sender-thumbnail"
       :username="currentContact.name"
       :status="currentContact.availability_status"
-      size="40px"
+      size="24px"
     />
-    <div class="conversation--details columns">
-      <div class="conversation--metadata">
-        <inbox-name v-if="showInboxName" :inbox="inbox" />
-        <span
+
+    <div class="message">
+      <div class="header">
+        <div class="conversation-meta">
+          <inbox-name v-if="showInboxName" :inbox="inbox" />
+          <div class="conversation__id">
+            <fluent-icon icon="number-symbol" size="12" />
+            {{ chat.id }}
+          </div>
+        </div>
+        <woot-label
           v-if="showAssignee && assignee.name"
-          class="label assignee-label text-truncate"
-        >
-          <fluent-icon icon="person" size="12" />
-          {{ assignee.name }}
-        </span>
+          icon="headset"
+          small
+          :title="assignee.name"
+          class="assignee-label"
+        />
       </div>
-      <h4 class="conversation--user">
-        {{ currentContact.name }}
-      </h4>
-      <p v-if="lastMessageInChat" class="conversation--message">
-        <fluent-icon
-          v-if="isMessagePrivate"
-          size="16"
-          class="message--attachment-icon last-message-icon"
-          icon="lock-closed"
-        />
-        <fluent-icon
-          v-else-if="messageByAgent"
-          size="16"
-          class="message--attachment-icon last-message-icon"
-          icon="arrow-reply"
-        />
-        <fluent-icon
-          v-else-if="isMessageAnActivity"
-          size="16"
-          class="message--attachment-icon last-message-icon"
-          icon="info"
-        />
-        <span v-if="lastMessageInChat.content">
-          {{ parsedLastMessage }}
+      <div class="user-info">
+        <h4 class="text-block-title conversation--user">
+          {{ currentContact.name }}
+        </h4>
+      </div>
+
+      <div class="content">
+        <span v-if="unreadCount" class="unread badge">
+          {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
-        <span v-else-if="lastMessageInChat.attachments">
+        <p v-if="lastMessageInChat" class="conversation--message">
           <fluent-icon
-            v-if="attachmentIcon"
-            size="16"
-            class="message--attachment-icon"
-            :icon="attachmentIcon"
+            v-if="isMessagePrivate"
+            size="12"
+            class="message--attachment-icon last-message-icon"
+            icon="lock-closed"
           />
-          {{ this.$t(`${attachmentMessageContent}`) }}
-        </span>
-        <span v-else>
-          {{ $t('CHAT_LIST.NO_CONTENT') }}
-        </span>
-      </p>
-      <p v-else class="conversation--message">
-        <fluent-icon size="16" class="message--attachment-icon" icon="info" />
-        <span>
-          {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
-        </span>
-      </p>
-      <div class="conversation--meta">
-        <span class="timestamp">
-          <time-ago :timestamp="chat.timestamp" />
-        </span>
-        <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
+          <fluent-icon
+            v-else-if="messageByAgent"
+            size="12"
+            class="message--attachment-icon last-message-icon"
+            icon="arrow-reply"
+          />
+          <fluent-icon
+            v-else-if="isMessageAnActivity"
+            size="12"
+            class="message--attachment-icon last-message-icon"
+            icon="info"
+          />
+          <span v-if="lastMessageInChat.content">
+            {{ parsedLastMessage }}
+          </span>
+          <span v-else-if="lastMessageInChat.attachments">
+            <fluent-icon
+              v-if="attachmentIcon"
+              size="12"
+              class="message--attachment-icon"
+              :icon="attachmentIcon"
+            />
+            {{ this.$t(`${attachmentMessageContent}`) }}
+          </span>
+          <span v-else>
+            {{ $t('CHAT_LIST.NO_CONTENT') }}
+          </span>
+        </p>
+        <p v-else class="conversation--message">
+          <fluent-icon size="12" class="message--attachment-icon" icon="info" />
+          <span>
+            {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
+          </span>
+        </p>
+        <div class="meta">
+          <span class="timestamp">
+            <time-ago :timestamp="chat.timestamp" />
+          </span>
+        </div>
+      </div>
+      <div class="footer">
+        <woot-label
+          v-for="label in activeLabels"
+          :key="label.id"
+          :title="label.title"
+          :description="label.description"
+          :color="label.color"
+          variant="smooth"
+          small
+        />
       </div>
     </div>
+
     <woot-context-menu
       v-if="showContextMenu"
       ref="menu"
@@ -115,6 +141,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
@@ -145,11 +172,12 @@ export default {
   },
 
   mixins: [
-    inboxMixin,
-    timeMixin,
-    conversationMixin,
-    messageFormatterMixin,
     alertMixin,
+    conversationMixin,
+    conversationLabelMixin,
+    inboxMixin,
+    messageFormatterMixin,
+    timeMixin,
   ],
   props: {
     activeLabel: {
@@ -207,9 +235,15 @@ export default {
       currentUser: 'getCurrentUser',
       accountId: 'getCurrentAccountId',
     }),
+
+    conversationId() {
+      return this.chat.id;
+    },
+
     bulkActionCheck() {
       return !this.hideThumbnail && !this.hovered && !this.selected;
     },
+
     chatMetadata() {
       return this.chat.meta || {};
     },
@@ -370,81 +404,242 @@ export default {
 </script>
 <style lang="scss" scoped>
 .conversation {
-  align-items: center;
+  display: flex;
+  position: relative;
+  border-radius: var(--border-radius-medium);
+  margin: 0 var(--space-small);
+  padding: var(--space-small);
+  cursor: pointer;
+  position: relative;
+  box-sizing: content-box;
+
+  &::after {
+    content: '';
+    right: 0;
+    top: -1px;
+    width: calc(100% - 40px);
+    position: absolute;
+    border-top: 1px solid var(--s-50);
+  }
 
   &:hover {
-    background: var(--color-background-light);
+    background: var(--s-25);
+  }
+
+  &.active {
+    background: var(--w-25);
+    border: 1px solid var(--w-200);
+  }
+
+  &.active::after {
+    border-top-color: transparent;
+  }
+  &.unread-chat {
+    .message__content {
+      font-weight: var(--font-weight-medium);
+    }
+  }
+
+  &.compact {
+    padding-left: 0;
+    margin: var(--space-smaller);
+    .message {
+      margin-left: 0;
+      padding-left: var(--space-small);
+    }
   }
 }
-
-.conversation-selected {
-  background: var(--color-background-light);
+.message {
+  width: 100%;
+  min-width: 0;
+  margin-left: var(--space-small);
 }
-
-.has-inbox-name {
-  &::v-deep .user-thumbnail-box {
-    margin-top: var(--space-normal);
-    align-items: flex-start;
-  }
-  .conversation--meta {
-    margin-top: var(--space-normal);
-  }
-}
-
-.conversation--details {
-  .conversation--user {
-    padding-top: var(--space-micro);
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 60%;
-  }
-}
-
-.last-message-icon {
-  color: var(--s-600);
-}
-
-.conversation--metadata {
+.message__content {
   display: flex;
-  justify-content: space-between;
-  padding-right: var(--space-normal);
-
-  .label {
-    background: none;
+  align-items: center;
+  color: var(--color-body);
+  flex-grow: 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-normal);
+  height: var(--font-size-medium);
+  line-height: var(--font-size-medium);
+  margin: 0;
+  max-width: 100%;
+  width: auto;
+  .fluent-icon {
+    flex-shrink: 0;
+    margin-right: var(--space-micro);
+  }
+}
+.meta {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: var(--space-medium);
+  .timestamp {
     color: var(--s-500);
     font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--space-slab);
-    padding: var(--space-micro) 0 var(--space-micro) 0;
-  }
-
-  .assignee-label {
-    display: inline-flex;
-    max-width: 50%;
+    font-weight: var(--font-weight-normal);
+    line-height: var(--font-size-medium);
   }
 }
+.header {
+  display: flex;
+  justify-content: space-between;
 
-.message--attachment-icon {
-  margin-top: var(--space-minus-micro);
-  vertical-align: middle;
+  height: var(--space-normal);
+  padding-top: var(--space-smaller);
+  box-sizing: content-box;
+}
+.content {
+  display: flex;
+  align-items: center;
+  height: var(--space-medium);
+
+  .badge {
+    color: var(--white);
+    margin-right: var(--space-smaller);
+  }
+}
+.assignee-name-wrap {
+  display: flex;
+  align-items: center;
+  margin-right: var(--space-smaller);
+  margin-bottom: var(--space-smaller);
+}
+.assignee-arrow {
+  color: var(--w-700);
+}
+.assignee-avatar {
+  margin-right: var(--space-micro);
+}
+.message--with-icon {
+  display: inline-flex;
+  align-items: center;
+}
+.inbox-name-wrap {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-left: var(--space-normal);
+  margin-left: auto;
+  .label {
+    background: none;
+    color: var(--s-600);
+    margin-bottom: 0;
+    margin-right: 0;
+    max-width: 12rem;
+  }
+}
+.footer {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+
+  .label {
+    margin-bottom: var(--space-smaller);
+  }
+}
+.assignee-name {
+  font-size: var(--font-size-mini);
+  padding-left: var(--space-smaller);
+}
+.assignee-name-wrap {
+  border-radius: var(--border-radius-small);
+  padding: 0 var(--space-smaller);
+  border: 1px solid var(--w-75);
+  background: var(--w-25);
+  color: var(--w-800);
+  flex-shrink: 0;
+  font-weight: var(--font-weight-medium);
 }
 .checkbox-wrapper {
-  height: 40px;
-  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
+  flex: 1 0 auto;
+  height: var(--space-medium);
+  width: var(--space-medium);
+  border-radius: var(--space-medium);
   margin-top: var(--space-normal);
   cursor: pointer;
-  &:hover {
-    background-color: var(--w-100);
-  }
 
-  input[type='checkbox'] {
-    margin: var(--space-zero);
-    cursor: pointer;
+  &:hover {
+    background-color: var(--w-75);
+    .select-conversation {
+      margin: var(--space-zero);
+      cursor: pointer;
+    }
   }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  height: var(--space-two);
+  margin-top: var(--space-micro);
+}
+
+.conversation--user {
+  margin-bottom: 0;
+  text-transform: capitalize;
+  /* color: var(--s-800); */
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  margin-top: var(--space-smaller);
+
+  .label {
+    margin-bottom: var(--space-smaller);
+  }
+}
+
+.conversation-meta {
+  display: flex;
+}
+.conversation__id {
+  display: inline-flex;
+  align-items: center;
+  color: var(--s-600);
+  line-height: var(--space-normal);
+  height: var(--space-normal);
+  margin-left: var(--space-small);
+}
+
+.message--attachment-icon {
+  flex-shrink: 0;
+  position: relative;
+  top: 1px;
+  color: var(--s-600);
+}
+
+.sender-thumbnail {
+  margin-top: var(--space-two);
+}
+
+.select-conversation {
+  margin: var(--space-zero);
+  cursor: pointer;
+}
+
+.assignee-label {
+  color: var(--s-600);
+  margin: 0;
+  border-color: var(--s-25);
+}
+
+.badge {
+  min-width: var(--space-normal);
+  height: var(--space-normal);
+  line-height: var(--space-normal);
+  padding: 0 var(--space-micro);
+  text-align: center;
+  border-radius: var(--space-medium);
+  font-weight: var(--font-weight-bold);
 }
 </style>

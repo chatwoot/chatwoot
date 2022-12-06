@@ -26,15 +26,15 @@ export default {
 <style scoped>
 .inbox--name {
   display: inline-flex;
-  padding: var(--space-micro) 0;
-  line-height: var(--space-slab);
-  font-weight: var(--font-weight-medium);
+  align-items: center;
+  line-height: var(--space-normal);
+  height: var(--space-normal);
   background: none;
-  color: var(--s-500);
+  color: var(--s-600);
   font-size: var(--font-size-mini);
 }
 
 .inbox--icon {
-  margin-right: var(--space-micro);
+  margin-right: var(--space-smaller);
 }
 </style>

@@ -786,6 +786,7 @@ export default {
 }
 
 .conversations-list {
+  padding-top: var(--space-small);
   // Prevent the list from scrolling if the submenu is opened
   &.is-context-menu-open {
     overflow: hidden !important;
@@ -796,12 +797,7 @@ export default {
   flex-shrink: 0;
   width: 34rem;
   overflow: hidden;
-  @include breakpoint(large up) {
-    width: 36rem;
-  }
-  @include breakpoint(xlarge up) {
-    width: 35rem;
-  }
+
   @include breakpoint(xxlarge up) {
     width: 38rem;
   }

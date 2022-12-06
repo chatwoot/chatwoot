@@ -186,16 +186,17 @@ export default {
 <style scoped lang="scss">
 .bulk-action__container {
   border-bottom: 1px solid var(--s-100);
-  padding: var(--space-normal) var(--space-one);
+  padding: var(--space-normal) var(--space-small);
   position: relative;
 }
 
 .bulk-action__panel {
   cursor: pointer;
+  padding-left: var(--space-normal);
 
   span {
     font-size: var(--font-size-mini);
-    margin-left: var(--space-smaller);
+    padding-left: var(--space-small);
   }
 
   input[type='checkbox'] {

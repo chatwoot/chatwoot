@@ -117,10 +117,10 @@ export default {
   height: var(--space-medium);
 
   &.small {
-    font-size: var(--font-size-micro);
+    font-size: var(--font-size-mini);
     padding: var(--space-micro) var(--space-smaller);
     line-height: 1.2;
-    letter-spacing: 0.15px;
+    height: var(--space-two);
   }
 
   .label--icon {
@@ -199,8 +199,8 @@ export default {
 
   &.smooth {
     background: transparent;
-    border: 1px solid var(--s-75);
-    color: var(--s-800);
+    border: 1px solid var(--s-100);
+    color: var(--s-700);
   }
 }
 
@@ -228,6 +228,12 @@ export default {
   display: inline-block;
   width: var(--space-one);
   height: var(--space-one);
+  border-radius: var(--border-radius-small);
+  margin-right: var(--space-smaller);
+}
+.label.small .label-color-dot {
+  width: var(--space-small);
+  height: var(--space-small);
   border-radius: var(--border-radius-small);
   margin-right: var(--space-smaller);
 }

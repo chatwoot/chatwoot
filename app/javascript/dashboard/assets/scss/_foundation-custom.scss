@@ -67,3 +67,8 @@ code {
 .margin-right-small {
   margin-right: var(--space-small);
 }
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--w-500);
+}
