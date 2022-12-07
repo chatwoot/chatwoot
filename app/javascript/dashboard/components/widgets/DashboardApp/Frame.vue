@@ -46,11 +46,20 @@ export default {
       return {
         conversation: this.currentChat,
         contact: this.$store.getters['contacts/getContact'](this.contactId),
-        currentAgent: this.$store.getters.getCurrentUser,
+        currentAgent: this.currentAgent,
       };
     },
     contactId() {
       return this.currentChat?.meta?.sender?.id;
+    },
+    currentAgent() {
+      const {
+        id,
+        name,
+        email,
+        phone_number: phone,
+      } = this.$store.getters.getCurrentUser;
+      return { id, name, email, phone };
     },
   },
 
