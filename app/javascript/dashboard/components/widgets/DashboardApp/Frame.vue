@@ -46,6 +46,7 @@ export default {
       return {
         conversation: this.currentChat,
         contact: this.$store.getters['contacts/getContact'](this.contactId),
+        currentAgent: this.$store.getters.getCurrentUser,
       };
     },
     contactId() {
