@@ -15,22 +15,16 @@
           :class="`testimonial-${index ? 'right' : 'left'}--card`"
         />
       </div>
-      <testimonial-footer
-        title="Loved by small and big teams, alike"
-        sub-title="We put your needs first. That is what keeps us going."
-      />
     </div>
   </div>
 </template>
 
 <script>
 import TestimonialCard from './TestimonialCard.vue';
-import TestimonialFooter from './TestimonialFooter.vue';
 import { getTestimonialContent } from 'dashboard/api/testimonials';
 export default {
   components: {
     TestimonialCard,
-    TestimonialFooter,
   },
   data() {
     return {
@@ -86,7 +80,7 @@ export default {
 }
 
 .testimonial--section {
-  background: var(--w-300);
+  background: var(--w-400);
   display: flex;
   flex: 1 1;
   position: relative;
@@ -100,20 +94,19 @@ export default {
   justify-content: center;
   width: 100%;
   z-index: 1000;
-  padding-top: var(--space-larger);
 }
 
 .testimonial--content-card {
-  display: flex;
   align-items: flex-start;
+  display: flex;
   justify-content: center;
-  margin-bottom: var(--space-larger);
+  padding: var(--space-larger);
 }
 
 .testimonial-left--card {
-  --signup-testimonial-top: 20rem;
+  --signup-testimonial-top: 20%;
   margin-top: var(--signup-testimonial-top);
-  margin-right: var(--space-minus-mega);
+  margin-right: var(--space-minus-normal);
   z-index: 10000;
 }
 

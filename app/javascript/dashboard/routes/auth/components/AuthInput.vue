@@ -87,7 +87,7 @@ export default {
     height: 4rem !important;
     padding: var(--space-small) !important;
     width: 100% !important;
-    background: var(--b-50) !important;
+    background: var(--s-50) !important;
   }
 }
 </style>

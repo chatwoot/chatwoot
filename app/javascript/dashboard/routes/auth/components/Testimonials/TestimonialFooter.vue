@@ -1,8 +1,8 @@
 <template>
   <div class="testimonial--footer">
-    <h3 class="heading">
+    <h2 class="heading">
       {{ title }}
-    </h3>
+    </h2>
     <span class="sub-block-title sub-heading">
       {{ subTitle }}
     </span>
@@ -25,8 +25,14 @@ export default {
 <style scoped lang="scss">
 .testimonial--footer {
   align-items: center;
+  bottom: var(--space-jumbo);
   display: flex;
   flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 var(--space-jumbo);
+  position: absolute;
+  width: 100%;
 
   .heading {
     color: var(--white);

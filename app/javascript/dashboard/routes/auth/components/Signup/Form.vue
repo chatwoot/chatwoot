@@ -25,7 +25,7 @@
       <auth-input
         v-model="credentials.accountName"
         :class="{ error: $v.credentials.accountName.$error }"
-        icon-name="person-account"
+        icon-name="building-bank"
         :label="$t('REGISTER.COMPANY_NAME.LABEL')"
         :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
         :error="

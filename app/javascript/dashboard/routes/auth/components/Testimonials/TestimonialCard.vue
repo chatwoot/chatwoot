@@ -50,7 +50,7 @@ export default {
   box-shadow: var(--shadow-large);
   display: flex;
   justify-content: center;
-  padding: var(--space-medium);
+  padding: var(--space-medium) var(--space-large);
   width: 32rem;
 }
 
@@ -83,5 +83,11 @@ export default {
       font-size: var(--font-size-mini);
     }
   }
+}
+
+.card-content {
+  color: var(--s-600);
+  // font-size: var(--font-size-default);
+  line-height: 1.7;
 }
 </style>
