@@ -53,11 +53,7 @@ export default {
       return this.currentChat?.meta?.sender?.id;
     },
     currentAgent() {
-      const {
-        id,
-        name,
-        email,
-      } = this.$store.getters.getCurrentUser;
+      const { id, name, email } = this.$store.getters.getCurrentUser;
       return { id, name, email };
     },
   },
