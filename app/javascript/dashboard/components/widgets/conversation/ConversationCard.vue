@@ -490,7 +490,8 @@ export default {
   justify-content: space-between;
 
   height: var(--space-normal);
-  padding-top: var(--space-smaller);
+  margin-top: var(--space-smaller);
+  margin-bottom: var(--space-micro);
   box-sizing: content-box;
 }
 .content {
