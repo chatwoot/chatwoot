@@ -26,11 +26,11 @@
         v-model="credentials.accountName"
         :class="{ error: $v.credentials.accountName.$error }"
         icon-name="person-account"
-        :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
-        :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
+        :label="$t('REGISTER.COMPANY_NAME.LABEL')"
+        :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
         :error="
           $v.credentials.accountName.$error
-            ? $t('REGISTER.ACCOUNT_NAME.ERROR')
+            ? $t('REGISTER.COMPANY_NAME.ERROR')
             : ''
         "
         @blur="$v.credentials.accountName.$touch"
@@ -79,6 +79,8 @@ import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import AuthInput from '../AuthInput.vue';
 import AuthSubmitButton from '../AuthSubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
+var CompanyEmailValidator = require('company-email-validator');
+
 export default {
   components: {
     AuthInput,
@@ -113,6 +115,9 @@ export default {
       email: {
         required,
         email,
+        businessEmailValidator(value) {
+          return CompanyEmailValidator.isCompanyEmail(value);
+        },
       },
       password: {
         required,
