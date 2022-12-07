@@ -1,6 +1,6 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
+    "TITLE": "Hello how are you",
     "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",

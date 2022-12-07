@@ -23,7 +23,7 @@
         "ERROR": "Wprowadź prawidłową nazwę konta"
       },
       "LANGUAGE": {
-        "LABEL": "Język witryny (beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Nazwa konta",
         "ERROR": ""
       },

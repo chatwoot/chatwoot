@@ -433,12 +433,7 @@ export default {
       position: fixed;
       left: unset;
       position: absolute;
-
-      &::before {
-        transform: rotate(0deg);
-        left: var(--space-smaller);
-        bottom: var(--space-minus-slab);
-      }
+      bottom: var(--space-smaller);
     }
   }
 }
