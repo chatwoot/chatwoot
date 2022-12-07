@@ -1,9 +1,9 @@
 <template>
   <div class="testimonial--footer">
-    <h2 class="heading">
+    <h3 class="heading">
       {{ title }}
-    </h2>
-    <span class="block-title sub-heading">
+    </h3>
+    <span class="sub-block-title sub-heading">
       {{ subTitle }}
     </span>
   </div>
@@ -30,8 +30,7 @@ export default {
 
   .heading {
     color: var(--white);
-    font-weight: var(--font-weight-bold);
-    text-align: center;
+    font-size: var(--font-size-bigger);
   }
 
   .sub-heading {

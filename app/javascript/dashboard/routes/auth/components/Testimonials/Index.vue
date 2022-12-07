@@ -86,7 +86,7 @@ export default {
 }
 
 .testimonial--section {
-  background: var(--w-500);
+  background: var(--w-300);
   display: flex;
   flex: 1 1;
   position: relative;

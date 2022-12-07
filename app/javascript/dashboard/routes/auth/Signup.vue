@@ -1,5 +1,5 @@
 <template>
-  <div class="row h-full signup-container">
+  <div class="row h-full">
     <div
       :class="
         `${showTestimonials ? 'large-6' : 'large-12'} signup-form--container`
@@ -66,7 +66,6 @@ export default {
 .signup-form--container {
   display: flex;
   align-items: center;
-  justify-content: center;
   height: 100%;
   min-height: 640px;
   overflow: auto;
