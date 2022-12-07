@@ -1,9 +1,10 @@
 import Auth from './Auth';
 import Confirmation from './Confirmation';
-import Signup from './Signup';
 import PasswordEdit from './PasswordEdit';
 import ResetPassword from './ResetPassword';
 import { frontendURL } from '../../helper/URLHelper';
+
+const Signup = () => import('./Signup');
 
 export default {
   routes: [
