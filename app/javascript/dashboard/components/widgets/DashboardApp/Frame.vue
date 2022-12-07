@@ -59,7 +59,7 @@ export default {
         email,
         phone_number: phone,
       } = this.$store.getters.getCurrentUser;
-      return { id, name, email, phone };
+      return { id, name, email };
     },
   },
 
