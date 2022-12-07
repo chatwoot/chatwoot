@@ -5347,6 +5347,13 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
 
+company-email-validator@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/company-email-validator/-/company-email-validator-1.0.8.tgz#b09e4a4c5d4e19eadafbfc8ed7688b39ad24d868"
+  integrity sha512-zxqY83XAdqxqjEGLAXZCv++3er280aquey/jWCSIFfW3pn85Y1Dk34ljhUpZvh0n4OM+gPsOLjIk6lvHmeSIWg==
+  dependencies:
+    email-validator "^2.0.4"
+
 component-emitter@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
@@ -6450,6 +6457,11 @@ elliptic@^6.5.3:
     inherits "^2.0.4"
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
+
+email-validator@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/email-validator/-/email-validator-2.0.4.tgz#b8dfaa5d0dae28f1b03c95881d904d4e40bfe7ed"
+  integrity sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==
 
 emittery@^0.7.1:
   version "0.7.2"
