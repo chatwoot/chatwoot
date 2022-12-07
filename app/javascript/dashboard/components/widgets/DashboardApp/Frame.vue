@@ -57,7 +57,6 @@ export default {
         id,
         name,
         email,
-        phone_number: phone,
       } = this.$store.getters.getCurrentUser;
       return { id, name, email };
     },
