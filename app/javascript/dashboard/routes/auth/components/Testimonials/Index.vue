@@ -39,9 +39,10 @@ export default {
       try {
         const { data } = await getTestimonialContent();
         this.testimonials = data;
-        this.$emit('resize-containers', !!this.testimonials.length);
       } catch (error) {
         // Ignoring the error as the UI wouldn't break
+      } finally {
+        this.$emit('resize-containers', !!this.testimonials.length);
       }
     },
   },
