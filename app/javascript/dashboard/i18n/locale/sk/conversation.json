@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označiť ako čakajúce na vybavenie",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -150,7 +151,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "Vymazať"
+      "DELETE": "Vymazať",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +209,8 @@
       "CONVERSATION_LABELS": "Označenia konverzácii",
       "CONVERSATION_INFO": "Informácie o konverzácii",
       "CONTACT_ATTRIBUTES": "Atribúty kontaktu",
-      "PREVIOUS_CONVERSATION": "Prechádzajúce konverzácie"
+      "PREVIOUS_CONVERSATION": "Prechádzajúce konverzácie",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

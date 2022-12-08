@@ -113,9 +113,22 @@ $default-button-height: 4.0rem;
   }
 
   &.clear {
+    color: var(--w-700);
+
+    &.secondary {
+      color: var(--s-700)
+    }
+
+    &.success {
+      color: var(--g-700)
+    }
+
+    &.alert {
+      color: var(--r-700)
+    }
 
     &.warning {
-      color: var(--y-600);
+      color: var(--y-700)
     }
 
     &:hover {
@@ -146,6 +159,8 @@ $default-button-height: 4.0rem;
 
   &.small {
     height: var(--space-large);
+    padding-bottom: var(--space-smaller);
+    padding-top: var(--space-smaller);
   }
 
   &.large {

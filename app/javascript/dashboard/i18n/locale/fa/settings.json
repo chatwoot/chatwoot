@@ -158,6 +158,9 @@
       "DOWNLOAD": "دانلود",
       "UPLOADING": "در حال آپلود..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "مشاهده‌ بر روی نقشه"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "ثبت"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "گفتگوها",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
+    "UNATTENDED_CONVERSATIONS": "بی سرپرست",
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
     "HOME": "صفحه اصلی",
     "AGENTS": "ایجنت ها",
+    "AGENT_BOTS": "ربات‌ها",
     "INBOXES": "صندوق‌های ورودی",
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
@@ -189,6 +194,7 @@
     "LABELS": "برچسب‌ها",
     "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
     "AUTOMATION": "خودکارسازی",
+    "MACROS": "ماکروها",
     "TEAMS": "تیم‌ها",
     "BILLING": "صورتحساب",
     "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",

@@ -154,6 +154,9 @@
       "DOWNLOAD": "Download",
       "UPLOADING": "Uploading..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Submit"
     }
@@ -170,11 +173,13 @@
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "HOME": "Home",
     "AGENTS": "Agents",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
@@ -185,6 +190,7 @@
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
@@ -229,7 +235,6 @@
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
-
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
@@ -248,7 +253,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Submit"

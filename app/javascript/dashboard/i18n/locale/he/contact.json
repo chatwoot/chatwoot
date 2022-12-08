@@ -3,11 +3,11 @@
     "NOT_AVAILABLE": "לא זמין",
     "EMAIL_ADDRESS": "כתובת מייל",
     "PHONE_NUMBER": "מספר טלפון",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "מזהה",
     "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
     "COMPANY": "חברה",
     "LOCATION": "מיקום",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "שפת דפדפן",
     "CONVERSATION_TITLE": "פרטי שיחה",
     "VIEW_PROFILE": "צפה בפרופיל",
     "BROWSER": "דפדפן",
@@ -75,8 +75,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "אשר מחיקה",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "אתה בטוח שתרצה למחוק את ההערה הזו?",
+      "YES": "כן, מחק",
       "NO": "לא, השאר"
     }
   },

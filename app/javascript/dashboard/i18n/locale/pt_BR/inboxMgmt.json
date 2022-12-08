@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL de retorno",
-          "SUBTITLE": "Você tem que configurar a URL do webhook no portal de desenvolvedor do Facebook com a URL mencionada aqui."
+          "SUBTITLE": "Você deve configurar a URL do webhook e o token de verificação no portal do desenvolvedor do Facebook com os valores mostrados abaixo.",
+          "WEBHOOK_URL": "URL do Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Token de verificação Webhook"
         },
         "SUBMIT_BUTTON": "Criar canal do WhatsApp",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Sua caixa de entrada está pronta!",
-      "MESSAGE": "Agora você ja pode oferecer uma excelente experiência no atendimento de seus clientes através do seu novo Canal ",
+      "MESSAGE": "Agora você ja pode oferecer uma excelente experiência no atendimento de seus clientes através do seu novo Canal",
       "BUTTON_TEXT": "Leva-me lá",
       "MORE_SETTINGS": "Mais configurações",
       "WEBSITE_SUCCESS": "Você concluiu a criação de um canal de site. Copie o código mostrado abaixo e cole-o no seu site. Na próxima vez que um cliente usar o bate-papo ao vivo, a conversa aparecerá automaticamente na sua caixa de entrada."
@@ -383,6 +385,10 @@
         "DISABLED": "Desativado"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Ativado",
+        "DISABLED": "Desativado"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Campanhas",
       "PRE_CHAT_FORM": "Formulário Chat Pré",
       "BUSINESS_HOURS": "Horário de funcionamento",
-      "WIDGET_BUILDER": "Construtor de Widget"
+      "WIDGET_BUILDER": "Construtor de Widget",
+      "BOT_CONFIGURATION": "Configuração do Bot"
     },
     "SETTINGS": "Confirgurações",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar pesquisa CSAT(satisfação do cliente) após resolver uma conversa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas continuarão sobre o e-mail se o endereço de e-mail de contato estiver disponível.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Bloquear para conversa única",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Ativar ou desativar várias conversas para o mesmo contato nesta caixa de entrada",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações de caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",

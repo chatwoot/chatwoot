@@ -1,1 +1,1 @@
-json.partial! 'api/v1/models/user.json.jbuilder', resource: @user
+json.partial! 'api/v1/models/user', formats: [:json], resource: @user

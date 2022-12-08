@@ -158,6 +158,9 @@
       "DOWNLOAD": "Pobierz",
       "UPLOADING": "Przesyłanie..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Prześlij"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "Rozmowy",
     "ALL_CONVERSATIONS": "Rozmowy",
     "MENTIONED_CONVERSATIONS": "Wzmianki",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Raporty",
     "SETTINGS": "Ustawienia",
     "CONTACTS": "Kontakty",
     "HOME": "Home",
     "AGENTS": "Agenci",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Skrzynki",
     "NOTIFICATIONS": "Powiadomienia",
     "CANNED_RESPONSES": "Gotowe odpowiedzi",
@@ -189,6 +194,7 @@
     "LABELS": "Etykiety",
     "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
     "AUTOMATION": "Automatyzacja",
+    "MACROS": "Macros",
     "TEAMS": "Zespoły",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",

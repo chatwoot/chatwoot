@@ -1,0 +1,70 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Carregando Editor...",
+    "HEADER_BTN_TXT": "Adicionar configuração do Bot",
+    "SIDEBAR_TXT": "<p><b>Bots de Agente</b> <p>Bots de agente permitem que você automatize as conversas</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Nome do Bot",
+        "PLACEHOLDER": "Dê um nome ao seu bot",
+        "ERROR": "O nome do bot é obrigatório"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição do Bot",
+        "PLACEHOLDER": "O que esse bot faz?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Por favor, insira a configuração CSML do bot acima",
+        "API_ERROR": "Sua configuração CSML é inválida, por favor corrija-a e tente novamente."
+      },
+      "SUBMIT": "Validar e salvar"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Selecione um bot de agente",
+      "DESC": "Você pode definir um bot de agente da lista para esta caixa de entrada. O bot pode inicialmente lidar com a conversa e transferi-la para um agente quando necessário.",
+      "SUBMIT": "Atualizar",
+      "SUCCESS_MESSAGE": "Agente de bot atualizado com sucesso",
+      "ERROR_MESSAGE": "Não foi possível atualizar o bot de agente, por favor tente novamente mais tarde",
+      "SELECT_PLACEHOLDER": "Selecionar Bot"
+    },
+    "ADD": {
+      "TITLE": "Configurar novo bot",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot adicionado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível adicionar o bot! Por favor, tente novamente mais tarde"
+      }
+    },
+    "LIST": {
+      "404": "Nenhum bot encontrado. Você pode criar um bot clicando no botão 'Configurar novo bot' ↗",
+      "LOADING": "Buscando Bots...",
+      "TYPE": "Tipo de Bot"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "TITLE": "Excluir Bot",
+      "SUBMIT": "Excluir",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "DESCRIPTION": "Tem certeza que deseja excluir este bot? Esta ação é irreversível",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot excluído com sucesso",
+        "ERROR_MESSAGE": "Não foi possível excluir o bot, por favor tente novamente mais tarde"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Alterar",
+      "LOADING": "Buscando Bots...",
+      "TITLE": "Editar Bot",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot atualizado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar o bot, por favor tente novamente mais tarde"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Bot",
+      "CSML": "CSML Bot"
+    }
+  }
+}

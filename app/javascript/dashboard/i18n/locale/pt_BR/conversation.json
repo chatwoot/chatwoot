@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendente",
       "RESOLVED": "Marcar como resolvido",
+      "MARK_AS_UNREAD": "Marcar como não lida",
       "REOPEN": "Reabrir conversa",
       "SNOOZE": {
         "TITLE": "Adiar",
@@ -150,7 +151,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
-      "DELETE": "Excluir"
+      "DELETE": "Excluir",
+      "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +209,8 @@
       "CONVERSATION_LABELS": "Marcador da conversa",
       "CONVERSATION_INFO": "Informação da conversa",
       "CONTACT_ATTRIBUTES": "Atributos do contato",
-      "PREVIOUS_CONVERSATION": "Conversas anteriores"
+      "PREVIOUS_CONVERSATION": "Conversas anteriores",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

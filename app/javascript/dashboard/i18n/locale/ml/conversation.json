@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "സംഭാഷണം വീണ്ടും തുറക്കുക",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -150,7 +151,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "പകർത്തുക",
-      "DELETE": "ഇല്ലാതാക്കുക"
+      "DELETE": "ഇല്ലാതാക്കുക",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +209,8 @@
       "CONVERSATION_LABELS": "സംഭാഷണ ലേബലുകൾ",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
+      "PREVIOUS_CONVERSATION": "മുമ്പത്തെ സംഭാഷണങ്ങൾ",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

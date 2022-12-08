@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Oznacz jako oczekujące",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Otwórz ponownie rozmowę",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -150,7 +151,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "Usuń"
+      "DELETE": "Usuń",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +209,8 @@
       "CONVERSATION_LABELS": "Etykiety rozmowy",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Poprzednie rozmowy"
+      "PREVIOUS_CONVERSATION": "Poprzednie rozmowy",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

@@ -158,6 +158,9 @@
       "DOWNLOAD": "ดาวโหลด",
       "UPLOADING": "กำลังอัปโหลด"
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "ส่ง"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "การสนทนา",
     "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
     "MENTIONED_CONVERSATIONS": "การกล่าวถึง",
+    "UNATTENDED_CONVERSATIONS": "ไม่ได้เข้าร่วม",
     "REPORTS": "รายงาน",
     "SETTINGS": "ตั้งค่า",
     "CONTACTS": "ผู้ติดต่อ",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "กล่องข้อความ",
     "NOTIFICATIONS": "การแจ้งเตือน",
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
@@ -189,6 +194,7 @@
     "LABELS": "ป้ายกำกับ",
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
     "AUTOMATION": "เงื่อนไขอัตโนมัติ",
+    "MACROS": "Macros",
     "TEAMS": "ทีม",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",

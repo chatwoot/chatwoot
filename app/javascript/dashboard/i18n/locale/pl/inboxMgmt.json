@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL webhooka",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Twoja skrzynka odbiorcza jest gotowa!",
-      "MESSAGE": "Teraz możesz współpracować ze swoimi klientami poprzez swój nowy kanał. Szczęśliwego wsparcia ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Zabierz mnie tam",
       "MORE_SETTINGS": "Więcej ustawień",
       "WEBSITE_SUCCESS": "Pomyślnie zakończyłeś tworzenie kanału internetowego. Skopiuj poniższy kod i wklej go na swojej stronie. Następnym razem, gdy klient korzysta z czatu na żywo, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej."
@@ -383,6 +385,10 @@
         "DISABLED": "Wyłączone"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Włączone",
         "DISABLED": "Wyłączone"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Kampania",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Godziny pracy",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Ustawienia",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Włącz/Wyłącz ankietę CSAT(Customer satisfraction) po rozwiązaniu rozmowy",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Włącz ciągłość rozmowy przez e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Rozmowy będą kontynuowane przez e-mail, jeśli adres e-mail kontaktu jest dostępny.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",

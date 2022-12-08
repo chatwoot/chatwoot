@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback-URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Skapa WhatsApp-kanal",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Din inkorg är redo!",
-      "MESSAGE": "Du kan nu interagera med dina kunder genom din nya kanal. Supporta glatt ",
+      "MESSAGE": "Du kan nu interagera med dina kunder genom din nya kanal. Supporta glatt",
       "BUTTON_TEXT": "Ta mig dit",
       "MORE_SETTINGS": "Fler inställningar",
       "WEBSITE_SUCCESS": "Du har skapat en webbplatskanal. Kopiera koden som visas nedan och klistra in den på din webbplats. Nästa gång en kund använder livechatten visas konversationen automatiskt i din inkorg."
@@ -383,6 +385,10 @@
         "DISABLED": "Inaktiverad"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Aktiverad",
+        "DISABLED": "Inaktiverad"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Aktiverad",
         "DISABLED": "Inaktiverad"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Kampanjer",
       "PRE_CHAT_FORM": "Förre chattformulär",
       "BUSINESS_HOURS": "Affärstimmar",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Inställningar",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Aktivera/inaktivera CSAT(kundnöjdhet) undersökning efter att ha löst ett samtal",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inkorgsinställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",

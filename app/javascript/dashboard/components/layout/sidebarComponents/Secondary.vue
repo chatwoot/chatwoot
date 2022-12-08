@@ -20,6 +20,8 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import SecondaryNavItem from './SecondaryNavItem.vue';
 import AccountContext from './AccountContext.vue';
+import { mapGetters } from 'vuex';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 export default {
   components: {
@@ -61,6 +63,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     hasSecondaryMenu() {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
     },
@@ -89,7 +94,7 @@ export default {
         icon: 'folder',
         label: 'INBOXES',
         hasSubMenu: true,
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.INBOX_MANAGEMENT),
         newLinkTag: 'NEW_INBOX',
         key: 'inbox',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes/new`),
@@ -117,7 +122,7 @@ export default {
         icon: 'number-symbol',
         label: 'LABELS',
         hasSubMenu: true,
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_LABEL',
         key: 'label',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
@@ -141,7 +146,7 @@ export default {
         label: 'TAGGED_WITH',
         hasSubMenu: true,
         key: 'label',
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_LABEL',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
@@ -163,7 +168,7 @@ export default {
         icon: 'people-team',
         label: 'TEAMS',
         hasSubMenu: true,
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_TEAM',
         key: 'team',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams/new`),
@@ -237,6 +242,9 @@ export default {
     },
     toggleAccountModal() {
       this.$emit('toggle-accounts');
+    },
+    showNewLink(featureFlag) {
+      return this.isFeatureEnabledonAccount(this.accountId, featureFlag);
     },
   },
 };

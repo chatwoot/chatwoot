@@ -121,5 +121,25 @@ export default {
         conversationType: 'mention',
       }),
     },
+
+    {
+      path: frontendURL('accounts/:accountId/unattended/conversations'),
+      name: 'conversation_unattended',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({ conversationType: 'unattended' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/unattended/conversations/:conversationId'
+      ),
+      name: 'conversation_through_unattended',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        conversationType: 'unattended',
+      }),
+    },
   ],
 };

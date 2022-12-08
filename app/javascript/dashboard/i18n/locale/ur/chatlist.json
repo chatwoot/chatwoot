@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "مکالمات",
     "MENTION_HEADING": "تذکرہ",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "لوگوں ، چیٹس یا محفوظ کردہ جوابات میں تلاش کریں.."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "اس ٹویٹ کا جواب دیں۔",
     "LINK_TO_STORY": "انسٹاگرام سٹوری پر جائیں۔",
     "SENT": "کامیابی سے بھیج دیا گیا۔",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "کوئی پیغامات نہیں۔",
     "NO_CONTENT": "کوئی مواد دستیاب نہیں ہے۔",
     "HIDE_QUOTED_TEXT": "اقتباس شدہ متن کو چھپائیں۔",

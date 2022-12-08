@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Heropen gesprek",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -150,7 +151,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiëren",
-      "DELETE": "Verwijderen"
+      "DELETE": "Verwijderen",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +209,8 @@
       "CONVERSATION_LABELS": "Labels voor gesprekken",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Vorige gesprekken"
+      "PREVIOUS_CONVERSATION": "Vorige gesprekken",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

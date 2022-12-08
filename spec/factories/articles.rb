@@ -3,7 +3,7 @@ FactoryBot.define do
     account_id { 1 }
     category_id { 1 }
     author_id { 1 }
-    title { Faker::Movie.title }
+    title { "#{Faker::Movie.title} #{SecureRandom.hex}" }
     content { 'MyText' }
     description { 'MyDescrption' }
     status { 1 }

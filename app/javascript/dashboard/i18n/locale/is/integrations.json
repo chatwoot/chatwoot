@@ -1,0 +1,135 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrations",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Hætta við",
+        "DESC": "Vefkróks (e. Webhook) viðburðir veita þér rauntíma upplýsingar um hvað er að gerast á Chatwoot reikningnum þínum. Vinsamlega sláðu inn gilda vefslóð til að stilla svarhringingu (e. callback).",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Example: https://example/api/webhook",
+          "ERROR": "Please enter a valid URL"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Create webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Configure",
+      "HEADER": "Webhook settings",
+      "HEADER_BTN_TXT": "Bæta við nýjum webhook",
+      "LOADING": "Fetching attached webhooks",
+      "SEARCH_404": "Það eru engin atriði sem passa við þessa fyrirspurn",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks eru HTTP svarhringingar sem hægt er að skilgreina fyrir hvern reikning. Þeir koma af stað af atburðum eins og sköpun skilaboða í Chatwoot. Þú getur búið til fleiri en einn webhook fyrir þennan reikning. <br /><br /> Til að búa til <b>webhook</b>, smelltu á hnappinn <b>Bæta við nýjum webhook</b>. Þú getur líka fjarlægt hvaða webhook sem fyrir er með því að smella á Eyða hnappinn.</p>",
+      "LIST": {
+        "404": "Það eru engir webhooks stilltir á þessum reikningi.",
+        "TITLE": "Manage webhooks",
+        "TABLE_HEADER": [
+          "Webhook endpoint",
+          "Aðgerðir"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Breyta",
+        "TITLE": "Edit webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook stillingar uppfærðar",
+          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Hætta við",
+        "TITLE": "Bæta við nýjum webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Eyða",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook deleted successfully",
+          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        },
+        "CONFIRM": {
+          "TITLE": "Staðfesta eyðingu",
+          "MESSAGE": "Ertu viss um að eyða webhook? (%{webhookURL})",
+          "YES": "Já, eyða",
+          "NO": "No, Keep it"
+        }
+      }
+    },
+    "SLACK": {
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot mun nú samstilla öll innkomin samtöl inn á <b><i>customer-conversations</i></b> á Slack vinnusvæðinu þínu.</p><p>Að svara samtalsþræði í <b><i>customer-conversations</i></b> Slack rás mun senda svar til viðskiptavinar í gegnum chatwoot.</p><p>Byrjaðu svörin með <b><i> note:</i></b> til að búa til einkaglósur í stað svara.</p><p>Ef svarandinn á Slack er með skráðann þjónustufulltrúa í chatwoot undir sama netfangi verða svörin tengd í samræmi við það.</p><p>Þegar svarandinn er ekki með tengdan þjónustufulltrúa verða svörin gerð úr spjallmanna prófílnum.</p>"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "API": {
+        "SUCCESS_MESSAGE": "Integration deleted successfully"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Dashboard Apps",
+      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "SIDEBAR_TXT": "<p><b>Mælaborðsforrit</b></p><p>Mælaborðsforrit gera fyrirtækjum kleift að innsteypa (e. embed) forrit inn í Chatwoot mælaborðið til að veita þjónustufulltrúum samhengi. Þessi eiginleiki gerir þér kleift að búa til forrit sjálfstætt og innsteypa það inn í mælaborðið til að veita notendaupplýsingar, pantanir þeirra eða fyrri greiðsluferla.</p><p>Þegar þú innsteypir forritið þitt með því að nota mælaborðið í Chatwoot mun forritið þitt fáðu samhengi samtalsins og sambandsins sem gluggaviðburð (e. window event). Settu upp hlustanda fyrir skilaboðaviðburðinn á síðunni þinni til að fá samhengið.</p><p>Til að bæta við nýju stjórnborðsforriti skaltu smella á hnappinn 'Bæta við nýju stjórnborðsforriti'.</p>",
+      "DESCRIPTION": "Mælaborðsforrit gera fyrirtækjum kleift að innsteypa (e. embed) forrit inn í mælaborðið til að veita þjónustufulltrúa samhengi. Þessi eiginleiki gerir þér kleift að búa til forrit sjálfstætt og innsteypa það inn til að veita notendaupplýsingar, pantanir þeirra eða fyrri greiðsluferil.",
+      "LIST": {
+        "404": "Engin mælaborðsforrit eru stillt á þessum reikningi ennþá",
+        "LOADING": "Fetching dashboard apps...",
+        "TABLE_HEADER": [
+          "Nafn",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Edit app",
+        "DELETE_TOOLTIP": "Delete app"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nafn",
+        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Sláðu inn slóð endapunkts þar sem appið þitt er hýst",
+        "URL_ERROR": "A valid URL is required"
+      },
+      "CREATE": {
+        "HEADER": "Add a new dashboard app",
+        "FORM_SUBMIT": "Submit",
+        "FORM_CANCEL": "Hætta við",
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "API_ERROR": "Ekki tókst að bæta við forriti. Vinsamlegast reyndu aftur síðar"
+      },
+      "UPDATE": {
+        "HEADER": "Edit dashboard app",
+        "FORM_SUBMIT": "Update",
+        "FORM_CANCEL": "Hætta við",
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "API_ERROR": "Ekki tókst að uppfæra forrit. Vinsamlegast reyndu aftur síðar"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_NO": "No, keep it",
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "Ertu viss um að eyða appinu - %{appName}?",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "API_ERROR": "Ekki tókst að eyða forriti. Vinsamlegast reyndu aftur síðar"
+      }
+    }
+  }
+}

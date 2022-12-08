@@ -40,6 +40,12 @@
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
+            <bubble-location
+              v-else-if="attachment.file_type === 'location'"
+              :latitude="attachment.coordinates_lat"
+              :longitude="attachment.coordinates_long"
+              :name="attachment.fallback_title"
+            />
             <bubble-file
               v-else
               :url="attachment.data_url"
@@ -53,10 +59,12 @@
           :story-sender="storySender"
           :story-id="storyId"
           :is-a-tweet="isATweet"
+          :is-a-whatsapp-channel="isAWhatsAppChannel"
           :has-instagram-story="hasInstagramStory"
           :is-email="isEmailContentType"
           :is-private="data.private"
           :message-type="data.message_type"
+          :message-status="status"
           :readable-time="readableTime"
           :source-id="data.source_id"
           :inbox-id="data.inbox_id"
@@ -100,10 +108,11 @@
         v-if="isBubble && !isMessageDeleted"
         :is-open="showContextMenu"
         :show-copy="hasText"
+        :show-canned-response-option="isOutgoing"
         :menu-position="contextMenuPosition"
+        :message-content="data.content"
         @toggle="handleContextMenuClick"
         @delete="handleDelete"
-        @copy="handleCopy"
       />
     </div>
   </li>
@@ -118,6 +127,7 @@ import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import BubbleVideo from './bubble/Video.vue';
 import BubbleActions from './bubble/Actions';
+import BubbleLocation from './bubble/Location';
 
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
@@ -126,7 +136,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
-import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
@@ -136,6 +145,7 @@ export default {
     BubbleFile,
     BubbleVideo,
     BubbleMailHead,
+    BubbleLocation,
     ContextMenu,
     Spinner,
   },
@@ -146,6 +156,10 @@ export default {
       required: true,
     },
     isATweet: {
+      type: Boolean,
+      default: false,
+    },
+    isAWhatsAppChannel: {
       type: Boolean,
       default: false,
     },
@@ -222,6 +236,9 @@ export default {
     },
     sender() {
       return this.data.sender || {};
+    },
+    status() {
+      return this.data.status;
     },
     storySender() {
       return this.contentAttributes.story_sender || null;
@@ -408,11 +425,6 @@ export default {
         this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
       }
     },
-    async handleCopy() {
-      await copyTextToClipboard(this.data.content);
-      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-      this.showContextMenu = false;
-    },
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
     },
@@ -425,6 +437,8 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
+    min-width: 128px;
+
     &.is-image,
     &.is-video {
       padding: 0;

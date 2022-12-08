@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "대화 필터링하기",
+    "SUBTITLE": "필터를 추가하고 \"필터 적용하기\"를 눌러 대화를 필터링하세요.",
+    "ADD_NEW_FILTER": "필터 추가하기",
+    "FILTER_DELETE_ERROR": "적어도 하나 이상의 필터가 있어야 저장됩니다.",
+    "SUBMIT_BUTTON_LABEL": "필터 적용하기",
     "CANCEL_BUTTON_LABEL": "취소",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "필터 제거하기",
+    "EMPTY_VALUE_ERROR": "값이 필요합니다.",
+    "TOOLTIP_LABEL": "대화 필터링하기",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "와/과",
+      "OR": "혹은"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "동일한",
+      "not_equal_to": "비동일한",
+      "contains": "포함된",
+      "does_not_contain": "포함되지 않은",
+      "is_present": "현존하는",
+      "is_not_present": "현존하지 않은",
+      "is_greater_than": "보다 큰",
+      "is_less_than": "보다 작은",
+      "days_before": "x 일 전에"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "참",
+      "FALSE": "거짓"
     },
     "ATTRIBUTES": {
       "STATUS": "상태",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "지정자 이름",
       "INBOX_NAME": "받은 메시지함 이름",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "팀 이름",
+      "CONVERSATION_IDENTIFIER": "대화 식별자",
+      "CAMPAIGN_NAME": "캠페인 이름",
       "LABELS": "라벨",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "BROWSER_LANGUAGE": "언어 표시",
+      "COUNTRY_NAME": "국가 이름",
+      "REFERER_LINK": "참고 링크",
+      "CUSTOM_ATTRIBUTE_LIST": "리스트",
+      "CUSTOM_ATTRIBUTE_TEXT": "텍스트",
+      "CUSTOM_ATTRIBUTE_NUMBER": "숫자",
+      "CUSTOM_ATTRIBUTE_LINK": "링크",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
+      "CREATED_AT": "에 만들어짐",
       "LAST_ACTIVITY": "지난 활동"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "기본 필터",
+      "ADDITIONAL_FILTERS": "추가 필터",
       "CUSTOM_ATTRIBUTES": "사용자 지정 특성"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "이 필터를 저장하시겠습니까?",
+        "LABEL": "필터 이름 지정하기",
+        "PLACEHOLDER": "필터에 이름을 지정해주세요",
+        "ERROR_MESSAGE": "이름이 필요합니다",
+        "SAVE_BUTTON": "필터 저장하기",
         "CANCEL_BUTTON": "취소",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "폴더가 성공적으로 생성됨",
+          "ERROR_MESSAGE": "폴더 생성 중 에러 발생"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "구획이 성공적으로 생성됨",
+          "ERROR_MESSAGE": "구획 생성 중 에러 발생"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "필터 삭제하기",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "삭제 확인",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Yes, Delete",
+            "MESSAGE": "정말로 이 필터를 삭제하고 싶으신가요? ",
+            "YES": "예, 삭제합니다",
             "NO": "아니요, 유지합니다."
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "폴더가 성공적으로 삭제됨.",
+          "ERROR_MESSAGE": "폴더 삭제 중 에러 발생"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "구획이 성공적으로 삭제됨",
+          "ERROR_MESSAGE": "구획 제거 중 에러 발생"
         }
       }
     }

@@ -1,3 +1,3 @@
 json.payload do
-  json.partial! 'api/v1/models/contact.json.jbuilder', resource: @contact, with_contact_inboxes: false
+  json.partial! 'api/v1/models/contact', formats: [:json], resource: @contact, with_contact_inboxes: false
 end

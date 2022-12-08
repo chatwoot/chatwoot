@@ -158,6 +158,9 @@
       "DOWNLOAD": "Download",
       "UPLOADING": "Качване..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Изпращане"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "Разговори",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Споменавания",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Контакти",
     "HOME": "Home",
     "AGENTS": "Агенти",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Готови отговори",
@@ -189,6 +194,7 @@
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Персонализирани атрибути",
     "AUTOMATION": "Автоматизация",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",

@@ -60,6 +60,7 @@
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
+        :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
@@ -67,6 +68,7 @@
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
+        @clear-selection="clearEditorSelection"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
@@ -109,10 +111,11 @@
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
       :is-on-private-note="isOnPrivateNote"
-      :is-format-mode="showRichContentEditor"
+      :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
+      @toggle-editor="toggleRichContentEditor"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -129,7 +132,6 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
@@ -159,6 +161,8 @@ import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
+
+const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   components: {
@@ -214,6 +218,7 @@ export default {
       ccEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
+      updateEditorSelectionWith: '',
     };
   },
   computed: {
@@ -228,6 +233,13 @@ export default {
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
+      }
+
+      if (this.isAPIInbox) {
+        const {
+          display_rich_content_editor: displayRichContentEditor = false,
+        } = this.uiSettings;
+        return displayRichContentEditor;
       }
 
       return false;
@@ -365,7 +377,7 @@ export default {
       );
     },
     isRichEditorEnabled() {
-      return this.isAWebWidgetInbox || this.isAnEmailChannel || this.isAPIInbox;
+      return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
     showAudioRecorder() {
       return !this.isOnPrivateNote && this.showFileUpload;
@@ -390,7 +402,7 @@ export default {
       return conversationDisplayType !== CONDENSED;
     },
     emojiDialogClassOnExpanedLayout() {
-      return this.isOnExpandedLayout && !this.popoutReplyBox
+      return this.isOnExpandedLayout || this.popoutReplyBox
         ? 'emoji-dialog--expanded'
         : '';
     },
@@ -442,8 +454,7 @@ export default {
       return this.currentChat.id;
     },
     conversationIdByRoute() {
-      const { conversation_id: conversationId } = this.$route.params;
-      return conversationId;
+      return this.conversationId;
     },
     editorStateId() {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
@@ -477,7 +488,7 @@ export default {
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
+        this.mentionSearchKey = updatedMessage.substring(1);
         this.showMentions = true;
       } else {
         this.mentionSearchKey = '';
@@ -511,6 +522,11 @@ export default {
     document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    toggleRichContentEditor() {
+      this.updateUISettings({
+        display_rich_content_editor: !this.showRichContentEditor,
+      });
+    },
     getSavedDraftMessages() {
       return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
     },
@@ -574,6 +590,7 @@ export default {
         e.preventDefault();
       } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
         this.onSendReply();
+        e.preventDefault();
       } else if (
         ['meta+enter', 'ctrl+enter'].includes(keyCode) &&
         this.isAValidEvent('cmd_enter')
@@ -695,8 +712,26 @@ export default {
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
+    clearEditorSelection() {
+      this.updateEditorSelectionWith = '';
+    },
+    insertEmoji(emoji, selectionStart, selectionEnd) {
+      const { message } = this;
+      const newMessage =
+        message.slice(0, selectionStart) +
+        emoji +
+        message.slice(selectionEnd, message.length);
+      this.message = newMessage;
+    },
     emojiOnClick(emoji) {
-      this.message = `${this.message}${emoji} `;
+      if (this.showRichContentEditor) {
+        this.updateEditorSelectionWith = emoji;
+        this.onFocus();
+      }
+      if (!this.showRichContentEditor) {
+        const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
+        this.insertEmoji(emoji, selectionStart, selectionEnd);
+      }
     },
     clearMessage() {
       this.message = '';
@@ -951,13 +986,13 @@ export default {
 
 .emoji-dialog {
   top: unset;
-  bottom: 12px;
+  bottom: var(--space-normal);
   left: -320px;
   right: unset;
 
   &::before {
-    right: -16px;
-    bottom: 10px;
+    right: var(--space-minus-normal);
+    bottom: var(--space-small);
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
@@ -970,8 +1005,8 @@ export default {
 
   &::before {
     transform: rotate(0deg);
-    left: var(--space-half);
-    bottom: var(--space-minus-slab);
+    left: var(--space-smaller);
+    bottom: var(--space-minus-small);
   }
 }
 .message-signature {

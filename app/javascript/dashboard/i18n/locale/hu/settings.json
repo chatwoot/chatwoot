@@ -158,6 +158,9 @@
       "DOWNLOAD": "Letöltés",
       "UPLOADING": "Feltöltés..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Elküldés"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "Beszélgetések",
     "ALL_CONVERSATIONS": "Beszélgetések",
     "MENTIONED_CONVERSATIONS": "Megemlítések",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Jelentések",
     "SETTINGS": "Beállítások",
     "CONTACTS": "Kontaktok",
     "HOME": "Nyitólap",
     "AGENTS": "Ügynökök",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Bejövők",
     "NOTIFICATIONS": "Értesítések",
     "CANNED_RESPONSES": "Mentett válaszok",
@@ -189,6 +194,7 @@
     "LABELS": "Cimkék",
     "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "Csapatok",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",

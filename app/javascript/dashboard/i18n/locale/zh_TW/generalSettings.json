@@ -23,7 +23,7 @@
         "ERROR": "請輸入有效的帳戶名稱"
       },
       "LANGUAGE": {
-        "LABEL": "網站語言(Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "您的帳戶名稱",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "按下 enter 以選擇",
       "ENTER_TO_REMOVE": "按下 enter 以移除",
-      "SELECT_ONE": "選擇其中一項"
+      "SELECT_ONE": "選擇其中一項",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

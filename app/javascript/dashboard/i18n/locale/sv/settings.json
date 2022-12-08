@@ -158,6 +158,9 @@
       "DOWNLOAD": "Hämta",
       "UPLOADING": "Laddar upp..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Skicka"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "Konversationer",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapporter",
     "SETTINGS": "Inställningar",
     "CONTACTS": "Kontakter",
     "HOME": "Hem",
     "AGENTS": "Agenter",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Inkorgar",
     "NOTIFICATIONS": "Aviseringar",
     "CANNED_RESPONSES": "Svarsmallar",
@@ -189,6 +194,7 @@
     "LABELS": "Etiketter",
     "CUSTOM_ATTRIBUTES": "Egna egenskaper",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",

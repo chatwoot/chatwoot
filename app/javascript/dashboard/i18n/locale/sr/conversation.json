@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označeno na čekanju",
       "RESOLVED": "Označi kao rešeno",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Ponovo otvori razgovor",
       "SNOOZE": {
         "TITLE": "Odloži",
@@ -150,7 +151,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiraj",
-      "DELETE": "Izbriši"
+      "DELETE": "Izbriši",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +209,8 @@
       "CONVERSATION_LABELS": "Oznake razgovora",
       "CONVERSATION_INFO": "Informacije o razgovoru",
       "CONTACT_ATTRIBUTES": "Atributi kontakta",
-      "PREVIOUS_CONVERSATION": "Prethodni razgovor"
+      "PREVIOUS_CONVERSATION": "Prethodni razgovor",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
