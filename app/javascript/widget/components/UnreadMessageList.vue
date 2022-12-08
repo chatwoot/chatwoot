@@ -28,12 +28,16 @@
         @click="openConversationView"
       >
         <span
-          class="flex items-center"
+          class="flex items-center unread-view-button"
           :style="{
             color: widgetColor,
           }"
         >
-          <fluent-icon class="mr-2" size="16" icon="arrow-right" />
+          <fluent-icon
+            class="mr-2 unread-arrow-view-button"
+            size="16"
+            icon="arrow-right"
+          />
           {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
         </span>
       </button>
@@ -140,6 +144,13 @@ export default {
 
     &:hover {
       color: $color-body;
+    }
+  }
+  .unread-view-button {
+    text-shadow: 0px 1px 5px rgb(0 0 0 / 16%);
+
+    .unread-arrow-view-button {
+      filter: drop-shadow(0px 1px 1px rgb(0 0 0 / 16%));
     }
   }
 }
