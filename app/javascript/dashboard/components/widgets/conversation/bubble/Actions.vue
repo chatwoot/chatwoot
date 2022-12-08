@@ -55,19 +55,6 @@
       />
     </button>
     <a
-      v-if="hasInstagramStory && (isIncoming || isOutgoing) && linkToStory"
-      :href="linkToStory"
-      target="_blank"
-      rel="noopener noreferrer nofollow"
-    >
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.LINK_TO_STORY')"
-        icon="open"
-        class="action--icon cursor-pointer"
-        size="16"
-      />
-    </a>
-    <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
       target="_blank"

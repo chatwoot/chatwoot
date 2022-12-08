@@ -70,12 +70,15 @@ class Attachment < ApplicationRecord
   private
 
   def file_metadata
-    {
+    metadata = {
       extension: extension,
       data_url: file_url,
       thumb_url: thumb_url,
       file_size: file.byte_size
     }
+
+    metadata[:data_url] = metadata[:thumb_url] = external_url if message.instagram_story_mention?
+    metadata
   end
 
   def location_metadata
