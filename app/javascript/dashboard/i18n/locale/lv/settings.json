@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Konta Nosaukums",
+        "LABEL": "Uzņēmuma Nosaukums",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Iesniegt"
