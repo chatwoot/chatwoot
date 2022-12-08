@@ -62,7 +62,6 @@
       :is-disabled="isSignupInProgress || !hasAValidCaptcha"
       :is-loading="isSignupInProgress"
       icon="arrow-chevron-right"
-      @click="submit"
     />
     <p v-dompurify-html="termsLink" class="accept--terms" />
   </form>
