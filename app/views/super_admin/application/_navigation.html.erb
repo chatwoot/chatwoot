@@ -50,6 +50,11 @@ as defined by the routes in the `admin/` namespace
       </li>
     <% end %>
 
+  <li class="navigation__link">
+      <i class="ion ion-medkit"></i>
+      <%= link_to "Instance Status", super_admin_instance_status_url %>
+    </li>
+
     <li class="navigation__link">
       <i class="ion ion ion-network"></i>
       <%= link_to "Sidekiq", sidekiq_web_url, { target: "_blank" } %>

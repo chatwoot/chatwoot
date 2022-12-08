@@ -1,0 +1,33 @@
+<% content_for(:title) do %>
+  Instance Status
+<% end %>
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title" id="page-title">
+    <%= content_for(:title) %>
+  </h1>
+</header>
+<section class="main-content__body">
+  <table>
+  <tr>
+    <th>Metric</th>
+    <th>Value</th>
+  </tr>
+  <tr>
+    <td>Chatwoot Version</td>
+    <td><%= @instance_version %></td>
+  </tr>
+  <tr>
+    <td>Git SHA</td>
+    <td><%= @instance_sha %></td>
+  </tr>
+  <tr>
+    <td>Postgres</td>
+    <td><%= @instance_postgres %></td>
+  </tr>
+  <tr>
+    <td>Redis</td>
+    <td><%= @instance_redis %></td>
+  </tr>
+</table>
+
+</section>

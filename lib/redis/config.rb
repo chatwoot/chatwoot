@@ -5,6 +5,10 @@ module Redis::Config
       config
     end
 
+    def current
+      @redis ||= Redis.new(config)
+    end
+
     def config
       @config ||= sentinel? ? sentinel_config : base_config
     end
