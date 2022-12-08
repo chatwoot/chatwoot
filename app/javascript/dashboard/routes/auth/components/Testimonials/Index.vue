@@ -69,10 +69,7 @@ export default {
 }
 
 .center--img {
-  align-items: center;
-  display: flex;
   height: 96%;
-  justify-content: center;
   left: 8%;
   position: absolute;
   top: 8%;
