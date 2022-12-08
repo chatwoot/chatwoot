@@ -78,6 +78,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::FacebookPage'
   end
 
+  def instagram?
+    facebook? && channel.instagram_id.present?
+  end
+
   def web_widget?
     channel_type == 'Channel::WebWidget'
   end
