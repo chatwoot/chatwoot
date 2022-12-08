@@ -65,8 +65,9 @@ class Message < ApplicationRecord
   # [:in_reply_to] : Used to reply to a particular tweet in threads
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
+  # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at, :story_sender, :story_id], coder: JSON
+                                         :external_created_at, :story_sender, :story_id, :external_error], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -106,8 +107,18 @@ class Message < ApplicationRecord
       conversation: { assignee_id: conversation.assignee_id }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
+    validate_instagram_story if instagram_story_mention?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  # TODO: We will be removing this code after instagram_manage_insights is implemented
+  # Better logic is to listen to webhook and remove stories proactively rather than trying
+  # a fetch every time a message is returned
+  def validate_instagram_story
+    inbox.channel.fetch_instagram_story_link(self)
+    # we want to reload the message in case the story has expired and data got removed
+    reload
   end
 
   def merge_sender_attributes(data)

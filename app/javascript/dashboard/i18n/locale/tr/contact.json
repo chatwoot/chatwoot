@@ -160,7 +160,7 @@
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Çatı başla",
+    "BUTTON_LABEL": "Görüşmeyi Başlatın",
     "TITLE": "Yeni görüşme",
     "DESC": "Mesaj göndererek yeni bir görüşme başlatın.",
     "NO_INBOX": "Bu kişiyle yeni bir görüşme başlatılamadı.",
