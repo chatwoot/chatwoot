@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "கணக்கின் பெயர்",
+        "LABEL": "Company Name",
         "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்"
       },
       "SUBMIT": "சமர்பிக்கவும்"
