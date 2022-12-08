@@ -1,277 +1,133 @@
 <template>
-  <div class="medium-10 column signup">
-    <div class="text-center medium-12 signup--hero">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="hero--logo"
-      />
-      <h2 class="hero--title">
-        {{ $t('REGISTER.TRY_WOOT') }}
-      </h2>
-    </div>
-    <div class="row align-center">
-      <div class="small-12 medium-6 large-5 column">
-        <form class="signup--box login-box" @submit.prevent="submit">
-          <woot-input
-            v-model="credentials.fullName"
-            :class="{ error: $v.credentials.fullName.$error }"
-            :label="$t('REGISTER.FULL_NAME.LABEL')"
-            :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
-            :error="
-              $v.credentials.fullName.$error
-                ? $t('REGISTER.FULL_NAME.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.fullName.$touch"
-          />
-          <woot-input
-            v-model.trim="credentials.email"
-            type="email"
-            :class="{ error: $v.credentials.email.$error }"
-            :label="$t('REGISTER.EMAIL.LABEL')"
-            :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
-            :error="
-              $v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''
-            "
-            @blur="$v.credentials.email.$touch"
-          />
-          <woot-input
-            v-model="credentials.accountName"
-            :class="{ error: $v.credentials.accountName.$error }"
-            :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
-            :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
-            :error="
-              $v.credentials.accountName.$error
-                ? $t('REGISTER.ACCOUNT_NAME.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.accountName.$touch"
-          />
-          <woot-input
-            v-model.trim="credentials.password"
-            type="password"
-            :class="{ error: $v.credentials.password.$error }"
-            :label="$t('LOGIN.PASSWORD.LABEL')"
-            :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-            :error="passwordErrorText"
-            @blur="$v.credentials.password.$touch"
-          />
-          <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
-            <vue-hcaptcha
-              ref="hCaptcha"
-              :class="{ error: !hasAValidCaptcha && didCaptchaReset }"
-              :sitekey="globalConfig.hCaptchaSiteKey"
-              @verify="onRecaptchaVerified"
+  <div class="h-full w-full">
+    <div v-show="!isLoading" class="row h-full">
+      <div
+        :class="
+          `${showTestimonials ? 'large-6' : 'large-12'} signup-form--container`
+        "
+      >
+        <div class="signup-form--content">
+          <div class="signup--hero">
+            <img
+              :src="globalConfig.logo"
+              :alt="globalConfig.installationName"
+              class="hero--logo"
             />
-            <span
-              v-if="!hasAValidCaptcha && didCaptchaReset"
-              class="captcha-error"
-            >
-              {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
-            </span>
+            <h2 class="hero--title">
+              {{ $t('REGISTER.TRY_WOOT') }}
+            </h2>
           </div>
-          <woot-submit-button
-            :disabled="isSignupInProgress || !hasAValidCaptcha"
-            :button-text="$t('REGISTER.SUBMIT')"
-            :loading="isSignupInProgress"
-            button-class="large expanded"
-          />
-          <p v-dompurify-html="termsLink" class="accept--terms" />
-        </form>
-        <div class="column text-center sigin--footer">
-          <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-          <router-link to="/app/login">
-            {{
-              useInstallationName(
-                $t('LOGIN.TITLE'),
-                globalConfig.installationName
-              )
-            }}
-          </router-link>
+          <signup-form />
+          <div class="auth-screen--footer">
+            <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
+            <router-link to="/app/login">
+              {{
+                useInstallationName(
+                  $t('LOGIN.TITLE'),
+                  globalConfig.installationName
+                )
+              }}
+            </router-link>
+          </div>
         </div>
       </div>
+      <testimonials
+        v-if="isAChatwootInstance"
+        class="medium-6 testimonial--container"
+        @resize-containers="resizeContainers"
+      />
+    </div>
+    <div v-show="isLoading" class="spinner--container">
+      <spinner size="" />
     </div>
   </div>
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
-import Auth from '../../api/auth';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import alertMixin from 'shared/mixins/alertMixin';
-import { DEFAULT_REDIRECT_URL } from '../../constants';
-import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
-import { isValidPassword } from 'shared/helpers/Validators';
+import SignupForm from './components/Signup/Form.vue';
+import Testimonials from './components/Testimonials/Index.vue';
+import Spinner from 'shared/components/Spinner.vue';
+
 export default {
   components: {
-    VueHcaptcha,
+    SignupForm,
+    Spinner,
+    Testimonials,
   },
-  mixins: [globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
   data() {
-    return {
-      credentials: {
-        accountName: '',
-        fullName: '',
-        email: '',
-        password: '',
-        hCaptchaClientResponse: '',
-      },
-      didCaptchaReset: false,
-      isSignupInProgress: false,
-      error: '',
-    };
-  },
-  validations: {
-    credentials: {
-      accountName: {
-        required,
-        minLength: minLength(2),
-      },
-      fullName: {
-        required,
-        minLength: minLength(2),
-      },
-      email: {
-        required,
-        email,
-      },
-      password: {
-        required,
-        isValidPassword,
-        minLength: minLength(6),
-      },
-    },
+    return { showTestimonials: false, isLoading: false };
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    termsLink() {
-      return this.$t('REGISTER.TERMS_ACCEPT')
-        .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
-        .replace(
-          'https://www.chatwoot.com/privacy-policy',
-          this.globalConfig.privacyURL
-        );
-    },
-    hasAValidCaptcha() {
-      if (this.globalConfig.hCaptchaSiteKey) {
-        return !!this.credentials.hCaptchaClientResponse;
-      }
-      return true;
-    },
-    passwordErrorText() {
-      const { password } = this.$v.credentials;
-      if (!password.$error) {
-        return '';
-      }
-      if (!password.minLength) {
-        return this.$t('REGISTER.PASSWORD.ERROR');
-      }
-      if (!password.isValidPassword) {
-        return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
-      }
-      return '';
+    isAChatwootInstance() {
+      return this.globalConfig.installationName === 'Chatwoot';
     },
   },
+  beforeMount() {
+    this.isLoading = this.isAChatwootInstance;
+  },
   methods: {
-    async submit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.resetCaptcha();
-        return;
-      }
-      this.isSignupInProgress = true;
-      try {
-        const response = await Auth.register(this.credentials);
-        if (response.status === 200) {
-          window.location = DEFAULT_REDIRECT_URL;
-        }
-      } catch (error) {
-        let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
-        if (error.response && error.response.data.message) {
-          this.resetCaptcha();
-          errorMessage = error.response.data.message;
-        }
-        this.showAlert(errorMessage);
-      } finally {
-        this.isSignupInProgress = false;
-      }
-    },
-    onRecaptchaVerified(token) {
-      this.credentials.hCaptchaClientResponse = token;
-      this.didCaptchaReset = false;
-    },
-    resetCaptcha() {
-      if (!this.globalConfig.hCaptchaSiteKey) {
-        return;
-      }
-      this.$refs.hCaptcha.reset();
-      this.credentials.hCaptchaClientResponse = '';
-      this.didCaptchaReset = true;
+    resizeContainers(hasTestimonials) {
+      this.showTestimonials = hasTestimonials;
+      this.isLoading = false;
     },
   },
 };
 </script>
 <style scoped lang="scss">
-.signup {
-  .signup--hero {
-    margin-bottom: var(--space-larger);
+.signup-form--container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 640px;
+  overflow: auto;
+  justify-content: center;
+}
 
-    .hero--logo {
-      width: 180px;
-    }
+.signup-form--content {
+  padding: var(--space-jumbo);
+  max-width: 600px;
+  width: 100%;
+}
 
-    .hero--title {
-      margin-top: var(--space-large);
-      font-weight: var(--font-weight-light);
-    }
+.signup--hero {
+  margin-bottom: var(--space-normal);
+
+  .hero--logo {
+    width: 160px;
   }
 
-  .signup--box {
-    padding: var(--space-large);
-
-    label {
-      font-size: var(--font-size-default);
-      color: var(--b-600);
-
-      input {
-        padding: var(--space-slab);
-        height: var(--space-larger);
-        font-size: var(--font-size-default);
-      }
-    }
+  .hero--title {
+    margin-top: var(--space-medium);
+    font-weight: var(--font-weight-light);
   }
+}
 
-  .sigin--footer {
-    padding: var(--space-medium);
-    font-size: var(--font-size-default);
+.auth-screen--footer {
+  font-size: var(--font-size-small);
+}
 
-    > a {
-      font-weight: var(--font-weight-bold);
-    }
+@media screen and (max-width: 1200px) {
+  .testimonial--container {
+    display: none;
   }
-
-  .accept--terms {
-    font-size: var(--font-size-small);
-    text-align: center;
-    margin: var(--space-normal) 0 0 0;
+  .signup-form--container {
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
   }
-
-  .h-captcha--box {
-    margin-bottom: var(--space-one);
-
-    .captcha-error {
-      color: var(--r-400);
-      font-size: var(--font-size-small);
-    }
-
-    &::v-deep .error {
-      iframe {
-        border: 1px solid var(--r-500);
-        border-radius: var(--border-radius-normal);
-      }
-    }
+  .signup-form--content {
+    margin: 0 auto;
   }
+}
+
+.spinner--container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 </style>
