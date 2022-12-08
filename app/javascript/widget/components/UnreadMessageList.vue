@@ -34,7 +34,7 @@
           }"
         >
           <fluent-icon
-            class="mr-2 unread-arrow-view-button"
+            class="mr-2 unread-view-button"
             size="16"
             icon="arrow-right"
           />
@@ -147,11 +147,7 @@ export default {
     }
   }
   .unread-view-button {
-    text-shadow: 0px 1px 5px rgb(0 0 0 / 16%);
-
-    .unread-arrow-view-button {
-      filter: drop-shadow(0px 1px 1px rgb(0 0 0 / 16%));
-    }
+    filter: drop-shadow(0px 0px 0.8px rgb(0 0 0 / 16%));
   }
 }
 </style>
