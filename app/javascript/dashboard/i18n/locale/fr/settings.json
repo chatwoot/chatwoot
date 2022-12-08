@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nom du compte",
+        "LABEL": "Nom de la société",
         "PLACEHOLDER": "Entreprises Wayne"
       },
       "SUBMIT": "Envoyer"
