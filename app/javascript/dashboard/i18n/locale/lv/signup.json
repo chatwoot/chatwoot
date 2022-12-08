@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Reģistrēt kontu",
     "TITLE": "Reģistrēt",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Reģistrējoties Jūs piekrītat mūsu <a href=\"https://www.chatwoot.com/terms\">T & C</a> un <a href=\"https://www.chatwoot.com/privacy-policy\">Konfidencialitātes Politikai</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Konta nosaukums",
-      "PLACEHOLDER": "Ievadiet konta nosaukumu. Piemēram: Wayne Enterprises",
-      "ERROR": "Konta nosaukums ir pārāk īss"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Pilnais vārds",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Darba e-pasts",
       "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram: bruce@wayne.enterprises",
-      "ERROR": "E-pasta adrese nav derīga"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Parole",
