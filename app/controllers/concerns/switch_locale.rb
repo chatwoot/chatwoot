@@ -3,7 +3,7 @@ module SwitchLocale
 
   private
 
-  def switch_locale(&action)
+  def switch_locale(&)
     # priority is for locale set in query string (mostly for widget/from js sdk)
     locale ||= locale_from_params
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
