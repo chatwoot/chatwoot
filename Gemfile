@@ -135,6 +135,11 @@ gem 'stripe'
 ## to populate db with sample data
 gem 'faker'
 
+# Can remove this in rails 7
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -186,5 +191,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem "net-smtp", "~> 0.3.2"

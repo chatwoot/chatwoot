@@ -86,6 +86,10 @@ Style/ClassAndModuleChildren:
     - 'config/application.rb'
 Style/MapToHash:
   Enabled: false
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: no_mixed_keys
+  EnforcedShorthandSyntax: never
 RSpec/NestedGroups:
   Enabled: true
   Max: 4
