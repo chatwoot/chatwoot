@@ -73,6 +73,10 @@
       "FIELD": "Nederīgs lauks"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Novērtējiet Jūsu sarunu",
     "SUBMITTED_TITLE": "Paldies, ka iesniedzāt novērtējumu",
