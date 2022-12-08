@@ -1,12 +1,19 @@
 import Auth from './Auth';
 import Confirmation from './Confirmation';
-import Signup from './Signup';
 import PasswordEdit from './PasswordEdit';
 import ResetPassword from './ResetPassword';
 import { frontendURL } from '../../helper/URLHelper';
 
+const Signup = () => import('./Signup');
+
 export default {
   routes: [
+    {
+      path: frontendURL('auth/signup'),
+      name: 'auth_signup',
+      component: Signup,
+      meta: { requireSignupEnabled: true },
+    },
     {
       path: frontendURL('auth'),
       name: 'auth',
@@ -31,12 +38,6 @@ export default {
             resetPasswordToken: route.query.reset_password_token,
             redirectUrl: route.query.route_url,
           }),
-        },
-        {
-          path: 'signup',
-          name: 'auth_signup',
-          component: Signup,
-          meta: { requireSignupEnabled: true },
         },
         {
           path: 'reset/password',
