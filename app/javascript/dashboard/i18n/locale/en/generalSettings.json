@@ -97,6 +97,7 @@
     "SEARCH_PLACEHOLDER": "Search or jump to",
     "SECTIONS": {
       "GENERAL": "General",
+      "CHATWOOT": "Search Chatwoot",
       "REPORTS": "Reports",
       "CONVERSATION": "Conversation",
       "CHANGE_ASSIGNEE": "Change Assignee",
@@ -107,6 +108,7 @@
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "SEARCH_EVEYTHING": "Search everything",
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
       "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
       "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",

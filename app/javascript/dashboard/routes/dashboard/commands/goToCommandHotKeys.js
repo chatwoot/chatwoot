@@ -21,6 +21,14 @@ import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const GO_TO_COMMANDS = [
   {
+    id: 'search_everything',
+    title: 'COMMAND_BAR.COMMANDS.SEARCH_EVEYTHING',
+    section: 'COMMAND_BAR.SECTIONS.CHATWOOT',
+    icon: ICON_CONVERSATION_DASHBOARD,
+    children: ['Light Theme', 'Dark Theme', 'System Theme'],
+    role: ['agent'],
+  },
+  {
     id: 'goto_conversation_dashboard',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CONVERSATION_DASHBOARD',
     section: 'COMMAND_BAR.SECTIONS.GENERAL',
@@ -180,18 +188,28 @@ export default {
         }
         return true;
       });
-
       if (!this.isAdmin) {
         commands = commands.filter(command => command.role.includes('agent'));
       }
-
-      return commands.map(command => ({
-        id: command.id,
-        section: this.$t(command.section),
-        title: this.$t(command.title),
-        icon: command.icon,
-        handler: () => this.openRoute(command.path(this.accountId)),
-      }));
+      return commands.map(command => {
+        return {
+          id: command.id,
+          section: this.$t(command.section),
+          title: this.$t(command.title),
+          icon: command.icon,
+          children: command.children,
+          handler: () => {
+            if (command.children) {
+              // const ninja = this.$refs.ninjakeys;
+              const ninja = document.querySelector('ninja-keys');
+              ninja.open({ parent: command.id });
+              return { keepOpen: true };
+            } else {
+              this.openRoute(command.path(this.accountId));
+            }
+          },
+        };
+      });
     },
   },
   methods: {

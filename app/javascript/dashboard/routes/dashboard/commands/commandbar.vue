@@ -6,6 +6,7 @@
     hideBreadcrumbs
     :placeholder="placeholder"
     @selected="setCommandbarData"
+    @change="onChange"
   />
 </template>
 
@@ -55,6 +56,9 @@ export default {
   methods: {
     setCommandbarData() {
       this.$refs.ninjakeys.data = this.hotKeys;
+    },
+    onChange(ninjaKeyInstance) {
+      // console.log(ninjaKeyInstance);
     },
   },
 };
