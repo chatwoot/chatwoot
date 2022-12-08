@@ -73,6 +73,10 @@
       "FIELD": "Невірно заповнене поле"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Оцініть вашу бесіду",
     "SUBMITTED_TITLE": "Дякуємо за оцінку",
