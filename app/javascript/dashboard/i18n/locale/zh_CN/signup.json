@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "注册帐户",
     "TITLE": "注册",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "通过注册，您同意我们的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 和 <a href=\"https://www.chatwoot.com/privacy-policy\">隐私政策</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "帐户名称",
-      "PLACEHOLDER": "输入帐户名称，例如 Wayne Enterprises",
-      "ERROR": "帐号名称太短了"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "名字",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "工作邮箱",
       "PLACEHOLDER": "请输入您的工作电子邮件地址，例如 bruce@wayne.enterprises",
-      "ERROR": "电子邮件地址无效"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "密码",
