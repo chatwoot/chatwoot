@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Назва облікового запису",
+        "LABEL": "Назва компанії",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Додати"
