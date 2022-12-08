@@ -73,6 +73,10 @@
       "FIELD": "Ogiltigt fält"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Betygsätt din konversation",
     "SUBMITTED_TITLE": "Tack för att du lämnat in omdömet",
