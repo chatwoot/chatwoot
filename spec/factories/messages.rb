@@ -8,34 +8,18 @@ FactoryBot.define do
     content_type { 'text' }
     account { create(:account) }
 
+    trait :instagram_story_mention do 
+      content_attributes { { image_type: 'story_mention' } }
+      after(:build) do |message|
+        message.inbox = create(:inbox, account: message.account, channel: create(:channel_instagram_fb_page, account: message.account, instagram_id: 'instagram-123')) unless message.inbox.instagram?
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image, external_url: 'https://www.example.com/test.jpeg')
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+    end
+
     after(:build) do |message|
-      # Setting callbacks again if the instgram_message factory works first then specs related to this factory breaks
-      message.class.set_callback(:commit, :after, :execute_after_create_commit_callbacks)
-      message.class.set_callback(:create, :after)
-      message.class.set_callback(:commit, :after, :dispatch_update_event)
       message.sender ||= message.outgoing? ? create(:user, account: message.account) : create(:contact, account: message.account)
       message.inbox ||= message.conversation&.inbox || create(:inbox, account: message.account)
-      message.conversation ||= create(:conversation, account: message.account, inbox: message.inbox)
-    end
-  end
-
-  factory :instagram_message, class: 'Message' do
-    content { 'Incoming Message' }
-    status { 'sent' }
-    message_type { 'incoming' }
-    content_type { 'text' }
-    account { create(:account) }
-    source_id { 'instagram-message-id-1234' }
-
-    after(:build) do |message|
-      # Skipping callbacks not to send extra stub request for FB subscription and message creation send_webhook_event
-      # We are testing the subscription part and send_webhook_event in instagram_event_job spec
-      message.class.skip_callback(:commit, :after, :execute_after_create_commit_callbacks)
-      message.class.skip_callback(:create, :after)
-      message.class.skip_callback(:commit, :after, :dispatch_update_event)
-      channel ||= create(:channel_instagram_fb_page, account: message.account, instagram_id: 'instagram-message-id-1234')
-      message.sender ||= message.outgoing? ? create(:user, account: message.account) : create(:contact, account: message.account)
-      message.inbox ||=  create(:inbox, account: message.account, channel: channel)
       message.conversation ||= create(:conversation, account: message.account, inbox: message.inbox)
     end
   end

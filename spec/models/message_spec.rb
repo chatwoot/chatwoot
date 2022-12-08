@@ -182,46 +182,31 @@ RSpec.describe Message, type: :model do
   end
 
   context 'when facebook channel with unavailable story link' do
-    before do
-      stub_request(:post, /graph.facebook.com/)
-      stub_request(:get, /graph.facebook.com/).with(
-        headers: {
-          'Accept' => '*/*',
-          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent' => 'Faraday v1.10.0'
-        }
-      ).to_return(status: 200, body: '', headers: {})
-
-      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
-      allow(fb_object).to receive(:get_object).with('instagram-message-id-1234', hash_including(fields: 'story')).and_return(
-        return_object.with_indifferent_access, {
-          story: { mention: { link: 'https://www.example.com/test.jpeg' } }, id: 'instagram-message-id-1234'
-        }.with_indifferent_access
-      )
-    end
-
-    let(:fb_object) { double }
-    let(:message) { create(:instagram_message, content_attributes: { image_type: 'story_mention' }) }
-    let(:return_object) { { id: 'Sender-id-1', account_id: message.account.id } }
-    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image, external_url: 'https://www.example.com/test.jpeg') }
-
-    it 'deletes the attachment for unavailable story' do
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
-      attachment.save
-
-      expect(message.attachments.count).to be 1
-
-      allow(fb_object).to receive(:get_object).and_return({
-        story: { mention: { link: '', id: '17920786367196703' } },
+    let(:instagram_message) {create(:message, :instagram_story_mention) }
+    before do 
+      # stubbing the request to facebook api during the message creation
+      stub_request(:get, /https:\/\/graph.facebook.com\/.*/).to_return(status: 200, body: {
+        story: { mention: { link: 'http://graph.facebook.com/test-story-mention', id: '17920786367196703' } },
         from: { username: 'Sender-id-1', id: 'Sender-id-1' },
         id: 'instagram-message-id-1234'
-      }.with_indifferent_access)
+      }.to_json, headers: {})
+    end
 
-      expect(attachment.push_event_data[:data_url]).to eq(attachment.external_url)
+    it 'deletes the attachment for deleted stories' do
+      expect(instagram_message.attachments.count).to eq 1
+      stub_request(:get, /https:\/\/graph.facebook.com\/.*/).to_return(status: 404)
+      instagram_message.push_event_data
+      expect(instagram_message.reload.attachments.count).to eq 0
+    end
 
-      message.push_event_data
-
-      expect(message.reload.attachments.count).to be 0
+    it 'deletes the attachment for expired stories' do
+      expect(instagram_message.attachments.count).to eq 1
+      # for expired stories, the link will be empty
+      stub_request(:get, /https:\/\/graph.facebook.com\/.*/).to_return(status: 200, body: {
+        story: { mention: { link: '', id: '17920786367196703' } },
+      }.to_json, headers: {})
+      instagram_message.push_event_data
+      expect(instagram_message.reload.attachments.count).to eq 0
     end
   end
 end
