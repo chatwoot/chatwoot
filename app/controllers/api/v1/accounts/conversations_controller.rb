@@ -11,6 +11,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversations_count = result[:count]
   end
 
+  def text_search
+    @result = conversation_finder.search
+  end
+
   def meta
     result = conversation_finder.perform
     @conversations_count = result[:count]

@@ -39,7 +39,7 @@ module MultiSearchableHelpers
   end
 
   def contacts_pg_search_records
-    contacts_pg_search_records ||= PgSearch::Document.where(
+    PgSearch::Document.where(
       searchable_type: 'Contact',
       searchable_id: contact_id,
       account_id: account_id
