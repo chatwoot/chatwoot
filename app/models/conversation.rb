@@ -99,7 +99,7 @@ class Conversation < ApplicationRecord
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
-  after_create :update_contact_search_document
+  after_create_commit :update_contact_search_document, if: :contact_id?
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
