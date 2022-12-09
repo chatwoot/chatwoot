@@ -6,5 +6,9 @@ FactoryBot.define do
     user_access_token { SecureRandom.uuid }
     page_id { SecureRandom.uuid }
     account
+
+    before :create do |_channel|
+      WebMock::API.stub_request(:post, 'https://graph.facebook.com/v3.2/me/subscribed_apps')
+    end
   end
 end
