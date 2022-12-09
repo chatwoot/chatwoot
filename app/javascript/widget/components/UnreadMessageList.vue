@@ -150,7 +150,7 @@ export default {
     }
   }
   .is-background-light {
-    filter: drop-shadow(-1px 1px 4px rgb(0 0 0 / 64%));
+    color: $color-body !important;
   }
 }
 </style>
