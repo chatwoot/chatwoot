@@ -2,8 +2,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
   include DateRangeHelper
 
-  before_action :conversation, except: [:index, :meta, :search, :create, :filter]
-  before_action :inbox, :contact, :contact_inbox, only: [:create]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :text_search]
+  before_action :inbox, :contact, :contact_inbox, :text_search, only: [:create]
 
   def index
     result = conversation_finder.perform
@@ -12,7 +12,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def text_search
-    @result = conversation_finder.search
+    @result = conversation_finder.text_search
   end
 
   def meta
