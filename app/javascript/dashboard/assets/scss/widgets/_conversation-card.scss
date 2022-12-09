@@ -7,8 +7,7 @@
   }
 
   50% {
-    box-shadow: var(--shadow-small);
-    transform: translateX(2px);
+    transform: translateX(-1px);
     opacity: .8;
   }
 }
@@ -22,7 +21,8 @@
   position: relative;
 
   &.active {
-    animation: left-shift-animation 0.3s ease-in-out;
+    animation: left-shift-animation 0.3s linear;
+    box-shadow: var(--shadow-small);
 
     +.conversation::after {
       border-top-color: transparent;

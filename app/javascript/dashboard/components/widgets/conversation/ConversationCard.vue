@@ -429,7 +429,7 @@ export default {
   display: flex;
   position: relative;
   border-radius: var(--border-radius-medium);
-  margin: 0 var(--space-small);
+  margin: var(--space-smaller) var(--space-small) 0;
   padding: var(--space-small);
   cursor: pointer;
   position: relative;
@@ -438,7 +438,7 @@ export default {
   &::after {
     content: '';
     right: 0;
-    top: -3px;
+    top: -5px;
     width: calc(100% - 40px);
     position: absolute;
     border-top: 1px solid var(--s-50);
@@ -446,6 +446,9 @@ export default {
 
   &:hover {
     background: var(--s-25);
+    &::after {
+      border-top-color: transparent;
+    }
   }
 
   &.active {
