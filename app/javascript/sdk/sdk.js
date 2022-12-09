@@ -99,7 +99,6 @@ export const SDK_CSS = `
   align-items: center;
   color: #fff;
   display: flex;
-  filter: drop-shadow(0px 0px 0.8px rgb(0 0 0 / 16%));
   font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, sans-serif;
   font-size: 16px;
   font-weight: 500;
@@ -108,8 +107,11 @@ export const SDK_CSS = `
   width: auto !important;
 }
 
+.woot-widget-bubble.woot-widget--expanded.woot-widget-bubble-color--lighter div{
+  color: 	#595959;
+}
+
 .woot-widget-bubble.woot-widget--expanded img {
-  filter: drop-shadow(0px 0px 0.8px rgb(0 0 0 / 16%));
   height: 20px;
   margin: 14px 8px 14px 16px;
   width: 20px;
@@ -130,10 +132,13 @@ export const SDK_CSS = `
 
 .woot-widget-bubble img {
   all: revert;
-  filter: drop-shadow(0px 0px 0.8px rgb(0 0 0 / 16%));
   height: 24px;
   margin: 20px;
   width: 24px;
+}
+
+.woot-widget-bubble.woot-widget-bubble-color--lighter img{
+  filter: brightness(0.5);
 }
 
 @media only screen and (min-width: 667px) {
@@ -160,14 +165,16 @@ export const SDK_CSS = `
   width: 2px;
 }
 
+.woot-widget-bubble-color--lighter.woot--close::before, .woot-widget-bubble-color--lighter.woot--close::after {
+  background-color: #808080;
+}
+
 .woot--close::before {
   transform: rotate(45deg);
-  filter: drop-shadow(0px 0px 0.8px rgb(0 0 0 / 16%));
 }
 
 .woot--close::after {
   transform: rotate(-45deg);
-  filter: drop-shadow(0px 0px 0.8px rgb(0 0 0 / 16%));
 }
 
 .woot--hide {
