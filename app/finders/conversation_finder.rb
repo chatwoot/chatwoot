@@ -44,6 +44,14 @@ class ConversationFinder
     }
   end
 
+  def text_search
+    {
+      messages: filter_messages,
+      conversations: filter_conversations,
+      contacts: filter_contacts
+    }
+  end
+
   private
 
   def set_up
@@ -103,12 +111,12 @@ class ConversationFinder
     @conversations
   end
 
-  def search
-    {
-      messages: filter_messages,
-      conversations: filter_conversations,
-      contacts: filter_contacts
-    }
+  def filter_by_query
+    allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
+    @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types }).includes(:messages)
+                                  .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types })
   end
 
   def filter_by_query
