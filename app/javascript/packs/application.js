@@ -1,8 +1,3 @@
-/* eslint no-console: 0 */
-/* eslint-env browser */
-/* eslint-disable no-new */
-/* Vue Core */
-
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
@@ -32,7 +27,6 @@ import constants from '../dashboard/constants';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
-import posthog from 'posthog-js';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -40,6 +34,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import AnalyticsHelper from '../dashboard/helper/AnalyticsHelper';
 
 Vue.config.env = process.env;
 
@@ -48,12 +43,6 @@ if (window.errorLoggingConfig) {
     Vue,
     dsn: window.errorLoggingConfig,
     integrations: [new Integrations.BrowserTracing()],
-  });
-}
-
-if (window.analyticsConfig) {
-  posthog.init(window.analyticsConfig.token, {
-    api_host: window.analyticsConfig.host,
   });
 }
 
@@ -90,6 +79,7 @@ window.WootConstants = constants;
 window.axios = createAxios(axios);
 window.bus = new Vue();
 initializeChatwootEvents();
+AnalyticsHelper.init();
 initializeAnalyticsEvents();
 initalizeRouter();
 
