@@ -72,6 +72,9 @@ import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import AnalyticsHelper, {
+  ANALYTICS_EVENTS,
+} from '../../../helper/AnalyticsHelper';
 
 export default {
   components: {
@@ -127,6 +130,7 @@ export default {
       this.$emit('toggle', false);
     },
     showCannedResponseModal() {
+      AnalyticsHelper.track(ANALYTICS_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
     },
   },
