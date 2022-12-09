@@ -71,6 +71,7 @@ Rails.application.routes.draw do
               get :meta
               get :search
               post :filter
+              get :text_search
             end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy]
