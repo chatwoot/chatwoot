@@ -155,12 +155,21 @@ $default-button-height: 4.0rem;
   // Sizes
   &.tiny {
     height: var(--space-medium);
+    letter-spacing: 0.15px;
+
+    .icon+.button__content {
+      padding-left: var(--space-micro);
+    }
   }
 
   &.small {
     height: var(--space-large);
     padding-bottom: var(--space-smaller);
     padding-top: var(--space-smaller);
+
+    .icon+.button__content {
+      padding-left: var(--space-smaller);
+    }
   }
 
   &.large {

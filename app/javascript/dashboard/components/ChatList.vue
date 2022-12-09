@@ -117,7 +117,7 @@
         :folders-id="foldersId"
         :chat="chat"
         :conversation-type="conversationType"
-        :show-assignee="showAssigneeInConversationCard"
+        show-assignee
         :selected="isConversationSelected(chat.id)"
         @select-conversation="selectConversation"
         @de-select-conversation="deSelectConversation"
@@ -302,12 +302,6 @@ export default {
           count,
         };
       });
-    },
-    showAssigneeInConversationCard() {
-      return (
-        this.hasAppliedFiltersOrActiveFolders ||
-        this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
-      );
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);

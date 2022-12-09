@@ -153,6 +153,10 @@
       "COPY": "Copy",
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+    },
+    "CARD": {
+      "COPY_LINK": "Copy link",
+      "GOTO_INBOX": "Goto inbox"
     }
   },
   "EMAIL_TRANSCRIPT": {

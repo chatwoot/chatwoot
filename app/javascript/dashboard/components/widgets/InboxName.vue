@@ -1,8 +1,16 @@
 <template>
-  <div class="inbox--name">
-    <fluent-icon class="inbox--icon" :icon="computedInboxClass" size="12" />
+  <woot-button
+    v-tooltip.bottom="$t('CONVERSATION.CARD.GOTO_INBOX')"
+    class="inbox--icon"
+    variant="link"
+    size="tiny"
+    color-scheme="secondary"
+    :icon="computedInboxClass"
+    class-names="copy-icon"
+    @click="onClick"
+  >
     {{ inbox.name }}
-  </div>
+  </woot-button>
 </template>
 <script>
 import { getInboxClassByType } from 'dashboard/helper/inbox';
@@ -21,20 +29,14 @@ export default {
       return classByType;
     },
   },
+  methods: {
+    onClick(e) {
+      e.stopPropagation();
+      this.$router.push({
+        name: 'inbox_dashboard',
+        params: { inbox_id: this.inbox.id },
+      });
+    },
+  },
 };
 </script>
-<style scoped>
-.inbox--name {
-  display: inline-flex;
-  align-items: center;
-  line-height: var(--space-normal);
-  height: var(--space-normal);
-  background: none;
-  color: var(--s-600);
-  font-size: var(--font-size-mini);
-}
-
-.inbox--icon {
-  margin-right: var(--space-smaller);
-}
-</style>

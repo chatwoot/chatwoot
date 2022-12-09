@@ -28,6 +28,7 @@
       class="sender-thumbnail"
       :username="currentContact.name"
       :status="currentContact.availability_status"
+      has-border
       size="24px"
     />
 
@@ -35,16 +36,25 @@
       <div class="header">
         <div class="conversation-meta">
           <inbox-name v-if="showInboxName" :inbox="inbox" />
-          <div class="conversation__id">
-            <fluent-icon icon="number-symbol" size="12" />
+          <woot-button
+            v-tooltip.bottom="$t('CONVERSATION.CARD.COPY_LINK')"
+            class="conversation__id"
+            variant="link"
+            size="tiny"
+            color-scheme="secondary"
+            icon="number-symbol"
+            class-names="copy-icon"
+            @click="onCopyId"
+          >
             {{ chat.id }}
-          </div>
+          </woot-button>
         </div>
         <woot-label
-          v-if="showAssignee && assignee.name"
+          v-if="showAssignee"
+          v-tooltip="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
           icon="headset"
           small
-          :title="assignee.name"
+          :title="assigneeName"
           class="assignee-label"
         />
       </div>
@@ -105,7 +115,7 @@
           </span>
         </div>
       </div>
-      <div class="footer">
+      <div v-if="activeLabels.length" class="footer">
         <woot-label
           v-for="label in activeLabels"
           :key="label.id"
@@ -143,11 +153,13 @@ import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
-import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
@@ -284,10 +296,6 @@ export default {
       return this.unreadCount > 0;
     },
 
-    isInboxNameVisible() {
-      return !this.activeInbox;
-    },
-
     lastMessageInChat() {
       return this.lastMessage(this.chat);
     },
@@ -323,15 +331,23 @@ export default {
     },
 
     showInboxName() {
-      return (
-        !this.hideInboxName &&
-        this.isInboxNameVisible &&
-        this.inboxesList.length > 1
-      );
+      return !this.hideInboxName && this.inboxesList.length > 1;
     },
     inboxName() {
       const stateInbox = this.inbox;
       return stateInbox.name || '';
+    },
+    assigneeName() {
+      return (
+        this.assignee.name || this.$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
+      );
+    },
+    getConversationUrl() {
+      const path = conversationUrl({
+        accountId: this.accountId,
+        id: this.chat.id,
+      });
+      return frontendURL(path);
     },
   },
   methods: {
@@ -350,6 +366,12 @@ export default {
         return;
       }
       router.push({ path: frontendURL(path) });
+    },
+    async onCopyId(e) {
+      e.stopPropagation();
+      const url = window.chatwootConfig.hostURL + this.getConversationUrl;
+      await copyTextToClipboard(url);
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },
     onCardHover() {
       this.hovered = !this.hideThumbnail;
@@ -416,7 +438,7 @@ export default {
   &::after {
     content: '';
     right: 0;
-    top: -1px;
+    top: -3px;
     width: calc(100% - 40px);
     position: absolute;
     border-top: 1px solid var(--s-50);
@@ -490,7 +512,6 @@ export default {
   justify-content: space-between;
 
   height: var(--space-normal);
-  margin-top: var(--space-smaller);
   margin-bottom: var(--space-micro);
   box-sizing: content-box;
 }
@@ -504,36 +525,12 @@ export default {
     margin-right: var(--space-smaller);
   }
 }
-.assignee-name-wrap {
-  display: flex;
-  align-items: center;
-  margin-right: var(--space-smaller);
-  margin-bottom: var(--space-smaller);
-}
-.assignee-arrow {
-  color: var(--w-700);
-}
-.assignee-avatar {
-  margin-right: var(--space-micro);
-}
+
 .message--with-icon {
   display: inline-flex;
   align-items: center;
 }
-.inbox-name-wrap {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-left: var(--space-normal);
-  margin-left: auto;
-  .label {
-    background: none;
-    color: var(--s-600);
-    margin-bottom: 0;
-    margin-right: 0;
-    max-width: 12rem;
-  }
-}
+
 .footer {
   display: flex;
   align-items: center;
@@ -543,19 +540,7 @@ export default {
     margin-bottom: var(--space-smaller);
   }
 }
-.assignee-name {
-  font-size: var(--font-size-mini);
-  padding-left: var(--space-smaller);
-}
-.assignee-name-wrap {
-  border-radius: var(--border-radius-small);
-  padding: 0 var(--space-smaller);
-  border: 1px solid var(--w-75);
-  background: var(--w-25);
-  color: var(--w-800);
-  flex-shrink: 0;
-  font-weight: var(--font-weight-medium);
-}
+
 .checkbox-wrapper {
   display: flex;
   align-items: center;
@@ -604,11 +589,6 @@ export default {
   display: flex;
 }
 .conversation__id {
-  display: inline-flex;
-  align-items: center;
-  color: var(--s-600);
-  line-height: var(--space-normal);
-  height: var(--space-normal);
   margin-left: var(--space-small);
 }
 
@@ -620,7 +600,7 @@ export default {
 }
 
 .sender-thumbnail {
-  margin-top: var(--space-two);
+  margin-top: var(--space-normal);
 }
 
 .select-conversation {

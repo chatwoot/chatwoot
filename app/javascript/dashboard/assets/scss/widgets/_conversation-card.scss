@@ -3,10 +3,13 @@
   0%,
   100% {
     transform: translateX(0);
+    opacity: 1;
   }
 
   50% {
-    transform: translateX(1px);
+    box-shadow: var(--shadow-small);
+    transform: translateX(2px);
+    opacity: .8;
   }
 }
 
@@ -19,7 +22,7 @@
   position: relative;
 
   &.active {
-    animation: left-shift-animation 0.25s $swift-ease-out-function;
+    animation: left-shift-animation 0.3s ease-in-out;
 
     +.conversation::after {
       border-top-color: transparent;
@@ -28,12 +31,6 @@
 
   &:first-child::after {
     border-top-color: transparent;
-  }
-
-  &:last-child {
-    .message {
-      border-bottom-color: $color-border-light;
-    }
   }
 
   .conversation--message {
@@ -79,19 +76,6 @@
     }
   }
 
-  // &.unread-chat {
-  //   .unread {
-  //     display: inline-block;
-  //   }
-
-  //   .conversation--message {
-  //     font-weight: $font-weight-bold;
-  //   }
-
-  //   .conversation--user {
-  //     font-weight: $font-weight-bold;
-  //   }
-  // }
 
   &.compact {
     padding-left: 0;
