@@ -29,10 +29,10 @@ class Contact < ApplicationRecord
   include PgSearch::Model
   include MultiSearchableHelpers
 
-  # multisearchable(
-  #   against: [:email, :name, :phone_number, :id],
-  #   additional_attributes: -> (contact) { { conversation_id: nil, account_id: contact.account_id } }
-  # )
+  multisearchable(
+    against: [:id, :email, :name, :phone_number],
+    additional_attributes: ->(contact) { { conversation_id: nil, account_id: contact.account_id } }
+  )
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -145,6 +145,24 @@ class Contact < ApplicationRecord
   def discard_invalid_attrs
     phone_number_format
     email_format
+  end
+
+  def self.rebuild_pg_search_documents
+    return super unless name == 'Contact'
+
+    connection.execute <<~SQL.squish
+      INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, created_at, updated_at)
+        SELECT 'Contact' AS searchable_type,
+                contacts.id AS searchable_id,
+                CONCAT_WS(' ', contacts.email, contacts.name, contacts.phone_number, contacts.id, contacts.account_id) AS content,
+                contacts.account_id::int AS account_id,
+                conversations.id AS conversation_id,
+                now() AS created_at,
+                now() AS updated_at
+        FROM contacts
+        LEFT OUTER JOIN conversations
+          ON conversations.contact_id = contacts.id
+    SQL
   end
 
   private
