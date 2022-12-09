@@ -23,7 +23,11 @@ const generatePayload = data => {
     if (Array.isArray(item.action_params)) {
       item.action_params = formatArray(item.action_params);
     } else if (typeof item.action_params === 'object') {
-      item.action_params = [item.action_params.id];
+      if (item.action_params.id) {
+        item.action_params = [item.action_params.id];
+      } else {
+        item.action_params = [item.action_params];
+      }
     } else if (!item.action_params) {
       item.action_params = [];
     } else {
