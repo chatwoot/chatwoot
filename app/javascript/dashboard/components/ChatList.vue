@@ -339,6 +339,9 @@ export default {
       };
     },
     pageTitle() {
+      if (this.hasAppliedFilters) {
+        return this.$t('CHAT_LIST.TAB_HEADING');
+      }
       if (this.inbox.name) {
         return this.inbox.name;
       }
@@ -433,9 +436,6 @@ export default {
   },
   methods: {
     onApplyFilter(payload) {
-      if (this.$route.name !== 'home') {
-        this.$router.push({ name: 'home' });
-      }
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
