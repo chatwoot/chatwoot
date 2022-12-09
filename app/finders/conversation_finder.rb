@@ -34,9 +34,7 @@ class ConversationFinder
     filter_by_assignee_type
 
     {
-      conversations: @conversations,
-      contacts: @contacts,
-      messages: @messages
+      conversations: conversations,
       count: {
         mine_count: mine_count,
         assigned_count: assigned_count,
@@ -105,7 +103,7 @@ class ConversationFinder
     @conversations
   end
 
-  def filter_by_query
+  def search
     {
       messages: filter_messages,
       conversations: filter_conversations,
@@ -113,9 +111,17 @@ class ConversationFinder
     }
   end
 
+  def filter_by_query
+    allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
+    @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types }).includes(:messages)
+                                  .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types })
+  end
+
   def filter_conversations
     conversation_ids = PgSearch.multisearch("#{@params[:q]}%").where(account_id: @current_account,
-                                                                    searchable_type: 'Conversation').pluck(:searchable_id)
+                                                                     searchable_type: 'Conversation').pluck(:searchable_id)
     @conversations = Conversation.where(id: conversation_ids)
   end
 
