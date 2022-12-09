@@ -2,10 +2,13 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} گفتگو انتخاب شده است",
     "AGENT_SELECT_LABEL": "انتخاب ایجنت",
-    "ASSIGN_CONFIRMATION_LABEL": "آیا مطمئن هستید که می‌خواهید %{conversationCount} %{conversationLabel} را به آن اختصاص دهید؟",
+    "ASSIGN_CONFIRMATION_LABEL": "آیا مطمئن هستید که به %{conversationCount} %{conversationLabel} اختصاص می‌دهید",
+    "UNASSIGN_CONFIRMATION_LABEL": "آیا مطمئنید که %{conversationCount} %{conversationLabel} را می‌خواهید اختصاص را لغو کنید؟",
     "GO_BACK_LABEL": "بازگشت",
     "ASSIGN_LABEL": "اختصاص دادن",
+    "YES": "بله",
     "ASSIGN_AGENT_TOOLTIP": "تعیین ایجنت",
+    "ASSIGN_TEAM_TOOLTIP": "تیم را تعیین کنید",
     "ASSIGN_SUCCESFUL": "گفتگو با موفقیت اختصاص داده شده",
     "ASSIGN_FAILED": "گفتگو اختصاص داده نشد، لطفا دوباره امتحان کنید",
     "RESOLVE_SUCCESFUL": "گفتگو با موفقیت حل شد",
@@ -24,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "اختصاص برچسب‌های انتخاب شده",
       "ASSIGN_SUCCESFUL": "برچسب‌ها با موفقیت اختصاص یافتند",
       "ASSIGN_FAILED": "اختصاص برچسب‌ها به صورت موفق انجام نشد، لطفا دوباره امتحان کنید"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "تیم را انتخاب کنید",
+      "NONE": "هیچکدام",
+      "NO_TEAMS_AVAILABLE": "هنوز هیچ تیمی به این حساب کاربری اضافه نشده است.",
+      "ASSIGN_SELECTED_TEAMS": "اختصاص تیم انتخاب شده",
+      "ASSIGN_SUCCESFUL": "تیم‌ها با موفقیت اختصاص یافتند",
+      "ASSIGN_FAILED": "اختصاص تیم با موفقیت انجام نشد، لطفا دوباره امتحان کنید"
     }
   }
 }

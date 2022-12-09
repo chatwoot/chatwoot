@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL del webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "La vostra safata d'entrada està a punt!",
-      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport ",
+      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport",
       "BUTTON_TEXT": "Porta'm allà",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada."
@@ -383,6 +385,10 @@
         "DISABLED": "Inhabilita"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Habilita",
+        "DISABLED": "Inhabilita"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Habilita",
         "DISABLED": "Inhabilita"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Configuracions",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses",

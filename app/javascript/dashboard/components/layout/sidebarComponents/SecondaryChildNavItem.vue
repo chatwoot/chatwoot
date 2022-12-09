@@ -26,7 +26,7 @@
           :class="{ 'text-truncate': shouldTruncate }"
         >
           {{ label }}
-          <span v-if="isHelpCenterSidebar && childItemCount" class="count-view">
+          <span v-if="showChildCount" class="count-view">
             {{ childItemCount }}
           </span>
         </span>
@@ -76,7 +76,7 @@ export default {
       type: String,
       default: '',
     },
-    isHelpCenterSidebar: {
+    showChildCount: {
       type: Boolean,
       default: false,
     },
@@ -112,6 +112,7 @@ $label-badge-size: var(--space-slab);
   padding: var(--space-smaller) var(--space-smaller);
   margin: var(--space-smaller) 0;
   text-align: left;
+  line-height: 1.2;
 
   &:hover {
     background: var(--s-25);
@@ -127,11 +128,14 @@ $label-badge-size: var(--space-slab);
     color: var(--w-500);
     border-color: var(--w-25);
   }
+  &.is-active .count-view {
+    background: var(--w-75);
+    color: var(--w-500);
+  }
 }
 
 .menu-label {
   flex-grow: 1;
-  line-height: var(--space-two);
 }
 
 .inbox-icon {
@@ -175,10 +179,6 @@ $label-badge-size: var(--space-slab);
   font-weight: var(--font-weight-bold);
   margin-left: var(--space-smaller);
   padding: var(--space-zero) var(--space-smaller);
-
-  &.is-active {
-    background: var(--w-50);
-    color: var(--w-500);
-  }
+  line-height: var(--font-size-small);
 }
 </style>

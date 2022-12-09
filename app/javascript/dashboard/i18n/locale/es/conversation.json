@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendiente",
       "RESOLVED": "Marcar como resuelto",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Resolver conversación",
       "SNOOZE": {
         "TITLE": "Posponer",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Etiquetas de conversación",
       "CONVERSATION_INFO": "Información de la conversación",
       "CONTACT_ATTRIBUTES": "Atributos de contacto",
-      "PREVIOUS_CONVERSATION": "Conversaciones anteriores"
+      "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

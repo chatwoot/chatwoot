@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Torna a obrir la conversa",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Etiquetes de converses",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Converses prèvies"
+      "PREVIOUS_CONVERSATION": "Converses prèvies",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

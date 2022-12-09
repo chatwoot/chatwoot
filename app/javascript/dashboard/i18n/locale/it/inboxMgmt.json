@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL di callback",
-          "SUBTITLE": "È necessario configurare l'URL del webhook nel portale sviluppatore di facebook con l'URL menzionato qui."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL del webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Crea un canale WhatsApp",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "La casella è pronta!",
-      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
+      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza",
       "BUTTON_TEXT": "Portami lì",
       "MORE_SETTINGS": "Altre impostazioni",
       "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella."
@@ -383,6 +385,10 @@
         "DISABLED": "Disabilitato"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Campagne",
       "PRE_CHAT_FORM": "Modulo pre-chat",
       "BUSINESS_HOURS": "Ore di lavoro",
-      "WIDGET_BUILDER": "Costruttore Widget"
+      "WIDGET_BUILDER": "Costruttore Widget",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Impostazioni",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Attiva/Disabilita il sondaggio CSAT (soddisfazione del cliente) dopo aver risolto una conversazione",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Impostazioni della casella",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della casella",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",

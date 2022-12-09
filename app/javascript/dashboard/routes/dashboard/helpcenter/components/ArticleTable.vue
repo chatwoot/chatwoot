@@ -29,10 +29,10 @@
     </table>
     <table-footer
       v-if="articles.length"
-      :on-page-change="onPageChange"
-      :current-page="Number(currentPage)"
+      :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
+      @page-change="onPageChange"
     />
   </div>
 </template>
@@ -60,12 +60,12 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 15,
+      default: 25,
     },
   },
   methods: {
     onPageChange(page) {
-      this.$emit('on-page-change', page);
+      this.$emit('page-change', page);
     },
   },
 };

@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markera som väntande",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Återöppna konversationen",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Etiketter för konversation",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Tidigare konversationer"
+      "PREVIOUS_CONVERSATION": "Tidigare konversationer",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

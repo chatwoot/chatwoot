@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "علامت گذاری به عنوان در انتظار",
       "RESOLVED": "علامت زدن به عنوان حل شده",
+      "MARK_AS_UNREAD": "علامت گذاری به عنوان خوانده نشده",
       "REOPEN": "مکالمه را دوباره باز کنید",
       "SNOOZE": {
         "TITLE": "به تعویق انداختن",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "برچسب‌های گفتگو",
       "CONVERSATION_INFO": "اطلاعات مکالمه",
       "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
-      "PREVIOUS_CONVERSATION": "گفتگوهای قبلی"
+      "PREVIOUS_CONVERSATION": "گفتگوهای قبلی",
+      "MACROS": "ماکروها"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

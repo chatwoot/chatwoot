@@ -20,7 +20,5 @@ export const getters = {
     return portals;
   },
   count: state => state.portals.allIds.length || 0,
-  getMeta: state => {
-    return state.meta;
-  },
+  getMeta: state => state.meta,
 };

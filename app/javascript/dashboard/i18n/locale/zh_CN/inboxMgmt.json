@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "回调地址",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook 网址",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "您的收件箱已准备就绪！",
-      "MESSAGE": "您现在可以通过您的新频道与您的客户联系。快乐支持 ",
+      "MESSAGE": "您现在可以通过您的新频道与您的客户联系。快乐支持",
       "BUTTON_TEXT": "带我到这里",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "您已成功完成创建网站频道。复制下面显示的代码并将其粘贴在您的网站上。 下次客户使用实时聊天时，对话将自动出现在您的收件箱中。"
@@ -383,6 +385,10 @@
         "DISABLED": "已禁用"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "已启用",
         "DISABLED": "已禁用"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "设置",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",

@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Du skal konfigurere webhook URL i facebook udvikler portal med den URL, der er nævnt her."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Opret WhatsApp Kanal",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Din indbakke er klar!",
-      "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering ",
+      "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering",
       "BUTTON_TEXT": "Tag mig med dertil",
       "MORE_SETTINGS": "Flere indstillinger",
       "WEBSITE_SUCCESS": "Du er færdig med at oprette en hjemmeside kanal. Kopier koden vist nedenfor og indsæt den på din hjemmeside. Næste gang en kunde bruger live chat, vil samtalen automatisk vises i din indbakke."
@@ -383,6 +385,10 @@
         "DISABLED": "Deaktiveret"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Aktiveret",
+        "DISABLED": "Deaktiveret"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Aktiveret",
         "DISABLED": "Deaktiveret"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Kampagner",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Forretningstider",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Indstillinger",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Aktiver/deaktivér CSAT(Customer satisfaction) undersøgelse efter at have løst en samtale",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Aktivér konversationskontinuitet via e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtaler vil fortsætte via e-mail, hvis kontaktpersonens e-mailadresse er tilgængelig.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
       "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke.",

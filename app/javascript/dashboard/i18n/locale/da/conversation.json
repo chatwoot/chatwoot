@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markér som afventende",
       "RESOLVED": "Marker som løst",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Genåbn samtale",
       "SNOOZE": {
         "TITLE": "Udsæt",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Samtale Etiketter",
       "CONVERSATION_INFO": "Samtale Information",
       "CONTACT_ATTRIBUTES": "Kontakt Attributter",
-      "PREVIOUS_CONVERSATION": "Tidligere Samtaler"
+      "PREVIOUS_CONVERSATION": "Tidligere Samtaler",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

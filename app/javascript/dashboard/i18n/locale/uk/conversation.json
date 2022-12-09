@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Позначити як \"В очікуванні\"",
       "RESOLVED": "Позначити як вирішене",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Повторно відкрити розмову",
       "SNOOZE": {
         "TITLE": "Відкласти",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Мітки бесіди",
       "CONVERSATION_INFO": "Інформація про бесіду",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
-      "PREVIOUS_CONVERSATION": "Попередні бесіди"
+      "PREVIOUS_CONVERSATION": "Попередні бесіди",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

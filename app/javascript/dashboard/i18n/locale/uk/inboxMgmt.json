@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Необхідно налаштувати URL вебхука у панелі розробників facebook з URL-адресою, яку ви згадували."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL вебхука",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Створити канал WhatsApp",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Ваша поштова скринька готова!",
-      "MESSAGE": "Ви тепер можете взаємодіяти з вашими клієнтами через ваш новий канал. Щасливої підтримки ",
+      "MESSAGE": "Ви тепер можете взаємодіяти з вашими клієнтами через ваш новий канал. Щасливої підтримки",
       "BUTTON_TEXT": "Давай туди",
       "MORE_SETTINGS": "Додаткові налаштування",
       "WEBSITE_SUCCESS": "Ви успішно завершили створення каналу Веб-сайт. Скопіюйте наведений нижче код і вставте його на ваш сайт. Наступного разу коли клієнт скористається онлайн чатом, розмова автоматично з'явиться в вашій скриньці Вхідні."
@@ -383,6 +385,10 @@
         "DISABLED": "Вимкнено"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Увімкнено",
+        "DISABLED": "Вимкнено"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Увімкнено",
         "DISABLED": "Вимкнено"
       },
@@ -414,7 +420,8 @@
       "CAMPAIGN": "Розсилка",
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
-      "WIDGET_BUILDER": "Конструктор віджетів"
+      "WIDGET_BUILDER": "Конструктор віджетів",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -438,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Увімкнути безперервність розмови через електронну пошту",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Розмови продовжуватимуться через електронну пошту, якщо доступна контактна адреса.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Налаштування каналу",
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",

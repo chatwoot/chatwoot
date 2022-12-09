@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Σήμανση ως εκκρεμής",
       "RESOLVED": "Σήμανση ως επιλυμένου",
+      "MARK_AS_UNREAD": "Σήμανση ως μη αναγνωσμένο",
       "REOPEN": "Άνοιγμα συνομιλίας",
       "SNOOZE": {
         "TITLE": "Αναβολή",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Ετικέτες συνομιλίας",
       "CONVERSATION_INFO": "Πληροφορίες Συνομιλίας",
       "CONTACT_ATTRIBUTES": "Ιδιότητες Επαφής",
-      "PREVIOUS_CONVERSATION": "Προηγούμενες συνομιλίες"
+      "PREVIOUS_CONVERSATION": "Προηγούμενες συνομιλίες",
+      "MACROS": "Μακροεντολές"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

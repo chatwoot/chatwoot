@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Durch das Ändern des Ereignistyps werden die unten hinzugefügten Bedingungen und Ereignisse zurückgesetzt"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Du musst mindestens eine Bedingung zum Speichern haben"
+      "DELETE_MESSAGE": "Du musst mindestens eine Bedingung zum Speichern haben",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich",

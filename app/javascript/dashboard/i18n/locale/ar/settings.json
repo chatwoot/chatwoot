@@ -158,6 +158,9 @@
       "DOWNLOAD": "تنزيل",
       "UPLOADING": "جاري الرفع..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "إرسال"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
+    "UNATTENDED_CONVERSATIONS": "بدون حضور",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
     "HOME": "الرئيسية",
     "AGENTS": "موظف الدعم",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",
@@ -189,6 +194,7 @@
     "LABELS": "الوسوم",
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
+    "MACROS": "Macros",
     "TEAMS": "الفرق",
     "BILLING": "الفواتير",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",

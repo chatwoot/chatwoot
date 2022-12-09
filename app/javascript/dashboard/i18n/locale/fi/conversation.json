@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Avaa keskustelu uudelleen",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Keskustelutunnisteet",
       "CONVERSATION_INFO": "Keskustelun Tiedot",
       "CONTACT_ATTRIBUTES": "Yhteystiedon määritteet",
-      "PREVIOUS_CONVERSATION": "Edelliset keskustelut"
+      "PREVIOUS_CONVERSATION": "Edelliset keskustelut",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

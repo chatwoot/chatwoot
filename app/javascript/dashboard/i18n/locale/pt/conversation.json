@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendente",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Reabrir conversa",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "Etiquetas da conversa",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Atributos do Contato",
-      "PREVIOUS_CONVERSATION": "Conversas anteriores"
+      "PREVIOUS_CONVERSATION": "Conversas anteriores",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

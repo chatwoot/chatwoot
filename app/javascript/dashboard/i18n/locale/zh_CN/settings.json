@@ -158,6 +158,9 @@
       "DOWNLOAD": "下载",
       "UPLOADING": "上传中..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "提交"
     }
@@ -174,11 +177,13 @@
     "CONVERSATIONS": "会话",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "提及",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
     "HOME": "首页",
     "AGENTS": "客服代理们",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "收件箱",
     "NOTIFICATIONS": "消息通知",
     "CANNED_RESPONSES": "预设回复",
@@ -189,6 +194,7 @@
     "LABELS": "标签",
     "CUSTOM_ATTRIBUTES": "自定义属性",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",

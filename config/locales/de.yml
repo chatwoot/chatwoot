@@ -149,3 +149,11 @@ de:
     fullcontact:
       name: "Vollständiger Kontakt"
       description: "Die vollständige Kontakt-Integration hilft die Besucherprofile zu erweitern. Identifizieren Sie die Benutzer, sobald diese ihre E-Mail-Adresse speichern um Ihnen maßgeschneiderten Kundenservice anbieten. Verbinden Sie einen Kontakt mit Ihrem Konto, indem Sie den Kontakt-API-Schlüssel freigeben."
+  public_portal:
+    search:
+      search_placeholder: Artikel nach Titel oder Text suchen...
+      empty_placeholder: Keine Ergebnisse gefunden.
+      loading_placeholder: Suchen...
+      results_title: Suchergebnisse
+    hero:
+      sub_title: Suchen Sie hier nach den Artikeln oder stöbern Sie in den unten stehenden Kategorien.

@@ -29,6 +29,12 @@ describe('#URL Helpers', () => {
         '/app/accounts/1/team/1'
       );
     });
+
+    it('should return url to custom view', () => {
+      expect(conversationListPageURL({ accountId: 1, customViewId: 1 })).toBe(
+        '/app/accounts/1/custom_view/1'
+      );
+    });
   });
   describe('conversationUrl', () => {
     it('should return direct conversation URL if activeInbox is nil', () => {

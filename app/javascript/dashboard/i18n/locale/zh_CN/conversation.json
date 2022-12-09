@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "标记为待处理",
       "RESOLVED": "标记为已解决",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
         "TITLE": "推迟",
@@ -208,7 +209,8 @@
       "CONVERSATION_LABELS": "对话标记",
       "CONVERSATION_INFO": "对话信息",
       "CONTACT_ATTRIBUTES": "联系人属性",
-      "PREVIOUS_CONVERSATION": "上一次对话"
+      "PREVIOUS_CONVERSATION": "上一次对话",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

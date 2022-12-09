@@ -58,6 +58,7 @@ describe('#actions', () => {
         id: 1,
         messages: [],
         meta: { sender: { id: 1, name: 'john-doe' } },
+        labels: ['support'],
       };
       actions.updateConversation(
         { commit, rootState: { route: { name: 'home' } }, dispatch },
@@ -67,6 +68,10 @@ describe('#actions', () => {
         [types.UPDATE_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
+        [
+          'conversationLabels/setConversationLabel',
+          { id: 1, data: ['support'] },
+        ],
         [
           'contacts/setContact',
           {
@@ -240,13 +245,37 @@ describe('#actions', () => {
       jest.runAllTimers();
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
-        [types.MARK_MESSAGE_READ, { id: 1, lastSeen }],
+        [types.UPDATE_MESSAGE_UNREAD_COUNT, { id: 1, lastSeen }],
       ]);
     });
     it('sends correct mutations if api is unsuccessful', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await actions.markMessagesRead({ commit }, { id: 1 });
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#markMessagesUnread', () => {
+    it('sends correct mutations if API is successful', async () => {
+      const lastSeen = new Date().getTime() / 1000;
+      axios.post.mockResolvedValue({
+        data: { id: 1, agent_last_seen_at: lastSeen, unread_count: 1 },
+      });
+      await actions.markMessagesUnread({ commit }, { id: 1 });
+      jest.runAllTimers();
+      expect(commit).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.UPDATE_MESSAGE_UNREAD_COUNT,
+          { id: 1, lastSeen, unreadCount: 1 },
+        ],
+      ]);
+    });
+    it('sends correct mutations if API is unsuccessful', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.markMessagesUnread({ commit }, { id: 1 })
+      ).rejects.toThrow(Error);
     });
   });
 
@@ -373,15 +402,6 @@ describe('#actions', () => {
     it('commits the correct mutation and clears filter state', () => {
       actions.clearConversationFilters({ commit });
       expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
-    });
-  });
-
-  describe('#updateConversationRead', () => {
-    it('commits the correct mutation and sets the contact_last_seen', () => {
-      actions.updateConversationRead({ commit }, 1649856659);
-      expect(commit.mock.calls).toEqual([
-        [types.SET_CONVERSATION_LAST_SEEN, 1649856659],
-      ]);
     });
   });
 });

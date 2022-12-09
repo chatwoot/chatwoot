@@ -2,7 +2,8 @@ class Messages::Messenger::MessageBuilder
   include ::FileTypeHelper
 
   def process_attachment(attachment)
-    return if attachment['type'].to_sym == :template
+    # This check handles very rare case if there are multiple files to attach with only one usupported file
+    return if unsupported_file_type?(attachment['type'])
 
     attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
     attachment_obj.save!
@@ -45,6 +46,7 @@ class Messages::Messenger::MessageBuilder
   end
 
   def update_attachment_file_type(attachment)
+    return if @message.reload.attachments.blank?
     return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
 
     attachment.file_type = file_type(attachment.file&.content_type)
@@ -61,6 +63,7 @@ class Messages::Messenger::MessageBuilder
     story_sender = result['from']['username']
     message.content_attributes[:story_sender] = story_sender
     message.content_attributes[:story_id] = story_id
+    message.content_attributes[:image_type] = 'story_mention'
     message.content = I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender)
     message.save!
   end
@@ -73,11 +76,18 @@ class Messages::Messenger::MessageBuilder
     raise
   rescue Koala::Facebook::ClientError => e
     # The exception occurs when we are trying fetch the deleted story or blocked story.
+    @message.attachments.destroy_all
     @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
     Rails.logger.error e
     {}
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     {}
+  end
+
+  private
+
+  def unsupported_file_type?(attachment_type)
+    [:template, :unsupported_type].include? attachment_type.to_sym
   end
 end

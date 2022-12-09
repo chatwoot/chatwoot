@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Macros",
+    "HEADER_BTN_TXT": "Add a new macro",
+    "HEADER_BTN_TXT_SAVE": "Save macro",
+    "LOADING": "Fetching macros",
+    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
+    "ERROR": "Something went wrong. Please try again",
+    "ORDER_INFO": "Macro sẽ chạy theo thứ tự hành động của bạn. Bạn có thể sắp xếp lại chúng bằng cách kéo chúng bằng tay cầm bên cạnh mỗi nút.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Tên Macro",
+          "PLACEHOLDER": "Nhập tên cho macro của bạn",
+          "ERROR": "Cần có tên để tạo macro"
+        },
+        "ACTIONS": {
+          "LABEL": "Hành động"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Đã thêm macro thành công",
+        "ERROR_MESSAGE": "Không thể tạo macro, vui lòng thử lại sau"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Tên",
+        "Tạo bởi",
+        "Cập nhật lần cuối bởi",
+        "Hiển thị"
+      ],
+      "404": "Không tìm thấy macro"
+    },
+    "DELETE": {
+      "TOOLTIP": "Xóa Macro",
+      "CONFIRM": {
+        "MESSAGE": "Bạn có muốn xoá? ",
+        "YES": "Có, Xoá",
+        "NO": "Không"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Xóa Macro thành công",
+        "ERROR_MESSAGE": "Đã xảy ra lỗi khi xóa macro. Vui lòng thử lại sau"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Sửa Macro",
+      "API": {
+        "SUCCESS_MESSAGE": "Đã cập nhật macro thành công",
+        "ERROR_MESSAGE": "Không thể cập nhật Macro, vui lòng thử lại sau"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Bắt đầu quy trình",
+      "END_FLOW": "Kết thúc quy trình",
+      "LOADING": "Đang tìm nạp macro",
+      "ADD_BTN_TOOLTIP": "Thêm hành động mới",
+      "DELETE_BTN_TOOLTIP": "Xóa hành động",
+      "VISIBILITY": {
+        "LABEL": "Hiển thị Macro",
+        "GLOBAL": {
+          "LABEL": "Công khai",
+          "DESCRIPTION": "Macro này có sẵn công khai cho tất cả các tác nhân trong tài khoản này."
+        },
+        "PERSONAL": {
+          "LABEL": "Riêng tư",
+          "DESCRIPTION": "Macro này sẽ là riêng tư đối với bạn và không có sẵn đối với những người khác."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Thực thi",
+      "PREVIEW": "Xem trước Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro được thực thi thành công"
+    }
+  }
+}

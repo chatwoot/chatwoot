@@ -4,6 +4,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params) || find_channel(params)
     return if channel.blank?
+    return if channel.reauthorization_required?
 
     case channel.provider
     when 'whatsapp_cloud'
