@@ -177,7 +177,7 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 import { URLPattern } from 'urlpattern-polyfill';
-window.URLPattern = URLPattern;
+
 export default {
   components: {
     WootDateTimePicker,
