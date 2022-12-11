@@ -12,7 +12,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def text_search
-    @result = conversation_finder.text_search
+    @result = TextSearch.new(Current.user, params).perform
   end
 
   def meta
