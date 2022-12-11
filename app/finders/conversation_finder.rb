@@ -44,14 +44,6 @@ class ConversationFinder
     }
   end
 
-  def text_search
-    {
-      messages: filter_messages,
-      conversations: filter_conversations,
-      contacts: filter_contacts
-    }
-  end
-
   private
 
   def set_up
@@ -117,30 +109,6 @@ class ConversationFinder
                                   .where(messages: { message_type: allowed_message_types }).includes(:messages)
                                   .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
                                   .where(messages: { message_type: allowed_message_types })
-  end
-
-  def filter_by_query
-    allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
-    @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
-                                  .where(messages: { message_type: allowed_message_types }).includes(:messages)
-                                  .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
-                                  .where(messages: { message_type: allowed_message_types })
-  end
-
-  def filter_conversations
-    conversation_ids = PgSearch.multisearch("#{@params[:q]}%").where(account_id: @current_account,
-                                                                     searchable_type: 'Conversation').pluck(:searchable_id)
-    @conversations = Conversation.where(id: conversation_ids)
-  end
-
-  def filter_messages
-    message_ids = PgSearch.multisearch("#{@params[:q]}%").where(account_id: @current_account, searchable_type: 'Message').pluck(:searchable_id)
-    @messages = Message.where(id: message_ids)
-  end
-
-  def filter_contacts
-    contact_ids = PgSearch.multisearch("#{@params[:q]}%").where(account_id: @current_account, searchable_type: 'Contact').pluck(:searchable_id)
-    @contacts = Contact.where(id: contact_ids)
   end
 
   def filter_by_status
