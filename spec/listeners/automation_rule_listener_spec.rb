@@ -41,6 +41,7 @@ describe AutomationRuleListener do
                                         {
                                           'action_name' => 'send_email_to_team', 'action_params' => [{
                                             'message' => 'Please pay attention to this conversation, its from high priority customer',
+                                            'subject' => 'Urgent Attention: High priority Customer',
                                             'team_ids' => [team.id]
                                           }]
                                         },
@@ -258,7 +259,14 @@ describe AutomationRuleListener do
       end
 
       it 'triggers automation rule send email to the team' do
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
+        message_delivery = instance_double(ActionMailer::MessageDelivery)
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation).with(
+          conversation, team,
+          'Please pay attention to this conversation, its from high priority customer',
+          'Urgent Attention: High priority Customer'
+        ).and_return(message_delivery)
+        allow(message_delivery).to receive(:deliver_now)
 
         listener.conversation_updated(event)
       end
