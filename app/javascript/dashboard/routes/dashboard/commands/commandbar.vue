@@ -54,11 +54,17 @@ export default {
     this.setCommandbarData();
   },
   methods: {
-    setCommandbarData() {
+    setCommandbarData(e) {
+      if (e && e.detail.action.id && e.detail.action.title) {
+        console.log({ id: e.detail.action.id, title: e.detail.action.id });
+      }
       this.$refs.ninjakeys.data = this.hotKeys;
     },
     onChange(ninjaKeyInstance) {
       // console.log(ninjaKeyInstance);
+    },
+    searchEverything(query) {
+      console.log(query);
     },
   },
 };

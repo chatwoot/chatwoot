@@ -25,7 +25,32 @@ const GO_TO_COMMANDS = [
     title: 'COMMAND_BAR.COMMANDS.SEARCH_EVEYTHING',
     section: 'COMMAND_BAR.SECTIONS.CHATWOOT',
     icon: ICON_CONVERSATION_DASHBOARD,
-    children: ['Light Theme', 'Dark Theme', 'System Theme'],
+    builder: searchKey => {
+      return new Promise(resolve => {
+        fetch(
+          `https://staging.chatwoot.com/api/v1/accounts/3/conversations/text_search?q=${searchKey}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              api_access_token: '',
+            },
+          }
+        )
+          .then(res => res.json())
+          .then(data => {
+            const { results } = data;
+            resolve(
+              results.payload.contacts.map(result => ({
+                id: result.id,
+                title: result.name,
+              }))
+            );
+          })
+          .catch(error => {
+            resolve([]);
+          });
+      });
+    },
     role: ['agent'],
   },
   {
@@ -192,23 +217,20 @@ export default {
         commands = commands.filter(command => command.role.includes('agent'));
       }
       return commands.map(command => {
-        return {
+        const hotKey = {
           id: command.id,
           section: this.$t(command.section),
           title: this.$t(command.title),
           icon: command.icon,
-          children: command.children,
-          handler: () => {
-            if (command.children) {
-              // const ninja = this.$refs.ninjakeys;
-              const ninja = document.querySelector('ninja-keys');
-              ninja.open({ parent: command.id });
-              return { keepOpen: true };
-            } else {
-              this.openRoute(command.path(this.accountId));
-            }
-          },
         };
+        if (command.builder) {
+          hotKey.builder = command.builder;
+        } else {
+          hotKey.handler = () => {
+            this.openRoute(command.path(this.accountId));
+          };
+        }
+        return hotKey;
       });
     },
   },

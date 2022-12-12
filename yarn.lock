@@ -1783,23 +1783,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@june-so/analytics-next@^1.36.5":
-  version "1.36.5"
-  resolved "https://registry.yarnpkg.com/@june-so/analytics-next/-/analytics-next-1.36.5.tgz#030ba5a7f8fa232597185cdb706e40b7036ca7f8"
-  integrity sha512-r2sp4VDngeX/ItQrlgmdKpmghg3OmPvhnTOKJ1huaHbFM2uPELpfnMRRngUVzbgbMoMeTf8QtgQVMjnUsl7G1A==
-  dependencies:
-    "@lukeed/uuid" "^2.0.0"
-    "@segment/analytics.js-video-plugins" "^0.2.1"
-    "@segment/facade" "3.4.7"
-    "@segment/tsub" "^0.1.9"
-    dset "^3.0.0"
-    encoding "^0.1.13"
-    js-cookie "^2.2.1"
-    node-fetch "^2.6.1"
-    spark-md5 "^3.0.1"
-    tslib "^2.1.0"
-    unfetch "^4.1.0"
-
 "@lit/reactive-element@^1.0.0", "@lit/reactive-element@^1.1.0":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-1.1.1.tgz#523b29e529e881fce47bab764ea1b8058fd45796"
@@ -10994,38 +10977,38 @@ listr@^0.14.3:
     p-map "^2.0.0"
     rxjs "^6.3.3"
 
-lit-element@^3.0.0, lit-element@^3.1.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-3.1.1.tgz#562d5ccbc8ba0c01d8ba4a0ac3576263167d2ccb"
-  integrity sha512-14ClnMAU8EXnzC+M2/KDd3SFmNUn1QUw1+GxWkEMwGV3iaH8ObunMlO5svzvaWlkSV0WlxJCi40NGnDVJ2XZKQ==
+lit-element@^3.2.0:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-3.2.2.tgz#d148ab6bf4c53a33f707a5168e087725499e5f2b"
+  integrity sha512-6ZgxBR9KNroqKb6+htkyBwD90XGRiqKDHVrW/Eh0EZ+l+iC+u+v+w3/BA5NGi4nizAVHGYvQBHUDuSmLjPp7NQ==
   dependencies:
-    "@lit/reactive-element" "^1.1.0"
-    lit-html "^2.1.0"
+    "@lit/reactive-element" "^1.3.0"
+    lit-html "^2.2.0"
 
-lit-html@^2.0.0, lit-html@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.1.1.tgz#f4da485798a0d967514d31730d387350fafb79f7"
-  integrity sha512-E4BImK6lopAYanJpvcGaAG8kQFF1ccIulPu2BRNZI7acFB6i4ujjjsnaPVFT1j/4lD9r8GKih0Y8d7/LH8SeyQ==
+lit-html@^2.2.0, lit-html@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.5.0.tgz#9d4c0bb3652a6b10bc4ccdb627dfa9eff1215474"
+  integrity sha512-bLHosg1XL3JRUcKdSVI0sLCs0y1wWrj2sqqAN3cZ7bDDPNgmDHH29RV48x6Wz3ZmkxIupaE+z7uXSZ/pXWAO1g==
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.0.2.tgz#5e6f422924e0732258629fb379556b6d23f7179c"
-  integrity sha512-hKA/1YaSB+P+DvKWuR2q1Xzy/iayhNrJ3aveD0OQ9CKn6wUjsdnF/7LavDOJsKP/K5jzW/kXsuduPgRvTFrFJw==
+lit@2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.2.6.tgz#4ef223e88517c000b0c01baf2e3535e61a75a5b5"
+  integrity sha512-K2vkeGABfSJSfkhqHy86ujchJs3NR9nW1bEEiV+bXDkbiQ60Tv5GUausYN2mXigZn8lC1qXuc46ArQRKYmumZw==
   dependencies:
-    "@lit/reactive-element" "^1.0.0"
-    lit-element "^3.0.0"
-    lit-html "^2.0.0"
+    "@lit/reactive-element" "^1.3.0"
+    lit-element "^3.2.0"
+    lit-html "^2.2.0"
 
 lit@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.1.1.tgz#65f43abca945988f696391f762c645ba51966b0b"
-  integrity sha512-yqDqf36IhXwOxIQSFqCMgpfvDCRdxLCLZl7m/+tO5C9W/OBHUj17qZpiMBT35v97QMVKcKEi1KZ3hZRyTwBNsQ==
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.5.0.tgz#3a425d69ff8483effb2026957b86ae45de0bc51a"
+  integrity sha512-DtnUP6vR3l4Q8nRPPNBD+UxbAhwJPeky+OVbi3pdgMqm0g57xFSl1Sj64D1rIB+nVNdiVVg8YxB0hqKjvdadZA==
   dependencies:
-    "@lit/reactive-element" "^1.1.0"
-    lit-element "^3.1.0"
-    lit-html "^2.1.0"
+    "@lit/reactive-element" "^1.5.0"
+    lit-element "^3.2.0"
+    lit-html "^2.5.0"
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -11822,14 +11805,13 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-ninja-keys@^1.1.9:
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/ninja-keys/-/ninja-keys-1.1.9.tgz#0251c8635f5cb019f5efd667b69b12c293c5cd26"
-  integrity sha512-XJabKFQIQ2pivNSKA3I/6hm9S7yPhJ2xXDFfWZFOPtDTBOv5xCaqOczrlIaESXPMgjk3xL0izFWUDjSn8ByVvw==
+"ninja-keys@github:fayazara/ninja-keys":
+  version "1.2.2"
+  resolved "https://codeload.github.com/fayazara/ninja-keys/tar.gz/e4c0f32d1554447ff14bd76cef8e3142785758cb"
   dependencies:
     "@material/mwc-icon" "0.25.3"
     hotkeys-js "3.8.7"
-    lit "2.0.2"
+    lit "2.2.6"
 
 no-case@^3.0.4:
   version "3.0.4"
