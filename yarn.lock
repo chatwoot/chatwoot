@@ -1783,10 +1783,27 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@lit/reactive-element@^1.0.0", "@lit/reactive-element@^1.1.0":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-1.1.1.tgz#523b29e529e881fce47bab764ea1b8058fd45796"
-  integrity sha512-B2JdRMwCGv+VpIRj3CYVQBx3muPDeE8y+HPgWqzrAHsO5/40BpwDFZeplIV790BaTqDVUDvZOKMSbuFM9zWC0w==
+"@june-so/analytics-next@^1.36.5":
+  version "1.36.5"
+  resolved "https://registry.yarnpkg.com/@june-so/analytics-next/-/analytics-next-1.36.5.tgz#030ba5a7f8fa232597185cdb706e40b7036ca7f8"
+  integrity sha512-r2sp4VDngeX/ItQrlgmdKpmghg3OmPvhnTOKJ1huaHbFM2uPELpfnMRRngUVzbgbMoMeTf8QtgQVMjnUsl7G1A==
+  dependencies:
+    "@lukeed/uuid" "^2.0.0"
+    "@segment/analytics.js-video-plugins" "^0.2.1"
+    "@segment/facade" "3.4.7"
+    "@segment/tsub" "^0.1.9"
+    dset "^3.0.0"
+    encoding "^0.1.13"
+    js-cookie "^2.2.1"
+    node-fetch "^2.6.1"
+    spark-md5 "^3.0.1"
+    tslib "^2.1.0"
+    unfetch "^4.1.0"
+
+"@lit/reactive-element@^1.3.0", "@lit/reactive-element@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-1.5.0.tgz#344cc33f2d1491d094b8ef824a9fe31d150d2375"
+  integrity sha512-fQh9FDK0LPTwDk+0HhSZEtb8K0LTN1wXerwpGrWA+a8tWulYRDLI4vQDWp4GOIsewn0572KYV/oZ3+492D7osA==
 
 "@lukeed/csprng@^1.0.0":
   version "1.0.1"

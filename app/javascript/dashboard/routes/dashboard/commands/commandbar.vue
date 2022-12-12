@@ -18,6 +18,7 @@ import agentMixin from 'dashboard/mixins/agentMixin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
 import adminMixin from 'dashboard/mixins/isAdmin';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   mixins: [
@@ -56,15 +57,26 @@ export default {
   methods: {
     setCommandbarData(e) {
       if (e && e.detail.action.id && e.detail.action.title) {
-        console.log({ id: e.detail.action.id, title: e.detail.action.id });
+        const action = e.detail.action;
+        if (action.type === 'contact') {
+          this.$refs.ninjakeys.close();
+          this.$router.push(
+            frontendURL(`accounts/${this.accountId}/contacts/${action.key}`)
+          );
+        } else if (action.type === 'message') {
+          this.$refs.ninjakeys.close();
+          this.$router.push(
+            frontendURL(
+              `accounts/${this.accountId}/conversations/${action.key}`
+            )
+          );
+        }
+      } else {
+        this.$refs.ninjakeys.data = this.hotKeys;
       }
-      this.$refs.ninjakeys.data = this.hotKeys;
     },
     onChange(ninjaKeyInstance) {
       // console.log(ninjaKeyInstance);
-    },
-    searchEverything(query) {
-      console.log(query);
     },
   },
 };

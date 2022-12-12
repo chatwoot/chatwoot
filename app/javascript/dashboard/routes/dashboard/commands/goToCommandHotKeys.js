@@ -27,7 +27,7 @@ const GO_TO_COMMANDS = [
     icon: ICON_CONVERSATION_DASHBOARD,
     builder: searchKey => {
       return new Promise(resolve => {
-        fetch(`/api/v1/accounts/3/conversations/text_search?q=${searchKey}`, {
+        fetch(`/api/v1/accounts/1/conversations/text_search?q=${searchKey}`, {
           headers: {
             'Content-Type': 'application/json',
             api_access_token: '',
@@ -35,13 +35,18 @@ const GO_TO_COMMANDS = [
         })
           .then(res => res.json())
           .then(data => {
-            const { results } = data;
-            resolve(
-              results.payload.contacts.map(result => ({
-                id: result.id,
-                title: result.name,
-              }))
-            );
+            const contacts = data.payload.contacts.map(result => ({
+              id: result.id,
+              title: result.name,
+              type: 'contact',
+            }));
+            const messages = data.payload.messages.map(result => ({
+              id: result.conversation_id,
+              title: result.content,
+              type: 'message',
+            }));
+            const flattened = [...contacts, ...messages];
+            return resolve(flattened);
           })
           .catch(error => {
             resolve([]);
