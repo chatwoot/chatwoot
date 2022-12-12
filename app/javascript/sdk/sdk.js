@@ -1,6 +1,7 @@
 export const SDK_CSS = `
 :root {
   --b-100: #F2F3F7;
+  --s-700: #37546D;
 }
 
 .woot-widget-holder {
@@ -108,7 +109,7 @@ export const SDK_CSS = `
 }
 
 .woot-widget-bubble.woot-widget--expanded.woot-widget-bubble-color--lighter div{
-  color: 	#37546D;
+  color: var(--s-700);
 }
 
 .woot-widget-bubble.woot-widget--expanded svg {
@@ -138,7 +139,7 @@ export const SDK_CSS = `
 }
 
 .woot-widget-bubble.woot-widget-bubble-color--lighter path{
-  fill: #37546D;
+  fill: var(--s-700);
 }
 
 @media only screen and (min-width: 667px) {
@@ -166,7 +167,7 @@ export const SDK_CSS = `
 }
 
 .woot-widget-bubble-color--lighter.woot--close::before, .woot-widget-bubble-color--lighter.woot--close::after {
-  background-color: #37546D;
+  background-color: var(--s-700);
 }
 
 .woot--close::before {
