@@ -1,5 +1,19 @@
-export const stripTrailingSlash = ({ URL }) => {
-  return URL.replace(/\/$/, '');
+import { URLPattern } from 'urlpattern-polyfill';
+
+export const isPatternMatchingWithURL = (urlPattern, url) => {
+  let updatedUrlPattern = urlPattern;
+  const locationObj = new URL(url);
+
+  if (updatedUrlPattern.endsWith('/')) {
+    updatedUrlPattern = updatedUrlPattern.slice(0, -1) + '*\\?*\\#*';
+  }
+
+  if (locationObj.pathname.endsWith('/')) {
+    locationObj.pathname = locationObj.pathname.slice(0, -1);
+  }
+
+  const pattern = new URLPattern(updatedUrlPattern);
+  return pattern.test(locationObj.toString());
 };
 
 // Format all campaigns
@@ -22,10 +36,7 @@ export const filterCampaigns = ({
   isInBusinessHours,
 }) => {
   return campaigns.filter(campaign => {
-    const hasMatchingURL =
-      stripTrailingSlash({ URL: campaign.url }) ===
-      stripTrailingSlash({ URL: currentURL });
-    if (!hasMatchingURL) {
+    if (!isPatternMatchingWithURL(campaign.url, currentURL)) {
       return false;
     }
     if (campaign.triggerOnlyDuringBusinessHours) {
