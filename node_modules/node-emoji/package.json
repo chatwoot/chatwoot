@@ -1,0 +1,42 @@
+{
+  "name": "node-emoji",
+  "version": "1.10.0",
+  "description": "simple emoji support for node.js projects",
+  "author": "Daniel Bugl <daniel.bugl@touchlay.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omnidan/node-emoji.git"
+  },
+  "keywords": [
+    "emoji",
+    "simple",
+    "emoticons",
+    "emoticon",
+    "emojis",
+    "smiley",
+    "smileys",
+    "smilies",
+    "ideogram",
+    "ideograms"
+  ],
+  "bugs": {
+    "url": "https://github.com/omnidan/node-emoji/issues"
+  },
+  "dependencies": {
+    "lodash.toarray": "^4.4.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "mocha": "^3.0.2",
+    "should": "^11.1.0"
+  },
+  "scripts": {
+    "coverage": "./node_modules/.bin/istanbul cover _mocha test",
+    "emojiparse": "node lib/emojiparse.js",
+    "test": "./node_modules/.bin/mocha --require should --bail --reporter spec test/*",
+    "watch": "./node_modules/.bin/mocha --require should --bail --reporter spec test/* --watch",
+    "prepublish": "npm run test"
+  },
+  "main": "index.js",
+  "license": "MIT"
+}

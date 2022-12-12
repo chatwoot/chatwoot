@@ -1,0 +1,1 @@
+{"ast":null,"code":"var nativeCreate = require('./_nativeCreate');\n/**\n * Removes all key-value entries from the hash.\n *\n * @private\n * @name clear\n * @memberOf Hash\n */\n\n\nfunction hashClear() {\n  this.__data__ = nativeCreate ? nativeCreate(null) : {};\n  this.size = 0;\n}\n\nmodule.exports = hashClear;","map":null,"metadata":{},"sourceType":"module"}

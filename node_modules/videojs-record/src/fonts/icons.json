@@ -1,0 +1,45 @@
+{
+  "font-name": "videojs-record",
+  "root-dir": "./node_modules/material-design-icons/",
+  "icons": [{
+    "name": "av-perm",
+    "svg": "action/svg/production/ic_perm_camera_mic_48px.svg"
+  },
+  {
+    "name": "sv-perm",
+    "svg": "communication/svg/production/ic_screen_share_48px.svg"
+  },
+  {
+    "name": "video-perm",
+    "svg": "av/svg/production/ic_videocam_48px.svg"
+  },
+  {
+    "name": "audio-perm",
+    "svg": "av/svg/production/ic_mic_48px.svg"
+  },
+  {
+    "name": "screen-perm",
+    "svg": "communication/svg/production/ic_screen_share_48px.svg"
+  },
+  {
+    "name": "record-start",
+    "svg": "image/svg/production/ic_lens_48px.svg"
+  },
+  {
+    "name": "record-stop",
+    "svg": "av/svg/production/ic_stop_48px.svg"
+  },
+  {
+    "name": "photo-camera",
+    "svg": "image/svg/production/ic_photo_camera_48px.svg"
+  },
+  {
+    "name": "picture-in-picture-start",
+    "svg": "action/svg/production/ic_picture_in_picture_48px.svg"
+  },
+  {
+    "name": "picture-in-picture-stop",
+    "svg": "av/svg/production/ic_video_label_48px.svg"
+  }
+  ]
+}

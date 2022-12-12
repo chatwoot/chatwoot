@@ -1,0 +1,98 @@
+{
+  "name": "@stdlib/array-uint32",
+  "version": "0.0.6",
+  "description": "Uint32Array.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "main": "./lib",
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/array-uint32.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/assert-has-uint32array-support": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/assert-has-property": "^0.0.x",
+    "@stdlib/assert-is-arraybuffer": "^0.0.x",
+    "@stdlib/assert-is-boolean": "^0.0.x",
+    "@stdlib/assert-is-function": "^0.0.x",
+    "@stdlib/assert-is-nonnegative-integer": "^0.0.x",
+    "@stdlib/assert-is-uint32array": "^0.0.x",
+    "@stdlib/bench": "^0.0.x",
+    "@stdlib/math-base-special-pow": "^0.0.x",
+    "@stdlib/math-base-special-round": "^0.0.x",
+    "@stdlib/random-base-randi": "^0.0.x",
+    "@stdlib/random-base-randu": "^0.0.x",
+    "@stdlib/symbol-iterator": "^0.0.x",
+    "proxyquire": "^2.0.0",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdtypes",
+    "types",
+    "data",
+    "structure",
+    "array",
+    "typed",
+    "typed array",
+    "typed-array",
+    "uint32array",
+    "uint32",
+    "uint32_t",
+    "integer",
+    "int",
+    "uint",
+    "unsigned",
+    "long"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

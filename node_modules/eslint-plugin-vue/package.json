@@ -1,0 +1,73 @@
+{
+  "name": "eslint-plugin-vue",
+  "version": "6.2.2",
+  "description": "Official ESLint plugin for Vue.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "npm run test:base -- --watch --growl",
+    "test:base": "mocha \"tests/lib/**/*.js\" --reporter dot",
+    "test": "nyc npm run test:base -- \"tests/integrations/*.js\" --timeout 60000",
+    "debug": "mocha --inspect-brk \"tests/lib/**/*.js\" --reporter dot --timeout 60000",
+    "lint": "eslint . --rulesdir eslint-internal-rules",
+    "pretest": "npm run lint",
+    "preversion": "npm test && npm run update && git add .",
+    "version": "npm run lint -- --fix && git add .",
+    "update": "node ./tools/update.js",
+    "docs:watch": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://eslint.vuejs.org",
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "eslint-config",
+    "vue",
+    "vuejs",
+    "rules"
+  ],
+  "author": "Toru Nagashima (https://github.com/mysticatea)",
+  "contributors": [
+    "Michał Sajnóg <msajnog93@gmail.com> (https://github.com/michalsnik)"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/eslint-plugin-vue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuejs/eslint-plugin-vue/issues"
+  },
+  "engines": {
+    "node": ">=8.10"
+  },
+  "peerDependencies": {
+    "eslint": "^5.0.0 || ^6.0.0"
+  },
+  "dependencies": {
+    "natural-compare": "^1.4.0",
+    "vue-eslint-parser": "^7.0.0",
+    "semver": "^5.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^4.2.16",
+    "@typescript-eslint/parser": "^2.6.1",
+    "acorn": "^7.1.0",
+    "babel-eslint": "^10.0.2",
+    "chai": "^4.1.0",
+    "eslint": "^6.0.0",
+    "eslint-plugin-eslint-plugin": "^2.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-vue": "file:.",
+    "eslint-plugin-vue-libs": "^4.0.0",
+    "eslint4b": "^6.6.0",
+    "lodash": "^4.17.4",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "typescript": "^3.5.2",
+    "vue-eslint-editor": "^0.1.4",
+    "vuepress": "^0.14.5"
+  }
+}

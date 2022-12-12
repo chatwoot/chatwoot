@@ -1,0 +1,48 @@
+{
+	"name": "p-retry",
+	"version": "3.0.1",
+	"description": "Retry a promise-returning or async function",
+	"license": "MIT",
+	"repository": "sindresorhus/p-retry",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"promise",
+		"retry",
+		"retries",
+		"operation",
+		"failed",
+		"rejected",
+		"try",
+		"exponential",
+		"backoff",
+		"attempt",
+		"async",
+		"await",
+		"promises",
+		"concurrently",
+		"concurrency",
+		"parallel",
+		"bluebird"
+	],
+	"dependencies": {
+		"retry": "^0.12.0"
+	},
+	"devDependencies": {
+		"ava": "^1.1.0",
+		"delay": "^4.1.0",
+		"xo": "^0.24.0"
+	}
+}

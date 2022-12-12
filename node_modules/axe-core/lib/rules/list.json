@@ -1,0 +1,13 @@
+{
+  "id": "list",
+  "selector": "ul, ol",
+  "matches": "no-role-matches",
+  "tags": ["cat.structure", "wcag2a", "wcag131"],
+  "metadata": {
+    "description": "Ensures that lists are structured correctly",
+    "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements"
+  },
+  "all": [],
+  "any": [],
+  "none": ["only-listitems"]
+}

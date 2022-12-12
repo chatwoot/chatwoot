@@ -1,0 +1,24 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group grid
+////
+
+/// Set the width of a grid column.
+///
+/// @param {Number|List} $width [$grid-column-count] - Width to make the column. You can pass in any value accepted by the `grid-column()` function, such as `6`, `50%`, or `1 of 2`.
+@mixin grid-column-size(
+  $columns: $grid-column-count
+) {
+  width: grid-column($columns);
+}
+
+/// Shorthand for `grid-column-size()`.
+/// @alias grid-column-size
+@mixin grid-col-size(
+  $columns: $grid-column-count
+) {
+  @include grid-column-size($columns);
+}

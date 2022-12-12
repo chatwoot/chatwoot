@@ -1,0 +1,16 @@
+name: npm-test
+
+on: [pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+    - run: npm install
+    - run: npm test
+    - run: npm run coverage
+    - uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.lcov

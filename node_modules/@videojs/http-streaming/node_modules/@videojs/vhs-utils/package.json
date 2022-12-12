@@ -1,0 +1,98 @@
+{
+  "name": "@videojs/vhs-utils",
+  "version": "3.0.4",
+  "description": "Objects and functions shared throughtout @videojs/http-streaming code",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:videojs/vhs-utils.git"
+  },
+  "generator-videojs-plugin": {
+    "version": "7.7.1"
+  },
+  "browserslist": [
+    "defaults",
+    "ie 11"
+  ],
+  "main": "./cjs/index.js",
+  "module": "./es/index.js",
+  "browser": "./dist/vhs-utils.js",
+  "scripts": {
+    "build": "npm-run-all -s clean -p build:*",
+    "build-prod": "cross-env-shell NO_TEST_BUNDLE=1 'npm run build'",
+    "build-test": "cross-env-shell TEST_BUNDLE_ONLY=1 'npm run build'",
+    "build:js": "rollup -c scripts/rollup.config.js",
+    "build:cjs": "babel-config-cjs -d ./cjs ./src",
+    "build:es": "babel-config-es -d ./es ./src",
+    "clean": "shx rm -rf ./dist ./test/dist ./cjs ./es && shx mkdir -p ./test/dist ./cjs ./es",
+    "lint": "vjsstandard",
+    "server": "karma start scripts/karma.conf.js --singleRun=false --auto-watch",
+    "start": "npm-run-all -p server watch",
+    "test": "npm-run-all lint build-test && npm-run-all test:*",
+    "test:browser": "karma start scripts/karma.conf.js",
+    "test:node": "qunit test/dist/bundle.js",
+    "posttest": "shx cat test/dist/coverage/text.txt",
+    "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
+    "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
+    "watch": "npm-run-all -p watch:*",
+    "watch:js": "npm run build:js -- -w",
+    "watch:cjs": "npm run build:cjs -- -w",
+    "watch:es": "npm run build:es -- -w",
+    "prepublishOnly": "npm-run-all build-prod && vjsverify --verbose"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "keywords": [
+    "videojs",
+    "videojs-plugin"
+  ],
+  "author": "brandonocasey <brandonocasey@gmail.com>",
+  "license": "MIT",
+  "vjsstandard": {
+    "ignore": [
+      "dist",
+      "cjs",
+      "es",
+      "docs",
+      "test/dist"
+    ]
+  },
+  "files": [
+    "CONTRIBUTING.md",
+    "es/",
+    "cjs/",
+    "dist/",
+    "docs/",
+    "index.html",
+    "scripts/",
+    "src/",
+    "test/"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "vjsstandard --fix",
+    "README.md": "doctoc --notitle"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "global": "^4.4.0",
+    "url-toolkit": "^2.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@brandonocasey/spawn-promise": "~0.2.0",
+    "@videojs/babel-config": "^0.2.0",
+    "@videojs/generator-helpers": "~2.0.1",
+    "karma": "^5.2.3",
+    "rollup": "^2.28.2",
+    "videojs-generate-karma-config": "~7.0.0",
+    "videojs-generate-rollup-config": "^6.2.2",
+    "videojs-generator-verify": "~3.0.3",
+    "videojs-standard": "^8.0.4"
+  }
+}

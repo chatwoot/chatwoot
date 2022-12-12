@@ -1,0 +1,7 @@
+body > .off-canvas {
+  padding-top: 2rem;
+}
+
+.docs-example-burger {
+  @include hamburger;
+}

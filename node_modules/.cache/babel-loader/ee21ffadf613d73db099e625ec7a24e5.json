@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default function requiredArgs(required, args) {\n  if (args.length < required) {\n    throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');\n  }\n}","map":null,"metadata":{},"sourceType":"module"}

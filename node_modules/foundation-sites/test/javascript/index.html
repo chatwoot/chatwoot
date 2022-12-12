@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mocha</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../../_build/assets/js/foundation.js"></script>
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
+    <link rel="stylesheet" href="../../_build/assets/css/foundation-float.css">
+    <link rel="stylesheet" href="../../node_modules/motion-ui/dist/motion-ui.css">
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="../../node_modules/chai/chai.js"></script>
+    <script src="../../node_modules/chai-jquery/chai-jquery.js"></script>
+    <script src="../../node_modules/sinon/pkg/sinon-no-sourcemaps.js"></script>
+    <script>
+      mocha.setup({
+        ui: 'bdd',
+        timeout: 5000,
+      });
+      chai.should();
+    </script>
+    <script src="lib/keyboard-event-mock.js"></script>
+    <script src="lib/utils.js"></script>
+    <script src="js-tests.js"></script>
+    <script>
+      mocha.run();
+    </script>
+  </body>
+</html>

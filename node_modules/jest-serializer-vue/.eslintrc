@@ -1,0 +1,9 @@
+{
+    "extends": [
+      "standard",
+      "plugin:vue/recommended"
+    ],
+    "env": {
+      "jest": true
+    }
+}

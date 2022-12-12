@@ -1,0 +1,36 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-arrow
+////
+
+/// Map containing all the `arrow` direction
+/// @type Map
+$prototype-arrow-directions: (
+  down,
+  up,
+  right,
+  left
+) !default;
+
+/// Width of the Arrow, `0.4375rem` by default.
+/// @type Number
+$prototype-arrow-size: 0.4375rem;
+
+/// Color of the Arrow, `$black` by default.
+/// @type Color
+$prototype-arrow-color: $black;
+
+@mixin foundation-prototype-arrow {
+  @each $prototype-arrow-direction in $prototype-arrow-directions {
+    .arrow-#{$prototype-arrow-direction} {
+      @include css-triangle(
+        $prototype-arrow-size, 
+        $prototype-arrow-color, 
+        $prototype-arrow-direction
+      );
+    }
+  }
+}

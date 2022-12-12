@@ -1,0 +1,50 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation-flex.css" rel="stylesheet" />
+    <style>
+      .column .column {
+        background: #eee;
+      }
+      .column .column .column {
+        background: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="column">
+        <h1>Flex Grid: Unstack and Block Grid</h1>
+
+        <p>The top-level row has the class <code>.medium-unstack</code>, which means child columns stack on small, and sit side-by-side on medium screens and up.</p>
+
+        <p>The nested row has the class <code>.up-3</code>, which means its columns are 33% width no matter the screen size.</p>
+
+        <p>These two features should not interact. The two top-level columns always stack on small, and the three nested columns always stay the exact same percentage width.</p>
+
+        <div class="row medium-unstack">
+          <div class="column">
+            <strong>Column One</strong>
+            <div class="row up-3">
+              <div class="column">Block Grid Column One</div>
+              <div class="column">Block Grid Column Two</div>
+              <div class="column">Block Grid Column Three</div>
+            </div>
+          </div>
+          <div class="column"><strong>Column Two</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

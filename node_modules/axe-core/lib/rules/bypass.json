@@ -1,0 +1,21 @@
+{
+  "id": "bypass",
+  "selector": "html",
+  "pageLevel": true,
+  "matches": "bypass-matches",
+  "reviewOnFail": true,
+  "tags": [
+    "cat.keyboard",
+    "wcag2a",
+    "wcag241",
+    "section508",
+    "section508.22.o"
+  ],
+  "metadata": {
+    "description": "Ensures each page has at least one mechanism for a user to bypass navigation and jump straight to the content",
+    "help": "Page must have means to bypass repeated blocks"
+  },
+  "all": [],
+  "any": ["internal-link-present", "header-present", "landmark"],
+  "none": []
+}

@@ -1,0 +1,18 @@
+{
+  "id": "server-side-image-map",
+  "selector": "img[ismap]",
+  "tags": [
+    "cat.text-alternatives",
+    "wcag2a",
+    "wcag211",
+    "section508",
+    "section508.22.f"
+  ],
+  "metadata": {
+    "description": "Ensures that server-side image maps are not used",
+    "help": "Server-side image maps must not be used"
+  },
+  "all": [],
+  "any": [],
+  "none": ["exists"]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "chart.js",
+  "homepage": "https://www.chartjs.org",
+  "description": "Simple HTML5 charts using the canvas element.",
+  "version": "2.9.4",
+  "license": "MIT",
+  "jsdelivr": "dist/Chart.min.js",
+  "unpkg": "dist/Chart.min.js",
+  "main": "dist/Chart.js",
+  "keywords": [
+    "canvas",
+    "charts",
+    "data",
+    "graphs",
+    "html5",
+    "responsive"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chartjs/Chart.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chartjs/Chart.js/issues"
+  },
+  "files": [
+    "bower.json",
+    "composer.json",
+    "dist/*.css",
+    "dist/*.js"
+  ],
+  "devDependencies": {
+    "clean-css": "^4.2.1",
+    "coveralls": "^3.0.0",
+    "eslint": "^5.9.0",
+    "eslint-config-chartjs": "^0.1.0",
+    "eslint-plugin-html": "^5.0.0",
+    "gitbook-cli": "^2.3.2",
+    "gulp": "^4.0.0",
+    "gulp-eslint": "^5.0.0",
+    "gulp-file": "^0.4.0",
+    "gulp-htmllint": "^0.0.16",
+    "gulp-replace": "^1.0.0",
+    "gulp-size": "^3.0.0",
+    "gulp-streamify": "^1.0.2",
+    "gulp-terser": "^1.1.6",
+    "gulp-zip": "^4.2.0",
+    "jasmine": "^3.3.0",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^2.0.1",
+    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-rollup-preprocessor": "^7.0.0",
+    "merge-stream": "^1.0.1",
+    "pixelmatch": "^4.0.2",
+    "rollup": "^1.0.0",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-istanbul": "^2.0.1",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "rollup-plugin-terser": "^5.0.0",
+    "yargs": "^12.0.5"
+  },
+  "dependencies": {
+    "chartjs-color": "^2.1.0",
+    "moment": "^2.10.2"
+  }
+}

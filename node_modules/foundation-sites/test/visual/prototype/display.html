@@ -1,0 +1,79 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation-prototype.css" rel="stylesheet" />
+    <style type="text/css">
+      .debug {
+        background: #94BBF9;
+        padding: 3px;
+        color: #000;
+      }
+
+      .floating-box {
+          display: inline-block;
+          width: 150px;
+          height: 75px;
+          margin: 10px;
+          border: 3px solid #73AD21;  
+      }
+
+      .after-box {
+          border: 3px solid red; 
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h2 class="margin-top-1">Display None</h2>
+          <span>A span element.</span>
+          <span class="debug display-none">My Debugged span.</span>
+          <span>Another span element</span>
+        </div>
+        <div class="cell">
+          <h2 class="margin-top-1">Display Inline</h2>
+          <span>A span element.</span>
+          <span class="debug display-inline">My Debugged span.</span>
+          <span>Another span element</span>
+        </div>
+        <div class="cell">
+          <h2 class="margin-top-1">Display Block</h2>
+          <span>A span element.</span>
+          <span class="debug display-block">My Debugged span.</span>
+          <span>Another span element</span>
+        </div>
+
+        <div class="cell">
+          <h2 class="margin-top-1">Display Inline Block</h2>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+          <div class="floating-box">Floating box</div>
+
+          <div class="after-box">Another box, after the floating boxes...</div>
+        </div>
+      </div>
+    </div>
+    
+    <p class="margin-vertical-2">&nbsp;</p>
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

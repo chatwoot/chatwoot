@@ -1,0 +1,32 @@
+{
+  "name": "jest-util",
+  "version": "26.6.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/jest.git",
+    "directory": "packages/jest-util"
+  },
+  "license": "MIT",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "dependencies": {
+    "@jest/types": "^26.6.2",
+    "@types/node": "*",
+    "chalk": "^4.0.0",
+    "graceful-fs": "^4.2.4",
+    "is-ci": "^2.0.0",
+    "micromatch": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/graceful-fs": "^4.1.2",
+    "@types/is-ci": "^2.0.0",
+    "@types/micromatch": "^4.0.0"
+  },
+  "engines": {
+    "node": ">= 10.14.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "4c46930615602cbf983fb7e8e82884c282a624d5"
+}

@@ -1,0 +1,35 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-border-box
+////
+
+/// Responsive breakpoints for border box.
+/// @type Boolean
+$prototype-border-box-breakpoints: $global-prototype-breakpoints !default;
+
+/// Border box utility
+@mixin border-box {
+  box-sizing: border-box !important;
+}
+
+@mixin foundation-prototype-border-box {
+  .border-box {
+    @include border-box;
+  }
+
+  @if ($prototype-border-box-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-border-box {
+            @include border-box;
+          }
+        }
+      }
+    }
+  }
+}

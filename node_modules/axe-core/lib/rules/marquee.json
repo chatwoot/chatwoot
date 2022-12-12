@@ -1,0 +1,13 @@
+{
+  "id": "marquee",
+  "selector": "marquee",
+  "excludeHidden": false,
+  "tags": ["cat.parsing", "wcag2a", "wcag222"],
+  "metadata": {
+    "description": "Ensures <marquee> elements are not used",
+    "help": "<marquee> elements are deprecated and must not be used"
+  },
+  "all": [],
+  "any": [],
+  "none": ["is-on-screen"]
+}

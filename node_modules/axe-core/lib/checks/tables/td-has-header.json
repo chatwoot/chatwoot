@@ -1,0 +1,11 @@
+{
+  "id": "td-has-header",
+  "evaluate": "td-has-header-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "All non-empty data cells have table headers",
+      "fail": "Some non-empty data cells do not have table headers"
+    }
+  }
+}

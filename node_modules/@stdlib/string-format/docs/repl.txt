@@ -1,0 +1,31 @@
+
+{{alias}}( str, ...args )
+    Insert supplied variable values into a format string.
+
+    Parameters
+    ----------
+    str: string
+        Input string.
+
+    args: ...any
+        Variable values.
+
+    Returns
+    -------
+    out: string
+        Formatted string.
+
+    Examples
+    --------
+    > var out = {{alias}}( 'Hello, %s!', 'World' )
+    'Hello, World!'
+
+    > out = {{alias}}( '%s %s', 'Hello', 'World' )
+    'Hello World'
+
+    > out = {{alias}}( 'Pi: %.2f', {{alias:@stdlib/constants/float64/pi}} )
+    'Pi: 3.14'
+
+    See Also
+    --------
+

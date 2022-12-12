@@ -1,0 +1,13 @@
+# TODOs
+
+- [x] Webpack 5 + Vue 3 custom block support <https://github.com/webpack/webpack/pull/9138>
+- [ ] conventional changelog
+- [ ] (Test) show virtual console error messages
+- [ ] <https://vue-loader.vuejs.org/guide/#manual-setup> use export from the package entry
+- [ ] webpack 5 `this.getOptions` <https://webpack.js.org/migrate/5/#getoptions-method-for-loaders>
+
+## Known Issues
+
+- SSR usage needs more thorough testing.
+- `vue-style-loader` hasn't been not updated for Vue 3 yet. Please use `mini-css-extract-plugin` for CSS extraction.
+- No [`shadowMode`](https://vue-loader.vuejs.org/options.html#shadowmode) support.

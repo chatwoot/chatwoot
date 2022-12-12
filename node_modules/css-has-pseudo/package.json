@@ -1,0 +1,77 @@
+{
+  "name": "css-has-pseudo",
+  "version": "0.10.0",
+  "description": "Style elements relative to other elements in CSS",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "csstools/css-has-pseudo",
+  "homepage": "https://github.com/csstools/css-has-pseudo#readme",
+  "bugs": "https://github.com/csstools/css-has-pseudo/issues",
+  "main": "index.js",
+  "module": "index.mjs",
+  "bin": {
+    "css-has-pseudo": "cli.js"
+  },
+  "files": [
+    "browser.js",
+    "cli.js",
+    "index.js",
+    "index.js.map",
+    "index.mjs",
+    "index.mjs.map",
+    "postcss.js",
+    "postcss.js.map",
+    "postcss.mjs",
+    "postcss.mjs.map"
+  ],
+  "scripts": {
+    "build": "npm run build:browser && npm run build:cli && npm run build:node && npm run build:postcss",
+    "build:browser": "cross-env NODE_ENV=browser rollup -c .rollup.js --silent",
+    "build:cli": "cross-env NODE_ENV=cli rollup -c .rollup.js --silent",
+    "build:postcss": "cross-env NODE_ENV=postcss rollup -c .rollup.js --silent",
+    "build:node": "rollup -c .rollup.js --silent",
+    "prepublishOnly": "npm run build && npm test",
+    "pretest": "npm run build:postcss",
+    "pretest:postcss": "npm run build:postcss",
+    "test": "npm run test:js && npm run test:postcss",
+    "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
+    "test:postcss": "postcss-tape --plugin=postcss.js"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.6",
+    "postcss-selector-parser": "^5.0.0-rc.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.9.0",
+    "eslint-config-dev": "2.0.0",
+    "postcss-tape": "^2.2.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.67.3",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-terser": "^3.0.0"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "javascript",
+    "js",
+    "polyfill",
+    "has",
+    "contains",
+    "descendant",
+    "pseudo",
+    "selector"
+  ]
+}

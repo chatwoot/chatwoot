@@ -1,0 +1,39 @@
+import {
+    addResizeListener,
+    removeResizeListener
+} from "../../../utils/resize-event";
+export default {
+    name: "vue-dom-resize-observer",
+    props: {
+        tagName: {
+            type: String,
+            required: true
+        },
+        id: {
+            type: [String, Number],
+            default: null
+        }
+    },
+    methods: {
+        resizeListener(contentRect) {
+            const { left, top, width, height } = contentRect;
+            this.$emit("on-dom-resize-change", {
+                key: this.id,
+                left,
+                top,
+                width,
+                height
+            });
+        }
+    },
+    mounted() {
+        addResizeListener(this.$el, this.resizeListener);
+    },
+    destroyed() {
+        removeResizeListener(this.$el, this.resizeListener);
+    },
+    render() {
+
+        return <this.tagName>{this.$slots.default}</this.tagName>;
+    }
+};

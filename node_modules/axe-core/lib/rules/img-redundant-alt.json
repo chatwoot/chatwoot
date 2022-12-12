@@ -1,0 +1,12 @@
+{
+  "id": "image-redundant-alt",
+  "selector": "img",
+  "tags": ["cat.text-alternatives", "best-practice"],
+  "metadata": {
+    "description": "Ensure image alternative is not repeated as text",
+    "help": "Alternative text of images should not be repeated as text"
+  },
+  "all": [],
+  "any": [],
+  "none": ["duplicate-img-label"]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "axe-phantomjs-example",
+  "description": "Axe PhantomJS Example",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Wlico Fiers",
+    "organization": "Deque Systems, Inc.",
+    "url": "http://deque.com/"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "phantomjs axe-phantom.js https://www.deque.com"
+  },
+  "devDependencies": {
+    "axe-core": "^3.3.1",
+    "phantomjs": "^2.1.7"
+  }
+}

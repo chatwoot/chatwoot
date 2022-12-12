@@ -1,0 +1,53 @@
+{
+  "name": "store2",
+  "version": "2.12.0",
+  "description": "Better localStorage",
+  "keywords": [
+    "localStorage",
+    "sessionStorage",
+    "json",
+    "namespace",
+    "store"
+  ],
+  "author": {
+    "name": "Nathan Bubna",
+    "email": "nathan@esha.com",
+    "url": "http://www.esha.com/"
+  },
+  "files": [
+    "src",
+    "dist",
+    "index.d.ts"
+  ],
+  "main": "dist/store2.js",
+  "types": "index.d.ts",
+  "bugs": {
+    "url": "http://github.com/nbubna/store/issues",
+    "email": "nathan@esha.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nbubna/store.git"
+  },
+  "license": "(MIT OR GPL-3.0)",
+  "scripts": {
+    "prepublishOnly": "grunt && git commit -m \"$npm_package_version\" README.md *.json dist && git tag $npm_package_version && git push && git push --tags",
+    "test": "grunt qunit"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-component-build": "^0.2.8",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-qunit": "^1.0.0",
+    "grunt-contrib-uglify": "^2.2.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-lib-phantomjs": "^1.1.0",
+    "grunt-nuget": "^0.2.0",
+    "load-grunt-tasks": "^3.5.2",
+    "phantomjs": "^2.1.7",
+    "time-grunt": "^1.4.0"
+  }
+}

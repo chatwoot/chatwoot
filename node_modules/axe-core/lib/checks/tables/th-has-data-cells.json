@@ -1,0 +1,12 @@
+{
+  "id": "th-has-data-cells",
+  "evaluate": "th-has-data-cells-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "All table header cells refer to data cells",
+      "fail": "Not all table header cells refer to data cells",
+      "incomplete": "Table data cells are missing or empty"
+    }
+  }
+}

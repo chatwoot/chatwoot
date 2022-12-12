@@ -1,0 +1,12 @@
+{
+  "id": "unique-frame-title",
+  "evaluate": "unique-frame-title-evaluate",
+  "after": "unique-frame-title-after",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Element's title attribute is unique",
+      "fail": "Element's title attribute is not unique"
+    }
+  }
+}

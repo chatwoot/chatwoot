@@ -1,0 +1,1 @@
+{"ast":null,"code":"var overArg = require('./_overArg');\n/* Built-in method references for those with the same name as other `lodash` methods. */\n\n\nvar nativeKeys = overArg(Object.keys, Object);\nmodule.exports = nativeKeys;","map":null,"metadata":{},"sourceType":"module"}

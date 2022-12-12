@@ -1,0 +1,3 @@
+*.min.js
+tests/lib/*
+coverage/

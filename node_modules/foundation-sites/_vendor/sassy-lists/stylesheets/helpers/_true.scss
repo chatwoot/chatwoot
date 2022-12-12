@@ -1,0 +1,13 @@
+///
+/// Returns truthiness of `$value`.
+///
+/// @access private
+///
+/// @param {*} $value - value to check
+///
+/// @return {Bool}
+///
+ 
+@function sl-is-true($value) {
+  @return if($value == null, false, $value and $value != null and $value != '' and $value != ());
+}

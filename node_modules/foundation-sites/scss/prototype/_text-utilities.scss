@@ -1,0 +1,88 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-text-utilities
+////
+
+/// Responsive breakpoints for text utilities
+/// @type Boolean
+$prototype-utilities-breakpoints: $global-prototype-breakpoints !default;
+
+/// Default Value for `text-overflow` variable
+/// @type String
+$prototype-text-overflow: ellipsis !default;
+
+/// Image Replacement utility. `text-hide`
+@mixin text-hide {
+  font: 0/0 a !important;
+  color: transparent !important;
+  text-shadow: none !important;
+  background-color: transparent !important;
+  border: 0 !important;
+}
+
+/// Truncating the text, elipsis by default.
+/// @param {String} $overflow [$prototype-text-overflow] Text Truncate
+@mixin text-truncate(
+  $overflow: $prototype-text-overflow
+) {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: $overflow; 
+  white-space: nowrap !important;
+}
+
+/// No wrapping of the text. `text-nowrap`
+@mixin text-nowrap {
+  white-space: nowrap !important;
+}
+
+/// Wrapping of the text. `text-wrap`
+@mixin text-wrap {
+  word-wrap: break-word !important;
+}
+
+@mixin foundation-prototype-text-utilities {
+  .text-hide {
+    @include text-hide;
+  }
+
+  .text-truncate {
+    @include text-truncate;
+  }
+
+  .text-nowrap {
+    @include text-nowrap;
+  }
+
+  .text-wrap {
+    @include text-wrap;
+  }
+
+  @if ($prototype-utilities-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-text-hide {
+            @include text-hide;
+          }
+
+          .#{$size}-text-truncate {
+            @include text-truncate;
+          }
+
+          .#{$size}-text-nowrap {
+            @include text-nowrap;
+          }
+
+          .#{$size}-text-wrap {
+            @include text-wrap;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "internal-link-present",
+  "evaluate": "internal-link-present-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Valid skip link found",
+      "fail": "No valid skip link found"
+    }
+  }
+}

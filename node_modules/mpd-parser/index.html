@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mpd-parser Demo</title>
+</head>
+<body>
+  <p>Open dev tools to try it out</p>
+  <ul>
+    <li><a href="test/debug.html">Run unit tests in browser.</a></li>
+    <li><a href="docs/api/">Read generated docs.</a></li>
+  </ul>
+
+  <form id=parse>
+    <label>
+      Video URL:
+      <input id=url type=url value="http://dash.edgesuite.net/akamai/bbb_30fps/bbb_30fps.mpd">
+    </label>
+    <button type=submit>Parse</button>
+  </form>
+
+  <script src="dist/mpd-parser.js"></script>
+  <script>
+    (function(window, mpdParser) {
+      var parseForm = document.getElementById('parse');
+      var url = document.getElementById('url');
+
+      parseForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        fetch(url.value)
+          .then(function(response) {
+            return response.text();
+          }).then(function(body) {
+            console.log('Original ->');
+            console.log(body);
+
+            var parsedMpd = mpdParser.parse(body, {});
+            console.log('Parsed ->');
+            console.log(parsedMpd);
+          }).catch(error => console.error(error));
+
+        return false;
+      });
+    }(window, window.mpdParser));
+  </script>
+</body>
+</html>

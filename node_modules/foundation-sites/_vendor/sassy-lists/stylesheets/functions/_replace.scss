@@ -1,0 +1,46 @@
+///
+/// Replaces `$old` by `$new` in `$list`.
+///
+/// @ignore Documentation: http://at-import.github.io/SassyLists/documentation/#function-sl-replace
+///
+/// @requires sl-is-true
+/// @requires sl-purge
+/// @requires sl-to-list
+///
+/// @param {List}    $list  - list to update
+/// @param {*}       $old   - value to replace
+/// @param {*}       $value - new value for $old
+///
+/// @example
+/// sl-replace(a b c, b, z)
+/// // a z c
+///
+/// @example
+/// sl-replace(a b c, y, z)
+/// // a b c
+/// 
+/// @return {List}
+///
+ 
+@function sl-replace($list, $old, $value) {
+  $_: sl-missing-dependencies('sl-is-true', 'sl-purge', 'sl-to-list');
+
+  $running: true;
+
+  @while $running {
+    $index: index($list, $old);
+
+    @if not $index {
+      $running: false;
+    }
+
+    @else {
+      $list: set-nth($list, $index, $value);
+    }
+
+  }
+
+  $list: if(sl-is-true($value), $list, sl-purge($list));
+  
+  @return sl-to-list($list);
+}

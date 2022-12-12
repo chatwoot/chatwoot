@@ -1,0 +1,172 @@
+# This is the customizer's master module list.
+# Each item in the list is a module with any of these keys:
+#   - sass: Name of the CSS export. 'grid' becomes '@include foundation-grid;'
+#   - js: Name of the JavaScript file. 'accordion' becomes 'foundation.accordion.js'
+
+xy_grid:
+  sass: xy-grid-classes
+
+grid:
+  sass: grid
+
+flex_grid:
+  sass: flex-grid
+
+flex_classes:
+  sass: flex-classes
+
+typography:
+  sass: typography
+
+button:
+  sass: button
+
+card:
+  sass: card
+
+forms:
+  sass: forms
+
+input_range:
+  sass: range-input
+
+abide:
+  js: abide
+
+accordion:
+  sass: accordion
+  js: accordion
+
+accordion_menu:
+  sass: accordion-menu
+  js: accordionMenu
+
+badge:
+  sass: badge
+
+breadcrumbs:
+  sass: breadcrumbs
+
+button_group:
+  sass: button-group
+
+callout:
+  sass: callout
+
+close_button:
+  sass: close-button
+
+drilldown_menu:
+  sass: drilldown-menu
+  js: drilldown
+
+dropdown:
+  sass: dropdown
+  js: dropdown
+
+dropdown_menu:
+  sass: dropdown-menu
+  js: dropdownMenu
+
+equalizer:
+  js: equalizer
+
+interchange:
+  js: interchange
+
+label:
+  sass: label
+
+magellan:
+  js: magellan
+
+media_object:
+  sass: media-object
+
+menu:
+  sass: menu
+
+menu_icon:
+  sass: menu-icon
+
+off_canvas:
+  sass: off-canvas
+  js: offcanvas
+
+orbit:
+  sass: orbit
+  js: orbit
+
+pagination:
+  sass: pagination
+
+progress_bar:
+  sass: progress-bar
+
+progress_element:
+  sass: progress-element
+
+prototyping_helpers:
+  sass: prototype-classes
+
+responsive_embed:
+  sass: responsive-embed
+
+responsive_menu:
+  js: responsiveMenu
+
+responsive_toggle:
+  js: responsiveToggle
+
+meter_element:
+  sass: meter-element
+
+slider:
+  sass: slider
+  js: slider
+
+smooth_scroll:
+  js: smoothScroll
+
+sticky:
+  sass: sticky
+  js: sticky
+
+responsive_accordion_tabs:
+  js: responsiveAccordionTabs
+
+reveal:
+  sass: reveal
+  js: reveal
+
+switch:
+  sass: switch
+
+table:
+  sass: table
+
+tabs:
+  sass: tabs
+  js: tabs
+
+thumbnail:
+  sass: thumbnail
+
+title_bar:
+  sass: title-bar
+
+toggler:
+  js: toggler
+
+tooltip:
+  sass: tooltip
+  js: tooltip
+
+top_bar:
+  sass: top-bar
+
+visibility:
+  sass: visibility-classes
+
+float:
+  sass: float-classes

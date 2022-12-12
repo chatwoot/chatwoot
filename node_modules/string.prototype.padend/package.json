@@ -1,0 +1,77 @@
+{
+	"name": "string.prototype.padend",
+	"version": "3.1.2",
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"funding": {
+		"url": "https://github.com/sponsors/ljharb"
+	},
+	"description": "ES2017 spec-compliant String.prototype.padEnd shim.",
+	"license": "MIT",
+	"main": "index.js",
+	"scripts": {
+		"prepublish": "safe-publish-latest",
+		"pretest": "npm run lint",
+		"test": "npm run tests-only",
+		"posttest": "aud --production",
+		"tests-only": "nyc tape 'test/**/*.js'",
+		"lint": "eslint .",
+		"postlint": "es-shim-api --bound"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/es-shims/String.prototype.padEnd.git"
+	},
+	"keywords": [
+		"String.prototype.padRight",
+		"String.prototype.padEnd",
+		"string",
+		"ES2017",
+		"ES8",
+		"shim",
+		"trim",
+		"padLeft",
+		"padRight",
+		"padStart",
+		"padEnd",
+		"polyfill",
+		"es-shim API"
+	],
+	"dependencies": {
+		"call-bind": "^1.0.2",
+		"define-properties": "^1.1.3",
+		"es-abstract": "^1.18.0-next.2"
+	},
+	"devDependencies": {
+		"@es-shims/api": "^2.1.2",
+		"@ljharb/eslint-config": "^17.5.1",
+		"aud": "^1.1.4",
+		"eslint": "^7.20.0",
+		"function-bind": "^1.1.1",
+		"functions-have-names": "^1.2.2",
+		"has-strict-mode": "^1.0.1",
+		"nyc": "^10.3.2",
+		"safe-publish-latest": "^1.1.4",
+		"tape": "^5.2.0"
+	},
+	"testling": {
+		"files": "test/index.js",
+		"browsers": [
+			"iexplore/9.0..latest",
+			"firefox/4.0..6.0",
+			"firefox/15.0..latest",
+			"firefox/nightly",
+			"chrome/4.0..10.0",
+			"chrome/20.0..latest",
+			"chrome/canary",
+			"opera/11.6..latest",
+			"opera/next",
+			"safari/5.0..latest",
+			"ipad/6.0..latest",
+			"iphone/6.0..latest",
+			"android-browser/4.2"
+		]
+	},
+	"engines": {
+		"node": ">= 0.4"
+	}
+}

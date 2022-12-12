@@ -1,0 +1,14 @@
+{
+  "id": "duplicate-id",
+  "selector": "[id]",
+  "matches": "duplicate-id-misc-matches",
+  "excludeHidden": false,
+  "tags": ["cat.parsing", "wcag2a", "wcag411"],
+  "metadata": {
+    "description": "Ensures every id attribute value is unique",
+    "help": "id attribute value must be unique"
+  },
+  "all": [],
+  "any": ["duplicate-id"],
+  "none": []
+}

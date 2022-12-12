@@ -1,0 +1,27 @@
+///
+/// Casts `$value` into a list.
+///
+/// @ignore Documentation: http://at-import.github.io/SassyLists/documentation/#function-sl-to-list
+///
+/// @param {*} $value - value to cast to list
+/// @param {String} $separator [space] - separator to use
+///
+/// @example
+/// sl-to-list(a b c, comma)
+/// // a, b, c
+/// 
+/// @return {List}
+///
+
+@function sl-to-list($value, $separator: list-separator($value)) {
+  @return join((), $value, $separator);
+}
+
+///
+/// @requires sl-to-list
+/// @alias sl-to-list
+///
+
+@function sl-listify($value) {
+  @return sl-to-list($value);
+}

@@ -1,0 +1,1588 @@
+/*!
+  * vue-router v3.5.2
+  * (c) 2021 Evan You
+  * @license MIT
+  */
+
+/*!
+ * Chart.js v2.9.4
+ * https://www.chartjs.org
+ * (c) 2020 Chart.js Contributors
+ * Released under the MIT License
+ */
+
+/*!
+ * JavaScript Cookie v2.2.1
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+
+/*!
+ * Name: vue-upload-component
+ * Version: 2.8.21
+ * Author: Marco Lang
+ */
+
+/*!
+ * Programatically add the following
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
+ * Released under the MIT License.
+ */
+
+/*!
+ * hotkeys-js v3.8.7
+ * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
+ * 
+ * Copyright (c) 2021 kenny wong <wowohoo@qq.com>
+ * http://jaywcjlove.github.io/hotkeys
+ * 
+ * Licensed under the MIT license.
+ */
+
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+/*!
+ * isobject <https://github.com/jonschlinkert/isobject>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+/*!
+ * opus-recorder plugin for videojs-record
+ * @version 4.5.0
+ * @see https://github.com/collab-project/videojs-record
+ * @copyright 2014-2021 Collab
+ * @license MIT
+ */
+
+/*!
+ * videojs-record
+ * @version 4.5.0
+ * @see https://github.com/collab-project/videojs-record
+ * @copyright 2014-2021 Collab
+ * @license MIT
+ */
+
+/*!
+ * videojs-wavesurfer
+ * @version 3.8.0
+ * @see https://github.com/collab-project/videojs-wavesurfer
+ * @copyright 2014-2021 Collab
+ * @license MIT
+ */
+
+/*!
+ * vue-i18n v8.24.3 
+ * (c) 2021 kazuya kawaguchi
+ * Released under the MIT License.
+ */
+
+/*!
+ * wavesurfer.js 6.1.0 (2022-03-31)
+ * https://wavesurfer-js.org
+ * @license BSD-3-Clause
+ */
+
+/*!
+ * wavesurfer.js microphone plugin 6.1.0 (2022-03-31)
+ * https://wavesurfer-js.org
+ * @license BSD-3-Clause
+ */
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+/*! ../event */
+
+/*! ../helpers/typeof */
+
+/*! ../utils/detect-browser */
+
+/*! ../utils/file-util */
+
+/*! ./absMax */
+
+/*! ./assertThisInitialized */
+
+/*! ./clamp */
+
+/*! ./controls/animation-display */
+
+/*! ./controls/camera-button */
+
+/*! ./controls/device-button */
+
+/*! ./controls/picture-in-picture-toggle */
+
+/*! ./controls/record-canvas */
+
+/*! ./controls/record-indicator */
+
+/*! ./controls/record-toggle */
+
+/*! ./convert-engine */
+
+/*! ./defaults */
+
+/*! ./drawer */
+
+/*! ./drawer.canvasentry */
+
+/*! ./drawer.multicanvas */
+
+/*! ./engine/engine-loader */
+
+/*! ./engine/record-mode */
+
+/*! ./event */
+
+/*! ./fetch */
+
+/*! ./frame */
+
+/*! ./get-id */
+
+/*! ./getPrototypeOf */
+
+/*! ./hot-keys */
+
+/*! ./max */
+
+/*! ./mediaelement */
+
+/*! ./mediaelement-webaudio */
+
+/*! ./middleware */
+
+/*! ./mime */
+
+/*! ./min */
+
+/*! ./observer */
+
+/*! ./orientation */
+
+/*! ./peakcache */
+
+/*! ./prevent-click */
+
+/*! ./record-engine */
+
+/*! ./record-mode */
+
+/*! ./record-rtc */
+
+/*! ./request-animation-frame */
+
+/*! ./setPrototypeOf */
+
+/*! ./silence-mode */
+
+/*! ./style */
+
+/*! ./superPropBase */
+
+/*! ./util */
+
+/*! ./util/get-id */
+
+/*! ./util/style */
+
+/*! ./utils/browser-shim */
+
+/*! ./utils/compare-version */
+
+/*! ./utils/detect-browser */
+
+/*! ./utils/format-time */
+
+/*! ./utils/log */
+
+/*! ./webaudio */
+
+/*! @babel/runtime/helpers/assertThisInitialized */
+
+/*! @babel/runtime/helpers/asyncToGenerator */
+
+/*! @babel/runtime/helpers/classCallCheck */
+
+/*! @babel/runtime/helpers/createClass */
+
+/*! @babel/runtime/helpers/get */
+
+/*! @babel/runtime/helpers/getPrototypeOf */
+
+/*! @babel/runtime/helpers/inherits */
+
+/*! @babel/runtime/helpers/interopRequireDefault */
+
+/*! @babel/runtime/helpers/possibleConstructorReturn */
+
+/*! @babel/runtime/helpers/typeof */
+
+/*! @babel/runtime/regenerator */
+
+/*! @license DOMPurify 2.3.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.6/LICENSE */
+
+/*! @license DOMPurify | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.2.2/LICENSE */
+
+/*! @name @videojs/http-streaming @version 2.13.1 @license Apache-2.0 */
+
+/*! @name aes-decrypter @version 3.1.2 @license Apache-2.0 */
+
+/*! @name mpd-parser @version 0.21.0 @license Apache-2.0 */
+
+/*! @name pkcs7 @version 1.0.4 @license Apache-2.0 */
+
+/*! add-zero */
+
+/*! debounce */
+
+/*! global/window */
+
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! parse-ms */
+
+/*! recordrtc */
+
+/*! regenerator-runtime */
+
+/*! video.js */
+
+/*! wavesurfer.js */
+
+/*!***********************!*\
+          !*** ./src/drawer.js ***!
+          \***********************/
+
+/*!*************************!*\
+          !*** ./src/js/event.js ***!
+          \*************************/
+
+/*!*************************!*\
+          !*** ./src/util/max.js ***!
+          \*************************/
+
+/*!*************************!*\
+          !*** ./src/util/min.js ***!
+          \*************************/
+
+/*!*************************!*\
+          !*** ./src/webaudio.js ***!
+          \*************************/
+
+/*!**************************!*\
+          !*** ./src/peakcache.js ***!
+          \**************************/
+
+/*!***************************!*\
+          !*** ./src/util/clamp.js ***!
+          \***************************/
+
+/*!***************************!*\
+          !*** ./src/util/fetch.js ***!
+          \***************************/
+
+/*!***************************!*\
+          !*** ./src/util/frame.js ***!
+          \***************************/
+
+/*!***************************!*\
+          !*** ./src/util/index.js ***!
+          \***************************/
+
+/*!***************************!*\
+          !*** ./src/util/style.js ***!
+          \***************************/
+
+/*!***************************!*\
+          !*** ./src/wavesurfer.js ***!
+          \***************************/
+
+/*!****************************!*\
+          !*** ./src/js/defaults.js ***!
+          \****************************/
+
+/*!****************************!*\
+          !*** ./src/js/hot-keys.js ***!
+          \****************************/
+
+/*!****************************!*\
+          !*** ./src/util/absMax.js ***!
+          \****************************/
+
+/*!****************************!*\
+          !*** ./src/util/get-id.js ***!
+          \****************************/
+
+/*!*****************************!*\
+          !*** ./src/js/utils/log.js ***!
+          \*****************************/
+
+/*!*****************************!*\
+          !*** ./src/mediaelement.js ***!
+          \*****************************/
+
+/*!******************************!*\
+          !*** ./src/js/middleware.js ***!
+          \******************************/
+
+/*!******************************!*\
+          !*** ./src/js/utils/mime.js ***!
+          \******************************/
+
+/*!******************************!*\
+          !*** ./src/util/observer.js ***!
+          \******************************/
+
+/*!*********************************!*\
+          !*** ./src/util/orientation.js ***!
+          \*********************************/
+
+/*!**********************************!*\
+          !*** ./src/js/videojs.record.js ***!
+          \**********************************/
+
+/*!**********************************!*\
+          !*** ./src/util/silence-mode.js ***!
+          \**********************************/
+
+/*!***********************************!*\
+          !*** ./src/drawer.canvasentry.js ***!
+          \***********************************/
+
+/*!***********************************!*\
+          !*** ./src/drawer.multicanvas.js ***!
+          \***********************************/
+
+/*!***********************************!*\
+          !*** ./src/js/utils/file-util.js ***!
+          \***********************************/
+
+/*!***********************************!*\
+          !*** ./src/util/prevent-click.js ***!
+          \***********************************/
+
+/*!*************************************!*\
+          !*** ./src/js/engine/record-rtc.js ***!
+          \*************************************/
+
+/*!*************************************!*\
+          !*** ./src/js/utils/format-time.js ***!
+          \*************************************/
+
+/*!**************************************!*\
+          !*** ./src/js/engine/record-mode.js ***!
+          \**************************************/
+
+/*!**************************************!*\
+          !*** ./src/js/utils/browser-shim.js ***!
+          \**************************************/
+
+/*!**************************************!*\
+          !*** ./src/js/videojs.wavesurfer.js ***!
+          \**************************************/
+
+/*!**************************************!*\
+          !*** ./src/mediaelement-webaudio.js ***!
+          \**************************************/
+
+/*!***************************************!*\
+          !*** ./node_modules/global/window.js ***!
+          \***************************************/
+
+/*!****************************************!*\
+          !*** ./node_modules/add-zero/index.js ***!
+          \****************************************/
+
+/*!****************************************!*\
+          !*** ./node_modules/debounce/index.js ***!
+          \****************************************/
+
+/*!****************************************!*\
+          !*** ./node_modules/parse-ms/index.js ***!
+          \****************************************/
+
+/*!****************************************!*\
+          !*** ./src/js/engine/engine-loader.js ***!
+          \****************************************/
+
+/*!****************************************!*\
+          !*** ./src/js/engine/record-engine.js ***!
+          \****************************************/
+
+/*!****************************************!*\
+          !*** ./src/js/utils/detect-browser.js ***!
+          \****************************************/
+
+/*!****************************************!*\
+          !*** ./src/plugin/microphone/index.js ***!
+          \****************************************/
+
+/*!*****************************************!*\
+          !*** ./src/js/engine/convert-engine.js ***!
+          \*****************************************/
+
+/*!*****************************************!*\
+          !*** ./src/js/utils/compare-version.js ***!
+          \*****************************************/
+
+/*!******************************************!*\
+          !*** ./src/js/controls/camera-button.js ***!
+          \******************************************/
+
+/*!******************************************!*\
+          !*** ./src/js/controls/device-button.js ***!
+          \******************************************/
+
+/*!******************************************!*\
+          !*** ./src/js/controls/record-canvas.js ***!
+          \******************************************/
+
+/*!******************************************!*\
+          !*** ./src/js/controls/record-toggle.js ***!
+          \******************************************/
+
+/*!*********************************************!*\
+          !*** ./src/js/controls/record-indicator.js ***!
+          \*********************************************/
+
+/*!*********************************************!*\
+          !*** ./src/util/request-animation-frame.js ***!
+          \*********************************************/
+
+/*!**********************************************!*\
+          !*** ./src/js/controls/animation-display.js ***!
+          \**********************************************/
+
+/*!************************************************!*\
+          !*** ./src/js/plugins/opus-recorder-plugin.js ***!
+          \************************************************/
+
+/*!****************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/get.js ***!
+          \****************************************************/
+
+/*!*****************************************************!*\
+          !*** ./node_modules/regenerator-runtime/runtime.js ***!
+          \*****************************************************/
+
+/*!******************************************************!*\
+          !*** ./src/js/controls/picture-in-picture-toggle.js ***!
+          \******************************************************/
+
+/*!*******************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+          \*******************************************************/
+
+/*!*********************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
+          \*********************************************************/
+
+/*!**********************************************************!*\
+          !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+          \**********************************************************/
+
+/*!************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
+          \************************************************************/
+
+/*!**************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/superPropBase.js ***!
+          \**************************************************************/
+
+/*!***************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+          \***************************************************************/
+
+/*!***************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
+          \***************************************************************/
+
+/*!***************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
+          \***************************************************************/
+
+/*!*****************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
+          \*****************************************************************/
+
+/*!**********************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
+          \**********************************************************************/
+
+/*!**********************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
+          \**********************************************************************/
+
+/*!**************************************************************************!*\
+          !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
+          \**************************************************************************/
+
+/*!*************************************************************************************************!*\
+          !*** external {"commonjs":"video.js","commonjs2":"video.js","amd":"video.js","root":"videojs"} ***!
+          \*************************************************************************************************/
+
+/*!******************************************************************************************************!*\
+          !*** external {"commonjs":"recordrtc","commonjs2":"recordrtc","amd":"recordrtc","root":"RecordRTC"} ***!
+          \******************************************************************************************************/
+
+/*!*******************************************************************************************************************!*\
+          !*** external {"commonjs":"wavesurfer.js","commonjs2":"wavesurfer.js","amd":"wavesurfer.js","root":"WaveSurfer"} ***!
+          \*******************************************************************************************************************/
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-LIcense-Identifier: Apache-2.0
+ */
+
+/**
+ * @license
+ * Lodash <https://lodash.com/>
+ * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/**
+ * @license
+ * Video.js 7.18.1 <http://videojs.com/>
+ * Copyright Brightcove, Inc. <https://www.brightcove.com/>
+ * Available under Apache License Version 2.0
+ * <https://github.com/videojs/video.js/blob/main/LICENSE>
+ *
+ * Includes vtt.js <https://github.com/mozilla/vtt.js>
+ * Available under Apache License Version 2.0
+ * <https://github.com/mozilla/vtt.js/blob/main/LICENSE>
+ */
+
+/**
+ * CanvasRecorder is a standalone class used by {@link RecordRTC} to bring HTML5-Canvas recording into video WebM. It uses HTML2Canvas library and runs top over {@link Whammy}.
+ * @summary HTML2Canvas recording into video WebM.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef CanvasRecorder
+ * @class
+ * @example
+ * var recorder = new CanvasRecorder(htmlElement, { disableLogs: true, useWhammyRecorder: true });
+ * recorder.record();
+ * recorder.stop(function(blob) {
+ *     video.src = URL.createObjectURL(blob);
+ * });
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {HTMLElement} htmlElement - querySelector/getElementById/getElementsByTagName[0]/etc.
+ * @param {object} config - {disableLogs:true, initCallback: function}
+ */
+
+/**
+ * DiskStorage is a standalone object used by {@link RecordRTC} to store recorded blobs in IndexedDB storage.
+ * @summary Writing blobs into IndexedDB.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @example
+ * DiskStorage.Store({
+ *     audioBlob: yourAudioBlob,
+ *     videoBlob: yourVideoBlob,
+ *     gifBlob  : yourGifBlob
+ * });
+ * DiskStorage.Fetch(function(dataURL, type) {
+ *     if(type === 'audioBlob') { }
+ *     if(type === 'videoBlob') { }
+ *     if(type === 'gifBlob')   { }
+ * });
+ * // DiskStorage.dataStoreName = 'recordRTC';
+ * // DiskStorage.onError = function(error) { };
+ * @property {function} init - This method must be called once to initialize IndexedDB ObjectStore. Though, it is auto-used internally.
+ * @property {function} Fetch - This method fetches stored blobs from IndexedDB.
+ * @property {function} Store - This method stores blobs in IndexedDB.
+ * @property {function} onError - This function is invoked for any known/unknown error.
+ * @property {string} dataStoreName - Name of the ObjectStore created in IndexedDB storage.
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ */
+
+/**
+ * GifRecorder is standalone calss used by {@link RecordRTC} to record video or canvas into animated gif.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef GifRecorder
+ * @class
+ * @example
+ * var recorder = new GifRecorder(mediaStream || canvas || context, { onGifPreview: function, onGifRecordingStarted: function, width: 1280, height: 720, frameRate: 200, quality: 10 });
+ * recorder.record();
+ * recorder.stop(function(blob) {
+ *     img.src = URL.createObjectURL(blob);
+ * });
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object or HTMLCanvasElement or CanvasRenderingContext2D.
+ * @param {object} config - {disableLogs:true, initCallback: function, width: 320, height: 240, frameRate: 200, quality: 10}
+ */
+
+/**
+ * MRecordRTC runs on top of {@link RecordRTC} to bring multiple recordings in a single place, by providing simple API.
+ * @summary MRecordRTC stands for "Multiple-RecordRTC".
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef MRecordRTC
+ * @class
+ * @example
+ * var recorder = new MRecordRTC();
+ * recorder.addStream(MediaStream);
+ * recorder.mediaType = {
+ *     audio: true, // or StereoAudioRecorder or MediaStreamRecorder
+ *     video: true, // or WhammyRecorder or MediaStreamRecorder or WebAssemblyRecorder or CanvasRecorder
+ *     gif: true    // or GifRecorder
+ * };
+ * // mimeType is optional and should be set only in advance cases.
+ * recorder.mimeType = {
+ *     audio: 'audio/wav',
+ *     video: 'video/webm',
+ *     gif:   'image/gif'
+ * };
+ * recorder.startRecording();
+ * @see For further information:
+ * @see {@link https://github.com/muaz-khan/RecordRTC/tree/master/MRecordRTC|MRecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object fetched using getUserMedia API or generated using captureStreamUntilEnded or WebAudio API.
+ * @requires {@link RecordRTC}
+ */
+
+/**
+ * MediaStreamRecorder is an abstraction layer for {@link https://w3c.github.io/mediacapture-record/MediaRecorder.html|MediaRecorder API}. It is used by {@link RecordRTC} to record MediaStream(s) in both Chrome and Firefox.
+ * @summary Runs top over {@link https://w3c.github.io/mediacapture-record/MediaRecorder.html|MediaRecorder API}.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://github.com/muaz-khan|Muaz Khan}
+ * @typedef MediaStreamRecorder
+ * @class
+ * @example
+ * var config = {
+ *     mimeType: 'video/webm', // vp8, vp9, h264, mkv, opus/vorbis
+ *     audioBitsPerSecond : 256 * 8 * 1024,
+ *     videoBitsPerSecond : 256 * 8 * 1024,
+ *     bitsPerSecond: 256 * 8 * 1024,  // if this is provided, skip above two
+ *     checkForInactiveTracks: true,
+ *     timeSlice: 1000, // concatenate intervals based blobs
+ *     ondataavailable: function() {} // get intervals based blobs
+ * }
+ * var recorder = new MediaStreamRecorder(mediaStream, config);
+ * recorder.record();
+ * recorder.stop(function(blob) {
+ *     video.src = URL.createObjectURL(blob);
+ *
+ *     // or
+ *     var blob = recorder.blob;
+ * });
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object fetched using getUserMedia API or generated using captureStreamUntilEnded or WebAudio API.
+ * @param {object} config - {disableLogs:true, initCallback: function, mimeType: "video/webm", timeSlice: 1000}
+ * @throws Will throw an error if first argument "MediaStream" is missing. Also throws error if "MediaRecorder API" are not supported by the browser.
+ */
+
+/**
+ * MultiStreamRecorder can record multiple videos in single container.
+ * @summary Multi-videos recorder.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef MultiStreamRecorder
+ * @class
+ * @example
+ * var options = {
+ *     mimeType: 'video/webm'
+ * }
+ * var recorder = new MultiStreamRecorder(ArrayOfMediaStreams, options);
+ * recorder.record();
+ * recorder.stop(function(blob) {
+ *     video.src = URL.createObjectURL(blob);
+ *
+ *     // or
+ *     var blob = recorder.blob;
+ * });
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStreams} mediaStreams - Array of MediaStreams.
+ * @param {object} config - {disableLogs:true, frameInterval: 1, mimeType: "video/webm"}
+ */
+
+/**
+ * RecordRTCPromisesHandler adds promises support in {@link RecordRTC}. Try a {@link https://github.com/muaz-khan/RecordRTC/blob/master/simple-demos/RecordRTCPromisesHandler.html|demo here}
+ * @summary Promises for {@link RecordRTC}
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef RecordRTCPromisesHandler
+ * @class
+ * @example
+ * var recorder = new RecordRTCPromisesHandler(mediaStream, options);
+ * recorder.startRecording()
+ *         .then(successCB)
+ *         .catch(errorCB);
+ * // Note: You can access all RecordRTC API using "recorder.recordRTC" e.g. 
+ * recorder.recordRTC.onStateChanged = function(state) {};
+ * recorder.recordRTC.setRecordingDuration(5000);
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - Single media-stream object, array of media-streams, html-canvas-element, etc.
+ * @param {object} config - {type:"video", recorderType: MediaStreamRecorder, disableLogs: true, numberOfAudioChannels: 1, bufferSize: 0, sampleRate: 0, video: HTMLVideoElement, etc.}
+ * @throws Will throw an error if "new" keyword is not used to initiate "RecordRTCPromisesHandler". Also throws error if first argument "MediaStream" is missing.
+ * @requires {@link RecordRTC}
+ */
+
+/**
+ * StereoAudioRecorder is a standalone class used by {@link RecordRTC} to bring "stereo" audio-recording in chrome.
+ * @summary JavaScript standalone object for stereo audio recording.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef StereoAudioRecorder
+ * @class
+ * @example
+ * var recorder = new StereoAudioRecorder(MediaStream, {
+ *     sampleRate: 44100,
+ *     bufferSize: 4096
+ * });
+ * recorder.record();
+ * recorder.stop(function(blob) {
+ *     video.src = URL.createObjectURL(blob);
+ * });
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object fetched using getUserMedia API or generated using captureStreamUntilEnded or WebAudio API.
+ * @param {object} config - {sampleRate: 44100, bufferSize: 4096, numberOfAudioChannels: 1, etc.}
+ */
+
+/**
+ * Storage is a standalone object used by {@link RecordRTC} to store reusable objects e.g. "new AudioContext".
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @example
+ * Storage.AudioContext === webkitAudioContext
+ * @property {webkitAudioContext} AudioContext - Keeps a reference to AudioContext object.
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ */
+
+/**
+ * WebAssemblyRecorder lets you create webm videos in JavaScript via WebAssembly. The library consumes raw RGBA32 buffers (4 bytes per pixel) and turns them into a webm video with the given framerate and quality. This makes it compatible out-of-the-box with ImageData from a CANVAS. With realtime mode you can also use webm-wasm for streaming webm videos.
+ * @summary Video recording feature in Chrome, Firefox and maybe Edge.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef WebAssemblyRecorder
+ * @class
+ * @example
+ * var recorder = new WebAssemblyRecorder(mediaStream);
+ * recorder.record();
+ * recorder.stop(function(blob) {
+ *     video.src = URL.createObjectURL(blob);
+ * });
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object fetched using getUserMedia API or generated using captureStreamUntilEnded or WebAudio API.
+ * @param {object} config - {webAssemblyPath:'webm-wasm.wasm',workerPath: 'webm-worker.js', frameRate: 30, width: 1920, height: 1080, bitrate: 1024, realtime: true}
+ */
+
+/**
+ * Whammy is a standalone class used by {@link RecordRTC} to bring video recording in Chrome. It is written by {@link https://github.com/antimatter15|antimatter15}
+ * @summary A real time javascript webm encoder based on a canvas hack.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef Whammy
+ * @class
+ * @example
+ * var recorder = new Whammy().Video(15);
+ * recorder.add(context || canvas || dataURL);
+ * var output = recorder.compile();
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ */
+
+/**
+ * WhammyRecorder is a standalone class used by {@link RecordRTC} to bring video recording in Chrome. It runs top over {@link Whammy}.
+ * @summary Video recording feature in Chrome.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef WhammyRecorder
+ * @class
+ * @example
+ * var recorder = new WhammyRecorder(mediaStream);
+ * recorder.record();
+ * recorder.stop(function(blob) {
+ *     video.src = URL.createObjectURL(blob);
+ * });
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object fetched using getUserMedia API or generated using captureStreamUntilEnded or WebAudio API.
+ * @param {object} config - {disableLogs: true, initCallback: function, video: HTMLVideoElement, etc.}
+ */
+
+/**
+ * vuex v2.1.2
+ * (c) 2017 Evan You
+ * @license MIT
+ */
+
+/**
+ * {@link GetRecorderType} is an inner/private helper for {@link RecordRTC}.
+ * @summary It returns best recorder-type available for your browser.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef GetRecorderType
+ * @class
+ * @example
+ * var RecorderType = GetRecorderType(options);
+ * var recorder = new RecorderType(options);
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object fetched using getUserMedia API or generated using captureStreamUntilEnded or WebAudio API.
+ * @param {object} config - {type:"video", disableLogs: true, numberOfAudioChannels: 1, bufferSize: 0, sampleRate: 0, video: HTMLVideoElement, etc.}
+ */
+
+/**
+ * {@link RecordRTCConfiguration} is an inner/private helper for {@link RecordRTC}.
+ * @summary It configures the 2nd parameter passed over {@link RecordRTC} and returns a valid "config" object.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef RecordRTCConfiguration
+ * @class
+ * @example
+ * var options = RecordRTCConfiguration(mediaStream, options);
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - MediaStream object fetched using getUserMedia API or generated using captureStreamUntilEnded or WebAudio API.
+ * @param {object} config - {type:"video", disableLogs: true, numberOfAudioChannels: 1, bufferSize: 0, sampleRate: 0, video: HTMLVideoElement, getNativeBlob:true, etc.}
+ */
+
+/**
+ * {@link https://github.com/muaz-khan/RecordRTC|RecordRTC} is a WebRTC JavaScript library for audio/video as well as screen activity recording. It supports Chrome, Firefox, Opera, Android, and Microsoft Edge. Platforms: Linux, Mac and Windows. 
+ * @summary Record audio, video or screen inside the browser.
+ * @license {@link https://github.com/muaz-khan/RecordRTC/blob/master/LICENSE|MIT}
+ * @author {@link https://MuazKhan.com|Muaz Khan}
+ * @typedef RecordRTC
+ * @class
+ * @example
+ * var recorder = RecordRTC(mediaStream or [arrayOfMediaStream], {
+ *     type: 'video', // audio or video or gif or canvas
+ *     recorderType: MediaStreamRecorder || CanvasRecorder || StereoAudioRecorder || Etc
+ * });
+ * recorder.startRecording();
+ * @see For further information:
+ * @see {@link https://github.com/muaz-khan/RecordRTC|RecordRTC Source Code}
+ * @param {MediaStream} mediaStream - Single media-stream object, array of media-streams, html-canvas-element, etc.
+ * @param {object} config - {type:"video", recorderType: MediaStreamRecorder, disableLogs: true, numberOfAudioChannels: 1, bufferSize: 0, sampleRate: 0, desiredSampRate: 16000, video: HTMLVideoElement, etc.}
+ */
+
+/**!
+ * @fileOverview Kickass library to create and place poppers near their reference elements.
+ * @version 1.16.1
+ * @license
+ * Copyright (c) 2016 Federico Zivolo and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**!
+ * Sortable 1.10.2
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @author	owenm    <owen23355@gmail.com>
+ * @license MIT
+ */
+
+//!           Burak Yiğit Kaya: https://github.com/BYK
+
+//!           Sigurd Gartmann : https://github.com/sigurdga
+
+//!           Stephen Ramthun : https://github.com/stephenramthun
+
+//! Author : Menelion Elensúle : https://github.com/Oire
+
+//! author : Abdel Said : https://github.com/abdelsaid
+
+//! author : Abdel Said: https://github.com/abdelsaid
+
+//! author : Adam Brunner : https://github.com/adambrunner
+
+//! author : Aggelos Karalias : https://github.com/mehiel
+
+//! author : Ahmed Elkhatib
+
+//! author : Alessandro Maruccia : https://github.com/alesma
+
+//! author : Ali Hmer: https://github.com/kikoanis
+
+//! author : Amine Roukh: https://github.com/Amine27
+
+//! author : Anatoly Mironov : https://github.com/mirontoli
+
+//! author : Andrew Hood : https://github.com/andrewhood125
+
+//! author : André Silva : https://github.com/askpt
+
+//! author : Anthony : https://github.com/anthonylau
+
+//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
+
+//! author : Armendarabyan : https://github.com/armendarabyan
+
+//! author : Asraf Hossain Patoary : https://github.com/ashwoolford
+
+//! author : Atamyrat Abdyrahmanov : https://github.com/atamyratabdy
+
+//! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
+
+//! author : Bang Nguyen : https://github.com/bangnk
+
+//! author : Ben : https://github.com/ben-lin
+
+//! author : Bojan Marković : https://github.com/bmarkovic
+
+//! author : Borislav Mickov : https://github.com/B0k0
+
+//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
+
+//! author : Chien Kira : https://github.com/chienkira
+
+//! author : Chris Cartlidge : https://github.com/chriscartlidge
+
+//! author : Chris Gedrim : https://github.com/chrisgedrim
+
+//! author : Chris Lam : https://github.com/hehachris
+
+//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
+
+//! author : Colin Dean : https://github.com/colindean
+
+//! author : Dan Hagman : https://github.com/hagmandan
+
+//! author : David Raison : https://github.com/kwisatz
+
+//! author : David Rossellat : https://github.com/gholadr
+
+//! author : Dmitry Demidov : https://github.com/demidov91
+
+//! author : Dominika Kruk : https://github.com/amaranthrose
+
+//! author : Ebrahim Byagowi : https://github.com/ebraminio
+
+//! author : ElFadili Yassine : https://github.com/ElFadiliY
+
+//! author : Emanuel Cepoi : https://github.com/cepem
+
+//! author : Eneko Illarramendi : https://github.com/eillarra
+
+//! author : Estelle Comment : https://github.com/estellecomment
+
+//! author : Fahad Kassim : https://github.com/fadsel
+
+//! author : Flakërim Ismani : https://github.com/flakerimi
+
+//! author : Floyd Pink : https://github.com/floydpink
+
+//! author : Gaspard Bucher : https://github.com/gaspard
+
+//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
+
+//! author : Harshad Kale : https://github.com/kalehv
+
+//! author : Henry Kehlmann : https://github.com/madhenry
+
+//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
+
+//! author : Irakli Janiashvili : https://github.com/IrakliJani
+
+//! author : Iustì Canun
+
+//! author : JC Franco : https://github.com/jcfranco
+
+//! author : Jacob Middag : https://github.com/middagj
+
+//! author : Jared Morse : https://github.com/jarcoal
+
+//! author : Jatin Agrawal : https://github.com/jatinag22
+
+//! author : Javkhlantugs Nyamdorj : https://github.com/javkhaanj7
+
+//! author : Jawish Hameed : https://github.com/jawish
+
+//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
+
+//! author : Jeeeyul Lee <jeeeyul@gmail.com>
+
+//! author : Jefferson : https://github.com/jalex79
+
+//! author : Jens Alm : https://github.com/ulmus
+
+//! author : John Corrigan <robbiecloset@gmail.com> : https://github.com/johnideal
+
+//! author : John Fischer : https://github.com/jfroffice
+
+//! author : Jon Ashdown : https://github.com/jonashdown
+
+//! author : Jonathan Abourbih : https://github.com/jonbca
+
+//! author : Joris Röling : https://github.com/jorisroling
+
+//! author : Joshua Brooks : https://github.com/joshbrooks
+
+//! author : Juan G. Hurtado : https://github.com/juanghurtado
+
+//! author : Julio Napurí : https://github.com/julionc
+
+//! author : Jānis Elmeris : https://github.com/JanisE
+
+//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
+
+//! author : Kaushik Thanki : https://github.com/Kaushik1987
+
+//! author : Konstantin : https://github.com/skfd
+
+//! author : Krasen Borisov : https://github.com/kraz
+
+//! author : Kridsada Thanabulpong : https://github.com/sirn
+
+//! author : Krishna Chaitanya Thota : https://github.com/kcthota
+
+//! author : Kristaps Karlsons : https://github.com/skakri
+
+//! author : Kristian Sakarisson : https://github.com/sakarisson
+
+//! author : Kruy Vanna : https://github.com/kruyvanna
+
+//! author : Kyungwook, Park : https://github.com/kyungw00k
+
+//! author : LI Long : https://github.com/baryon
+
+//! author : Lorenzo : https://github.com/aliem
+
+//! author : Luke McGregor : https://github.com/lukemcgregor
+
+//! author : Martin Groller : https://github.com/MadMG
+
+//! author : Martin Minka : https://github.com/k2s
+
+//! author : Matthew Castrillon-Madrigal : https://github.com/techdimension
+
+//! author : Matthew Co : https://github.com/matthewdeeco
+
+//! author : Mayank Singhal : https://github.com/mayanksinghal
+
+//! author : Menelion Elensúle : https://github.com/Oire
+
+//! author : Mia Nordentoft Imperatori : https://github.com/miestasmia
+
+//! author : Mikolaj Dadela : https://github.com/mik01aj
+
+//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
+
+//! author : Mindaugas Mozūras : https://github.com/mmozuras
+
+//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
+
+//! author : Mohammad Satrio Utomo : https://github.com/tyok
+
+//! author : Moshe Simantov : https://github.com/DevelopmentIL
+
+//! author : Nader Toukabri : https://github.com/naderio
+
+//! author : Narain Sagar : https://github.com/narainsagar
+
+//! author : Nedim Cholich : https://github.com/frontyard
+
+//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
+
+//! author : Noureddine LOUAHEDJ : https://github.com/noureddinem
+
+//! author : Nusret Parlak: https://github.com/nusretparlak
+
+//! author : Oerd Cukalla : https://github.com/oerd
+
+//! author : Onorio De J. Afonso : https://github.com/marobo
+
+//! author : Orif N. Jr. : https://github.com/orif-jr
+
+//! author : Peter Viszt  : https://github.com/passatgt
+
+//! author : Quentin PAGÈS : https://github.com/Quenty31
+
+//! author : Rafal Hirsz : https://github.com/evoL
+
+//! author : Ragnar Johannesen : https://github.com/ragnar123
+
+//! author : Rajeev Naik : https://github.com/rajeevnaikte
+
+//! author : Rasulbek Mirzayev : github.com/Rasulbeeek
+
+//! author : Robert Allen : https://github.com/robgallen
+
+//! author : Robert Sedovšek : https://github.com/sedovsek
+
+//! author : Robin van der Vliet : https://github.com/robin0van0der0v
+
+//! author : Rony Lantip : https://github.com/lantip
+
+//! author : Ryan Hart : https://github.com/ryanhart2
+
+//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
+
+//! author : Sardor Muminov : https://github.com/muminoff
+
+//! author : Sashko Todorov : https://github.com/bkyceh
+
+//! author : Sawood Alam : https://github.com/ibnesayeed
+
+//! author : Shahram Mebashar : https://github.com/ShahramMebashar
+
+//! author : Sonia Simoes : https://github.com/soniasimoes
+
+//! author : Squar team, mysquar.com
+
+//! author : Stefan Crnjaković <stefan@hotmail.rs> : https://github.com/crnjakovic
+
+//! author : Suhail Alkowaileet : https://github.com/xsoh
+
+//! author : Tal Ater : https://github.com/TalAter
+
+//! author : Tan Yuanhong : https://github.com/le0tan
+
+//! author : Tarmo Aidantausta : https://github.com/bleadof
+
+//! author : The Discoverer : https://github.com/WikiDiscoverer
+
+//! author : Thupten N. Chakrishar : https://github.com/vajradog
+
+//! author : Tin Aung Lin : https://github.com/thanyawzinmin
+
+//! author : Tomer Cohen : https://github.com/tomer
+
+//! author : Ulrik Nielsen : https://github.com/mrbase
+
+//! author : Valentin Agachi : https://github.com/avaly
+
+//! author : Viktorminator : https://github.com/Viktorminator
+
+//! author : Vivek Athalye : https://github.com/vnathalye
+
+//! author : Vlad Gurdiga : https://github.com/gurdiga
+
+//! author : Weldan Jamili : https://github.com/weldan
+
+//! author : Werner Mollentze : https://github.com/wernerm
+
+//! author : Zack : https://github.com/ZackVision
+
+//! author : Zeno Zeng : https://github.com/zenozeng
+
+//! author : bustta : https://github.com/bustta
+
+//! author : chrisrodz : https://github.com/chrisrodz
+
+//! author : forabi https://github.com/forabi
+
+//! author : https://github.com/ryangreaves
+
+//! author : lluchs : https://github.com/lluchs
+
+//! author : mweimerskirch : https://github.com/mweimerskirch
+
+//! author : petrbela : https://github.com/petrbela
+
+//! author : sschueller : https://github.com/sschueller
+
+//! author : suupic : https://github.com/suupic
+
+//! author : suvash : https://github.com/suvash
+
+//! author : topchiyev : https://github.com/topchiyev
+
+//! author : uu109 : https://github.com/uu109
+
+//! author : xfh : https://github.com/xfh
+
+//! author : zemlanin : https://github.com/zemlanin
+
+//! author : Коренберг Марк : https://github.com/socketpair
+
+//! author: Marco : https://github.com/Manfre98
+
+//! author: Mattia Larentis: https://github.com/nostalgiaz
+
+//! author: Menelion Elensúle: https://github.com/Oire
+
+//! author: Praleska: http://praleska.pro/
+
+//! author: boyaq : https://github.com/boyaq
+
+//! authors : Bård Rolstad Henriksen : https://github.com/karamell
+
+//! authors : Erhan Gundogan : https://github.com/erhangundogan,
+
+//! authors : Espen Hovlandsdal : https://github.com/rexxars
+
+//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
+
+//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
+
+//! authors : https://github.com/mechuwind
+
+//! based on (hr) translation by Bojan Marković
+
+//! based on work of petrbela : https://github.com/petrbela
+
+//! comment : Vivakvo corrected the translation by colindean and miestasmia
+
+//! comment : miestasmia corrected the translation by colindean
+
+//! improvements : Illimar Tambek : https://github.com/ragulka
+
+//! license : MIT
+
+//! locale  :  Arabic (Tunisia) [ar-tn]
+
+//! locale : Afrikaans [af]
+
+//! locale : Albanian [sq]
+
+//! locale : Arabic (Algeria) [ar-dz]
+
+//! locale : Arabic (Kuwait) [ar-kw]
+
+//! locale : Arabic (Libya) [ar-ly]
+
+//! locale : Arabic (Morocco) [ar-ma]
+
+//! locale : Arabic (Saudi Arabia) [ar-sa]
+
+//! locale : Arabic [ar]
+
+//! locale : Armenian [hy-am]
+
+//! locale : Azerbaijani [az]
+
+//! locale : Bambara [bm]
+
+//! locale : Basque [eu]
+
+//! locale : Belarusian [be]
+
+//! locale : Bengali (Bangladesh) [bn-bd]
+
+//! locale : Bengali [bn]
+
+//! locale : Bosnian [bs]
+
+//! locale : Breton [br]
+
+//! locale : Bulgarian [bg]
+
+//! locale : Burmese [my]
+
+//! locale : Cambodian [km]
+
+//! locale : Catalan [ca]
+
+//! locale : Central Atlas Tamazight Latin [tzm-latn]
+
+//! locale : Central Atlas Tamazight [tzm]
+
+//! locale : Chinese (China) [zh-cn]
+
+//! locale : Chinese (Hong Kong) [zh-hk]
+
+//! locale : Chinese (Macau) [zh-mo]
+
+//! locale : Chinese (Taiwan) [zh-tw]
+
+//! locale : Chuvash [cv]
+
+//! locale : Croatian [hr]
+
+//! locale : Czech [cs]
+
+//! locale : Danish [da]
+
+//! locale : Dutch (Belgium) [nl-be]
+
+//! locale : Dutch [nl]
+
+//! locale : English (Australia) [en-au]
+
+//! locale : English (Canada) [en-ca]
+
+//! locale : English (India) [en-in]
+
+//! locale : English (Ireland) [en-ie]
+
+//! locale : English (Israel) [en-il]
+
+//! locale : English (New Zealand) [en-nz]
+
+//! locale : English (Singapore) [en-sg]
+
+//! locale : English (United Kingdom) [en-gb]
+
+//! locale : Esperanto [eo]
+
+//! locale : Estonian [et]
+
+//! locale : Faroese [fo]
+
+//! locale : Filipino [fil]
+
+//! locale : Finnish [fi]
+
+//! locale : French (Canada) [fr-ca]
+
+//! locale : French (Switzerland) [fr-ch]
+
+//! locale : French [fr]
+
+//! locale : Frisian [fy]
+
+//! locale : Galician [gl]
+
+//! locale : Georgian [ka]
+
+//! locale : German (Austria) [de-at]
+
+//! locale : German (Switzerland) [de-ch]
+
+//! locale : German [de]
+
+//! locale : Greek [el]
+
+//! locale : Gujarati [gu]
+
+//! locale : Hebrew [he]
+
+//! locale : Hindi [hi]
+
+//! locale : Hungarian [hu]
+
+//! locale : Icelandic [is]
+
+//! locale : Indonesian [id]
+
+//! locale : Irish or Irish Gaelic [ga]
+
+//! locale : Italian (Switzerland) [it-ch]
+
+//! locale : Italian [it]
+
+//! locale : Japanese [ja]
+
+//! locale : Javanese [jv]
+
+//! locale : Kannada [kn]
+
+//! locale : Kazakh [kk]
+
+//! locale : Klingon [tlh]
+
+//! locale : Konkani Devanagari script [gom-deva]
+
+//! locale : Konkani Latin script [gom-latn]
+
+//! locale : Korean [ko]
+
+//! locale : Kurdish [ku]
+
+//! locale : Kyrgyz [ky]
+
+//! locale : Lao [lo]
+
+//! locale : Latvian [lv]
+
+//! locale : Lithuanian [lt]
+
+//! locale : Luxembourgish [lb]
+
+//! locale : Macedonian [mk]
+
+//! locale : Malay [ms-my]
+
+//! locale : Malay [ms]
+
+//! locale : Malayalam [ml]
+
+//! locale : Maldivian [dv]
+
+//! locale : Maltese (Malta) [mt]
+
+//! locale : Maori [mi]
+
+//! locale : Marathi [mr]
+
+//! locale : Mongolian [mn]
+
+//! locale : Montenegrin [me]
+
+//! locale : Nepalese [ne]
+
+//! locale : Northern Sami [se]
+
+//! locale : Norwegian Bokmål [nb]
+
+//! locale : Nynorsk [nn]
+
+//! locale : Occitan, lengadocian dialecte [oc-lnc]
+
+//! locale : Persian [fa]
+
+//! locale : Polish [pl]
+
+//! locale : Portuguese (Brazil) [pt-br]
+
+//! locale : Portuguese [pt]
+
+//! locale : Pseudo [x-pseudo]
+
+//! locale : Punjabi (India) [pa-in]
+
+//! locale : Romanian [ro]
+
+//! locale : Russian [ru]
+
+//! locale : Scottish Gaelic [gd]
+
+//! locale : Serbian Cyrillic [sr-cyrl]
+
+//! locale : Serbian [sr]
+
+//! locale : Sindhi [sd]
+
+//! locale : Sinhalese [si]
+
+//! locale : Slovak [sk]
+
+//! locale : Slovenian [sl]
+
+//! locale : Spanish (Dominican Republic) [es-do]
+
+//! locale : Spanish (Mexico) [es-mx]
+
+//! locale : Spanish (United States) [es-us]
+
+//! locale : Spanish [es]
+
+//! locale : Swahili [sw]
+
+//! locale : Swedish [sv]
+
+//! locale : Tagalog (Philippines) [tl-ph]
+
+//! locale : Tajik [tg]
+
+//! locale : Talossan [tzl]
+
+//! locale : Tamil [ta]
+
+//! locale : Telugu [te]
+
+//! locale : Tetun Dili (East Timor) [tet]
+
+//! locale : Thai [th]
+
+//! locale : Tibetan [bo]
+
+//! locale : Turkish [tr]
+
+//! locale : Turkmen [tk]
+
+//! locale : Ukrainian [uk]
+
+//! locale : Urdu [ur]
+
+//! locale : Uyghur (China) [ug-cn]
+
+//! locale : Uzbek Latin [uz-latn]
+
+//! locale : Uzbek [uz]
+
+//! locale : Vietnamese [vi]
+
+//! locale : Welsh [cy]
+
+//! locale : Yoruba Nigeria [yo]
+
+//! locale : siSwati [ss]
+
+//! moment.js
+
+//! moment.js locale configuration
+
+//! momentjs.com
+
+//! note : DEPRECATED, the correct one is [ms]
+
+//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
+
+//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
+
+//! version : 2.29.4

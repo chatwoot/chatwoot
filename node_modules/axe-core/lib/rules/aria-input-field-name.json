@@ -1,0 +1,13 @@
+{
+  "id": "aria-input-field-name",
+  "selector": "[role=\"combobox\"], [role=\"listbox\"], [role=\"searchbox\"], [role=\"slider\"], [role=\"spinbutton\"], [role=\"textbox\"]",
+  "matches": "no-naming-method-matches",
+  "tags": ["cat.aria", "wcag2a", "wcag412", "ACT"],
+  "metadata": {
+    "description": "Ensures every ARIA input field has an accessible name",
+    "help": "ARIA input fields must have an accessible name"
+  },
+  "all": [],
+  "any": ["aria-label", "aria-labelledby", "non-empty-title"],
+  "none": ["no-implicit-explicit-label"]
+}

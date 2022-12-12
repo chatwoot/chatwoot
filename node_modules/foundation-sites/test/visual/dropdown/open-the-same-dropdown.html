@@ -1,0 +1,43 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" dir="rtl"> <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <title>Foundation for Sites Testing</title>
+  </head>
+
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Dropdown: Open The Same</h1>
+
+          <p>Clickable:</p>
+
+          <button class="button" type="button" data-toggle="example-dropdown">Toggle Dropdown</button>
+          <button class="button" type="button" data-toggle="example-dropdown">Toggle Dropdown</button>
+          <div class="dropdown-pane" id="example-dropdown" data-dropdown data-auto-focus="true">
+            <p>This is a dropdown.</p>
+          </div>
+
+          <p>Hoverable:</p>
+
+          <button class="button" type="button" data-toggle="example-dropdown-1">Hoverable Dropdown</button>
+          <button class="button" type="button" data-toggle="example-dropdown-1">Hoverable Dropdown</button>
+          <div class="dropdown-pane" id="example-dropdown-1" data-dropdown data-hover="true" data-hover-pane="true">
+            Just some junk that needs to be said. Or not. Your choice.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+/* ve-table */
+/* ve-pagination */
+/* ve-checkbox */
+/* ve-radio */
+/* ve-select */
+/* ve-dropdown */
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+.ve-pagination {
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin: 0 4px;
+  list-style-type: none;
+}
+.ve-pagination .ve-pagination-total {
+  float: left;
+  margin: 0 4px;
+  color: #000000d9;
+}
+.ve-pagination .ve-pagination-select {
+  float: left;
+  margin: 0 4px;
+}
+.ve-pagination .ve-pagination-pager {
+  float: left;
+}
+.ve-pagination .ve-pagination-goto {
+  float: left;
+  margin: 0 4px;
+  color: #000000d9;
+}
+.ve-pagination .ve-pagination-goto .ve-pagination-goto-input {
+  width: 50px;
+  height: 32px;
+  padding: 1px 7px;
+  display: inline-block;
+  border: 1px solid #c8cdd4;
+  background-color: #fff;
+  background-image: none;
+  transition: border 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 4px;
+}
+.ve-pagination .ve-pagination-goto .ve-pagination-goto-input:focus {
+  outline: none !important;
+  border-color: #108ee9;
+}
+.ve-pagination .ve-pagination-goto .ve-pagination-goto-input:hover {
+  border-color: #108ee9;
+}
+.ve-pagination .ve-pagination-li {
+  min-width: 32px;
+  height: 32px;
+  float: left;
+  margin-right: 4px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  text-align: center;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #c8cdd4;
+  border-radius: 4px;
+}
+.ve-pagination .ve-pagination-li a {
+  color: #000000d9;
+}
+.ve-pagination .ve-pagination-li:hover {
+  border-color: #108ee9;
+}
+.ve-pagination .ve-pagination-li:hover a {
+  color: #108ee9;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active {
+  border-color: #108ee9;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active a {
+  font-weight: bold;
+  color: #108ee9;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active:hover {
+  border-color: #108ee9;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active:hover a {
+  font-weight: bold;
+  color: #108ee9;
+}
+.ve-pagination .ve-pagination-prev i,
+.ve-pagination .ve-pagination-next i {
+  color: #666;
+}
+.ve-pagination .ve-pagination-prev:hover i,
+.ve-pagination .ve-pagination-next:hover i {
+  color: #108ee9;
+}
+.ve-pagination .ve-pagination-jump-prev:after,
+.ve-pagination .ve-pagination-jump-next:after {
+  content: "•••";
+  display: block;
+  letter-spacing: 1px;
+  color: #666;
+  text-align: center;
+}
+.ve-pagination .ve-pagination-jump-prev i,
+.ve-pagination .ve-pagination-jump-prev:hover:after,
+.ve-pagination .ve-pagination-jump-next i,
+.ve-pagination .ve-pagination-jump-next:hover:after {
+  display: none;
+}
+.ve-pagination .ve-pagination-jump-prev:hover i,
+.ve-pagination .ve-pagination-jump-next:hover i {
+  display: inline;
+  color: #108ee9;
+}
+.ve-pagination .ve-pagination-disabled {
+  cursor: not-allowed;
+  border-color: #c8cdd4;
+}
+.ve-pagination .ve-pagination-disabled:hover {
+  border-color: #c8cdd4;
+}
+.ve-pagination .ve-pagination-disabled:hover i {
+  color: #ccc;
+  cursor: not-allowed;
+}
+.ve-pagination .ve-pagination-disabled i {
+  color: #ccc;
+}

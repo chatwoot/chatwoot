@@ -1,0 +1,91 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h4>I Fire preequalized and postequalized on medium-up and also after _pauseEvents</h4>
+          <div class="grid-x grid-padding-x" data-equalizer data-equalize-on-stack="false" data-equalize-on="medium" id="equalizer1">
+            <div class="small-12 medium-3 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Test</div>
+              </div>
+            </div>
+            <div class="small-12 medium-3 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Test</div>
+              </div>
+            </div>
+            <div class="small-12 medium-3 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Test</div>
+              </div>
+            </div>
+            <div class="small-12 medium-3 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga officia iste ut distinctio magni accusantium, optio ipsa at cupiditate sequi!</div>
+              </div>
+            </div>
+          </div>
+          <h4>I Fire preequalized, preequalizedrow, postequalizedrow, postequalized, resizeme</h4>
+          <div class="grid-x grid-padding-x" data-equalizer data-equalize-by-row="true" id="equalizer2">
+            <div class="small-12 medium-6 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Test</div>
+              </div>
+            </div>
+            <div class="small-12 medium-6 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Test</div>
+              </div>
+            </div>
+            <div class="small-12 medium-6 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Test</div>
+              </div>
+            </div>
+            <div class="small-12 medium-6 cell">
+              <div class="callout">
+                <div class="callout" data-equalizer-watch>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero dolore inventore quibusdam deleniti a ipsa laborum, illo, soluta quas velit?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $('[data-equalizer]').on('preequalized.zf.equalizer',function(e){
+        console.log($(this).attr('id')+' '+e.type);
+      });
+
+      $('[data-equalizer]').on('preequalizedrow.zf.equalizer',function(e){
+        console.log($(this).attr('id')+' '+e.type);
+      });
+
+      $('[data-equalizer]').on('postequalizedrow.zf.equalizer',function(e){
+        console.log($(this).attr('id')+' '+e.type);
+      });
+
+      $('[data-equalizer]').on('postequalized.zf.equalizer',function(e){
+        console.log($(this).attr('id')+' '+e.type);
+      });
+
+      $('[data-equalizer]').on('resizeme.zf.trigger',function(e){
+        console.log($(this).attr('id')+' '+e.type);
+      });
+
+      $(document).foundation();
+    </script>
+  </body>
+</html>

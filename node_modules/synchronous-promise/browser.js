@@ -1,0 +1,1 @@
+window.SynchronousPromise = require('./index').SynchronousPromise;

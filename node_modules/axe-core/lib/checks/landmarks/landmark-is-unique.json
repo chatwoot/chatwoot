@@ -1,0 +1,12 @@
+{
+  "id": "landmark-is-unique",
+  "evaluate": "landmark-is-unique-evaluate",
+  "after": "landmark-is-unique-after",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Landmarks must have a unique role or role/label/title (i.e. accessible name) combination",
+      "fail": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Slider: Non-zero Start Value</h1>
+
+          <p>Slider should be at left, since the initialStart is 50 and the scale is 50-100. (top: broken, bottom: expected)</p>
+
+          <div class="slider" id="slider1" data-slider
+               data-initial-start="50"
+               data-start="50" data-end="100">
+            <span class="slider-handle" data-slider-handle role="slider" tabindex="1"></span>
+            <span class="slider-fill" data-slider-fill></span>
+            <input type="hidden">
+          </div>
+
+          <hr>
+
+          <p>Slider should cover 100%, since the initialStart is 50 and the scale is 50-100 (top: broken, bottom: expected)</p>
+          <div class="slider" id="slider2" data-slider
+               data-double-sided
+               data-initial-start="50" data-initial-end="100"
+               data-start="50" data-end="100">
+            <span class="slider-handle" data-slider-handle role="slider" tabindex="1"></span>
+            <span class="slider-fill" data-slider-fill></span>
+            <span class="slider-handle" data-slider-handle role="slider" tabindex="1"></span>
+            <input type="hidden">
+            <input type="hidden">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

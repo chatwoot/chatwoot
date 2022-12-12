@@ -1,0 +1,13 @@
+{
+  "id": "landmark-unique",
+  "selector": "[role=banner], [role=complementary], [role=contentinfo], [role=main], [role=navigation], [role=region], [role=search], [role=form], form, footer, header, aside, main, nav, section",
+  "tags": ["cat.semantics", "best-practice"],
+  "metadata": {
+    "help": "Ensures landmarks are unique",
+    "description": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination"
+  },
+  "matches": "landmark-unique-matches",
+  "all": [],
+  "any": ["landmark-is-unique"],
+  "none": []
+}

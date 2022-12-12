@@ -1,0 +1,12 @@
+{
+  "id": "td-headers-attr",
+  "evaluate": "td-headers-attr-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "The headers attribute is exclusively used to refer to other cells in the table",
+      "incomplete": "The headers attribute is empty",
+      "fail": "The headers attribute is not exclusively used to refer to other cells in the table"
+    }
+  }
+}

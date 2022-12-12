@@ -1,0 +1,18 @@
+{
+  "id": "aria-tooltip-name",
+  "selector": "[role=\"tooltip\"]",
+  "matches": "no-naming-method-matches",
+  "tags": ["cat.aria", "wcag2a", "wcag412"],
+  "metadata": {
+    "description": "Ensures every ARIA tooltip node has an accessible name",
+    "help": "ARIA tooltip nodes must have an accessible name"
+  },
+  "all": [],
+  "any": [
+    "has-visible-text",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title"
+  ],
+  "none": []
+}

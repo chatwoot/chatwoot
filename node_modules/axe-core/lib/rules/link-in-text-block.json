@@ -1,0 +1,14 @@
+{
+  "id": "link-in-text-block",
+  "selector": "a[href], [role=link]",
+  "matches": "link-in-text-block-matches",
+  "excludeHidden": false,
+  "tags": ["cat.color", "experimental", "wcag2a", "wcag141"],
+  "metadata": {
+    "description": "Links can be distinguished without relying on color",
+    "help": "Links must be distinguished from surrounding text in a way that does not rely on color"
+  },
+  "all": ["link-in-text-block"],
+  "any": [],
+  "none": []
+}

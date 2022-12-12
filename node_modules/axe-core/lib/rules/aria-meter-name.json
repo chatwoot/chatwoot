@@ -1,0 +1,13 @@
+{
+  "id": "aria-meter-name",
+  "selector": "[role=\"meter\"]",
+  "matches": "no-naming-method-matches",
+  "tags": ["cat.aria", "wcag2a", "wcag111"],
+  "metadata": {
+    "description": "Ensures every ARIA meter node has an accessible name",
+    "help": "ARIA meter nodes must have an accessible name"
+  },
+  "all": [],
+  "any": ["aria-label", "aria-labelledby", "non-empty-title"],
+  "none": []
+}

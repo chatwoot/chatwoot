@@ -1,0 +1,42 @@
+{
+  "name": "babel-plugin-jsx-event-modifiers",
+  "version": "2.0.5",
+  "description": "JSX Syntactic Sugar Plugin for Event Modifiers",
+  "main": "dist/bundle.js",
+  "repository": "https://github.com/nickmessing/babel-plugin-jsx-event-modifiers.git",
+  "author": "Nicolai Moraru <dot.nick.dot.messing@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "ava": "^0.22.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.5.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "nyc": "^11.1.0",
+    "prettier": "^1.5.3",
+    "rollup": "^0.47.6",
+    "rollup-plugin-babel": "^3.0.2"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "NODE_ENV=test npm run build",
+    "test": "nyc --reporter=html --reporter=text ava",
+    "build": "rollup --config build.js",
+    "prepare": "npm run build"
+  },
+  "nyc": {
+    "include": [
+      "src"
+    ]
+  }
+}

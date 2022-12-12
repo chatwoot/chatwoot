@@ -1,0 +1,19 @@
+{
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent": [2, 2],
+    "quotes": [2, "single"],
+    "semi": [2, "always"],
+    "linebreak-style": [2, "unix"],
+    "comma-dangle": [2, "always-multiline"],
+    "no-use-before-define": [2, "nofunc"],
+    "no-unused-vars": [1, { "vars": "all", "args": "after-used" }]
+  },
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "ecmaFeatures": {
+    "modules": true
+  }
+}

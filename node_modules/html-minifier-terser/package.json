@@ -1,0 +1,88 @@
+{
+  "name": "html-minifier-terser",
+  "description": "Highly configurable, well-tested, JavaScript-based HTML minifier.",
+  "version": "5.1.1",
+  "keywords": [
+    "cli",
+    "compress",
+    "compressor",
+    "css",
+    "html",
+    "htmlmin",
+    "javascript",
+    "min",
+    "minification",
+    "minifier",
+    "minify",
+    "optimize",
+    "optimizer",
+    "pack",
+    "packer",
+    "parse",
+    "parser",
+    "terser",
+    "uglifier",
+    "uglify"
+  ],
+  "homepage": "https://danielruf.github.io/html-minifier-terser/",
+  "author": "Daniel Ruf",
+  "maintainers": [
+    "Daniel Ruf <daniel@daniel-ruf.de",
+    "Alex Lam <alexlamsl@gmail.com>",
+    "Juriy Zaytsev <kangax@gmail.com> (http://perfectionkills.com/)"
+  ],
+  "contributors": [
+    "Gilmore Davidson (https://github.com/gilmoreorless)",
+    "Hugo Wetterberg <hugo@wetterberg.nu>",
+    "Zoltan Frombach <tssajo@gmail.com>"
+  ],
+  "license": "MIT",
+  "bin": {
+    "html-minifier-terser": "./cli.js"
+  },
+  "main": "src/htmlminifier.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielRuf/html-minifier-terser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DanielRuf/html-minifier-terser/issues"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "scripts": {
+    "dist": "grunt dist",
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "camel-case": "^4.1.1",
+    "clean-css": "^4.2.3",
+    "commander": "^4.1.1",
+    "he": "^1.2.0",
+    "param-case": "^3.0.3",
+    "relateurl": "^0.2.7",
+    "terser": "^4.6.3"
+  },
+  "devDependencies": {
+    "grunt": "1.0.4",
+    "grunt-browserify": "^5.3.0",
+    "grunt-eslint": "^22.0.0",
+    "grunt-terser": "^1.0.0",
+    "node-qunit-puppeteer": "1.0.13",
+    "qunit": "^2.9.2"
+  },
+  "benchmarkDependencies": {
+    "chalk": "^2.4.2",
+    "cli-table3": "^0.5.1",
+    "iltorb": "^2.4.4",
+    "lzma": "^2.3.2",
+    "minimize": "^2.2.0",
+    "progress": "^2.0.3"
+  },
+  "files": [
+    "src/*.js",
+    "cli.js",
+    "sample-cli-config-file.conf"
+  ]
+}

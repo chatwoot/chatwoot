@@ -1,0 +1,40 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>XY block grid</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      body {
+        padding: 30px;
+      }
+
+      .cell {
+        background: #1e90ff;
+        line-height: 50px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Responsive Gutters</h1>
+
+    <div class="grid-x grid-margin-x">
+      <div class="small-4 cell">X</div>
+      <div class="small-4 cell">Y</div>
+      <div class="small-4 cell">Z</div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

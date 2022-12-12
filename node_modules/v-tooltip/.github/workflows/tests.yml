@@ -1,0 +1,66 @@
+name: Automatic Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+    
+    - name: Yarn cache
+      uses: actions/cache@v1
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-v2
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    
+    - name: Dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          **/node_modules
+        key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+    
+    - name: Cypress cache
+      uses: actions/cache@v1
+      with:
+        path: /home/runner/.cache/Cypress
+        key: ${{ runner.os }}-Cypress-v1
+    
+    - name: Install
+      run: yarn --frozen-lockfile
+
+    - name: Lint
+      run: |
+        yarn run lint
+
+    - name: Types tests
+      run: |
+        yarn run test:types
+    
+    - name: Build package
+      run: |
+        yarn run build
+
+    - name: Unit tests
+      run: |
+        yarn run test:unit
+
+    # - name: E2E tests
+    #   run: |
+    #     cd packages/demo
+    #     yarn run test
+
+    # - uses: actions/upload-artifact@v1
+    #   with:
+    #     name: Cypress Videos
+    #     path: packages/demo/tests/e2e/videos

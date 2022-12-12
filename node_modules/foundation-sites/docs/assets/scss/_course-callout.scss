@@ -1,0 +1,63 @@
+.footer-course-upsell {
+  overflow: hidden;
+  border-top: 1px solid #cacaca;
+  background: #F5F5F5;
+  padding-top: 10px;
+  // margin-top: 25px;
+
+  .sites-course {
+    position: relative;
+  }
+
+  img {
+    position: absolute;
+    bottom: -205px;
+    animation:  ad-unit-hover 8s infinite ease;
+  }
+
+  .sites-course-title {
+    font-size: 30px;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+
+    span {
+      text-transform: uppercase;
+      font-size: rem-calc(11px);
+      font-weight: bold;
+      display: block;
+      margin-bottom: -6px;
+      letter-spacing: 3px;
+      color: rgb(175, 175, 175);
+    }
+  }
+
+  p {
+    color: rgb(125, 125, 125);
+    font-size: 14px;
+  }
+}
+
+@keyframes ad-unit-hover {
+  0% {
+    transform: translateY(30px);
+  }
+  10% {
+    transform: translateY(30px);
+  }
+
+  25% {
+    transform: translateY(0);
+  }
+  65% {
+    transform: translateY(0);
+  }
+
+  90% {
+    transform: translateY(30px);
+  }
+
+  100% {
+    transform: translateY(30px);
+  }
+
+}

@@ -1,0 +1,14 @@
+{
+  "id": "invalidrole",
+  "evaluate": "invalidrole-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "ARIA role is valid",
+      "fail": {
+        "singular": "Role must be one of the valid ARIA roles: ${data.values}",
+        "plural": "Roles must be one of the valid ARIA roles: ${data.values}"
+      }
+    }
+  }
+}

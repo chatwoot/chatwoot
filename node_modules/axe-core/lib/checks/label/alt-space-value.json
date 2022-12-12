@@ -1,0 +1,11 @@
+{
+  "id": "alt-space-value",
+  "evaluate": "alt-space-value-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Element has a valid alt attribute value",
+      "fail": "Element has an alt attribute containing only a space character, which is not ignored by all screen readers"
+    }
+  }
+}

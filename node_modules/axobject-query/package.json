@@ -1,0 +1,61 @@
+{
+  "name": "axobject-query",
+  "version": "2.2.0",
+  "description": "Programmatic access to information about the AXObject Model",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && babel src --out-dir lib",
+    "prepare": "npm run lint && npm run flow && npm run test && npm run build",
+    "coveralls": "cat ./reports/lcov.info | coveralls",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "lint": "eslint  --config .eslintrc src __tests__",
+    "lint:fix": "npm run lint -- --fix",
+    "pretest": "npm run lint:fix && npm run flow",
+    "test": "npm run jest",
+    "test:ci": "npm run jest -- --ci --runInBand",
+    "jest": "jest --coverage __tests__/**/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A11yance/axobject-query.git"
+  },
+  "keywords": [
+    "accessibility"
+  ],
+  "author": "Jesse Beach <splendidnoise@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/A11yance/axobject-query/issues"
+  },
+  "homepage": "https://github.com/A11yance/axobject-query#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-flow": "^7.7.4",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.0.0",
+    "coveralls": "^2.12.0",
+    "eslint": "^5 || ^6",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-flowtype": "^3.5.0",
+    "eslint-plugin-import": "^2.18.0",
+    "expect": "^1.20.2",
+    "flow-bin": "^0.112.0",
+    "jest": "^24.9.0",
+    "rimraf": "^2.6.3"
+  },
+  "dependencies": {},
+  "jest": {
+    "coverageReporters": [
+      "lcov"
+    ],
+    "coverageDirectory": "reports",
+    "roots": [
+      "<rootDir>/__tests__"
+    ]
+  }
+}

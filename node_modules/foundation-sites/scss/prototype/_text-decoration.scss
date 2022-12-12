@@ -1,0 +1,48 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-text-decoration
+////
+
+/// Responsive breakpoints for text decoration classes
+/// @type Boolean
+$prototype-decoration-breakpoints: $global-prototype-breakpoints !default;
+
+/// Map containing all the `text-decoration` classes
+/// @type Map
+$prototype-text-decoration: (
+  overline,
+  underline,
+  line-through,
+) !default;
+
+/// Text Decoration, by default coming through a map `$prototype-text-decoration`
+/// @param {String} $decoration [] Text Decoration
+@mixin text-decoration($decoration) {
+  text-decoration: $decoration !important;
+}
+
+@mixin foundation-prototype-text-decoration {
+  @each $decoration in $prototype-text-decoration {
+    .text-#{$decoration} {
+      @include text-decoration($decoration);
+    }
+  }
+
+  @if ($prototype-decoration-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @each $decoration in $prototype-text-decoration {
+          @if $size != $-zf-zero-breakpoint {
+            .#{$size}-text-#{$decoration} {
+              @include text-decoration($decoration);
+            }
+          }
+        }
+      }
+    }
+  }
+}

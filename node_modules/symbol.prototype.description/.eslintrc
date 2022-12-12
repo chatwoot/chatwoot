@@ -1,0 +1,32 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"parserOptions": {
+		"ecmaVersion": 2015
+	},
+
+	"env": {
+		"es6": true
+	},
+
+	"rules": {
+		"consistent-return": 1,
+		"dot-notation": [2, { "allowKeywords": true }],
+		"id-length": [2, { "max": 22, "min": 1, "properties": "never" }],
+		"max-statements-per-line": [2, { "max": 2 }],
+		"max-statements": [2, 15],
+		"no-magic-numbers": 0,
+		"symbol-description": 0
+	},
+
+	"overrides": [
+		{
+			"files": "test/**",
+			"rules": {
+				"no-invalid-this": 0,
+			},
+		},
+	],
+}

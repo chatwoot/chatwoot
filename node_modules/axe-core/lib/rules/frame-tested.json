@@ -1,0 +1,12 @@
+{
+  "id": "frame-tested",
+  "selector": "frame, iframe",
+  "tags": ["cat.structure", "review-item", "best-practice"],
+  "metadata": {
+    "description": "Ensures <iframe> and <frame> elements contain the axe-core script",
+    "help": "Frames should be tested with axe-core"
+  },
+  "all": ["frame-tested"],
+  "any": [],
+  "none": []
+}

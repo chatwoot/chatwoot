@@ -1,0 +1,14 @@
+
+{{alias}}
+    High word mask for the exponent of a double-precision floating-point number.
+
+    Examples
+    --------
+    > {{alias}}
+    2146435072
+    > {{alias:@stdlib/number/uint32/base/to-binary-string}}( {{alias}} )
+    '01111111111100000000000000000000'
+
+    See Also
+    --------
+

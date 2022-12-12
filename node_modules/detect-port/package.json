@@ -1,0 +1,51 @@
+{
+  "name": "detect-port",
+  "version": "1.3.0",
+  "description": "Node.js implementation of port detector",
+  "keywords": [
+    "detect",
+    "port"
+  ],
+  "bin": {
+    "detect": "./bin/detect-port",
+    "detect-port": "./bin/detect-port"
+  },
+  "main": "index.js",
+  "files": [
+    "bin",
+    "lib",
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/node-modules/detect-port.git"
+  },
+  "dependencies": {
+    "address": "^1.0.1",
+    "debug": "^2.6.0"
+  },
+  "devDependencies": {
+    "command-line-test": "^1.0.8",
+    "egg-bin": "^1.10.3",
+    "egg-ci": "^1.1.0",
+    "eslint": "^3.13.1",
+    "eslint-config-egg": "^3.1.0",
+    "git-contributor": "^1.0.8",
+    "mm": "^2.1.0",
+    "pedding": "^1.1.0"
+  },
+  "scripts": {
+    "test": "egg-bin test",
+    "ci": "npm run lint && egg-bin cov",
+    "lint": "eslint .",
+    "contributor": "git-contributor"
+  },
+  "engines": {
+    "node": ">= 4.2.1"
+  },
+  "ci": {
+    "version": "4, 6, 8, 10"
+  },
+  "homepage": "https://github.com/node-modules/detect-port",
+  "license": "MIT"
+}

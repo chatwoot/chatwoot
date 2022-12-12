@@ -1,0 +1,41 @@
+{
+  "name": "file-system-cache",
+  "version": "1.0.5",
+  "description": "A super-fast, promise-based cache that reads and writes to the file-system.",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel-register",
+    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel-register --watch",
+    "lint": "eslint ./src",
+    "build": "babel src --out-dir lib --source-maps",
+    "build:watch": "npm run build -- --watch",
+    "prepublish": "npm test && npm run lint && npm run build"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.5",
+    "fs-extra": "^0.30.0",
+    "ramda": "^0.21.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "js-babel": "^6.0.4",
+    "js-babel-dev": "^6.0.5",
+    "mocha": "^2.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philcockfield/file-system-cache"
+  },
+  "keywords": [
+    "cache",
+    "fs",
+    "file-system"
+  ],
+  "author": {
+    "name": "Phil Cockfield",
+    "email": "phil@cockfield.net",
+    "url": "https://github.com/philcockfield"
+  },
+  "homepage": "https://github.com/philcockfield/file-system-cache",
+  "license": "MIT"
+}

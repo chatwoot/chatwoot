@@ -1,0 +1,39 @@
+{
+  "name": "css",
+  "version": "2.2.4",
+  "description": "CSS parser / stringifier",
+  "main": "index",
+  "files": [
+    "index.js",
+    "lib",
+    "Readme.md"
+  ],
+  "dependencies": {
+    "inherits": "^2.0.3",
+    "source-map": "^0.6.1",
+    "source-map-resolve": "^0.5.2",
+    "urix": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.21.3",
+    "should": "^4.0.4",
+    "matcha": "^0.5.0",
+    "bytes": "^1.0.0"
+  },
+  "scripts": {
+    "benchmark": "matcha",
+    "test": "mocha --require should --reporter spec --bail test/*.js"
+  },
+  "author": "TJ Holowaychuk <tj@vision-media.ca>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reworkcss/css.git"
+  },
+  "keywords": [
+    "css",
+    "parser",
+    "stringifier",
+    "stylesheet"
+  ]
+}

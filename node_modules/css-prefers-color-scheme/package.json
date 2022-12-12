@@ -1,0 +1,81 @@
+{
+  "name": "css-prefers-color-scheme",
+  "version": "3.1.1",
+  "description": "Use light and dark color schemes in all browsers",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "csstools/css-prefers-color-scheme",
+  "homepage": "https://github.com/csstools/css-prefers-color-scheme#readme",
+  "bugs": "https://github.com/csstools/css-prefers-color-scheme/issues",
+  "main": "index.js",
+  "module": "index.mjs",
+  "bin": {
+    "css-prefers-color-scheme": "cli.js"
+  },
+  "files": [
+    "browser.js",
+    "browser.js.map",
+    "browser.min.js",
+    "cli.js",
+    "index.mjs",
+    "index.mjs.map",
+    "index.js",
+    "index.js.map",
+    "postcss.js",
+    "postcss.mjs"
+  ],
+  "scripts": {
+    "build": "npm run build:browser && npm run build:node && npm run build:postcss",
+    "build:browser": "npm run build:browser:dist && npm run build:browser:min",
+    "build:browser:dist": "cross-env NODE_ENV=browser rollup -c .rollup.js --silent",
+    "build:browser:min": "cross-env NODE_ENV=browser:min rollup -c .rollup.js --silent",
+    "build:node": "rollup -c .rollup.js --silent",
+    "build:postcss": "cross-env NODE_ENV=postcss rollup -c .rollup.js --silent",
+    "prepublishOnly": "npm test",
+    "pretest": "npm run build",
+    "test": "npm run test:js && npm run test:tape",
+    "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "postcss-tape --plugin=postcss.js"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.9.0",
+    "eslint-config-dev": "^2.0.0",
+    "get-stdin": "^6.0.0",
+    "postcss-tape": "^2.2.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.67.0",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-terser": "^3.0.0",
+    "uglify-js": "^3.4.9"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "media",
+    "query",
+    "prefers",
+    "color",
+    "scheme",
+    "dark",
+    "light",
+    "no-preference",
+    "mode",
+    "queries",
+    "interface"
+  ]
+}

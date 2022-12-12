@@ -1,0 +1,11 @@
+{
+  "id": "dlitem",
+  "evaluate": "dlitem-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Description list item has a <dl> parent element",
+      "fail": "Description list item does not have a <dl> parent element"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+	"name": "p-all",
+	"version": "2.1.0",
+	"description": "Run promise-returning & async functions concurrently with optional limited concurrency",
+	"license": "MIT",
+	"repository": "sindresorhus/p-all",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"promise",
+		"all",
+		"function",
+		"func",
+		"fn",
+		"limited",
+		"limit",
+		"control",
+		"rate",
+		"collection",
+		"iterable",
+		"iterator",
+		"fulfilled",
+		"async",
+		"await",
+		"promises",
+		"concurrent",
+		"concurrently",
+		"concurrency",
+		"parallel",
+		"bluebird"
+	],
+	"dependencies": {
+		"p-map": "^2.0.0"
+	},
+	"devDependencies": {
+		"ava": "^1.4.1",
+		"delay": "^4.1.0",
+		"tsd": "^0.7.2",
+		"xo": "^0.24.0"
+	}
+}

@@ -1,0 +1,25 @@
+{
+  "name": "css-select-base-adapter",
+  "version": "0.1.1",
+  "description": "Provides some base functions needed by a css-select adapter so that you don't have to implement the whole thing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nrkn/css-select-base-adapter.git"
+  },
+  "keywords": [
+    "css",
+    "select",
+    "adapter",
+    "css-select"
+  ],
+  "bugs": {
+    "url": "https://github.com/nrkn/css-select-base-adapter/issues"
+  },
+  "homepage": "https://github.com/nrkn/css-select-base-adapter#readme",
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT"
+}

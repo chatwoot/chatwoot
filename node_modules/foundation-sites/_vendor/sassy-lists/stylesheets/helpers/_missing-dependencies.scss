@@ -1,0 +1,25 @@
+///
+/// Checks whether `$functions` exist in global scope.
+///
+/// @access private
+///
+/// @param {ArgList} $functions - list of functions to check for
+///
+/// @return {Bool} Whether or not there are missing dependencies
+///
+ 
+@function sl-missing-dependencies($functions...) {
+  $missing-dependencies: ();
+  
+  @each $function in $functions {
+    @if not function-exists($function) {
+      $missing-dependencies: append($missing-dependencies, $function, comma);
+    }
+  }
+  
+  @if length($missing-dependencies) > 0 {
+    @error 'Unmet dependencies! The following functions are required: #{$missing-dependencies}.';
+  }
+
+  @return length($missing-dependencies) > 0;
+}

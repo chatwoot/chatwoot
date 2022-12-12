@@ -1,0 +1,55 @@
+/*
+ *  Usage:
+ *
+      <div class="sk-cube-grid">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+        <div class="sk-cube sk-cube3"></div>
+        <div class="sk-cube sk-cube4"></div>
+        <div class="sk-cube sk-cube5"></div>
+        <div class="sk-cube sk-cube6"></div>
+        <div class="sk-cube sk-cube7"></div>
+        <div class="sk-cube sk-cube8"></div>
+        <div class="sk-cube sk-cube9"></div>
+      </div>
+ *
+ */
+@import "../variables";
+
+.sk-cube-grid {
+  $delayRange: 0.4s;
+
+  width: $spinkit-size;
+  height: $spinkit-size;
+  margin: $spinkit-spinner-margin;
+
+  .sk-cube {
+    width: 33.33%;
+    height: 33.33%;
+    background-color: $spinkit-spinner-color;
+    float: left;
+    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+  }
+
+  /*
+   * Spinner positions
+   * 1 2 3
+   * 4 5 6
+   * 7 8 9
+   */
+
+  .sk-cube1 { animation-delay: $delayRange * 0.50 }
+  .sk-cube2 { animation-delay: $delayRange * 0.75 }
+  .sk-cube3 { animation-delay: $delayRange }
+  .sk-cube4 { animation-delay: $delayRange * 0.25 }
+  .sk-cube5 { animation-delay: $delayRange * 0.50 }
+  .sk-cube6 { animation-delay: $delayRange * 0.75 }
+  .sk-cube7 { animation-delay: 0.0s }
+  .sk-cube8 { animation-delay: $delayRange * 0.25 }
+  .sk-cube9 { animation-delay: $delayRange * 0.50 }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% { transform:scale3D(1.0, 1.0, 1.0) }
+  35%           { transform:scale3D(0.0, 0.0, 1.0) }
+}

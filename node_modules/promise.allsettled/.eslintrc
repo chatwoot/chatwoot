@@ -1,0 +1,22 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"globals": {
+		"Promise": false
+	},
+
+	"rules": {
+		"dot-notation": [2, { "allowKeywords": false }],
+		"new-cap": [2, {
+			"capIsNewExceptions": [
+				"GetIntrinsic",
+				"PromiseResolve",
+				"Type",
+			],
+		}],
+		"no-magic-numbers": 0,
+		"sort-keys": 0,
+	}
+}

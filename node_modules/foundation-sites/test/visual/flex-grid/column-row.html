@@ -1,0 +1,27 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation-flex.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="row column">
+      <style>.row.column {border: 1px solid #333;}</style>
+      <h1>Flex Grid: Column Row</h1>
+
+      <p>This text is inside a combined column/row.</p>
+
+      <p>An element with the classes <code>.row</code> and <code>.column</code> should have <code>display: block</code> and not <code>display: flex</code>, so the elements inside flow normally.</p>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

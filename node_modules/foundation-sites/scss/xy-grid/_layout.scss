@@ -1,0 +1,34 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group xy-grid
+////
+
+/// Sizes child elements so that `$n` number of items appear on each row.
+///
+/// @param {Number} $n - Number of elements to display per row.
+/// @param {String} $selector ['.cell'] - Selector(s) to use for child elements.
+/// @param {Boolean} $gutter-output [true] - Whether or not to output gutters
+/// @param {Number|Map} $gutters [$grid-margin-gutters] - Map or single value for gutters.
+/// @param {Keyword} $gutter-type [margin] - Type of gutter to output. Accepts `margin` or `padding`.
+/// @param {List} $gutter-position [right left] - The position to apply gutters to. Accepts `top`, `bottom`, `left`, `right` in any combination.
+/// @param {String} $breakpoint [null] - The breakpoint to use for the cell generation.
+/// @param {Boolean} $vertical [false] - Set to true to output vertical (height) styles rather than widths.
+@mixin xy-grid-layout(
+  $n,
+  $selector: '.cell',
+  $gutter-output: true,
+  $gutters: $grid-margin-gutters,
+  $gutter-type: margin,
+  $gutter-position: right left,
+  $breakpoint: null,
+  $vertical: false
+) {
+  $size: percentage(1/$n);
+
+  & > #{$selector} {
+    @include xy-cell($size, $gutter-output, $gutters, $gutter-type, $gutter-position, $breakpoint, $vertical);
+  }
+}

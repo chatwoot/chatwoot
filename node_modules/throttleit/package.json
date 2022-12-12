@@ -1,0 +1,22 @@
+{
+  "name": "throttleit",
+  "description": "Throttle a function",
+  "version": "1.0.0",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/component/throttle.git"
+  },
+  "devDependencies": {
+    "mocha": "^1.18.0"
+  },
+  "license": "MIT",
+  "component": {
+    "scripts": {
+      "throttle/index.js": "index.js"
+    }
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
+  }
+}

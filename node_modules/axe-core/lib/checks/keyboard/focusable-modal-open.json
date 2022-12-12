@@ -1,0 +1,11 @@
+{
+  "id": "focusable-modal-open",
+  "evaluate": "focusable-modal-open-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "No focusable elements while a modal is open",
+      "incomplete": "Check that focusable elements are not tabbable in the current state"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "link-name",
+  "selector": "a[href]",
+  "tags": [
+    "cat.name-role-value",
+    "wcag2a",
+    "wcag412",
+    "wcag244",
+    "section508",
+    "section508.22.a",
+    "ACT"
+  ],
+  "metadata": {
+    "description": "Ensures links have discernible text",
+    "help": "Links must have discernible text"
+  },
+  "all": [],
+  "any": [
+    "has-visible-text",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title"
+  ],
+  "none": ["focusable-no-name"]
+}

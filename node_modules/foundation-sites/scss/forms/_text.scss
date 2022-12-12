@@ -1,0 +1,179 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group forms
+////
+
+/// Font color of text inputs.
+/// @type Color
+$input-color: $black !default;
+
+/// Font color of placeholder text within text inputs.
+/// @type Color
+$input-placeholder-color: $medium-gray !default;
+
+/// Font family of text inputs.
+/// @type Font
+$input-font-family: inherit !default;
+
+/// Font size of text inputs.
+/// @type Number
+$input-font-size: rem-calc(16) !default;
+
+/// Font weight of text inputs.
+/// @type Keyword
+$input-font-weight: $global-weight-normal !default;
+
+/// Line height of text inputs.
+/// @type Keyword
+$input-line-height: $global-lineheight !default;
+
+/// Background color of text inputs.
+/// @type Color
+$input-background: $white !default;
+
+/// Background color of focused of text inputs.
+/// @type Color
+$input-background-focus: $white !default;
+
+/// Background color of disabled text inputs.
+/// @type Color
+$input-background-disabled: $light-gray !default;
+
+/// Border around text inputs.
+/// @type Border
+$input-border: 1px solid $medium-gray !default;
+
+/// Border around focused text inputs.
+/// @type Color
+$input-border-focus: 1px solid $dark-gray !default;
+
+/// Padding of text inputs.
+/// @type Color
+$input-padding: $form-spacing / 2 !default;
+
+/// Box shadow inside text inputs when not focused.
+/// @type Shadow
+$input-shadow: inset 0 1px 2px rgba($black, 0.1) !default;
+
+/// Box shadow outside text inputs when focused.
+/// @type Shadow
+$input-shadow-focus: 0 0 5px $medium-gray !default;
+
+/// Cursor to use when hovering over a disabled text input.
+/// @type Cursor
+$input-cursor-disabled: not-allowed !default;
+
+/// Properties to transition on text inputs.
+/// @type Transition
+$input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out !default;
+
+/// Enables the up/down buttons that Chrome and Firefox add to `<input type='number'>` elements.
+/// @type Boolean
+$input-number-spinners: true !default;
+
+/// Radius for text inputs.
+/// @type Border
+$input-radius: $global-radius !default;
+
+/// Border radius for form buttons, defaulted to global-radius.
+/// @type Number
+$form-button-radius: $global-radius !default;
+
+@mixin form-element {
+  $height: ($input-font-size * unitless-calc($input-line-height)) + (get-side($input-padding, 'top') + get-side($input-padding, 'bottom')) - rem-calc(1);
+
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: $height;
+  margin: 0 0 $form-spacing;
+  padding: $input-padding;
+
+  border: $input-border;
+  border-radius: $input-radius;
+  background-color: $input-background;
+  box-shadow: $input-shadow;
+
+  font-family: $input-font-family;
+  font-size: $input-font-size;
+  font-weight: $input-font-weight;
+  line-height: $input-line-height;
+  color: $input-color;
+
+  @if has-value($input-transition) {
+    transition: $input-transition;
+  }
+
+  // Focus state
+  &:focus {
+    outline: none;
+    border: $input-border-focus;
+    background-color: $input-background-focus;
+    box-shadow: $input-shadow-focus;
+
+    @if has-value($input-transition) {
+      transition: $input-transition;
+    }
+  }
+}
+
+@mixin foundation-form-text {
+  // Text inputs
+  #{text-inputs()},
+  textarea {
+    @include form-element;
+    appearance: none;
+  }
+
+  // Text areas
+  textarea {
+    max-width: 100%;
+
+    &[rows] {
+      height: auto;
+    }
+  }
+
+  input,
+  textarea {
+    // Disabled/readonly state
+    &:disabled,
+    &[readonly] {
+      background-color: $input-background-disabled;
+      cursor: $input-cursor-disabled;
+    }
+  }
+
+  // Reset styles on button-like inputs
+  [type='submit'],
+  [type='button'] {
+    appearance: none;
+    border-radius: $form-button-radius;
+  }
+
+  // Reset Normalize setting content-box to search elements
+  input[type='search'] { // sass-lint:disable-line no-qualifying-elements
+    box-sizing: border-box;
+  }
+
+  // Number input styles
+  [type='number'] {
+    @if not $input-number-spinners {
+      -moz-appearance: textfield; // sass-lint:disable-line no-vendor-prefixes
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none; // sass-lint:disable-line no-vendor-prefixes
+        margin: 0;
+      }
+    }
+  }
+
+  // Placeholder text
+  ::placeholder {
+    color: $input-placeholder-color;
+  }
+}

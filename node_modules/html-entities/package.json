@@ -1,0 +1,53 @@
+{
+  "name": "html-entities",
+  "version": "1.4.0",
+  "description": "Faster HTML entities encode/decode library.",
+  "keywords": [
+    "html",
+    "html entities",
+    "html entities encode",
+    "html entities decode",
+    "entities",
+    "entities encode",
+    "entities decode"
+  ],
+  "author": {
+    "name": "Marat Dulin",
+    "email": "mdevils@yandex.ru"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/benchmark": "^2.1.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.13.4",
+    "benchmark": "^2.1.4",
+    "chai": "^4.2.0",
+    "coveralls": "^3.1.0",
+    "entities": "^2.0.0",
+    "mocha": "^7.1.2",
+    "node-html-encoder": "^0.0.2",
+    "ts-node": "^8.9.1",
+    "typescript": "^3.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdevils/node-html-entities.git"
+  },
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "test": "mocha --recursive -r ts-node/register test/**/*.ts",
+    "benchmark": "ts-node benchmark/benchmark",
+    "travis": "yarn test",
+    "build": "tsc",
+    "prepublishOnly": "yarn build"
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "LICENSE"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@webassemblyjs/utf8",
+  "version": "1.11.1",
+  "description": "UTF8 encoder/decoder for WASM",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xtuc/webassemblyjs.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Sven Sauleau",
+  "license": "MIT",
+  "gitHead": "3f07e2db2031afe0ce686630418c542938c1674b"
+}

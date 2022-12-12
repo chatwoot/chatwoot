@@ -1,0 +1,58 @@
+{
+  "name": "@mdx-js/mdx",
+  "version": "1.6.22",
+  "description": "Parse MDX and transpile to JSX",
+  "repository": "mdx-js/mdx",
+  "homepage": "https://mdxjs.com",
+  "bugs": "https://github.com/mdx-js/mdx/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
+  "author": "John Otander <johnotander@gmail.com> (http://johnotander.com)",
+  "contributors": [
+    "John Otander <johnotander@gmail.com> (http://johnotander.com)",
+    "Tim Neutkens <tim@vercel.com>",
+    "Matija Marohnić <matija.marohnic@gmail.com>",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+    "JounQin <admin@1stg.me> (https://www.1stg.me)"
+  ],
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "md-ast-to-mdx-ast.js",
+    "mdx-ast-to-mdx-hast.js",
+    "mdx-hast-to-jsx.js",
+    "util.js"
+  ],
+  "keywords": [
+    "mdx",
+    "markdown",
+    "react",
+    "jsx",
+    "remark",
+    "mdxast"
+  ],
+  "dependencies": {
+    "@babel/core": "7.12.9",
+    "@babel/plugin-syntax-jsx": "7.12.1",
+    "@babel/plugin-syntax-object-rest-spread": "7.8.3",
+    "@mdx-js/util": "1.6.22",
+    "babel-plugin-apply-mdx-type-prop": "1.6.22",
+    "babel-plugin-extract-import-names": "1.6.22",
+    "camelcase-css": "2.0.1",
+    "detab": "2.0.4",
+    "hast-util-raw": "6.0.1",
+    "lodash.uniq": "4.5.0",
+    "mdast-util-to-hast": "10.0.1",
+    "remark-footnotes": "2.0.0",
+    "remark-mdx": "1.6.22",
+    "remark-parse": "8.0.3",
+    "remark-squeeze-paragraphs": "4.0.0",
+    "style-to-object": "0.3.0",
+    "unified": "9.2.0",
+    "unist-builder": "2.0.3",
+    "unist-util-visit": "2.0.3"
+  },
+  "gitHead": "510bae2580958598ae29047bf755b1a2ea26cf7e"
+}

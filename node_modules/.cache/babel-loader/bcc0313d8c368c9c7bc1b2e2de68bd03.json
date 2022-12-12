@@ -1,0 +1,1 @@
+{"ast":null,"code":"var root = require('./_root');\n/** Built-in value references. */\n\n\nvar Uint8Array = root.Uint8Array;\nmodule.exports = Uint8Array;","map":null,"metadata":{},"sourceType":"module"}

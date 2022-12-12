@@ -1,0 +1,1 @@
+{"ast":null,"code":"var win;\n\nif (typeof window !== \"undefined\") {\n  win = window;\n} else if (typeof global !== \"undefined\") {\n  win = global;\n} else if (typeof self !== \"undefined\") {\n  win = self;\n} else {\n  win = {};\n}\n\nmodule.exports = win;","map":null,"metadata":{},"sourceType":"module"}

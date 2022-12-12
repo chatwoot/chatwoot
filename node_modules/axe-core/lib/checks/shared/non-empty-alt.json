@@ -1,0 +1,17 @@
+{
+  "id": "non-empty-alt",
+  "evaluate": "attr-non-space-content-evaluate",
+  "options": {
+    "attribute": "alt"
+  },
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Element has a non-empty alt attribute",
+      "fail": {
+        "noAttr": "Element has no alt attribute",
+        "emptyAttr": "Element has an empty alt attribute"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "duplicate-id",
+  "evaluate": "duplicate-id-evaluate",
+  "after": "duplicate-id-after",
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Document has no static elements that share the same id attribute",
+      "fail": "Document has multiple static elements with the same id attribute: ${data}"
+    }
+  }
+}

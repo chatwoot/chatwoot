@@ -1,0 +1,30 @@
+{
+  "name": "orderedmap",
+  "version": "1.1.1",
+  "description": "Persistent ordered mapping from strings",
+  "main": "index.js",
+  "module": "index.es.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marijnh/orderedmap.git"
+  },
+  "keywords": [
+    "persistent",
+    "map"
+  ],
+  "author": "Marijn Haverbeke <marijnh@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marijnh/orderedmap/issues"
+  },
+  "homepage": "https://github.com/marijnh/orderedmap#readme",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "rollup": "^1.26.3",
+    "rollup-plugin-commonjs": "^10.1.0"
+  }
+}

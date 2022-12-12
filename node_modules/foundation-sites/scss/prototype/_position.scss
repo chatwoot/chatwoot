@@ -1,0 +1,114 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-position
+////
+
+/// Responsive breakpoints for position helpers
+/// @type Boolean
+$prototype-position-breakpoints: $global-prototype-breakpoints !default;
+
+/// Map containing all the `position` classes
+/// @type Map
+$prototype-position: (
+  static,
+  relative,
+  absolute,
+  fixed
+) !default;
+
+/// z-index for fixed positioning
+/// @type Number
+$prototype-position-z-index: 975 !default;
+
+/// Position classes, by default coming through a map `$prototype-position`, whereas all the offset values are multiplied by `$global-position` which by default is equal to `1rem`.
+/// @param {String} $position [] Position classes, Either `static`, `relative`, `absolute` or `fixed`
+/// @param {Number} $top [null] - Top offset
+/// @param {Number} $right [null] - Right offset
+/// @param {Number} $bottom [null] - Bottom offset
+/// @param {Number} $left [null] - Left offset
+@mixin position(
+  $position,
+  $top: null,
+  $right: null,
+  $bottom: null,
+  $left: null
+) {
+  position: $position !important;
+  @if $top != null {
+    top: $top * $global-position !important;
+  }
+  @if $right != null {
+    right: $right * $global-position !important;
+  }
+  @if $bottom != null {
+    bottom: $bottom * $global-position !important;
+  }
+  @if $left != null {
+    left: $left * $global-position !important;
+  }
+}
+
+/// Position Fixed on top corners
+/// @param {Number} $z-index [$prototype-position-z-index] z-index for `position-fixed-top`
+@mixin position-fixed-top(
+  $z-index: $prototype-position-z-index
+) {
+  @include position(fixed, 0, 0, null, 0);
+  z-index: $z-index;
+}
+
+/// Position Fixed on bottom corners
+/// @param {Number} $z-index [$prototype-position-z-index] z-index for `position-fixed-bottom`
+@mixin position-fixed-bottom(
+  $z-index: $prototype-position-z-index
+) {
+  @include position(fixed, null, 0, 0, 0);
+  z-index: $z-index;
+}
+
+@mixin foundation-prototype-position {
+  // Position: Static, Relative, Fixed, Absolute
+  @each $position in $prototype-position {
+    .position-#{$position} {
+      @include position($position);
+    }
+  }
+
+  // Position: Fixed Top, Fixed Bottom
+  .position-fixed-top {
+    @include position-fixed-top;
+  }
+  .position-fixed-bottom {
+    @include position-fixed-bottom;
+  }
+
+  @if ($prototype-position-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        // Position: Static, Relative, Fixed, Absolute
+        @each $position in $prototype-position {
+          @if $size != $-zf-zero-breakpoint {
+            .#{$size}-position-#{$position} {
+              @include position($position);
+            }
+          }
+        }
+
+        // Position: Fixed Top, Fixed Bottom
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-position-fixed-top {
+            @include position-fixed-top;
+          }
+
+          .#{$size}-position-fixed-bottom {
+            @include position-fixed-bottom;
+          }
+        }
+      }
+    }
+  }
+}

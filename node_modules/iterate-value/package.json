@@ -1,0 +1,75 @@
+{
+	"name": "iterate-value",
+	"version": "1.0.2",
+	"description": "Iterate any iterable JS value. Works robustly in all environments, all versions.",
+	"main": "index.js",
+	"exports": {
+		".": [
+			{
+				"default": "./index.js"
+			},
+			"./index.js"
+		]
+	},
+	"type": "commonjs",
+	"scripts": {
+		"prepublish": "safe-publish-latest",
+		"prelint": "evalmd README.md",
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"tests-only": "node test",
+		"posttest": "npx aud",
+		"test": "npm run tests-only",
+		"version": "auto-changelog && git add CHANGELOG.md",
+		"postversion": "auto-changelog && git add CHANGELOG.md && git commit --no-edit --amend && git tag -f \"v$(node -e \"console.log(require('./package.json').version)\")\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ljharb/iterate-value.git"
+	},
+	"keywords": [
+		"iterate",
+		"map",
+		"set",
+		"collection",
+		"string",
+		"array",
+		"es2015",
+		"es6",
+		"iterator",
+		"symbol.iterator",
+		"symbol"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"funding": {
+		"url": "https://github.com/sponsors/ljharb"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ljharb/iterate-value/issues"
+	},
+	"homepage": "https://github.com/ljharb/iterate-value#readme",
+	"devDependencies": {
+		"@ljharb/eslint-config": "^15.1.0",
+		"auto-changelog": "^1.16.2",
+		"eslint": "^6.8.0",
+		"evalmd": "^0.0.19",
+		"for-each": "^0.3.3",
+		"has-bigints": "^1.0.0",
+		"has-symbols": "^1.0.1",
+		"object-inspect": "^1.7.0",
+		"safe-publish-latest": "^1.1.4",
+		"tape": "^5.0.0-next.3"
+	},
+	"dependencies": {
+		"es-get-iterator": "^1.0.2",
+		"iterate-iterator": "^1.0.1"
+	},
+	"auto-changelog": {
+		"output": "CHANGELOG.md",
+		"template": "keepachangelog",
+		"unreleased": false,
+		"commitLimit": false,
+		"backfillLimit": false
+	}
+}

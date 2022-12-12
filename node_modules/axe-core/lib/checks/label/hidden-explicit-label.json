@@ -1,0 +1,12 @@
+{
+  "id": "hidden-explicit-label",
+  "evaluate": "hidden-explicit-label-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Form element has a visible explicit <label>",
+      "fail": "Form element has explicit <label> that is hidden",
+      "incomplete": "Unable to determine if form element has explicit <label> that is hidden"
+    }
+  }
+}

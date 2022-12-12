@@ -1,0 +1,12 @@
+{
+  "id": "table-duplicate-name",
+  "selector": "table",
+  "tags": ["cat.tables", "best-practice"],
+  "metadata": {
+    "description": "Ensure that tables do not have the same summary and caption",
+    "help": "The <caption> element should not contain the same text as the summary attribute"
+  },
+  "all": [],
+  "any": [],
+  "none": ["same-caption-summary"]
+}

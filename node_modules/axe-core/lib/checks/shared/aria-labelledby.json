@@ -1,0 +1,12 @@
+{
+  "id": "aria-labelledby",
+  "evaluate": "aria-labelledby-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "aria-labelledby attribute exists and references elements that are visible to screen readers",
+      "fail": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty",
+      "incomplete": "ensure aria-labelledby references an existing element"
+    }
+  }
+}

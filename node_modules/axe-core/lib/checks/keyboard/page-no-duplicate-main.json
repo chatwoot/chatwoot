@@ -1,0 +1,15 @@
+{
+  "id": "page-no-duplicate-main",
+  "evaluate": "page-no-duplicate-evaluate",
+  "after": "page-no-duplicate-after",
+  "options": {
+    "selector": "main:not([role]), [role='main']"
+  },
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Document does not have more than one main landmark",
+      "fail": "Document has more than one main landmark"
+    }
+  }
+}

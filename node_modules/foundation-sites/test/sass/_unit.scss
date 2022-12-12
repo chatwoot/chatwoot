@@ -1,0 +1,50 @@
+@import "true";
+
+@import '../../scss/util/unit';
+
+@include test-module('Units') {
+
+  // Strip Units
+  @include test('Strip Units [function]') {
+    $expect: 20;
+
+    @include assert-equal(strip-unit(20px), $expect,
+      'Strips the unit from a number');
+    @include assert-equal(strip-unit(20), $expect,
+      'Returns the same number when given a unitless value');
+  }
+
+  // Convert To Rem
+  @include test('Convert To Rem [function]') {
+    $expect: 2rem;
+
+    @include assert-equal(-zf-to-rem(32, 16), $expect,
+      'Converts a unit to the equivalent in rems');
+    @include assert-equal(-zf-to-rem(2rem, 16), $expect,
+      'Keeps rem values the same');
+  }
+
+  // Rem Calculator
+  @include test('Rem Calculator [function]') {
+    $test: rem-calc((8 16 32 64), 16);
+    $expect: 0.5rem 1rem 2rem 4rem;
+
+    @include assert-equal($test, $expect,
+      'Converts an arbitrary number of values into rem equivalents');
+  }
+  
+  // Breakpoint to Em
+  @include test('Breakpoint To Em [function]') {
+    $expect: 1em;
+
+    @include assert-equal(-zf-bp-to-em(16), $expect,
+      'Converts a unitless value to em');
+    @include assert-equal(-zf-bp-to-em(16px), $expect,
+      'Converts a pixel value to em');
+    @include assert-equal(-zf-bp-to-em(1rem), $expect,
+      'Converts a rem value to em');
+    @include assert-equal(-zf-bp-to-em(1em), $expect,
+      'Converts an em value to em');
+  }
+
+}

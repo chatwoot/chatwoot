@@ -1,0 +1,77 @@
+{
+    "name": "@types/node-fetch",
+    "version": "2.5.10",
+    "description": "TypeScript definitions for node-fetch",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Torsten Werner",
+            "url": "https://github.com/torstenwerner",
+            "githubUsername": "torstenwerner"
+        },
+        {
+            "name": "Niklas Lindgren",
+            "url": "https://github.com/nikcorg",
+            "githubUsername": "nikcorg"
+        },
+        {
+            "name": "Vinay Bedre",
+            "url": "https://github.com/vinaybedre",
+            "githubUsername": "vinaybedre"
+        },
+        {
+            "name": "Antonio Román",
+            "url": "https://github.com/kyranet",
+            "githubUsername": "kyranet"
+        },
+        {
+            "name": "Andrew Leedham",
+            "url": "https://github.com/AndrewLeedham",
+            "githubUsername": "AndrewLeedham"
+        },
+        {
+            "name": "Jason Li",
+            "url": "https://github.com/JasonLi914",
+            "githubUsername": "JasonLi914"
+        },
+        {
+            "name": "Steve Faulkner",
+            "url": "https://github.com/southpolesteve",
+            "githubUsername": "southpolesteve"
+        },
+        {
+            "name": "ExE Boss",
+            "url": "https://github.com/ExE-Boss",
+            "githubUsername": "ExE-Boss"
+        },
+        {
+            "name": "Alex Savin",
+            "url": "https://github.com/alexandrusavin",
+            "githubUsername": "alexandrusavin"
+        },
+        {
+            "name": "Alexis Tyler",
+            "url": "https://github.com/OmgImAlexis",
+            "githubUsername": "OmgImAlexis"
+        },
+        {
+            "name": "Jakub Kisielewski",
+            "url": "https://github.com/kbkk",
+            "githubUsername": "kbkk"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/node-fetch"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/node": "*",
+        "form-data": "^3.0.0"
+    },
+    "typesPublisherContentHash": "ba41bf0033e6f7864b7650dfea3f54b42695e03d6c533f710dc4d12604a8f249",
+    "typeScriptVersion": "3.5"
+}

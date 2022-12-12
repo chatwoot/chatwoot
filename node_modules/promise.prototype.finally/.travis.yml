@@ -1,0 +1,27 @@
+version: ~> 1.0
+language: node_js
+os:
+ - linux
+import:
+ - ljharb/travis-ci:node/minors/gte_4.yml
+ - ljharb/travis-ci:node/minors/iojs.yml
+ - ljharb/travis-ci:node/pretest.yml
+ - ljharb/travis-ci:node/posttest.yml
+node_js:
+ - "0.12"
+ - "0.11"
+script:
+ - 'if [ -n "${ES5-}" ]; then npm run tests:es5 ; fi'
+ - 'if [ -n "${NATIVE-}" ]; then npm run test:native ; fi'
+matrix:
+  include:
+    - node_js: "0.10"
+      env: ES5=true
+    - node_js: "0.8"
+      env: ES5=true
+    - node_js: "10"
+      env: NATIVE=true
+    - node_js: "8"
+      env: NATIVE=true ALLOW_FAILURE=true
+  allow_failures:
+    - env: NATIVE=true ALLOW_FAILURE=true

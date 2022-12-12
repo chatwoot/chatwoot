@@ -1,0 +1,30 @@
+{
+  "name": "jest-resolve-dependencies",
+  "version": "26.6.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/jest.git",
+    "directory": "packages/jest-resolve-dependencies"
+  },
+  "license": "MIT",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "dependencies": {
+    "@jest/types": "^26.6.2",
+    "jest-regex-util": "^26.0.0",
+    "jest-snapshot": "^26.6.2"
+  },
+  "devDependencies": {
+    "@jest/test-utils": "^26.6.2",
+    "jest-haste-map": "^26.6.2",
+    "jest-resolve": "^26.6.2",
+    "jest-runtime": "^26.6.3"
+  },
+  "engines": {
+    "node": ">= 10.14.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "2f6931e91d5ab126de70caf150c68709752e7f6c"
+}

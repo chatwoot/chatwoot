@@ -1,0 +1,58 @@
+/* Device Button (large centered button at startup)
+--------------------------------------------------------------------------------
+*/
+.vjs-record .vjs-device-button.vjs-control
+{
+    font-size: 3em;
+    position: absolute;
+    z-index: 2;
+
+    /* Center it vertically */
+    top: 50%;
+    /* Center it horizontally */
+    left: 50%;
+
+    width: 4em;
+    height: 2.8em;
+    margin-top: -1.8000000000000001em;
+    margin-left: -2.1em;
+
+    display: block;
+    cursor: pointer;
+    opacity: 1;
+
+    /* transition */
+    -webkit-transition: all .4s;
+       -moz-transition: all .4s;
+         -o-transition: all .4s;
+            transition: all .4s;
+    text-align: center;
+    vertical-align: middle;
+
+    /* border-radius */
+    -webkit-border-radius: .8em;
+       -moz-border-radius: .8em;
+            border-radius: .8em;
+    /* Need a slightly gray bg so it can be seen on black backgrounds */
+    /* background-color-with-alpha */
+    background-color: #07141e;
+    background-color: rgba(7, 20, 30, .7);
+    /* box-shadow */
+    -webkit-box-shadow: 0 0 1em rgba(255, 255, 255, .25);
+       -moz-box-shadow: 0 0 1em rgba(255, 255, 255, .25);
+            box-shadow: 0 0 1em rgba(255, 255, 255, .25);
+}
+
+.vjs-record .vjs-error .vjs-device-button
+{
+    display: none;
+}
+
+.vjs-record button.vjs-device-button.vjs-control.vjs-icon-av-perm:before,
+.vjs-record button.vjs-device-button.vjs-control.vjs-icon-sv-perm:before,
+.vjs-record button.vjs-device-button.vjs-control.vjs-icon-audio-perm:before,
+.vjs-record button.vjs-device-button.vjs-control.vjs-icon-video-perm:before,
+.vjs-record button.vjs-device-button.vjs-control.vjs-icon-screen-perm:before,
+{
+    font-size: 2.4em;
+}

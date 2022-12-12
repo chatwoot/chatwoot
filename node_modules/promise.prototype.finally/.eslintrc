@@ -1,0 +1,28 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"globals": {
+		"Promise": false,
+	},
+
+	"rules": {
+		"dot-notation": [2, { "allowKeywords": false }],
+		"new-cap": [2, { "capIsNewExceptions": ["RequireObjectCoercible", "SpeciesConstructor", "IsCallable", "Type"] }],
+		"no-magic-numbers": 0,
+	},
+
+	"overrides": [
+		{
+			"files": "test/**/*",
+			"rules": {
+				"max-lines-per-function": 0,
+				"max-params": 0,
+				"multiline-comment-style": 1,
+				"no-invalid-this": 1,
+				"prefer-promise-reject-errors": 0,
+			},
+		},
+	],
+}

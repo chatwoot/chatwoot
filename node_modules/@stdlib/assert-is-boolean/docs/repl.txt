@@ -1,0 +1,68 @@
+
+{{alias}}( value )
+    Tests if a value is a boolean.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a boolean.
+
+    Examples
+    --------
+    > var bool = {{alias}}( false )
+    true
+    > bool = {{alias}}( new Boolean( false ) )
+    true
+
+
+{{alias}}.isPrimitive( value )
+    Tests if a value is a boolean primitive.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a boolean primitive.
+
+    Examples
+    --------
+    > var bool = {{alias}}.isPrimitive( true )
+    true
+    > bool = {{alias}}.isPrimitive( false )
+    true
+    > bool = {{alias}}.isPrimitive( new Boolean( true ) )
+    false
+
+
+{{alias}}.isObject( value )
+    Tests if a value is a boolean object.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a boolean object.
+
+    Examples
+    --------
+    > var bool = {{alias}}.isObject( true )
+    false
+    > bool = {{alias}}.isObject( new Boolean( false ) )
+    true
+
+    See Also
+    --------
+

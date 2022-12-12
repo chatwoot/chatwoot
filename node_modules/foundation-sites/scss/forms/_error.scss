@@ -1,0 +1,89 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group abide
+////
+
+/// Sets if error styles should be added to inputs.
+/// @type Boolean
+$abide-inputs: true !default;
+
+/// Sets if error styles should be added to labels.
+/// @type Boolean
+$abide-labels: true !default;
+
+/// Background color to use for invalid text inputs.
+/// @type Color
+$input-background-invalid: get-color(alert) !default;
+
+/// Color to use for labels of invalid inputs.
+/// @type Color
+$form-label-color-invalid: get-color(alert) !default;
+
+/// Default font color for form error text.
+/// @type Color
+$input-error-color: get-color(alert) !default;
+
+/// Default font size for form error text.
+/// @type Number
+$input-error-font-size: rem-calc(12) !default;
+
+/// Default font weight for form error text.
+/// @type Keyword
+$input-error-font-weight: $global-weight-bold !default;
+
+/// Styles the background and border of an input field to have an error state.
+///
+/// @param {Color} $background [$alert-color] - Color to use for the background and border.
+/// @param {Number} $background-lighten [10%] - Lightness level of the background color.
+@mixin form-input-error(
+  $background: $input-background-invalid,
+  $background-lighten: 10%
+) {
+  &:not(:focus) {
+    border-color: $background;
+    background-color: mix($background, $white, $background-lighten);
+
+    &::placeholder {
+      color: $background;
+    }
+  }
+}
+
+/// Adds error styles to a form element, using the values in the settings file.
+@mixin form-error {
+  display: none;
+  margin-top: $form-spacing * -0.5;
+  margin-bottom: $form-spacing;
+
+  font-size: $input-error-font-size;
+  font-weight: $input-error-font-weight;
+  color: $input-error-color;
+}
+
+@mixin foundation-form-error {
+  @if $abide-inputs {
+    // Error class for invalid inputs
+    .is-invalid-input {
+      @include form-input-error;
+    }
+  }
+
+  @if $abide-labels {
+    // Error class for labels of invalid outputs
+    .is-invalid-label {
+      color: $form-label-color-invalid;
+    }
+  }
+
+  // Form error element
+  .form-error {
+    @include form-error;
+
+    &.is-visible {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+
+{{alias}}()
+    Returns a regular expression to test if a string is an extended-length path.
+
+    Extended-length paths are Windows paths which begin with `\\?\`.
+
+    Returns
+    -------
+    re: RegExp
+        Regular expression.
+
+    Examples
+    --------
+    > var RE = {{alias}}();
+    > var path = '\\\\?\\C:\\foo\\bar';
+    > var bool = RE.test( path )
+    true
+    > path = '\\\\?\\UNC\\server\\share';
+    > bool = RE.test( path )
+    true
+    > path = 'C:\\foo\\bar';
+    > bool = RE.test( path )
+    false
+    > path = '/c/foo/bar';
+    > bool = RE.test( path )
+    false
+    > path = '/foo/bar';
+    > bool = RE.test( path )
+    false
+
+
+{{alias}}.REGEXP
+    Regular expression to test if a string is an extended-length path.
+
+    Examples
+    --------
+    > var bool = {{alias}}.REGEXP.test( 'C:\\foo\\bar' )
+    false
+
+    See Also
+    --------
+

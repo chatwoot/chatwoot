@@ -1,0 +1,12 @@
+{
+  "id": "accesskeys",
+  "evaluate": "accesskeys-evaluate",
+  "after": "accesskeys-after",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Accesskey attribute value is unique",
+      "fail": "Document has multiple elements with the same accesskey"
+    }
+  }
+}

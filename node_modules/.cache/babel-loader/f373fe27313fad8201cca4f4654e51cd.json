@@ -1,0 +1,1 @@
+{"ast":null,"code":"module.exports = SafeParseTuple;\n\nfunction SafeParseTuple(obj, reviver) {\n  var json;\n  var error = null;\n\n  try {\n    json = JSON.parse(obj, reviver);\n  } catch (err) {\n    error = err;\n  }\n\n  return [error, json];\n}","map":null,"metadata":{},"sourceType":"module"}

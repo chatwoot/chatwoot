@@ -1,0 +1,197 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group orbit
+////
+
+/// Default color for Orbit's bullets.
+/// @type Color
+$orbit-bullet-background: $medium-gray !default;
+
+/// Default active color for Orbit's bullets.
+/// @type Color
+$orbit-bullet-background-active: $dark-gray !default;
+
+/// Default diameter for Orbit's bullets.
+/// @type Number
+$orbit-bullet-diameter: 1.2rem !default;
+
+/// Default margin between Orbit's bullets.
+/// @type Number
+$orbit-bullet-margin: 0.1rem !default;
+
+/// Default distance from slide region for Orbit's bullets.
+/// @type Number
+$orbit-bullet-margin-top: 0.8rem !default;
+
+/// Default bottom margin from Orbit's bullets to whatever content may lurk below it.
+/// @type Number
+$orbit-bullet-margin-bottom: 0.8rem !default;
+
+/// Default background color for Orbit's caption.
+/// @type Color
+$orbit-caption-background: rgba($black, 0.5) !default;
+
+/// Default padding for Orbit's caption.
+/// @type Number
+$orbit-caption-padding: 1rem !default;
+
+/// Default background color for Orbit's controls when hovered.
+/// @type Color
+$orbit-control-background-hover: rgba($black, 0.5) !default;
+
+/// Default padding for Orbit's controls.
+/// @type Number
+$orbit-control-padding: 1rem !default;
+
+/// Default z-index for Orbit's controls.
+/// @type Number
+$orbit-control-zindex: 10 !default;
+
+/// Adds styles for the outer Orbit wrapper. These styles are used on the `.orbit` class.
+@mixin orbit-wrapper {
+  position: relative;
+}
+
+/// Adds styles for the inner Orbit slide container. These styles are used on the `.orbit-container` class.
+@mixin orbit-container {
+  position: relative;
+  height: 0; // Prevent FOUC by not showing until JS sets height
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+}
+
+/// Adds styles for the individual slides of an Orbit slider. These styles are used on the `.orbit-slide` class.
+@mixin orbit-slide {
+  width: 100%;
+  position: absolute;
+
+  &.no-motionui {
+    &.is-active {
+      top: 0;
+      left: 0;
+    }
+  }
+}
+
+@mixin orbit-figure {
+  margin: 0;
+}
+
+/// Adds styles for a slide containing an image. These styles are used on the `.orbit-image` class.
+@mixin orbit-image {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+/// Adds styles for an orbit slide caption. These styles are used on the `.orbit-caption` class.
+@mixin orbit-caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 0;
+  padding: $orbit-caption-padding;
+
+  background-color: $orbit-caption-background;
+  color: color-pick-contrast($orbit-caption-background);
+}
+
+/// Adds base styles for the next/previous buttons in an Orbit slider. These styles are shared between the `.orbit-next` and `.orbit-previous` classes in the default CSS.
+@mixin orbit-control {
+  @include disable-mouse-outline;
+  @include vertical-center;
+  z-index: $orbit-control-zindex;
+  padding: $orbit-control-padding;
+  color: $white;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $orbit-control-background-hover;
+  }
+}
+
+/// Adds styles for the Orbit previous button. These styles are used on the `.orbit-previous` class.
+@mixin orbit-previous {
+  #{$global-left}: 0;
+}
+
+/// Adds styles for the Orbit next button. These styles are used on the `.orbit-next` class.
+@mixin orbit-next {
+  #{$global-left}: auto;
+  #{$global-right}: 0;
+}
+
+/// Adds styles for a container of Orbit bullets. /// Adds styles for the Orbit previous button. These styles are used on the `.orbit-bullets` class.
+@mixin orbit-bullets {
+  @include disable-mouse-outline;
+  position: relative;
+  margin-top: $orbit-bullet-margin-top;
+  margin-bottom: $orbit-bullet-margin-bottom;
+  text-align: center;
+
+  button {
+    width: $orbit-bullet-diameter;
+    height: $orbit-bullet-diameter;
+    margin: $orbit-bullet-margin;
+
+    border-radius: 50%;
+    background-color: $orbit-bullet-background;
+
+    &:hover {
+      background-color: $orbit-bullet-background-active;
+    }
+
+    &.is-active {
+      background-color: $orbit-bullet-background-active;
+    }
+  }
+}
+
+@mixin foundation-orbit {
+  .orbit {
+    @include orbit-wrapper;
+  }
+
+  .orbit-container {
+    @include orbit-container;
+  }
+
+  .orbit-slide {
+    @include orbit-slide;
+  }
+
+  .orbit-figure {
+    @include orbit-figure;
+  }
+
+  .orbit-image {
+    @include orbit-image;
+  }
+
+  .orbit-caption {
+    @include orbit-caption;
+  }
+
+  %orbit-control {
+    @include orbit-control;
+  }
+
+  .orbit-previous {
+    @extend %orbit-control;
+    @include orbit-previous;
+  }
+
+  .orbit-next {
+    @extend %orbit-control;
+    @include orbit-next;
+  }
+
+  .orbit-bullets {
+    @include orbit-bullets;
+  }
+}

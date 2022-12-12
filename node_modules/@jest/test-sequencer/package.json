@@ -1,0 +1,29 @@
+{
+  "name": "@jest/test-sequencer",
+  "version": "26.6.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/jest.git",
+    "directory": "packages/jest-test-sequencer"
+  },
+  "license": "MIT",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "dependencies": {
+    "@jest/test-result": "^26.6.2",
+    "graceful-fs": "^4.2.4",
+    "jest-haste-map": "^26.6.2",
+    "jest-runner": "^26.6.3",
+    "jest-runtime": "^26.6.3"
+  },
+  "devDependencies": {
+    "@types/graceful-fs": "^4.1.3"
+  },
+  "engines": {
+    "node": ">= 10.14.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "2f6931e91d5ab126de70caf150c68709752e7f6c"
+}

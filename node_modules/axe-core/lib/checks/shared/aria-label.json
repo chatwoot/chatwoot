@@ -1,0 +1,11 @@
+{
+  "id": "aria-label",
+  "evaluate": "aria-label-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "aria-label attribute exists and is not empty",
+      "fail": "aria-label attribute does not exist or is empty"
+    }
+  }
+}

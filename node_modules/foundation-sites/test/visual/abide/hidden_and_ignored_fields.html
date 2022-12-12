@@ -1,0 +1,56 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="cell">
+        <h1>Abide: Hidden and Ignored Fields</h1>
+        <div class="callout">
+          <p>This form has a hidden field and a required text field.</p>
+          <p>Errors should be displayed properly.</p>
+
+          <form data-abide novalidate>
+            <input required type="text" placeholder="Required - try submitting without a value">
+            <span class="form-error">This field is required</span>
+            <input type="hidden" value="foo">
+            <button type="submit" class="button">Submit</button>
+            <button type="reset" class="button">Reset</button>
+          </form>
+        </div>
+        <div class="callout">
+          <p>This form has a required text field and an ignored field that is ignored after page load.</p>
+          <p>The ignored field should be ignored.</p>
+          <form data-abide novalidate>
+            <div class="row column">
+              <input required type="text" placeholder="Required">
+              <span class="form-error">This field is required</span>
+            </div>
+            <div class="row column">
+              <input required id="ignoreAfter" type="text" placeholder="Ignored">
+              <span class="form-error">You should never see this error!</span>
+            </div>
+            <button type="submit" class="button">Submit</button>
+            <button type="reset" class="button">Reset</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      Foundation.Abide.defaults.patterns['customPattern'] = /^\w{4,16}$/;
+      $(document).foundation();
+      $("#ignoreAfter").attr("data-abide-ignore", true);
+    </script>
+  </body>
+</html>

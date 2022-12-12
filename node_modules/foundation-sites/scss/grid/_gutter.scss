@@ -1,0 +1,67 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group grid
+////
+
+/// Set the gutters on a column
+/// @param {Number|Keyword} $gutter [auto]
+///   Spacing between columns, accepts multiple values:
+///   - A single value will make the gutter that exact size.
+///   - A breakpoint name will make the gutter the corresponding size in the $gutters map.
+///   - "auto" will make the gutter responsive, using the $gutters map values.
+/// @param {Number|Map} $gutters [$grid-column-gutter] - Gutter map or single value to use. Responsive gutter settings by default.
+@mixin grid-column-gutter(
+  $gutter: auto,
+  $gutters: $grid-column-gutter
+) {
+  @include -zf-breakpoint-value($gutter, $gutters) {
+    $padding: rem-calc($-zf-bp-value) / 2;
+
+    padding-right: $padding;
+    padding-left: $padding;
+  }
+}
+
+/// Collapse the gutters on a column by removing the padding. **Note:** only use this mixin within a breakpoint. To collapse a column's gutters on all screen sizes, use the `$gutter` parameter of the `grid-column()` mixin instead.
+@mixin grid-column-collapse {
+  @include grid-column-gutter(0);
+}
+
+/// Shorthand for `grid-column-gutter()`.
+/// @alias grid-column-gutter
+@mixin grid-col-gutter(
+  $gutter: auto,
+  $gutters: $grid-column-gutter
+) {
+  @include grid-column-gutter($gutter, $gutters);
+}
+
+/// Shorthand for `grid-column-collapse()`.
+/// @alias grid-column-collapse
+@mixin grid-col-collapse {
+  @include grid-column-collapse;
+}
+
+/// Sets bottom margin on grid columns to match gutters
+/// @param {Number|Keyword} $margin [auto]
+///   The bottom margin on grid columns, accepts multiple values:
+///   - A single value will make the margin that exact size.
+///   - A breakpoint name will make the margin the corresponding size in the $margins map.
+///   - "auto" will make the margin responsive, using the $margins map values.
+/// @param {Number|Map} $margins [$grid-column-gutter] - Map or single value to use. Responsive gutter settings by default.
+@mixin grid-column-margin (
+  $margin: auto,
+  $margins: $grid-column-gutter
+) {
+  @include -zf-breakpoint-value($margin, $margins) {
+    $margin-bottom: rem-calc($-zf-bp-value);
+    margin-bottom: $margin-bottom;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}

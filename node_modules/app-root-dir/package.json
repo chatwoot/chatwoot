@@ -1,0 +1,27 @@
+{
+    "name": "app-root-dir",
+    "description": "Simple module to infer the root directory of the currently running node application",
+    "main": "lib/index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/philidem/node-app-root-dir.git"
+    },
+    "keywords": [
+        "modules",
+        "path",
+        "node",
+        "app",
+        "root",
+        "directory"
+    ],
+    "author": "Phillip Gates-Idem <phillip.idem@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/philidem/node-app-root-dir/issues"
+    },
+    "homepage": "https://github.com/philidem/node-app-root-dir",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "version": "1.0.2"
+}

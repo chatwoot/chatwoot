@@ -1,0 +1,11 @@
+// @flow
+
+declare module.exports: (
+  dateToCompare: Date | string | number,
+  date: Date | string | number,
+  options?: {
+    includeSeconds?: boolean,
+    addSuffix?: boolean,
+    locale?: Object
+  }
+) => string

@@ -1,0 +1,18 @@
+{
+  "id": "aria-hidden-focus",
+  "selector": "[aria-hidden=\"true\"]",
+  "matches": "aria-hidden-focus-matches",
+  "excludeHidden": false,
+  "tags": ["cat.name-role-value", "wcag2a", "wcag412", "wcag131"],
+  "metadata": {
+    "description": "Ensures aria-hidden elements do not contain focusable elements",
+    "help": "ARIA hidden element must not contain focusable elements"
+  },
+  "all": [
+    "focusable-modal-open",
+    "focusable-disabled",
+    "focusable-not-tabbable"
+  ],
+  "any": [],
+  "none": []
+}

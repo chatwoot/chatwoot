@@ -1,0 +1,34 @@
+{
+  "i18n/path" : {
+    "description": "[required]\nKeypath of the locale message",
+    "type": "string"
+  },
+  "i18n/locale" : {
+    "description": "[optional]\nLocale to be used in this translation",
+    "type": "string"
+  },
+  "i18n/tag" : {
+    "description": "[optional]\nWhich tag to render, default is \"span\"",
+    "type": "string"
+  },
+  "i18n/places": {
+    "description": "[optional after v8.14]\nWill be removed in the next major version, use the slot syntax instead\n\nhttp://kazupon.github.io/vue-i18n/guide/interpolation.html#slots-syntax-usage",
+    "type": "array|object"
+  },
+  "i18n-n/value" : {
+    "description": "[required]\nNumber to be used in formatting",
+    "type": "number"
+  },
+  "i18n-n/format": {
+    "description": "[optional]\nNumber format name or object with explicit format options",
+    "type": "string|object"
+  },
+  "i18n-n/locale" : {
+    "description": "[optional]\nLocale to be used in this translation",
+    "type": "string"
+  },
+  "i18n-n/tag" : {
+    "description": "[optional]\nWhich tag to render, default is `span`",
+    "type": "string"
+  }
+}

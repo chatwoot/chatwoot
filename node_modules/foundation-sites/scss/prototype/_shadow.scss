@@ -1,0 +1,43 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-shadow
+////
+
+/// Responsive breakpoints for shadow utility.
+/// @type Boolean
+$prototype-shadow-breakpoints: $global-prototype-breakpoints !default;
+
+/// Default value for `prototype-box-shadow`
+/// @type Number
+$prototype-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),
+                       0 2px 10px 0 rgba(0,0,0,.12) !default;
+
+/// Shadow Utility: Adds a light box shadow to an element by default.
+/// @param {Number} $shadow [$prototype-box-shadow] Box Shadow of a component
+@mixin shadow(
+  $shadow: $prototype-box-shadow
+) {
+  box-shadow: $shadow;
+}
+
+@mixin foundation-prototype-shadow {
+  .shadow {
+    @include shadow;
+  }
+
+  @if ($prototype-shadow-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-shadow {
+            @include shadow;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+export declare const EOL: string;
+export declare const CarriageReturnLineFeed = "\r\n";
+export declare const LineFeed = "\n";
+export declare const CarriageReturnLineFeedCode = 0;
+export declare const LineFeedCode = 1;
+export declare const extensionRegex: RegExp;
+export declare const tsxRegex: RegExp;
+export declare const tsTsxRegex: RegExp;
+export declare const dtsDtsxOrDtsDtsxMapRegex: RegExp;
+export declare const dtsTsTsxRegex: RegExp;
+export declare const dtsTsTsxJsJsxRegex: RegExp;
+export declare const tsTsxJsJsxRegex: RegExp;
+export declare const jsJsx: RegExp;
+export declare const jsJsxMap: RegExp;
+export declare const jsonRegex: RegExp;
+export declare const nodeModules: RegExp;
+//# sourceMappingURL=constants.d.ts.map

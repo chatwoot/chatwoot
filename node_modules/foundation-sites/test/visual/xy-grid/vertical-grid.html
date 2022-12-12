@@ -1,0 +1,54 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Vertical Grid</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      body {
+        padding: 30px;
+      }
+
+      .demo {
+        background: #1779ba;
+        height: 100%;
+      }
+
+      .cell {
+        /*background: dodgerblue;*/
+        color: white;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Vertical Grid</h1>
+
+    <h2>Margin Grid</h2>
+
+    <div class="grid-y grid-margin-y" style="height: 800px;">
+      <div class="cell auto medium-3 large-1"><div class="demo">auto/3/1</div></div>
+      <div class="cell auto medium-3 large-2"><div class="demo">auto/3/2</div></div>
+      <div class="cell auto medium-3 large-4"><div class="demo">auto/3/4</div></div>
+      <div class="cell auto medium-3 large-5"><div class="demo">auto/3/5</div></div>
+    </div>
+
+    <h2>Padding Grid</h2>
+
+    <div class="grid-y grid-frame grid-padding-y" style="height: 800px;">
+      <div class="cell auto medium-3 large-1"><div class="demo">auto/3/1</div></div>
+      <div class="cell auto medium-3 large-2"><div class="demo">auto/3/2</div></div>
+      <div class="cell auto medium-3 large-4"><div class="demo">auto/3/4</div></div>
+      <div class="cell auto medium-3 large-5"><div class="demo">auto/3/5</div></div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

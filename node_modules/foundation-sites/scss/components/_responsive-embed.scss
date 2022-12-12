@@ -1,0 +1,57 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group responsive-embed
+////
+
+/// Margin below a responsive embed container.
+/// @type Number
+$responsive-embed-margin-bottom: rem-calc(16) !default;
+
+/// Aspect ratios used to determine padding-bottom of responsive embed containers.
+/// @type Map
+$responsive-embed-ratios: (
+  default: 4 by 3,
+  widescreen: 16 by 9,
+) !default;
+
+/// Creates a responsive embed container.
+/// @param {String|List} $ratio [default] - Ratio of the container. Can be a key from the `$responsive-embed-ratios` map or a list formatted as `x by y`.
+@mixin responsive-embed($ratio: default) {
+  @if type-of($ratio) == 'string' {
+    $ratio: map-get($responsive-embed-ratios, $ratio);
+  }
+  position: relative;
+  height: 0;
+  margin-bottom: $responsive-embed-margin-bottom;
+  padding-bottom: ratio-to-percentage($ratio);
+  overflow: hidden;
+
+  iframe,
+  object,
+  embed,
+  video {
+    position: absolute;
+    top: 0;
+    #{$global-left}: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@mixin foundation-responsive-embed {
+  .responsive-embed,
+  .flex-video {
+    @include responsive-embed($ratio: default);
+
+    $ratios: map-remove($responsive-embed-ratios,default);
+
+    @each $name, $ratio in $ratios {
+      &.#{$name} {
+        padding-bottom: ratio-to-percentage($ratio);
+      }
+    }
+  }
+}

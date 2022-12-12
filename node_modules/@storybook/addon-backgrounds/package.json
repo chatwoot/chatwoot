@@ -1,0 +1,89 @@
+{
+  "name": "@storybook/addon-backgrounds",
+  "version": "6.5.9",
+  "description": "Switch backgrounds to view components in different settings",
+  "keywords": [
+    "addon",
+    "background",
+    "react",
+    "storybook",
+    "essentials",
+    "design"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/backgrounds",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "addons/backgrounds"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "author": "jbaxleyiii",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "6.5.9",
+    "@storybook/api": "6.5.9",
+    "@storybook/client-logger": "6.5.9",
+    "@storybook/components": "6.5.9",
+    "@storybook/core-events": "6.5.9",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/theming": "6.5.9",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "memoizerific": "^1.11.3",
+    "regenerator-runtime": "^0.13.7",
+    "ts-dedent": "^2.0.0",
+    "util-deprecate": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/webpack-env": "^1.16.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "e2673f765722cbb542ef1b5cf8d533c8e746a127",
+  "sbmodern": "dist/modern/index.js",
+  "storybook": {
+    "displayName": "Backgrounds",
+    "icon": "https://user-images.githubusercontent.com/263385/101991667-479cc600-3c7c-11eb-96d3-410e936252e7.png",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
+  }
+}

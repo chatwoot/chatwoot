@@ -1,0 +1,13 @@
+{
+  "id": "document-title",
+  "selector": "html",
+  "matches": "is-initiator-matches",
+  "tags": ["cat.text-alternatives", "wcag2a", "wcag242", "ACT"],
+  "metadata": {
+    "description": "Ensures each HTML document contains a non-empty <title> element",
+    "help": "Documents must have <title> element to aid in navigation"
+  },
+  "all": [],
+  "any": ["doc-has-title"],
+  "none": []
+}

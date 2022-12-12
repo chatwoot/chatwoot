@@ -1,0 +1,48 @@
+{
+  "name": "postcss-loader",
+  "version": "3.0.0",
+  "description": "PostCSS loader for webpack",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">= 6"
+  },
+  "dependencies": {
+    "loader-utils": "^1.1.0",
+    "postcss": "^7.0.0",
+    "postcss-load-config": "^2.0.0",
+    "schema-utils": "^1.0.0"
+  },
+  "devDependencies": {
+    "@webpack-utilities/test": "^1.0.0-alpha.0",
+    "jest": "^23.0.0",
+    "jsdoc-to-markdown": "^4.0.0",
+    "postcss-import": "^11.0.0",
+    "postcss-js": "^2.0.0",
+    "standard": "^11.0.0",
+    "standard-version": "^4.0.0",
+    "sugarss": "^1.0.0",
+    "webpack": "^4.0.0"
+  },
+  "scripts": {
+    "lint": "standard --env jest",
+    "test": "jest --env node --verbose --coverage",
+    "docs": "jsdoc2md src/*.js > docs/LOADER.md",
+    "clean": "rm -rf coverage test/outputs",
+    "release": "standard-version"
+  },
+  "keywords": [
+    "css",
+    "postcss",
+    "postcss-runner",
+    "webpack",
+    "webpack-loader"
+  ],
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "repository": "https://github.com/postcss/postcss-loader.git",
+  "bugs": "https://github.com/postcss/postcss-loader/issues",
+  "homepage": "https://github.com/postcss/postcss-loader#readme",
+  "license": "MIT"
+}

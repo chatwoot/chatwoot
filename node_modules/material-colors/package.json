@@ -1,0 +1,43 @@
+{
+  "name": "material-colors",
+  "homepage": "https://github.com/shuhei/material-colors",
+  "version": "1.2.6",
+  "description": "Colors of Google's Material Design made available to coders",
+  "main": "dist/colors.js",
+  "module": "dist/colors.es2015.js",
+  "scripts": {
+    "start": "grunt",
+    "test": "node test"
+  },
+  "keywords": [
+    "colors",
+    "palette",
+    "design",
+    "css",
+    "sass",
+    "scss",
+    "less",
+    "stylus",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shuhei/material-colors.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shuhei/material-colors/issues"
+  },
+  "author": {
+    "name": "Shuhei Kagawa",
+    "email": "shuhei.kagawa@gmail.com"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "cheerio": "^0.22.0",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "rollup": "^0.40.2",
+    "tape": "^4.6.3",
+    "tmp": "0.0.31"
+  }
+}

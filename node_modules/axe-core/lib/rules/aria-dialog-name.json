@@ -1,0 +1,13 @@
+{
+  "id": "aria-dialog-name",
+  "selector": "[role=\"dialog\"], [role=\"alertdialog\"]",
+  "matches": "no-naming-method-matches",
+  "tags": ["cat.aria", "best-practice"],
+  "metadata": {
+    "description": "Ensures every ARIA dialog and alertdialog node has an accessible name",
+    "help": "ARIA dialog and alertdialog nodes should have an accessible name"
+  },
+  "all": [],
+  "any": ["aria-label", "aria-labelledby", "non-empty-title"],
+  "none": []
+}

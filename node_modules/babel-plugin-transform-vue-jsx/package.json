@@ -1,0 +1,55 @@
+{
+  "name": "babel-plugin-transform-vue-jsx",
+  "version": "3.7.0",
+  "description": "Babel plugin for Vue 2.0 JSX",
+  "main": "index.js",
+  "unpkg": "dist/babel-plugin-transform-vue-jsx.min.js",
+  "files": [
+    "index.js",
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint index.js",
+    "test": "npm run lint && mocha --compilers js:babel-register",
+    "dev": "cd example && webpack --watch",
+    "build": "webpack -p index.js dist/babel-plugin-transform-vue-jsx.min.js --target=web --output-library=babel-plugin-transform-vue-jsx --output-library-target=umd --module-bind 'js=babel-loader'",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/babel-plugin-transform-vue-jsx.git"
+  },
+  "keywords": [
+    "vue",
+    "babel",
+    "jsx"
+  ],
+  "author": "Evan You",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vuejs/babel-plugin-transform-vue-jsx/issues"
+  },
+  "homepage": "https://github.com/vuejs/babel-plugin-transform-vue-jsx#readme",
+  "dependencies": {
+    "esutils": "^2.0.2"
+  },
+  "peerDependencies": {
+    "babel-helper-vue-jsx-merge-props": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-helper-vue-jsx-merge-props": "^2.0.3",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.16.0",
+    "eslint-plugin-vue-libs": "^2.1.0",
+    "mocha": "^5.0.0",
+    "vue": "^2.5.13",
+    "webpack": "^3.10.0"
+  }
+}

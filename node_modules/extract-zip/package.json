@@ -1,0 +1,35 @@
+{
+  "name": "extract-zip",
+  "version": "1.7.0",
+  "description": "unzip a zip file into a directory using 100% javascript",
+  "main": "index.js",
+  "bin": {
+    "extract-zip": "cli.js"
+  },
+  "scripts": {
+    "test": "standard && node test/test.js"
+  },
+  "author": "max ogden",
+  "license": "BSD-2-Clause",
+  "repository": "maxogden/extract-zip",
+  "keywords": [
+    "unzip",
+    "zip",
+    "extract"
+  ],
+  "dependencies": {
+    "concat-stream": "^1.6.2",
+    "debug": "^2.6.9",
+    "mkdirp": "^0.5.4",
+    "yauzl": "^2.10.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.2.8",
+    "standard": "^5.2.2",
+    "tape": "^4.2.0",
+    "temp": "^0.8.3"
+  },
+  "directories": {
+    "test": "test"
+  }
+}

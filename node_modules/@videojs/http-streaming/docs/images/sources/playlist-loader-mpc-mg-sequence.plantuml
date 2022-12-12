@@ -1,0 +1,114 @@
+@startuml
+
+header PlaylistLoader sequences
+title PlaylistLoader sequences: Master Manifest and Alternate Audio
+
+Participant "MasterPlaylistController" as MPC #red
+Participant "MasterPlaylistLoader" as MPL #blue
+Participant "mainSegmentLoader" as SL #blue
+Participant "AudioPlaylistLoader" as APL #green
+Participant "audioSegmentLoader" as ASL #green
+Participant "external server" as ext #brown
+Participant "m3u8Parser" as parser #orange
+Participant "mediaGroups" as MG #purple
+Participant Tech #lightblue
+
+== Initialization ==
+
+MPC -> MPL : construct MasterPlaylistLoader
+MPC -> MPL: load()
+
+MPL -> MPL : start()
+
+== Requesting Master Manifest ==
+
+MPL -> ext: xhr request for master manifest
+ext -> MPL : response with master manifest
+
+MPL -> parser: parse master manifest
+parser -> MPL: object representing manifest
+
+note over MPL #lightblue: trigger 'loadedplaylist'
+
+== Requesting Video Manifest ==
+
+note over MPL #lightblue: handling loadedplaylist
+MPL -> MPL : media()
+
+MPL -> ext : request child manifest
+ext -> MPL: child manifest returned
+
+MPL -> parser: parse child manifest
+parser -> MPL: object representing the child manifest
+
+note over MPL #lightblue: trigger 'loadedplaylist'
+note over MPL #lightblue: handleing 'loadedplaylist'
+
+MPL -> SL: playlist()
+MPL -> SL: load()
+
+== Requesting Video Segments ==
+
+note over MPL #lightblue: trigger 'loadedmetadata'
+note over MPL #lightblue: handling 'loadedmetadata'
+
+opt vod and preload !== 'none'
+
+  MPL -> SL: playlist()
+  MPL -> SL: load()
+
+end
+
+MPL -> MG: setupMediaGroups()
+
+== Initializing Media Groups, Choosing Active Tracks ==
+
+MG -> APL: create child playlist loader for alt audio
+
+MG -> MG: activeGroup and audio variant selected
+MG -> MG: enable activeTrack, onTrackChanged()
+MG -> SL: reset mainSegmentLoader
+
+== Requesting Alternate Audio Manifest ==
+
+MG -> MG: startLoaders()
+
+MG -> APL: load()
+APL -> APL: start()
+
+APL -> ext: request alt audio media manifest
+
+break finish pending tasks
+  MG -> Tech: add audioTracks
+  MPL -> MPC: setupSourceBuffers()
+  MPL -> MPC: setupFirstPlay()
+
+  loop on monitorBufferTick
+    SL -> ext: requests media segments
+    ext -> SL: response with media segment bytes
+  end
+end
+
+ext -> APL: responds with child manifest
+
+APL -> parser: parse child manifest
+parser -> APL: object representing child manifest returned
+
+== Requesting Alternate Audio Segments ==
+
+note over APL #lightblue: trigger 'loadedplaylist'
+note over APL #lightblue: handling 'loadedplaylist'
+APL -> ASL: playlist()
+
+note over APL #lightblue: trigger 'loadedmetadata'
+note over APL #lightblue: handling 'loadedmetadata'
+APL -> ASL: playlist()
+APL -> ASL: load()
+
+loop audioSegmentLoader.load()
+
+  ASL -> ext: requests media segments
+  ext -> ASL: response with media segment bytes
+end
+
+@enduml

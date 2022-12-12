@@ -1,0 +1,45 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Triggers: Contained</h1>
+
+          <p>This callout has a trigger inside of it with an id. Triggering it should toggle the type</p>
+
+          <div id="callout1" class="callout" data-toggler=".primary">
+            <p>You can toggle this</p>
+            <button type="button" class="button" data-toggle="callout1">
+              DO IT
+            </button>
+          </div>
+
+          <p>This callout has a trigger inside of it WITHOUT an id. Triggering it should also toggle the type</p>
+
+          <div class="callout" data-toggler=".primary">
+            <p>You can toggle this</p>
+            <button type="button" class="button" data-toggle>
+              DO IT
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+

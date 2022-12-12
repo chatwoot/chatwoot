@@ -1,0 +1,120 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Abide: Text Fields</h1>
+
+          <p>This form has one required text field and one optional text field.</p>
+
+          <form data-abide novalidate>
+            <input required type="text" placeholder="Required">
+            <input type="text" placeholder="Not required">
+            <button type="submit" class="button">Submit</button>
+            <button type="reset" class="button">Reset</button>
+          </form>
+
+          <hr>
+
+          <p>This form has valid and invalid inputs for other text input types. (In browsers that support color pickers, you won't see a text field, but a color selection button instead.)</p>
+
+          <form data-abide novalidate>
+            <fieldset>
+              <legend>color</legend>
+              <input type="color" required value="#ffffff">
+              <input type="color" required value="wefwf89">
+            </fieldset>
+
+            <fieldset>
+              <legend>date</legend>
+              <input type="date" required value="1970-01-31">
+              <input type="date" required value="dwepdw9449tbv">
+            </fieldset>
+
+            <fieldset>
+              <legend>datetime</legend>
+              <input type="datetime" required value="1970-01-31T05:30:00Z">
+              <input type="datetime" required>
+            </fieldset>
+
+            <fieldset>
+              <legend>email</legend>
+              <input type="email" required value="foundation@zurb.com">
+              <input type="email" required value="notanemail.lol">
+            </fieldset>
+
+            <fieldset>
+              <legend>month</legend>
+              <input type="month" required value="2016-01">
+              <input type="month" required value="10293">
+            </fieldset>
+
+            <fieldset>
+              <legend>number</legend>
+              <input type="number" required value="1">
+              <input type="number" required value="lol">
+            </fieldset>
+
+            <fieldset>
+              <legend>search</legend>
+              <input type="search" required>
+            </fieldset>
+
+            <fieldset>
+              <legend>tel</legend>
+              <input type="tel" required value="3175554848">
+              <input type="tel" required value="lol">
+            </fieldset>
+
+            <fieldset>
+              <legend>time</legend>
+              <input type="time" required value="05:30:00">
+              <input type="time" required value="x:du:dwef">
+            </fieldset>
+
+            <fieldset>
+              <legend>url</legend>
+              <input type="url" required value="http://foundation.zurb.com">
+              <input type="url" required value="foundation@zurb.com">
+            </fieldset>
+
+            <fieldset>
+              <legend>week</legend>
+              <input type="week" required value="2016-W01">
+              <input type="week" required value="101223">
+            </fieldset>
+
+            <button type="submit" class="button">Submit</button>
+            <button type="reset" class="button">Reset</button>
+          </form>
+
+          <hr>
+
+          <p>This field uses a custom pattern. The field is valid if the input is between 4 and 16 characters long.</p>
+
+          <form data-abide novalidate>
+            <input required type="text" pattern="customPattern">
+            <button type="submit" class="button">Submit</button>
+            <button type="reset" class="button">Reset</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      Foundation.Abide.defaults.patterns['customPattern'] = /^\w{4,16}$/;
+      $(document).foundation();
+    </script>
+  </body>
+</html>

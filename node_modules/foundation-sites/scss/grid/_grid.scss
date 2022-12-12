@@ -1,0 +1,48 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group grid
+////
+
+/// The maximum width of a row.
+/// @type Number
+$grid-row-width: $global-width !default;
+
+/// The default column count of a grid. Changing this value affects the logic of the grid mixins, and the number of CSS classes output.
+/// @type Number
+$grid-column-count: 12 !default;
+
+/// The amount of space between columns at different screen sizes. To use just one size, set the variable to a number instead of a map.
+/// @type Map | Length
+/// @since 6.1.0
+$grid-column-gutter: (
+  small: 20px,
+  medium: 30px,
+) !default;
+
+/// If `true`, the last column in a row will align to the opposite edge of the row.
+/// @type Boolean
+$grid-column-align-edge: true !default;
+
+/// Selector used for an alias of column (with @extend). If `false`, no alias is created.
+/// @type String
+$grid-column-alias: 'columns' !default;
+
+/// The highest number of `.x-up` classes available when using the block grid CSS.
+/// @type Number
+$block-grid-max: 8 !default;
+
+// Internal value to store the end column float direction
+$-zf-end-float: if($grid-column-align-edge, $global-right, $global-left);
+
+@import 'row';
+@import 'column';
+@import 'size';
+@import 'position';
+@import 'gutter';
+@import 'classes';
+@import 'layout';
+
+@import 'flex-grid';

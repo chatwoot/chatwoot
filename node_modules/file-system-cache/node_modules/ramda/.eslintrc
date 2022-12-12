@@ -1,0 +1,121 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "Symbol": true
+  },
+  "rules": {
+    "no-eval": 2,
+    "eqeqeq": 0,
+    "no-eq-null": 0,
+    "new-cap": 0,
+    "no-plusplus": 2,
+    "no-undef": 2,
+    "no-unused-vars": [
+      2,
+      {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    "brace-style": [
+      2,
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "no-mixed-spaces-and-tabs": 2,
+    "no-multi-str": 2,
+    "one-var": [
+      2,
+      {
+        "uninitialized": "always",
+        "initialized": "never"
+      }
+    ],
+    "quote-props": [
+      2,
+      "as-needed",
+      {
+        "keywords": true
+      }
+    ],
+    "key-spacing": 0,
+    "space-unary-ops": 0,
+    "no-spaced-func": 2,
+    "space-before-function-paren": [
+      2,
+      "never"
+    ],
+    "spaced-comment": [
+      2,
+      "always"
+    ],
+    "array-bracket-spacing": [
+      2,
+      "never",
+      {
+        "singleValue": false
+      }
+    ],
+    "space-in-parens": [
+      2,
+      "never"
+    ],
+    "no-trailing-spaces": 2,
+    "yoda": [
+      2,
+      "never"
+    ],
+    "comma-style": [
+      2,
+      "last"
+    ],
+    "curly": [
+      2,
+      "all"
+    ],
+    "dot-notation": 0,
+    "eol-last": 2,
+    "wrap-iife": [
+      2,
+      "outside"
+    ],
+    "space-infix-ops": 2,
+    "space-return-throw-case": 0,
+    "space-after-keywords": [
+      2,
+      "always"
+    ],
+    "lines-around-comment": 0,
+    "space-before-blocks": [
+      2,
+      "always"
+    ],
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      2,
+      "single",
+      "avoid-escape"
+    ],
+    "comma-dangle": [
+      2,
+      "never"
+    ],
+    "no-debugger": 2,
+    "no-dupe-args": 2,
+    "no-dupe-keys": 2,
+    "no-duplicate-case": 2,
+    "no-extra-semi": 2,
+    "no-unreachable": 2
+  }
+}

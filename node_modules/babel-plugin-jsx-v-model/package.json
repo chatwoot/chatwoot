@@ -1,0 +1,35 @@
+{
+  "name": "babel-plugin-jsx-v-model",
+  "version": "2.0.3",
+  "description": "JSX v-model transform",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "coverage": "nyc --reporter=lcov npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickmessing/babel-plugin-jsx-v-model.git"
+  },
+  "keywords": [
+    "Vue",
+    "jsx",
+    "v-model"
+  ],
+  "author": "Nicolai Moraru <dot.nick.dot.messing@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nickmessing/babel-plugin-jsx-v-model/issues"
+  },
+  "homepage": "https://github.com/nickmessing/babel-plugin-jsx-v-model#readme",
+  "dependencies": {
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "html-tags": "^2.0.0",
+    "svg-tags": "^1.0.0"
+  },
+  "devDependencies": {
+    "ava": "^0.21.0",
+    "babel-core": "^6.25.0",
+    "nyc": "^11.0.3"
+  }
+}

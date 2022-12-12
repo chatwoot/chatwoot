@@ -1,0 +1,11 @@
+{
+  "id": "is-element-focusable",
+  "evaluate": "is-element-focusable-evaluate",
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Element is focusable.",
+      "fail": "Element is not focusable."
+    }
+  }
+}

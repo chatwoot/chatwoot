@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "extends": [
+    "standard",
+    "prettier",
+    "prettier/standard"
+  ],
+  "rules": {
+    "no-new": 0
+  },
+  "env": {
+    "jest": true
+  }
+}

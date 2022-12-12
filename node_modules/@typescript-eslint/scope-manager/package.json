@@ -1,0 +1,67 @@
+{
+  "name": "@typescript-eslint/scope-manager",
+  "version": "5.30.6",
+  "description": "TypeScript scope analyser for ESLint",
+  "keywords": [
+    "eslint",
+    "typescript",
+    "estree"
+  ],
+  "engines": {
+    "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/typescript-eslint/typescript-eslint.git",
+    "directory": "packages/scope-manager"
+  },
+  "bugs": {
+    "url": "https://github.com/typescript-eslint/typescript-eslint/issues"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "cd ../../ && nx build @typescript-eslint/scope-manager",
+    "clean": "cd ../../ && nx clean @typescript-eslint/scope-manager",
+    "clean-fixtures": "cd ../../ && nx clean-fixtures @typescript-eslint/scope-manager",
+    "format": "prettier --write \"./**/*.{ts,mts,cts,tsx,js,mjs,cjs,jsx,json,md,css}\" --ignore-path ../../.prettierignore",
+    "generate:lib": "cd ../../ && nx generate-lib @typescript-eslint/scope-manager",
+    "lint": "cd ../../ && nx lint @typescript-eslint/scope-manager",
+    "test": "cd ../../ && nx test @typescript-eslint/scope-manager --code-coverage",
+    "typecheck": "cd ../../ && nx typecheck @typescript-eslint/scope-manager"
+  },
+  "dependencies": {
+    "@typescript-eslint/types": "5.30.6",
+    "@typescript-eslint/visitor-keys": "5.30.6"
+  },
+  "devDependencies": {
+    "@types/glob": "*",
+    "@typescript-eslint/typescript-estree": "5.30.6",
+    "glob": "*",
+    "jest-specific-snapshot": "*",
+    "make-dir": "*",
+    "prettier": "*",
+    "pretty-format": "*",
+    "rimraf": "*",
+    "typescript": "*"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/typescript-eslint"
+  },
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "_ts3.4/*"
+      ]
+    }
+  },
+  "gitHead": "6fd476c32c4757cb9f4c442f0cd92875671eed30"
+}

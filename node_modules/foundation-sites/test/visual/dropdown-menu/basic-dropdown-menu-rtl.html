@@ -1,0 +1,59 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" dir="rtl"> <![endif]-->
+<html class="no-js" lang="en" dir="rtl">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+
+  <link href="../assets/css/foundation-rtl.css" rel="stylesheet" />
+
+  <style>
+
+
+  </style>
+</head>
+
+<body>
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="cell">
+        <h1>Dropdown Menu: RTL</h1>
+
+        <p>First-level dropdowns should anchor to the bottom-right of the parent item.</p>
+
+        <p>Second-level dropdowns should anchor to the top-left of the parent item.</p>
+
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li>
+            <a href="#">Item 1</a>
+            <ul class="menu">
+              <li><a href="#">Item 1A</a></li>
+              <!-- ... -->
+            </ul>
+          </li>
+          <li><a href="#">Item 2</a></li>
+          <li><a href="#">Item 3</a></li>
+          <li><a href="#">Item 4</a>
+            <ul class="menu">
+              <li><a href="#">Item 4A</a></li>
+              <li><a href="#">Item 4B</a>
+                <ul class="menu">
+                  <li><a href="#">Item 4BA</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Item 4C</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/vendor.js"></script>
+  <script src="../assets/js/foundation.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>

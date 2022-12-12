@@ -1,0 +1,70 @@
+{
+  "name": "@storybook/theming",
+  "version": "6.5.9",
+  "description": "Core Storybook Components",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/theming",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/theming"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "ts-node ../../scripts/prebundle.ts"
+  },
+  "dependencies": {
+    "@storybook/client-logger": "6.5.9",
+    "core-js": "^3.8.2",
+    "memoizerific": "^1.11.3",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "@emotion/cache": "^11.7.1",
+    "@emotion/is-prop-valid": "^1.1.2",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "deep-object-diff": "^1.1.0",
+    "global": "^4.4.0",
+    "polished": "^4.2.2",
+    "ts-dedent": "^2.0.0",
+    "ts-node": "^10.4.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundlerEntrypoint": "./src/index.ts",
+  "gitHead": "e2673f765722cbb542ef1b5cf8d533c8e746a127",
+  "sbmodern": "dist/modern/index.js"
+}

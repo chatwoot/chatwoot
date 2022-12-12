@@ -1,0 +1,11 @@
+{
+  "id": "only-dlitems",
+  "evaluate": "only-dlitems-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "List element only has direct children that are allowed inside <dt> or <dd> elements",
+      "fail": "List element has direct children that are not allowed inside <dt> or <dd> elements"
+    }
+  }
+}

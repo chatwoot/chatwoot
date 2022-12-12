@@ -1,0 +1,48 @@
+{
+  "name": "cssdb",
+  "version": "4.4.0",
+  "description": "A comprehensive list of CSS features and their positions in the process of becoming implemented web standards",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "csstools/cssdb",
+  "homepage": "https://github.com/csstools/cssdb#readme",
+  "bugs": "https://github.com/csstools/cssdb/issues",
+  "main": "cssdb.json",
+  "files": [
+    "cssdb.json"
+  ],
+  "scripts": {
+    "start": "node tasks/start",
+    "start:nobadges": "node tasks/start --no-badges",
+    "test": "npm run test:css && npm run test:json",
+    "test:css": "stylelint tasks/style-template.css",
+    "test:json": "node tasks/test",
+    "watch": "http-server gh-pages"
+  },
+  "devDependencies": {
+    "browserslist": "^4.4.2",
+    "caniuse-lite": "^1.0.30000942",
+    "cssnano": "^4.1.10",
+    "eslit": "^6.0.0",
+    "fse": "^4.0.1",
+    "http-server": "^0.11.1",
+    "marked": "^0.6.1",
+    "node-fetch": "^2.3.0",
+    "postcss": "^7.0.14",
+    "postcss-preset-env": "^6.6.0",
+    "pre-commit": "^1.2.2",
+    "stylelint": "^9.10.1",
+    "stylelint-config-dev": "^4.0.0"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-dev"
+  },
+  "keywords": [
+    "css",
+    "features",
+    "list",
+    "specifications",
+    "stages",
+    "tc39"
+  ]
+}

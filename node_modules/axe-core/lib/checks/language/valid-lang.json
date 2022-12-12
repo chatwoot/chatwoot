@@ -1,0 +1,14 @@
+{
+  "id": "valid-lang",
+  "evaluate": "valid-lang-evaluate",
+  "options": {
+    "attributes": ["lang", "xml:lang"]
+  },
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Value of lang attribute is included in the list of valid languages",
+      "fail": "Value of lang attribute not included in the list of valid languages"
+    }
+  }
+}

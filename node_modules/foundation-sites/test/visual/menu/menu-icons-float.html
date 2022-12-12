@@ -1,0 +1,137 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>All Foundation Menu Options - Flexbox</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation-float.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+
+    <style>
+      h1 {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 2rem;
+        width: 100%;
+      }
+
+      h3 {
+        width: 100%;
+      }
+
+      .example {
+        padding: 2rem;
+        border: 1px solid #ddd;
+        width: 100%;
+      }
+
+      .example + h1 {
+        margin-top: 5rem;
+      }
+
+      .example + h3 {
+        margin-top: 3rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="column">
+        <h1>Menu with Icons (with icons class)</h1>
+
+        <h3>Menu with Icons left</h3>
+        <div class="example">
+          <ul class="menu icons icon-left">
+            <li><a href="#"><i class="fi-list"></i>One</a></li>
+            <li><a href="#"><i class="fi-list"></i>Two</a></li>
+            <li><a href="#"><i class="fi-list"></i>Three</a></li>
+            <li><a href="#"><i class="fi-list"></i>Four</a></li>
+          </ul>
+        </div>
+
+        <h3>Menu with Icons Right</h3>
+        <div class="example">
+          <ul class="menu icons icon-right">
+            <li><a href="#">One<i class="fi-list"></i></a></li>
+            <li><a href="#">Two<i class="fi-list"></i></a></li>
+            <li><a href="#">Three<i class="fi-list"></i></a></li>
+            <li><a href="#">Four<i class="fi-list"></i></a></li>
+          </ul>
+        </div>
+
+        <h3>Menu with Icon Top</h3>
+        <div class="example">
+          <ul class="menu icons icon-top">
+            <li><a href="#"><i class="fi-list"></i>One</a></li>
+            <li><a href="#"><i class="fi-list"></i>Two</a></li>
+            <li><a href="#"><i class="fi-list"></i>Three</a></li>
+            <li><a href="#"><i class="fi-list"></i>Four</a></li>
+          </ul>
+        </div>
+
+        <h3>Menu with Icon Bottom</h3>
+        <div class="example">
+          <ul class="menu icons icon-bottom">
+            <li><a href="#">One<i class="fi-list"></i></a></li>
+            <li><a href="#">Two<i class="fi-list"></i></a></li>
+            <li><a href="#">Three<i class="fi-list"></i></a></li>
+            <li><a href="#">Four<i class="fi-list"></i></a></li>
+          </ul>
+        </div>
+
+        <hr>
+
+        <h1>Menu with Icons (without icons class)</h1>
+
+        <h3>Menu with Icons left</h3>
+        <div class="example">
+          <ul class="menu icon-left">
+            <li><a href="#"><i class="fi-list"></i>One</a></li>
+            <li><a href="#"><i class="fi-list"></i>Two</a></li>
+            <li><a href="#"><i class="fi-list"></i>Three</a></li>
+            <li><a href="#"><i class="fi-list"></i>Four</a></li>
+          </ul>
+        </div>
+
+        <h3>Menu with Icons Right</h3>
+        <div class="example">
+          <ul class="menu icon-right">
+            <li><a href="#">One<i class="fi-list"></i></a></li>
+            <li><a href="#">Two<i class="fi-list"></i></a></li>
+            <li><a href="#">Three<i class="fi-list"></i></a></li>
+            <li><a href="#">Four<i class="fi-list"></i></a></li>
+          </ul>
+        </div>
+
+        <h3>Menu with Icon Top</h3>
+        <div class="example">
+          <ul class="menu icon-top">
+            <li><a href="#"><i class="fi-list"></i>One</a></li>
+            <li><a href="#"><i class="fi-list"></i>Two</a></li>
+            <li><a href="#"><i class="fi-list"></i>Three</a></li>
+            <li><a href="#"><i class="fi-list"></i>Four</a></li>
+          </ul>
+        </div>
+
+        <h3>Menu with Icon Bottom</h3>
+        <div class="example">
+          <ul class="menu icon-bottom">
+            <li><a href="#">One<i class="fi-list"></i></a></li>
+            <li><a href="#">Two<i class="fi-list"></i></a></li>
+            <li><a href="#">Three<i class="fi-list"></i></a></li>
+            <li><a href="#">Four<i class="fi-list"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

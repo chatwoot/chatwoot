@@ -1,0 +1,46 @@
+{
+  "name": "please-upgrade-node",
+  "version": "3.2.0",
+  "description": "Displays a beginner-friendly message telling your user to upgrade their version of Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "lint": "eslint .",
+    "fix": "npm run lint -- --fix",
+    "prepublishOnly": "npm test && npm run lint && pkg-ok"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typicode/please-upgrade-node.git"
+  },
+  "keywords": [
+    "node",
+    "engines",
+    "version",
+    "check",
+    "verify",
+    "upgrade"
+  ],
+  "author": "typicode",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/typicode/please-upgrade-node/issues"
+  },
+  "homepage": "https://github.com/typicode/please-upgrade-node#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^1.0.0-rc.12",
+    "pkg-ok": "^1.1.0",
+    "prettier": "1.12.1",
+    "tape": "^4.9.1"
+  },
+  "dependencies": {
+    "semver-compare": "^1.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test && npm run lint"
+    }
+  }
+}

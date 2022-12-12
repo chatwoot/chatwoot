@@ -1,0 +1,1 @@
+{"ast":null,"code":"// Just a shortcut for bulk export\n'use strict';\n\nexports.parseLinkLabel = require('./parse_link_label');\nexports.parseLinkDestination = require('./parse_link_destination');\nexports.parseLinkTitle = require('./parse_link_title');","map":null,"metadata":{},"sourceType":"module"}

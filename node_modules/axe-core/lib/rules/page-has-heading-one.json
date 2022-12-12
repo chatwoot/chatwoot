@@ -1,0 +1,12 @@
+{
+  "id": "page-has-heading-one",
+  "selector": "html",
+  "tags": ["cat.semantics", "best-practice"],
+  "metadata": {
+    "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+    "help": "Page should contain a level-one heading"
+  },
+  "all": ["page-has-heading-one"],
+  "any": [],
+  "none": []
+}

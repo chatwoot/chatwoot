@@ -1,0 +1,12 @@
+{
+  "id": "scope-attr-valid",
+  "selector": "td[scope], th[scope]",
+  "tags": ["cat.tables", "best-practice"],
+  "metadata": {
+    "description": "Ensures the scope attribute is used correctly on tables",
+    "help": "scope attribute should be used correctly"
+  },
+  "all": ["html5-scope", "scope-value"],
+  "any": [],
+  "none": []
+}

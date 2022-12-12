@@ -1,0 +1,15 @@
+{
+  "id": "page-has-heading-one",
+  "evaluate": "has-descendant-evaluate",
+  "after": "has-descendant-after",
+  "options": {
+    "selector": "h1:not([role], [aria-level]), :is(h1, h2, h3, h4, h5, h6):not([role])[aria-level=1], [role=heading][aria-level=1]"
+  },
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Page has at least one level-one heading",
+      "fail": "Page must have a level-one heading"
+    }
+  }
+}

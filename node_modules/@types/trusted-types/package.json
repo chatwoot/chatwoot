@@ -1,0 +1,40 @@
+{
+    "name": "@types/trusted-types",
+    "version": "2.0.2",
+    "description": "TypeScript definitions for trusted-types",
+    "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/trusted-types",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Jakub Vrana",
+            "url": "https://github.com/vrana",
+            "githubUsername": "vrana"
+        },
+        {
+            "name": "Damien Engels",
+            "url": "https://github.com/engelsdamien",
+            "githubUsername": "engelsdamien"
+        },
+        {
+            "name": "Emanuel Tesar",
+            "url": "https://github.com/siegrift",
+            "githubUsername": "siegrift"
+        },
+        {
+            "name": "Bjarki",
+            "url": "https://github.com/bjarkler",
+            "githubUsername": "bjarkler"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/trusted-types"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "99d8c3702ecfbc895e9827c063dcce01708c2011a667e0844c3d8a88259efece",
+    "typeScriptVersion": "3.6"
+}

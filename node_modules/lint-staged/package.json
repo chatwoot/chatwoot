@@ -1,0 +1,100 @@
+{
+  "name": "lint-staged",
+  "version": "10.5.4",
+  "description": "Lint files staged by git",
+  "license": "MIT",
+  "repository": "https://github.com/okonet/lint-staged",
+  "author": "Andrey Okonetchnikov <andrey@okonet.ru>",
+  "maintainers": [
+    "Lufty Wiranda <lufty.wiranda@gmail.com>",
+    "Suhas Karanth <sudo.suhas@gmail.com>",
+    "Iiro Jäppinen <iiro@jappinen.fi> (https://iiro.fi)"
+  ],
+  "funding": {
+    "url": "https://opencollective.com/lint-staged"
+  },
+  "bin": "./bin/lint-staged.js",
+  "main": "./lib/index.js",
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "scripts": {
+    "cz": "git-cz",
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./bin/lint-staged.js"
+    }
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "cli-truncate": "^2.1.0",
+    "commander": "^6.2.0",
+    "cosmiconfig": "^7.0.0",
+    "debug": "^4.2.0",
+    "dedent": "^0.7.0",
+    "enquirer": "^2.3.6",
+    "execa": "^4.1.0",
+    "listr2": "^3.2.2",
+    "log-symbols": "^4.0.0",
+    "micromatch": "^4.0.2",
+    "normalize-path": "^3.0.0",
+    "please-upgrade-node": "^3.2.0",
+    "string-argv": "0.3.1",
+    "stringify-object": "^3.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "^26.6.1",
+    "consolemock": "^1.1.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "fs-extra": "^9.0.1",
+    "husky": "^4.3.0",
+    "jest": "^26.6.1",
+    "jest-snapshot-serializer-ansi": "^1.0.0",
+    "prettier": "^2.1.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "lib/**/*.js"
+    ],
+    "setupFiles": [
+      "./testSetup.js"
+    ],
+    "snapshotSerializers": [
+      "jest-snapshot-serializer-ansi"
+    ],
+    "testEnvironment": "node"
+  },
+  "keywords": [
+    "lint",
+    "git",
+    "staged",
+    "eslint",
+    "prettier",
+    "stylelint",
+    "code",
+    "quality",
+    "check",
+    "format",
+    "validate"
+  ]
+}

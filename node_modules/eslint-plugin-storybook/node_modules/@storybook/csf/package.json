@@ -1,0 +1,65 @@
+{
+  "name": "@storybook/csf",
+  "version": "0.0.1",
+  "description": "Storybook Component Story Format (CSF) utilities",
+  "keywords": [
+    "storybook",
+    "component story format",
+    "csf",
+    "stories"
+  ],
+  "homepage": "https://github.com/storybookjs/csf",
+  "bugs": {
+    "url": "https://github.com/storybookjs/csf/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/csf.git"
+  },
+  "license": "MIT",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "babel src --out-dir dist --extensions \".ts\" && tsc --emitDeclarationOnly",
+    "lint": "eslint src --ext .js,.ts",
+    "prepublish": "yarn build",
+    "test": "jest"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@storybook/eslint-config-storybook"
+    ]
+  },
+  "prettier": "@storybook/linter-config/prettier.config",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
+    "@storybook/eslint-config-storybook": "^2.1.0",
+    "@types/jest": "^24.0.23",
+    "@types/lodash": "^4.14.149",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^24.9.0",
+    "common-tags": "^1.8.0",
+    "eslint": "^6.7.1",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

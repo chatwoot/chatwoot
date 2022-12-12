@@ -1,0 +1,64 @@
+{
+  "name": "condense-newlines",
+  "description": "Replace extraneous newlines with a single newline, or pass a specified number of newlines to use.",
+  "version": "0.2.1",
+  "homepage": "https://github.com/jonschlinkert/condense-newlines",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/condense-newlines",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/condense-newlines/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "extend-shallow": "^2.0.1",
+    "is-whitespace": "^0.3.0",
+    "kind-of": "^3.0.2"
+  },
+  "devDependencies": {
+    "gulp-format-md": "^0.1.7",
+    "mocha": "^2.4.5"
+  },
+  "keywords": [
+    "docs",
+    "documentation",
+    "generate",
+    "generator",
+    "markdown",
+    "templates",
+    "verb"
+  ],
+  "verb": {
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "reflinks": [
+      "verb"
+    ],
+    "related": {
+      "list": [
+        "arr-union",
+        "array-unique",
+        "arrayify-compact"
+      ]
+    },
+    "run": true,
+    "toc": false,
+    "layout": "default",
+    "lint": {
+      "reflinks": true
+    },
+    "tasks": [
+      "readme"
+    ]
+  }
+}

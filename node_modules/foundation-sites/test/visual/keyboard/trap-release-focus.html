@@ -1,0 +1,73 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Trap and release focus from elements</h1>
+          <p>
+            Use the buttons to trap or release the focus for the Callout.
+            <br>You can then use the Tab key to focus the links in the Callout. If the focus is trapped, you shouldn't be able to focus any element outside of the Callout using Tab or Shift+Tab.
+            <br>
+            <br>The following box binds to a regular keydown-event to check if the trapping and releasing does not interfere with other events.
+          </p>
+          <p><strong id="state"></strong></p>
+          <p><span id="current"></span></p>
+
+          <a href="#Link0">Link 0 outside</a>
+          <div id="container" class="callout">
+            <a href="#Link1">Link 1</a>
+            <br><a href="#Link2">Link 2</a>
+            <br><a href="#Link3">Link 3</a>
+          </div>
+        
+
+          <button id="trap-btn" class="button">Trap focus</button>
+          <button id="release-btn" class="button">Release focus</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+
+      $(document).ready(function() {
+        var $container = $('#container'),
+            $state = $('#state'),
+            $current = $('#current');
+
+
+        // Trap focus
+        $('#trap-btn').click(function() {
+          Foundation.Keyboard.trapFocus($container);
+          $state.text('Focus currently trapped!');
+        });
+
+        // Release focus (and initialize this state)
+        $('#release-btn').click(function() {
+          Foundation.Keyboard.releaseFocus($container);
+          $state.text('Focus currently NOT trapped!');
+          $(this).attr();
+        }).trigger('click');
+
+        // Handle 'interference proof'
+        var count = 0;
+        $container.find('a').keydown(function(e) {
+          $current.text('#' + (++count) + ': Pressed: ' + Foundation.Keyboard.parseKey(e));
+        });
+
+      });
+    </script>
+  </body>
+</html>

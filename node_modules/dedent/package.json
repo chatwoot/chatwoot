@@ -1,0 +1,43 @@
+{
+  "name": "dedent",
+  "version": "0.7.0",
+  "description": "An ES6 string tag that strips indentation from multi-line strings",
+  "main": "dist/dedent.js",
+  "files": [
+    "dist/dedent.js",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dmnd/dedent.git"
+  },
+  "keywords": [
+    "dedent",
+    "tag",
+    "multi-line string",
+    "es6"
+  ],
+  "author": {
+    "name": "Desmond Brand",
+    "email": "dmnd@desmondbrand.com",
+    "url": "http://desmondbrand.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dmnd/dedent/issues"
+  },
+  "homepage": "https://github.com/dmnd/dedent",
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2016": "^6.22.0",
+    "babel-preset-es2017": "^6.22.0",
+    "eslint": "^3.14.1",
+    "jest": "^18.1.0"
+  },
+  "scripts": {
+    "build": "babel dedent.js --out-file dist/dedent.js",
+    "lint": "eslint dedent.js __tests__",
+    "test": "jest"
+  }
+}

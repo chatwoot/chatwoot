@@ -1,0 +1,78 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation-flex.css" rel="stylesheet" />
+    <style>
+      .bred {
+        border: 3px solid red;
+      }
+
+      .bgreen {
+        border: 3px solid green;
+      }
+
+      .byellow {
+        border: 3px solid orange;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="column">
+        <h1>Grid and Flex Grid: Nesting in collapsed row</h1>
+
+        <p>These are nested standard and collapsed rows. All rows should be aligned on the right and left.</p>
+      </div>
+    </div>
+
+    <div class="row collapse" >
+      <div class="column small-12" >
+        <div class="bred" >Single column in a Collapsed Row
+            <div class="row" >
+              <div class="column small-12" >
+                <div class="bgreen" >Single column in a Row
+                  <div class="row" >
+                      <div class="column small-6" >
+                        <div class="bred" >Two columns in a Row
+
+                        </div>
+                      </div>
+                      <div class="column small-6" >
+                        <div class="bred" >Two columns in a Row
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row collapse" >
+                      <div class="column small-6" >
+                        <div class="byellow" >Two columns in a Collapsed Row
+
+                        </div>
+                      </div>
+                      <div class="column small-6" >
+                        <div class="byellow" >Two columns in a Collapsed Row
+
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

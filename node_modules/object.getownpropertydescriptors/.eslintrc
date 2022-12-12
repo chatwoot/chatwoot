@@ -1,0 +1,20 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"rules": {
+		"id-length": [2, { "min": 1, "max": 30 }],
+		"new-cap": [2, { "capIsNewExceptions": ["CreateDataProperty", "IsCallable", "RequireObjectCoercible", "ToObject"] }]
+	},
+
+	"overrides": [
+		{
+			"files": "test/**",
+			"rules": {
+				"max-lines-per-function": 0,
+				"no-invalid-this": 1
+			},
+		},
+	],
+}

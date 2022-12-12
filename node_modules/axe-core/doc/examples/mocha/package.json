@@ -1,0 +1,22 @@
+{
+  "name": "axe-mocha-example",
+  "description": "Axe Mocha Example",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "David Sturley",
+    "organization": "Deque Systems, Inc.",
+    "url": "http://deque.com/"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "devDependencies": {
+    "axe-core": "^3.3.1",
+    "karma": "^4.2.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-mocha": "^1.3.0"
+  }
+}

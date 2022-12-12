@@ -1,0 +1,33 @@
+{
+  "name": "jest-transform-stub",
+  "version": "2.0.0",
+  "description": "Jest transform stub",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddyerburgh/jest-transform-stub.git"
+  },
+  "keywords": [
+    "jest"
+  ],
+  "author": "Edd Yerburgh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eddyerburgh/jest-transform-stub/issues"
+  },
+  "homepage": "https://github.com/eddyerburgh/jest-transform-stub#readme",
+  "devDependencies": {
+    "jest": "^22.4.2"
+  },
+  "jest": {
+    "transform": {
+      ".+\\.png$": "<rootDir>/index.js"
+    }
+  }
+}

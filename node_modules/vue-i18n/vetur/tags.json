@@ -1,0 +1,20 @@
+{
+  "i18n": {
+    "attributes": [
+      "path",
+      "locale",
+      "tag",
+      "places"
+    ],
+    "description": "This is a functional component that can be used when HTML interpolation is needed.\n\nhttp://kazupon.github.io/vue-i18n/guide/interpolation.html#basic-usage"
+  },
+  "i18n-n": {
+    "attributes": [
+      "value",
+      "format",
+      "locale",
+      "tag"
+    ],
+    "description": "This functional component provides a way to use HTML interpolation in pair with number formatting.\n\nhttp://kazupon.github.io/vue-i18n/guide/number.html#custom-formatting"
+  }
+}

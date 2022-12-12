@@ -1,0 +1,43 @@
+{
+  "name": "elegant-spinner",
+  "version": "1.0.1",
+  "description": "Elegant spinner for interactive CLI apps",
+  "license": "MIT",
+  "repository": "sindresorhus/elegant-spinner",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "xo && node test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "ansi",
+    "terminal",
+    "console",
+    "cli",
+    "string",
+    "log",
+    "logging",
+    "spinner",
+    "busy",
+    "indicator",
+    "loading",
+    "loader",
+    "progress",
+    "elegant",
+    "loiter",
+    "interactive"
+  ],
+  "devDependencies": {
+    "ava": "0.0.4",
+    "xo": "*"
+  }
+}

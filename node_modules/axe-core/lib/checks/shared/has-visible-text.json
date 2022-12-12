@@ -1,0 +1,12 @@
+{
+  "id": "has-visible-text",
+  "evaluate": "has-text-content-evaluate",
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Element has text that is visible to screen readers",
+      "fail": "Element does not have text that is visible to screen readers",
+      "incomplete": "Unable to determine if element has children"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "focus-order-semantics",
+  "selector": "div, h1, h2, h3, h4, h5, h6, [role=heading], p, span",
+  "matches": "inserted-into-focus-order-matches",
+  "tags": ["cat.keyboard", "best-practice", "experimental"],
+  "metadata": {
+    "description": "Ensures elements in the focus order have an appropriate role",
+    "help": "Elements in the focus order need a role appropriate for interactive content"
+  },
+  "all": [],
+  "any": ["has-widget-role", "valid-scrollable-semantics"],
+  "none": []
+}

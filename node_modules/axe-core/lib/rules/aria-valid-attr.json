@@ -1,0 +1,12 @@
+{
+  "id": "aria-valid-attr",
+  "matches": "aria-has-attr-matches",
+  "tags": ["cat.aria", "wcag2a", "wcag412"],
+  "metadata": {
+    "description": "Ensures attributes that begin with aria- are valid ARIA attributes",
+    "help": "ARIA attributes must conform to valid names"
+  },
+  "all": [],
+  "any": ["aria-valid-attr"],
+  "none": []
+}

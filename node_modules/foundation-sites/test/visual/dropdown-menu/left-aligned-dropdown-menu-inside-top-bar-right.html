@@ -1,0 +1,141 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en"> <![endif]-->
+<html class="no-js" lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+
+  <link href="../assets/css/foundation.css" rel="stylesheet" />
+
+  <style>
+
+
+  </style>
+</head>
+
+<body>
+  
+  <div class="grid-x grid-padding-x">
+    <div class="cell">
+      <h1>Dropdown Menu: Left aligned</h1>
+      <p>This dropdown menu is aligned left using data-alignment="left" overriding the effect of the <code>.top-bar-right</code> class.</p>
+      <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium">
+        <button class="menu-icon" type="button" data-toggle></button>
+        <div class="title-bar-title">Menu</div>
+      </div>
+
+      <div class="top-bar" id="main-menu">
+        <div class="top-bar-left">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text"><strong>Site Title</strong></li>
+          </ul>
+        </div>
+        <div class="top-bar-right">
+          <ul class="menu vertical medium-horizontal" data-responsive-menu="drilldown medium-dropdown" data-alignment="left">
+            <li>
+              <a>Item 1</a>
+              <ul class="menu">
+                <li><a href="#Item-1A">Item 1A</a></li>
+                <li>
+                  <a href="#Item-1B">Item 1B</a>
+                  <ul class="menu">
+                    <li><a href="#Item-1Bi">Item 1B i</a></li>
+                    <li><a href="#Item-1Bii">Item 1B ii</a></li>
+                    <li>
+                      <a href="#Item-1Biii">Item 1B iii</a>
+                      <ul class="menu">
+                        <li><a href="#Item-1Biiialpha">Item 1B iii alpha</a></li>
+                        <li><a href="#Item-1Biiiomega">Item 1B iii omega</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#Item-1Biv">Item 1B iv</a>
+                      <ul class="menu">
+                        <li><a href="#Item-1Bivalpha">Item 1B iv alpha</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="#Item-1C">Item 1C</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#Item-2">Item 2</a>
+              <ul class="menu">
+                <li><a href="#Item-2A">Item 2A</a></li>
+                <li><a href="#Item-2B">Item 2B</a></li>
+              </ul>
+            </li>
+            <li><a href="#Item-3">Item 3</a></li>
+            <li><a href="#Item-4">Item 4</a></li>
+
+          </ul>
+        </div>
+      </div>
+
+      <p>This dropdown menu is positioned left regardless of the content before it.</p>
+      <div class="title-bar" data-responsive-toggle="second-menu" data-hide-for="medium">
+        <button class="menu-icon" type="button" data-toggle></button>
+        <div class="title-bar-title">Menu</div>
+      </div>
+
+      <div class="top-bar" id="second-menu">
+        <div class="top-bar-left hide-for-small-only">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text"><strong>Site Title</strong></li>
+            <li class="menu-text">Some long text to push the menu.</li>
+            <li class="menu-text">You might need to resize the window so that the menu just fits in this line...</li>
+          </ul>
+        </div>
+        <div class="">
+          <ul class="menu vertical medium-horizontal" data-responsive-menu="drilldown medium-dropdown" data-alignment="left">
+            <li>
+              <a>Item 1</a>
+              <ul class="menu">
+                <li><a href="#Item-1A">Item 1A</a></li>
+                <li>
+                  <a href="#Item-1B">Item 1B</a>
+                  <ul class="menu">
+                    <li><a href="#Item-1Bi">Item 1B i</a></li>
+                    <li><a href="#Item-1Bii">Item 1B ii</a></li>
+                    <li>
+                      <a href="#Item-1Biii">Item 1B iii</a>
+                      <ul class="menu">
+                        <li><a href="#Item-1Biiialpha">Item 1B iii alpha</a></li>
+                        <li><a href="#Item-1Biiiomega">Item 1B iii omega</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#Item-1Biv">Item 1B iv</a>
+                      <ul class="menu">
+                        <li><a href="#Item-1Bivalpha">Item 1B iv alpha</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="#Item-1C">Item 1C</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#Item-2">Item 2</a>
+              <ul class="menu">
+                <li><a href="#Item-2A">Item 2A</a></li>
+                <li><a href="#Item-2B">Item 2B</a></li>
+              </ul>
+            </li>
+            <li><a href="#Item-3">Item 3</a></li>
+            <li><a href="#Item-4">Item 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/vendor.js"></script>
+  <script src="../assets/js/foundation.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>

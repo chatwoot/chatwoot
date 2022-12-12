@@ -1,0 +1,177 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-spacing
+////
+
+/// Responsive breakpoints for spacing classes (margin and padding)
+/// @type Boolean
+$prototype-spacing-breakpoints: $global-prototype-breakpoints !default;
+
+/// Default number of spacers count (margin and padding)
+/// @type Number
+$prototype-spacers-count: 3 !default;
+
+/// Margin helper mixin, all the values are multiplied by `$global-margin` which by default is equal to `1rem`
+/// @param {Number} $top [null] - Margin Top
+/// @param {Number} $right [null] - Margin Right
+/// @param {Number} $bottom [null] - Margin Bottom
+/// @param {Number} $left [null] - Margin Left
+@mixin margin(
+  $top: null,
+  $right: null,
+  $bottom: null,
+  $left: null
+) {
+  @if $top != null {
+    margin-top: $top * $global-margin !important;
+  }
+  @if $right != null {
+    margin-right: $right * $global-margin !important;
+  }
+  @if $bottom != null {
+    margin-bottom: $bottom * $global-margin !important;
+  }
+  @if $left != null {
+    margin-left: $left * $global-margin !important;
+  }
+}
+
+/// Padding helper mixin, all the values are multiplied by `$global-padding` which by default is equal to `1rem`
+/// @param {Number} $top [null] - Padding Top
+/// @param {Number} $right [null] - Padding Right
+/// @param {Number} $bottom [null] - Padding Bottom
+/// @param {Number} $left [null] - Padding Left
+@mixin padding(
+  $top: null,
+  $right: null,
+  $bottom: null,
+  $left: null
+) {
+  @if $top != null {
+    padding-top: $top * $global-padding !important;
+  }
+  @if $right != null {
+    padding-right: $right * $global-padding !important;
+  }
+  @if $bottom != null {
+    padding-bottom: $bottom * $global-padding !important;
+  }
+  @if $left != null {
+    padding-left: $left * $global-padding !important;
+  }
+}
+
+/// Margin classes for specific direction properties
+/// @param {String} $dir [] Direction
+/// @param {Number} $spacer [] Spacer
+@mixin margin-direction($dir, $spacer) {
+  @if ($dir == top) { 
+    @include margin($top: $spacer); 
+  }
+  @else if ($dir == right) { 
+    @include margin($right: $spacer); 
+  }
+  @else if ($dir == bottom) { 
+    @include margin($bottom: $spacer); 
+  }
+  @else if ($dir == left) { 
+    @include margin($left: $spacer); 
+  }
+  @else if ($dir == horizontal) { 
+    @include margin($right: $spacer, $left: $spacer); 
+  }
+  @else if ($dir == vertical) { 
+    @include margin($top: $spacer, $bottom: $spacer); 
+  }
+}
+
+/// Padding classes for specific direction properties
+/// @param {String} $dir [] Direction
+/// @param {Number} $spacer [] Spacer
+@mixin padding-direction($dir, $spacer) {
+  @if ($dir == top) { 
+    @include padding($top: $spacer); 
+  }
+  @else if ($dir == right) { 
+    @include padding($right: $spacer); 
+  }
+  @else if ($dir == bottom) { 
+    @include padding($bottom: $spacer); 
+  }
+  @else if ($dir == left) { 
+    @include padding($left: $spacer); 
+  }
+  @else if ($dir == horizontal) { 
+    @include padding($right: $spacer, $left: $spacer); 
+  }
+  @else if ($dir == vertical) { 
+    @include padding($top: $spacer, $bottom: $spacer); 
+  }
+}
+
+@mixin foundation-prototype-spacing {
+  @for $spacer from 0 through $prototype-spacers-count {
+    
+    @each $prop in (margin, padding) {
+      // All Sides
+      .#{$prop}-#{$spacer} {
+        @if ($prop == margin) { 
+          margin: $spacer * $global-margin; 
+        }
+        @else if ($prop == padding) { 
+          padding: $spacer * $global-padding; 
+        }
+      }
+
+      @each $dir in (top, right, bottom, left, horizontal, vertical) {
+        // Top Side
+        .#{$prop}-#{$dir}-#{$spacer} {
+          @if ($prop == margin) { 
+            @include margin-direction($dir, $spacer);
+          }
+          @else if ($prop == padding) {
+            @include padding-direction($dir, $spacer);
+          }
+        }
+      }
+    }
+
+    @if ($prototype-spacing-breakpoints) {
+    // Loop through Responsive Breakpoints
+      @each $size in $breakpoint-classes {
+        @include breakpoint($size) {
+          @if $size != $-zf-zero-breakpoint {
+            .#{$size} {
+              @each $prop in (margin, padding) {
+                // All Sides
+                &-#{$prop}-#{$spacer} {
+                  @if ($prop == margin) { 
+                    margin: $spacer * $global-margin; 
+                  }
+                  @else if ($prop == padding) { 
+                    padding: $spacer * $global-padding; 
+                  }
+                }
+
+                @each $dir in (top, right, bottom, left, horizontal, vertical) {
+                  // Top Side
+                  &-#{$prop}-#{$dir}-#{$spacer} {
+                    @if ($prop == margin) { 
+                      @include margin-direction($dir, $spacer);
+                    }
+                    @else if ($prop == padding) { 
+                      @include padding-direction($dir, $spacer);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

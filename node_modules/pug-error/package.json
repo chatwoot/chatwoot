@@ -1,0 +1,17 @@
+{
+  "name": "pug-error",
+  "version": "2.0.0",
+  "description": "Standard error objects for pug",
+  "keywords": [
+    "pug"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pugjs/pug/tree/master/packages/pug-error"
+  },
+  "author": "Forbes Lindesay",
+  "license": "MIT"
+}

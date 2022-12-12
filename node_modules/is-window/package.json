@@ -1,0 +1,44 @@
+{
+  "name": "is-window",
+  "version": "1.0.2",
+  "description": "Checks if the given value is a window object.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "jshint index.js",
+    "pretest": "npm run lint",
+    "test": "mocha -R spec",
+    "test:cov": "rm -rf ./test/coverage && istanbul cover _mocha --dir ./test/coverage -- -R spec",
+    "test:rpt": "npm run test:cov && coveralls < ./test/coverage/lcov.info",
+    "prepublish": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gearcase/is-window.git"
+  },
+  "keywords": [
+    "is",
+    "check",
+    "checks",
+    "detect",
+    "window",
+    "object",
+    "type",
+    "null"
+  ],
+  "author": {
+    "name": "bubkoo",
+    "email": "bubkoo.wy@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gearcase/is-window/issues"
+  },
+  "homepage": "https://github.com/gearcase/is-window#readme",
+  "devDependencies": {
+    "jshint": "^2.9.1",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5"
+  }
+}

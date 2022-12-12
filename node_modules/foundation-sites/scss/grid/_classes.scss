@@ -1,0 +1,176 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group grid
+////
+
+/// Outputs CSS classes for the grid.
+/// @access private
+@mixin foundation-grid(
+  $row: 'row',
+  $column: 'column',
+  $column-row: 'column-row',
+  $gutter: 'gutter',
+  $push: 'push',
+  $pull: 'pull',
+  $center: 'centered',
+  $uncenter: 'uncentered',
+  $collapse: 'collapse',
+  $uncollapse: 'uncollapse',
+  $offset: 'offset',
+  $end: 'end',
+  $expanded: 'expanded',
+  $block: 'block'
+) {
+  // Row
+  .#{$row} {
+    @include grid-row;
+
+    // Collapsing
+    &.#{$collapse} {
+      > .#{$column} {
+        @include grid-col-collapse;
+      }
+    }
+
+    // Nesting
+    & .#{$row} {
+      @include grid-row-nest($grid-column-gutter);
+
+      &.#{$collapse} {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+
+    // Expanded (full-width) row
+    &.#{$expanded} {
+      @include grid-row-size(expand);
+
+      .#{$row} {
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+
+    &:not(.#{$expanded}) .#{$row} {
+      @include grid-row-size(expand);
+    }
+
+    @if type-of($grid-column-gutter) == 'map' {
+      // Static (unresponsive) row gutters
+      //
+      @each $breakpoint, $value in $grid-column-gutter {
+        &.#{$gutter}-#{$breakpoint} {
+          > .#{$column} {
+            @include grid-col-gutter($value);
+          }
+        }
+      }
+    }
+  }
+
+  // Column
+  .#{$column} {
+    @include grid-col;
+
+    @if $grid-column-align-edge {
+      &.#{$end} {
+        @include grid-col-end;
+      }
+    }
+  }
+
+  // Column row
+  // The double .row class is needed to bump up the specificity
+  .#{$column}.#{$row}.#{$row} {
+    float: none;
+  }
+
+  // To properly nest a column row, padding and margin is removed
+  .#{$row} .#{$column}.#{$row}.#{$row} {
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  @include -zf-each-breakpoint {
+    @for $i from 1 through $grid-column-count {
+      // Column width
+      .#{$-zf-size}-#{$i} {
+        @include grid-col-size($i);
+      }
+
+      // Source ordering
+      @if $i < $grid-column-count {
+        .#{$-zf-size}-#{$push}-#{$i} {
+          @include grid-col-pos($i);
+        }
+
+        .#{$-zf-size}-#{$pull}-#{$i} {
+          @include grid-col-pos(-$i);
+        }
+      }
+
+      // Offsets
+      $o: $i - 1;
+
+      .#{$-zf-size}-#{$offset}-#{$o} {
+        @include grid-col-off($o);
+      }
+    }
+
+    // Block grid
+    @for $i from 1 through $block-grid-max {
+      .#{$-zf-size}-up-#{$i} {
+        @include grid-layout($i, '.#{$column}');
+      }
+    }
+
+    // Responsive collapsing
+    .#{$-zf-size}-#{$collapse} {
+      > .#{$column} { @include grid-col-collapse; }
+
+      .#{$row} {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+
+    .#{$expanded}.#{$row} .#{$-zf-size}-#{$collapse}.#{$row} {
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    .#{$-zf-size}-#{$uncollapse} {
+      > .#{$column} { @include grid-col-gutter($-zf-size); }
+    }
+
+    // Positioning
+    .#{$-zf-size}-#{$center} {
+      @include grid-col-pos(center);
+    }
+
+    // Gutter adjustment
+    .#{$-zf-size}-#{$uncenter},
+    .#{$-zf-size}-#{$push}-0,
+    .#{$-zf-size}-#{$pull}-0 {
+      @include grid-col-unpos;
+    }
+  }
+
+  // Block grid columns
+  .#{$column}-#{$block} {
+    @include grid-column-margin;
+  }
+
+  @if $column == 'column' and has-value($grid-column-alias) {
+    .#{$grid-column-alias} {
+      // sass-lint:disable-block placeholder-in-extend
+      @extend .column;
+    }
+  }
+}

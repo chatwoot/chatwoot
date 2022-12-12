@@ -1,0 +1,1 @@
+{"ast":null,"code":"var ListCache = require('./_ListCache');\n/**\n * Removes all key-value entries from the stack.\n *\n * @private\n * @name clear\n * @memberOf Stack\n */\n\n\nfunction stackClear() {\n  this.__data__ = new ListCache();\n  this.size = 0;\n}\n\nmodule.exports = stackClear;","map":null,"metadata":{},"sourceType":"module"}

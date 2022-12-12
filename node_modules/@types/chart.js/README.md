@@ -1,0 +1,16 @@
+# Installation
+> `npm install --save @types/chart.js`
+
+# Summary
+This package contains type definitions for Chart.js (https://github.com/nnnick/Chart.js).
+
+# Details
+Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chart.js.
+
+### Additional Details
+ * Last updated: Wed, 07 Apr 2021 18:31:29 GMT
+ * Dependencies: [@types/moment](https://npmjs.com/package/@types/moment)
+ * Global values: `Chart`
+
+# Credits
+These definitions were written by [Alberto Nuti](https://github.com/anuti), [Fabien Lavocat](https://github.com/FabienLavocat), [KentarouTakeda](https://github.com/KentarouTakeda), [Larry Bahr](https://github.com/larrybahr), [Daniel Luz](https://github.com/mernen), [Joseph Page](https://github.com/josefpaij), [Dan Manastireanu](https://github.com/danmana), [Guillaume Rodriguez](https://github.com/guillaume-ro-fr), [Simon Archer](https://github.com/archy-bold), [Ken Elkabany](https://github.com/braincore), [Francesco Benedetto](https://github.com/frabnt), [Alexandros Dorodoulis](https://github.com/alexdor), [Manuel Heidrich](https://github.com/mahnuh), [Conrad Holtzhausen](https://github.com/Conrad777), [Adrián Caballero](https://github.com/adripanico), [wertzui](https://github.com/wertzui), [Martin Trobäck](https://github.com/lekoaf), [Elian Cordoba](https://github.com/ElianCordoba), [Takuya Uehara](https://github.com/indigolain), [Ricardo Mello](https://github.com/ricmello), [Ray Nicholus](https://github.com/rnicholus), [Oscar Cabrera](https://github.com/mrjack88), [Carlos Anoceto](https://github.com/canoceto), [Nobuhiko Futagami](https://github.com/nobu222), [Marco Ru](https://github.com/Marcoru97), [Tony Liu](https://github.com/tonybadguy), [Mathias Helminger](https://github.com/Ilmarinen100), and [Mostafa Sameti](https://github.com/IVIosi).

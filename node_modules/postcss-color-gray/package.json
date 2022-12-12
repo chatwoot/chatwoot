@@ -1,0 +1,60 @@
+{
+  "name": "postcss-color-gray",
+  "version": "5.0.0",
+  "description": "Use the gray() color function in CSS",
+  "author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+  "license": "ISC",
+  "repository": "postcss/postcss-color-gray",
+  "homepage": "https://github.com/postcss/postcss-color-gray#readme",
+  "bugs": "https://github.com/postcss/postcss-color-gray/issues",
+  "main": "index.cjs.js",
+  "module": "index.es.js",
+  "files": [
+    "index.cjs.js",
+    "index.es.js"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm test",
+    "pretest": "rollup -c .rollup.js --silent",
+    "test": "echo 'Running tests...'; npm run test:js && npm run test:tape",
+    "test:ec": "echint --ignore index.*.js test",
+    "test:js": "eslint *.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "postcss-tape"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "@csstools/convert-colors": "^1.4.0",
+    "postcss": "^7.0.5",
+    "postcss-values-parser": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.6.1",
+    "eslint-config-dev": "^2.0.0",
+    "postcss-tape": "^2.2.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.66.5",
+    "rollup-plugin-babel": "^4.0.1"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "gray",
+    "color",
+    "lab",
+    "transform",
+    "function",
+    "csswg",
+    "w3c",
+    "specification"
+  ]
+}

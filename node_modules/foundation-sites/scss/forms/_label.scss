@@ -1,0 +1,50 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group forms
+////
+
+/// Color for form labels.
+/// @type Color
+$form-label-color: $black !default;
+
+/// Font size for form labels.
+/// @type Number
+$form-label-font-size: rem-calc(14) !default;
+
+/// Font weight for form labels.
+/// @type Keyword
+$form-label-font-weight: $global-weight-normal !default;
+
+/// Line height for form labels. The higher the number, the more space between the label and its input field.
+/// @type Number
+$form-label-line-height: 1.8 !default;
+
+@mixin form-label {
+  display: block;
+  margin: 0;
+
+  font-size: $form-label-font-size;
+  font-weight: $form-label-font-weight;
+  line-height: $form-label-line-height;
+  color: $form-label-color;
+}
+
+@mixin form-label-middle {
+  $input-border-width: get-border-value($input-border, width);
+
+  margin: 0 0 $form-spacing;
+  padding: ($form-spacing / 2 + rem-calc($input-border-width)) 0;
+}
+
+@mixin foundation-form-label {
+  label {
+    @include form-label;
+
+    &.middle {
+      @include form-label-middle;
+    }
+  }
+}

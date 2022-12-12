@@ -1,0 +1,17 @@
+{
+  "id": "non-empty-title",
+  "evaluate": "attr-non-space-content-evaluate",
+  "options": {
+    "attribute": "title"
+  },
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Element has a title attribute",
+      "fail": {
+        "noAttr": "Element has no title attribute",
+        "emptyAttr": "Element has an empty title attribute"
+      }
+    }
+  }
+}

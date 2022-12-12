@@ -1,0 +1,61 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+
+  <link href="../assets/css/foundation.css" rel="stylesheet" />
+
+  <style>
+
+    .top-bar {
+      padding: 75px 0;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
+
+  <div class="top-bar" id="main-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text"><strong>Site Title</strong></li>
+      </ul>
+    </div>
+    <div class="top-bar-right">
+      <ul class="menu vertical medium-horizontal" data-responsive-menu="drilldown medium-dropdown">
+        <li class="has-submenu">
+          <a href="#">One</a>
+          <ul class="submenu menu vertical" data-submenu>
+            <li><a href="#">One</a></li>
+            <li><a href="#">Two</a></li>
+            <li><a href="#">Three</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Two</a></li>
+        <li><a href="#">Three</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid-x grid-padding-x">
+    <div class="cell">
+      <p>
+        Dropdown should show up right under the LI, even if the bar has a bunch of padding.
+      </p>
+    </div>
+  </div>
+
+  <script src="../assets/js/vendor.js"></script>
+  <script src="../assets/js/foundation.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>

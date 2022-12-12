@@ -1,0 +1,11 @@
+{
+  "id": "tabindex",
+  "evaluate": "tabindex-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Element does not have a tabindex greater than 0",
+      "fail": "Element has a tabindex greater than 0"
+    }
+  }
+}

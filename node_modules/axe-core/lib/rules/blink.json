@@ -1,0 +1,19 @@
+{
+  "id": "blink",
+  "selector": "blink",
+  "excludeHidden": false,
+  "tags": [
+    "cat.time-and-media",
+    "wcag2a",
+    "wcag222",
+    "section508",
+    "section508.22.j"
+  ],
+  "metadata": {
+    "description": "Ensures <blink> elements are not used",
+    "help": "<blink> elements are deprecated and must not be used"
+  },
+  "all": [],
+  "any": [],
+  "none": ["is-on-screen"]
+}

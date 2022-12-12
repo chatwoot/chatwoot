@@ -1,0 +1,14 @@
+export default {
+    pagination: {
+        goto: "Go to",
+        page: "",
+        itemsPerPage: " / page",
+        total: total => `Total ${total}`,
+        prev5: "Previous 5 Pages",
+        next5: "Next 5 Pages"
+    },
+    table: {
+        confirmFilter: "Confirm",
+        resetFilter: "Reset"
+    }
+};

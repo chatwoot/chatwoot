@@ -1,0 +1,9 @@
+node_js:
+- "8"
+- "10"
+- "12"
+- "node"
+sudo: false
+language: node_js
+script: "npm run test"
+after_success: "npm i -g codecov && npm run coverage && codecov"

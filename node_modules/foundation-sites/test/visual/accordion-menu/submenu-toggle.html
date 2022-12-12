@@ -1,0 +1,59 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Accordion Menu: Submenu Toggle</h1>
+
+          <ul>
+            <li>Any link with a submenu should contain a .submenu-toggle button.</li>
+            <li>This button should toggle the submenu.</li>
+            <li>The parent link (if it has a link) should work as a link.</li>
+          </ul>
+
+          <ul class="accordion-menu vertical menu" data-accordion-menu data-submenu-toggle="true">
+            <li>
+              <a href="http://www.github.com">Item 1 (external)</a>
+              <ul class="menu vertical">
+                <li><a href="google.com">Item 1A (external)</a></li>
+                <li>
+                  <a href="#">Item 1B</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Item 2</a>
+              <ul class="menu vertical">
+                <li><a href="#">Item 2A</a></li>
+                <li>
+                  <a href="#">Item 2B</a>
+                  <ul class="menu vertical">
+                  <li><a href="google.com">Item 2BA (external)</a></li>
+                  <li>
+                    <a href="#">Item 2BB</a>
+                  </li>
+                </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

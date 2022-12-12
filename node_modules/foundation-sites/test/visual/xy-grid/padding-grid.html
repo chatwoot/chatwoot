@@ -1,0 +1,100 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>xy padding grid</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      body {
+        padding: 30px;
+      }
+
+      .demo {
+        background: #1779ba;
+      }
+
+      .cell {
+        background: tomato;
+        line-height: 50px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Padding Grid - red shows the padding gutters</h1>
+
+    <h2>Sizing Classes</h2>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <h2>Nesting</h2>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-6">
+        <div class="grid-x grid-padding-x">
+          <div class="cell medium-9"><div class="demo">9 nested</div></div>
+          <div class="cell medium-3"><div class="demo">3 nested</div></div>
+        </div>
+      </div>
+      <div class="cell medium-6"><div class="demo">11</div></div>
+    </div>
+
+    <h2>Auto and Shrink</h2>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-shrink"><div class="demo">Shrink on medium</div></div>
+      <div class="cell medium-auto"><div class="demo">Auto on medium</div></div>
+    </div>
+
+    <h2>Collapse</h2>
+
+    <div class="grid-x grid-padding-x large-padding-collapse">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <h2>Offset</h2>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-3 medium-offset-2"><div class="demo">3</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

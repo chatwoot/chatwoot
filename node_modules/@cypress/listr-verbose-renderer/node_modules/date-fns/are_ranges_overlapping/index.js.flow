@@ -1,0 +1,8 @@
+// @flow
+
+declare module.exports: (
+  initialRangeStartDate: Date | string | number,
+  initialRangeEndDate: Date | string | number,
+  comparedRangeStartDate: Date | string | number,
+  comparedRangeEndDate: Date | string | number
+) => boolean

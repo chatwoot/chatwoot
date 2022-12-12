@@ -1,0 +1,25 @@
+.docs-transitions {
+  max-width: 400px;
+}
+
+.docs-transition-demo {
+  @include thumbnail;
+  display: block;
+  max-width: 400px;
+  margin: 0 auto;
+  backface-visibility: hidden;
+}
+
+@include mui-series {
+  #series-example-1 {
+    @include mui-queue(0.5s, 0s, fade, slide(in, up));
+  }
+
+  #series-example-2 {
+    @include mui-queue(0.5s, 0.5s, fade, spin);
+  }
+
+  #series-example-3 {
+    @include mui-queue(0.5s, 0s, fade, hinge(in, bottom));
+  }
+}

@@ -1,0 +1,48 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-text-transformation
+////
+
+/// Responsive breakpoints for text transformation classes
+/// @type Boolean
+$prototype-transformation-breakpoints: $global-prototype-breakpoints !default;
+
+/// Map containing all the `text-transformation` classes
+/// @type Map
+$prototype-text-transformation: (
+  lowercase,
+  uppercase,
+  capitalize
+) !default;
+
+/// Text Transformation, by default coming through a map `$prototype-text-transformation`
+/// @param {String} $transformation [] Text Transformation
+@mixin text-transform($transformation) {
+  text-transform: $transformation !important;
+}
+
+@mixin foundation-prototype-text-transformation {
+  @each $transformation in $prototype-text-transformation {
+    .text-#{$transformation} {
+      @include text-transform($transformation);
+    }
+  }
+
+  @if ($prototype-transformation-breakpoints) {
+    // Loop through Responsive Breakpoints
+  	@each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @each $transformation in $prototype-text-transformation {
+          @if $size != $-zf-zero-breakpoint {
+            .#{$size}-text-#{$transformation} {
+  			      @include text-transform($transformation);
+  			    }
+          }
+        }
+      }
+    }
+  }
+}

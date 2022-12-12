@@ -1,0 +1,360 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group breakpoints
+////
+
+/// A list of named breakpoints. You can use these with the `breakpoint()` mixin to quickly create media queries.
+/// @type Map
+$breakpoints: (
+  small: 0,
+  medium: 640px,
+  large: 1024px,
+  xlarge: 1200px,
+  xxlarge: 1440px,
+) !default;
+
+/// The largest named breakpoint in which to include print as a media type
+/// @type Keyword
+$print-breakpoint: large !default;
+
+$-zf-zero-breakpoint: small !default;
+
+$-zf-breakpoints-keys: map-to-list($breakpoints, 'keys');
+
+@if nth(map-values($breakpoints), 1) != 0 {
+  @error 'The first key in the $breakpoints map must have a value of "0".';
+}
+@else {
+  $-zf-zero-breakpoint: nth(map-keys($breakpoints), 1);
+}
+
+/// All of the names in this list will be output as classes in your CSS, like `.small-12`, `.medium-6`, and so on. Each value in this list must also be in the `$breakpoints` map.
+/// @type List
+$breakpoint-classes: (small medium large) !default;
+
+/// Generates a media query string matching the input value. Refer to the documentation for the `breakpoint()` mixin to see what the possible inputs are.
+///
+/// @param {Keyword|Number} $val [small] - Breakpoint name, or px, rem, or em value to process.
+@function breakpoint($val: $-zf-zero-breakpoint) {
+  // Size or keyword
+  $bp: nth($val, 1);
+  // Value for max-width media queries
+  $bp-max: 0;
+  // Direction of media query (up, down, or only)
+  $dir: if(length($val) > 1, nth($val, 2), up);
+  // Eventual output
+  $str: '';
+  // Is it a named media query?
+  $named: false;
+
+  // Orientation media queries have a unique syntax
+  @if $bp == 'landscape' or $bp == 'portrait' {
+    @return '(orientation: #{$bp})';
+  }
+  @else if $bp == 'retina' {
+    @return '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
+  }
+
+  // Try to pull a named breakpoint out of the $breakpoints map
+  @if type-of($bp) == 'string' {
+    @if map-has-key($breakpoints, $bp) {
+      @if $dir == 'only' or $dir == 'down' {
+        $bp-max: -zf-map-next($breakpoints, $bp);
+      }
+
+      $bp: map-get($breakpoints, $bp);
+      $named: true;
+    }
+    @else {
+      $bp: 0;
+      @warn 'breakpoint(): "#{$val}" is not defined in your $breakpoints setting.';
+    }
+  }
+
+  // Convert any pixel, rem, or unitless value to em
+  $bp: -zf-bp-to-em($bp);
+  // Max value is 0.2px under the next breakpoint (0.02 / 16 = 0.00125).
+  // Use a precision under 1px to support browser zoom, but not to low to avoid rounding.
+  // See https://github.com/zurb/foundation-sites/issues/11313
+  @if $bp-max {
+    $bp-max: -zf-bp-to-em($bp-max) - .00125;
+  }
+
+  // Conditions to skip media query creation
+  // - It's a named breakpoint that resolved to "0 down" or "0 up"
+  // - It's a numeric breakpoint that resolved to "0 " + anything
+  @if $bp > 0em or $dir == 'only' or $dir == 'down' {
+    // `only` ranges use the format `(min-width: n) and (max-width: n)`
+    @if $dir == 'only' {
+      // Only named media queries can have an "only" range
+      @if $named == true {
+        // Only use "min-width" if the floor is greater than 0
+        @if $bp > 0em {
+          $str: $str + '(min-width: #{$bp})';
+
+          // Only add "and" to the media query if there's a ceiling
+          @if $bp-max != null {
+            $str: $str + ' and ';
+          }
+        }
+
+        // Only use "max-width" if there's a ceiling
+        @if $bp-max != null {
+          $str: $str + '(max-width: #{$bp-max})';
+        }
+      }
+      @else {
+        @warn 'breakpoint(): Only named media queries can have an `only` range.';
+      }
+    }
+
+    // `down` ranges use the format `(max-width: n)`
+    @else if $dir == 'down' {
+      $max: if($named, $bp-max, $bp);
+
+      // Skip media query creation if input value is exactly "0 down",
+      // unless the function was called as "small down", in which case it's just "small only"
+      @if $named or $bp > 0em {
+        @if $max != null {
+          $str: $str + '(max-width: #{$max})';
+        }
+      }
+    }
+
+    // `up` ranges use the format `(min-width: n)`
+    @else if $bp > 0em {
+      $str: $str + '(min-width: #{$bp})';
+    }
+  }
+
+  @return $str;
+}
+
+/// Wraps a media query around the content you put inside the mixin. This mixin accepts a number of values:
+///  - If a string is passed, the mixin will look for it in the `$breakpoints` map, and use a media query there.
+///  - If a pixel value is passed, it will be converted to an em value using `$global-font-size` as the base.
+///  - If a rem value is passed, the unit will be changed to em.
+///  - If an em value is passed, the value will be used as-is.
+///
+/// @param {Keyword|Number} $value - Breakpoint name, or px, rem, or em value to process.
+///
+/// @output If the breakpoint is "0px and larger", outputs the content as-is. Otherwise, outputs the content wrapped in a media query.
+@mixin breakpoint($value) {
+  $str: breakpoint($value);
+  $bp: index($-zf-breakpoints-keys, $value);
+  $pbp: index($-zf-breakpoints-keys, $print-breakpoint);
+
+  $old-zf-size: null;
+
+  // Make breakpoint size available as a variable
+  @if global-variable-exists(-zf-size) {
+    $old-zf-size: $-zf-size;
+  }
+  $-zf-size: nth($value, 1) !global; // get the first value to account for `only` and `down` keywords
+
+  // If $str is still an empty string, no media query is needed
+  @if $str == '' {
+    @content;
+  }
+
+  // Otherwise, wrap the content in a media query
+  @else {
+    // For named breakpoints less than or equal to $print-breakpoint, add print to the media types
+    @if $bp != null and $bp <= $pbp {
+      @media print, screen and #{$str} {
+        @content;
+       }
+    }
+    @else {
+      @media screen and #{$str} {
+        @content;
+      }
+    }
+  }
+
+  $-zf-size: $old-zf-size !global;
+}
+
+/// Converts the breakpoints map to a URL-encoded string, like this: `key1=value1&key2=value2`. The value is then dropped into the CSS for a special `<meta>` tag, which is read by the Foundation JavaScript. This is how we transfer values from Sass to JavaScript, so they can be defined in one place.
+/// @access private
+///
+/// @param {Map} $map - Map to convert.
+///
+/// @returns {String} A string containing the map's contents.
+@function -zf-bp-serialize($map) {
+  $str: '';
+  @each $key, $value in $map {
+    $str: $str + $key + '=' + -zf-bp-to-em($value) + '&';
+  }
+  $str: str-slice($str, 1, -2);
+
+  @return $str;
+}
+
+/// Find the next key in a map.
+/// @access private
+///
+/// @param {Map} $map - Map to traverse.
+/// @param {Mixed} $key - Key to use as a starting point.
+///
+/// @returns {Mixed} The value for the key after `$key`, if `$key` was found. If `$key` was not found, or `$key` was the last value in the map, returns `null`.
+@function -zf-map-next($map, $key) {
+
+  // Store the keys of the map as a list
+  $values: map-keys($map);
+
+  $i: 0;
+
+  // If the Key Exists, Get the index of the key within the map and add 1 to it for the next breakpoint in the map
+  @if (map-has-key($map, $key)) {
+    $i: index($values, $key) + 1;
+  }
+
+  // If the key doesn't exist, or it's the last key in the map, return null
+  @if ($i > length($map) or $i == 0) {
+    @return null;
+  }
+  // Otherwise, return the value
+  @else {
+    @return map-get($map, nth($values, $i));
+  }
+
+}
+
+/// Return a list of our named breakpoints less than $key. Useful for dealing with
+/// responsive gutters for the grid.
+/// @access private
+///
+/// @param {String} $key - Key to use as last breakpoint.
+///
+/// @returns {Array} The list of breakpoints up to and. If $key is auto, returns breakpoints above the zero
+@function -zf-breakpoints-less-than($key) {
+  $list: ();
+  $found_key: false;
+
+  @each $name in $-zf-breakpoints-keys {
+    @if ($name == $key) {
+      $found_key: true;
+    }
+    @if not $found_key {
+      $list: append($list, $name);
+    }
+  }
+  @return $list;
+}
+
+/// Return a list of our named breakpoints less than $key. Useful for dealing with
+/// responsive gutters for the grid.
+/// @access private
+///
+/// @param {String} $breakpoint - a named or non-named breakpoint.
+///
+/// @returns {Array} The list of breakpoints up to and. If $key is auto, returns breakpoints above the zero
+@function -zf-closest-named-breakpoint($breakpoint) {
+  $last: $-zf-zero-breakpoint;
+  $found: false;
+
+  $value: unitless-calc($breakpoint, 1px);
+  @each $key, $val in $breakpoints {
+    @if not $found {
+      @if unitless-calc($val) > $value {
+        $found: true;
+      } @else {
+        $last: $key;
+      }
+    }
+  }
+
+  @return $last;
+}
+
+/// Get a value for a breakpoint from a responsive config map or single value.
+/// - If the config is a single value, return it regardless of `$value`.
+/// - If the config is a map and has the key `$value`, the exact breakpoint value is returned.
+/// - If the config is a map and does *not* have the breakpoint, the value matching the next lowest breakpoint in the config map is returned.
+/// @access private
+///
+/// @param {Number|Map} $map - Responsive config map or single value.
+/// @param {Keyword} $value - Breakpoint name to use.
+///
+/// @return {Mixed} The corresponding breakpoint value.
+@function -zf-get-bp-val($map, $value) {
+  // If the given map is a single value, return it
+  @if type-of($map) == 'number' {
+    @return $map;
+  }
+
+
+  // Check if the breakpoint name exists globally
+  @if not map-has-key($breakpoints, $value) {
+    @if type-of($value) == 'number' {
+      $value: -zf-closest-named-breakpoint($value);
+    } @else {
+      @return null;
+    }
+  }
+  // Check if the breakpoint name exists in the local config map
+  @else if map-has-key($map, $value) {
+    // If it does, just return the value
+    @return map-get($map, $value);
+  }
+  // Otherwise, find the next lowest breakpoint and return that value
+  @else {
+    $anchor: null;
+    $found: false;
+
+    @each $key, $val in $breakpoints {
+      @if not $found {
+        @if map-has-key($map, $key) {
+          $anchor: $key;
+        }
+        @if $key == $value {
+          $found: true;
+        }
+      }
+    }
+
+    @return map-get($map, $anchor);
+  }
+}
+
+$small-up: '';
+$small-only: '';
+
+@if map-has-key($breakpoints, small) {
+  $small-up: screen;
+  $small-only: unquote('screen and #{breakpoint(small only)}');
+}
+
+$medium-up: '';
+$medium-only: '';
+
+@if map-has-key($breakpoints, medium) {
+  $medium-up: unquote('screen and #{breakpoint(medium)}');
+  $medium-only: unquote('screen and #{breakpoint(medium only)}');
+}
+
+$large-up: '';
+$large-only: '';
+
+@if map-has-key($breakpoints, large) {
+  $large-up: unquote('screen and #{breakpoint(large)}');
+  $large-only: unquote('screen and #{breakpoint(large only)}');
+}
+
+$xlarge-up: '';
+$xlarge-only: '';
+
+@if map-has-key($breakpoints, xlarge) {
+  $xlarge-up: unquote('screen and #{breakpoint(xlarge)}');
+  $xlarge-only: unquote('screen and #{breakpoint(xlarge only)}');
+}
+
+$xxlarge-up: '';
+
+@if map-has-key($breakpoints, xxlarge) {
+  $xxlarge-up: unquote('screen and #{breakpoint(xxlarge)}');
+}

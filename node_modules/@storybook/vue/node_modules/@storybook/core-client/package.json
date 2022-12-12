@@ -1,0 +1,79 @@
+{
+  "name": "@storybook/core-client",
+  "version": "6.5.9",
+  "description": "Storybook framework-agnostic API",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/core"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "dll/**/*",
+    "types/**/*",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "6.5.9",
+    "@storybook/channel-postmessage": "6.5.9",
+    "@storybook/channel-websocket": "6.5.9",
+    "@storybook/client-api": "6.5.9",
+    "@storybook/client-logger": "6.5.9",
+    "@storybook/core-events": "6.5.9",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/preview-web": "6.5.9",
+    "@storybook/store": "6.5.9",
+    "@storybook/ui": "6.5.9",
+    "airbnb-js-shims": "^2.2.1",
+    "ansi-to-html": "^0.6.11",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "lodash": "^4.17.21",
+    "qs": "^6.10.0",
+    "regenerator-runtime": "^0.13.7",
+    "ts-dedent": "^2.0.0",
+    "unfetch": "^4.2.0",
+    "util-deprecate": "^1.0.2"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "webpack": "*"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "e2673f765722cbb542ef1b5cf8d533c8e746a127",
+  "sbmodern": "dist/modern/index.js"
+}

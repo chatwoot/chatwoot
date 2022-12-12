@@ -1,0 +1,14 @@
+{
+  "id": "non-empty-if-present",
+  "evaluate": "non-empty-if-present-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": {
+        "default": "Element does not have a value attribute",
+        "has-label": "Element has a non-empty value attribute"
+      },
+      "fail": "Element has a value attribute and the value attribute is empty"
+    }
+  }
+}

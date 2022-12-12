@@ -1,0 +1,99 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group grid
+////
+
+/// Change the behavior of columns defined inside this mixin to use a different column count.
+/// @content
+///
+/// @param {Number} $columns - Number of columns to use.
+/// @param {Boolean} $root [false]
+///   If `false`, selectors inside this mixin will nest inside the parent selector.
+///   If `true`, selectors will not nest.
+@mixin grid-context(
+  $columns,
+  $root: false
+) {
+  // Store the current column count so it can be re-set later
+  $old-grid-column-count: $grid-column-count;
+  $grid-column-count: $columns !global;
+
+  @if $root {
+    @at-root { @content; }
+  }
+  @else {
+    @content;
+  }
+
+  // Restore the old column count
+  $grid-column-count: $old-grid-column-count !global;
+}
+
+/// Creates a grid row.
+/// @content
+///
+/// @param {Number} $columns [null] - Column count for this row. `null` will use the default column count.
+/// @param {Keywords} $behavior [null]
+///   Modifications to the default grid styles. `nest` indicates the row will be placed inside another row. `collapse` indicates that the columns inside this row will not have padding. `nest collapse` combines both behaviors.
+/// @param {Keyword|Number} $size [$grid-row-width] Maximum size of the row. Set to `expand` to make the row taking the full width.
+/// @param {Boolean} $cf [true] - Whether or not to include a clearfix.
+/// @param {Number|Map} $gutters [$grid-column-gutter] - Gutter map or single value to use when inverting margins. Responsive gutter settings by default.
+@mixin grid-row(
+  $columns: null,
+  $behavior: null,
+  $size: $grid-row-width,
+  $cf: true,
+  $gutters: $grid-column-gutter
+) {
+  $margin: auto;
+
+  @if index($behavior, nest) != null {
+    @include grid-row-nest($gutters);
+
+    @if index($behavior, collapse) != null {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+  @else {
+    @include grid-row-size($size);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  @if $cf {
+    @include clearfix;
+  }
+
+  @if $columns != null {
+    @include grid-context($columns) {
+      @content;
+    }
+  }
+}
+
+/// Inverts the margins of a row to nest it inside of a column.
+///
+/// @param {Number|Map} $gutters [$grid-column-gutter] - Gutter map or single value to use when inverting margins. Responsive gutter settings by default.
+@mixin grid-row-nest($gutters: $grid-column-gutter) {
+  @include -zf-each-breakpoint {
+    $margin: rem-calc(-zf-get-bp-val($gutters, $-zf-size)) / 2 * -1;
+
+    margin-right: $margin;
+    margin-left: $margin;
+  }
+}
+
+/// Set a grid row size
+///
+/// @param {Keyword|Number} $size [$grid-row-width] Maximum size of the row. Set to `expand` to make the row taking the full width.
+@mixin grid-row-size($size: $grid-row-width) {
+  @if $size == expand {
+    $size: none;
+  }
+
+  max-width: $size;
+}

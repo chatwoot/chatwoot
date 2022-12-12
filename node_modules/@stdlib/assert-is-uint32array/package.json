@@ -1,0 +1,110 @@
+{
+  "name": "@stdlib/assert-is-uint32array",
+  "version": "0.0.8",
+  "description": "Test if a value is a Uint32Array.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "main": "./lib",
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/assert-is-uint32array.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/utils-native-class": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/array-float32": "^0.0.x",
+    "@stdlib/array-float64": "^0.0.x",
+    "@stdlib/array-int16": "^0.0.x",
+    "@stdlib/array-int32": "^0.0.x",
+    "@stdlib/array-int8": "^0.0.x",
+    "@stdlib/array-uint16": "^0.0.x",
+    "@stdlib/array-uint32": "^0.0.x",
+    "@stdlib/array-uint8": "^0.0.x",
+    "@stdlib/array-uint8c": "^0.0.x",
+    "@stdlib/assert-is-boolean": "^0.0.x",
+    "@stdlib/bench": "^0.0.x",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdassert",
+    "assertion",
+    "assert",
+    "utilities",
+    "utility",
+    "utils",
+    "util",
+    "uint32array",
+    "uint32",
+    "unsigned",
+    "integer",
+    "int",
+    "uint",
+    "doubleword",
+    "long",
+    "word",
+    "longword",
+    "typed",
+    "typed array",
+    "typed-array",
+    "array",
+    "is",
+    "isarray",
+    "istypedarray",
+    "type",
+    "check",
+    "validate",
+    "valid",
+    "isvalid",
+    "test"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

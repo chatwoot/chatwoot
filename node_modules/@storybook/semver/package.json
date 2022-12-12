@@ -1,0 +1,47 @@
+{
+  "name": "@storybook/semver",
+  "version": "7.3.2",
+  "description": "The semantic version parser used by npm for browser.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap",
+    "snap": "tap",
+    "prepare": "babel src --out-dir . && chmod 777 ./bin/semver.js",
+    "preversion": "npm test",
+    "postversion": "npm publish",
+    "postpublish": "git push origin --follow-tags"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "tap": "^14.10.7"
+  },
+  "license": "ISC",
+  "repository": "https://github.com/storybookjs/browser-semver",
+  "bin": {
+    "semver": "./bin/semver.js"
+  },
+  "files": [
+    "bin/**/*.js",
+    "range.bnf",
+    "classes/**/*.js",
+    "functions/**/*.js",
+    "internal/**/*.js",
+    "ranges/**/*.js",
+    "index.js",
+    "preload.js"
+  ],
+  "tap": {
+    "check-coverage": true,
+    "coverage-map": "map.js"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "find-up": "^4.1.0"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "postcss-initial",
+  "version": "3.0.4",
+  "description": "PostCSS plugin to fallback initial keyword.",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "reset"
+  ],
+  "author": "Maksim Koretskiy <mr.green.tv@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maximkoretskiy/postcss-initial.git"
+  },
+  "dependencies": {
+    "postcss": "^7.0.2"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "eslint": "^4.18.2",
+    "husky": "^3.0.9",
+    "mocha": "^3.3.0",
+    "standard-version": "^8.0.1"
+  },
+  "scripts": {
+    "lint": "eslint *.js ./lib/ ./test/",
+    "test": "npm run lint && mocha",
+    "tdd": "mocha -w --watch-extensions js,json,css",
+    "release": "standard-version"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
+  },
+  "standard-version": {
+    "scripts": {
+      "prerelease": "npm test"
+    }
+  }
+}

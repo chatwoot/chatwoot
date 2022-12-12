@@ -1,0 +1,12 @@
+{
+  "id": "avoid-inline-spacing",
+  "selector": "[style]",
+  "tags": ["cat.structure", "wcag21aa", "wcag1412"],
+  "metadata": {
+    "description": "Ensure that text spacing set through style attributes can be adjusted with custom stylesheets",
+    "help": "Inline text spacing must be adjustable with custom stylesheets"
+  },
+  "all": ["avoid-inline-spacing"],
+  "any": [],
+  "none": []
+}

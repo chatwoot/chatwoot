@@ -1,0 +1,30 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group forms
+////
+
+/// Default color for help text.
+/// @type Color
+$helptext-color: $black !default;
+
+/// Default font size for help text.
+/// @type Number
+$helptext-font-size: rem-calc(13) !default;
+
+/// Default font style for help text.
+/// @type Keyword
+$helptext-font-style: italic !default;
+
+@mixin foundation-form-helptext {
+  .help-text {
+    $margin-top: ($form-spacing * 0.5) * -1;
+
+    margin-top: $margin-top;
+    font-size: $helptext-font-size;
+    font-style: $helptext-font-style;
+    color: $helptext-color;
+  }
+}

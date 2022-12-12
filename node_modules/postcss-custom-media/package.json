@@ -1,0 +1,62 @@
+{
+  "name": "postcss-custom-media",
+  "version": "7.0.8",
+  "description": "Use Custom Media Queries in CSS",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "contributors": [
+    "Maxime Thirouin"
+  ],
+  "license": "MIT",
+  "repository": "postcss/postcss-custom-media",
+  "homepage": "https://github.com/postcss/postcss-custom-media#readme",
+  "bugs": "https://github.com/postcss/postcss-custom-media/issues",
+  "main": "index.cjs.js",
+  "module": "index.es.mjs",
+  "files": [
+    "index.cjs.js",
+    "index.es.mjs"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm test",
+    "pretest": "rollup -c .rollup.js --silent",
+    "test": "echo 'Running tests...'; npm run test:js && npm run test:tape",
+    "test:js": "eslint *.js lib/*.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "postcss-tape"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.14"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.2",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-dev": "^2.0.0",
+    "postcss-tape": "^4.0.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^1.7.4",
+    "rollup-plugin-babel": "^4.3.2"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "custom",
+    "media",
+    "query",
+    "queries",
+    "w3c",
+    "csswg",
+    "atrule",
+    "at-rule",
+    "specification"
+  ]
+}

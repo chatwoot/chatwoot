@@ -1,0 +1,161 @@
+{
+    "name": "@types/chart.js",
+    "version": "2.9.32",
+    "description": "TypeScript definitions for Chart.js",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Alberto Nuti",
+            "url": "https://github.com/anuti",
+            "githubUsername": "anuti"
+        },
+        {
+            "name": "Fabien Lavocat",
+            "url": "https://github.com/FabienLavocat",
+            "githubUsername": "FabienLavocat"
+        },
+        {
+            "name": "KentarouTakeda",
+            "url": "https://github.com/KentarouTakeda",
+            "githubUsername": "KentarouTakeda"
+        },
+        {
+            "name": "Larry Bahr",
+            "url": "https://github.com/larrybahr",
+            "githubUsername": "larrybahr"
+        },
+        {
+            "name": "Daniel Luz",
+            "url": "https://github.com/mernen",
+            "githubUsername": "mernen"
+        },
+        {
+            "name": "Joseph Page",
+            "url": "https://github.com/josefpaij",
+            "githubUsername": "josefpaij"
+        },
+        {
+            "name": "Dan Manastireanu",
+            "url": "https://github.com/danmana",
+            "githubUsername": "danmana"
+        },
+        {
+            "name": "Guillaume Rodriguez",
+            "url": "https://github.com/guillaume-ro-fr",
+            "githubUsername": "guillaume-ro-fr"
+        },
+        {
+            "name": "Simon Archer",
+            "url": "https://github.com/archy-bold",
+            "githubUsername": "archy-bold"
+        },
+        {
+            "name": "Ken Elkabany",
+            "url": "https://github.com/braincore",
+            "githubUsername": "braincore"
+        },
+        {
+            "name": "Francesco Benedetto",
+            "url": "https://github.com/frabnt",
+            "githubUsername": "frabnt"
+        },
+        {
+            "name": "Alexandros Dorodoulis",
+            "url": "https://github.com/alexdor",
+            "githubUsername": "alexdor"
+        },
+        {
+            "name": "Manuel Heidrich",
+            "url": "https://github.com/mahnuh",
+            "githubUsername": "mahnuh"
+        },
+        {
+            "name": "Conrad Holtzhausen",
+            "url": "https://github.com/Conrad777",
+            "githubUsername": "Conrad777"
+        },
+        {
+            "name": "Adrián Caballero",
+            "url": "https://github.com/adripanico",
+            "githubUsername": "adripanico"
+        },
+        {
+            "name": "wertzui",
+            "url": "https://github.com/wertzui",
+            "githubUsername": "wertzui"
+        },
+        {
+            "name": "Martin Trobäck",
+            "url": "https://github.com/lekoaf",
+            "githubUsername": "lekoaf"
+        },
+        {
+            "name": "Elian Cordoba",
+            "url": "https://github.com/ElianCordoba",
+            "githubUsername": "ElianCordoba"
+        },
+        {
+            "name": "Takuya Uehara",
+            "url": "https://github.com/indigolain",
+            "githubUsername": "indigolain"
+        },
+        {
+            "name": "Ricardo Mello",
+            "url": "https://github.com/ricmello",
+            "githubUsername": "ricmello"
+        },
+        {
+            "name": "Ray Nicholus",
+            "url": "https://github.com/rnicholus",
+            "githubUsername": "rnicholus"
+        },
+        {
+            "name": "Oscar Cabrera",
+            "url": "https://github.com/mrjack88",
+            "githubUsername": "mrjack88"
+        },
+        {
+            "name": "Carlos Anoceto",
+            "url": "https://github.com/canoceto",
+            "githubUsername": "canoceto"
+        },
+        {
+            "name": "Nobuhiko Futagami",
+            "url": "https://github.com/nobu222",
+            "githubUsername": "nobu222"
+        },
+        {
+            "name": "Marco Ru",
+            "url": "https://github.com/Marcoru97",
+            "githubUsername": "Marcoru97"
+        },
+        {
+            "name": "Tony Liu",
+            "url": "https://github.com/tonybadguy",
+            "githubUsername": "tonybadguy"
+        },
+        {
+            "name": "Mathias Helminger",
+            "url": "https://github.com/Ilmarinen100",
+            "githubUsername": "Ilmarinen100"
+        },
+        {
+            "name": "Mostafa Sameti",
+            "url": "https://github.com/IVIosi",
+            "githubUsername": "IVIosi"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/chart.js"
+    },
+    "scripts": {},
+    "dependencies": {
+        "moment": "^2.10.2"
+    },
+    "typesPublisherContentHash": "b9ddee55da1ef0a5ab69edba4bc945d096b2fdf071136eb22a12b1f8f6589338",
+    "typeScriptVersion": "3.5"
+}

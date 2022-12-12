@@ -1,0 +1,953 @@
+
+{{alias}}()
+    A typed array constructor which returns a typed array representing an array
+    of 32-bit unsigned integers in the platform byte order.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}()
+    <Uint32Array>
+
+
+{{alias}}( length )
+    Returns a typed array having a specified length.
+
+    Parameters
+    ----------
+    length: integer
+        Typed array length.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( 5 )
+    <Uint32Array>[ 0, 0, 0, 0, 0 ]
+
+
+{{alias}}( typedarray )
+    Creates a typed array from another typed array.
+
+    Parameters
+    ----------
+    typedarray: TypedArray
+        Typed array from which to generate another typed array.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr1 = new {{alias:@stdlib/array/int32}}( [ 5, 5, 5 ] );
+    > var arr2 = new {{alias}}( arr1 )
+    <Uint32Array>[ 5, 5, 5 ]
+
+
+{{alias}}( obj )
+    Creates a typed array from an array-like object or iterable.
+
+    Parameters
+    ----------
+    obj: Object
+        Array-like object or iterable from which to generate a typed array.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr1 = [ 5.0, 5.0, 5.0 ];
+    > var arr2 = new {{alias}}( arr1 )
+    <Uint32Array>[ 5, 5, 5 ]
+
+
+{{alias}}( buffer[, byteOffset[, length]] )
+    Returns a typed array view of an ArrayBuffer.
+
+    Parameters
+    ----------
+    buffer: ArrayBuffer
+        Underlying ArrayBuffer.
+
+    byteOffset: integer (optional)
+        Integer byte offset specifying the location of the first typed array
+        element. Default: 0.
+
+    length: integer (optional)
+        View length. If not provided, the view spans from the byteOffset to
+        the end of the underlying ArrayBuffer.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var buf = new {{alias:@stdlib/array/buffer}}( 16 );
+    > var arr = new {{alias}}( buf, 0, 4 )
+    <Uint32Array>[ 0, 0, 0, 0 ]
+
+
+{{alias}}.from( src[, map[, thisArg]] )
+    Creates a new typed array from an array-like object or an iterable.
+
+    A callback is provided the following arguments:
+
+    - value: source value.
+    - index: source index.
+
+    Parameters
+    ----------
+    src: ArrayLike|Iterable
+        Source of array elements.
+
+    map: Function (optional)
+        Callback to invoke for each source element.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > function mapFcn( v ) { return v * 2; };
+    > var arr = {{alias}}.from( [ 1, 2 ], mapFcn )
+    <Uint32Array>[ 2, 4 ]
+
+
+{{alias}}.of( element0[, element1[, ...elementN]] )
+    Creates a new typed array from a variable number of arguments.
+
+    Parameters
+    ----------
+    element0: number
+        Array element.
+
+    element1: number (optional)
+        Array element.
+
+    elementN: number (optional)
+        Array elements.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr = {{alias}}.of( 1, 2 )
+    <Uint32Array>[ 1, 2 ]
+
+
+{{alias}}.BYTES_PER_ELEMENT
+    Number of bytes per view element.
+
+    Examples
+    --------
+    > {{alias}}.BYTES_PER_ELEMENT
+    4
+
+
+{{alias}}.name
+    Typed array constructor name.
+
+    Examples
+    --------
+    > {{alias}}.name
+    'Uint32Array'
+
+
+{{alias}}.prototype.buffer
+    Read-only property which returns the ArrayBuffer referenced by the typed
+    array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( 5 );
+    > arr.buffer
+    <ArrayBuffer>
+
+
+{{alias}}.prototype.byteLength
+    Read-only property which returns the length (in bytes) of the typed array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( 5 );
+    > arr.byteLength
+    20
+
+
+{{alias}}.prototype.byteOffset
+    Read-only property which returns the offset (in bytes) of the typed array
+    from the start of its ArrayBuffer.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( 5 );
+    > arr.byteOffset
+    0
+
+
+{{alias}}.prototype.BYTES_PER_ELEMENT
+    Number of bytes per view element.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( 5 );
+    > arr.BYTES_PER_ELEMENT
+    4
+
+
+{{alias}}.prototype.length
+    Read-only property which returns the number of view elements.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( 5 );
+    > arr.length
+    5
+
+
+{{alias}}.prototype.copyWithin( target, start[, end] )
+    Copies a sequence of elements within the array starting at `start` and
+    ending at `end` (non-inclusive) to the position starting at `target`.
+
+    Parameters
+    ----------
+    target: integer
+        Target start index position.
+
+    start: integer
+        Source start index position.
+
+    end: integer (optional)
+        Source end index position. Default: out.length.
+
+    Returns
+    -------
+    out: Uint32Array
+        Modified array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3, 4, 5 ] );
+    > arr.copyWithin( 3, 0, 2 );
+    > arr[ 3 ]
+    1
+    > arr[ 4 ]
+    2
+
+
+{{alias}}.prototype.entries()
+    Returns an iterator for iterating over array key-value pairs.
+
+    Returns
+    -------
+    iter: Iterator
+        Iterator for iterating over array key-value pairs.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2 ] );
+    > it = arr.entries();
+    > it.next().value
+    [ 0, 1 ]
+    > it.next().value
+    [ 1, 2 ]
+    > it.next().done
+    true
+
+
+{{alias}}.prototype.every( predicate[, thisArg] )
+    Tests whether all array elements pass a test implemented by a predicate
+    function.
+
+    A predicate function is provided the following arguments:
+
+    - value: array element.
+    - index: array index.
+    - arr: array on which the method is invoked.
+
+    Parameters
+    ----------
+    predicate: Function
+        Predicate function which tests array elements. If a predicate function
+        returns a truthy value, an array element passes; otherwise, an array
+        element fails.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether all array elements pass.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2 ] );
+    > function predicate( v ) { return ( v <= 1 ); };
+    > arr.every( predicate )
+    false
+
+
+{{alias}}.prototype.fill( value[, start[, end]] )
+    Fills an array from a start index to an end index (non-inclusive) with a
+    provided value.
+
+    Parameters
+    ----------
+    value: number
+        Fill value.
+
+    start: integer (optional)
+        Start index. If less than zero, the start index is resolved relative to
+        the last array element. Default: 0.
+
+    end: integer (optional)
+        End index (non-inclusive). If less than zero, the end index is resolved
+        relative to the last array element. Default: out.length.
+
+    Returns
+    -------
+    out: Uint32Array
+        Modified array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2 ] );
+    > arr.fill( 3 );
+    > arr[ 0 ]
+    3
+    > arr[ 1 ]
+    3
+
+
+{{alias}}.prototype.filter( predicate[, thisArg] )
+    Creates a new array which includes those elements for which a predicate
+    function returns a truthy value.
+
+    A predicate function is provided the following arguments:
+
+    - value: array element.
+    - index: array index.
+    - arr: array on which the method is invoked.
+
+    The returned array has the same data type as the host array.
+
+    If a predicate function does not return a truthy value for any array
+    element, the method returns `null`.
+
+    Parameters
+    ----------
+    predicate: Function
+        Predicate function which filters array elements. If a predicate function
+        returns a truthy value, an array element is included in the output
+        array; otherwise, an array element is not included in the output array.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr1 = new {{alias}}( [ 1, 2, 3 ] );
+    > function predicate( v ) { return ( v > 1 ); };
+    > var arr2 = arr1.filter( predicate );
+    > arr2.length
+    2
+
+
+{{alias}}.prototype.find( predicate[, thisArg] )
+    Returns the first array element for which a provided predicate function
+    returns a truthy value.
+
+    A predicate function is provided the following arguments:
+
+    - value: array element.
+    - index: array index.
+    - arr: array on which the method is invoked.
+
+    If a predicate function never returns a truthy value, the method returns
+    `undefined`.
+
+    Parameters
+    ----------
+    predicate: Function
+        Predicate function which tests array elements.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Returns
+    -------
+    value: number|undefined
+        Array element.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > function predicate( v ) { return ( v > 2 ); };
+    > var v = arr.find( predicate )
+    3
+
+
+{{alias}}.prototype.findIndex( predicate[, thisArg] )
+    Returns the index of the first array element for which a provided predicate
+    function returns a truthy value.
+
+    A predicate function is provided the following arguments:
+
+    - value: array element.
+    - index: array index.
+    - arr: array on which the method is invoked.
+
+    If a predicate function never returns a truthy value, the method returns
+    `-1`.
+
+    Parameters
+    ----------
+    predicate: Function
+        Predicate function which tests array elements.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Returns
+    -------
+    idx: integer
+        Array index.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > function predicate( v ) { return ( v > 2 ); };
+    > var idx = arr.findIndex( predicate )
+    2
+
+
+{{alias}}.prototype.forEach( fcn[, thisArg] )
+    Invokes a callback for each array element.
+
+    A provided function is provided the following arguments:
+
+    - value: array element.
+    - index: array index.
+    - arr: array on which the method is invoked.
+
+    Parameters
+    ----------
+    fcn: Function
+        Function to invoke for each array element.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 3, 2, 1 ] );
+    > var str = ' ';
+    > function fcn( v, i ) { str += i + ':' + v + ' '; };
+    > arr.forEach( fcn );
+    > str
+    ' 0:3 1:2 2:1 '
+
+
+{{alias}}.prototype.includes( searchElement[, fromIndex] )
+    Returns a boolean indicating whether an array includes a search element.
+
+    Parameters
+    ----------
+    searchElement: number
+        Search element.
+
+    fromIndex: integer (optional)
+        Array index from which to begin searching. If provided a negative value,
+        the method resolves the start index relative to the last array element.
+        Default: 0.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether an array includes a search element.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > var bool = arr.includes( 4 )
+    false
+    > bool = arr.includes( 3 )
+    true
+
+
+{{alias}}.prototype.indexOf( searchElement[, fromIndex] )
+    Returns the index of the first array element strictly equal to a search
+    element.
+
+    If unable to locate a search element, the method returns `-1`.
+
+    Parameters
+    ----------
+    searchElement: number
+        Search element.
+
+    fromIndex: integer (optional)
+        Array index from which to begin searching. If provided a negative value,
+        the method resolves the start index relative to the last array element.
+        Default: 0.
+
+    Returns
+    -------
+    idx: integer
+        Array index.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > var idx = arr.indexOf( 4 )
+    -1
+    > idx = arr.indexOf( 3 )
+    2
+
+
+{{alias}}.prototype.join( [separator] )
+    Serializes an array by joining all array elements as a string.
+
+    Parameters
+    ----------
+    separator: string (optional)
+        String delineating array elements. Default: ','.
+
+    Returns
+    -------
+    str: string
+        Array serialized as a string.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > arr.join( '|' )
+    '1|2|3'
+
+
+{{alias}}.prototype.keys()
+    Returns an iterator for iterating over array keys.
+
+    Returns
+    -------
+    iter: Iterator
+        Iterator for iterating over array keys.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2 ] );
+    > it = arr.keys();
+    > it.next().value
+    0
+    > it.next().value
+    1
+    > it.next().done
+    true
+
+
+{{alias}}.prototype.lastIndexOf( searchElement[, fromIndex] )
+    Returns the index of the last array element strictly equal to a search
+    element.
+
+    The method iterates from the last array element to the first array element.
+
+    If unable to locate a search element, the method returns `-1`.
+
+    Parameters
+    ----------
+    searchElement: number
+        Search element.
+
+    fromIndex: integer (optional)
+        Array index from which to begin searching. If provided a negative value,
+        the method resolves the start index relative to the last array element.
+        Default: -1.
+
+    Returns
+    -------
+    idx: integer
+        array index.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 0, 2, 0, 1 ] );
+    > var idx = arr.lastIndexOf( 3 )
+    -1
+    > idx = arr.lastIndexOf( 0 )
+    3
+
+
+{{alias}}.prototype.map( fcn[, thisArg] )
+    Maps each array element to an element in a new typed array.
+
+    A provided function is provided the following arguments:
+
+    - value: array element.
+    - index: array index.
+    - arr: array on which the method is invoked.
+
+    The returned array has the same data type as the host array.
+
+    Parameters
+    ----------
+    fcn: Function
+        Function which maps array elements to elements in the new array.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr1 = new {{alias}}( [ 1, 2, 3 ] );
+    > function fcn( v ) { return v * 2; };
+    > var arr2 = arr1.map( fcn );
+    <Uint32Array>[ 2, 4, 6 ]
+
+
+{{alias}}.prototype.reduce( fcn[, initialValue] )
+    Applies a function against an accumulator and each element in an array and
+    returns the accumulated result.
+
+    The provided function is provided the following arguments:
+
+    - acc: accumulated result.
+    - value: current array element.
+    - index: index of the current array element.
+    - arr: array on which the method is invoked.
+
+    If provided an initial value, the method invokes a provided function with
+    the initial value as the first argument and the first array element as the
+    second argument.
+
+    If not provided an initial value, the method invokes a provided function
+    with the first array element as the first argument and the second array
+    element as the second argument.
+
+    Parameters
+    ----------
+    fcn: Function
+        Function to apply.
+
+    initialValue: Any (optional)
+        Initial accumulation value.
+
+    Returns
+    -------
+    out: Any
+        Accumulated result.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > function fcn( acc, v ) { return acc + (v*v); };
+    > var v = arr.reduce( fcn, 0 )
+    14
+
+
+{{alias}}.prototype.reduceRight( fcn[, initialValue] )
+    Applies a function against an accumulator and each element in an array and
+    returns the accumulated result, iterating from right to left.
+
+    The provided function is provided the following arguments:
+
+    - acc: accumulated result.
+    - value: current array element.
+    - index: index of the current array element.
+    - arr: array on which the method is invoked.
+
+    If provided an initial value, the method invokes a provided function with
+    the initial value as the first argument and the last array element as the
+    second argument.
+
+    If not provided an initial value, the method invokes a provided function
+    with the last array element as the first argument and the second-to-last
+    array element as the second argument.
+
+    Parameters
+    ----------
+    fcn: Function
+        Function to apply.
+
+    initialValue: Any (optional)
+        Initial accumulation value.
+
+    Returns
+    -------
+    out: Any
+        Accumulated result.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > function fcn( acc, v ) { return acc + (v*v); };
+    > var v = arr.reduceRight( fcn, 0 )
+    14
+
+
+{{alias}}.prototype.reverse()
+    Reverses an array *in-place*.
+
+    This method mutates the array on which the method is invoked.
+
+    Returns
+    -------
+    out: Uint32Array
+        Modified array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] )
+    <Uint32Array>[ 1, 2, 3 ]
+    > arr.reverse()
+    <Uint32Array>[ 3, 2, 1 ]
+
+
+{{alias}}.prototype.set( arr[, offset] )
+    Sets array elements.
+
+    Parameters
+    ----------
+    arr: ArrayLike
+        Source array containing array values to set.
+
+    offset: integer (optional)
+        Array index at which to start writing values. Default: 0.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > arr.set( [ 4, 4 ], 1 );
+    > arr[ 1 ]
+    4
+    > arr[ 2 ]
+    4
+
+
+{{alias}}.prototype.slice( [begin[, end]] )
+    Copies array elements to a new array with the same underlying data type as
+    the host array.
+
+    If the method is unable to resolve indices to a non-empty array subsequence,
+    the method returns `null`.
+
+    Parameters
+    ----------
+    begin: integer (optional)
+        Start element index (inclusive). If less than zero, the start index is
+        resolved relative to the last array element. Default: 0.
+
+    end: integer (optional)
+        End element index (exclusive). If less than zero, the end index is
+        resolved relative to the last array element. Default: arr.length.
+
+    Returns
+    -------
+    out: Uint32Array
+        A typed array.
+
+    Examples
+    --------
+    > var arr1 = new {{alias}}( [ 1, 2, 3 ] );
+    > var arr2 = arr1.slice( 1 );
+    > arr2.length
+    2
+    > arr2[ 0 ]
+    1
+    > arr2[ 1 ]
+    2
+
+
+{{alias}}.prototype.some( predicate[, thisArg] )
+    Tests whether at least one array element passes a test implemented by a
+    predicate function.
+
+    A predicate function is provided the following arguments:
+
+    - value: array element.
+    - index: array index.
+    - arr: array on which the method is invoked.
+
+    Parameters
+    ----------
+    predicate: Function
+        Predicate function which tests array elements. If a predicate function
+        returns a truthy value, a array element passes; otherwise, an array
+        element fails.
+
+    thisArg: Any (optional)
+        Callback execution context.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether at least one array element passes.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2 ] );
+    > function predicate( v ) { return ( v > 1 ); };
+    > arr.some( predicate )
+    true
+
+
+{{alias}}.prototype.sort( [compareFunction] )
+    Sorts an array *in-place*.
+
+    The comparison function is provided two array elements per invocation: `a`
+    and `b`.
+
+    The comparison function return value determines the sort order as follows:
+
+    - If the comparison function returns a value less than zero, then the method
+    sorts `a` to an index lower than `b` (i.e., `a` should come *before* `b`).
+
+    - If the comparison function returns a value greater than zero, then the
+    method sorts `a` to an index higher than `b` (i.e., `b` should come *before*
+    `a`).
+
+    - If the comparison function returns zero, then the relative order of `a`
+    and `b` should remain unchanged.
+
+    This method mutates the array on which the method is invoked.
+
+    Parameters
+    ----------
+    compareFunction: Function (optional)
+        Function which specifies the sort order. The default sort order is
+        ascending order.
+
+    Returns
+    -------
+    out: Uint32Array
+        Modified array.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 0, 2, 1 ] );
+    > arr.sort()
+    <Uint32Array>[ 0, 1, 1, 2, 2 ]
+
+
+{{alias}}.prototype.subarray( [begin[, end]] )
+    Creates a new typed array over the same underlying ArrayBuffer and with the
+    same underlying data type as the host array.
+
+    If the method is unable to resolve indices to a non-empty array subsequence,
+    the method returns an empty typed array.
+
+    Parameters
+    ----------
+    begin: integer (optional)
+        Start element index (inclusive). If less than zero, the start index is
+        resolved relative to the last array element. Default: 0.
+
+    end: integer (optional)
+        End element index (exclusive). If less than zero, the end index is
+        resolved relative to the last array element. Default: arr.length.
+
+    Returns
+    -------
+    out: Uint32Array
+        A new typed array view.
+
+    Examples
+    --------
+    > var arr1 = new {{alias}}( [ 1, 2, 3, 4, 5 ] );
+    > var arr2 = arr1.subarray( 2 )
+    <Uint32Array>[ 3, 4, 5 ]
+
+
+{{alias}}.prototype.toLocaleString( [locales[, options]] )
+    Serializes an array as a locale-specific string.
+
+    Parameters
+    ----------
+    locales: string|Array<string> (optional)
+        A BCP 47 language tag, or an array of such tags.
+
+    options: Object (optional)
+        Options.
+
+    Returns
+    -------
+    str: string
+        A typed array string representation.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > arr.toLocaleString()
+    '1,2,3'
+
+
+{{alias}}.prototype.toString()
+    Serializes an array as a string.
+
+    Returns
+    -------
+    str: string
+        A typed array string representation.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2, 3 ] );
+    > arr.toString()
+    '1,2,3'
+
+
+{{alias}}.prototype.values()
+    Returns an iterator for iterating over array elements.
+
+    Returns
+    -------
+    iter: Iterator
+        Iterator for iterating over array elements.
+
+    Examples
+    --------
+    > var arr = new {{alias}}( [ 1, 2 ] );
+    > it = arr.values();
+    > it.next().value
+    1
+    > it.next().value
+    2
+    > it.next().done
+    true
+
+
+    See Also
+    --------
+

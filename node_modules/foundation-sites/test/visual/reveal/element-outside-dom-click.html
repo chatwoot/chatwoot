@@ -1,0 +1,38 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Reveal</h1>
+
+          <section>
+            <h2>Avoid reveal modal closing upon click of an element not in the DOM</h2>
+            <p>When an element inside the modal is removed on click, the modal would close because then the clicked element is not within the modal anymore (because it has been removed from the DOM). This example removes the button inside the modal on click and the modal should remain open. See issue #9146.</p>
+            <p><button data-open="exampleModal1" class="button">Open Trigger</button></p>
+
+            <div class="reveal" id="exampleModal1" data-reveal>
+              <p>Clicking any of these triggers should close the modal.</p>
+              <p><button class="button" onclick="$(this).remove();">Click to remove me without closing the reveal!</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

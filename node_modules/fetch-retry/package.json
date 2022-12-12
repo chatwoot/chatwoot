@@ -1,0 +1,41 @@
+{
+  "name": "fetch-retry",
+  "version": "5.0.3",
+  "description": "Extend any fetch library with retry functionality",
+  "repository": "https://github.com/jonbern/fetch-retry.git",
+  "main": "index.js",
+  "browser": "dist/fetch-retry.umd.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "lint": "eslint index.js ./test/**/*.js",
+    "test": "nyc mocha test/**/**.js && npm run lint",
+    "integration-test": "mocha test/integration/",
+    "build": "rollup -c",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
+  },
+  "keywords": [
+    "fetch",
+    "retry",
+    "http",
+    "retry",
+    "Fetch API"
+  ],
+  "author": "Jon K. Bernhardsen",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^6.8.0",
+    "expectations": "^0.7.1",
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^3.0.0",
+    "mocha": "^8.0.1",
+    "nyc": "^14.1.1",
+    "rollup": "^2.52.3",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "sinon": "^6.3.5",
+    "husky": "^7.0.0"
+  }
+}

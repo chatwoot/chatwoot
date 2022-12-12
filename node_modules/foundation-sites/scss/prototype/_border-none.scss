@@ -1,0 +1,35 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-border-none
+////
+
+/// Responsive breakpoints for border none.
+/// @type Boolean
+$prototype-border-none-breakpoints: $global-prototype-breakpoints !default;
+
+/// Border none utility
+@mixin border-none {
+  border: none !important;
+}
+
+@mixin foundation-prototype-border-none {
+  .border-none {
+    @include border-none;
+  }
+
+  @if ($prototype-border-none-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-border-none {
+            @include border-none;
+          }
+        }
+      }
+    }
+  }
+}

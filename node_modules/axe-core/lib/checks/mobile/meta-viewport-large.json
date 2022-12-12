@@ -1,0 +1,15 @@
+{
+  "id": "meta-viewport-large",
+  "evaluate": "meta-viewport-scale-evaluate",
+  "options": {
+    "scaleMinimum": 5,
+    "lowerBound": 2
+  },
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "<meta> tag does not prevent significant zooming on mobile devices",
+      "fail": "<meta> tag limits zooming on mobile devices"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "identical-links-same-purpose",
+  "evaluate": "identical-links-same-purpose-evaluate",
+  "after": "identical-links-same-purpose-after",
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "There are no other links with the same name, that go to a different URL",
+      "incomplete": "Check that links have the same purpose, or are intentionally ambiguous."
+    }
+  }
+}

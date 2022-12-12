@@ -1,0 +1,2710 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "../../../z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "../../../z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../../z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "../../z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "../../z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "//example.com/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "//example.com/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "/example.com/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "/example.com/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/example.com/z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "g:h" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "g:h" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "h",
+  "query": "",
+  "scheme": "g:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "https://example.com/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "https://example.com/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "https://example.com:8080/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "https://example.com:8080/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com:8080",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "//a.com/b/cd/e.m3u8" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "../../../z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/a/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "../../../z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../../z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "//example.com/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/a/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "//example.com/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "/example.com/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/a/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "/example.com/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/example.com/z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "g:h" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/a/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "g:h" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "h",
+  "query": "",
+  "scheme": "g:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "https://example.com/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/a/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "https://example.com/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "https://example.com:8080/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/a/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "https://example.com:8080/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com:8080",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/a/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "/a/b/cd/e.m3u8" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "a.com",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "a.com/",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "../z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "a.com/b/cd",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "../z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "/b/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "a.com/b/cd",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "/b/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/b/z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "a.com/b/cd",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "a.com/b/cd",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "a.com/b/cd" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http:///example.com/a/" + "../../b" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//",
+  "params": "",
+  "path": "/example.com/a/",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http:///example.com/a/" + "../../b" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../b",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://[0:0:0:0::0]/a/b.c" + "d" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//[0:0:0:0::0]",
+  "params": "",
+  "path": "/a/b.c",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://[0:0:0:0::0]/a/b.c" + "d" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "d",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://0.0.0.0/a/b.c" + "d" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//0.0.0.0",
+  "params": "",
+  "path": "/a/b.c",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://0.0.0.0/a/b.c" + "d" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "d",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.b.com/b/cd?test=1#something" + "g;x" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.b.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.b.com/b/cd?test=1#something" + "g;x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/?test=1" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/?test=1" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd#something" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd#something" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/./e.m3u8?test=1#something" + "" {"alwaysNormalize":true} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/./e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/./e.m3u8?test=1#something" + "" {"alwaysNormalize":true} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/./e.m3u8?test=1#something" + "" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/./e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/./e.m3u8?test=1#something" + "" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "g:h" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "g:h" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "h",
+  "query": "",
+  "scheme": "g:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "https://example.com/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "https://example.com/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "https://example.com:8080/z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "https://example.com:8080/z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com:8080",
+  "params": "",
+  "path": "/z.ts",
+  "query": "",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "./a:b" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "./a:b" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "./a:b",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "/subdir/z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "/subdir/z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "/subdir/z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "a:b" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "a:b" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "b",
+  "query": "",
+  "scheme": "a:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "a_:b" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "a_:b" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "a_:b",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "subdir/z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd/e.m3u8?test=1#something" + "subdir/z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "subdir/z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "./;x" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "./;x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "./",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + ";x" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + ";x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "g;x" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "g;x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts?abc=1" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts?abc=1" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/b/cd?test=1#something" + "z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/expiretime=111;dirmatch=true/master.m3u8" + "./a:b" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/expiretime=111;dirmatch=true/master.m3u8",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com/expiretime=111;dirmatch=true/master.m3u8" + "./a:b" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "./a:b",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com:8080/b/cd/e.m3u8" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com:8080",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com:8080/b/cd/e.m3u8" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com?test=1" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a.com?test=1" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + "." {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + "." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": ".",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + ".." {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + ".." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "..",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + "../" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + "../" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + "./" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q" + "./" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "./",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "#s" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "#s" {} 2`] = `
+Object {
+  "fragment": "#s",
+  "netLoc": "",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "." {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": ".",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + ".." {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + ".." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "..",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../.." {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../.." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../..",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../../../g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../../../g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../../../g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../../g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../../g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../../g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../../g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../../g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "../g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "../g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "..g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "..g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "..g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "./",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./../g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./../g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "./../g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "./g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./g/." {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "./g/." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "./g/.",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + ".g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + ".g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": ".g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "/../g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "/../g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/../g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "/./g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "/./g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/./g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "//g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "//g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//g",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "/g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "/g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "/g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + ";x" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + ";x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "?y" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "?y" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "",
+  "query": "?y",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g#s" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g#s" {} 2`] = `
+Object {
+  "fragment": "#s",
+  "netLoc": "",
+  "params": "",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g#s/./x" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g#s/./x" {} 2`] = `
+Object {
+  "fragment": "#s/./x",
+  "netLoc": "",
+  "params": "",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g." {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g.",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g.." {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g.." {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g..",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g/" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g/" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g/",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g/../h" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g/../h" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g/../h",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g/./h" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g/./h" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g/./h",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g:h" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g:h" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "h",
+  "query": "",
+  "scheme": "g:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g;x" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g;x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g;x?y#s" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g;x?y#s" {} 2`] = `
+Object {
+  "fragment": "#s",
+  "netLoc": "",
+  "params": ";x",
+  "path": "g",
+  "query": "?y",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g?y" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g?y" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g",
+  "query": "?y",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g?y#s" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g?y#s" {} 2`] = `
+Object {
+  "fragment": "#s",
+  "netLoc": "",
+  "params": "",
+  "path": "g",
+  "query": "?y",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g?y/./x" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "g?y/./x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g",
+  "query": "?y/./x",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "http:" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "http:" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "http:g" {} 1`] = `
+Object {
+  "fragment": "#f",
+  "netLoc": "//a",
+  "params": ";p",
+  "path": "/b/c/d",
+  "query": "?q",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a/b/c/d;p?q#f" + "http:g" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "g",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a_b.com/b/cd?test=1#something" + "g;x" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a_b.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a_b.com/b/cd?test=1#something" + "g;x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a~b.com/b/cd?test=1#something" + "g;x" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a~b.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a~b.com/b/cd?test=1#something" + "g;x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a-b.com/b/cd?test=1#something" + "g;x" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a-b.com",
+  "params": "",
+  "path": "/b/cd",
+  "query": "?test=1",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://a-b.com/b/cd?test=1#something" + "g;x" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": ";x",
+  "path": "g",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://example.com/" + "a#
+b" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://example.com/" + "a#
+b" {} 2`] = `
+Object {
+  "fragment": "#
+b",
+  "netLoc": "",
+  "params": "",
+  "path": "a",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//ö.de",
+  "params": "",
+  "path": "",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de/" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//ö.de",
+  "params": "",
+  "path": "/",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de/" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de/a" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//ö.de",
+  "params": "",
+  "path": "/a",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de/a" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de/a/b" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "//ö.de",
+  "params": "",
+  "path": "/a/b",
+  "query": "",
+  "scheme": "http:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "http://ö.de/a/b" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "../../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "../../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "../../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "../../z.ts?abc=1&something=blah/./../test#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "../../z.ts?abc=1&something=blah/./../test#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "../../z.ts",
+  "query": "?abc=1&something=blah/./../test",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "./../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "./../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "./../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "././z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "././z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "././z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "./z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "./z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "./z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {"alwaysNormalize":true} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {"alwaysNormalize":true} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/subdir/pointless/../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/subdir/pointless/../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "//example.com/z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "/subdir/pointless/../z.ts?abc=1#test" {"alwaysNormalize":true} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "/subdir/pointless/../z.ts?abc=1#test" {"alwaysNormalize":true} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "/subdir/pointless/../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "/subdir/pointless/../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "/subdir/pointless/../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "/subdir/pointless/../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "subdir/pointless/../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e.m3u8?test=1#something" + "subdir/pointless/../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "subdir/pointless/../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e/f.m3u8?test=1#something" + "../../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e/f.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e/f.m3u8?test=1#something" + "../../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "../../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e/f.m3u8?test=1#something" + "./../../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a.com",
+  "params": "",
+  "path": "/b/cd/e/f.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a.com/b/cd/e/f.m3u8?test=1#something" + "./../../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "",
+  "params": "",
+  "path": "./../../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a-b.something.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {"alwaysNormalize":true} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a-b.something.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a-b.something.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {"alwaysNormalize":true} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/subdir/pointless/../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a-b.something.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {} 1`] = `
+Object {
+  "fragment": "#something",
+  "netLoc": "//a-b.something.com",
+  "params": "",
+  "path": "/b/cd/e.m3u8",
+  "query": "?test=1",
+  "scheme": "https:",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "https://a-b.something.com/b/cd/e.m3u8?test=1#something" + "//example.com/subdir/pointless/../z.ts?abc=1#test" {} 2`] = `
+Object {
+  "fragment": "#test",
+  "netLoc": "//example.com",
+  "params": "",
+  "path": "/subdir/pointless/../z.ts",
+  "query": "?abc=1",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "ö.de" + "z.ts" {} 1`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "ö.de",
+  "query": "",
+  "scheme": "",
+}
+`;
+
+exports[`url toolkit works with a selection of valid urls "ö.de" + "z.ts" {} 2`] = `
+Object {
+  "fragment": "",
+  "netLoc": "",
+  "params": "",
+  "path": "z.ts",
+  "query": "",
+  "scheme": "",
+}
+`;

@@ -1,0 +1,140 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group drilldown
+////
+
+/// Transition property to use for animating menus.
+/// @type Transition
+$drilldown-transition: transform 0.15s linear !default;
+
+/// Adds arrows to drilldown items with submenus, as well as the back button.
+/// @type Boolean
+$drilldown-arrows: true !default;
+
+/// Sets drilldown menu item padding.
+/// @type Number
+$drilldown-padding: $global-menu-padding !default;
+
+/// Sets drilldown menu nested margin
+/// @type Number
+$drilldown-nested-margin: 0 !default;
+
+/// Background color for drilldown top level items.
+/// @type Color
+$drilldown-background: $white !default;
+
+/// Sets drilldown menu item padding in the submenu.
+/// @type Number
+$drilldown-submenu-padding: $drilldown-padding !default;
+
+/// Background color for drilldown submenus.
+/// @type Color
+$drilldown-submenu-background: $white !default;
+
+/// Sets drilldown arrow color if arrow is used.
+/// @type Color
+$drilldown-arrow-color: $primary-color !default;
+
+/// Sets drilldown arrow size if arrow is used.
+/// @type Length
+$drilldown-arrow-size: 6px !default;
+
+@mixin zf-drilldown-left-right-arrows {
+  .is-drilldown-submenu-parent > a {
+    position: relative;
+
+    &::after {
+      @include css-triangle($drilldown-arrow-size, $drilldown-arrow-color, $global-right);
+      position: absolute;
+      top: 50%;
+      margin-top: -1 * $drilldown-arrow-size;
+      #{$global-right}: 1rem;
+    }
+  }
+
+  &.align-left .is-drilldown-submenu-parent > a::after {
+    @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, right);
+    right: 1rem;
+    left: auto;
+  }
+
+  &.align-right .is-drilldown-submenu-parent > a::after {
+    @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, left);
+    right: auto;
+    left: 1rem;
+  }
+
+}
+
+@mixin foundation-drilldown-menu {
+  // Applied to the Menu container
+  .is-drilldown {
+    position: relative;
+    overflow: hidden;
+
+    li {
+      display: block;
+    }
+
+    &.animate-height {
+      transition: height 0.5s;
+    }
+  }
+
+  // The top level <ul>
+  .drilldown {
+    a {
+      padding: $drilldown-padding;
+      background: $drilldown-background;
+    }
+
+    // Applied to submenu <ul>s
+    .is-drilldown-submenu {
+      position: absolute;
+      top: 0;
+      #{$global-left}: 100%;
+      z-index: -1;
+
+      width: 100%;
+      background: $drilldown-submenu-background;
+      transition: $drilldown-transition;
+
+      &.is-active {
+        z-index: 1;
+        display: block;
+        transform: translateX(if($global-text-direction == ltr, -100%, 100%));
+      }
+
+      &.is-closing {
+        transform: translateX(if($global-text-direction == ltr, 100%, -100%));
+      }
+
+      // Submenu item padding
+      a {
+        padding: $drilldown-submenu-padding;
+      }
+    }
+
+    .nested.is-drilldown-submenu {
+      @include menu-nested($drilldown-nested-margin);
+    }
+
+    .drilldown-submenu-cover-previous {
+      min-height: 100%;
+    }
+
+    @if $drilldown-arrows {
+      @include zf-drilldown-left-right-arrows;
+
+      .js-drilldown-back > a::before {
+        @include css-triangle($drilldown-arrow-size, $drilldown-arrow-color, $global-left);
+        display: inline-block;
+        vertical-align: middle;
+        margin-#{$global-right}: 0.75rem; // Creates space between the arrow and the text
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "rust-result",
+  "version": "1.0.0",
+  "author": "Maciej Małecki <me@mmalecki.com>",
+  "description": "Mimic Rust's `std::result`",
+  "main": "index",
+  "homepage": "https://github.com/mmalecki/rust-result.js",
+  "repository": "git://github.com/mmalecki/rust-result.js.git",
+  "bugs": {
+    "url": "https://github.com/mmalecki/rust-result.js/issues",
+    "email": "raynos2@gmail"
+  },
+  "scripts": {
+    "test": "node test.js",
+    "cover": "istanbul cover --print detail --report html test.js",
+    "view-cover": "istanbul report html && opn ./coverage/index.html"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "istanbul": "^0.3.5",
+    "opn": "^1.0.0",
+    "tape": "^3.0.1"
+  },
+  "dependencies": {
+    "individual": "^2.0.0"
+  }
+}

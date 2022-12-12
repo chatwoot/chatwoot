@@ -1,0 +1,75 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group xy-grid
+////
+
+/// Collapses the grid a cells within it.
+///
+/// @param {String} $selector [.cell] - The child element to remove the gutter from.
+/// @param {Keyword} $gutter-type [margin] - The type of gutter to remove.
+/// @param {List} $gutter-position [right left] - The positions to remove gutters from. Accepts `top`, `bottom`, `left`, `right` in any combination.
+/// @param {Keyword} $min-breakpoint [$-zf-zero-breakpoint] - Minimum breakpoint in `$breakpoint-classes` for which to collapse the gutter.
+@mixin xy-grid-collapse(
+  $selector: '.cell',
+  $gutter-type: margin,
+  $gutter-position: right left,
+  $min-breakpoint: $-zf-zero-breakpoint
+) {
+  // First, lets negate any margins on the top level
+  @if ($gutter-type == 'margin') {
+
+    @include breakpoint($min-breakpoint) {
+      @each $value in $gutter-position {
+        margin-#{$value}: 0;
+      }
+
+      > #{$selector} {
+        @each $value in $gutter-position {
+          margin-#{$value}: 0;
+        }
+      }
+    }
+
+    $excluded-bps: -zf-breakpoints-less-than($min-breakpoint);
+
+    // Output new widths to not include gutters
+    @each $bp in $breakpoint-classes {
+      @if(sl-contain($excluded-bps, $bp)) {
+        @include breakpoint($min-breakpoint) {
+          @for $i from 1 through $grid-columns {
+            // Sizing (percentage)
+            > .#{$bp}-#{$i} {
+              @include xy-cell-static($i, $gutter-output: false, $gutter-type: padding);
+            }
+          }
+        }
+      } @else {
+        @include breakpoint($bp) {
+          @for $i from 1 through $grid-columns {
+            // Sizing (percentage)
+            > .#{$bp}-#{$i} {
+              @include xy-cell-static($i, $gutter-output: false, $gutter-type: padding);
+            }
+          }
+        }
+      }
+    }
+  }
+  @else {
+
+    @include breakpoint($min-breakpoint) {
+      @each $value in $gutter-position {
+        margin-#{$value}: 0;
+      }
+
+      > #{$selector} {
+        @each $value in $gutter-position {
+          padding-#{$value}: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group functions
+////
+
+/// Determine if a value is not falsey, in CSS terms. Falsey values are `null`, `none`, `0` with any unit, or an empty list.
+///
+/// @param {Mixed} $val - Value to check.
+///
+/// @returns {Boolean} `true` if `$val` is not falsey.
+@function has-value($val) {
+  @if $val == null or $val == none {
+    @return false;
+  }
+  @if type-of($val) == 'number' and strip-unit($val) == 0 {
+    @return false;
+  }
+  @if type-of($val) == 'list' and length($val) == 0 {
+    @return false;
+  }
+  @return true;
+}
+
+/// Determine a top/right/bottom/right value on a padding, margin, etc. property, no matter how many values were passed in. Use this function if you need to know the specific side of a value, but don't know if the value is using a shorthand format.
+///
+/// @param {List|Number} $val - Value to analyze. Should be a shorthand sizing property, e.g. "1em 2em 1em"
+/// @param {Keyword} $side - Side to return. Should be `top`, `right`, `bottom`, or `left`.
+///
+/// @returns {Number} A single value based on `$val` and `$side`.
+@function get-side($val, $side) {
+  $length: length($val);
+
+  @if $length == 1 {
+    @return $val;
+  }
+  @if $length == 2 {
+    @return map-get((
+      top: nth($val, 1),
+      bottom: nth($val, 1),
+      left: nth($val, 2),
+      right: nth($val, 2),
+    ), $side);
+  }
+  @if $length == 3 {
+    @return map-get((
+      top: nth($val, 1),
+      left: nth($val, 2),
+      right: nth($val, 2),
+      bottom: nth($val, 3),
+    ), $side);
+  }
+  @if $length == 4 {
+    @return map-get((
+      top: nth($val, 1),
+      right: nth($val, 2),
+      bottom: nth($val, 3),
+      left: nth($val, 4),
+    ), $side);
+  }
+}
+
+/// Given border $val, find a specific element of the border, which is $elem. The possible values for $elem are width, style, and color.
+///
+/// @param {List} $val - Border value to find a value in.
+/// @param {Keyword} $elem - Border component to extract.
+///
+/// @returns {Mixed} If the value exists, returns the value. If the value is not in the border definition, the function will return a 0px width, solid style, or black border.
+@function get-border-value($val, $elem) {
+  // Find the width, style, or color and return it
+  @each $v in $val {
+    $type: type-of($v);
+    @if $elem == width and $type == 'number' {
+      @return $v;
+    }
+    @if $elem == style and $type == 'string' {
+      @return $v;
+    }
+    @if $elem == color and $type == 'color' {
+      @return $v;
+    }
+  }
+
+  // Defaults
+  $defaults: (
+    width: 0,
+    style: solid,
+    color: #000,
+  );
+
+  @return map-get($defaults, $elem);
+}
+
+/// Finds a value in a nested map.
+/// @link https://css-tricks.com/snippets/sass/deep-getset-maps/ Deep Get/Set in Maps
+///
+/// @param {Map} $map - Map to pull a value from.
+/// @param {String} $keys... - Keys to use when looking for a value.
+/// @returns {Mixed} The value found in the map.
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+/// Casts a map into a list.
+/// @link http://hugogiraudel.com/2014/04/28/casting-map-into-list/
+///
+/// @param {Map} $map - Map to pull a value from.
+///
+/// @returns {List} Depending on the flag, returns either $keys or $values or both.
+@function map-to-list($map, $keep: 'both') {
+  $keep: if(index('keys' 'values', $keep), $keep, 'both');
+
+  @if type-of($map) == 'map' {
+    $keys: ();
+    $values: ();
+
+    @each $key, $val in $map {
+      $keys: append($keys, $key);
+      $values: append($values, $val);
+    }
+
+    @if $keep == 'keys' {
+      @return $keys;
+    }
+    @else if $keep == 'values' {
+      @return $values;
+    }
+    @else {
+      @return zip($keys, $values);
+    }
+  }
+
+  @return if(type-of($map) != 'list', ($value,), $map);
+
+}
+
+/// Safely return a value from a map.
+///
+/// @param {Map} $map - Map to retrieve a value from.
+/// @param {String} $key - Name of the map key.
+///
+/// @returns {List} Found value.
+@function map-safe-get($map, $key) {
+  @if (type-of($map) == 'map' or (type-of($map) == 'list' and length($map) == 0)) {
+    @if (map-has-key($map, $key)) {
+      @return map-get($map, $key);
+    }
+    @else {
+      @error 'Key: `#{$key}` is not available in `#{$map}`';
+    }
+  }
+  @else {
+    @error '`#{$map}` is not a valid map';
+  }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "@types/source-list-map",
+    "version": "0.1.2",
+    "description": "TypeScript definitions for source-list-map",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "e-cloud",
+            "url": "https://github.com/e-cloud"
+        }
+    ],
+    "main": "",
+    "repository": {
+        "type": "git",
+        "url": "https://www.github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "5f6375ac4dc8a29e535bfbe3201cb00cbe1ab108d86918f8fd8aeea32f7ae45f",
+    "typeScriptVersion": "2.0"
+}

@@ -1,0 +1,116 @@
+.vjs-modal-dialog.vjs-text-track-settings {
+  background-color: $primary-background-color;
+  background-color: rgba($primary-background-color, 0.75);
+  color: $primary-foreground-color;
+  height: 70%;
+}
+
+// Layout divs
+.vjs-text-track-settings .vjs-modal-dialog-content {
+  display: table;
+}
+
+.vjs-text-track-settings .vjs-track-settings-colors,
+.vjs-text-track-settings .vjs-track-settings-font,
+.vjs-text-track-settings .vjs-track-settings-controls {
+  display: table-cell;
+}
+
+.vjs-text-track-settings .vjs-track-settings-controls {
+  text-align: right;
+  vertical-align: bottom;
+}
+
+// code that will only run if CSS Grid is supported by the browser
+@supports (display: grid) {
+  .vjs-text-track-settings .vjs-modal-dialog-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    // Flex and Grid for Firefox, IE, and Edge remove the bottom padding/margin in a container as size decreases
+    // so we add bottom padding/margin to the last item in the grid instead of here
+    // see https://stackoverflow.com/a/23754080
+    padding: 20px 24px 0px 24px;
+  }
+
+  // see the comment for padding above
+  .vjs-track-settings-controls .vjs-default-button {
+    margin-bottom: 20px;
+  }
+
+  .vjs-text-track-settings .vjs-track-settings-controls {
+    // make this take up both columns
+    grid-column: 1 / -1;
+  }
+
+  // 1 column for small players
+  .vjs-layout-small .vjs-text-track-settings .vjs-modal-dialog-content ,
+  .vjs-layout-x-small .vjs-text-track-settings .vjs-modal-dialog-content,
+  .vjs-layout-tiny .vjs-text-track-settings .vjs-modal-dialog-content {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+// Form elements
+.vjs-track-setting > select {
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
+.vjs-text-track-settings fieldset {
+  margin: 5px;
+  padding: 3px;
+  border: none;
+}
+
+.vjs-text-track-settings fieldset span {
+  display: inline-block;
+}
+
+// style the second select for text colors
+.vjs-text-track-settings fieldset span > select {
+  max-width: 7.3em;
+}
+
+.vjs-text-track-settings legend {
+  color: $primary-foreground-color;
+  margin: 0 0 5px 0;
+}
+
+// Hide labels, so they are only for screen reader users
+.vjs-text-track-settings .vjs-label {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px); // for Internet Explorer
+  clip: rect(1px, 1px, 1px, 1px);
+  display: block;
+  margin: 0 0 5px 0;
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.vjs-track-settings-controls button:focus,
+.vjs-track-settings-controls button:active {
+  outline-style: solid;
+  outline-width: medium;
+  background-image: linear-gradient(0deg, $primary-foreground-color 88%, $secondary-background-color 100%);
+}
+
+.vjs-track-settings-controls button:hover {
+  color: rgba(#2B333F, 0.75);
+}
+
+.vjs-track-settings-controls button {
+  background-color: $primary-foreground-color;
+  background-image: linear-gradient(-180deg, $primary-foreground-color 88%, $secondary-background-color 100%);
+  color: #2B333F;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.vjs-track-settings-controls .vjs-default-button {
+  margin-right: 1em;
+}

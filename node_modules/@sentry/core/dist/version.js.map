@@ -1,0 +1,1 @@
+{"version":3,"file":"version.js","sourceRoot":"","sources":["../../src/version.ts"],"names":[],"mappings":";AAAa,QAAA,WAAW,GAAG,QAAQ,CAAC","sourcesContent":["export const SDK_VERSION = '6.19.7';\n"]}

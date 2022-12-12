@@ -1,0 +1,65 @@
+{
+	"name": "iterate-iterator",
+	"version": "1.0.1",
+	"description": "Iterate any JS iterator. Works robustly in all environments, all versions.",
+	"main": "index.js",
+	"exports": {
+		".": [
+			{
+				"default": "./index.js"
+			},
+			"./index.js"
+		]
+	},
+	"scripts": {
+		"prepublish": "safe-publish-latest",
+		"pretest": "npm run lint",
+		"prelint": "evalmd README.md",
+		"lint": "eslint .",
+		"tests-only": "node test",
+		"test": "npm run tests-only",
+		"coverage": "covert test",
+		"posttest": "npx aud",
+		"version": "auto-changelog && git add CHANGELOG.md",
+		"postversion": "auto-changelog && git add CHANGELOG.md && git commit --no-edit --amend && git tag -f \"v$(node -e \"console.log(require('./package.json').version)\")\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ljharb/iterate-iterator.git"
+	},
+	"keywords": [
+		"iterate",
+		"iterator",
+		"iterable",
+		"es2015",
+		"es6",
+		"symbol.iterator",
+		"symbol",
+		"next"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ljharb/iterate-iterator/issues"
+	},
+	"homepage": "https://github.com/ljharb/iterate-iterator#readme",
+	"devDependencies": {
+		"@ljharb/eslint-config": "^15.1.0",
+		"auto-changelog": "^1.16.2",
+		"covert": "^1.1.1",
+		"es-get-iterator": "^1.0.2",
+		"eslint": "^6.8.0",
+		"evalmd": "^0.0.19",
+		"for-each": "^0.3.3",
+		"object-inspect": "^1.7.0",
+		"safe-publish-latest": "^1.1.4",
+		"tape": "^5.0.0-next.3"
+	},
+	"auto-changelog": {
+		"output": "CHANGELOG.md",
+		"template": "keepachangelog",
+		"unreleased": false,
+		"commitLimit": false,
+		"backfillLimit": false
+	}
+}

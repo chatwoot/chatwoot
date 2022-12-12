@@ -1,0 +1,18 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"env": {
+		"browser": true,
+		"node": true,
+	},
+
+	"globals": {
+		"globalThis": false,
+	},
+
+	"rules": {
+		"max-statements-per-line": [2, { "max": 2 }]
+	}
+}

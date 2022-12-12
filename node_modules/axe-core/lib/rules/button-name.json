@@ -1,0 +1,26 @@
+{
+  "id": "button-name",
+  "selector": "button",
+  "matches": "no-explicit-name-required-matches",
+  "tags": [
+    "cat.name-role-value",
+    "wcag2a",
+    "wcag412",
+    "section508",
+    "section508.22.a",
+    "ACT"
+  ],
+  "metadata": {
+    "description": "Ensures buttons have discernible text",
+    "help": "Buttons must have discernible text"
+  },
+  "all": [],
+  "any": [
+    "button-has-visible-text",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title",
+    "presentational-role"
+  ],
+  "none": []
+}

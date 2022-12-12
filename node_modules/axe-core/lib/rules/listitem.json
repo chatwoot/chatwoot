@@ -1,0 +1,13 @@
+{
+  "id": "listitem",
+  "selector": "li",
+  "matches": "no-role-matches",
+  "tags": ["cat.structure", "wcag2a", "wcag131"],
+  "metadata": {
+    "description": "Ensures <li> elements are used semantically",
+    "help": "<li> elements must be contained in a <ul> or <ol>"
+  },
+  "all": [],
+  "any": ["listitem"],
+  "none": []
+}

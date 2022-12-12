@@ -1,0 +1,185 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group xy-grid
+////
+
+/// Calculate the percentage size of a cell.
+///
+/// @param {Number|List} $size [$grid-columns] - Size to make the cell. You can pass a value in multiple formats, such as `6`, `50%`, `1 of 2` or `1/3`.
+@function xy-cell-size(
+  $size: $grid-columns
+) {
+  // Parsing percents, decimals, n of n and number counts
+  @if type-of($size) == 'number' {
+    @if unit($size) == '%' {
+      $size: $size;
+    }
+    @else if $size < 1 {
+      $size: percentage($size);
+    }
+    @else {
+      $size: percentage($size / $grid-columns);
+    }
+  }
+
+  // Parsing "n of n" or "n/n" expressions
+  @else if type-of($size) == 'list' {
+    @if length($size) != 3 {
+      @error 'Wrong syntax for xy-cell-size(). Use the format "n of n" or "n/n".';
+    }
+    @else {
+      $size: percentage(nth($size, 1) / nth($size, 3));
+    }
+  }
+  // Anything else is incorrect
+  @else {
+    @error 'Wrong syntax for xy-cell-size(). Use a number, decimal, percentage, or "n of n" / "n/n".';
+  }
+
+  @return $size;
+}
+
+/// Sets base flex properties for cells.
+///
+/// @param {Keyword} $size [full] - The size of your cell. Accepts `full`, `auto`, `shrink` or `grow`.
+@mixin xy-cell-base($size: full) {
+  @if($size == 'full') {
+    // This is the base style, all others inherit from it
+    flex: 0 0 auto;
+    min-height: 0px;
+    min-width: 0px;
+  }
+  @else if ($size == 'auto') {
+    flex: 1 1 0px; // sass-lint:disable-line zero-unit
+  }
+  @else if ($size == 'shrink') {
+    flex: 0 0 auto;
+  }
+  @else if ($size == 'grow') {
+    flex: 1 0 auto;
+  }
+}
+
+/// Resets a cells width (or height if vertical is true) as well as strips its gutters.
+///
+/// @param {Boolean} $vertical [false] - Set to true to output vertical (height) styles rather than widths.
+@mixin xy-cell-reset($vertical: true) {
+  $direction: if($vertical == true, width, height);
+  #{$direction}: auto;
+  max-#{$direction}: none;
+}
+
+// Sets our cell widths or heights depending on gutter type.
+@mixin -xy-cell-properties($size, $margin-gutter, $vertical) {
+  $direction: if($vertical == true, height, width);
+  @if($size == 'full') {
+    $val: if($margin-gutter == 0, 100%, calc(100% - #{rem-calc($margin-gutter)}));
+    #{$direction}: $val;
+  }
+  @else if ($size == 'auto') {
+    #{$direction}: auto;
+    $val: if($margin-gutter == 0, 100%, calc(100% - #{rem-calc($margin-gutter)}));
+  }
+  @else if ($size == 'shrink') {
+    #{$direction}: auto;
+  }
+  @else {
+    $val: if($margin-gutter == 0, #{xy-cell-size($size)}, calc(#{xy-cell-size($size)} - #{rem-calc($margin-gutter)}));
+    #{$direction}: $val;
+  }
+}
+
+/// Creates a cell for your grid.
+///
+/// @param {Keyword|Number} $size [full] - The size of your cell. Can be `full` (default) for 100% width, `auto` to use up available space and `shrink` to use up only required space.
+/// @param {Boolean} $gutter-output [true] - Whether or not to output gutters
+/// @param {Number|Map} $gutters [$grid-margin-gutters] - Map or single value for gutters.
+/// @param {Keyword} $gutter-type [margin] - Map or single value for gutters.
+/// @param {List} $gutter-position [right left] - The position to apply gutters to. Accepts `top`, `bottom`, `left`, `right` in any combination.
+/// @param {String} $breakpoint [null] - The name of the breakpoint size in your gutters map to get the size from. If using with the `breakpoint()` mixin this will be set automatically unless manually entered.
+/// @param {Boolean} $vertical [false] - Set to true to output vertical (height) styles rather than widths.
+@mixin xy-cell(
+  $size: full,
+  $gutter-output: true,
+  $gutters: $grid-margin-gutters,
+  $gutter-type: margin,
+  $gutter-position: right left,
+  $breakpoint: null,
+  $vertical: false
+) {
+  $bp-is-fallback: false;
+
+  @if($breakpoint == null) {
+    // If `$bp-size` is available then use this, otherwise revert to the smallest bp.
+    @if(variable-exists(-zf-size) and type-of($-zf-size) != 'number') and $-zf-size != null {
+      $breakpoint: $-zf-size;
+    }
+    @else {
+      $breakpoint: $-zf-zero-breakpoint;
+      $bp-is-fallback: true;
+    }
+  }
+
+  // Get the gutter for the given breakpoint/value.
+  $gutter: -zf-get-bp-val($gutters, $breakpoint);
+  // If the breakpoint is a fallback, use a fallback gutter as well
+  @if ($bp-is-fallback == true and $gutter == null) {
+    $gutter: 0;
+  }
+
+  @if($gutter != null) {
+    // Base flex properties
+    @include xy-cell-base($size);
+
+    @if($gutter-type == 'margin') {
+      @include -xy-cell-properties($size, $gutter, $vertical);
+    }
+    @else {
+      @include -xy-cell-properties($size, 0, $vertical);
+    }
+
+    @if $gutter-output {
+      @include xy-gutters($gutter, $gutter-type, $gutter-position);
+    }
+  }
+  @else {
+    @warn 'xy-cell: no gutters were found in `$gutters` for "$breakpoint: #{$breakpoint}", cell was not generated`'
+  }
+}
+
+/// Creates a single breakpoint sized grid. Used to generate our grid classes.
+///
+/// @param {Keyword|Number} $size [full] - The size of your cell. Can be `full` (default) for 100% width, `auto` to use up available space and `shrink` to use up only required space.
+/// @param {Boolean} $gutter-output [true] - Whether or not to output gutters
+/// @param {Number|Map} $gutters [$grid-margin-gutters] - Map or single value for gutters.
+/// @param {Keyword} $gutter-type [margin] - Map or single value for gutters.
+/// @param {String} $breakpoint [null] - The name of the breakpoint size in your gutters map to get the size from. If using with the `breakpoint()` mixin this will be set automatically unless manually entered.
+/// @param {Boolean} $vertical [false] - Set to true to output vertical (height) styles rather than widths.
+@mixin xy-cell-static(
+  $size: full,
+  $gutter-output: true,
+  $gutters: $grid-margin-gutters,
+  $gutter-type: margin,
+  $breakpoint: $-zf-zero-breakpoint,
+  $vertical: false
+) {
+
+  $gutter: -zf-get-bp-val($gutters, $breakpoint);
+  $gutter-position: if($vertical == true, top bottom, left right);
+
+  @if($gutter-type == 'margin') {
+    @include -xy-cell-properties($size, $gutter, $vertical);
+  }
+  @else {
+    @include -xy-cell-properties($size, 0, $vertical);
+  }
+
+  // If we want to output the gutters
+  @if($gutter-output) {
+    // TODO: Figure out if we need to pass breakpoint in here too.
+    @include xy-gutters($gutter, $gutter-type, $gutter-position);
+  }
+}

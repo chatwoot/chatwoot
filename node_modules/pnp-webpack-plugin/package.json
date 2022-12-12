@@ -1,0 +1,36 @@
+{
+    "name": "pnp-webpack-plugin",
+    "version": "1.6.4",
+    "description": "plug'n'play resolver for Webpack",
+    "license": "MIT",
+    "engines": {
+        "node": ">=6"
+    },
+    "homepage": "https://github.com/arcanis/pnp-webpack-plugin",
+    "bugs": {
+        "url": "https://github.com/arcanis/pnp-webpack-plugin/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/arcanis/pnp-webpack-plugin.git"
+    },
+    "keywords": [
+        "webpack",
+        "yarn",
+        "plugnplay",
+        "pnp"
+    ],
+    "dependencies": {
+        "ts-pnp": "^1.1.6"
+    },
+    "devDependencies": {
+        "enhanced-resolve": "^4.1.0",
+        "jest": "^23.6.0",
+        "jest-environment-node": "^23.4.0",
+        "jest-pnp-resolver": "^1.0.1",
+        "source-map": "^0.7.3"
+    },
+    "installConfig": {
+        "pnp": true
+    }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "aria-required-children",
+  "evaluate": "aria-required-children-evaluate",
+  "options": {
+    "reviewEmpty": [
+      "doc-bibliography",
+      "doc-endnotes",
+      "grid",
+      "list",
+      "listbox",
+      "table",
+      "tablist",
+      "tree",
+      "treegrid",
+      "rowgroup"
+    ]
+  },
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Required ARIA children are present",
+      "fail": {
+        "singular": "Required ARIA child role not present: ${data.values}",
+        "plural": "Required ARIA children role not present: ${data.values}"
+      },
+      "incomplete": {
+        "singular": "Expecting ARIA child role to be added: ${data.values}",
+        "plural": "Expecting ARIA children role to be added: ${data.values}"
+      }
+    }
+  }
+}

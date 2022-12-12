@@ -1,0 +1,175 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group top-bar
+////
+
+/// Padding for the top bar.
+/// @type Number
+$topbar-padding: 0.5rem !default;
+
+/// Background color for the top bar. This color also cascades to menus within the top bar.
+/// @type Color
+$topbar-background: $light-gray !default;
+
+/// Background color submenus within the top bar. Usefull if $topbar-background is transparent.
+/// @type Color
+$topbar-submenu-background: $topbar-background !default;
+
+/// Spacing for the top bar title.
+/// @type Number
+$topbar-title-spacing: 0.5rem 1rem 0.5rem 0 !default;
+
+/// Maximum width of `<input>` elements inside the top bar.
+/// @type Number
+$topbar-input-width: 200px !default;
+
+/// Breakpoint at which top bar switches from mobile to desktop view.
+/// @type Breakpoint
+$topbar-unstack-breakpoint: medium !default;
+
+/// Adds styles for a top bar container.
+@mixin top-bar-container {
+  @if $global-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  @else {
+    @include clearfix;
+  }
+
+  padding: $topbar-padding;
+
+  &,
+  ul {
+    background-color: $topbar-background;
+  }
+
+  // Check if $topbar-background is differnt from $topbar-background-submenu
+  @if ($topbar-background != $topbar-submenu-background) {
+    ul ul {
+      background-color: $topbar-submenu-background;
+    }
+  }
+
+  // Restrain width of inputs by default to make them easier to arrange
+  input {
+    max-width: $topbar-input-width;
+    margin-#{$global-right}: 1rem;
+  }
+
+  // The above styles shouldn't apply to input group fields
+  .input-group-field {
+    width: 100%;
+    margin-#{$global-right}: 0;
+  }
+
+  input.button { // sass-lint:disable-line no-qualifying-elements
+    width: auto;
+  }
+}
+
+/// Makes sections of a top bar stack on top of each other.
+@mixin top-bar-stacked {
+  @if $global-flexbox {
+    flex-wrap: wrap;
+
+    // Sub-sections
+    .top-bar-left,
+    .top-bar-right {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  @else {
+    // Sub-sections
+    .top-bar-left,
+    .top-bar-right {
+      width: 100%;
+    }
+  }
+}
+
+/// Undoes the CSS applied by the `top-bar-stacked()` mixin.
+@mixin top-bar-unstack {
+  @if $global-flexbox {
+    flex-wrap: nowrap;
+
+    .top-bar-left {
+      flex: 1 1 auto;
+      margin-right: auto;
+    }
+
+    .top-bar-right {
+      flex: 0 1 auto;
+      margin-left: auto;
+    }
+  }
+  @else {
+    .top-bar-left,
+    .top-bar-right {
+      width: auto;
+    }
+  }
+}
+
+@mixin foundation-top-bar {
+  // Top bar container
+  .top-bar {
+    @include top-bar-container;
+
+    // Stack on small screens by default
+    @include top-bar-stacked;
+
+    @include breakpoint($topbar-unstack-breakpoint) {
+      @include top-bar-unstack;
+    }
+
+    // Generate classes for stacking on each screen size (defined in $breakpoint-classes)
+    @each $size in $breakpoint-classes {
+      @if $size != $-zf-zero-breakpoint {
+        &.stacked-for-#{$size} {
+          @include breakpoint($size down) {
+            @include top-bar-stacked;
+          }
+        }
+      }
+    }
+  }
+
+  // Sub-sections
+  @if $global-flexbox {
+    .top-bar-title {
+      flex: 0 0 auto;
+      margin: $topbar-title-spacing;
+    }
+
+    .top-bar-left,
+    .top-bar-right {
+      flex: 0 0 auto;
+    }
+  }
+  @else {
+    .top-bar-title {
+      display: inline-block;
+      float: left;
+      padding: $topbar-title-spacing;
+
+      .menu-icon {
+        bottom: 2px;
+      }
+    }
+
+    .top-bar-left {
+      float: left;
+    }
+
+    .top-bar-right {
+      float: right;
+    }
+  }
+}

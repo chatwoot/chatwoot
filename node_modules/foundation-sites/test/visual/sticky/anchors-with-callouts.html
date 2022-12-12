@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Foundation for Sites Testing</title>
+  <link href="../assets/css/foundation-float.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: darkgrey;
+    }
+
+    .container {
+      background-color: rgba(255,0,0,0.7);
+
+    }
+
+    .foo {
+      height: 30rem;
+      color: white;
+    }
+
+    .megafoo {
+      height:50rem;
+      color: white;
+    }
+
+    .bar {
+      color: white;
+    }
+
+    .foo h1 {
+      display: inline-block;
+      float: right;
+    }
+
+    .foo:nth-child(odd), .bar:nth-child(odd), .megafoo:nth-child(odd) {
+      background-color: lightgreen;
+    }
+
+    .foo:nth-child(even), .bar:nth-child(even), .megafoo:nth-child(even) {
+      background-color: lightblue;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <div class="row">
+
+    <div class="small-12 medium-2 columns">
+      <div class="container" data-sticky-container>
+        <div class="callout sticky" data-sticky-on="small" data-sticky data-margin-top="0" data-anchor="foo1">
+          <h5>Test 1</h5>
+          <p>I should stick to the top and bottom of #foo1. I'm not a child of any #foo's.</p>
+          <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-12 medium-7 columns">
+      <div id="foo1" class="foo">
+        <h1>#foo1</h1>
+      </div>
+      <div id="foo2" class="foo">
+        <h1>#foo2</h1>
+        <div class="container" data-sticky-container>
+          <div class="callout sticky" data-sticky-on="small" data-sticky data-margin-top="0" data-anchor="foo2">
+            <h5>Test 2</h5>
+            <p>I should stick to the top and bottom of #foo2.<br/>I'm also a child of #foo2</p>
+            <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+          </div>
+        </div>
+      </div>
+      <div id="foo3" class="foo">
+        <h1>#foo3</h1>
+
+      </div>
+      <div id="foo4" class="foo">
+        <h1>#foo4</h1>
+        <div class="container" data-sticky-container>
+          <div class="callout sticky" data-sticky-on="small" data-sticky data-margin-top="0" data-top-anchor="foo4" data-btm-anchor="foo6">
+            <h5>Test 3</h5>
+            <p>I should stick to the top of #foo4 and the top of #foo6.<br/>I'm a child of #foo4</p>
+            <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+          </div>
+        </div>
+      </div>
+      <div id="foo5" class="foo">
+        <h1>#foo5</h1>
+      </div>
+      <div id="foo6" class="foo">
+        <h1>#foo6</h1>
+      </div>
+      <div id="foo7" class="foo">
+        <h1>#foo7</h1>
+        <div class="container" data-sticky-container>
+          <div class="callout sticky" data-sticky data-sticky-on="small" data-margin-top="0" data-top-anchor="foo6" data-btm-anchor="foo8:bottom">
+            <h5>Test 4</h5>
+            <p>I should stick to the top of #foo6 and the bottom of #foo8. I'm a child of #foo7.</p>
+            <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+          </div>
+        </div>
+      </div>
+      <div id="foo8" class="foo">
+        <h1>#foo8</h1>
+      </div>
+      <div id="foo9" class="foo">
+        <h1>#foo9</h1>
+      </div>
+      <div id="foo10" class="foo">
+        <h1>#foo10</h1>
+        <div class="container" data-sticky-container>
+          <div class="callout sticky" data-sticky data-sticky-on="small" data-margin-top="0" data-stick-to="bottom" data-top-anchor="foo10" data-btm-anchor="foo11:bottom">
+            <h5>Test 5</h5>
+            <p>I should stick to the top of #foo10 and the bottom of #foo11. I should be stick to the window bottom with a bottom margin of 1em (default bottom margin).</p>
+            <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+          </div>
+        </div>
+      </div>
+      <div id="foo11" class="foo">
+        <h1>#foo11</h1>
+      </div>
+      <div id="bar1" class="bar">
+        <h1>#bar1</h1>
+        <div class="container" data-sticky-container>
+          <div class="callout sticky" data-sticky data-sticky-on="small" data-margin-top="0" data-top-anchor="bar2" data-btm-anchor="bar3:bottom">
+            <h5>Test 6</h5>
+            <p>I should stick to the top of #bar2 and the bottom of #bar3.</p>
+            <p>Bar containers does not have fixed height, but i should be anchored correctly.</p>
+            <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+          </div>
+        </div>
+        <p>Lorem Ipsum</p>
+      </div>
+      <div id="bar2" class="bar">
+        <h1>#bar2</h1>
+        <p>Lorem</p>
+      </div>
+       <div id="bar3" class="bar">
+        <h1>#bar3</h1>
+        <p>Lorem</p>
+        <p>Ipsum</p>
+        <p>Dolor</p>
+      </div>
+      <div id="bar4" class="bar">
+        <h1>#bar4</h1>
+        <p>Lorem</p>
+        <p>Ipsum</p>
+      </div>
+      <div id="foo13" class="megafoo">
+       <h1>#foo13</h1>
+       <p>I'm big to force scroolbar</p>
+      </div>
+      <div id="foo12" class="foo">
+        <h1>#foo12</h1>
+        <div class="container" data-sticky-container>
+          <div class="callout sticky" data-sticky data-sticky-on="small" data-margin-top="0" data-top-anchor="foo12">
+            <h5>Test 7</h5>
+            <p>I should stick to the top of #foo12. I should be stick until window end because only data-top-anchor is set.</p>
+            <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+          </div>
+        </div>
+      </div>
+      <div id="foo13" class="foo">
+        <h1>#foo13</h1>
+      </div>
+      <div id="foo14" class="foo">
+        <h1>#foo14</h1>
+      </div>
+      <div id="foo15" class="megafoo">
+        <h1>#foo15</h1>
+        <p>I'm big to force scroolbar</p>
+      </div>
+
+
+    </div>
+
+    <div class="small-12 medium-3 columns">
+      <div class="container" data-sticky-container>
+        <div class="callout sticky" data-sticky data-sticky-on="small" data-margin-top="0" data-anchor="foo3">
+          <h5>Test 8</h5>
+          <p>I should stick to the top and bottom of #foo3.<br/>I'm not the child of any of you #foo's.<br/>When I'm not stuck I jump to the top because I'm not a child of the top anchor, is this my normal behavior?</p>
+          <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/vendor.js"></script>
+  <script src="../assets/js/foundation.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+import { createI18N } from "../locale/index";
+
+/*
+ * @createLocale
+ * @desc create namespace by comp name
+ * @param {string} compName
+ * @return {function}
+ */
+export function createLocale(compName) {
+    return createI18N(compName);
+}
+
+/*
+ * @isEmptyArray
+ * @desc  is empty array
+ * @param {array} arr
+ */
+export function isEmptyArray(arr) {
+    return !(Array.isArray(arr) && arr.length > 0);
+}
+
+/*
+ * @isEmptyValue
+ * @desc  is empty value
+ * @param {array} arr
+ */
+export function isEmptyValue(value) {
+    return !(value !== "" && value !== undefined && value !== null);
+}
+
+/*
+ * @isDefined
+ * @desc is defined
+ * @param {any} val
+ */
+export function isDefined(val) {
+    return val !== undefined && val !== null;
+}
+
+/*
+ * @isObject
+ * @desc is object
+ * @param {any} val
+ */
+export function isObject(val) {
+    return val !== null && typeof val === "object";
+}
+
+/*
+ * @isFunction
+ * @desc is function
+ * @param {any} val
+ */
+export function isFunction(val) {
+    return typeof val === "function";
+}
+
+/*
+ * @isBoolean
+ * @desc is boolean
+ * @param {any} val
+ */
+export function isBoolean(val) {
+    return typeof val === "boolean";
+}
+
+/*
+ * @isNumber
+ * @desc is number
+ * @param {any} val
+ */
+export function isNumber(val) {
+    return typeof val === "number";
+}
+
+/*
+ * @getValByUnit
+ * @desc  get value by unit
+ * @param {number|string} width - 宽度
+ */
+export function getValByUnit(width) {
+    return typeof width === "number" ? width + "px" : width;
+}
+
+/*
+ * @getParentCompByName
+ * @desc  get parent comp by name
+ * @param {object} context
+ * @param {string} name - parent comp name
+ */
+export function getParentCompByName(context, name) {
+    let parent = context.$parent;
+
+    while (parent) {
+        if (parent.$options.name !== name) {
+            parent = parent.$parent;
+        } else {
+            return parent;
+        }
+    }
+
+    return null;
+}
+
+/*
+ * @getChildCompsByName
+ * @desc  get child comps by name
+ * @param {object} context
+ * @param {string} name - child comp name
+ */
+export function getChildCompsByName(context, name) {
+    let result = [];
+
+    let childrens = context.$children;
+
+    while (childrens && childrens.length > 0) {
+        childrens.forEach(child => {
+            childrens = child.$children ? child.$children : null;
+
+            if (child.$options.name === name) {
+                result.push(child);
+            }
+        });
+    }
+
+    return result;
+}
+
+/*获取当前元素的left、top偏移
+ *   left：元素最左侧距离文档左侧的距离
+ *   top:元素最顶端距离文档顶端的距离
+ *   right:元素最右侧距离文档右侧的距离
+ *   bottom：元素最底端距离文档底端的距离
+ *   right2：元素最左侧距离文档右侧的距离
+ *   bottom2：元素最底端距离文档最底部的距离
+ * */
+export function getViewportOffset(element) {
+    var doc = document.documentElement,
+        box =
+            typeof element.getBoundingClientRect !== "undefined"
+                ? element.getBoundingClientRect()
+                : 0,
+        scrollLeft =
+            (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+        scrollTop =
+            (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0),
+        offsetLeft = box.left + window.pageXOffset,
+        offsetTop = box.top + window.pageYOffset;
+
+    var left = offsetLeft - scrollLeft,
+        top = offsetTop - scrollTop;
+
+    return {
+        left: left,
+        top: top,
+        right: window.document.documentElement.clientWidth - box.width - left,
+        bottom: window.document.documentElement.clientHeight - box.height - top,
+        right2: window.document.documentElement.clientWidth - left,
+        bottom2: window.document.documentElement.clientHeight - top
+    };
+}

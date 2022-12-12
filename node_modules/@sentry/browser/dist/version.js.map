@@ -1,0 +1,1 @@
+{"version":3,"file":"version.js","sourceRoot":"","sources":["../../../src/version.ts"],"names":[],"mappings":";AAAA,wGAAwG;AAC3F,QAAA,QAAQ,GAAG,2BAA2B,CAAC","sourcesContent":["// TODO: Remove in the next major release and rely only on @sentry/core SDK_VERSION and SdkInfo metadata\nexport const SDK_NAME = 'sentry.javascript.browser';\n"]}

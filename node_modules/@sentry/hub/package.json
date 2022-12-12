@@ -1,0 +1,24 @@
+{
+  "name": "@sentry/hub",
+  "version": "6.19.7",
+  "description": "Sentry hub which handles global state managment.",
+  "repository": "git://github.com/getsentry/sentry-javascript.git",
+  "homepage": "https://github.com/getsentry/sentry-javascript/tree/master/packages/hub",
+  "author": "Sentry",
+  "license": "BSD-3-Clause",
+  "engines": {
+    "node": ">=6"
+  },
+  "main": "dist/index.js",
+  "module": "esm/index.js",
+  "types": "types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@sentry/types": "6.19.7",
+    "@sentry/utils": "6.19.7",
+    "tslib": "^1.9.3"
+  },
+  "sideEffects": false
+}

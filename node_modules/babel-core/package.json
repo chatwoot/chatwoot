@@ -1,0 +1,18 @@
+{
+  "name": "babel-core",
+  "version": "7.0.0-bridge.0",
+  "description": "A placeholder package that bridges babel-core to @babel/core.",
+  "main": "index.js",
+  "author": "Logan Smyth <loganfsmyth@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "README.md",
+    "index.js"
+  ],
+  "peerDependencies": {
+    "@babel/core": "^7.0.0-0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-0"
+  }
+}

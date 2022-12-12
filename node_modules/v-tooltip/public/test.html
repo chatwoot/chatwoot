@@ -1,0 +1,89 @@
+<html>
+<head>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 42px;
+    }
+
+    p.options {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .tooltip {
+      display: block !important;
+      padding: 4px;
+      z-index: 10000;
+    }
+
+    .tooltip .tooltip-inner {
+      background: black;
+      color: white;
+      border-radius: 16px;
+      padding: 5px 10px 4px;
+    }
+
+    .tooltip .tooltip-arrow {
+      display: none;
+    }
+
+    .tooltip[aria-hidden='true'] {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity .15s, visibility .15s;
+    }
+
+    .tooltip[aria-hidden='false'] {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity .15s;
+    }
+
+    .tooltip.danger .tooltip-inner {
+      background: red;
+    }
+
+    .tooltip.caution .tooltip-inner {
+      background: yellow;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://unpkg.com/popper.js"></script>
+  <script src="https://unpkg.com/tooltip.js"></script>
+  <script src="../dist/v-tooltip.browser.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+  <div id="app">
+    <p class="options">
+      <label>
+        message: <input v-model="message" placeholder="Message" />
+      </label>
+    </p>
+    <p class="options">
+      classes:
+      <input type="radio" id="danger" value="danger" v-model="classes">
+      <label for="danger">Danger</label>
+      <input type="radio" id="caution" value="caution" v-model="classes">
+      <label for="caution">Caution</label>
+    </p>
+
+    <p>v-tooltip="message": <span v-tooltip="message">{{ message }}</span></p>
+    <p>v-tooltip="{content: message, classes: classes}": <span v-tooltip="{content: message, classes: classes}">{{ message }}</span></p>
+  </div>
+
+  <script>
+    Vue.use(VTooltip)
+
+    new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue.js!',
+        classes: 'danger'
+      }
+    })
+  </script>
+</body>
+</html>

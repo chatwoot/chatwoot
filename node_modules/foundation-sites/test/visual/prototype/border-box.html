@@ -1,0 +1,66 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation-prototype.css" rel="stylesheet" />
+
+    <style type="text/css">
+      .example-box {
+        width: 300px;
+        height: 200px;
+        margin-bottom: 10px;
+        box-sizing: content-box;
+      }
+      .debug-red {
+        border: 1px solid #ff0000;
+      }
+      .debug-blue {
+        border: 1px solid #0000ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="medium-6 cell">
+          <h2>Without Border Box</h2>
+          <div class="example-box debug-red">
+            <p>
+              This div is smaller (width is 300px and height is 100px and has no padding).
+            </p>
+          </div>
+          <div class="example-box debug-blue padding-3">
+            <p>
+              This div is bigger (width is 300px and height is 100px and has 3rem padding).
+            </p>
+          </div>
+        </div>
+
+        <div class="medium-6 cell">
+          <h2>With Border Box</h2>
+          <div class="example-box border-box debug-red">
+            <p>
+              This div is same size to below (width is 300px and height is 100px and has no padding).
+            </p>
+          </div>
+          <div class="example-box border-box debug-blue padding-3">
+            <p>
+              This div is same size to above (width is 300px and height is 100px and has 3rem padding).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

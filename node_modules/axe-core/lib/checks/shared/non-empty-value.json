@@ -1,0 +1,17 @@
+{
+  "id": "non-empty-value",
+  "evaluate": "attr-non-space-content-evaluate",
+  "options": {
+    "attribute": "value"
+  },
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Element has a non-empty value attribute",
+      "fail": {
+        "noAttr": "Element has no value attribute",
+        "emptyAttr": "Element has an empty value attribute"
+      }
+    }
+  }
+}

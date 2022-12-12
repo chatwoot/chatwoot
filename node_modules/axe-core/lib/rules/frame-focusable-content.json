@@ -1,0 +1,13 @@
+{
+  "id": "frame-focusable-content",
+  "selector": "html",
+  "matches": "frame-focusable-content-matches",
+  "tags": ["cat.keyboard", "wcag2a", "wcag211"],
+  "metadata": {
+    "description": "Ensures <frame> and <iframe> elements with tabindex=-1 do not have focusable content",
+    "help": "Frames with tabindex=-1 must not have focusable content"
+  },
+  "all": [],
+  "any": ["frame-focusable-content"],
+  "none": []
+}

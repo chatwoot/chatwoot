@@ -1,0 +1,60 @@
+{
+  "name": "@storybook/docs-tools",
+  "version": "6.5.9",
+  "description": "Shared utility functions for frameworks to implement docs",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/docs-tools",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/docs-tools"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.10",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/store": "6.5.9",
+    "core-js": "^3.8.2",
+    "doctrine": "^3.0.0",
+    "lodash": "^4.17.21",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "jest-specific-snapshot": "^4.0.0",
+    "require-from-string": "^2.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "e2673f765722cbb542ef1b5cf8d533c8e746a127",
+  "sbmodern": "dist/modern/index.js"
+}

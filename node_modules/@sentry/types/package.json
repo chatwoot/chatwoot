@@ -1,0 +1,19 @@
+{
+  "name": "@sentry/types",
+  "version": "6.19.7",
+  "description": "Types for all Sentry JavaScript SDKs",
+  "repository": "git://github.com/getsentry/sentry-javascript.git",
+  "homepage": "https://github.com/getsentry/sentry-javascript/tree/master/packages/types",
+  "author": "Sentry",
+  "license": "BSD-3-Clause",
+  "engines": {
+    "node": ">=6"
+  },
+  "main": "dist/index.js",
+  "module": "esm/index.js",
+  "types": "types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
+}

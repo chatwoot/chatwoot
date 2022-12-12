@@ -1,0 +1,61 @@
+{
+  "name": "@storybook/telemetry",
+  "version": "6.5.9",
+  "description": "Telemetry logging for crash reports and usage statistics",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/telemetry",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/telemetry"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/client-logger": "6.5.9",
+    "@storybook/core-common": "6.5.9",
+    "chalk": "^4.1.0",
+    "core-js": "^3.8.2",
+    "detect-package-manager": "^2.0.1",
+    "fetch-retry": "^5.0.2",
+    "fs-extra": "^9.0.1",
+    "global": "^4.4.0",
+    "isomorphic-unfetch": "^3.1.0",
+    "nanoid": "^3.3.1",
+    "read-pkg-up": "^7.0.1",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "e2673f765722cbb542ef1b5cf8d533c8e746a127",
+  "sbmodern": "dist/modern/index.js"
+}

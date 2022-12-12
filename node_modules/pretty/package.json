@@ -1,0 +1,54 @@
+{
+  "name": "pretty",
+  "description": "Some tweaks for beautifying HTML with js-beautify according to my preferences.",
+  "version": "2.0.0",
+  "homepage": "https://github.com/jonschlinkert/pretty",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/pretty",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/pretty/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "condense-newlines": "^0.2.1",
+    "extend-shallow": "^2.0.1",
+    "js-beautify": "^1.6.12"
+  },
+  "devDependencies": {
+    "gulp-format-md": "^0.1.12",
+    "mocha": "^3.2.0"
+  },
+  "keywords": [
+    "beautify",
+    "format",
+    "formatter",
+    "html",
+    "js",
+    "js-beautify",
+    "prettify",
+    "pretty"
+  ],
+  "verb": {
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "lint": {
+      "reflinks": true
+    }
+  }
+}

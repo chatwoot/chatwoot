@@ -1,0 +1,96 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-separator
+////
+
+/// Responsive breakpoints for separator.
+/// @type Boolean
+$prototype-separator-breakpoints: $global-prototype-breakpoints !default;
+
+/// Default alignment of a separator.
+/// @type String
+$prototype-separator-align: center !default;
+
+/// Height of a separator.
+/// @type Number
+$prototype-separator-height: rem-calc(2) !default;
+
+/// Width of a separator.
+/// @type Number
+$prototype-separator-width: 3rem !default;
+
+/// Default color of a separator.
+/// @type Color
+$prototype-separator-background: $primary-color !default;
+
+/// Top Margin of a separator.
+/// @type Number
+$prototype-separator-margin-top: $global-margin !default;
+
+/// Title separator Utility, mostly used to style the main heading of a section
+/// @param {String} $align [$prototype-separator-align] - separator Alignment
+/// @param {Number} $height [$prototype-separator-height] - Width
+/// @param {Number} $width [$prototype-separator-width] - Height
+/// @param {Color} $background [$prototype-separator-background] - Background
+/// @param {Number} $top [$prototype-separator-margin-top] - Margin Top
+@mixin separator (
+  $align: $prototype-separator-align,
+  $height: $prototype-separator-height,
+  $width: $prototype-separator-width,
+  $background: $prototype-separator-background,
+  $top: $prototype-separator-margin-top
+) {
+  text-align: $align !important;
+	@include clearfix;
+
+  &::after {
+    @include position(relative);
+    width: $width;
+    border-bottom: $height solid $background;
+    margin: $top auto 0;
+
+    @if $align == left {
+      margin-left: 0 !important;
+    }
+
+    @if $align == right {
+      margin-right: 0 !important;
+    }
+  }
+}
+
+@mixin foundation-prototype-separator {
+	.separator-center {
+		@include separator(center);
+	}
+
+  .separator-left {
+    @include separator(left);
+  }
+
+  .separator-right {
+    @include separator(right);
+  }
+
+	@if ($prototype-separator-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-separator-center {
+            @include separator(center);
+          }
+          .#{$size}-separator-left {
+            @include separator(left);
+          }
+          .#{$size}-separator-right {
+            @include separator(right);
+          }
+        }
+      }
+    }
+  }
+}

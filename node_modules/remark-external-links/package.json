@@ -1,0 +1,90 @@
+{
+  "name": "remark-external-links",
+  "version": "8.0.0",
+  "description": "remark plugin to automatically add target and rel attributes to external links",
+  "license": "MIT",
+  "keywords": [
+    "unified",
+    "remark",
+    "remark-plugin",
+    "plugin",
+    "mdast",
+    "markdown",
+    "external",
+    "link",
+    "url"
+  ],
+  "repository": "remarkjs/remark-external-links",
+  "bugs": "https://github.com/remarkjs/remark-external-links/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
+  "author": "Cédric Delpoux <xuopled@gmail.com>",
+  "contributors": [
+    "Cédric Delpoux <xuopled@gmail.com>",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+    "Merlijn Vos <merlijn@soverin.net>",
+    "Takayosi Amagi <fand.gmork@gmail.com>",
+    "Zach Schnackel <info@zslabs.com>",
+    "Tsuyusato Kitsune <make.just.on@gmail.com>",
+    "Matsuko Friedland <info@matsuko.ca>"
+  ],
+  "types": "types/index.d.ts",
+  "files": [
+    "index.js",
+    "types/index.d.ts"
+  ],
+  "dependencies": {
+    "extend": "^3.0.0",
+    "is-absolute-url": "^3.0.0",
+    "mdast-util-definitions": "^4.0.0",
+    "space-separated-tokens": "^1.0.0",
+    "unist-util-visit": "^2.0.0"
+  },
+  "devDependencies": {
+    "dtslint": "^4.0.0",
+    "nyc": "^15.0.0",
+    "prettier": "^2.0.0",
+    "remark": "^13.0.0-alpha.0",
+    "remark-cli": "^8.0.0",
+    "remark-html": "^13.0.0",
+    "remark-preset-wooorm": "^7.0.0",
+    "tape": "^5.0.0",
+    "xo": "^0.33.0"
+  },
+  "scripts": {
+    "format": "remark . -qfo && prettier . --write && xo --fix",
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test.js",
+    "test-types": "dtslint types",
+    "test": "npm run format && npm run test-coverage && npm run test-types"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false,
+    "rules": {
+      "unicorn/prefer-includes": "off",
+      "import/no-extraneous-dependencies": "off"
+    }
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm"
+    ]
+  }
+}

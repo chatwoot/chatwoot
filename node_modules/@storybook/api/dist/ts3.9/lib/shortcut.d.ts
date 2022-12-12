@@ -1,0 +1,11 @@
+import { KeyCollection, Event } from '../modules/shortcuts';
+export declare const isMacLike: () => boolean;
+export declare const controlOrMetaSymbol: () => "⌘" | "ctrl";
+export declare const controlOrMetaKey: () => "meta" | "control";
+export declare const optionOrAltSymbol: () => "⌥" | "alt";
+export declare const isShortcutTaken: (arr1: string[], arr2: string[]) => boolean;
+export declare const eventToShortcut: (e: KeyboardEvent) => KeyCollection | null;
+export declare const shortcutMatchesShortcut: (inputShortcut: KeyCollection, shortcut: KeyCollection) => boolean;
+export declare const eventMatchesShortcut: (e: Event, shortcut: KeyCollection) => boolean;
+export declare const keyToSymbol: (key: string) => string;
+export declare const shortcutToHumanString: (shortcut: KeyCollection) => string;

@@ -1,0 +1,52 @@
+{
+  "name": "memoizerific",
+  "version": "1.11.3",
+  "description": "Fast, small, efficient JavaScript memoization lib to memoize JS functions",
+  "author": "Baz <baz@thinkloop.com>",
+  "license": "MIT",
+  "keywords": [
+    "memoize",
+    "memoizer",
+    "memoization",
+    "memoized",
+    "javascript",
+    "js",
+    "lru",
+    "cache",
+    "fast"
+  ],
+  "homepage": "https://github.com/thinkloop/memoizerific#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thinkloop/memoizerific.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thinkloop/memoizerific/issues"
+  },
+  "main": "./src/memoizerific.js",
+  "browser": "./memoizerific.js",
+  "scripts": {
+    "test": "echo '****************'`date +%r`'********************' && npm run -s test:map && npm run -s test:similar",
+    "build": "npm run -s build:all",
+    "publish_to_npm": "npm version patch && git push && git push --tags && npm publish",
+    "_": "",
+    "test:map": "FORCE_SIMILAR_INSTEAD_OF_MAP=false JASMINE_CONFIG_PATH=./jasmine.json jasmine",
+    "test:similar": "FORCE_SIMILAR_INSTEAD_OF_MAP=true JASMINE_CONFIG_PATH=./jasmine.json jasmine",
+    "__": "",
+    "build:all": "npm run -s build:browserify | tee memoizerific.js | npm run -s build:minify | tee memoizerific.min.js | npm run -s build:gzip > memoizerific.min.gzip.js",
+    "build:browserify": "browserify src/memoizerific.js -t [envify purge] --node --detectGlobals false --standalone memoizerific | derequire",
+    "build:minify": "uglifyjs --compress drop_console,unused=false --mangle --screw-ie8",
+    "build:gzip": "gzip --best -v -c"
+  },
+  "dependencies": {
+    "map-or-similar": "^1.5.0"
+  },
+  "devDependencies": {
+    "browserify": "13.3.0",
+    "derequire": "2.0.6",
+    "envify": "4.0.0",
+    "jasmine": "2.5.3",
+    "uglify-js": "2.7.5",
+    "watch": "1.0.1"
+  }
+}

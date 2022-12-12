@@ -1,0 +1,463 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Responsive Accordion Tabs</h1>
+          <h4>Codebase Tabs</h4>
+          <p class="callout small">I have the HTML Markup from Tabs and should be <code>tabs on small</code> <code>accordion on medium</code> <code>tabs on large</code> </p>
+          <ul class="" id="example-tabs" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+            <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Tab 1</a></li>
+            <li class="tabs-title"><a href="#panel2">Tab 2</a></li>
+          </ul>
+          <div class="tabs-content" data-tabs-content="example-tabs">
+            <div class="tabs-panel is-active" id="panel1">
+              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+            </div>
+            <div class="tabs-panel" id="panel2">
+              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+            </div>
+          </div>
+          <br>
+          <p class="callout small">I have the HTML Markup from Tabs and should be <code>accordion on small</code> <code>tabs on medium</code> <code>accordion on large</code> </p>
+          <ul class="" id="example-tabs2" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+            <li class="tabs-title is-active"><a href="#2-panel1" aria-selected="true">Tab 1</a></li>
+            <li class="tabs-title"><a href="#2-panel2">Tab 2</a></li>
+          </ul>
+          <div class="tabs-content" data-tabs-content="example-tabs2">
+            <div class="tabs-panel is-active" id="2-panel1">
+              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+            </div>
+            <div class="tabs-panel" id="2-panel2">
+              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+            </div>
+          </div>
+
+          <h4>Codebase Accordion</h4>
+          <p class="callout small">I have the HTML Markup from Accordion and should be <code>accordion on small</code> <code>tabs on medium</code> <code>accordion on large</code> </p>
+          <ul class="" id="example-accordion" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                </div>
+            </li>
+          </ul>
+          <br>
+          <p class="callout small">I have the HTML Markup from Accordion and should be <code>tabs on small</code> <code>accordion on medium</code> <code>tabs on large</code> </p>
+          <ul class="" id="example-accordion2" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem optio nihil natus incidunt. Esse, in nesciunt? Quo odit ipsam facilis, consequatur nesciunt aliquid ipsa accusantium repellendus totam doloremque officiis quia ad qui quibusdam neque deserunt saepe. Inventore amet sed cupiditate ipsam animi, quod est officiis ratione expedita vitae, facilis tenetur ex quaerat fugit mollitia vero, esse labore eos. Ullam minima nemo, dicta neque numquam cumque iusto, ratione quia blanditiis accusantium id adipisci obcaecati eum aliquid consequatur eveniet. Culpa nihil, dolore quasi eveniet est ipsa accusamus asperiores voluptates autem? Mollitia consequuntur iste maxime, est rerum, quod quam voluptatum id natus commodi? Maxime vel debitis optio blanditiis dolorem, eum minus reprehenderit. Mollitia natus similique amet adipisci quae, voluptatem doloribus asperiores cum, accusantium hic eveniet quis temporibus fugiat excepturi nemo harum non voluptatibus aliquid voluptatum enim provident? Nam deleniti impedit animi blanditiis itaque amet mollitia, aperiam alias, magni ex sit. Harum quibusdam cum fuga vitae nobis, saepe, cupiditate inventore reiciendis, aut similique voluptatibus consequatur soluta sunt repellat. Animi deserunt, reiciendis, sed labore maiores nobis reprehenderit debitis! Sequi dignissimos nam sint dolorum deleniti magnam aliquam et, tempore alias repellat, possimus quos doloremque illum accusantium quisquam sunt, nulla obcaecati ea omnis. Eaque cumque cum error.
+                </div>
+            </li>
+          </ul>
+          <h4>Nested Elements Tabs Markup</h4>
+          <ul class="" id="example-tabs3" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+            <li class="tabs-title is-active"><a href="#3-panel1" aria-selected="true">Tab 1</a></li>
+            <li class="tabs-title"><a href="#3-panel2">Tab 2</a></li>
+          </ul>
+          <div class="tabs-content" data-tabs-content="example-tabs3">
+            <div class="tabs-panel is-active" id="3-panel1">
+              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+            </div>
+            <div class="tabs-panel" id="3-panel2">
+              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+              <ul class="" id="example-tabs4" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+                <li class="tabs-title is-active"><a href="#4-panel1" aria-selected="true">Tab 1</a></li>
+                <li class="tabs-title"><a href="#4-panel2">Tab 2</a></li>
+              </ul>
+              <div class="tabs-content" data-tabs-content="example-tabs4">
+                <div class="tabs-panel is-active" id="4-panel1">
+                  <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                </div>
+                <div class="tabs-panel" id="4-panel2">
+                  <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <ul class="" id="example-tabs5" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+            <li class="tabs-title is-active"><a href="#5-panel1" aria-selected="true">Tab 1</a></li>
+            <li class="tabs-title"><a href="#5-panel2">Tab 2</a></li>
+          </ul>
+          <div class="tabs-content" data-tabs-content="example-tabs5">
+            <div class="tabs-panel is-active" id="5-panel1">
+              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+            </div>
+            <div class="tabs-panel" id="5-panel2">
+              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+              <ul class="" id="example-tabs6" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                <li class="tabs-title is-active"><a href="#6-panel1" aria-selected="true">Tab 1</a></li>
+                <li class="tabs-title"><a href="#6-panel2">Tab 2</a></li>
+              </ul>
+              <div class="tabs-content" data-tabs-content="example-tabs6">
+                <div class="tabs-panel is-active" id="6-panel1">
+                  <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                </div>
+                <div class="tabs-panel" id="6-panel2">
+                  <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4>Nested Elements Accordion Markup</h4>
+          <ul class="" id="example-accordion3" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  <ul class="" id="example-accordion4" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                    <li class="accordion-item is-active" data-accordion-item>
+                      <a href="#" class="accordion-title">Accordion 1</a>
+                        <div class="accordion-content" data-tab-content>
+                          I would start in the open state, due to using the `is-active` state class.
+                        </div>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                      <a href="#" class="accordion-title">Accordion 2</a>
+                      <div class="accordion-content" data-tab-content>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                      </div>
+                    </li>
+                  </ul>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                </div>
+            </li>
+          </ul>
+          <ul class="" id="example-accordion5" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  <ul class="" id="example-accordion6" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+                    <li class="accordion-item is-active" data-accordion-item>
+                      <a href="#" class="accordion-title">Accordion 1</a>
+                        <div class="accordion-content" data-tab-content>
+                          I would start in the open state, due to using the `is-active` state class.
+                        </div>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                      <a href="#" class="accordion-title">Accordion 2</a>
+                      <div class="accordion-content" data-tab-content>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                      </div>
+                    </li>
+                  </ul>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                </div>
+            </li>
+          </ul>
+          <h4>Nested Elements Mixed Markup</h4>
+          <ul class="" id="example-tabs7" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+            <li class="tabs-title is-active"><a href="#7-panel1" aria-selected="true">Tab 1</a></li>
+            <li class="tabs-title"><a href="#7-panel2">Tab 2</a></li>
+          </ul>
+          <div class="tabs-content" data-tabs-content="example-tabs7">
+            <div class="tabs-panel is-active" id="7-panel1">
+              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+            </div>
+            <div class="tabs-panel" id="7-panel2">
+              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+              <ul class="" id="example-accordion7" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                <li class="accordion-item is-active" data-accordion-item>
+                  <a href="#" class="accordion-title">Accordion 1</a>
+                    <div class="accordion-content" data-tab-content>
+                      I would start in the open state, due to using the `is-active` state class.
+                    </div>
+                </li>
+                <li class="accordion-item" data-accordion-item>
+                  <a href="#" class="accordion-title">Accordion 2</a>
+                    <div class="accordion-content" data-tab-content>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                    </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <br>
+          <ul class="" id="example-accordion8" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  <ul class="" id="example-tabs8" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+                    <li class="tabs-title is-active"><a href="#8-panel1" aria-selected="true">Tab 1</a></li>
+                    <li class="tabs-title"><a href="#8-panel2">Tab 2</a></li>
+                  </ul>
+                  <div class="tabs-content" data-tabs-content="example-tabs8">
+                    <div class="tabs-panel is-active" id="8-panel1">
+                      <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                    </div>
+                    <div class="tabs-panel" id="8-panel2">
+                      <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                    </div>
+                  </div>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                </div>
+            </li>
+          </ul>
+          <br>
+          <ul class="" id="example-tabs9" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+            <li class="tabs-title is-active"><a href="#9-panel1" aria-selected="true">Tab 1</a></li>
+            <li class="tabs-title"><a href="#9-panel2">Tab 2</a></li>
+          </ul>
+          <div class="tabs-content" data-tabs-content="example-tabs9">
+            <div class="tabs-panel is-active" id="9-panel1">
+              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+            </div>
+            <div class="tabs-panel" id="9-panel2">
+              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+              <ul class="" id="example-accordion9" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+                <li class="accordion-item is-active" data-accordion-item>
+                  <a href="#" class="accordion-title">Accordion 1</a>
+                    <div class="accordion-content" data-tab-content>
+                      I would start in the open state, due to using the `is-active` state class.
+                    </div>
+                </li>
+                <li class="accordion-item" data-accordion-item>
+                  <a href="#" class="accordion-title">Accordion 2</a>
+                    <div class="accordion-content" data-tab-content>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                    </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <br>
+          <ul class="" id="example-accordion10" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  <ul class="" id="example-tabs10" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                    <li class="tabs-title is-active"><a href="#10-panel1" aria-selected="true">Tab 1</a></li>
+                    <li class="tabs-title"><a href="#10-panel2">Tab 2</a></li>
+                  </ul>
+                  <div class="tabs-content" data-tabs-content="example-tabs10">
+                    <div class="tabs-panel is-active" id="10-panel1">
+                      <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                    </div>
+                    <div class="tabs-panel" id="10-panel2">
+                      <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                    </div>
+                  </div>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                </div>
+            </li>
+          </ul>
+          <h4>Extreme Nesting</h4>
+          <ul class="" id="example-accordion11" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  <ul class="" id="example-tabs11" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+                    <li class="tabs-title is-active"><a href="#11-panel1" aria-selected="true">Tab 1</a></li>
+                    <li class="tabs-title"><a href="#11-panel2">Tab 2</a></li>
+                  </ul>
+                  <div class="tabs-content" data-tabs-content="example-tabs11">
+                    <div class="tabs-panel is-active" id="11-panel1">
+                      <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                    </div>
+                    <div class="tabs-panel" id="11-panel2">
+                      <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                      <ul class="" id="example-accordion14" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                        <li class="accordion-item is-active" data-accordion-item>
+                          <a href="#" class="accordion-title">Accordion 1</a>
+                            <div class="accordion-content" data-tab-content>
+                              I would start in the open state, due to using the `is-active` state class.
+                            </div>
+                        </li>
+                        <li class="accordion-item" data-accordion-item>
+                          <a href="#" class="accordion-title">Accordion 2</a>
+                            <div class="accordion-content" data-tab-content>
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                            </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  <ul class="" id="example-accordion12" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                    <li class="accordion-item is-active" data-accordion-item>
+                      <a href="#" class="accordion-title">Accordion 1</a>
+                        <div class="accordion-content" data-tab-content>
+                          <ul class="" id="example-tabs12" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+                            <li class="tabs-title is-active"><a href="#12-panel1" aria-selected="true">Tab 1</a></li>
+                            <li class="tabs-title"><a href="#12-panel2">Tab 2</a></li>
+                          </ul>
+                          <div class="tabs-content" data-tabs-content="example-tabs12">
+                            <div class="tabs-panel is-active" id="12-panel1">
+                              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                            </div>
+                            <div class="tabs-panel" id="12-panel2">
+                              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                            </div>
+                          </div>
+                        </div>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title">Accordion 2</a>
+                        <div class="accordion-content" data-tab-content>
+                          <ul class="" id="example-accordion13" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                            <li class="accordion-item is-active" data-accordion-item>
+                              <a href="#" class="accordion-title">Accordion 1</a>
+                                <div class="accordion-content" data-tab-content>
+                                  I would start in the open state, due to using the `is-active` state class.
+                                </div>
+                            </li>
+                            <li class="accordion-item" data-accordion-item>
+                                <a href="#" class="accordion-title">Accordion 2</a>
+                                <div class="accordion-content" data-tab-content>
+                                  <ul class="" id="example-tabs13" data-responsive-accordion-tabs="tabs medium-accordion large-tabs">
+                                    <li class="tabs-title is-active"><a href="#13-panel1" aria-selected="true">Tab 1</a></li>
+                                    <li class="tabs-title"><a href="#13-panel2">Tab 2</a></li>
+                                  </ul>
+                                  <div class="tabs-content" data-tabs-content="example-tabs13">
+                                    <div class="tabs-panel is-active" id="13-panel1">
+                                      <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                                    </div>
+                                    <div class="tabs-panel" id="13-panel2">
+                                      <ul class="" id="example-accordion15" data-responsive-accordion-tabs="accordion medium-tabs large-accordion">
+                                        <li class="accordion-item is-active" data-accordion-item>
+                                          <a href="#" class="accordion-title">Accordion 1</a>
+                                            <div class="accordion-content" data-tab-content>
+                                              I would start in the open state, due to using the `is-active` state class.
+                                            </div>
+                                        </li>
+                                        <li class="accordion-item" data-accordion-item>
+                                          <a href="#" class="accordion-title">Accordion 2</a>
+                                            <div class="accordion-content" data-tab-content>
+                                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                                            </div>
+                                        </li>
+                                      </ul>
+                                      <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                                    </div>
+                                  </div>
+                                </div>
+                            </li>
+                          </ul>
+                        </div>
+                    </li>
+                  </ul>
+                </div>
+            </li>
+          </ul>
+          <h4>Vertical example only with codebase tabs on first level</h4>
+          <div class="grid-x">
+            <div class="medium-3 cell">
+              <ul class="vertical" id="example-tabs14" data-responsive-accordion-tabs="accordion medium-tabs large-tabs">
+                <li class="tabs-title is-active"><a href="#14-panel1" aria-selected="true">Tab 1</a></li>
+                <li class="tabs-title"><a href="#14-panel2">Tab 2</a></li>
+              </ul>
+            </div>
+            <div class="medium-9 cell">
+              <div class="tabs-content vertical" data-tabs-content="example-tabs14">
+                <div class="tabs-panel is-active" id="14-panel1">
+                  <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+                </div>
+                <div class="tabs-panel" id="14-panel2">
+                  <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4>Different data-link-class and data-panel-class</h4>
+          <style type="text/css">
+            .test-link {
+
+            }
+            .test-panel {
+              display: none;
+            }
+            .test-panel.is-active {
+              display: block;
+            }
+          </style>
+          <ul class="" id="example-tabs15" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" data-link-class="test-link" data-panel-class="test-panel">
+            <li class="test-link is-active"><a href="#15-panel1" aria-selected="true">Tab 1</a></li>
+            <li class="test-link"><a href="#15-panel2">Tab 2</a></li>
+          </ul>
+          <div class="tabs-content" data-tabs-content="example-tabs15">
+            <div class="test-panel is-active" id="15-panel1">
+              <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
+            </div>
+            <div class="test-panel" id="15-panel2">
+              <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+            </div>
+          </div>
+          <br>
+          <ul class="" id="example-accordion16" data-responsive-accordion-tabs="accordion medium-tabs large-accordion" data-link-class="test-link" data-panel-class="test-panel">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 1</a>
+                <div class="accordion-content" data-tab-content>
+                  I would start in the open state, due to using the `is-active` state class.
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+              <a href="#" class="accordion-title">Accordion 2</a>
+                <div class="accordion-content" data-tab-content>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus expedita animi, ipsum nostrum tempore deserunt quae dolores ratione modi repudiandae dolor doloremque, non necessitatibus accusamus dignissimos facere magni corporis quasi laboriosam. Eum accusamus odio possimus iste itaque quidem, sapiente repellat placeat. Obcaecati odio consequatur debitis asperiores veritatis, impedit nulla accusantium sint ab ducimus neque sit non illum, accusamus, quibusdam possimus vero a distinctio repellat, ad quas voluptates adipisci. Explicabo voluptatem dolorem laborum deserunt fugiat praesentium totam aperiam, similique iure voluptas. Maxime, sequi vero velit praesentium earum suscipit facere cum quasi tenetur voluptatibus eos magni ipsum assumenda quibusdam ut dolorem voluptate debitis molestias, aliquid obcaecati! Consequuntur nisi repudiandae et in veniam vel, quod dolor doloribus eveniet atque ipsa eos odio, dignissimos laboriosam eius quidem distinctio non sunt maiores id dolore a similique. Quis exercitationem consequatur error, deleniti soluta harum. Est consequuntur aut, iusto. Vitae quam, neque velit ab ullam ex nobis laudantium exercitationem porro culpa necessitatibus provident, nulla similique pariatur dolorem iste perspiciatis ratione quaerat fugit, reiciendis ut ad reprehenderit totam, veritatis natus. Ut alias possimus perspiciatis veritatis, ratione laboriosam. Placeat hic nobis, deleniti aperiam dolore qui illum iusto alias explicabo sunt aliquid autem pariatur error saepe ad perferendis tempore adipisci.
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

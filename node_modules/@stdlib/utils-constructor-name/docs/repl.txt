@@ -1,0 +1,26 @@
+
+{{alias}}( val )
+    Determines the name of a value's constructor.
+
+    Parameters
+    ----------
+    val: any
+        Input value.
+
+    Returns
+    -------
+    out: string
+        Name of a value's constructor.
+
+    Examples
+    --------
+    > var v = {{alias}}( 'a' )
+    'String'
+    > v = {{alias}}( {} )
+    'Object'
+    > v = {{alias}}( true )
+    'Boolean'
+
+    See Also
+    --------
+

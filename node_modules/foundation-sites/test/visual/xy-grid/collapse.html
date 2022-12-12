@@ -1,0 +1,96 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Collapse classes</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      body {
+        padding: 30px;
+      }
+
+      .demo {
+        background: #1779ba;
+      }
+
+      .cell {
+        /*background: dodgerblue;*/
+        line-height: 50px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grid Collapse</h1>
+
+    <h2>Margin Grid Collapse</h2>
+    <p>Gutters should collapse on large.</p>
+
+    <div class="grid-x grid-margin-x large-margin-collapse">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <p>Large margin collapse</p>
+    <div class="grid-x grid-margin-x large-margin-collapse">
+      <div class="small-10 medium-8 large-6 cell"><div class="demo">10/8/6 cells</div></div>
+      <div class="small-2 medium-4 large-6 cell"><div class="demo">2/4/6 cells</div></div>
+    </div>
+
+    <p>Medium margin collapse</p>
+    <div class="grid-x grid-margin-x medium-margin-collapse">
+      <div class="small-10 medium-8 large-6 cell"><div class="demo">10/8/6 cells</div></div>
+      <div class="small-2 medium-4 large-6 cell"><div class="demo">2/4/6 cells</div></div>
+    </div>
+
+    <p>Small margin collapse</p>
+    <div class="grid-x grid-margin-x small-margin-collapse">
+      <div class="small-10 medium-8 large-6 cell"><div class="demo">10/8/6 cells</div></div>
+      <div class="small-2 medium-4 large-6 cell"><div class="demo">2/4/6 cells</div></div>
+    </div>
+
+    <hr>
+
+    <h2>Padding Grid Collapse</h2>
+    <p>Gutters should collapse on medium.</p>
+
+    <div class="grid-x grid-padding-x medium-padding-collapse">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

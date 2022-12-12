@@ -1,0 +1,67 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Reveal: Nested modals with Deep linking</h1>
+
+          <p>When going back in history after closing the last modal, modals should all reapear in the reverse order.</p>
+
+          <p><button class="button" data-open="exampleModal1">Click me for modal 1</button></p>
+
+          <!-- This is the first modal -->
+          <div class="reveal" id="exampleModal1" data-reveal data-deep-link="true" data-update-history="true">
+            <h1>Modal 1</h1>
+            <button class="button" data-open="exampleModal2">Click me for modal 2</button>
+            <button class="close-button" data-close aria-label="Close reveal" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <!-- This is the nested modal -->
+          <div class="reveal" id="exampleModal2" data-reveal data-deep-link="true" data-update-history="true">
+            <h2>Modal 2</h2>
+            <button class="button" data-open="exampleModal3">Click me for modal 3</button>
+            <button class="close-button" data-close aria-label="Close reveal" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <!-- This is the nested modal -->
+          <div class="reveal" id="exampleModal3" data-reveal data-deep-link="true" data-update-history="true">
+            <h2>Modal 3</h2>
+            <button class="button" data-open="exampleModal4">Click me for modal 4</button>
+            <button class="close-button" data-close aria-label="Close reveal" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <!-- This is the nested modal -->
+          <div class="reveal" id="exampleModal4" data-reveal data-deep-link="true" data-update-history="true">
+            <h2>Modal 4</h2>
+            <p>Close me, then go back in history. I should reappear, then modals 3, 2 and 1...</p>
+            <button class="close-button" data-close aria-label="Close reveal" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

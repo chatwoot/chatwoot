@@ -1,0 +1,54 @@
+{
+	"name": "is-installed-globally",
+	"version": "0.3.2",
+	"description": "Check if your package was installed globally",
+	"license": "MIT",
+	"repository": "sindresorhus/is-installed-globally",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"global",
+		"package",
+		"globally",
+		"module",
+		"install",
+		"installed",
+		"npm",
+		"yarn",
+		"is",
+		"check",
+		"detect",
+		"local",
+		"locally",
+		"cli",
+		"bin",
+		"binary"
+	],
+	"dependencies": {
+		"global-dirs": "^2.0.1",
+		"is-path-inside": "^3.0.1"
+	},
+	"devDependencies": {
+		"ava": "^2.4.0",
+		"cpy": "^7.3.0",
+		"del": "^5.1.0",
+		"execa": "^2.0.4",
+		"make-dir": "^3.0.0",
+		"tsd": "^0.10.0",
+		"xo": "^0.25.3"
+	}
+}

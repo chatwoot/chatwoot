@@ -1,0 +1,10 @@
+{
+  "root": true,
+
+  "extends": "airbnb-base/legacy",
+
+  "rules": {
+    "strict": [2, "global"],
+    "vars-on-top": 0,
+  }
+}

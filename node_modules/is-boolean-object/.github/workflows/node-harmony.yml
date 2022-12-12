@@ -1,0 +1,66 @@
+name: 'Tests: node.js (harmony)'
+
+on: [pull_request, push]
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      stable: ${{ steps.set-matrix.outputs.requireds }}
+      unstable: ${{ steps.set-matrix.outputs.optionals }}
+    steps:
+      - uses: ljharb/actions/node/matrix@main
+        id: set-matrix
+        with:
+          versionsAsRoot: true
+          preset: '>= 0.4'
+
+  stable:
+    needs: [matrix]
+    name: 'stable minors'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ${{ fromJson(needs.matrix.outputs.stable) }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ljharb/actions/node/run@main
+        name: 'npm install && npm run test:harmony'
+        with:
+          node-version: ${{ matrix.node-version }}
+          command: 'test:harmony'
+          cache-node-modules-key: node_modules-${{ github.workflow }}-${{ github.action }}-${{ github.run_id }}
+          skip-ls-check: true
+
+  unstable:
+    needs: [matrix, stable]
+    name: 'unstable minors'
+    continue-on-error: true
+    if: ${{ !github.head_ref || !startsWith(github.head_ref, 'renovate') }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ${{ fromJson(needs.matrix.outputs.unstable) }}
+        exclude:
+          - node-version: 0.7
+          - node-version: 0.4
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ljharb/actions/node/run@main
+        name: 'npm install && npm run test:harmony'
+        with:
+          node-version: ${{ matrix.node-version }}
+          command: 'test:harmony'
+          cache-node-modules-key: node_modules-${{ github.workflow }}-${{ github.action }}-${{ github.run_id }}
+          skip-ls-check: true
+
+  node:
+    name: 'node: harmony'
+    needs: [stable, unstable]
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo tests completed'

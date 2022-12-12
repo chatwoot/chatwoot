@@ -1,0 +1,21 @@
+{
+  "name": "axe-qunit-example",
+  "description": "Axe QUnit Example",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "David Sturley",
+    "organization": "Deque Systems, Inc.",
+    "url": "http://deque.com/"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "grunt qunit"
+  },
+  "devDependencies": {
+    "axe-core": "^3.3.1",
+    "grunt": "~1.0.2",
+    "grunt-contrib-qunit": "~3.1.0",
+    "qunitjs": "~2.4.1"
+  }
+}

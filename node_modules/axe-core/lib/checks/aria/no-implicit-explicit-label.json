@@ -1,0 +1,11 @@
+{
+  "id": "no-implicit-explicit-label",
+  "evaluate": "no-implicit-explicit-label-evaluate",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "There is no mismatch between a <label> and accessible name",
+      "incomplete": "Check that the <label> does not need be part of the ARIA ${data} field's name"
+    }
+  }
+}

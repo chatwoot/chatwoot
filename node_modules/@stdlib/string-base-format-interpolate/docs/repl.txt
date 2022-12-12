@@ -1,0 +1,29 @@
+
+{{alias}}( tokens, ...args )
+    Generate string from a token array by interpolating values.
+
+    Parameters
+    ----------
+    tokens: Array
+        Array of string parts and format identifier objects.
+
+    args: ...any
+        Variable values.
+
+    Returns
+    -------
+    out: string
+        Formatted string.
+
+    Examples
+    --------
+    > var out = {{alias}}( [ 'beep ', { 'specifier': 's' } ], 'boop' )
+    'beep boop'
+    > out = {{alias}}( [ 'baz ', { 'specifier': 'd', 'precision': 2 } ], 1 )
+    'baz 1.00'
+    > out = {{alias}}( [ { 'specifier': 'u', 'width': 6 } ], 12 )
+    '    12'
+
+    See Also
+    --------
+

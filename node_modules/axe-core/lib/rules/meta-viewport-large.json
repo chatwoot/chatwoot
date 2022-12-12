@@ -1,0 +1,13 @@
+{
+  "id": "meta-viewport-large",
+  "selector": "meta[name=\"viewport\"]",
+  "excludeHidden": false,
+  "tags": ["cat.sensory-and-visual-cues", "best-practice"],
+  "metadata": {
+    "description": "Ensures <meta name=\"viewport\"> can scale a significant amount",
+    "help": "Users should be able to zoom and scale the text up to 500%"
+  },
+  "all": [],
+  "any": ["meta-viewport-large"],
+  "none": []
+}

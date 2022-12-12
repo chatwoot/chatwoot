@@ -1,0 +1,15 @@
+{
+  "id": "page-has-main",
+  "evaluate": "has-descendant-evaluate",
+  "after": "has-descendant-after",
+  "options": {
+    "selector": "main:not([role]), [role='main']"
+  },
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Document has at least one main landmark",
+      "fail": "Document does not have a main landmark"
+    }
+  }
+}

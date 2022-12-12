@@ -1,0 +1,13 @@
+{
+  "id": "meta-viewport",
+  "selector": "meta[name=\"viewport\"]",
+  "excludeHidden": false,
+  "tags": ["cat.sensory-and-visual-cues", "best-practice", "ACT"],
+  "metadata": {
+    "description": "Ensures <meta name=\"viewport\"> does not disable text scaling and zooming",
+    "help": "Zooming and scaling should not be disabled"
+  },
+  "all": [],
+  "any": ["meta-viewport"],
+  "none": []
+}

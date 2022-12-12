@@ -1,0 +1,128 @@
+@import "true";
+
+@import '../../scss/util/unit';
+@import '../../scss/util/value';
+
+@include test-module('Value') {
+
+  @include test('Value (Not Falsey) [function]') {
+    $boolean: has-value(true);
+    $number:  has-value(1px);
+    $color:   has-value(#000);
+    $list:    has-value(1px solid black);
+    $description: 'Returns true if the value is not falsey';
+
+    @include assert-equal($boolean, true, $description);
+    @include assert-equal($number, true, $description);
+    @include assert-equal($color, true, $description);
+    @include assert-equal($list, true, $description);
+  }
+
+  @include test('Value (Falsey) [function]') {
+    $zero:   has-value(0px);
+    $null:   has-value(null);
+    $none:   has-value(none);
+    $empty:  has-value(());
+    $description: 'Returns false if the value is falsey';
+
+    @include assert-equal($zero, false, $description);
+    @include assert-equal($null, false, $description);
+    @include assert-equal($none, false, $description);
+    @include assert-equal($empty, false, $description);
+  }
+
+  @include test('Get Side [function]') {
+    $valueOne: 1rem;
+    $testOne: (
+      get-side($valueOne, top),
+      get-side($valueOne, right),
+      get-side($valueOne, bottom),
+      get-side($valueOne, left),
+    );
+    $expectOne: (1rem, 1rem, 1rem, 1rem,);
+
+    @include assert-equal($testOne, $expectOne,
+      'Returns correct sides when given one side value');
+
+    $valueTwo: 1rem 2rem;
+    $testTwo: (
+      get-side($valueTwo, top),
+      get-side($valueTwo, right),
+      get-side($valueTwo, bottom),
+      get-side($valueTwo, left),
+    );
+    $expectTwo: (1rem, 2rem, 1rem, 2rem,);
+
+    @include assert-equal($testTwo, $expectTwo,
+      'Returns correct sides when given two side values');
+
+    $valueThree: 1rem 2rem 3rem;
+    $testThree: (
+      get-side($valueThree, top),
+      get-side($valueThree, right),
+      get-side($valueThree, bottom),
+      get-side($valueThree, left),
+    );
+    $expectThree: (1rem, 2rem, 3rem, 2rem,);
+
+    @include assert-equal($testThree, $expectThree,
+      'Returns correct sides when given three side values');
+
+    $valueFour: 1rem 2rem 3rem 4rem;
+    $testFour: (
+      get-side($valueFour, top),
+      get-side($valueFour, right),
+      get-side($valueFour, bottom),
+      get-side($valueFour, left),
+    );
+    $expectFour: (1rem, 2rem, 3rem, 4rem,);
+
+    @include assert-equal($testFour, $expectFour,
+      'Returns correct sides when given four side values');
+  }
+
+  @include test('Get Border Value [function]') {
+    $value: 10px dashed green;
+    $width: get-border-value($value, width);
+    $style: get-border-value($value, style);
+    $color: get-border-value($value, color);
+    $description: 'Returns the right value of a border property';
+
+    @include assert-equal($width, 10px, $description);
+    @include assert-equal($style, dashed, $description);
+    @include assert-equal($color, green, $description);
+
+    $defaultWidth: get-border-value(solid black, width);
+    $defaultStyle: get-border-value(10px black, style);
+    $defaultColor: get-border-value(10px solid, color);
+    $defaultDescription: 'Returns a default value if a property is missing';
+
+    @include assert-equal($defaultWidth, 0, $defaultDescription);
+    @include assert-equal($defaultStyle, solid, $defaultDescription);
+    @include assert-equal($defaultColor, black, $defaultDescription);
+  }
+
+  @include test('Map Deep Get [function]') {
+    $map: (
+      one: (
+        two: 'three',
+      ),
+    );
+    $expect: 'three';
+    
+    @include assert-equal(map-deep-get($map, one, two), $expect,
+      'Gets a value from a nested map');
+  }
+
+  @include test('Map Safe Get [function]') {
+    $map: (
+      one: 'two'
+    );
+    $expect: 'two';
+    
+    @include assert-equal(map-safe-get($map, one), $expect,
+      'Safely return a value from a map');
+  }
+
+  // TODO: Add spec for pow()
+}

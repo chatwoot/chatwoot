@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default function buildFormatLongFn(args) {\n  return function (dirtyOptions) {\n    var options = dirtyOptions || {};\n    var width = options.width ? String(options.width) : args.defaultWidth;\n    var format = args.formats[width] || args.formats[args.defaultWidth];\n    return format;\n  };\n}","map":null,"metadata":{},"sourceType":"module"}

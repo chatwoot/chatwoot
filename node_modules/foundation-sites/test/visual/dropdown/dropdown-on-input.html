@@ -1,0 +1,38 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Dropdown: Attached to an input</h1>
+
+          <p>When the Dropdown is attached to an input element, it should not receive focus when a space is entered into the input..</p>
+          
+          <div class="row">
+            <div class="column">
+              <input type="text" data-toggle="dropdown" aria-describedby="dropdown" placeholder="Click to open Dropdown">
+              <div class="dropdown-pane" id="dropdown" data-dropdown data-close-on-click="true">
+                <p>Now press space to see if I receive focus. This should not be the case.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+

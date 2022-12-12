@@ -1,0 +1,49 @@
+/* ve-table */
+/* ve-pagination */
+/* ve-checkbox */
+/* ve-radio */
+/* ve-select */
+/* ve-dropdown */
+.ve-select .ve-select-input {
+  appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  color: #1f2d3d;
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  outline: none;
+  padding-left: 2px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 80%;
+  text-align: left;
+}
+.ve-select .ve-select-selected-span {
+  width: 80%;
+  display: block !important;
+  /*修复会被别的样式覆盖的问题*/
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 2px;
+  color: #000000d9;
+}
+.ve-select .ve-select-toggle-icon {
+  display: inline-flex;
+  position: absolute;
+  line-height: 32px;
+  top: 0;
+  right: 5px;
+  color: #999;
+}
+.ve-select .ve-select-toggle-icon::before {
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+.ve-select .ve-select-toggle-icon.ve-select-show::before {
+  transform: rotate(180deg);
+  transition: transform 0.3s;
+}

@@ -1,0 +1,12 @@
+{
+  "id": "no-focusable-content",
+  "evaluate": "no-focusable-content-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Element does not have focusable descendants",
+      "fail": "Element has focusable descendants",
+      "incomplete": "Could not determine if element has descendants"
+    }
+  }
+}

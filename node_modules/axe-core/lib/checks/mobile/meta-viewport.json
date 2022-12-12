@@ -1,0 +1,14 @@
+{
+  "id": "meta-viewport",
+  "evaluate": "meta-viewport-scale-evaluate",
+  "options": {
+    "scaleMinimum": 2
+  },
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "<meta> tag does not disable zooming on mobile devices",
+      "fail": "${data} on <meta> tag disables zooming on mobile devices"
+    }
+  }
+}

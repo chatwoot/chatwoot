@@ -1,0 +1,47 @@
+@import "true";
+
+@import '../../scss/global';
+@import '../../scss/util/color';
+
+@include test-module('Color') {
+
+  @include test('Foreground (Black) [function]') {
+    $test: color-pick-contrast($white);
+    $expect: $black;
+
+    @include assert-equal($test, $expect,
+      'Returns black if the input color is light');
+  }
+
+  @include test('Foreground (White) [function]') {
+    $test: color-pick-contrast($black);
+    $expect: $white;
+
+    @include assert-equal($test, $expect,
+      'Returns white if the input color is dark');
+  }
+
+  @include test('Smart Scale (Darken) [function]') {
+    $color: $white;
+    $scale: 5%;
+    $threshold: 60%;
+
+    $test: smart-scale($color, $scale, $threshold);
+    $expect: scale-color($color, $lightness: -$scale);
+
+    @include assert-equal($test, $expect,
+      'Darkens a light color');
+  }
+
+  @include test('Smart Scale (Lighten) [function]') {
+    $color: $black;
+    $scale: 5%;
+    $threshold: 60%;
+
+    $test: smart-scale($color, $scale, $threshold);
+    $expect: scale-color($color, $lightness: $scale);
+
+    @include assert-equal($test, $expect,
+      'Lightens a dark color');
+  }
+}

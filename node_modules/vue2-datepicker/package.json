@@ -1,0 +1,141 @@
+{
+  "name": "vue2-datepicker",
+  "description": "A Datepicker Component For Vue2",
+  "main": "index.js",
+  "module": "index.esm.js",
+  "alias": {
+    "vue2-datepicker": "./src/index.js"
+  },
+  "files": [
+    "/locale",
+    "/index.*",
+    "/scss"
+  ],
+  "version": "3.9.1",
+  "scripts": {
+    "dev": "parcel ./example/dev.html --open --port 2235",
+    "build:index": "cross-env NODE_ENV=production rollup -c",
+    "build:locale": "cross-env NODE_ENV=production rollup -c rollup.locale.config.js",
+    "build:css": "sass --style=compressed --no-source-map src/style/index.scss index.css && postcss index.css --use autoprefixer -o index.css --no-map && cp -R src/style scss",
+    "build": "npm run test && npm run clean && npm run build:index && npm run build:css && npm run build:locale",
+    "clean": "rimraf scss locale index.*",
+    "lint": "eslint src/**/*.{js,vue}",
+    "deploy:build": "cross-env NODE_ENV=production parcel build ./example/index.html --public-url ./ --out-dir _site --no-source-maps --no-minify",
+    "deploy": "bash build/gh-pages-deploy.sh",
+    "format": "prettier --write src/**/*",
+    "test": "npm run lint && jest",
+    "cov": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "release": "bash build/git.sh && bash build/release.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mengxiong10/vue2-datepicker.git"
+  },
+  "keywords": [
+    "vue",
+    "calendar",
+    "datepicker",
+    "datetimepicker"
+  ],
+  "author": "xiemengxiong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mengxiong10/vue2-datepicker/issues"
+  },
+  "homepage": "https://github.com/mengxiong10/vue2-datepicker#readme",
+  "peerDependencies": {
+    "vue": "^2.5.0"
+  },
+  "dependencies": {
+    "date-format-parse": "^0.2.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/runtime": "^7.7.2",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
+    "@vue/babel-preset-jsx": "^1.1.2",
+    "@vue/component-compiler-utils": "^3.0.0",
+    "@vue/test-utils": "^1.1.1",
+    "acorn": "^7.0.0",
+    "autoprefixer": "^9.7.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.2",
+    "babel-jest": "^24.9.0",
+    "conventional-changelog-cli": "^2.0.25",
+    "core-js": "^3.3.5",
+    "coveralls": "^3.0.7",
+    "cross-env": "^6.0.3",
+    "date-fns": "^2.16.1",
+    "eslint": "^6.2.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-vue": "^6.0.0",
+    "flush-promises": "^1.0.2",
+    "highlight.js": "^9.15.10",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0",
+    "jest-serializer-vue": "^2.0.2",
+    "lint-staged": "^9.4.2",
+    "marked": "^0.7.0",
+    "parcel-bundler": "^1.12.3",
+    "postcss-cli": "^6.1.3",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.26.0",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-vue": "^5.1.6",
+    "sass": "^1.22.10",
+    "vue": "^2.6.10",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-jest": "^3.0.5",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ],
+    "moduleNameMapper": {
+      "vue2-datepicker": "<rootDir>/src"
+    },
+    "coverageReporters": [
+      "text",
+      "text-summary"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -x @commitlint/config-conventional -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,vue}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie < 10"
+  ]
+}

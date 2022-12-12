@@ -1,0 +1,29 @@
+
+{{alias}}( value )
+    Tests if a value is object-like.
+
+    Return values are the same as would be obtained using the built-in `typeof`
+    operator except that `null` is not considered an object.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is object-like.
+
+    Examples
+    --------
+    > var bool = {{alias}}( {} )
+    true
+    > bool = {{alias}}( [] )
+    true
+    > bool = {{alias}}( null )
+    false
+
+    See Also
+    --------
+

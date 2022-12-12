@@ -1,0 +1,279 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group dropdown-menu
+////
+
+/// Enables arrows for items with dropdown menus.
+/// @type Boolean
+$dropdownmenu-arrows: true !default;
+
+/// Sets dropdown menu arrow color if arrow is used.
+/// @type Color
+$dropdownmenu-arrow-color: $anchor-color !default;
+
+/// Sets dropdown menu arrow size if arrow is used.
+/// @type Length
+$dropdownmenu-arrow-size: 6px !default;
+
+/// Sets dropdown menu arrow padding for aligning the arrow correctly.
+/// @type Length
+$dropdownmenu-arrow-padding: 1.5rem !default;
+
+/// Minimum width of dropdown sub-menus.
+/// @type Length
+$dropdownmenu-min-width: 200px !default;
+
+/// Background color for top level items.
+/// @type Color
+$dropdownmenu-background: null !default;
+
+/// Background color for dropdowns.
+/// @type Color
+$dropdownmenu-submenu-background: $white !default;
+
+/// Padding for top level items.
+/// @type Number
+$dropdownmenu-padding: $global-menu-padding !default;
+
+/// Sets dropdown menu nested margin
+/// @type Number
+$dropdownmenu-nested-margin: 0 !default;
+
+/// Padding for sub-menu items.
+/// @type Number
+$dropdownmenu-submenu-padding: $dropdownmenu-padding !default;
+
+/// Border for dropdown sub-menus.
+/// @type List
+$dropdownmenu-border: 1px solid $medium-gray !default;
+
+// Border width for dropdown sub-menus.
+// Used to adjust top margin of a sub-menu if a border is used.
+// @type Length
+$dropdownmenu-border-width: nth($dropdownmenu-border, 1);
+
+/// Text color of an active dropdown menu item. Explicit override for menu defaults
+/// @type Color
+$dropdown-menu-item-color-active: get-color(primary) !default;
+
+/// Background color of an active dropdown menu item. Explicit override for menu defaults
+/// @type Color
+$dropdown-menu-item-background-active: transparent !default;
+
+@mixin zf-dropdown-left-right-arrows {
+  > a::after {
+    #{$global-right}: 14px;
+  }
+
+  &.opens-left > a::after {
+    @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, left);
+    right: auto;
+    left: 5px;
+  }
+
+  &.opens-right > a::after {
+    @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, right);
+  }
+}
+
+@mixin dropdown-menu-direction($dir: horizontal) {
+  @if $dir == horizontal {
+    > li.opens-left { // sass-lint:disable-line no-qualifying-elements
+      > .is-dropdown-submenu {
+        top: 100%;
+        right: 0;
+        left: auto;
+      }
+    }
+
+    > li.opens-right { // sass-lint:disable-line no-qualifying-elements
+      > .is-dropdown-submenu {
+        top: 100%;
+        right: auto;
+        left: 0;
+      }
+    }
+
+    @if $dropdownmenu-arrows {
+      > li.is-dropdown-submenu-parent > a { // sass-lint:disable-line no-qualifying-elements
+        position: relative;
+        padding-#{$global-right}: $dropdownmenu-arrow-padding;
+      }
+
+      > li.is-dropdown-submenu-parent > a::after { // sass-lint:disable-line no-qualifying-elements
+        @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, down);
+        #{$global-right}: 5px;
+        #{$global-left}: auto;
+        margin-top: -1 * ($dropdownmenu-arrow-size / 2);
+      }
+    }
+  }
+  @else if $dir == vertical {
+    > li {
+      .is-dropdown-submenu {
+        top: 0;
+      }
+
+      &.opens-left {
+        > .is-dropdown-submenu {
+          top: 0;
+          right: 100%;
+          left: auto;
+        }
+      }
+
+      &.opens-right {
+        > .is-dropdown-submenu {
+          right: auto;
+          left: 100%;
+        }
+      }
+
+      @if $dropdownmenu-arrows {
+        @include zf-dropdown-left-right-arrows;
+      }
+    }
+  }
+  @else {
+    @warn 'The direction used for dropdown-menu-direction() must be horizontal or vertical.';
+  }
+}
+
+@mixin foundation-dropdown-menu {
+  .dropdown.menu {
+    @include dropdown-menu-direction(horizontal);
+
+    a {
+      @include disable-mouse-outline;
+    }
+
+    // Top-level item
+    > li > a {
+      background: $dropdownmenu-background;
+      padding: $dropdownmenu-padding;
+    }
+
+    // Top-level item active state
+    > li.is-active > a {
+      background: $dropdown-menu-item-background-active;
+      color: $dropdown-menu-item-color-active;
+    }
+
+    .no-js & ul {
+      display: none;
+    }
+
+    .nested.is-dropdown-submenu {
+      @include menu-nested($dropdownmenu-nested-margin);
+    }
+
+    &.vertical {
+      @include dropdown-menu-direction(vertical);
+    }
+
+    @each $size in $breakpoint-classes {
+      @if $size != $-zf-zero-breakpoint {
+        @include breakpoint($size) {
+          &.#{$size}-horizontal {
+            @include dropdown-menu-direction(horizontal);
+          }
+
+          &.#{$size}-vertical {
+            @include dropdown-menu-direction(vertical);
+          }
+        }
+      }
+    }
+
+    &.align-right {
+      .is-dropdown-submenu.first-sub {
+        top: 100%;
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+
+  .is-dropdown-menu.vertical {
+    width: 100px;
+
+    &.align-right {
+      float: right;
+    }
+  }
+
+  .is-dropdown-submenu-parent {
+    position: relative;
+
+    a::after {
+      position: absolute;
+      top: 50%;
+      #{$global-right}: 5px;
+      #{$global-left}: auto;
+      margin-top: -1 * $dropdownmenu-arrow-size;
+    }
+
+    &.opens-inner > .is-dropdown-submenu {
+
+      top: 100%;
+      @if $global-text-direction == 'rtl' {
+        right: auto;
+      }
+      @else {
+        left: auto;
+      }
+    }
+
+    &.opens-left > .is-dropdown-submenu {
+      right: 100%;
+      left: auto;
+    }
+
+    &.opens-right > .is-dropdown-submenu {
+      right: auto;
+      left: 100%;
+    }
+  }
+
+  .is-dropdown-submenu {
+    position: absolute;
+    top: 0;
+    #{$global-left}: 100%;
+    z-index: 1;
+
+    display: none;
+    min-width: $dropdownmenu-min-width;
+
+    border: $dropdownmenu-border;
+    background: $dropdownmenu-submenu-background;
+
+    .dropdown & a {
+      padding: $dropdownmenu-submenu-padding;
+    }
+
+    .is-dropdown-submenu-parent {
+      @if $dropdownmenu-arrows {
+        @include zf-dropdown-left-right-arrows;
+      }
+    }
+
+    @if (type-of($dropdownmenu-border-width) == 'number') {
+      .is-dropdown-submenu {
+        margin-top: (-$dropdownmenu-border-width);
+      }
+    }
+
+    > li {
+      width: 100%;
+    }
+
+    // [TODO] Cut back specificity
+    //&:not(.js-dropdown-nohover) > .is-dropdown-submenu-parent:hover > &, // why is this line needed? Opening is handled by JS and this causes some ugly flickering when the sub is re-positioned automatically...
+    &.js-dropdown-active {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "explicit-label",
+  "evaluate": "explicit-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Form element has an explicit <label>",
+      "fail": "Form element does not have an explicit <label>",
+      "incomplete": "Unable to determine if form element has an explicit <label>"
+    }
+  }
+}

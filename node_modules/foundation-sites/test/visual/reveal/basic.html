@@ -1,0 +1,122 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Reveal</h1>
+
+          <section>
+            <h2>Basics</h2>
+            <p>A modal should open in the center of the page when either of these links are clicked.</p>
+            <p><button class="button" data-open="exampleModal1">Open Trigger</button></p>
+            <p><button class="button" data-toggle="exampleModal1">Toggle Trigger</button></p>
+
+            <div class="reveal" id="exampleModal1" data-reveal>
+              <p>Clicking any of these triggers should close the modal.</p>
+              <p>Clicking on the overlay should close the modal.</p>
+              <p><button class="button" data-toggle="exampleModal1">Toggle Trigger</button></p>
+              <p><button class="button" data-close>Implicit Close Trigger</button></p>
+              <p><button class="button" data-close="exampleModal1">Explicit Close Trigger</button></p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Nested</h2>
+            <p>Clicking this link should open the initial modal.</p>
+            <p><button class="button" data-open="exampleModal2">Open first modal</button></p>
+
+            <div class="reveal" id="exampleModal2" data-reveal>
+              <p>Clicking this link should replace this modal with a new one.</p>
+              <p><button class="button" data-open="exampleModal3">Open second modal</button></p>
+            </div>
+
+            <div class="reveal" id="exampleModal3" data-reveal>
+              <p>Clicking this link should close this modal, but not go back to the first one.</p>
+              <p><button class="button" data-close>Close modal</button></p>
+            </div>
+          </section>
+
+          <section>
+            <h2>With Offsets</h2>
+            <p>Clicking this link should open a reveal with offset 50, 50 from top/left</p>
+            <p><button class="button" data-open="exampleModal4">Open offset modal</button></p>
+            <div class="reveal" id="exampleModal4" data-reveal data-v-offset="50" data-h-offset="50">
+              <p>Am I in the top left?</p>
+              <p><button class="button" data-close>Close modal</button></p>
+            </div>
+            </section>
+
+          <section>
+            <h2>Slower fade in</h2>
+            <p>Clicking this link should open a reveal fading in slow</p>
+            <p><button class="button" data-open="exampleModal5">Open offset modal</button></p>
+            <div class="reveal slow" id="exampleModal5" data-reveal data-animation-in="fade-in">
+              <p>Did I open slower?  Did the overlay also open slow?</p>
+              <p><button class="button" data-close>Close modal</button></p>
+            </div>
+            </section>
+
+          <section>
+            <h2>Faster fade in</h2>
+            <p>Clicking this link should open a reveal fading in fast</p>
+            <p><button class="button" data-open="exampleModal6">Open offset modal</button></p>
+            <div class="reveal fast" id="exampleModal6" data-reveal data-animation-in="fade-in">
+              <p>Did I open faster?  Did the overlay also open fast?</p>
+              <p><button class="button" data-close>Close modal</button></p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Multiple opened</h2>
+            <p>Each link should open a separate modal.</p>
+            <p><button class="button" data-open="exampleModal7-1">Open modal 1</button></p>
+            <p><button class="button" data-open="exampleModal7-2">Open modal 2</button></p>
+            <div class="reveal" id="exampleModal7-1" data-reveal data-multiple-opened="true" data-v-offset="10" data-overlay="false" data-close-on-click="false">
+              <p>Modal 1 - Now click the other one.</p>
+              <p><button class="button" data-close>Close modal</button></p>
+            </div>
+            <div class="reveal" id="exampleModal7-2" data-reveal data-multiple-opened="true" data-v-offset="200" data-overlay="false" data-close-on-click="false">
+              <p>Modal 2 - Now click the other one.</p>
+              <p><button class="button" data-close>Close modal</button></p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Eventlistener for anchor</h2>
+            <p>When triggering the modal with the keyboard (space or enter) it should change content.</p>
+            <p><button class="button" data-open="exampleModal8" id="exampleAnchor18-1">Open modal</button></p>
+            <p><a href="#" data-open="exampleModal8" id="exampleAnchor18-2">Open modal</a></p>
+            <div class="reveal" id="exampleModal8" data-reveal>
+              <p>Something went wrong</p>
+              <p><button class="button" data-close>Close modal</button></p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+    <script>
+      // Additional script related to "Eventlistener for anchor"
+      $('#exampleAnchor18-1, #exampleAnchor18-2').on('click', function() {
+        $('#exampleModal8 p').first().html('If you see this, everything works out.');
+      }).on('closed.zf.reveal', function() {
+        $('#exampleModal8 p').first().html('Something went wrong');
+      });
+    </script>
+  </body>
+</html>

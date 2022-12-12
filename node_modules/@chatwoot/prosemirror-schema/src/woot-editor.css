@@ -1,0 +1,251 @@
+.ProseMirror {
+    position: relative;
+}
+
+.ProseMirror {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    -webkit-font-variant-ligatures: none;
+    font-variant-ligatures: none;
+}
+
+.ProseMirror pre {
+    white-space: pre-wrap;
+}
+
+.ProseMirror li {
+    position: relative;
+}
+
+.ProseMirror-hideselection *::selection {
+    background: transparent;
+}
+
+.ProseMirror-hideselection *::-moz-selection {
+    background: transparent;
+}
+
+.ProseMirror-hideselection {
+    caret-color: transparent;
+}
+
+.ProseMirror-selectednode {
+    outline: 2px solid var(--w-200);
+}
+
+/* Make sure li selections wrap around markers */
+li.ProseMirror-selectednode {
+    outline: none;
+}
+
+li.ProseMirror-selectednode:after {
+    content: '';
+    position: absolute;
+    left: -32px;
+    right: -2px;
+    top: -2px;
+    bottom: -2px;
+    border: 2px solid var(--w-200);
+    pointer-events: none;
+}
+
+.ProseMirror-textblock-dropdown {
+    min-width: 3em;
+}
+
+.ProseMirror-menu {
+    margin: 0 -4px;
+    line-height: 1;
+}
+
+.ProseMirror-tooltip .ProseMirror-menu {
+    width: -webkit-fit-content;
+    width: fit-content;
+    white-space: pre;
+}
+
+.ProseMirror-menuitem {
+    margin-right: 3px;
+    display: inline-block;
+}
+
+.ProseMirror-menu-active {
+    background: #eee;
+    border-radius: 4px;
+}
+
+.ProseMirror-menu-active {
+    background: #eee;
+    border-radius: 4px;
+}
+
+.ProseMirror-menu-disabled {
+    opacity: 0.3;
+}
+
+.ProseMirror-menubar {
+    position: relative;
+    min-height: var(--space-two);
+    color: var(--color-heading);
+    padding: var(--space-small) 0;
+    top: 0;
+    left: var(--space-minus-small);
+    right: 0;
+    background: transparent;
+    z-index: 10;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.ProseMirror-icon {
+    display: inline-block;
+    line-height: 0.8;
+    vertical-align: -2px;
+    /* Compensate for padding */
+    padding: 2px 8px;
+    cursor: pointer;
+}
+
+.ProseMirror-menu-disabled.ProseMirror-icon {
+    cursor: default;
+}
+
+.ProseMirror-icon svg {
+    fill: currentColor;
+    height: 2em;
+}
+
+.ProseMirror-icon span {
+    vertical-align: text-top;
+}
+
+.ProseMirror-gapcursor {
+    display: none;
+    pointer-events: none;
+    position: absolute;
+}
+
+.ProseMirror-gapcursor:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -2px;
+    width: 20px;
+    border-top: 1px solid black;
+    animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes ProseMirror-cursor-blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+.ProseMirror-focused .ProseMirror-gapcursor {
+    display: block;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+    padding-left: 30px;
+}
+
+.ProseMirror blockquote {
+    padding-left: 1em;
+    border-left: 3px solid #eee;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.ProseMirror-prompt {
+    position: fixed;
+    z-index: 11;
+    padding: var(--space-normal);
+    background: white;
+}
+
+.ProseMirror-prompt input[type='text'] {
+    padding: 0 4px;
+}
+
+.ProseMirror-prompt-close {
+    position: absolute;
+    left: 2px;
+    top: 1px;
+    color: #666;
+    border: none;
+    background: transparent;
+    padding: 0;
+}
+
+.ProseMirror-prompt-close:after {
+    content: 'âœ•';
+    font-size: 12px;
+}
+
+.ProseMirror-invalid {
+    background: #ffc;
+    border: 1px solid #cc7;
+    border-radius: 4px;
+    padding: 5px 10px;
+    position: absolute;
+    min-width: 10em;
+}
+
+.ProseMirror-prompt-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.ProseMirror-prompt-buttons .button--save-link {
+    margin-left: var(--space-smaller);
+}
+
+#editor,
+.editor {
+    background: white;
+    color: black;
+    background-clip: padding-box;
+    border-radius: 4px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    padding: 5px 0;
+    margin-bottom: 23px;
+}
+
+.ProseMirror p:first-child,
+.ProseMirror h1:first-child,
+.ProseMirror h2:first-child,
+.ProseMirror h3:first-child,
+.ProseMirror h4:first-child,
+.ProseMirror h5:first-child,
+.ProseMirror h6:first-child {
+    margin-top: 10px;
+}
+
+.ProseMirror {
+    padding: 4px 8px 4px 14px;
+    line-height: 1.2;
+    outline: none;
+}
+
+.ProseMirror p {
+    margin-bottom: 1em;
+}
+
+.ProseMirror .empty-node::before {
+    position: absolute;
+    color: #aaa;
+    cursor: text;
+}
+
+.ProseMirror .empty-node:hover::before {
+    color: #777;
+}
+
+.ProseMirror p.empty-node:first-child::before {
+    content: attr(data-placeholder);
+    cursor: text;
+}

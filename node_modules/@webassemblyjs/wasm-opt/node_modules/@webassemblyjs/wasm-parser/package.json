@@ -1,0 +1,44 @@
+{
+  "name": "@webassemblyjs/wasm-parser",
+  "version": "1.9.0",
+  "keywords": [
+    "webassembly",
+    "javascript",
+    "ast",
+    "parser",
+    "wasm"
+  ],
+  "description": "WebAssembly binary format parser",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Sven Sauleau",
+  "license": "MIT",
+  "dependencies": {
+    "@webassemblyjs/ast": "1.9.0",
+    "@webassemblyjs/helper-api-error": "1.9.0",
+    "@webassemblyjs/helper-wasm-bytecode": "1.9.0",
+    "@webassemblyjs/ieee754": "1.9.0",
+    "@webassemblyjs/leb128": "1.9.0",
+    "@webassemblyjs/utf8": "1.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xtuc/webassemblyjs.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@webassemblyjs/helper-buffer": "1.9.0",
+    "@webassemblyjs/helper-test-framework": "1.9.0",
+    "@webassemblyjs/helper-wasm-bytecode": "1.7.7",
+    "@webassemblyjs/wasm-gen": "1.9.0",
+    "@webassemblyjs/wast-parser": "1.9.0",
+    "mamacro": "^0.0.7",
+    "wabt": "1.0.12"
+  },
+  "gitHead": "0440b420888c1f7701eb9762ec657775506b87d8"
+}

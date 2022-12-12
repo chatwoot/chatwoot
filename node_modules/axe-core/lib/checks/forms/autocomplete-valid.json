@@ -1,0 +1,11 @@
+{
+  "id": "autocomplete-valid",
+  "evaluate": "autocomplete-valid-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "the autocomplete attribute is correctly formatted",
+      "fail": "the autocomplete attribute is incorrectly formatted"
+    }
+  }
+}

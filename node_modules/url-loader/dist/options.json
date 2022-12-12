@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "properties": {
+    "limit": {
+      "description": "Enables/Disables transformation target file into base64 URIs (https://github.com/webpack-contrib/url-loader#limit).",
+      "type": ["boolean", "number", "string"]
+    },
+    "mimetype": {
+      "description": "The MIME type for the file to be transformed (https://github.com/webpack-contrib/url-loader#mimetype).",
+      "type": "string"
+    },
+    "fallback": {
+      "description": "An alternative loader to use when a target file's size exceeds the limit set in the limit option (https://github.com/webpack-contrib/url-loader#fallback).",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "loader": {
+              "description": "Fallback loader name.",
+              "type": "string"
+            },
+            "options": {
+              "description": "Fallback loader options.",
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "esModules": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

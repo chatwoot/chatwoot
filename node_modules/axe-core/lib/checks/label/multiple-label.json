@@ -1,0 +1,11 @@
+{
+  "id": "multiple-label",
+  "evaluate": "multiple-label-evaluate",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Form field does not have multiple label elements",
+      "incomplete": "Multiple label elements is not widely supported in assistive technologies. Ensure the first label contains all necessary information."
+    }
+  }
+}

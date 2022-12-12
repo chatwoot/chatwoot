@@ -1,0 +1,97 @@
+{
+  "name": "memfs",
+  "version": "3.2.2",
+  "description": "In-memory file-system with Node's fs API.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "clean": "rimraf lib types",
+    "build": "tsc -p . && cpy src/*.js lib",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "watch": "watch \"npm run build\" ./src",
+    "prettier": "prettier --ignore-path .gitignore --write \"src/**/*.{ts,js}\"",
+    "prettier:diff": "prettier -l \"src/**/*.{ts,js}\"",
+    "tslint": "tslint \"src/**/*.ts\" -t verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/streamich/memfs.git"
+  },
+  "dependencies": {
+    "fs-monkey": "1.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "26.0.22",
+    "@types/node": "10.17.56",
+    "cpy-cli": "3.1.1",
+    "husky": "6.0.0",
+    "jest": "26.6.3",
+    "prettier": "2.2.1",
+    "pretty-quick": "3.1.0",
+    "rimraf": "3.0.2",
+    "ts-jest": "26.5.4",
+    "ts-node": "9.1.1",
+    "tslint": "5.20.1",
+    "tslint-config-common": "1.6.0",
+    "typescript": "4.2.3",
+    "semantic-release": "17.4.2",
+    "@semantic-release/changelog": "5.0.1",
+    "@semantic-release/git": "9.0.0",
+    "@semantic-release/npm": "7.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": ".*/__tests__/.*\\.(test|spec)\\.(jsx?|tsx?)$"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "release": {
+    "verifyConditions": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ]
+  },
+  "license": "Unlicense",
+  "keywords": [
+    "fs",
+    "filesystem",
+    "fs.js",
+    "memory-fs",
+    "memfs",
+    "file",
+    "file system",
+    "mount",
+    "memory",
+    "in-memory",
+    "virtual",
+    "test",
+    "testing",
+    "mock"
+  ]
+}

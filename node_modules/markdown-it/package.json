@@ -1,0 +1,63 @@
+{
+  "name": "markdown-it",
+  "version": "10.0.0",
+  "description": "Markdown-it - modern pluggable markdown parser.",
+  "keywords": [
+    "markdown",
+    "parser",
+    "commonmark",
+    "markdown-it",
+    "markdown-it-plugin"
+  ],
+  "repository": "markdown-it/markdown-it",
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "markdown-it": "bin/markdown-it.js"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "lib/",
+    "dist/"
+  ],
+  "dependencies": {
+    "argparse": "^1.0.7",
+    "entities": "~2.0.0",
+    "linkify-it": "^2.0.0",
+    "mdurl": "^1.0.1",
+    "uc.micro": "^1.0.5"
+  },
+  "devDependencies": {
+    "ansi": "^0.3.0",
+    "autoprefixer-stylus": "^0.14.0",
+    "benchmark": "~2.1.0",
+    "browserify": "^16.3.0",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.4",
+    "eslint": "^6.0.1",
+    "express": "^4.14.0",
+    "highlight.js": "^9.2.0",
+    "istanbul": "^0.4.5",
+    "markdown-it-abbr": "^1.0.4",
+    "markdown-it-container": "^2.0.0",
+    "markdown-it-deflist": "^2.0.0",
+    "markdown-it-emoji": "^1.1.1",
+    "markdown-it-footnote": "^3.0.1",
+    "markdown-it-for-inline": "^0.1.0",
+    "markdown-it-ins": "^2.0.0",
+    "markdown-it-mark": "^2.0.0",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
+    "markdown-it-testgen": "^0.1.3",
+    "mocha": "^6.1.4",
+    "ndoc": "^5.0.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "stylus": "^0.54.5",
+    "supertest": "^4.0.2",
+    "terser": "^4.1.2"
+  }
+}

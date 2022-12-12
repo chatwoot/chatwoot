@@ -1,0 +1,17 @@
+
+{{alias}}()
+    Tests for native `Uint32Array` support.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating if an environment has `Uint32Array` support.
+
+    Examples
+    --------
+    > var bool = {{alias}}()
+    <boolean>
+
+    See Also
+    --------
+

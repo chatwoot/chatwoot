@@ -1,0 +1,1106 @@
+@import "../font/iconfont.css";
+/* ve-table */
+/* ve-pagination */
+/* ve-checkbox */
+/* ve-radio */
+/* ve-select */
+/* ve-dropdown */
+.ve-checkbox {
+  cursor: pointer;
+  font-size: 12px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+.ve-checkbox:hover .ve-checkbox-inner {
+  border-color: #108ee9;
+}
+.ve-checkbox-content {
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  display: inline-block;
+  line-height: 1;
+  position: relative;
+  vertical-align: text-bottom;
+}
+.ve-checkbox-content:hover .ve-checkbox-inner {
+  border-color: #108ee9;
+}
+.ve-checkbox-content .ve-checkbox-input {
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.ve-checkbox-content .ve-checkbox-input:focus .ve-checkbox-inner {
+  border-color: #108ee9;
+}
+.ve-checkbox-content .ve-checkbox-inner {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #abbacc;
+  border-radius: 2px;
+  background-color: #fff;
+  transition: all 0.3s;
+}
+.ve-checkbox-content .ve-checkbox-inner:after {
+  transform: rotate(45deg) scale(0);
+  position: absolute;
+  left: 4px;
+  top: 2px;
+  display: table;
+  width: 6px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  content: " ";
+  transition: all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6);
+}
+.ve-checkbox .ve-checkbox-checked:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  border: 1px solid #108ee9;
+  content: "";
+  animation-fill-mode: both;
+  visibility: hidden;
+}
+.ve-checkbox .ve-checkbox-checked .ve-checkbox-inner {
+  background-color: #108ee9;
+  border-color: #108ee9;
+}
+.ve-checkbox .ve-checkbox-checked .ve-checkbox-inner:after {
+  transform: rotate(45deg) scale(1);
+  position: absolute;
+  display: table;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  content: " ";
+  transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+}
+.ve-checkbox .ve-checkbox-indeterminate .ve-checkbox-inner {
+  border-color: #d9d9d9;
+  position: relative;
+  top: 0;
+  left: 0;
+  direction: ltr;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  border-collapse: separate;
+  transition: all 0.3s;
+}
+.ve-checkbox .ve-checkbox-indeterminate .ve-checkbox-inner:after {
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #108ee9;
+  border: 0;
+  -webkit-transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  content: " ";
+}
+.ve-checkbox .ve-checkbox-indeterminate .ve-checkbox-inner:hover {
+  border-color: #108ee9;
+}
+.ve-checkbox .ve-checkbox-indeterminate.ve-checkbox-disabled .ve-checkbox-inner:after {
+  border-color: rgba(0, 0, 0, 0.25);
+}
+.ve-checkbox .ve-checkbox-disabled {
+  cursor: not-allowed;
+}
+.ve-checkbox .ve-checkbox-disabled.ve-checkbox-checked .ve-checkbox-inner:after {
+  animation-name: none;
+  border-color: rgba(0, 0, 0, 0.25);
+}
+.ve-checkbox .ve-checkbox-disabled .ve-checkbox-input {
+  cursor: not-allowed;
+}
+.ve-checkbox .ve-checkbox-disabled .ve-checkbox-inner {
+  color: rgba(0, 0, 0, 0.25);
+  cursor: not-allowed;
+  border-color: #d9d9d9 !important;
+  background-color: #f7f7f7;
+}
+.ve-checkbox .ve-checkbox-disabled .ve-checkbox-inner:after {
+  animation-name: none;
+  border-color: #f7f7f7;
+}
+.ve-checkbox-label {
+  margin: 0 6px 0 3px;
+  /* display: inline-block; */
+  width: 100%;
+}
+.ve-dropdown {
+  display: inline-table;
+  margin: 0;
+  /*操作功能开始*/
+}
+.ve-dropdown a,
+.ve-dropdown a:visited {
+  color: #000;
+  text-decoration: none;
+  outline: none;
+}
+.ve-dropdown .ve-dropdown-dd,
+.ve-dropdown .ve-dropdown-dt {
+  z-index: 9999;
+}
+.ve-dropdown .ve-dropdown-dd,
+.ve-dropdown .ve-dropdown-dt,
+.ve-dropdown .ve-dropdown-items {
+  margin: 0px;
+  padding: 0px;
+}
+.ve-dropdown .ve-dropdown-dt-selected {
+  position: relative;
+  display: block;
+  border: 1px solid #434343;
+  border-radius: 2px;
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+}
+.ve-dropdown .ve-dropdown-dt-selected:hover {
+  color: #262626;
+  border-color: #262626;
+}
+.ve-dropdown .ve-dropdown-dt-selected .ve-dropdown-dt-selected-span {
+  width: 80%;
+  display: block !important;
+  /*修复会被别的样式覆盖的问题*/
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 2px;
+}
+.ve-dropdown .ve-dropdown-dt-selected .ve-dropdown-input {
+  appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  color: #1f2d3d;
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  outline: none;
+  padding-left: 2px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 80%;
+  text-align: left;
+}
+.ve-dropdown .ve-dropdown-dd {
+  position: absolute !important;
+  z-index: 9999999;
+  display: none;
+}
+.ve-dropdown .ve-dropdown-dd-show {
+  display: block;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items {
+  min-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: normal;
+  white-space: nowrap;
+  position: fixed;
+  top: 2px;
+  left: 0px;
+  list-style: none;
+  border-radius: 2px;
+  background-color: #262626;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid #d1dbe5;
+  padding: 5px 0px;
+  width: auto;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper {
+  overflow: auto;
+  /* 单选 */
+  /* 多选 */
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li {
+  white-space: nowrap;
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+  background-color: #262626;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li:hover {
+  background-color: #434343;
+  color: #ffffffd9;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li.active {
+  background-color: #434343;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li.active a {
+  color: #108ee9;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li.active:hover {
+  background-color: #434343;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a {
+  width: 100%;
+  display: block;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: #ffffffd9;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a-left {
+  text-align: left;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a-center {
+  text-align: center;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a-right {
+  text-align: right;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple {
+  display: table;
+  padding: 0 5px;
+  width: 100%;
+  text-align: left;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple .ve-checkbox {
+  width: 100%;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple .ve-checkbox .ve-checkbox-label {
+  padding-left: 5px;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple span {
+  font-size: 14px;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple:hover {
+  background-color: #e6f7ff;
+}
+.ve-dropdown .ve-dropdown-operation {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px 0 3px 0;
+  font-size: 14px;
+  border-top: 1px solid #e8e8e8;
+}
+.ve-dropdown .ve-dropdown-operation .ve-dropdown-operation-item {
+  padding: 0 8px;
+  color: #495060;
+}
+.ve-dropdown .ve-dropdown-operation .ve-dropdown-operation-item.ve-dropdown-filter-disable {
+  color: #999;
+}
+.ve-dropdown .ve-dropdown-operation .ve-dropdown-operation-item:not(.ve-dropdown-filter-disable):hover {
+  color: #262626;
+}
+.ve-dropdown .ve-dropdown-operation:last-child {
+  float: right;
+}
+.ve-dropdown .ve-dropdown-operation:hover {
+  color: #434343;
+}
+.ve-icon {
+  display: inline-block;
+}
+.ve-loading-parent-relative {
+  position: relative !important;
+}
+.ve-loading-parent-lock {
+  overflow: hidden !important;
+}
+.ve-loading {
+  /* plane */
+  /* bounce */
+  /* wave */
+  /* pulse */
+  /* flow */
+  /* grid */
+}
+.ve-loading.ve-loading-overlay {
+  position: absolute;
+  z-index: 1999;
+  margin: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.ve-loading.ve-loading-fixed {
+  position: fixed !important;
+}
+.ve-loading.ve-loading-hide {
+  display: none;
+}
+.ve-loading-spin-container {
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+  margin-left: -20px;
+  width: 100%;
+  text-align: center;
+}
+.ve-loading-spin-container .ve-loading-spin {
+  display: inline-block;
+}
+.ve-loading-spin-container .ve-loading-spin-tip {
+  /* text-align: center; */
+}
+.ve-loading-plane {
+  animation: sk-plane 1.2s infinite ease-in-out;
+}
+@keyframes sk-plane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+.ve-loading-bounce {
+  position: relative;
+}
+.ve-loading-bounce-dot {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* background-color: var(--sk-color); */
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: sk-bounce 2s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+.ve-loading-bounce-dot:nth-child(2) {
+  animation-delay: -1s;
+}
+@keyframes sk-bounce {
+  0%,
+  100% {
+    transform: scale(0);
+  }
+  45%,
+  55% {
+    transform: scale(1);
+  }
+}
+.ve-loading-wave {
+  display: flex;
+  justify-content: space-between;
+}
+.ve-loading-wave-rect {
+  height: 100%;
+  width: 15%;
+  animation: sk-wave 1.2s infinite ease-in-out;
+}
+.ve-loading-wave-rect:nth-child(1) {
+  animation-delay: -1.2s;
+}
+.ve-loading-wave-rect:nth-child(2) {
+  animation-delay: -1.1s;
+}
+.ve-loading-wave-rect:nth-child(3) {
+  animation-delay: -1s;
+}
+.ve-loading-wave-rect:nth-child(4) {
+  animation-delay: -0.9s;
+}
+.ve-loading-wave-rect:nth-child(5) {
+  animation-delay: -0.8s;
+}
+@keyframes sk-wave {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1);
+  }
+}
+.ve-loading-pulse {
+  width: var(--sk-size);
+  height: var(--sk-size);
+  background-color: var(--sk-color);
+  border-radius: 100%;
+  animation: sk-pulse 1.2s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+@keyframes sk-pulse {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.ve-loading-flow {
+  width: calc(var(--sk-size) * 1.3);
+  height: calc(var(--sk-size) * 1.3);
+  display: flex;
+  justify-content: space-between;
+}
+.ve-loading-flow-dot {
+  width: 25%;
+  height: 25%;
+  background-color: var(--sk-color);
+  border-radius: 50%;
+  animation: sk-flow 1.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s infinite both;
+}
+.ve-loading-flow-dot:nth-child(1) {
+  animation-delay: -0.3s;
+}
+.ve-loading-flow-dot:nth-child(2) {
+  animation-delay: -0.15s;
+}
+@keyframes sk-flow {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.3);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+.ve-loading-grid {
+  /* Cube positions
+     * 1 2 3
+     * 4 5 6
+     * 7 8 9
+     */
+}
+.ve-loading-grid-cube {
+  width: 33.33%;
+  height: 33.33%;
+  background-color: var(--sk-color);
+  float: left;
+  animation: sk-grid 1.3s infinite ease-in-out;
+}
+.ve-loading-grid-cube:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.ve-loading-grid-cube:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.ve-loading-grid-cube:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.ve-loading-grid-cube:nth-child(4) {
+  animation-delay: 0.1s;
+}
+.ve-loading-grid:nth-child(5) {
+  animation-delay: 0.2s;
+}
+.ve-loading-grid-cube:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.ve-loading-grid-cube:nth-child(7) {
+  animation-delay: 0s;
+}
+.ve-loading-grid-cube:nth-child(8) {
+  animation-delay: 0.1s;
+}
+.ve-loading-grid-cube:nth-child(9) {
+  animation-delay: 0.2s;
+}
+@keyframes sk-grid {
+  0%,
+  70%,
+  100% {
+    transform: scale3D(1, 1, 1);
+  }
+  35% {
+    transform: scale3D(0, 0, 1);
+  }
+}
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+.ve-pagination {
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+  background-color: #262626;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin: 0 4px;
+  list-style-type: none;
+}
+.ve-pagination .ve-pagination-total {
+  float: left;
+  margin: 0 4px;
+  color: #ffffffd9;
+}
+.ve-pagination .ve-pagination-select {
+  float: left;
+  margin: 0 4px;
+}
+.ve-pagination .ve-pagination-pager {
+  float: left;
+}
+.ve-pagination .ve-pagination-goto {
+  float: left;
+  margin: 0 4px;
+  color: #ffffffd9;
+}
+.ve-pagination .ve-pagination-goto .ve-pagination-goto-input {
+  width: 50px;
+  height: 32px;
+  padding: 1px 7px;
+  display: inline-block;
+  border: 1px solid #434343;
+  background-color: #141414;
+  background-image: none;
+  transition: border 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 4px;
+}
+.ve-pagination .ve-pagination-goto .ve-pagination-goto-input:focus {
+  outline: none !important;
+  border-color: #262626;
+}
+.ve-pagination .ve-pagination-goto .ve-pagination-goto-input:hover {
+  border-color: #262626;
+}
+.ve-pagination .ve-pagination-li {
+  min-width: 32px;
+  height: 32px;
+  float: left;
+  margin-right: 4px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  text-align: center;
+  list-style: none;
+  background-color: #262626;
+  border: 1px solid #434343;
+  border-radius: 4px;
+}
+.ve-pagination .ve-pagination-li a {
+  color: #ffffffd9;
+}
+.ve-pagination .ve-pagination-li:hover {
+  border-color: #262626;
+}
+.ve-pagination .ve-pagination-li:hover a {
+  color: #262626;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active {
+  border-color: #262626;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active a {
+  font-weight: bold;
+  color: #262626;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active:hover {
+  border-color: #262626;
+}
+.ve-pagination .ve-pagination-li.ve-pagination-li-active:hover a {
+  font-weight: bold;
+  color: #262626;
+}
+.ve-pagination .ve-pagination-prev i,
+.ve-pagination .ve-pagination-next i {
+  color: #666;
+}
+.ve-pagination .ve-pagination-prev:hover i,
+.ve-pagination .ve-pagination-next:hover i {
+  color: #262626;
+}
+.ve-pagination .ve-pagination-jump-prev:after,
+.ve-pagination .ve-pagination-jump-next:after {
+  content: "•••";
+  display: block;
+  letter-spacing: 1px;
+  color: #666;
+  text-align: center;
+}
+.ve-pagination .ve-pagination-jump-prev i,
+.ve-pagination .ve-pagination-jump-prev:hover:after,
+.ve-pagination .ve-pagination-jump-next i,
+.ve-pagination .ve-pagination-jump-next:hover:after {
+  display: none;
+}
+.ve-pagination .ve-pagination-jump-prev:hover i,
+.ve-pagination .ve-pagination-jump-next:hover i {
+  display: inline;
+  color: #262626;
+}
+.ve-pagination .ve-pagination-disabled {
+  cursor: not-allowed;
+  border-color: #434343;
+}
+.ve-pagination .ve-pagination-disabled:hover {
+  border-color: #434343;
+}
+.ve-pagination .ve-pagination-disabled:hover i {
+  color: #ccc;
+  cursor: not-allowed;
+}
+.ve-pagination .ve-pagination-disabled i {
+  color: #ccc;
+}
+.ve-radio *,
+.ve-radio *:before,
+.ve-radio *:after {
+  box-sizing: border-box;
+}
+.ve-radio {
+  margin: 0 8px 0 0;
+}
+.ve-radio,
+.ve-radio .ve-radio-container {
+  padding: 0;
+  color: #000000d9;
+  font-size: 14px;
+  line-height: 22px;
+  list-style: none;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ve-radio .ve-radio-container {
+  margin: 0;
+  top: -1px;
+  line-height: 1;
+  vertical-align: sub;
+  outline: none;
+}
+.ve-radio .ve-radio-container .ve-radio-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  cursor: pointer;
+  opacity: 0;
+}
+.ve-radio .ve-radio-container .ve-radio-inner {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 100px;
+  transition: all 0.3s;
+}
+.ve-radio .ve-radio-container .ve-radio-inner:after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  display: table;
+  width: 8px;
+  height: 8px;
+  background-color: #108ee9;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 8px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+  content: " ";
+}
+.ve-radio .ve-radio-container.ve-radio-checked:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #108ee9;
+  border-radius: 50%;
+  visibility: hidden;
+  animation-fill-mode: both;
+  content: "";
+}
+.ve-radio .ve-radio-container.ve-radio-checked .ve-radio-inner {
+  border-color: #108ee9;
+}
+.ve-radio .ve-radio-container.ve-radio-checked .ve-radio-inner:after {
+  transform: scale(1);
+  opacity: 1;
+  transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+.ve-radio .ve-radio-container.ve-radio-disabled .ve-radio-input {
+  cursor: not-allowed;
+}
+.ve-radio .ve-radio-container.ve-radio-disabled .ve-radio-inner {
+  background-color: #f5f5f5;
+  border-color: #d9d9d9 !important;
+  cursor: not-allowed;
+}
+.ve-radio .ve-radio-container.ve-radio-disabled .ve-radio-inner:after {
+  background-color: #00000033;
+}
+.ve-radio .ve-radio-container.ve-radio-disabled + span {
+  color: rgba(0, 0, 0, 0.25);
+  cursor: not-allowed;
+}
+.ve-radio .ve-radio-label {
+  padding: 0 4px;
+}
+.ve-select .ve-select-input {
+  appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  color: #1f2d3d;
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  outline: none;
+  padding-left: 2px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 80%;
+  text-align: left;
+}
+.ve-select .ve-select-selected-span {
+  width: 80%;
+  display: block !important;
+  /*修复会被别的样式覆盖的问题*/
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 2px;
+  color: #ffffffd9;
+}
+.ve-select .ve-select-toggle-icon {
+  display: inline-flex;
+  position: absolute;
+  line-height: 32px;
+  top: 0;
+  right: 5px;
+  color: #999;
+}
+.ve-select .ve-select-toggle-icon::before {
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+.ve-select .ve-select-toggle-icon.ve-select-show::before {
+  transform: rotate(180deg);
+  transition: transform 0.3s;
+}
+/* fixed column shadow */
+.ve-table *,
+.ve-table *:before,
+.ve-table *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.ve-table table.ve-table-content {
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.ve-table table.ve-table-content thead.ve-table-header tr.ve-table-header-tr {
+  height: 40px;
+}
+.ve-table table.ve-table-content thead.ve-table-header tr.ve-table-header-tr th.ve-table-header-th {
+  background-color: #1d1d1d;
+  padding: 10px;
+  font-weight: 500;
+  color: #ffffffd9;
+  font-size: 14px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr {
+  height: 40px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr td.ve-table-body-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr td.ve-table-body-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr td.ve-table-expand-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr td.ve-table-expand-td {
+  background-color: #141414;
+  color: #ffffffd9;
+  height: inherit;
+  font-size: 14px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr td.ve-table-body-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr td.ve-table-body-td {
+  padding: 10px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr {
+  display: table-row;
+}
+.ve-table table.ve-table-content tbody.ve-table-body.ve-table-stripe tr.ve-table-body-tr:nth-child(2n + 1) td {
+  background-color: #262626;
+}
+.ve-table table.ve-table-content tbody.ve-table-body.ve-table-row-hover tr.ve-table-body-tr:hover td {
+  background-color: #262626;
+}
+.ve-table table.ve-table-content tbody.ve-table-body.ve-table-row-highlight tr.ve-table-body-tr.ve-table-tr-highlight td {
+  background-color: #000;
+}
+.ve-table table.ve-table-content tfoot.ve-table-footer tr.ve-table-footer-tr {
+  height: 40px;
+}
+.ve-table table.ve-table-content tfoot.ve-table-footer tr.ve-table-footer-tr td.ve-table-footer-td {
+  background-color: #1d1d1d;
+  color: #ffffffd9;
+  padding: 10px;
+  font-size: 14px;
+}
+.ve-table .ve-table-container {
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+.ve-table .ve-table-container.ve-table-virtual-scroll {
+  position: relative;
+}
+.ve-table .ve-table-container.ve-table-virtual-scroll .ve-table-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.ve-table .ve-table-container .ve-table-virtual-phantom.ve-table-virtual-scroll {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: -1;
+}
+.ve-table .ve-table-container.ve-table-container-left-scrolling .ve-table-last-left-fixed-column::after {
+  box-shadow: inset 10px 0 8px -8px rgba(0, 0, 0, 0.15);
+}
+.ve-table .ve-table-container.ve-table-container-right-scrolling .ve-table-first-right-fixed-column::after {
+  box-shadow: inset -10px 0 8px -8px rgba(0, 0, 0, 0.15);
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x th,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x td {
+  border-bottom: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x tr:first-child > th,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x tr.ve-table-footer-tr:first-child > td {
+  border-top: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y th,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y td {
+  border-right: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y th:first-child,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y td:first-child {
+  border-left: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header.ve-table-fixed-header tr th {
+  position: sticky;
+  z-index: 2;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th {
+  /* fixed column shadow */
+  /* filter */
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-fixed-left,
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-fixed-right {
+  position: sticky;
+  z-index: 3;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-last-left-fixed-column::after,
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-first-right-fixed-column::after {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 30px;
+  height: 100%;
+  transition: box-shadow 0.3s;
+  content: "";
+  pointer-events: none;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-last-left-fixed-column::after {
+  transform: translateX(100%);
+  right: 0;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-first-right-fixed-column::after {
+  transform: translateX(-100%);
+  left: 0;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-checkbox-wrapper {
+  width: 25px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort {
+  display: inline-block;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
+  color: #bfbfbf;
+  cursor: pointer;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon {
+  position: absolute;
+  display: block;
+  font-size: 14px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon.ve-table-sort-icon-top {
+  top: 1px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon.ve-table-sort-icon-bottom {
+  top: 9px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon.active {
+  color: #108ee9;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-filter {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 16px;
+  cursor: pointer;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-filter .ve-table-filter-icon {
+  position: absolute;
+  top: 0;
+  left: 5px;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td {
+  /* fixed column shadow */
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-fixed-left,
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-fixed-right {
+  position: sticky;
+  z-index: 1;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-last-left-fixed-column::after,
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-first-right-fixed-column::after {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 30px;
+  height: 100%;
+  transition: box-shadow 0.3s;
+  content: "";
+  pointer-events: none;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-last-left-fixed-column::after {
+  transform: translateX(100%);
+  right: 0;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-first-right-fixed-column::after {
+  transform: translateX(-100%);
+  left: 0;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-cell-selection {
+  border: 1px solid #2196f3;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon {
+  cursor: pointer;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon i {
+  display: inline-flex;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon i::before {
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon.ve-table-expand-icon-collapsed i::before {
+  transform: rotate(90deg);
+  transition: transform 0.3s;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-checkbox-wrapper {
+  width: 25px;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-body-td-span-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  /* -webkit-line-clamp: 1; */
+  -webkit-box-orient: vertical;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-body-td-edit-input {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+  background-color: transparent;
+  text-align: inherit;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-expand-tr .ve-table-expand-td-content {
+  position: sticky;
+  z-index: 1;
+  left: 0px;
+  padding: 10px;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer.ve-table-fixed-footer tr td {
+  position: sticky;
+  z-index: 2;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td {
+  /* fixed column shadow */
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-fixed-left,
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-fixed-right {
+  position: sticky;
+  z-index: 3;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-last-left-fixed-column::after,
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-first-right-fixed-column::after {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 30px;
+  height: 100%;
+  transition: box-shadow 0.3s;
+  content: "";
+  pointer-events: none;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-last-left-fixed-column::after {
+  transform: translateX(100%);
+  right: 0;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-first-right-fixed-column::after {
+  transform: translateX(-100%);
+  left: 0;
+}
+.ve-table .ve-table-container.ve-table-border-around {
+  border: 1px solid #000;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-x tr:last-child > td {
+  border-bottom: 0px;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-x tr:first-child > th {
+  border-top: 0px;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y th.ve-table-last-column,
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y td:last-child {
+  border-right: 0px;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y th:first-child,
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y td:first-child {
+  border-left: 0px;
+}

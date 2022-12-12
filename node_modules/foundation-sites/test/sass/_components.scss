@@ -1,0 +1,42 @@
+@import "true";
+
+@import '../../scss/util/math';
+@import '../../scss/global';
+@import '../../scss/components/responsive-embed';
+@import '../../scss/grid/grid';
+
+@include test-module('Components') {
+
+  @include test('Ratio to Percentage [function]') {
+    $test: ratio-to-percentage(3 by 4);
+    $expect: 4 / 3 * 100%;
+
+    @include assert-equal($test, $expect,
+      'Creates a percentage value from a ratio');
+  }
+
+  @include test('Grid Column [function]') {
+    @include assert-equal(grid-column(6), 50%,
+      'Creates a column width from a column count');
+    @include assert-equal(grid-column(0.5), 50%,
+      'Creates a column width from a decimal value');
+    @include assert-equal(grid-column(50%), 50%,
+      'Creates a column width from a percentage value');
+  }
+
+  @include test('Flex Grid Column [function]') {
+    @include assert-equal(flex-grid-column(), 1 1 0px,
+      'Creates an expanding flex property when passed no value');
+    @include assert-equal(flex-grid-column(shrink), 0 0 auto,
+      'Creates a shrinking flex property when passed shrink');
+    @include assert-equal(flex-grid-column(6), 0 0 50%,
+      'Creates a fixed flex property from a column count');
+    @include assert-equal(flex-grid-column(0.5), 0 0 50%,
+      'Creates a fixed flex property from a decimal value');
+    @include assert-equal(flex-grid-column(50%), 0 0 50%,
+      'Creates a fixed flex property from a percentage value');
+    @include assert-equal(flex-grid-column(1 of 2), 0 0 50%,
+      'Creates a fixed flex property from an x of y value');
+  }
+
+}

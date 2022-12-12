@@ -1,0 +1,51 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group xy-grid
+////
+
+/// Enables the XY grid.
+/// @type Boolean
+$xy-grid: true !default;
+
+/// The maximum width of a grid container.
+/// @type Number
+$grid-container: $global-width !default;
+
+/// The number of columns used in the grid.
+/// @type Number
+$grid-columns: 12 !default;
+
+/// The amount of margin between cells at different screen sizes when using the margin grid. To use just one size, set the variable to a number instead of a map.
+/// @type Map | Length
+$grid-margin-gutters: (
+  small: 20px,
+  medium: 30px
+) !default;
+
+/// The amount of padding in cells at different screen sizes when using the padding grid. To use just one size, set the variable to a number instead of a map.
+/// @type Map | Length
+$grid-padding-gutters: $grid-margin-gutters !default;
+
+/// The amount of padding to use when padding the grid-container.
+/// @type Map | Length
+$grid-container-padding: $grid-padding-gutters !default;
+
+/// The maximum width to apply to a grid container
+/// @type Number
+$grid-container-max: $global-width !default;
+
+/// The maximum number of cells in an XY block grid.
+/// @type Number
+$xy-block-grid-max: 8 !default;
+
+@import 'gutters';
+@import 'grid';
+@import 'cell';
+@import 'frame';
+@import 'position';
+@import 'layout';
+@import 'collapse';
+@import 'classes';

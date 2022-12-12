@@ -1,0 +1,87 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype
+////
+
+// Relational Mixins
+@import 'relation';
+
+// Box Mixin
+@import 'box';
+
+// Rotate Mixin
+@import 'rotate';
+
+// Text utilities
+@import 'text-utilities';
+
+// Text transformation classes
+@import 'text-transformation';
+
+// Text Decoration classes
+@import 'text-decoration';
+
+// Font Styling
+@import 'font-styling';
+
+// List Style type
+@import 'list-style-type';
+
+// Rounded Utility
+@import 'rounded';
+
+// Bordered Utility
+@import 'bordered';
+
+// Shadow Utility
+@import 'shadow';
+
+// Arrow Utility
+@import 'arrow';
+
+// Separator Utility
+@import 'separator';
+
+// Overflow helper classes
+@import 'overflow';
+
+// Display classes
+@import 'display';
+
+// Position Helpers
+@import 'position';
+
+// Border box
+@import 'border-box';
+
+// Border none Utilty
+@import 'border-none';
+
+// Sizing Utilities
+@import 'sizing';
+
+// Spacing Utilities
+@import 'spacing';
+
+@mixin foundation-prototype-classes {
+  @include foundation-prototype-text-utilities;
+  @include foundation-prototype-text-transformation;
+  @include foundation-prototype-text-decoration;
+  @include foundation-prototype-font-styling;
+  @include foundation-prototype-list-style-type;
+  @include foundation-prototype-rounded;
+  @include foundation-prototype-bordered;
+  @include foundation-prototype-shadow;
+  @include foundation-prototype-arrow;
+  @include foundation-prototype-separator;
+  @include foundation-prototype-overflow;
+  @include foundation-prototype-display;
+  @include foundation-prototype-position;
+  @include foundation-prototype-border-box;
+  @include foundation-prototype-border-none;
+  @include foundation-prototype-sizing;
+  @include foundation-prototype-spacing;
+}

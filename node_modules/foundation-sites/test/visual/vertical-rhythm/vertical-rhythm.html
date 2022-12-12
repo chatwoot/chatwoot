@@ -1,0 +1,154 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <style media="screen">
+    body {
+      background: white;
+      background-image: linear-gradient(#ddd 1px, transparent 1px);
+      background-size: 100% 1.5rem;
+      color: #222;
+    }
+
+    .about {
+      font-size: 48px;
+    }
+
+    h1 {background-color: #FF0000; color: #fff;}
+    h2 {background-color: #FF7F00; color: #fff;}
+    h3 {background-color: #FFFF00; color: #222;}
+    h4 {background-color: #00FF00; color: #222;}
+    h5 {background-color: #0000FF; color: #fff;}
+    h6 {background-color: #8B00FF; color: #fff;}
+    p  {background-color: #eee;}
+
+    .with-lines  {
+      background-image: linear-gradient(#000 1px, transparent 1px);
+      background-size: 100% 1.5rem;
+    }
+      
+    .button {
+      display: block;
+    }
+
+    .box {
+      
+      background: whitesmoke;
+    }
+    
+  </style>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell text-center">
+          <div class="about"> This is a first visual overview on the current Foundation 6 settings with respect to a vertical rhythm. </div>
+        </div>
+      </div>
+      <div class="grid-x grid-padding-x">
+        <div class="small-3 cell">
+          <h2 class="with-lines">Normal Text</h2>
+          <p class="with-lines"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+          <h3>Small Text</h2> <small> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </small> 
+        </div>
+        <div class="small-5 cell"> 
+          <h1>Header 1</h1> <h2>Header 2</h2> <h3>Header 3</h3>
+          <h4>Header 4</h4>
+          <h5>Header 5</h5>
+          <h6>Header 6</h6>
+          <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+          <ul>
+              <li>List item</li>
+              <li>List item</li>
+              <li>List item
+                  <ul>
+                      <li>Nested list item</li>
+                      <li>Nested list item</li>
+                      <li>Nested list item</li>
+                  </ul>
+              </li>
+              <li>List item</li>
+              <li>List item</li>
+              <li>List item</li>
+          </ul>
+        </div>
+        <div class="small-4 cell">
+            <h5>Other Stuff</h5>
+            <h6>Buttons</h6> <a class="tiny button" href="#">So Tiny</a> <a class="small button" href="#">So Small</a> <a class="button" href="#">So Basic</a> <a class="large button" href="#">So Large</a> <a class="expanded button" href="#">Such Expand</a> <a class="small expanded button" href="#">Wow, Small Expand</a>
+            <h6>Form elements</h6>
+            <form>
+                <label>Input Label
+                    <input type="text" placeholder=".small-12.columns" aria-describedby="exampleHelpText"> </label>
+                <p class="help-text" id="exampleHelpText">Here's how you use this input field!</p>
+                <label> How many puppies?
+                    <input type="number" value="100"> </label>
+                <label> What books did you read over summer break?
+                    <textarea placeholder="None"></textarea>
+                </label>
+                <label>Select Menu
+                    <select>
+                        <option value="husker">Husker</option>
+                        <option value="starbuck">Starbuck</option>
+                        <option value="hotdog">Hot Dog</option>
+                        <option value="apollo">Apollo</option>
+                    </select>
+                </label>
+                <div class="row columns">
+                    <fieldset>
+                        <legend>Choose Your Favorite</legend>
+                        <input type="radio" name="pokemon" value="Red" id="pokemonRed" required>
+                        <label for="pokemonRed">Red</label>
+                        <input type="radio" name="pokemon" value="Blue" id="pokemonBlue">
+                        <label for="pokemonBlue">Blue</label>
+                        <input type="radio" name="pokemon" value="Yellow" id="pokemonYellow">
+                        <label for="pokemonYellow">Yellow</label>
+                    </fieldset>
+                </div>
+                <div class="row columns">
+                    <fieldset>
+                        <legend>Check these out</legend>
+                        <input id="checkbox1" type="checkbox">
+                        <label for="checkbox1">Checkbox 1</label>
+                        <input id="checkbox2" type="checkbox">
+                        <label for="checkbox2">Checkbox 2</label>
+                        <input id="checkbox3" type="checkbox">
+                        <label for="checkbox3">Checkbox 3</label>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="middle-label" class="text-right middle">Label</label>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="text" id="middle-label" placeholder="Right- and middle-aligned text input"> </div>
+                </div>
+                <div class="input-group"> <span class="input-group-label">$</span>
+                    <input class="input-group-field" type="url"> <a class="input-group-button button">Submit</a> </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+

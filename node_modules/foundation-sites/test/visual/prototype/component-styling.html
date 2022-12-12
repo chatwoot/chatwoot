@@ -1,0 +1,94 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation-prototype.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h2>Rounded</h2>
+
+          <p>These <code>.radius</code>, <code>.rounded</code>, <code>.bordered</code> &amp; <code>.shadow</code> classes can be used independently or together to style the component by rounding its corners, giving light borders, and creating shadow to it respectively. Mostly used in buttons, cards, tables, images and many more.</p>
+
+          <div class="primary callout">
+            <strong>Sass Tip</strong>: You can use <a href="#shadow">Shadow</a> mixin to create something like <code>shadow-hover-focus</code>. <a href="http://codepen.io/IamManchanda/pen/XMRMwo">Codepen example</a>
+          </div>
+
+          <h4>Buttons</h4>
+          <button type="button" class="button radius bordered shadow primary">Primary</button>
+          <button type="button" class="button rounded bordered shadow secondary">Secondary</button>
+          <button type="button" class="button radius bordered shadow success">Success</button>
+          <button type="button" class="button rounded bordered shadow alert">Alert</button>
+          <button type="button" class="button radius bordered shadow warning">Warning</button>
+
+          <h4>Cards</h4>
+          <div class="radius bordered shadow card" style="max-width: 300px;">
+            <img src="http://placehold.it/500x250">
+            <div class="card-divider">
+              Styled Card
+            </div>
+            <div class="card-section">
+              <h4>This is a card.</h4>
+              <p>It has an easy to override visual style, and is appropriately subdued.</p>
+            </div>
+          </div>
+
+          <h4>Tables</h4>
+          <table class="radius bordered shadow">
+            <thead>
+              <tr>
+                <th width="200">Table Header</th>
+                <th>Table Header</th>
+                <th width="150">Table Header</th>
+                <th width="150">Table Header</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Content Goes Here</td>
+                <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+              </tr>
+              <tr>
+                <td>Content Goes Here</td>
+                <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+              </tr>
+              <tr>
+                <td>Content Goes Here</td>
+                <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+              </tr>
+              <tr>
+                <td>Content Goes Here</td>
+                <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+                <td>Content Goes Here</td>
+                <td>Content Goes Here</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>Images</h4>
+          <img src="http://placehold.it/100x100" class="radius">
+
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

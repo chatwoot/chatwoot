@@ -1,0 +1,11 @@
+{
+  "id": "title-only",
+  "evaluate": "title-only-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Form element does not solely use title attribute for its label",
+      "fail": "Only title used to generate label for form element"
+    }
+  }
+}

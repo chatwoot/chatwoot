@@ -1,0 +1,25 @@
+{
+  "id": "svg-img-alt",
+  "selector": "[role=\"img\"], [role=\"graphics-symbol\"], svg[role=\"graphics-document\"]",
+  "matches": "svg-namespace-matches",
+  "tags": [
+    "cat.text-alternatives",
+    "wcag2a",
+    "wcag111",
+    "section508",
+    "section508.22.a",
+    "ACT"
+  ],
+  "metadata": {
+    "description": "Ensures svg elements with an img, graphics-document or graphics-symbol role have an accessible text",
+    "help": "svg elements with an img role have an alternative text"
+  },
+  "all": [],
+  "any": [
+    "svg-non-empty-title",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title"
+  ],
+  "none": []
+}

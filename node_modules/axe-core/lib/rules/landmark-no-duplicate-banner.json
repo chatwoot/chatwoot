@@ -1,0 +1,12 @@
+{
+  "id": "landmark-no-duplicate-banner",
+  "selector": "header:not([role]), [role=banner]",
+  "tags": ["cat.semantics", "best-practice"],
+  "metadata": {
+    "description": "Ensures the document has at most one banner landmark",
+    "help": "Document should not have more than one banner landmark"
+  },
+  "all": [],
+  "any": ["page-no-duplicate-banner"],
+  "none": []
+}

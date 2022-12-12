@@ -1,0 +1,93 @@
+{
+  "name": "vuedraggable",
+  "version": "2.24.3",
+  "description": "draggable component for vue",
+  "license": "MIT",
+  "main": "dist/vuedraggable.umd.min.js",
+  "types": "src/vuedraggable.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SortableJS/Vue.Draggable.git"
+  },
+  "private": false,
+  "scripts": {
+    "serve": "vue-cli-service serve ./example/main.js --open --mode local",
+    "build:doc": "vue-cli-service build ./example/main.js --dest docs --mode development",
+    "build": "vue-cli-service build --name vuedraggable --entry ./src/vuedraggable.js --target lib",
+    "lint": "vue-cli-service lint src example",
+    "prepublishOnly": "npm run lint && npm run test:unit && npm run build:doc && npm run build",
+    "test:unit": "vue-cli-service test:unit --coverage",
+    "test:coverage": "vue-cli-service test:unit --coverage --verbose && codecov"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "drag",
+    "and",
+    "drop",
+    "list",
+    "Sortable.js",
+    "component",
+    "nested"
+  ],
+  "dependencies": {
+    "sortablejs": "1.10.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-eslint": "^3.11.0",
+    "@vue/cli-plugin-unit-jest": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "@vue/test-utils": "^1.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "bootstrap": "^4.3.1",
+    "codecov": "^3.2.0",
+    "component-fixture": "^0.4.1",
+    "element-ui": "^2.5.4",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.5.1",
+    "vue": "^2.6.12",
+    "vue-cli-plugin-component": "^1.10.5",
+    "vue-router": "^3.0.2",
+    "vue-server-renderer": "^2.6.12",
+    "vue-template-compiler": "^2.6.12",
+    "vuetify": "^1.5.16",
+    "vuex": "^3.1.1"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/prettier"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "files": [
+    "dist/*.css",
+    "dist/*.map",
+    "dist/*.js",
+    "src/*"
+  ],
+  "module": "dist/vuedraggable.umd.js"
+}

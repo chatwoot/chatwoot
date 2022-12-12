@@ -1,0 +1,480 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>xy grid kitchen sink</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      body {
+        padding: 30px;
+      }
+
+      .demo {
+        background: #1779ba;
+        height: 100%;
+      }
+
+      .cell {
+        /*background: dodgerblue;*/
+        line-height: 50px;
+        height: 50px;
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        margin-top: 2rem;
+      }
+
+      h3 {
+        margin-top: 1rem;
+        border-top: 1px solid #ddd;
+        padding-top: 1rem;
+      }
+
+      .grid-demo .cell {
+        background: #ddd;
+        color: #444;
+        margin-bottom: 0;
+        text-align: left;
+        line-height: 1.6;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>XY Grid Kitchen Sink</h1>
+
+    <h2>Margin</h2>
+
+    <h3>Margin - small classes</h3>
+    <p>This grid uses the small-x classes. On medium screens and up the small-x classes should use the medium gutter values.</p>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-12"><div class="demo">12</div></div>
+      <div class="cell small-11"><div class="demo">11</div></div>
+      <div class="cell small-1"><div class="demo">1</div></div>
+      <div class="cell small-10"><div class="demo">10</div></div>
+      <div class="cell small-2"><div class="demo">2</div></div>
+      <div class="cell small-9"><div class="demo">9</div></div>
+      <div class="cell small-3"><div class="demo">3</div></div>
+      <div class="cell small-8"><div class="demo">8</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-7"><div class="demo">7</div></div>
+      <div class="cell small-5"><div class="demo">5</div></div>
+      <div class="cell small-6"><div class="demo">6</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Margin - medium classes</h3>
+    <p>This grid uses the medium-x classes. On small screens the cells should be full width.</p>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Margin - large classes</h3>
+    <p>This grid uses the large-x classes. On small and medium screens the cells should be full width.</p>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell large-12"><div class="demo">12</div></div>
+      <div class="cell large-11"><div class="demo">11</div></div>
+      <div class="cell large-1"><div class="demo">1</div></div>
+      <div class="cell large-10"><div class="demo">10</div></div>
+      <div class="cell large-2"><div class="demo">2</div></div>
+      <div class="cell large-9"><div class="demo">9</div></div>
+      <div class="cell large-3"><div class="demo">3</div></div>
+      <div class="cell large-8"><div class="demo">8</div></div>
+      <div class="cell large-4"><div class="demo">4</div></div>
+      <div class="cell large-7"><div class="demo">7</div></div>
+      <div class="cell large-5"><div class="demo">5</div></div>
+      <div class="cell large-6"><div class="demo">6</div></div>
+      <div class="cell large-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Margin - nesting</h3>
+    <p>The nested cells in the left cell should line up correctly.</p>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell medium-6">
+        <div class="grid-x grid-margin-x">
+          <div class="cell medium-9"><div class="demo">9 nested</div></div>
+          <div class="cell medium-3"><div class="demo">3 nested</div></div>
+        </div>
+      </div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+    </div>
+
+    <h3>Margin - Auto and Shrink</h3>
+    <p>This should showcase the `.auto` and `.shrink` classes and their responsive versions.</p>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell shrink large-6"><div class="demo">Shrink on small, 6 on large</div></div>
+      <div class="cell auto large-6"><div class="demo">Auto on small, 6 large</div></div>
+    </div>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell medium-shrink large-8"><div class="demo">Shrink on medium, 8 on large</div></div>
+      <div class="cell medium-auto large-4"><div class="demo">Auto on medium, 4 large</div></div>
+    </div>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-5 large-auto"><div class="demo">5 on small, auto on large</div></div>
+      <div class="cell small-7 large-shrink"><div class="demo">7 on small, shrink on large</div></div>
+    </div>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-5 large-auto"><div class="demo">5 on small, auto on large with a ton of content that should still be even</div></div>
+      <div class="cell small-7 large-auto"><div class="demo">7 on small, auto on large</div></div>
+    </div>
+
+    <h3>Margin - collapse</h3>
+    <p>The cells should collapse on large screens and above.<p>
+
+    <div class="grid-x grid-margin-x large-margin-collapse">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Margin - small offset</h3>
+    <p>This should showcase the `.small-offset-x` classes.</p>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-1"><div class="demo">1</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-2"><div class="demo">2</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-3"><div class="demo">3</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-4"><div class="demo">4</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-5"><div class="demo">5</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-6"><div class="demo">6</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-7"><div class="demo">7</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-8"><div class="demo">8</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-9"><div class="demo">95</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-10"><div class="demo">10</div></div>
+    </div>
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-1 small-offset-11"><div class="demo">11</div></div>
+    </div>
+
+    <h3>Margin - vertical grid</h3>
+    <p>This should showcase the vertical grid. The cells should be auto on small, 3 on medium and 2/3/5/2 on large.</p>
+
+    <div class="grid-y grid-margin-y" style="height: 800px;">
+      <div class="cell auto medium-3 large-2"><div class="demo">auto/3/2</div></div>
+      <div class="cell auto medium-3 large-3"><div class="demo">auto/3/3</div></div>
+      <div class="cell auto medium-3 large-5"><div class="demo">auto/3/5</div></div>
+      <div class="cell auto medium-3 large-2"><div class="demo">auto/3/2</div></div>
+    </div>
+
+
+    <h3>Margin - grid frame/cell-block</h3>
+    <p>This should showcase the `.grid-frame` and `.cell-block-container`/`.cell-block` classes. The grid frame should be `100vh`, the `.cell-block-container` sets the cell to a `flex` parent with column direction. The `.cell-block` classes allow overflow scrolling in the specified direction.</p>
+
+    <div class="grid-y medium-grid-frame grid-demo">
+      <div class="cell shrink header medium-cell-block-container">
+        <h1>Grid Frame Header</h1>
+        <div class="grid-x grid-padding-x">
+          <div class="cell medium-4">
+            A medium 4 cell
+          </div>
+          <div class="cell medium-4 medium-cell-block">
+            <p style="width:80vw;">A medium 4 cell block... on medium this content should overflow and let you horizontally scroll across... one might use this for an array of options</p>
+          </div>
+          <div class="cell medium-4">
+            A medium 4 cell
+          </div>
+        </div>
+      </div>
+      <div class="cell medium-auto medium-cell-block-container">
+        <div class="grid-x grid-padding-x">
+          <div class="cell medium-4 medium-cell-block-y">
+            <h2>Independent scrolling sidebar</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacus odio, accumsan id ullamcorper eget, varius nec erat. Nulla facilisi. Donec dui felis, euismod nec finibus vitae, dapibus quis arcu. Maecenas tempor et ipsum quis venenatis. Ut posuere sed augue sit amet efficitur. Sed imperdiet, justo id tempus rhoncus, est est viverra turpis, non vulputate magna lectus et nisl. Pellentesque ultrices porttitor vehicula. Ut aliquet efficitur ligula, a consectetur felis. Proin tristique ut augue nec luctus. Curabitur a sapien pretium, auctor elit a, efficitur erat. Donec tincidunt dui vel velit bibendum euismod. Cras vitae nibh dui. Aliquam erat volutpat. Etiam sit amet arcu a erat efficitur facilisis. Ut viverra dapibus turpis, et ornare justo. Integer in dui cursus, dignissim tortor a, hendrerit risus.</p>
+
+            <p>Suspendisse pulvinar, massa iaculis feugiat lobortis, dolor sapien vestibulum nulla, vel cursus tellus leo in lorem. Aliquam eu placerat urna. Suspendisse sed viverra orci, ut mattis neque. Fusce non ultrices nisi. In sagittis varius mollis. Quisque dolor quam, consectetur eu lacinia ac, ullamcorper vel arcu. Nullam mattis imperdiet nulla sed ornare. Praesent tristique, est id eleifend vestibulum, neque nibh condimentum ex, nec lobortis purus justo a libero. Phasellus id ex ac nunc hendrerit hendrerit. Nullam urna ipsum, rutrum at fringilla vel, venenatis non purus. Maecenas egestas ex vitae venenatis molestie. Ut et odio egestas, accumsan neque et, viverra nisl. Sed faucibus nec nulla sed imperdiet. Fusce quis sem ac urna semper tempor a id elit. Nulla fringilla vitae sapien a vehicula.</p>
+
+          </div>
+          <div class="cell medium-8 medium-cell-block-y">
+            <h2>Independent scrolling body</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacus odio, accumsan id ullamcorper eget, varius nec erat. Nulla facilisi. Donec dui felis, euismod nec finibus vitae, dapibus quis arcu. Maecenas tempor et ipsum quis venenatis. Ut posuere sed augue sit amet efficitur. Sed imperdiet, justo id tempus rhoncus, est est viverra turpis, non vulputate magna lectus et nisl. Pellentesque ultrices porttitor vehicula. Ut aliquet efficitur ligula, a consectetur felis. Proin tristique ut augue nec luctus. Curabitur a sapien pretium, auctor elit a, efficitur erat. Donec tincidunt dui vel velit bibendum euismod. Cras vitae nibh dui. Aliquam erat volutpat. Etiam sit amet arcu a erat efficitur facilisis. Ut viverra dapibus turpis, et ornare justo. Integer in dui cursus, dignissim tortor a, hendrerit risus.</p>
+            <p>Suspendisse pulvinar, massa iaculis feugiat lobortis, dolor sapien vestibulum nulla, vel cursus tellus leo in lorem. Aliquam eu placerat urna. Suspendisse sed viverra orci, ut mattis neque. Fusce non ultrices nisi. In sagittis varius mollis. Quisque dolor quam, consectetur eu lacinia ac, ullamcorper vel arcu. Nullam mattis imperdiet nulla sed ornare. Praesent tristique, est id eleifend vestibulum, neque nibh condimentum ex, nec lobortis purus justo a libero. Phasellus id ex ac nunc hendrerit hendrerit. Nullam urna ipsum, rutrum at fringilla vel, venenatis non purus. Maecenas egestas ex vitae venenatis molestie. Ut et odio egestas, accumsan neque et, viverra nisl. Sed faucibus nec nulla sed imperdiet. Fusce quis sem ac urna semper tempor a id elit. Nulla fringilla vitae sapien a vehicula.</p>
+            <p>Nullam vestibulum lorem nec lectus egestas, nec ullamcorper diam maximus. Maecenas condimentum, nibh at blandit semper, ex erat tempus magna, id maximus neque velit accumsan nibh. Aenean dignissim lorem eu nisl laoreet vestibulum. Vivamus efficitur et augue vitae tincidunt. Etiam et magna felis. Integer mattis, nisi aliquet scelerisque blandit, ex mi sodales ante, eget accumsan quam magna et ligula. Curabitur id tristique leo. Proin rutrum mi vitae enim rhoncus, at cursus neque eleifend. Integer ultrices volutpat tellus ac porta. Fusce sollicitudin venenatis lacinia. Fusce ante lorem, gravida semper varius non, pharetra non erat. Sed dapibus arcu turpis, ac sollicitudin nibh lacinia vel. Nullam at enim porta, luctus metus sit amet, rutrum odio. Cras tempor enim vel pellentesque sollicitudin. Maecenas ullamcorper, sem non accumsan volutpat, neque tortor pulvinar orci, ut ultrices ligula lorem ut risus.</p>
+            <p>Aliquam facilisis, nibh eget posuere suscipit, arcu sapien iaculis odio, in molestie dolor lectus vitae sem. Cras id nunc mollis mi rutrum dapibus. Quisque rutrum a augue at scelerisque. Praesent faucibus ac enim vitae gravida. Sed et sodales elit. Duis magna lectus, interdum sit amet metus a, sagittis varius magna. Proin nibh lectus, egestas a luctus ut, dapibus et enim. Curabitur fringilla ipsum vitae nunc imperdiet consectetur eget non neque. Suspendisse ultricies odio quis lorem vulputate, ac vulputate turpis feugiat. Maecenas posuere rhoncus orci, in ornare velit suscipit tempor. Curabitur pretium nisl id lorem placerat consequat. In quis quam eros. Nam mattis elit eu quam sagittis, in varius erat tempor.</p>
+            <p>Fusce felis magna, pellentesque eget mollis a, rutrum id eros. Curabitur auctor varius arcu a consequat. Phasellus quis pulvinar enim, eu ultricies justo. Pellentesque risus libero, dapibus at erat ultricies, gravida varius erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla tempus, justo ut laoreet mollis, nunc tellus convallis urna, vel pretium dui velit eget ligula. Aliquam semper sed nulla a molestie. Maecenas at egestas massa, vitae aliquam mi. Fusce nec sem egestas, pretium lacus non, tincidunt sapien. Sed tristique odio at ultricies vulputate. Integer et convallis augue, eu aliquam enim. Mauris ut faucibus diam. Donec vulputate nunc sed congue accumsan. Etiam lobortis nisi quis lacinia pharetra.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cell shrink footer">
+        <h3>Here's my footer</h3>
+      </div>
+    </div>
+
+
+    <h2>Padding</h2>
+
+    <h3>Padding - small classes</h3>
+    <p>This grid uses the small-x classes. On medium screens and up the small-x classes should use the medium gutter values.</p>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-12"><div class="demo">12</div></div>
+      <div class="cell small-11"><div class="demo">11</div></div>
+      <div class="cell small-1"><div class="demo">1</div></div>
+      <div class="cell small-10"><div class="demo">10</div></div>
+      <div class="cell small-2"><div class="demo">2</div></div>
+      <div class="cell small-9"><div class="demo">9</div></div>
+      <div class="cell small-3"><div class="demo">3</div></div>
+      <div class="cell small-8"><div class="demo">8</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-7"><div class="demo">7</div></div>
+      <div class="cell small-5"><div class="demo">5</div></div>
+      <div class="cell small-6"><div class="demo">6</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Padding - medium classes</h3>
+    <p>This grid uses the medium-x classes. On small screens the cells should be full width.</p>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Padding - large classes</h3>
+    <p>This grid uses the large-x classes. On small and medium screens the cells should be full width.</p>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell large-12"><div class="demo">12</div></div>
+      <div class="cell large-11"><div class="demo">11</div></div>
+      <div class="cell large-1"><div class="demo">1</div></div>
+      <div class="cell large-10"><div class="demo">10</div></div>
+      <div class="cell large-2"><div class="demo">2</div></div>
+      <div class="cell large-9"><div class="demo">9</div></div>
+      <div class="cell large-3"><div class="demo">3</div></div>
+      <div class="cell large-8"><div class="demo">8</div></div>
+      <div class="cell large-4"><div class="demo">4</div></div>
+      <div class="cell large-7"><div class="demo">7</div></div>
+      <div class="cell large-5"><div class="demo">5</div></div>
+      <div class="cell large-6"><div class="demo">6</div></div>
+      <div class="cell large-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Padding - nesting</h3>
+    <p>The nested cells in the left cell should line up correctly.</p>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-6">
+        <div class="grid-x grid-padding-x">
+          <div class="cell medium-9"><div class="demo">9 nested</div></div>
+          <div class="cell medium-3"><div class="demo">3 nested</div></div>
+        </div>
+      </div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+    </div>
+
+    <h3>Padding - Auto and Shrink</h3>
+    <p>This should showcase the `.auto` and `.shrink` classes and their responsive versions.</p>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell shrink large-6"><div class="demo">Shrink on small, 6 on large</div></div>
+      <div class="cell auto large-6"><div class="demo">Auto on small, 6 large</div></div>
+    </div>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-shrink large-8"><div class="demo">Shrink on medium, 8 on large</div></div>
+      <div class="cell medium-auto large-4"><div class="demo">Auto on medium, 4 large</div></div>
+    </div>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-5 large-auto"><div class="demo">5 on small, auto on large</div></div>
+      <div class="cell small-7 large-shrink"><div class="demo">7 on small, shrink on large</div></div>
+    </div>
+
+    <h3>Padding - collapse</h3>
+    <p>The cells should collapse on large screens and above.<p>
+
+    <div class="grid-x grid-padding-x large-padding-collapse">
+      <div class="cell medium-12"><div class="demo">12</div></div>
+      <div class="cell medium-11"><div class="demo">11</div></div>
+      <div class="cell medium-1"><div class="demo">1</div></div>
+      <div class="cell medium-10"><div class="demo">10</div></div>
+      <div class="cell medium-2"><div class="demo">2</div></div>
+      <div class="cell medium-9"><div class="demo">9</div></div>
+      <div class="cell medium-3"><div class="demo">3</div></div>
+      <div class="cell medium-8"><div class="demo">8</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+      <div class="cell medium-7"><div class="demo">7</div></div>
+      <div class="cell medium-5"><div class="demo">5</div></div>
+      <div class="cell medium-6"><div class="demo">6</div></div>
+      <div class="cell medium-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Padding - small offset</h3>
+    <p>This should showcase the `.small-offset-x` classes.</p>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-1"><div class="demo">1</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-2"><div class="demo">2</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-3"><div class="demo">3</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-4"><div class="demo">4</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-5"><div class="demo">5</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-6"><div class="demo">6</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-7"><div class="demo">7</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-8"><div class="demo">8</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-9"><div class="demo">95</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-10"><div class="demo">10</div></div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-1 small-offset-11"><div class="demo">11</div></div>
+    </div>
+
+    <h3>Padding - vertical grid</h3>
+    <p>This should showcase the vertical grid. The cells should be auto on small, 3 on medium and 2/3/5/2 on large.</p>
+
+    <div class="grid-y grid-padding-y" style="height: 800px;">
+      <div class="cell auto medium-3 large-2"><div class="demo">auto/3/2</div></div>
+      <div class="cell auto medium-3 large-3"><div class="demo">auto/3/3</div></div>
+      <div class="cell auto medium-3 large-5"><div class="demo">auto/3/5</div></div>
+      <div class="cell auto medium-3 large-2"><div class="demo">auto/3/2</div></div>
+    </div>
+
+
+    <h3>Padding - grid frame/cell-block</h3>
+    <p>This should showcase the `.grid-frame` and `.cell-block-container`/`.cell-block` classes. The grid frame should be `100vh`, the `.cell-block-container` sets the cell to a `flex` parent with column direction. The `.cell-block` classes allow overflow scrolling in the specified direction.</p>
+
+    <div class="grid-y medium-grid-frame grid-demo">
+      <div class="cell shrink header medium-cell-block-container">
+        <h1>Grid Frame Header</h1>
+        <div class="grid-x grid-padding-x">
+          <div class="cell medium-4">
+            A medium 4 cell
+          </div>
+          <div class="cell medium-4 medium-cell-block">
+            <p style="width:80vw;">A medium 4 cell block... on medium this content should overflow and let you horizontally scroll across... one might use this for an array of options</p>
+          </div>
+          <div class="cell medium-4">
+            A medium 4 cell
+          </div>
+        </div>
+      </div>
+      <div class="cell medium-auto medium-cell-block-container">
+        <div class="grid-x grid-padding-x">
+          <div class="cell medium-4 medium-cell-block-y">
+            <h2>Independent scrolling sidebar</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacus odio, accumsan id ullamcorper eget, varius nec erat. Nulla facilisi. Donec dui felis, euismod nec finibus vitae, dapibus quis arcu. Maecenas tempor et ipsum quis venenatis. Ut posuere sed augue sit amet efficitur. Sed imperdiet, justo id tempus rhoncus, est est viverra turpis, non vulputate magna lectus et nisl. Pellentesque ultrices porttitor vehicula. Ut aliquet efficitur ligula, a consectetur felis. Proin tristique ut augue nec luctus. Curabitur a sapien pretium, auctor elit a, efficitur erat. Donec tincidunt dui vel velit bibendum euismod. Cras vitae nibh dui. Aliquam erat volutpat. Etiam sit amet arcu a erat efficitur facilisis. Ut viverra dapibus turpis, et ornare justo. Integer in dui cursus, dignissim tortor a, hendrerit risus.</p>
+
+            <p>Suspendisse pulvinar, massa iaculis feugiat lobortis, dolor sapien vestibulum nulla, vel cursus tellus leo in lorem. Aliquam eu placerat urna. Suspendisse sed viverra orci, ut mattis neque. Fusce non ultrices nisi. In sagittis varius mollis. Quisque dolor quam, consectetur eu lacinia ac, ullamcorper vel arcu. Nullam mattis imperdiet nulla sed ornare. Praesent tristique, est id eleifend vestibulum, neque nibh condimentum ex, nec lobortis purus justo a libero. Phasellus id ex ac nunc hendrerit hendrerit. Nullam urna ipsum, rutrum at fringilla vel, venenatis non purus. Maecenas egestas ex vitae venenatis molestie. Ut et odio egestas, accumsan neque et, viverra nisl. Sed faucibus nec nulla sed imperdiet. Fusce quis sem ac urna semper tempor a id elit. Nulla fringilla vitae sapien a vehicula.</p>
+
+          </div>
+          <div class="cell medium-8 medium-cell-block-y">
+            <h2>Independent scrolling body</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacus odio, accumsan id ullamcorper eget, varius nec erat. Nulla facilisi. Donec dui felis, euismod nec finibus vitae, dapibus quis arcu. Maecenas tempor et ipsum quis venenatis. Ut posuere sed augue sit amet efficitur. Sed imperdiet, justo id tempus rhoncus, est est viverra turpis, non vulputate magna lectus et nisl. Pellentesque ultrices porttitor vehicula. Ut aliquet efficitur ligula, a consectetur felis. Proin tristique ut augue nec luctus. Curabitur a sapien pretium, auctor elit a, efficitur erat. Donec tincidunt dui vel velit bibendum euismod. Cras vitae nibh dui. Aliquam erat volutpat. Etiam sit amet arcu a erat efficitur facilisis. Ut viverra dapibus turpis, et ornare justo. Integer in dui cursus, dignissim tortor a, hendrerit risus.</p>
+            <p>Suspendisse pulvinar, massa iaculis feugiat lobortis, dolor sapien vestibulum nulla, vel cursus tellus leo in lorem. Aliquam eu placerat urna. Suspendisse sed viverra orci, ut mattis neque. Fusce non ultrices nisi. In sagittis varius mollis. Quisque dolor quam, consectetur eu lacinia ac, ullamcorper vel arcu. Nullam mattis imperdiet nulla sed ornare. Praesent tristique, est id eleifend vestibulum, neque nibh condimentum ex, nec lobortis purus justo a libero. Phasellus id ex ac nunc hendrerit hendrerit. Nullam urna ipsum, rutrum at fringilla vel, venenatis non purus. Maecenas egestas ex vitae venenatis molestie. Ut et odio egestas, accumsan neque et, viverra nisl. Sed faucibus nec nulla sed imperdiet. Fusce quis sem ac urna semper tempor a id elit. Nulla fringilla vitae sapien a vehicula.</p>
+            <p>Nullam vestibulum lorem nec lectus egestas, nec ullamcorper diam maximus. Maecenas condimentum, nibh at blandit semper, ex erat tempus magna, id maximus neque velit accumsan nibh. Aenean dignissim lorem eu nisl laoreet vestibulum. Vivamus efficitur et augue vitae tincidunt. Etiam et magna felis. Integer mattis, nisi aliquet scelerisque blandit, ex mi sodales ante, eget accumsan quam magna et ligula. Curabitur id tristique leo. Proin rutrum mi vitae enim rhoncus, at cursus neque eleifend. Integer ultrices volutpat tellus ac porta. Fusce sollicitudin venenatis lacinia. Fusce ante lorem, gravida semper varius non, pharetra non erat. Sed dapibus arcu turpis, ac sollicitudin nibh lacinia vel. Nullam at enim porta, luctus metus sit amet, rutrum odio. Cras tempor enim vel pellentesque sollicitudin. Maecenas ullamcorper, sem non accumsan volutpat, neque tortor pulvinar orci, ut ultrices ligula lorem ut risus.</p>
+            <p>Aliquam facilisis, nibh eget posuere suscipit, arcu sapien iaculis odio, in molestie dolor lectus vitae sem. Cras id nunc mollis mi rutrum dapibus. Quisque rutrum a augue at scelerisque. Praesent faucibus ac enim vitae gravida. Sed et sodales elit. Duis magna lectus, interdum sit amet metus a, sagittis varius magna. Proin nibh lectus, egestas a luctus ut, dapibus et enim. Curabitur fringilla ipsum vitae nunc imperdiet consectetur eget non neque. Suspendisse ultricies odio quis lorem vulputate, ac vulputate turpis feugiat. Maecenas posuere rhoncus orci, in ornare velit suscipit tempor. Curabitur pretium nisl id lorem placerat consequat. In quis quam eros. Nam mattis elit eu quam sagittis, in varius erat tempor.</p>
+            <p>Fusce felis magna, pellentesque eget mollis a, rutrum id eros. Curabitur auctor varius arcu a consequat. Phasellus quis pulvinar enim, eu ultricies justo. Pellentesque risus libero, dapibus at erat ultricies, gravida varius erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla tempus, justo ut laoreet mollis, nunc tellus convallis urna, vel pretium dui velit eget ligula. Aliquam semper sed nulla a molestie. Maecenas at egestas massa, vitae aliquam mi. Fusce nec sem egestas, pretium lacus non, tincidunt sapien. Sed tristique odio at ultricies vulputate. Integer et convallis augue, eu aliquam enim. Mauris ut faucibus diam. Donec vulputate nunc sed congue accumsan. Etiam lobortis nisi quis lacinia pharetra.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cell shrink footer">
+        <h3>Here's my footer</h3>
+      </div>
+    </div>
+
+  <h3>Test case from <a href="https://github.com/zurb/foundation-sites/issues/10141#issuecomment-308679657">Issue #10141</a></h3>
+  <div class="grid-x grid-padding-x grid-demo">
+    <div class="small-4 medium-4 large-4 cell">
+      <div class="grid-x grid-padding-x grid-padding-y align-middle">
+        <div class="shrink cell small-order-2 medium-order-2 large-order-1">
+          <img src="http://lorempixel.com/75/75/nature" alt="">
+        </div>
+        <div class="auto cell small-order-1 medium-order-1 large-order-2">
+          <h2>source second</h2>
+          <p>This should wrap around nicely... but seems to don't when there's a longer text...</p>
+        </div>
+      </div>
+    </div>
+    <div class="small-8 medium-8 large-8 cell">
+      <h1>filler</h1>
+    </div>
+  </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

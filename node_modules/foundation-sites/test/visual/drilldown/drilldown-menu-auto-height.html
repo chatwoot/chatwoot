@@ -1,0 +1,272 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell medium-12" style="margin-top: 20px;margin-bottom: 20px;">
+          <p>Drilldown should auto adjust height even if in Responsive Menu</p>
+          <div class="title-bar" data-responsive-toggle="example-autoheight" data-hide-for="">
+            <button class="menu-icon" type="button" data-toggle></button>
+            <div class="title-bar-title">Menu</div>
+          </div>
+          <div class="callout" id="example-autoheight">
+            <ul class="vertical menu drilldown" data-drilldown data-auto-height="true">
+              <li> <a href="#">Item</a>
+                <ul class="vertical menu">
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li> <a href="#">Item</a>
+                    <ul class="vertical menu">
+                      <li><a href="#">Item</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Item</a></li>
+                </ul>
+              </li>
+              <li> <a href="#">Item</a>
+                <ul class="vertical menu">
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li> <a href="#">Item</a>
+                    <ul class="vertical menu">
+                      <li><a href="#">Item</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li> <a href="#">Item</a>
+                    <ul class="vertical menu">
+                      <li><a href="#">Item</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#">Item</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cell medium-4">
+          <p>Drilldown should auto adjust height and animate height</p>
+          <div class="callout">
+          <ul class="vertical menu drilldown" data-drilldown data-auto-height="true" data-animate-height="true">
+            <li> <a href="#">Item</a>
+              <ul class="vertical menu nested">
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li> <a href="#">Item</a>
+                  <ul class="vertical menu nested">
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Item</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Item</a></li>
+            <li> <a href="#">Item</a>
+              <ul class="vertical menu nested">
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li> <a href="#">Item</a>
+                  <ul class="vertical menu nested">
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li> <a href="#">Item</a>
+                  <ul class="vertical menu nested">
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          </div>
+        </div>
+        <div class="cell medium-4">
+          <p>Drilldown should auto adjust height</p>
+          <div class="callout">
+          <ul class="vertical menu drilldown" data-drilldown data-auto-height="true" data-close-on-click="true">
+            <li> <a href="#">Item</a>
+              <ul class="vertical menu nested">
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li> <a href="#">Item</a>
+                  <ul class="vertical menu nested">
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Item</a></li>
+              </ul>
+            </li>
+            <li> <a href="#">Item</a>
+              <ul class="vertical menu nested">
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li> <a href="#">Item</a>
+                  <ul class="vertical menu nested">
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li><a href="#">Item</a></li>
+                <li> <a href="#">Item</a>
+                  <ul class="vertical menu nested">
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a href="#">Item</a></li>
+          </ul>
+          </div>
+        </div>
+
+        <div class="cell medium-4">
+          <p>Drilldown should auto adjust height and change behavior</p>
+          <div class="callout">
+            <ul id="mainMenuLeft" class="vertical drilldown menu" data-responsive-menu="drilldown medium-dropdown" data-auto-height="true" data-animate-height="true">
+              <li> <a href="#">Item</a>
+                <ul class="vertical menu nested">
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li> <a href="#">Item</a>
+                    <ul class="vertical menu nested">
+                      <li><a href="#">Item</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Item</a></li>
+                </ul>
+              </li>
+              <li> <a href="#">Item</a>
+                <ul class="vertical menu nested">
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li> <a href="#">Item</a>
+                    <ul class="vertical menu nested">
+                      <li><a href="#">Item</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Item</a></li>
+                  <li> <a href="#">Item</a>
+                    <ul class="vertical menu nested">
+                      <li><a href="#">Item</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#">Item</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

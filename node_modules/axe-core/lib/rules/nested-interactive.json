@@ -1,0 +1,12 @@
+{
+  "id": "nested-interactive",
+  "matches": "nested-interactive-matches",
+  "tags": ["cat.keyboard", "wcag2a", "wcag412"],
+  "metadata": {
+    "description": "Nested interactive controls are not announced by screen readers",
+    "help": "Ensure interactive controls are not nested"
+  },
+  "all": [],
+  "any": ["no-focusable-content"],
+  "none": []
+}

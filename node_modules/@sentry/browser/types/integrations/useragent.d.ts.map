@@ -1,0 +1,1 @@
+{"version":3,"file":"useragent.d.ts","sourceRoot":"","sources":["../../../../src/integrations/useragent.ts"],"names":[],"mappings":"AACA,OAAO,EAAS,WAAW,EAAE,MAAM,eAAe,CAAC;AAKnD,gBAAgB;AAChB,qBAAa,SAAU,YAAW,WAAW;IAC3C;;OAEG;IACH,OAAc,EAAE,EAAE,MAAM,CAAe;IAEvC;;OAEG;IACI,IAAI,EAAE,MAAM,CAAgB;IAEnC;;OAEG;IACI,SAAS,IAAI,IAAI;CAyBzB"}

@@ -1,0 +1,153 @@
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+.ve-pagination {
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+  background-color: @ve-pagination-background-color;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin: 0 4px;
+  list-style-type: none;
+
+  // 总页数信息
+  .ve-pagination-total {
+    float: left;
+    margin: 0 4px;
+    color: @ve-pagination-item-text-color;
+  }
+
+  // 分页大小
+  .ve-pagination-select {
+    float: left;
+    margin: 0 4px;
+    margin: 0 4px;
+  }
+
+  // 数字项
+  .ve-pagination-pager {
+    float: left;
+  }
+
+  // 跳转器
+  .ve-pagination-goto {
+    float: left;
+    margin: 0 4px;
+    color: @ve-pagination-item-text-color;
+
+    .ve-pagination-goto-input {
+      width: 50px;
+      height: 32px;
+      padding: 1px 7px;
+      display: inline-block;
+      border: 1px solid @ve-pagination-item-border-color;
+      background-color: @ve-pagination-goto-background-color;
+      background-image: none;
+      transition: border 0.2s ease-in-out, background-color 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+      border-radius: 4px;
+      &:focus {
+        outline: none !important;
+        border-color: @ve-primary-color;
+      }
+    }
+
+    .ve-pagination-goto-input:hover {
+      border-color: @ve-primary-color;
+    }
+  }
+
+  // 共用部分
+  .ve-pagination-li {
+    min-width: 32px;
+    height: 32px;
+    float: left;
+    margin-right: 4px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    text-align: center;
+    list-style: none;
+    background-color: @ve-pagination-item-background-color;
+    border: 1px solid @ve-pagination-item-border-color;
+    border-radius: 4px;
+    a {
+      color: @ve-pagination-item-text-color;
+    }
+
+    &:hover {
+      border-color: @ve-primary-color;
+      a {
+        color: @ve-primary-color;
+      }
+    }
+
+    &.ve-pagination-li-active {
+      border-color: @ve-primary-color;
+      a {
+        font-weight: bold;
+        color: @ve-primary-color;
+      }
+      &:hover {
+        border-color: @ve-primary-color;
+        a {
+          font-weight: bold;
+          color: @ve-primary-color;
+        }
+      }
+    }
+  }
+
+  .ve-pagination-prev i,
+  .ve-pagination-next i {
+    color: #666;
+  }
+
+  .ve-pagination-prev:hover i,
+  .ve-pagination-next:hover i {
+    color: @ve-primary-color;
+  }
+
+  .ve-pagination-jump-prev:after,
+  .ve-pagination-jump-next:after {
+    content: "•••";
+    display: block;
+    letter-spacing: 1px;
+    color: #666;
+    text-align: center;
+  }
+
+  .ve-pagination-jump-prev i,
+  .ve-pagination-jump-prev:hover:after,
+  .ve-pagination-jump-next i,
+  .ve-pagination-jump-next:hover:after {
+    display: none;
+  }
+
+  .ve-pagination-jump-prev:hover i,
+  .ve-pagination-jump-next:hover i {
+    display: inline;
+    color: @ve-primary-color;
+  }
+
+  .ve-pagination-disabled {
+    cursor: not-allowed;
+    border-color: @ve-pagination-item-border-color;
+
+    &:hover {
+      border-color: @ve-pagination-item-border-color;
+      i {
+        color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+
+    i {
+      color: #ccc;
+    }
+  }
+}

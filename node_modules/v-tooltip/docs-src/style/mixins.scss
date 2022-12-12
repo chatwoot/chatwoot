@@ -1,0 +1,79 @@
+@mixin ellipsis {
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin bounds($distance) {
+  top: $distance;
+  bottom: $distance;
+  right: $distance;
+  left: $distance;
+}
+
+@mixin overlay {
+  position: absolute;
+  @include bounds(0);
+}
+
+@mixin flex-box {
+  display: flex;
+
+  & > * {
+    flex: auto 0 0;
+  }
+}
+
+@mixin h-box {
+  @include flex-box;
+  flex-direction: row;
+}
+
+@mixin v-box {
+  @include flex-box;
+  flex-direction: column;
+}
+
+@mixin flex-control {
+  width: 0 !important;
+}
+
+@mixin box-center {
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin toolbar-btn ($bg) {
+  background: fade($bg, 80%);
+  color: black;
+  transition: background 0.2s;
+
+  &:hover {
+    color: black;
+    background: $bg;
+  }
+}
+
+@mixin space-between-x($margin) {
+  margin-right: $margin;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+@mixin space-between-y($margin) {
+  margin-bottom: $margin;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

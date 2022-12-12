@@ -1,0 +1,11 @@
+{
+  "id": "exists",
+  "evaluate": "exists-evaluate",
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Element does not exist",
+      "incomplete": "Element exists"
+    }
+  }
+}

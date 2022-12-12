@@ -1,0 +1,36 @@
+{
+  "name": "postcss",
+  "version": "7.0.35",
+  "description": "Tool for transforming styles with JS plugins",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "keywords": ["css", "postcss", "rework", "preprocessor", "parser", "source map", "transform", "manipulation", "transpiler"],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/postcss/"
+  },
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "license": "MIT",
+  "homepage": "https://postcss.org/",
+  "repository": "postcss/postcss",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "source-map": "^0.6.1",
+    "supports-color": "^6.1.0"
+  },
+  "main": "lib/postcss",
+  "types": "lib/postcss.d.ts",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "browser": {
+    "./lib/terminal-highlight": false,
+    "supports-color": false,
+    "chalk": false,
+    "fs": false
+  },
+  "browserslist": ["and_chr 71", "and_ff 64", "and_qq 1.2", "and_uc 11.8", "android 67", "android 4.4.3-4.4.4", "baidu 7.12", "chrome 73", "chrome 72", "edge 18", "edge 17", "firefox 66", "firefox 65", "ios_saf 12.0-12.1", "ios_saf 11.3-11.4", "node 6.17.0", "op_mini all", "op_mob 46", "opera 58", "opera 57", "safari 12", "safari 11.1", "samsung 8.2", "samsung 7.2-7.4"]
+}

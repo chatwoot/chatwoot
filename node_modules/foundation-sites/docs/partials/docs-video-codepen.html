@@ -1,0 +1,11 @@
+{{#ifequal type 'with-video'}}
+<div class="docs-video-codepen-container">
+  <a class="" data-open-video="{{video-time}}"><img src="{{root}}assets/img/icons/watch-video-icon.svg" class="video-icon" height="30" width="30" alt=""> Watch this part in video</a>
+
+  <a class="codepen-logo-link" href="{{codepen-link}}" target="_blank"><img src="{{root}}assets/img/logos/cp1.svg" class="" height="" width="" alt="edit on codepen button"></a>
+</div>
+{{/ifequal}}
+
+{{#ifequal type 'codepen-only'}}
+<a class="codepen-logo-link" href="{{codepen-link}}" target="_blank"><img src="{{root}}assets/img/logos/cp1.svg" class="" height="" width="" alt="edit on codepen button"></a>
+{{/ifequal}}

@@ -1,0 +1,12 @@
+{
+  "id": "duplicate-id-aria",
+  "evaluate": "duplicate-id-evaluate",
+  "after": "duplicate-id-after",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Document has no elements referenced with ARIA or labels that share the same id attribute",
+      "fail": "Document has multiple elements referenced with ARIA with the same id attribute: ${data}"
+    }
+  }
+}

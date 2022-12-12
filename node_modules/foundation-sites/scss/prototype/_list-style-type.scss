@@ -1,0 +1,95 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-list-style-type
+////
+
+/// Responsive breakpoints for list styling types
+/// @type Boolean
+$prototype-list-breakpoints: $global-prototype-breakpoints !default;
+
+/// Map containing all the `style-type-unordered` classes
+/// @type Map
+$prototype-style-type-unordered: (
+  disc,
+  circle,
+  square
+) !default;
+
+/// Map containing all the `style-type-ordered` classes
+/// @type Map
+$prototype-style-type-ordered: (
+  decimal,
+  lower-alpha,
+  lower-latin,
+  lower-roman,
+  upper-alpha,
+  upper-latin,
+  upper-roman
+) !default;
+
+
+/// Style type for unordered Lists, by default coming through a map `$prototype-style-type-unordered`
+/// @param {String} $style-type-unordered [] Style type for unordered Lists
+@mixin style-type-unordered($style-type-unordered) {
+  list-style-type: $style-type-unordered !important;
+}
+
+/// Style type for ordered Lists, by default coming through a map `$prototype-style-type-ordered`
+/// @param {String} $style-type-ordered [] Style type for ordered Lists
+@mixin style-type-ordered($style-type-ordered) {
+  list-style-type: $style-type-ordered !important;
+}
+
+@mixin list-unordered {
+  @each $style-type-unordered in $prototype-style-type-unordered {
+    ul.list-#{$style-type-unordered} {
+      @include style-type-unordered($style-type-unordered);
+    }
+  }
+
+  @if ($prototype-list-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @each $style-type-unordered in $prototype-style-type-unordered {
+          @if $size != $-zf-zero-breakpoint {
+            ul.#{$size}-list-#{$style-type-unordered} {
+              @include style-type-unordered($style-type-unordered);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin list-ordered {
+  @each $style-type-ordered in $prototype-style-type-ordered {
+    ol.list-#{$style-type-ordered} {
+      @include style-type-ordered($style-type-ordered);
+    }
+  }
+
+  @if ($prototype-list-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @each $style-type-ordered in $prototype-style-type-ordered {
+          @if $size != $-zf-zero-breakpoint {
+            ol.#{$size}-list-#{$style-type-ordered} {
+              @include style-type-ordered($style-type-ordered);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin foundation-prototype-list-style-type {
+  @include list-unordered;
+  @include list-ordered;
+}

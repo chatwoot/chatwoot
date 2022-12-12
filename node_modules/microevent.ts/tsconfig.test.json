@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "noImplicitThis": true
+    },
+    "include": ["test/**/*.ts"],
+    "exclude": ["node_modules"]
+}

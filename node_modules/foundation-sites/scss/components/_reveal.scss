@@ -1,0 +1,185 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group reveal
+////
+
+/// Default background color of a modal.
+/// @type Color
+$reveal-background: $white !default;
+
+/// Default width of a modal, with no class applied.
+/// @type Number
+$reveal-width: 600px !default;
+
+/// Default maximum width of a modal.
+/// @type Number
+$reveal-max-width: $global-width !default;
+
+/// Default padding inside a modal.
+/// @type Number
+$reveal-padding: $global-padding !default;
+
+/// Default border around a modal.
+/// @type Number
+$reveal-border: 1px solid $medium-gray !default;
+
+/// Default radius for modal.
+/// @type Number
+$reveal-radius: $global-radius !default;
+
+/// z-index for modals. The overlay uses this value, while the modal itself uses this value plus one.
+/// @type Number
+$reveal-zindex: 1005 !default;
+
+/// Background color of modal overlays.
+/// @type Color
+$reveal-overlay-background: rgba($black, 0.45) !default;
+
+
+// Placeholder selector for medium-and-up modals
+// Prevents duplicate CSS when defining multiple Reveal sizes
+// This should be in the same breakpoint then `@mixin reveal-modal-width`
+@include breakpoint(medium) {
+  %reveal-centered {
+    right: auto;
+    left: auto;
+    margin: 0 auto;
+  }
+}
+
+
+/// Adds styles for a modal overlay.
+/// @param {Color} $background [$reveal-overlay-background] - Background color of the overlay.
+@mixin reveal-overlay($background: $reveal-overlay-background) {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $reveal-zindex;
+
+  display: none;
+  background-color: $background;
+  overflow-y: auto;
+}
+
+/// Adds base styles for a modal.
+@mixin reveal-modal-base {
+  @include disable-mouse-outline;
+  z-index: $reveal-zindex + 1;
+  // Workaround android browser z-index bug
+  backface-visibility: hidden;
+
+  display: none;
+  padding: $reveal-padding;
+
+  border: $reveal-border;
+  border-radius: $reveal-radius;
+  background-color: $reveal-background;
+
+  @include breakpoint(medium) {
+    min-height: 0;
+  }
+
+  // Make sure rows don't have a min-width on them
+  .column {
+    min-width: 0;
+  }
+
+  // Strip margins from the last item in the modal
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/// Adjusts the width of a modal.
+/// @param {Number} $width - Width of the modal. Generally a percentage.
+/// @param {Number} $max-width [$reveal-max-width] - Maximum width of the modal.
+@mixin reveal-modal-width(
+  $width: $reveal-width,
+  $max-width: $reveal-max-width
+) {
+  // Extends must be made outside of breakpoints for compatibility with newer Sass versions (libsass v3.5)
+  @extend %reveal-centered;
+  @include breakpoint(medium) {
+    width: $width;
+    max-width: $max-width;
+  }
+}
+
+/// Creates a full-screen modal, which stretches the full width and height of the window.
+@mixin reveal-modal-fullscreen {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  min-height: 100%;
+  margin-left: 0;
+
+  border: 0;
+  border-radius: 0;
+}
+
+@mixin foundation-reveal {
+
+  /// Disables the scroll when Reveal is shown to prevent the background from shifting
+  html.is-reveal-open {
+    position: fixed;
+    width: 100%;
+    overflow-y: hidden;
+
+    &.zf-has-scroll {
+      overflow-y: scroll;
+    }
+
+    body { // sass-lint:disable-line no-qualifying-elements
+      overflow-y: hidden;
+    }
+  }
+
+  // Overlay
+  .reveal-overlay {
+    @include reveal-overlay;
+  }
+
+  // Modal container
+  .reveal {
+    @include reveal-modal-base;
+    @include reveal-modal-width($reveal-width);
+    position: relative;
+    top: 100px;
+    margin-right: auto;
+    margin-left: auto;
+    overflow-y: auto;
+
+    // Remove padding
+    &.collapse {
+      padding: 0;
+    }
+
+    // Sizing classes
+    &.tiny  { @include reveal-modal-width(30%); }
+    &.small { @include reveal-modal-width(50%); }
+    &.large { @include reveal-modal-width(90%); }
+
+    // Full-screen mode
+    &.full {
+      @include reveal-modal-fullscreen;
+    }
+
+    @include breakpoint($-zf-zero-breakpoint only) {
+      @include reveal-modal-fullscreen;
+    }
+
+    &.without-overlay {
+      position: fixed;
+    }
+  }
+}

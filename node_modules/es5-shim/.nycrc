@@ -1,0 +1,15 @@
+{
+	"all": true,
+	"check-coverage": false,
+	"reporter": ["text-summary", "text", "html", "json"],
+	"lines": 85,
+	"statements": 85,
+	"functions": 80,
+	"branches": 76,
+	"exclude": [
+		"coverage",
+		"test",
+		"*.map",
+		"*.min.js"
+	]
+}

@@ -1,0 +1,28 @@
+
+{{alias}}( obj, prop, value )
+    Defines a non-enumerable read-only property.
+
+    Non-enumerable read-only properties are non-configurable.
+
+    Parameters
+    ----------
+    obj: Object
+        Object on which to define the property.
+
+    prop: string|symbol
+        Property name.
+
+    value: any
+        Value to set.
+
+    Examples
+    --------
+    > var obj = {};
+    > {{alias}}( obj, 'foo', 'bar' );
+    > obj.foo = 'boop';
+    > obj
+    { 'foo': 'bar' }
+
+    See Also
+    --------
+

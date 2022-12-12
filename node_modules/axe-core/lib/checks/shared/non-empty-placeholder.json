@@ -1,0 +1,17 @@
+{
+  "id": "non-empty-placeholder",
+  "evaluate": "attr-non-space-content-evaluate",
+  "options": {
+    "attribute": "placeholder"
+  },
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Element has a placeholder attribute",
+      "fail": {
+        "noAttr": "Element has no placeholder attribute",
+        "emptyAttr": "Element has an empty placeholder attribute"
+      }
+    }
+  }
+}

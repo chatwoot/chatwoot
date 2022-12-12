@@ -1,0 +1,22 @@
+
+{{alias}}( str )
+    Escapes a regular expression string.
+
+    Parameters
+    ----------
+    str: string
+        Regular expression string.
+
+    Returns
+    -------
+    out: string
+        Escaped string.
+
+    Examples
+    --------
+    > var str = {{alias}}( '[A-Z]*' )
+    '\\[A\\-Z\\]\\*'
+
+    See Also
+    --------
+

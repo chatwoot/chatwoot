@@ -1,0 +1,59 @@
+{
+  "name": "jscodeshift",
+  "version": "0.7.1",
+  "description": "A toolkit for JavaScript codemods",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/jscodeshift.git"
+  },
+  "bugs": "https://github.com/facebook/jscodeshift/issues",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "cp -R src/ dist/",
+    "test": "jest --bail",
+    "docs": "rm -rf docs && jsdoc -d docs -R README.md src/collections/* src/core.js src/Collection.js"
+  },
+  "bin": {
+    "jscodeshift": "./bin/jscodeshift.js"
+  },
+  "keywords": [
+    "codemod",
+    "recast",
+    "babel"
+  ],
+  "author": "Felix Kling",
+  "dependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/parser": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "colors": "^1.1.2",
+    "flow-parser": "0.*",
+    "graceful-fs": "^4.1.11",
+    "micromatch": "^3.1.10",
+    "neo-async": "^2.5.0",
+    "node-dir": "^0.1.17",
+    "recast": "^0.18.1",
+    "temp": "^0.8.1",
+    "write-file-atomic": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "jest": "^21",
+    "jsdoc": "^3.4.0",
+    "mkdirp": "^0.5.1"
+  },
+  "jest": {
+    "roots": [
+      "src",
+      "bin",
+      "sample"
+    ]
+  }
+}

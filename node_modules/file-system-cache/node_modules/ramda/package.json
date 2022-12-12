@@ -1,0 +1,74 @@
+{
+  "author": "Scott Sauyet <scott@sauyet.com> (scott.sauyet.com)",
+  "contributors": [
+    {
+      "name": "Michael Hurley",
+      "email": "mh@buzzdecafe.com",
+      "web": "http://buzzdecafe.com"
+    },
+    {
+      "name": "Scott Sauyet",
+      "email": "scott@sauyet.com",
+      "web": "http://fr.umio.us"
+    },
+    {
+      "name": "David Chambers",
+      "email": "dc@davidchambers.me",
+      "web": "http://davidchambers.me"
+    },
+    {
+      "name": "Graeme Yeates",
+      "email": "yeatesgraeme@gmail.com",
+      "web": "https://github.com/megawac"
+    }
+  ],
+  "name": "ramda",
+  "description": "A practical functional library for JavaScript programmers.",
+  "version": "0.21.0",
+  "homepage": "http://ramdajs.com/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ramda/ramda.git"
+  },
+  "main": "dist/ramda.js",
+  "scripts": {
+    "bench": "scripts/benchRunner",
+    "bookmarklet": "scripts/bookmarklet",
+    "build": "make && make dist/ramda.min.js",
+    "clean": "rimraf dist/* coverage/*",
+    "precoverage": "npm run pretest",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- --reporter spec",
+    "postcoverage": "npm run posttest",
+    "lint": "eslint scripts/bookmarklet scripts/build src/*.js src/internal/*.js test/*.js test/**/*.js lib/sauce/*.js lib/bench/*.js",
+    "pretest": "npm install && npm run lint && npm run clean && npm run build",
+    "test": "mocha --reporter spec",
+    "posttest": "git checkout -- dist",
+    "prebrowser_test": "npm run pretest",
+    "browser_test": "testem ci",
+    "postbrowser_test": "npm run posttest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "acorn": "0.9.x",
+    "benchmark": "~1.0.0",
+    "browserify": "10.x.x",
+    "cli-table": "0.3.x",
+    "commander": "2.5.x",
+    "dox": "latest",
+    "envvar": "1.x.x",
+    "escodegen": "1.4.x",
+    "eslint": "^1.10.1",
+    "handlebars": "3.0.x",
+    "istanbul": "^0.4.x",
+    "js-yaml": "^3.2.5",
+    "mocha": "2.x.x",
+    "q": "^1.1.1",
+    "ramda": "0.17.x",
+    "rimraf": "~2.3.2",
+    "sanctuary": "0.7.x",
+    "testem": "0.9.x",
+    "uglify-js": "2.4.x",
+    "xyz": "0.5.x"
+  }
+}

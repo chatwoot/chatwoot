@@ -1,0 +1,94 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group progress-bar
+////
+
+/// Height of a progress bar.
+/// @type Number
+$progress-height: 1rem !default;
+
+/// Background color of a progress bar.
+/// @type Color
+$progress-background: $medium-gray !default;
+
+/// Bottom margin of a progress bar.
+/// @type Number
+$progress-margin-bottom: $global-margin !default;
+
+/// Default color of a progress bar's meter.
+/// @type Color
+$progress-meter-background: $primary-color !default;
+
+/// Default radius of a progress bar.
+/// @type Number
+$progress-radius: $global-radius !default;
+
+@mixin foundation-progress-element {
+  progress {
+    display: block;
+    width: 100%;
+    height: $progress-height;
+    margin-bottom: $progress-margin-bottom;
+
+    appearance: none;
+
+    @if has-value($progress-radius) {
+      border-radius: $progress-radius;
+    }
+
+    // For Firefox
+    border: 0;
+    background: $progress-background;
+
+    &::-webkit-progress-bar {
+      background: $progress-background;
+
+      @if has-value($progress-radius) {
+        border-radius: $progress-radius;
+      }
+    }
+
+    &::-webkit-progress-value {
+      background: $progress-meter-background;
+
+      @if has-value($progress-radius) {
+        border-radius: $progress-radius;
+      }
+    }
+
+    &::-moz-progress-bar {
+      background: $progress-meter-background;
+
+      @if has-value($progress-radius) {
+        border-radius: $progress-radius;
+      }
+    }
+
+    @each $name, $color in $foundation-palette {
+      &.#{$name} {
+        // Internet Explorer sets the fill with color
+        color: $color;
+
+        &::-webkit-progress-value {
+          background: $color;
+        }
+
+        &::-moz-progress-bar {
+          background: $color;
+        }
+      }
+    }
+
+    // For IE and Edge
+    &::-ms-fill { // sass-lint:disable-line no-vendor-prefixes
+      @if has-value($progress-radius) {
+        border-radius: $progress-radius;
+      }
+
+      border: 0;
+    }
+  }
+}

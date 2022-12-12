@@ -1,0 +1,22 @@
+{
+  "id": "aria-allowed-role",
+  "evaluate": "aria-allowed-role-evaluate",
+  "options": {
+    "allowImplicit": true,
+    "ignoredTags": []
+  },
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "ARIA role is allowed for given element",
+      "fail": {
+        "singular": "ARIA role ${data.values} is not allowed for given element",
+        "plural": "ARIA roles ${data.values} are not allowed for given element"
+      },
+      "incomplete": {
+        "singular": "ARIA role ${data.values} must be removed when the element is made visible, as it is not allowed for the element",
+        "plural": "ARIA roles ${data.values} must be removed when the element is made visible, as they are not allowed for the element"
+      }
+    }
+  }
+}

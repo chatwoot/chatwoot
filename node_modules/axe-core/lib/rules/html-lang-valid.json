@@ -1,0 +1,12 @@
+{
+  "id": "html-lang-valid",
+  "selector": "html[lang], html[xml\\:lang]",
+  "tags": ["cat.language", "wcag2a", "wcag311", "ACT"],
+  "metadata": {
+    "description": "Ensures the lang attribute of the <html> element has a valid value",
+    "help": "<html> element must have a valid value for the lang attribute"
+  },
+  "all": [],
+  "any": [],
+  "none": ["valid-lang"]
+}

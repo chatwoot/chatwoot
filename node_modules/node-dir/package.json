@@ -1,0 +1,40 @@
+{
+  "name": "node-dir",
+  "version": "0.1.17",
+  "description": "asynchronous file and directory operations for Node.js",
+  "main": "index",
+  "homepage": "https://github.com/fshost",
+  "repository": "https://github.com/fshost/node-dir",
+  "author": {
+    "name": "Nathan Cartwright",
+    "email": "fshost@yahoo.com",
+    "url": "https://github.com/fshost"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "engines": {
+    "node": ">= 0.10.5"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node-dir",
+    "directory",
+    "dir",
+    "subdir",
+    "file",
+    "asynchronous",
+    "Node.js",
+    "fs"
+  ],
+  "dependencies": {
+    "minimatch": "^3.0.2"
+  },
+  "devDependencies": {
+    "mocha": "~1.13.0",
+    "should": "~2.0.2"
+  }
+}

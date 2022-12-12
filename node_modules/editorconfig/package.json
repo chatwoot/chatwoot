@@ -1,0 +1,59 @@
+{
+    "name": "editorconfig",
+    "version": "0.15.3",
+    "description": "EditorConfig File Locator and Interpreter for Node.js",
+    "keywords": [
+        "editorconfig",
+        "core"
+    ],
+    "main": "src/index.js",
+    "contributors": [
+        "Hong Xu (topbug.net)",
+        "Jed Mao (https://github.com/jedmao/)",
+        "Trey Hunner (http://treyhunner.com)"
+    ],
+    "directories": {
+        "bin": "./bin",
+        "lib": "./lib"
+    },
+    "scripts": {
+        "clean": "rimraf dist",
+        "prebuild": "npm run clean",
+        "build": "tsc",
+        "pretest": "npm run lint && npm run build && npm run copy && cmake .",
+        "test": "ctest .",
+        "pretest:ci": "npm run pretest",
+        "test:ci": "ctest -VV --output-on-failure .",
+        "lint": "npm run eclint && npm run tslint",
+        "eclint": "eclint check --indent_size ignore \"src/**\"",
+        "tslint": "tslint --project tsconfig.json --exclude package.json",
+        "copy": "cpy .npmignore LICENSE README.md CHANGELOG.md dist && cpy bin/* dist/bin && cpy src/lib/fnmatch*.* dist/src/lib",
+        "prepub": "npm run lint && npm run build && npm run copy",
+        "pub": "npm publish ./dist"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/editorconfig/editorconfig-core-js.git"
+    },
+    "bugs": "https://github.com/editorconfig/editorconfig-core-js/issues",
+    "author": "EditorConfig Team",
+    "license": "MIT",
+    "dependencies": {
+        "commander": "^2.19.0",
+        "lru-cache": "^4.1.5",
+        "semver": "^5.6.0",
+        "sigmund": "^1.0.1"
+    },
+    "devDependencies": {
+        "@types/mocha": "^5.2.6",
+        "@types/node": "^10.12.29",
+        "@types/semver": "^5.5.0",
+        "cpy-cli": "^2.0.0",
+        "eclint": "^2.8.1",
+        "mocha": "^5.2.0",
+        "rimraf": "^2.6.3",
+        "should": "^13.2.3",
+        "tslint": "^5.13.1",
+        "typescript": "^3.3.3333"
+    }
+}

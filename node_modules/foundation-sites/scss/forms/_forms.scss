@@ -1,0 +1,34 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group forms
+////
+
+/// Global spacing for form elements.
+/// @type Number
+$form-spacing: rem-calc(16) !default;
+
+@import 'text';
+@import 'checkbox';
+@import 'label';
+@import 'help-text';
+@import 'input-group';
+@import 'fieldset';
+@import 'select';
+@import 'range';
+@import 'progress';
+@import 'meter';
+@import 'error';
+
+@mixin foundation-forms {
+  @include foundation-form-text;
+  @include foundation-form-checkbox;
+  @include foundation-form-label;
+  @include foundation-form-helptext;
+  @include foundation-form-prepostfix;
+  @include foundation-form-fieldset;
+  @include foundation-form-select;
+  @include foundation-form-error;
+}

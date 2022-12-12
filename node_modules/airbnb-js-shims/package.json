@@ -1,0 +1,56 @@
+{
+	"name": "airbnb-js-shims",
+	"version": "2.2.1",
+	"description": "JS language shims used by Airbnb.",
+	"main": "index.js",
+	"scripts": {
+		"prepublish": "safe-publish-latest",
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "npm run tests-only",
+		"tests-only": "node test",
+		"posttest": "npm run audit",
+		"preaudit": "npm install --package-lock --package-lock-only",
+		"audit": "npm audit",
+		"postaudit": "rm package-lock.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/airbnb/js-shims.git"
+	},
+	"keywords": [
+		"shims",
+		"polyfills"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"array-includes": "^3.0.3",
+		"array.prototype.flat": "^1.2.1",
+		"array.prototype.flatmap": "^1.2.1",
+		"es5-shim": "^4.5.13",
+		"es6-shim": "^0.35.5",
+		"function.prototype.name": "^1.1.0",
+		"globalthis": "^1.0.0",
+		"object.entries": "^1.1.0",
+		"object.fromentries": "^2.0.0 || ^1.0.0",
+		"object.getownpropertydescriptors": "^2.0.3",
+		"object.values": "^1.1.0",
+		"promise.allsettled": "^1.0.0",
+		"promise.prototype.finally": "^3.1.0",
+		"string.prototype.matchall": "^4.0.0 || ^3.0.1",
+		"string.prototype.padend": "^3.0.0",
+		"string.prototype.padstart": "^3.0.0",
+		"symbol.prototype.description": "^1.0.0"
+	},
+	"devDependencies": {
+		"eslint": "^5.16.0",
+		"eslint-config-airbnb-base": "^13.1.0",
+		"eslint-plugin-import": "^2.17.2",
+		"safe-publish-latest": "^1.1.2",
+		"tape": "^4.10.1"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

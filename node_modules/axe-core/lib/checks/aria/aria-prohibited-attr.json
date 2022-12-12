@@ -1,0 +1,12 @@
+{
+  "id": "aria-prohibited-attr",
+  "evaluate": "aria-prohibited-attr-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "ARIA attribute is allowed",
+      "fail": "ARIA attribute cannot be used: ${data.values}",
+      "incomplete": "ARIA attribute is not well supported on the element and the text content will be used instead: ${data.values}"
+    }
+  }
+}

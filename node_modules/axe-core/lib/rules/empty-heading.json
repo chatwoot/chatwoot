@@ -1,0 +1,19 @@
+{
+  "id": "empty-heading",
+  "selector": "h1, h2, h3, h4, h5, h6, [role=\"heading\"]",
+  "matches": "heading-matches",
+  "tags": ["cat.name-role-value", "best-practice"],
+  "impact": "minor",
+  "metadata": {
+    "description": "Ensures headings have discernible text",
+    "help": "Headings should not be empty"
+  },
+  "all": [],
+  "any": [
+    "has-visible-text",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title"
+  ],
+  "none": []
+}

@@ -1,0 +1,88 @@
+.docs-nav {
+  padding-top: 1rem;
+  border-right: 1px solid #efefef;
+}
+
+.docs-nav .docs-nav-category {
+  background: none;
+
+  .accordion-title {
+    border: none;
+    color: #444444;
+    background-color: inherit;
+    font-weight: 600;
+  }
+
+  .accordion-title:hover {
+    border: none;
+    color: $black;
+    font-weight: 600;
+  }
+
+  .accordion-item:last-child {
+
+    .accordion-title{
+      border-bottom: none;
+    }
+  }
+
+  .accordion-content {
+    padding-top: 0;
+    border: none;
+    background: none;
+    padding-bottom: 0.5rem;
+  }
+
+  .is-active > .accordion-title::before {
+    content: '';
+  }
+
+  .accordion-title::before {
+    content: '';
+  }
+}
+
+.docs-nav a:hover {
+  background: none;
+}
+
+.docs-nav a:focus {
+  background: none;
+}
+
+.docs-nav .current a {
+  background: none;
+  color: $primary-color;
+}
+
+.docs-nav-subcategory {
+  list-style: none;
+  margin-left: 0.85rem;
+
+  li {
+    padding: 0.25rem 0;
+  }
+
+  li a {
+    color: #717171;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+  }
+
+  li a:hover {
+    color: $black;
+    transition: color 0.3s ease;
+  }
+}
+
+.docs-nav-version-container {
+  margin-left: 0;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.nav-modal.reveal {
+  padding: 0;
+  padding-top: 1rem;
+  background-color: #f7f7f7;
+}

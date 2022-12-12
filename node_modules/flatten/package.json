@@ -1,0 +1,35 @@
+{ "name": "flatten",
+  "version": "1.0.3",
+  "description": "Flatten arbitrarily nested arrays into a non-nested list of non-array items. Maintained for legacy compatibility.",
+  "keywords": [
+    "array",
+    "flatten"
+  ],
+
+  "author": "Joshua Holbrook <josh.holbrook@gmail.com> (http://jesusabdullah.net)",
+  "homepage": "https://github.com/mk-pmb/flatten-js/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/flatten-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/flatten-js/issues"
+  },
+  "contributors": [
+    "M.K. (https://github.com/mk-pmb)"
+  ],
+
+  "private": false, "license": "MIT",
+
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "directories": { "test": "test" },
+
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}

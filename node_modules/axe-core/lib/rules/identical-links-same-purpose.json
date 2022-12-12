@@ -1,0 +1,14 @@
+{
+  "id": "identical-links-same-purpose",
+  "selector": "a[href], area[href], [role=\"link\"]",
+  "excludeHidden": false,
+  "matches": "identical-links-same-purpose-matches",
+  "tags": ["cat.semantics", "wcag2aaa", "wcag249", "best-practice"],
+  "metadata": {
+    "description": "Ensure that links with the same accessible name serve a similar purpose",
+    "help": "Links with the same name have a similar purpose"
+  },
+  "all": ["identical-links-same-purpose"],
+  "any": [],
+  "none": []
+}

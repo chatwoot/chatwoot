@@ -1,0 +1,90 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+/// If `true`, all elements will have transparent backgrounds when printed, to save on ink.
+/// @type Boolean
+/// @group global
+$print-transparent-backgrounds: true !default;
+
+/// If `true`, displays next to all links their "href" when printed.
+/// @type Boolean
+/// @group global
+$print-hrefs: true !default;
+
+// sass-lint:disable-all
+
+@mixin foundation-print-styles {
+  .show-for-print { display: none !important; }
+
+  @media print {
+    * {
+      @if $print-transparent-backgrounds {
+        background: transparent !important;
+      }
+
+      box-shadow: none !important;
+
+      color: black !important; // Black prints faster: h5bp.com/s
+      text-shadow: none !important;
+    }
+
+    .show-for-print { display: block !important; }
+    .hide-for-print { display: none !important; }
+
+    table.show-for-print { display: table !important; }
+    thead.show-for-print { display: table-header-group !important; }
+    tbody.show-for-print { display: table-row-group !important; }
+    tr.show-for-print { display: table-row !important; }
+    td.show-for-print { display: table-cell !important; }
+    th.show-for-print { display: table-cell !important; }
+
+    // Display the URL of a link after the text
+    a,
+    a:visited { text-decoration: underline;}
+    @if $print-hrefs {
+      a[href]:after { content: ' (' attr(href) ')'; }
+    }
+
+    // Don't display the URL for images or JavaScript/internal links
+    .ir a:after,
+    a[href^='javascript:']:after,
+    a[href^='#']:after { content: ''; }
+
+    // Display what an abbreviation stands for after the text
+    abbr[title]:after { content: ' (' attr(title) ')'; }
+
+    // Prevent page breaks in the middle of a blockquote or preformatted text block
+    pre,
+    blockquote {
+      border: 1px solid $dark-gray;
+      page-break-inside: avoid;
+    }
+
+    // h5bp.com/t
+    thead { display: table-header-group; }
+
+    tr,
+    img { page-break-inside: avoid; }
+
+    img { max-width: 100% !important; }
+
+    @page { margin: 0.5cm; }
+
+    p,
+    h2,
+    h3 {
+      orphans: 3;
+      widows: 3;
+    }
+
+    // Avoid page breaks after a heading
+    h2,
+    h3 { page-break-after: avoid; }
+
+    // Helper to re-allow page breaks in the middle of certain elements (e.g. pre, blockquote, tr)
+    .print-break-inside {
+      page-break-inside: auto;
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "name": "es6-shim",
+  "version": "0.35.6",
+  "author": "Paul Miller (http://paulmillr.com)",
+  "description": "ECMAScript 6 (Harmony) compatibility shims for legacy JavaScript engines",
+  "keywords": [
+    "ecmascript",
+    "harmony",
+    "es6",
+    "shim",
+    "promise",
+    "promises",
+    "setPrototypeOf",
+    "map",
+    "set",
+    "__proto__"
+  ],
+  "homepage": "https://github.com/paulmillr/es6-shim/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/paulmillr/es6-shim.git"
+  },
+  "main": "es6-shim",
+  "scripts": {
+    "prepublish": "safe-publish-latest && (not-in-publish || npm run minify)",
+    "pretest": "npm run lint && evalmd *.md",
+    "test": "npm run tests-only",
+    "posttest": "aud --production",
+    "tests-only": "npm run test:shim && npm run test:sham",
+    "test:shim": "mocha test/*.js test/*/*.js",
+    "test:sham": "mocha test-sham/*.js",
+    "test:native": "NO_ES6_SHIM=1 npm run tests-only",
+    "lint": "npm run lint:shim && npm run lint:sham",
+    "lint:shim": "eslint es6-shim.js test/*.js test/*/*.js",
+    "lint:sham": "eslint es6-sham.js test-sham/*.js",
+    "minify": "npm run minify:shim && npm run minify:sham",
+    "minify:shim": "uglifyjs es6-shim.js --support-ie8 --keep-fnames --comments --source-map=es6-shim.map -m -b ascii_only=true,beautify=false > es6-shim.min.js",
+    "minify:sham": "uglifyjs es6-sham.js --support-ie8 --keep-fnames --comments --source-map=es6-sham.map -m -b ascii_only=true,beautify=false > es6-sham.min.js",
+    "sauce-connect": "curl -L https://gist.githubusercontent.com/henrikhodne/9322897/raw/sauce-connect.sh | bash && export TRAVIS_SAUCE_CONNECT=true",
+    "sauce": "npm run sauce-connect && grunt sauce"
+  },
+  "testling": {
+    "html": "testling.html",
+    "browsers": [
+      "iexplore/6.0..latest",
+      "firefox/3.0..6.0",
+      "firefox/10.0",
+      "firefox/15.0..latest",
+      "firefox/nightly",
+      "chrome/4.0..10.0",
+      "chrome/20.0..latest",
+      "chrome/canary",
+      "opera/10.0..latest",
+      "opera/next",
+      "safari/4.0..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest",
+      "android-browser/4.2..latest"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@ljharb/eslint-config": "^17.2.0",
+    "aud": "^1.1.2",
+    "chai": "^3.5.0",
+    "es5-shim": "^4.5.14",
+    "eslint": "^7.11.0",
+    "evalmd": "0.0.19",
+    "grunt": "^0.4.5",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-saucelabs": "^8.6.3",
+    "in-publish": "^2.0.1",
+    "mocha": "^3.5.3",
+    "promises-aplus-tests": "^2.1.2",
+    "promises-es6-tests": "^0.5.0",
+    "safe-publish-latest": "^1.1.4",
+    "uglify-js": "2.7.3"
+  }
+}

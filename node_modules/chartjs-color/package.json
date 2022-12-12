@@ -1,0 +1,57 @@
+{
+  "name": "chartjs-color",
+  "version": "2.4.1",
+  "description": "Color conversion and manipulation with CSS string support",
+  "keywords": [
+    "color",
+    "colour",
+    "css"
+  ],
+  "authors": [
+    "Heather Arthur <fayearthur@gmail.com>",
+    "Maxime Thirouin",
+    "Josh Junon"
+  ],
+  "license": "MIT",
+  "repository": "chartjs/chartjs-color",
+  "xo": {
+    "envs": [
+      "browser",
+      "node"
+    ],
+    "rules": {
+      "one-var": [
+        2,
+        {
+          "initialized": "never"
+        }
+      ],
+      "linebreak-style": 0,
+      "no-cond-assign": 0,
+      "new-cap": 0
+    }
+  },
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE",
+    "index.js"
+  ],
+  "scripts": {
+    "pretest": "xo",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "color-convert": "^1.9.3",
+    "chartjs-color-string": "^0.6.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "gulp": "^4.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-streamify": "^1.0.2",
+    "mocha": "^6.0.2",
+    "vinyl-source-stream": "^2.0.0",
+    "xo": "^0.12.1"
+  }
+}

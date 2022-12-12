@@ -1,0 +1,14 @@
+dist: xenial
+
+language: node_js
+node_js:
+  - lts/*
+
+install:
+  - npm install -g grunt
+  - npm install
+
+script:
+  - grunt
+
+cache: npm

@@ -1,0 +1,46 @@
+{
+  "name": "vue-clickaway",
+  "description": "Reusable clickaway directive for reusable Vue.js components",
+  "version": "2.1.0",
+  "author": "Denis Karabaza <denis.karabaza@gmail.com>",
+  "browserify": {
+    "transform": [
+      "loose-envify"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/simplesmiler/vue-clickaway/issues"
+  },
+  "dependencies": {
+    "loose-envify": "^1.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "mkdirp": "^0.5.1",
+    "rollup": "^0.21.2",
+    "rollup-plugin-replace": "^1.1.0",
+    "uglify-js": "^2.6.1"
+  },
+  "homepage": "https://github.com/simplesmiler/vue-clickaway",
+  "keywords": [
+    "click",
+    "clickaway",
+    "reusable",
+    "vue",
+    "vue-directive",
+    "vuejs"
+  ],
+  "license": "MIT",
+  "main": "dist/vue-clickaway.common.js",
+  "peerDependencies": {
+    "vue": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simplesmiler/vue-clickaway"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint index.js directive.js mixin.js build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

@@ -1,0 +1,32 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group xy-grid
+////
+
+/// Offsets a column to the right/bottom by `$n` columns.
+///
+/// @param {Number|List} $n - Size to offset by. You can pass in any value accepted by the `zf-cell()` mixin, such as `6`, `50%`, or `1 of 2`.
+/// @param {Number|Map} $gutters [$grid-margin-gutters] Map of gutters or single value to use for responsive gutters.
+/// @param {Keyword} $gutter-type [margin] The type of gutter to use. Can be `margin` or `padding`
+/// @param {Number|Array|Keyword} $breakpoint [$-zf-zero-breakpoint] - Single value, breakpoint name, or list of breakpoint names to use for `$gutters`. See `-zf-breakpoint-value()`.
+/// @param {Boolean} $vertical [false] Sets the direction of the offset. If set to true will apply margin-top instead.
+@mixin xy-cell-offset(
+ $n,
+ $gutters: $grid-margin-gutters,
+ $gutter-type: margin,
+ $breakpoint: $-zf-zero-breakpoint,
+ $vertical: false
+) {
+  $direction: if($vertical, 'top', $global-left);
+
+  @include -zf-breakpoint-value($breakpoint, $gutters) {
+    $gutter: rem-calc($-zf-bp-value) / 2;
+    $gutter-margin: if($gutter-type == 'margin', $gutter, 0);
+    $size: if($gutter-margin == 0, #{xy-cell-size($n)}, calc(#{xy-cell-size($n)} + #{$gutter-margin}));
+
+    margin-#{$direction}: #{$size};
+  }
+}

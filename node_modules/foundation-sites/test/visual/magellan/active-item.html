@@ -1,0 +1,98 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Magellan:Active Item</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style type="text/css">
+
+        section{height:60em;}
+        nav{height:4em!important;}
+        .sticky{width: 100%;}
+        .highlight{background:#A1D4E9;}
+        .top-bar, .top-bar ul, .dark{background:#3a3a3a; color:#A1D4E9 }
+        .top-bar a{color: #A1D4E9;}
+        .is-active{background:#A1D4E9;color:white!important;}
+        .well{padding:3rem;}
+
+    </style>
+  </head>
+
+<body>
+    <header>
+        <nav data-sticky-container>
+            <div class="sticky is-stuck is-at-top" data-sticky data-sticky-on="small" data-margin-top="0" data-margin-bottom="0" data-top-anchor="top">
+                <div class="top-bar">
+                    <ul data-magellan data-bar-offset="25"  data-deep-linking="true" class="small-horizontal menu">
+                        <li><a href="#one">one</a></li>
+                        <li><a href="#two">two</a></li>
+                        <li><a href="#three">three</a></li>
+                        <li><a href="#four">four</a></li>
+                        <li><a href="#five">five</a></li>
+                        <li><a href="#six">six</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section id="heading">
+            <h1 class="text-center well">Pre-anchor Section</h1>
+            <div class="well">
+                <p>Incorrect: Navigation item one is active before first anchor point at section One.</p>
+                Correct:
+                <ul>
+                    <li>Navigation items should be inactive until first anchor point.</li>
+                    <li>URL should contain no hash</li>
+                </ul>
+            </div>
+        </section>
+
+    </header>
+    <main>
+
+        <section id="one" class="highlight" data-magellan-target="one">
+            <h1 class="text-center well">Section One</h1>
+            <div class="well">
+                <p>First anchor point. Navigation item one should be active only in this section.</p>
+                <p>Location hash should be #one with deep linking set to true</p>
+            </div>
+        </section>
+        <section id="two" data-magellan-target="two">
+            <h1 class="text-center well">Section Two</h1>
+            <div class="well">
+                <p>Second anchor point. Navigation item two should be active only in this section.</p>
+                <p>Location hash should be #two with deep linking set to true</p>
+            </div>
+        </section>
+        <section id="three" class="highlight" data-magellan-target="three">
+            <h1 class="text-center well">Section Three</h1>
+            <div class="well">
+                <p>Third anchor point. Navigation item three should be active only in this section.</p>
+                <p>Location hash should be #three with deep linking set to true</p>
+            </div>
+        </section>
+        <section id="four" data-magellan-target="four">
+            <h1 class="text-center well">Section Four</h1>
+        </section>
+        <section id="five" class="highlight" data-magellan-target="five">
+            <h1 class="text-center well">Section Five</h1>
+        </section>
+        </section>
+        <section id="six" class="dark" data-magellan-target="six">
+            <h1 class="text-center well">Section Six</h1>
+        </section>
+
+
+    </main>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

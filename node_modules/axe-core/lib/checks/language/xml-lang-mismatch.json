@@ -1,0 +1,11 @@
+{
+  "id": "xml-lang-mismatch",
+  "evaluate": "xml-lang-mismatch-evaluate",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Lang and xml:lang attributes have the same base language",
+      "fail": "Lang and xml:lang attributes do not have the same base language"
+    }
+  }
+}

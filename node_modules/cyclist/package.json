@@ -1,0 +1,31 @@
+{
+  "name": "cyclist",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mafintosh/cyclist"
+  },
+  "description": "Cyclist is an efficient cyclic list implemention.",
+  "dependencies": {},
+  "keywords": [
+    "circular",
+    "buffer",
+    "ring",
+    "cyclic",
+    "data"
+  ],
+  "author": "Mathias Buus Madsen <mathiasbuus@gmail.com>",
+  "devDependencies": {
+    "standard": "^3.8.0",
+    "tape": "^4.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/mafintosh/cyclist/issues"
+  },
+  "homepage": "https://github.com/mafintosh/cyclist",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && tape test.js"
+  },
+  "license": "MIT"
+}

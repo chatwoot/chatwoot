@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nexports.decode = exports.parse = require('./decode');\nexports.encode = exports.stringify = require('./encode');","map":null,"metadata":{},"sourceType":"module"}

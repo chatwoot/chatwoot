@@ -1,0 +1,1 @@
+{"version":3,"file":"stack-parsers.d.ts","sourceRoot":"","sources":["../../../src/stack-parsers.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,eAAe,EAAqB,MAAM,eAAe,CAAC;AA8DnE,eAAO,MAAM,iBAAiB,EAAE,eAA2C,CAAC;AAoC5E,eAAO,MAAM,gBAAgB,EAAE,eAAyC,CAAC;AAazE,eAAO,MAAM,gBAAgB,EAAE,eAAyC,CAAC;AASzE,eAAO,MAAM,kBAAkB,EAAE,eAA6C,CAAC;AAU/E,eAAO,MAAM,kBAAkB,EAAE,eAA6C,CAAC"}

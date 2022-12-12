@@ -1,0 +1,14 @@
+{
+  "id": "aria-required-parent",
+  "evaluate": "aria-required-parent-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Required ARIA parent role present",
+      "fail": {
+        "singular": "Required ARIA parent role not present: ${data.values}",
+        "plural": "Required ARIA parents role not present: ${data.values}"
+      }
+    }
+  }
+}

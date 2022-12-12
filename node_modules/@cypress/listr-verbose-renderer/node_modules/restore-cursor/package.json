@@ -1,0 +1,44 @@
+{
+  "name": "restore-cursor",
+  "version": "1.0.1",
+  "description": "Gracefully restore the CLI cursor on exit",
+  "license": "MIT",
+  "repository": "sindresorhus/restore-cursor",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "http://sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "exit",
+    "quit",
+    "process",
+    "graceful",
+    "shutdown",
+    "sigterm",
+    "sigint",
+    "terminate",
+    "kill",
+    "stop",
+    "cli",
+    "cursor",
+    "ansi",
+    "show",
+    "term",
+    "terminal",
+    "console",
+    "tty",
+    "shell",
+    "command-line"
+  ],
+  "dependencies": {
+    "exit-hook": "^1.0.0",
+    "onetime": "^1.0.0"
+  }
+}

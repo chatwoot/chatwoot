@@ -1,0 +1,86 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>All Foundation Menu Options - Flexbox</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation-float.css" rel="stylesheet" />
+
+    <style>
+      h1 {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 2rem;
+        width: 100%;
+      }
+
+      h3 {
+        width: 100%;
+      }
+
+      .example {
+        padding: 2rem;
+        border: 1px solid #ddd;
+        width: 100%;
+      }
+
+      .example + h1 {
+        margin-top: 5rem;
+      }
+
+      .example + h3 {
+        margin-top: 3rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="column">
+        <h1>Horizontal Menu Alignment</h1>
+
+        <div class="primary callout">
+          <p>This example test case also works without adding <code>horizontal</code> class as horizontal is the default. But we have added <code>horizontal</code> in the below examples.</p>
+        </div>
+
+        <h3>Left Aligned Menu (Default) - Horizontal</h3>
+        <div class="example">
+          <ul class="menu horizontal">
+            <li><a href="#">One</a></li>
+            <li><a href="#">Two</a></li>
+            <li><a href="#">Three</a></li>
+            <li><a href="#">Four</a></li>
+          </ul>
+        </div>
+
+        <h3>Right Aligned Menu - Horizontal</h3>
+        <div class="example">
+          <ul class="menu horizontal align-right">
+            <li><a href="#">One</a></li>
+            <li><a href="#">Two</a></li>
+            <li><a href="#">Three</a></li>
+            <li><a href="#">Four</a></li>
+          </ul>
+        </div>
+
+        <h3>Centered Menu - Horizontal</h3>
+        <div class="example">
+          <ul class="menu horizontal align-center">
+            <li><a href="#">One</a></li>
+            <li><a href="#">Two</a></li>
+            <li><a href="#">Three</a></li>
+            <li><a href="#">Four</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

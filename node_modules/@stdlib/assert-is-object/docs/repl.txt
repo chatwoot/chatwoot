@@ -1,0 +1,24 @@
+
+{{alias}}( value )
+    Tests if a value is an object; e.g., `{}`.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is an object.
+
+    Examples
+    --------
+    > var bool = {{alias}}( {} )
+    true
+    > bool = {{alias}}( true )
+    false
+
+    See Also
+    --------
+

@@ -1,0 +1,150 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.5.3
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+
+// Dependencies
+@import 'vendor/normalize';
+@import '../_vendor/sassy-lists/stylesheets/helpers/missing-dependencies';
+@import '../_vendor/sassy-lists/stylesheets/helpers/true';
+@import '../_vendor/sassy-lists/stylesheets/functions/contain';
+@import '../_vendor/sassy-lists/stylesheets/functions/purge';
+@import '../_vendor/sassy-lists/stylesheets/functions/remove';
+@import '../_vendor/sassy-lists/stylesheets/functions/replace';
+@import '../_vendor/sassy-lists/stylesheets/functions/to-list';
+
+// --- Settings ---
+// import your own `settings` here or
+// import and modify the default settings through
+// @import 'settings/settings';
+
+// --- Components ---
+// Utilities
+@import 'util/util';
+// Global styles
+@import 'global';
+@import 'forms/forms';
+@import 'typography/typography';
+
+// Grids
+@import 'grid/grid';
+@import 'xy-grid/xy-grid';
+// Generic components
+@import 'components/button';
+@import 'components/button-group';
+@import 'components/close-button';
+@import 'components/label';
+@import 'components/progress-bar';
+@import 'components/slider';
+@import 'components/switch';
+@import 'components/table';
+// Basic components
+@import 'components/badge';
+@import 'components/breadcrumbs';
+@import 'components/callout';
+@import 'components/card';
+@import 'components/dropdown';
+@import 'components/pagination';
+@import 'components/tooltip';
+
+// Containers
+@import 'components/accordion';
+@import 'components/media-object';
+@import 'components/orbit';
+@import 'components/responsive-embed';
+@import 'components/tabs';
+@import 'components/thumbnail';
+// Menu-based containers
+@import 'components/menu';
+@import 'components/menu-icon';
+@import 'components/accordion-menu';
+@import 'components/drilldown';
+@import 'components/dropdown-menu';
+
+// Layout components
+@import 'components/off-canvas';
+@import 'components/reveal';
+@import 'components/sticky';
+@import 'components/title-bar';
+@import 'components/top-bar';
+
+// Helpers
+@import 'components/float';
+@import 'components/flex';
+@import 'components/visibility';
+@import 'prototype/prototype';
+
+
+@mixin foundation-everything(
+  $flex: true,
+  $prototype: false
+) {
+  @if $flex {
+    $global-flexbox: true !global;
+  }
+
+  // Global styles
+  @include foundation-global-styles;
+  @include foundation-forms;
+  @include foundation-typography;
+
+  // Grids
+  @if not $flex {
+    @include foundation-grid;
+  }
+  @else {
+    @if $xy-grid {
+      @include foundation-xy-grid-classes;
+    }
+    @else {
+      @include foundation-flex-grid;
+    }
+  }
+
+  // Generic components
+  @include foundation-button;
+  @include foundation-button-group;
+  @include foundation-close-button;
+  @include foundation-label;
+  @include foundation-progress-bar;
+  @include foundation-slider;
+  @include foundation-switch;
+  @include foundation-table;
+  // Basic components
+  @include foundation-badge;
+  @include foundation-breadcrumbs;
+  @include foundation-callout;
+  @include foundation-card;
+  @include foundation-dropdown;
+  @include foundation-pagination;
+  @include foundation-tooltip;
+
+  // Containers
+  @include foundation-accordion;
+  @include foundation-media-object;
+  @include foundation-orbit;
+  @include foundation-responsive-embed;
+  @include foundation-tabs;
+  @include foundation-thumbnail;
+  // Menu-based containers
+  @include foundation-menu;
+  @include foundation-menu-icon;
+  @include foundation-accordion-menu;
+  @include foundation-drilldown-menu;
+  @include foundation-dropdown-menu;
+
+  // Layout components
+  @include foundation-off-canvas;
+  @include foundation-reveal;
+  @include foundation-sticky;
+  @include foundation-title-bar;
+  @include foundation-top-bar;
+
+  // Helpers
+  @include foundation-float-classes;
+  @if $flex { @include foundation-flex-classes; }
+  @include foundation-visibility-classes;
+  @if $prototype { @include foundation-prototype-classes; }
+}

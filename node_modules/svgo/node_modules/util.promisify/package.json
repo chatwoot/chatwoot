@@ -1,0 +1,57 @@
+{
+	"name": "util.promisify",
+	"version": "1.0.1",
+	"description": "Polyfill/shim for util.promisify in node versions < v8",
+	"main": "index.js",
+	"dependencies": {
+		"define-properties": "^1.1.3",
+		"es-abstract": "^1.17.2",
+		"has-symbols": "^1.0.1",
+		"object.getownpropertydescriptors": "^2.1.0"
+	},
+	"devDependencies": {
+		"@es-shims/api": "^2.1.2",
+		"@ljharb/eslint-config": "^15.1.0",
+		"auto-changelog": "^1.16.2",
+		"eslint": "^6.8.0",
+		"safe-publish-latest": "^1.1.4"
+	},
+	"scripts": {
+		"prepublish": "safe-publish-latest",
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"tests-only": "es-shim-api --bound",
+		"test": "npm run tests-only",
+		"posttest": "npx aud",
+		"version": "auto-changelog && git add CHANGELOG.md",
+		"postversion": "auto-changelog && git add CHANGELOG.md && git commit --no-edit --amend && git tag -f \"v$(node -e \"console.log(require('./package.json').version)\")\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ljharb/util.promisify.git"
+	},
+	"keywords": [
+		"promisify",
+		"promise",
+		"util",
+		"polyfill",
+		"shim",
+		"util.promisify"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"funding": {
+		"url": "https://github.com/sponsors/ljharb"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ljharb/util.promisify/issues"
+	},
+	"homepage": "https://github.com/ljharb/util.promisify#readme",
+	"auto-changelog": {
+		"output": "CHANGELOG.md",
+		"template": "keepachangelog",
+		"unreleased": false,
+		"commitLimit": false,
+		"backfillLimit": false
+	}
+}

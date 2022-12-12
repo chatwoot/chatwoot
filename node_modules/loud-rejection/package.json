@@ -1,0 +1,59 @@
+{
+  "name": "loud-rejection",
+  "version": "1.6.0",
+  "description": "Make unhandled promise rejections fail loudly instead of the default silent fail",
+  "license": "MIT",
+  "repository": "sindresorhus/loud-rejection",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "xo && nyc ava",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "files": [
+    "index.js",
+    "register.js",
+    "api.js"
+  ],
+  "keywords": [
+    "promise",
+    "promises",
+    "unhandled",
+    "uncaught",
+    "rejection",
+    "loud",
+    "fail",
+    "catch",
+    "throw",
+    "handler",
+    "exit",
+    "debug",
+    "debugging",
+    "verbose"
+  ],
+  "dependencies": {
+    "currently-unhandled": "^0.4.1",
+    "signal-exit": "^3.0.0"
+  },
+  "devDependencies": {
+    "ava": "*",
+    "bluebird": "^3.0.5",
+    "coveralls": "^2.11.4",
+    "delay": "^1.0.0",
+    "execa": "^0.4.0",
+    "get-stream": "^2.0.0",
+    "nyc": "^6.2.1",
+    "xo": "*"
+  },
+  "nyc": {
+    "exclude": [
+      "fixture.js"
+    ]
+  }
+}

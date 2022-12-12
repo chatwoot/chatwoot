@@ -1,0 +1,41 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group forms
+////
+
+@mixin foundation-form-checkbox {
+  [type='file'],
+  [type='checkbox'],
+  [type='radio'] {
+    margin: 0 0 $form-spacing;
+  }
+
+  // Styles for input/label siblings
+  [type='checkbox'] + label,
+  [type='radio'] + label {
+    display: inline-block;
+    vertical-align: baseline;
+
+    margin-#{$global-left}: $form-spacing * 0.5;
+    margin-#{$global-right}: $form-spacing;
+    margin-bottom: 0;
+
+    &[for] {
+      cursor: pointer;
+    }
+  }
+
+  // Styles for inputs inside labels
+  label > [type='checkbox'],
+  label > [type='radio'] {
+    margin-#{$global-right}: $form-spacing * 0.5;
+  }
+
+  // Normalize file input width
+  [type='file'] {
+    width: 100%;
+  }
+}

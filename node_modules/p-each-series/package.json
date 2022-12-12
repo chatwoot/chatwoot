@@ -1,0 +1,48 @@
+{
+	"name": "p-each-series",
+	"version": "2.2.0",
+	"description": "Iterate over promises serially",
+	"license": "MIT",
+	"repository": "sindresorhus/p-each-series",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"promise",
+		"foreach",
+		"for-each",
+		"for",
+		"each",
+		"collection",
+		"iterable",
+		"iterator",
+		"fulfilled",
+		"async",
+		"await",
+		"promises",
+		"serial",
+		"serially",
+		"series",
+		"bluebird"
+	],
+	"devDependencies": {
+		"ava": "^1.4.1",
+		"delay": "^4.1.0",
+		"time-span": "^3.0.0",
+		"tsd": "^0.7.2",
+		"xo": "^0.24.0"
+	}
+}

@@ -1,0 +1,44 @@
+{
+    "name": "@types/q",
+    "version": "1.5.4",
+    "description": "TypeScript definitions for Q",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Barrie Nemetchek",
+            "url": "https://github.com/bnemetchek",
+            "githubUsername": "bnemetchek"
+        },
+        {
+            "name": "Andrew Gaspar",
+            "url": "https://github.com/AndrewGaspar",
+            "githubUsername": "AndrewGaspar"
+        },
+        {
+            "name": "John Reilly",
+            "url": "https://github.com/johnnyreilly",
+            "githubUsername": "johnnyreilly"
+        },
+        {
+            "name": "Michel Boudreau",
+            "url": "https://github.com/mboudreau",
+            "githubUsername": "mboudreau"
+        },
+        {
+            "name": "TeamworkGuy2",
+            "url": "https://github.com/TeamworkGuy2",
+            "githubUsername": "TeamworkGuy2"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/q"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "468c45fb0acfd51599db9fd0186f40568f238a731e9d591452de2c66ac244221",
+    "typeScriptVersion": "3.0"
+}

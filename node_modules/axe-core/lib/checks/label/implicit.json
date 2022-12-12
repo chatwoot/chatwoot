@@ -1,0 +1,12 @@
+{
+  "id": "implicit-label",
+  "evaluate": "implicit-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Form element has an implicit (wrapped) <label>",
+      "fail": "Form element does not have an implicit (wrapped) <label>",
+      "incomplete": "Unable to determine if form element has an implicit (wrapped} <label>"
+    }
+  }
+}

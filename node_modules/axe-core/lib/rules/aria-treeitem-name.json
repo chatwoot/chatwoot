@@ -1,0 +1,18 @@
+{
+  "id": "aria-treeitem-name",
+  "selector": "[role=\"treeitem\"]",
+  "matches": "no-naming-method-matches",
+  "tags": ["cat.aria", "best-practice"],
+  "metadata": {
+    "description": "Ensures every ARIA treeitem node has an accessible name",
+    "help": "ARIA treeitem nodes should have an accessible name"
+  },
+  "all": [],
+  "any": [
+    "has-visible-text",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title"
+  ],
+  "none": []
+}

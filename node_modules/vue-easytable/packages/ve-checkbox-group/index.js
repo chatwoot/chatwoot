@@ -1,0 +1,7 @@
+import VeCheckboxGroup from "./src/index";
+
+VeCheckboxGroup.install = function(Vue) {
+    Vue.component(VeCheckboxGroup.name, VeCheckboxGroup);
+};
+
+export default VeCheckboxGroup;

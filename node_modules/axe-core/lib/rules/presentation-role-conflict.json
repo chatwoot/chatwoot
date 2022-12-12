@@ -1,0 +1,12 @@
+{
+  "id": "presentation-role-conflict",
+  "selector": "[role=\"none\"], [role=\"presentation\"]",
+  "tags": ["cat.aria", "best-practice"],
+  "metadata": {
+    "description": "Flags elements whose role is none or presentation and which cause the role conflict resolution to trigger.",
+    "help": "Elements of role none or presentation should be flagged"
+  },
+  "all": [],
+  "any": [],
+  "none": ["is-element-focusable", "has-global-aria-attribute"]
+}

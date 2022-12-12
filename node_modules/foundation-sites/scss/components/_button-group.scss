@@ -1,0 +1,272 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group button-group
+////
+
+/// Margin for button groups.
+/// @type Number
+$buttongroup-margin: 1rem !default;
+
+/// Margin between buttons in a button group.
+/// @type Number
+$buttongroup-spacing: 1px !default;
+
+/// Selector for the buttons inside a button group.
+/// @type String
+$buttongroup-child-selector: '.button' !default;
+
+/// Maximum number of buttons that can be in an even-width button group. (Only needed when $global-flexbox: false;)
+/// @type Number
+$buttongroup-expand-max: 6 !default;
+
+/// Determines if $button-radius is applied to each button or the button group as a whole. Use $global-radius in _settings.scss to change radius.
+/// @type Boolean
+$buttongroup-radius-on-each: true !default;
+
+/// Add styles for a button group container.
+/// @param {String} $child-selector [$buttongroup-child-selector] - Selector for the buttons inside a button group.
+/// @param {Number} $spacing [$buttongroup-spacing] - Spacing between buttons in a button group.
+@mixin button-group(
+  $child-selector: $buttongroup-child-selector,
+  $spacing: $buttongroup-spacing
+) {
+  @include clearfix;
+  margin-bottom: $buttongroup-margin;
+
+  @if $global-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+  @else {
+    font-size: 0;
+  }
+
+  #{$child-selector} {
+    margin: 0;
+    margin-#{$global-right}: $spacing;
+    margin-bottom: $spacing;
+    font-size: map-get($button-sizes, default);
+
+    @if $global-flexbox {
+      flex: 0 0 auto;
+    }
+
+    &:last-child {
+      margin-#{$global-right}: 0;
+    }
+
+    @if not $buttongroup-radius-on-each {
+      border-radius: 0;
+
+      &:first-child {
+        border-top-#{$global-left}-radius: $button-radius;
+        border-bottom-#{$global-left}-radius: $button-radius;
+      }
+
+      &:last-child {
+        border-top-#{$global-right}-radius: $button-radius;
+        border-bottom-#{$global-right}-radius: $button-radius;
+      }
+    }
+
+  }
+}
+
+/// Creates a full-width button group, making each button equal width.
+/// @param {String} $selector [$buttongroup-child-selector] - Selector for the buttons inside a button group.
+/// @param {Number} $spacing [$buttongroup-spacing] - Spacing between buttons in a button group.
+@mixin button-group-expand(
+  $selector: $buttongroup-child-selector,
+  $spacing: $buttongroup-spacing,
+  $count: null
+) {
+  @if not $global-flexbox {
+    margin-#{$global-right}: -$spacing;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  #{$selector} {
+    @if $global-flexbox {
+      flex: 1 1 0px; // sass-lint:disable-line zero-unit
+    }
+    @else {
+      // One child
+      &:first-child {
+        &:last-child {
+          width: calc(100% - #{$spacing});
+        }
+      }
+
+      // Two or more childreen
+      @for $i from 2 through $buttongroup-expand-max {
+        &:first-child:nth-last-child(#{$i}) {
+          &, &:first-child:nth-last-child(#{$i}) ~ #{$selector} {
+            display: inline-block;
+            width: calc(#{percentage(1 / $i)} - #{$spacing});
+            margin-#{$global-right}: $spacing;
+
+            &:last-child {
+              margin-#{$global-right}: $spacing * -$buttongroup-expand-max;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/// Stacks the buttons in a button group.
+/// @param {String} $selector [$buttongroup-child-selector] - Selector for the buttons inside the button group.
+@mixin button-group-stack(
+  $selector: $buttongroup-child-selector
+) {
+  @if $global-flexbox {
+    flex-wrap: wrap;
+  }
+
+  #{$selector} {
+    @if $global-flexbox {
+      flex: 0 0 100%;
+    }
+    @else {
+      width: 100%;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+
+    @if not $buttongroup-radius-on-each {
+      border-radius: 0;
+
+      &:first-child {
+        border-top-#{$global-left}-radius: $global-radius;
+        border-top-#{$global-right}-radius: $global-radius;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+        border-bottom-#{$global-left}-radius: $global-radius;
+        border-bottom-#{$global-right}-radius: $global-radius;
+      }
+    }
+
+  }
+}
+
+/// Un-stacks the buttons in a button group.
+/// @param {String} $selector [$buttongroup-child-selector] - Selector for the buttons inside the button group.
+@mixin button-group-unstack(
+  $selector: $buttongroup-child-selector
+) {
+  #{$selector} {
+    @if $global-flexbox {
+      flex: 0 0 auto;
+    }
+    @else {
+      width: auto;
+    }
+    margin-bottom: 0;
+
+    @if not $buttongroup-radius-on-each {
+      &:first-child {
+        border-top-#{$global-left}-radius: $global-radius;
+        border-top-#{$global-right}-radius: 0;
+        border-bottom-#{$global-left}-radius: $global-radius;
+      }
+
+      &:last-child {
+        border-top-#{$global-right}-radius: $global-radius;
+        border-bottom-#{$global-right}-radius: $global-radius;
+        border-bottom-#{$global-left}-radius: 0;
+      }
+    }
+
+  }
+}
+
+@mixin foundation-button-group {
+  .button-group {
+    @include button-group;
+
+    // Sizes
+    @each $size, $value in map-remove($button-sizes, default) {
+      &.#{$size} #{$buttongroup-child-selector} {
+        font-size: $value;
+      }
+    }
+
+    // Even-width Group
+    &.expanded {
+      @include button-group-expand;
+    }
+
+    // Colors
+    @each $name, $color in $button-palette {
+      @if $button-fill != hollow {
+        &.#{$name} #{$buttongroup-child-selector} {
+          @include button-style($color, auto, auto);
+        }
+      }
+      @else {
+        &.#{$name} #{$buttongroup-child-selector} {
+          @include button-hollow;
+          @include button-hollow-style($color);
+        }
+      }
+    }
+
+    &.stacked,
+    &.stacked-for-small,
+    &.stacked-for-medium {
+      @include button-group-stack;
+
+      &.expanded {
+        @include button-group-expand;
+      }
+    }
+
+    &.stacked-for-small {
+      @include breakpoint(medium) {
+        @include button-group-unstack;
+      }
+    }
+
+    &.stacked-for-medium {
+      @include breakpoint(large) {
+        @include button-group-unstack;
+      }
+    }
+
+    &.stacked-for-small.expanded {
+      @include breakpoint(small only) {
+        display: block;
+
+        #{$buttongroup-child-selector} {
+          display: block;
+          margin-#{$global-right}: 0;
+        }
+      }
+    }
+
+    &.stacked-for-medium.expanded {
+      @include breakpoint(medium down) {
+        display: block;
+
+        #{$buttongroup-child-selector} {
+          display: block;
+          margin-#{$global-right}: 0;
+        }
+      }
+    }
+  }
+}

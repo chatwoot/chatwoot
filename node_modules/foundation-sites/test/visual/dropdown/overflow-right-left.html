@@ -1,0 +1,58 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h4>Right and Left (no overflow)</h4>
+          <div class="grid-x grid-padding-x" style="background-color:#ddd;">
+            <div class="cell medium-6">
+              <p>Top Right Default Behavior (no overflow)</p>
+              <button class="button" type="button" data-toggle="example2-dropdown-top-right">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="top" data-alignment="right" id="example2-dropdown-top-right" data-dropdown data-auto-focus="true">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, molestias libero autem expedita placeat sequi.</p>
+              </div>
+            </div>
+            <div class="cell medium-6">
+              <p>Top Left Default Behavior (no overflow)</p>
+              <button class="button float-right" type="button" data-toggle="example2-dropdown-top-left">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="top" data-alignment="left" id="example2-dropdown-top-left" data-dropdown data-auto-focus="true">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium iure dolorem, earum maiores eos?</p>
+              </div>
+            </div>
+            <div class="cell medium-6">
+              <p>Bottom Right Default Behavior (no overflow)</p>
+              <button class="button" type="button" data-toggle="example2-dropdown-bottom-right">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="bottom" data-alignment="right" id="example2-dropdown-bottom-right" data-dropdown data-auto-focus="true">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime tempora officiis quam, libero quo cumque!</p>
+              </div>
+            </div>
+
+            <div class="cell medium-6">
+              <p>Bottom Left Default Behavior (no overflow)</p>
+              <button class="button float-right" type="button" data-toggle="example2-dropdown-bottom-left">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="bottom" data-alignment="left" id="example2-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt nostrum tempora harum dolore consectetur reiciendis.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

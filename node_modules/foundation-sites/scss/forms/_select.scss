@@ -1,0 +1,86 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group forms
+////
+
+/// Background color for select menus.
+/// @type Color
+$select-background: $white !default;
+
+/// Color of the dropdown triangle inside select menus. Set to `transparent` to remove it entirely.
+/// @type Color
+$select-triangle-color: $dark-gray !default;
+
+/// Default radius for select menus.
+/// @type Color
+$select-radius: $global-radius !default;
+
+@mixin form-select {
+  $height: ($input-font-size * unitless-calc($input-line-height)) + (get-side($input-padding, 'top') + get-side($input-padding, 'bottom')) - rem-calc(1);
+
+  height: $height;
+  margin: 0 0 $form-spacing;
+  padding: $input-padding;
+
+  appearance: none;
+  border: $input-border;
+  border-radius: $select-radius;
+  background-color: $select-background;
+
+  font-family: $input-font-family;
+  font-size: $input-font-size;
+  font-weight: $input-font-weight;
+  line-height: $input-line-height;
+  color: $input-color;
+
+  @if $select-triangle-color != transparent {
+    @include background-triangle($select-triangle-color);
+    background-origin: content-box;
+    background-position: $global-right (-$form-spacing) center;
+    background-repeat: no-repeat;
+    background-size: 9px 6px;
+
+    padding-#{$global-right}: ($form-spacing * 1.5);
+  }
+
+  @if has-value($input-transition) {
+    transition: $input-transition;
+  }
+
+  // Focus state
+  &:focus {
+    outline: none;
+    border: $input-border-focus;
+    background-color: $input-background-focus;
+    box-shadow: $input-shadow-focus;
+
+    @if has-value($input-transition) {
+      transition: $input-transition;
+    }
+  }
+
+  // Disabled state
+  &:disabled {
+    background-color: $input-background-disabled;
+    cursor: $input-cursor-disabled;
+  }
+
+  // Hide the dropdown arrow shown in newer IE versions
+  &::-ms-expand {
+    display: none;
+  }
+
+  &[multiple] {
+    height: auto;
+    background-image: none;
+  }
+}
+
+@mixin foundation-form-select {
+  select {
+    @include form-select;
+  }
+}

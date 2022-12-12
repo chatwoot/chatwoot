@@ -1,0 +1,12 @@
+{
+  "id": "heading-order",
+  "evaluate": "heading-order-evaluate",
+  "after": "heading-order-after",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Heading order valid",
+      "fail": "Heading order invalid"
+    }
+  }
+}

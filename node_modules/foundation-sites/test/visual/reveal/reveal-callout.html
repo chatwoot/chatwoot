@@ -1,0 +1,49 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Reveal</h1>
+
+          <section>
+            <h2>Callout inside Reveal</h2>
+            <p>Test if a callout inside a Reveal can be closed without closing the Reveal aswell.</p>
+            <div class="reveal" id="exampleModal1" data-reveal>
+              <h2>Closeable callout in reveal bug</h2>
+              <p>When you close the callout, the reveal is closed too, which shouldn't!</p>
+
+              <div class="callout alert" data-closable>
+                <p>Close me now!</p>
+                <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <button class="close-button" data-close aria-label="Close reveal" type="button">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <p><button class="button" data-open="exampleModal1">Click me for a modal</button></p>
+          </section>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

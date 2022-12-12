@@ -1,0 +1,11 @@
+{
+  "id": "structured-dlitems",
+  "evaluate": "structured-dlitems-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "When not empty, element has both <dt> and <dd> elements",
+      "fail": "When not empty, element does not have at least one <dt> element followed by at least one <dd> element"
+    }
+  }
+}

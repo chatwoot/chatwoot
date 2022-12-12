@@ -1,0 +1,11 @@
+{
+  "id": "is-on-screen",
+  "evaluate": "is-on-screen-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Element is not visible",
+      "fail": "Element is visible"
+    }
+  }
+}

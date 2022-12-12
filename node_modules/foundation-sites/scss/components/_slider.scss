@@ -1,0 +1,137 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+// [TODO] Check how plugin confirms disabled or vertical status
+// [TODO] Check if transition: all; is necessary
+
+////
+/// @group slider
+////
+
+/// Default slider width of a vertical slider. (Doesn't apply to the native slider.)
+/// @type Number
+$slider-width-vertical: 0.5rem !default;
+
+/// Transition properties to apply to the slider handle and fill. (Doesn't apply to the native slider.)
+/// @type Transition
+$slider-transition: all 0.2s ease-in-out !default;
+
+/// Adds the general styles for sliders.
+@mixin slider-container {
+  position: relative;
+  height: $slider-height;
+  margin-top: 1.25rem;
+  margin-bottom: 2.25rem;
+
+  background-color: $slider-background;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+}
+
+/// Adds the general styles for active fill for sliders.
+@mixin slider-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: inline-block;
+  max-width: 100%;
+  height: $slider-height;
+
+  background-color: $slider-fill-background;
+  transition: $slider-transition;
+
+  &.is-dragging {
+    transition: all 0s linear;
+  }
+}
+
+/// Adds the general styles for the slider handles.
+@mixin slider-handle {
+  @include disable-mouse-outline;
+  @include vertical-center;
+  left: 0;
+  z-index: 1;
+
+  display: inline-block;
+  width: $slider-handle-width;
+  height: $slider-handle-height;
+
+  border-radius: $slider-radius;
+  background-color: $slider-handle-background;
+  transition: $slider-transition;
+  touch-action: manipulation;
+
+  &:hover {
+    background-color: scale-color($slider-handle-background, $lightness: -15%);
+  }
+
+  &.is-dragging {
+    transition: all 0s linear;
+  }
+}
+
+@mixin slider-disabled {
+  opacity: $slider-opacity-disabled;
+  cursor: not-allowed;
+}
+
+@mixin slider-vertical {
+  display: inline-block;
+  width: $slider-width-vertical;
+  height: 12.5rem;
+  margin: 0 1.25rem;
+  transform: scale(1, -1);
+
+  .slider-fill {
+    top: 0;
+    width: $slider-width-vertical;
+    max-height: 100%;
+  }
+
+  .slider-handle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: $slider-handle-height;
+    height: $slider-handle-width;
+    transform: translateX(-50%);
+  }
+}
+
+@mixin foundation-slider {
+  // Container
+  .slider {
+    @include slider-container;
+  }
+
+  // Fill area
+  .slider-fill {
+    @include slider-fill;
+  }
+
+  // Draggable handle
+  .slider-handle {
+    @include slider-handle;
+  }
+
+  // Disabled state
+  .slider.disabled,
+  .slider[disabled] {
+    @include slider-disabled;
+  }
+
+  // Vertical slider
+  .slider.vertical {
+    @include slider-vertical;
+  }
+
+  // RTL support
+  @if $global-text-direction == rtl {
+    .slider:not(.vertical) {
+      transform: scale(-1, 1);
+    }
+  }
+}

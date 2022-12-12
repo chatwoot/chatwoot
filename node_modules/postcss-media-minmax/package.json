@@ -1,0 +1,37 @@
+{
+  "name": "postcss-media-minmax",
+  "version": "4.0.0",
+  "description": "Using more intuitive `>=`, `<=`, `>`, `<` instead of media queries min/max prefix.",
+  "scripts": {
+    "test": "tape test",
+    "release": "npmpub"
+  },
+  "repository": "https://github.com/postcss/postcss-media-minmax.git",
+  "keywords": [
+    "css",
+    "css3",
+    "postcss",
+    "postcss-plugin",
+    "media querie",
+    "media queries"
+  ],
+  "author": "yisi",
+  "license": "MIT",
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "README-zh.md",
+    "LICENSE",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.2"
+  },
+  "devDependencies": {
+    "npmpub": "^4.1.0",
+    "tape": "^4.9.1"
+  }
+}

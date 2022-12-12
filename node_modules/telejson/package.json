@@ -1,0 +1,80 @@
+{
+  "name": "telejson",
+  "version": "6.0.8",
+  "description": "",
+  "keywords": [
+    "JSON",
+    "cyclic",
+    "cyclical",
+    "date",
+    "function",
+    "parse",
+    "regex",
+    "stringify"
+  ],
+  "homepage": "https://github.com/storybookjs/telejson",
+  "bugs": {
+    "url": "https://github.com/storybookjs/telejson/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/telejson.git"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types/index.d.ts",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "build:cjs": "babel src --out-dir dist/cjs --extensions \".ts\"",
+    "build:esm": "BABEL_ESM=true babel src --out-dir dist/esm --extensions \".ts\"",
+    "build:tsc": "tsc --emitDeclarationOnly",
+    "build": "yarn build:cjs && yarn build:esm && yarn build:tsc",
+    "lint": "eslint src --ext .js,.ts",
+    "prepublish": "yarn build",
+    "test": "yarn test-node && yarn test-browser",
+    "test-browser": "TZ=UTC jest --env=jsdom ./common ./browser",
+    "test-node": "TZ=UTC jest --env=node ./common ./node"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@storybook/eslint-config-storybook"
+    ],
+    "env": {
+      "browser": true
+    }
+  },
+  "jest": {},
+  "dependencies": {
+    "@types/is-function": "^1.0.0",
+    "global": "^4.4.0",
+    "is-function": "^1.0.2",
+    "is-regex": "^1.1.2",
+    "is-symbol": "^1.0.3",
+    "isobject": "^4.0.0",
+    "lodash": "^4.17.21",
+    "memoizerific": "^1.11.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-typescript": "^7.13.0",
+    "@storybook/eslint-config-storybook": "^3.0.0",
+    "@types/jest": "^26.0.22",
+    "@types/lodash": "^4.14.168",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^26.6.3",
+    "common-tags": "^1.8.0",
+    "eslint": "^7.23.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "regenerator-runtime": "^0.13.7",
+    "typescript": "^4.2.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

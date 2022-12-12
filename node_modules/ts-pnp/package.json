@@ -1,0 +1,31 @@
+{
+    "name": "ts-pnp",
+    "version": "1.2.0",
+    "description": "plug'n'play resolver for TypeScript",
+    "license": "MIT",
+    "engines": {
+        "node": ">=6"
+    },
+    "homepage": "https://github.com/arcanis/ts-pnp",
+    "bugs": {
+        "url": "https://github.com/arcanis/ts-pnp/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/arcanis/ts-pnp.git"
+    },
+    "keywords": [
+        "typescript",
+        "yarn",
+        "plugnplay",
+        "pnp"
+    ],
+    "devDependencies": {
+        "typescript": "3.5.3"
+    },
+    "peerDependenciesMeta": {
+        "typescript": {
+            "optional": true
+        }
+    }
+}

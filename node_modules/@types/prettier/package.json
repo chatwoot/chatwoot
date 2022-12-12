@@ -1,0 +1,54 @@
+{
+    "name": "@types/prettier",
+    "version": "2.2.3",
+    "description": "TypeScript definitions for prettier",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Ika",
+            "url": "https://github.com/ikatyang",
+            "githubUsername": "ikatyang"
+        },
+        {
+            "name": "Ifiok Jr.",
+            "url": "https://github.com/ifiokjr",
+            "githubUsername": "ifiokjr"
+        },
+        {
+            "name": "Florian Imdahl",
+            "url": "https://github.com/ffflorian",
+            "githubUsername": "ffflorian"
+        },
+        {
+            "name": "Sosuke Suzuki",
+            "url": "https://github.com/sosukesuzuki",
+            "githubUsername": "sosukesuzuki"
+        },
+        {
+            "name": "Christopher Quadflieg",
+            "url": "https://github.com/Shinigami92",
+            "githubUsername": "Shinigami92"
+        },
+        {
+            "name": "Kevin Deisz",
+            "url": "https://github.com/kddeisz",
+            "githubUsername": "kddeisz"
+        },
+        {
+            "name": "Georgii Dolzhykov",
+            "url": "https://github.com/thorn0",
+            "githubUsername": "thorn0"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/prettier"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "ad2f57005bd8399b2887385703c72220c7254498ede307dcec36686a79f0e5dc",
+    "typeScriptVersion": "3.5"
+}

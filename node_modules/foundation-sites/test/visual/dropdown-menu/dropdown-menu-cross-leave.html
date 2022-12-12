@@ -1,0 +1,53 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li>
+              <a href="#">Item 1</a>
+              <ul class="menu vertical">
+                <li><a href="#">Content</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Item 2</a>
+              <ul class="menu vertical">
+                <li><a href="#">Content</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Item 3</a>
+              <ul class="menu vertical">
+                <li><a href="#">Content</a></li>
+              </ul>
+            </li>
+          </ul>
+          <div class="callout">
+            <p>Move the Mouse on Item 1 to open it, then quicly leave the window though the Item 2 (in a 45 degree angel). Panels should close.</p>
+
+            <p>
+              Checked bug: <a href="https://github.com/zurb/foundation-sites/issues/9427">https://github.com/zurb/foundation-sites/issues/9427</a><br/>
+              <img src="https://cloud.githubusercontent.com/assets/9939075/20866285/0a24819c-ba2a-11e6-93d8-1a69363f2c57.gif"/>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

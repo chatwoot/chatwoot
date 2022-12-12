@@ -1,0 +1,70 @@
+{
+  "name": "@csstools/convert-colors",
+  "version": "1.4.0",
+  "description": "Convert colors between RGB, HSL, and HWB",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "jonathantneal/convert-colors",
+  "homepage": "https://github.com/jonathantneal/convert-colors#readme",
+  "bugs": "https://github.com/jonathantneal/convert-colors/issues",
+  "main": "index.bundle.js",
+  "module": "index.js",
+  "files": [
+    "index.js",
+    "index.bundle.js",
+    "lib"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm test",
+    "pretest": "rollup -c .rollup.js --silent",
+    "test": "echo 'Running tests...'; npm run test:ec && npm run test:js && npm run test:tape",
+    "test:ec": "echint test",
+    "test:js": "eslint *.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "node .tape"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6",
+    "echint": "^4.0",
+    "eslint": "^4.15",
+    "eslint-config-dev": "2.0",
+    "pre-commit": "^1.2",
+    "rollup": "^0.54",
+    "rollup-plugin-babel": "^3.0"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "rules": {
+      "max-params": [
+        2,
+        4
+      ]
+    }
+  },
+  "keywords": [
+    "colors",
+    "converts",
+    "conversions",
+    "converting",
+    "css",
+    "rgb",
+    "hsl",
+    "hwb",
+    "lab",
+    "lch",
+    "hsv",
+    "xyz",
+    "red",
+    "green",
+    "blue",
+    "hue",
+    "saturation",
+    "lightness",
+    "whiteness",
+    "blackness",
+    "cie"
+  ]
+}

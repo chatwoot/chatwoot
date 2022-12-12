@@ -1,0 +1,58 @@
+{
+  "name": "meow",
+  "version": "3.7.0",
+  "description": "CLI app helper",
+  "license": "MIT",
+  "repository": "sindresorhus/meow",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "cli",
+    "bin",
+    "util",
+    "utility",
+    "helper",
+    "argv",
+    "command",
+    "line",
+    "meow",
+    "cat",
+    "kitten",
+    "parser",
+    "option",
+    "flags",
+    "input",
+    "cmd",
+    "console"
+  ],
+  "dependencies": {
+    "camelcase-keys": "^2.0.0",
+    "decamelize": "^1.1.2",
+    "loud-rejection": "^1.0.0",
+    "map-obj": "^1.0.1",
+    "minimist": "^1.1.3",
+    "normalize-package-data": "^2.3.4",
+    "object-assign": "^4.0.1",
+    "read-pkg-up": "^1.0.1",
+    "redent": "^1.0.0",
+    "trim-newlines": "^1.0.0"
+  },
+  "devDependencies": {
+    "ava": "*",
+    "execa": "^0.1.1",
+    "indent-string": "^2.1.0",
+    "xo": "*"
+  }
+}

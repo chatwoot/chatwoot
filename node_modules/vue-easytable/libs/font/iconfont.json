@@ -1,0 +1,79 @@
+{
+  "id": "2059128",
+  "name": "vue-easytable 2.x",
+  "font_family": "iconfont-vet",
+  "css_prefix_text": "icon-vet-",
+  "description": "vue easytable 2.x",
+  "glyphs": [
+    {
+      "icon_id": "1977010",
+      "name": "搜索",
+      "font_class": "search",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "1161666",
+      "name": "filter",
+      "font_class": "filter",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "18762164",
+      "name": "angle-double-right",
+      "font_class": "double-right-arrow",
+      "unicode": "e6345",
+      "unicode_decimal": 942917
+    },
+    {
+      "icon_id": "18762261",
+      "name": "angle-double-right",
+      "font_class": "double-left-arrow",
+      "unicode": "e6346",
+      "unicode_decimal": 942918
+    },
+    {
+      "icon_id": "18762291",
+      "name": "left",
+      "font_class": "left-arrow",
+      "unicode": "e634a",
+      "unicode_decimal": 942922
+    },
+    {
+      "icon_id": "18762279",
+      "name": "left",
+      "font_class": "top-arrow",
+      "unicode": "e6347",
+      "unicode_decimal": 942919
+    },
+    {
+      "icon_id": "18762282",
+      "name": "left",
+      "font_class": "right-arrow",
+      "unicode": "e6348",
+      "unicode_decimal": 942920
+    },
+    {
+      "icon_id": "18762287",
+      "name": "left",
+      "font_class": "bottom-arrow",
+      "unicode": "e6349",
+      "unicode_decimal": 942921
+    },
+    {
+      "icon_id": "18762296",
+      "name": "triangle-bottom",
+      "font_class": "sort-bottom-arrow",
+      "unicode": "e634b",
+      "unicode_decimal": 942923
+    },
+    {
+      "icon_id": "18762304",
+      "name": "triangle-top",
+      "font_class": "sort-top-arrow",
+      "unicode": "e634c",
+      "unicode_decimal": 942924
+    }
+  ]
+}

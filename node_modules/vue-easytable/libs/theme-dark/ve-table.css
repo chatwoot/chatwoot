@@ -1,0 +1,302 @@
+/* ve-table */
+/* ve-pagination */
+/* ve-checkbox */
+/* ve-radio */
+/* ve-select */
+/* ve-dropdown */
+/* fixed column shadow */
+.ve-table *,
+.ve-table *:before,
+.ve-table *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.ve-table table.ve-table-content {
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.ve-table table.ve-table-content thead.ve-table-header tr.ve-table-header-tr {
+  height: 40px;
+}
+.ve-table table.ve-table-content thead.ve-table-header tr.ve-table-header-tr th.ve-table-header-th {
+  background-color: #1d1d1d;
+  padding: 10px;
+  font-weight: 500;
+  color: #ffffffd9;
+  font-size: 14px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr {
+  height: 40px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr td.ve-table-body-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr td.ve-table-body-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr td.ve-table-expand-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr td.ve-table-expand-td {
+  background-color: #141414;
+  color: #ffffffd9;
+  height: inherit;
+  font-size: 14px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-body-tr td.ve-table-body-td,
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr td.ve-table-body-td {
+  padding: 10px;
+}
+.ve-table table.ve-table-content tbody.ve-table-body tr.ve-table-expand-tr {
+  display: table-row;
+}
+.ve-table table.ve-table-content tbody.ve-table-body.ve-table-stripe tr.ve-table-body-tr:nth-child(2n + 1) td {
+  background-color: #262626;
+}
+.ve-table table.ve-table-content tbody.ve-table-body.ve-table-row-hover tr.ve-table-body-tr:hover td {
+  background-color: #262626;
+}
+.ve-table table.ve-table-content tbody.ve-table-body.ve-table-row-highlight tr.ve-table-body-tr.ve-table-tr-highlight td {
+  background-color: #000;
+}
+.ve-table table.ve-table-content tfoot.ve-table-footer tr.ve-table-footer-tr {
+  height: 40px;
+}
+.ve-table table.ve-table-content tfoot.ve-table-footer tr.ve-table-footer-tr td.ve-table-footer-td {
+  background-color: #1d1d1d;
+  color: #ffffffd9;
+  padding: 10px;
+  font-size: 14px;
+}
+.ve-table .ve-table-container {
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+.ve-table .ve-table-container.ve-table-virtual-scroll {
+  position: relative;
+}
+.ve-table .ve-table-container.ve-table-virtual-scroll .ve-table-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.ve-table .ve-table-container .ve-table-virtual-phantom.ve-table-virtual-scroll {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: -1;
+}
+.ve-table .ve-table-container.ve-table-container-left-scrolling .ve-table-last-left-fixed-column::after {
+  box-shadow: inset 10px 0 8px -8px rgba(0, 0, 0, 0.15);
+}
+.ve-table .ve-table-container.ve-table-container-right-scrolling .ve-table-first-right-fixed-column::after {
+  box-shadow: inset -10px 0 8px -8px rgba(0, 0, 0, 0.15);
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x th,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x td {
+  border-bottom: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x tr:first-child > th,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-x tr.ve-table-footer-tr:first-child > td {
+  border-top: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y th,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y td {
+  border-right: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y th:first-child,
+.ve-table .ve-table-container .ve-table-content.ve-table-border-y td:first-child {
+  border-left: 1px solid #000;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header.ve-table-fixed-header tr th {
+  position: sticky;
+  z-index: 2;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th {
+  /* fixed column shadow */
+  /* filter */
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-fixed-left,
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-fixed-right {
+  position: sticky;
+  z-index: 3;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-last-left-fixed-column::after,
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-first-right-fixed-column::after {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 30px;
+  height: 100%;
+  transition: box-shadow 0.3s;
+  content: "";
+  pointer-events: none;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-last-left-fixed-column::after {
+  transform: translateX(100%);
+  right: 0;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th.ve-table-first-right-fixed-column::after {
+  transform: translateX(-100%);
+  left: 0;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-checkbox-wrapper {
+  width: 25px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort {
+  display: inline-block;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
+  color: #bfbfbf;
+  cursor: pointer;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon {
+  position: absolute;
+  display: block;
+  font-size: 14px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon.ve-table-sort-icon-top {
+  top: 1px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon.ve-table-sort-icon-bottom {
+  top: 9px;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-sort .ve-table-sort-icon.active {
+  color: #108ee9;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-filter {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 16px;
+  cursor: pointer;
+}
+.ve-table .ve-table-container .ve-table-content thead.ve-table-header .ve-table-header-tr .ve-table-header-th .ve-table-filter .ve-table-filter-icon {
+  position: absolute;
+  top: 0;
+  left: 5px;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td {
+  /* fixed column shadow */
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-fixed-left,
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-fixed-right {
+  position: sticky;
+  z-index: 1;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-last-left-fixed-column::after,
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-first-right-fixed-column::after {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 30px;
+  height: 100%;
+  transition: box-shadow 0.3s;
+  content: "";
+  pointer-events: none;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-last-left-fixed-column::after {
+  transform: translateX(100%);
+  right: 0;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-first-right-fixed-column::after {
+  transform: translateX(-100%);
+  left: 0;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td.ve-table-cell-selection {
+  border: 1px solid #2196f3;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon {
+  cursor: pointer;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon i {
+  display: inline-flex;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon i::before {
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-row-expand-icon.ve-table-expand-icon-collapsed i::before {
+  transform: rotate(90deg);
+  transition: transform 0.3s;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-checkbox-wrapper {
+  width: 25px;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-body-td-span-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  /* -webkit-line-clamp: 1; */
+  -webkit-box-orient: vertical;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-body-tr .ve-table-body-td .ve-table-body-td-edit-input {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+  background-color: transparent;
+  text-align: inherit;
+}
+.ve-table .ve-table-container .ve-table-content tbody.ve-table-body .ve-table-expand-tr .ve-table-expand-td-content {
+  position: sticky;
+  z-index: 1;
+  left: 0px;
+  padding: 10px;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer.ve-table-fixed-footer tr td {
+  position: sticky;
+  z-index: 2;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td {
+  /* fixed column shadow */
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-fixed-left,
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-fixed-right {
+  position: sticky;
+  z-index: 3;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-last-left-fixed-column::after,
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-first-right-fixed-column::after {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 30px;
+  height: 100%;
+  transition: box-shadow 0.3s;
+  content: "";
+  pointer-events: none;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-last-left-fixed-column::after {
+  transform: translateX(100%);
+  right: 0;
+}
+.ve-table .ve-table-container .ve-table-content tfoot.ve-table-footer .ve-table-footer-tr .ve-table-footer-td.ve-table-first-right-fixed-column::after {
+  transform: translateX(-100%);
+  left: 0;
+}
+.ve-table .ve-table-container.ve-table-border-around {
+  border: 1px solid #000;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-x tr:last-child > td {
+  border-bottom: 0px;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-x tr:first-child > th {
+  border-top: 0px;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y th.ve-table-last-column,
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y td:last-child {
+  border-right: 0px;
+}
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y th:first-child,
+.ve-table .ve-table-container.ve-table-border-around .ve-table-border-y td:first-child {
+  border-left: 0px;
+}

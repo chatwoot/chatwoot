@@ -1,0 +1,50 @@
+{
+	"name": "@samverschueren/stream-to-observable",
+	"version": "0.3.1",
+	"description": "Convert Node Streams into ECMAScript-Observables",
+	"license": "MIT",
+	"repository": "SamVerschueren/stream-to-observable",
+	"maintainers": [
+		{
+			"name": "Sam Verschueren",
+			"email": "sam.verschueren@gmail.com",
+			"url": "github.com/SamVerschueren"
+		}
+	],
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "xo && nyc --reporter=lcov --reporter=text npm run test_both",
+		"test_both": "ava --require=any-observable/register/rxjs && ava --require=any-observable/register/zen"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"stream",
+		"observable",
+		"convert"
+	],
+	"dependencies": {
+		"any-observable": "^0.3.0"
+	},
+	"devDependencies": {
+		"array-to-events": "^1.0.0",
+		"ava": "^0.25.0",
+		"coveralls": "^3.0.0",
+		"delay": "^2.0.0",
+		"nyc": "^11.7.1",
+		"rxjs": "^5.5.10",
+		"xo": "^0.20.3",
+		"zen-observable": "^0.8.8"
+	},
+	"peerDependenciesMeta": {
+		"rxjs": {
+			"optional": true
+		},
+		"zen-observable": {
+			"optional": true
+		}
+	}
+}

@@ -1,0 +1,47 @@
+{
+  "name": "is-whitespace",
+  "description": "Returns true if the value passed is all whitespace.",
+  "version": "0.3.0",
+  "homepage": "https://github.com/jonschlinkert/is-whitespace",
+  "author": {
+    "name": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jonschlinkert/is-whitespace.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/is-whitespace/issues"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/jonschlinkert/is-whitespace/blob/master/LICENSE"
+  },
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.1"
+  },
+  "keywords": [
+    "character",
+    "characters",
+    "check",
+    "is",
+    "match",
+    "regex",
+    "space",
+    "string",
+    "test",
+    "white",
+    "whitespace"
+  ]
+}

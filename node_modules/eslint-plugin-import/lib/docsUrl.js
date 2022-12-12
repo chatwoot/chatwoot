@@ -1,0 +1,8 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.default =
+
+
+
+docsUrl;var _package = require('../package.json');var _package2 = _interopRequireDefault(_package);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}const repoUrl = 'https://github.com/benmosher/eslint-plugin-import';function docsUrl(ruleName) {let commitish = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : `v${_package2.default.version}`;
+  return `${repoUrl}/blob/${commitish}/docs/rules/${ruleName}.md`;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9kb2NzVXJsLmpzIl0sIm5hbWVzIjpbImRvY3NVcmwiLCJyZXBvVXJsIiwicnVsZU5hbWUiLCJjb21taXRpc2giLCJwa2ciLCJ2ZXJzaW9uIl0sIm1hcHBpbmdzIjoiOzs7O0FBSXdCQSxPLENBSnhCLDBDLDhJQUVBLE1BQU1DLFVBQVUsbURBQWhCLENBRWUsU0FBU0QsT0FBVCxDQUFpQkUsUUFBakIsRUFBMEQsS0FBL0JDLFNBQStCLHVFQUFsQixJQUFHQyxrQkFBSUMsT0FBUSxFQUFHO0FBQ3ZFLFNBQVEsR0FBRUosT0FBUSxTQUFRRSxTQUFVLGVBQWNELFFBQVMsS0FBM0Q7QUFDRCIsImZpbGUiOiJkb2NzVXJsLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHBrZyBmcm9tICcuLi9wYWNrYWdlLmpzb24nXG5cbmNvbnN0IHJlcG9VcmwgPSAnaHR0cHM6Ly9naXRodWIuY29tL2Jlbm1vc2hlci9lc2xpbnQtcGx1Z2luLWltcG9ydCdcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gZG9jc1VybChydWxlTmFtZSwgY29tbWl0aXNoID0gYHYke3BrZy52ZXJzaW9ufWApIHtcbiAgcmV0dXJuIGAke3JlcG9Vcmx9L2Jsb2IvJHtjb21taXRpc2h9L2RvY3MvcnVsZXMvJHtydWxlTmFtZX0ubWRgXG59XG4iXX0=

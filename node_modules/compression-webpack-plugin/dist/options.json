@@ -1,0 +1,114 @@
+{
+  "additionalProperties": false,
+  "definitions": {
+    "Rule": {
+      "description": "Filtering rule as regex or string.",
+      "anyOf": [
+        {
+          "instanceof": "RegExp",
+          "tsType": "RegExp"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "Rules": {
+      "description": "Filtering rules.",
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "description": "A rule condition.",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Rule"
+              }
+            ]
+          }
+        },
+        {
+          "$ref": "#/definitions/Rule"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "test": {
+      "description": "Include all assets that pass test assertion.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Rules"
+        }
+      ]
+    },
+    "include": {
+      "description": "Include all assets matching any of these conditions.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Rules"
+        }
+      ]
+    },
+    "exclude": {
+      "description": "Exclude all assets matching any of these conditions.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Rules"
+        }
+      ]
+    },
+    "algorithm": {
+      "description": "The compression algorithm/function.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "instanceof": "Function"
+        }
+      ]
+    },
+    "compressionOptions": {
+      "description": "Compression options for `algorithm`.",
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "threshold": {
+      "description": "Only assets bigger than this size are processed. In bytes.",
+      "type": "number"
+    },
+    "minRatio": {
+      "description": "Only assets that compress better than this ratio are processed (`minRatio = Compressed Size / Original Size`).",
+      "type": "number"
+    },
+    "deleteOriginalAssets": {
+      "description": "Whether to delete the original assets or not.",
+      "type": "boolean"
+    },
+    "filename": {
+      "description": "The target asset filename.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "instanceof": "Function"
+        }
+      ]
+    },
+    "cache": {
+      "description": "Enable file caching. Ignored in webpack 5, for webpack 5 please use https://webpack.js.org/configuration/other-options/#cache.",
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "type": "object"
+}

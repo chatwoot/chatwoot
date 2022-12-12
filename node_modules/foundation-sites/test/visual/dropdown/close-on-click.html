@@ -1,0 +1,42 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Dropdown: closeOnClick option</h1>
+
+          <p>This dropdown will only close if you click the button again.</p>
+
+          <button class="dropdown button" type="button" data-toggle="dropdown1">Toggle Dropdown</button>
+          <div id="dropdown1" class="dropdown-pane" data-dropdown>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita mollitia veritatis dicta aspernatur vel reiciendis, fugit. Similique delectus laboriosam aperiam, unde debitis at minus hic rerum repudiandae, officiis iusto deleniti!</p>
+          </div>
+
+          <hr>
+
+          <p>This dropdown will close if you click anywhere outside of it.</p>
+
+          <button class="dropdown button" type="button" data-toggle="dropdown2">Toggle Dropdown</button>
+          <div id="dropdown2" class="dropdown-pane" data-dropdown data-close-on-click="true">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita mollitia veritatis dicta aspernatur vel reiciendis, fugit. Similique delectus laboriosam aperiam, unde debitis at minus hic rerum repudiandae, officiis iusto deleniti!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,139 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+@import 'math';
+
+$contrast-warnings: true !default;
+
+////
+/// @group functions
+////
+
+/// Checks the luminance of `$color`.
+///
+/// @param {Color} $color - Color to check the luminance of.
+///
+/// @returns {Number} The luminance of `$color`.
+@function color-luminance($color) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+  $rgba: red($color), green($color), blue($color);
+  $rgba2: ();
+
+  @for $i from 1 through 3 {
+    $rgb: nth($rgba, $i);
+    $rgb: $rgb / 255;
+
+    $rgb: if($rgb < 0.03928, $rgb / 12.92, pow(($rgb + 0.055) / 1.055, 2.4));
+
+    $rgba2: append($rgba2, $rgb);
+  }
+
+  @return 0.2126 * nth($rgba2, 1) + 0.7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
+}
+
+/// Checks the contrast ratio of two colors.
+///
+/// @param {Color} $color1 - First color to compare.
+/// @param {Color} $color2 - Second color to compare.
+///
+/// @returns {Number} The contrast ratio of the compared colors.
+@function color-contrast($color1, $color2) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+  $luminance1: color-luminance($color1) + 0.05;
+  $luminance2: color-luminance($color2) + 0.05;
+  $ratio: $luminance1 / $luminance2;
+
+  @if $luminance2 > $luminance1 {
+    $ratio: 1 / $ratio;
+  }
+
+  $ratio: round($ratio * 10) / 10;
+
+  @return $ratio;
+}
+
+/// Checks the luminance of `$base`, and returns the color from `$colors` (list of colors) that has the most contrast.
+///
+/// @param {Color} $base - Color to check luminance.
+/// @param {List} $colors [($white, $black)] - Colors to compare.
+/// @param {Number} $tolerance [$global-color-pick-contrast-tolerance] - Contrast tolerance.
+///
+/// @returns {Color} the color from `$colors` (list of colors) that has the most contrast.
+@function color-pick-contrast($base, $colors: ($white, $black), $tolerance: $global-color-pick-contrast-tolerance) {
+  $contrast: color-contrast($base, nth($colors, 1));
+  $best: nth($colors, 1);
+
+  @for $i from 2 through length($colors) {
+    $current-contrast: color-contrast($base, nth($colors, $i));
+    @if ($current-contrast - $contrast > $tolerance) {
+      $contrast: color-contrast($base, nth($colors, $i));
+      $best: nth($colors, $i);
+    }
+  }
+
+  @if ($contrast-warnings and $contrast < 3) {
+    @warn "Contrast ratio of #{$best} on #{$base} is pretty bad, just #{$contrast}";
+  }
+
+  @return $best;
+}
+
+/// Scales a color to be darker if it's light, or lighter if it's dark. Use this function to tint a color appropriate to its lightness.
+///
+/// @param {Color} $color - Color to scale.
+/// @param {Percentage} $scale [5%] - Amount to scale up or down.
+/// @param {Percentage} $threshold [40%] - Threshold of lightness to check against.
+///
+/// @returns {Color} A scaled color.
+@function smart-scale($color, $scale: 5%, $threshold: 40%) {
+  @if lightness($color) > $threshold {
+    $scale: -$scale;
+  }
+  @return scale-color($color, $lightness: $scale);
+}
+
+/// Get color from foundation-palette
+///
+/// @param {key} color key from foundation-palette
+///
+/// @returns {Color} color from foundation-palette
+@function get-color($key) {
+  @if map-has-key($foundation-palette, $key) {
+    @return map-get($foundation-palette, $key);
+  }
+  @else {
+    @error 'given $key is not available in $foundation-palette';
+  }
+}
+
+/// Transfers the colors in the `$foundation-palette` map into variables, such as `$primary-color` and `$secondary-color`. Call this mixin below the Global section of your settings file to properly migrate your codebase.
+@mixin add-foundation-colors() {
+  @if map-has-key($foundation-palette, primary) {
+    $primary-color: map-get($foundation-palette, primary) !global;
+  } @else {
+    $primary-color: #1779ba !global;
+  }
+  @if map-has-key($foundation-palette, secondary) {
+    $secondary-color: map-get($foundation-palette, secondary) !global;
+  } @else {
+    $secondary-color: #767676 !global;
+  }
+  @if map-has-key($foundation-palette, success) {
+    $success-color: map-get($foundation-palette, success) !global;
+  } @else {
+    $success-color: #3adb76 !global;
+  }
+  @if map-has-key($foundation-palette, warning) {
+    $warning-color: map-get($foundation-palette, warning) !global;
+  } @else {
+    $warning-color: #ffae00 !global;
+  }
+  @if map-has-key($foundation-palette, alert) {
+    $alert-color: map-get($foundation-palette, alert) !global;
+  } @else {
+    $alert-color: #cc4b37 !global;
+  }
+}

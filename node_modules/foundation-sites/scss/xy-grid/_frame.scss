@@ -1,0 +1,86 @@
+/// Modifies a grid to give it "frame" behavior (no overflow, no wrap, stretch behavior)
+///
+/// @param {Boolean} $vertical [false] - Is grid vertical or horizontal. Should match grid.
+/// @param {Boolean} $nested [false] - Is grid nested or not. If nested is true this sets the frame to 100% height, otherwise will be 100vh.
+/// @param {Number|Map} $gutters [null] - Map or single value for gutters.
+/// @param {String} $breakpoint [null] - The name of the breakpoint size in your gutters map to get the size from.
+/// @param {Boolean} $include-base [true] - Include the base styles that don't vary per breakpoint.
+@mixin xy-grid-frame(
+  $vertical: false,
+  $nested: false,
+  $gutters: null,
+  $breakpoint: null,
+  $include-base: true
+) {
+
+  @if $include-base {
+    overflow: hidden;
+    position: relative;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  @if $breakpoint == null and type-of($gutters) == 'map' {
+    @include -zf-each-breakpoint() {
+      @include xy-grid-frame($vertical, $nested, $gutters, $-zf-size, false);
+    }
+  } @else {
+    // Get our gutters if applicable
+    $gutter: -zf-get-bp-val($gutters, $breakpoint);
+
+    // If we have a gutter, add it to the width/height
+    @if $gutter {
+      @if $vertical == true {
+        $unit: if($nested == true, 100%, 100vh);
+        $gutter: rem-calc($gutter);
+        height: calc(#{$unit} + #{$gutter});
+      } @else {
+        $unit: if($nested == true, 100%, 100vw);
+        $gutter: rem-calc($gutter);
+        width: calc(#{$unit} + #{$gutter});
+      }
+    }
+    @else {
+      @if $vertical == true {
+        height: if($nested == true, 100%, 100vh);
+      } @else {
+        width: if($nested == true, 100%, 100vw);
+      }
+    }
+  }
+}
+
+/// Modifies a cell to give it "block" behavior (overflow auto, inertial scrolling)
+///
+/// @param {Boolean} $vertical [false] - Is grid vertical or horizontal. Should match grid.
+@mixin xy-cell-block(
+  $vertical: false
+) {
+  $property: if($vertical == true, 'overflow-y', 'overflow-x');
+
+  @if $vertical == true {
+    overflow-y: auto;
+    max-height: 100%;
+    min-height: 100%;
+  } @else {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/// Container for inside a grid frame containing multiple blocks. Typically used
+/// as a modifier for a `.cell` to allow the cell to pass along flex sizing
+/// constraints / from parents to children.
+@mixin xy-cell-block-container() {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+
+  > .grid-x {
+    max-height: 100%;
+    flex-wrap: nowrap;
+  }
+}

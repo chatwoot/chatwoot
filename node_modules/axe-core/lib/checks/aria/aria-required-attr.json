@@ -1,0 +1,14 @@
+{
+  "id": "aria-required-attr",
+  "evaluate": "aria-required-attr-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "All required ARIA attributes are present",
+      "fail": {
+        "singular": "Required ARIA attribute not present: ${data.values}",
+        "plural": "Required ARIA attributes not present: ${data.values}"
+      }
+    }
+  }
+}

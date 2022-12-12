@@ -1,0 +1,65 @@
+
+{{alias}}( x )
+    Splits a double-precision floating-point number into a higher order word
+    (unsigned 32-bit integer) and a lower order word (unsigned 32-bit integer).
+
+    When provided a destination object, the function returns an array with two
+    elements: a higher order word and a lower order word, respectively. The
+    lower order word contains the less significant bits, while the higher order
+    word contains the more significant bits and includes the exponent and sign.
+
+    Parameters
+    ----------
+    x: number
+        Double-precision floating-point number.
+
+    Returns
+    -------
+    out: Array<integer>
+        Higher and lower order words.
+
+    Examples
+    --------
+    > var w = {{alias}}( 3.14e201 )
+    [ 1774486211, 2479577218 ]
+
+
+{{alias}}.assign( x, out, stride, offset )
+    Splits a double-precision floating-point number into a higher order word
+    (unsigned 32-bit integer) and a lower order word (unsigned 32-bit integer)
+    and assigns results to a provided output array.
+
+    When provided a destination object, the function returns an array with two
+    elements: a higher order word and a lower order word, respectively. The
+    lower order word contains the less significant bits, while the higher order
+    word contains the more significant bits and includes the exponent and sign.
+
+    Parameters
+    ----------
+    x: number
+        Double-precision floating-point number.
+
+    out: Array|TypedArray|Object
+        Output array.
+
+    stride: integer
+        Output array stride.
+
+    offset: integer
+        Output array index offset.
+
+    Returns
+    -------
+    out: Array|TypedArray|Object
+        Higher and lower order words.
+
+    Examples
+    --------
+    > var out = new {{alias:@stdlib/array/uint32}}( 2 );
+    > var w = {{alias}}.assign( 3.14e201, out, 1, 0 )
+    <Uint32Array>[ 1774486211, 2479577218 ]
+    > var bool = ( w === out )
+    true
+
+    See Also
+    --------

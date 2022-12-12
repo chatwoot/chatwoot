@@ -1,0 +1,13 @@
+
+{{alias}}
+    The minimum biased base 2 exponent for a subnormal double-precision
+    floating-point number.
+
+    Examples
+    --------
+    > {{alias}}
+    -1074
+
+    See Also
+    --------
+

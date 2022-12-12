@@ -1,0 +1,18 @@
+{
+  "id": "aria-errormessage",
+  "evaluate": "aria-errormessage-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "aria-errormessage exists and references elements visible to screen readers that use a supported aria-errormessage technique",
+      "fail": {
+        "singular": "aria-errormessage value `${data.values}` must use a technique to announce the message (e.g., aria-live, aria-describedby, role=alert, etc.)",
+        "plural": "aria-errormessage values `${data.values}` must use a technique to announce the message (e.g., aria-live, aria-describedby, role=alert, etc.)"
+      },
+      "incomplete": {
+        "singular": "ensure aria-errormessage value `${data.values}` references an existing element",
+        "plural": "ensure aria-errormessage values `${data.values}` reference existing elements"
+      }
+    }
+  }
+}

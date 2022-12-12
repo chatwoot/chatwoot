@@ -1,0 +1,29 @@
+{
+  "version": "1.4.2",
+  "name": "tinycolor2",
+  "description": "Fast Color Parsing and Manipulation",
+  "url": "http://bgrins.github.com/TinyColor",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bgrins/TinyColor.git"
+  },
+  "keywords": [
+    "color",
+    "parser",
+    "tinycolor"
+  ],
+  "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
+  "main": "./tinycolor.js",
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "~0.1.3",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-qunit": "^4.0.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-docco": "~0.2.0"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "meta-refresh",
+  "evaluate": "meta-refresh-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "<meta> tag does not immediately refresh the page",
+      "fail": "<meta> tag forces timed refresh of page"
+    }
+  }
+}

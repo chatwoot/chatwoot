@@ -1,0 +1,59 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Abide a11y</h1>
+
+          <p>This has a global error and errors for each fields.
+            <ul>
+              <li>When the form is submit with invalid fields, the global error <strong>should be spelt</strong>.</li>
+              <li>When invalid fields are focused, the field should be <strong>described as "invalid"</strong> and the field error <strong>should be spelt</strong>.</li>
+            </ul>
+          </p>
+
+          <form id="form" data-abide novalidate>
+            <div class="alert callout" data-abide-error style="display: none;">
+              <p>This form has errors.</p>
+            </div>
+
+            <label>
+              This field is not required
+              <input type="text" placeholder="Not required">
+            </label>
+
+            <label>
+              This field is required
+              <input type="text" placeholder="Required" required>
+            </label>
+
+            <label>
+              This field is required and has an error message
+              <input type="text" placeholder="Required" required>
+              <span class="form-error">I am the error message and I should be spelt</span>
+            </label>
+
+            <button class="button" type="submit">Submit</button>
+            <button class="button" type="reset">Reset</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

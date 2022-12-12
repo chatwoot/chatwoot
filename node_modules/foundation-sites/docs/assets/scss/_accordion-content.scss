@@ -1,0 +1,112 @@
+.welcome-accordion {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.welcome-accordion-item {
+
+  &.is-active {
+    // box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.15);
+
+    .accordion-title {
+      margin-bottom: 0;
+      border-bottom: none;
+      color: $black;
+      border: none;
+      padding-left: 1rem;
+    }
+
+    .accordion-content {
+      // margin-bottom: 1rem;
+      border: none;
+      border-bottom: 1px dashed #e6e6e6;
+    }
+  }
+
+  .accordion-title:focus,
+  .accordion-title:active {
+    background: none;
+  }
+
+  .accordion-title {
+    color: darken($dark-gray,10%);
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding-left: 0;
+    background: none;
+    border: none;
+    border-bottom: 1px dashed #d6d6d6;
+    transition: all 0.3s ease;
+  }
+
+  .accordion-title:hover {
+    padding-left: 1rem;
+    color: $black;
+    transition: all 0.3s ease;
+  }
+
+  .accordion-title::before {
+    color: $dark-gray;
+    font-size: 1.25rem;
+    line-height: 1;
+    top: 45%;
+    border-radius: 50%;
+    border: 1px solid $light-gray;
+    background-color: $white;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .accordion-title:hover::before {
+    color: $black;
+    background-color: lighten($light-gray,8%);
+    border: 1px solid $medium-gray;
+    transition: all 0.3s ease;
+  }
+}
+
+.welcome-accordion-item:last-child {
+
+  .accordion-title{
+    border-bottom: none;
+  }
+}
+
+.accordion-content-item {
+  font-family: "Proxima Nova", Helvetica, Arial, sans-serif;
+  margin-bottom: 2rem;
+}
+
+.docs-component .accordion-content-item-divider {
+  border-bottom: 1px dashed #e5e5e5;
+  margin-bottom: 0;
+}
+
+.accordion-content-item-thumbnail {
+
+  img {
+    border: 1px solid $light-gray;
+  }
+
+  @include breakpoint(small down) {
+    margin-bottom: 1rem;
+  }
+}
+
+.accordion-content-item-cta {
+
+  img {
+    margin-right: 0.5rem;
+  }
+}
+
+// Prevent FOUC on nav accordion
+.accordion-content.is-active {
+  display: block;
+}
+
+.responsive-embed {
+  margin-bottom: 0;
+}

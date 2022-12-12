@@ -1,0 +1,11 @@
+{
+  "id": "landmark-is-top-level",
+  "evaluate": "landmark-is-top-level-evaluate",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "The ${data.role} landmark is at the top level.",
+      "fail": "The ${data.role} landmark is contained in another landmark."
+    }
+  }
+}

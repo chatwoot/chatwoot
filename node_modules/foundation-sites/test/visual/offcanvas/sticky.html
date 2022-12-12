@@ -1,0 +1,164 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Off canvas with a sticky menu</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-x grid-padding-x">
+      <div class="cell">
+        <div id="page" class="off-canvas-wrapper">
+
+          <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a left off-canvas panel</h3>
+          </div>
+
+          <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas>
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a right off-canvas panel</h3>
+          </div>
+
+          <div class="off-canvas position-top" id="offCanvasTop" data-off-canvas>
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a top off-canvas panel</h3>
+          </div>
+
+          <div class="off-canvas position-bottom" id="offCanvasBottom" data-off-canvas>
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a bottom off-canvas panel</h3>
+          </div>
+
+          <div class="off-canvas position-left" id="offCanvasLeftOverlap" data-off-canvas data-transition="overlap">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a left off-canvas panel with 'overlap' transition</h3>
+          </div>
+
+          <div class="off-canvas position-right" id="offCanvasRightOverlap" data-off-canvas data-transition="overlap">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a right off-canvas panel with 'overlap' transition</h3>
+          </div>
+
+          <div class="off-canvas position-top" id="offCanvasTopOverlap" data-off-canvas data-transition="overlap">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a top off-canvas panel with 'overlap' transition</h3>
+          </div>
+
+          <div class="off-canvas position-bottom" id="offCanvasBottomOverlap" data-off-canvas data-transition="overlap">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a bottom off-canvas panel with 'overlap' transition</h3>
+          </div>
+
+          <div class="off-canvas position-top" id="offCanvasForceTop" data-off-canvas data-force-to="top">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a top off-canvas panel with force-to set to top</h3>
+          </div>
+
+          <div class="off-canvas position-bottom" id="offCanvasForceBottom" data-off-canvas data-force-to="bottom">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a bottom off-canvas panel with force-to set to bottom</h3>
+          </div>
+
+          <div class="off-canvas position-left" id="noOverlay" data-off-canvas data-content-overlay="false">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a left off-canvas panel with no content overlay. You can still click the content to close me.</h3>
+          </div>
+
+          <div class="off-canvas position-right" id="noCloseOnClick" data-off-canvas data-close-on-click="false">
+            <button class="close-button" aria-label="Close panel" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>This is a right off-canvas panel with no close on click. You need to manually close me (or use Escape)</h3>
+          </div>
+
+          <div id="content" class="off-canvas-content" data-off-canvas-content>
+
+            <div class="top-bar-container" data-sticky-container>
+              <div class="sticky" data-sticky data-options="anchor: page; marginTop: 0; stickyOn: small;" style="width: 100%;">
+                <div class="top-bar">
+                  <div class="">
+                    <div class="top-bar-left">
+                      <button type="button" class="button" data-toggle="offCanvasLeft">Left Push</button>
+                      <button type="button" class="button" data-toggle="offCanvasRight">Right Push</button>
+                      <button type="button" class="button" data-toggle="offCanvasTop">Top Push</button>
+                      <button type="button" class="button" data-toggle="offCanvasBottom">Bottom Push</button>
+                    </div>
+                    <div class="top-bar-right">
+                      <button type="button" class="button" data-toggle="offCanvasLeftOverlap">Left Overlap</button>
+                      <button type="button" class="button" data-toggle="offCanvasRightOverlap">Right Overlap</button>
+                      <button type="button" class="button" data-toggle="offCanvasTopOverlap">Top Overlap</button>
+                      <button type="button" class="button" data-toggle="offCanvasBottomOverlap">Bottom Overlap</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="">
+
+              <h1>This test is designed to show how off canvas works with the sticky plugin.</h1>
+
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eros massa, lacinia sed rutrum non, sodales quis urna. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in rutrum magna, a varius lorem. Suspendisse nec nisi massa. Sed id lacus feugiat, commodo risus id, vulputate odio. Quisque aliquam lacus id mi euismod, ut sodales odio porttitor. Donec finibus dui vitae odio ultricies, sit amet volutpat risus bibendum. Nulla sagittis rhoncus fermentum. Nulla nisi mi, cursus posuere mollis in, faucibus ut lacus.
+
+              Nulla quis erat ut ex rhoncus vulputate quis sit amet tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis turpis enim, luctus a quam sed, ornare commodo risus. Praesent vestibulum, leo ut posuere aliquam, ante arcu imperdiet dui, in suscipit lacus massa quis tortor. Sed scelerisque lacus justo. Pellentesque condimentum odio vitae quam tempus ultrices. Fusce euismod egestas ante quis interdum. Curabitur id ligula vel mauris ullamcorper vestibulum. Quisque non aliquet metus, a bibendum sapien.
+
+              Sed sem libero, tempor sit amet sodales in, pharetra vestibulum elit. Quisque venenatis, libero id mattis vulputate, ligula diam luctus justo, quis pharetra quam sapien quis urna. Proin ligula velit, porttitor pellentesque molestie non, pulvinar at nisi. Nullam ullamcorper, nisi eget iaculis bibendum, augue neque placerat sem, at efficitur lectus mauris eget enim. Integer vulputate eros at blandit posuere. Pellentesque ac odio quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus massa nunc, blandit a vestibulum vitae, volutpat in felis. Curabitur porttitor diam ac lorem malesuada, sit amet ultricies risus pharetra. Praesent nunc odio, tempus quis lacus sit amet, malesuada pulvinar sem.
+
+              Morbi ultrices enim nec molestie luctus. Vestibulum nec leo id leo elementum tincidunt in ut velit. Sed sit amet ante egestas, hendrerit est nec, euismod tortor. Donec semper erat orci, id posuere mauris rutrum at. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer a orci luctus, pellentesque arcu sit amet, porta lacus. Mauris non blandit eros, ut euismod felis. Sed maximus dolor a finibus consequat. Integer nisl odio, interdum sed tempus et, ultrices vel augue. Vivamus at tincidunt purus, sit amet interdum magna. Nam sit amet efficitur leo. Nullam ac varius diam, pellentesque laoreet diam.</p>
+
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eros massa, lacinia sed rutrum non, sodales quis urna. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in rutrum magna, a varius lorem. Suspendisse nec nisi massa. Sed id lacus feugiat, commodo risus id, vulputate odio. Quisque aliquam lacus id mi euismod, ut sodales odio porttitor. Donec finibus dui vitae odio ultricies, sit amet volutpat risus bibendum. Nulla sagittis rhoncus fermentum. Nulla nisi mi, cursus posuere mollis in, faucibus ut lacus.
+
+              Nulla quis erat ut ex rhoncus vulputate quis sit amet tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis turpis enim, luctus a quam sed, ornare commodo risus. Praesent vestibulum, leo ut posuere aliquam, ante arcu imperdiet dui, in suscipit lacus massa quis tortor. Sed scelerisque lacus justo. Pellentesque condimentum odio vitae quam tempus ultrices. Fusce euismod egestas ante quis interdum. Curabitur id ligula vel mauris ullamcorper vestibulum. Quisque non aliquet metus, a bibendum sapien.
+
+              Sed sem libero, tempor sit amet sodales in, pharetra vestibulum elit. Quisque venenatis, libero id mattis vulputate, ligula diam luctus justo, quis pharetra quam sapien quis urna. Proin ligula velit, porttitor pellentesque molestie non, pulvinar at nisi. Nullam ullamcorper, nisi eget iaculis bibendum, augue neque placerat sem, at efficitur lectus mauris eget enim. Integer vulputate eros at blandit posuere. Pellentesque ac odio quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus massa nunc, blandit a vestibulum vitae, volutpat in felis. Curabitur porttitor diam ac lorem malesuada, sit amet ultricies risus pharetra. Praesent nunc odio, tempus quis lacus sit amet, malesuada pulvinar sem.
+
+              Morbi ultrices enim nec molestie luctus. Vestibulum nec leo id leo elementum tincidunt in ut velit. Sed sit amet ante egestas, hendrerit est nec, euismod tortor. Donec semper erat orci, id posuere mauris rutrum at. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer a orci luctus, pellentesque arcu sit amet, porta lacus. Mauris non blandit eros, ut euismod felis. Sed maximus dolor a finibus consequat. Integer nisl odio, interdum sed tempus et, ultrices vel augue. Vivamus at tincidunt purus, sit amet interdum magna. Nam sit amet efficitur leo. Nullam ac varius diam, pellentesque laoreet diam.</p>
+
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eros massa, lacinia sed rutrum non, sodales quis urna. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in rutrum magna, a varius lorem. Suspendisse nec nisi massa. Sed id lacus feugiat, commodo risus id, vulputate odio. Quisque aliquam lacus id mi euismod, ut sodales odio porttitor. Donec finibus dui vitae odio ultricies, sit amet volutpat risus bibendum. Nulla sagittis rhoncus fermentum. Nulla nisi mi, cursus posuere mollis in, faucibus ut lacus.
+
+              Nulla quis erat ut ex rhoncus vulputate quis sit amet tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis turpis enim, luctus a quam sed, ornare commodo risus. Praesent vestibulum, leo ut posuere aliquam, ante arcu imperdiet dui, in suscipit lacus massa quis tortor. Sed scelerisque lacus justo. Pellentesque condimentum odio vitae quam tempus ultrices. Fusce euismod egestas ante quis interdum. Curabitur id ligula vel mauris ullamcorper vestibulum. Quisque non aliquet metus, a bibendum sapien.
+
+              Sed sem libero, tempor sit amet sodales in, pharetra vestibulum elit. Quisque venenatis, libero id mattis vulputate, ligula diam luctus justo, quis pharetra quam sapien quis urna. Proin ligula velit, porttitor pellentesque molestie non, pulvinar at nisi. Nullam ullamcorper, nisi eget iaculis bibendum, augue neque placerat sem, at efficitur lectus mauris eget enim. Integer vulputate eros at blandit posuere. Pellentesque ac odio quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus massa nunc, blandit a vestibulum vitae, volutpat in felis. Curabitur porttitor diam ac lorem malesuada, sit amet ultricies risus pharetra. Praesent nunc odio, tempus quis lacus sit amet, malesuada pulvinar sem.
+
+              Morbi ultrices enim nec molestie luctus. Vestibulum nec leo id leo elementum tincidunt in ut velit. Sed sit amet ante egestas, hendrerit est nec, euismod tortor. Donec semper erat orci, id posuere mauris rutrum at. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer a orci luctus, pellentesque arcu sit amet, porta lacus. Mauris non blandit eros, ut euismod felis. Sed maximus dolor a finibus consequat. Integer nisl odio, interdum sed tempus et, ultrices vel augue. Vivamus at tincidunt purus, sit amet interdum magna. Nam sit amet efficitur leo. Nullam ac varius diam, pellentesque laoreet diam.</p>
+
+            </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

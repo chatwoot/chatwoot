@@ -1,0 +1,26 @@
+{
+  "id": "image-alt",
+  "selector": "img",
+  "matches": "no-explicit-name-required-matches",
+  "tags": [
+    "cat.text-alternatives",
+    "wcag2a",
+    "wcag111",
+    "section508",
+    "section508.22.a",
+    "ACT"
+  ],
+  "metadata": {
+    "description": "Ensures <img> elements have alternate text or a role of none or presentation",
+    "help": "Images must have alternate text"
+  },
+  "all": [],
+  "any": [
+    "has-alt",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title",
+    "presentational-role"
+  ],
+  "none": ["alt-space-value"]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "postcss-nesting",
+  "version": "7.0.1",
+  "description": "Nest style rules inside each other",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "jonathantneal/postcss-nesting",
+  "homepage": "https://github.com/jonathantneal/postcss-nesting#readme",
+  "bugs": "https://github.com/jonathantneal/postcss-nesting/issues",
+  "main": "index.cjs.js",
+  "module": "index.es.js",
+  "files": [
+    "index.cjs.js",
+    "index.es.js"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm test",
+    "pretest": "rollup -c .rollup.js --silent",
+    "test": "echo 'Running tests...'; npm run test:js && npm run test:tape",
+    "test:js": "eslint *.js lib/*.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "postcss-tape"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-eslint": "^9.0.0",
+    "babel-plugin-array-includes": "^2.0.3",
+    "eslint": "^5.6.0",
+    "eslint-config-dev": "^2.0.0",
+    "postcss-tape": "^2.2.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.66.0",
+    "rollup-plugin-babel": "^4.0.1"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "atrules",
+    "child",
+    "children",
+    "cssnext",
+    "nested",
+    "nestings",
+    "rules",
+    "selectors",
+    "syntax",
+    "specifications",
+    "specs",
+    "w3c",
+    "csswg"
+  ]
+}

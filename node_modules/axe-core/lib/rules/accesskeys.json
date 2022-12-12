@@ -1,0 +1,13 @@
+{
+  "id": "accesskeys",
+  "selector": "[accesskey]",
+  "excludeHidden": false,
+  "tags": ["cat.keyboard", "best-practice"],
+  "metadata": {
+    "description": "Ensures every accesskey attribute value is unique",
+    "help": "accesskey attribute value should be unique"
+  },
+  "all": [],
+  "any": [],
+  "none": ["accesskeys"]
+}

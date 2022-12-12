@@ -1,0 +1,735 @@
+{
+  "lang": "ko",
+  "rules": {
+    "accesskeys": {
+      "description": "모든 accesskey 속성 값이 고유한지 확인합니다.",
+      "help": "accesskey 속성 값은 고유해야 합니다."
+    },
+    "area-alt": {
+      "description": "이미지 맵의 <area> 요소에 alt 속성이 있는지 확인합니다.",
+      "help": "<area> 요소의 내용을 기술하는 alt 속성이 필요합니다."
+    },
+    "aria-allowed-attr": {
+      "description": "요소의 역할(role)에 ARIA 속성이 허용되도록 합니다.",
+      "help": "요소는 허용 된 ARIA 속성만 사용해야 합니다."
+    },
+    "aria-allowed-role": {
+      "description": "역할(role) 속성이 요소에 적절한지 확인하세요.",
+      "help": "요소에 적절한 ARIA 역할(role)을 설정해야 합니다."
+    },
+    "aria-hidden-body": {
+      "description": "<body> 요소의 aria-hidden='true' 설정을 확인하세요.",
+      "help": "aria-hidden='true' 설정이 <body> 요소에 설정되어서는 안됩니다."
+    },
+    "aria-hidden-focus": {
+      "description": "aria-hidden 요소에 포커스 가능한 요소가 포함되지 않도록 보장합니다.",
+      "help": "ARIA 속성을 사용해 숨겨진 요소는 포커스 가능한 요소를 포함해서는 안됩니다."
+    },
+    "aria-input-field-name": {
+      "description": "모든 ARIA 입력 필드(input fields)에 접근 가능한 이름이 있는지 확인하세요.",
+      "help": "ARIA 입력 필드(input fields)에는 접근 가능한 이름 설정이 필요합니다."
+    },
+    "aria-required-attr": {
+      "description": "ARIA 역할(role)을 가진 요소가 모든 필수 ARIA 속성을 갖도록 설정합니다.",
+      "help": "역할(role)에 필요한 필수 ARIA 속성 설정이 필요합니다."
+    },
+    "aria-required-children": {
+      "description": "하위 역할(child roles)이 필요한 ARIA 역할을 가진 요소에 해당 요소가 포함되었는지 확인하세요.",
+      "help": "특정 ARIA 역할에는 특정 자손(chidren)이 포함되어야 합니다."
+    },
+    "aria-required-parent": {
+      "description": "부모 역할(parent roles)이 필요한 ARIA 역할을 가진 요소가 포함되었는지 확인하세요.",
+      "help": "특정 ARIA 역할은 특정 부모 역할을 가진 요소에 포함되어야 합니다."
+    },
+    "aria-roles": {
+      "description": "역할(role) 속성을 가진 모든 요소가 유효한 값을 사용하도록 합니다.",
+      "help": "사용된 ARIA 역할(role)은 유효한 값을 준수해야 합니다."
+    },
+    "aria-toggle-field-name": {
+      "description": "모든 ARIA 토글 필드(toggle field)에 접근 가능한 이름이 있는지 확인합니다.",
+      "help": "ARIA 토글 필드(toggle field)는 접근 가능한 이름이 설정되어야 합니다."
+    },
+    "aria-valid-attr-value": {
+      "description": "모든 ARIA 속성이 유효한 값을 갖도록 합니다.",
+      "help": "ARIA 속성은 유효한 값을 준수해야 합니다."
+    },
+    "aria-valid-attr": {
+      "description": "aria-로 시작하는 속성이 유효한 ARIA 속성인지 확인합니다.",
+      "help": "유효하지 않은 ARIA 속성 이름을 사용해서는 안됩니다."
+    },
+    "audio-caption": {
+      "description": "<audio> 요소에 캡션(자막)이 설정되어 있는지 확인하세요.",
+      "help": "<audio> 요소에는 캡션 <track> 요소가 포함되어야 합니다."
+    },
+    "autocomplete-valid": {
+      "description": "autocomplete 속성이 정확하고, Form 필드에 적합한지 확인하세요.",
+      "help": "autocomplete 속성은 반드시 정확하게 사용되어야 합니다."
+    },
+    "avoid-inline-spacing": {
+      "description": "style 속성을 통해 설정된 텍스트 간격(spacing)을 사용자 정의 스타일시트로 조정 할 수 있는지 확인합니다.",
+      "help": "인라인 텍스트 간격(spacing)은 사용자 정의 스타일시트로 조정 가능해야 합니다."
+    },
+    "blink": {
+      "description": "<blink> 요소는 사용하지 않습니다.",
+      "help": "<blink> 요소는 사용하면 안됩니다."
+    },
+    "button-name": {
+      "description": "버튼 요소에 식별 가능한 텍스트가 포함되어 있는지 확인합니다.",
+      "help": "버튼 요소는 식별 가능한 텍스트를 포함해야 합니다."
+    },
+    "bypass": {
+      "description": "사용자가 내비게이션을 건너띄고, 콘텐츠로 바로 이동할 수 있는 하나 이상의 메커니즘을 제공해야 합니다.",
+      "help": "페이지의 반복 블록(예: 내비게이션)을 건너띌 수 있는 수단이 필요합니다."
+    },
+    "color-contrast": {
+      "description": "전경색과 배경색 간의 대비가 WCAG2 AA 기준 값을 충족하도록 보장해야 합니다.",
+      "help": "요소의 색상 대비가 충분히 식별 가능해야 합니다."
+    },
+    "css-orientation-lock": {
+      "description": "콘텐츠가 특정 디스플레이 방향으로 고정되지 않고 콘텐츠가 모든 디스플레이 방향으로 작동 가능하도록 보장합니다.",
+      "help": "CSS 미디어쿼리는 디스플레이 방향을 잠그는 목적으로 사용해서는 안됩니다."
+    },
+    "definition-list": {
+      "description": "<dl> 요소가 올바르게 구성되어 있는지 확인합니다.",
+      "help": "<dl> 요소는 올바르게 정렬 된 <dt>, <dd> 그룹, <script> 또는 <template> 요소에만 직접 포함되어야 합니다."
+    },
+    "dlitem": {
+      "description": "<dt>, <dd> 요소가 <dl>요소에 포함 되도록 합니다.",
+      "help": "<dt>, <dd> 요소는 <dl> 요소 또는 <dl> 내부의 <div> 요소에 포함되어야 합니다."
+    },
+    "document-title": {
+      "description": "<title> 요소에 적절한 문서 제목이 설정되었는지 확인합니다.",
+      "help": "문서 제목인 <title> 요소의 값이 설정되어야 합니다."
+    },
+    "duplicate-id-active": {
+      "description": "활성화 된 요소에 설정된 id 속성 이름 값 중복 여부를 확인합니다.",
+      "help": "활성화 된 요소의 id 속성 이름 값은 반드시 고유해야 합니다."
+    },
+    "duplicate-id-aria": {
+      "description": "ARIA 및 레이블에 사용된 모든 id 속성 값이 고유한지 확인합니다.",
+      "help": "ARIA 및 레이블에 사용 된 ID는 고유해야 합니다."
+    },
+    "duplicate-id": {
+      "description": "모든 id 속성 값이 고유한지 확인합니다.",
+      "help": "id 속성 값은 고유해야 합니다."
+    },
+    "empty-heading": {
+      "description": "제목 역할의 요소에 식별 가능한 콘텐츠가 포함되어 있는지 확인합니다.",
+      "help": "제목 역할을 가진 요소는 반드시 적절한 콘텐츠를 포함해야 합니다."
+    },
+    "focus-order-semantics": {
+      "description": "포커스 순서가 설정된 요소가 적절한 역할을 갖도록 보장하는지 확인합니다.",
+      "help": "포커스 순서가 설정된 요소는 대화형(interactive) 콘텐츠에 적합한 역할이 필요합니다."
+    },
+    "form-field-multiple-labels": {
+      "description": "Form 필드에 여러 레이블 요소가 없는지 확인합니다.",
+      "help": "Form 필드에는 여러 레이블 요소가 없어야 합니다."
+    },
+    "frame-tested": {
+      "description": "<iframe> 및 <frame> 요소에 axe-core 스크립트가 포함되어 있는지 확인합니다.",
+      "help": "Frame은 axe-core로 테스트 해야 합니다."
+    },
+    "frame-title-unique": {
+      "description": "<iframe> 및 <frame> 요소에 고유한 title 속성이 포함되어 있는지 확인합니다.",
+      "help": "Frame에는 고유한 title 속성이 설정되어야 합니다."
+    },
+    "frame-title": {
+      "description": "<iframe> 및 <frame> 요소에 내용을 가진 title 속성이 포함되어 있는지 확인합니다.",
+      "help": "Frame에는 title 속성이 있어야 합니다."
+    },
+    "heading-order": {
+      "description": "제목의 순서가 의미적으로 올바른지 확인합니다.",
+      "help": "제목 수준(level)은 한 단계씩 증가해야 합니다."
+    },
+    "hidden-content": {
+      "description": "숨겨진 콘텐츠에 대해 사용자에게 알립니다.",
+      "help": "페이지의 숨겨진 콘텐츠를 분석 할 수 없습니다."
+    },
+    "html-has-lang": {
+      "description": "모든 문서의 <html> 요소에 lang 속성이 있는지 확인합니다.",
+      "help": "<html> 요소에는 lang 속성이 있어야 합니다."
+    },
+    "html-lang-valid": {
+      "description": "<html> 요소의 lang 속성에 유효한 값이 있는지 확인하세요.",
+      "help": "<html> 요소는 lang 속성에 유효한 값을 가져야 합니다."
+    },
+    "html-xml-lang-mismatch": {
+      "description": "유효한 lang, xml:lang 속성 값과 <html> 요소의 lang 속성이 일치하는지 확인하세요.",
+      "help": "lang, xml:lang 속성이 있는 <html> 요소는 동일한 기본 언어(lang) 속성 값을 가져야 합니다."
+    },
+    "image-alt": {
+      "description": "<img> 요소에 alt 속성 값으로 적절한 값이 설정되어 있거나, role='presentation' 설정이 있는지 확인하세요.",
+      "help": "이미지는 적절한 대체 텍스트가 제공되어야 합니다."
+    },
+    "image-redundant-alt": {
+      "description": "이미지 대체 텍스트로 반복되지 않는지 확인합니다.",
+      "help": "이미지의 대체 텍스트가 반복해서 제공되어서는 안됩니다."
+    },
+    "input-button-name": {
+      "description": "입력 버튼(input button)에 식별 가능한 텍스트가 있는지 확인하세요.",
+      "help": "입력 버튼에는 식별 가능한 텍스트가 있어야 합니다."
+    },
+    "input-image-alt": {
+      "description": "<input type=\"image\"> 요소에 대체 텍스트가 있는지 확인합니다.",
+      "help": "이미지 버튼에는 대체 텍스트가 있어야 합니다."
+    },
+    "label-content-name-mismatch": {
+      "description": "콘텐츠를 통해 레이블이 지정된 요소가 접근 가능한 이름의 일부로 보이는 텍스트를 가져야 합니다.",
+      "help": "요소는 접근 가능한 이름의 일부로 보이는 텍스트를 가져야 합니다."
+    },
+    "label-title-only": {
+      "description": "모든 Form 요소에 title 또는 aria-describedby 속성을 사용하여 레이블을 지정하지 않아야 합니다.",
+      "help": "Form 요소는 눈에 보이는 레이블이 있어야 합니다."
+    },
+    "label": {
+      "description": "모든 Form 요소에 레이블이 있는지 확인합니다.",
+      "help": "Form 요소에는 레이블이 있어야 합니다."
+    },
+    "landmark-banner-is-top-level": {
+      "description": "banner 랜드마크가 최상위 레벨에 있는지 확인합니다.",
+      "help": "banner 랜드마크는 다른 랜드마크에 포함되지 않아야 합니다."
+    },
+    "landmark-complementary-is-top-level": {
+      "description": "complementary 랜드마크 또는 aside는 최상위 레벨을 유지해야 합니다.",
+      "help": "aside는 다른 랜드마크에 포함되어서는 안됩니다."
+    },
+    "landmark-contentinfo-is-top-level": {
+      "description": "contentinfo 랜드마크가 최상위 레벨인지 확인합니다.",
+      "help": "contentinfo 랜드마크는 다른 랜드마크에 포함되지 않아야 합니다."
+    },
+    "landmark-main-is-top-level": {
+      "description": "main 랜드마크가 최상위 레벨인지 확인합니다.",
+      "help": "main 랜드마크는 다른 랜드마크에 포함되지 않아야 합니다."
+    },
+    "landmark-no-duplicate-banner": {
+      "description": "문서에 최대 하나의 banner 랜드마크가 있는지 확인합니다.",
+      "help": "문서에는 둘 이상의 banner 랜드마크가 없어야 합니다."
+    },
+    "landmark-no-duplicate-contentinfo": {
+      "description": "문서에 최대 하나의 contentinfo 랜드마크가 있는지 확인합니다.",
+      "help": "문서에는 둘 이상의 contentinfo 랜드마크가 없어야 합니다."
+    },
+    "landmark-one-main": {
+      "description": "문서에 하나의 main 랜드마크만 있고 페이지의 각 iframe에는 최대 하나의 main 랜드마크가 있는지 확인합니다.",
+      "help": "문서에는 둘 이상의 main 랜드마크가 없어야 합니다."
+    },
+    "landmark-unique": {
+      "description": "랜드마크에는 고유한 역할(role) 또는 role/label/title (즉, 접근 가능한 이름) 조합이 있어야 합니다.",
+      "help": "랜드마크가 고유한지 확인합니다."
+    },
+    "link-in-text-block": {
+      "description": "색상에 의존하지 않고 링크를 구별 할 수 있어야 합니다.",
+      "help": "링크는 색상에 의존하지 않는 방식으로 주변 텍스트와 구별 되어야 합니다."
+    },
+    "link-name": {
+      "description": "링크에 식별 가능한 텍스트가 있는지 확인합니다.",
+      "help": "링크에는 식별 가능한 텍스트가 있어야 합니다."
+    },
+    "list": {
+      "description": "목록이 올바르게 구성되어 있는지 확인합니다.",
+      "help": "<ul> 및 <ol> 요소는 <li>, <script> 또는 <template> 요소 만 직접 포함해야 합니다."
+    },
+    "listitem": {
+      "description": "<li> 요소가 의미적으로 <ul> 또는 <ol>에 포함 되어 있는지 확인합니다.",
+      "help": "<li> 요소는 <ul> 또는 <ol>에 포함 되어야 합니다."
+    },
+    "marquee": {
+      "description": "<marquee> 요소가 사용되지 않도록 합니다.",
+      "help": "<marquee> 요소는 더 이상 사용되지 않으며 사용해서는 안됩니다."
+    },
+    "meta-refresh": {
+      "description": "<meta http-equiv=\"refresh\"> 요소는 사용하지 않습니다.",
+      "help": "시간 새로 고침이 존재하지 않아야 합니다."
+    },
+    "meta-viewport-large": {
+      "description": "<meta name=\"viewport\"> 요소의 스케일 설정이 500%까지 확장 가능한지 확인합니다.",
+      "help": "사용자는 텍스트를 최대 500% 확대 또는 축소 할 수 있어야 합니다."
+    },
+    "meta-viewport": {
+      "description": "<meta name=\"viewport\"> 요소가 텍스트 크기 조절 및 확대/축소를 비활성화하지 않도록 합니다.",
+      "help": "줌 및 스케일링을 비활성화 해서는 안됩니다."
+    },
+    "object-alt": {
+      "description": "<object> 요소에 대체 텍스트(alt)가 있는지 확인합니다.",
+      "help": "<object> 요소에는 대체 텍스트가 있어야 합니다."
+    },
+    "p-as-heading": {
+      "description": "p 요소를 스타일링 하여 제목처럼 사용했는지 확인하세요.",
+      "help": "p 요소를 Bold, italic 또는 글자 크기를 조정해 제목처럼 보이게 사용해서는 안됩니다."
+    },
+    "page-has-heading-one": {
+      "description": "페이지 또는 해당 프레임 중 하나 이상의 제목 레벨이 1인 요소가 포함되어 있는지 확인합니다.",
+      "help": "페이지는 제목 레벨이 1인 요소를 포함해야 합니다."
+    },
+    "region": {
+      "description": "모든 페이지 콘텐츠가 랜드마크로 포함되어 있는지 확인합니다.",
+      "help": "모든 페이지 콘텐츠는 랜드마크로 포함 되어야 합니다."
+    },
+    "role-img-alt": {
+      "description": "[role='img'] 요소에 대체 텍스트가 있는지 확인합니다.",
+      "help": "[role='img'] 요소에는 대체 텍스트가 있어야 합니다."
+    },
+    "scope-attr-valid": {
+      "description": "테이블에서 scope 속성이 올바르게 사용되도록 합니다.",
+      "help": "scope 속성을 올바르게 사용해야 합니다."
+    },
+    "scrollable-region-focusable": {
+      "description": "스크롤 가능한 콘텐츠가 있는 요소는 키보드로 접근 할 수 있어야 합니다.",
+      "help": "스크롤 가능 영역에 키보드 접근 권한이 있는지 확인해야 합니다."
+    },
+    "server-side-image-map": {
+      "description": "서버 사이드 이미지 맵이 사용되지 않도록 합니다.",
+      "help": "서버 사이드 이미지 맵을 사용해서는 안됩니다."
+    },
+    "skip-link": {
+      "description": "모든 건너뛰기(skip) 링크에 포커스 가능한 대상이 있는지 확인하세요.",
+      "help": "스킵 링크 대상이 존재하고 포커스 가능해야 합니다."
+    },
+    "tabindex": {
+      "description": "tabindex 속성 값이 0보다 크지 않도록 합니다.",
+      "help": "요소는 0보다 큰 tabindex를 가져서는 안됩니다."
+    },
+    "table-duplicate-name": {
+      "description": "테이블의 summary 속성 값과 <caption> 요소의 콘텐츠 값이 동일하지 않아야 합니다.",
+      "help": "<caption> 요소는 summary 속성과 동일한 텍스트를 포함하지 않아야 합니다."
+    },
+    "table-fake-caption": {
+      "description": "캡션이 있는 테이블이 <caption> 요소를 사용하는지 확인하세요.",
+      "help": "데이터 또는 헤더 셀을 사용하여 데이터 테이블 캡션인 것처럼 제공해서는 안됩니다."
+    },
+    "td-has-header": {
+      "description": "데이터 셀이 3x3 보다 많은 테이블은 비어 있지 않은 각 데이터 셀에 하나 이상의 테이블 헤더가 있는지 확인하세요.",
+      "help": "3x3 보다 큰 테이블의 비어 있지 않은 모든 td 요소에는 연관된 테이블 헤더가 있어야 합니다."
+    },
+    "td-headers-attr": {
+      "description": "헤더를 사용하는 테이블의 각 셀이 해당 테이블의 다른 셀을 참조하는지 확인하세요.",
+      "help": "headers 속성을 사용하는 테이블 요소의 모든 셀은 동일한 테이블의 다른 셀만 참조해야 합니다."
+    },
+    "th-has-data-cells": {
+      "description": "데이터 테이블의 각 테이블 헤더가 데이터 셀을 참조하는지 확인하세요.",
+      "help": "모든 요소 및 role='columnheader/rowheader' 설정 된 요소는 설명하는 데이터 셀이 있어야 합니다."
+    },
+    "valid-lang": {
+      "description": "lang 속성이 유효한 값을 갖도록 합니다.",
+      "help": "lang 속성은 유효한 값을 가져야 합니다."
+    },
+    "video-caption": {
+      "description": "<video> 요소에 캡션(자막)이 있는지 확인합니다.",
+      "help": "<video> 요소에는 캡션(자막)이 있어야 합니다."
+    }
+  },
+  "checks": {
+    "abstractrole": {
+      "pass": "추상 역할은 직접 사용하지 않습니다.",
+      "fail": "추상 역할은 직접 사용할 수 없습니다."
+    },
+    "aria-allowed-attr": {
+      "description": "ARIA 속성이 요소의 역할에 허용 되도록 합니다.",
+      "help": "요소는 허용된 ARIA 속성만 사용해야 합니다."
+    },
+    "aria-allowed-role": {
+      "pass": "ARIA 역할(role)은 지정된 요소에 대해 허용되어 있습니다.",
+      "fail": "ARIA 역할(role)은 지정된 요소에 대해 허용되지 않았습니다.",
+      "incomplete": "ARIA 역할(role)은 이 요소에 허가되어 있지 않기 때문에, 요소가 표시되었을 때 ARIA 역할을 삭제할 필요가 있습니다."
+    },
+    "aria-hidden-body": {
+      "description": "<body> 요소에 aria-hidden='true' 속성 설정이 없는지 확인하세요.",
+      "help": "aria-hidden='true' 설정을 <body> 요소에 사용해서는 안됩니다."
+    },
+    "aria-errormessage": {
+      "pass": "지원되고 있는 aria-errormessage 기술을 사용하고 있습니다.",
+      "fail": "aria-errormessage 값 ${data.values}는 메시지를 공지하는 방법을 사용해야 합니다.(예를 들어, aria-live, aria-describedby,role=alert 등)"
+    },
+    "has-widget-role": {
+      "pass": "요소에 widget 역할이 ​​있습니다.",
+      "fail": "요소에 widget 역할이 ​​없습니다."
+    },
+    "invalidrole": {
+      "pass": "ARIA 역할이 유효합니다.",
+      "fail": "역할은 유효한 ARIA 역할 중 하나여야 합니다."
+    },
+    "no-implicit-explicit-label": {
+      "pass": "<label>과 접근 가능한 이름이 일치하지 않습니다.",
+      "incomplete": "<label>이 ARIA ${data} 필드 이름의 일부일 필요는 없는지 확인하세요."
+    },
+    "aria-required-attr": {
+      "description": "ARIA 역할을 가진 요소가 모든 필수 ARIA 속성을 갖도록 합니다.",
+      "help": "필수 ARIA 속성이 제공 되어야 합니다."
+    },
+    "aria-required-children": {
+      "pass": "필수적인 ARIA 역할이 존재합니다.",
+      "fail": "필수적인 ARIA 역할이 제공되지 않고 있습니다:  ${data.values}",
+      "incomplete": "ARIA의 자손 역할이 추가되어야 합니다:  ${data.values}"
+    },
+    "aria-required-parent": {
+      "pass": "필수적인 ARIA 역할이 존재합니다.",
+      "fail": "필수적인 ARIA 역할이 제공되지 않고 있습니다:  ${data.values}"
+    },
+    "aria-unsupported-attr": {
+      "pass": "사용된 ARIA 속성은 지원되고 있습니다.",
+      "fail": "사용된 ARIA 속성은 스크린 리더나 보조 기술에 널리 지원되지 않고 있습니다:  ${data.values}"
+    },
+    "unsupportedrole": {
+      "pass": "사용된 ARIA 역할이 지원됩니다.",
+      "fail": "사용된 ARIA 속성은 스크린 리더나 보조 기술에 널리 지원되지 않고 있습니다.:  ${data.values}"
+    },
+    "aria-valid-attr-value": {
+      "pass": "ARIA 속성이 유효합니다.",
+      "fail": "무효인 ARIA 속성입니다: ${data.values}",
+      "incomplete": "페이지에 ARIA 속성의 요소 ID가 존재하지 않습니다: ${data.values}"
+    },
+    "aria-valid-attr": {
+      "pass": "ARIA 속성명이 유효합니다.",
+      "fail": "무효인 ARIA 속성명 입니다:  ${data.values}"
+    },
+    "valid-scrollable-semantics": {
+      "pass": "요소는 포커스 순서에서 요소에 대한 유효한 의미를 갖습니다.",
+      "fail": "요소의 포커스 순서에서 요소에 대한 의미가 유효하지 않습니다."
+    },
+    "color-contrast": {
+      "pass": "${data.contrastRatio} 요소의 색상 대비가 충분합니다.",
+      "fail": "${data.contrastRatio} 요소의 색상 대비가 충분하지 않습니다. (foreground color: ${data.fgColor}, background color: ${data.bgColor}, font size: ${data.fontSize}, font weight: ${data.fontWeight}). ${data.expectedContrastRatio} 예상 대비 비율",
+      "incomplete": {
+        "bgImage": "배경 이미지로 인해 요소의 배경색을 확인할 수 없습니다.",
+        "bgGradient": "배경 그라데이션으로 인해 요소의 배경색을 결정할 수 없습니다.",
+        "imgNode": "요소에 이미지 노드가 포함되어 있으므로 요소의 배경색을 확인할 수 없습니다.",
+        "bgOverlap": "요소의 배경색이 다른 요소와 겹치므로 확인할 수 없습니다.",
+        "fgAlpha": "알파 투명도로 인해 요소의 전경색을 확인할 수 없습니다.",
+        "elmPartiallyObscured": "요소의 배경색이 다른 요소에 의해 부분적으로 가려져서 확인할 수 없습니다.",
+        "elmPartiallyObscuring": "요소의 배경색이 다른 요소와 부분적으로 겹치므로 확인할 수 없습니다.",
+        "outsideViewport": "요소가 뷰포트 외부에 있으므로 요소의 배경색을 확인할 수 없습니다.",
+        "equalRatio": "요소는 배경과 1:1 대비 비율을 갖습니다.",
+        "shortTextContent": "요소 내용이 너무 짧아 실제 텍스트 내용인지 확인할 수 없습니다.",
+        "default": "명암 비를 결정할 수 없습니다."
+      }
+    },
+    "link-in-text-block": {
+      "pass": "링크는 색상이 아닌 다른 방식으로 주변 텍스트와 구별 될 수 있습니다.",
+      "fail": "링크는 색상이 아닌 다른 방식으로 주변 텍스트와 구별 되어야 합니다.",
+      "incomplete": {
+        "bgContrast": "요소의 명암비를 결정할 수 없습니다. 뚜렷한 hover / focus 스타일 확인",
+        "bgImage": "배경 이미지로 인해 요소의 대비 비율을 결정할 수 없습니다.",
+        "bgGradient": "배경 그라데이션으로 인해 요소의 대비 비율을 확인할 수 없습니다.",
+        "imgNode": "요소에 이미지 노드가 포함되어 있으므로 요소의 대비 비율을 확인할 수 없습니다.",
+        "bgOverlap": "요소 겹침으로 인해 요소의 대비 비율을 확인할 수 없습니다.",
+        "default": "명암비를 결정할 수 없습니다."
+      }
+    },
+    "autocomplete-appropriate": {
+      "pass": "autocomplete 값이 적절한 요소에 있습니다.",
+      "fail": "autocomplete 값은 이 유형의 입력에 적합하지 않습니다."
+    },
+    "autocomplete-valid": {
+      "pass": "autocomplete 속성이 올바르게 형식화 되었습니다.",
+      "fail": "autocomplete 속성의 형식이 잘못 되었습니다."
+    },
+    "accesskeys": {
+      "pass": "accesskey 속성 값은 고유합니다",
+      "fail": "문서에 동일한 accesskey를 가진 여러 요소가 있습니다."
+    },
+    "focusable-content": {
+      "pass": "요소에는 포커스 가능한 요소가 포함됩니다.",
+      "fail": "요소는 포커스 가능한 콘텐츠를 가져야 합니다."
+    },
+    "focusable-disabled": {
+      "pass": "요소 안에 포커스 가능한 요소가 포함되어 있지 않습니다.",
+      "fail": "포커스 가능 콘텐츠를 비 활성화하거나 DOM에서 제거해야 합니다."
+    },
+    "focusable-element": {
+      "pass": "요소는 포커스 가능합니다.",
+      "fail": "요소에 포커스를 맞출 수 있어야 합니다."
+    },
+    "focusable-no-name": {
+      "pass": "요소가 탭 순서가 아니거나 접근 가능한 텍스트가 있습니다.",
+      "fail": "요소가 탭 순서이며 접근 가능한 텍스트가 없습니다."
+    },
+    "focusable-not-tabbable": {
+      "pass": "요소 내에 포커스 가능한 요소가 포함되어 있지 않습니다.",
+      "fail": "포커스 가능 콘텐츠는 tabindex='-1' 이거나 DOM에서 제거 되어야 합니다."
+    },
+    "landmark-is-top-level": {
+      "pass": "${data.role} 랜드마크가 최상위 레벨에 있습니다.",
+      "fail": "${data.role} 랜드마크는 다른 랜드마크에 포함되어 있습니다."
+    },
+    "page-has-heading-one": {
+      "pass": "페이지에 하나 이상의 제목 레벨 1이 있습니다.",
+      "fail": "페이지에는 제목 레벨 1이 있어야 합니다."
+    },
+    "page-has-main": {
+      "pass": "문서에 하나 이상의 main 랜드마크가 있습니다.",
+      "fail": "문서에 main 랜드마크가 없습니다."
+    },
+    "page-no-duplicate-banner": {
+      "pass": "문서에 둘 이상의 banner 랜드마크가 없습니다.",
+      "fail": "문서에 둘 이상의 banner 랜드마크가 있습니다."
+    },
+    "page-no-duplicate-contentinfo": {
+      "pass": "문서에 하나 이상의 contentinfo 랜드마크가 없습니다.",
+      "fail": "문서에 하나 이상의 contentinfo 랜드마크가 있습니다."
+    },
+    "page-no-duplicate-main": {
+      "pass": "문서에 둘 이상의 main 랜드마크가 없습니다.",
+      "fail": "문서에 둘 이상의 main 랜드마크가 있습니다."
+    },
+    "tabindex": {
+      "pass": "요소에 0보다 큰 tabindex가 없습니다.",
+      "fail": "요소의 tabindex가 0보다 큽니다."
+    },
+    "alt-space-value": {
+      "pass": "요소에 유효한 대체 속성 값이 있습니다.",
+      "fail": "요소에는 공백 문자만 포함하는 alt 속성이 있으며 모든 스크린 리더에서 무시하지 않습니다."
+    },
+    "duplicate-img-label": {
+      "pass": "<img> 대체 텍스트에서 요소가 기존 텍스트를 복제하지 않습니다.",
+      "fail": "요소에 기존 텍스트를 복제하는 대체 텍스트가 있는 <img> 요소가 포함되어 있습니다."
+    },
+    "explicit-label": {
+      "pass": "Form 요소에 명확한 <label>이 존재하고 있습니다.",
+      "fail": "Form 요소에 명확한 <label>이 존재하지 않습니다."
+    },
+    "help-same-as-label": {
+      "pass": "도움말 텍스트(title 또는 aria-describedby)는 레이블 텍스트를 복제하지 않습니다.",
+      "fail": "도움말 텍스트(title 또는 aria-describedby)는 레이블 텍스트와 동일합니다."
+    },
+    "hidden-explicit-label": {
+      "pass": "Form 요소에 명시적인 <label>이 있습니다.",
+      "fail": "Form 요소에 숨겨진 <label>이 있습니다."
+    },
+    "implicit-label": {
+      "pass": "Form 요소에 암묵적인(포함된) <label>이 존재하고 있습니다.",
+      "fail": "Form 요소에 암묵적인(포함된) <label>이 존재하지 않습니다."
+    },
+    "label-content-name-mismatch": {
+      "pass": "요소는 접근 가능한 이름의 일부로 보이는 텍스트를 포함합니다.",
+      "fail": "요소 안의 텍스트는 접근 가능한 이름에 포함되지 않습니다."
+    },
+    "multiple-label": {
+      "pass": "Form 필드에 여러 레이블 요소가 없습니다.",
+      "incomplete": "보조 기술에서 다중 레이블 요소가 널리 지원되지 않습니다. 첫 번째 레이블에 필요한 모든 정보가 포함되어 있는지 확인하세요."
+    },
+    "title-only": {
+      "pass": "Form 요소는 레이블에 title 속성만 사용하지 않습니다.",
+      "fail": "Form 요소의 레이블을 생성하는데 사용되는 title 속성만 해당됩니다."
+    },
+    "landmark-is-unique": {
+      "pass": "랜드마크에는 고유한 role 또는 role/label/title (즉, 접근 가능한 이름) 조합이 있어야 합니다.",
+      "fail": "랜드마크는 고유한 aria-label, aria-labelledby 또는 title이 있어야 랜드마크를 구별 할 수 있습니다."
+    },
+    "has-lang": {
+      "pass": "<html> 요소에 lang 속성이 있습니다.",
+      "fail": "<html> 요소에 lang 속성이 없습니다."
+    },
+    "valid-lang": {
+      "pass": "lang 속성 값은 유효한 언어 목록에 포함되어 있습니다.",
+      "fail": "lang 속성 값이 유효한 언어 목록에 포함되어 있지 않습니다."
+    },
+    "xml-lang-mismatch": {
+      "pass": "lang 및 xml:lang 속성은 주 언어 속성 값이 동일합니다.",
+      "fail": "lang 및 xml:lang 속성은 주 언어 속성 값이 동일하지 않습니다."
+    },
+    "dlitem": {
+      "pass": "설명 목록 항목에 <dl> 상위 요소가 있습니다.",
+      "fail": "설명 목록 항목에 <dl> 상위 요소가 없습니다."
+    },
+    "listitem": {
+      "pass": "목록 항목에 <ul>, <ol> 또는 role=\"list\" 상위 요소가 있습니다.",
+      "fail": "목록 항목에 <ul>, <ol> 또는 role=\"list\" 상위 요소가 없습니다."
+    },
+    "only-dlitems": {
+      "pass": "List 요소에는 <dt> 또는 <dd> 요소 내에서 허용되는 직접적인 자식 요소들만 있습니다.",
+      "fail": "List 요소에는 <dt> 또는 <dd> 요소 내에서 허용되지 않는 직접적인 자식 요소들이 있습니다."
+    },
+    "only-listitems": {
+      "pass": "List 요소에는 <li> 요소 내에 허용되는 직접적인 자식 요소들만 있습니다.",
+      "fail": "List 요소에는 <li> 요소 내에 허용되지 않는 직접 자식 요소들이 있습니다."
+    },
+    "structured-dlitems": {
+      "pass": "비어 있지 않으면 요소에 <dt> 및 <dd> 요소가 모두 있습니다.",
+      "fail": "비어 있지 않은 경우 요소에는 하나 이상의 <dt> 요소가 없고 그 뒤에 하나 이상의 <dd> 요소가 없습니다."
+    },
+    "caption": {
+      "pass": "멀티미디어 요소에는 자막 트랙이 있습니다.",
+      "incomplete": "요소에 캡션을 사용할 수 있는지 확인하세요."
+    },
+    "frame-tested": {
+      "pass": "iframe은 axe-core로 테스트 되었습니다.",
+      "fail": "iframe은 axe-core로 테스트 할 수 없습니다.",
+      "incomplete": "iframe은 여전히 ​​axe-core로 테스트 해야 합니다."
+    },
+    "css-orientation-lock": {
+      "pass": "디스플레이가 작동하고 방향 잠금이 설정되어 있지 않습니다.",
+      "fail": "CSS 방향 잠금이 적용되어 디스플레이를 작동 할 수 없게 합니다.",
+      "incomplete": "CSS 방향 잠금을 확인할 수 없습니다."
+    },
+    "meta-viewport-large": {
+      "pass": "<meta> 태그가 모바일 장치에서 화면 확대가 가능합니다.",
+      "fail": "<meta> 태그는 모바일 장치에서 화면 확대/축소를 제한합니다."
+    },
+    "meta-viewport": {
+      "pass": "<meta> 태그는 모바일 장치에서 확대/축소를 비활성화하지 않습니다.",
+      "fail": "<meta> 태그의 ${data}는 모바일 장치에서 확대/축소를 사용하지 않습니다."
+    },
+    "header-present": {
+      "pass": "페이지에 헤더가 있습니다.",
+      "fail": "페이지에 헤더가 없습니다."
+    },
+    "heading-order": {
+      "pass": "제목 순서가 유효합니다.",
+      "fail": "제목 순서가 잘못되었습니다."
+    },
+    "internal-link-present": {
+      "pass": "유효한 건너뛰기 링크가 발견되었습니다.",
+      "fail": "유효한 건너뛰기 링크가 없습니다."
+    },
+    "landmark": {
+      "pass": "페이지에 랜드마크 영역이 있습니다.",
+      "fail": "페이지에 랜드마크 영역이 없습니다."
+    },
+    "meta-refresh": {
+      "pass": "<meta> 태그는 페이지를 즉시 새로 고치지 않습니다.",
+      "fail": "<meta> 태그는 페이지를 새로 고침합니다."
+    },
+    "p-as-heading": {
+      "pass": "<p> 요소는 제목처럼 스타일이 설정되지 않았습니다.",
+      "fail": "스타일이 지정된 p 요소 대신 제목 요소를 사용해야 합니다."
+    },
+    "region": {
+      "pass": "모든 페이지 내용은 랜드마크로 포함됩니다.",
+      "fail": "일부 페이지 내용은 랜드마크에 포함되지 않습니다."
+    },
+    "skip-link": {
+      "pass": "링크 건너뛰기 대상이 존재합니다.",
+      "incomplete": "활성화 시 링크 대상 건너뛰기가 표시 되어야 합니다.",
+      "fail": "건너띄기 링크 대상이 없습니다."
+    },
+    "unique-frame-title": {
+      "pass": "요소의 title 속성은 고유합니다.",
+      "fail": "요소의 title 속성이 고유하지 않습니다."
+    },
+    "duplicate-id-active": {
+      "pass": "문서에 같은 id 속성을 갖는 유효한 요소는 없습니다.",
+      "fail": "문서에 같은 id 속성을 갖는 유효한 요소가 있습니다: ${data}"
+    },
+    "duplicate-id-aria": {
+      "pass": "문서에 ARIA로 참조된 요소나 동일한 id 속성을 공유하는 레이블이 없습니다.",
+      "fail": "동일한 id 속성을 가진 ARIA를 참조하는 여러 요소가 문서에 있습니다: ${data}"
+    },
+    "duplicate-id": {
+      "pass": "문서에 동일한 id 속성을 공유하는 정적 요소가 없습니다.",
+      "fail": "문서에 동일한 id 속성을 가진 여러 정적 요소가 있습니다."
+    },
+    "aria-label": {
+      "pass": "aria-label 속성이 존재하며 비어 있지 않습니다.",
+      "fail": "aria-label 속성이 존재하지 않거나 비어 있습니다."
+    },
+    "aria-labelledby": {
+      "pass": "aria-labeledby 속성이 있으며 스크린 리더에 표시되는 요소를 참조합니다.",
+      "fail": "aria-labeledby 속성이 존재하지 않거나, 존재하지 않는 요소를 참조하거나, 비어 있는 요소를 참조합니다."
+    },
+    "avoid-inline-spacing": {
+      "pass": "텍스트 간격에 영향을 주는 '!important'를 가진 인라인 스타일이 지정되지 않았습니다.",
+      "fail": {
+        "singular": "인라인 스타일에서 '!important' 제거 s ${data.values}, 이 항목을 재정의하는 것은 대부분의 브라우저에서 지원되지 않습니다.",
+        "plural": "인라인 스타일에서 '!important' 제거  ${data.values}, 이 항목을 재정의하는 것은 대부분의 브라우저에서 지원되지 않습니다."
+      }
+    },
+    "button-has-visible-text": {
+      "pass": "요소에는 스크린 리더에 표시되는 내부 텍스트가 있습니다.",
+      "fail": "요소에는 스크린 리더에서 볼 수 있는 내부 텍스트가 없습니다."
+    },
+    "doc-has-title": {
+      "pass": "문서에 비어 있지 않은 <title> 요소가 있습니다.",
+      "fail": "문서에 비어 있지 않은 <title> 요소가 없습니다."
+    },
+    "exists": {
+      "pass": "요소는 존재하지 않습니다.",
+      "fail": "요소가 존재합니다."
+    },
+    "has-alt": {
+      "pass": "요소에 alt 속성이 존재합니다.",
+      "fail": "요소에 alt 속성이 존재하지 않습니다."
+    },
+    "has-visible-text": {
+      "pass": "요소에 스크린 리더가 인식 가능한 텍스트가 존재하고 있습니다.",
+      "fail": "요소에 스크린 리더가 인식 가능한 텍스트가 존재하지 않습니다."
+    },
+    "is-on-screen": {
+      "pass": "요소가 표시되어 있지 않습니다.",
+      "fail": "요소가 표시되어 있습니다."
+    },
+    "non-empty-alt": {
+      "pass": "요소에 비어있지 않은 alt 속성이 존재합니다.",
+      "fail": "요소에 alt 속성이 존재하지 않거나, alt 속성이 비어 있습니다."
+    },
+    "non-empty-if-present": {
+      "pass": {
+        "default": "요소 값 속성이 없습니다",
+        "has-label": "요소 비어 있지 않은 값 속성이 있습니다"
+      },
+      "fail": "요소에 value 속성이 존재하고, value 속성이 비어있습니다."
+    },
+    "non-empty-title": {
+      "pass": "요소에 title 속성이 존재하고 있습니다.",
+      "fail": "요소에 title 속성이 존재하지 않거나, title 속성이 비어 있습니다."
+    },
+    "non-empty-value": {
+      "pass": "요소에 비어 있지 않은 value 요소가 존재하고 있습니다.",
+      "fail": "요소에 value 속성이 존재하지 않거나, value 속성이 비어 있습니다."
+    },
+    "role-none": {
+      "pass": "요소의 기본 의미가 role=\"none\" 역할로 재정의 되었습니다.",
+      "fail": "요소의 기본 의미가 role=\"none\" 역할로 재정의 되지 않았습니다."
+    },
+    "role-presentation": {
+      "pass": "요소의 기본 의미가 role=\"presentation\" 역할로 재정의 되었습니다.",
+      "fail": "요소의 기본 의미가 role=\"presentation\" 역할로 재정의 되지 않았습니다."
+    },
+    "caption-faked": {
+      "pass": "테이블의 첫 번째 행은 캡션으로 사용되지 않습니다.",
+      "fail": "테이블의 첫 번째 자식은 테이블 셀 대신 캡션 이어야 합니다."
+    },
+    "html5-scope": {
+      "pass": "scope 속성은 테이블 헤더 요소 (<th>)에서만 사용됩니다.",
+      "fail": "HTML5에서 scope 속성은 테이블 헤더 요소(<th>)에서만 사용할 수 있습니다."
+    },
+    "same-caption-summary": {
+      "pass": "summary 속성 및 <caption> 콘텐츠는 중복되지 않았습니다.",
+      "fail": "summary 속성 및 <caption> 콘텐츠는 중복됩니다."
+    },
+    "scope-value": {
+      "pass": "scope 속성은 올바르게 사용되고 있습니다.",
+      "fail": "scope 속성의 값은 'row' 또는 'col'뿐입니다."
+    },
+    "td-has-header": {
+      "pass": "비어 있지 않은 모든 데이터 셀에는 테이블 헤더가 있습니다.",
+      "fail": "비어 있지 않은 일부 데이터 셀에는 테이블 헤더가 없습니다."
+    },
+    "td-headers-attr": {
+      "pass": "headers 속성은 독점적으로 테이블의 다른 셀을 참조하는데 사용됩니다.",
+      "fail": "headers 속성은 테이블의 다른 셀을 참조하는데 독점적으로 사용되지 않습니다."
+    },
+    "th-has-data-cells": {
+      "pass": "모든 테이블 헤더 셀은 데이터 셀을 나타냅니다.",
+      "fail": "모든 테이블 헤더 셀이 데이터 셀을 참조하는 것은 아닙니다.",
+      "incomplete": "테이블 데이터 셀이 없거나 비어 있습니다."
+    },
+    "hidden-content": {
+      "pass": "페이지의 모든 내용이 분석되었습니다.",
+      "fail": "이 페이지의 내용을 분석하는 중에 문제가 발생했습니다.",
+      "incomplete": "분석되지 않은 숨겨진 콘텐츠가 페이지에 있습니다. 콘텐츠를 분석하려면 해당 콘텐츠의 표시를 트리거 해야 합니다."
+    }
+  },
+  "failureSummaries": {
+    "any": {
+      "failureMessage": "다음 중 하나를 수정하세요:{{~it:value}}\n  {{=value.split('\\n').join('\\n  ')}}{{~}}"
+    },
+    "none": {
+      "failureMessage": "다음 중 하나를 수정하세요:{{~it:value}}\n  {{=value.split('\\n').join('\\n  ')}}{{~}}"
+    }
+  },
+  "incompleteFallbackMessage": {
+    "undefined": {
+      "failureMessage": "다음 중 하나를 수정하세요:{{~it:value}}\n  {{=value.split('\\n').join('\\n  ')}}{{~}}"
+    }
+  }
+}

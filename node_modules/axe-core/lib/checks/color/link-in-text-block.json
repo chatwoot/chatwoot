@@ -1,0 +1,19 @@
+{
+  "id": "link-in-text-block",
+  "evaluate": "link-in-text-block-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Links can be distinguished from surrounding text in some way other than by color",
+      "fail": "Links need to be distinguished from surrounding text in some way other than by color",
+      "incomplete": {
+        "default": "Unable to determine contrast ratio",
+        "bgContrast": "Element's contrast ratio could not be determined. Check for a distinct hover/focus style",
+        "bgImage": "Element's contrast ratio could not be determined due to a background image",
+        "bgGradient": "Element's contrast ratio could not be determined due to a background gradient",
+        "imgNode": "Element's contrast ratio could not be determined because element contains an image node",
+        "bgOverlap": "Element's contrast ratio could not be determined because of element overlap"
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "axe-core",
+  "version": "4.2.0",
+  "contributors": [
+    {
+      "name": "David Sturley",
+      "organization": "Deque Systems, Inc.",
+      "url": "http://deque.com/"
+    },
+    {
+      "name": "Dylan Barrell",
+      "organization": "Deque Systems, Inc.",
+      "url": "http://deque.com/"
+    },
+    {
+      "name": "Wilco Fiers",
+      "organization": "Deque Systems, Inc.",
+      "url": "http://deque.com/"
+    },
+    {
+      "name": "Dian Fay",
+      "organization": "Deque Systems, Inc.",
+      "url": "http://deque.com/"
+    },
+    {
+      "name": "Marcy Sutton",
+      "organization": "Deque Systems, Inc.",
+      "url": "http://deque.com/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dequelabs/axe-core.git"
+  },
+  "main": "axe.js",
+  "typings": "axe.d.ts",
+  "license": "MPL-2.0",
+  "ignore": ["**/.*", "node_modules", "test", "build", "typings"],
+  "devDependencies": {}
+}

@@ -1,0 +1,43 @@
+{
+  "version": "3.4.0",
+  "name": "glob-promise",
+  "description": "Promise version of glob",
+  "author": "Ahmad Nassri <ahmad@ahmadnassri.com> (https://www.ahmadnassri.com/)",
+  "homepage": "https://github.com/ahmadnassri/glob-promise",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmadnassri/glob-promise.git"
+  },
+  "license": "ISC",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "glob",
+    "promise"
+  ],
+  "engines": {
+    "node": ">=4"
+  },
+  "files": [
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/ahmadnassri/glob-promise/issues"
+  },
+  "scripts": {
+    "pretest": "npm run test:codeclimate",
+    "test": "npm run test:tap",
+    "test:codeclimate": ".scripts/codeclimate analyze",
+    "test:tap": "tap test --100 --coverage-report=lcov --no-browser",
+    "coverage": "opener coverage/lcov-report/index.html"
+  },
+  "devDependencies": {
+    "tap": "^11.1.2"
+  },
+  "peerDependencies": {
+    "glob": "*"
+  },
+  "dependencies": {
+    "@types/glob": "*"
+  }
+}

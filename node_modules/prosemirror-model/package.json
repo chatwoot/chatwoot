@@ -1,0 +1,36 @@
+{
+  "name": "prosemirror-model",
+  "version": "1.14.1",
+  "description": "ProseMirror's document model",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "Marijn Haverbeke",
+      "email": "marijnh@gmail.com",
+      "web": "http://marijnhaverbeke.nl"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/prosemirror/prosemirror-model.git"
+  },
+  "dependencies": {
+    "orderedmap": "^1.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2",
+    "ist": "^1.0.0",
+    "jsdom": "^10.1.0",
+    "prosemirror-test-builder": "^1.0.0",
+    "rollup": "^2.26.3",
+    "@rollup/plugin-buble": "^0.21.3"
+  },
+  "scripts": {
+    "test": "node etc/link-self.js && mocha test/test-*.js",
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "prepare": "npm run build"
+  }
+}

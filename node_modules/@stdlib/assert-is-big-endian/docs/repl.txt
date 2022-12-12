@@ -1,0 +1,12 @@
+
+{{alias}}
+    Boolean indicating if the environment is big endian.
+
+    Examples
+    --------
+    > {{alias}}
+    <boolean>
+
+    See Also
+    --------
+

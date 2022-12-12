@@ -1,0 +1,33 @@
+{
+  "name": "nested-error-stacks",
+  "version": "2.1.0",
+  "description": "An Error subclass that will chain nested Errors and dump nested stacktraces",
+  "bugs": {
+    "url": "https://github.com/mdlavin/nested-error-stacks/issues"
+  },
+  "keywords": [
+    "error",
+    "nested",
+    "stack"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdlavin/nested-error-stacks.git"
+  },
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "if node --version | grep -vE 'v(0|3)' > /dev/null 2>&1; then eslint . || exit -1; fi; if [ \"$RUN_ZUUL\" != \"true\" ]; then node_modules/.bin/mocha; else npm install zuul && node_modules/.bin/zuul -- test.js; fi"
+  },
+  "author": "Matt Lavin <matt.lavin@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.9.1",
+    "mocha": "^3.1.2",
+    "uuid": "^2.0.3"
+  }
+}

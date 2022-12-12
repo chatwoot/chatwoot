@@ -1,0 +1,32 @@
+{
+  "name": "babel-plugin-extract-import-names",
+  "version": "1.6.22",
+  "description": "Extract import names",
+  "repository": "mdx-js/mdx",
+  "homepage": "https://mdxjs.com",
+  "bugs": "https://github.com/mdx-js/mdx/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
+  "author": "John Otander <johnotander@gmail.com> (http://johnotander.com)",
+  "contributors": [
+    "JounQin <admin@1stg.me> (https://www.1stg.me)"
+  ],
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "mdx",
+    "markdown",
+    "react",
+    "jsx",
+    "remark",
+    "babel"
+  ],
+  "dependencies": {
+    "@babel/helper-plugin-utils": "7.10.4"
+  },
+  "gitHead": "510bae2580958598ae29047bf755b1a2ea26cf7e"
+}

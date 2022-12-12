@@ -1,0 +1,63 @@
+{
+  "author": "Ben Newman <bn@cs.stanford.edu>",
+  "name": "ast-types",
+  "version": "0.13.3",
+  "description": "Esprima-compatible implementation of the Mozilla JS Parser API",
+  "keywords": [
+    "ast",
+    "abstract syntax tree",
+    "hierarchy",
+    "mozilla",
+    "spidermonkey",
+    "parser api",
+    "esprima",
+    "types",
+    "type system",
+    "type checking",
+    "dynamic types",
+    "parsing",
+    "transformation",
+    "syntax"
+  ],
+  "homepage": "http://github.com/benjamn/ast-types",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/benjamn/ast-types.git"
+  },
+  "license": "MIT",
+  "main": "main.js",
+  "types": "main.d.ts",
+  "scripts": {
+    "gen": "ts-node --transpile-only script/gen-types.ts",
+    "mocha": "test/run.sh",
+    "test": "npm run gen && npm run build && npm run mocha",
+    "clean": "ts-emit-clean",
+    "build": "tsc && ts-add-module-exports",
+    "prepack": "npm run clean && npm run gen && npm run build",
+    "postpack": "npm run clean"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/parser": "7.4.4",
+    "@babel/types": "7.4.4",
+    "@types/esprima": "4.0.2",
+    "@types/glob": "7.1.1",
+    "@types/mocha": "5.2.6",
+    "@types/node": "12.0.0",
+    "espree": "6.1.1",
+    "esprima": "4.0.1",
+    "esprima-fb": "15001.1001.0-dev-harmony-fb",
+    "flow-parser": "0.98.1",
+    "glob": "7.1.4",
+    "mocha": "6.1.4",
+    "recast": "0.18.1",
+    "reify": "0.20.6",
+    "ts-add-module-exports": "1.0.0",
+    "ts-emit-clean": "1.0.0",
+    "ts-node": "7.0.1",
+    "typescript": "3.4.5"
+  },
+  "engines": {
+    "node": ">=4"
+  }
+}

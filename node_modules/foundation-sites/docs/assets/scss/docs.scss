@@ -1,0 +1,531 @@
+// The CSS for the Foundation docs is stored in an external codebase:
+// https://github.com/zurb/foundation-docs
+//
+// You can test Sass changes locally by running these commands:
+//   git clone https://github.com/zurb/foundation-docs
+//   npm link ./foundation-docs
+//
+// Feel free to submit pull requests to foundation-docs like you would Foundation itself!
+
+@import 'settings/settings';
+@import 'foundation';
+@import 'motion-ui';
+
+@include foundation-everything($flex: false);
+@include foundation-xy-grid-classes;
+@include foundation-flex-classes;
+@include foundation-prototype-classes;
+@include foundation-range-input;
+@include foundation-progress-element;
+@include foundation-meter-element;
+@include motion-ui-transitions;
+
+$foundation-dark: #074E68 ;
+$true-white: #fff;
+@import 'foundation-docs';
+@import 'content/install';
+@import 'examples/grid';
+@import 'examples/motion-ui';
+@import 'examples/off-canvas';
+@import 'examples/orbit';
+@import 'examples/responsive-embed';
+@import 'examples/reveal';
+
+@import 'course-callout';
+@import 'component-list';
+@import 'accordion-content';
+@import 'docs-footer';
+
+
+// ZURB logo font
+@font-face {
+  font-family: 'zurb-logo';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/assets/fonts/zurb-webfont.eot'),
+  url('/assets/fonts/zurb-webfont.eot?#iefix') format('embedded-opentype'),
+  url('/assets/fonts/zurb-webfont.svg') format('svg'),
+  url('/assets/fonts/zurb-webfont.ttf') format('truetype'),
+  url('/assets/fonts/zurb-webfont.woff') format('woff');
+}
+
+/* Banner for announcements */
+a#notice {
+  display:block;
+  overflow: hidden;
+  position: relative;
+  padding: 1rem 0;
+  width:100%;
+  background-image: url('http://zurb.com/university/assets/zurbwired2016-web-banner-a95e5d17264e3617a2ae4f34e84f973b.gif');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #0078AB;
+  height: 70px;
+
+  .countdown {
+    display:none;
+    color: #ffffff;
+    font-size: 35px;
+    font-weight: 500;
+    margin-left: -50%;
+    font-family: "Proxima-Nova", "Proxima", "proxima-nova", sans-serif;
+    background-color: rgba(0,120,171,0.7);
+    -webkit-box-shadow: 0px 0px 16px 7px rgba(0,120,171,0.7);
+    -moz-box-shadow: 0px 0px 16px 7px rgba(0,120,171,0.7);
+    box-shadow: 0px 0px 16px 7px rgba(0,120,171,0.7);
+  }
+
+  .timer-colon {
+    margin: 0px -2px 0px -4px;
+    padding: 0;
+  }
+
+  .timer-hour, .timer-minute, .timer-second {
+    letter-spacing: 2px;
+  }
+
+  .info {
+    left: 0;
+    right: 0;
+    // top: 15px;
+    z-index: 20;
+    margin-top: -7px;
+    // width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    // position: absolute;
+    h5 { color: #ffffff; font-size: 18px !important;}
+    text-align: center;
+    @media only screen and (max-width: 675px) { width: 100%; padding: 0 15px 0px 15px; position: relative; }
+  }
+
+  @media (max-width: 800px) {
+    background-position: 51.2% 0;
+    .countdown { display: none; }
+  }
+}
+a.docs-banner {
+  display: block;
+  overflow: hidden;
+  padding: 0.4rem 0;
+  position: relative;
+  width: 100%;
+  height: auto;
+  background: $success-color;
+  color: $white;
+  h5 {
+    margin-bottom: 0 !important;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}
+/* COUNTDOWN END */
+
+$transition-slow: all 0.5s ease-in-out;
+$transition: all 0.25s ease-in-out;
+$transition-fast: all 0.15s ease-in-out;
+$topbar-bg: #2c3840;
+$global-nav-bg: $topbar-bg;
+$global-nav-border-color: #3B4951;
+$global-nav-hover-color: lighten($global-nav-bg, 10%);
+
+.global-nav {
+  background: $global-nav-bg !important;
+  font-size: rem-calc(13);
+  font-weight: bold;
+  height: rem-calc(45);
+  justify-content: space-between;
+  position: relative;
+  display: none;
+
+  .dropdown {
+    width: auto;
+
+    &.menu a {
+      background: $global-nav-bg;
+
+      &.button {
+        background: $primary-color;
+
+        &:hover {
+          background: darken($primary-color, 10%);
+        }
+      }
+    }
+  }
+
+  &.show-for-smedium {
+    @media screen and (min-width: 775px) {
+      display: flex;
+    }
+  }
+
+  .dropdown.menu .is-active a {
+    color: $white;
+  }
+
+  .dropdown.menu > li.is-dropdown-submenu-parent > a {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+    display: none;
+  }
+
+  .right-side {
+    display: flex;
+  }
+
+  // background of the dropdown items on hover
+  .is-dropdown-submenu-item a {
+    &:hover {
+      background: $global-nav-hover-color;
+    }
+  }
+
+  .menu a {
+    color: $light-gray;
+    height: 45px;
+    line-height: 45px !important;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+
+    &:hover:not(.button, .zurb-logo),
+    &:focus {
+      background: $global-nav-hover-color;
+    }
+
+    &.button {
+      border-radius: 0;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+  }
+
+  .menu.submenu {
+    border: 0;
+    margin-left: -1px;
+  }
+
+  .dropdown.menu > li.opens-right > .is-dropdown-submenu {
+    border: 0;
+  }
+
+  // zurb logo
+  .global-nav-title {
+    opacity: 0.9;
+    transition: all 0.25s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+      transition: all 0.25s ease-in-out;
+    }
+  }
+
+  .title {
+    background: $global-nav-bg;
+    color: $dark-gray;
+    font-size: 0.8em;
+    padding: 10px;
+    padding-left: 15px;
+  }
+
+  .is-active {
+    a {
+      background: darken($global-nav-bg, 20%);
+    }
+  }
+
+  .menu:last-child {
+    border-left: 1px solid $global-nav-border-color;
+  }
+
+  .menu {
+    li:not(:last-child) {
+      border-right: 1px solid $global-nav-border-color;
+    }
+  }
+
+  .menu > .menu-item {
+    display: flex;
+    flex: 0 0 auto;
+  }
+}
+
+.global-nav-title {
+  line-height: 0;
+  padding-left: $global-padding;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+
+  .zurb-logo {
+    color: $white;
+    font-family: "zurb-logo";
+    font-size: 38px;
+    font-weight: normal;
+    opacity: 0.75;
+    transition: $transition;
+    min-height: 46px;
+    height: 46px;
+    line-height: 46px !important;
+    @media all and (-ms-high-contrast:none) {
+      line-height: 26px !important; // stupid microsoft
+     }
+     @supports (-ms-ime-align:auto) {
+      line-height: 26px !important; // stupid microsoft
+    }
+
+    strong {
+      display: inline;
+      font-family: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 46px;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// --- Mobile Top Bar
+.global-nav-mobile-wrapper {
+  background: $global-nav-bg;
+  position: relative;
+  display: flex;
+  vertical-align: middle;
+
+  button,
+  [type="button"] {
+    appearance: none;
+    height: rem-calc(45);
+  }
+
+  @media screen and (min-width: 775px) {
+    display: none;
+  }
+
+  .global-nav-mobile {
+    .global-nav-title {
+      margin-left: 1.5rem;
+    }
+  }
+
+  // hamburger-menu
+
+  .hamburger-icon {
+    height: 12px;
+    margin-left: 10px;
+  }
+
+  // zurb logo
+  .title-bar-title {
+    img {
+      @include vertical-center;
+      height: 14px;
+      left: 2.25rem;
+      opacity: 0.9;
+      width: 76px;
+    }
+  }
+}
+
+
+.docs-newsletter {
+  padding: 1rem 0;
+}
+
+.footer-signup-form {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.zurb-footer-bottom {
+  background: $topbar-background;
+}
+
+.youtube {
+  background: url("../img/icons/youtube.png") no-repeat center 0;
+}
+
+.docs-nav li.docs-nav-version {
+  display: flex;
+  align-items: center;
+
+  span {
+    line-height: 2.5;
+  }
+}
+
+.codepen-logo-link {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+
+  &.left {
+    justify-content: flex-start;
+    bottom: 0;
+  }
+
+  img {
+    max-width: 200px;
+    height: 35px;
+    border-right: 1px solid #cacaca;
+  }
+}
+
+.docs-codepen-container {
+  width: 100%;
+  border: 1px solid #cacaca;
+  border-bottom: 0;
+  height: rem-calc(36);
+  a {
+    width: 100%;
+  }
+  &.standalone {
+    border: 0;
+    a {
+      width: auto;
+      border: 1px solid #cacaca;
+      display: inline-block;
+    }
+  }
+}
+
+.docs-codepen-container + .docs-code {
+  .docs-code-copy {
+    transform: translateY(-100%);
+  }
+}
+
+a[data-open-video] {
+  padding: 0.3rem 0;
+  transition: all 0.25s ease-in;
+
+  .video-icon {
+    margin-top: -4px;
+    margin-right: 4px;
+    transition: all 0.25s ease-in;
+  }
+
+  &:hover {
+    transition: all 0.25s ease-in;
+    .video-icon {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.docs-video-codepen-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .codepen-logo-link {
+    bottom: -0.25rem;
+  }
+}
+
+.accordion-content-item {
+  color: $body-font-color;
+
+  .accordion-content-item-cta {
+    color: $anchor-color;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mb1 {
+  margin-bottom: 1rem;
+}
+
+.docs-nav-category {
+  position: relative;
+}
+
+.docs-nav {
+  .docs-expand-all {
+    font-size: 0.6rem;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    z-index: 1;
+    color: #aaa;
+  }
+}
+
+.training-callout {
+  border-left: 3px solid $primary-color;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.17);
+}
+
+.hyperlink {
+  text-decoration: underline;
+  color: $white;
+  transition: color 0.15s ease;
+}
+
+
+a.docs-banner {
+  padding: 1.1rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h5 {
+    // opacity: 0.8;
+    font-size: 1rem;
+  }
+}
+
+.docs-nav-container {
+  overflow: auto;
+}
+
+// docs example for example buttons
+@media screen and (max-width: 39.9375em) {
+  .button.small-only-expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; } }
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+  .button.medium-only-expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; } }
+@media screen and (max-width: 63.9375em) {
+  .button.medium-down-expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; } }
+@media print, screen and (min-width: 40em) {
+  .button.medium-expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; } }
+@media screen and (min-width: 64em) and (max-width: 74.9375em) {
+  .button.large-only-expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; } }
+@media screen and (max-width: 74.9375em) {
+  .button.large-down-expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; } }
+@media print, screen and (min-width: 64em) {
+  .button.large-expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; } }

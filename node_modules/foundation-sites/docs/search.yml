@@ -1,0 +1,33 @@
+# These are search results that lead to the old versions of Foundation.
+-
+  type: old version
+  name: Foundation 2
+  description: Documentation for Foundation 2.2.1
+  link: 'http://foundation.zurb.com/sites/docs/v/2.2.1/'
+  tags:
+    - old
+    - previous
+-
+  type: old version
+  name: Foundation 3
+  description: Documentation for Foundation 3.2.5
+  link: 'http://foundation.zurb.com/sites/docs/v/3.2.5/'
+  tags:
+    - old
+    - previous
+-
+  type: old version
+  name: Foundation 4
+  description: Documentation for Foundation 4.3.2
+  link: 'http://foundation.zurb.com/sites/docs/v/4.3.2/index.html'
+  tags:
+    - old
+    - previous
+-
+  type: old version
+  name: Foundation 5
+  description: Documentation for Foundation 5.5.3
+  link: 'http://foundation.zurb.com/sites/docs/v/5.5.3/index.html'
+  tags:
+    - old
+    - previous

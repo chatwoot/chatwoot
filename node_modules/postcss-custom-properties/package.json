@@ -1,0 +1,74 @@
+{
+  "name": "postcss-custom-properties",
+  "version": "8.0.11",
+  "description": "Use Custom Properties Queries in CSS",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "contributors": [
+    "Maxime Thirouin"
+  ],
+  "license": "MIT",
+  "repository": "postcss/postcss-custom-properties",
+  "homepage": "https://github.com/postcss/postcss-custom-properties#readme",
+  "bugs": "https://github.com/postcss/postcss-custom-properties/issues",
+  "main": "index.cjs.js",
+  "module": "index.esm.mjs",
+  "files": [
+    "index.cjs.js",
+    "index.cjs.js.map",
+    "index.esm.mjs",
+    "index.esm.mjs.map"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm test",
+    "pretest:tape": "rollup -c .rollup.js --silent",
+    "test": "npm run test:js && npm run test:tape",
+    "test:js": "eslint src/{*,**/*}.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "postcss-tape"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.17",
+    "postcss-values-parser": "^2.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.5",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^5.16.0",
+    "postcss-tape": "^4.0.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^1.15.6",
+    "rollup-plugin-babel": "^4.3.2"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "impliedStrict": true,
+      "sourceType": "module"
+    },
+    "root": true
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "custom",
+    "properties",
+    "declarations",
+    "variables",
+    "vars",
+    "w3c",
+    "csswg",
+    "specification"
+  ]
+}

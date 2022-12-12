@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Empty.vue properly serializes a fully-mounted wrapper 1`] = ``;
+
+exports[`Empty.vue properly serializes a shallowly-rendered wrapper 1`] = ``;

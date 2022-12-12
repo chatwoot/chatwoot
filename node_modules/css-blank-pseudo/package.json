@@ -1,0 +1,85 @@
+{
+  "name": "css-blank-pseudo",
+  "version": "0.1.4",
+  "description": "Style form elements when they are empty",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "csstools/css-blank-pseudo",
+  "homepage": "https://github.com/csstools/css-blank-pseudo#readme",
+  "bugs": "https://github.com/csstools/css-blank-pseudo/issues",
+  "main": "index.js",
+  "module": "index.mjs",
+  "bin": {
+    "css-blank-pseudo": "cli.js"
+  },
+  "files": [
+    "browser.js",
+    "browser-legacy.js",
+    "cli.js",
+    "index.js",
+    "index.js.map",
+    "index.mjs",
+    "index.mjs.map",
+    "legacy.js",
+    "legacy.js.map",
+    "legacy.mjs",
+    "legacy.mjs.map",
+    "postcss.js",
+    "postcss.js.map",
+    "postcss.mjs",
+    "postcss.mjs.map"
+  ],
+  "scripts": {
+    "build": "npm run build:browser && npm run build:cli && npm run build:node && npm run build:postcss",
+    "build:browser": "cross-env NODE_ENV=browser rollup -c .rollup.js --silent && cross-env NODE_ENV=browser:legacy rollup -c .rollup.js --silent",
+    "build:cli": "cross-env NODE_ENV=cli rollup -c .rollup.js --silent",
+    "build:postcss": "cross-env NODE_ENV=postcss rollup -c .rollup.js --silent",
+    "build:node": "rollup -c .rollup.js --silent && cross-env NODE_ENV=legacy rollup -c .rollup.js --silent",
+    "prepublishOnly": "npm run build && npm test",
+    "pretest": "npm run build:postcss",
+    "pretest:postcss": "npm run build:postcss",
+    "test": "npm run test:js && npm run test:postcss",
+    "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
+    "test:postcss": "postcss-tape --plugin=postcss.js"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.9.0",
+    "eslint-config-dev": "2.0.0",
+    "postcss-tape": "^2.2.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.67.3",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-terser": "^3.0.0"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "javascript",
+    "js",
+    "polyfill",
+    "blank",
+    "empty",
+    "pseudo",
+    "selectors",
+    "accessibility",
+    "a11y",
+    "input",
+    "select",
+    "textarea"
+  ]
+}

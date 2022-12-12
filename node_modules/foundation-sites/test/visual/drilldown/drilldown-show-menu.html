@@ -1,0 +1,111 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet">
+    <style>
+      #menu-a a { background: rgb(255,230,230); }
+      #menu-b a { background: rgb(230,255,230); }
+      #menu-c a { background: rgb(230,230,255); }
+      #menu-x a { background: rgb(255,115,0); }
+      label { display: inline-block; margin-right: 20px; cursor: pointer; }
+      label > input[type="radio"] { margin-right: 5px; }
+      .is-drilldown { margin-bottom: 10px; }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="auto cell"></div>
+        <div class="medium-6 cell">
+          <div class="callout">
+            <p>should be possible to open any drilldown (sub)menu via JS</p>
+            <div class="expanded button-group">
+              <button type="button" class="button" data-show-menu="menu-a">Show A</button>
+              <button type="button" class="button" data-show-menu="menu-b">Show B</button>
+              <button type="button" class="button" data-show-menu="menu-c">Show C</button>
+              <button type="button" class="button" data-show-menu="menu-x">Show X</button>
+            </div>
+            <div>
+              <form>
+                <label><input type="radio" name="comparison-switch" value="new" checked> Use new showMenu</label>
+                <label><input type="radio" name="comparison-switch" value="old"> Use current show</label>
+              </form>
+            </div>
+          </div>
+          <ul class="vertical menu drilldown" data-drilldown data-auto-height="true" id="menu-a">
+            <li>
+              <a href="#">Item A1</a>
+              <ul class="vertical menu nested" id="menu-b">
+                <li><a href="#">Item B1</a></li>
+                <li><a href="#">Item B2</a></li>
+                <li><a href="#">Item B3</a></li>
+                <li>
+                  <a href="#">Item B4</a>
+                  <ul class="vertical menu nested" id="menu-c">
+                    <li><a href="#">Item C1</a></li>
+                    <li><a href="#">Item C2</a></li>
+                    <li><a href="#">Item C3</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Item B5</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Item A2</a></li>
+            <li>
+              <a href="#">Item A3</a>
+              <ul class="vertical menu nested" id="menu-x">
+                <li><a href="#">Item X1</a></li>
+                <li><a href="#">Item X2</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Item A4</a></li>
+          </ul>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione id accusantium dolore sequi architecto at soluta, nulla nam? Nemo magnam repellendus iure, ut recusandae voluptatibus, dolores pariatur facere illo! Sapiente.
+          </p>
+        </div>
+        <div class="auto cell"></div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+
+      var demoType;
+
+      $(document).on('click', '[data-show-menu]', function(e){
+
+        e.preventDefault();
+
+        var $menu = $('#'+$(this).data('showMenu'));
+
+        if (demoType == 'old') {
+
+          if ($menu.is('[data-drilldown]')) {
+            // No possibility to show root except of hide all
+            $('[data-drilldown]').foundation('_hideAll');
+          } else {
+            $('[data-drilldown]').foundation('_show', $menu.parent('li'));
+          }
+
+        } else {
+
+          $('[data-drilldown]').foundation('_showMenu', $menu);
+
+        }
+      });
+
+      $(document).on('change', 'input[name="comparison-switch"]', function(){
+        demoType = $('input[name="comparison-switch"]:checked').val();
+        console.log('swtiched to ['+demoType+']');
+      });
+    </script>
+  </body>
+</html>

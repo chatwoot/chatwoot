@@ -1,0 +1,38 @@
+{
+  "name": "js-string-escape",
+  "version": "1.0.1",
+  "description": "Escape strings for use as JavaScript string literals",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joliss/js-string-escape"
+  },
+  "keywords": [
+    "string",
+    "escape",
+    "backslash",
+    "javascript",
+    "ecmascript"
+  ],
+  "author": "Jo Liss <joliss42@gmail.com>",
+  "contributors": [
+    {
+      "name": "Mathias Bynens",
+      "url": "http://mathiasbynens.be/"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies" : {
+    "tap": "~> 0.4.2",
+    "punycode": "~> 1.2.1"
+  },
+  "engines": {
+    "node": ">= 0.8"
+  },
+  "files": [
+    "index.js"
+  ]
+}

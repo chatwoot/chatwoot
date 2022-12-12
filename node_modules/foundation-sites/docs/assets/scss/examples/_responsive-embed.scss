@@ -1,0 +1,5 @@
+// Responsive Embed
+
+.panorama {
+  @include responsive-embed(256 by 81);
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"instrument.d.ts","sourceRoot":"","sources":["../../src/instrument.ts"],"names":[],"mappings":"AAeA,aAAK,qBAAqB,GACtB,SAAS,GACT,KAAK,GACL,OAAO,GACP,SAAS,GACT,QAAQ,GACR,KAAK,GACL,OAAO,GACP,oBAAoB,CAAC;AACzB,aAAK,yBAAyB,GAAG,CAAC,IAAI,EAAE,GAAG,KAAK,IAAI,CAAC;AAoDrD;;;;GAIG;AACH,wBAAgB,yBAAyB,CAAC,IAAI,EAAE,qBAAqB,EAAE,QAAQ,EAAE,yBAAyB,GAAG,IAAI,CAIhH"}

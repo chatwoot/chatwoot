@@ -1,0 +1,11 @@
+{
+  "id": "aria-unsupported-attr",
+  "evaluate": "aria-unsupported-attr-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "ARIA attribute is supported",
+      "fail": "ARIA attribute is not widely supported in screen readers and assistive technologies: ${data.values}"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "name": "jest-serializer-vue",
+  "description": "A jest serializer for Vue snapshots",
+  "version": "2.0.2",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.vue .",
+    "lint:fix": "npm run lint -- --fix",
+    "publish": "semantic-release",
+    "test": "npm run lint && npm run unit",
+    "unit": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddyerburgh/jest-serializer-vue.git"
+  },
+  "keywords": [
+    "jest"
+  ],
+  "author": "Edd Yerburgh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eddyerburgh/jest-serializer-vue/issues"
+  },
+  "homepage": "https://github.com/eddyerburgh/jest-serializer-vue#readme",
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.12",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.1",
+    "babel-preset-env": "^1.6.1",
+    "conventional-changelog": "1.1.6",
+    "eslint": "4.10.0",
+    "eslint-config-standard": "10.2.1",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-node": "5.2.1",
+    "eslint-plugin-promise": "3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "beta",
+    "jest": "^22.4.2",
+    "semantic-release": "^15.5.0",
+    "vue": "2.5.3",
+    "vue-jest": "1.0.2",
+    "vue-template-compiler": "2.5.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.vue$": "<rootDir>/node_modules/vue-jest"
+    },
+    "snapshotSerializers": [
+      "<rootDir>/index.js"
+    ]
+  },
+  "dependencies": {
+    "pretty": "2.0.0"
+  }
+}

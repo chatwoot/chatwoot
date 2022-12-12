@@ -1,0 +1,27 @@
+@import "true";
+
+@import '../../scss/util/selector';
+
+@include test-module('Selector') {
+  
+	@include test('Selector [function]') {
+	  $test: #{text-inputs(text password)};
+	  $expect: "[type='text'], [type='password']";
+
+	  //@debug $test;
+
+	  @include assert-equal($test, $expect,
+	    'Creates a selector out of a list of text input types');
+	}
+
+	@include test('Selector (with modifiers) [function]') {
+	  $test: #{text-inputs(text password, $modifier: ':focus')};
+	  $expect: "[type='text']:focus, [type='password']:focus";
+
+	  //@debug $test;
+
+	  @include assert-equal($test, $expect,
+	    'Creates a selector out of a list of text input types with a modifier');
+	}
+
+}

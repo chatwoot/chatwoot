@@ -1,0 +1,16 @@
+language: node_js
+cache:
+  directories:
+    - ~/.npm
+notifications:
+  email: false
+script:
+  - npm run test
+node_js:
+  - '9'
+  - '8'
+  - '6'
+  - '4'
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

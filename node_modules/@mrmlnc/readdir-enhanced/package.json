@@ -1,0 +1,60 @@
+{
+  "name": "@mrmlnc/readdir-enhanced",
+  "version": "2.2.1",
+  "description": "fs.readdir with sync, async, and streaming APIs + filtering, recursion, absolute paths, etc.",
+  "keywords": [
+    "fs",
+    "readdir",
+    "stream",
+    "event",
+    "recursive",
+    "deep",
+    "filter",
+    "absolute"
+  ],
+  "author": {
+    "name": "James Messinger",
+    "url": "http://bigstickcarpet.com"
+  },
+  "homepage": "https://github.com/bigstickcarpet/readdir-enhanced",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigstickcarpet/readdir-enhanced.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "typings": "types.d.ts",
+  "files": [
+    "lib",
+    "types.d.ts"
+  ],
+  "scripts": {
+    "lint": "eslint lib test --fix",
+    "test": "mocha && npm run lint",
+    "cover": "istanbul cover _mocha",
+    "upgrade": "npm-check -u",
+    "bump": "bump --prompt --tag --push --all",
+    "release": "npm run upgrade && npm test && npm run bump && npm publish"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "codacy-coverage": "^2.0.3",
+    "coveralls": "^3.0.0",
+    "del": "^3.0.0",
+    "eslint": "^4.15.0",
+    "eslint-config-modular": "^4.1.1",
+    "istanbul": "^0.4.5",
+    "mkdirp": "^0.5.1",
+    "mocha": "^4.1.0",
+    "npm-check": "^5.5.2",
+    "through2": "^2.0.3",
+    "version-bump-prompt": "^4.0.0"
+  },
+  "dependencies": {
+    "call-me-maybe": "^1.0.1",
+    "glob-to-regexp": "^0.3.0"
+  },
+  "engines": {
+    "node": ">=4"
+  }
+}

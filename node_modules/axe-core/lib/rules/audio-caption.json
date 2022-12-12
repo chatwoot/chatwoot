@@ -1,0 +1,20 @@
+{
+  "id": "audio-caption",
+  "selector": "audio",
+  "enabled": false,
+  "excludeHidden": false,
+  "tags": [
+    "cat.time-and-media",
+    "wcag2a",
+    "wcag121",
+    "section508",
+    "section508.22.a"
+  ],
+  "metadata": {
+    "description": "Ensures <audio> elements have captions",
+    "help": "<audio> elements must have a captions track"
+  },
+  "all": [],
+  "any": [],
+  "none": ["caption"]
+}

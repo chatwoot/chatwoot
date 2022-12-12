@@ -1,0 +1,14 @@
+{
+  "id": "landmark",
+  "evaluate": "has-descendant-evaluate",
+  "options": {
+    "selector": "main, [role=main]"
+  },
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Page has a landmark region",
+      "fail": "Page does not have a landmark region"
+    }
+  }
+}

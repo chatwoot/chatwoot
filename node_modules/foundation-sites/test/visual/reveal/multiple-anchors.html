@@ -1,0 +1,47 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Reveal: Multiple Anchors</h1>
+
+          <p>When closing a modal with multiple anchors, focus should not be set to the last anchor, but to the one that triggered it. Open the modal using anchor #1, then close it.</p>
+
+          <p><button class="button" data-toggle="exampleModal1">Aanchor #1</button></p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias commodi minus repellat atque optio sit soluta assumenda labore inventore corporis non laboriosam veniam nisi, ut, obcaecati dolorum. Incidunt, pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet reiciendis in maiores aliquid repellendus vero recusandae corporis ipsam, id placeat suscipit laboriosam, necessitatibus et neque ducimus. Harum quis sequi, expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut quam perspiciatis harum, cum. Esse maxime repellendus illum voluptate, quae voluptates quibusdam rem ab quasi perspiciatis. Numquam porro alias cumque saepe!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias commodi minus repellat atque optio sit soluta assumenda labore inventore corporis non laboriosam veniam nisi, ut, obcaecati dolorum. Incidunt, pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet reiciendis in maiores aliquid repellendus vero recusandae corporis ipsam, id placeat suscipit laboriosam, necessitatibus et neque ducimus. Harum quis sequi, expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut quam perspiciatis harum, cum. Esse maxime repellendus illum voluptate, quae voluptates quibusdam rem ab quasi perspiciatis. Numquam porro alias cumque saepe!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias commodi minus repellat atque optio sit soluta assumenda labore inventore corporis non laboriosam veniam nisi, ut, obcaecati dolorum. Incidunt, pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet reiciendis in maiores aliquid repellendus vero recusandae corporis ipsam, id placeat suscipit laboriosam, necessitatibus et neque ducimus. Harum quis sequi, expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut quam perspiciatis harum, cum. Esse maxime repellendus illum voluptate, quae voluptates quibusdam rem ab quasi perspiciatis. Numquam porro alias cumque saepe!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias commodi minus repellat atque optio sit soluta assumenda labore inventore corporis non laboriosam veniam nisi, ut, obcaecati dolorum. Incidunt, pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet reiciendis in maiores aliquid repellendus vero recusandae corporis ipsam, id placeat suscipit laboriosam, necessitatibus et neque ducimus. Harum quis sequi, expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut quam perspiciatis harum, cum. Esse maxime repellendus illum voluptate, quae voluptates quibusdam rem ab quasi perspiciatis. Numquam porro alias cumque saepe!</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias commodi minus repellat atque optio sit soluta assumenda labore inventore corporis non laboriosam veniam nisi, ut, obcaecati dolorum. Incidunt, pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet reiciendis in maiores aliquid repellendus vero recusandae corporis ipsam, id placeat suscipit laboriosam, necessitatibus et neque ducimus. Harum quis sequi, expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut quam perspiciatis harum, cum. Esse maxime repellendus illum voluptate, quae voluptates quibusdam rem ab quasi perspiciatis. Numquam porro alias cumque saepe!</p>
+
+          <p><button class="button" data-toggle="exampleModal1">Aanchor #2</button></p>
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias commodi minus repellat atque optio sit soluta assumenda labore inventore corporis non laboriosam veniam nisi, ut, obcaecati dolorum. Incidunt, pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet reiciendis in maiores aliquid repellendus vero recusandae corporis ipsam, id placeat suscipit laboriosam, necessitatibus et neque ducimus. Harum quis sequi, expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut quam perspiciatis harum, cum. Esse maxime repellendus illum voluptate, quae voluptates quibusdam rem ab quasi perspiciatis. Numquam porro alias cumque saepe!</p>
+
+          <div class="reveal" id="exampleModal1" data-reveal>
+            <button class="close-button" aria-label="Close" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+            <p>When closing me, the page should not scroll to the bottom (anchor #2) if you opened me with anchor #1.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

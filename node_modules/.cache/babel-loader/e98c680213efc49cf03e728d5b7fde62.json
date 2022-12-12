@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nmodule.exports = function isCancel(value) {\n  return !!(value && value.__CANCEL__);\n};","map":null,"metadata":{},"sourceType":"module"}

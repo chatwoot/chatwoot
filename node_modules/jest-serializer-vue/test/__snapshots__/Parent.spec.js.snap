@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parent.vue mount snapshot 1`] = `
+<div>
+  <h1>parent</h1>
+  <main>
+    <p>this is a child component</p>
+    <p>this is a child component</p>
+    <p>this is a child component</p>
+  </main>
+</div>
+`;
+
+exports[`Parent.vue mount snapshot 2`] = `
+<div>
+  <h1>
+    parent
+  </h1>
+   
+  <main>
+    <p>
+      this is a child component
+    </p>
+     
+    <p>
+      this is a child component
+    </p>
+     
+    <p>
+      this is a child component
+    </p>
+  </main>
+</div>
+`;
+
+exports[`Parent.vue properly serializes a fully-mounted wrapper 1`] = `
+<div>
+  <h1>parent</h1>
+  <main>
+    <p>this is a child component</p>
+    <p>this is a child component</p>
+    <p>this is a child component</p>
+  </main>
+</div>
+`;
+
+exports[`Parent.vue properly serializes a shallowly-rendered wrapper 1`] = `
+<div>
+  <h1>parent</h1>
+  <main>
+    <!---->
+    <!---->
+    <!---->
+  </main>
+</div>
+`;
+
+exports[`Parent.vue shallow snapshot 1`] = `
+<div>
+  <h1>parent</h1>
+  <main>
+    <!---->
+    <!---->
+    <!---->
+  </main>
+</div>
+`;

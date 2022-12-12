@@ -1,0 +1,6 @@
+// @flow
+
+declare module.exports: (
+  dateLeft: Date | string | number,
+  dateRight: Date | string | number
+) => number

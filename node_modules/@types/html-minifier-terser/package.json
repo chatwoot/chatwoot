@@ -1,0 +1,24 @@
+{
+    "name": "@types/html-minifier-terser",
+    "version": "5.1.1",
+    "description": "TypeScript definitions for html-minifier-terser",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Piotr Błażejewicz",
+            "url": "https://github.com/peterblazejewicz",
+            "githubUsername": "peterblazejewicz"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/html-minifier-terser"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "8fa0fb363d4b281e05fd75df00e1e4e588eabcb8400b8b214a61428cc2fb69d9",
+    "typeScriptVersion": "3.2"
+}

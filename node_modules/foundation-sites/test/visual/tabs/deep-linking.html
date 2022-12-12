@@ -1,0 +1,86 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Tabs Deep Linking</title>
+  <link href="../assets/css/foundation.css" rel="stylesheet" />
+</head>
+<body>
+<div class="grid-container">
+  <div class="grid-x grid-padding-x">
+    <div class="cell">
+
+      <h1>Tabs Deep Linking</h1>
+
+      <p>
+        <li>When a tab is set as active, <code>#panel...</code> should be set in the url.
+        <li>Refresing the page should make it scroll down to the active tab</li>
+        <li>Going back in history should restore the previous state (even if no all tabs were active before).</li>
+      </p>
+
+      <div style="height: 1024px; background: #ddd;">
+        Placeholder
+      </div>
+
+      <ul class="tabs" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge-delay="500" data-tabs id="deeplinked-tabs-1">
+        <li class="tabs-title is-active"><a href="#panel1d">Tab 1</a></li>
+        <li class="tabs-title"><a href="#panel2d">Tab 2</a></li>
+        <li class="tabs-title"><a href="#panel3d">Tab 3</a></li>
+        <li class="tabs-title"><a href="#panel4d">Tab 4</a></li>
+      </ul>
+
+      <div class="tabs-content" data-tabs-content="deeplinked-tabs-1">
+        <div class="tabs-panel is-active" id="panel1d">
+          <p>Content for #panel1. I should be active by default.</p>
+        </div>
+        <div class="tabs-panel" id="panel2d">
+          <p>Content for #panel2</p>
+        </div>
+        <div class="tabs-panel" id="panel3d">
+          <p>Content for #panel3</p>
+        </div>
+        <div class="tabs-panel" id="panel4d">
+          <p>Content for #panel4</p>
+        </div>
+      </div>
+
+      <div style="height: 1024px; background: #ddd;">
+        Placeholder
+      </div>
+
+      <ul class="tabs" data-active-collapse="true" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge-delay="500" data-tabs id="deeplinked-tabs-2">
+        <li class="tabs-title"><a href="#panel5d">Tab 5</a></li>
+        <li class="tabs-title"><a href="#panel6d">Tab 6</a></li>
+        <li class="tabs-title"><a href="#panel7d">Tab 7</a></li>
+        <li class="tabs-title"><a href="#panel8d">Tab 8</a></li>
+      </ul>
+
+      <div class="tabs-content" data-tabs-content="deeplinked-tabs-2">
+        <div class="tabs-panel active" id="panel5d">
+          <p>Content for #panel5. I can collapse.</p>
+        </div>
+        <div class="tabs-panel" id="panel6d">
+          <p>Content for #panel6. I can collapse.</p>
+        </div>
+        <div class="tabs-panel" id="panel7d">
+          <p>Content for #panel7. I can collapse.</p>
+        </div>
+        <div class="tabs-panel" id="panel8d">
+          <p>Content for #panel8. I can collapse.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/vendor.js"></script>
+<script src="../assets/js/foundation.js"></script>
+<script>
+  $(document).foundation();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "id": "doc-has-title",
+  "evaluate": "doc-has-title-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Document has a non-empty <title> element",
+      "fail": "Document does not have a non-empty <title> element"
+    }
+  }
+}

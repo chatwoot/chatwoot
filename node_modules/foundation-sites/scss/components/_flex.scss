@@ -1,0 +1,119 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group Flexbox Utilities
+////
+//
+/// Default value for the count of source ordering`
+/// @type Number
+$flex-source-ordering-count: 6 !default;
+
+/// Quickly disable/enable Responsive breakpoints for Vanilla Flex Helpers.
+/// @type Boolean
+$flexbox-responsive-breakpoints: true !default;
+
+@mixin flex-helpers {
+  .flex-container {
+    @include flex;
+  }
+
+  .flex-child-auto {
+    flex: 1 1 auto;
+  }
+
+  .flex-child-grow {
+    flex: 1 0 auto;
+  }
+
+  .flex-child-shrink {
+    flex: 0 1 auto;
+  }
+
+  @each $dir, $prop in $-zf-flex-direction {
+    .flex-dir-#{$dir} {
+      @include flex-direction($prop);
+    }
+  }
+
+  @if ($flexbox-responsive-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-flex-container {
+            @include flex;
+          }
+
+          .#{$size}-flex-child-auto {
+            flex: 1 1 auto;
+          }
+
+          .#{$size}-flex-child-grow {
+            flex: 1 0 auto;
+          }
+
+          .#{$size}-flex-child-shrink {
+            flex: 0 1 auto;
+          }
+
+          @each $dir, $prop in $-zf-flex-direction {
+            .#{$size}-flex-dir-#{$dir} {
+              @include flex-direction($prop);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin foundation-flex-classes {
+  // Horizontal alignment using justify-content
+  @each $hdir, $prop in $-zf-flex-justify {
+    .align-#{$hdir} {
+      @include flex-align($x: $hdir);
+    }
+  }
+  
+  // Horizontal alignment Specifically for Vertical Menu
+  @each $hdir, $prop in map-remove($-zf-flex-justify, 'justify', 'spaced') {
+    .align-#{$hdir} {
+      &.vertical {
+        &.menu > li > a {
+          @include flex-align($x: $hdir);
+        }
+      }
+    }
+  }
+
+  // Vertical alignment using align-items and align-self
+  @each $vdir, $prop in $-zf-flex-align {
+    .align-#{$vdir} {
+      @include flex-align($y: $vdir);
+    }
+
+    .align-self-#{$vdir} {
+      @include flex-align-self($y: $vdir);
+    }
+  }
+
+  // Central alignment of content
+  .align-center-middle {
+    @include flex-align($x: center, $y: middle);
+    align-content: center;
+  }
+
+  // Source ordering
+  @include -zf-each-breakpoint {
+    @for $i from 1 through $flex-source-ordering-count {
+      .#{$-zf-size}-order-#{$i} {
+        @include flex-order($i);
+      }
+    }
+  }
+
+  // Vanilla Flexbox Helpers
+  @include flex-helpers;
+}

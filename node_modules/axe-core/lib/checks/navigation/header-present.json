@@ -1,0 +1,15 @@
+{
+  "id": "header-present",
+  "evaluate": "has-descendant-evaluate",
+  "after": "has-descendant-after",
+  "options": {
+    "selector": ":is(h1, h2, h3, h4, h5, h6):not([role]), [role=heading]"
+  },
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Page has a heading",
+      "fail": "Page does not have a heading"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+    "name": "entities",
+    "version": "2.0.3",
+    "description": "Encode & decode XML and HTML entities with ease",
+    "author": "Felix Boehm <me@feedic.com>",
+    "sideEffects": false,
+    "keywords": [
+        "entity",
+        "decoding",
+        "encoding",
+        "html",
+        "xml",
+        "html entities"
+    ],
+    "directories": {
+        "lib": "lib/"
+    },
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "files": [
+        "lib/**/*"
+    ],
+    "devDependencies": {
+        "@types/jest": "^25.1.4",
+        "@types/node": "^14.0.6",
+        "@typescript-eslint/eslint-plugin": "^2.31.0",
+        "@typescript-eslint/parser": "^2.31.0",
+        "coveralls": "*",
+        "eslint": "^7.0.0",
+        "eslint-config-prettier": "^6.0.0",
+        "jest": "^26.0.1",
+        "prettier": "^2.0.5",
+        "ts-jest": "^26.1.0",
+        "typescript": "^3.5.3"
+    },
+    "scripts": {
+        "test": "jest --coverage && npm run lint",
+        "coverage": "cat coverage/lcov.info | coveralls",
+        "lint": "eslint --ext=js,ts src",
+        "format": "prettier --write **/*.{ts,md}",
+        "build": "tsc",
+        "prepare": "npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/fb55/entities.git"
+    },
+    "license": "BSD-2-Clause",
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node"
+    },
+    "prettier": {
+        "tabWidth": 4
+    }
+}

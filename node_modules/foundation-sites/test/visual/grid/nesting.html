@@ -1,0 +1,45 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      .test-1 {
+        background: red;
+      }
+
+      .test-2 {
+        background: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="column">
+        <h1>Flex Grid: Nesting</h1>
+
+        <p>These are two nested grids. They should both fill the width of the window.</p>
+      </div>
+    </div>
+
+    <div class="row expanded test-1">
+      <div class="column">
+        <div class="row expanded test-2">
+          <div class="column">
+            <p>This is a grid.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

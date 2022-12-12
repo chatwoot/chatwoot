@@ -1,0 +1,43 @@
+{
+  "name": "tmp",
+  "version": "0.1.0",
+  "description": "Temporary file and directory creator",
+  "author": "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
+  "keywords": [
+    "temporary",
+    "tmp",
+    "temp",
+    "tempdir",
+    "tempfile",
+    "tmpdir",
+    "tmpfile"
+  ],
+  "license": "MIT",
+  "repository": "raszi/node-tmp",
+  "homepage": "http://github.com/raszi/node-tmp",
+  "bugs": {
+    "url": "http://github.com/raszi/node-tmp/issues"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "dependencies": {
+    "rimraf": "^2.6.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-mocha": "^5.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.1.1"
+  },
+  "main": "lib/tmp.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "lint": "eslint lib --env mocha test",
+    "clean": "rm -Rf ./coverage",
+    "test": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha --report none --print none --dir ./coverage/json -u exports -R test/*-test.js && istanbul report --root ./coverage/json html && istanbul report text-summary",
+    "doc": "jsdoc -c .jsdoc.json"
+  }
+}

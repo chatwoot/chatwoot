@@ -1,0 +1,197 @@
+export default {
+  "code[class*=language-]": {
+    "fontFamily": "Consolas,Menlo,Monaco,\"Andale Mono WT\",\"Andale Mono\",\"Lucida Console\",\"Lucida Sans Typewriter\",\"DejaVu Sans Mono\",\"Bitstream Vera Sans Mono\",\"Liberation Mono\",\"Nimbus Mono L\",\"Courier New\",Courier,monospace",
+    "fontSize": "14px",
+    "lineHeight": "1.375",
+    "direction": "ltr",
+    "textAlign": "left",
+    "whiteSpace": "pre",
+    "wordSpacing": "normal",
+    "wordBreak": "normal",
+    "MozTabSize": "4",
+    "OTabSize": "4",
+    "tabSize": "4",
+    "WebkitHyphens": "none",
+    "MozHyphens": "none",
+    "msHyphens": "none",
+    "hyphens": "none",
+    "background": "#f5f7ff",
+    "color": "#5e6687"
+  },
+  "pre[class*=language-]": {
+    "fontFamily": "Consolas,Menlo,Monaco,\"Andale Mono WT\",\"Andale Mono\",\"Lucida Console\",\"Lucida Sans Typewriter\",\"DejaVu Sans Mono\",\"Bitstream Vera Sans Mono\",\"Liberation Mono\",\"Nimbus Mono L\",\"Courier New\",Courier,monospace",
+    "fontSize": "14px",
+    "lineHeight": "1.375",
+    "direction": "ltr",
+    "textAlign": "left",
+    "whiteSpace": "pre",
+    "wordSpacing": "normal",
+    "wordBreak": "normal",
+    "MozTabSize": "4",
+    "OTabSize": "4",
+    "tabSize": "4",
+    "WebkitHyphens": "none",
+    "MozHyphens": "none",
+    "msHyphens": "none",
+    "hyphens": "none",
+    "background": "#f5f7ff",
+    "color": "#5e6687",
+    "padding": "1em",
+    "margin": ".5em 0",
+    "overflow": "auto"
+  },
+  "pre>code[class*=language-]": {
+    "fontSize": "1em"
+  },
+  "code[class*=language-] ::-moz-selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  "code[class*=language-]::-moz-selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  "pre[class*=language-] ::-moz-selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  "pre[class*=language-]::-moz-selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  "code[class*=language-] ::selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  "code[class*=language-]::selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  "pre[class*=language-] ::selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  "pre[class*=language-]::selection": {
+    "textShadow": "none",
+    "background": "#dfe2f1"
+  },
+  ":not(pre)>code[class*=language-]": {
+    "padding": ".1em",
+    "borderRadius": ".3em"
+  },
+  "cdata": {
+    "color": "#898ea4"
+  },
+  "comment": {
+    "color": "#898ea4"
+  },
+  "doctype": {
+    "color": "#898ea4"
+  },
+  "prolog": {
+    "color": "#898ea4"
+  },
+  "punctuation": {
+    "color": "#5e6687"
+  },
+  "namespace": {
+    "Opacity": ".7"
+  },
+  "boolean": {
+    "color": "#c76b29"
+  },
+  "number": {
+    "color": "#c76b29"
+  },
+  "operator": {
+    "color": "#c76b29"
+  },
+  "property": {
+    "color": "#c08b30"
+  },
+  "tag": {
+    "color": "#3d8fd1"
+  },
+  "string": {
+    "color": "#22a2c9"
+  },
+  "selector": {
+    "color": "#6679cc"
+  },
+  "attr-name": {
+    "color": "#c76b29"
+  },
+  ".language-css .token.string": {
+    "color": "#22a2c9"
+  },
+  ".style .token.string": {
+    "color": "#22a2c9"
+  },
+  "entity": {
+    "color": "#22a2c9",
+    "cursor": "help"
+  },
+  "url": {
+    "color": "#22a2c9"
+  },
+  "attr-value": {
+    "color": "#ac9739"
+  },
+  "control": {
+    "color": "#ac9739"
+  },
+  "directive": {
+    "color": "#ac9739"
+  },
+  "keyword": {
+    "color": "#ac9739"
+  },
+  "unit": {
+    "color": "#ac9739"
+  },
+  "atrule": {
+    "color": "#22a2c9"
+  },
+  "regex": {
+    "color": "#22a2c9"
+  },
+  "statement": {
+    "color": "#22a2c9"
+  },
+  "placeholder": {
+    "color": "#3d8fd1"
+  },
+  "variable": {
+    "color": "#3d8fd1"
+  },
+  "deleted": {
+    "textDecoration": "line-through"
+  },
+  "inserted": {
+    "borderBottom": "1px dotted #202746",
+    "textDecoration": "none"
+  },
+  "italic": {
+    "fontStyle": "italic"
+  },
+  "bold": {
+    "fontWeight": "700"
+  },
+  "important": {
+    "fontWeight": "700",
+    "color": "#c94922"
+  },
+  "pre>code.highlight": {
+    "Outline": ".4em solid #c94922",
+    "OutlineOffset": ".4em"
+  },
+  ".line-numbers.line-numbers .line-numbers-rows": {
+    "borderRightColor": "#dfe2f1"
+  },
+  ".line-numbers .line-numbers-rows>span:before": {
+    "color": "#979db4"
+  },
+  ".line-highlight.line-highlight": {
+    "background": "linear-gradient(to right,rgba(107,115,148,.2) 70%,rgba(107,115,148,0))"
+  }
+};

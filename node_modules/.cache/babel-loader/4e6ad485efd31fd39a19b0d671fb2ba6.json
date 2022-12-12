@@ -1,0 +1,1 @@
+{"ast":null,"code":"var root = require('./_root');\n/** Built-in value references. */\n\n\nvar _Symbol = root.Symbol;\nmodule.exports = _Symbol;","map":null,"metadata":{},"sourceType":"module"}

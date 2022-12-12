@@ -1,0 +1,78 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Accordion: Focus Management</h1>
+
+          <p>This is a stock accordion. The tab key will cycle through accordion panes without opening/closing. The up/down arrow keys will cycle through accordion panes, opening the one you move to, and closing the one you move away from.</p>
+
+          <ul class="accordion" data-accordion role="tablist">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#panel-1-1" role="tab" class="accordion-title" id="panel-1-1-heading" aria-controls="panel-1-1">Accordion Panel One</a>
+              <div id="panel-1-1" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel-1-1-heading">
+                <p>Panel one content goes here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra sodales nulla, eu consequat quam fringilla sed. Suspendisse potenti. Nam ac condimentum mi. Quisque enim arcu, dapibus nec congue nec, luctus non est.</p>
+              </div>
+            </li>
+
+            <li class="accordion-item" data-accordion-item>
+              <a href="#panel-1-2" role="tab" class="accordion-title" id="panel-1-2-heading" aria-controls="panel-1-2">Accordion Panel Two</a>
+              <div id="panel-1-2" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel-1-2-heading">
+                <p>Panele two content goes here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra sodales nulla, eu consequat quam fringilla sed. Suspendisse potenti. Nam ac condimentum mi. Quisque enim arcu, dapibus nec congue nec, luctus non est.</p>
+              </div>
+            </li>
+
+            <li class="accordion-item" data-accordion-item>
+              <a href="#panel-1-3" role="tab" class="accordion-title" id="panel-1-3-heading" aria-controls="panel-1-3">Accordion Panel Three</a>
+              <div id="panel-1-3" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel-1-3-heading">
+                <p>Panel three content goes here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra sodales nulla, eu consequat quam fringilla sed. Suspendisse potenti. Nam ac condimentum mi. Quisque enim arcu, dapibus nec congue nec, luctus non est.</p>
+              </div>
+            </li>
+          </ul>
+
+          <hr>
+
+          <p>This is an accordion with multiExpand set to "true". Using the up/down arrow keys will cycle between accordion titles <em>without opening/closing them</em>, and pressing space will open or close a pane.</p>
+
+          <ul class="accordion" data-accordion role="tablist" data-multi-expand="true">
+            <li class="accordion-item is-active" data-accordion-item>
+              <a href="#panel-1-1" role="tab" class="accordion-title" id="panel-1-1-heading" aria-controls="panel-1-1">Accordion Panel One</a>
+              <div id="panel-1-1" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel-1-1-heading">
+                <p>Panel one content goes here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra sodales nulla, eu consequat quam fringilla sed. Suspendisse potenti. Nam ac condimentum mi. Quisque enim arcu, dapibus nec congue nec, luctus non est.</p>
+              </div>
+            </li>
+
+            <li class="accordion-item" data-accordion-item>
+              <a href="#panel-1-2" role="tab" class="accordion-title" id="panel-1-2-heading" aria-controls="panel-1-2">Accordion Panel Two</a>
+              <div id="panel-1-2" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel-1-2-heading">
+                <p>Panele two content goes here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra sodales nulla, eu consequat quam fringilla sed. Suspendisse potenti. Nam ac condimentum mi. Quisque enim arcu, dapibus nec congue nec, luctus non est.</p>
+              </div>
+            </li>
+
+            <li class="accordion-item" data-accordion-item>
+              <a href="#panel-1-3" role="tab" class="accordion-title" id="panel-1-3-heading" aria-controls="panel-1-3">Accordion Panel Three</a>
+              <div id="panel-1-3" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel-1-3-heading">
+                <p>Panel three content goes here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra sodales nulla, eu consequat quam fringilla sed. Suspendisse potenti. Nam ac condimentum mi. Quisque enim arcu, dapibus nec congue nec, luctus non est.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

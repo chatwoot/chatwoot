@@ -1,0 +1,51 @@
+{
+  "name": "synchronous-promise",
+  "version": "2.0.15",
+  "description": "Synchronous Promise-like prototype to use in testing where you would have used an ES6 Promise",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluffynuts/synchronous-promise.git"
+  },
+  "scripts": {
+    "preautotest-once": "node -e \"console.log('Tests started: ', new Date());\"",
+    "autotest-once": "mocha index.spec.js --reporter mocha-yar",
+    "autotest": "nodemon -q -x \"run-s -s autotest-once\"",
+    "autolint": "nodemon -q -x \"run-s -s lint\"",
+    "prelint": "node -e \"console.log('Linting started: ', new Date());\"",
+    "lint": "jshint index.js",
+    "postlint": "node -e \"console.log('Linting completed: ', new Date());\"",
+    "pretest": "run-s lint",
+    "test-js": "mocha index.spec.js",
+    "test": "run-s test-js test-ts",
+    "predist": "mkdirp dist",
+    "dist": "browserify browser.js -o dist/synchronous-promise.js",
+    "prepublish": "run-s -s test dist",
+    "debug": "mocha -w *.spec.js --reporter mocha-yar --debug-brk --inspect",
+    "debug-ts": "mocha -r ts-node/register *.spec.ts --debug-brk --inspect",
+    "preautotest-ts-once": "node -e \"console.log('TS Tests started: ', new Date());\"",
+    "autotest-ts": "nodemon -q -e ts -x \"run-s -s test-ts\"",
+    "test-ts": "mocha -r ts-node/register *.spec.ts --reporter mocha-yar",
+    "tsc": "tsc",
+    "test-emitted": "mocha index-ts.spec.js",
+    "debug-emitted": "mocha index-ts.spec.js --debug-brk --inspect"
+  },
+  "author": "Davyd McColl <davydm@gmail.com> (https://github.com/fluffynuts)",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.5",
+    "browserify": "^16.5.1",
+    "chai": "^4.2.0",
+    "jshint": "^2.11.1",
+    "mkdirp": "^1.0.4",
+    "mocha": "^7.1.2",
+    "mocha-yar": "^1.0.14",
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "run-sequence": "^2.2.1",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
+  }
+}

@@ -1,0 +1,72 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group functions
+////
+
+/// Finds the greatest common divisor of two integers.
+///
+/// @param {Number} $a - First number to compare.
+/// @param {Number} $b - Second number to compare.
+///
+/// @returns {Number} The greatest common divisor.
+@function gcd($a, $b) {
+  // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
+  @if ($b != 0) {
+    @return gcd($b, $a % $b);
+  }
+  @else {
+    @return abs($a);
+  }
+}
+
+/// Handles decimal exponents by trying to convert them into a fraction and then use a nth-root-algorithm for parts of the calculation
+///
+/// @param {Number} $base - The base number.
+/// @param {Number} $exponent - The exponent.
+///
+/// @returns {Number} The product of the exponentiation.
+@function pow($base, $exponent, $prec: 16) {
+  @if (floor($exponent) != $exponent) {
+    $prec2 : pow(10, $prec);
+    $exponent: round($exponent * $prec2);
+    $denominator: gcd($exponent, $prec2);
+    @return nth-root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+  }
+
+  $value: $base;
+  @if $exponent > 1 {
+    @for $i from 2 through $exponent {
+      $value: $value * $base;
+    }
+  }
+  @else if $exponent < 1 {
+    @for $i from 0 through -$exponent {
+      $value: $value / $base;
+    }
+  }
+
+  @return $value;
+}
+
+@function nth-root($num, $n: 2, $prec: 12) {
+  // From: http://rosettacode.org/wiki/Nth_root#JavaScript
+  $x: 1;
+
+  @for $i from 0 through $prec {
+    $x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
+  }
+
+  @return $x;
+}
+
+/// Calculates the height as a percentage of the width for a given ratio.
+/// @param {List} $ratio - Ratio to use to calculate the height, formatted as `x by y`.
+/// @return {Number} A percentage value for the height relative to the width of a responsive container.
+@function ratio-to-percentage($ratio) {
+  $w: nth($ratio, 1);
+  $h: nth($ratio, 3);
+  @return $h / $w * 100%;
+}

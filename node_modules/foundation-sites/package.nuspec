@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+
+    <metadata>
+        <id>foundation-sites</id>
+        <version>6.5.3</version>
+
+        <title>ZURB Foundation</title>
+        <authors>ZURB</authors>
+        <description>The most advanced responsive front-end framework in the world.</description>
+        <tags>css scss sass js responsive mobile-first framework</tags>
+
+        <projectUrl>http://foundation.zurb.com/sites</projectUrl>
+        <iconUrl>https://foundation.zurb.com/assets/img/icons/foundation-favicon.ico</iconUrl>
+        <releaseNotes>https://github.com/zurb/foundation-sites/releases/tag/v6.5.3</releaseNotes>
+        <licenseUrl>https://github.com/zurb/foundation-sites/blob/develop/LICENSE</licenseUrl>
+        <copyright>Copyright 2017-2018</copyright>
+        <repository type="git" url="https://github.com/zurb/foundation-sites"/>
+
+        <dependencies>
+            <dependency id="jQuery" version="2.2.0"/>
+            <dependency id="what-input" version="*"/>
+        </dependencies>
+
+    </metadata>
+
+    <files>
+        <file src="README.md" />
+        <file src="LICENSE" />
+
+        <file src="dist\css\**\*.css" target="content\Content" />
+        <file src="dist\css\**\*.css.map" target="content\Content" />
+        <file src="dist\js\**\*.js" target="content\Scripts" />
+        <file src="dist\js\**\*.js.map" target="content\Scripts" />
+        <file src="scss\**\*.scss" target="content\Content\foundation-sites" />
+        <file src="_vendor\**\*.scss" target="content\Content\_vendor" />
+
+        <file src="dist\css\**\*.css" target="contentFiles\Content" />
+        <file src="dist\css\**\*.css.map" target="contentFiles\Content" />
+        <file src="dist\js\**\*.js" target="contentFiles\Scripts" />
+        <file src="dist\js\**\*.js.map" target="contentFiles\Scripts" />
+        <file src="scss\**\*.scss" target="contentFiles\Content\foundation-sites" />
+        <file src="_vendor\**\*.scss" target="contentFiles\Content\_vendor" />
+
+    </files>
+
+</package>

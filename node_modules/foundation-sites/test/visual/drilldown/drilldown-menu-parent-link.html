@@ -1,0 +1,71 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      .is-submenu-parent-item {
+        background: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="medium-6 cell">
+          <p style="margin-top: 20px;margin-bottom: 20px;">Parent links should be added to the top of their sub-menu as a link.</p>
+          <ul class="vertical menu drilldown" data-drilldown data-parent-link="true">
+            <li>
+              <a href="http://foundation.zurb.com/develop/getting-started.html">Develop</a>
+              <ul class="vertical menu nested">
+                <li><a href="http://foundation.zurb.com/sites.html">Foundation for Sites</a></li>
+                <li><a href="http://foundation.zurb.com/emails.html">Foundation for Email</a></li>
+                <li><a href="http://foundation.zurb.com/apps.html">Foundation for Apps</a></li>
+                <li><a href="http://foundation.zurb.com/templates.html">HTML Templates</a></li>
+                <li><a href="http://foundation.zurb.com/sites/resources.html">Resources</a></li>
+                <li><a href="http://foundation.zurb.com/develop/building-blocks.html">Building Blocks</a></li>
+                <li><a href="http://foundation.zurb.com/develop/yeti-launch.html">Yeti Launch</a></li>
+                <li><a href="http://foundation.zurb.com/develop/contribute.html">Contribute</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Item</a></li>
+            <li>
+              <a href="http://foundation.zurb.com/develop/getting-started.html">Top level Item</a>
+              <ul class="vertical menu nested">
+                <li><a href="http://foundation.zurb.com/sites.html">Foundation for Sites</a></li>
+                <li><a href="http://foundation.zurb.com/emails.html">Foundation for Email</a></li>
+                <li><a href="http://foundation.zurb.com/apps.html">Foundation for Apps</a></li>
+                <li>
+                  <a href="http://foundation.zurb.com/support/support.html">2nd level Item</a>
+                  <ul class="vertical menu nested">
+                    <li><a href="http://foundation.zurb.com/sites.html">Foundation for Sites</a></li>
+                    <li><a href="http://foundation.zurb.com/emails.html">Foundation for Email</a></li>
+                    <li><a href="http://foundation.zurb.com/apps.html">Foundation for Apps</a></li>
+                    <li>
+                      <a href="http://foundation.zurb.com/support/premium-support.html">3rd level Item</a>
+                      <ul class="vertical menu nested">
+                        <li><a href="http://foundation.zurb.com/sites.html">Foundation for Sites</a></li>
+                        <li><a href="http://foundation.zurb.com/emails.html">Foundation for Email</a></li>
+                        <li><a href="http://foundation.zurb.com/apps.html">Foundation for Apps</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "id": "aria-required-attr",
+  "selector": "[role]",
+  "tags": ["cat.aria", "wcag2a", "wcag412"],
+  "metadata": {
+    "description": "Ensures elements with ARIA roles have all required ARIA attributes",
+    "help": "Required ARIA attributes must be provided"
+  },
+  "all": [],
+  "any": ["aria-required-attr"],
+  "none": []
+}

@@ -1,0 +1,85 @@
+// prefix
+export const PREFIX_CLS = "ve-table-";
+
+// locale comp name
+export const LOCALE_COMP_NAME = "table";
+
+// column types
+export const COLUMN_TYPES = {
+    // expand row
+    EXPAND: "expand",
+    // checkbox
+    CHECKBOX: "checkbox",
+    // radio
+    RADIO: "radio"
+};
+
+// expand row trigger types
+export const EXPAND_TRIGGER_TYPES = {
+    // trigger by click icon
+    ICON: "icon",
+    // trigger by click cell(td)
+    CELL: "cell",
+    // trigger by click row
+    ROW: "row"
+};
+
+// emit events
+export const EMIT_EVENTS = {
+    // body-td-width-change
+    BODY_TD_WIDTH_CHANGE: "on-body-td-width-change",
+    // header-tr-height-change
+    HEADER_TR_HEIGHT_CHANGE: "on-header-tr-height-change",
+    // footer-tr-height-change
+    Footer_TR_HEIGHT_CHANGE: "on-footer-tr-height-change",
+    // body-tr-height-change
+    BODY_TR_HEIGHT_CHANGE: "on-body-tr-height-change",
+    // body tr click
+    BODY_TR_CLICK: "on-body-tr-click",
+    // body td click
+    BODY_TD_CLICK: "on-body-td-click",
+    // expand-row-change
+    EXPAND_ROW_CHANGE: "on-expand-row-change",
+    // checkbox selected row change
+    CHECKBOX_SELECTED_ROW_CHANGE: "on-checkbox-selected-row-change",
+    // checkbox selected all change
+    CHECKBOX_SELECTED_ALL_CHANGE: "on-checkbox-selected-all-change",
+    // checkbox selected all ino
+    CHECKBOX_SELECTED_ALL_INFO: "on-checkbox-selected-all-info",
+    // radio selected row change
+    RADIO_SELECTED_ROW_CHANGE: "on-radio-selected-row-change",
+    // sort change
+    SORT_CHANGE: "on-sort-change",
+    // on-cell-selection-key-change
+    CELL_SELECTION_KEY_CHANGE: "on-cell-selection-key-change",
+    // header filter confirm
+    HEADER_FILTER_CONFIRM: "on-filter-confirm",
+    // header filter reset
+    HEADER_FILTER_RESET: "on-filter-reset"
+};
+
+// comps name
+export const COMPS_NAME = {
+    VE_TABLE: "VeTable",
+    VE_TABLE_BODY: "VeTableBody",
+    VE_TABLE_BODY_TR: "VeTableBodyTr",
+    VE_TABLE_EXPAND_TR: "VeTableExpandTr",
+    VE_TABLE_EXPAND_TR_ICON: "VeTableExpandTrIcon",
+    VE_TABLE_BODY_TD: "VeTableBodyTd",
+    VE_TABLE_THADER: "VeTableHeader",
+    VE_TABLE_THADER_TR: "VeTableHeaderTr",
+    VE_TABLE_THADER_Th: "VeTableHeaderTh",
+    VE_TABLE_COLGROUP: "VeTableColgroup",
+    VE_TABLE_FOOTER: "VeTableFooter",
+    VE_TABLE_BODY_CHECKBOX_CONTENT: "VeTableBodyCheckboxContent",
+    VE_TABLE_BODY_RADIO_CONTENT: "VeTableBodyRadioContent",
+    VE_TABLE_HEADER_CHECKBOX_CONTENT: "VeTableHeaderCheckboxContent",
+    VE_TABLE_HEADER_FILTER_CONTENT: "VeTableHeaderFilterContent",
+    VE_TABLE_HEADER_FILTER_CUSTOM_CONTENT: "VeTableHeaderFilterCustomContent"
+};
+
+// comps custom attrs
+export const COMPS_CUSTOM_ATTRS = {
+    // body row key
+    BODY_ROW_KEY: "row-key"
+};

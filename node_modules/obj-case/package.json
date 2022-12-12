@@ -1,0 +1,27 @@
+{
+  "name": "obj-case",
+  "version": "0.2.1",
+  "description": "Work with objects of different cased keys",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/segmentio/obj-case.git"
+  },
+  "keywords": [
+    "object",
+    "case",
+    "casing",
+    "camelcase"
+  ],
+  "author": "Segmentio",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "expect.js": "*",
+    "make-lint": "^1.0.1",
+    "mocha": "~1.12.0"
+  }
+}

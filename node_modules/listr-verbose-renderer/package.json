@@ -1,0 +1,43 @@
+{
+  "name": "listr-verbose-renderer",
+  "version": "0.5.0",
+  "description": "Listr verbose renderer",
+  "license": "MIT",
+  "repository": "SamVerschueren/listr-verbose-renderer",
+  "author": {
+    "name": "Sam Verschueren",
+    "email": "sam.verschueren@gmail.com",
+    "url": "github.com/SamVerschueren"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ],
+  "keywords": [
+    "listr",
+    "verbose",
+    "renderer",
+    "rendering",
+    "custom",
+    "format"
+  ],
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "cli-cursor": "^2.1.0",
+    "date-fns": "^1.27.2",
+    "figures": "^2.0.0"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "hook-std": "^1.1.0",
+    "listr": "*",
+    "strip-ansi": "^5.0.0",
+    "xo": "^0.23.0"
+  }
+}

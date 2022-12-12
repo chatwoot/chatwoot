@@ -1,0 +1,13 @@
+{
+  "id": "form-field-multiple-labels",
+  "selector": "input, select, textarea",
+  "matches": "label-matches",
+  "tags": ["cat.forms", "wcag2a", "wcag332"],
+  "metadata": {
+    "description": "Ensures form field does not have multiple label elements",
+    "help": "Form field must not have multiple label elements"
+  },
+  "all": [],
+  "any": [],
+  "none": ["multiple-label"]
+}

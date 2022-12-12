@@ -1,0 +1,6 @@
+// @flow
+
+declare module.exports: (
+  date: Date | string | number,
+  dayOfYear: number
+) => Date

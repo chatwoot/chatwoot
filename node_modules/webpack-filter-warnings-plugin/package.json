@@ -1,0 +1,71 @@
+{
+  "name": "webpack-filter-warnings-plugin",
+  "version": "1.2.1",
+  "description": "Allows you to hide certain warnings from webpack compilations",
+  "main": "dist/cjs.js",
+  "scripts": {
+    "test": "jest",
+    "start": "npm run build -- -w",
+    "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js'",
+    "clean": "del-cli dist",
+    "lint": "eslint --cache src test",
+    "lint-staged": "lint-staged",
+    "prebuild": "npm run clean",
+    "prepublish": "npm run build",
+    "release": "standard-version",
+    "security": "nsp check",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --collectCoverageFrom='src/**/*.js' --coverage",
+    "travis:lint": "npm run lint && npm run security",
+    "travis:test": "npm run test -- --runInBand",
+    "travis:coverage": "npm run test:coverage -- --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattlewis92/webpack-filter-warnings-plugin.git"
+  },
+  "keywords": [
+    "webpack plugin"
+  ],
+  "author": "Matt Lewis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattlewis92/webpack-filter-warnings-plugin/issues"
+  },
+  "homepage": "https://github.com/mattlewis92/webpack-filter-warnings-plugin#readme",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">= 4.3 < 5.0.0 || >= 5.10"
+  },
+  "peerDependencies": {
+    "webpack": "^2.0.0 || ^3.0.0 || ^4.0.0"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^5.2.0",
+    "del-cli": "^1.1.0",
+    "eslint": "^5.9.0",
+    "eslint-config-webpack": "^1.2.5",
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.6.0",
+    "lint-staged": "^8.1.0",
+    "memory-fs": "^0.4.1",
+    "nsp": "^3.2.1",
+    "pre-commit": "^1.2.2",
+    "standard-version": "^4.4.0",
+    "webpack": "^4.26.0"
+  }
+}

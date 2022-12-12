@@ -1,0 +1,19 @@
+{
+  "id": "aria-valid-attr-value",
+  "evaluate": "aria-valid-attr-value-evaluate",
+  "options": [],
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "ARIA attribute values are valid",
+      "fail": {
+        "singular": "Invalid ARIA attribute value: ${data.values}",
+        "plural": "Invalid ARIA attribute values: ${data.values}"
+      },
+      "incomplete": {
+        "noId": "ARIA attribute element ID does not exist on the page: ${data.needsReview}",
+        "ariaCurrent": "ARIA attribute value is invalid and will be treated as \"aria-current=true\": ${data.needsReview}"
+      }
+    }
+  }
+}

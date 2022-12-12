@@ -1,0 +1,89 @@
+{
+  "name": "@jest/core",
+  "description": "Delightful JavaScript Testing.",
+  "version": "26.6.3",
+  "main": "build/jest.js",
+  "types": "build/jest.d.ts",
+  "dependencies": {
+    "@jest/console": "^26.6.2",
+    "@jest/reporters": "^26.6.2",
+    "@jest/test-result": "^26.6.2",
+    "@jest/transform": "^26.6.2",
+    "@jest/types": "^26.6.2",
+    "@types/node": "*",
+    "ansi-escapes": "^4.2.1",
+    "chalk": "^4.0.0",
+    "exit": "^0.1.2",
+    "graceful-fs": "^4.2.4",
+    "jest-changed-files": "^26.6.2",
+    "jest-config": "^26.6.3",
+    "jest-haste-map": "^26.6.2",
+    "jest-message-util": "^26.6.2",
+    "jest-regex-util": "^26.0.0",
+    "jest-resolve": "^26.6.2",
+    "jest-resolve-dependencies": "^26.6.3",
+    "jest-runner": "^26.6.3",
+    "jest-runtime": "^26.6.3",
+    "jest-snapshot": "^26.6.2",
+    "jest-util": "^26.6.2",
+    "jest-validate": "^26.6.2",
+    "jest-watcher": "^26.6.2",
+    "micromatch": "^4.0.2",
+    "p-each-series": "^2.1.0",
+    "rimraf": "^3.0.0",
+    "slash": "^3.0.0",
+    "strip-ansi": "^6.0.0"
+  },
+  "devDependencies": {
+    "@jest/test-sequencer": "^26.6.3",
+    "@jest/test-utils": "^26.6.2",
+    "@types/exit": "^0.1.30",
+    "@types/graceful-fs": "^4.1.2",
+    "@types/micromatch": "^4.0.0",
+    "@types/rimraf": "^3.0.0",
+    "jest-snapshot-serializer-raw": "^1.1.0"
+  },
+  "engines": {
+    "node": ">= 10.14.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/jest",
+    "directory": "packages/jest-core"
+  },
+  "bugs": {
+    "url": "https://github.com/facebook/jest/issues"
+  },
+  "homepage": "https://jestjs.io/",
+  "license": "MIT",
+  "keywords": [
+    "ava",
+    "babel",
+    "coverage",
+    "easy",
+    "expect",
+    "facebook",
+    "immersive",
+    "instant",
+    "jasmine",
+    "jest",
+    "jsdom",
+    "mocha",
+    "mocking",
+    "painless",
+    "qunit",
+    "runner",
+    "sandboxed",
+    "snapshot",
+    "tap",
+    "tape",
+    "test",
+    "testing",
+    "typescript",
+    "watch"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "2f6931e91d5ab126de70caf150c68709752e7f6c"
+}

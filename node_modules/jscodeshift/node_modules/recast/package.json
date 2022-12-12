@@ -1,0 +1,62 @@
+{
+  "author": "Ben Newman <bn@cs.stanford.edu>",
+  "name": "recast",
+  "version": "0.18.10",
+  "description": "JavaScript syntax tree transformer, nondestructive pretty-printer, and automatic source map generator",
+  "keywords": [
+    "ast",
+    "rewriting",
+    "refactoring",
+    "codegen",
+    "syntax",
+    "transformation",
+    "parsing",
+    "pretty-printing"
+  ],
+  "homepage": "http://github.com/benjamn/recast",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/benjamn/recast.git"
+  },
+  "license": "MIT",
+  "main": "main.js",
+  "types": "main.d.ts",
+  "scripts": {
+    "mocha": "test/run.sh",
+    "debug": "test/run.sh --inspect-brk",
+    "test": "npm run build && npm run mocha",
+    "build": "npm run clean && tsc",
+    "clean": "ts-emit-clean",
+    "prepack": "npm run build",
+    "postpack": "npm run clean"
+  },
+  "browser": {
+    "fs": false
+  },
+  "dependencies": {
+    "ast-types": "0.13.3",
+    "esprima": "~4.0.0",
+    "private": "^0.1.8",
+    "source-map": "~0.6.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.7.7",
+    "@babel/parser": "7.7.7",
+    "@babel/preset-env": "7.7.7",
+    "@types/esprima": "4.0.2",
+    "@types/glob": "7.1.1",
+    "@types/mocha": "5.2.7",
+    "@types/node": "13.1.1",
+    "esprima-fb": "15001.1001.0-dev-harmony-fb",
+    "flow-parser": "0.119.1",
+    "glob": "7.1.5",
+    "mocha": "6.2.2",
+    "reify": "0.20.12",
+    "ts-emit-clean": "1.0.0",
+    "ts-node": "7.0.1",
+    "typescript": "3.6.4"
+  },
+  "engines": {
+    "node": ">= 4"
+  }
+}

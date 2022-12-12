@@ -1,0 +1,63 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group badge
+////
+
+/// Default background color for badges.
+/// @type Color
+$badge-background: $primary-color !default;
+
+/// Default text color for badges.
+/// @type Color
+$badge-color: $white !default;
+
+/// Alternate text color for badges.
+/// @type Color
+$badge-color-alt: $black !default;
+
+/// Coloring classes. A map of classes to output in your CSS, like `.secondary`, `.success`, and so on.
+/// @type Map
+$badge-palette: $foundation-palette !default;
+
+/// Default padding inside badges.
+/// @type Number
+$badge-padding: 0.3em !default;
+
+/// Minimum width of a badge.
+/// @type Number
+$badge-minwidth: 2.1em !default;
+
+/// Default font size for badges.
+/// @type Number
+$badge-font-size: 0.6rem !default;
+
+/// Generates the base styles for a badge.
+@mixin badge {
+  display: inline-block;
+  min-width: $badge-minwidth;
+  padding: $badge-padding;
+
+  border-radius: 50%;
+
+  font-size: $badge-font-size;
+  text-align: center;
+}
+
+@mixin foundation-badge {
+  .badge {
+    @include badge;
+
+    background: $badge-background;
+    color: $badge-color;
+
+    @each $name, $color in $badge-palette {
+      &.#{$name} {
+        background: $color;
+        color: color-pick-contrast($color, ($badge-color, $badge-color-alt));
+      }
+    }
+  }
+}

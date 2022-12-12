@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default function addLeadingZeros(number, targetLength) {\n  var sign = number < 0 ? '-' : '';\n  var output = Math.abs(number).toString();\n\n  while (output.length < targetLength) {\n    output = '0' + output;\n  }\n\n  return sign + output;\n}","map":null,"metadata":{},"sourceType":"module"}

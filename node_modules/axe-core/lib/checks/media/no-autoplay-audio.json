@@ -1,0 +1,15 @@
+{
+  "id": "no-autoplay-audio",
+  "evaluate": "no-autoplay-audio-evaluate",
+  "options": {
+    "allowedDuration": 3
+  },
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "<video> or <audio> does not output audio for more than allowed duration or has controls mechanism",
+      "fail": "<video> or <audio> outputs audio for more than allowed duration and does not have a controls mechanism",
+      "incomplete": "Check that the <video> or <audio> does not output audio for more than allowed duration or provides a controls mechanism"
+    }
+  }
+}

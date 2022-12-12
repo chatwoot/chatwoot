@@ -1,0 +1,27 @@
+{
+  "name": "last-call-webpack-plugin",
+  "version": "3.0.0",
+  "author": "Nuno Rodrigues",
+  "description": "A Webpack plugin that allows to transform \\ modify assets just before Webpack emits them.",
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "webpack-sources": "^1.1.0"
+  },
+  "main": "src/index.js",
+  "homepage": "http://github.com/NMFR/last-call-webpack-plugin",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/NMFR/last-call-webpack-plugin.git"
+  },
+  "keywords": [
+    "transform",
+    "modify",
+    "manipulate",
+    "optimize",
+    "prefix",
+    "sufix",
+    "webpack",
+    "assets"
+  ],
+  "license": "MIT"
+}

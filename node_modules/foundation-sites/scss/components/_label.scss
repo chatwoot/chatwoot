@@ -1,0 +1,64 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group label
+////
+
+/// Default background color for labels.
+/// @type Color
+$label-background: $primary-color !default;
+
+/// Default text color for labels.
+/// @type Color
+$label-color: $white !default;
+
+/// Alternate text color for labels.
+/// @type Color
+$label-color-alt: $black !default;
+
+/// Coloring classes. A map of classes to output in your CSS, like `.secondary`, `.success`, and so on.
+/// @type Map
+$label-palette: $foundation-palette !default;
+
+/// Default font size for labels.
+/// @type Number
+$label-font-size: 0.8rem !default;
+
+/// Default padding inside labels.
+/// @type Number
+$label-padding: 0.33333rem 0.5rem !default;
+
+/// Default radius of labels.
+/// @type Number
+$label-radius: $global-radius !default;
+
+/// Generates base styles for a label.
+@mixin label {
+  display: inline-block;
+  padding: $label-padding;
+
+  border-radius: $label-radius;
+
+  font-size: $label-font-size;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: default;
+}
+
+@mixin foundation-label {
+  .label {
+    @include label;
+
+    background: $label-background;
+    color: $label-color;
+
+    @each $name, $color in $label-palette {
+      &.#{$name} {
+        background: $color;
+        color: color-pick-contrast($color, ($label-color, $label-color-alt));
+      }
+    }
+  }
+}

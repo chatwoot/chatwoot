@@ -1,0 +1,106 @@
+{
+  "name": "react-syntax-highlighter",
+  "version": "15.5.0",
+  "description": "syntax highlighting component for react with prismjs or highlightjs ast using inline styles",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "sideEffects": false,
+  "dependencies": {
+    "@babel/runtime": "^7.3.1",
+    "highlight.js": "^10.4.1",
+    "lowlight": "^1.17.0",
+    "prismjs": "^1.27.0",
+    "refractor": "^3.6.0"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.1.0",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-transform-dynamic-import": "^2.1.0",
+    "codecov": "^3.2.0",
+    "css": "^2.2.1",
+    "css-loader": "^3.6.0",
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "husky": "^1.1.4",
+    "jest": "^26.1.0",
+    "lint-staged": "^8.0.5",
+    "prettier": "^1.15.2",
+    "prism-themes": "1.9.0",
+    "react": "^15.2.0",
+    "react-dom": "^15.2.0",
+    "react-syntax-highlighter-virtualized-renderer": "^1.0.3",
+    "react-test-renderer": "^15.3.2",
+    "request": "^2.88.0",
+    "style-loader": "^0.13.0",
+    "to-camel-case": "^1.0.0",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "peerDependencies": {
+    "react": ">= 0.14.0"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --hot --inline",
+    "build": "npm run build:cjs && npm run build:esm && webpack",
+    "build:cjs": "BABEL_ENV=cjs babel src --out-dir ./dist/cjs",
+    "build:esm": "BABEL_ENV=esm babel src --out-dir ./dist/esm",
+    "watch": "npm run build:esm -- --watch",
+    "build-styles-hljs": "node ./scripts/build-stylesheets-highlightjs.js",
+    "build-languages-hljs": "node ./scripts/build-languages-highlightjs.js",
+    "build-styles-prism": "node ./scripts/build-stylesheets-refractor.js",
+    "build-languages-prism": "node ./scripts/build-languages-refractor.js",
+    "prepare": "npm run build-styles-hljs && npm run build-languages-hljs && npm run build-styles-prism && npm run build-languages-prism && npm run build",
+    "test": "jest",
+    "test-ci": "jest && codecov",
+    "publish-coverage": "codecov",
+    "format": "npm run prettier",
+    "prettier": "prettier --write --no-editorconfig \"{src,scripts,__tests__}/**/*.js\"",
+    "lint": "eslint --ext .js,.jsx ./src ./scripts ./__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/react-syntax-highlighter/react-syntax-highlighter.git"
+  },
+  "keywords": [
+    "react",
+    "syntax",
+    "lowlight",
+    "highlighting",
+    "ast"
+  ],
+  "author": "Conor Hastings",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/react-syntax-highlighter/react-syntax-highlighter/issues"
+  },
+  "homepage": "https://github.com/react-syntax-highlighter/react-syntax-highlighter#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

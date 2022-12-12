@@ -1,0 +1,12 @@
+{
+  "id": "has-widget-role",
+  "evaluate": "has-widget-role-evaluate",
+  "options": [],
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Element has a widget role.",
+      "fail": "Element does not have a widget role."
+    }
+  }
+}

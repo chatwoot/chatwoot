@@ -1,0 +1,27 @@
+{
+  "id": "select-name",
+  "selector": "select",
+  "tags": [
+    "cat.forms",
+    "wcag2a",
+    "wcag412",
+    "wcag131",
+    "section508",
+    "section508.22.n",
+    "ACT"
+  ],
+  "metadata": {
+    "description": "Ensures select element has an accessible name",
+    "help": "Select element must have an accessible name"
+  },
+  "all": [],
+  "any": [
+    "implicit-label",
+    "explicit-label",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title",
+    "presentational-role"
+  ],
+  "none": ["help-same-as-label", "hidden-explicit-label"]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "uuid-browser",
+  "version": "3.1.0",
+  "description": "browser-part from the uuid-package",
+  "main": "index.js",
+  "author": "Heiko Mathes <heiko.mathes@gmail.com>",
+  "license": "MIT",
+  "bugs": "https://github.com/heikomat/uuid-browser/issues",
+  "repository": "https://github.com/heikomat/uuid-browser.git"
+}

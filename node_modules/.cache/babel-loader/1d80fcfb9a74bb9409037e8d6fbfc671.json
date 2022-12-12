@@ -1,0 +1,1 @@
+{"ast":null,"code":"var EventEmitter = require(\"events\");\n\nmodule.exports = new EventEmitter();","map":null,"metadata":{},"sourceType":"module"}

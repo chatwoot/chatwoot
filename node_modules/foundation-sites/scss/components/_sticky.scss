@@ -1,0 +1,39 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+@mixin foundation-sticky {
+  .sticky-container {
+    position: relative;
+  }
+
+  .sticky {
+    position: relative;
+    z-index: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .sticky.is-stuck {
+    position: fixed;
+    z-index: 5;
+    width: 100%;
+
+    &.is-at-top {
+      top: 0;
+    }
+
+    &.is-at-bottom {
+      bottom: 0;
+    }
+  }
+
+  .sticky.is-anchored {
+    position: relative;
+    right: auto;
+    left: auto;
+
+    &.is-at-bottom {
+      bottom: 0;
+    }
+  }
+}

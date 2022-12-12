@@ -1,0 +1,97 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Dropdown: Overflow Handling</h1>
+
+          <p>These dropdowns test various overflow situations.</p>
+
+          <h4>Right and Left Overflow</h4>
+          <div class="row small-up-1 medium-up-2" style="background-color:#ddd; padding: 20px 0;">
+            <div class="column">
+              <p>Bottom Right Default Behavior (no overflow)</p>
+              <button class="button" type="button" data-toggle="example-dropdown-bottom-right">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="bottom" data-alignment="right" id="example-dropdown-bottom-right" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the bottom aligned with the left, all inside the container</p>
+              </div>
+            </div>
+            <div class="column">
+              <p>Bottom Left Default Behavior (no overflow)</p>
+              <button class="button float-right" type="button" data-toggle="example-dropdown-bottom-left">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="bottom" data-alignment="left" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the bottom aligned with the right, all inside the container</p>
+              </div>
+            </div>
+
+            <div class="column">
+              <p>Bottom Right Overflow Allowed</p>
+              <button class="button" type="button" data-toggle="example-dropdown-bottom-right-overflow">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-allow-overlap="true" data-parent-class="row" data-position="bottom" data-alignment="right" id="example-dropdown-bottom-right-overflow" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the bottom aligned with the right, breaking out of the container</p>
+              </div>
+            </div>
+
+            <div class="column">
+              <p>Bottom Left Overflow Allowed</p>
+              <button class="button float-right" type="button" data-toggle="example-dropdown-bottom-left-overflow">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-allow-overlap="true" data-parent-class="row" data-position="bottom" data-alignment="left" id="example-dropdown-bottom-left-overflow" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the bottom aligned with the left, breaking out of the container</p>
+              </div>
+            </div>
+          </div>
+
+          <h4>Bottom and Top Overflow</h4>
+          <div class="row small-up-2" style="background-color:#ddd;">
+            <div class="column">
+              <p>Right Bottom Default Behavior (no overflow)</p>
+              <button class="button" type="button" data-toggle="example-dropdown-right-bottom">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="right" data-alignment="bottom" id="example-dropdown-right-bottom" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the right aligned with the top of the button after realigning</p>
+              </div>
+            </div>
+            <div class="column">
+              <p>Left Bottom Default Behavior (no overflow)</p>
+              <button class="button float-right" type="button" data-toggle="example-dropdown-left-bottom">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="left" data-alignment="bottom" id="example-dropdown-left-bottom" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the left aligned with the top of the button after realigning</p>
+              </div>
+            </div>
+
+            <div class="column">
+              <p>Right Top Default Behavior (no overflow)</p>
+              <button class="button" type="button" data-toggle="example-dropdown-right-top">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="right" data-alignment="top" id="example-dropdown-right-top" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the right aligned with the bottom of the button after realigning</p>
+              </div>
+            </div>
+
+            <div class="column">
+              <p>Left Top Default Behavior (no overflow)</p>
+              <button class="button float-right" type="button" data-toggle="example-dropdown-left-top">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-parent-class="row" data-position="left" data-alignment="top" id="example-dropdown-left-top" data-dropdown data-auto-focus="true">
+                <p>This dropdown should be on the left aligned with the bottom of the button after realigning</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+

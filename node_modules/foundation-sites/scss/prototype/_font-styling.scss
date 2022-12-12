@@ -1,0 +1,95 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-font-styling
+////
+
+/// Responsive breakpoints for font styling types
+/// @type Boolean
+$prototype-font-breakpoints: $global-prototype-breakpoints !default;
+
+/// Letter spacing for `.font-wide`
+/// @type Number
+$prototype-wide-letter-spacing: rem-calc(4) !default;
+
+/// Default weight for `.font-normal`, defaulted to `global-weight-normal`
+/// @type Number
+$prototype-font-normal: $global-weight-normal !default;
+
+/// Default weight for `.font-bold`, defaulted to `global-weight-bold`
+/// @type Number
+$prototype-font-bold: $global-weight-bold !default;
+
+/// Font wide letter spacing!
+/// @param {Number} $letter-spacing [$prototype-wide-letter-spacing] Wide letter spacing for the font
+@mixin font-wide(
+  $letter-spacing: $prototype-wide-letter-spacing
+) {
+  letter-spacing: $letter-spacing;
+}
+
+/// Font Weight Normal, default value coming through `global-weight-normal`
+/// @param {Number} $weight [$prototype-font-normal] Weight of the font (normal)
+@mixin font-normal(
+  $weight: $prototype-font-normal
+) {
+  font-weight: $weight;
+}
+
+/// Font Weight Bold, default value coming through `global-weight-bold`
+/// @param {Number} $weight [$prototype-font-bold] Weight of the font (bold)
+@mixin font-bold(
+  $weight: $prototype-font-bold
+) {
+  font-weight: $weight;
+}
+
+/// Font Style Italic
+@mixin font-italic {
+  font-style: italic !important;
+}
+
+@mixin foundation-prototype-font-styling {
+  .font-wide{
+    @include font-wide;
+  }
+
+  .font-normal {
+    @include font-normal;
+  }
+
+  .font-bold {
+    @include font-bold;
+  }
+
+  .font-italic {
+    @include font-italic;
+  }
+
+  @if ($prototype-font-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-font-wide{
+            @include font-wide;
+          }
+
+          .#{$size}-font-normal {
+            @include font-normal;
+          }
+
+          .#{$size}-font-bold {
+            @include font-bold;
+          }
+
+          .#{$size}-font-italic {
+            @include font-italic;
+          }
+        }
+      }
+    }
+  }
+}

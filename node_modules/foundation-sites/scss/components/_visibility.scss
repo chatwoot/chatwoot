@@ -1,0 +1,135 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+/// Hide an element by default, only displaying it above a certain screen size.
+/// @param {Keyword} $size - Breakpoint to use. **Must be a breakpoint defined in `$breakpoints`.**
+@mixin show-for($size) {
+  $size: map-get($breakpoints, $size);
+  // Max value is 0.2px under the next breakpoint (0.02 / 16 = 0.00125).
+  // Use a precision under 1px to support browser zoom, but not to low to avoid rounding.
+  // See https://github.com/zurb/foundation-sites/issues/11313
+  $size: -zf-bp-to-em($size) - .00125;
+
+  @include breakpoint($size down) {
+    display: none !important;
+  }
+}
+
+/// Hide an element by default, only displaying it within a certain breakpoint.
+/// @param {Keyword} $size - Breakpoint to use. **Must be a breakpoint defined in `$breakpoints`.**
+@mixin show-for-only($size) {
+  $lower-bound-size: map-get($breakpoints, $size);
+  $upper-bound-size: -zf-map-next($breakpoints, $size);
+
+  // more often than not this will be correct, just one time round the loop it won't so set in scope here
+  $lower-bound: -zf-bp-to-em($lower-bound-size) - .00125;
+  // test actual lower-bound-size, if 0 set it to 0em
+  @if strip-unit($lower-bound-size) == 0 {
+    $lower-bound: -zf-bp-to-em($lower-bound-size);
+  }
+
+  @if $upper-bound-size == null {
+    @media screen and (max-width: $lower-bound) {
+      display: none !important;
+    }
+  }
+  @else {
+    $upper-bound: -zf-bp-to-em($upper-bound-size);
+
+    @media screen and (max-width: $lower-bound), screen and (min-width: $upper-bound) {
+      display: none !important;
+    }
+  }
+}
+
+
+/// Show an element by default, and hide it above a certain screen size.
+/// @param {Keyword} $size - Breakpoint to use. **Must be a breakpoint defined in `$breakpoints`.**
+@mixin hide-for($size) {
+  @include breakpoint($size) {
+    display: none !important;
+  }
+}
+
+/// Show an element by default, and hide it above a certain screen size.
+/// @param {Keyword} $size - Breakpoint to use. **Must be a breakpoint defined in `$breakpoints`.**
+@mixin hide-for-only($size) {
+  @include breakpoint($size only) {
+    display: none !important;
+  }
+}
+
+@mixin foundation-visibility-classes {
+  // Basic hiding classes
+  .hide {
+    display: none !important;
+  }
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  // Responsive visibility classes
+  @each $size in $breakpoint-classes {
+    @if $size != $-zf-zero-breakpoint {
+      .hide-for-#{$size} {
+        @include hide-for($size);
+      }
+
+      .show-for-#{$size} {
+        @include show-for($size);
+      }
+    }
+
+    .hide-for-#{$size}-only {
+      @include hide-for-only($size);
+    }
+
+    .show-for-#{$size}-only {
+      @include show-for-only($size);
+    }
+  }
+
+  // Screen reader visibility classes
+  // Need a "hide-for-sr" class? Add aria-hidden='true' to the element
+  .show-for-sr,
+  .show-on-focus {
+    @include element-invisible;
+  }
+
+  // Only display the element when it's focused
+  .show-on-focus {
+    &:active,
+    &:focus {
+      @include element-invisible-off;
+    }
+  }
+
+  // Landscape and portrait visibility
+  .show-for-landscape,
+  .hide-for-portrait {
+    display: block !important;
+
+    @include breakpoint(landscape) {
+      display: block !important;
+    }
+
+    @include breakpoint(portrait) {
+      display: none !important;
+    }
+  }
+
+  .hide-for-landscape,
+  .show-for-portrait {
+    display: none !important;
+
+    @include breakpoint(landscape) {
+      display: none !important;
+    }
+
+    @include breakpoint(portrait) {
+      display: block !important;
+    }
+  }
+}

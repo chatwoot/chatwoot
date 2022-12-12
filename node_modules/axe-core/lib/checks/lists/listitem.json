@@ -1,0 +1,14 @@
+{
+  "id": "listitem",
+  "evaluate": "listitem-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "List item has a <ul>, <ol> or role=\"list\" parent element",
+      "fail": {
+        "default": "List item does not have a <ul>, <ol> parent element",
+        "roleNotValid": "List item does not have a <ul>, <ol> parent element without a role, or a role=\"list\""
+      }
+    }
+  }
+}

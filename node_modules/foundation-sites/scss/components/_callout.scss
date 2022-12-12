@@ -1,0 +1,106 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group callout
+////
+
+/// Default background color.
+/// @type Color
+$callout-background: $white !default;
+
+/// Default fade value for callout backgrounds.
+/// @type Number
+$callout-background-fade: 85% !default;
+
+/// Default border style for callouts.
+/// @type List
+$callout-border: 1px solid rgba($black, 0.25) !default;
+
+/// Default bottom margin for callouts.
+/// @type Number
+$callout-margin: 0 0 1rem 0 !default;
+
+/// Default inner padding for callouts.
+/// @type Number
+$callout-padding: 1rem !default;
+
+/// Default font color for callouts.
+/// @type Color
+$callout-font-color: $body-font-color !default;
+
+/// Default font color for callouts, if the callout has a dark background.
+/// @type Color
+$callout-font-color-alt: $body-background !default;
+
+/// Default border radius for callouts.
+/// @type Color
+$callout-radius: $global-radius !default;
+
+/// Amount to tint links used within colored panels. Set to `false` to disable this feature.
+/// @type Number | Boolean
+$callout-link-tint: 30% !default;
+
+/// Adds basic styles for a callout, including padding and margin.
+@mixin callout-base() {
+  position: relative;
+  margin: $callout-margin;
+  padding: $callout-padding;
+
+  border: $callout-border;
+  border-radius: $callout-radius;
+
+  // Respect the padding, fool.
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/// Generate quick styles for a callout using a single color as a baseline.
+/// @param {Color} $color [$callout-background] - Color to use.
+@mixin callout-style($color: $callout-background) {
+  $background: scale-color($color, $lightness: $callout-background-fade);
+
+  background-color: $background;
+  color: color-pick-contrast($background, ($callout-font-color, $callout-font-color-alt));
+}
+
+@mixin callout-size($padding) {
+  padding-top: $padding;
+  padding-right: $padding;
+  padding-bottom: $padding;
+  padding-left: $padding;
+}
+
+
+/// Adds styles for a callout.
+/// @param {Color} $color [$callout-background] - Color to use.
+@mixin callout($color: $callout-background) {
+  @include callout-base;
+  @include callout-style($color);
+}
+
+@mixin foundation-callout {
+  .callout {
+    @include callout;
+
+    @each $name, $color in $foundation-palette {
+      &.#{$name} {
+        @include callout-style($color);
+      }
+    }
+
+    &.small {
+      @include callout-size(0.5rem);
+    }
+
+    &.large {
+      @include callout-size(3rem);
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nexports.Any = require('./properties/Any/regex');\nexports.Cc = require('./categories/Cc/regex');\nexports.Cf = require('./categories/Cf/regex');\nexports.P = require('./categories/P/regex');\nexports.Z = require('./categories/Z/regex');","map":null,"metadata":{},"sourceType":"module"}

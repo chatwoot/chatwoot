@@ -1,0 +1,1 @@
+{"version":3,"file":"new-xhr.d.ts","sourceRoot":"","sources":["../../../../src/transports/new-xhr.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,oBAAoB,EAEpB,YAAY,EAGb,MAAM,cAAc,CAAC;AAatB,MAAM,WAAW,mBAAoB,SAAQ,oBAAoB;IAC/D,OAAO,CAAC,EAAE;QAAE,CAAC,GAAG,EAAE,MAAM,GAAG,MAAM,CAAA;KAAE,CAAC;CACrC;AAED;;GAEG;AACH,wBAAgB,mBAAmB,CAAC,OAAO,EAAE,mBAAmB,GAAG,YAAY,CAiC9E"}

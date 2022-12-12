@@ -1,0 +1,14 @@
+{
+  "id": "region",
+  "evaluate": "region-evaluate",
+  "options": {
+    "regionMatcher": "dialog, [role=dialog], [role=alertdialog], svg, iframe"
+  },
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "All page content is contained by landmarks",
+      "fail": "Some page content is not contained by landmarks"
+    }
+  }
+}

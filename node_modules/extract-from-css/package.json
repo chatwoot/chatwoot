@@ -1,0 +1,43 @@
+{
+  "name": "extract-from-css",
+  "version": "0.4.4",
+  "description": "Extract information from CSS code",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rubennorte/extract-from-css.git"
+  },
+  "bugs": "https://github.com/rubennorte/extract-from-css/issues",
+  "scripts": {
+    "lint": "jscs . && jscs ./tests && jshint .",
+    "pretest": "npm run lint",
+    "test": "JASMINE_CONFIG_PATH=tests/jasmine.json jasmine",
+    "coverage": "JASMINE_CONFIG_PATH=tests/jasmine.json istanbul cover jasmine",
+    "benchmark": "node tests/benchmark/benchmark.js",
+    "build": "npm test",
+    "travis": "npm run coverage && cat ./tests/output/coverage/lcov.info | coveralls && rm -rf ./tests/output/coverage",
+    "release": "npm run build && mversion -m \"New version: %s\" "
+  },
+  "files": [
+    "lib",
+    "CHANGELOG.md"
+  ],
+  "author": "Rubén Norte <rubennorte@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "benchmark": "^1.0.0",
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.5",
+    "jasmine": "^2.2.1",
+    "jscs": "^1.11.3",
+    "jshint": "^2.5.10",
+    "mversion": "^1.9.0"
+  },
+  "dependencies": {
+    "css": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=2.0.0"
+  }
+}

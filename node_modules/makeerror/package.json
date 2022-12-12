@@ -1,0 +1,19 @@
+{
+  "name": "makeerror",
+  "description": "A library to make errors.",
+  "version": "1.0.11",
+  "license": "BSD-3-Clause",
+  "author": "Naitik Shah <n@daaku.org>",
+  "main": "lib/makeerror",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daaku/nodejs-makeerror"
+  },
+  "scripts": { "test": "NODE_PATH=./lib mocha --ui exports" },
+  "dependencies": {
+    "tmpl": "1.0.x"
+  },
+  "devDependencies": {
+    "mocha": "0.12.x"
+  }
+}

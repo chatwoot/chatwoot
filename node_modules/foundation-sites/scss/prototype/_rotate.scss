@@ -1,0 +1,31 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-rotate
+////
+
+/// Rotate Mixin: Rotate an element to a certain deg
+/// @param {Number} $deg[] Degree of rotation
+@mixin rotate($deg) {
+	transform:rotate($deg + deg);
+}
+
+/// RotateX Mixin: Rotate an element to a certain deg on X-Axis
+/// @param {Number} $deg[] Degree of rotation
+@mixin rotateX($deg) {
+	transform:rotateX($deg + deg);
+}
+
+/// RotateY Mixin: Rotate an element to a certain deg on Y-Axis
+/// @param {Number} $deg[] Degree of rotation
+@mixin rotateY($deg) {
+	transform:rotateY($deg + deg);
+}
+
+/// RotateZ Mixin: Rotate an element to a certain deg on Z-Axis
+/// @param {Number} $deg[] Degree of rotation
+@mixin rotateZ($deg) {
+	transform:rotateZ($deg + deg);
+}

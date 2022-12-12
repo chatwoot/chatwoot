@@ -1,0 +1,109 @@
+{
+  "name": "@stdlib/fs-resolve-parent-path",
+  "version": "0.0.8",
+  "description": "Resolve a path by walking parent directories.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "bin": {
+    "resolve-parent-path": "./bin/cli"
+  },
+  "main": "./lib",
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/fs-resolve-parent-path.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/assert-has-own-property": "^0.0.x",
+    "@stdlib/assert-is-function": "^0.0.x",
+    "@stdlib/assert-is-plain-object": "^0.0.x",
+    "@stdlib/assert-is-string": "^0.0.x",
+    "@stdlib/cli-ctor": "^0.0.x",
+    "@stdlib/fs-exists": "^0.0.x",
+    "@stdlib/fs-read-file": "^0.0.x",
+    "@stdlib/process-cwd": "^0.0.x",
+    "@stdlib/utils-define-nonenumerable-read-only-property": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/assert-is-absolute-path": "^0.0.x",
+    "@stdlib/assert-is-browser": "^0.0.x",
+    "@stdlib/assert-is-windows": "^0.0.x",
+    "@stdlib/bench": "^0.0.x",
+    "@stdlib/process-exec-path": "^0.0.x",
+    "@stdlib/string-replace": "^0.0.x",
+    "@stdlib/utils-noop": "^0.0.x",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "proxyquire": "^2.0.0",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdfs",
+    "fs",
+    "resolve",
+    "parent",
+    "path",
+    "async",
+    "sync",
+    "file",
+    "directory",
+    "dir",
+    "find",
+    "up",
+    "findup",
+    "find-up",
+    "upsearch",
+    "search",
+    "lookup",
+    "look-up",
+    "locate",
+    "walk",
+    "filesystem"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

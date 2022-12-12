@@ -1,0 +1,102 @@
+{
+  "name": "@storybook/mdx1-csf",
+  "version": "0.0.1",
+  "description": "MDXv1 to CSF webpack compiler and loader",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/csf-mdx1"
+  },
+  "author": "Michael Shilman <michael@lab80.co>",
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "buildBabel": "IGNORE_FILES=true concurrently \"yarn buildBabel:cjs\" \"yarn buildBabel:esm\"",
+    "buildBabel:cjs": "babel ./src -d ./dist/cjs --extensions \".js,.jsx,.ts,.tsx\"",
+    "buildBabel:esm": "babel ./src -d ./dist/esm --env-name esm --extensions \".js,.jsx,.ts,.tsx\"",
+    "buildTsc": "tsc --declaration --emitDeclarationOnly --outDir ./dist/ts",
+    "prebuild": "yarn clean",
+    "build": "concurrently \"yarn buildBabel\" \"yarn buildTsc\"",
+    "build:watch": "concurrently \"yarn buildBabel:cjs -- --watch\" \"yarn buildTsc -- --watch\"",
+    "test": "jest",
+    "start": "yarn \"build:watch\" \"yarn storybook -- --no-manager-cache --quiet\"",
+    "release": "yarn build && auto shipit",
+    "lint": "eslint --cache --cache-location=.cache/eslint --ext .js,.jsx,.html,.ts,.tsx,.mjs",
+    "prettier": "prettier",
+    "prepare": "husky install",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.12.11",
+    "@babel/parser": "^7.12.11",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/types": "^7.12.11",
+    "@mdx-js/mdx": "^1.6.22",
+    "@types/lodash": "^4.14.167",
+    "js-string-escape": "^1.0.1",
+    "loader-utils": "^2.0.0",
+    "lodash": "^4.17.21",
+    "prettier": ">=2.2.1 <=2.3.0",
+    "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
+    "@auto-it/released": "^10.32.6",
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "@babel/preset-typescript": "^7.13.0",
+    "@babel/template": "^7.14.5",
+    "@jest/types": "^27.0.6",
+    "@storybook/addon-actions": "^6.4.19",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/addon-interactions": "^6.4.19",
+    "@storybook/addon-links": "^6.4.19",
+    "@storybook/eslint-config-storybook": "^3.1.2",
+    "@storybook/react": "^6.4.19",
+    "@storybook/testing-library": "^0.0.9",
+    "@testing-library/dom": "^8.1.0",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.3",
+    "@types/js-string-escape": "^1.0.1",
+    "@types/node": "^16.4.1",
+    "auto": "^10.3.0",
+    "babel-jest": "^27.0.6",
+    "babel-loader": "^8.1.0",
+    "concurrently": "^7.0.0",
+    "eslint": "^7.32.0",
+    "husky": ">=6",
+    "jest": "^27.0.6",
+    "jest-environment-jsdom": "^27.0.6",
+    "lint-staged": ">=10",
+    "prompts": "^2.4.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "rimraf": "^3.0.2",
+    "ts-dedent": "^2.2.0",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,js,css,md}": "prettier --write"
+  },
+  "auto": {
+    "plugins": [
+      "npm",
+      "released"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

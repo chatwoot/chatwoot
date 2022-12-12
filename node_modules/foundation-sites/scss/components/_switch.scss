@@ -1,0 +1,247 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group switch
+////
+
+/// Background color of a switch.
+/// @type Color
+$switch-background: $medium-gray !default;
+
+/// Background active color of a switch.
+/// @type Color
+$switch-background-active: $primary-color !default;
+
+/// Height of a switch, with no class applied.
+/// @type Number
+$switch-height: 2rem !default;
+
+/// Height of a switch with .tiny class.
+/// @type Number
+$switch-height-tiny: 1.5rem !default;
+
+/// Height of a switch with .small class.
+/// @type Number
+$switch-height-small: 1.75rem !default;
+
+/// Height of a switch with .large class.
+/// @type Number
+$switch-height-large: 2.5rem !default;
+
+/// Border radius of the switch
+/// @type Number
+$switch-radius: $global-radius !default;
+
+/// border around a modal.
+/// @type Number
+$switch-margin: $global-margin !default;
+
+/// Background color for the switch container and paddle.
+/// @type Color
+$switch-paddle-background: $white !default;
+
+/// Spacing between a switch paddle and the edge of the body.
+/// @type Number
+$switch-paddle-offset: 0.25rem !default;
+
+/// border radius of the switch paddle
+/// @type Number
+$switch-paddle-radius: $global-radius !default;
+
+/// switch transition.
+/// @type Number
+$switch-paddle-transition: all 0.25s ease-out !default;
+
+// make them variables
+// ask about accessibility on label
+// change class name for text
+
+/// Adds styles for a switch container. Apply this to a container class.
+@mixin switch-container {
+  position: relative;
+  margin-bottom: $switch-margin;
+  outline: 0;
+
+  // These properties cascade down to the switch text
+  font-size: rem-calc(14);
+  font-weight: bold;
+  color: $white;
+
+  user-select: none;
+}
+
+/// Adds styles for a switch input. Apply this to an `<input>` within a switch.
+@mixin switch-input {
+  position: absolute;
+  margin-bottom: 0;
+  opacity: 0;
+}
+
+/// Adds styles for the background and paddle of a switch. Apply this to a `<label>` within a switch.
+@mixin switch-paddle {
+  $switch-width: $switch-height * 2;
+  $paddle-height: $switch-height - ($switch-paddle-offset * 2);
+  $paddle-width: $switch-height - ($switch-paddle-offset * 2);
+  $paddle-active-offest: $switch-width - $paddle-width - $switch-paddle-offset;
+
+  position: relative;
+  display: block;
+  width: $switch-width;
+  height: $switch-height;
+
+  border-radius: $switch-radius;
+  background: $switch-background;
+  transition: $switch-paddle-transition;
+
+  // Resetting these <label> presets so type styles cascade down
+  font-weight: inherit;
+  color: inherit;
+
+  cursor: pointer;
+
+  // Needed to override specificity
+  input + & {
+    margin: 0;
+  }
+
+  // The paddle itself
+  &::after {
+    position: absolute;
+    top: $switch-paddle-offset;
+    #{$global-left}: $switch-paddle-offset;
+
+    display: block;
+    width: $paddle-width;
+    height: $paddle-height;
+
+    transform: translate3d(0, 0, 0);
+    border-radius: $switch-paddle-radius;
+    background: $switch-paddle-background;
+    transition: $switch-paddle-transition;
+    content: '';
+  }
+
+  // Change the visual style when the switch is active
+  input:checked ~ & {
+    background: $switch-background-active;
+
+    &::after {
+      #{$global-left}: $paddle-active-offest;
+    }
+  }
+
+  input:focus ~ & {
+    @include disable-mouse-outline;
+  }
+}
+
+/// Adds base styles for active/inactive text inside a switch. Apply this to text elements inside the switch `<label>`.
+@mixin switch-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/// Adds styles for the active state text within a switch.
+@mixin switch-text-active {
+  #{$global-left}: 8%;
+  display: none;
+
+  input:checked + label > & {
+    display: block;
+  }
+}
+
+/// Adds styles for the inactive state text within a switch.
+@mixin switch-text-inactive {
+  #{$global-right}: 15%;
+
+  input:checked + label > & {
+    display: none;
+  }
+}
+
+/// Changes the size of a switch by modifying the size of the body and paddle. Apply this to a switch container.
+/// @param {Number} $font-size [1rem] - Font size of label text within the switch.
+/// @param {Number} $switch-height [2rem] - Height of the switch body.
+/// @param {Number} $paddle-offset [0.25rem] - Spacing between the switch paddle and the edge of the switch body.
+@mixin switch-size(
+  $font-size: 1rem,
+  $switch-height: 2rem,
+  $paddle-offset: 0.25rem
+) {
+
+  $switch-width: $switch-height * 2;
+  $paddle-width: $switch-height - ($paddle-offset * 2);
+  $paddle-height: $switch-height - ($paddle-offset * 2);
+  $paddle-active-offest: $switch-width - $paddle-width - $paddle-offset;
+
+  height: $switch-height;
+
+  .switch-paddle {
+    width: $switch-width;
+    height: $switch-height;
+    font-size: $font-size;
+  }
+
+  .switch-paddle::after {
+    top: $paddle-offset;
+    #{$global-left}: $paddle-offset;
+    width: $paddle-width;
+    height: $paddle-height;
+  }
+
+  input:checked ~ .switch-paddle::after {
+    #{$global-left}: $paddle-active-offest;
+  }
+}
+
+@mixin foundation-switch {
+  // Container class
+  .switch {
+    height: $switch-height;
+    @include switch-container;
+  }
+
+  // <input> element
+  .switch-input {
+    @include switch-input;
+  }
+
+  // <label> element
+  .switch-paddle {
+    @include switch-paddle;
+  }
+
+  // Base label text styles
+  %switch-text {
+    @include switch-text;
+  }
+
+  // Active label text styles
+  .switch-active {
+    @extend %switch-text;
+    @include switch-text-active;
+  }
+
+  // Inactive label text styles
+  .switch-inactive {
+    @extend %switch-text;
+    @include switch-text-inactive;
+  }
+
+  // Switch sizes
+  .switch.tiny {
+    @include switch-size(rem-calc(10), $switch-height-tiny, $switch-paddle-offset);
+  }
+
+  .switch.small {
+    @include switch-size(rem-calc(12), $switch-height-small, $switch-paddle-offset);
+  }
+
+  .switch.large {
+    @include switch-size(rem-calc(16), $switch-height-large, $switch-paddle-offset);
+  }
+}

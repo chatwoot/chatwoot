@@ -1,0 +1,53 @@
+{
+  "name": "lazy-universal-dotenv",
+  "version": "3.0.1",
+  "description": "Robust Environment Configuration for Universal Applications.",
+  "keywords": [
+    "dotenv",
+    "env",
+    "universal"
+  ],
+  "homepage": "https://github.com/storybooks/lazy-universal-dotenv#readme",
+  "bugs": {
+    "url": "https://github.com/storybooks/lazy-universal-dotenv/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storybooks/lazy-universal-dotenv.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Storybook Team",
+  "files": [
+    "lib/"
+  ],
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
+  "scripts": {
+    "prepare": "rimraf lib && preppy",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.5.0",
+    "app-root-dir": "^1.0.2",
+    "core-js": "^3.0.4",
+    "dotenv": "^8.0.0",
+    "dotenv-expand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.8.0",
+    "babel-preset-edge": "^5.3.0",
+    "jest": "^24.8.0",
+    "preppy": "^8.3.0",
+    "rimraf": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=6.0.0",
+    "npm": ">=6.0.0",
+    "yarn": ">=1.0.0"
+  }
+}

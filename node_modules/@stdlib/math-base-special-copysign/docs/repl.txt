@@ -1,0 +1,34 @@
+
+{{alias}}( x, y )
+    Returns a double-precision floating-point number with the magnitude of `x`
+    and the sign of `y`.
+
+    Parameters
+    ----------
+    x: number
+        Number from which to derive a magnitude.
+
+    y: number
+        Number from which to derive a sign.
+
+    Returns
+    -------
+    z: number
+        Double-precision floating-point number.
+
+    Examples
+    --------
+    > var z = {{alias}}( -3.14, 10.0 )
+    3.14
+    > z = {{alias}}( 3.14, -1.0 )
+    -3.14
+    > z = {{alias}}( 1.0, -0.0 )
+    -1.0
+    > z = {{alias}}( -3.14, -0.0 )
+    -3.14
+    > z = {{alias}}( -0.0, 1.0 )
+    0.0
+
+    See Also
+    --------
+

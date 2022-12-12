@@ -1,0 +1,43 @@
+{
+  "name": "postcss-values-parser",
+  "version": "2.0.1",
+  "description": "A CSS property value parser for use with PostCSS",
+  "main": "lib/index.js",
+  "repository": "lesshint/postcss-values-parser",
+  "author": {
+    "name": "Andrew Powell (shellscape)",
+    "email": "andrew@shellscape.org",
+    "url": "http://shellscape.org"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.14.4"
+  },
+  "scripts": {
+    "test": "gulp"
+  },
+  "keywords": [
+    "css",
+    "less",
+    "ast",
+    "postcss",
+    "value",
+    "values",
+    "parser",
+    "parsing",
+    "properties"
+  ],
+  "dependencies": {
+    "flatten": "^1.0.2",
+    "indexes-of": "^1.0.1",
+    "uniq": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-shallow-deep-equal": "^1.4.0",
+    "eslint": "^5.6.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^5.0.0",
+    "gulp-mocha": "^6.0.0"
+  }
+}

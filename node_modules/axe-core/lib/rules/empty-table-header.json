@@ -1,0 +1,13 @@
+{
+  "id": "empty-table-header",
+  "selector": "th, [role=\"rowheader\"], [role=\"columnheader\"]",
+  "tags": ["wcag131", "cat.aria"],
+  "reviewOnFail": true,
+  "metadata": {
+    "description": "Ensures table headers have discernible text",
+    "help": "Table header text must not be empty"
+  },
+  "all": [],
+  "any": ["has-visible-text"],
+  "none": []
+}

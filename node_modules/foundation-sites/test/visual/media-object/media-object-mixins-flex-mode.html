@@ -1,0 +1,56 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Media Object: Mixins In Flex Mode</h1>
+
+          <p>Media Object created using <code>media-object-container</code> and <code>media-object-section</code> mixins with <code>$global-flexbox: true</code> should behave the same as Media Object created using <code>foundation-media-object</code> mixin with <code>$global-flexbox: true</code>.</p>
+
+          <h3>Default</h3>
+          <div class="media-object">
+            <div class="media-object-section">
+              <div class="thumbnail">
+                <img src= "http://via.placeholder.com/100x100">
+              </div>
+            </div>
+            <div class="media-object-section">
+              <h4>Dreams feel real while we're in them.</h4>
+              <p>I'm going to improvise. Listen, there's something you should know about me... about inception. An idea is like a virus, resilient, highly contagious. The smallest seed of an idea can grow. It can grow to define or destroy you.</p>
+            </div>
+          </div>
+
+          <h3>Stack on Small</h3>
+          <div class="media-object stack-for-small">
+            <div class="media-object-section">
+              <div class="thumbnail">
+                <img src= "http://via.placeholder.com/600x300">
+              </div>
+            </div>
+            <div class="media-object-section">
+              <h4>I Can Stack.</h4>
+              <p>Shrink the browser width to see me stack. I do tricks for dog treats, but I'm not a dog.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

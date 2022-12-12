@@ -1,0 +1,99 @@
+{
+  "name": "ansi-to-html",
+  "version": "0.6.14",
+  "description": "Convert ansi escaped text streams to html.",
+  "main": "lib/ansi_to_html.js",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "build:watch": "babel src --out-dir lib --watch",
+    "lint": "eslint src test",
+    "test": "mocha --reporter tap",
+    "test:watch": "mocha --reporter tap --watch ./test ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rburns/ansi-to-html.git"
+  },
+  "homepage": "https://github.com/rburns/ansi-to-html",
+  "bugs": {
+    "url": "https://github.com/rburns/ansi-to-html/issues"
+  },
+  "keywords": [
+    "ansi",
+    "html"
+  ],
+  "author": {
+    "name": "Rob Burns",
+    "email": "rburns@paiges.net",
+    "url": "http://rburns.paiges.net/"
+  },
+  "contributors": [
+    {
+      "name": "Dane Stuckel",
+      "email": "dane.stuckel@gmail.com"
+    },
+    {
+      "name": "Michael",
+      "email": "michael@riesd.com"
+    },
+    {
+      "name": "Thorsten Kohnhorst",
+      "email": "monsterkodi@gmx.net"
+    },
+    {
+      "name": "Yoram Grahame",
+      "email": "yoz@yoz.com"
+    },
+    {
+      "name": "Patrick Steele-Idem",
+      "email": "pnidem@gmail.com"
+    },
+    {
+      "name": "Paul Grime",
+      "email": "gitgrimbo@gmail.com"
+    },
+    {
+      "name": "NeeEoo",
+      "url": "https://github.com/NeeEoo"
+    },
+    {
+      "name": "Brett Zamir",
+      "url": "https://github.com/brettz9"
+    },
+    {
+      "name": "Piotr Monwid-Olechnowicz",
+      "url": "https://github.com/hasparus"
+    },
+    {
+      "name": "Lior Chervinsky",
+      "url": "https://github.com/lior-chervinsky"
+    },
+    {
+      "name": "Maple Miao",
+      "url": "https://github.com/mapleeit"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "chai": "~4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4"
+  },
+  "dependencies": {
+    "entities": "^1.1.2"
+  },
+  "bin": {
+    "ansi-to-html": "./bin/ansi-to-html"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ]
+  }
+}

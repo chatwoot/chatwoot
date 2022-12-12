@@ -1,0 +1,317 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group functions
+////
+
+/// Creates an inner box-shadow for only one side
+///
+/// @param {Keyword} $side - Side the shadow is supposed to appear. Can be `top`, `left`, `right` or `bottom`.
+/// @param {Number} $size - Width for the target side.
+/// @param {Color} $color - Color of the shadow.
+@mixin inner-side-shadow(
+  $side: bottom,
+  $size: 20px,
+  $color: rgba($black, 0.25)
+) {
+
+  $helper: round($size * 0.65);
+
+  @if ($side == top) {
+    box-shadow: inset 0 $helper $size (-1)*$helper $color;
+  } @else if ($side == left) {
+    box-shadow: inset $helper 0 $size (-1)*$helper $color;
+  } @else if ($side == right) {
+    box-shadow: inset (-1)*$helper 0 $size (-1)*$helper $color;
+  } @else if ($side == bottom) {
+    box-shadow: inset 0 (-1)*$helper $size (-1)*$helper $color;
+  }
+}
+
+/// Creates a CSS triangle, which can be used for dropdown arrows, dropdown pips, and more. Use this mixin inside a `&::before` or `&::after` selector, to attach the triangle to an existing element.
+///
+/// @param {Number} $triangle-size - Width of the triangle.
+/// @param {Color} $triangle-color - Color of the triangle.
+/// @param {Keyword} $triangle-direction - Direction the triangle points. Can be `up`, `right`, `down`, or `left`.
+@mixin css-triangle(
+  $triangle-size,
+  $triangle-color,
+  $triangle-direction
+) {
+  display: block;
+  width: 0;
+  height: 0;
+
+  border: inset $triangle-size;
+
+  content: '';
+
+  @if ($triangle-direction == down) {
+    border-bottom-width: 0;
+    border-top-style: solid;
+    border-color: $triangle-color transparent transparent;
+  }
+  @if ($triangle-direction == up) {
+    border-top-width: 0;
+    border-bottom-style: solid;
+    border-color: transparent transparent $triangle-color;
+  }
+  @if ($triangle-direction == right) {
+    border-right-width: 0;
+    border-left-style: solid;
+    border-color: transparent transparent transparent $triangle-color;
+  }
+  @if ($triangle-direction == left) {
+    border-left-width: 0;
+    border-right-style: solid;
+    border-color: transparent $triangle-color transparent transparent;
+  }
+}
+
+/// Creates a menu icon with a set width, height, number of bars, and colors. The mixin uses the height of the icon and the weight of the bars to determine spacing. <div class="docs-example-burger"></div>
+///
+/// @param {Color} $color [$black] - Color to use for the icon.
+/// @param {Color} $color-hover [$dark-gray] - Color to use when the icon is hovered over.
+/// @param {Number} $width [20px] - Width of the icon.
+/// @param {Number} $height [16px] - Height of the icon.
+/// @param {Number} $weight [2px] - Height of individual bars in the icon.
+/// @param {Number} $bars [3] - Number of bars in the icon.
+@mixin hamburger(
+  $color: $black,
+  $color-hover: $dark-gray,
+  $width: 20px,
+  $height: 16px,
+  $weight: 2px,
+  $bars: 3
+) {
+  // box-shadow CSS output
+  $shadow: ();
+  $hover-shadow: ();
+
+  // Spacing between bars is calculated based on the total height of the icon and the weight of each bar
+  $spacing: ($height - ($weight * $bars)) / ($bars - 1);
+
+  @if unit($spacing) == 'px' {
+    $spacing: floor($spacing);
+  }
+
+  @for $i from 2 through $bars {
+    $offset: ($weight + $spacing) * ($i - 1);
+    $shadow: append($shadow, 0 $offset 0 $color, comma);
+  }
+
+  // Icon container
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: $width;
+  height: $height;
+  cursor: pointer;
+
+  // Icon bars
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: block;
+    width: 100%;
+    height: $weight;
+
+    background: $color;
+    box-shadow: $shadow;
+
+    content: '';
+  }
+
+  // Hover state
+  @if $color-hover {
+    // Generate CSS
+    @for $i from 2 through $bars {
+      $offset: ($weight + $spacing) * ($i - 1);
+      $hover-shadow: append($hover-shadow, 0 $offset 0 $color-hover, comma);
+    }
+
+    &:hover::after {
+      background: $color-hover;
+      box-shadow: $hover-shadow;
+    }
+  }
+}
+
+/// Adds a downward-facing triangle as a background image to an element. The image is formatted as an SVG, making it easy to change the color. Because Internet Explorer doesn't support encoded SVGs as background images, a PNG fallback is also included.
+/// There are two PNG fallbacks: a black triangle and a white triangle. The one used depends on the lightness of the input color.
+///
+/// @param {Color} $color [$black] - Color to use for the triangle.
+@mixin background-triangle($color: $black) {
+  $rgb: 'rgb%28#{round(red($color))}, #{round(green($color))}, #{round(blue($color))}%29';
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: #{$rgb}'></polygon></svg>");
+
+  @media screen and (min-width:0\0) {
+    @if lightness($color) < 60% {
+      // White triangle
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAYAAACbU/80AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIpJREFUeNrEkckNgDAMBBfRkEt0ObRBBdsGXUDgmQfK4XhH2m8czQAAy27R3tsw4Qfe2x8uOO6oYLb6GlOor3GF+swURAOmUJ+RwtEJs9WvTGEYxBXqI1MQAZhCfUQKRzDMVj+TwrAIV6jvSUEkYAr1LSkcyTBb/V+KYfX7xAeusq3sLDtGH3kEGACPWIflNZfhRQAAAABJRU5ErkJggg==');
+    }
+    @else {
+      // Black triangle
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAYAAACbU/80AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAMBJREFUeNrEllsOhCAMRVszC9IlzU7KCmVHTJsoMWYMUtpyv9BgbuXQB5ZSdgBYYY4ycgBivk8KYFsQMfMiTTBP4o3nUzCKzOabLJbLy2/g31evGkAginR4/ZegKH5qX3bJCscA3t0x3kgO5tQFyhhFf50xRqFLbyMUNJQzgyjGS/wgCpvKqkRBpuWrE4V9d+1E4dPUXqIg107SQOE/2DRQxMwTDygIInVDET9T3lCoj/6j/VCmGjZOl2lKpZ8AAwDQP7zIimDGFQAAAABJRU5ErkJggg==');
+    }
+  }
+}
+
+/// Applies the micro clearfix hack popularized by Nicolas Gallagher. Include this mixin on a container if its children are all floated, to give the container a proper height.
+/// The clearfix is augmented with specific styles to prevent borders in flexbox environments
+/// @link http://nicolasgallagher.com/micro-clearfix-hack/ Micro Clearfix Hack
+/// @link http://danisadesigner.com/blog/flexbox-clear-fix-pseudo-elements/ Flexbox fix
+@mixin clearfix {
+  &::before,
+  &::after {
+    display: table;
+    content: ' ';
+
+    @if $global-flexbox {
+      flex-basis: 0;
+      order: 1;
+    }
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+/// Adds CSS for a "quantity query" selector that automatically sizes elements based on how many there are inside a container.
+/// @link http://alistapart.com/article/quantity-queries-for-css Quantity Queries for CSS
+///
+/// @param {Number} $max - Maximum number of items to detect. The higher this number is, the more CSS that's required to cover each number of items.
+/// @param {Keyword} $elem [li] - Tag to use for sibling selectors.
+@mixin auto-width($max, $elem: li) {
+  @for $i from 2 through $max {
+    &:nth-last-child(#{$i}):first-child,
+    &:nth-last-child(#{$i}):first-child ~ #{$elem} {
+      width: percentage(1 / $i);
+    }
+  }
+}
+
+/// Removes the focus ring around an element when a mouse input is detected.
+@mixin disable-mouse-outline {
+  [data-whatinput='mouse'] & {
+    outline: 0;
+  }
+}
+
+/// Makes an element visually hidden, but still accessible to keyboards and assistive devices.
+/// @link http://snook.ca/archives/html_and_css/hiding-content-for-accessibility Hiding Content for Accessibility
+/// @link http://hugogiraudel.com/2016/10/13/css-hide-and-seek/
+@mixin element-invisible {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/// Reverses the CSS output created by the `element-invisible()` mixin.
+@mixin element-invisible-off {
+  position: static !important;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/// Vertically centers the element inside of its first non-static parent,
+/// @link http://www.sitepoint.com/centering-with-sass/ Centering With Sass
+@mixin vertical-center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/// Horizontally centers the element inside of its first non-static parent,
+/// @link http://www.sitepoint.com/centering-with-sass/ Centering With Sass
+@mixin horizontal-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/// Absolutely centers the element inside of its first non-static parent,
+/// @link http://www.sitepoint.com/centering-with-sass/ Centering With Sass
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/// Iterates through breakpoints defined in `$breakpoint-classes` and prints the CSS inside the mixin at each breakpoint's media query. Use this with the grid, or any other component that has responsive classes.
+///
+/// @param {Boolean} $small [true] - If `false`, the mixin will skip the `small` breakpoint. Use this with components that don't prefix classes with `small-`, only `medium-` and up.
+/// @param {Boolean} $auto-insert-breakpoints [true] - If `false`, the mixin will iterate over breakpoints without doing the media query itself. Useful for more complex media query generation as in the margin grid.
+@mixin -zf-each-breakpoint($small: true, $auto-insert-breakpoints: true) {
+  $list: $breakpoint-classes;
+
+  @if not $small {
+    $list: sl-remove($list, $-zf-zero-breakpoint);
+  }
+
+  @each $name in $list {
+    $old-zf-size: null;
+    @if global-variable-exists(-zf-size) {
+      $old-zf-size: $-zf-size;
+    }
+    $-zf-size: $name !global;
+
+    @if $auto-insert-breakpoints {
+      @include breakpoint($name) {
+        @content;
+      }
+    }
+    @else {
+      @content;
+    }
+
+    $-zf-size: $old-zf-size !global;
+  }
+}
+
+/// Generate the `@content` passed to the mixin with a value `$-zf-bp-value` related to a breakpoint, depending on the `$name` parameter:
+/// - For a single value, `$-zf-bp-value` is this value.
+/// - For a breakpoint name, `$-zf-bp-value` is the corresponding breakpoint value in `$map`.
+/// - For "auto", `$-zf-bp-value` is the corresponding breakpoint value in `$map` and is passed to `@content`, which is made responsive for each breakpoint of `$map`.
+/// @param {Number|Array|Keyword} $name [auto] - Single value, breakpoint name, or list of breakpoint names to use. "auto" by default.
+/// @param {Number|Map} $map - Map of breakpoints and values or single value to use.
+@mixin -zf-breakpoint-value(
+  $name: auto,
+  $map: null
+) {
+  @if $name == auto and type-of($map) == 'map' {
+    // "auto"
+    @each $k, $v in $map {
+      @include breakpoint($k) {
+        @include -zf-breakpoint-value($v, $map) {
+          @content;
+        }
+      }
+    }
+  }
+  @else {
+    // breakpoint name
+    @if type-of($name) == 'string' {
+      $name: -zf-get-bp-val($map, $name);
+    }
+
+    // breakpoint value
+    $-zf-bp-value: $name !global;
+    @content;
+  }
+}

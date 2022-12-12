@@ -1,0 +1,16 @@
+{
+  "id": "page-no-duplicate-contentinfo",
+  "evaluate": "page-no-duplicate-evaluate",
+  "after": "page-no-duplicate-after",
+  "options": {
+    "selector": "footer:not([role]), [role=contentinfo]",
+    "nativeScopeFilter": "article, aside, main, nav, section"
+  },
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Document does not have more than one contentinfo landmark",
+      "fail": "Document has more than one contentinfo landmark"
+    }
+  }
+}

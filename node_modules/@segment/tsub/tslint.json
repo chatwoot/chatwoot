@@ -1,0 +1,60 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "rules": {
+    "class-name": true,
+    "interface-name": false,
+    "comment-format": [true, "check-space"],
+    "indent": [true, "spaces"],
+    "one-line": [true, "check-open-brace", "check-whitespace"],
+    "no-var-keyword": true,
+    "quotemark": [true, "single", "avoid-escape"],
+    "semicolon": [false, "always", "ignore-bound-class-methods"],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-separator",
+      "check-type"
+    ],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      },
+      {
+        "call-signature": "onespace",
+        "index-signature": "onespace",
+        "parameter": "onespace",
+        "property-declaration": "onespace",
+        "variable-declaration": "onespace"
+      }
+    ],
+    "max-classes-per-file": false,
+    "max-line-length": [false],
+    "no-internal-module": true,
+    "no-trailing-whitespace": true,
+    "no-null-keyword": false,
+    "space-before-function-paren": false,
+    "prefer-const": true,
+    "jsdoc-format": true,
+    "trailing-comma": false,
+    "object-literal-sort-keys": false,
+    "no-var-requires": false,
+    "arrow-parens": false,
+    "ordered-imports": false,
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    },
+    "no-namespace": [true, "allow-declarations"]
+  },
+  "linterOptions": {
+    "exclude": ["__snapshots__"]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "scrollable-region-focusable",
+  "matches": "scrollable-region-focusable-matches",
+  "tags": ["cat.keyboard", "wcag2a", "wcag211"],
+  "metadata": {
+    "description": "Elements that have scrollable content must be accessible by keyboard",
+    "help": "Ensure that scrollable region has keyboard access"
+  },
+  "all": [],
+  "any": ["focusable-content", "focusable-element"],
+  "none": []
+}

@@ -1,0 +1,257 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>xy grid with flex utilities</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      body {
+        padding: 30px;
+      }
+
+      h2 {
+        margin-top: 3rem;
+      }
+
+      h3 {
+        margin-top: 2rem;
+        border-top: 1px solid #ddd;
+        padding-top: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      hr {
+        margin: 3rem 0;
+      }
+
+      .demo {
+        background: #1779ba;
+        height: 100%;
+        width: 100%;
+      }
+
+      .cell {
+        /*background: dodgerblue;*/
+        color: white;
+        text-align: center;
+      }
+
+      .grid-x,
+      .grid-y {
+        background: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h2>X grid</h2>
+
+    <h3>X Axis Alignment</h3>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-right</p>
+
+    <div class="grid-x grid-margin-x align-right">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-center</p>
+
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-justify</p>
+
+    <div class="grid-x grid-margin-x align-justify">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-spaced</p>
+
+    <div class="grid-x grid-margin-x align-spaced">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Y Axis Alignment</h3>
+
+    <p>.align-top</p>
+
+    <div class="grid-x grid-margin-x align-top">
+      <div class="cell small-4"><div class="demo">I'm at the top (default)</div></div>
+      <div class="cell small-4"><div class="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-middle</p>
+
+    <div class="grid-x grid-margin-x align-middle">
+      <div class="cell small-4"><div class="demo">I'm in the middle</div></div>
+      <div class="cell small-4"><div class="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-bottom</p>
+
+    <div class="grid-x grid-margin-x align-bottom">
+      <div class="cell small-4"><div class="demo">I'm at the bottom</div></div>
+      <div class="cell small-4"><div class="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-stretch</p>
+
+    <div class="grid-x grid-margin-x align-stretch">
+      <div class="cell small-4"><div class="demo">these cells have the same height</div></div>
+      <div class="cell small-4"><div class="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div></div>
+    </div>
+
+    <h3>Child Alignment</h3>
+
+    <p>.align-self-bottom/middle/top</p>
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-4 align-self-bottom"><div class="demo">Align bottom</div></div>
+      <div class="cell small-4 align-self-middle"><div class="demo">Align middle</div></div>
+      <div class="cell small-4 align-self-top"><div class="demo">Align top. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non harum laborum cum voluptate vel, eius adipisci similique dignissimos nobis at excepturi incidunt fugit molestiae quaerat, consequuntur porro temporibus. Nisi, ex?</div></div>
+    </div>
+
+    <h3>Central Alignment</h3>
+
+    <p>.align-center-middle</p>
+
+    <div class="grid-x grid-margin-x align-center-middle text-center" style="height: 200px; background: #eee;">
+      <div class="cell small-4"><div class="demo">I am in the center-middle</div></div>
+      <div class="cell small-4"><div class="demo">I am also centrally located</div></div>
+    </div>
+
+
+    <h2>Y grid</h2>
+
+    <h3>X Axis Alignment</h3>
+
+    <div class="grid-y grid-margin-y" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-right</p>
+
+    <div class="grid-y grid-margin-y align-right" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-center</p>
+
+    <div class="grid-y grid-margin-y align-center" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-justify</p>
+
+    <div class="grid-y grid-margin-y align-justify" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-spaced</p>
+
+    <div class="grid-y grid-margin-y align-spaced" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">4</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <h3>Y Axis Alignment</h3>
+
+    <p>.align-top</p>
+
+    <div class="grid-y grid-margin-y align-top" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">I'm at the top (default)</div></div>
+      <div class="cell small-4"><div class="demo">4</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-middle</p>
+
+    <div class="grid-y grid-margin-y align-middle" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">I'm in the middle</div></div>
+      <div class="cell small-4"><div class="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-bottom</p>
+
+    <div class="grid-y grid-margin-y align-bottom" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">I'm at the bottom</div></div>
+      <div class="cell small-4"><div class="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div></div>
+    </div>
+
+    <hr>
+
+    <p>.align-stretch</p>
+
+    <div class="grid-y grid-margin-y align-stretch" style="height: 300px;">
+      <div class="cell small-4"><div class="demo">these cells have the same height</div></div>
+      <div class="cell small-4"><div class="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div></div>
+    </div>
+
+    <h3>Child Alignment</h3>
+
+    <p>.align-self-bottom/middle/top</p>
+
+    <div class="grid-y grid-margin-y" style="height: 300px;">
+      <div class="cell small-4 align-self-bottom"><div class="demo">Align bottom</div></div>
+      <div class="cell small-4 align-self-middle"><div class="demo">Align middle</div></div>
+      <div class="cell small-4 align-self-top"><div class="demo">Align top. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non harum laborum cum voluptate vel, eius adipisci similique dignissimos nobis at excepturi incidunt fugit molestiae quaerat, consequuntur porro temporibus. Nisi, ex?</div></div>
+    </div>
+
+    <h3>Central Alignment</h3>
+
+    <p>.align-center-middle</p>
+
+    <div class="grid-y grid-margin-y align-center-middle text-center" style="height: 300px; background: #eee;">
+      <div class="cell small-4"><div class="demo">I am in the center-middle</div></div>
+      <div class="cell small-4"><div class="demo">I am also centrally located</div></div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

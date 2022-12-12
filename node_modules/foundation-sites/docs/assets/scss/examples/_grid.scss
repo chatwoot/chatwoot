@@ -1,0 +1,107 @@
+// Grid
+.row.display {
+  background: #eee;
+  font-size: 11px;
+  margin-bottom: 10px;
+  line-height: 2rem;
+  border: solid 1px #c6c6c6;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  .columns {
+    &:nth-child(2),
+    &.small-centered,
+    &.large-centered {
+      background: darken(#eee, 5%);
+    }
+
+    &.color-end {
+      background: darken(#eee, 10%)
+    }
+  }
+}
+
+.row.display-end {
+  background: #fff;
+  font-size: 11px;
+  margin-bottom: 10px;
+  line-height: 2rem;
+  border: solid 1px #c6c6c6;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  .columns {
+    background: darken(#eee, 5%);
+    border-left: 1px solid #c6c6c6;
+
+    &.color-end {
+      background: darken(#eee, 10%)
+    }
+  }
+}
+
+// Flex Grid
+[id^="docs-flex"].docs-component .docs-code-live {
+  @include foundation-flex-grid;
+
+  .row {
+    background: #f9f9f9;
+    font-size: 11px;
+    line-height: 2rem;
+    border: solid 1px #c6c6c6;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1.5rem;
+
+    // Disable clearfix
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  .column,
+  .columns {
+    float: none;
+    width: auto;
+
+    &:nth-child(odd) {
+      background: #eee;
+    }
+    &:nth-child(even) {
+      background: #ddd;
+    }
+  }
+}
+
+// XY Grid & Flexbox Utilities
+[id^="docs-xy"].docs-component .docs-code-live,
+[id^="docs-flexbox-utilities"].docs-component .docs-code-live {
+  @include foundation-flex-grid;
+  @include foundation-xy-grid-classes;
+
+  .grid-x,
+  .grid-y {
+    background: lighten($primary-color, 50%);
+    font-size: 12px;
+    line-height: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .grid-y .grid-x {
+    margin-bottom: 0;
+  }
+
+  .cell {
+    &:nth-child(odd) {
+      background: lighten($primary-color, 30%);
+      color: $black;
+    }
+    &:nth-child(even) {
+      background: $primary-color;
+      color: $white;
+    }
+  }
+}
+
+$button-responsive-expanded: true;

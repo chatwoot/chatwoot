@@ -1,0 +1,50 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../motion-ui/dist/motion-ui.css" rel="stylesheet" />
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+
+  <body>
+
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+
+          <h1>Dropdown with UI elements</h1>
+
+          <ul>
+            <li>1. Dropdown should stay open when the mouse goes on the input's autocomplete pane.</li>
+            <li>2. Dropdown should stay open when the mouse reenter in the dropdown from the autocomplete pane.</li>
+            <li>3. Dropdown should close when the nouse leave the dropdown from the autocomplete pane.</li>
+          </ul>
+
+          <button class="button" type="button" data-toggle="example-dropdown">Dropdown opening on hover</button>
+          <div class="dropdown-pane" id="example-dropdown" data-dropdown data-hover="true" data-hover-pane="true">
+            <form action="#" method="post">
+              <div class="row">
+                <div>
+                  In order to test [3], there should be enough autocomplete suggestions for the autocomplete pane to overflow from the dropdown.
+                  <input type="email" placeholder="Double-click to show autocomplete" autocomplete="email"/>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+
+  </body>
+</html>

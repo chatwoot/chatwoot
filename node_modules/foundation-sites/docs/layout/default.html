@@ -1,0 +1,138 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{description}}">
+  <link rel="icon" href="assets/img/icons/foundation-favicon.ico" type="image/x-icon">
+  <title>{{#unlesspage 'index'}}{{title}} | {{/unlesspage}}Foundation for Sites 6 Docs</title>
+  <link href="assets/css/docs.css?t=1" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body>
+
+  <!-- <a href="http://zurb.com/wired" id="notice">
+    <div class="info">
+      <div id="clockdiv" class="countdown">
+          <span class="timer-day days"></span>
+          <span class="timer-colon">:</span>
+        <span class="timer-hour hours"></span>
+        <span class="timer-colon">:</span>
+        <span class="timer-hour minutes"></span>
+        <span class="timer-colon">:</span>
+        <span class="timer-seconds seconds"></span>
+      </div>
+    </div>
+  </a> -->
+
+  <div class="off-canvas-wrapper">
+    {{> off-canvi}}
+
+    <div class="docs-off-canvas-content off-canvas-content" data-off-canvas-content>
+      <div class="docs-sticky-top-bar">
+        <!-- Info Banner For Announcements or Links -->
+ <!--        <a href="http://zurb.com/university/foundation-intro" class="docs-banner course-banner">
+          <div class="info">
+            <h5 class=""><strong>To master everything new in 6.4, along with the rest of Foundation register for our August 8th Webinar Class &rsaquo;</strong></h5>
+          </div>
+        </a>
+ -->
+        {{> navigation}}
+        {{> mobile-navigation}}
+        {{> search-bar}}
+      </div>
+
+
+      <div class="collapse expanded row">
+        <div id="body-container" class="small-12 medium-9 large-10 medium-push-3 large-push-2 columns">
+  <!-- do not indent -->
+{{> body}}
+        </div>
+        <div class="medium-3 large-2 medium-pull-9 large-pull-10 hide-for-small-only columns" data-sticky-container>
+          <div class="docs-nav-container" data-sticky data-anchor="body-container" data-margin-top="6">
+            {{> component-list}}
+          </div>
+        </div>
+      </div>
+
+      {{> newsletter-signup-rr}}
+      {{> footer-contact}}
+      {{> footer}}
+    </div>
+  </div>
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(
+    ['_setAccount', 'UA-2195009-2'],
+    ['_trackPageview'],
+    ['b._setAccount', 'UA-2195009-27'],
+    ['b._trackPageview']
+  );
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+
+  <script src="assets/js/vendor.js"></script>
+  <script src="assets/js/plugins/foundation.core.js"></script>
+  <script src="assets/js/plugins/foundation.util.box.js"></script>
+  <script src="assets/js/plugins/foundation.util.imageLoader.js"></script>
+  <script src="assets/js/plugins/foundation.util.keyboard.js"></script>
+  <script src="assets/js/plugins/foundation.util.mediaQuery.js"></script>
+  <script src="assets/js/plugins/foundation.util.motion.js"></script>
+  <script src="assets/js/plugins/foundation.util.nest.js"></script>
+  <script src="assets/js/plugins/foundation.util.timer.js"></script>
+  <script src="assets/js/plugins/foundation.util.touch.js"></script>
+  <script src="assets/js/plugins/foundation.util.triggers.js"></script>
+  <script src="assets/js/plugins/foundation.abide.js"></script>
+  <script src="assets/js/plugins/foundation.accordion.js"></script>
+  <script src="assets/js/plugins/foundation.accordionMenu.js"></script>
+  <script src="assets/js/plugins/foundation.drilldown.js"></script>
+  <script src="assets/js/plugins/foundation.dropdown.js"></script>
+  <script src="assets/js/plugins/foundation.dropdownMenu.js"></script>
+  <script src="assets/js/plugins/foundation.equalizer.js"></script>
+  <script src="assets/js/plugins/foundation.interchange.js"></script>
+  <script src="assets/js/plugins/foundation.smoothScroll.js"></script>
+  <script src="assets/js/plugins/foundation.magellan.js"></script>
+  <script src="assets/js/plugins/foundation.offcanvas.js"></script>
+  <script src="assets/js/plugins/foundation.orbit.js"></script>
+  <script src="assets/js/plugins/foundation.responsiveMenu.js"></script>
+  <script src="assets/js/plugins/foundation.responsiveToggle.js"></script>
+  <script src="assets/js/plugins/foundation.reveal.js"></script>
+  <script src="assets/js/plugins/foundation.slider.js"></script>
+  <script src="assets/js/plugins/foundation.sticky.js"></script>
+  <script src="assets/js/plugins/foundation.tabs.js"></script>
+  <script src="assets/js/plugins/foundation.toggler.js"></script>
+  <script src="assets/js/plugins/foundation.tooltip.js"></script>
+  <script src="assets/js/plugins/foundation.responsiveAccordionTabs.js"></script>
+
+  <script src="assets/js/docs.js"></script>
+  <script type="text/javascript">
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '585552368271130');
+    fbq('track', "PageView");
+  </script>
+  <!-- Twitter universal website tag code -->
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+    },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+    a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+    // Insert Twitter Pixel ID and Standard Event data below
+    twq('init','nvkjx');
+    twq('track','PageView');
+  </script>
+  <!-- End Twitter universal website tag code -->
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"ast":null,"code":"var getNative = require('./_getNative');\n/* Built-in method references that are verified to be native. */\n\n\nvar nativeCreate = getNative(Object, 'create');\nmodule.exports = nativeCreate;","map":null,"metadata":{},"sourceType":"module"}

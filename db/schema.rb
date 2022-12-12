@@ -328,7 +328,7 @@ ActiveRecord::Schema.define(version: 2022_11_16_000514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "website_token"
-    t.string "widget_color", default: "#1f93ff"
+    t.string "widget_color", default: "#fc7658"
     t.string "welcome_title"
     t.string "welcome_tagline"
     t.integer "feature_flags", default: 7, null: false
@@ -565,7 +565,7 @@ ActiveRecord::Schema.define(version: 2022_11_16_000514) do
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.string "color", default: "#1f93ff", null: false
+    t.string "color", default: "#fc7658", null: false
     t.boolean "show_on_sidebar"
     t.bigint "account_id"
     t.datetime "created_at", precision: 6, null: false

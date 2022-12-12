@@ -1,0 +1,102 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group close-button
+////
+
+/// Default position of the close button. The first value should be `right` or `left`, and the second value should be `top` or `bottom`.
+/// @type List
+$closebutton-position: right top !default;
+
+/// Right (or left) offset(s) for a close button.
+/// @type Number|Map
+$closebutton-offset-horizontal: (
+  small: 0.66rem,
+  medium: 1rem,
+) !default;
+
+/// Top (or bottom) offset(s) for a close button.
+/// @type Number|Map
+$closebutton-offset-vertical: (
+  small: 0.33em,
+  medium: 0.5rem,
+) !default;
+
+/// Default font size(s) of the close button.
+/// @type Number|Map
+$closebutton-size: (
+  small: 1.5em,
+  medium: 2em,
+) !default;
+
+/// The line-height of the close button. It affects the spacing of the element.
+/// @type Number
+$closebutton-lineheight: 1 !default;
+
+/// Default color of the close button.
+/// @type Color
+$closebutton-color: $dark-gray !default;
+
+/// Default color of the close button when being hovered on.
+/// @type Color
+$closebutton-color-hover: $black !default;
+
+
+/// Get the size and position for a close button. If the input value is a number, the number is returned. If the input value is a config map and the map has the key `$size`, the value is returned.
+///
+/// @param {Number|Map} $value - A number or map that represents the size or position value(s) of the close button.
+/// @param {Keyword} $size - The size of the close button to use.
+///
+/// @return {Number} The given number or the value found in the map.
+@function -zf-get-size-val($value, $size) {
+  // Check if the value is a number
+  @if type-of($value) == 'number' {
+    // If it is, just return the number
+    @return $value;
+  }
+
+  // Check if the size name exists in the value map
+  @else if map-has-key($value, $size) {
+    // If it does, return the value
+    @return map-get($value, $size);
+  }
+}
+
+/// Sets the size and position of a close button.
+/// @param {Keyword} $size [medium] - The size to use. Set to `small` to create a small close button. The 'medium' values defined in `$closebutton-*` variables will be used as the default size and position of the close button.
+@mixin close-button-size($size) {
+  $x: nth($closebutton-position, 1);
+  $y: nth($closebutton-position, 2);
+
+  #{$x}: -zf-get-size-val($closebutton-offset-horizontal, $size);
+  #{$y}: -zf-get-size-val($closebutton-offset-vertical, $size);
+  font-size: -zf-get-size-val($closebutton-size, $size);
+  line-height: -zf-get-size-val($closebutton-lineheight, $size);
+}
+
+/// Adds styles for a close button, using the styles in the settings variables.
+@mixin close-button {
+  $x: nth($closebutton-position, 1);
+  $y: nth($closebutton-position, 2);
+
+  @include disable-mouse-outline;
+  position: absolute;
+  color: $closebutton-color;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: $closebutton-color-hover;
+  }
+}
+
+@mixin foundation-close-button {
+  .close-button {
+    @include close-button;
+
+    &.small { @include close-button-size(small) }
+    &, &.medium { @include close-button-size(medium) }
+  }
+}

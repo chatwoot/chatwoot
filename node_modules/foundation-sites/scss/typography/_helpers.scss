@@ -1,0 +1,80 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group typography-helpers
+////
+
+/// Default font size for lead paragraphs.
+/// @type Number
+$lead-font-size: $global-font-size * 1.25 !default;
+
+/// Default line height for lead paragraphs.
+/// @type String
+$lead-lineheight: 1.6 !default;
+
+/// Default line height for subheaders.
+/// @type Number
+$subheader-lineheight: 1.4 !default;
+
+/// Default font color for subheaders.
+/// @type Color
+$subheader-color: $dark-gray !default;
+
+/// Default font weight for subheaders.
+/// @type String
+$subheader-font-weight: $global-weight-normal !default;
+
+/// Default top margin for subheaders.
+/// @type Number
+$subheader-margin-top: 0.2rem !default;
+
+/// Default bottom margin for subheaders.
+/// @type Number
+$subheader-margin-bottom: 0.5rem !default;
+
+/// Default font size for statistic numbers.
+/// @type Number
+$stat-font-size: 2.5rem !default;
+
+@mixin foundation-typography-helpers {
+  // Use to create a subheading under a main header
+  // Make sure you pair the two elements in a <header> element, like this:
+  // <header>
+  //   <h1>Heading</h1>
+  //   <h2>Subheading</h2>
+  // </header>
+  .subheader {
+    margin-top: $subheader-margin-top;
+    margin-bottom: $subheader-margin-bottom;
+
+    font-weight: $subheader-font-weight;
+    line-height: $subheader-lineheight;
+    color: $subheader-color;
+  }
+
+  // Use to style an introductory lead, deck, blurb, etc.
+  .lead {
+    font-size: $lead-font-size;
+    line-height: $lead-lineheight;
+  }
+
+  // Use to style a large number to display a statistic
+  .stat {
+    font-size: $stat-font-size;
+    line-height: 1;
+
+    p + & {
+      margin-top: -1rem;
+    }
+  }
+
+  ul, ol {
+    // Use to remove numbers from ordered list & bullets from unordered list
+    &.no-bullet {
+      margin-#{$global-left}: 0;
+      list-style: none;
+    }
+  }
+}

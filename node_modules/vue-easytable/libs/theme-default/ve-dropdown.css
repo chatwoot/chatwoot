@@ -1,0 +1,175 @@
+/* ve-table */
+/* ve-pagination */
+/* ve-checkbox */
+/* ve-radio */
+/* ve-select */
+/* ve-dropdown */
+.ve-dropdown {
+  display: inline-table;
+  margin: 0;
+  /*操作功能开始*/
+}
+.ve-dropdown a,
+.ve-dropdown a:visited {
+  color: #000;
+  text-decoration: none;
+  outline: none;
+}
+.ve-dropdown .ve-dropdown-dd,
+.ve-dropdown .ve-dropdown-dt {
+  z-index: 9999;
+}
+.ve-dropdown .ve-dropdown-dd,
+.ve-dropdown .ve-dropdown-dt,
+.ve-dropdown .ve-dropdown-items {
+  margin: 0px;
+  padding: 0px;
+}
+.ve-dropdown .ve-dropdown-dt-selected {
+  position: relative;
+  display: block;
+  border: 1px solid #c8cdd4;
+  border-radius: 2px;
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+}
+.ve-dropdown .ve-dropdown-dt-selected:hover {
+  color: #108ee9;
+  border-color: #108ee9;
+}
+.ve-dropdown .ve-dropdown-dt-selected .ve-dropdown-dt-selected-span {
+  width: 80%;
+  display: block !important;
+  /*修复会被别的样式覆盖的问题*/
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 2px;
+}
+.ve-dropdown .ve-dropdown-dt-selected .ve-dropdown-input {
+  appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  color: #1f2d3d;
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  outline: none;
+  padding-left: 2px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 80%;
+  text-align: left;
+}
+.ve-dropdown .ve-dropdown-dd {
+  position: absolute !important;
+  z-index: 9999999;
+  display: none;
+}
+.ve-dropdown .ve-dropdown-dd-show {
+  display: block;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items {
+  min-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: normal;
+  white-space: nowrap;
+  position: fixed;
+  top: 2px;
+  left: 0px;
+  list-style: none;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid #d1dbe5;
+  padding: 5px 0px;
+  width: auto;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper {
+  overflow: auto;
+  /* 单选 */
+  /* 多选 */
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li {
+  white-space: nowrap;
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+  background-color: #fff;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li:hover {
+  background-color: #f3f3f3;
+  color: #000000d9;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li.active {
+  background-color: #e6f7ff;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li.active a {
+  color: #108ee9;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li.active:hover {
+  background-color: #e6f7ff;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a {
+  width: 100%;
+  display: block;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: #000000d9;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a-left {
+  text-align: left;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a-center {
+  text-align: center;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-li .ve-dropdown-items-li-a-right {
+  text-align: right;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple {
+  display: table;
+  padding: 0 5px;
+  width: 100%;
+  text-align: left;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple .ve-checkbox {
+  width: 100%;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple .ve-checkbox .ve-checkbox-label {
+  padding-left: 5px;
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple span {
+  font-size: 14px;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ve-dropdown .ve-dropdown-dd .ve-dropdown-items .ve-dropdown-items-warpper .ve-dropdown-items-multiple:hover {
+  background-color: #e6f7ff;
+}
+.ve-dropdown .ve-dropdown-operation {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px 0 3px 0;
+  font-size: 14px;
+  border-top: 1px solid #e8e8e8;
+}
+.ve-dropdown .ve-dropdown-operation .ve-dropdown-operation-item {
+  padding: 0 8px;
+  color: #495060;
+}
+.ve-dropdown .ve-dropdown-operation .ve-dropdown-operation-item.ve-dropdown-filter-disable {
+  color: #999;
+}
+.ve-dropdown .ve-dropdown-operation .ve-dropdown-operation-item:not(.ve-dropdown-filter-disable):hover {
+  color: #108ee9;
+}
+.ve-dropdown .ve-dropdown-operation:last-child {
+  float: right;
+}
+.ve-dropdown .ve-dropdown-operation:hover {
+  color: #f3f3f3;
+}

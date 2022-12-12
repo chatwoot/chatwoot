@@ -1,0 +1,129 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group card
+////
+
+/// Default background color.
+/// @type Color
+$card-background: $white !default;
+
+/// Default font color for cards.
+/// @type Color
+$card-font-color: $body-font-color !default;
+
+/// Default background.
+/// @type Color
+$card-divider-background: $light-gray !default;
+
+/// Default border style.
+/// @type List
+$card-border: 1px solid $light-gray !default;
+
+/// Default card shadow.
+/// @type List
+$card-shadow: none !default;
+
+/// Default border radius.
+/// @type List
+$card-border-radius: $global-radius !default;
+
+/// Default padding.
+/// @type Number
+$card-padding: $global-padding !default;
+
+/// Default bottom margin.
+/// @type number
+$card-margin-bottom: $global-margin !default;
+
+/// Adds styles for a card container.
+/// @param {Color} $background - Background color of the card.
+/// @param {Color} $color - font color of the card.
+/// @param {Number} $margin - Bottom margin of the card.
+/// @param {List} $border - Border around the card.
+/// @param {List} $radius - border radius of the card.
+/// @param {List} $shadow - box shadow of the card.
+@mixin card-container(
+  $background: $card-background,
+  $color: $card-font-color,
+  $margin: $card-margin-bottom,
+  $border: $card-border,
+  $radius: $card-border-radius,
+  $shadow: $card-shadow
+) {
+  @if $global-flexbox {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  margin-bottom: $margin;
+
+  border: $border;
+  border-radius: $radius;
+
+  background: $background;
+  box-shadow: $shadow;
+
+  overflow: hidden;
+  color: $color;
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/// Adds styles for a card divider.
+@mixin card-divider(
+  $background: $card-divider-background,
+  $padding: $card-padding
+) {
+  @if $global-flexbox {
+    display: flex;
+    flex: 0 1 auto;
+  }
+
+  padding: $padding;
+  background: $background;
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/// Adds styles for a card section.
+@mixin card-section(
+  $padding: $card-padding
+) {
+  @if $global-flexbox {
+    flex: 1 0 auto;
+  }
+
+  padding: $padding;
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin foundation-card {
+  .card {
+    @include card-container;
+  }
+
+  .card-divider {
+    @include card-divider;
+  }
+
+  .card-section {
+    @include card-section;
+  }
+
+  // For IE 11 - Flexbug
+  // https://github.com/philipwalton/flexbugs/issues/75
+  .card-image {
+    min-height: 1px;
+  }
+}

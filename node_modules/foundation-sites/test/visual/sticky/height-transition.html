@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Foundation for Sites Testing</title>
+  <link href="../assets/css/foundation-float.css" rel="stylesheet" />
+  <style>
+    .sticky-container {
+      background-color: #f00;
+      transition: height .5s ease;
+    }
+   .title-bar {
+      width: 100%;
+      z-index: 10;
+      transition: height .5s ease;
+      height: 100px;
+    }
+    .title-bar .title-bar-right, .title-bar .title-bar-left {
+      transition: padding-top .25s ease;
+      padding-top: 1.4em;
+    }
+    .title-bar.is-stuck {
+      height: 50px;
+    }
+    .title-bar.is-stuck .title-bar-right, .title-bar.is-stuck .title-bar-left {
+      padding-top: 0em;
+    }
+    .title-bar .dropdown.menu li {
+      float: left;
+    }
+    .title-bar .dropdown.menu .is-dropdown-submenu {
+      border: none;
+      background-color: #0A0A0A;
+    }
+
+
+    #root {
+      margin-top: 2em;
+    }
+
+
+    .foo {
+      height: 30rem;
+    }
+
+    .foo h1 {
+      display: inline-block;
+      float: right;
+    }
+
+    .foo:nth-child(odd) {
+      background-color: lightgreen;
+      color: white;
+    }
+
+    .foo:nth-child(even) {
+      background-color: lightblue;
+      color: white;
+    }
+
+  </style>
+
+</head>
+<body>
+  <div data-sticky-container>
+    <div class="title-bar" data-sticky data-static-height="false" data-options="marginTop:0;">
+      <div class="title-bar-left">
+        <span class="title-bar-title">Sticky Navigation</span>
+      </div>
+      <div class="title-bar-right">
+        <ul class="dropdown menu align-right" data-dropdown-menu>
+          <li>
+            <a>Item 1</a>
+            <ul class="menu">
+              <li><a href="#">Item 1A</a></li>
+              <li>
+                <a href="#">Item 1B</a>
+                <ul class="menu">
+                  <li><a href="#">Item 1B i</a></li>
+                  <li><a href="#">Item 1B ii</a></li>
+                  <li>
+                    <a href="#">Item 1B iii</a>
+                    <ul class="menu">
+                      <li><a href="#">Item 1B iii alpha</a></li>
+                      <li><a href="#">Item 1B iii omega</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#">Item 1B iv</a>
+                    <ul class="menu">
+                      <li><a href="#">Item 1B iv alpha</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#">Item 1C</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Item 2</a>
+            <ul class="menu">
+              <li><a href="#">Item 2A</a></li>
+              <li><a href="#">Item 2B</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Item 3</a></li>
+          <li><a href="#">Item 4</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+    <div class="column row">
+    <h3>Sticky navbar height transition</h3>
+    <p>The content should follow the nav-bar resizing without red flashing (sticky-container background)</p>
+    </div>
+
+  <div class="row">
+    <div class="small-12 medium-2 columns">
+      <div class="container" data-sticky-container>
+        <div class="callout sticky" data-sticky data-sticky-on="small" data-margin-top="0" data-anchor="foo1">
+          <h5>Test 1</h5>
+          <p>I should stick to the top and bottom of #foo1. I'm not a child of any #foo's.</p>
+          <a href="http://foundation.zurb.com/sites/docs/stick.html" class="small button">Go to Sticky Docs</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-12 medium-10 columns">
+      <div id="foo1" class="foo">
+        <h1>#foo1</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-6 columns">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat pellentesque ligula a tincidunt. Pellentesque fermentum orci leo, quis hendrerit urna rutrum eu. Fusce eu ex id ipsum fermentum scelerisque in non nulla. In quis maximus urna. Sed in est in risus tempor malesuada. Integer sed felis nunc. Mauris sit amet turpis quam. Aliquam nisi felis, suscipit et ex in, mattis mattis dui. Ut id ullamcorper nunc. Nunc quis lacinia turpis, tempor faucibus eros. Vestibulum ex dui, accumsan nec ex eget, scelerisque euismod ligula. In congue venenatis tellus, vitae lobortis felis imperdiet ut. Pellentesque pharetra dignissim felis. Praesent posuere lacus vitae ex tempus tincidunt.
+Maecenas accumsan ante non justo laoreet, vel condimentum turpis lacinia. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc ornare suscipit faucibus. Donec feugiat nulla in bibendum malesuada. Proin maximus sodales lorem, non pulvinar leo. Ut rhoncus leo et leo commodo tincidunt nec sit amet nulla. Curabitur nisl mi, cursus a molestie et, rhoncus a turpis. Nam mollis accumsan diam non bibendum. Nam eget condimentum ligula, ultricies molestie ante. Mauris dolor neque, rhoncus feugiat varius in, tincidunt nec nisl. Phasellus et sapien vitae lectus auctor lacinia ac accumsan tellus. Ut lacinia massa id massa ullamcorper volutpat. Curabitur lectus erat, mollis sed feugiat id, tempor eu ex. Morbi mollis urna quam. In laoreet magna ligula. Mauris porta tortor eget finibus malesuada.
+Mauris porttitor nisi feugiat convallis rhoncus. Etiam mollis mi in felis molestie malesuada. Proin rutrum nisl ac nibh pharetra lobortis. Phasellus dignissim dolor vel eros vulputate, sed finibus enim efficitur. Duis tincidunt porttitor diam, ut tincidunt eros varius quis. Donec nec risus tempor, luctus ligula luctus, ullamcorper augue. Morbi maximus, mi in fringilla bibendum, tellus velit rutrum enim, non vulputate justo augue nec diam. Nulla et nisl lacus. Donec quis molestie tellus. Aenean eleifend ex suscipit neque porttitor, ut hendrerit metus egestas. Morbi ut euismod urna, vitae tempus arcu. Aliquam dictum vel sem et efficitur. Duis nec dapibus purus.
+Cras sed fringilla lorem. Nullam ut justo ac augue egestas vestibulum. In commodo sit amet magna sed rutrum. Fusce fringilla blandit nisl sit amet tristique. Duis ultrices porttitor efficitur. Nunc id facilisis velit. Morbi interdum est eget enim luctus vestibulum. Proin sagittis placerat tellus, in convallis lorem lobortis sed. In porta neque lacus, non fringilla justo interdum eu. Cras ante magna, semper tincidunt rhoncus a, viverra at massa.
+Nulla porttitor sem vitae pharetra fermentum. Etiam porttitor, libero eu molestie vestibulum, quam libero posuere nulla, at elementum tellus enim ac nulla. Curabitur congue purus orci, in consequat urna varius quis. Ut vel diam eu nunc lacinia eleifend. Integer tempus dui sit amet mauris consectetur ultricies sit amet ut dui. Morbi eu dui pulvinar, rhoncus augue ac, viverra sem. Curabitur tincidunt dolor vitae eros congue sagittis. Ut at tempus orci.
+    </div>
+  </div>
+    <div class="row">
+    <div class="small-6 columns">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat pellentesque ligula a tincidunt. Pellentesque fermentum orci leo, quis hendrerit urna rutrum eu. Fusce eu ex id ipsum fermentum scelerisque in non nulla. In quis maximus urna. Sed in est in risus tempor malesuada. Integer sed felis nunc. Mauris sit amet turpis quam. Aliquam nisi felis, suscipit et ex in, mattis mattis dui. Ut id ullamcorper nunc. Nunc quis lacinia turpis, tempor faucibus eros. Vestibulum ex dui, accumsan nec ex eget, scelerisque euismod ligula. In congue venenatis tellus, vitae lobortis felis imperdiet ut. Pellentesque pharetra dignissim felis. Praesent posuere lacus vitae ex tempus tincidunt.
+Maecenas accumsan ante non justo laoreet, vel condimentum turpis lacinia. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc ornare suscipit faucibus. Donec feugiat nulla in bibendum malesuada. Proin maximus sodales lorem, non pulvinar leo. Ut rhoncus leo et leo commodo tincidunt nec sit amet nulla. Curabitur nisl mi, cursus a molestie et, rhoncus a turpis. Nam mollis accumsan diam non bibendum. Nam eget condimentum ligula, ultricies molestie ante. Mauris dolor neque, rhoncus feugiat varius in, tincidunt nec nisl. Phasellus et sapien vitae lectus auctor lacinia ac accumsan tellus. Ut lacinia massa id massa ullamcorper volutpat. Curabitur lectus erat, mollis sed feugiat id, tempor eu ex. Morbi mollis urna quam. In laoreet magna ligula. Mauris porta tortor eget finibus malesuada.
+Mauris porttitor nisi feugiat convallis rhoncus. Etiam mollis mi in felis molestie malesuada. Proin rutrum nisl ac nibh pharetra lobortis. Phasellus dignissim dolor vel eros vulputate, sed finibus enim efficitur. Duis tincidunt porttitor diam, ut tincidunt eros varius quis. Donec nec risus tempor, luctus ligula luctus, ullamcorper augue. Morbi maximus, mi in fringilla bibendum, tellus velit rutrum enim, non vulputate justo augue nec diam. Nulla et nisl lacus. Donec quis molestie tellus. Aenean eleifend ex suscipit neque porttitor, ut hendrerit metus egestas. Morbi ut euismod urna, vitae tempus arcu. Aliquam dictum vel sem et efficitur. Duis nec dapibus purus.
+Cras sed fringilla lorem. Nullam ut justo ac augue egestas vestibulum. In commodo sit amet magna sed rutrum. Fusce fringilla blandit nisl sit amet tristique. Duis ultrices porttitor efficitur. Nunc id facilisis velit. Morbi interdum est eget enim luctus vestibulum. Proin sagittis placerat tellus, in convallis lorem lobortis sed. In porta neque lacus, non fringilla justo interdum eu. Cras ante magna, semper tincidunt rhoncus a, viverra at massa.
+Nulla porttitor sem vitae pharetra fermentum. Etiam porttitor, libero eu molestie vestibulum, quam libero posuere nulla, at elementum tellus enim ac nulla. Curabitur congue purus orci, in consequat urna varius quis. Ut vel diam eu nunc lacinia eleifend. Integer tempus dui sit amet mauris consectetur ultricies sit amet ut dui. Morbi eu dui pulvinar, rhoncus augue ac, viverra sem. Curabitur tincidunt dolor vitae eros congue sagittis. Ut at tempus orci.
+    </div>
+  </div>
+
+  <script src="../assets/js/vendor.js"></script>
+  <script src="../assets/js/foundation.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>

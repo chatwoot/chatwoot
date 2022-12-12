@@ -1,0 +1,31 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group functions
+////
+
+/// Returns the opposite direction of $dir
+///
+/// @param {Keyword} $dir - Used direction between "top", "right", "bottom" and "left".
+/// @return {Keyword} Opposite direction of $dir
+@function direction-opposite(
+  $dir
+) {
+  $dirs: (top, right, bottom, left);
+  $place: index($dirs, $dir);
+
+  @if $place == null {
+    @error 'direction-opposite: Invalid $dir parameter, expected a value from "#{$dirs}", found "#{$dir}".';
+    @return null;
+  }
+
+  // Calculate the opposite place in a circle, with a starting index of 1
+  $length: length($dirs);
+  $demi: $length / 2;
+  $opposite-place: (($place + $demi - 1) % $length) + 1;
+
+  @return nth($dirs, $opposite-place);
+}
+

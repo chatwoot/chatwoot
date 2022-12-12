@@ -1,0 +1,156 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group accordion
+////
+
+/// Default background color of an accordion group.
+/// @type Color
+$accordion-background: $white !default;
+
+/// If `true`, adds plus and minus icons to the side of each accordion title.
+/// @type Boolean
+$accordion-plusminus: true !default;
+
+/// Font size of accordion titles.
+/// @type Number
+$accordion-title-font-size: rem-calc(12) !default;
+
+/// Default text color for items in a Menu.
+/// @type Color
+$accordion-item-color: $primary-color !default;
+
+/// Default background color on hover for items in a Menu.
+/// @type Color
+$accordion-item-background-hover: $light-gray !default;
+
+/// Default padding of an accordion item.
+/// @type Number | List
+$accordion-item-padding: 1.25rem 1rem !default;
+
+/// Default background color of tab content.
+/// @type Color
+$accordion-content-background: $white !default;
+
+/// Default border color of tab content.
+/// @type Color
+$accordion-content-border: 1px solid $light-gray !default;
+
+/// Default text color of tab content.
+/// @type Color
+$accordion-content-color: $body-font-color !default;
+
+/// Default padding for tab content.
+/// @type Number | List
+$accordion-content-padding: 1rem !default;
+
+/// Adds styles for an accordion container. Apply this to the same element that gets `data-accordion`.
+@mixin accordion-container (
+  $background: $accordion-background
+) {
+  margin-#{$global-left}: 0;
+  background: $background;
+  list-style-type: none;
+
+  &[disabled] {
+    .accordion-title {
+      cursor: not-allowed;
+    }
+  }
+}
+
+/// Adds styles for the accordion item. Apply this to the list item within an accordion ul.
+@mixin accordion-item {
+  &:first-child > :first-child {
+    border-radius: $global-radius $global-radius 0 0;
+  }
+
+  &:last-child > :last-child {
+    border-radius: 0 0 $global-radius $global-radius;
+  }
+}
+
+/// Adds styles for the title of an accordion item. Apply this to the link within an accordion item.
+@mixin accordion-title (
+  $padding: $accordion-item-padding,
+  $font-size: $accordion-title-font-size,
+  $color: $accordion-item-color,
+  $border: $accordion-content-border,
+  $background-hover: $accordion-item-background-hover
+) {
+  position: relative;
+  display: block;
+  padding: $padding;
+
+  border: $border;
+  border-bottom: 0;
+
+  font-size: $font-size;
+  line-height: 1;
+  color: $color;
+
+  :last-child:not(.is-active) > & {
+    border-bottom: $border;
+    border-radius: 0 0 $global-radius $global-radius;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $background-hover;
+  }
+
+  @if $accordion-plusminus {
+    &::before {
+      position: absolute;
+      top: 50%;
+      #{$global-right}: 1rem;
+      margin-top: -0.5rem;
+      content: '+';
+    }
+
+    .is-active > &::before {
+      content: '\2013';
+    }
+  }
+}
+
+/// Adds styles for accordion content. Apply this to the content pane below an accordion item's title.
+@mixin accordion-content (
+  $padding: $accordion-content-padding,
+  $border: $accordion-content-border,
+  $background: $accordion-content-background,
+  $color: $accordion-content-color
+) {
+  display: none;
+  padding: $padding;
+
+  border: $border;
+  border-bottom: 0;
+  background-color: $background;
+
+  color: $color;
+
+  :last-child > &:last-child {
+    border-bottom: $border;
+  }
+}
+
+@mixin foundation-accordion {
+  .accordion {
+    @include accordion-container;
+  }
+
+  .accordion-item {
+    @include accordion-item;
+  }
+
+  .accordion-title {
+    @include accordion-title;
+  }
+
+  .accordion-content {
+    @include accordion-content;
+  }
+}

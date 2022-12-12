@@ -1,0 +1,20 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"rules": {
+		"max-statements": [2, 15],
+	},
+
+	"overrides": [
+		{
+			"files": "test/**",
+			"rules": {
+				"eqeqeq": [2, "always", { "null": "ignore" }],
+				"func-style": 0,
+				"max-params": 0,
+			},
+		},
+	],
+}

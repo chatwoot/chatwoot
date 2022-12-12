@@ -1,0 +1,638 @@
+/*!
+ * Chart.js v2.9.4
+ * https://www.chartjs.org
+ * (c) 2020 Chart.js Contributors
+ * Released under the MIT License
+ */
+
+//!           Burak Yiğit Kaya: https://github.com/BYK
+
+//!           Sigurd Gartmann : https://github.com/sigurdga
+
+//!           Stephen Ramthun : https://github.com/stephenramthun
+
+//! Author : Menelion Elensúle : https://github.com/Oire
+
+//! author : Abdel Said : https://github.com/abdelsaid
+
+//! author : Abdel Said: https://github.com/abdelsaid
+
+//! author : Adam Brunner : https://github.com/adambrunner
+
+//! author : Aggelos Karalias : https://github.com/mehiel
+
+//! author : Ahmed Elkhatib
+
+//! author : Alessandro Maruccia : https://github.com/alesma
+
+//! author : Ali Hmer: https://github.com/kikoanis
+
+//! author : Amine Roukh: https://github.com/Amine27
+
+//! author : Anatoly Mironov : https://github.com/mirontoli
+
+//! author : Andrew Hood : https://github.com/andrewhood125
+
+//! author : André Silva : https://github.com/askpt
+
+//! author : Anthony : https://github.com/anthonylau
+
+//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
+
+//! author : Armendarabyan : https://github.com/armendarabyan
+
+//! author : Asraf Hossain Patoary : https://github.com/ashwoolford
+
+//! author : Atamyrat Abdyrahmanov : https://github.com/atamyratabdy
+
+//! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
+
+//! author : Bang Nguyen : https://github.com/bangnk
+
+//! author : Ben : https://github.com/ben-lin
+
+//! author : Bojan Marković : https://github.com/bmarkovic
+
+//! author : Borislav Mickov : https://github.com/B0k0
+
+//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
+
+//! author : Chien Kira : https://github.com/chienkira
+
+//! author : Chris Cartlidge : https://github.com/chriscartlidge
+
+//! author : Chris Gedrim : https://github.com/chrisgedrim
+
+//! author : Chris Lam : https://github.com/hehachris
+
+//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
+
+//! author : Colin Dean : https://github.com/colindean
+
+//! author : Dan Hagman : https://github.com/hagmandan
+
+//! author : David Raison : https://github.com/kwisatz
+
+//! author : David Rossellat : https://github.com/gholadr
+
+//! author : Dmitry Demidov : https://github.com/demidov91
+
+//! author : Dominika Kruk : https://github.com/amaranthrose
+
+//! author : Ebrahim Byagowi : https://github.com/ebraminio
+
+//! author : ElFadili Yassine : https://github.com/ElFadiliY
+
+//! author : Emanuel Cepoi : https://github.com/cepem
+
+//! author : Eneko Illarramendi : https://github.com/eillarra
+
+//! author : Estelle Comment : https://github.com/estellecomment
+
+//! author : Fahad Kassim : https://github.com/fadsel
+
+//! author : Flakërim Ismani : https://github.com/flakerimi
+
+//! author : Floyd Pink : https://github.com/floydpink
+
+//! author : Gaspard Bucher : https://github.com/gaspard
+
+//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
+
+//! author : Harshad Kale : https://github.com/kalehv
+
+//! author : Henry Kehlmann : https://github.com/madhenry
+
+//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
+
+//! author : Irakli Janiashvili : https://github.com/IrakliJani
+
+//! author : Iustì Canun
+
+//! author : JC Franco : https://github.com/jcfranco
+
+//! author : Jacob Middag : https://github.com/middagj
+
+//! author : Jared Morse : https://github.com/jarcoal
+
+//! author : Jatin Agrawal : https://github.com/jatinag22
+
+//! author : Javkhlantugs Nyamdorj : https://github.com/javkhaanj7
+
+//! author : Jawish Hameed : https://github.com/jawish
+
+//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
+
+//! author : Jeeeyul Lee <jeeeyul@gmail.com>
+
+//! author : Jefferson : https://github.com/jalex79
+
+//! author : Jens Alm : https://github.com/ulmus
+
+//! author : John Corrigan <robbiecloset@gmail.com> : https://github.com/johnideal
+
+//! author : John Fischer : https://github.com/jfroffice
+
+//! author : Jon Ashdown : https://github.com/jonashdown
+
+//! author : Jonathan Abourbih : https://github.com/jonbca
+
+//! author : Joris Röling : https://github.com/jorisroling
+
+//! author : Joshua Brooks : https://github.com/joshbrooks
+
+//! author : Juan G. Hurtado : https://github.com/juanghurtado
+
+//! author : Julio Napurí : https://github.com/julionc
+
+//! author : Jānis Elmeris : https://github.com/JanisE
+
+//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
+
+//! author : Kaushik Thanki : https://github.com/Kaushik1987
+
+//! author : Konstantin : https://github.com/skfd
+
+//! author : Krasen Borisov : https://github.com/kraz
+
+//! author : Kridsada Thanabulpong : https://github.com/sirn
+
+//! author : Krishna Chaitanya Thota : https://github.com/kcthota
+
+//! author : Kristaps Karlsons : https://github.com/skakri
+
+//! author : Kristian Sakarisson : https://github.com/sakarisson
+
+//! author : Kruy Vanna : https://github.com/kruyvanna
+
+//! author : Kyungwook, Park : https://github.com/kyungw00k
+
+//! author : LI Long : https://github.com/baryon
+
+//! author : Lorenzo : https://github.com/aliem
+
+//! author : Luke McGregor : https://github.com/lukemcgregor
+
+//! author : Martin Groller : https://github.com/MadMG
+
+//! author : Martin Minka : https://github.com/k2s
+
+//! author : Matthew Castrillon-Madrigal : https://github.com/techdimension
+
+//! author : Matthew Co : https://github.com/matthewdeeco
+
+//! author : Mayank Singhal : https://github.com/mayanksinghal
+
+//! author : Menelion Elensúle : https://github.com/Oire
+
+//! author : Mia Nordentoft Imperatori : https://github.com/miestasmia
+
+//! author : Mikolaj Dadela : https://github.com/mik01aj
+
+//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
+
+//! author : Mindaugas Mozūras : https://github.com/mmozuras
+
+//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
+
+//! author : Mohammad Satrio Utomo : https://github.com/tyok
+
+//! author : Moshe Simantov : https://github.com/DevelopmentIL
+
+//! author : Nader Toukabri : https://github.com/naderio
+
+//! author : Narain Sagar : https://github.com/narainsagar
+
+//! author : Nedim Cholich : https://github.com/frontyard
+
+//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
+
+//! author : Noureddine LOUAHEDJ : https://github.com/noureddinem
+
+//! author : Nusret Parlak: https://github.com/nusretparlak
+
+//! author : Oerd Cukalla : https://github.com/oerd
+
+//! author : Onorio De J. Afonso : https://github.com/marobo
+
+//! author : Orif N. Jr. : https://github.com/orif-jr
+
+//! author : Peter Viszt  : https://github.com/passatgt
+
+//! author : Quentin PAGÈS : https://github.com/Quenty31
+
+//! author : Rafal Hirsz : https://github.com/evoL
+
+//! author : Ragnar Johannesen : https://github.com/ragnar123
+
+//! author : Rajeev Naik : https://github.com/rajeevnaikte
+
+//! author : Rasulbek Mirzayev : github.com/Rasulbeeek
+
+//! author : Robert Allen : https://github.com/robgallen
+
+//! author : Robert Sedovšek : https://github.com/sedovsek
+
+//! author : Robin van der Vliet : https://github.com/robin0van0der0v
+
+//! author : Rony Lantip : https://github.com/lantip
+
+//! author : Ryan Hart : https://github.com/ryanhart2
+
+//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
+
+//! author : Sardor Muminov : https://github.com/muminoff
+
+//! author : Sashko Todorov : https://github.com/bkyceh
+
+//! author : Sawood Alam : https://github.com/ibnesayeed
+
+//! author : Shahram Mebashar : https://github.com/ShahramMebashar
+
+//! author : Sonia Simoes : https://github.com/soniasimoes
+
+//! author : Squar team, mysquar.com
+
+//! author : Stefan Crnjaković <stefan@hotmail.rs> : https://github.com/crnjakovic
+
+//! author : Suhail Alkowaileet : https://github.com/xsoh
+
+//! author : Tal Ater : https://github.com/TalAter
+
+//! author : Tan Yuanhong : https://github.com/le0tan
+
+//! author : Tarmo Aidantausta : https://github.com/bleadof
+
+//! author : The Discoverer : https://github.com/WikiDiscoverer
+
+//! author : Thupten N. Chakrishar : https://github.com/vajradog
+
+//! author : Tin Aung Lin : https://github.com/thanyawzinmin
+
+//! author : Tomer Cohen : https://github.com/tomer
+
+//! author : Ulrik Nielsen : https://github.com/mrbase
+
+//! author : Valentin Agachi : https://github.com/avaly
+
+//! author : Viktorminator : https://github.com/Viktorminator
+
+//! author : Vivek Athalye : https://github.com/vnathalye
+
+//! author : Vlad Gurdiga : https://github.com/gurdiga
+
+//! author : Weldan Jamili : https://github.com/weldan
+
+//! author : Werner Mollentze : https://github.com/wernerm
+
+//! author : Zack : https://github.com/ZackVision
+
+//! author : Zeno Zeng : https://github.com/zenozeng
+
+//! author : bustta : https://github.com/bustta
+
+//! author : chrisrodz : https://github.com/chrisrodz
+
+//! author : forabi https://github.com/forabi
+
+//! author : https://github.com/ryangreaves
+
+//! author : lluchs : https://github.com/lluchs
+
+//! author : mweimerskirch : https://github.com/mweimerskirch
+
+//! author : petrbela : https://github.com/petrbela
+
+//! author : sschueller : https://github.com/sschueller
+
+//! author : suupic : https://github.com/suupic
+
+//! author : suvash : https://github.com/suvash
+
+//! author : topchiyev : https://github.com/topchiyev
+
+//! author : uu109 : https://github.com/uu109
+
+//! author : xfh : https://github.com/xfh
+
+//! author : zemlanin : https://github.com/zemlanin
+
+//! author : Коренберг Марк : https://github.com/socketpair
+
+//! author: Marco : https://github.com/Manfre98
+
+//! author: Mattia Larentis: https://github.com/nostalgiaz
+
+//! author: Menelion Elensúle: https://github.com/Oire
+
+//! author: Praleska: http://praleska.pro/
+
+//! author: boyaq : https://github.com/boyaq
+
+//! authors : Bård Rolstad Henriksen : https://github.com/karamell
+
+//! authors : Erhan Gundogan : https://github.com/erhangundogan,
+
+//! authors : Espen Hovlandsdal : https://github.com/rexxars
+
+//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
+
+//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
+
+//! authors : https://github.com/mechuwind
+
+//! based on (hr) translation by Bojan Marković
+
+//! based on work of petrbela : https://github.com/petrbela
+
+//! comment : Vivakvo corrected the translation by colindean and miestasmia
+
+//! comment : miestasmia corrected the translation by colindean
+
+//! improvements : Illimar Tambek : https://github.com/ragulka
+
+//! license : MIT
+
+//! locale  :  Arabic (Tunisia) [ar-tn]
+
+//! locale : Afrikaans [af]
+
+//! locale : Albanian [sq]
+
+//! locale : Arabic (Algeria) [ar-dz]
+
+//! locale : Arabic (Kuwait) [ar-kw]
+
+//! locale : Arabic (Libya) [ar-ly]
+
+//! locale : Arabic (Morocco) [ar-ma]
+
+//! locale : Arabic (Saudi Arabia) [ar-sa]
+
+//! locale : Arabic [ar]
+
+//! locale : Armenian [hy-am]
+
+//! locale : Azerbaijani [az]
+
+//! locale : Bambara [bm]
+
+//! locale : Basque [eu]
+
+//! locale : Belarusian [be]
+
+//! locale : Bengali (Bangladesh) [bn-bd]
+
+//! locale : Bengali [bn]
+
+//! locale : Bosnian [bs]
+
+//! locale : Breton [br]
+
+//! locale : Bulgarian [bg]
+
+//! locale : Burmese [my]
+
+//! locale : Cambodian [km]
+
+//! locale : Catalan [ca]
+
+//! locale : Central Atlas Tamazight Latin [tzm-latn]
+
+//! locale : Central Atlas Tamazight [tzm]
+
+//! locale : Chinese (China) [zh-cn]
+
+//! locale : Chinese (Hong Kong) [zh-hk]
+
+//! locale : Chinese (Macau) [zh-mo]
+
+//! locale : Chinese (Taiwan) [zh-tw]
+
+//! locale : Chuvash [cv]
+
+//! locale : Croatian [hr]
+
+//! locale : Czech [cs]
+
+//! locale : Danish [da]
+
+//! locale : Dutch (Belgium) [nl-be]
+
+//! locale : Dutch [nl]
+
+//! locale : English (Australia) [en-au]
+
+//! locale : English (Canada) [en-ca]
+
+//! locale : English (India) [en-in]
+
+//! locale : English (Ireland) [en-ie]
+
+//! locale : English (Israel) [en-il]
+
+//! locale : English (New Zealand) [en-nz]
+
+//! locale : English (Singapore) [en-sg]
+
+//! locale : English (United Kingdom) [en-gb]
+
+//! locale : Esperanto [eo]
+
+//! locale : Estonian [et]
+
+//! locale : Faroese [fo]
+
+//! locale : Filipino [fil]
+
+//! locale : Finnish [fi]
+
+//! locale : French (Canada) [fr-ca]
+
+//! locale : French (Switzerland) [fr-ch]
+
+//! locale : French [fr]
+
+//! locale : Frisian [fy]
+
+//! locale : Galician [gl]
+
+//! locale : Georgian [ka]
+
+//! locale : German (Austria) [de-at]
+
+//! locale : German (Switzerland) [de-ch]
+
+//! locale : German [de]
+
+//! locale : Greek [el]
+
+//! locale : Gujarati [gu]
+
+//! locale : Hebrew [he]
+
+//! locale : Hindi [hi]
+
+//! locale : Hungarian [hu]
+
+//! locale : Icelandic [is]
+
+//! locale : Indonesian [id]
+
+//! locale : Irish or Irish Gaelic [ga]
+
+//! locale : Italian (Switzerland) [it-ch]
+
+//! locale : Italian [it]
+
+//! locale : Japanese [ja]
+
+//! locale : Javanese [jv]
+
+//! locale : Kannada [kn]
+
+//! locale : Kazakh [kk]
+
+//! locale : Klingon [tlh]
+
+//! locale : Konkani Devanagari script [gom-deva]
+
+//! locale : Konkani Latin script [gom-latn]
+
+//! locale : Korean [ko]
+
+//! locale : Kurdish [ku]
+
+//! locale : Kyrgyz [ky]
+
+//! locale : Lao [lo]
+
+//! locale : Latvian [lv]
+
+//! locale : Lithuanian [lt]
+
+//! locale : Luxembourgish [lb]
+
+//! locale : Macedonian [mk]
+
+//! locale : Malay [ms-my]
+
+//! locale : Malay [ms]
+
+//! locale : Malayalam [ml]
+
+//! locale : Maldivian [dv]
+
+//! locale : Maltese (Malta) [mt]
+
+//! locale : Maori [mi]
+
+//! locale : Marathi [mr]
+
+//! locale : Mongolian [mn]
+
+//! locale : Montenegrin [me]
+
+//! locale : Nepalese [ne]
+
+//! locale : Northern Sami [se]
+
+//! locale : Norwegian Bokmål [nb]
+
+//! locale : Nynorsk [nn]
+
+//! locale : Occitan, lengadocian dialecte [oc-lnc]
+
+//! locale : Persian [fa]
+
+//! locale : Polish [pl]
+
+//! locale : Portuguese (Brazil) [pt-br]
+
+//! locale : Portuguese [pt]
+
+//! locale : Pseudo [x-pseudo]
+
+//! locale : Punjabi (India) [pa-in]
+
+//! locale : Romanian [ro]
+
+//! locale : Russian [ru]
+
+//! locale : Scottish Gaelic [gd]
+
+//! locale : Serbian Cyrillic [sr-cyrl]
+
+//! locale : Serbian [sr]
+
+//! locale : Sindhi [sd]
+
+//! locale : Sinhalese [si]
+
+//! locale : Slovak [sk]
+
+//! locale : Slovenian [sl]
+
+//! locale : Spanish (Dominican Republic) [es-do]
+
+//! locale : Spanish (Mexico) [es-mx]
+
+//! locale : Spanish (United States) [es-us]
+
+//! locale : Spanish [es]
+
+//! locale : Swahili [sw]
+
+//! locale : Swedish [sv]
+
+//! locale : Tagalog (Philippines) [tl-ph]
+
+//! locale : Tajik [tg]
+
+//! locale : Talossan [tzl]
+
+//! locale : Tamil [ta]
+
+//! locale : Telugu [te]
+
+//! locale : Tetun Dili (East Timor) [tet]
+
+//! locale : Thai [th]
+
+//! locale : Tibetan [bo]
+
+//! locale : Turkish [tr]
+
+//! locale : Turkmen [tk]
+
+//! locale : Ukrainian [uk]
+
+//! locale : Urdu [ur]
+
+//! locale : Uyghur (China) [ug-cn]
+
+//! locale : Uzbek Latin [uz-latn]
+
+//! locale : Uzbek [uz]
+
+//! locale : Vietnamese [vi]
+
+//! locale : Welsh [cy]
+
+//! locale : Yoruba Nigeria [yo]
+
+//! locale : siSwati [ss]
+
+//! moment.js
+
+//! moment.js locale configuration
+
+//! momentjs.com
+
+//! note : DEPRECATED, the correct one is [ms]
+
+//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
+
+//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
+
+//! version : 2.29.4

@@ -1,0 +1,18 @@
+{
+  "name": "@webassemblyjs/helper-api-error",
+  "version": "1.11.1",
+  "description": "Common API errors",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "author": "Sven Sauleau",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xtuc/webassemblyjs.git",
+    "directory": "packages/helper-api-error"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "3f07e2db2031afe0ce686630418c542938c1674b"
+}

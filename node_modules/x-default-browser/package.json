@@ -1,0 +1,37 @@
+{
+  "name": "x-default-browser",
+  "version": "0.4.0",
+  "description": "Detect default web browser of the current user, cross-platform (Win/Lin/Mac)",
+  "author": "Jakub Gieryluk <jakub.g.opensource@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/jakub-g/x-default-browser",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jakub-g/x-default-browser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jakub-g/x-default-browser/issues"
+  },
+  "bin": "bin/x-default-browser.js",
+  "main": "index.js",
+  "scripts": {
+    "lint": "jshint index.js lib bin",
+    "mocha": "mocha",
+    "test": "npm run lint && npm run mocha"
+  },
+  "keywords": [
+    "windows",
+    "ubuntu",
+    "linux",
+    "default",
+    "browser"
+  ],
+  "optionalDependencies": {
+    "default-browser-id": "^1.0.4"
+  },
+  "devDependencies": {
+    "jshint": "^2.5.10",
+    "mocha": "^2.0.1",
+    "rewire": "^2.1.3"
+  }
+}

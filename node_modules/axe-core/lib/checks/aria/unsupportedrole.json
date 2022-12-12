@@ -1,0 +1,11 @@
+{
+  "id": "unsupportedrole",
+  "evaluate": "unsupportedrole-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "ARIA role is supported",
+      "fail": "The role used is not widely supported in screen readers and assistive technologies: ${data.values}"
+    }
+  }
+}

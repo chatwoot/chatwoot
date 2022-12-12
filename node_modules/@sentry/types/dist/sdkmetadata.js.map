@@ -1,0 +1,1 @@
+{"version":3,"file":"sdkmetadata.js","sourceRoot":"","sources":["../../src/sdkmetadata.ts"],"names":[],"mappings":"","sourcesContent":["import { SdkInfo } from './sdkinfo';\n\nexport interface SdkMetadata {\n  sdk?: SdkInfo;\n}\n"]}

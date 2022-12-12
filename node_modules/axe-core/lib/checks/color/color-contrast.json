@@ -1,0 +1,42 @@
+{
+  "id": "color-contrast",
+  "evaluate": "color-contrast-evaluate",
+  "options": {
+    "ignoreUnicode": true,
+    "ignoreLength": false,
+    "boldValue": 700,
+    "boldTextPt": 14,
+    "largeTextPt": 18,
+    "contrastRatio": {
+      "normal": {
+        "expected": 4.5
+      },
+      "large": {
+        "expected": 3
+      }
+    },
+    "shadowOutlineEmMax": 0.1
+  },
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Element has sufficient color contrast of ${data.contrastRatio}",
+      "fail": "Element has insufficient color contrast of ${data.contrastRatio} (foreground color: ${data.fgColor}, background color: ${data.bgColor}, font size: ${data.fontSize}, font weight: ${data.fontWeight}). Expected contrast ratio of ${data.expectedContrastRatio}",
+      "incomplete": {
+        "default": "Unable to determine contrast ratio",
+        "bgImage": "Element's background color could not be determined due to a background image",
+        "bgGradient": "Element's background color could not be determined due to a background gradient",
+        "imgNode": "Element's background color could not be determined because element contains an image node",
+        "bgOverlap": "Element's background color could not be determined because it is overlapped by another element",
+        "fgAlpha": "Element's foreground color could not be determined because of alpha transparency",
+        "elmPartiallyObscured": "Element's background color could not be determined because it's partially obscured by another element",
+        "elmPartiallyObscuring": "Element's background color could not be determined because it partially overlaps other elements",
+        "outsideViewport": "Element's background color could not be determined because it's outside the viewport",
+        "equalRatio": "Element has a 1:1 contrast ratio with the background",
+        "shortTextContent": "Element content is too short to determine if it is actual text content",
+        "nonBmp": "Element content contains only non-text characters",
+        "pseudoContent": "Element's background color could not be determined due to a pseudo element"
+      }
+    }
+  }
+}

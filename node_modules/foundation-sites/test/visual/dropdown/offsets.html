@@ -1,0 +1,137 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Dropdown: Explicit Positioning Content - with offsets</h1>
+
+          <p>These dropdowns test various positioning and alignments WITH OFFSETS.
+             Valid positions are left/right/top/bottom.  Valid alignments are
+             left/right/top/bottom/center. Left align means left sides should line up.
+             Right align means right sides should line up. Center align means centers should line up.
+             Positive Offsets should always be applied in a direction to create
+             space between the anchor and the dropdown.
+          </p>
+
+          <h4>Top and Bottom positioned</h4>
+          <div class="grid-x grid-padding-x">
+            <div class="cell medium-4">
+              <p>Bottom Left</p>
+              <button class="button" type="button" data-toggle="example-dropdown-bottom-left">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="bottom" data-alignment="left" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                <p>This offset should push right and down.</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Bottom Center</p>
+              <button class="button" type="button" data-toggle="example-dropdown-bottom-center">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="bottom" data-alignment="center" id="example-dropdown-bottom-center" data-dropdown data-auto-focus="true">
+                <p>This offset should push down and to the global right (right)</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Bottom Right</p>
+              <button class="button" type="button" data-toggle="example-dropdown-bottom-right">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="bottom" data-alignment="right" id="example-dropdown-bottom-right" data-dropdown data-auto-focus="true">
+                <p>This offset should push left and down.</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Top Left</p>
+              <button class="button" type="button" data-toggle="example-dropdown-top-left">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="top" data-alignment="left" id="example-dropdown-top-left" data-dropdown data-auto-focus="true">
+                <p>This offset should push right and up.</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Top Center</p>
+              <button class="button" type="button" data-toggle="example-dropdown-top-center">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="top" data-alignment="center" id="example-dropdown-top-center" data-dropdown data-auto-focus="true">
+                <p>This offset should push up and to the global right (right)</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Top Right</p>
+              <button class="button" type="button" data-toggle="example-dropdown-top-right">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="top" data-alignment="right" id="example-dropdown-top-right" data-dropdown data-auto-focus="true">
+                <p>This offset should push left and up.</p>
+              </div>
+            </div>
+          </div>
+
+
+          <h4>Left and Right Positioned</h4>
+          <div class="grid-x grid-padding-x">
+            <div class="cell medium-4">
+              <p>Right Top</p>
+              <button class="button" type="button" data-toggle="example-dropdown-right-top">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="right" data-alignment="top" id="example-dropdown-right-top" data-dropdown data-auto-focus="true">
+                <p>This offset should push right and down.</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Left Top</p>
+              <button class="button" type="button" data-toggle="example-dropdown-left-top">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="left" data-alignment="top" id="example-dropdown-left-top" data-dropdown data-auto-focus="true">
+                <p>This offset should push left and down.</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Right Center</p>
+              <button class="button" type="button" data-toggle="example-dropdown-right-center">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="right" data-alignment="center" id="example-dropdown-right-center" data-dropdown data-auto-focus="true">
+                <p>This offset should push right and down</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Left Center</p>
+              <button class="button" type="button" data-toggle="example-dropdown-left-center">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="left" data-alignment="center" id="example-dropdown-left-center" data-dropdown data-auto-focus="true">
+                <p>This offset should push left and down</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Right Bottom</p>
+              <button class="button" type="button" data-toggle="example-dropdown-right-bottom">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="right" data-alignment="bottom" id="example-dropdown-right-bottom" data-dropdown data-auto-focus="true">
+                <p>This offset should push right and up.</p>
+              </div>
+            </div>
+
+            <div class="cell medium-4">
+              <p>Left Bottom</p>
+              <button class="button" type="button" data-toggle="example-dropdown-left-bottom">Toggle Dropdown</button>
+              <div class="dropdown-pane" data-h-offset="50" data-v-offset="50" data-position="left" data-alignment="bottom" id="example-dropdown-left-bottom" data-dropdown data-auto-focus="true">
+                <p>This offset should push left and up.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

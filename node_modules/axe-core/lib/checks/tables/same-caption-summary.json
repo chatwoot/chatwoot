@@ -1,0 +1,11 @@
+{
+  "id": "same-caption-summary",
+  "evaluate": "same-caption-summary-evaluate",
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Content of summary attribute and <caption> are not duplicated",
+      "fail": "Content of summary attribute and <caption> element are identical"
+    }
+  }
+}

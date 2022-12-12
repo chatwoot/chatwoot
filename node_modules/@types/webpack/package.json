@@ -1,0 +1,136 @@
+{
+    "name": "@types/webpack",
+    "version": "4.41.27",
+    "description": "TypeScript definitions for webpack",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Qubo",
+            "url": "https://github.com/tkqubo",
+            "githubUsername": "tkqubo"
+        },
+        {
+            "name": "Benjamin Lim",
+            "url": "https://github.com/bumbleblym",
+            "githubUsername": "bumbleblym"
+        },
+        {
+            "name": "Boris Cherny",
+            "url": "https://github.com/bcherny",
+            "githubUsername": "bcherny"
+        },
+        {
+            "name": "Tommy Troy Lin",
+            "url": "https://github.com/tommytroylin",
+            "githubUsername": "tommytroylin"
+        },
+        {
+            "name": "Mohsen Azimi",
+            "url": "https://github.com/mohsen1",
+            "githubUsername": "mohsen1"
+        },
+        {
+            "name": "Jonathan Creamer",
+            "url": "https://github.com/jcreamer898",
+            "githubUsername": "jcreamer898"
+        },
+        {
+            "name": "Alan Agius",
+            "url": "https://github.com/alan-agius4",
+            "githubUsername": "alan-agius4"
+        },
+        {
+            "name": "Dennis George",
+            "url": "https://github.com/dennispg",
+            "githubUsername": "dennispg"
+        },
+        {
+            "name": "Christophe Hurpeau",
+            "url": "https://github.com/christophehurpeau",
+            "githubUsername": "christophehurpeau"
+        },
+        {
+            "name": "ZSkycat",
+            "url": "https://github.com/ZSkycat",
+            "githubUsername": "ZSkycat"
+        },
+        {
+            "name": "John Reilly",
+            "url": "https://github.com/johnnyreilly",
+            "githubUsername": "johnnyreilly"
+        },
+        {
+            "name": "Ryan Waskiewicz",
+            "url": "https://github.com/rwaskiewicz",
+            "githubUsername": "rwaskiewicz"
+        },
+        {
+            "name": "Kyle Uehlein",
+            "url": "https://github.com/kuehlein",
+            "githubUsername": "kuehlein"
+        },
+        {
+            "name": "Grgur Grisogono",
+            "url": "https://github.com/grgur",
+            "githubUsername": "grgur"
+        },
+        {
+            "name": "Rubens Pinheiro Gonçalves Cavalcante",
+            "url": "https://github.com/rubenspgcavalcante",
+            "githubUsername": "rubenspgcavalcante"
+        },
+        {
+            "name": "Anders Kaseorg",
+            "url": "https://github.com/andersk",
+            "githubUsername": "andersk"
+        },
+        {
+            "name": "Felix Haus",
+            "url": "https://github.com/ofhouse",
+            "githubUsername": "ofhouse"
+        },
+        {
+            "name": "Daniel Chin",
+            "url": "https://github.com/danielthank",
+            "githubUsername": "danielthank"
+        },
+        {
+            "name": "Daiki Ihara",
+            "url": "https://github.com/sasurau4",
+            "githubUsername": "sasurau4"
+        },
+        {
+            "name": "Dion Shi",
+            "url": "https://github.com/dionshihk",
+            "githubUsername": "dionshihk"
+        },
+        {
+            "name": "Piotr Błażejewicz",
+            "url": "https://github.com/peterblazejewicz",
+            "githubUsername": "peterblazejewicz"
+        },
+        {
+            "name": "Michał Grzegorzewski",
+            "url": "https://github.com/spamshaker",
+            "githubUsername": "spamshaker"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/webpack"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/anymatch": "*",
+        "@types/node": "*",
+        "@types/tapable": "^1",
+        "@types/uglify-js": "*",
+        "@types/webpack-sources": "*",
+        "source-map": "^0.6.0"
+    },
+    "typesPublisherContentHash": "6a59e1e231b3da07c3608cc7c117d7d312cb2adf145a5e899cdb12b635aa04eb",
+    "typeScriptVersion": "3.7"
+}

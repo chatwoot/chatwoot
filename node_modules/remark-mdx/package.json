@@ -1,0 +1,46 @@
+{
+  "name": "remark-mdx",
+  "version": "1.6.22",
+  "description": "Support import, export, and JSX in markdown",
+  "repository": "mdx-js/mdx",
+  "homepage": "https://mdxjs.com",
+  "bugs": "https://github.com/mdx-js/mdx/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
+  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "contributors": [
+    "John Otander <johnotander@gmail.com> (http://johnotander.com)",
+    "Tim Neutkens <tim@vercel.com>",
+    "Matija Marohnić <matija.marohnic@gmail.com>",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+    "JounQin <admin@1stg.me> (https://www.1stg.me)"
+  ],
+  "license": "MIT",
+  "files": [
+    "block.js",
+    "extract-imports-and-exports.js",
+    "index.js",
+    "tag.js"
+  ],
+  "keywords": [
+    "mdx",
+    "markdown",
+    "react",
+    "jsx",
+    "remark",
+    "mdxast"
+  ],
+  "dependencies": {
+    "@babel/core": "7.12.9",
+    "@babel/helper-plugin-utils": "7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.12.1",
+    "@babel/plugin-syntax-jsx": "7.12.1",
+    "@mdx-js/util": "1.6.22",
+    "is-alphabetical": "1.0.4",
+    "remark-parse": "8.0.3",
+    "unified": "9.2.0"
+  },
+  "gitHead": "510bae2580958598ae29047bf755b1a2ea26cf7e"
+}

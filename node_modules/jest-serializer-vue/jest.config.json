@@ -1,0 +1,5 @@
+{
+  "snapshotSerializers": [
+    "<rootDir>/index.js"
+  ]
+}

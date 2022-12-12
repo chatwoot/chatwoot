@@ -1,0 +1,14 @@
+{
+  "id": "only-listitems",
+  "evaluate": "only-listitems-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "List element only has direct children that are allowed inside <li> elements",
+      "fail": {
+        "default": "List element has direct children that are not allowed inside <li> elements",
+        "roleNotValid": "List element has direct children with a role that is not allowed: ${data.roles}"
+      }
+    }
+  }
+}

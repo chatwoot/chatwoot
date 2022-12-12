@@ -1,0 +1,33 @@
+{
+  "name": "requireindex",
+  "description": "Write minimal node index.js files that require and export siblings by file basename",
+  "version": "1.2.0",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stephenhandley/requireindex.git"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "require",
+    "index",
+    "index.js"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "bugs": {
+    "url": "http://github.com/stephenhandley/requireindex/issues"
+  },
+  "engines": {
+    "node": ">=0.10.5"
+  },
+  "devDependencies": {
+    "asserts": "4.0.x"
+  },
+  "author": "Stephen Handley <stephen.handley@gmail.com> (http://person.sh)",
+  "homepage": "https://github.com/stephenhandley/requireindex"
+}

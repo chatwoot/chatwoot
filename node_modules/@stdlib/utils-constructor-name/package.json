@@ -1,0 +1,108 @@
+{
+  "name": "@stdlib/utils-constructor-name",
+  "version": "0.0.8",
+  "description": "Determine the name of a value's constructor.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "main": "./lib",
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/utils-constructor-name.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/assert-is-buffer": "^0.0.x",
+    "@stdlib/regexp-function-name": "^0.0.x",
+    "@stdlib/utils-native-class": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/array-buffer": "^0.0.x",
+    "@stdlib/array-float32": "^0.0.x",
+    "@stdlib/array-float64": "^0.0.x",
+    "@stdlib/array-int16": "^0.0.x",
+    "@stdlib/array-int32": "^0.0.x",
+    "@stdlib/array-int8": "^0.0.x",
+    "@stdlib/array-uint16": "^0.0.x",
+    "@stdlib/array-uint32": "^0.0.x",
+    "@stdlib/array-uint8": "^0.0.x",
+    "@stdlib/array-uint8c": "^0.0.x",
+    "@stdlib/assert-has-map-support": "^0.0.x",
+    "@stdlib/assert-has-set-support": "^0.0.x",
+    "@stdlib/assert-has-symbol-support": "^0.0.x",
+    "@stdlib/assert-has-weakmap-support": "^0.0.x",
+    "@stdlib/assert-has-weakset-support": "^0.0.x",
+    "@stdlib/assert-is-string": "^0.0.x",
+    "@stdlib/bench": "^0.0.x",
+    "@stdlib/buffer-ctor": "^0.0.x",
+    "@stdlib/number-ctor": "^0.0.x",
+    "@stdlib/symbol-ctor": "^0.0.x",
+    "proxyquire": "^2.0.0",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdutils",
+    "stdutil",
+    "utilities",
+    "utility",
+    "utils",
+    "util",
+    "type",
+    "typeof",
+    "class",
+    "constructor",
+    "ctor",
+    "name",
+    "instanceof",
+    "is",
+    "istype",
+    "check"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

@@ -1,0 +1,84 @@
+<html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="grid-x grid-padding-x">
+      <div class="large-12 cell">
+
+        <h2>Responsive Menu - Accordion (with submenu toggle) to Dropdown:</h2>
+
+          <div id="main-nav">
+            <ul class="menu vertical medium-horizontal accordion-menu" data-responsive-menu="accordion medium-dropdown" data-submenu-toggle="true">
+              <li>
+                <a href="http://www.github.com">Item 1 (external)</a>
+                <ul class="menu vertical">
+                  <li><a href="google.com">Item 1A (external)</a></li>
+                  <li>
+                    <a href="#">Item 1B</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#">Item 2</a>
+                <ul class="menu vertical">
+                  <li><a href="#">Item 2A</a></li>
+                  <li>
+                    <a href="#">Item 2B</a>
+                    <ul class="menu vertical">
+                    <li><a href="google.com">Item 2BA (external)</a></li>
+                    <li>
+                      <a href="#">Item 2BB</a>
+                    </li>
+                  </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+      </div>
+      <div class="large-12 cell">
+        <h2>Responsive Menu - Accordion and Drilldown both with parent links:</h2>
+        <div id="main-nav">
+          <ul class="menu vertical drilldown" data-responsive-menu="drilldown medium-accordion" data-parent-link="true">
+            <li>
+              <a href="http://www.github.com">Item 1 (external)</a>
+              <ul class="menu vertical">
+                <li><a href="google.com">Item 1A (external)</a></li>
+                <li>
+                  <a href="#">Item 1B</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Item 2</a>
+              <ul class="menu vertical">
+                <li><a href="#">Item 2A</a></li>
+                <li>
+                  <a href="#">Item 2B</a>
+                  <ul class="menu vertical">
+                  <li><a href="google.com">Item 2BA (external)</a></li>
+                  <li>
+                    <a href="#">Item 2BB</a>
+                  </li>
+                </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

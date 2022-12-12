@@ -1,0 +1,78 @@
+{
+  "name": "aria-query",
+  "version": "4.2.2",
+  "description": "Programmatic access to the ARIA specification",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && babel src --out-dir lib",
+    "prepare": "npm run lint && npm run flow && npm run test && npm run build",
+    "coveralls": "cat ./reports/lcov.info | coveralls",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "lint": "eslint  --config .eslintrc src __tests__",
+    "lint:fix": "npm run lint -- --fix",
+    "pretest": "npm run lint:fix && npm run flow",
+    "test": "npm run jest",
+    "test:ci": "npm run jest -- --ci --runInBand",
+    "jest": "jest --coverage __tests__/**/*",
+    "output_as_hack": "babel-node ./scripts/output_as_hack.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A11yance/aria-query.git"
+  },
+  "keywords": [
+    "accessibility",
+    "ARIA"
+  ],
+  "author": "Jesse Beach <splendidnoise@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/A11yance/aria-query/issues"
+  },
+  "homepage": "https://github.com/A11yance/aria-query#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-flow": "^7.10.1",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^24.0.0",
+    "commander": "^2.11.0",
+    "coveralls": "^2.11.15",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-flowtype": "^3.5.0",
+    "eslint-plugin-import": "^2.21.2",
+    "expect": "^1.20.2",
+    "flow-bin": "^0.112.0",
+    "jest": "^24.9.0",
+    "minimist": "^1.2.5",
+    "rimraf": "^2.6.3"
+  },
+  "engines": {
+    "node": ">=6.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.2",
+    "@babel/runtime-corejs3": "^7.10.2"
+  },
+  "jest": {
+    "coverageReporters": [
+      "lcov"
+    ],
+    "coverageDirectory": "reports",
+    "roots": [
+      "<rootDir>/__tests__"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all",
+    "ie 11"
+  ]
+}

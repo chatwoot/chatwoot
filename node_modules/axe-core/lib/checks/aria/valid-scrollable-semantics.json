@@ -1,0 +1,14 @@
+{
+  "id": "valid-scrollable-semantics",
+  "evaluate": "valid-scrollable-semantics-evaluate",
+  "options": {
+    "roles": ["tooltip"]
+  },
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Element has valid semantics for an element in the focus order.",
+      "fail": "Element has invalid semantics for an element in the focus order."
+    }
+  }
+}

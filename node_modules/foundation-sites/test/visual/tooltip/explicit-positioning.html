@@ -1,0 +1,111 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Tooltips: Explicit Positioning Content - no offsets</h1>
+
+          <p>These tooltips test various positioning and alignments. Valid
+             positions are left/right/top/bottom.  Valid alignments are
+             left/right/top/bottom/center. Left align means left sides should line up.
+             Right align means right sides should line up. Center align means centers should line up.
+          </p>
+
+          <h4>Top and Bottom positioned</h4>
+          <div class="grid-x grid-padding-x">
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="bottom" data-alignment="left">
+                Bottom Left
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button"  data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="bottom" data-alignment="center">
+                Bottom Center
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="bottom" data-alignment="right">
+                Bottom Right
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="top" data-alignment="left">
+                Top Left
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="top" data-alignment="center">
+                Top Center
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="top" data-alignment="right">
+                Top Right
+              </button>
+            </div>
+          </div>
+
+
+          <h4>Left and Right Positioned</h4>
+          <div class="grid-x grid-padding-x">
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="right" data-alignment="top">
+                Right Top
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="left" data-alignment="top">
+                Left Top
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="right" data-alignment="center">
+                Right Center
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="left" data-alignment="center">
+                Left Center
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="right" data-alignment="bottom">
+                Right Bottom
+              </button>
+            </div>
+
+            <div class="cell medium-4">
+              <button class="button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle." data-position="left" data-alignment="bottom">
+                Left Bottom
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

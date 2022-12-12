@@ -1,0 +1,98 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>xy margin grid</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      body {
+        overflow-x: hidden;
+        text-align: center;
+      }
+
+      .demo {
+        background: #1779ba;
+        color: white;
+        text-align: center;
+      }
+
+      .cell {
+        /*background: dodgerblue;*/
+        line-height: 50px;
+        height: 50px;
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Grid Container</h1>
+    <p>The below 2 examples should line up with each other.</p>
+
+    <div class="grid-container">
+      <div class="grid-x grid-margin-x">
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+      </div>
+    </div>
+
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h1>Grid Container Fluid</h1>
+    <p>The below 2 examples should line up with each other.</p>
+
+    <div class="grid-container fluid">
+      <div class="grid-x grid-margin-x">
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+      </div>
+    </div>
+
+    <div class="grid-container fluid">
+      <div class="grid-x grid-padding-x">
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h1>Grid Container Full</h1>
+    <p>The below 2 examples should <strong>NOT</strong> line up with each other.<br>
+    This is because we don't want to cut off the padding on the padding version, but we want the margin version to be flush with the edge.</p>
+
+    <div class="callout alert">
+      <p>Also note the use of `overflow-x: hidden;` on the `body`. This is required for this to work correctly, but is noted in the docs.</p>
+    </div>
+
+    <div class="grid-container full">
+      <div class="grid-x grid-margin-x">
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+      </div>
+    </div>
+
+    <div class="grid-container full">
+      <div class="grid-x grid-padding-x">
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+        <div class="cell medium-6"><div class="demo">Cell</div></div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

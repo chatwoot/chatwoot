@@ -1,0 +1,84 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Abide Radio Buttons</h1>
+
+          <p>This form has required radio buttons.  If you try to submit without picking one, it
+          should show an error.  When you then pick one, the error should clear and let you submit.</p>
+          <form id="form" data-abide novalidate>
+            <div class="alert callout hide" data-abide-error>
+              <p>This form has errors.</p>
+            </div>
+            <fieldset>
+              <legend>Fieldset Label</legend>
+              <input required type="radio" name="example1" value="yes" id="example1Yes" />
+              <label for="example1Yes">Yes</label>
+              <input required type="radio" name="example1" value="no" id="example1No" />
+              <label for="example1No">No</label>
+            </fieldset>
+            <button class="button" type="submit">Submit</button>
+            <button class="button" type="reset">Reset</button>
+          </form>
+
+          <hr>
+
+          <p>This form has <strong>one</strong> required radio button.  If you try to submit without picking one, it
+          should show an error.  When you then pick one, the error should clear and let you submit.</p>
+          <form id="form" data-abide novalidate>
+            <div class="alert callout hide" data-abide-error>
+              <p>This form has errors.</p>
+            </div>
+            <fieldset>
+              <legend>Fieldset Label</legend>
+              <input type="radio" name="example3" value="yes" id="example3Yes" />
+              <label for="example3Yes">Yes</label>
+              <input required type="radio" name="example3" value="no" id="example3No" />
+              <label for="example3No">No</label>
+              <input type="radio" name="example3" value="maybe" id="example3Maybe" />
+              <label for="example3Maybe">Maybe</label>
+            </fieldset>
+            <button class="button" type="submit">Submit</button>
+            <button class="button" type="reset">Reset</button>
+          </form>
+
+          <hr>
+
+          <p>This form has optional radio buttons.  It should let you submit with or without picking one.</p>
+          <form id="form" data-abide novalidate>
+            <div class="alert callout hide" data-abide-error>
+              <p>This form has errors.</p>
+            </div>
+            <fieldset>
+              <legend>Fieldset Label</legend>
+              <input type="radio" name="example2" value="yes" id="example2Yes" />
+              <label for="example2Yes">Yes</label>
+              <input type="radio" name="example2" value="no" id="example2No" />
+              <label for="example2No">No</label>
+            </fieldset>
+            <button class="button" type="submit">Submit</button>
+            <button class="button" type="reset">Reset</button>
+          </form>
+
+          <hr>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

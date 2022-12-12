@@ -1,0 +1,19 @@
+{
+  "id": "video-caption",
+  "selector": "video",
+  "excludeHidden": false,
+  "tags": [
+    "cat.text-alternatives",
+    "wcag2a",
+    "wcag122",
+    "section508",
+    "section508.22.a"
+  ],
+  "metadata": {
+    "description": "Ensures <video> elements have captions",
+    "help": "<video> elements must have captions"
+  },
+  "all": [],
+  "any": [],
+  "none": ["caption"]
+}

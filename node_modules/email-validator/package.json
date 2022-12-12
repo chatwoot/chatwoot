@@ -1,0 +1,47 @@
+{
+  "name": "email-validator",
+  "version": "2.0.4",
+  "author": "Manish Saraan <manish021js@gmail.com>",
+  "description": "Provides a fast, pretty robust e-mail validator. Only checks form, not function.",
+  "main": "index",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "typings": "index.d.ts",
+  "engines": {
+    "node": ">4.0"
+  },
+  "keywords": [
+    "email",
+    "validation",
+    "validator",
+    "syntax"
+  ],
+  "homepage": "http://github.com/manishsaraan/email-validator",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/manishsaraan/email-validator/raw/master/LICENSE"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Manish Saraan",
+      "email": "manish021js@gmail.com",
+      "url": "https://github.com/manishsaraan"
+    },
+    {
+      "name": "Brad Martin",
+      "email": "bradwaynemartin@gmail.com",
+      "url": "https://github.com/bradmartin"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/manishsaraan/email-validator.git"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "mocha": "5.0.5"
+  }
+}

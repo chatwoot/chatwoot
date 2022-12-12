@@ -1,0 +1,159 @@
+@import "true";
+
+@import '../../scss/util/unit';
+@import '../../scss/util/breakpoint';
+
+@include test-module('Breakpoint') {
+
+  @include test('Breakpoint (Named to Em) [function]') {
+    $test: breakpoint(medium);
+    $expect: '(min-width: 40em)';
+
+    @include assert-equal($test, $expect,
+      'Converts a named breakpoint to an em value');
+  }
+
+  @include test('Breakpoint (Rem/Px to Em) [function]') {
+    $expect: '(min-width: 1em)';
+
+    @include assert-equal(breakpoint(16px), $expect,
+      'Converts a pixel breakpoint to em');
+    @include assert-equal(breakpoint(1rem), $expect,
+      'Converts a rem breakpoint to em');
+  }
+
+  @include test('Breakpoint (Only Range) [function]') {
+    $test: breakpoint(medium only);
+    $expect: '(min-width: 40em) and (max-width: 63.99875em)';
+
+    $test-lowest: breakpoint(small only);
+    $expect-lowest: '(max-width: 39.99875em)';
+
+    $test-highest: breakpoint(xxlarge only);
+    $expect-highest: '(min-width: 90em)';
+
+    @include assert-equal($test, $expect,
+      'Creates a min/max-width range out of a named breakpoint');
+
+    @include assert-equal($test-lowest, $expect-lowest,
+      'Creates a max-width range if the breakpoint is the lowest');
+
+    @include assert-equal($test-highest, $expect-highest,
+      'Creates a min-width range if the breakpoint is the highest');
+  }
+
+  @include test('Breakpoint (Named Down Range) [function]') {
+    $test: breakpoint(medium down);
+    $expect: '(max-width: 63.99875em)';
+
+    @include assert-equal($test, $expect,
+      'Creates a down range out of a medium breakpoint');
+
+    $test-lowest: breakpoint(small down);
+    $expect-lowest: '(max-width: 39.99875em)';
+
+    @include assert-equal($test-lowest, $expect-lowest,
+      'Creates a down range out of a small breakpoint');
+
+    $test-highest: breakpoint(xxlarge down);
+    $expect-highest: '';
+
+    @include assert-equal($test-highest, $expect-highest,
+      'Skips media query creation for xxlarge down');
+  }
+
+  @include test('Breakpoint (Value Down Range) [function]') {
+    $expect: '(max-width: 1em)';
+
+    @include assert-equal(breakpoint(16px down), $expect,
+      'Creates a down range out of a pixel value');
+    @include assert-equal(breakpoint(1rem down), $expect,
+      'Creates a down range out of a rem value');
+    @include assert-equal(breakpoint(1em down), $expect,
+      'Creates a down range out of an em value');
+  }
+
+  @include test('Breakpoint (Empty String) [function]') {
+    $expect: '';
+
+    @include assert-equal(breakpoint(small up), $expect,
+      'Returns an empty string for the value small up');
+    @include assert-equal(breakpoint(0 down), $expect,
+      'Returns an empty string for the value 0 down');
+    @include assert-equal(breakpoint(0 up), $expect,
+      'Returns an empty string for the value 0 up');
+  }
+
+  @include test('Breakpoint (Orientation/Retina) [function]') {
+    @include assert-equal(breakpoint(landscape), '(orientation: landscape)',
+      'Creates special media query for landscape');
+    @include assert-equal(breakpoint(portrait), '(orientation: portrait)',
+      'Creates special media query for portrait');
+    @include assert-equal(breakpoint(retina), '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)',
+      'Creates special media query for retina');
+  }
+
+  @include test('Breakpoint (Unknown Value) [function]') {
+    @include assert-equal(breakpoint(xxxxlarge), '', 'Returns an empty string for non-existant media queries');
+  }
+
+  @include test('Map Serialize [function]') {
+    $input: (
+      small: 1em,
+      medium: 2em,
+      large: 3em,
+    );
+    $test: -zf-bp-serialize($input);
+    $expect: 'small=1em&medium=2em&large=3em';
+
+    @include assert-equal($test, $expect,
+      'Converts a Sass map into a string');
+  }
+
+  @include test('Map Next [function]') {
+    $input: (
+      one: 'One',
+      two: 'Two',
+      three: 'Three',
+    );
+    $test_next: -zf-map-next($input, two);
+    $expect_next: map-get($input, three);
+
+    @include assert-equal($test_next, $expect_next,
+      'Returns the next value in a map');
+
+    $test_last: -zf-map-next($input, three);
+    $expect_last: null;
+
+    @include assert-equal($test_last, $expect_last,
+      'Returns null if the key is last in the map');
+
+    $test_null: -zf-map-next($input, four);
+    $expect_null: null;
+
+    @include assert-equal($test_null, $expect_null,
+      'Returns null if the key is not in the map');
+  }
+
+  @include test('Get Breakpoint Value [function]') {
+    $config: (
+      small: 0,
+      large: 1,
+    );
+    $test_kittens: -zf-get-bp-val($config, kittens);
+    $expect_kittens: null;
+
+    @include assert-equal($test_kittens, $expect_kittens,
+      'Given a non-existant breakpoint name, return null');
+
+    $test_match: -zf-get-bp-val($config, large);
+    $expect_match: 1;
+
+    @include assert-equal($test_match, $expect_match,
+      'Given a matching breakpoint, returns the exact value');
+    @include assert-equal(-zf-get-bp-val($config, medium), 0,
+      'Given a nearby breakpoint, returns the next lowest value');
+    @include assert-equal(-zf-get-bp-val($config, xlarge), 1,
+      'Given a nearby breakpoint, returns the next lowest value');
+  }
+}

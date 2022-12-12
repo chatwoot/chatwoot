@@ -1,0 +1,42 @@
+{
+  "name": "postcss-selector-matches",
+  "version": "4.0.0",
+  "description": "PostCSS plugin to transform :matches() W3C CSS pseudo class to more compatible CSS selectors",
+  "keywords": [
+    "postcss",
+    "postcss-plugin",
+    "selectors",
+    "selector",
+    "matches"
+  ],
+  "author": "Maxime Thirouin",
+  "license": "MIT",
+  "repository": "https://github.com/postcss/postcss-selector-matches.git",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "balanced-match": "^1.0.0",
+    "postcss": "^7.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^5.6.0",
+    "npmpub": "^4.1.0",
+    "tape": "^4.9.1"
+  },
+  "scripts": {
+    "lint": "eslint ./src/*.js ./test/*.js",
+    "tape": "tape -r babel-register test/*.js",
+    "test": "npm run lint && npm run babelify && npm run tape",
+    "babelify": "babel src --out-dir dist",
+    "prepublish": "npm run babelify",
+    "release": "npmpub"
+  }
+}

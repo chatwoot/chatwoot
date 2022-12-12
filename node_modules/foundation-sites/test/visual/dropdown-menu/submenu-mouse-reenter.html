@@ -1,0 +1,64 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <div class="callout">Move the Mouse on Item 1 -> Item 1B -> Item 1B iii -> Submenu, then leave the Pane and quick reenter it before it close. Pane should stay open</div>
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li>
+              <a>Item 1</a>
+              <ul class="menu">
+                <li><a href="#">Item 1A</a></li>
+                <li>
+                  <a href="#">Item 1B</a>
+                  <ul class="menu">
+                    <li><a href="#">Item 1B i</a></li>
+                    <li><a href="#">Item 1B ii</a></li>
+                    <li>
+                      <a href="#">Item 1B iii</a>
+                      <ul class="menu">
+                        <li><a href="#">Item 1B iii alpha</a></li>
+                        <li><a href="#">Item 1B iii omega</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#">Item 1B iv</a>
+                      <ul class="menu">
+                        <li><a href="#">Item 1B iv alpha</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="#">Item 1C</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Item 2</a>
+              <ul class="menu">
+                <li><a href="#">Item 2A</a></li>
+                <li><a href="#">Item 2B</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Item 3</a></li>
+            <li><a href="#">Item 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

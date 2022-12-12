@@ -1,0 +1,1 @@
+{"ast":null,"code":"/**\n * Removes all key-value entries from the list cache.\n *\n * @private\n * @name clear\n * @memberOf ListCache\n */\nfunction listCacheClear() {\n  this.__data__ = [];\n  this.size = 0;\n}\n\nmodule.exports = listCacheClear;","map":null,"metadata":{},"sourceType":"module"}

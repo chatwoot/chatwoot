@@ -1,0 +1,20 @@
+language: node_js
+matrix:
+  include:
+  - node_js: "13"
+  - node_js: "12"
+  - node_js: "11"
+  - node_js: "10"
+  - node_js: "9"
+  - node_js: "8"
+  - node_js: "7"
+  - node_js: "6"
+
+# Allow Travis tests to run in containers.
+sudo: false
+
+# Update package-lock.json after test runs:
+before_install:
+  - npm install -g greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload

@@ -1,0 +1,50 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-display
+////
+
+/// Responsive breakpoints for display classes
+/// @type Boolean
+$prototype-display-breakpoints: $global-prototype-breakpoints !default;
+
+/// Map containing all the `display` classes
+/// @type Map
+$prototype-display: (
+  inline,
+  inline-block,
+  block,
+  table,
+  table-cell
+) !default;
+
+/// Display classes, by default coming through a map `$prototype-display`
+/// @param {String} $display [] Display classes
+@mixin display($display) {
+  display: $display !important;
+}
+
+@mixin foundation-prototype-display {
+  @each $display in $prototype-display {
+    .display-#{$display} {
+      @include display($display);
+    }
+  }
+
+  @if ($prototype-display-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @each $display in $prototype-display {
+          @if $size != $-zf-zero-breakpoint {
+            .#{$size}-display-#{$display} {
+              @include display($display);
+            }
+          }
+        }
+      }
+    }
+  }
+}

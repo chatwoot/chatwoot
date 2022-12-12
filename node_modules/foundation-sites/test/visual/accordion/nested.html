@@ -1,0 +1,73 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Foundation for Sites Testing</title>
+  <link href="../assets/css/foundation.css" rel="stylesheet" />
+  <style>
+    .accordion-title[aria-expanded="true"] {
+      border-top: 1px solid dodgerblue;
+    }
+
+    .accordion-title[aria-selected="true"] {
+      border-bottom: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="cell">
+        <h1>Accordion: Nesting</h1>
+
+        <p>These are nested accordions.</p>
+
+        <ul>
+          <li>A title with <code>aria-expanded="true"</code> has a blue border.</li>
+          <li>A title with <code>aria-selected="true"</code> has a red border.</li>
+          <li>An open item should have <strong>both borders</strong>.</li>
+          <li>Manipulating one accordion shouldn't affect the other.</li>
+        </ul>
+
+        <ul class="accordion" data-accordion>
+          <li class="accordion-item is-active" data-accordion-item>
+            <a href="#" class="accordion-title">Accordion 1</a>
+            <div class="accordion-content" data-tab-content>
+              <p>Base Accordion</p>
+              <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+                <li class="accordion-item is-active" data-accordion-item>
+                  <a href="#" class="accordion-title">Accordion 1</a>
+                  <div class="accordion-content" data-tab-content>
+                    Nested Accordion
+                  </div>
+                </li>
+                <li class="accordion-item" data-accordion-item>
+                  <a href="#" class="accordion-title">Accordion 1</a>
+                  <div class="accordion-content" data-tab-content>
+                    Nested Accordion
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="accordion-item" data-accordion-item>
+            <a href="#" class="accordion-title">Accordion 1</a>
+            <div class="accordion-content" data-tab-content>
+              <p>Base Accordion</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/vendor.js"></script>
+  <script src="../assets/js/foundation.js"></script>
+  <script>
+  $(document).foundation();
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+// Formulate inputs
+// -----------------------------------------------------------------------------
+
+.formulate-input {
+  // global wrapper styles
+
+  .formulate-input-label {
+    // global label styles
+  }
+
+  .formulate-input-element {
+    // Global field-level wrapper styles
+  }
+
+  .formulate-input-help {
+    // Global help text styles
+  }
+
+  .formulate-input-errors {
+    // Global error message list wrapper
+  }
+
+  .formulate-input-error,
+  .formulate-file-upload-error {
+    // Error message styles
+  }
+
+  .formulate-input-group-item {
+    // Group of items (like list of checkboxes) wrapper
+  }
+
+// Text inputs
+// -----------------------------------------------------------------------------
+
+  &[data-classification='text'] {
+    input {
+      // Style all text-like input elements
+    }
+  }
+
+// Slider inputs
+// -----------------------------------------------------------------------------
+
+&[data-classification='slider'] {
+  input {
+    // Style range inputs
+  }
+}
+
+// Textarea inputs
+// -----------------------------------------------------------------------------
+
+  &[data-classification='textarea'] {
+    textarea {
+      // Style textareas
+    }
+  }
+
+  // Button inputs
+// -----------------------------------------------------------------------------
+
+&[data-classification='button'] {
+  button {
+    // Style button inputs
+  }
+}
+
+// Select lists
+// -----------------------------------------------------------------------------
+
+  &[data-classification='select'] {
+    select {
+     // Style select lists
+    }
+  }
+
+
+// Box inputs
+// -----------------------------------------------------------------------------
+
+  &[data-classification='box'] {
+    .formulate-input-element {
+      // Box input (checkbox and radio) wrapper (might want flex here)
+      input {
+        // Style box element itself
+      }
+    }
+  }
+
+
+  // File inputs
+// -----------------------------------------------------------------------------
+
+  &[data-classification="file"] {
+    .formulate-input-upload-area {
+      input {
+        // The actual upload element
+      }
+    }
+  }
+
+
+// Image uploads
+// -----------------------------------------------------------------------------
+
+  [data-type="image"] {
+    // image uploads
+  }
+}
+
+
+// Form-level errors
+// -----------------------------------------------------------------------------
+
+.formulate-form-errors {
+
+  .formulate-form-error {
+    // form errors (not specific to a field)
+  }
+}
+

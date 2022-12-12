@@ -1,0 +1,1 @@
+{"ast":null,"code":"// HTML5 entities map: { name -> utf16string }\n//\n'use strict';\n/*eslint quotes:0*/\n\nmodule.exports = require('entities/lib/maps/entities.json');","map":null,"metadata":{},"sourceType":"module"}

@@ -1,0 +1,57 @@
+{
+  "name": "@xmldom/xmldom",
+  "version": "0.7.5",
+  "description": "A pure JavaScript W3C standard-based (XML DOM Level 2 Core) DOMParser and XMLSerializer module.",
+  "keywords": [
+    "w3c",
+    "dom",
+    "xml",
+    "parser",
+    "javascript",
+    "DOMParser",
+    "XMLSerializer",
+    "ponyfill"
+  ],
+  "homepage": "https://github.com/xmldom/xmldom",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/xmldom/xmldom.git"
+  },
+  "main": "lib/index.js",
+  "types": "index.d.ts",
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE",
+    "readme.md",
+    "index.d.ts",
+    "lib"
+  ],
+  "scripts": {
+    "lint": "eslint lib test",
+    "start": "nodemon --watch package.json --watch lib --watch test --exec 'npm --silent run test && npm --silent run lint'",
+    "stryker": "stryker run",
+    "stryker:dry-run": "stryker run -m '' --reporters progress",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@stryker-mutator/core": "^5.2.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-es5": "^1.5.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "get-stream": "^6.0.1",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2",
+    "xmltest": "^1.5.0",
+    "yauzl": "^2.10.0"
+  },
+  "bugs": {
+    "url": "https://github.com/xmldom/xmldom/issues"
+  },
+  "license": "MIT"
+}

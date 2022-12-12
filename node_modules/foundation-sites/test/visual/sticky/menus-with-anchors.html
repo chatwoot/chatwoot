@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Foundation for Sites Testing</title>
+  <link href="../assets/css/foundation-float.css" rel="stylesheet" />
+
+  <style>
+
+    .container {
+      background-color: rgba(255,0,0,0.7);
+
+    }
+
+    .fail {
+      color: red;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .foo {
+      height: 35rem;
+      color: white;
+    }
+
+    .megafoo {
+      height:50rem;
+      color: white;
+    }
+
+    .bar {
+      color: white;
+    }
+
+    .foo h1 {
+      float: right;
+    }
+
+    .foo:nth-child(odd), .bar:nth-child(odd), .megafoo:nth-child(odd) {
+      background-color: lightgreen;
+    }
+
+    .foo:nth-child(even), .bar:nth-child(even), .megafoo:nth-child(even) {
+      background-color: lightblue;
+    }
+
+    .test-container {
+      background-color: darkgrey;
+    }
+
+    .menu {
+      background-color: white;
+      border: 1px solid #2199e8;
+    }
+
+    .menu-text {
+      font-weight: normal;
+      color: black;
+    }
+
+    .menu-title {
+      text-transform: uppercase;
+      font-size: 1rem;
+      color: black;
+      font-weight: bold;
+      line-height: 1;
+      padding: 1rem 1rem .5rem 1rem;
+    }
+
+    .menu .is-active {
+      background-color: #2199e8;
+      color: white;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <div class="row">
+    <div class="small-12 medium-8 medium-centered columns">
+      <h1 class="text-center">Sticky Menus with Anchors</h1>
+      <hr>
+      <h2>Look For:</h2>
+      <ul>
+        <li><span class="fail">Currently failing</span> Menus should unstick in the correct place when it reaches its anchor points.</li>
+        <li><span class="fail">Currently failing</span> You should not see the red background color of the sticky container after scrolling up and down the page, or sticking/unsticking the menus. Scrolling up and down the page as fast as possible will sometimes reproduce this bug.</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="row test-container">
+
+    <div class="small-12 medium-6 columns">
+      <div id="foo1" class="foo" data-magellan-target="foo1">
+        <h1>#foo1</h1>
+      </div>
+      <div id="foo2" class="foo" data-magellan-target="foo2">
+        <div class="row">
+          <div class="small-12 medium-8 columns">
+            <div class="container" data-sticky-container>
+              <nav class="sticky" data-sticky-on="small" data-sticky data-anchor="foo2">
+                <ul class="vertical menu">
+                  <li class="menu-title menu-text">Sticky Menu Test #2</li>
+                  <li class="menu-text">Anchored to #foo2</li>
+                  <li class="menu-text">Descendant of #foo2</li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="small-12 medium-4 columns">
+            <h1>#foo2</h1>
+          </div>
+        </div>
+      </div>
+
+      <div id="foo3" class="foo" data-magellan-target="foo3">
+        <h1>#foo3</h1>
+      </div>
+
+      <div id="foo4" class="foo" data-magellan-target="foo4">
+        <div class="row">
+          <div class="small-12 medium-8 columns">
+            <div class="container" data-sticky-container>
+              <nav class="sticky" data-sticky-on="small" data-sticky data-anchor-top="foo4:top" data-anchor-bottom="foo5:bottom">
+                <ul class="vertical menu">
+                  <li class="menu-title menu-text">Sticky Menu Test #3</li>
+                  <li class="menu-text">Top is anchored to top of #foo4</li>
+                  <li class="menu-text">Bottom is anchored to bottom of #foo5</li>
+                  <li class="menu-text">Descendant of #foo4</li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="small-12 medium-4 columns">
+            <h1>#foo4</h1>
+          </div>
+        </div>
+      </div>
+
+      <div id="foo5" class="foo" data-magellan-target="foo5">
+        <h1>#foo5</h1>
+      </div>
+
+      <div id="foo6" class="foo" data-magellan-target="foo6">
+        <h1>#foo6</h1>
+      </div>
+
+      <div id="foo7" class="foo" data-magellan-target="foo7">
+        <h1>#foo7</h1>
+      </div>
+
+      <div id="foo8" class="foo" data-magellan-target="foo8">
+        <h1>#foo8</h1>
+      </div>
+
+      <div id="foo9" class="foo" data-magellan-target="foo9">
+        <h1>#foo9</h1>
+      </div>
+
+      <div id="foo10" class="foo" data-magellan-target="foo10">
+        <h1>#foo10</h1>
+      </div>
+
+    </div>
+
+    <div class="small-12 medium-6 columns">
+
+      <div class="container" data-sticky-container>
+        <nav class="sticky" data-sticky-on="small" data-sticky data-anchor-top="foo1:top">
+          <ul class="vertical menu" data-magellan>
+            <li class="menu-title menu-text">Sticky Menu Test #1</li>
+            <li class="menu-text">Top anchored to to top of #foo1</li>
+            <li class="menu-text">Not a descendant of #foo1</li>
+            <li><a href="#foo1">#foo1</a></li>
+            <li><a href="#foo2">#foo2</a></li>
+            <li><a href="#foo3">#foo3</a></li>
+            <li><a href="#foo4">#foo4</a></li>
+            <li><a href="#foo5">#foo5</a></li>
+            <li><a href="#foo6">#foo6</a></li>
+            <li><a href="#foo7">#foo7</a></li>
+            <li><a href="#foo7">#foo8</a></li>
+            <li><a href="#foo7">#foo9</a></li>
+            <li><a href="#foo7">#foo10</a></li>
+          </ul>
+        </nav>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="../assets/js/vendor.js"></script>
+  <script src="../assets/js/foundation.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>

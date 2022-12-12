@@ -1,0 +1,379 @@
+.footer-nav {
+  @include flex-grid-row;
+  align-items: center;
+  background-color: $topbar-background;
+  padding: 2rem;
+  width: 100%;
+  justify-content: center;
+
+  @include breakpoint(small only) {
+    flex-direction: column;
+  }
+}
+
+.footer-nav-left,
+.footer-nav-right {
+  @include flex-grid-column(shrink);
+  color: $white;
+
+  a {
+    color: $white;
+
+    &:hover,
+    &:focus {
+      color: darken($white, 10%);
+    }
+
+    @include breakpoint(small only) {
+      font-size: 1rem;
+    }
+  }
+
+  @include breakpoint(small only) {
+    @include flex-grid-column(expand);
+  }
+}
+
+.footer-nav-left {
+  @media screen and (min-width: 40em) and (max-width: 76.5em) {
+    order: 3;
+    display: flex;
+    margin-left: 1rem;
+  }
+
+  @include breakpoint(small only) {
+    order: 3;
+  }
+}
+
+.footer-nav-right {
+  @media screen and (min-width: 40em) and (max-width: 76.5em) {
+    order: 2;
+    display: flex;
+    margin-right: 1rem;
+  }
+
+  @include breakpoint(small only) {
+    margin-bottom: 1rem;
+  }
+}
+
+.footer-copyright {
+  color: darken($white, 20%);
+  font-size: 1rem;
+  padding-top: 1rem;
+}
+
+.footer-nav-center {
+  @include flex-grid-column;
+
+  .footer-nav-menu-item {
+    @media screen and (min-width: 40em) and (max-width: 46.25em) {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media screen and (min-width: 40em) and (max-width: 76.5em) {
+    display: flex;
+    flex: 1 0 auto;
+    order: 1;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.footer-nav-menu {
+  list-style: none;
+  margin-bottom: 0;
+  text-align: center;
+
+  @include breakpoint(small only) {
+    margin-left: 0;
+  }
+}
+
+.footer-nav-menu-icons {
+  list-style: none;
+  margin-bottom: 0;
+  text-align: center;
+
+  @include breakpoint(small only) {
+    margin-left: 0;
+    display: flex;
+    margin-top: 1rem;
+
+    .footer-nav-menu-item {
+      margin-right: 2.5rem;
+    }
+  }
+}
+
+.footer-nav-menu-item {
+  display: inline-block;
+  margin-right: 2.5rem;
+  font-size: 1.25rem;
+  padding: 0.4rem 0;
+
+  a {
+    color: $white;
+    transition: color 0.3s ease;
+
+    &:hover,
+    &:focus {
+      color: darken($white, 0%);
+      transition: color 0.3s ease;
+    }
+  }
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  @include breakpoint(small only) {
+    display: block;
+    font-size: 1rem;
+    margin: 0;
+
+    &.social {
+      display: inline-block;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    &.cow-palace-menu {
+      margin: 0 auto;
+      top: -2px;
+    }
+  }
+}
+
+.footer-social-icon {
+  height: 1.25rem;
+  margin: 0;
+  width: 1.25rem;
+}
+
+
+// contact
+.footer-contact {
+  background-color: $foundation-dark;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: $true-white;
+  padding: 5rem 0 8rem;
+
+  @include breakpoint(small only) {
+    background-image: none;
+    padding: 4rem 0;
+  }
+}
+
+.homepage-section-title {
+  font-size: 4.4rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.1em;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include breakpoint(medium only) {
+    font-size: 3rem;
+  }
+
+  @include breakpoint(small only) {
+    font-size: 2.5rem;
+  }
+}
+
+a.text-link {
+  color: $white;
+  font-weight: bold;
+}
+
+.homepage-section-desc {
+  color: $white;
+  margin-bottom: 2.5rem;
+  z-index: 1;
+  font-size: 1.25rem;
+  line-height: 1.8;
+
+  &.light {
+    color: darken($white, 20%);
+  }
+
+  .text-link {
+    color: $white;
+    font-weight: bold;
+  }
+
+  @include breakpoint(small only) {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.footer-contact-form {
+  margin-top: 2rem;
+
+  @include breakpoint (small only) {
+    margin-top: 0.5rem;
+  }
+
+  label {
+    color: $white;
+    font-family: 'Proxima Nova Bold', Helvetica, san-serif;
+    font-weight: 600;
+  }
+
+  [type='text'],
+  [type='email'],
+  textarea {
+    background-color: darken($white, 8%);
+    border: 1px solid darken($white, 15%);
+    border-radius: 5px;
+    color: darken($foundation-dark, 45%);
+    height: 2.55rem;
+    padding-left: 1rem;
+    transition: background-color 0.3s ease;
+    opacity: 0.5;
+
+    &:focus,
+    &:focus {
+      background-color: darken($foundation-dark, 5%);
+      box-shadow: none;
+      transition: background-color 0.3s ease;
+      color: $white;
+    }
+  }
+
+  // TODO: add placeholder mixin
+  ::-webkit-input-placeholder {
+    color: lighten($foundation-dark, 40%);
+  }
+
+  ::-moz-placeholder {
+    color: lighten($foundation-dark, 40%);
+  }
+
+  :-ms-input-placeholder {
+    color: lighten($foundation-dark, 40%);
+  }
+
+  :-moz-placeholder {
+    color: lighten($foundation-dark, 40%);
+  }
+}
+
+.form-contact-form-button {
+  margin-top: 1rem;
+}
+
+.homepage-section-subtitle-divider {
+  border-bottom: 2px solid $foundation-dark;
+  display: block;
+  margin-bottom: 2.5rem;
+  width: 4rem;
+
+  &.lighter {
+    border-bottom: 2px solid lighten($white, 40%);
+  }
+
+  @include breakpoint(small only) {
+    margin-bottom: 2rem;
+    width: 3rem;
+  }
+}
+
+.homepage-section-subtitle {
+  color: $foundation-dark;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+
+  &.lighter {
+    color: lighten($white, 40%);
+  }
+
+  @include breakpoint(small only) {
+    font-size: 0.8rem;
+  }
+}
+
+.home-form-submit-button {
+  font-size: 1.25rem;
+  font-weight: 600;
+  background: $white;
+  color: $foundation-dark;
+}
+
+// Responsive newsletter callout above the footer.
+
+.newsletter-signup-inner {
+  display: flex;
+  align-items: center;
+}
+
+.newsletter-signup {
+  background: #085a78;
+  padding: 1rem 0;
+
+  h5 {
+    color: $white;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 0;
+  }
+
+  p {
+    clear: both;
+    color: $white;
+    font-size: 13px;
+    margin-bottom: 0;
+  }
+
+  a {
+    color: $white;
+  }
+
+  .button {
+    background: $primary-color;
+
+    &:hover {
+      background: darken($primary-color, 14%);
+    }
+  }
+
+  .row.collapse form {
+    input[type="text"] {
+      border: 0;
+      color: #999;
+      font-size: 17px;
+      font-weight: 200;
+      position: relative;
+    }
+
+    .button {
+      background: #257696;
+      border: 0;
+      box-shadow: none;
+      margin: 0;
+
+      &:hover {
+        background: #1b566d;
+      }
+    }
+  }
+}
+
+#subForm {
+  margin-top: 1rem;
+}
+
+

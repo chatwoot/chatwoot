@@ -1,0 +1,63 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+/// Adds styles for a progress bar container.
+@mixin progress-container {
+  height: $progress-height;
+  margin-bottom: $progress-margin-bottom;
+  border-radius: $progress-radius;
+  background-color: $progress-background;
+}
+
+/// Adds styles for the inner meter of a progress bar.
+@mixin progress-meter {
+  position: relative;
+  display: block;
+  width: 0%;
+  height: 100%;
+  background-color: $progress-meter-background;
+
+  @if has-value($progress-radius) {
+    border-radius: $global-radius;
+  }
+}
+
+/// Adds styles for text in the progress meter.
+@mixin progress-meter-text {
+  @include absolute-center;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: $white;
+  white-space: nowrap;
+
+  @if has-value($progress-radius) {
+    border-radius: $progress-radius;
+  }
+}
+
+@mixin foundation-progress-bar {
+  // Progress bar
+  .progress {
+    @include progress-container;
+
+    @each $name, $color in $foundation-palette {
+      &.#{$name} {
+        .progress-meter {
+          background-color: $color;
+        }
+      }
+    }
+  }
+
+  // Inner meter
+  .progress-meter {
+    @include progress-meter;
+  }
+
+  // Inner meter text
+  .progress-meter-text {
+    @include progress-meter-text;
+  }
+}

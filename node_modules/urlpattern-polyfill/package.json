@@ -1,0 +1,144 @@
+{
+  "name": "urlpattern-polyfill",
+  "version": "6.0.2",
+  "description": "Polyfill for the URLPattern API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kenchris/urlpattern-polyfill"
+  },
+  "type": "module",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./urlpattern": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/urlpattern.js",
+      "require": "./dist/urlpattern.cjs"
+    },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./index.js",
+      "require": "./index.cjs"
+    }
+  },
+  "tags": [
+    "url",
+    "urlpattern",
+    "url-pattern",
+    "browser",
+    "node",
+    "polyfill",
+    "w3c",
+    "wicg"
+  ],
+  "files": [
+    "dist",
+    "index.js",
+    "index.cjs"
+  ],
+  "devDependencies": {
+    "@ava/typescript": "^3.0.1",
+    "ava": "^5.1.0",
+    "esbuild": "^0.14.31",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.2",
+    "wireit": "^0.7.3"
+  },
+  "ava": {
+    "files": [
+      "test/**/*",
+      "!test/wpt"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "dist/"
+      },
+      "compile": false
+    }
+  },
+  "scripts": {
+    "build:esm": "wireit",
+    "build:cjs": "wireit",
+    "build": "wireit",
+    "copyTypeFiles": "wireit",
+    "prepFakeNodeModules": "wireit",
+    "test": "wireit",
+    "manual-test": "wireit",
+    "publish-dev": "wireit",
+    "publish-prod": "wireit"
+  },
+  "wireit": {
+    "build:esm": {
+      "command": "esbuild --bundle --format=esm src/url-pattern.ts --outfile=dist/urlpattern.js",
+      "output": [
+        "dist/urlpattern.js"
+      ],
+      "files": [
+        "src/**/*"
+      ]
+    },
+    "build:cjs": {
+      "command": "esbuild --bundle --format=cjs src/url-pattern.ts --outfile=dist/urlpattern.cjs",
+      "output": [
+        "dist/urlpattern.cjs"
+      ],
+      "files": [
+        "src/**/*"
+      ]
+    },
+    "copyTypeFiles": {
+      "command": "cp ./src/index.d.ts ./src/types.d.ts ./dist",
+      "output": [
+        "dist/index.d.ts",
+        "dist/types.d.ts"
+      ],
+      "dependencies": [
+        "build:esm",
+        "build:cjs"
+      ]
+    },
+    "build": {
+      "dependencies": [
+        "copyTypeFiles"
+      ]
+    },
+    "prepFakeNodeModules": {
+      "command": "rm -rf node_modules/urlpattern-polyfill; ln -s $(pwd) node_modules/urlpattern-polyfill"
+    },
+    "test": {
+      "command": "ava --fail-fast -s",
+      "watch": "test/**/*",
+      "files": [
+        "test/**/*"
+      ],
+      "dependencies": [
+        "prepFakeNodeModules",
+        "build"
+      ]
+    },
+    "manual-test": {
+      "command": "npx http-server -o /index.html -p 4203",
+      "dependencies": [
+        "test"
+      ]
+    },
+    "publish-dev": {
+      "command": "VERSION=${npm_package_version%-*}-dev.`git rev-parse --short HEAD` && npm version --no-git-tag-version $VERSION && npm publish --tag dev",
+      "dependencies": [
+        "test"
+      ]
+    },
+    "publish-prod": {
+      "command": "npm version patch && npm publish",
+      "dependencies": [
+        "test"
+      ]
+    }
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "braces": "^3.0.2"
+  }
+}

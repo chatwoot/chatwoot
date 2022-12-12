@@ -1,0 +1,131 @@
+{
+  "name": "fork-ts-checker-webpack-plugin",
+  "version": "4.1.6",
+  "description": "Runs typescript type checker and linter on separate process.",
+  "keywords": [
+    "awesome-typescript-loader",
+    "checker",
+    "fast",
+    "fork",
+    "increment",
+    "linter",
+    "plugin",
+    "speed",
+    "ts-loader",
+    "type",
+    "typescript",
+    "webpack",
+    "webpack-plugin"
+  ],
+  "bugs": {
+    "url": "https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TypeStrong/fork-ts-checker-webpack-plugin.git"
+  },
+  "license": "MIT",
+  "author": "Piotr Oleś <piotrek.oles@gmail.com>",
+  "contributors": [
+    "Piotr Oleś <piotrek.oles@gmail.com> (https://github.com/piotr-oles)",
+    "John Reilly <johnny_reilly@hotmail.com> (https://blog.johnnyreilly.com)"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rimraf lib && tsc --version && tsc --project \"./src\"",
+    "lint": "eslint ./src ./test --ext .ts --ext .js --ignore-pattern '/test/fixtures/**' --ignore-pattern '/test/tmp/**'",
+    "test": "yarn build && yarn test:unit && yarn test:integration",
+    "test:unit": "jest unit",
+    "test:integration": "jest integration && rimraf tmp",
+    "precommit": "lint-staged && yarn build && yarn test:unit",
+    "commit": "./node_modules/.bin/git-cz"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn build && yarn test:unit",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "eslint --fix",
+        "prettier --write",
+        "git add"
+      ],
+      "*.ts": [
+        "prettier --write",
+        "git add"
+      ]
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@babel/code-frame": "^7.5.5",
+    "chalk": "^2.4.1",
+    "micromatch": "^3.1.10",
+    "minimatch": "^3.0.4",
+    "semver": "^5.6.0",
+    "tapable": "^1.0.0",
+    "worker-rpc": "^0.1.0"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^7.5.0",
+    "@types/babel__code-frame": "^7.0.1",
+    "@types/jest": "^24.0.11",
+    "@types/lodash": "^4.14.134",
+    "@types/micromatch": "^3.1.0",
+    "@types/minimatch": "^3.0.1",
+    "@types/mock-fs": "^4.10.0",
+    "@types/mock-require": "^2.0.0",
+    "@types/node": "^11.0.0",
+    "@types/rimraf": "^2.0.2",
+    "@types/semver": "^5.5.0",
+    "@types/webpack": "^4.4.19",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "commitlint": "^7.5.2",
+    "copy-dir": "^0.4.0",
+    "css-loader": "0.28.11",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "git-cz": "^3.0.1",
+    "husky": "^1.1.4",
+    "jest": "^24.7.1",
+    "lint-staged": "^8.0.5",
+    "lodash": "^4.17.11",
+    "mock-fs": "^4.3.0",
+    "mock-require": "^3.0.2",
+    "nativescript-vue-template-compiler": "^2.4.0",
+    "prettier": "^1.14.3",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.2.0",
+    "ts-loader": "^5.0.0",
+    "typescript": "^3.0.1",
+    "unixify": "^1.0.0",
+    "vue": "^2.5.16",
+    "vue-class-component": "^6.1.1",
+    "vue-loader": "^15.2.4",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=6.11.5",
+    "yarn": ">=1.0.0"
+  }
+}

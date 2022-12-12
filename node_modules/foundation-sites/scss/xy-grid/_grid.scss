@@ -1,0 +1,37 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group xy-grid
+////
+
+/// Creates a max width container, designed to house your grid content.
+///
+/// @param {Number} $width [$grid-container] - a width to limit the container to.
+/// @param {Number} $padding [$grid-container-padding] - paddings of the container.
+@mixin xy-grid-container(
+  $width: $grid-container,
+  $padding: $grid-container-padding
+) {
+  @include xy-gutters($gutters: $padding, $gutter-type: padding);
+
+  max-width: $width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/// Creates a container for your flex cells.
+///
+/// @param {Keyword} $direction [horizontal] - Either horizontal or vertical direction of cells within.
+/// @param {Boolean} $wrap [true] - If the cells within should wrap or not.
+@mixin xy-grid(
+  $direction: horizontal,
+  $wrap: true
+) {
+  $direction: if($direction == 'horizontal', row, column);
+  $wrap: if($wrap, wrap, nowrap);
+
+  display: flex;
+  flex-flow: $direction $wrap;
+}

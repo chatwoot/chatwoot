@@ -1,0 +1,68 @@
+
+{{alias}}( value )
+    Tests if a value is a string.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a string.
+
+    Examples
+    --------
+    > var bool = {{alias}}( 'beep' )
+    true
+    > bool = {{alias}}( new String( 'beep' ) )
+    true
+    > bool = {{alias}}( 5 )
+    false
+
+
+{{alias}}.isPrimitive( value )
+    Tests if a value is a string primitive.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a string primitive.
+
+    Examples
+    --------
+    > var bool = {{alias}}.isPrimitive( 'beep' )
+    true
+    > bool = {{alias}}.isPrimitive( new String( 'beep' ) )
+    false
+
+
+{{alias}}.isObject( value )
+    Tests if a value is a `String` object.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a `String` object.
+
+    Examples
+    --------
+    > var bool = {{alias}}.isObject( new String( 'beep' ) )
+    true
+    > bool = {{alias}}.isObject( 'beep' )
+    false
+
+    See Also
+    --------
+

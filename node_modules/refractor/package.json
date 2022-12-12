@@ -1,0 +1,126 @@
+{
+  "name": "refractor",
+  "version": "3.6.0",
+  "description": "Lightweight, robust, elegant virtual syntax highlighting using Prism",
+  "license": "MIT",
+  "keywords": [
+    "syntax",
+    "code",
+    "ast",
+    "virtual",
+    "dom",
+    "highlight",
+    "highlighting",
+    "prism"
+  ],
+  "repository": "wooorm/refractor",
+  "bugs": "https://github.com/wooorm/refractor/issues",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/wooorm"
+  },
+  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+    "Conor Hastings <hastings.conorm@gmail.com>",
+    "Daniel Stefanovic <daniel.stefanovic@gmail.com>",
+    "Mike Kruk <tamagokun@gmail.com>",
+    "Peter Williams <peterwilliams@gmail.com>",
+    "Brian Mearns <bmearns@commercehub.com>",
+    "Gray Zhang <otakustay@gmail.com>"
+  ],
+  "files": [
+    "index.js",
+    "core.js",
+    "lang"
+  ],
+  "dependencies": {
+    "hastscript": "^6.0.0",
+    "parse-entities": "^2.0.0",
+    "prismjs": "~1.27.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "alpha-sort": "^4.0.0",
+    "arr-diff": "^4.0.0",
+    "async": "^3.0.0",
+    "bail": "^1.0.0",
+    "browserify": "^17.0.0",
+    "chalk": "^4.0.0",
+    "detab": "^2.0.0",
+    "is-hidden": "^1.0.0",
+    "is-keyword": "^1.2.2",
+    "mdast-zone": "^4.0.0",
+    "not": "^0.1.0",
+    "nyc": "^15.0.0",
+    "prettier": "^2.0.0",
+    "rehype": "^11.0.0",
+    "remark-cli": "^9.0.0",
+    "remark-preset-wooorm": "^8.0.0",
+    "tape": "^5.0.0",
+    "tinyify": "^3.0.0",
+    "trim-lines": "^1.0.0",
+    "unist-builder": "^2.0.0",
+    "unist-util-remove-position": "^3.0.0",
+    "xo": "^0.37.0"
+  },
+  "scripts": {
+    "generate": "node script/languages && node script/list",
+    "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
+    "build-bundle": "browserify index.js -s refractor > refractor.js",
+    "build-mangle": "browserify index.js -s refractor -p tinyify > refractor.min.js",
+    "build": "npm run build-bundle && npm run build-mangle",
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test/index.js",
+    "test": "npm run generate && npm run format && npm run build && npm run test-coverage"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100,
+    "exclude": [
+      "lang/*.js"
+    ]
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false,
+    "rules": {
+      "import/extensions": "off",
+      "unicorn/no-array-callback-reference": "off",
+      "unicorn/no-fn-reference-in-iterator": "off",
+      "unicorn/prefer-includes": "off",
+      "unicorn/prefer-optional-catch-binding": "off",
+      "unicorn/prefer-type-error": "off",
+      "unicorn/string-content": "off",
+      "guard-for-in": "off"
+    },
+    "ignores": [
+      "lang/*.js",
+      "refractor.js"
+    ]
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm",
+      [
+        "toc",
+        {
+          "heading": "contents",
+          "skip": "license"
+        }
+      ],
+      "./script/count",
+      "./script/support"
+    ]
+  }
+}

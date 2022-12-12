@@ -1,0 +1,47 @@
+{
+  "name": "domutils",
+  "version": "1.7.0",
+  "description": "utilities for working with htmlparser2's dom",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha test/tests/**.js && jshint index.js test/**/*.js lib/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/FB55/domutils.git"
+  },
+  "keywords": [
+    "dom",
+    "htmlparser2"
+  ],
+  "dependencies": {
+    "dom-serializer": "0",
+    "domelementtype": "1"
+  },
+  "devDependencies": {
+    "htmlparser2": "~3.9.2",
+    "domhandler": "2",
+    "jshint": "~2.9.4",
+    "mocha": "~3.2.0"
+  },
+  "author": "Felix Boehm <me@feedic.com>",
+  "license": "BSD-2-Clause",
+  "jshintConfig": {
+    "proto": true,
+    "unused": true,
+    "eqnull": true,
+    "undef": true,
+    "quotmark": "double",
+    "eqeqeq": true,
+    "trailing": true,
+    "node": true,
+    "globals": {
+      "describe": true,
+      "it": true,
+      "beforeEach": true
+    }
+  }
+}

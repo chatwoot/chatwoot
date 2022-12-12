@@ -1,0 +1,44 @@
+{
+  "name": "webpack-virtual-modules",
+  "version": "0.2.2",
+  "description": "Webpack Virtual Modules",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --fix .",
+    "posttest": "npm run lint",
+    "test": "NODE_ENV=coverage nyc --check-coverage --lines 90 --branches 85 npm run tests",
+    "tests": "mocha",
+    "tests:watch": "mocha -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sysgears/webpack-virtual-modules.git"
+  },
+  "keywords": [
+    "webpack",
+    "webpack-plugin",
+    "virtual",
+    "modules"
+  ],
+  "author": "SysGears INC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sysgears/webpack-virtual-modules/issues"
+  },
+  "homepage": "https://github.com/sysgears/webpack-virtual-modules#readme",
+  "devDependencies": {
+    "chai": "^4.0.1",
+    "eslint": "^4.1.0",
+    "memory-fs": "^0.4.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "webpack": "^4.0.0"
+  },
+  "dependencies": {
+    "debug": "^3.0.0"
+  },
+  "files": [
+    "*.js"
+  ],
+  "greenkeeper": {}
+}

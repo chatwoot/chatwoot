@@ -1,0 +1,74 @@
+{
+	"name": "listr",
+	"version": "0.14.3",
+	"description": "Terminal task list",
+	"license": "MIT",
+	"repository": "SamVerschueren/listr",
+	"author": {
+		"name": "Sam Verschueren",
+		"email": "sam.verschueren@gmail.com",
+		"url": "github.com/SamVerschueren"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "clinton && xo && nyc ava",
+		"lint:staged": "lint-staged"
+	},
+	"files": [
+		"index.js",
+		"lib"
+	],
+	"keywords": [
+		"cli",
+		"task",
+		"list",
+		"tasklist",
+		"terminal",
+		"term",
+		"console",
+		"ascii",
+		"unicode",
+		"loading",
+		"indicator",
+		"progress",
+		"busy",
+		"wait",
+		"idle"
+	],
+	"dependencies": {
+		"@samverschueren/stream-to-observable": "^0.3.0",
+		"is-observable": "^1.1.0",
+		"is-promise": "^2.1.0",
+		"is-stream": "^1.1.0",
+		"listr-silent-renderer": "^1.1.1",
+		"listr-update-renderer": "^0.5.0",
+		"listr-verbose-renderer": "^0.5.0",
+		"p-map": "^2.0.0",
+		"rxjs": "^6.3.3"
+	},
+	"devDependencies": {
+		"ava": "*",
+		"clinton": "*",
+		"codecov": "^3.1.0",
+		"delay": "^4.1.0",
+		"hook-std": "^1.1.0",
+		"lint-staged": "^8.0.5",
+		"log-symbols": "^2.2.0",
+		"nyc": "^13.1.0",
+		"pre-commit": "^1.2.2",
+		"split": "^1.0.1",
+		"xo": "*",
+		"zen-observable": "^0.8.11"
+	},
+	"lint-staged": {
+		"*.js": "xo"
+	},
+	"pre-commit": "lint:staged",
+	"xo": {
+		"rules": {
+			"prefer-destructuring": "off"
+		}
+	}
+}

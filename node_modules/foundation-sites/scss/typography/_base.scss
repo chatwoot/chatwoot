@@ -1,0 +1,509 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group typography-base
+////
+
+// Base Typography
+// - - - - - - - - - - - - - - -
+// These are styles applied to basic HTML tags, including:
+//   - Paragraphs <p>
+//   - Bold/italics <b> <strong> <i> <em>
+//   - Small text <small>
+//   - Headings <h1>-<h6>
+//   - Anchors <a>
+//   - Dividers <hr>
+//   - Lists <ul> <ol> <dl>
+//   - Blockquotes <blockquote>
+//   - Code blocks <code>
+//   - Abbreviations <abbr>
+//   - Citations <cite>
+//   - Keystrokes <kbd>
+
+/// Font family for header elements.
+/// @type String | List
+$header-font-family: $body-font-family !default;
+
+/// Font weight of headers.
+/// @type String
+$header-font-weight: $global-weight-normal !default;
+
+/// Font style (e.g. italicized) of headers.
+/// @type String
+$header-font-style: normal !default;
+
+/// Font stack used for elements that use monospaced type, such as code samples
+/// @type String | List
+$font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace !default;
+
+/// Color of headers.
+/// @type Color
+$header-color: inherit !default;
+
+/// Line height of headers.
+/// @type Number
+$header-lineheight: 1.4 !default;
+
+/// Bottom margin of headers.
+/// @type Number
+$header-margin-bottom: 0.5rem !default;
+
+/// Styles for headings at various screen sizes. Each key is a breakpoint, and each value is a map of heading styles.
+/// @type Map
+$header-styles: (
+  small: (
+    'h1': ('font-size': 24),
+    'h2': ('font-size': 20),
+    'h3': ('font-size': 19),
+    'h4': ('font-size': 18),
+    'h5': ('font-size': 17),
+    'h6': ('font-size': 16),
+  ),
+  medium: (
+    'h1': ('font-size': 48),
+    'h2': ('font-size': 40),
+    'h3': ('font-size': 31),
+    'h4': ('font-size': 25),
+    'h5': ('font-size': 20),
+    'h6': ('font-size': 16),
+  ),
+) !default;
+
+// $header-styles map is built from $header-sizes in order to ensure downward compatibility
+// when $header-sizes is depreciated, $header-styles needs to get !default values like settings.scss
+@function build_from_header-sizes($header-sizes) {
+  @warn 'Note, that $header-sizes has been replaced with $header-styles. $header-sizes still works, but it is going to be depreciated.';
+  $header-styles: ();
+  @each $size, $headers in $header-sizes {
+    $header-map: ();
+    @each $header, $font-size in $headers {
+      $header-map: map-merge($header-map, ($header: ('font-size': $font-size)));
+    }
+    $header-styles: map-merge($header-styles, ($size: $header-map));
+  }
+  @return $header-styles;
+}
+
+// If it exists $headers-sizes is used to build $header-styles. See the documentation.
+@if variable-exists(header-sizes) {
+  $header-styles: build_from_header-sizes($header-sizes);
+}
+
+/// Text rendering method of headers.
+/// @type String
+$header-text-rendering: optimizeLegibility !default;
+
+/// Font size of `<small>` elements.
+/// @type Number
+$small-font-size: 80% !default;
+
+/// Color of `<small>` elements when placed inside headers.
+/// @type Color
+$header-small-font-color: $medium-gray !default;
+
+/// Line height of text inside `<p>` elements.
+/// @type Number
+$paragraph-lineheight: 1.6 !default;
+
+/// Bottom margin of paragraphs.
+/// @type Number
+$paragraph-margin-bottom: 1rem !default;
+
+/// Text rendering method for paragraph text.
+/// @type String
+$paragraph-text-rendering: optimizeLegibility !default;
+
+/// Text color of code samples.
+/// @type Color
+$code-color: $black !default;
+
+/// Font family of code samples.
+/// @type String | List
+$code-font-family: $font-family-monospace !default;
+
+/// Font weight of text in code samples.
+/// @type String
+$code-font-weight: $global-weight-normal !default;
+
+/// Background color of code samples.
+/// @type Color
+$code-background: $light-gray !default;
+
+/// Border around code samples.
+/// @type List
+$code-border: 1px solid $medium-gray !default;
+
+/// Padding around text of code samples.
+/// @type Number | List
+$code-padding: rem-calc(2 5 1) !default;
+
+/// Default color for links.
+/// @type Color
+$anchor-color: $primary-color !default;
+
+/// Default color for links on hover.
+/// @type Color
+$anchor-color-hover: scale-color($anchor-color, $lightness: -14%) !default;
+
+/// Default text decoration for links.
+/// @type String
+$anchor-text-decoration: none !default;
+
+/// Default text decoration for links on hover.
+/// @type String
+$anchor-text-decoration-hover: none !default;
+
+/// Maximum width of a divider.
+/// @type Number
+$hr-width: $global-width !default;
+
+/// Default border for a divider.
+/// @type List
+$hr-border: 1px solid $medium-gray !default;
+
+/// Default margin for a divider.
+/// @type Number | List
+$hr-margin: rem-calc(20) auto !default;
+
+/// Line height for items in a list.
+/// @type Number
+$list-lineheight: $paragraph-lineheight !default;
+
+/// Bottom margin for items in a list.
+/// @type Number
+$list-margin-bottom: $paragraph-margin-bottom !default;
+
+/// Bullet type to use for unordered lists (e.g., `square`, `circle`, `disc`).
+/// @type String
+$list-style-type: disc !default;
+
+/// Positioning for bullets on unordered list items.
+/// @type String
+$list-style-position: outside !default;
+
+/// Left (or right) margin for lists.
+/// @type Number
+$list-side-margin: 1.25rem !default;
+
+/// Left (or right) margin for a list inside a list.
+/// @type Number
+$list-nested-side-margin: 1.25rem !default;
+
+/// Bottom margin for `<dl>` elements.
+/// @type Number
+$defnlist-margin-bottom: 1rem !default;
+
+/// Font weight for `<dt>` elements.
+/// @type String
+$defnlist-term-weight: $global-weight-bold !default;
+
+/// Spacing between `<dt>` and `<dd>` elements.
+/// @type Number
+$defnlist-term-margin-bottom: 0.3rem !default;
+
+/// Text color of `<blockquote>` elements.
+/// @type Color
+$blockquote-color: $dark-gray !default;
+
+/// Padding inside a `<blockquote>` element.
+/// @type Number | List
+$blockquote-padding: rem-calc(9 20 0 19) !default;
+
+/// Side border for `<blockquote>` elements.
+/// @type List
+$blockquote-border: 1px solid $medium-gray !default;
+
+/// Font size for `<cite>` elements.
+/// @type Number
+$cite-font-size: rem-calc(13) !default;
+
+/// Text color for `<cite>` elements.
+/// @type Color
+$cite-color: $dark-gray !default;
+
+/// Pseudo content for `<cite>` elements.
+/// @type String
+$cite-pseudo-content: '\2014 \0020' !default;
+
+/// Font family for `<kbd>` elements.
+/// @type String | List
+$keystroke-font: $font-family-monospace !default;
+
+/// Text color for `<kbd>` elements.
+/// @type Color
+$keystroke-color: $black !default;
+
+/// Background color for `<kbd>` elements.
+/// @type Color
+$keystroke-background: $light-gray !default;
+
+/// Padding for `<kbd>` elements.
+/// @type Number | List
+$keystroke-padding: rem-calc(2 4 0) !default;
+
+/// Border radius for `<kbd>` elements.
+/// @type Number | List
+$keystroke-radius: $global-radius !default;
+
+/// Bottom border style for `<abbr>` elements.
+/// @type List
+$abbr-underline: 1px dotted $black !default;
+
+@mixin foundation-typography-base {
+  // Typography resets
+  div,
+  dl,
+  dt,
+  dd,
+  ul,
+  ol,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  pre,
+  form,
+  p,
+  blockquote,
+  th,
+  td {
+    margin: 0;
+    padding: 0;
+  }
+
+  // Paragraphs
+  p {
+    margin-bottom: $paragraph-margin-bottom;
+
+    font-size: inherit;
+    line-height: $paragraph-lineheight;
+    text-rendering: $paragraph-text-rendering;
+  }
+
+  // Emphasized text
+  em,
+  i {
+    font-style: italic;
+    line-height: inherit;
+  }
+
+  // Strong text
+  strong,
+  b {
+    font-weight: $global-weight-bold;
+    line-height: inherit;
+  }
+
+  // Small text
+  small {
+    font-size: $small-font-size;
+    line-height: inherit;
+  }
+
+  // Headings
+  h1, .h1,
+  h2, .h2,
+  h3, .h3,
+  h4, .h4,
+  h5, .h5,
+  h6, .h6 {
+    font-family: $header-font-family;
+    font-style: $header-font-style;
+    font-weight: $header-font-weight;
+    color: $header-color;
+    text-rendering: $header-text-rendering;
+
+    small {
+      line-height: 0;
+      color: $header-small-font-color;
+    }
+  }
+
+  // Heading styles
+  @each $size, $headers in $header-styles {
+    @include breakpoint($size) {
+      @each $header, $header-defs in $headers {
+        $font-size-temp: 1rem;
+        #{$header}, .#{$header} {
+
+          @if map-has-key($header-defs, font-size) {
+            $font-size-temp: rem-calc(map-get($header-defs, font-size));
+            font-size: $font-size-temp;
+          } @else if map-has-key($header-defs, fs) {
+            $font-size-temp: rem-calc(map-get($header-defs, fs));
+            font-size: $font-size-temp;
+          } @else if $size == $-zf-zero-breakpoint {
+            font-size: $font-size-temp;
+          }
+          @if map-has-key($header-defs, line-height) {
+            line-height: unitless-calc(map-get($header-defs, line-height), $font-size-temp);
+          } @else if map-has-key($header-defs, lh) {
+            line-height: unitless-calc(map-get($header-defs, lh), $font-size-temp);
+          } @else if $size == $-zf-zero-breakpoint {
+            line-height: unitless-calc($header-lineheight, $font-size-temp);
+          }
+
+          @if map-has-key($header-defs, margin-top) {
+            margin-top: rem-calc(map-get($header-defs, margin-top));
+          } @else if map-has-key($header-defs, mt) {
+            margin-top: rem-calc(map-get($header-defs, mt));
+          } @else if $size == $-zf-zero-breakpoint {
+            margin-top: 0;
+          }
+          @if map-has-key($header-defs, margin-bottom) {
+            margin-bottom: rem-calc(map-get($header-defs, margin-bottom));
+          } @else if map-has-key($header-defs, mb) {
+            margin-bottom: rem-calc(map-get($header-defs, mb));
+          } @else if $size == $-zf-zero-breakpoint {
+            margin-bottom: rem-calc($header-margin-bottom);
+          }
+        }
+      }
+    }
+  }
+
+  // Links
+  a {
+    line-height: inherit;
+    color: $anchor-color;
+    text-decoration: $anchor-text-decoration;
+
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: $anchor-color-hover;
+      @if $anchor-text-decoration-hover != $anchor-text-decoration {
+        text-decoration: $anchor-text-decoration-hover;
+      }
+    }
+
+    img {
+      border: 0;
+    }
+  }
+
+  // Horizontal rule
+  hr {
+    clear: both;
+
+    max-width: $hr-width;
+    height: 0;
+    margin: $hr-margin;
+
+    border-top: 0;
+    border-right: 0;
+    border-bottom: $hr-border;
+    border-left: 0;
+  }
+
+  // Lists
+  ul,
+  ol,
+  dl {
+    margin-bottom: $list-margin-bottom;
+    list-style-position: $list-style-position;
+    line-height: $list-lineheight;
+  }
+
+  // List items
+  li {
+    font-size: inherit;
+  }
+
+  // Unordered lists
+  ul {
+    margin-#{$global-left}: $list-side-margin;
+    list-style-type: $list-style-type;
+  }
+
+  // Ordered lists
+  ol {
+    margin-#{$global-left}: $list-side-margin;
+  }
+
+  // Nested unordered/ordered lists
+  ul, ol {
+    & & {
+      margin-#{$global-left}: $list-nested-side-margin;
+      margin-bottom: 0;
+    }
+  }
+
+  // Definition lists
+  dl {
+    margin-bottom: $defnlist-margin-bottom;
+
+    dt {
+      margin-bottom: $defnlist-term-margin-bottom;
+      font-weight: $defnlist-term-weight;
+    }
+  }
+
+  // Blockquotes
+  blockquote {
+    margin: 0 0 $paragraph-margin-bottom;
+    padding: $blockquote-padding;
+    border-#{$global-left}: $blockquote-border;
+
+    &, p {
+      line-height: $paragraph-lineheight;
+      color: $blockquote-color;
+    }
+  }
+
+  // Citations
+  cite {
+    display: block;
+    font-size: $cite-font-size;
+    color: $cite-color;
+
+    &:before {
+      content: $cite-pseudo-content;
+    }
+  }
+
+  // Abbreviations
+  abbr, abbr[title] {
+    border-bottom: $abbr-underline;
+    cursor: help;
+    text-decoration: none;
+  }
+
+  // Figures
+  figure {
+    margin: 0;
+  }
+
+  // Code
+  code {
+    padding: $code-padding;
+
+    border: $code-border;
+    background-color: $code-background;
+
+    font-family: $code-font-family;
+    font-weight: $code-font-weight;
+    color: $code-color;
+  }
+
+  // Keystrokes
+  kbd {
+    margin: 0;
+    padding: $keystroke-padding;
+
+    background-color: $keystroke-background;
+
+    font-family: $keystroke-font;
+    color: $keystroke-color;
+
+    @if has-value($keystroke-radius) {
+      border-radius: $keystroke-radius;
+    }
+  }
+}

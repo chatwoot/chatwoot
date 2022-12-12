@@ -1,0 +1,11 @@
+{
+  "id": "caption",
+  "evaluate": "caption-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "The multimedia element has a captions track",
+      "incomplete": "Check that captions is available for the element"
+    }
+  }
+}

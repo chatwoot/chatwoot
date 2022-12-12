@@ -1,0 +1,1 @@
+{"ast":null,"code":"/**\n *  Maximum allowed time.\n *  @constant\n *  @type {number}\n *  @default\n */\nexport var maxTime = Math.pow(10, 8) * 24 * 60 * 60 * 1000;\n/**\n *  Minimum allowed time.\n *  @constant\n *  @type {number}\n *  @default\n */\n\nexport var minTime = -maxTime;","map":null,"metadata":{},"sourceType":"module"}

@@ -49,7 +49,7 @@ export default {
         plugins: {
           wavesurfer: {
             backend: 'WebAudio',
-            waveColor: '#1f93ff',
+            waveColor: '#fc7658',
             progressColor: 'rgb(25, 118, 204)',
             cursorColor: 'rgba(43, 51, 63, 0.7)',
             backgroundColor: 'none',

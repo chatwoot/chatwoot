@@ -1,0 +1,73 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-sizing
+////
+
+/// Responsive breakpoints for spacing classes (margin and padding)
+/// @type Boolean
+$prototype-sizing-breakpoints: $global-prototype-breakpoints !default;
+
+/// Map containing all the `sizing` classes
+/// @type Map
+$prototype-sizing: (
+  width,
+  height
+) !default;
+
+/// Map containing all the sizes.
+/// @type Map
+$prototype-sizes: (
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+) !default;
+
+/// Max Width 100 utility.
+@mixin max-width-100 {
+  max-width: 100% !important;
+}
+
+/// Max Height 100 utility.
+@mixin max-height-100 {
+  max-height: 100% !important;
+}
+
+@mixin foundation-prototype-sizing {
+  // Element Sizing
+  @each $sizing in $prototype-sizing {
+    @each $length, $percentage in $prototype-sizes {
+      .#{$sizing}-#{$length} {
+        #{$sizing}: $percentage !important;
+      }
+    }
+  }
+
+  // Max width & height
+  .max-width-100 {
+    @include max-width-100;
+  }
+  .max-height-100 {
+    @include max-height-100;
+  }
+
+  @if ($prototype-sizing-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @if $size != $-zf-zero-breakpoint {
+          @each $sizing in $prototype-sizing {
+            @each $length, $percentage in $prototype-sizes {
+              .#{$size}-#{$sizing}-#{$length} {
+                #{$sizing}: $percentage !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

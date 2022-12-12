@@ -1,0 +1,13 @@
+{
+  "id": "valid-lang",
+  "selector": "[lang], [xml\\:lang]",
+  "matches": "not-html-matches",
+  "tags": ["cat.language", "wcag2aa", "wcag312"],
+  "metadata": {
+    "description": "Ensures lang attributes have valid values",
+    "help": "lang attribute must have a valid value"
+  },
+  "all": [],
+  "any": [],
+  "none": ["valid-lang"]
+}

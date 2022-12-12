@@ -1,0 +1,193 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group pagination
+////
+
+/// Font size of pagination items.
+/// @type Number
+$pagination-font-size: rem-calc(14) !default;
+
+/// Default bottom margin of the pagination object.
+/// @type Number
+$pagination-margin-bottom: $global-margin !default;
+
+/// Text color of pagination items.
+/// @type Color
+$pagination-item-color: $black !default;
+
+/// Padding inside of pagination items.
+/// @type Number
+$pagination-item-padding: rem-calc(3 10) !default;
+
+/// Right margin to separate pagination items.
+/// @type Number
+$pagination-item-spacing: rem-calc(1) !default;
+
+/// Default radius for pagination items.
+/// @type Number
+$pagination-radius: $global-radius !default;
+
+/// Background color of pagination items on hover.
+/// @type Color
+$pagination-item-background-hover: $light-gray !default;
+
+/// Background color of pagination item for the current page.
+/// @type Color
+$pagination-item-background-current: $primary-color !default;
+
+/// Text color of the pagination item for the current page.
+/// @type Color
+$pagination-item-color-current: $white !default;
+
+/// Text color of a disabled pagination item.
+/// @type Color
+$pagination-item-color-disabled: $medium-gray !default;
+
+/// Color of the ellipsis in a pagination menu.
+/// @type Color
+$pagination-ellipsis-color: $black !default;
+
+/// If `false`, don't display page number links on mobile, only next/previous links
+/// and optionally current page number.
+/// @type Boolean
+$pagination-mobile-items: false !default;
+
+/// If `true`, display the current page number on mobile even if `$pagination-mobile-items` is set to `false`.
+/// This parameter will only override the visibility setting of the current item for `$pagination-mobile-items: false;`,
+/// it will not affect the current page number visibility when `$pagination-mobile-items` is set to `true`.
+/// @type Boolean
+$pagination-mobile-current-item: false !default;
+
+/// If `true`, arrows are added to the next and previous links of pagination.
+/// @type Boolean
+$pagination-arrows: true !default;
+
+/// Adds styles for a pagination container. Apply this to a `<ul>`.
+@mixin pagination-container (
+  $margin-bottom: $pagination-margin-bottom,
+  $font-size: $pagination-font-size,
+  $spacing: $pagination-item-spacing,
+  $radius: $pagination-radius,
+  $color: $pagination-item-color,
+  $padding: $pagination-item-padding,
+  $background-hover: $pagination-item-background-hover
+) {
+  @include clearfix;
+  margin-#{$global-left}: 0;
+  margin-bottom: $margin-bottom;
+
+  // List item
+  li {
+    margin-#{$global-right}: $spacing;
+    border-radius: $radius;
+    font-size: $font-size;
+
+    @if $pagination-mobile-items {
+      display: inline-block;
+    }
+    @else {
+      display: none;
+
+      &:last-child,
+      &:first-child {
+        display: inline-block;
+      }
+
+      @if $pagination-mobile-current-item {
+        &.current {
+          display: inline-block;
+        }
+      }
+
+      @include breakpoint(medium) {
+        display: inline-block;
+      }
+    }
+  }
+
+  // Page links
+  a,
+  button {
+    display: block;
+    padding: $padding;
+    border-radius: $radius;
+    color: $color;
+
+    &:hover {
+      background: $background-hover;
+    }
+  }
+}
+
+/// Adds styles for the current pagination item. Apply this to an `<a>`.
+@mixin pagination-item-current (
+  $padding: $pagination-item-padding,
+  $background-current: $pagination-item-background-current,
+  $color-current: $pagination-item-color-current
+) {
+  padding: $padding;
+  background: $background-current;
+  color: $color-current;
+  cursor: default;
+}
+
+/// Adds styles for a disabled pagination item. Apply this to an `<a>`.
+@mixin pagination-item-disabled (
+  $padding: $pagination-item-padding,
+  $color: $pagination-item-color-disabled
+) {
+  padding: $padding;
+  color: $color;
+  cursor: not-allowed;
+
+  &:hover {
+    background: transparent;
+  }
+}
+
+/// Adds styles for an ellipsis for use in a pagination list.
+@mixin pagination-ellipsis (
+  $padding: $pagination-item-padding,
+  $color: $pagination-ellipsis-color
+) {
+  padding: $padding;
+  content: '\2026';
+  color: $color;
+}
+
+@mixin foundation-pagination {
+  .pagination {
+    @include pagination-container;
+
+    .current {
+      @include pagination-item-current;
+    }
+
+    .disabled {
+      @include pagination-item-disabled;
+    }
+
+    .ellipsis::after {
+      @include pagination-ellipsis;
+    }
+  }
+
+  @if $pagination-arrows {
+    .pagination-previous a::before,
+    .pagination-previous.disabled::before {
+      display: inline-block;
+      margin-#{$global-right}: 0.5rem;
+      content: '\00ab';
+    }
+
+    .pagination-next a::after,
+    .pagination-next.disabled::after {
+      display: inline-block;
+      margin-#{$global-left}: 0.5rem;
+      content: '\00bb';
+    }
+  }
+}

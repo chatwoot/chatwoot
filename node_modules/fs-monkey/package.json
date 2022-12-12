@@ -1,0 +1,69 @@
+{
+  "name": "fs-monkey",
+  "version": "1.0.3",
+  "description": "Monkey patches for file system related things.",
+  "main": "lib/index.js",
+  "license": "Unlicense",
+  "keywords": [
+    "fs",
+    "file",
+    "file system",
+    "monkey",
+    "fsmonkey",
+    "monkeyfs",
+    "monkeypatch",
+    "patch"
+  ],
+  "files": [
+    "lib",
+    "!lib/__tests__",
+    "docs"
+  ],
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/streamich/fs-monkey.git"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "@semantic-release/changelog": "5.0.1",
+    "@semantic-release/git": "9.0.0",
+    "@semantic-release/npm": "7.1.0",
+    "@types/jest": "26.0.22",
+    "@types/node": "8.10.66",
+    "babel-jest": "26.6.3",
+    "jest": "26.6.3",
+    "semantic-release": "17.4.2",
+    "source-map-support": "0.5.19"
+  },
+  "release": {
+    "verifyConditions": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testRegex": ".*(__tests__/|/test/unit/).*(test|spec)\\.(t|j)sx?$"
+  }
+}

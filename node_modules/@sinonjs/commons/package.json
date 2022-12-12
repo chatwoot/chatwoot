@@ -1,0 +1,67 @@
+{
+  "name": "@sinonjs/commons",
+  "version": "1.8.3",
+  "description": "Simple functions shared among the sinon end user libraries",
+  "main": "lib/index.js",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "build": "rm -rf types && tsc",
+    "lint": "eslint .",
+    "precommit": "lint-staged",
+    "test": "mocha --recursive -R dot \"lib/**/*.test.js\"",
+    "test-check-coverage": "npm run test-coverage && nyc check-coverage --branches 100 --functions 100 --lines 100",
+    "test-coverage": "nyc --reporter text --reporter html --reporter lcovonly npm run test",
+    "prepublishOnly": "npm run build",
+    "prettier:check": "prettier --check '**/*.{js,css,md}'",
+    "prettier:write": "prettier --write '**/*.{js,css,md}'",
+    "preversion": "npm run test-check-coverage",
+    "version": "changes --commits --footer",
+    "postversion": "git push --follow-tags && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sinonjs/commons.git"
+  },
+  "files": [
+    "lib",
+    "types"
+  ],
+  "author": "",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/sinonjs/commons/issues"
+  },
+  "homepage": "https://github.com/sinonjs/commons#readme",
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --check",
+    "*.js": "eslint"
+  },
+  "devDependencies": {
+    "@sinonjs/eslint-plugin-no-prototype-methods": "^0.1.0",
+    "@sinonjs/referee-sinon": "7.0.2",
+    "@studio/changes": "^2.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-sinon": "^4.0.0",
+    "eslint-plugin-ie11": "^1.0.0",
+    "eslint-plugin-jsdoc": "^22.1.0",
+    "eslint-plugin-mocha": "^6.1.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "husky": "4.2.3",
+    "jsverify": "0.8.4",
+    "knuth-shuffle": "^1.0.8",
+    "lint-staged": "10.1.1",
+    "mocha": "7.1.0",
+    "nyc": "15.0.0",
+    "prettier": "^1.14.3",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "type-detect": "4.0.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

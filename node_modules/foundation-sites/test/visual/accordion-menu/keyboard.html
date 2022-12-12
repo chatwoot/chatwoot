@@ -1,0 +1,44 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Accordion Menu: Keyboard Control</h1>
+
+          <ul>
+            <li>The Tab and down arrow keys should navigate down the menu, including open sub-menus.</li>
+            <li>Shift-tab and up arrow keys should navigate up the menu, including open sub-menus.</li>
+            <li>When focused on a parent menu, the space bar and Enter key should open or close the menu.</li>
+            <li>When focused on a link item, the space bar and Center key should navigate to the link.</li>
+          </ul>
+
+          <ul class="vertical menu" data-accordion-menu>
+            <li>
+              <a href="#">Item 1</a>
+              <ul class="menu vertical nested">
+                <li><a href="google.com">External link</a></li>
+                <li><a href="#">Item 1B</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Item 2</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

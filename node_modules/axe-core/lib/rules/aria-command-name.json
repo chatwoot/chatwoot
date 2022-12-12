@@ -1,0 +1,18 @@
+{
+  "id": "aria-command-name",
+  "selector": "[role=\"link\"], [role=\"button\"], [role=\"menuitem\"]",
+  "matches": "no-naming-method-matches",
+  "tags": ["cat.aria", "wcag2a", "wcag412"],
+  "metadata": {
+    "description": "Ensures every ARIA button, link and menuitem has an accessible name",
+    "help": "ARIA commands must have an accessible name"
+  },
+  "all": [],
+  "any": [
+    "has-visible-text",
+    "aria-label",
+    "aria-labelledby",
+    "non-empty-title"
+  ],
+  "none": []
+}

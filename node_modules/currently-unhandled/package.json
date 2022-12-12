@@ -1,0 +1,71 @@
+{
+  "name": "currently-unhandled",
+  "version": "0.4.1",
+  "description": "Track the list of currently unhandled promise rejections.",
+  "license": "MIT",
+  "repository": "jamestalmage/currently-unhandled",
+  "author": {
+    "name": "James Talmage",
+    "email": "james@talmage.io",
+    "url": "github.com/jamestalmage"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "xo && nyc ava"
+  },
+  "files": [
+    "index.js",
+    "core.js",
+    "browser.js"
+  ],
+  "keywords": [
+    "unhandled",
+    "unhandledRejection",
+    "rejected",
+    "promises"
+  ],
+  "dependencies": {
+    "array-find-index": "^1.0.1"
+  },
+  "devDependencies": {
+    "ava": "^0.15.1",
+    "bluebird": "^3.4.0",
+    "browserify": "^13.0.1",
+    "coveralls": "^2.11.9",
+    "delay": "^1.3.1",
+    "is-ci": "^1.0.8",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.5",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "mocha": "^2.5.3",
+    "nyc": "^6.4.0",
+    "watchify": "^3.7.0",
+    "xo": "^0.15.0"
+  },
+  "browser": {
+    "./index.js": "./browser.js"
+  },
+  "ava": {
+    "files": "test.js"
+  },
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "xo": {
+    "ignores": [
+      "browser-bluebird-test.js"
+    ],
+    "envs": [
+      "browser",
+      "mocha",
+      "node"
+    ]
+  }
+}

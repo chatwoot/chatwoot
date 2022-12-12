@@ -1,0 +1,14 @@
+{
+  "id": "aria-allowed-attr",
+  "evaluate": "aria-allowed-attr-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "ARIA attributes are used correctly for the defined role",
+      "fail": {
+        "singular": "ARIA attribute is not allowed: ${data.values}",
+        "plural": "ARIA attributes are not allowed: ${data.values}"
+      }
+    }
+  }
+}

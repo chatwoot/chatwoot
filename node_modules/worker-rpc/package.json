@@ -1,0 +1,30 @@
+{
+  "name": "worker-rpc",
+  "version": "0.1.1",
+  "description": "A simple RPC layer for communicating with web workers and over other transports",
+  "scripts": {
+    "prepublish": "tsc",
+    "pretest": "typings install && tsc -p tsconfig.test.json",
+    "test": "mocha -R spec -u tdd test"
+  },
+  "author": "Christian Speckner <cnspeckn@googlemail.com> (https://github.com/DirtyHairy/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DirtyHairy/worker-rpc"
+  },
+  "keywords": [
+    "worker",
+    "rpc"
+  ],
+  "devDependencies": {
+    "mocha": "~6.1.4",
+    "typescript": "~3.4.5",
+    "typings": "~2.1.1"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "microevent.ts": "~0.1.1"
+  }
+}

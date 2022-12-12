@@ -1,0 +1,42 @@
+{
+  "name": "postcss-page-break",
+  "version": "2.0.0",
+  "description": "PostCSS plugin postcss-page-break to fallback `break-` properties with `page-break-` alias",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "break",
+    "break-inside",
+    "page-break-inside",
+    "avoid"
+  ],
+  "author": "shrpne <shrpne@gmail.com>",
+  "license": "MIT",
+  "repository": "shrpne/postcss-page-break",
+  "bugs": {
+    "url": "https://github.com/shrpne/postcss-page-break/issues"
+  },
+  "homepage": "https://github.com/shrpne/postcss-page-break",
+  "dependencies": {
+    "postcss": "^7.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-postcss": "^2.0.2",
+    "jest": "^21.0.0"
+  },
+  "scripts": {
+    "test": "jest && eslint *.js"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5",
+    "rules": {
+      "indent": ["error", 4, { "SwitchCase": 1 }],
+      "max-len": ["off"]
+    },
+    "env": {
+      "jest": true
+    }
+  }
+}

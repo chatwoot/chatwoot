@@ -1,0 +1,20 @@
+{
+  "id": "table-fake-caption",
+  "selector": "table",
+  "matches": "data-table-matches",
+  "tags": [
+    "cat.tables",
+    "experimental",
+    "wcag2a",
+    "wcag131",
+    "section508",
+    "section508.22.g"
+  ],
+  "metadata": {
+    "description": "Ensure that tables with a caption use the <caption> element.",
+    "help": "Data or header cells must not be used to give caption to a data table."
+  },
+  "all": ["caption-faked"],
+  "any": [],
+  "none": []
+}

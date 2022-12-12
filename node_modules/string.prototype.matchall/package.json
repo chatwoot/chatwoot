@@ -1,0 +1,65 @@
+{
+	"name": "string.prototype.matchall",
+	"version": "4.0.4",
+	"description": "Spec-compliant polyfill for String.prototype.matchAll ESnext proposal.",
+	"main": "index.js",
+	"scripts": {
+		"prepublish": "safe-publish-latest",
+		"pretest": "npm run lint",
+		"test": "npm run tests-only",
+		"posttest": "npx aud --production",
+		"tests-only": "nyc tape 'test/**/*.js'",
+		"prelint": "evalmd *.md",
+		"lint": "eslint .",
+		"postlint": "es-shim-api --bound"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ljharb/String.prototype.matchAll.git"
+	},
+	"keywords": [
+		"String.prototype.matchAll",
+		"matchAll",
+		"match",
+		"regex",
+		"regexp",
+		"regular",
+		"expression",
+		"matches"
+	],
+	"author": "Jordan Harband <ljharb@gmail.com>",
+	"funding": {
+		"url": "https://github.com/sponsors/ljharb"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ljharb/String.prototype.matchAll/issues"
+	},
+	"homepage": "https://github.com/ljharb/String.prototype.matchAll#readme",
+	"dependencies": {
+		"call-bind": "^1.0.2",
+		"define-properties": "^1.1.3",
+		"es-abstract": "^1.18.0-next.2",
+		"has-symbols": "^1.0.1",
+		"internal-slot": "^1.0.3",
+		"regexp.prototype.flags": "^1.3.1",
+		"side-channel": "^1.0.4"
+	},
+	"devDependencies": {
+		"@es-shims/api": "^2.1.2",
+		"@ljharb/eslint-config": "^17.5.1",
+		"aud": "^1.1.4",
+		"es5-shim": "^4.5.15",
+		"es6-shim": "^0.35.6",
+		"eslint": "^7.20.0",
+		"evalmd": "^0.0.19",
+		"foreach": "^2.0.5",
+		"functions-have-names": "^1.2.2",
+		"nyc": "^10.3.2",
+		"object-inspect": "^1.9.0",
+		"object.assign": "^4.1.2",
+		"object.entries": "^1.1.3",
+		"safe-publish-latest": "^1.1.4",
+		"tape": "^5.2.0"
+	}
+}

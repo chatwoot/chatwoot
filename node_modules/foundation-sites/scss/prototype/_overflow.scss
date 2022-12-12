@@ -1,0 +1,72 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-overflow
+////
+
+/// Responsive breakpoints for overflow helper classes
+/// @type Boolean
+$prototype-overflow-breakpoints: $global-prototype-breakpoints !default;
+
+/// Map containing all the `overflow` classes
+/// @type Map
+$prototype-overflow: (
+  visible,
+  hidden,
+  scroll
+) !default;
+
+/// Overflow classes, by default coming through a map `$prototype-overflow`
+/// @param {String} $overflow [] Overflow classes
+@mixin overflow($overflow) {
+  overflow: $overflow !important;
+}
+
+/// Overflow classes on horizontal axis, by default coming through a map `$prototype-overflow`
+/// @param {String} $overflow [] Overflow classes (horizontal axis)
+@mixin overflow-x($overflow) {
+  overflow-x: $overflow !important;
+}
+
+/// Overflow classes on vertical axis, by default coming through a map `$prototype-overflow`
+/// @param {String} $overflow [] Overflow classes (vertical axis)
+@mixin overflow-y($overflow) {
+  overflow-y: $overflow !important;
+}
+
+@mixin foundation-prototype-overflow {
+  @each $overflow in $prototype-overflow {
+    .overflow-#{$overflow} {
+      @include overflow($overflow);
+    }
+    .overflow-x-#{$overflow} {
+      @include overflow-x($overflow);
+    }
+    .overflow-y-#{$overflow} {
+      @include overflow-y($overflow);
+    }
+  }
+
+  @if ($prototype-overflow-breakpoints) {
+    // Loop through Responsive Breakpoints
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        @each $overflow in $prototype-overflow {
+          @if $size != $-zf-zero-breakpoint {
+            .#{$size}-overflow-#{$overflow} {
+              @include overflow($overflow);
+            }
+            .#{$size}-overflow-x-#{$overflow} {
+              @include overflow-x($overflow);
+            }
+            .#{$size}-overflow-y-#{$overflow} {
+              @include overflow-y($overflow);
+            }
+          }
+        }
+      }
+    }
+  }
+}

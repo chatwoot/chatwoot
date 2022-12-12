@@ -1,0 +1,99 @@
+{
+  "name": "vue-docgen-loader",
+  "description": "Vue docgen loader for webpack",
+  "version": "1.5.0",
+  "engines": {
+    "node": ">= 8.16"
+  },
+  "keywords": [
+    "vue",
+    "docgen",
+    "webpack",
+    "loader"
+  ],
+  "contributors": [
+    {
+      "name": "Shota Fuji",
+      "email": "pockawoooh@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pocka/vue-docgen-loader"
+  },
+  "homepage": "https://github.com/pocka/vue-docgen-loader",
+  "bugs": {
+    "url": "https://github.com/pocka/vue-docgen-loader/issues"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "clone": "^2.1.2",
+    "jscodeshift": "^0.7.0",
+    "loader-utils": "^1.2.3",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@types/jest": "^24.0.23",
+    "@vue/server-test-utils": "^1.0.0-beta.30",
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "babel-jest": "^24.9.0",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.4.3",
+    "memory-fs": "^0.5.0",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
+    "vue": "^2.6.10",
+    "vue-docgen-api": "^4.1.1",
+    "vue-loader": "^15.7.2",
+    "vue-server-renderer": "^2.6.10",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.41.2"
+  },
+  "peerDependencies": {
+    "vue-docgen-api": ">=3",
+    "webpack": ">=4"
+  },
+  "scripts": {
+    "build": "babel src/ --out-dir lib/ --ignore '**/*.spec.js'",
+    "clean": "rimraf lib/",
+    "format": "prettier --ignore-path .gitignore --write './**/*.{js,json,md}'",
+    "lint": "prettier --ignore-path .gitignore --list-different './**/*.{js,json,md}'",
+    "prepack": "yarn clean && yarn build",
+    "test": "jest"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "8.16"
+          }
+        }
+      ]
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "lint-staged": {
+    "*.{js,json,md}": "prettier --ignore-path .gitignore --write"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}

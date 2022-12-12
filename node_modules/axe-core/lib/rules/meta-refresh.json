@@ -1,0 +1,20 @@
+{
+  "id": "meta-refresh",
+  "selector": "meta[http-equiv=\"refresh\"]",
+  "excludeHidden": false,
+  "tags": [
+    "cat.time-and-media",
+    "wcag2a",
+    "wcag2aaa",
+    "wcag221",
+    "wcag224",
+    "wcag325"
+  ],
+  "metadata": {
+    "description": "Ensures <meta http-equiv=\"refresh\"> is not used",
+    "help": "Timed refresh must not exist"
+  },
+  "all": [],
+  "any": ["meta-refresh"],
+  "none": []
+}

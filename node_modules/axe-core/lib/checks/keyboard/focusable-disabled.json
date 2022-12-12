@@ -1,0 +1,11 @@
+{
+  "id": "focusable-disabled",
+  "evaluate": "focusable-disabled-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "No focusable elements contained within element",
+      "fail": "Focusable content should be disabled or be removed from the DOM"
+    }
+  }
+}

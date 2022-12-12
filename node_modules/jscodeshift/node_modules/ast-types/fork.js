@@ -1,0 +1,54 @@
+"use strict";;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var types_1 = __importDefault(require("./lib/types"));
+var path_visitor_1 = __importDefault(require("./lib/path-visitor"));
+var equiv_1 = __importDefault(require("./lib/equiv"));
+var path_1 = __importDefault(require("./lib/path"));
+var node_path_1 = __importDefault(require("./lib/node-path"));
+function default_1(defs) {
+    var fork = createFork();
+    var types = fork.use(types_1.default);
+    defs.forEach(fork.use);
+    types.finalize();
+    var PathVisitor = fork.use(path_visitor_1.default);
+    return {
+        Type: types.Type,
+        builtInTypes: types.builtInTypes,
+        namedTypes: types.namedTypes,
+        builders: types.builders,
+        defineMethod: types.defineMethod,
+        getFieldNames: types.getFieldNames,
+        getFieldValue: types.getFieldValue,
+        eachField: types.eachField,
+        someField: types.someField,
+        getSupertypeNames: types.getSupertypeNames,
+        getBuilderName: types.getBuilderName,
+        astNodesAreEquivalent: fork.use(equiv_1.default),
+        finalize: types.finalize,
+        Path: fork.use(path_1.default),
+        NodePath: fork.use(node_path_1.default),
+        PathVisitor: PathVisitor,
+        use: fork.use,
+        visit: PathVisitor.visit,
+    };
+}
+exports.default = default_1;
+function createFork() {
+    var used = [];
+    var usedResult = [];
+    function use(plugin) {
+        var idx = used.indexOf(plugin);
+        if (idx === -1) {
+            idx = used.length;
+            used.push(plugin);
+            usedResult[idx] = plugin(fork);
+        }
+        return usedResult[idx];
+    }
+    var fork = { use: use };
+    return fork;
+}
+module.exports = exports["default"];

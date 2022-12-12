@@ -1,0 +1,12 @@
+{
+  "id": "button-has-visible-text",
+  "evaluate": "has-text-content-evaluate",
+  "metadata": {
+    "impact": "critical",
+    "messages": {
+      "pass": "Element has inner text that is visible to screen readers",
+      "fail": "Element does not have inner text that is visible to screen readers",
+      "incomplete": "Unable to determine if element has children"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "abstractrole",
+  "evaluate": "abstractrole-evaluate",
+  "metadata": {
+    "impact": "serious",
+    "messages": {
+      "pass": "Abstract roles are not used",
+      "fail": {
+        "singular": "Abstract role cannot be directly used: ${data.values}",
+        "plural": "Abstract roles cannot be directly used: ${data.values}"
+      }
+    }
+  }
+}

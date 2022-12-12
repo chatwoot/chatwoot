@@ -1,0 +1,1 @@
+{"ast":null,"code":"var getNative = require('./_getNative');\n\nvar defineProperty = function () {\n  try {\n    var func = getNative(Object, 'defineProperty');\n    func({}, '', {});\n    return func;\n  } catch (e) {}\n}();\n\nmodule.exports = defineProperty;","map":null,"metadata":{},"sourceType":"module"}

@@ -1,0 +1,84 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style type="text/css">
+      [data-magellan] {
+        position: fixed;
+        top: 0;
+        right: 0;
+      }
+      [data-magellan] a.is-active {
+        font-weight: bold;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <ul class="vertical menu" data-magellan>
+            <li><a href="#one">Section One</a></li>
+            <li><a href="#three">Section Three</a></li>
+            <li><a href="#two">Section Two</a></li>
+            <li><a href="#four">Section Four</a></li>
+            <li><a href="#five">Section Five</a></li>
+            <li><a href="#three">Section Three</a></li>
+          </ul>
+          <div class="grid-x grid-padding-x">
+            <div class="cell small-10 medium-6 large-4">
+              <section id="one" data-magellan-target="one">
+                <h1>Section One</h1>
+                <p>
+                  <strong>This test checks if the correct link gets the active class when scrolling.</strong> This section is in the same place as the corresponding link. All should go well.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ultricies porttitor lorem. Fusce condimentum in erat id pellentesque. Ut id lacus non nulla sodales suscipit. Donec dictum ante lacus, id fermentum ex dictum id. Pellentesque vel ullamcorper nisi. In hac habitasse platea dictumst. Morbi vehicula egestas tellus, non pulvinar leo viverra in. Maecenas eget est ut nisi scelerisque semper a sed quam. Suspendisse viverra ornare lacus, vehicula sagittis est condimentum a. Aliquam erat volutpat. Nullam consequat aliquam eros quis dictum. Suspendisse dapibus massa eget felis convallis dapibus. Nam vestibulum ligula velit, egestas faucibus justo pellentesque a.
+                </p>
+              </section>
+              <section id="two" data-magellan-target="two">
+                <h1>Section Two</h1>
+                <p>
+                  This section is not in the same place as the corresponding link. Notice that the corresponding link comes third in the menu, but the section comes second in the page.
+                </p>
+                <p>
+                  Mauris non metus porttitor, iaculis arcu in, ultrices metus. Maecenas et est lacus. Ut a diam rutrum, iaculis leo vitae, commodo felis. Donec molestie, elit in mollis consequat, mauris arcu auctor tortor, non feugiat felis mauris eu tellus. In hac habitasse platea dictumst. Phasellus condimentum nulla a orci varius placerat. Integer vitae orci tristique, convallis ligula ac, sodales dui. Morbi pharetra eros ut semper egestas. Donec ornare velit vel felis tempor tempor. Nullam egestas rhoncus elit et rhoncus.
+                </p>
+              </section>
+              <section id="three" data-magellan-target="three">
+                <h1>Section Three</h1>
+                <p>
+                  This section has two corresponding links in the menu. Both should get the active class.
+                </p>
+                <p>
+                  Cras in nunc ultricies, eleifend nisl ut, volutpat ipsum. In a neque nulla. Donec varius tempus fringilla. Nunc massa tellus, lobortis a imperdiet vel, placerat quis leo. Pellentesque vel accumsan lacus, aliquam tristique eros. Proin bibendum purus quis feugiat egestas. Vivamus facilisis libero tortor, ut finibus eros lobortis sed. Donec a blandit erat. Morbi et purus urna. Ut orci libero, sodales dapibus molestie id, pretium quis mi. Nam et lacinia quam.
+                </p>
+              </section>
+              <section id="five" data-magellan-target="five">
+                <h1>Section Five</h1>
+                <p>
+                  This section comes fourth in the page because Section Four is missing. The Section Four link should not get the active class. Instead, the corresponding Section Five link should.
+                </p>
+                <p>
+                  Donec aliquet dictum mauris nec volutpat. Nunc id mauris neque. Aenean venenatis, massa laoreet fermentum convallis, purus tellus luctus tellus, nec pharetra quam nisi non dolor. Aliquam quam mi, aliquam non leo eu, tincidunt aliquam nibh. Sed malesuada, ligula at maximus imperdiet, risus arcu hendrerit dolor, ac rutrum elit leo nec dolor. Nulla eu dolor eget sapien eleifend pulvinar finibus ac nisl. Nulla augue lorem, ullamcorper id felis sit amet, pretium viverra lectus. Praesent ullamcorper orci sed convallis pulvinar. Sed accumsan orci vel blandit sodales. Duis lobortis sem at fermentum scelerisque. Cras sed turpis at est sollicitudin sollicitudin dignissim vel libero. Maecenas sit amet mauris elementum, tincidunt sem vitae, pharetra ex. Curabitur viverra erat ut ipsum cursus mattis. Vestibulum consectetur, ligula id gravida tristique, nisi lorem gravida ex, in imperdiet risus turpis eget neque.
+                </p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

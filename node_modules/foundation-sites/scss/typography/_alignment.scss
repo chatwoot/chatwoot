@@ -1,0 +1,22 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+@mixin foundation-text-alignment {
+  @each $size in $breakpoint-classes {
+    @include breakpoint($size) {
+      @each $align in (left, right, center, justify) {
+        @if $size != $-zf-zero-breakpoint {
+          .#{$size}-text-#{$align} {
+            text-align: $align;
+          }
+        }
+        @else {
+          .text-#{$align} {
+            text-align: $align;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group prototype-box
+////
+
+/// Box Mixin: Easily create a square, rectangle or a circle
+/// @param {Number} $width[] Width of the box
+/// @param {Number} $height[$width] Height of the box, defaults to `$width` to easily make a square
+/// @param {Boolean} $circle[false] Makes the box a circle, by default `false`.
+@mixin box(
+  $width, 
+  $height: $width, 
+  $circle: false
+) {
+  width: $width;
+  height: $height;
+  @if $circle {
+    border-radius: 50% !important;
+  }
+}

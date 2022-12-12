@@ -1,0 +1,14 @@
+{
+  "id": "duplicate-img-label",
+  "evaluate": "duplicate-img-label-evaluate",
+  "options": {
+    "parentSelector": "button, [role=button], a[href], p, li, td, th"
+  },
+  "metadata": {
+    "impact": "minor",
+    "messages": {
+      "pass": "Element does not duplicate existing text in <img> alt text",
+      "fail": "Element contains <img> element with alt text that duplicates existing text"
+    }
+  }
+}

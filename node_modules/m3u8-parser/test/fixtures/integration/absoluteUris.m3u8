@@ -1,0 +1,12 @@
+#EXTM3U
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXT-X-TARGETDURATION:10
+#EXTINF:10,
+http://example.com/00001.ts
+#EXTINF:10,
+https://example.com/00002.ts
+#EXTINF:10,
+//example.com/00003.ts
+#EXTINF:10,
+http://example.com/00004.ts
+#EXT-X-ENDLIST

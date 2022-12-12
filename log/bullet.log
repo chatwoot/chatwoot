@@ -1,0 +1,1969 @@
+2022-12-12 15:35:59[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___1838178642008116952_108660'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___1838178642008116952_108660'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___1838178642008116952_108660'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:05:38[WARN] user: s.dastan
+POST /auth/sign_in
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__1101358218917040362_106140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__1101358218917040362_106140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/sessions_controller.rb:19:in `render_create_success'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/sessions_controller.rb:14:in `create'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:05:39[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__1101358218917040362_107600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__1101358218917040362_107600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___332057935801006546_107580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___332057935801006546_107580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:05:39[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:05:39[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:05:39[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:05:39[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:10:29[WARN] user: s.dastan
+PUT /api/v1/profile
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/profiles/update.json.jbuilder:1:in `_app_views_api_v__profiles_update_json_jbuilder__4326773094917084100_111280'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:10:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:10:41[WARN] user: s.dastan
+POST /auth/sign_in
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__1101358218917040362_106140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__1101358218917040362_106140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/sessions_controller.rb:19:in `render_create_success'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/sessions_controller.rb:14:in `create'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:41[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=all&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:41[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=all&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:41[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=all&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:10:41[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=all&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:10:42[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__1101358218917040362_107600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__1101358218917040362_107600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___332057935801006546_107580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___332057935801006546_107580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:47[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1&conversation_type=unattended
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:47[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1&conversation_type=unattended
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:47[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1&conversation_type=unattended
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:10:47[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1&conversation_type=unattended
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:10:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?inbox_id=1&status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:11:19[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:11:19[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:11:19[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:11:19[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:11:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:11:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:11:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:11:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:11:58[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:11:58[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__2823084231829318468_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__5885723782620289_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:11:58[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:11:58[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:13:16[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder___2858155228991283213_106180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__1101358218917040362_107600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__1101358218917040362_107600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___332057935801006546_107580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___332057935801006546_107580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:16:46[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_119240'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_119240'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_119240'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:19:13[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_150540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_150540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_150540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:19:25[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_150540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_150540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_150540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:19:59[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_212620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_212620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_212620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:23:31[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_212620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_212620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___1993971290145149558_212620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:24:31[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___2454155865206180108_108660'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___2454155865206180108_108660'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___2454155865206180108_108660'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:25:45[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:26:03[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:26:18[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:26:59[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:27:26[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:27:34[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:27:38[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:29:53[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:30:03[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:30:30[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:30:47[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2916013719227400139_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:35:42[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:36:30[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:37:41[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_108580'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:38:15[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_169760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_169760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_169760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:39:02[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_169760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_169760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___211241607639203606_169760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:40:08[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:40:21[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:40:23[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:40:27[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_109800'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_109800'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__3825361949170035601_109800'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__142370332977311547_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__142370332977311547_109780'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___594335513675060527_109740'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___594335513675060527_109740'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:40:28[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_111300'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:40:28[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_111300'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_110920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:40:28[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:40:28[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:40:42[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_108620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:12[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_175000'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_175000'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_175000'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:12[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:12[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_176480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:12[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_176480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:12[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:41:12[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:41:34[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_176480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_176480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:41:35[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:41:42[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_176480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:42[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1072366395883085820_176480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__2902888166244231351_176260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:41:42[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:41:42[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:47:25[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:48:53[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__3825361949170035601_175180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__142370332977311547_175160'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___594335513675060527_175120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:51:00[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_175000'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_175000'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__2401194452092967503_175000'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:56:48[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:56:48[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__2207865898377136625_109180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__2207865898377136625_109180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___1593199506945957903_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___1593199506945957903_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:56:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___455759373352415787_110680'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:56:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___455759373352415787_110680'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:56:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:56:49[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:57:03[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:11[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__2207865898377136625_109180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__2207865898377136625_109180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___1593199506945957903_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___1593199506945957903_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:11[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___455759373352415787_110680'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:11[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___455759373352415787_110680'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:11[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:57:11[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:57:23[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__983289051098646858_109200'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__2207865898377136625_109180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__2207865898377136625_109180'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___1593199506945957903_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___1593199506945957903_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:23[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___455759373352415787_110680'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:23[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___455759373352415787_110680'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__1910872337436185351_110100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:23[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 16:57:23[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 16:57:31[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 16:57:33[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___134994452671874488_108920'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:05:29[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:05:30[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__4269960546341650161_109280'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__4269960546341650161_109280'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__4269960546341650161_109280'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder__3842331653544150083_109260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder__3842331653544150083_109260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder__738320586052166690_109220'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder__738320586052166690_109220'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:05:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1471941252625441542_110760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:05:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___1471941252625441542_110760'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder___3397265152905829463_110480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:05:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 17:05:30[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 17:05:39[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:10:46[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder__601323037507982758_108900'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:11:45[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:11:46[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__69888439880298980_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__69888439880298980_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__69888439880298980_109140'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder___337892906122796734_109120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder___337892906122796734_109120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder__1150554861872806822_109080'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder__1150554861872806822_109080'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:11:46[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___3651393323745115476_110620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:11:46[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder___3651393323745115476_110620'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder___179733055423387481_110340'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:11:46[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 17:11:46[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 17:13:08[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:13:16[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___3221119714054338464_108820'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:15:18[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_108720'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_108720'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_108720'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:15:19[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__2057549354589383604_109120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__2057549354589383604_109120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__2057549354589383604_109120'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder___2699166819558896585_109100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder___2699166819558896585_109100'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___2372975879802190438_109060'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___2372975879802190438_109060'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:15:20[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__4418640655640092877_110740'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:15:20[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__4418640655640092877_110740'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_110260'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:15:20[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 17:15:20[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+
+2022-12-12 17:19:53[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_173600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_173600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_173600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:19:54[WARN] user: s.dastan
+GET /api/v1/widget/messages?website_token=oMKrxjM4tJ9GpU3ugu65cjSq&cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiI2YjM0YThlYS1kYWFlLTRjZjItOGZkNy0yMDU4M2I5ZWM2NmMiLCJpbmJveF9pZCI6MX0.z41wkaYJFaRnkejOwJLwYuhkKZRnqZbmHphH02GRajQ
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:152:in `content'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:4:in `block (2 levels) in _app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_173600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:2:in `block in _app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_173600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/widget/messages/index.json.jbuilder:1:in `_app_views_api_v__widget_messages_index_json_jbuilder___4212491011594791235_173600'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:19:55[WARN] user: s.dastan
+GET /auth/validate_token
+USE eager loading detected
+  AccountUser => [:account]
+  Add to your query: .includes([:account])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:22:in `block (2 levels) in _app_views_api_v__models__user_json_jbuilder__2057549354589383604_174540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:20:in `block in _app_views_api_v__models__user_json_jbuilder__2057549354589383604_174540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/models/_user.json.jbuilder:19:in `_app_views_api_v__models__user_json_jbuilder__2057549354589383604_174540'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:2:in `block in _app_views_devise__auth_json_jbuilder___2699166819558896585_174520'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/_auth.json.jbuilder:1:in `_app_views_devise__auth_json_jbuilder___2699166819558896585_174520'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:3:in `block in _app_views_devise_token_json_jbuilder___2372975879802190438_174480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/devise/token.json.jbuilder:1:in `_app_views_devise_token_json_jbuilder___2372975879802190438_174480'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/devise_overrides/token_validations_controller.rb:5:in `validate_token'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:19:55[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:inbox]
+  Add to your query: .includes([:inbox])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/concerns/message_filter_helpers.rb:21:in `instagram_story_mention?'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:110:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__4418640655640092877_175800'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:19:55[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+USE eager loading detected
+  Message => [:sender]
+  Add to your query: .includes([:sender])
+Call stack
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:125:in `merge_sender_attributes'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/models/message.rb:112:in `push_event_data'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `map'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/conversations/partials/_conversation.json.jbuilder:25:in `_app_views_api_v__conversations_partials__conversation_json_jbuilder__4418640655640092877_175800'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:10:in `block (3 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:9:in `block (2 levels) in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:8:in `block in _app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/views/api/v1/accounts/conversations/index.json.jbuilder:1:in `_app_views_api_v__accounts_conversations_index_json_jbuilder__856709414232327338_175640'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:16:in `switch_locale_using_account_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/request_exception_handler.rb:11:in `handle_with_exception'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:24:in `set_locale'
+  /Users/s.dastan/Desktop/chatwoot/chatwoot/app/controllers/concerns/switch_locale.rb:11:in `switch_locale'
+
+2022-12-12 17:19:55[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Message => [:user]
+  Remove from your query: .includes([:user])
+Call stack
+
+2022-12-12 17:19:55[WARN] user: s.dastan
+GET /api/v1/accounts/1/conversations?status=open&assignee_type=me&page=1
+AVOID eager loading detected
+  Attachment => [:file_attachment]
+  Remove from your query: .includes([:file_attachment])
+Call stack
+

@@ -1,0 +1,28 @@
+{
+  "name": "axe-jest-react-example",
+  "description": "Axe Jest + React Example",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Wilco Fiers",
+    "organization": "Deque Systems, Inc.",
+    "url": "http://deque.com/"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "axe-core": "^3.3.1",
+    "babel-jest": "^24.8.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-test-renderer": "^16.2.0"
+  }
+}

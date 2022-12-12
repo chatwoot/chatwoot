@@ -1,0 +1,1 @@
+{"ast":null,"code":"import assign from \"../assign/index.js\";\nexport default function cloneObject(dirtyObject) {\n  return assign({}, dirtyObject);\n}","map":null,"metadata":{},"sourceType":"module"}

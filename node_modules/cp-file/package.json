@@ -1,0 +1,65 @@
+{
+	"name": "cp-file",
+	"version": "7.0.0",
+	"description": "Copy a file",
+	"license": "MIT",
+	"repository": "sindresorhus/cp-file",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"maintainers": [
+		{
+			"name": "Michael Mayer",
+			"email": "michael@schnittstabil.de",
+			"url": "schnittstabil.de"
+		}
+	],
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "xo && nyc ava && tsd"
+	},
+	"files": [
+		"cp-file-error.js",
+		"fs.js",
+		"index.js",
+		"index.d.ts",
+		"progress-emitter.js"
+	],
+	"keywords": [
+		"copy",
+		"cp",
+		"file",
+		"clone",
+		"fs",
+		"stream",
+		"file-system",
+		"ncp",
+		"fast",
+		"quick",
+		"data",
+		"content",
+		"contents"
+	],
+	"dependencies": {
+		"graceful-fs": "^4.1.2",
+		"make-dir": "^3.0.0",
+		"nested-error-stacks": "^2.0.0",
+		"p-event": "^4.1.0"
+	},
+	"devDependencies": {
+		"ava": "^1.4.1",
+		"clear-module": "^3.1.0",
+		"coveralls": "^3.0.3",
+		"del": "^4.1.0",
+		"import-fresh": "^3.0.0",
+		"nyc": "^13.3.0",
+		"sinon": "^7.3.1",
+		"tsd": "^0.7.2",
+		"uuid": "^3.3.2",
+		"xo": "^0.24.0"
+	}
+}

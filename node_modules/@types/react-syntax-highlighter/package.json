@@ -1,0 +1,41 @@
+{
+    "name": "@types/react-syntax-highlighter",
+    "version": "11.0.5",
+    "description": "TypeScript definitions for react-syntax-highlighter",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Ivo Stratev",
+            "url": "https://github.com/NoHomey",
+            "githubUsername": "NoHomey"
+        },
+        {
+            "name": "Aimee Gamble-Milner",
+            "url": "https://github.com/ajgamble-milner",
+            "githubUsername": "ajgamble-milner"
+        },
+        {
+            "name": "Guo Yunhe",
+            "url": "https://github.com/guoyunhe",
+            "githubUsername": "guoyunhe"
+        },
+        {
+            "name": "Anirban Sengupta",
+            "url": "https://github.com/anirban09",
+            "githubUsername": "anirban09"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/react-syntax-highlighter"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/react": "*"
+    },
+    "typesPublisherContentHash": "765370a3a2d14f62525468ee2d8643f8cedc0f67f37bab200145b37ac4d169ab",
+    "typeScriptVersion": "3.1"
+}

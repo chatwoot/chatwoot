@@ -1,0 +1,11 @@
+{
+  "id": "html5-scope",
+  "evaluate": "html5-scope-evaluate",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Scope attribute is only used on table header elements (<th>)",
+      "fail": "In HTML 5, scope attributes may only be used on table header elements (<th>)"
+    }
+  }
+}

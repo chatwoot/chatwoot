@@ -1,0 +1,66 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Foundation for Sites Testing</title>
+    <link href="../assets/css/foundation.css" rel="stylesheet" />
+    <style>
+      .orbit-slide {
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <h1>Orbit: Touch Support</h1>
+
+          <p>Swiping left and right should change the current slide. Swiping up and down to scroll the page should not be disrupted.</p>
+
+          <p>This content is here to make the page longer. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid facere architecto fugit voluptates, inventore est cum nihil vel dicta assumenda, illum. Ipsum non saepe similique repellat, enim blanditiis fuga eveniet.</p>
+
+          <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-use-m-u-i="false">
+            <ul class="orbit-container">
+              <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+              <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+              <li class="is-active orbit-slide" style="background: #eee;">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam minima amet cupiditate pariatur doloribus, quo repudiandae facere odio ipsam laborum nihil, voluptate itaque perspiciatis dolorem aut nostrum! Autem, exercitationem, nesciunt!</p>
+              </li>
+              <li class="orbit-slide" style="background: #ddd;">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam minima amet cupiditate pariatur doloribus, quo repudiandae facere odio ipsam laborum nihil, voluptate itaque perspiciatis dolorem aut nostrum! Autem, exercitationem, nesciunt!</p>
+              </li>
+              <li class="orbit-slide" style="background: #ccc;">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam minima amet cupiditate pariatur doloribus, quo repudiandae facere odio ipsam laborum nihil, voluptate itaque perspiciatis dolorem aut nostrum! Autem, exercitationem, nesciunt!</p>
+              </li>
+              <li class="orbit-slide" style="background: #999;">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam minima amet cupiditate pariatur doloribus, quo repudiandae facere odio ipsam laborum nihil, voluptate itaque perspiciatis dolorem aut nostrum! Autem, exercitationem, nesciunt!</p>
+              </li>
+            </ul>
+            <nav class="orbit-bullets">
+              <button class="is-active" data-slide="0"><span class="show-for-sr">First slide details.</span><span class="show-for-sr">Current Slide</span></button>
+              <button data-slide="1"><span class="show-for-sr">Second slide details.</span></button>
+              <button data-slide="2"><span class="show-for-sr">Third slide details.</span></button>
+              <button data-slide="3"><span class="show-for-sr">Fourth slide details.</span></button>
+            </nav>
+          </div>
+
+          <p>This content is here to make the page longer. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid facere architecto fugit voluptates, inventore est cum nihil vel dicta assumenda, illum. Ipsum non saepe similique repellat, enim blanditiis fuga eveniet.</p>
+
+          <p>This content is here to make the page longer. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid facere architecto fugit voluptates, inventore est cum nihil vel dicta assumenda, illum. Ipsum non saepe similique repellat, enim blanditiis fuga eveniet.</p>
+
+          <p>This content is here to make the page longer. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid facere architecto fugit voluptates, inventore est cum nihil vel dicta assumenda, illum. Ipsum non saepe similique repellat, enim blanditiis fuga eveniet.</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/vendor.js"></script>
+    <script src="../assets/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

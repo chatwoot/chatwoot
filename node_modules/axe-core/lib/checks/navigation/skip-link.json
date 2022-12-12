@@ -1,0 +1,12 @@
+{
+  "id": "skip-link",
+  "evaluate": "skip-link-evaluate",
+  "metadata": {
+    "impact": "moderate",
+    "messages": {
+      "pass": "Skip link target exists",
+      "incomplete": "Skip link target should become visible on activation",
+      "fail": "No skip link target"
+    }
+  }
+}

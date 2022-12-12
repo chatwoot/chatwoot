@@ -1,0 +1,142 @@
+// Foundation for Sites by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+////
+/// @group forms
+////
+
+/// Color of labels prefixed to an input.
+/// @type Color
+$input-prefix-color: $black !default;
+
+/// Background color of labels prefixed to an input.
+/// @type Color
+$input-prefix-background: $light-gray !default;
+
+/// Border around labels prefixed to an input.
+/// @type Border
+$input-prefix-border: 1px solid $medium-gray !default;
+
+/// Left/right padding of an pre/postfixed input label
+$input-prefix-padding: 1rem !default;
+
+@mixin foundation-form-prepostfix {
+  $height: ($input-font-size * $input-line-height) + (get-side($input-padding, 'top') + get-side($input-padding, 'bottom')) - rem-calc(1);
+
+  .input-group {
+    display: if($global-flexbox, flex, table);
+    width: 100%;
+    margin-bottom: $form-spacing;
+
+    @if $global-flexbox {
+      align-items: stretch;
+    }
+
+    > :first-child {
+      &, &.input-group-button > * {
+        border-radius: if($global-text-direction == rtl, 0 $input-radius $input-radius 0, $input-radius 0 0 $input-radius);
+      }
+    }
+
+    > :last-child {
+      &, &.input-group-button > * {
+        border-radius: if($global-text-direction == rtl, $input-radius 0 0 $input-radius, 0 $input-radius $input-radius 0);
+      }
+    }
+  }
+
+  %input-group-child {
+    margin: 0;
+    white-space: nowrap;
+
+    @if not $global-flexbox {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  .input-group-label {
+    @extend %input-group-child;
+    padding: 0 $input-prefix-padding;
+    border: $input-prefix-border;
+    background: $input-prefix-background;
+
+    color: $input-prefix-color;
+    text-align: center;
+    white-space: nowrap;
+
+    @if $global-flexbox {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+    }
+    @else {
+      width: 1%;
+      height: 100%;
+    }
+
+    @if has-value($input-prefix-border) {
+      &:first-child {
+        border-#{$global-right}: 0;
+      }
+
+      &:last-child {
+        border-#{$global-left}: 0;
+      }
+    }
+  }
+
+  .input-group-field {
+    @extend %input-group-child;
+    border-radius: 0;
+
+    @if $global-flexbox {
+      flex: 1 1 0px; // sass-lint:disable-line zero-unit
+      min-width: 0;
+    }
+  }
+
+  .input-group-button {
+    @extend %input-group-child;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+
+    @if $global-flexbox {
+      display: flex;
+      flex: 0 0 auto;
+    }
+    @else {
+      width: 1%;
+      height: 100%;
+    }
+
+    a,
+    input,
+    button,
+    label {
+      @extend %input-group-child;
+
+      @if $global-flexbox {
+        align-self: stretch;
+        height: auto;
+      }
+      @else {
+        height: $height;
+      }
+      padding-top: 0;
+      padding-bottom: 0;
+      font-size: $input-font-size;
+    }
+  }
+
+  // Specificity bump needed to prevent override by buttons
+  @if not $global-flexbox {
+    .input-group {
+      .input-group-button {
+        display: table-cell;
+      }
+    }
+  }
+}
