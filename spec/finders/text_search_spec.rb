@@ -44,7 +44,7 @@ describe ::TextSearch do
         params = { q: 'pot' }
         result = described_class.new(user_1, params).perform
         expect(result[:messages].length).to be 1
-        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].length).to be 2
       end
     end
   end
