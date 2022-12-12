@@ -4,8 +4,7 @@ class TextSearch
   DEFAULT_STATUS = 'open'.freeze
 
   def initialize(current_user, params)
-    @current_user = current_user
-    @current_account = current_user.account
+    @current_account = current_user.account || Current.account
     @params = params
   end
 
