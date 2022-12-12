@@ -27,15 +27,12 @@ const GO_TO_COMMANDS = [
     icon: ICON_CONVERSATION_DASHBOARD,
     builder: searchKey => {
       return new Promise(resolve => {
-        fetch(
-          `https://staging.chatwoot.com/api/v1/accounts/3/conversations/text_search?q=${searchKey}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              api_access_token: '',
-            },
-          }
-        )
+        fetch(`/api/v1/accounts/3/conversations/text_search?q=${searchKey}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            api_access_token: '',
+          },
+        })
           .then(res => res.json())
           .then(data => {
             const { results } = data;
