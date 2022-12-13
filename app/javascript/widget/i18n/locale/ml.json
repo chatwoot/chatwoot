@@ -73,6 +73,10 @@
       "FIELD": "അസാധുവായ ഫീൽഡ്"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "നിങ്ങളുടെ സംഭാഷണം റേറ്റുചെയ്യുക",
     "SUBMITTED_TITLE": "റേറ്റിംഗ് സമർപ്പിച്ചതിന് നന്ദി",
