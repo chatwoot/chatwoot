@@ -20,6 +20,7 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('meta');
     expect(conversationAPI).toHaveProperty('sendEmailTranscript');
     expect(conversationAPI).toHaveProperty('filter');
+    expect(conversationAPI).toHaveProperty('fullSearch');
   });
 
   describeWithAPIMock('API calls', context => {
@@ -60,6 +61,16 @@ describe('#ConversationAPI', () => {
             q: 'leads',
             page: 1,
           },
+        }
+      );
+    });
+
+    it('#fullSearch', () => {
+      conversationAPI.fullSearch({ q: 'john' });
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/conversations/text_search',
+        {
+          params: { q: 'john' },
         }
       );
     });

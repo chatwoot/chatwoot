@@ -1,6 +1,7 @@
 import { actions } from '../../conversationSearch';
 import types from '../../../mutation-types';
 import axios from 'axios';
+import { fullSearchResponse } from './fixtures';
 const commit = jest.fn();
 global.axios = axios;
 jest.mock('axios');
@@ -38,6 +39,38 @@ describe('#actions', () => {
         [types.SEARCH_CONVERSATIONS_SET, []],
         [types.SEARCH_CONVERSATIONS_SET_UI_FLAG, { isFetching: true }],
         [types.SEARCH_CONVERSATIONS_SET_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+  });
+  describe('#fullSearch', () => {
+    it('sends correct actions if no query param is provided', () => {
+      actions.fullSearch({ commit }, { q: '' });
+      expect(commit.mock.calls).toEqual([[types.FULL_SEARCH_SET, []]]);
+    });
+
+    it('sends correct actions if query param is provided and API call is success', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          payload: fullSearchResponse,
+        },
+      });
+
+      await actions.fullSearch({ commit }, { q: 'value' });
+      expect(commit.mock.calls).toEqual([
+        [types.FULL_SEARCH_SET, []],
+        [types.FULL_SEARCH_SET_UI_FLAG, { isFetching: true }],
+        [types.FULL_SEARCH_SET, fullSearchResponse],
+        [types.FULL_SEARCH_SET_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+
+    it('sends correct actions if query param is provided and API call is errored', async () => {
+      axios.get.mockRejectedValue({});
+      await actions.fullSearch({ commit }, { q: 'value' });
+      expect(commit.mock.calls).toEqual([
+        [types.FULL_SEARCH_SET, []],
+        [types.FULL_SEARCH_SET_UI_FLAG, { isFetching: true }],
+        [types.FULL_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
     });
   });

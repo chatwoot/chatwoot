@@ -1,0 +1,17 @@
+{
+    "SEARCH": {
+        "TABS": {
+            "ALL": "All",
+            "CONTACTS": "Contacts",
+            "CONVERSATIONS": "Conversations",
+            "MESSAGES": "Messages"
+        },
+        "SECTION": {
+            "CONTACTS": "CONTACTS",
+            "CONVERSATIONS": "CONVERSATIONS",
+            "MESSAGES": "MESSAGES"
+        },
+        "EMPTY_STATE": "No results found for this query",
+        "PLACEHOLDER_KEYBINDING": "/ to focus"
+    }
+}

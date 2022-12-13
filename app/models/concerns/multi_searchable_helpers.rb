@@ -4,9 +4,11 @@ module MultiSearchableHelpers
   included do
     PgSearch.multisearch_options = {
       using: {
-        trigram: {},
+        # trigram: {},
         tsearch: {
-          any_word: true
+          prefix: true,
+          any_word: true,
+          normalization: 3
         }
       }
     }
