@@ -2,6 +2,7 @@ json.id message.id
 json.content message.content
 json.inbox_id message.inbox_id
 json.echo_id message.echo_id if message.echo_id
+# For deleted conversation, messages are not yet deleted [because of destroy_async] for this we added try block
 json.conversation_id message.conversation.try(:display_id)
 json.message_type message.message_type_before_type_cast
 json.content_type message.content_type
