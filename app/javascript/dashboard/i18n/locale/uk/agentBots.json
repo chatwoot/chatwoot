@@ -1,70 +1,70 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "HEADER": "Боти",
+    "LOADING_EDITOR": "Завантаження редактора...",
+    "HEADER_BTN_TXT": "Додати конфігурацію бота",
+    "SIDEBAR_TXT": "<p><b>Боти агенти</b> <p>Боти агенти дозволяють автоматизувати розмови</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "LABEL": "Ім'я бота",
+        "PLACEHOLDER": "Дайте ім'я вашому боту",
+        "ERROR": "Ім'я бота обов'язкове"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "Опис бота",
+        "PLACEHOLDER": "Що робить цей бот?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "Будь ласка, введіть вище CSML конфігурацію бота",
+        "API_ERROR": "Ваша конфігурація CSML недійсна, будь ласка, виправте її та повторіть спробу."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "Перевірити і зберегти"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "Виберіть агента - бота",
+      "DESC": "Ви можете встановити бота агента з переліку до цієї поштової скриньки. Бот може спочатку обробити розмову та передавати її агенту, коли це необхідно.",
       "SUBMIT": "Оновити",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "SUCCESS_MESSAGE": "Успішно оновлено бота агента",
+      "ERROR_MESSAGE": "Не вдалося оновити агента бота, спробуйте ще раз пізніше",
+      "SELECT_PLACEHOLDER": "Виберіть бота"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "Налаштувати нового бота",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "Бота успішно додано",
+        "ERROR_MESSAGE": "Не вдалося додати бота, спробуйте ще раз пізніше"
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
-      "TYPE": "Bot Type"
+      "404": "Боти не знайдені, ви можете створити бота, натиснувши кнопку 'Налаштувати нового бота' ↗",
+      "LOADING": "Отримання ботів...",
+      "TYPE": "Тип бота"
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
-      "TITLE": "Delete Bot",
+      "TITLE": "Видалити бота",
       "SUBMIT": "Видалити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "DESCRIPTION": "Ви впевнені, що хочете видалити цього бота? Ця дія є незворотньою",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "Бот успішно видалений",
+        "ERROR_MESSAGE": "Не вдалося видалити бота, спробуйте ще раз пізніше"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Редагувати",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
+      "LOADING": "Отримання ботів...",
+      "TITLE": "Редагувати бота",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "Бот успішно оновлений",
+        "ERROR_MESSAGE": "Не вдалося оновити бота, спробуйте ще раз пізніше"
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook Бот",
+      "CSML": "CSML Бот"
     }
   }
 }
