@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "ഒരു അക്കൗണ്ട് രജിസ്റ്റർ ചെയ്യുക",
     "TITLE": "രജിസ്റ്റർ",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "സൈൻ അപ്പ് ചെയ്യുന്നതിലൂടെ, നിങ്ങൾ ഞങ്ങളുടെ <a href=\"https://www.chatwoot.com/terms\">ഉപാധികളും നിബന്ധനകളും</a> <a href=\"https://www.chatwoot.com/privacy-policy\">സ്വകാര്യതാ നയങ്ങളും </a> അംഗീകരിക്കുന്നു",
-    "ACCOUNT_NAME": {
-      "LABEL": "അക്കൗണ്ടിന്റെ പേര്",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Full name",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Work email",
       "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "പാസ്‌വേഡ്",
