@@ -154,7 +154,7 @@ class Contact < ApplicationRecord
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, created_at, updated_at)
         SELECT 'Contact' AS searchable_type,
                 contacts.id AS searchable_id,
-                CONCAT_WS(' ', contacts.email, contacts.name, contacts.phone_number, contacts.id, contacts.account_id) AS content,
+                CONCAT_WS(' ', contacts.id, contacts.email, contacts.name, contacts.phone_number, contacts.account_id) AS content,
                 contacts.account_id::int AS account_id,
                 conversations.id AS conversation_id,
                 now() AS created_at,
