@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "สร้างบัญชี",
     "TITLE": "สร้างบัญชี",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "การสมัครบ่งบอกว่าคุณได้การยอมรับ <a href=\"https://www.chatwoot.com/terms\">ข้อตกลง</a> และ <a href=\"https://www.chatwoot.com/privacy-policy\">นโยบายความเป็นส่วนตัว</a> ของเรา",
-    "ACCOUNT_NAME": {
-      "LABEL": "ชื่อบัญชี",
-      "PLACEHOLDER": "ใส่ชื่อบัญชี เช่น ชื่อบริษัทของคุณ",
-      "ERROR": "ชื่อบัญชีสั้นเกินไป"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "ชื่อเต็ม",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "อีเมลบริษัท",
       "PLACEHOLDER": "ใส่อีเมลบริษัทของคุณ",
-      "ERROR": "ไม่สามารถใช้อีเมลนี้ได้"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "หรัสผ่าน",
