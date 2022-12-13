@@ -3,7 +3,7 @@ class EnableMultiSearchable < ActiveRecord::Migration[6.1]
     Contact.rebuild_pg_search_documents
     PgSearch::Multisearch.rebuild(Conversation)
     PgSearch::Multisearch.rebuild(Message)
-    execute 'create extension pg_trgm;'
+    # execute 'create extension pg_trgm;'
   end
 
   def down

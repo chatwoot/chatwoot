@@ -27,6 +27,7 @@ import settings from './settings.json';
 import signup from './signup.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import search from './search.json';
 
 export default {
   ...advancedFilters,
@@ -58,4 +59,5 @@ export default {
   ...signup,
   ...teamsSettings,
   ...whatsappTemplates,
+  ...search,
 };
