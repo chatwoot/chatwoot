@@ -99,11 +99,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
-        ]
+        "STATUSES_LIST": ["Online", "Busy", "Offline"]
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -257,7 +253,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Submit"
