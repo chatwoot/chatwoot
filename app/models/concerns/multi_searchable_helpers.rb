@@ -4,10 +4,9 @@ module MultiSearchableHelpers
   included do
     PgSearch.multisearch_options = {
       using: {
+        trigram: {},
         tsearch: {
-          prefix: true,
-          any_word: true,
-          normalization: 3
+          any_word: true
         }
       }
     }
@@ -16,7 +15,7 @@ module MultiSearchableHelpers
       return if contact_pg_search_record.present?
 
       initialize_contact_pg_search_record.update!(
-        content: "#{contact.id} #{contact.email} #{contact.name} #{contact.phone_number}",
+        content: "#{contact.id} #{contact.email} #{contact.name} #{contact.phone_number} #{contact.account_id}",
         conversation_id: id
       )
     end
