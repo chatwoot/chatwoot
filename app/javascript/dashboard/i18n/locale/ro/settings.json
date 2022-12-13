@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nume cont",
+        "LABEL": "Nume companie",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Trimite"
