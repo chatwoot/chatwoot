@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "電話番号",
           "PLACEHOLDER": "送信先の電話番号を入力してください。",
-          "ERROR": "正しい値を入力してください。電話番号は `+` 記号で始める必要があります。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "コールバック URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "電話番号",
             "PLACEHOLDER": "送信先の電話番号を入力してください。",
-            "ERROR": "正しい値を入力してください。電話番号は `+` 記号で始める必要があります。"
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "電話番号",
           "PLACEHOLDER": "送信先の電話番号を入力してください。",
-          "ERROR": "正しい値を入力してください。電話番号は `+` 記号で始める必要があります。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
