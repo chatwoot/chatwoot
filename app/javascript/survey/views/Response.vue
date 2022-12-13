@@ -39,8 +39,8 @@
         />
         <p
           v-if="isRatingSubmitted&&shouldShowCsatMesage&&!enableFeedbackForm"
-          class="text-black-700 text-lg leading-relaxed"
-        >{{ csatMessage }}</p>        
+          class="text-black-700 text-lg leading-relaxed" v-html="parsedCsatMessage"
+        ></p>        
         <feedback
           v-if="enableFeedbackForm"
           :is-updating="isUpdating"
@@ -65,6 +65,7 @@ import Banner from 'survey/components/Banner';
 import configMixin from 'shared/mixins/configMixin';
 import { getSurveyDetails, updateSurvey, getCsatMessage } from 'survey/api/survey';
 import alertMixin from 'shared/mixins/alertMixin';
+import { marked } from 'marked';
 
 export default {
   name: 'Response',
@@ -74,6 +75,7 @@ export default {
     Spinner,
     Banner,
     Feedback,
+    marked
   },
   mixins: [alertMixin, configMixin],
   props: {
@@ -90,7 +92,7 @@ export default {
       errorMessage: null,
       selectedRating: null,
       feedbackMessage: '',
-      csatMessage: '',
+      csatMessage: 'dadadaadadadada',
       isUpdating: false,
       logo: '',
       inboxName: '',
@@ -125,7 +127,9 @@ export default {
     shouldShowSuccessMesage() {
       return !!this.isRatingSubmitted;
     },
-
+     parsedCsatMessage(){
+       return marked.parse(this.csatMessage);
+     },
     message() {
       if (this.errorMessage) {
         return this.errorMessage;

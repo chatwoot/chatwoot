@@ -44,9 +44,8 @@
     </form>
     <h5 class="csat_message"
       v-if="isFeedbackSubmitted&&shouldShowCsatMesage"
-    >
-      {{ this.csatMessage }}
-    </h5>
+       v-html="parsedCsatMessage"
+    ></h5>
   </div>
 </template>
 
@@ -58,11 +57,13 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { getCsatMessage } from 'survey/api/survey';
+import { marked } from 'marked';
 
 export default {
   components: {
     Spinner,
     FluentIcon,
+    marked
   },
   mixins: [darkModeMixin],
   props: {
@@ -100,9 +101,6 @@ export default {
     shouldShowCsatMesage() {
       return this.selectedRating && this.selectedRating>3;
     },    
-    getCsatMessage() {
-      return this.selectedRating && this.selectedRating>3;
-    },    
     inputColor() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')}
         ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
@@ -115,6 +113,9 @@ export default {
         ? this.$t('CSAT.SUBMITTED_TITLE')
         : this.$t('CSAT.TITLE');
     },
+     parsedCsatMessage(){
+       return marked.parse(this.csatMessage);
+     }    
   },
 
   async mounted() {
