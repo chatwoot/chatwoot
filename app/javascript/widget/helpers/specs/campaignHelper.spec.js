@@ -1,7 +1,7 @@
 import {
-  stripTrailingSlash,
   formatCampaigns,
   filterCampaigns,
+  isPatternMatchingWithURL,
 } from '../campaignHelper';
 import campaigns from './campaignFixtures';
 
@@ -9,11 +9,35 @@ global.chatwootWebChannel = {
   workingHoursEnabled: false,
 };
 describe('#Campaigns Helper', () => {
-  describe('stripTrailingSlash', () => {
-    it('should return striped trailing slash if url with trailing slash is passed', () => {
+  describe('#isPatternMatchingWithURL', () => {
+    it('returns correct value if a valid URL is passed', () => {
       expect(
-        stripTrailingSlash({ URL: 'https://www.chatwoot.com/pricing/' })
-      ).toBe('https://www.chatwoot.com/pricing');
+        isPatternMatchingWithURL(
+          'https://chatwoot.com/pricing*',
+          'https://chatwoot.com/pricing/'
+        )
+      ).toBe(true);
+
+      expect(
+        isPatternMatchingWithURL(
+          'https://*.chatwoot.com/pricing/',
+          'https://app.chatwoot.com/pricing/'
+        )
+      ).toBe(true);
+
+      expect(
+        isPatternMatchingWithURL(
+          'https://{*.}?chatwoot.com/pricing?test=true',
+          'https://app.chatwoot.com/pricing/?test=true'
+        )
+      ).toBe(true);
+
+      expect(
+        isPatternMatchingWithURL(
+          'https://{*.}?chatwoot.com/pricing*\\?*',
+          'https://chatwoot.com/pricing/?test=true'
+        )
+      ).toBe(true);
     });
   });
 

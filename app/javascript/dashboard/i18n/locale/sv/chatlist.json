@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Konversationer",
     "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Svara på detta tweet",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Skickades framgångsrikt",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Inga meddelanden",
     "NO_CONTENT": "Inget innehåll tillgängligt",
     "HIDE_QUOTED_TEXT": "Dölj citerad text",

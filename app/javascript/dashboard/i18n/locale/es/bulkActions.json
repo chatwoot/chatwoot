@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "Asignar",
     "YES": "Si",
     "ASSIGN_AGENT_TOOLTIP": "Asignar agente",
+    "ASSIGN_TEAM_TOOLTIP": "Asignar equipo",
     "ASSIGN_SUCCESFUL": "Conversaciones asignadas con éxito",
     "ASSIGN_FAILED": "Error al asignar conversaciones, inténtelo de nuevo",
     "RESOLVE_SUCCESFUL": "Conversaciones resueltas con éxito",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
       "ASSIGN_SUCCESFUL": "Etiquetas asignadas correctamente",
       "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Seleccionar equipo",
+      "NONE": "Ninguna",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }

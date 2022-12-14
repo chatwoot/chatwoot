@@ -112,6 +112,7 @@ $label-badge-size: var(--space-slab);
   padding: var(--space-smaller) var(--space-smaller);
   margin: var(--space-smaller) 0;
   text-align: left;
+  line-height: 1.2;
 
   &:hover {
     background: var(--s-25);
@@ -135,8 +136,6 @@ $label-badge-size: var(--space-slab);
 
 .menu-label {
   flex-grow: 1;
-  display: inline-flex;
-  align-items: center;
 }
 
 .inbox-icon {

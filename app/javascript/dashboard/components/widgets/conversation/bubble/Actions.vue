@@ -3,20 +3,30 @@
     <span class="time" :class="{ delivered: messageRead }">{{
       readableTime
     }}</span>
-    <span v-if="showSentIndicator" class="time">
+    <span v-if="showReadIndicator" class="read-indicator-wrap">
       <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
-        icon="checkmark"
+        v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
+        icon="checkmark-double"
+        class="action--icon read-tick read-indicator"
         size="14"
       />
     </span>
-    <fluent-icon
-      v-if="messageRead"
-      v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
-      icon="checkmark-double"
-      class="action--icon read-tick"
-      size="12"
-    />
+    <span v-if="showDeliveredIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.DELIVERED')"
+        icon="checkmark-double"
+        class="action--icon read-tick"
+        size="14"
+      />
+    </span>
+    <span v-if="showSentIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
+        icon="checkmark"
+        class="action--icon read-tick"
+        size="14"
+      />
+    </span>
     <fluent-icon
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
@@ -45,19 +55,6 @@
       />
     </button>
     <a
-      v-if="hasInstagramStory && (isIncoming || isOutgoing) && linkToStory"
-      :href="linkToStory"
-      target="_blank"
-      rel="noopener noreferrer nofollow"
-    >
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.LINK_TO_STORY')"
-        icon="open"
-        class="action--icon cursor-pointer"
-        size="16"
-      />
-    </a>
-    <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
       target="_blank"
@@ -74,7 +71,7 @@
 </template>
 
 <script>
-import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import inboxMixin from 'shared/mixins/inboxMixin';
 
@@ -117,6 +114,10 @@ export default {
       type: Number,
       default: 1,
     },
+    messageStatus: {
+      type: String,
+      default: '',
+    },
     sourceId: {
       type: String,
       default: '',
@@ -144,6 +145,15 @@ export default {
     isOutgoing() {
       return MESSAGE_TYPE.OUTGOING === this.messageType;
     },
+    isDelivered() {
+      return MESSAGE_STATUS.DELIVERED === this.messageStatus;
+    },
+    isRead() {
+      return MESSAGE_STATUS.READ === this.messageStatus;
+    },
+    isSent() {
+      return MESSAGE_STATUS.SENT === this.messageStatus;
+    },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
         this.sender || {};
@@ -168,7 +178,23 @@ export default {
       return (
         this.isOutgoing &&
         this.sourceId &&
-        (this.isAnEmailChannel || this.isAWhatsAppChannel)
+        (this.isAnEmailChannel || (this.isAWhatsAppChannel && this.isSent))
+      );
+    },
+    showDeliveredIndicator() {
+      return (
+        this.isOutgoing &&
+        this.sourceId &&
+        this.isAWhatsAppChannel &&
+        this.isDelivered
+      );
+    },
+    showReadIndicator() {
+      return (
+        this.isOutgoing &&
+        this.sourceId &&
+        this.isAWhatsAppChannel &&
+        this.isRead
       );
     },
   },
@@ -185,16 +211,20 @@ export default {
 
 .right {
   .message-text--metadata {
+    align-items: center;
     .time {
       color: var(--w-100);
     }
 
     .action--icon {
+      color: var(--white);
       &.read-tick {
         color: var(--v-100);
-        margin-top: calc(var(--space-micro) + var(--space-micro) / 2);
       }
-      color: var(--white);
+
+      &.read-indicator {
+        color: var(--g-300);
+      }
     }
 
     .lock--icon--private {
@@ -295,5 +325,11 @@ export default {
 
 .delivered-icon {
   margin-left: -var(--space-normal);
+}
+
+.read-indicator-wrap {
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 </style>

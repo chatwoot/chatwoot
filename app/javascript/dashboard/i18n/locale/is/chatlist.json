@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Samtöl",
     "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Leita að Fólki, Spjöllum, Vistuðum Svörum .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Reply to this tweet",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Sent successfully",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Engin skilaboð",
     "NO_CONTENT": "No content available",
     "HIDE_QUOTED_TEXT": "Fela tilvitnaðan texta",

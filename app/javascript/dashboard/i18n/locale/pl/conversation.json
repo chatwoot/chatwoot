@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Oznacz jako oczekujące",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Otwórz ponownie rozmowę",
       "SNOOZE": {
         "TITLE": "Snooze",

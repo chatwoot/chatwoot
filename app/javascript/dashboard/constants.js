@@ -22,5 +22,6 @@ export default {
     EXPANDED: 'expanded',
   },
   DOCS_URL: '//www.chatwoot.com/docs/product/',
+  TESTIMONIAL_URL: 'https://testimonials.cdn.chatwoot.com/content.json',
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
