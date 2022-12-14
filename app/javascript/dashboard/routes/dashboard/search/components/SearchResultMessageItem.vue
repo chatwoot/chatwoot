@@ -39,12 +39,12 @@ export default {
     getThumbnail() {
       return this.message.sender && this.message.sender.thumbnail
         ? this.message.sender.thumbnail
-        : '';
+        : this.$t('SEARCH.BOT_LABEL');
     },
     getName() {
       return this.message && this.message.sender && this.message.sender.name
         ? this.message.sender.name
-        : '';
+        : this.$t('SEARCH.BOT_LABEL');
     },
   },
 };

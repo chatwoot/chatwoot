@@ -2,6 +2,7 @@
   <search-result-section
     :title="$t('SEARCH.SECTION.CONVERSATIONS')"
     :empty="!conversations.length"
+    :query="query"
   >
     <ul class="search-list">
       <li v-for="conversation in conversations" :key="conversation.id">
@@ -23,6 +24,10 @@ export default {
     conversations: {
       type: Array,
       default: () => [],
+    },
+    query: {
+      type: String,
+      default: '',
     },
   },
 };

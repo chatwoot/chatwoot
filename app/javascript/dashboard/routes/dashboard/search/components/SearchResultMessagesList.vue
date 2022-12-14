@@ -2,6 +2,7 @@
   <search-result-section
     :title="$t('SEARCH.SECTION.MESSAGES')"
     :empty="!messages.length"
+    :query="query"
   >
     <ul class="search-list">
       <li v-for="message in messages" :key="message.id">
@@ -23,6 +24,10 @@ export default {
     messages: {
       type: Array,
       default: () => [],
+    },
+    query: {
+      type: String,
+      default: '',
     },
   },
 };

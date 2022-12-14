@@ -2,6 +2,7 @@
   <search-result-section
     :title="$t('SEARCH.SECTION.CONTACTS')"
     :empty="!contacts.length"
+    :query="query"
   >
     <ul class="search-list">
       <li v-for="contact in contacts" :key="contact.id">
@@ -23,6 +24,10 @@ export default {
     contacts: {
       type: Array,
       default: () => [],
+    },
+    query: {
+      type: String,
+      default: '',
     },
   },
 };

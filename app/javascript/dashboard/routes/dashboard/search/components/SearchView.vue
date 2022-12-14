@@ -11,14 +11,17 @@
           <search-result-contacts-list
             v-if="filterContacts"
             :contacts="contacts"
+            :query="query"
           />
           <search-result-messages-list
             v-if="filterMessages"
             :messages="messages"
+            :query="query"
           />
           <search-result-conversations-list
             v-if="filterConversations"
             :conversations="conversations"
+            :query="query"
           />
         </div>
       </div>
@@ -122,6 +125,7 @@ export default {
   },
   methods: {
     search(q) {
+      this.query = q;
       this.$store.dispatch('conversationSearch/fullSearch', { q });
     },
   },

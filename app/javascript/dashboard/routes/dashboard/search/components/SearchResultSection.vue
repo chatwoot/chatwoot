@@ -5,9 +5,9 @@
     </div>
     <slot />
     <div v-if="empty" class="empty">
-      <fluent-icon icon="info" size="32px" class="icon" />
+      <fluent-icon icon="info" size="24px" class="icon" />
       <p class="empty-state__text">
-        {{ $t('SEARCH.EMPTY_STATE') }}
+        {{ $t('SEARCH.EMPTY_STATE', { item: titleCase, query }) }}
       </p>
     </div>
   </section>
@@ -23,6 +23,15 @@ export default {
     empty: {
       type: Boolean,
       default: false,
+    },
+    query: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    titleCase() {
+      return this.title.toLowerCase();
     },
   },
 };
@@ -43,13 +52,13 @@ export default {
   z-index: 50;
   border-bottom-width: 1px;
   border-top-width: 1px;
-  border-color: #dbdbdb;
+  border-color: var(--s-100);
   border-style: solid;
   border-left: 0;
   border-right: 0;
   p {
     font-size: var(--font-size-small);
-    color: var(--b-600);
+    color: var(--s-500);
     margin: 0;
   }
 }

@@ -8,7 +8,7 @@
       <input
         ref="searchInput"
         type="search"
-        placeholder="Search message content, contact name, email or phone or conversations"
+        :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
         :value="searchQuery"
         @input="debounceSearch"
       />
@@ -43,7 +43,10 @@ export default {
       }, 500);
     },
     focusSearch(e) {
-      if (e.key === '/') this.$refs.searchInput.focus();
+      if (e.key === '/') {
+        e.preventDefault();
+        this.$refs.searchInput.focus();
+      }
     },
   },
 };
