@@ -86,8 +86,8 @@
   // Common color aliases
   --color-woot: var(--w-500);
 
-  --color-heading: #1f2d3d;
-  --color-body: #3c4858;
+  --color-heading: var(--s-900);
+  --color-body: var(--s-700);
 
   --color-border: var(--s-75);
   --color-border-light: var(--s-50);

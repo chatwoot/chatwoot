@@ -199,6 +199,10 @@ $default-button-height: 4.0rem;
     height: auto;
     margin: 0;
     padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
 }

@@ -157,6 +157,17 @@
     "CARD": {
       "COPY_LINK": "Copy link",
       "GOTO_INBOX": "Goto inbox"
+    },
+    "VIA_TOOLTIP": {
+      "INSTAGRAM_DM": "Via instagram DM",
+      "FB_DM": "Via facebook DM",
+      "TWITTER_TWEET": "Via tweet",
+      "TWITTER_DM": "Via twitter DM",
+      "WHATSAPP": "Via WhatsApp",
+      "SMS": "Via SMS",
+      "LINE": "Via Line",
+      "TELEGRAM": "Via telegram",
+      "WEB_WIDGET": "Via live chat"
     }
   },
   "EMAIL_TRANSCRIPT": {

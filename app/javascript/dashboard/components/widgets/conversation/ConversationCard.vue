@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="conversationCard"
     class="conversation"
     :class="{
       active: isActiveChat,
@@ -24,7 +25,6 @@
     <thumbnail
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
-      :badge="inboxBadge"
       class="sender-thumbnail"
       :username="currentContact.name"
       :status="currentContact.availability_status"
@@ -62,6 +62,14 @@
         <h4 class="text-block-title conversation--user">
           {{ currentContact.name }}
         </h4>
+        <img
+          v-if="badgeSrc"
+          v-tooltip.right="$t(`CONVERSATION.VIA_TOOLTIP.${badgeTooltipKey}`)"
+          class="source-badge"
+          :style="badgeStyle"
+          :src="`/integrations/channels/badges/${badgeSrc}.png`"
+          alt="Badge"
+        />
       </div>
 
       <div class="content">
@@ -116,15 +124,28 @@
         </div>
       </div>
       <div v-if="activeLabels.length" class="footer">
-        <woot-label
-          v-for="label in activeLabels"
-          :key="label.id"
-          :title="label.title"
-          :description="label.description"
-          :color="label.color"
-          variant="smooth"
-          small
-        />
+        <div class="overflow-wrap">
+          <div class="labels-wrap" :class="{ expand: showAllLabels }">
+            <woot-label
+              v-for="label in activeLabels"
+              :key="label.id"
+              :title="label.title"
+              :description="label.description"
+              :color="label.color"
+              variant="smooth"
+              small
+            />
+            <woot-button
+              v-if="showExpandLabelButton"
+              class="remaining-labels"
+              color-scheme="secondary"
+              variant="smooth"
+              :icon="showAllLabels ? 'chevron-left' : 'chevron-down'"
+              size="tiny"
+              @click="onShowLabels"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -233,6 +254,8 @@ export default {
     return {
       hovered: false,
       showContextMenu: false,
+      showAllLabels: false,
+      showExpandLabelButton: false,
       contextMenu: {
         x: null,
         y: null,
@@ -349,8 +372,124 @@ export default {
       });
       return frontendURL(path);
     },
+    badgeTooltipKey() {
+      return {
+        instagram_direct_message: 'INSTAGRAM_DM',
+        facebook: 'FB_DM',
+        'twitter-tweet': 'TWITTER_TWEET',
+        'twitter-dm': 'TWITTER_DM',
+        whatsapp: 'WHATSAPP',
+        sms: 'SMS',
+        'Channel::Line': 'LINE',
+        'Channel::Telegram': 'TELEGRAM',
+        'Channel::WebWidget': 'WEB_WIDGET',
+      }[this.inboxBadge];
+    },
+    badgeSrc() {
+      return {
+        instagram_direct_message: 'instagram-dm',
+        facebook: 'messenger',
+        'twitter-tweet': 'twitter-tweet',
+        'twitter-dm': 'twitter-dm',
+        whatsapp: 'whatsapp',
+        sms: 'sms',
+        'Channel::Line': 'line',
+        'Channel::Telegram': 'telegram',
+        'Channel::WebWidget': '',
+      }[this.inboxBadge];
+    },
+    badgeStyle() {
+      const size = 12;
+      const badgeSize = `${size + 2}px`;
+      const borderRadius = `${size / 2}px`;
+      return { width: badgeSize, height: badgeSize, borderRadius };
+    },
+    remainingLabel() {
+      const { label } = this.chat;
+      const { name } = this.activeLabel;
+      return label.filter(l => l.name !== name);
+    },
+  },
+  watch: {
+    activeLabels() {
+      const footer = this.$refs.conversationCard.querySelector('.footer');
+      const labelsWrap = this.$refs.conversationCard.querySelector(
+        '.labels-wrap'
+      );
+      const labels = this.$refs.conversationCard.querySelectorAll('.label');
+
+      if (!footer || !labelsWrap || this.activeLabels.length === 0) {
+        return;
+      }
+
+      Array.from(labels).forEach(label => {
+        label.classList.remove('hidden');
+      });
+
+      this.showExpandLabelButton =
+        footer.offsetWidth - 80 < labelsWrap.scrollWidth;
+
+      const labelsWrapWidth = footer.scrollWidth;
+      let currentIndex = 0;
+      let labelsWidth = 0;
+      if (labels.length === 0) return;
+
+      do {
+        if (labelsWidth + 80 < labelsWrapWidth) {
+          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 24;
+          currentIndex += 1;
+        } else {
+          break;
+        }
+      } while (currentIndex < labels.length);
+
+      Array.from(labels).forEach((label, index) => {
+        if (index >= currentIndex) {
+          label.classList.add('hidden');
+        } else {
+          label.classList.remove('hidden');
+        }
+      });
+    },
+  },
+  mounted() {
+    this.collapseLabels();
   },
   methods: {
+    collapseLabels() {
+      const footer = this.$refs.conversationCard.querySelector('.footer');
+      const labelsWrap = this.$refs.conversationCard.querySelector(
+        '.labels-wrap'
+      );
+      const labels = this.$refs.conversationCard.querySelectorAll('.label');
+
+      if (!footer || !labelsWrap || this.activeLabels.length === 0) {
+        return;
+      }
+
+      const labelsWrapWidth = footer.scrollWidth;
+      let currentIndex = 0;
+      let labelsWidth = 0;
+      this.showExpandLabelButton =
+        footer.offsetWidth - 80 < labelsWrap.scrollWidth;
+
+      do {
+        if (labelsWidth + 80 < labelsWrapWidth) {
+          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 24;
+          currentIndex += 1;
+        } else {
+          break;
+        }
+      } while (currentIndex < labels.length);
+
+      Array.from(labels).forEach((label, index) => {
+        if (index >= currentIndex) {
+          label.classList.add('hidden');
+        } else {
+          label.classList.remove('hidden');
+        }
+      });
+    },
     cardClick(chat) {
       const { activeInbox } = this;
       const path = conversationUrl({
@@ -404,6 +543,10 @@ export default {
         status,
         snoozedUntil
       );
+    },
+    onShowLabels(e) {
+      e.stopPropagation();
+      this.showAllLabels = !this.showAllLabels;
     },
     async onAssignAgent(agent) {
       this.$emit('assign-agent', agent, [this.chat.id]);
@@ -537,10 +680,39 @@ export default {
 .footer {
   display: flex;
   align-items: center;
-  flex-flow: row wrap;
 
   .label {
     margin-bottom: var(--space-smaller);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .remaining-labels {
+    height: var(--space-two);
+    position: sticky;
+    flex-shrink: 0;
+    right: 0;
+    margin-bottom: var(--space-smaller);
+    margin-right: var(--space-medium);
+  }
+}
+
+.labels-wrap {
+  display: flex;
+  align-items: center;
+  height: var(--space-medium);
+  overflow: hidden;
+  min-width: 0;
+  flex-shrink: 1;
+  &.expand {
+    height: auto;
+    overflow: visible;
+    flex-flow: row wrap;
+    .hidden {
+      display: inline-flex;
+    }
   }
 }
 
@@ -577,22 +749,11 @@ export default {
   /* color: var(--s-800); */
 }
 
-.footer {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-  margin-top: var(--space-smaller);
-
-  .label {
-    margin-bottom: var(--space-smaller);
-  }
-}
-
 .conversation-meta {
   display: flex;
 }
 .conversation__id {
-  margin-left: var(--space-small);
+  margin-left: var(--space-smaller);
 }
 
 .message--attachment-icon {
@@ -618,12 +779,29 @@ export default {
 }
 
 .badge {
-  min-width: var(--space-normal);
-  height: var(--space-normal);
-  line-height: var(--space-normal);
-  padding: 0 var(--space-micro);
+  min-width: 14px;
+  height: 14px;
+  line-height: 14px;
+  padding: 0;
   text-align: center;
   border-radius: var(--space-medium);
   font-weight: var(--font-weight-bold);
+}
+
+.source-badge {
+  margin-left: var(--space-smaller);
+  filter: grayscale(100%);
+  opacity: 0.7;
+  padding: var(--space-micro);
+
+  &:hover {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+
+.overflow-wrap {
+  display: flex;
+  width: 100%;
 }
 </style>
