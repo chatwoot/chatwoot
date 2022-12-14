@@ -16,3 +16,4 @@ export const isValidPassword = value => {
     containsSpecialCharacter
   );
 };
+export const isNumber = value => /^\d+$/.test(value);
