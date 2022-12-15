@@ -10,7 +10,7 @@ import {
   widgetHolder,
   createBubbleHolder,
   createBubbleIcon,
-  bubbleImg,
+  bubbleSVG,
   chatBubble,
   closeBubble,
   bubbleHolder,
@@ -21,6 +21,7 @@ import {
   addUnreadClass,
   removeUnreadClass,
 } from './bubbleHelpers';
+import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
@@ -277,9 +278,14 @@ export const IFrameHelper = {
       closeBtnClassName += ' woot-widget-bubble--flat';
     }
 
+    if (isWidgetColorLighter(widgetColor)) {
+      className += ' woot-widget-bubble-color--lighter';
+      closeBtnClassName += ' woot-widget-bubble-color--lighter';
+    }
+
     const chatIcon = createBubbleIcon({
       className,
-      src: bubbleImg,
+      path: bubbleSVG,
       target: chatBubble,
     });
 
