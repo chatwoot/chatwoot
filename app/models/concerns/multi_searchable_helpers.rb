@@ -6,9 +6,7 @@ module MultiSearchableHelpers
       using: {
         trigram: {},
         tsearch: {
-          prefix: true,
-          any_word: true,
-          normalization: 3
+          any_word: true
         }
       }
     }
