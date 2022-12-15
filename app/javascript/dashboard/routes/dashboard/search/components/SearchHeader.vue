@@ -1,31 +1,23 @@
 <template>
-  <div>
-    <search-focus @keyup="focusSearch" />
-    <div class="input-container">
-      <div class="icon-container">
-        <fluent-icon icon="search" class="icon" aria-hidden="true" />
-      </div>
-      <input
-        ref="searchInput"
-        type="search"
-        :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
-        :value="searchQuery"
-        @input="debounceSearch"
-      />
-      <div class="key-binding">
-        <span>{{ $t('SEARCH.PLACEHOLDER_KEYBINDING') }}</span>
-      </div>
+  <div class="input-container">
+    <div class="icon-container">
+      <fluent-icon icon="search" class="icon" aria-hidden="true" />
+    </div>
+    <input
+      ref="searchInput"
+      type="search"
+      :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
+      :value="searchQuery"
+      @input="debounceSearch"
+    />
+    <div class="key-binding">
+      <span>{{ $t('SEARCH.PLACEHOLDER_KEYBINDING') }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import SearchFocus from './SearchFocus.vue';
-
 export default {
-  components: {
-    SearchFocus,
-  },
   data() {
     return {
       searchQuery: '',
@@ -33,6 +25,16 @@ export default {
   },
   mounted() {
     this.$refs.searchInput.focus();
+    this.handler = e => {
+      if (e.key === '/') {
+        e.preventDefault();
+        this.$refs.searchInput.focus();
+      }
+    };
+    document.addEventListener('keydown', this.handler);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.handler);
   },
   methods: {
     debounceSearch(e) {
@@ -43,12 +45,6 @@ export default {
           this.$emit('search', this.searchQuery);
         }
       }, 500);
-    },
-    focusSearch(e) {
-      if (e.key === '/') {
-        e.preventDefault();
-        this.$refs.searchInput.focus();
-      }
     },
   },
 };
