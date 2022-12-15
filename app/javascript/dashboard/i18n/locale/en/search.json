@@ -14,6 +14,7 @@
         "EMPTY_STATE": "No %{item} found for query '%{query}'",
         "PLACEHOLDER_KEYBINDING": "/ to focus",
         "INPUT_PLACEHOLDER": "Search message content, contact name, email or phone or conversations",
-        "BOT_LABEL": "Bot"
+        "BOT_LABEL": "Bot",
+        "READ_MORE": "Read more"
     }
 }

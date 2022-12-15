@@ -1,14 +1,16 @@
 <template>
   <div class="read-more">
-    <div ref="content" :class="{ content: applyReadMore }">
+    <div ref="content" :class="{ 'shrink-container': shrink }">
       <slot />
       <woot-button
+        v-if="shrink"
         size="tiny"
         variant="smooth"
         color-scheme="primary"
         class="read-more-button"
+        @click.prevent="$emit('expand')"
       >
-        Read more
+        {{ $t('SEARCH.READ_MORE') }}
       </woot-button>
     </div>
   </div>
@@ -17,7 +19,7 @@
 <script>
 export default {
   props: {
-    applyReadMore: {
+    shrink: {
       type: Boolean,
       default: false,
     },
@@ -26,13 +28,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
+.shrink-container {
   max-height: 100px;
   overflow: hidden;
   position: relative;
 }
 
-.content::after {
+.shrink-container::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -46,10 +48,11 @@ export default {
 .read-more-button {
   max-width: max-content;
   position: absolute;
-  bottom: 0;
+  bottom: var(--space-small);
   left: 0;
   right: 0;
   margin: 0 auto;
   z-index: 5;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 </style>

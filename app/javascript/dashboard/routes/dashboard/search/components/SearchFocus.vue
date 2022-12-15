@@ -6,6 +6,7 @@
 export default {
   mounted() {
     this.handler = event => {
+      event.preventDefault();
       this.$emit('keyup', event);
     };
     window.addEventListener('keyup', this.handler);

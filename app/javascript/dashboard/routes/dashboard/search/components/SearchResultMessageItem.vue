@@ -3,7 +3,13 @@
     <thumbnail :src="getThumbnail" size="42px" :username="getName" />
     <div class="message-details">
       <p class="name">{{ getName }}</p>
-      <div v-dompurify-html="messageContent" class="message-content" />
+      <read-more :shrink="isOverflowing" @expand="isOverflowing = false">
+        <div
+          ref="messageContainer"
+          v-dompurify-html="messageContent"
+          class="message-content"
+        />
+      </read-more>
     </div>
   </router-link>
 </template>
@@ -13,9 +19,11 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { mapGetters } from 'vuex';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
+import ReadMore from './ReadMore';
 export default {
   components: {
     Thumbnail,
+    ReadMore,
   },
   mixins: [messageFormatterMixin],
   props: {
@@ -23,6 +31,11 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  data() {
+    return {
+      isOverflowing: false,
+    };
   },
   computed: {
     messageContent() {
@@ -46,6 +59,11 @@ export default {
         ? this.message.sender.name
         : this.$t('SEARCH.BOT_LABEL');
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.isOverflowing = this.$refs.messageContainer.offsetHeight > 150;
+    });
   },
 };
 </script>
@@ -81,6 +99,15 @@ export default {
   }
   &:hover {
     background-color: var(--s-50);
+    ::v-deep {
+      &::after {
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0),
+          var(--s-50) 100%
+        );
+      }
+    }
   }
 }
 </style>
