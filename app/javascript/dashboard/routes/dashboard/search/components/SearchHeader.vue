@@ -39,7 +39,9 @@ export default {
       this.searchQuery = e.target.value;
       clearTimeout(this.debounce);
       this.debounce = setTimeout(async () => {
-        this.$emit('search', this.searchQuery);
+        if (this.searchQuery.length > 2) {
+          this.$emit('search', this.searchQuery);
+        }
       }, 500);
     },
     focusSearch(e) {
