@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Registrujte nalog",
     "TITLE": "Registruj",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Registracijom prihvatate naše <a href=\"https://www.chatwoot.com/terms\">uslove korišćenja</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">politiku privatnosti</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Naziv naloga",
-      "PLACEHOLDER": "Unesite naziv naloga. npr.: Wayne Enterprises",
-      "ERROR": "Naziv naloga je prekratak"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Puno ime",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Poslovna e-pošta",
       "PLACEHOLDER": "Unesite adresu vaše poslovne e-pošte. npr.: bruce@wayne.enterprises",
-      "ERROR": "E-pošta nije ispravna"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Lozinka",

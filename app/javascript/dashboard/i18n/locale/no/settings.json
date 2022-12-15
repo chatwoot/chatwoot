@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Kontonavn",
+        "LABEL": "Firmaets navn",
         "PLACEHOLDER": "Ola's bedrift"
       },
       "SUBMIT": "Send"

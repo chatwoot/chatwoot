@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "帐户名称",
+        "LABEL": "公司名称",
         "PLACEHOLDER": "Wayne企业"
       },
       "SUBMIT": "提交"

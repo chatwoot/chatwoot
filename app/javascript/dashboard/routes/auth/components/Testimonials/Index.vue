@@ -69,11 +69,11 @@ export default {
 }
 
 .center--img {
-  left: 5%;
-  max-height: 86%;
-  max-width: 90%;
+  height: 96%;
+  left: 8%;
   position: absolute;
-  top: 2%;
+  top: 8%;
+  width: 86%;
 }
 
 .center-container {
@@ -101,7 +101,7 @@ export default {
   align-items: flex-start;
   display: flex;
   justify-content: center;
-  padding: var(--space-larger);
+  padding: var(--space-large);
 }
 
 .testimonial-left--card {

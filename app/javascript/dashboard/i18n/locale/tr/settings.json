@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Hesap adı",
+        "LABEL": "Şirket Adı",
         "PLACEHOLDER": "Şirketiniz"
       },
       "SUBMIT": "Yolla"
