@@ -213,7 +213,7 @@ RSpec.describe Message, type: :model do
 
   context 'when message is created with variables' do
     let(:contact) { create(:contact, name: 'john', phone_number: '+912883') }
-    let(:conversation) { create(:conversation, contact: contact) }
+    let(:conversation) { create(:conversation, id: 1, contact: contact) }
     let(:message) { build(:message, conversation: conversation) }
 
     it 'set contact name variable in message' do
@@ -226,6 +226,18 @@ RSpec.describe Message, type: :model do
       message.content = 'Can we call you at {{contact.phone_number}}?'
       message.save!
       expect(message.content).to eq 'Can we call you at +912883?'
+    end
+
+    it 'set contact email variable in message' do
+      message.content = 'Can we send you an email at {{contact.email}}?'
+      message.save!
+      expect(message.content).to eq 'Can we send you an email at ?'
+    end
+
+    it 'set conversation id in message' do
+      message.content = 'We are happy to help you. Your conversation id is {{conversation.id}}'
+      message.save!
+      expect(message.content).to eq 'We are happy to help you. Your conversation id is 1'
     end
   end
 end
