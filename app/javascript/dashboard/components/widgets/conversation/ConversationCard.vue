@@ -37,7 +37,7 @@
         <div class="conversation-meta">
           <inbox-name v-if="showInboxName" :inbox="inbox" />
           <woot-button
-            v-tooltip.bottom="$t('CONVERSATION.CARD.COPY_LINK')"
+            :title="$t('CONVERSATION.CARD.COPY_LINK')"
             class="conversation__id"
             variant="link"
             size="tiny"
@@ -51,7 +51,6 @@
         </div>
         <woot-label
           v-if="showAssignee"
-          v-tooltip="$t('CONVERSATION.CARD.AGENT_TOOLTIP')"
           icon="headset"
           small
           :title="assigneeName"
@@ -137,13 +136,14 @@
             />
             <woot-button
               v-if="showExpandLabelButton"
-              v-tooltip.top="
+              :title="
                 showAllLabels
                   ? $t('CONVERSATION.CARD.HIDE_LABELS')
                   : $t('CONVERSATION.CARD.SHOW_LABELS')
               "
               class="remaining-labels"
-              variant="clear"
+              :color-scheme="isActiveChat ? 'primary' : 'secondary'"
+              :variant="isActiveChat ? '' : 'hollow'"
               :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
               size="tiny"
               @click="onShowLabels"
@@ -403,7 +403,7 @@ export default {
       }[this.inboxBadge];
     },
     badgeStyle() {
-      const size = 12;
+      const size = 10;
       const badgeSize = `${size + 2}px`;
       const borderRadius = `${size / 2}px`;
       return { width: badgeSize, height: badgeSize, borderRadius };
@@ -577,8 +577,8 @@ export default {
 .conversation {
   display: flex;
   position: relative;
-  border-radius: var(--border-radius-medium);
-  margin: var(--space-smaller) var(--space-small) 0;
+  border-radius: var(--border-radius-small);
+  margin: var(--space-smaller);
   padding: var(--space-small);
   cursor: pointer;
   position: relative;
@@ -587,7 +587,7 @@ export default {
   &::after {
     content: '';
     right: 0;
-    top: -5px;
+    top: -3.5px;
     width: calc(100% - 40px);
     position: absolute;
     border-top: 1px solid var(--s-50);
@@ -600,18 +600,8 @@ export default {
     }
   }
 
-  &.active {
-    background: var(--w-25);
-    border: 1px solid var(--w-200);
-  }
-
   &.active::after {
     border-top-color: transparent;
-  }
-  &.unread-chat {
-    .message__content {
-      font-weight: var(--font-weight-medium);
-    }
   }
 
   &.compact {
@@ -627,23 +617,6 @@ export default {
   width: 100%;
   min-width: 0;
   margin-left: var(--space-small);
-}
-.message__content {
-  display: flex;
-  align-items: center;
-  color: var(--color-body);
-  flex-grow: 0;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-normal);
-  height: var(--font-size-medium);
-  line-height: var(--font-size-medium);
-  margin: 0;
-  max-width: 100%;
-  width: auto;
-  .fluent-icon {
-    flex-shrink: 0;
-    margin-right: var(--space-micro);
-  }
 }
 .meta {
   display: flex;
@@ -786,20 +759,21 @@ export default {
 }
 
 .badge {
-  min-width: 14px;
-  height: 14px;
-  line-height: 14px;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
   padding: 0;
-  text-align: center;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--space-medium);
   font-weight: var(--font-weight-bold);
 }
 
 .source-badge {
+  border: 1px solid var(--s-50);
   margin-left: var(--space-smaller);
   filter: grayscale(100%);
   opacity: 0.7;
-  padding: var(--space-micro);
 
   &:hover {
     filter: grayscale(0);
@@ -810,5 +784,64 @@ export default {
 .overflow-wrap {
   display: flex;
   width: 100%;
+}
+
+.copy-icon.button.clear.secondary {
+  color: var(--s-600);
+}
+
+.conversation.unread-chat,
+.conversation.active {
+  background: var(--w-25);
+
+  .conversation--user {
+    font-weight: var(--font-weight-bold);
+  }
+  .conversation--message {
+    font-weight: var(--font-weight-medium);
+  }
+}
+.conversation.active {
+  background: var(--w-500);
+
+  .conversation--user {
+    color: var(--white);
+  }
+  .conversation-meta {
+    color: var(--w-25);
+  }
+  .conversation__id {
+    color: var(--w-25);
+  }
+
+  .button.secondary.inbox,
+  .button.conversation__id,
+  .time-ago,
+  .message--attachment-icon,
+  .last-message-icon {
+    color: var(--w-75);
+  }
+  .conversation--message {
+    color: var(--w-25);
+  }
+
+  .labels-wrap .label {
+    background: var(--w-600);
+    color: var(--w-75);
+    border-color: var(--w-600);
+    .label-color-dot {
+      border: 1px solid var(--w-100);
+    }
+  }
+
+  .assignee-label {
+    background: var(--w-600);
+    color: var(--w-75);
+    border-color: var(--w-600);
+  }
+
+  .source-badge {
+    border-color: var(--w-200);
+  }
 }
 </style>

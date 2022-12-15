@@ -153,14 +153,15 @@ export default {
 <style lang="scss" scoped>
 .search-wrap {
   position: relative;
+  margin-top: var(--space-smaller);
 }
 
 .search {
   display: flex;
   padding: 0;
   border-bottom: 1px solid transparent;
-  padding: var(--space-one) var(--space-normal) var(--space-smaller)
-    var(--space-normal);
+  padding: var(--space-small);
+  height: 4rem;
 
   &:hover {
     .search--icon {

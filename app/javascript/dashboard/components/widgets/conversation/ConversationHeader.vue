@@ -21,7 +21,7 @@
           />
         </h3>
         <div class="conversation--header--actions">
-          <inbox-name :inbox="inbox" class="margin-right-small" />
+          <inbox-name :inbox="inbox" class="inbox-name" />
           <span
             v-if="isSnoozed"
             class="snoozed--display-text margin-right-small"
@@ -207,5 +207,9 @@ export default {
 
 .hmac-warning__icon {
   color: var(--y-600);
+}
+
+.button.inbox-name {
+  margin-right: var(--space-small);
 }
 </style>

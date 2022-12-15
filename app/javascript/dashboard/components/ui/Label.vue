@@ -4,7 +4,7 @@
       <fluent-icon :icon="icon" size="12" class="label--icon" />
     </span>
     <span
-      v-if="variant === 'smooth' && title"
+      v-if="variant === 'smooth' && title && !icon"
       :style="{ background: color }"
       class="label-color-dot"
     />
@@ -146,10 +146,10 @@ export default {
   /* Color Schemes */
   &.primary {
     background: var(--w-100);
-    color: var(--w-900);
+    color: var(--w-800);
     border: 1px solid var(--w-200);
     a {
-      color: var(--w-900);
+      color: var(--w-800);
     }
     .label-color-dot {
       background: var(--w-600);
@@ -157,10 +157,10 @@ export default {
   }
   &.secondary {
     background: var(--s-100);
-    color: var(--s-900);
+    color: var(--s-800);
     border: 1px solid var(--s-200);
     a {
-      color: var(--s-900);
+      color: var(--s-800);
     }
     .label-color-dot {
       background: var(--s-600);
@@ -168,10 +168,10 @@ export default {
   }
   &.success {
     background: var(--g-100);
-    color: var(--g-900);
+    color: var(--g-800);
     border: 1px solid var(--g-200);
     a {
-      color: var(--g-900);
+      color: var(--g-800);
     }
     .label-color-dot {
       background: var(--g-600);
@@ -179,10 +179,10 @@ export default {
   }
   &.alert {
     background: var(--r-100);
-    color: var(--r-900);
+    color: var(--r-800);
     border: 1px solid var(--r-200);
     a {
-      color: var(--r-900);
+      color: var(--r-800);
     }
     .label-color-dot {
       background: var(--r-600);
@@ -190,13 +190,13 @@ export default {
   }
   &.warning {
     background: var(--y-100);
-    color: var(--y-900);
+    color: var(--y-800);
     border: 1px solid var(--y-200);
     a {
-      color: var(--y-900);
+      color: var(--y-800);
     }
     .label-color-dot {
-      background: var(--y-900);
+      background: var(--y-800);
     }
   }
 
@@ -224,7 +224,8 @@ export default {
 }
 
 .label-action--button {
-  margin-bottom: var(--space-minus-micro);
+  display: flex;
+  margin-right: var(--space-smaller);
 }
 
 .label-color-dot {

@@ -780,7 +780,6 @@ export default {
 }
 
 .conversations-list {
-  padding-top: var(--space-small);
   // Prevent the list from scrolling if the submenu is opened
   &.is-context-menu-open {
     overflow: hidden !important;
