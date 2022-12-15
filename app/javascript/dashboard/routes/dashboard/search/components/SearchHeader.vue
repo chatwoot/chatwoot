@@ -91,7 +91,7 @@ export default {
   span {
     color: var(--s-400);
     font-weight: var(--font-weight-medium);
-    font-size: 1.4rem;
+    font-size: calc(var(--space-slab) + var(--space-micro));
     padding: 0 var(--space-small);
     border: 1px solid var(--s-400);
     border-radius: var(--border-radius-normal);

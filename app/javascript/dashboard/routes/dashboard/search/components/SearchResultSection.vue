@@ -65,7 +65,7 @@ export default {
 .empty {
   padding: var(--space-normal);
   .icon {
-    font-size: 2rem;
+    font-size: var(--space-two);
     color: var(--s-500);
     margin: 0 auto;
     display: block;
