@@ -64,6 +64,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "സംഭാഷണം വീണ്ടും തുറക്കുക",
       "SNOOZE": {
         "TITLE": "Snooze",

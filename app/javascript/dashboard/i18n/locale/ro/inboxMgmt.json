@@ -388,6 +388,10 @@
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Permite"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Activați/dezactivați sondajul CSAT (Satisfacția clienților) după rezolvarea unei conversații",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activați continuitatea conversației prin e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversațiile vor continua prin e-mail dacă adresa de e-mail de contact este disponibilă.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Setări Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",

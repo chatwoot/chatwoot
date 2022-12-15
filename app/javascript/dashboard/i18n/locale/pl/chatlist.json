@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Rozmowy",
     "MENTION_HEADING": "Wzmianki",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Odpowiedz na ten tweet",
     "LINK_TO_STORY": "Przejdź do opowieści na Instagramie",
     "SENT": "Wysłano pomyślnie",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Brak wiadomości",
     "NO_CONTENT": "Brak treści",
     "HIDE_QUOTED_TEXT": "Ukryj cytat",

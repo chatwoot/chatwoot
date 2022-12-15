@@ -388,6 +388,10 @@
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      },
       "ENABLE_HMAC": {
         "LABEL": "אפשר"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",

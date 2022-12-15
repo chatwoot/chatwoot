@@ -1,6 +1,8 @@
 export const MESSAGE_STATUS = {
   FAILED: 'failed',
   SENT: 'sent',
+  DELIVERED: 'delivered',
+  READ: 'read',
   PROGRESS: 'progress',
 };
 
@@ -70,3 +72,8 @@ export const CSAT_RATINGS = [
     color: '#44CE4B',
   },
 ];
+
+export const AUDIO_FORMATS = {
+  WEBM: 'audio/webm',
+  OGG: 'audio/ogg',
+};

@@ -1,10 +1,10 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "왼쪽 창에서 대화를 선택하십시오.",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "CSAT_REPLY_MESSAGE": "대화를 평가해 주세요",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "DASHBOARD_APP_TAB_MESSAGES": "메시지",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "어라! 받은 메시지함에 고객의 메시지가 없는 것 같아요.",
     "NO_MESSAGE_2": " 페이지에 메시지를 보내기 위해서!",
@@ -14,7 +14,7 @@
     "SEARCH_MESSAGES": "대화에서 메시지 검색",
     "SEARCH": {
       "TITLE": "메시지 검색",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "검색 결과",
       "LOADING_MESSAGE": "데이터 처리 중...",
       "PLACEHOLDER": "검색할 텍스트를 입력하세요",
       "NO_MATCHING_RESULTS": "검색 결과가 없습니다."
@@ -34,7 +34,7 @@
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "알 수 없는 파일",
     "UPLOADING_ATTACHMENTS": "첨부 업로드 중...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
@@ -57,19 +57,20 @@
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TOMORROW": "내일",
+        "NEXT_WEEK": "다음 주"
       }
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
-      "REOPEN": "Reopen conversation",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "REOPEN": "대화 다시 열기",
       "SNOOZE": {
         "TITLE": "Snooze",
         "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TOMORROW": "내일까지",
+        "NEXT_WEEK": "다음 주까지"
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",

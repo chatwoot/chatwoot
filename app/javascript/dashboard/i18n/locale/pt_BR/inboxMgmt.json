@@ -388,6 +388,10 @@
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Ativado",
+        "DISABLED": "Desativado"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Habilitado"
       }
@@ -441,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar pesquisa CSAT(satisfação do cliente) após resolver uma conversa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas continuarão sobre o e-mail se o endereço de e-mail de contato estiver disponível.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Bloquear para conversa única",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Ativar ou desativar várias conversas para o mesmo contato nesta caixa de entrada",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações de caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
