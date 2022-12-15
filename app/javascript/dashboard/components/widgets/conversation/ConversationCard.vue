@@ -51,7 +51,7 @@
         </div>
         <woot-label
           v-if="showAssignee"
-          v-tooltip="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
+          v-tooltip="$t('CONVERSATION.CARD.AGENT_TOOLTIP')"
           icon="headset"
           small
           :title="assigneeName"
@@ -137,10 +137,14 @@
             />
             <woot-button
               v-if="showExpandLabelButton"
+              v-tooltip.top="
+                showAllLabels
+                  ? $t('CONVERSATION.CARD.HIDE_LABELS')
+                  : $t('CONVERSATION.CARD.SHOW_LABELS')
+              "
               class="remaining-labels"
-              color-scheme="secondary"
-              variant="smooth"
-              :icon="showAllLabels ? 'chevron-left' : 'chevron-down'"
+              variant="clear"
+              :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
               size="tiny"
               @click="onShowLabels"
             />
@@ -427,7 +431,8 @@ export default {
       });
 
       this.showExpandLabelButton =
-        footer.offsetWidth - 80 < labelsWrap.scrollWidth;
+        footer.offsetWidth - 24 < labelsWrap.scrollWidth;
+      if (!this.showExpandLabelButton) return;
 
       const labelsWrapWidth = footer.scrollWidth;
       let currentIndex = 0;
@@ -436,7 +441,7 @@ export default {
 
       do {
         if (labelsWidth + 80 < labelsWrapWidth) {
-          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 24;
+          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 8;
           currentIndex += 1;
         } else {
           break;
@@ -471,11 +476,12 @@ export default {
       let currentIndex = 0;
       let labelsWidth = 0;
       this.showExpandLabelButton =
-        footer.offsetWidth - 80 < labelsWrap.scrollWidth;
+        footer.offsetWidth - 24 < labelsWrap.scrollWidth;
 
+      if (!this.showExpandLabelButton) return;
       do {
         if (labelsWidth + 80 < labelsWrapWidth) {
-          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 24;
+          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 8;
           currentIndex += 1;
         } else {
           break;
@@ -680,10 +686,7 @@ export default {
 .footer {
   display: flex;
   align-items: center;
-
-  .label {
-    margin-bottom: var(--space-smaller);
-  }
+  margin-top: var(--space-smaller);
 
   .hidden {
     display: none;
@@ -712,6 +715,10 @@ export default {
     flex-flow: row wrap;
     .hidden {
       display: inline-flex;
+    }
+
+    .label {
+      margin-bottom: var(--space-smaller);
     }
   }
 }

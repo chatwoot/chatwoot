@@ -156,7 +156,10 @@
     },
     "CARD": {
       "COPY_LINK": "Copy link",
-      "GOTO_INBOX": "Goto inbox"
+      "GOTO_INBOX": "Goto inbox",
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels",
+      "AGENT_TOOLTIP": "Right click to change agent"
     },
     "VIA_TOOLTIP": {
       "INSTAGRAM_DM": "Via instagram DM",
