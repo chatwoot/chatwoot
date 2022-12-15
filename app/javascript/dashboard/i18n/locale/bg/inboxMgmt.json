@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Телефон",
             "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",

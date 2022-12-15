@@ -73,6 +73,10 @@
       "FIELD": "Invalid field"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "ให้คะแนนการสนทนาครั้งนี้",
     "SUBMITTED_TITLE": "ขอบคุณที่ร่วมมือให้คะแนนการสนทนากับเรา",

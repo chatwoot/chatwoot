@@ -73,6 +73,10 @@
       "FIELD": "Невалидно поле"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Оценете този разговор",
     "SUBMITTED_TITLE": "Благодарим ви, че оценихте разговора",

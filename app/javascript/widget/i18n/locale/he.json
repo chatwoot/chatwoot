@@ -73,6 +73,10 @@
       "FIELD": "שדה לא חוקי"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
     "SUBMITTED_TITLE": "תודה על שליחת הדירוג",

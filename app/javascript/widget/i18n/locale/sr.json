@@ -73,6 +73,10 @@
       "FIELD": "Neispravno polje"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Ocenite razgovor",
     "SUBMITTED_TITLE": "Hvala vam na dostavljenoj oceni",

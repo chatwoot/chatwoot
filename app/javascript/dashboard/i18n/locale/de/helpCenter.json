@@ -362,7 +362,7 @@
         },
         "BUTTONS": {
           "CREATE": "Kategorie erstellen",
-          "CANCEL": "Stornieren"
+          "CANCEL": "Abbrechen"
         },
         "API": {
           "SUCCESS_MESSAGE": "Kategorie erfolgreich erstellt",
