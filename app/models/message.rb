@@ -35,6 +35,7 @@ class Message < ApplicationRecord
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   before_validation :ensure_content_type
+  before_create :process_liquid_in_content
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -145,6 +146,19 @@ class Message < ApplicationRecord
     }
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     data
+  end
+
+  def process_liquid_in_content
+    return if content.blank?
+
+    template = Liquid::Template.parse(content)
+
+    self.content = template.render({
+                                     'contact' => ContactDrop.new(conversation.contact),
+                                     'agent' => UserDrop.new(Current.user),
+                                     'conversation' => ConversationDrop.new(conversation),
+                                     'inbox' => InboxDrop.new(inbox)
+                                   })
   end
 
   def content
