@@ -210,4 +210,22 @@ RSpec.describe Message, type: :model do
       expect(instagram_message.reload.attachments.count).to eq 0
     end
   end
+
+  context 'when message is created with variables' do
+    let(:contact) { create(:contact, name: 'john', phone_number: '+912883') }
+    let(:conversation) { create(:conversation, contact: contact) }
+    let(:message) { build(:message, conversation: conversation) }
+
+    it 'set contact name variable in message' do
+      message.content = 'hey {{contact.name}} how are you?'
+      message.save!
+      expect(message.content).to eq 'hey john how are you?'
+    end
+
+    it 'set contact phone number variable in message' do
+      message.content = 'Can we call you at {{contact.phone_number}}?'
+      message.save!
+      expect(message.content).to eq 'Can we call you at +912883?'
+    end
+  end
 end
