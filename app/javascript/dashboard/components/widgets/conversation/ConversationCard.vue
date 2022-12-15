@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="conversationCard"
     class="conversation"
     :class="{
       active: isActiveChat,
@@ -24,7 +25,6 @@
     <thumbnail
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
-      :badge="inboxBadge"
       class="sender-thumbnail"
       :username="currentContact.name"
       :status="currentContact.availability_status"
@@ -37,7 +37,7 @@
         <div class="conversation-meta">
           <inbox-name v-if="showInboxName" :inbox="inbox" />
           <woot-button
-            v-tooltip.bottom="$t('CONVERSATION.CARD.COPY_LINK')"
+            :title="$t('CONVERSATION.CARD.COPY_LINK')"
             class="conversation__id"
             variant="link"
             size="tiny"
@@ -51,7 +51,6 @@
         </div>
         <woot-label
           v-if="showAssignee"
-          v-tooltip="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
           icon="headset"
           small
           :title="assigneeName"
@@ -62,6 +61,14 @@
         <h4 class="text-block-title conversation--user">
           {{ currentContact.name }}
         </h4>
+        <img
+          v-if="badgeSrc"
+          v-tooltip.right="$t(`CONVERSATION.VIA_TOOLTIP.${badgeTooltipKey}`)"
+          class="source-badge"
+          :style="badgeStyle"
+          :src="`/integrations/channels/badges/${badgeSrc}.png`"
+          alt="Badge"
+        />
       </div>
 
       <div class="content">
@@ -116,15 +123,33 @@
         </div>
       </div>
       <div v-if="activeLabels.length" class="footer">
-        <woot-label
-          v-for="label in activeLabels"
-          :key="label.id"
-          :title="label.title"
-          :description="label.description"
-          :color="label.color"
-          variant="smooth"
-          small
-        />
+        <div class="overflow-wrap">
+          <div class="labels-wrap" :class="{ expand: showAllLabels }">
+            <woot-label
+              v-for="label in activeLabels"
+              :key="label.id"
+              :title="label.title"
+              :description="label.description"
+              :color="label.color"
+              variant="smooth"
+              small
+            />
+            <woot-button
+              v-if="showExpandLabelButton"
+              :title="
+                showAllLabels
+                  ? $t('CONVERSATION.CARD.HIDE_LABELS')
+                  : $t('CONVERSATION.CARD.SHOW_LABELS')
+              "
+              class="remaining-labels"
+              :color-scheme="isActiveChat ? 'primary' : 'secondary'"
+              :variant="isActiveChat ? '' : 'hollow'"
+              :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
+              size="tiny"
+              @click="onShowLabels"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -233,6 +258,8 @@ export default {
     return {
       hovered: false,
       showContextMenu: false,
+      showAllLabels: false,
+      showExpandLabelButton: false,
       contextMenu: {
         x: null,
         y: null,
@@ -349,8 +376,126 @@ export default {
       });
       return frontendURL(path);
     },
+    badgeTooltipKey() {
+      return {
+        instagram_direct_message: 'INSTAGRAM_DM',
+        facebook: 'FB_DM',
+        'twitter-tweet': 'TWITTER_TWEET',
+        'twitter-dm': 'TWITTER_DM',
+        whatsapp: 'WHATSAPP',
+        sms: 'SMS',
+        'Channel::Line': 'LINE',
+        'Channel::Telegram': 'TELEGRAM',
+        'Channel::WebWidget': 'WEB_WIDGET',
+      }[this.inboxBadge];
+    },
+    badgeSrc() {
+      return {
+        instagram_direct_message: 'instagram-dm',
+        facebook: 'messenger',
+        'twitter-tweet': 'twitter-tweet',
+        'twitter-dm': 'twitter-dm',
+        whatsapp: 'whatsapp',
+        sms: 'sms',
+        'Channel::Line': 'line',
+        'Channel::Telegram': 'telegram',
+        'Channel::WebWidget': '',
+      }[this.inboxBadge];
+    },
+    badgeStyle() {
+      const size = 10;
+      const badgeSize = `${size + 2}px`;
+      const borderRadius = `${size / 2}px`;
+      return { width: badgeSize, height: badgeSize, borderRadius };
+    },
+    remainingLabel() {
+      const { label } = this.chat;
+      const { name } = this.activeLabel;
+      return label.filter(l => l.name !== name);
+    },
+  },
+  watch: {
+    activeLabels() {
+      const footer = this.$refs.conversationCard.querySelector('.footer');
+      const labelsWrap = this.$refs.conversationCard.querySelector(
+        '.labels-wrap'
+      );
+      const labels = this.$refs.conversationCard.querySelectorAll('.label');
+
+      if (!footer || !labelsWrap || this.activeLabels.length === 0) {
+        return;
+      }
+
+      Array.from(labels).forEach(label => {
+        label.classList.remove('hidden');
+      });
+
+      this.showExpandLabelButton =
+        footer.offsetWidth - 24 < labelsWrap.scrollWidth;
+      if (!this.showExpandLabelButton) return;
+
+      const labelsWrapWidth = footer.scrollWidth;
+      let currentIndex = 0;
+      let labelsWidth = 0;
+      if (labels.length === 0) return;
+
+      do {
+        if (labelsWidth + 80 < labelsWrapWidth) {
+          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 8;
+          currentIndex += 1;
+        } else {
+          break;
+        }
+      } while (currentIndex < labels.length);
+
+      Array.from(labels).forEach((label, index) => {
+        if (index >= currentIndex) {
+          label.classList.add('hidden');
+        } else {
+          label.classList.remove('hidden');
+        }
+      });
+    },
+  },
+  mounted() {
+    this.collapseLabels();
   },
   methods: {
+    collapseLabels() {
+      const footer = this.$refs.conversationCard.querySelector('.footer');
+      const labelsWrap = this.$refs.conversationCard.querySelector(
+        '.labels-wrap'
+      );
+      const labels = this.$refs.conversationCard.querySelectorAll('.label');
+
+      if (!footer || !labelsWrap || this.activeLabels.length === 0) {
+        return;
+      }
+
+      const labelsWrapWidth = footer.scrollWidth;
+      let currentIndex = 0;
+      let labelsWidth = 0;
+      this.showExpandLabelButton =
+        footer.offsetWidth - 24 < labelsWrap.scrollWidth;
+
+      if (!this.showExpandLabelButton) return;
+      do {
+        if (labelsWidth + 80 < labelsWrapWidth) {
+          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 8;
+          currentIndex += 1;
+        } else {
+          break;
+        }
+      } while (currentIndex < labels.length);
+
+      Array.from(labels).forEach((label, index) => {
+        if (index >= currentIndex) {
+          label.classList.add('hidden');
+        } else {
+          label.classList.remove('hidden');
+        }
+      });
+    },
     cardClick(chat) {
       const { activeInbox } = this;
       const path = conversationUrl({
@@ -405,6 +550,10 @@ export default {
         snoozedUntil
       );
     },
+    onShowLabels(e) {
+      e.stopPropagation();
+      this.showAllLabels = !this.showAllLabels;
+    },
     async onAssignAgent(agent) {
       this.$emit('assign-agent', agent, [this.chat.id]);
       this.closeContextMenu();
@@ -428,8 +577,8 @@ export default {
 .conversation {
   display: flex;
   position: relative;
-  border-radius: var(--border-radius-medium);
-  margin: var(--space-smaller) var(--space-small) 0;
+  border-radius: var(--border-radius-small);
+  margin: var(--space-smaller);
   padding: var(--space-small);
   cursor: pointer;
   position: relative;
@@ -438,7 +587,7 @@ export default {
   &::after {
     content: '';
     right: 0;
-    top: -5px;
+    top: -3.5px;
     width: calc(100% - 40px);
     position: absolute;
     border-top: 1px solid var(--s-50);
@@ -451,18 +600,8 @@ export default {
     }
   }
 
-  &.active {
-    background: var(--w-25);
-    border: 1px solid var(--w-200);
-  }
-
   &.active::after {
     border-top-color: transparent;
-  }
-  &.unread-chat {
-    .message__content {
-      font-weight: var(--font-weight-medium);
-    }
   }
 
   &.compact {
@@ -478,23 +617,6 @@ export default {
   width: 100%;
   min-width: 0;
   margin-left: var(--space-small);
-}
-.message__content {
-  display: flex;
-  align-items: center;
-  color: var(--color-body);
-  flex-grow: 0;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-normal);
-  height: var(--font-size-medium);
-  line-height: var(--font-size-medium);
-  margin: 0;
-  max-width: 100%;
-  width: auto;
-  .fluent-icon {
-    flex-shrink: 0;
-    margin-right: var(--space-micro);
-  }
 }
 .meta {
   display: flex;
@@ -537,10 +659,40 @@ export default {
 .footer {
   display: flex;
   align-items: center;
-  flex-flow: row wrap;
+  margin-top: var(--space-smaller);
 
-  .label {
+  .hidden {
+    display: none;
+  }
+
+  .remaining-labels {
+    height: var(--space-two);
+    position: sticky;
+    flex-shrink: 0;
+    right: 0;
     margin-bottom: var(--space-smaller);
+    margin-right: var(--space-medium);
+  }
+}
+
+.labels-wrap {
+  display: flex;
+  align-items: center;
+  height: var(--space-medium);
+  overflow: hidden;
+  min-width: 0;
+  flex-shrink: 1;
+  &.expand {
+    height: auto;
+    overflow: visible;
+    flex-flow: row wrap;
+    .hidden {
+      display: inline-flex;
+    }
+
+    .label {
+      margin-bottom: var(--space-smaller);
+    }
   }
 }
 
@@ -577,22 +729,11 @@ export default {
   /* color: var(--s-800); */
 }
 
-.footer {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-  margin-top: var(--space-smaller);
-
-  .label {
-    margin-bottom: var(--space-smaller);
-  }
-}
-
 .conversation-meta {
   display: flex;
 }
 .conversation__id {
-  margin-left: var(--space-small);
+  margin-left: var(--space-smaller);
 }
 
 .message--attachment-icon {
@@ -618,12 +759,89 @@ export default {
 }
 
 .badge {
-  min-width: var(--space-normal);
-  height: var(--space-normal);
-  line-height: var(--space-normal);
-  padding: 0 var(--space-micro);
-  text-align: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--space-medium);
   font-weight: var(--font-weight-bold);
+}
+
+.source-badge {
+  border: 1px solid var(--s-50);
+  margin-left: var(--space-smaller);
+  filter: grayscale(100%);
+  opacity: 0.7;
+
+  &:hover {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+
+.overflow-wrap {
+  display: flex;
+  width: 100%;
+}
+
+.copy-icon.button.clear.secondary {
+  color: var(--s-600);
+}
+
+.conversation.unread-chat,
+.conversation.active {
+  background: var(--w-25);
+
+  .conversation--user {
+    font-weight: var(--font-weight-bold);
+  }
+  .conversation--message {
+    font-weight: var(--font-weight-medium);
+  }
+}
+.conversation.active {
+  background: var(--w-500);
+
+  .conversation--user {
+    color: var(--white);
+  }
+  .conversation-meta {
+    color: var(--w-25);
+  }
+  .conversation__id {
+    color: var(--w-25);
+  }
+
+  .button.secondary.inbox,
+  .button.conversation__id,
+  .time-ago,
+  .message--attachment-icon,
+  .last-message-icon {
+    color: var(--w-75);
+  }
+  .conversation--message {
+    color: var(--w-25);
+  }
+
+  .labels-wrap .label {
+    background: var(--w-600);
+    color: var(--w-75);
+    border-color: var(--w-600);
+    .label-color-dot {
+      border: 1px solid var(--w-100);
+    }
+  }
+
+  .assignee-label {
+    background: var(--w-600);
+    color: var(--w-75);
+    border-color: var(--w-600);
+  }
+
+  .source-badge {
+    border-color: var(--w-200);
+  }
 }
 </style>

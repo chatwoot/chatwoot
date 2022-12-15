@@ -90,6 +90,7 @@
     align-items: center;
     justify-content: space-between;
     padding: $zero $zero $space-micro;
+    margin-left: var(--space-small);
 
     .page-title {
       margin-bottom: $zero;

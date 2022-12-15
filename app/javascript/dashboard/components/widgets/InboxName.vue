@@ -1,12 +1,12 @@
 <template>
   <woot-button
-    v-tooltip.bottom="$t('CONVERSATION.CARD.GOTO_INBOX')"
+    :title="$t('CONVERSATION.CARD.GOTO_INBOX')"
     class="inbox--icon"
     variant="link"
     size="tiny"
     color-scheme="secondary"
     :icon="computedInboxClass"
-    class-names="copy-icon"
+    class-names="inbox"
     @click="onClick"
   >
     {{ inbox.name }}
@@ -40,3 +40,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.inbox.button.clear.secondary {
+  color: var(--s-600);
+}
+</style>

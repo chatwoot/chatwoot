@@ -3,12 +3,10 @@
   0%,
   100% {
     transform: translateX(0);
-    opacity: 1;
   }
 
   50% {
     transform: translateX(-1px);
-    opacity: .8;
   }
 }
 
@@ -21,7 +19,7 @@
   position: relative;
 
   &.active {
-    animation: left-shift-animation 0.3s linear;
+    animation: left-shift-animation 0.25s ease-in-out;
     box-shadow: var(--shadow-small);
 
     +.conversation::after {
