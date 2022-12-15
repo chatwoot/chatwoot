@@ -61,6 +61,7 @@ export default {
 }
 
 .colorpicker--selected {
+  border: 1px solid var(--color-border-light);
   border-radius: $space-smaller;
   cursor: pointer;
   height: $space-large;
