@@ -149,7 +149,7 @@ class Message < ApplicationRecord
   end
 
   def process_liquid_in_content
-    return if content.blank?
+    return if content.blank? || message_type != 'outgoing'
 
     template = Liquid::Template.parse(content)
 

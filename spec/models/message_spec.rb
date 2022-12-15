@@ -214,7 +214,7 @@ RSpec.describe Message, type: :model do
   context 'when message is created with variables' do
     let(:contact) { create(:contact, name: 'john', phone_number: '+912883') }
     let(:conversation) { create(:conversation, id: 1, contact: contact) }
-    let(:message) { build(:message, conversation: conversation) }
+    let(:message) { build(:message, conversation: conversation, message_type: 'outgoing') }
 
     it 'set contact name variable in message' do
       message.content = 'hey {{contact.name}} how are you?'
