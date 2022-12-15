@@ -55,7 +55,6 @@ RSpec.describe 'Platform Accounts API', type: :request do
           ip_lookup: true,
           help_center: true,
           disable_branding: false
-
         } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         json_response = JSON.parse(response.body)
