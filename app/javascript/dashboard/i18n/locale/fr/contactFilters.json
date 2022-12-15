@@ -2,17 +2,17 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "Ajouter un filtre",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
         "SUBMIT_BUTTON_LABEL": "Envoyer",
         "CANCEL_BUTTON_LABEL": "Annuler",
         "CLEAR_BUTTON_LABEL": "Clear Filters",
         "EMPTY_VALUE_ERROR": "Value is required",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "ET",
+            "OR": "OU"
         },
         "OPERATOR_LABELS": {
             "equal_to": "Equal to",

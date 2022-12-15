@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Ange telefonnummer från vilket meddelande som ska skickas.",
-          "ERROR": "Ange ett giltigt värde. Telefonnummer bör börja med `+`-tecken."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback-URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Telefonnummer",
             "PLACEHOLDER": "Ange telefonnummer från vilket meddelande som ska skickas.",
-            "ERROR": "Ange ett giltigt värde. Telefonnummer bör börja med `+`-tecken."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Ange telefonnummer från vilket meddelande som ska skickas.",
-          "ERROR": "Ange ett giltigt värde. Telefonnummer bör börja med `+`-tecken."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",

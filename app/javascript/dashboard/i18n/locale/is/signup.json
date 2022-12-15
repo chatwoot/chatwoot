@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Register an account",
     "TITLE": "Register",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Með því að skrá þig samþykkir þú <a href=\"https://www.chatwoot.com/terms\">Skilmála</a> okkar og <a href=\"https://www.chatwoot.com/privacy -policy\">Persónuverndarstefnu</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Account name",
-      "PLACEHOLDER": "Sláðu inn reikningsnafn. td: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Full name",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Work email",
       "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Password",
