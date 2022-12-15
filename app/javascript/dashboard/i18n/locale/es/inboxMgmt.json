@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de teléfono",
           "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
-          "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "URL de devolución de llamada",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Número de teléfono",
             "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
-            "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Crear Canal de Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de teléfono",
           "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
-          "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID de número de teléfono",

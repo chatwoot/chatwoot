@@ -73,6 +73,10 @@
       "FIELD": "Ungültiges Feld"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Bewerten Sie Ihre Konversation",
     "SUBMITTED_TITLE": "Danke, dass Sie die Bewertung eingereicht haben",

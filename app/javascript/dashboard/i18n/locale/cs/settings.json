@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Název účtu",
+        "LABEL": "Název společnosti",
         "PLACEHOLDER": "Wayne podniky"
       },
       "SUBMIT": "Odeslat"

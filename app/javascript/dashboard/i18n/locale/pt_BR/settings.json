@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome do Cliente",
+        "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Informe o nome da conta"
       },
       "SUBMIT": "Enviar"
