@@ -90,11 +90,10 @@
     align-items: center;
     justify-content: space-between;
     padding: $zero $zero $space-micro;
-    margin-left: var(--space-small);
 
     .page-title {
       margin-bottom: $zero;
-      margin-left: $space-normal;
+      margin-left: var(--space-small);
     }
 
     .status--filter {
