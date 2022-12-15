@@ -79,7 +79,7 @@ export default {
 
   .message-details {
     margin-left: var(--space-slab);
-
+    flex: 1;
     .name {
       margin: 0;
       color: var(--s-700);
