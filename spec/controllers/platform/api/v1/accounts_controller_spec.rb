@@ -49,7 +49,9 @@ RSpec.describe 'Platform Accounts API', type: :request do
         InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
                                                                                                     'enabled' => true },
                                                                                                   { 'name' => 'disable_branding',
-                                                                                                    'enabled' => true }])
+                                                                                                    'enabled' => true },
+                                                                                                  { 'name' => 'help_center',
+                                                                                                    'enabled' => false }])
 
         post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
           ip_lookup: true,

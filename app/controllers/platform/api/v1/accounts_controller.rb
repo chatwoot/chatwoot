@@ -1,8 +1,7 @@
 class Platform::Api::V1::AccountsController < PlatformController
   def create
-    @resource = Account.new(account_params)
+    @resource = Account.create!(account_params)
     update_resource_features
-    @resource.save!
     @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
   end
 
@@ -33,7 +32,7 @@ class Platform::Api::V1::AccountsController < PlatformController
     return if permitted_params[:features].blank?
 
     permitted_params[:features].each do |key, value|
-      value ? @resource.enable_features(key) : @resource.disable_features(key)
+      value.present? ? @resource.enable_features(key) : @resource.disable_features(key)
     end
   end
 
