@@ -101,9 +101,7 @@
         "LABEL": "Availability",
         "STATUSES_LIST": ["Online", "Busy", "Offline"],
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "UPDATE_AUTO_OFFLINE_SUCCESS": "Auto availability has been set successfully",
-        "UPDATE_AUTO_OFFLINE_ERROR": "Couldn't set auto availability, please try again"
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Your email address",

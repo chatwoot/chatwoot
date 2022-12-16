@@ -21,7 +21,7 @@
     <woot-dropdown-item class="auto-offline--toggle">
       <div class="info-wrap">
         <fluent-icon
-          v-tooltip.right-top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
+          v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
           icon="info"
           size="14"
         />
@@ -109,23 +109,10 @@ export default {
       this.isStatusMenuOpened = false;
     },
     updateAutoOffline(autoOffline) {
-      try {
-        this.$store.dispatch('updateAutoOffline', {
-          accountId: this.currentAccountId,
-          autoOffline,
-        });
-        this.showAlert(
-          this.$t(
-            'PROFILE_SETTINGS.FORM.AVAILABILITY.UPDATE_AUTO_OFFLINE_SUCCESS'
-          )
-        );
-      } catch (error) {
-        this.showAlert(
-          this.$t(
-            'PROFILE_SETTINGS.FORM.AVAILABILITY.UPDATE_AUTO_OFFLINE_ERROR'
-          )
-        );
-      }
+      this.$store.dispatch('updateAutoOffline', {
+        accountId: this.currentAccountId,
+        autoOffline,
+      });
     },
     changeAvailabilityStatus(availability) {
       if (this.isUpdating) {
@@ -138,9 +125,6 @@ export default {
           availability,
           account_id: this.currentAccountId,
         });
-        this.showAlert(
-          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_SUCCESS')
-        );
       } catch (error) {
         this.showAlert(
           this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR')
