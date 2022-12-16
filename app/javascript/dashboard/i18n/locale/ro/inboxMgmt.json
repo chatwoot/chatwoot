@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Număr de telefon",
             "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-            "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Creați un canal de lățime de bandă",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",

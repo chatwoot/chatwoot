@@ -73,6 +73,10 @@
       "FIELD": "Champ non valide"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Rechercher des émojis",
+    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche"
+  },
   "CSAT": {
     "TITLE": "Évaluer votre conversation",
     "SUBMITTED_TITLE": "Merci d'avoir soumis votre évaluation",

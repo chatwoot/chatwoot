@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tên tài khoản",
+        "LABEL": "Tên công ty",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Gửi"

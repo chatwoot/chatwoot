@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Kontonamn",
+        "LABEL": "Företagsnamn",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Skicka"

@@ -73,6 +73,10 @@
       "FIELD": "Invalid field"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Anna arvio palvelusta",
     "SUBMITTED_TITLE": "Kiitos, että lähetit arvion",

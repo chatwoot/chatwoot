@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Broj telefona",
           "PLACEHOLDER": "Molim vas unesite broj telefona sa kojeg će se slati poruke.",
-          "ERROR": "Molim vas unesite ispravnu vrednost. Broj telefona bi trebao početi sa `+` znakom."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Adresa povratnog poziva",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Broj telefona",
             "PLACEHOLDER": "Molim vas unesite broj telefona sa kojeg će se slati poruke.",
-            "ERROR": "Molim vas unesite ispravnu vrednost. Broj telefona bi trebao početi sa `+` znakom."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Napravite Bandwidth kanal",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Broj telefona",
           "PLACEHOLDER": "Molim vas unesite broj telefona sa kojeg će se slati poruke.",
-          "ERROR": "Molim vas unesite ispravnu vrednost. Broj telefona bi trebao početi sa `+` znakom."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID broja telefona",

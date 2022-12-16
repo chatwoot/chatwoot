@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tilin nimi",
+        "LABEL": "Yrityksen nimi",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Lähetä"

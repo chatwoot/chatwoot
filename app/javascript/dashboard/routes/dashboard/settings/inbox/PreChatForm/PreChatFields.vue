@@ -43,7 +43,6 @@
 
 <script>
 import draggable from 'vuedraggable';
-import { standardFieldKeys } from 'dashboard/helper/preChat';
 export default {
   components: { draggable },
   props: {
@@ -64,7 +63,7 @@ export default {
   },
   methods: {
     isFieldEditable(item) {
-      return !!standardFieldKeys[item.name] || !item.enabled;
+      return !item.enabled;
     },
     handlePreChatFieldOptions(event, type, item) {
       this.$emit('update', event, type, item);

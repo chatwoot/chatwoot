@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "کمپنی کا نام",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "جمع کرائیں"
