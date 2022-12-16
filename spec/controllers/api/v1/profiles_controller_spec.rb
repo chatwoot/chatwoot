@@ -215,7 +215,7 @@ RSpec.describe 'Profile API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['accounts'].first['auto_offline']).to eq(false)
+        expect(json_response['accounts'].first['auto_offline']).to be(false)
       end
     end
   end

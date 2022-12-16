@@ -1,0 +1,11 @@
+Fix spec
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch feat/mark-myself-offline-on-inactivity
+# Your branch is ahead of 'origin/feat/mark-myself-offline-on-inactivity' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   spec/controllers/api/v1/profiles_controller_spec.rb
+#
