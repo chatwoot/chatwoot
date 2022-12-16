@@ -1,6 +1,7 @@
 <template>
   <div
     ref="conversationCard"
+    :title="$t('CONVERSATION.CARD.RIGHT_CLICK_TOOLTIP')"
     class="conversation"
     :class="{
       active: isActiveChat,

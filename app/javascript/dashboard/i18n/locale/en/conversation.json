@@ -159,7 +159,8 @@
       "GOTO_INBOX": "Goto inbox",
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels",
-      "AGENT_TOOLTIP": "Right click to change agent"
+      "AGENT_TOOLTIP": "Right click to change agent",
+      "RIGHT_CLICK_TOOLTIP": "Right click for more options"
     },
     "VIA_TOOLTIP": {
       "INSTAGRAM_DM": "Via instagram DM",
