@@ -262,8 +262,7 @@ describe AutomationRuleListener do
 
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation).with(
           conversation, team,
-          'Please pay attention to this conversation, its from high priority customer',
-          nil
+          'Please pay attention to this conversation, its from high priority customer'
         ).and_return(message_delivery)
         allow(message_delivery).to receive(:deliver_now)
 
