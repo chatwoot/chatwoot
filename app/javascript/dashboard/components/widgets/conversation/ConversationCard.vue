@@ -416,45 +416,7 @@ export default {
   },
   watch: {
     activeLabels() {
-      const footer = this.$refs.conversationCard.querySelector('.footer');
-      const labelsWrap = this.$refs.conversationCard.querySelector(
-        '.labels-wrap'
-      );
-      const labels = this.$refs.conversationCard.querySelectorAll('.label');
-
-      if (!footer || !labelsWrap || this.activeLabels.length === 0) {
-        return;
-      }
-
-      Array.from(labels).forEach(label => {
-        label.classList.remove('hidden');
-      });
-
-      this.showExpandLabelButton =
-        footer.offsetWidth - 24 < labelsWrap.scrollWidth;
-      if (!this.showExpandLabelButton) return;
-
-      const labelsWrapWidth = footer.scrollWidth;
-      let currentIndex = 0;
-      let labelsWidth = 0;
-      if (labels.length === 0) return;
-
-      do {
-        if (labelsWidth + 80 < labelsWrapWidth) {
-          labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 8;
-          currentIndex += 1;
-        } else {
-          break;
-        }
-      } while (currentIndex < labels.length);
-
-      Array.from(labels).forEach((label, index) => {
-        if (index >= currentIndex) {
-          label.classList.add('hidden');
-        } else {
-          label.classList.remove('hidden');
-        }
-      });
+      this.collapseLabels();
     },
   },
   mounted() {
@@ -463,11 +425,12 @@ export default {
   methods: {
     collapseLabels() {
       const footer = this.$refs.conversationCard.querySelector('.footer');
+      const labels = this.$refs.conversationCard.querySelectorAll('.label');
       const labelsWrap = this.$refs.conversationCard.querySelector(
         '.labels-wrap'
       );
-      const labels = this.$refs.conversationCard.querySelectorAll('.label');
 
+      // If labels are not rendered yet or has no labels, return
       if (!footer || !labelsWrap || this.activeLabels.length === 0) {
         return;
       }
@@ -475,10 +438,18 @@ export default {
       const labelsWrapWidth = footer.scrollWidth;
       let currentIndex = 0;
       let labelsWidth = 0;
+
+      // Remove hidden class from all labels as we are going to calculate the overflow
+      Array.from(labels).forEach(label => {
+        label.classList.remove('hidden');
+      });
       this.showExpandLabelButton =
         footer.offsetWidth - 24 < labelsWrap.scrollWidth;
 
+      // If labels are not overflowing, return
       if (!this.showExpandLabelButton) return;
+
+      // Find from which index labels are overflowing
       do {
         if (labelsWidth + 80 < labelsWrapWidth) {
           labelsWidth += Array.from(labels)[currentIndex].offsetWidth + 8;
@@ -488,6 +459,7 @@ export default {
         }
       } while (currentIndex < labels.length);
 
+      // Hide labels from currentIndex
       Array.from(labels).forEach((label, index) => {
         if (index >= currentIndex) {
           label.classList.add('hidden');
@@ -842,6 +814,10 @@ export default {
 
   .source-badge {
     border-color: var(--w-200);
+  }
+
+  .select-conversation {
+    accent-color: var(--w-700);
   }
 }
 </style>
