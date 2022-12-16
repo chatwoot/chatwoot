@@ -5,7 +5,8 @@ module MultiSearchableHelpers
     PgSearch.multisearch_options = {
       using: {
         trigram: {
-          word_similarity: true
+          word_similarity: true,
+          threshold: 0.6
         },
         tsearch: { any_word: true }
       }
