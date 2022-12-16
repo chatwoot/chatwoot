@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
 RSpec.describe Message, type: :model do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:inbox_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }
     it { is_expected.to validate_presence_of(:account_id) }
+  end
+
+  describe 'concerns' do
+    it_behaves_like 'liqudable'
   end
 
   describe '#reopen_conversation' do
@@ -208,36 +213,6 @@ RSpec.describe Message, type: :model do
       }.to_json, headers: {})
       instagram_message.push_event_data
       expect(instagram_message.reload.attachments.count).to eq 0
-    end
-  end
-
-  context 'when message is created with variables' do
-    let(:contact) { create(:contact, name: 'john', phone_number: '+912883') }
-    let(:conversation) { create(:conversation, id: 1, contact: contact) }
-    let(:message) { build(:message, conversation: conversation, message_type: 'outgoing') }
-
-    it 'set contact name variable in message' do
-      message.content = 'hey {{contact.name}} how are you?'
-      message.save!
-      expect(message.content).to eq 'hey john how are you?'
-    end
-
-    it 'set contact phone number variable in message' do
-      message.content = 'Can we call you at {{contact.phone_number}}?'
-      message.save!
-      expect(message.content).to eq 'Can we call you at +912883?'
-    end
-
-    it 'set contact email variable in message' do
-      message.content = 'Can we send you an email at {{contact.email}}?'
-      message.save!
-      expect(message.content).to eq 'Can we send you an email at ?'
-    end
-
-    it 'set conversation id in message' do
-      message.content = 'We are happy to help you. Your conversation id is {{conversation.id}}'
-      message.save!
-      expect(message.content).to eq 'We are happy to help you. Your conversation id is 1'
     end
   end
 end
