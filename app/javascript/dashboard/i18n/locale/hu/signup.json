@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Fiók létrehozása",
     "TITLE": "Regisztrálás",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "A feliratkozással megerősíted, hogy egyetértesz a <a href=\"https://www.chatwoot.com/terms\"> Felhasználói feltételekkel</a> és az <a href=\"https://www.chatwoot.com/privacy-policy\">Adatkezelési politikával</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Fióknév",
-      "PLACEHOLDER": "Fióknév hozzáadása. Pl.: Wayne Kft.",
-      "ERROR": "A fióknév túl rövid"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Teljes név",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Munkahelyi e-mail",
       "PLACEHOLDER": "Add meg munkahelyi e-mailcímed. Pl. kovacs.janos@email.hu",
-      "ERROR": "Az e-mailcím helytelen"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Jelszó",

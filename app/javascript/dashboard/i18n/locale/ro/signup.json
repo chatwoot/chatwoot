@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Înregistrați un cont",
     "TITLE": "Inregistrare",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Prin înregistrare, ești de acord cu politica noastră de confidențialitate <a href=\"https://www.chatwoot.com/terms\">T & C</a> și <a href=\"https://www.chatwoot.com/privacy-policy\"></a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Nume cont",
-      "PLACEHOLDER": "Introduceți un nume de cont. de exemplu: Wayne Intreprinderi",
-      "ERROR": "Numele contului este prea scurt"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Nume complet",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "E-mail de lucru",
       "PLACEHOLDER": "Introduceți adresa de e-mail de la locul de muncă. de exemplu: bruce@wayne.enterprises",
-      "ERROR": "Adresa de e-mail nu este validă"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Parola",

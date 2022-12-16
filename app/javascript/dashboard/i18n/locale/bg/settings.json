@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Име на фирма",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Изпращане"

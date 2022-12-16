@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Đăng kí tài khoản",
     "TITLE": "Đăng kí",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Bằng cách đăng ký, bạn đồng ý với <a href=\"https://www.chatwoot.com/terms\">T & C</a> và <a href=\"https://www.chatwoot.com/privacy-policy\">Chính sách bảo mật</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Tên tài khoản",
-      "PLACEHOLDER": "Nhập tên tài khoản. ví dụ: Wayne Enterprises",
-      "ERROR": "Tên tài khoản quá ngắn"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Tên đầy đủ",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Email công việc",
       "PLACEHOLDER": "Nhập email công việc của bạn. ví dụ: bruce@wayne.enterprises",
-      "ERROR": "Địa chỉ email hợp lệ"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Mật khẩu",

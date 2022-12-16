@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Registrar una cuenta",
     "TITLE": "Registrarse",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Al registrarte, aceptas nuestra <a href=\"https://www.chatwoot.com/terms\">T & C</a> y nuestra <a href=\"https://www.chatwoot.com/privacy-policy\">política de privacidad</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Nombre de cuenta",
-      "PLACEHOLDER": "Empresas de Wayne",
-      "ERROR": "El nombre de la cuenta es demasiado corto"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Nombre completo",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "bruce@wayne.empresas",
-      "ERROR": "El correo no es válido"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Contraseña",

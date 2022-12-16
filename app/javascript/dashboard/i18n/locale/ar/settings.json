@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الحساب",
+        "LABEL": "اسم الشركة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
       "SUBMIT": "إرسال"

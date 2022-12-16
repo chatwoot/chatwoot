@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "שם החברה",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "שלח"

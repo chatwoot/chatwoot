@@ -73,6 +73,10 @@
       "FIELD": "Invalid field"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Ohodnoťte konverzáciu",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
