@@ -24,6 +24,7 @@
           v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
           icon="info"
           size="14"
+          class="info-icon"
         />
 
         <span class="auto-offline--text">
@@ -186,6 +187,10 @@ export default {
   .info-wrap {
     display: flex;
     align-items: center;
+  }
+
+  .info-icon {
+    margin-top: -1px;
   }
 
   .auto-offline--switch {
