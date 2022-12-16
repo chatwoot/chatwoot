@@ -11,7 +11,7 @@ module Liquidable
   def message_drops
     {
       'contact' => ContactDrop.new(conversation.contact),
-      'agent' => UserDrop.new(Current.user),
+      'agent' => UserDrop.new(sender),
       'conversation' => ConversationDrop.new(conversation),
       'inbox' => InboxDrop.new(inbox)
     }
@@ -37,6 +37,6 @@ module Liquidable
   def modified_liquid_content
     # This regex is used to match the code blocks in the content
     # We don't want to process liquid in code blocks
-    content.gsub(/(```)/, '{% raw %}\\1').gsub(/(```)/, '\\1{% endraw %}')
+    content.gsub(/```(.*?)```/m, '{% raw %}```\\1```{% endraw %}')
   end
 end

@@ -35,6 +35,12 @@ shared_examples_for 'liqudable' do
         message.save!
         expect(message.content).to eq 'Can we send you an email at ?'
       end
+
+      it 'will not process liquid tags in multiple code blocks' do
+        message.content = 'hey {{contact.name}} how are you? ``` code: {{contact.name}} ``` ``` code: {{contact.name}} ``` test'
+        message.save!
+        expect(message.content).to eq 'hey john how are you? ``` code: {{contact.name}} ``` ``` code: {{contact.name}} ``` test'
+      end
     end
   end
 end
