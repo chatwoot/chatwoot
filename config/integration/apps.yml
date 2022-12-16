@@ -77,4 +77,3 @@ fullcontact:
   settings_form_schema:
     [{ 'label': 'API Key', 'type': 'text', 'name': 'api_key',"validation": "required", }]
   visible_properties: ['api_key']
-
