@@ -53,8 +53,7 @@ class AutomationRules::ActionService < ActionService
     teams = Team.where(id: params[0][:team_ids])
 
     teams.each do |team|
-      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message],
-                                                                            params[0][:subject])&.deliver_now
+      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
     end
   end
 end
