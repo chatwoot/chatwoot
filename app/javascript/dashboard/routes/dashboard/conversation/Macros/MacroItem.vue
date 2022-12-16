@@ -83,6 +83,7 @@ export default {
 
 <style scoped lang="scss">
 .macro {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;

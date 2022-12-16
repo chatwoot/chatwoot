@@ -69,14 +69,14 @@ export default {
 <style lang="scss" scoped>
 .macro-preview {
   position: absolute;
-  max-height: 360px;
+  max-height: 36rem;
   min-height: var(--space-jumbo);
-  width: 272px;
+  width: 27.2rem;
   border-radius: var(--border-radius-normal);
   background-color: var(--white);
   box-shadow: var(--shadow-dropdown-pane);
-  bottom: 35px;
-  right: 35px;
+  bottom: var(--space-large);
+  right: var(--space-large);
   overflow-y: auto;
   padding: var(--space-normal);
   text-align: left;
