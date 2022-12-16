@@ -18,6 +18,23 @@
       </woot-button>
     </woot-dropdown-item>
     <woot-dropdown-divider />
+    <woot-dropdown-item class="auto-offline--toggle">
+      <woot-switch
+        size="small"
+        class="auto-offline--switch"
+        :value="currentUserAutoOffline"
+        @input="updateAutoOffline"
+      />
+      <span class="auto-offline--text">
+        {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
+      </span>
+      <fluent-icon
+        v-tooltip="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
+        icon="info"
+        size="12"
+      />
+    </woot-dropdown-item>
+    <woot-dropdown-divider />
   </woot-dropdown-menu>
 </template>
 
@@ -54,6 +71,7 @@ export default {
     ...mapGetters({
       getCurrentUserAvailability: 'getCurrentUserAvailability',
       currentAccountId: 'getCurrentAccountId',
+      currentUserAutoOffline: 'getCurrentUserAutoOffline',
     }),
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
@@ -85,8 +103,13 @@ export default {
     closeStatusMenu() {
       this.isStatusMenuOpened = false;
     },
+    updateAutoOffline(autoOffline) {
+      this.$store.dispatch('updateAutoOffline', {
+        accountId: this.currentAccountId,
+        autoOffline,
+      });
+    },
     changeAvailabilityStatus(availability) {
-      const accountId = this.currentAccountId;
       if (this.isUpdating) {
         return;
       }
@@ -94,8 +117,8 @@ export default {
       this.isUpdating = true;
       this.$store
         .dispatch('updateAvailability', {
-          availability: availability,
-          account_id: accountId,
+          availability,
+          account_id: this.currentAccountId,
         })
         .finally(() => {
           this.isUpdating = false;
@@ -141,6 +164,24 @@ export default {
   .status-items {
     display: flex;
     align-items: baseline;
+  }
+}
+
+.auto-offline--toggle {
+  align-items: center;
+  display: flex;
+  padding: var(--space-smaller) var(--space-smaller);
+
+  .auto-offline--switch {
+    margin: -1px var(--space-micro) 0;
+  }
+
+  .auto-offline--text {
+    margin-left: var(--space-micro);
+    margin-right: var(--space-smaller);
+    font-size: var(--font-size-mini);
+    font-weight: var(--font-weight-medium);
+    color: var(--s-700);
   }
 }
 </style>

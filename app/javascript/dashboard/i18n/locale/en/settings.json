@@ -222,6 +222,10 @@
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "The system will mark you offline automatically if you are not using the mobile app or the dashboard"
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
