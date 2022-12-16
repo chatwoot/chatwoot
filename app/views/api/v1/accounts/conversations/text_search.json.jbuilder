@@ -2,6 +2,9 @@ json.payload do
   json.conversations do
     json.array! @result[:conversations] do |conversation|
       json.partial! 'api/v1/models/conversation', formats: [:json], conversation: conversation
+      json.agent do
+        json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation.assignee if conversation.assignee.present?
+      end
     end
   end
 
