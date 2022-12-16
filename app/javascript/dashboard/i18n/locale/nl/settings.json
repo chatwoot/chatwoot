@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Klant naam",
+        "LABEL": "Bedrijfsnaam",
         "PLACEHOLDER": "Wayne Ondernemingen"
       },
       "SUBMIT": "Bevestigen"

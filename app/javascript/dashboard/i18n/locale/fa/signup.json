@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "ثبت‌نام حساب‌کاربری",
     "TITLE": "ثبت نام",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "با ثبت نام، اعلام می‌دارید که <a href=\"https://www.chatwoot.com/terms\">قوانین</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">شرایط استفاده</a> از این نرم افزار را تایید کرده و می‌پذیرید",
-    "ACCOUNT_NAME": {
-      "LABEL": "نام حساب‌کاربری",
-      "PLACEHOLDER": "نام حساب‌کاربری را وارد کنید. به عنوان مثال: شرکت وین",
-      "ERROR": "نام حساب‌کاربری خیلی کوتاه است"
+    "COMPANY_NAME": {
+      "LABEL": "نام شرکت",
+      "PLACEHOLDER": "نام شرکت خود را وارد کنید. به عنوان مثال: شرکت وین",
+      "ERROR": "نام شرکت خیلی کوتاه است"
     },
     "FULL_NAME": {
       "LABEL": "نام کامل",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "ایمیل کاری",
       "PLACEHOLDER": "ایمیل کاری خود را وارد کنید به عنوان مثال: jafari@wayne.enterprises",
-      "ERROR": "آدرس ایمیل معتبر نیست"
+      "ERROR": "لطفا یک آدرس ایمیل کاری معتبر وارد کنید"
     },
     "PASSWORD": {
       "LABEL": "رمز عبور",

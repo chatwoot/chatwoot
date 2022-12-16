@@ -73,6 +73,10 @@
       "FIELD": "Nederīgs lauks"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Meklēt emocijzīmes",
+    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam"
+  },
   "CSAT": {
     "TITLE": "Novērtējiet Jūsu sarunu",
     "SUBMITTED_TITLE": "Paldies, ka iesniedzāt novērtējumu",

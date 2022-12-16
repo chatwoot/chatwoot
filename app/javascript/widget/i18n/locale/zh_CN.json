@@ -73,6 +73,10 @@
       "FIELD": "无效字段"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "评价您的对话",
     "SUBMITTED_TITLE": "感谢您提交评分",

@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Atzvanīšanas URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Tālruņa numurs",
             "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-            "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Izveidot Bandwidth kanālu",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Tālruņa numura ID",
