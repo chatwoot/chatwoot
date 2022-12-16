@@ -19,19 +19,23 @@
     </woot-dropdown-item>
     <woot-dropdown-divider />
     <woot-dropdown-item class="auto-offline--toggle">
+      <div class="info-wrap">
+        <fluent-icon
+          v-tooltip.right-top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
+          icon="info"
+          size="14"
+        />
+
+        <span class="auto-offline--text">
+          {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
+        </span>
+      </div>
+
       <woot-switch
         size="small"
         class="auto-offline--switch"
         :value="currentUserAutoOffline"
         @input="updateAutoOffline"
-      />
-      <span class="auto-offline--text">
-        {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
-      </span>
-      <fluent-icon
-        v-tooltip="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
-        icon="info"
-        size="12"
       />
     </woot-dropdown-item>
     <woot-dropdown-divider />
@@ -41,6 +45,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import alertMixin from 'shared/mixins/alertMixin';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
@@ -58,7 +63,7 @@ export default {
     AvailabilityStatusBadge,
   },
 
-  mixins: [clickaway],
+  mixins: [clickaway, alertMixin],
 
   data() {
     return {
@@ -104,10 +109,23 @@ export default {
       this.isStatusMenuOpened = false;
     },
     updateAutoOffline(autoOffline) {
-      this.$store.dispatch('updateAutoOffline', {
-        accountId: this.currentAccountId,
-        autoOffline,
-      });
+      try {
+        this.$store.dispatch('updateAutoOffline', {
+          accountId: this.currentAccountId,
+          autoOffline,
+        });
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.AVAILABILITY.UPDATE_AUTO_OFFLINE_SUCCESS'
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.AVAILABILITY.UPDATE_AUTO_OFFLINE_ERROR'
+          )
+        );
+      }
     },
     changeAvailabilityStatus(availability) {
       if (this.isUpdating) {
@@ -115,14 +133,21 @@ export default {
       }
 
       this.isUpdating = true;
-      this.$store
-        .dispatch('updateAvailability', {
+      try {
+        this.$store.dispatch('updateAvailability', {
           availability,
           account_id: this.currentAccountId,
-        })
-        .finally(() => {
-          this.isUpdating = false;
         });
+        this.showAlert(
+          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_SUCCESS')
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR')
+        );
+      } finally {
+        this.isUpdating = false;
+      }
     },
   },
 };
@@ -170,15 +195,21 @@ export default {
 .auto-offline--toggle {
   align-items: center;
   display: flex;
-  padding: var(--space-smaller) var(--space-smaller);
+  justify-content: space-between;
+  padding: var(--space-smaller) 0 var(--space-smaller) var(--space-small);
+  margin: 0;
+
+  .info-wrap {
+    display: flex;
+    align-items: center;
+  }
 
   .auto-offline--switch {
     margin: -1px var(--space-micro) 0;
   }
 
   .auto-offline--text {
-    margin-left: var(--space-micro);
-    margin-right: var(--space-smaller);
+    margin: 0 var(--space-smaller);
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-medium);
     color: var(--s-700);
