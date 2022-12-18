@@ -25,7 +25,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
     {
       team_id: 'TLST3048H',
       api_app_id: 'A012S5UETV4',
-      event: message_event.merge({  type: 'message', user: nil }),
+      event: message_event.merge({ type: 'message', user: nil }),
       type: 'event_callback',
       event_time: 1_588_623_033
     }
