@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Không có phản hồi",
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
