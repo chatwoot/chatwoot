@@ -28,8 +28,8 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: "*Inbox: #{inbox.name} [#{inbox.inbox_type}]* \n\n #{message.content}",
-          username: "Contact: #{message.sender.name}",
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{message.content}",
+          username: "#{message.sender.name} (Contact)",
           thread_ts: nil,
           icon_url: anything
         ).and_return(slack_message)
@@ -49,7 +49,7 @@ describe Integrations::Slack::SendOnSlackService do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
           text: message.content,
-          username: "Contact: #{message.sender.name}",
+          username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
         ).and_return(slack_message)
@@ -63,7 +63,7 @@ describe Integrations::Slack::SendOnSlackService do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
           text: message.content,
-          username: "Contact: #{message.sender.name}",
+          username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
         ).and_return(slack_message)
@@ -93,7 +93,7 @@ describe Integrations::Slack::SendOnSlackService do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
           text: message.content,
-          username: "Contact: #{message.sender.name}",
+          username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
         ).and_raise(Slack::Web::Api::Errors::AccountInactive.new('Account disconnected'))
