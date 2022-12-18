@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Pas de réponse",
     "RATING_TITLE": "Note",
     "FEEDBACK_TITLE": "Commentaires",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
