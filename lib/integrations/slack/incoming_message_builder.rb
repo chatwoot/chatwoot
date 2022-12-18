@@ -30,7 +30,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   # Discard all the subtype of a message event
-  # We are only considering the acutal message sent by a Slack user
+  # We are only considering the actual message sent by a Slack user
   # Any reactions or messages sent by the bot will be ignored.
   # https://api.slack.com/events/message#subtypes
   def should_process_event?
