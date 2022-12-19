@@ -21,7 +21,13 @@ json.payload do
         json.partial! 'api/v1/models/agent', formats: [:json], resource: message.conversation.assignee if message.conversation.assignee.present?
       end
       json.inbox do
-        json.partial! 'api/v1/models/inbox', formats: [:json], resource: message.inbox if message.inbox.present?
+        if message.inbox.present?
+          inbox = message.inbox
+          json.id inbox.id
+          json.channel_id inbox.channel_id
+          json.name inbox.name
+          json.channel_type inbox.channel_type
+        end
       end
     end
   end
