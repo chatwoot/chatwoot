@@ -1,5 +1,5 @@
 <template>
-  <div class="macro">
+  <div class="macro button secondary clear ">
     <span class="text-truncate">{{ macro.name }}</span>
     <div class="macros-actions">
       <woot-button
@@ -91,20 +91,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0;
-  padding: var(--space-small);
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--border-radius-normal);
-  color: var(--s-700);
-
-  &:hover {
-    background: var(--s-25);
-    color: var(--s-600);
-  }
-
-  &:focus {
-    border-color: var(--w-300);
-  }
+  line-height: var(--space-normal);
 
   .macros-actions {
     display: flex;
