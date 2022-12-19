@@ -227,6 +227,28 @@ export default {
     },
   },
 
+  watch: {
+    '$route.name'() {
+      const routeName = this.$route?.name;
+      const routeParams = this.$route?.params;
+      if (routeName === 'list_all_portals') {
+        this.fetchPortalAndItsCategories();
+      }
+      if (
+        routeName === 'edit_article' &&
+        routeParams?.recentlyCreated === true
+      ) {
+        this.fetchPortalAndItsCategories();
+      }
+      if (
+        routeName === 'list_all_locale_articles' &&
+        routeParams?.recentlyDeleted === true
+      ) {
+        this.fetchPortalAndItsCategories();
+      }
+    },
+  },
+
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
