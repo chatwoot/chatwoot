@@ -248,7 +248,7 @@ export default {
       this.$emit('open-site', this.portal.slug);
     },
     openSettings() {
-      this.fetchPortalsAndItsCategories();
+      this.fetchPortalAndItsCategories();
       this.navigateToPortalEdit();
     },
     onClickOpenDeleteModal(portal) {
@@ -258,12 +258,18 @@ export default {
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.portal.slug,
-        });
-      });
+    async fetchPortalAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+      const {
+        slug,
+        config: { allowed_locales: allowedLocales },
+      } = this.portal;
+      const selectedPortalParam = {
+        portalSlug: slug,
+        locale: allowedLocales[0].code,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
     },
     async onClickDeletePortal() {
       const { slug } = this.selectedPortalForDelete;

@@ -16,6 +16,9 @@ const endPoints = {
   availabilityUpdate: {
     url: '/api/v1/profile/availability',
   },
+  autoOffline: {
+    url: '/api/v1/profile/auto_offline',
+  },
   logout: {
     url: 'auth/sign_out',
   },
