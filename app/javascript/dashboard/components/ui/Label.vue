@@ -4,7 +4,7 @@
       <fluent-icon :icon="icon" size="12" class="label--icon" />
     </span>
     <span
-      v-if="variant === 'smooth'"
+      v-if="variant === 'smooth' && title && !icon"
       :style="{ background: color }"
       class="label-color-dot"
     />
@@ -117,14 +117,16 @@ export default {
   height: var(--space-medium);
 
   &.small {
-    font-size: var(--font-size-micro);
+    font-size: var(--font-size-mini);
     padding: var(--space-micro) var(--space-smaller);
     line-height: 1.2;
-    letter-spacing: 0.15px;
+    height: var(--space-two);
   }
 
   .label--icon {
     cursor: pointer;
+  }
+  .label-color-dot {
     margin-right: var(--space-smaller);
   }
 
@@ -221,14 +223,22 @@ export default {
 }
 
 .label-action--button {
-  margin-bottom: var(--space-minus-micro);
+  display: flex;
+  margin-right: var(--space-smaller);
 }
 
 .label-color-dot {
   display: inline-block;
-  width: var(--space-one);
-  height: var(--space-one);
+  width: var(--space-slab);
+  height: var(--space-slab);
   border-radius: var(--border-radius-small);
   margin-right: var(--space-smaller);
+  box-shadow: var(--shadow-small);
+}
+.label.small .label-color-dot {
+  width: var(--space-small);
+  height: var(--space-small);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--shadow-small);
 }
 </style>
