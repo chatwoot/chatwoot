@@ -100,6 +100,13 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
+        key: 'mail_subject',
+        name: 'Email Subject',
+        attributeI18nKey: 'MAIL_SUBJECT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'country_code',
         name: 'Country',
         attributeI18nKey: 'COUNTRY_NAME',
@@ -189,6 +196,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'BROWSER_LANGUAGE',
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'mail_subject',
+        name: 'Email Subject',
+        attributeI18nKey: 'MAIL_SUBJECT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'country_code',
