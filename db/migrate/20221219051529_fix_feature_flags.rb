@@ -1,4 +1,6 @@
 class FixFeatureFlags < ActiveRecord::Migration[6.1]
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/BlockLength
   def change
     installation_config = InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')
     Account.find_in_batches do |account_batch|
@@ -39,4 +41,6 @@ class FixFeatureFlags < ActiveRecord::Migration[6.1]
       end
     end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/BlockLength
 end
