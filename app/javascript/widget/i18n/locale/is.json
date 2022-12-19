@@ -73,6 +73,10 @@
       "FIELD": "Ógildur reitur"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Gefðu samtalinu einkunn",
     "SUBMITTED_TITLE": "Takk fyrir að gefa samtalinu einkunn",

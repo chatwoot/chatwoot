@@ -73,6 +73,10 @@
       "FIELD": "Câmp invalid"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Evaluează conversația ta",
     "SUBMITTED_TITLE": "Vă mulțumim pentru trimiterea de rating",

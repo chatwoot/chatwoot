@@ -33,7 +33,7 @@
     </header>
     <div class="category-list">
       <category-list-item
-        :categories="categoryByLocaleCode"
+        :categories="categoriesByLocaleCode"
         @delete="deleteCategory"
         @edit="openEditCategoryModal"
       />
@@ -91,7 +91,7 @@ export default {
     currentPortalSlug() {
       return this.$route.params.portalSlug;
     },
-    categoryByLocaleCode() {
+    categoriesByLocaleCode() {
       return this.$store.getters['categories/categoriesByLocaleCode'](
         this.currentLocaleCode
       );
@@ -131,6 +131,12 @@ export default {
     closeEditCategoryModal() {
       this.showEditCategoryModal = false;
     },
+    async fetchCategoriesByPortalSlugAndLocale(localeCode) {
+      await this.$store.dispatch('categories/index', {
+        portalSlug: this.currentPortalSlug,
+        locale: localeCode,
+      });
+    },
     async deleteCategory(categoryId) {
       try {
         await this.$store.dispatch('categories/delete', {
@@ -152,6 +158,7 @@ export default {
     changeCurrentCategory(event) {
       const localeCode = event.target.value;
       this.currentLocaleCode = localeCode;
+      this.fetchCategoriesByPortalSlugAndLocale(localeCode);
     },
   },
 };

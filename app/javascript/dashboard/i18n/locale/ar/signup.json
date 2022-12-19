@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "تسجيل حساب",
     "TITLE": "تسجيل",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "من خلال التسجيل، فإنك توافق على <a href=\"https://www.chatwoot.com/terms\">شروط الخدمة</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">سياسة الخصوصية</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "اسم الحساب",
-      "PLACEHOLDER": "أدخل اسم الحساب. مثال: Wayne Enterprises",
-      "ERROR": "اسم الحساب قصير جداً"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "الاسم الكامل",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "البريد الإلكتروني للعمل",
       "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce@wayne.enterprises",
-      "ERROR": "عنوان البريد الإلكتروني غير صالح"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "كلمة المرور",

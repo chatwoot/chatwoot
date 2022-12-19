@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nom del compte",
+        "LABEL": "Nom de la companyia",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Envia"

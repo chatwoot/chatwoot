@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "帳戶名稱",
+        "LABEL": "公司名稱",
         "PLACEHOLDER": "Wayne 企業"
       },
       "SUBMIT": "送出"

@@ -73,6 +73,10 @@
       "FIELD": "Trường không hợp lệ"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Đánh giá hội thoại",
     "SUBMITTED_TITLE": "Cảm ơn vì đã đánh giá",

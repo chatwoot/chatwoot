@@ -398,7 +398,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    loofah (2.18.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -488,8 +488,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     railties (6.1.6.1)
       actionpack (= 6.1.6.1)
       activesupport (= 6.1.6.1)
@@ -765,12 +765,12 @@ DEPENDENCIES
   rack-attack
   rack-cors
   rack-timeout
-  rails (~> 6.1)
+  rails (~> 6.1, >= 6.1.6.1)
   redis
   redis-namespace
   responders
   rest-client
-  rspec-rails (~> 5.0.0)
+  rspec-rails (~> 5.0.3)
   rspec_junit_formatter
   rubocop
   rubocop-performance
@@ -778,7 +778,7 @@ DEPENDENCIES
   rubocop-rspec
   scout_apm
   seed_dump
-  sentry-rails (~> 5.3)
+  sentry-rails (~> 5.3, >= 5.3.1)
   sentry-ruby (~> 5.3)
   sentry-sidekiq (~> 5.3)
   shoulda-matchers
@@ -799,7 +799,7 @@ DEPENDENCIES
   valid_email2
   web-console
   webmock
-  webpacker (~> 5.x)
+  webpacker (~> 5.4, >= 5.4.3)
   webpush
   wisper (= 2.0.0)
   working_hours

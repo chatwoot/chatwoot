@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Fióknév",
+        "LABEL": "Cégnév",
         "PLACEHOLDER": "Kovács Kft."
       },
       "SUBMIT": "Elküldés"

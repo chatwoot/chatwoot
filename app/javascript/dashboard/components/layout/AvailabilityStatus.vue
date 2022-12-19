@@ -18,12 +18,35 @@
       </woot-button>
     </woot-dropdown-item>
     <woot-dropdown-divider />
+    <woot-dropdown-item class="auto-offline--toggle">
+      <div class="info-wrap">
+        <fluent-icon
+          v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
+          icon="info"
+          size="14"
+          class="info-icon"
+        />
+
+        <span class="auto-offline--text">
+          {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
+        </span>
+      </div>
+
+      <woot-switch
+        size="small"
+        class="auto-offline--switch"
+        :value="currentUserAutoOffline"
+        @input="updateAutoOffline"
+      />
+    </woot-dropdown-item>
+    <woot-dropdown-divider />
   </woot-dropdown-menu>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import alertMixin from 'shared/mixins/alertMixin';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
@@ -41,7 +64,7 @@ export default {
     AvailabilityStatusBadge,
   },
 
-  mixins: [clickaway],
+  mixins: [clickaway, alertMixin],
 
   data() {
     return {
@@ -54,6 +77,7 @@ export default {
     ...mapGetters({
       getCurrentUserAvailability: 'getCurrentUserAvailability',
       currentAccountId: 'getCurrentAccountId',
+      currentUserAutoOffline: 'getCurrentUserAutoOffline',
     }),
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
@@ -85,21 +109,30 @@ export default {
     closeStatusMenu() {
       this.isStatusMenuOpened = false;
     },
+    updateAutoOffline(autoOffline) {
+      this.$store.dispatch('updateAutoOffline', {
+        accountId: this.currentAccountId,
+        autoOffline,
+      });
+    },
     changeAvailabilityStatus(availability) {
-      const accountId = this.currentAccountId;
       if (this.isUpdating) {
         return;
       }
 
       this.isUpdating = true;
-      this.$store
-        .dispatch('updateAvailability', {
-          availability: availability,
-          account_id: accountId,
-        })
-        .finally(() => {
-          this.isUpdating = false;
+      try {
+        this.$store.dispatch('updateAvailability', {
+          availability,
+          account_id: this.currentAccountId,
         });
+      } catch (error) {
+        this.showAlert(
+          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR')
+        );
+      } finally {
+        this.isUpdating = false;
+      }
     },
   },
 };
@@ -141,6 +174,34 @@ export default {
   .status-items {
     display: flex;
     align-items: baseline;
+  }
+}
+
+.auto-offline--toggle {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-smaller) 0 var(--space-smaller) var(--space-small);
+  margin: 0;
+
+  .info-wrap {
+    display: flex;
+    align-items: center;
+  }
+
+  .info-icon {
+    margin-top: -1px;
+  }
+
+  .auto-offline--switch {
+    margin: -1px var(--space-micro) 0;
+  }
+
+  .auto-offline--text {
+    margin: 0 var(--space-smaller);
+    font-size: var(--font-size-mini);
+    font-weight: var(--font-weight-medium);
+    color: var(--s-700);
   }
 }
 </style>
