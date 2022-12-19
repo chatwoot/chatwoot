@@ -52,6 +52,7 @@ module AssignmentHandler
 
   def process_participant_assignment
     return unless saved_change_to_assignee_id? && assignee_id.present?
-    self.conversation_participants.find_or_create_by!(user_id: assignee_id)
+
+    conversation_participants.find_or_create_by!(user_id: assignee_id)
   end
 end
