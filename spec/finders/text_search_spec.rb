@@ -59,5 +59,29 @@ describe ::TextSearch do
         expect(result[:conversations].length).to be 1
       end
     end
+
+    context 'when create records in tables including multi search' do
+      let(:contact) { create(:contact, name: 'Welma', account_id: account.id, email: 'welma@scoobydoo.com') }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'open', contact_id: contact.id) }
+
+      it 'conversation creation pg search records' do
+        contact_search_record = PgSearch::Document.find_by(searchable_id: contact.id, searchable_type: contact.class.name)
+        conversation_search_record = PgSearch::Document.find_by(searchable_id: conversation.id, searchable_type: conversation.class.name)
+
+        expect(contact_search_record).to be_present
+        expect(conversation_search_record).to be_present
+      end
+
+      it 'conversation deletion deletes pg search records' do
+        contact.destroy!
+        conversation.destroy!
+
+        contact_search_record = PgSearch::Document.find_by(searchable_id: contact.id, searchable_type: contact.class.name)
+        conversation_search_record = PgSearch::Document.find_by(searchable_id: conversation.id, searchable_type: conversation.class.name)
+
+        expect(contact_search_record).to be_nil
+        expect(conversation_search_record).to be_nil
+      end
+    end
   end
 end

@@ -147,6 +147,8 @@ class Contact < ApplicationRecord
     email_format
   end
 
+  # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
+  # We can not find conversation_id from contacts directly so we added this joins here.
   def self.rebuild_pg_search_documents
     return super unless name == 'Contact'
 
