@@ -239,7 +239,6 @@ export default {
   width: var(--space-small);
   height: var(--space-small);
   border-radius: var(--border-radius-small);
-  margin-right: var(--space-micro);
   box-shadow: var(--shadow-small);
 }
 </style>
