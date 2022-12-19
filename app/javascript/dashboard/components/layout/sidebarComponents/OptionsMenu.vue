@@ -65,7 +65,6 @@
           <a
             href="/super_admin"
             class="button small clear secondary"
-            :class="{ 'is-active': isActive }"
             target="_blank"
             rel="noopener nofollow noreferrer"
             @click="$emit('close')"
