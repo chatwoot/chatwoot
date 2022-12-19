@@ -103,7 +103,9 @@
           "В сети",
           "Занят",
           "Оффлайн"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
+        "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова"
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Диалоги",
     "ALL_CONVERSATIONS": "Диалоги",
     "MENTIONED_CONVERSATIONS": "Упоминания",
+    "UNATTENDED_CONVERSATIONS": "Несвязанные",
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
@@ -225,6 +228,10 @@
       "CATEGORY": "Категория",
       "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Отметить автоматически",
+      "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель."
+    },
     "DOCS": "Чтение документов"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Имя аккаунта",
+        "LABEL": "Название компании",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Отправить"

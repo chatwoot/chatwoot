@@ -103,7 +103,9 @@
           "Tiešsaistē",
           "Aizņemts",
           "Bezsaistē"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Jūsu e-pasta adrese",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Sarunas",
     "ALL_CONVERSATIONS": "Visas Sarunas",
     "MENTIONED_CONVERSATIONS": "Pieminēšanas",
+    "UNATTENDED_CONVERSATIONS": "Bez uzraudzības",
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
@@ -225,6 +228,10 @@
       "CATEGORY": "Kategorija",
       "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Lasīt dokumentus"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Konta Nosaukums",
+        "LABEL": "Uzņēmuma Nosaukums",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Iesniegt"

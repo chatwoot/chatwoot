@@ -121,6 +121,7 @@ export default {
           locale: code,
         },
       });
+      this.$emit('fetch-portal');
       this.$emit('open-portal-page');
     },
     isLocaleActive(code, slug) {

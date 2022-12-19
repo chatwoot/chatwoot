@@ -16,6 +16,8 @@ const conversations = accountId => ({
     'conversation_through_mentions',
     'folder_conversations',
     'conversations_through_folders',
+    'conversation_unattended',
+    'conversation_through_unattended',
   ],
   menuItems: [
     {
@@ -32,6 +34,13 @@ const conversations = accountId => ({
       key: 'conversation_mentions',
       toState: frontendURL(`accounts/${accountId}/mentions/conversations`),
       toStateName: 'conversation_mentions',
+    },
+    {
+      icon: 'mail-unread',
+      label: 'UNATTENDED_CONVERSATIONS',
+      key: 'conversation_unattended',
+      toState: frontendURL(`accounts/${accountId}/unattended/conversations`),
+      toStateName: 'conversation_unattended',
     },
   ],
 });

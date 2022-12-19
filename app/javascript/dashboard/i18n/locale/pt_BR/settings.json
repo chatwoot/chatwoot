@@ -103,7 +103,9 @@
           "Disponível",
           "Ocupado",
           "Desconectado"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -159,7 +161,7 @@
       "UPLOADING": "Enviando..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Ver Localização"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
+    "UNATTENDED_CONVERSATIONS": "Não atendidas",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
@@ -225,6 +228,10 @@
       "CATEGORY": "Categoria",
       "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Marcar offline automaticamente",
+      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle."
+    },
     "DOCS": "Ler documentos"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome do Cliente",
+        "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Informe o nome da conta"
       },
       "SUBMIT": "Enviar"

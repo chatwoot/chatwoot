@@ -103,7 +103,9 @@
           "En línia",
           "Ocupat",
           "Fora de línia"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "La teva adreça de correu electrònic",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Converses",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mencions",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Informes",
     "SETTINGS": "Configuracions",
     "CONTACTS": "Contactes",
@@ -225,6 +228,10 @@
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nom del compte",
+        "LABEL": "Nom de la companyia",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Envia"

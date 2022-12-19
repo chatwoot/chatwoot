@@ -23,7 +23,7 @@
         "ERROR": "Por favor, insira um nome de conta válido"
       },
       "LANGUAGE": {
-        "LABEL": "Idioma do site (Beta)",
+        "LABEL": "Idioma do site",
         "PLACEHOLDER": "Nome da sua conta",
         "ERROR": ""
       },
@@ -139,6 +139,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Carregando Dashboard App..."
   }
 }

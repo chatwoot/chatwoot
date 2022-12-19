@@ -23,7 +23,7 @@
         "ERROR": "กรุณากรอกชื่อบัญชีให้ถูกต้อง"
       },
       "LANGUAGE": {
-        "LABEL": "ภาษา (ทดสอบ)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "ชื่อบัญชีของคุณ",
         "ERROR": ""
       },

@@ -37,6 +37,9 @@
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
       validation="required"
+      :validation-messages="{
+        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
+      }"
     />
 
     <custom-button
@@ -208,14 +211,10 @@ export default {
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
-    getLabel({ name, label }) {
-      if (this.labels[name])
-        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.LABEL`);
+    getLabel({ label }) {
       return label;
     },
-    getPlaceHolder({ name, placeholder }) {
-      if (this.labels[name])
-        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.PLACEHOLDER`);
+    getPlaceHolder({ placeholder }) {
       return placeholder;
     },
     getValue({ name, type }) {
@@ -226,11 +225,7 @@ export default {
       return this.formValues[name] || null;
     },
 
-    getRequiredErrorMessage({ name, label }) {
-      if (this.labels[name])
-        return this.$t(
-          `PRE_CHAT_FORM.FIELDS.${this.labels[name]}.REQUIRED_ERROR`
-        );
+    getRequiredErrorMessage({ label }) {
       return `${label} ${this.$t('PRE_CHAT_FORM.IS_REQUIRED')}`;
     },
     getValidation({ type, name }) {

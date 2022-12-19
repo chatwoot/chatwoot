@@ -103,7 +103,9 @@
           "Online",
           "Zaneprázdnený",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Vaša e-mailová adresa",
@@ -177,8 +179,9 @@
     "CONVERSATIONS": "Rozhovory",
     "ALL_CONVERSATIONS": "Všetky konverzácie",
     "MENTIONED_CONVERSATIONS": "Zmienky",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
-    "SETTINGS": "Settings",
+    "SETTINGS": "Nastavenia",
     "CONTACTS": "Kontakty",
     "HOME": "Home",
     "AGENTS": "Agenti",
@@ -225,6 +228,10 @@
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Názov spoločnosti",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Odoslať"

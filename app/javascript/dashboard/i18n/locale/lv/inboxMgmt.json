@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Atzvanīšanas URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Tālruņa numurs",
             "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-            "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Izveidot Bandwidth kanālu",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Tālruņa numura ID",
@@ -388,6 +388,10 @@
         "ENABLED": "Iespējots",
         "DISABLED": "Atspējots"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Iespējot"
       }
@@ -416,7 +420,8 @@
       "CAMPAIGN": "Kampaņas",
       "PRE_CHAT_FORM": "Pirms-Tērzēšanas Veidlapa",
       "BUSINESS_HOURS": "Darba Laiks",
-      "WIDGET_BUILDER": "Logrīku Veidotājs"
+      "WIDGET_BUILDER": "Logrīku Veidotājs",
+      "BOT_CONFIGURATION": "Robota Konfigurācija"
     },
     "SETTINGS": "Iestatījumi",
     "FEATURES": {
@@ -440,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Pieturēties pie vienas sarunas",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Iespējot vai atspējot vairākas sarunas vienai un tai pašai kontaktpersonai šajā iesūtnē",
       "INBOX_UPDATE_TITLE": "Iesūtnes Iestatījumi",
       "INBOX_UPDATE_SUB_TEXT": "Atjaunināt Jūsu iesūtnes iestatījumus",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Iespējot vai atspējot jaunu sarunu automātisku piešķiršanu šai iesūtnei pievienotajiem aģentiem.",

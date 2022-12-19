@@ -39,10 +39,17 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 
 import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 import {
+  hasPressedEnterAndNotCmdOrShift,
+  hasPressedCommandAndEnter,
   hasPressedAltAndPKey,
   hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
+import AnalyticsHelper, {
+  ANALYTICS_EVENTS,
+} from '../../../helper/AnalyticsHelper';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
@@ -58,13 +65,15 @@ const createState = (content, placeholder, plugins = []) => {
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse },
-  mixins: [eventListenerMixins],
+  mixins: [eventListenerMixins, uiSettingsMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     enableSuggestions: { type: Boolean, default: true },
+    overrideLineBreaks: { type: Boolean, default: false },
+    updateSelectionWith: { type: String, default: '' },
   },
   data() {
     return {
@@ -162,6 +171,25 @@ export default {
     isPrivate() {
       this.reloadState();
     },
+
+    updateSelectionWith(newValue, oldValue) {
+      if (!this.editorView) {
+        return null;
+      }
+      if (newValue !== oldValue) {
+        if (this.updateSelectionWith !== '') {
+          const node = this.editorView.state.schema.text(
+            this.updateSelectionWith
+          );
+          const tr = this.editorView.state.tr.replaceSelectionWith(node);
+          this.editorView.focus();
+          this.state = this.editorView.state.apply(tr);
+          this.emitOnChange();
+          this.$emit('clear-selection');
+        }
+      }
+      return null;
+    },
   },
   created() {
     this.state = createState(this.value, this.placeholder, this.plugins);
@@ -188,6 +216,9 @@ export default {
           keyup: () => {
             this.onKeyup();
           },
+          keydown: (view, event) => {
+            this.onKeydown(event);
+          },
           focus: () => {
             this.onFocus();
           },
@@ -202,6 +233,12 @@ export default {
           },
         },
       });
+    },
+    isEnterToSendEnabled() {
+      return isEditorHotKeyEnabled(this.uiSettings, 'enter');
+    },
+    isCmdPlusEnterToSendEnabled() {
+      return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
     },
     handleKeyEvents(e) {
       if (hasPressedAltAndPKey(e)) {
@@ -233,7 +270,10 @@ export default {
         node
       );
       this.state = this.editorView.state.apply(tr);
-      return this.emitOnChange();
+      this.emitOnChange();
+      AnalyticsHelper.track(ANALYTICS_EVENTS.USED_MENTIONS);
+
+      return false;
     },
 
     insertCannedResponse(cannedItem) {
@@ -241,22 +281,27 @@ export default {
         return null;
       }
 
-      const tr = this.editorView.state.tr.insertText(
-        cannedItem,
-        this.range.from,
-        this.range.to
+      let from = this.range.from - 1;
+      let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
+        cannedItem
       );
+
+      if (node.childCount === 1) {
+        node = this.editorView.state.schema.text(cannedItem);
+        from = this.range.from;
+      }
+
+      const tr = this.editorView.state.tr.replaceWith(
+        from,
+        this.range.to,
+        node
+      );
+
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
 
-      // Hacky fix for #5501
-      this.state = createState(
-        this.contentFromEditor,
-        this.placeholder,
-        this.plugins
-      );
-      this.editorView.updateState(this.state);
-      this.focusEditorInputField();
+      tr.scrollIntoView();
+      AnalyticsHelper.track(ANALYTICS_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
     },
 
@@ -278,6 +323,24 @@ export default {
         clearTimeout(this.idleTimer);
       }
     },
+    handleLineBreakWhenEnterToSendEnabled(event) {
+      if (
+        hasPressedEnterAndNotCmdOrShift(event) &&
+        this.isEnterToSendEnabled() &&
+        !this.overrideLineBreaks
+      ) {
+        event.preventDefault();
+      }
+    },
+    handleLineBreakWhenCmdAndEnterToSendEnabled(event) {
+      if (
+        hasPressedCommandAndEnter(event) &&
+        this.isCmdPlusEnterToSendEnabled() &&
+        !this.overrideLineBreaks
+      ) {
+        event.preventDefault();
+      }
+    },
     onKeyup() {
       if (!this.idleTimer) {
         this.$emit('typing-on');
@@ -287,6 +350,14 @@ export default {
         () => this.resetTyping(),
         TYPING_INDICATOR_IDLE_TIME
       );
+    },
+    onKeydown(event) {
+      if (this.isEnterToSendEnabled()) {
+        this.handleLineBreakWhenEnterToSendEnabled(event);
+      }
+      if (this.isCmdPlusEnterToSendEnabled()) {
+        this.handleLineBreakWhenCmdAndEnterToSendEnabled(event);
+      }
     },
     onBlur() {
       this.turnOffIdleTimer();
