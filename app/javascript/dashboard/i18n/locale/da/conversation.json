@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Intet svar",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
       "REOPEN_ACTION": "Genåben",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markér som afventende",
       "RESOLVED": "Marker som løst",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Genåbn samtale",
       "SNOOZE": {
         "TITLE": "Udsæt",

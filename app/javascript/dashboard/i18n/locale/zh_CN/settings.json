@@ -103,7 +103,9 @@
           "在线的",
           "忙碌中",
           "离线的"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "您的电子邮件地址",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "会话",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "提及",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
@@ -225,6 +228,10 @@
       "CATEGORY": "类别",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "帐户名称",
+        "LABEL": "公司名称",
         "PLACEHOLDER": "Wayne企业"
       },
       "SUBMIT": "提交"

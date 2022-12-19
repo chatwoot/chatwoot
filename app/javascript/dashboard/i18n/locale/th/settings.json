@@ -103,7 +103,9 @@
           "ออนไลน์",
           "ไม่ว่าง",
           "ออฟไลน์"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "อีเมลของคุณ",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "การสนทนา",
     "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
     "MENTIONED_CONVERSATIONS": "การกล่าวถึง",
+    "UNATTENDED_CONVERSATIONS": "ไม่ได้เข้าร่วม",
     "REPORTS": "รายงาน",
     "SETTINGS": "ตั้งค่า",
     "CONTACTS": "ผู้ติดต่อ",
@@ -225,6 +228,10 @@
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "ชื่อบัญชี",
+        "LABEL": "ชื่อบริษัท",
         "PLACEHOLDER": "ชื่อบริษัท"
       },
       "SUBMIT": "ส่ง"

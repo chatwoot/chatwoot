@@ -103,7 +103,9 @@
           "Online",
           "Sibuk",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Alamat email Anda",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Sebutkan",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
@@ -225,6 +228,10 @@
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nama Akun",
+        "LABEL": "Nama Perusahaan",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Kirim"

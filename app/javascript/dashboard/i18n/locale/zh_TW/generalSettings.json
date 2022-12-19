@@ -23,7 +23,7 @@
         "ERROR": "請輸入有效的帳戶名稱"
       },
       "LANGUAGE": {
-        "LABEL": "網站語言(Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "您的帳戶名稱",
         "ERROR": ""
       },

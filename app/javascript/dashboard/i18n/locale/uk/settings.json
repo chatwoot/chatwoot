@@ -20,17 +20,17 @@
         "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Комбінація клавіш для надсилання повідомлень",
+        "NOTE": "Ви можете обрати гарячу клавішу (Enter або Cmd/Ctrl+Enter) на основі ваших вподобань.",
+        "UPDATE_SUCCESS": "Ваші налаштування були успішно оновлені",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Надсилати повідомлення, натиснувши клавішу Enter замість кнопки надсилання."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Надсилати повідомлення, натиснувши комбінацію Cmd/Ctrl + Enter замість кнопки надсилання."
           }
         }
       },
@@ -103,7 +103,9 @@
           "Онлайн",
           "Зайнятий",
           "Не в мережі"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",
@@ -177,12 +179,13 @@
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
+    "UNATTENDED_CONVERSATIONS": "Не зв'язаний",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
     "HOME": "Головна",
     "AGENTS": "Агенти",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "Боти",
     "INBOXES": "Вхідні",
     "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
@@ -225,6 +228,10 @@
       "CATEGORY": "Категорія",
       "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Читати документи"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Назва облікового запису",
+        "LABEL": "Назва компанії",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Додати"

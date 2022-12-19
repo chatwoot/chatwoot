@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Gesprekken",
     "MENTION_HEADING": "Vermeldingen",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Antwoord op deze tweet",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Succesvol verzonden",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Geen berichten",
     "NO_CONTENT": "Geen inhoud beschikbaar",
     "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",

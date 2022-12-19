@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Không có phản hồi",
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Đánh dấu chưa giải quyết",
       "RESOLVED": "Đánh dấu là đã giải quyết",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Mở lại hội thoại",
       "SNOOZE": {
         "TITLE": "Báo lại",
@@ -151,7 +156,7 @@
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
       "DELETE": "Xoá",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Thêm vào câu trả lời soạn sẵn"
     }
   },
   "EMAIL_TRANSCRIPT": {

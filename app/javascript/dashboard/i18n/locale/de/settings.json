@@ -103,7 +103,9 @@
           "Online",
           "Beschäftigt",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Deine Emailadresse",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Gespräche",
     "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
+    "UNATTENDED_CONVERSATIONS": "Unbeaufsichtigt",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
     "CONTACTS": "Kontakte",
@@ -225,6 +228,10 @@
       "CATEGORY": "Kategorie",
       "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Dokumente lesen"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Kontobezeichnung",
+        "LABEL": "Firmenname",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Abschicken"

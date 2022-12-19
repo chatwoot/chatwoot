@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
           "PLACEHOLDER": "Vinsamlega sláðu inn símanúmerið sem skilaboð verða send frá.",
-          "ERROR": "Vinsamlega sláðu inn gilt gildi. Símanúmer ætti að byrja á „+“ tákni."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Phone number",
             "PLACEHOLDER": "Vinsamlega sláðu inn símanúmerið sem skilaboð verða send frá.",
-            "ERROR": "Vinsamlega sláðu inn gilt gildi. Símanúmer ætti að byrja á „+“ tákni."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
           "PLACEHOLDER": "Vinsamlega sláðu inn símanúmerið sem skilaboð verða send frá.",
-          "ERROR": "Vinsamlega sláðu inn gilt gildi. Símanúmer ætti að byrja á „+“ tákni."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +388,10 @@
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -416,7 +420,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -440,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Virkja/slökkva á CSAT (ánægju viðskiptavina) könnun eftir að hafa leyst samtal",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtöl halda áfram með tölvupósti ef tengiliðanetfangið er tiltækt.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Virkja eða slökkva á sjálfvirkri úthlutun nýrra samtöla til umboðsmanna sem bætt er við þetta innhólf.",

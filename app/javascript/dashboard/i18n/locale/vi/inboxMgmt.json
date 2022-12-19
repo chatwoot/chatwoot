@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Số Điện Thoại",
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-          "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "URL gọi lại",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Số Điện Thoại",
             "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-            "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Tạo kênh Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Số Điện Thoại",
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-          "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID số điện thoại",
@@ -388,6 +388,10 @@
         "ENABLED": "Bật",
         "DISABLED": "Không bật"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Bật",
+        "DISABLED": "Không bật"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Bật"
       }
@@ -416,7 +420,8 @@
       "CAMPAIGN": "Chiến dịch",
       "PRE_CHAT_FORM": "Biểu mẫu trước khi trò chuyện",
       "BUSINESS_HOURS": "Giờ làm việc",
-      "WIDGET_BUILDER": "Trình tạo widget"
+      "WIDGET_BUILDER": "Trình tạo widget",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Cài đặt",
     "FEATURES": {
@@ -440,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc trò chuyện",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Bật tiếp tục cuộc trò chuyện qua email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Cuộc trò chuyện sẽ tiếp tục qua email nếu có địa chỉ email liên lạc.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
