@@ -2,6 +2,12 @@
   <router-link :to="navigateTo" class="list-item">
     <thumbnail :src="getThumbnail" size="42px" :username="getName" />
     <div class="message-details">
+      <div class="conversation-meta">
+        <inbox-name :inbox="message.inbox" />
+        <span class="timestamp">
+          <time-ago :timestamp="message.created_at" />
+        </span>
+      </div>
       <p class="name">{{ getName }}</p>
       <read-more :shrink="isOverflowing" @expand="isOverflowing = false">
         <div
@@ -16,6 +22,8 @@
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import InboxName from 'dashboard/components/widgets/InboxName.vue';
+import timeAgo from 'dashboard/components/ui/TimeAgo';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { mapGetters } from 'vuex';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
@@ -24,6 +32,8 @@ export default {
   components: {
     Thumbnail,
     ReadMore,
+    InboxName,
+    timeAgo,
   },
   mixins: [messageFormatterMixin],
   props: {
@@ -107,6 +117,17 @@ export default {
           var(--s-50) 100%
         );
       }
+    }
+  }
+
+  .conversation-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-small);
+    .timestamp {
+      color: var(--s-500);
+      font-size: var(--font-size-small);
     }
   }
 }
