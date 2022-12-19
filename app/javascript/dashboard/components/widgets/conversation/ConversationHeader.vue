@@ -11,7 +11,14 @@
       />
       <div class="user--profile__meta">
         <h3 class="user--name text-truncate">
-          <span class="margin-right-smaller">{{ currentContact.name }}</span>
+          <a
+            :href="contactProfileLink"
+            class="margin-right-smaller text-capitalize button secondary large clear link user-name"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+          >
+            {{ currentContact.name }}
+          </a>
           <fluent-icon
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
@@ -145,6 +152,9 @@ export default {
       const { inbox_id: inboxId } = this.chat;
       return this.$store.getters['inboxes/getInbox'](inboxId);
     },
+    contactProfileLink() {
+      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.chat.meta.sender.id}`;
+    },
   },
 
   methods: {
@@ -182,12 +192,15 @@ export default {
 }
 
 .user--name {
-  display: inline-block;
-  font-size: var(--font-size-medium);
-  line-height: 1.3;
-  margin: 0;
-  text-transform: capitalize;
+  display: inline-flex;
+  margin-bottom: var(--space-micro);
   width: 100%;
+  align-items: center;
+}
+
+.button.secondary.clear.user-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--s-900);
 }
 
 .conversation--header--actions {
