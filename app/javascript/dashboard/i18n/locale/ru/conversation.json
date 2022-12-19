@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Нет ответа",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
+    "CARD": {
+      "SHOW_LABELS": "Показать метки",
+      "HIDE_LABELS": "Скрыть метки"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",

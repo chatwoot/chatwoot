@@ -41,6 +41,10 @@
     "NO_RESPONSE": "بدون پاسخ",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
+    "CARD": {
+      "SHOW_LABELS": "مشاهده کردن برچسب‌ها",
+      "HIDE_LABELS": "پنهان کردن برچسب‌ها"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
