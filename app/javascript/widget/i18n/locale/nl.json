@@ -73,6 +73,10 @@
       "FIELD": "Ongeldig veld"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Beoordeel uw gesprek",
     "SUBMITTED_TITLE": "Bedankt voor het indienen van een beoordeling",

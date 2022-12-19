@@ -177,12 +177,13 @@
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
+    "UNATTENDED_CONVERSATIONS": "Не зв'язаний",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
     "HOME": "Головна",
     "AGENTS": "Агенти",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "Боти",
     "INBOXES": "Вхідні",
     "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Назва облікового запису",
+        "LABEL": "Назва компанії",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Додати"

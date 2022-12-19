@@ -87,13 +87,13 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Attributs personnalisés des contacts",
       "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Saisissez votre message ici",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Sélectionner une équipe"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activer la règle d'automatisation",

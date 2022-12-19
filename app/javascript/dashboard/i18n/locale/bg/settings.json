@@ -177,6 +177,7 @@
     "CONVERSATIONS": "Разговори",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Споменавания",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Контакти",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Име на фирма",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Изпращане"

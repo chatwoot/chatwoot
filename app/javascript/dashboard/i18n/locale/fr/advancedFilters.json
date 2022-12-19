@@ -1,17 +1,17 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
+    "TITLE": "Filtrer les conversations",
     "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "ADD_NEW_FILTER": "Ajouter un filtre",
+    "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
+    "SUBMIT_BUTTON_LABEL": "Appliquer les filtres",
     "CANCEL_BUTTON_LABEL": "Annuler",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
     "TOOLTIP_LABEL": "Filter conversations",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "ET",
+      "OR": "OU"
     },
     "OPERATOR_LABELS": {
       "equal_to": "Equal to",
@@ -25,8 +25,8 @@
       "days_before": "Is x days before"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Vrai",
+      "FALSE": "Faux"
     },
     "ATTRIBUTES": {
       "STATUS": "État",
@@ -54,7 +54,7 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
+        "TITLE": "Voulez-vous enregistrer ce filtre ?",
         "LABEL": "Name this filter",
         "PLACEHOLDER": "Enter a name for this filter",
         "ERROR_MESSAGE": "Le nom est requis",

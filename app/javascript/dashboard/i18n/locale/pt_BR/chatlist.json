@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
+    "UNATTENDED_HEADING": "Não atendidas",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Responder a este tweet",
     "LINK_TO_STORY": "Vá para o Story do Instagram",
     "SENT": "Enviado com sucesso",
+    "READ": "Leitura com sucesso",
+    "DELIVERED": "Entregue com sucesso",
     "NO_MESSAGES": "Nova Mensagem",
     "NO_CONTENT": "Nenhum conteúdo disponível",
     "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",

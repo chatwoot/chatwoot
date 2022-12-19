@@ -7,6 +7,7 @@ import dashboard from './dashboard/dashboard.routes';
 import login from './login/login.routes';
 import store from '../store';
 import { validateLoggedInRoutes } from '../helper/routeHelpers';
+import AnalyticsHelper from '../helper/AnalyticsHelper';
 
 const routes = [...login.routes, ...dashboard.routes, ...authRoute.routes];
 
@@ -117,6 +118,11 @@ export const validateRouteAccess = (to, from, next, { getters }) => {
 export const initalizeRouter = () => {
   const userAuthentication = store.dispatch('setUser');
   router.beforeEach((to, from, next) => {
+    AnalyticsHelper.page(to.name || '', {
+      path: to.path,
+      name: to.name,
+    });
+
     if (validateSSOLoginParams(to)) {
       clearBrowserSessionCookies();
       next();

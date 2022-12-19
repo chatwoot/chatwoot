@@ -73,6 +73,10 @@
       "FIELD": "Campo inválido"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Avalie a sua conversa",
     "SUBMITTED_TITLE": "Obrigado pela sua Avaliação",

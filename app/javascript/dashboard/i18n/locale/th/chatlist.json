@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "การสนทนา",
     "MENTION_HEADING": "กล่าวถึง",
+    "UNATTENDED_HEADING": "ไม่ได้เข้าร่วม",
     "SEARCH": {
       "INPUT": "ค้นหาผู้คน, เเชท, หรือการตอบกลับ"
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "ตอบกลับทวิตนี้",
     "LINK_TO_STORY": "ไปยังอินสตาแกรมสตอรี่",
     "SENT": "ส่งสำเร็จแล้ว",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "ไม่มีข้อความ",
     "NO_CONTENT": "ไม่มีเนื้อหา",
     "HIDE_QUOTED_TEXT": "ซ่อนข้อความในเครื่องหมายคำพูด",

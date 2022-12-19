@@ -177,6 +177,7 @@
     "CONVERSATIONS": "Razgovori",
     "ALL_CONVERSATIONS": "Svi razgovori",
     "MENTIONED_CONVERSATIONS": "Spominjanja",
+    "UNATTENDED_CONVERSATIONS": "Nedodeljeni",
     "REPORTS": "Izveštaji",
     "SETTINGS": "Podešavanja",
     "CONTACTS": "Kontakti",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Naziv naloga",
+        "LABEL": "Ime firme",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Pošalji"

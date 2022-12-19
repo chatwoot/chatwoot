@@ -73,6 +73,10 @@
       "FIELD": "無效的欄位"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "為此對話評分",
     "SUBMITTED_TITLE": "感謝您提交的評分",

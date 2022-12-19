@@ -177,6 +177,7 @@
     "CONVERSATIONS": "Converses",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mencions",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Informes",
     "SETTINGS": "Configuracions",
     "CONTACTS": "Contactes",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nom del compte",
+        "LABEL": "Nom de la companyia",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Envia"

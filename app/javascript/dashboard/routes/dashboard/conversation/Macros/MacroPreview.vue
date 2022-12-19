@@ -1,6 +1,6 @@
 <template>
   <div class="macro-preview">
-    <p class="macro-title">{{ macro.name }}</p>
+    <h6 class="text-block-title macro-title">{{ macro.name }}</h6>
     <div v-for="(action, i) in resolvedMacro" :key="i" class="macro-block">
       <div v-if="i !== macro.actions.length - 1" class="macro-block-border" />
       <div class="macro-block-dot" />
@@ -69,37 +69,36 @@ export default {
 <style lang="scss" scoped>
 .macro-preview {
   position: absolute;
-  max-height: calc(var(--space-giga) * 1.5);
+  max-height: 36rem;
   min-height: var(--space-jumbo);
-  width: calc(var(--space-giga) + var(--space-large));
+  width: 27.2rem;
   border-radius: var(--border-radius-normal);
   background-color: var(--white);
   box-shadow: var(--shadow-dropdown-pane);
-  bottom: calc(var(--space-three) + var(--space-half));
-  right: calc(var(--space-three) + var(--space-half));
+  bottom: var(--space-large);
+  right: var(--space-large);
   overflow-y: auto;
-  padding: var(--space-slab);
+  padding: var(--space-normal);
+  text-align: left;
 
   .macro-title {
-    margin-bottom: var(--space-slab);
-    color: var(--s-900);
-    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-normal);
   }
 
   .macro-block {
     position: relative;
-    padding-left: var(--space-slab);
+    padding-left: var(--space-normal);
     &:not(:last-child) {
-      padding-bottom: var(--space-slab);
+      padding-bottom: var(--space-small);
     }
 
     .macro-block-border {
       top: 0.625rem;
       position: absolute;
-      bottom: var(--space-minus-half);
+      bottom: var(--space-minus-smaller);
       left: 0;
       width: 1px;
-      background-color: var(--s-100);
+      background-color: var(--s-75);
     }
 
     .macro-block-dot {
@@ -117,6 +116,7 @@ export default {
   .macro-action-name {
     font-size: var(--font-size-mini);
     color: var(--s-500);
+    margin-bottom: var(--space-smaller);
   }
 }
 </style>
