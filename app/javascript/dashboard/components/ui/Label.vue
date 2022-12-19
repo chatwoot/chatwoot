@@ -199,8 +199,8 @@ export default {
 
   &.smooth {
     background: transparent;
-    border: 1px solid var(--s-75);
-    color: var(--s-800);
+    border: 1px solid var(--s-100);
+    color: var(--s-700);
   }
 }
 

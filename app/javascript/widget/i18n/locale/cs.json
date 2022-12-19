@@ -73,6 +73,10 @@
       "FIELD": "Neplatné pole"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",
     "SUBMITTED_TITLE": "Děkujeme Vám za odeslání hodnocení",

@@ -177,6 +177,7 @@
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "relatórios",
     "SETTINGS": "Confirgurações",
     "CONTACTS": "Contactos",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome da Conta",
+        "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "submeter"

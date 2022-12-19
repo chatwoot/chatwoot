@@ -177,6 +177,7 @@
     "CONVERSATIONS": "Sarunas",
     "ALL_CONVERSATIONS": "Visas Sarunas",
     "MENTIONED_CONVERSATIONS": "Pieminēšanas",
+    "UNATTENDED_CONVERSATIONS": "Bez uzraudzības",
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Konta Nosaukums",
+        "LABEL": "Uzņēmuma Nosaukums",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Iesniegt"

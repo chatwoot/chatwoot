@@ -177,6 +177,7 @@
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Sebutkan",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nama Akun",
+        "LABEL": "Nama Perusahaan",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Kirim"

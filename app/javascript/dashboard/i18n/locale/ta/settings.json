@@ -177,6 +177,7 @@
     "CONVERSATIONS": "உரையாடல்கள்",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "அறிக்கைகள்",
     "SETTINGS": "அமைப்புகள்",
     "CONTACTS": "Contacts",
@@ -256,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "கணக்கின் பெயர்",
+        "LABEL": "Company Name",
         "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்"
       },
       "SUBMIT": "சமர்பிக்கவும்"

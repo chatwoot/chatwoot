@@ -73,6 +73,10 @@
       "FIELD": "Érvénytelen mező"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Értékeld a beszélgetést",
     "SUBMITTED_TITLE": "Köszönjük, hogy elküldted az értékelést",

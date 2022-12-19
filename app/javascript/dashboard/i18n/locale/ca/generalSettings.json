@@ -23,7 +23,7 @@
         "ERROR": "Introduïu un nom de compte vàlid"
       },
       "LANGUAGE": {
-        "LABEL": "Idioma del lloc (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "El nom del vostre compte",
         "ERROR": ""
       },
