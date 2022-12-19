@@ -1,8 +1,10 @@
 <template>
   <div class="macro__node-action-container">
-    <fluent-icon
+    <woot-button
       v-if="!singleNode"
-      size="20"
+      size="small"
+      variant="clear"
+      color-scheme="secondary"
       icon="navigation"
       class="macros__node-drag-handle"
     />
@@ -23,28 +25,27 @@
         :initial-file-name="fileName"
         @resetAction="$emit('resetAction')"
       />
-      <macro-action-button
-        v-if="!singleNode"
-        icon="dismiss-circle"
-        class="macro__node macro__node-action-button-delete"
-        type="delete"
-        :tooltip="$t('MACROS.EDITOR.DELETE_BTN_TOOLTIP')"
-        @click="$emit('deleteNode')"
-      />
     </div>
+    <woot-button
+      v-if="!singleNode"
+      v-tooltip="$t('MACROS.EDITOR.DELETE_BTN_TOOLTIP')"
+      icon="delete"
+      size="small"
+      variant="smooth"
+      color-scheme="alert"
+      @click="$emit('deleteNode')"
+    />
   </div>
 </template>
 
 <script>
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput';
-import MacroActionButton from './ActionButton.vue';
 import macrosMixin from 'dashboard/mixins/macrosMixin';
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
     ActionInput,
-    MacroActionButton,
   },
   mixins: [macrosMixin],
   inject: ['macroActionTypes', '$v'],
@@ -104,30 +105,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.macros__node-drag-handle {
+  position: absolute;
+  left: var(--space-minus-medium);
+  cursor: move;
+}
 .macro__node-action-container {
   position: relative;
-  .macros__node-drag-handle {
-    position: absolute;
-    left: var(--space-minus-medium);
-    top: var(--space-smaller);
-    cursor: move;
-    color: var(--s-400);
-  }
-  .macro__node-action-item {
-    background-color: var(--white);
-    padding: var(--space-slab);
-    border-radius: var(--border-radius-medium);
-    box-shadow: rgb(0 0 0 / 3%) 0px 6px 24px 0px,
-      rgb(0 0 0 / 6%) 0px 0px 0px 1px;
+  display: flex;
+  align-items: center;
+  flex-basis: 100%;
+  min-width: 0;
+  width: 100%;
 
-    .macro__node-action-button-delete {
-      display: none;
-    }
-    &:hover {
-      .macro__node-action-button-delete {
-        display: flex;
-      }
-    }
+  .macro__node-action-item {
+    flex-grow: 1;
+    background-color: var(--white);
+    padding: var(--space-small);
+    margin-right: var(--space-small);
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow);
+
     &.has-error {
       animation: shake 0.3s ease-in-out 0s 2;
       background-color: var(--r-50);
