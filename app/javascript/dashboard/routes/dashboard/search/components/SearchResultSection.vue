@@ -49,7 +49,6 @@ export default {
   top: 0;
   padding: var(--space-small);
   background-color: var(--s-25);
-  z-index: 50;
   border-bottom-width: 1px;
   border-top-width: 1px;
   border-color: var(--s-100);

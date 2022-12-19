@@ -95,15 +95,17 @@ export default {
     filterMessages() {
       return this.selectedTab === 'messages' || this.selectedTab === 'all';
     },
+    totalSearchResultsCount() {
+      return (
+        this.contacts.length + this.conversations.length + this.messages.length
+      );
+    },
     tabs() {
       return [
         {
           key: 'all',
           name: this.$t('SEARCH.TABS.ALL'),
-          count:
-            this.contacts.length +
-            this.conversations.length +
-            this.messages.length,
+          count: this.totalSearchResultsCount,
         },
         {
           key: 'contacts',
