@@ -62,7 +62,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 
-const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
+import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 
 export default {
   mixins: [alertMixin],
@@ -78,7 +78,7 @@ export default {
   },
   validations: {
     inboxName: { required },
-    phoneNumber: { required, shouldStartWithPlusSign },
+    phoneNumber: { required, isPhoneE164OrEmpty },
     apiKey: { required },
   },
   methods: {

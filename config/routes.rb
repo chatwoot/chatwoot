@@ -85,6 +85,7 @@ Rails.application.routes.draw do
               post :toggle_status
               post :toggle_typing_status
               post :update_last_seen
+              post :unread
               post :custom_attributes
             end
           end
@@ -181,6 +182,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :collection
         member do
           post :availability
+          post :auto_offline
           put :set_active_account
         end
       end

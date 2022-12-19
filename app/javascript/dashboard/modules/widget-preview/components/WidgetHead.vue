@@ -46,28 +46,30 @@ export default {
 
 <style lang="scss" scoped>
 .header-wrapper {
-  flex-shrink: 0;
-  transition: max-height 300ms;
   background-color: var(--white);
-  padding: var(--space-two);
   border-top-left-radius: var(--border-radius-large);
   border-top-right-radius: var(--border-radius-large);
+  flex-shrink: 0;
+  padding: var(--space-two);
+  transition: max-height 300ms;
 
   .header-branding {
     .header {
+      align-items: center;
       display: flex;
       flex-direction: row;
-      align-items: center;
       justify-content: start;
+
       .logo {
-        width: var(--space-jumbo);
-        height: var(--space-jumbo);
         border-radius: 100%;
-        transition: all 0.5s ease;
+        height: var(--space-larger);
         margin-right: var(--space-small);
+        transition: all 0.5s ease;
+        width: var(--space-larger);
+
         &.small {
-          width: var(--space-large);
           height: var(--space-large);
+          width: var(--space-large);
         }
       }
     }
@@ -75,6 +77,7 @@ export default {
     .header-expanded {
       max-height: var(--space-giga);
       overflow: auto;
+
       h2 {
         font-size: var(--font-size-big);
         margin-bottom: var(--space-small);
@@ -90,15 +93,16 @@ export default {
   }
 
   .title-block {
-    display: flex;
     align-items: center;
+    display: flex;
     font-size: var(--font-size-default);
+
     .online-dot {
       background-color: var(--g-500);
-      height: var(--space-small);
-      width: var(--space-small);
       border-radius: 100%;
+      height: var(--space-small);
       margin: var(--space-zero) var(--space-smaller);
+      width: var(--space-small);
     }
   }
 }

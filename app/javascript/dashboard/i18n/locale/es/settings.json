@@ -103,7 +103,9 @@
           "En línea",
           "Ocupado",
           "Fuera de línea"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
+    "UNATTENDED_CONVERSATIONS": "Desatendido",
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
@@ -225,6 +228,10 @@
       "CATEGORY": "Categoría",
       "CATEGORY_EMPTY_MESSAGE": "No se encontraron categorías"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Leer documentos"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nombre de cuenta",
+        "LABEL": "Empresa",
         "PLACEHOLDER": "Empresas de Wayne"
       },
       "SUBMIT": "Enviar"

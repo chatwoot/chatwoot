@@ -103,7 +103,9 @@
           "آنلاین",
           "مشغول",
           "آفلاین"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "در دسترس بودن با موفقیت تنظیم شد",
+        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید"
       },
       "EMAIL": {
         "LABEL": "ایمیل شما",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "گفتگوها",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
+    "UNATTENDED_CONVERSATIONS": "بی سرپرست",
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
@@ -225,6 +228,10 @@
       "CATEGORY": "دسته‌بندی",
       "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "علامت گذاری خودکار به صورت آفلاین",
+      "INFO_TEXT": "هنگامی که از برنامه یا پیشخوان استفاده نمی‌کنید، به سیستم اجازه دهید به طور خودکار شما را به صورت آفلاین علامت گذاری کند."
+    },
     "DOCS": "اسناد را بخوانید"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "عنوان حساب",
+        "LABEL": "نام شرکت",
         "PLACEHOLDER": "شرکت ایران ناسیونال"
       },
       "SUBMIT": "ثبت"

@@ -103,7 +103,9 @@
           "Dostupan",
           "Zauzet",
           "Nedostupan"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Vaša adresa e-pošte",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "Razgovori",
     "ALL_CONVERSATIONS": "Svi razgovori",
     "MENTIONED_CONVERSATIONS": "Spominjanja",
+    "UNATTENDED_CONVERSATIONS": "Nedodeljeni",
     "REPORTS": "Izveštaji",
     "SETTINGS": "Podešavanja",
     "CONTACTS": "Kontakti",
@@ -225,6 +228,10 @@
       "CATEGORY": "Kategorija",
       "CATEGORY_EMPTY_MESSAGE": "Nije pronađena nijedna kategorija"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Pročitaj dokumentaciju"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Naziv naloga",
+        "LABEL": "Ime firme",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Pošalji"

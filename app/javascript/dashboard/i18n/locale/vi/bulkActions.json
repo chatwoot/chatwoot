@@ -2,12 +2,13 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} cuộc hội thoại đã được chọn",
     "AGENT_SELECT_LABEL": "Chọn tổng đài viên",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn để chỉ định %{conversationCount} %{conversationLabel} tới",
+    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Trở về",
     "ASSIGN_LABEL": "Gán",
     "YES": "Có",
     "ASSIGN_AGENT_TOOLTIP": "Giao cho tổng đài viên",
+    "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
     "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công",
     "ASSIGN_FAILED": "Không thể phân công các cuộc hội thoại, xin vui lòng thử lại",
     "RESOLVE_SUCCESFUL": "Cuộc hội thoại đã được giải quyết thành công",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Gán các nhãn đã chọn",
       "ASSIGN_SUCCESFUL": "Các nhãn được gán thành công",
       "ASSIGN_FAILED": "Không gán được nhãn, vui lòng thử lại"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Chọn nhóm",
+      "NONE": "Không có",
+      "NO_TEAMS_AVAILABLE": "Chưa có nhóm nào được thêm vào tài khoản này.",
+      "ASSIGN_SELECTED_TEAMS": "Chỉ định nhóm đã chọn",
+      "ASSIGN_SUCCESFUL": "Các nhóm được chỉ định thành công",
+      "ASSIGN_FAILED": "Không thể chỉ định nhóm, vui lòng thử lại"
     }
   }
 }

@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Nav atbildes",
     "RATING_TITLE": "Vērtējums",
     "FEEDBACK_TITLE": "Atsauksmes",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Atrisināt",
       "REOPEN_ACTION": "Atkārtoti atvērt",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Atzīmēt kā neapstiprinātu",
       "RESOLVED": "Atzīmēt kā atrisinātu",
+      "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
       "REOPEN": "Atkārtoti atvērt sarunu",
       "SNOOZE": {
         "TITLE": "Atlikt",

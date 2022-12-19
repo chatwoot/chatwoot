@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Bez odpovědi",
     "RATING_TITLE": "Hodnocení",
     "FEEDBACK_TITLE": "Zpětná vazba",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označit jako nevyřízené",
       "RESOLVED": "Označit jako vyřešené",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Znovu otevřít konverzaci",
       "SNOOZE": {
         "TITLE": "Odložit",

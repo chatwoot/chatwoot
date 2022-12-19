@@ -103,7 +103,9 @@
           "متصل",
           "مشغول",
           "غير متصل"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "عنوان البريد الإلكتروني الخاص بك",
@@ -177,6 +179,7 @@
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
+    "UNATTENDED_CONVERSATIONS": "بدون حضور",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
@@ -225,6 +228,10 @@
       "CATEGORY": "الفئة",
       "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "قراءة المستندات"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +263,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الحساب",
+        "LABEL": "اسم الشركة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
       "SUBMIT": "إرسال"

@@ -1,4 +1,4 @@
-import posthog from 'posthog-js';
+import AnalyticsHelper from './AnalyticsHelper';
 
 export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
 export const CHATWOOT_RESET = 'CHATWOOT_RESET';
@@ -8,16 +8,9 @@ export const ANALYTICS_RESET = 'ANALYTICS_RESET';
 
 export const initializeAnalyticsEvents = () => {
   window.bus.$on(ANALYTICS_IDENTITY, ({ user }) => {
-    if (window.analyticsConfig) {
-      posthog.identify(user.id, { name: user.name, email: user.email });
-    }
+    AnalyticsHelper.identify(user);
   });
-
-  window.bus.$on(ANALYTICS_RESET, () => {
-    if (window.analyticsConfig) {
-      posthog.reset();
-    }
-  });
+  window.bus.$on(ANALYTICS_RESET, () => {});
 };
 
 export const initializeChatwootEvents = () => {

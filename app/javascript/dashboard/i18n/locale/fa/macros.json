@@ -4,9 +4,9 @@
     "HEADER_BTN_TXT": "افزودن ماکرو جدید",
     "HEADER_BTN_TXT_SAVE": "ذخیره ماکرو",
     "LOADING": "در حال گرفتن ماکروها",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
+    "SIDEBAR_TXT": "<p><b>ماکروها</b><p>یک ماکرو مجموعه ای از اقدامات ذخیره شده است که به نمایندگی های خدمات مشتری کمک می کند تا وظایف را به راحتی انجام دهند. نمایندگان می توانند مجموعه ای از اقدامات مانند برچسب گذاری یک مکالمه با برچسب، ارسال متن ایمیل، به روز رسانی یک ویژگی سفارشی و غیره را تعریف کنند و می توانند این اقدامات را با یک کلیک اجرا کنند. هنگامی که عامل ها ماکرو را اجرا می کنند، اقدامات به ترتیب به ترتیبی که تعریف شده اند انجام می شوند. ماکروها بهره وری را بهبود می بخشند و ثبات در اقدامات را افزایش می دهند. </p><p>یک ماکرو از دو جهت می تواند مفید باشد. </p><p><b>به‌عنوان کمک عامل:</b> اگر یک عامل مجموعه‌ای از اقدامات را چندین بار انجام دهد، می‌تواند آن را به‌عنوان یک ماکرو ذخیره کند و همه اقدامات را با هم با یک کلیک انجام دهد.</b> p><p><b>به‌عنوان گزینه‌ای برای حضور در یک عضو تیم:</b> هر نماینده باید در طول هر مکالمه، بررسی‌ها/عملکردهای مختلفی را انجام دهد. در صورتی که ماکروهای از پیش تعریف شده در حساب موجود باشد، ورود به یک عضو تیم پشتیبانی جدید آسان خواهد بود. به جای توصیف هر مرحله با جزئیات، مدیر/سرپرست تیم می‌تواند به ماکروهای مورد استفاده در سناریوهای مختلف اشاره کند.</p>",
     "ERROR": "مشکلی پیش آمد. لطفا دوباره تلاش کنید",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "ORDER_INFO": "ماکروها به ترتیبی که اقدامات خود را اضافه می کنید اجرا می شوند. می توانید با کشیدن آنها توسط دسته کنار هر گره آنها را دوباره مرتب کنید.",
     "ADD": {
       "FORM": {
         "NAME": {
@@ -28,7 +28,7 @@
         "نام",
         "ايجاد شده توسط",
         "آخرین به‌روزرسانی توسط",
-        "Visibility"
+        "دید"
       ],
       "404": "هیچ ماکروی یافت نشد"
     },
@@ -52,20 +52,20 @@
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
+      "START_FLOW": "جریان را شروع کنید",
+      "END_FLOW": "پایان جریان",
       "LOADING": "در حال گرفتن ماکرو",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "ADD_BTN_TOOLTIP": "افزودن اقدام جدید",
+      "DELETE_BTN_TOOLTIP": "حذف اکشن",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "دید ماکرو",
         "GLOBAL": {
           "LABEL": "عمومی",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "DESCRIPTION": "این ماکرو به صورت عمومی برای همه نمایندگان این حساب در دسترس است."
         },
         "PERSONAL": {
           "LABEL": "خصوصی",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "DESCRIPTION": "این ماکرو برای شما خصوصی خواهد بود و برای دیگران در دسترس نخواهد بود."
         }
       }
     },

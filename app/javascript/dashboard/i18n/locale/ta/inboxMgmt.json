@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "தொலைபேசி எண்",
             "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-            "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +388,10 @@
         "ENABLED": "இயக்கப்பட்டது",
         "DISABLED": "முடக்கப்பட்டது"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "இயக்கப்பட்டது",
+        "DISABLED": "முடக்கப்பட்டது"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -416,7 +420,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "அமைப்புகள்",
     "FEATURES": {
@@ -440,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
       "AUTO_ASSIGNMENT_SUB_TEXT": "இந்த இன்பாக்ஸில் சேர்க்கப்பட்ட ஏஜென்ட்களுக்கு புதிய உரையாடல்களின் தானியங்கி ஒதுக்கீட்டை இயக்கவும் அல்லது முடக்கவும்.",

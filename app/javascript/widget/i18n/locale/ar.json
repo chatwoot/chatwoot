@@ -73,6 +73,10 @@
       "FIELD": "حقل غير صالح"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "قيم محادثتك",
     "SUBMITTED_TITLE": "شكرا لك على تقييم المحادثة",

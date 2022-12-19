@@ -146,13 +146,16 @@ export const mutations = {
     _state.listLoadingStatus = false;
   },
 
-  [types.MARK_MESSAGE_READ](_state, { id, lastSeen }) {
+  [types.UPDATE_MESSAGE_UNREAD_COUNT](
+    _state,
+    { id, lastSeen, unreadCount = 0 }
+  ) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (chat) {
-      chat.agent_last_seen_at = lastSeen;
+      Vue.set(chat, 'agent_last_seen_at', lastSeen);
+      Vue.set(chat, 'unread_count', unreadCount);
     }
   },
-
   [types.CHANGE_CHAT_STATUS_FILTER](_state, data) {
     _state.chatStatusFilter = data;
   },

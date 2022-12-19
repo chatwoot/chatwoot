@@ -40,6 +40,7 @@
         :portals="portals"
         :active-portal-slug="selectedPortalSlug"
         :active-locale="selectedLocaleInPortal"
+        @fetch-portal="fetchPortalAndItsCategories"
         @close-popover="closePortalPopover"
       />
       <add-category
@@ -226,12 +227,6 @@ export default {
     },
   },
 
-  watch: {
-    '$route.params.portalSlug'() {
-      this.fetchPortalsAndItsCategories();
-    },
-  },
-
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
@@ -240,7 +235,7 @@ export default {
     const slug = this.$route.params.portalSlug;
     if (slug) this.lastActivePortalSlug = slug;
 
-    this.fetchPortalsAndItsCategories();
+    this.fetchPortalAndItsCategories();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
@@ -267,7 +262,7 @@ export default {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
-    async fetchPortalsAndItsCategories() {
+    async fetchPortalAndItsCategories() {
       await this.$store.dispatch('portals/index');
       const selectedPortalParam = {
         portalSlug: this.selectedPortalSlug,

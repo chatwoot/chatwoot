@@ -1,0 +1,9 @@
+export const EXECUTED_A_MACRO = 'Executed a macro';
+export const SENT_MESSAGE = 'Sent a message';
+export const SENT_PRIVATE_NOTE = 'Sent a private note';
+export const INSERTED_A_CANNED_RESPONSE = 'Inserted a canned response';
+export const USED_MENTIONS = 'Used mentions';
+export const MERGED_CONTACTS = 'Used merge contact option';
+export const ADDED_TO_CANNED_RESPONSE = 'Used added to canned response option';
+export const ADDED_A_CUSTOM_ATTRIBUTE = 'Added a custom attribute';
+export const ADDED_AN_INBOX = 'Added an inbox';

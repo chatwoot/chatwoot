@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "Assign",
     "YES": "Yes",
     "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
+    "ASSIGN_TEAM_TOOLTIP": "Assign team",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
     "ASSIGN_FAILED": "Ekki tókst að úthluta samtölum, vinsamlegast reyndu aftur",
     "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Assign selected labels",
       "ASSIGN_SUCCESFUL": "Labels assigned successfully",
       "ASSIGN_FAILED": "Failed to assign labels, please try again"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Select Team",
+      "NONE": "None",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }
