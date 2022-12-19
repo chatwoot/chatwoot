@@ -30,7 +30,7 @@
         <label :class="{ error: $v.selectedInbox.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
           <select v-model="selectedInbox" @change="onChangeInbox($event)">
-            <option v-for="item in inboxes" :key="item.name" :value="item.id">
+            <option v-for="item in inboxes" :key="item.id" :value="item.id">
               {{ item.name }}
             </option>
           </select>
@@ -111,10 +111,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required, url, minLength } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';
+import { URLPattern } from 'urlpattern-polyfill';
+
 export default {
   components: {
     WootMessageEditor,
@@ -152,8 +154,21 @@ export default {
     },
     endPoint: {
       required,
-      minLength: minLength(7),
-      url,
+      shouldBeAValidURLPattern(value) {
+        try {
+          // eslint-disable-next-line
+          new URLPattern(value);
+          return true;
+        } catch (error) {
+          return false;
+        }
+      },
+      shouldStartWithHTTP(value) {
+        if (value) {
+          return value.startsWith('https://') || value.startsWith('http://');
+        }
+        return false;
+      },
     },
     timeOnPage: {
       required,

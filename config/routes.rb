@@ -182,6 +182,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :collection
         member do
           post :availability
+          post :auto_offline
           put :set_active_account
         end
       end

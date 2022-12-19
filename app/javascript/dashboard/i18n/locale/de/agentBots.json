@@ -1,39 +1,39 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "LOADING_EDITOR": "Editor wird geladen...",
+    "HEADER_BTN_TXT": "Bot-Konfiguration hinzufügen",
+    "SIDEBAR_TXT": "<p><b>Agenten Bots</b> <p>Agenten Bots erlauben es Ihnen, die Unterhaltungen zu automatisieren</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "PLACEHOLDER": "Geben Sie Ihrem Bot einen Namen",
+        "ERROR": "Bot Name ist erforderlich"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "Bot Beschreibung",
+        "PLACEHOLDER": "Was macht dieser Bot?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "Bitte geben Sie Ihre CSML Bot-Konfiguration oben ein",
+        "API_ERROR": "Ihre CSML-Konfiguration ist ungültig, bitte korrigieren Sie sie und versuchen es erneut."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "Validieren und speichern"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "Agenten-Bot auswählen",
+      "DESC": "Sie können einen Agenten-Bot aus der Liste in diesen Posteingang setzen. Der Bot kann die Unterhaltung anfangs bearbeiten und bei Bedarf an einen Agenten übertragen.",
       "SUBMIT": "Aktualisieren",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "SUCCESS_MESSAGE": "Agenten-Bot erfolgreich aktualisiert",
+      "ERROR_MESSAGE": "Konnte den Agenten-Bot nicht aktualisieren, bitte versuchen Sie es später erneut",
+      "SELECT_PLACEHOLDER": "Bot auswählen"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "Neuen Bot konfigurieren",
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Bot konnte nicht hinzugefügt werden, bitte versuchen Sie es später erneut"
       }
     },
     "LIST": {

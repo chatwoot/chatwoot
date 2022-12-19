@@ -91,6 +91,7 @@
         </span>
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
+      <card-labels :conversation-id="chat.id" />
     </div>
     <woot-context-menu
       v-if="showContextMenu"
@@ -125,8 +126,8 @@ import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import timeAgo from 'dashboard/components/ui/TimeAgo';
-
+import TimeAgo from 'dashboard/components/ui/TimeAgo';
+import CardLabels from './conversationCardComponents/CardLabels.vue';
 const ATTACHMENT_ICONS = {
   image: 'image',
   audio: 'headphones-sound-wave',
@@ -138,10 +139,11 @@ const ATTACHMENT_ICONS = {
 
 export default {
   components: {
+    CardLabels,
     InboxName,
     Thumbnail,
     ConversationContextMenu,
-    timeAgo,
+    TimeAgo,
   },
 
   mixins: [
@@ -370,10 +372,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .conversation {
-  align-items: center;
+  align-items: flex-start;
 
   &:hover {
     background: var(--color-background-light);
+  }
+
+  &::v-deep .user-thumbnail-box {
+    margin-top: var(--space-normal);
   }
 }
 
@@ -383,8 +389,10 @@ export default {
 
 .has-inbox-name {
   &::v-deep .user-thumbnail-box {
-    margin-top: var(--space-normal);
-    align-items: flex-start;
+    margin-top: var(--space-large);
+  }
+  .checkbox-wrapper {
+    margin-top: var(--space-large);
   }
   .conversation--meta {
     margin-top: var(--space-normal);
@@ -429,6 +437,7 @@ export default {
   margin-top: var(--space-minus-micro);
   vertical-align: middle;
 }
+
 .checkbox-wrapper {
   height: 40px;
   width: 40px;
@@ -438,6 +447,7 @@ export default {
   border-radius: 100%;
   margin-top: var(--space-normal);
   cursor: pointer;
+
   &:hover {
     background-color: var(--w-100);
   }

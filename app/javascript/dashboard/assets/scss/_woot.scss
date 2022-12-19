@@ -20,6 +20,24 @@
 
 @include foundation-everything($flex: true);
 
+@include foundation-prototype-text-utilities;
+@include foundation-prototype-text-transformation;
+@include foundation-prototype-text-decoration;
+@include foundation-prototype-font-styling;
+@include foundation-prototype-list-style-type;
+@include foundation-prototype-rounded;
+@include foundation-prototype-bordered;
+@include foundation-prototype-shadow;
+@include foundation-prototype-separator;
+@include foundation-prototype-overflow;
+@include foundation-prototype-display;
+@include foundation-prototype-position;
+@include foundation-prototype-border-box;
+@include foundation-prototype-border-none;
+@include foundation-prototype-sizing;
+@include foundation-prototype-spacing;
+
+
 @import 'typography';
 @import 'layout';
 @import 'animations';

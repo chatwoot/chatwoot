@@ -257,7 +257,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "アカウント名",
+        "LABEL": "企業名",
         "PLACEHOLDER": "Wayne Enterprise"
       },
       "SUBMIT": "送信"

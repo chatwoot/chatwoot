@@ -135,7 +135,7 @@ export default {
 .dropdown-pane {
   left: var(--space-slab);
   bottom: var(--space-larger);
-  min-width: 16.8rem;
-  z-index: var(--z-index-much-higher);
+  min-width: 22rem;
+  z-index: var(--z-index-low);
 }
 </style>
