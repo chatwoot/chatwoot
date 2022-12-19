@@ -124,7 +124,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--space-small);
     .timestamp {
       color: var(--s-500);
       font-size: var(--font-size-small);
