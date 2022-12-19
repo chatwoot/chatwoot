@@ -41,6 +41,10 @@
     "NO_RESPONSE": "ไม่มีการตอบกลับ",
     "RATING_TITLE": "การประเมิน",
     "FEEDBACK_TITLE": "ผลตอบรับ",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "เสร็จสิ้น",
       "REOPEN_ACTION": "เปิดใหม่อีกครั้ง",
