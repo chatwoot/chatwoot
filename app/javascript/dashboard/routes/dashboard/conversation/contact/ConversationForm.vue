@@ -61,7 +61,7 @@
         <div class="columns">
           <div class="canned-response">
             <canned-response
-              v-if="showCannedMenu && hasSlashCommand"
+              v-if="showMentions && hasSlashCommand"
               :search-key="cannedResponseSearchKey"
               @click="replaceTextWithCannedResponse"
             />
@@ -158,6 +158,7 @@ export default {
       name: '',
       subject: '',
       message: '',
+      showMentions: false,
       cannedResponseSearchKey: '',
       selectedInbox: '',
       bccEmails: '',
@@ -243,10 +244,10 @@ export default {
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
         this.cannedResponseSearchKey = value.substring(1);
-        this.showCannedMenu = true;
+        this.showMentions = true;
       } else {
         this.cannedResponseSearchKey = '';
-        this.showCannedMenu = false;
+        this.showMentions = false;
       }
     },
   },
