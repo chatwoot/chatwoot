@@ -186,10 +186,10 @@ export default {
       return `https://www.instagram.com/stories/${storySender}/${storyId}`;
     },
     showStatusIndicators() {
-      if (!this.isOutgoing && !this.isTemplate && !this.private) {
-        return false;
+      if ((this.isOutgoing || this.isTemplate) && !this.private) {
+        return true;
       }
-      return true;
+      return false;
     },
     showSentIndicator() {
       if (!this.showStatusIndicators) {
