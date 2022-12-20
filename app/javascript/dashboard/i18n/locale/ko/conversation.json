@@ -41,6 +41,10 @@
     "NO_RESPONSE": "응답없음",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "해결함",
       "REOPEN_ACTION": "다시 열기",

@@ -41,6 +41,10 @@
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "പരിഹരിക്കുക",
       "REOPEN_ACTION": "വീണ്ടും തുറക്കുക",
