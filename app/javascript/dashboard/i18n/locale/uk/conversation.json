@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Немає відповіді",
     "RATING_TITLE": "Оцінка",
     "FEEDBACK_TITLE": "Зворотній зв'язок",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
       "REOPEN_ACTION": "Відкрити знову",

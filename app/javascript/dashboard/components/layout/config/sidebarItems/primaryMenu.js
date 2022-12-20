@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const primaryMenuItems = accountId => [
@@ -13,6 +14,7 @@ const primaryMenuItems = accountId => [
     icon: 'book-contacts',
     key: 'contacts',
     label: 'CONTACTS',
+    featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
     toStateName: 'contacts_dashboard',
     roles: ['administrator', 'agent'],
@@ -21,6 +23,7 @@ const primaryMenuItems = accountId => [
     icon: 'arrow-trending-lines',
     key: 'reports',
     label: 'REPORTS',
+    featureFlag: FEATURE_FLAGS.REPORTS,
     toState: frontendURL(`accounts/${accountId}/reports`),
     toStateName: 'settings_account_reports',
     roles: ['administrator'],
@@ -29,7 +32,7 @@ const primaryMenuItems = accountId => [
     icon: 'megaphone',
     key: 'campaigns',
     label: 'CAMPAIGNS',
-    featureFlag: 'campaigns',
+    featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
     toStateName: 'settings_account_campaigns',
     roles: ['administrator'],
@@ -38,7 +41,7 @@ const primaryMenuItems = accountId => [
     icon: 'library',
     key: 'helpcenter',
     label: 'HELP_CENTER.TITLE',
-    featureFlag: 'help_center',
+    featureFlag: FEATURE_FLAGS.HELP_CENTER,
     toState: frontendURL(`accounts/${accountId}/portals`),
     toStateName: 'default_portal_articles',
     roles: ['administrator'],
