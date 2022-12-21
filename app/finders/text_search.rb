@@ -19,18 +19,17 @@ class TextSearch
   private
 
   def filter_conversations
-    conversation_ids = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account,
-                                                                      searchable_type: 'Conversation').pluck(:searchable_id)
-    @conversations = Conversation.where(id: conversation_ids)
+    @conversations = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Conversation').joins(
+      "INNER JOIN conversations ON pg_search_documents.searchable_id = conversations.id").includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_messages
-    message_ids = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Message').pluck(:searchable_id)
-    @messages = Message.where(id: message_ids)
+    @messages = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Message').joins(
+      "INNER JOIN messages ON pg_search_documents.searchable_id = messages.id").includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_contacts
-    contact_ids = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Contact').pluck(:searchable_id)
-    @contacts = Contact.where(id: contact_ids)
+    @contacts = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Contact').joins(
+      "INNER JOIN contacts ON pg_search_documents.searchable_id = contacts.id").includes(:searchable).limit(20).collect(&:searchable)
   end
 end
