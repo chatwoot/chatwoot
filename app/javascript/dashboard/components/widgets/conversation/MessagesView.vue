@@ -40,9 +40,6 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
@@ -63,9 +60,6 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
     </ul>
