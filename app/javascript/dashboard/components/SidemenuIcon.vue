@@ -18,11 +18,7 @@ export default {
 <style scoped lang="scss">
 .hamburger--menu {
   cursor: pointer;
-  display: none;
+  display: block;
   margin-right: var(--space-normal);
-
-  @media screen and (max-width: 1200px) {
-    display: block;
-  }
 }
 </style>
