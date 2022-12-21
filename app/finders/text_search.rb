@@ -20,16 +20,19 @@ class TextSearch
 
   def filter_conversations
     @conversations = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Conversation').joins(
-      "INNER JOIN conversations ON pg_search_documents.searchable_id = conversations.id").includes(:searchable).limit(20).collect(&:searchable)
+      'INNER JOIN conversations ON pg_search_documents.searchable_id = conversations.id'
+    ).includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_messages
     @messages = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Message').joins(
-      "INNER JOIN messages ON pg_search_documents.searchable_id = messages.id").includes(:searchable).limit(20).collect(&:searchable)
+      'INNER JOIN messages ON pg_search_documents.searchable_id = messages.id'
+    ).includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_contacts
     @contacts = PgSearch.multisearch((@params[:q]).to_s).where(account_id: @current_account, searchable_type: 'Contact').joins(
-      "INNER JOIN contacts ON pg_search_documents.searchable_id = contacts.id").includes(:searchable).limit(20).collect(&:searchable)
+      'INNER JOIN contacts ON pg_search_documents.searchable_id = contacts.id'
+    ).includes(:searchable).limit(20).collect(&:searchable)
   end
 end
