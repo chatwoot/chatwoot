@@ -21,7 +21,11 @@
           />
         </h3>
         <div class="conversation--header--actions">
-          <inbox-name :inbox="inbox" class="margin-right-small" />
+          <inbox-name
+            v-if="hasMultipleInboxes"
+            :inbox="inbox"
+            class="margin-right-small"
+          />
           <span
             v-if="isSnoozed"
             class="snoozed--display-text margin-right-small"
@@ -144,6 +148,9 @@ export default {
     inbox() {
       const { inbox_id: inboxId } = this.chat;
       return this.$store.getters['inboxes/getInbox'](inboxId);
+    },
+    hasMultipleInboxes() {
+      return this.$store.getters['inboxes/getInboxes'].length > 1;
     },
   },
 
