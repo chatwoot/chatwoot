@@ -261,14 +261,7 @@ export default {
   width: 20rem;
   flex-shrink: 0;
   overflow-y: hidden;
-
-  @include breakpoint(xlarge down) {
-    position: absolute;
-  }
-
-  @include breakpoint(xlarge up) {
-    position: unset;
-  }
+  position: unset;
 
   &:hover {
     overflow-y: hidden;
