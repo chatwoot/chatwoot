@@ -83,14 +83,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     type_content['caption'] = message.content unless self.class::MESSAGE_CONTENT.include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
 
-    response = HTTParty.post("#{phone_id_path}/messages",
-                             headers: api_headers,
-                             body: {
-                               messaging_product: 'whatsapp',
-                               'to' => phone_number,
-                               'type' => type,
-                               type.to_s => type_content
-                             }.to_json)
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        'to' => phone_number,
+        'type' => type,
+        type.to_s => type_content
+      }.to_json
+    )
 
     process_response(response)
   end
