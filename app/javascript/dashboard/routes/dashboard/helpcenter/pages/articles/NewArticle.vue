@@ -87,6 +87,7 @@ export default {
               articleSlug: articleId,
               portalSlug: this.selectedPortalSlug,
               locale: this.locale,
+              recentlyCreated: true,
             },
           });
         } catch (error) {
