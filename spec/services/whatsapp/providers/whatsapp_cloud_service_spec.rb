@@ -42,7 +42,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
-        expect(service.send_message('+123456789', message)).to eq 'message_id'
+        expect(service.send_message('+123456789', message)).to eq ['message_id']
       end
 
       it 'calls message endpoints for document attachment message messages' do
@@ -61,7 +61,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
-        expect(service.send_message('+123456789', message)).to eq 'message_id'
+        expect(service.send_message('+123456789', message)).to eq ['message_id']
       end
     end
   end

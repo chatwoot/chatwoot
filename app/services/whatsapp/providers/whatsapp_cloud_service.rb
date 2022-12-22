@@ -1,10 +1,10 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
-  ATTACHMENT_TYPE = [image, audio, video].freeze
-  MESSAGE_CONTENT = [audio, sticker].freeze
+  ATTACHMENT_TYPES = %w[image audio video].freeze
+  MESSAGE_CONTENT = %w[audio sticker].freeze
 
   def send_message(phone_number, message)
     if message.attachments.present?
-      send_attachment_message(phone_number, message)
+      process_attachments(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -69,27 +69,30 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response)
   end
 
-  def send_attachment_message(phone_number, message)
+  def process_attachments(phone_number, message)
+    responses = []
     message.attachments.each do |attachment|
-      type = ATTACHMENT_TYPE.include?(attachment.file_type) ? attachment.file_type : 'document'
-      type_content = {
-        'link': attachment.download_url
-      }
-      type_content['caption'] = message.content unless MESSAGE_CONTENT.include?(type)
-      type_content['filename'] = attachment.file.filename if type == 'document'
-      response = HTTParty.post(
-        "#{phone_id_path}/messages",
-        headers: api_headers,
-        body: {
-          messaging_product: 'whatsapp',
-          'to' => phone_number,
-          'type' => type,
-          type.to_s => type_content
-        }.to_json
-      )
-
-      process_response(response)
+      responses << send_attachment_message(phone_number, message, attachment)
     end
+    responses
+  end
+
+  def send_attachment_message(phone_number, message, attachment)
+    type = self.class::ATTACHMENT_TYPES.include?(attachment.file_type) ? attachment.file_type : 'document'
+    type_content = { 'link': attachment.download_url }
+    type_content['caption'] = message.content unless self.class::MESSAGE_CONTENT.include?(type)
+    type_content['filename'] = attachment.file.filename if type == 'document'
+
+    response = HTTParty.post("#{phone_id_path}/messages",
+                             headers: api_headers,
+                             body: {
+                               messaging_product: 'whatsapp',
+                               'to' => phone_number,
+                               'type' => type,
+                               type.to_s => type_content
+                             }.to_json)
+
+    process_response(response)
   end
 
   def process_response(response)
