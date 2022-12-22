@@ -236,8 +236,10 @@ export default {
       });
     },
     articleCount() {
-      const { all_articles_count: count } = this.portal.meta;
-      return count;
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.reduce((acc, locale) => {
+        return acc + locale.articles_count;
+      }, 0);
     },
   },
   methods: {
