@@ -41,6 +41,10 @@
     "NO_RESPONSE": "کوئی ردعمل نہیں",
     "RATING_TITLE": "درجہ بندی",
     "FEEDBACK_TITLE": "فیڈ بیک",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "حل کریں۔",
       "REOPEN_ACTION": "دوبارہ کھولیں۔",
