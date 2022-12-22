@@ -37,6 +37,7 @@
       <woot-audio-recorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
+        :audio-record-format="audioRecordFormat"
         @state-recorder-progress-changed="onStateProgressRecorderChanged"
         @state-recorder-changed="onStateRecorderChanged"
         @finish-record="onFinishRecorder"
@@ -147,6 +148,7 @@ import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import {
   MAXIMUM_FILE_UPLOAD_SIZE,
   MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
+  AUDIO_FORMATS,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -461,6 +463,12 @@ export default {
     },
     editorStateId() {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
+    },
+    audioRecordFormat() {
+      if (this.isAWebWidgetInbox) {
+        return AUDIO_FORMATS.WEBM;
+      }
+      return AUDIO_FORMATS.OGG;
     },
   },
   watch: {
