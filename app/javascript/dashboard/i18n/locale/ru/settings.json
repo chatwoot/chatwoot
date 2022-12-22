@@ -136,6 +136,7 @@
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
     "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
+    "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
     "LOGOUT": "Выйти"
   },
   "APP_GLOBAL": {
