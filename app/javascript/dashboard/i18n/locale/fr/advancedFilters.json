@@ -1,28 +1,28 @@
 {
   "FILTER": {
     "TITLE": "Filtrer les conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "SUBTITLE": "Ajoutez des filtres ci-dessous et appuyez sur 'Appliquer des filtres' pour filtrer les conversations.",
     "ADD_NEW_FILTER": "Ajouter un filtre",
     "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
     "SUBMIT_BUTTON_LABEL": "Appliquer les filtres",
     "CANCEL_BUTTON_LABEL": "Annuler",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
+    "CLEAR_BUTTON_LABEL": "Effacer les filtres",
     "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TOOLTIP_LABEL": "Filtrer les conversations",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ET",
       "OR": "OU"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "Égal à",
+      "not_equal_to": "Pas égal à",
+      "contains": "Contient",
+      "does_not_contain": "Ne contient pas",
+      "is_present": "Est présent",
+      "is_not_present": "N'est pas présent",
+      "is_greater_than": "Est plus grand que",
+      "is_less_than": "Est inférieur à",
+      "days_before": "Est x jours avant"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Vrai",
@@ -32,19 +32,19 @@
       "STATUS": "État",
       "ASSIGNEE_NAME": "Assignee Name",
       "INBOX_NAME": "Nom de la boîte de réception",
-      "TEAM_NAME": "Team Name",
+      "TEAM_NAME": "Nom de l'équipe",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
       "LABELS": "Étiquettes",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
+      "BROWSER_LANGUAGE": "Langue du navigateur",
+      "COUNTRY_NAME": "Nom du pays",
       "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Texte",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nombre",
+      "CUSTOM_ATTRIBUTE_LINK": "Lien",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Case à cocher",
+      "CREATED_AT": "Créé le",
       "LAST_ACTIVITY": "Dernière activité"
     },
     "GROUPS": {
@@ -70,7 +70,7 @@
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Supprimer le filtre",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Confirmer la suppression",
