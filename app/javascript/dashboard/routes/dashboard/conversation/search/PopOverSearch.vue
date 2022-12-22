@@ -162,6 +162,7 @@ export default {
 .search-header--wrap {
   display: flex;
   justify-content: space-between;
+  min-height: var(--space-large);
 }
 
 .search {
