@@ -23,5 +23,6 @@ export default {
 <style scoped lang="scss">
 .toggle-sidebar {
   margin-right: var(--space-small);
+  margin-left: var(--space-minus-small);
 }
 </style>
