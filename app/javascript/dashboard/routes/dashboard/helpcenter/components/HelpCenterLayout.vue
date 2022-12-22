@@ -231,18 +231,16 @@ export default {
     '$route.name'() {
       const routeName = this.$route?.name;
       const routeParams = this.$route?.params;
-      if (routeName === 'list_all_portals') {
-        this.fetchPortalAndItsCategories();
-      }
-      if (
-        routeName === 'edit_article' &&
-        routeParams?.recentlyCreated === true
-      ) {
-        this.fetchPortalAndItsCategories();
-      }
-      if (
+      const updateMetaInAllPortals = routeName === 'list_all_portals';
+      const updateMetaInEditArticle =
+        routeName === 'edit_article' && routeParams?.recentlyCreated;
+      const updateMetaInLocaleArticles =
         routeName === 'list_all_locale_articles' &&
-        routeParams?.recentlyDeleted === true
+        routeParams?.recentlyDeleted;
+      if (
+        updateMetaInAllPortals ||
+        updateMetaInEditArticle ||
+        updateMetaInLocaleArticles
       ) {
         this.fetchPortalAndItsCategories();
       }
