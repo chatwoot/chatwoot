@@ -43,7 +43,6 @@
       </button>
     </form>
     <h5 class="csat_message"
-      v-if="isFeedbackSubmitted&&shouldShowCsatMesage"
        v-html="parsedCsatMessage"
     ></h5>
   </div>
