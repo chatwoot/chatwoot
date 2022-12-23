@@ -2,14 +2,14 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
-      :sidebar-class-name="sidebarClassName"
+      :show-secondary-sidebar="isSidebarOpen"
       @open-notification-panel="openNotificationPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
     />
-    <section class="app-content columns" :class="contentClassName">
+    <section class="app-content columns">
       <router-view />
       <command-bar />
       <account-selector
@@ -46,6 +46,7 @@ import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAc
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -57,9 +58,9 @@ export default {
     AddLabelModal,
     NotificationPanel,
   },
+  mixins: [uiSettingsMixin],
   data() {
     return {
-      isSidebarOpen: false,
       isOnDesktop: true,
       showAccountModal: false,
       showCreateAccountModal: false,
@@ -72,44 +73,22 @@ export default {
     currentRoute() {
       return ' ';
     },
-    sidebarClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas is-open';
-      }
-      return 'off-canvas is-transition-push is-closed';
-    },
-    contentClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push';
-      }
-      return 'off-canvas-content has-transition-push';
+    isSidebarOpen() {
+      const { show_secondary_sidebar: showSecondarySidebar } = this.uiSettings;
+      return showSecondarySidebar;
     },
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
-    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
-    handleResize() {
-      if (window.innerWidth >= 1200) {
-        this.isOnDesktop = true;
-      } else {
-        this.isOnDesktop = false;
-      }
-    },
     toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
+      this.updateUISettings({
+        show_secondary_sidebar: !this.isSidebarOpen,
+      });
     },
     openCreateAccountModal() {
       this.showAccountModal = false;
@@ -142,8 +121,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.off-canvas-content.is-open-left {
-  transform: translateX(20rem);
-}
-</style>
