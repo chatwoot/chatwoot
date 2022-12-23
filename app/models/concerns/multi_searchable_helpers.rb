@@ -17,17 +17,18 @@ module MultiSearchableHelpers
 
       initialize_contact_pg_search_record.update!(
         content: "#{contact.id} #{contact.email} #{contact.name} #{contact.phone_number} #{contact.account_id}",
-        conversation_id: id
+        conversation_id: id,
+        inbox_id: inbox_id
       )
     end
   end
 
   def contact_pg_search_record
-    contacts_pg_search_records.find_by(conversation_id: id)
+    contacts_pg_search_records.find_by(conversation_id: id, inbox_id: inbox_id)
   end
 
   def initialize_contact_pg_search_record
-    record = contacts_pg_search_records.find_by(conversation_id: nil)
+    record = contacts_pg_search_records.find_by(conversation_id: nil, inbox_id: nil)
 
     return record if record.present?
 

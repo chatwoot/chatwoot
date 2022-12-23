@@ -52,8 +52,8 @@ class Conversation < ApplicationRecord
   include MultiSearchableHelpers
 
   multisearchable(
-    against: [:display_id, :name, :email, :phone_number],
-    additional_attributes: ->(conversation) { { conversation_id: conversation.id, account_id: conversation.account_id } }
+    against: [:display_id, :name, :email, :phone_number, :account_id],
+    additional_attributes: ->(conversation) { { conversation_id: conversation.id, account_id: conversation.account_id, inbox_id: inbox_id } }
   )
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -103,7 +103,7 @@ class Conversation < ApplicationRecord
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
-  delegate :name, :email, :phone_number, to: :contact
+  delegate :name, :email, :phone_number, to: :contact, allow_nil: true
 
   def can_reply?
     channel = inbox&.channel
@@ -198,6 +198,26 @@ class Conversation < ApplicationRecord
 
   def recent_messages
     messages.chat.last(5)
+  end
+
+  # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
+  # We can not find conversation_id from contacts directly so we added this joins here.
+  def self.rebuild_pg_search_documents(account_id)
+    return super unless name == 'Conversation'
+
+    connection.execute <<~SQL.squish
+      INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
+        SELECT 'Conversation' AS searchable_type,
+                conversations.id AS searchable_id,
+                CONCAT_WS(' ', conversations.display_id, conversations.email, conversations.name, conversations.phone_number, conversations.account_id) AS content,
+                conversations.account_id::int AS account_id,
+                conversations.id::int AS conversation_id,
+                conversations.inbox_id::int AS inbox_id,
+                now() AS created_at,
+                now() AS updated_at
+        FROM conversations
+        WHERE conversations.account_id = #{account_id}
+    SQL
   end
 
   private

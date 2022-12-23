@@ -2,8 +2,8 @@ class Conversations::MultiSearchJob < ApplicationJob
   queue_as :default
 
   def perform
-    Contact.rebuild_pg_search_documents
-    PgSearch::Multisearch.rebuild(Conversation)
-    PgSearch::Multisearch.rebuild(Message)
+    Account.all.each do |account|
+      Conversations::AccountBasedSearchJob.perform_later(account.id)
+    end
   end
 end
