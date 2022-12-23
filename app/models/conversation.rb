@@ -53,7 +53,9 @@ class Conversation < ApplicationRecord
 
   multisearchable(
     against: [:display_id, :name, :email, :phone_number, :account_id],
-    additional_attributes: ->(conversation) { { conversation_id: conversation.id, account_id: conversation.account_id, inbox_id: inbox_id } }
+    additional_attributes: lambda { |conversation|
+                             { conversation_id: conversation.id, account_id: conversation.account_id, inbox_id: conversation.inbox_id }
+                           }
   )
   validates :account_id, presence: true
   validates :inbox_id, presence: true

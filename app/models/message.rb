@@ -39,7 +39,7 @@ class Message < ApplicationRecord
   multisearchable(
     against: [:content],
     if: :allowed_message_types?,
-    additional_attributes: ->(message) { { conversation_id: message.conversation_id, account_id: message.account_id } }
+    additional_attributes: ->(message) { { conversation_id: message.conversation_id, account_id: message.account_id, inbox_id: message.inbox_id } }
   )
 
   before_validation :ensure_content_type
