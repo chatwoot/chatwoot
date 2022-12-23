@@ -48,11 +48,11 @@ fr:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
         no_response_error: Veuillez vérifier les identifiants IMAP et réessayez.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        host_unreachable_error: Hôte injoignable, veuillez vérifier l'adresse IMAP, le port IMAP et réessayer.
+        connection_timed_out_error: La connexion a expiré pour %{address}:%{port}
+        connection_closed_error: Connexion fermée.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
   reports:
     period: Période de rapport %{since} à %{until}
     agent_csv:
@@ -61,14 +61,14 @@ fr:
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
+      inbox_name: Nom de la boîte de réception
+      inbox_type: Type de boîte de réception
+      conversations_count: Nbre de conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
+      label_title: Libellé
+      conversations_count: Nbre de conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
     team_csv:
@@ -79,13 +79,13 @@ fr:
     default_group_by: jour
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Nom du contact
+        contact_email_address: Adresse e-mail du contact
+        contact_phone_number: Numéro de téléphone du contact
+        link_to_the_conversation: Lier à la conversation
         agent_name: Nom de l'agent
         rating: Note
-        feedback: Feedback Comment
+        feedback: Commentaire
         recorded_at: Recorded date
   notifications:
     notification_title:
@@ -96,7 +96,7 @@ fr:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} vous a mentionné dans l'histoire: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
     activity:
       status:
@@ -151,9 +151,9 @@ fr:
       description: "L'intégration FullContact permet d'enrichir les profils de visiteurs. Identifiez les utilisateurs dès qu'ils partagent leur adresse de courriel et offrez-leur un service client sur mesure. Connectez FullContact à votre compte en partageant la clé API FullContact."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Rechercher un article par titre ou contenu...
       empty_placeholder: Aucun résultat trouvé.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: Recherche en cours...
+      results_title: Résultats de recherche
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Recherchez les articles ici ou parcourez les catégories ci-dessous.
