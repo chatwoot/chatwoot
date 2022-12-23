@@ -209,13 +209,15 @@ class Conversation < ApplicationRecord
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
         SELECT 'Conversation' AS searchable_type,
                 conversations.id AS searchable_id,
-                CONCAT_WS(' ', conversations.display_id, conversations.email, conversations.name, conversations.phone_number, conversations.account_id) AS content,
+                CONCAT_WS(' ', conversations.display_id, contacts.email, contacts.name, contacts.phone_number, conversations.account_id) AS content,
                 conversations.account_id::int AS account_id,
                 conversations.id::int AS conversation_id,
                 conversations.inbox_id::int AS inbox_id,
                 now() AS created_at,
                 now() AS updated_at
         FROM conversations
+        INNER JOIN contacts
+          ON conversations.contact_id = contacts.id
         WHERE conversations.account_id = #{account_id}
     SQL
   end

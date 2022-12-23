@@ -5,6 +5,7 @@ class CreatePgSearchDocuments < ActiveRecord::Migration[6.1]
         t.text :content
         t.bigint 'conversation_id'
         t.bigint 'account_id'
+        t.bigint 'inbox_id'
         t.belongs_to :searchable, polymorphic: true, index: true
         t.timestamps null: false
       end
