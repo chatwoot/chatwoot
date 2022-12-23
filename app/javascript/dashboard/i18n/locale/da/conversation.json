@@ -42,8 +42,8 @@
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Vis etiketter",
+      "HIDE_LABELS": "Skjul etiketter"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
@@ -68,7 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markér som afventende",
       "RESOLVED": "Marker som løst",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "Marker som ulæst",
       "REOPEN": "Genåbn samtale",
       "SNOOZE": {
         "TITLE": "Udsæt",
