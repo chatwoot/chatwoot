@@ -151,6 +151,7 @@ export default {
           params: {
             portalSlug: this.selectedPortalSlug,
             locale: this.locale,
+            recentlyDeleted: true,
           },
         });
       } catch (error) {

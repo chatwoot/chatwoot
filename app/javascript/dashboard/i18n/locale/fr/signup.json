@@ -2,13 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Créer un compte",
     "TITLE": "Inscription",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TESTIMONIAL_HEADER": "Il suffit d'une étape pour avancer",
+    "TESTIMONIAL_CONTENT": "Vous n'êtes plus qu'à un pas d'engager vos clients, de les fidéliser et d'en trouver de nouveaux.",
     "TERMS_ACCEPT": "En vous inscrivant, vous acceptez nos <a href=\"https://www.chatwoot.com/terms\">CGU</a> et notre <a href=\"https://www.chatwoot.com/privacy-policy\">politique de confidentialité</a>",
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "Nom de la société",
+      "PLACEHOLDER": "Entrez le nom de votre entreprise. Ex : Wayne Enterprises",
+      "ERROR": "Le nom de la société est trop court"
     },
     "FULL_NAME": {
       "LABEL": "Nom complet",
@@ -18,13 +18,13 @@
     "EMAIL": {
       "LABEL": "E-mail professionnel",
       "PLACEHOLDER": "Entrez votre adresse e-mail professionnelle. Ex. : bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "ERROR": "Veuillez entrer une adresse e-mail professionnelle valide"
     },
     "PASSWORD": {
       "LABEL": "Mot de passe",
       "PLACEHOLDER": "Mot de passe",
       "ERROR": "Le mot de passe est trop court",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Le mot de passe doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre et 1 caractère spécial"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmer le mot de passe",
