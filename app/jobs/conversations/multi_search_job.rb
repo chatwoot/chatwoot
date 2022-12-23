@@ -1,5 +1,5 @@
 class Conversations::MultiSearchJob < ApplicationJob
-  queue_as :default
+  queue_as :async_database_migration
 
   def perform
     Account.all.each do |account|

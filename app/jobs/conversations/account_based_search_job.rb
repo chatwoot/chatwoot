@@ -1,5 +1,5 @@
 class Conversations::AccountBasedSearchJob < ApplicationJob
-  queue_as :default
+  queue_as :async_database_migration
 
   def perform(account_id)
     Contact.rebuild_pg_search_documents(account_id)
