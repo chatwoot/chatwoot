@@ -63,6 +63,8 @@
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
+        :enable-variables="true"
+        :variables="messageVariables"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -152,6 +154,7 @@ import {
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
+import { getMessageVariables } from 'dashboard/helper/messageHelper';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -469,6 +472,12 @@ export default {
         return AUDIO_FORMATS.WEBM;
       }
       return AUDIO_FORMATS.OGG;
+    },
+    messageVariables() {
+      const variables = getMessageVariables({
+        conversation: this.currentChat,
+      });
+      return variables;
     },
   },
   watch: {

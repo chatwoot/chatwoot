@@ -6,9 +6,14 @@
       @click="insertMentionNode"
     />
     <canned-response
-      v-if="showCannedMenu && !isPrivate"
+      v-if="shouldShowCannedResponses"
       :search-key="cannedSearchTerm"
       @click="insertCannedResponse"
+    />
+    <variable-list
+      v-if="shouldShowVariables"
+      :search-key="variableSearchTerm"
+      @click="insertVariable"
     />
     <div ref="editor" />
   </div>
@@ -34,6 +39,7 @@ import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
+import VariableList from '../conversation/VariableList';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 
@@ -50,6 +56,7 @@ import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import AnalyticsHelper, {
   ANALYTICS_EVENTS,
 } from '../../../helper/AnalyticsHelper';
+import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
@@ -64,7 +71,7 @@ const createState = (content, placeholder, plugins = []) => {
 
 export default {
   name: 'WootMessageEditor',
-  components: { TagAgents, CannedResponse },
+  components: { TagAgents, CannedResponse, VariableList },
   mixins: [eventListenerMixins, uiSettingsMixin],
   props: {
     value: { type: String, default: '' },
@@ -74,13 +81,18 @@ export default {
     enableSuggestions: { type: Boolean, default: true },
     overrideLineBreaks: { type: Boolean, default: false },
     updateSelectionWith: { type: String, default: '' },
+    enableVariables: { type: Boolean, default: false },
+    enableCannedResponses: { type: Boolean, default: true },
+    variables: { type: Object, default: () => ({}) },
   },
   data() {
     return {
       showUserMentions: false,
       showCannedMenu: false,
+      showVariables: false,
       mentionSearchKey: '',
       cannedSearchTerm: '',
+      variableSearchTerm: '',
       editorView: null,
       range: null,
       state: undefined,
@@ -91,6 +103,14 @@ export default {
       return addMentionsToMarkdownSerializer(
         defaultMarkdownSerializer
       ).serialize(this.editorView.state.doc);
+    },
+    shouldShowVariables() {
+      return this.enableVariables && this.showVariables && !this.isPrivate;
+    },
+    shouldShowCannedResponses() {
+      return (
+        this.enableCannedResponses && this.showCannedMenu && !this.isPrivate
+      );
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -111,6 +131,7 @@ export default {
             this.range = args.range;
 
             this.mentionSearchKey = args.text.replace('@', '');
+
             return false;
           },
           onExit: () => {
@@ -148,6 +169,34 @@ export default {
           },
           onKeyDown: ({ event }) => {
             return event.keyCode === 13 && this.showCannedMenu;
+          },
+        }),
+        suggestionsPlugin({
+          matcher: triggerCharacters('{{'),
+          suggestionClass: '',
+          onEnter: args => {
+            if (this.isPrivate) {
+              return false;
+            }
+            this.showVariables = true;
+            this.range = args.range;
+            this.editorView = args.view;
+            return false;
+          },
+          onChange: args => {
+            this.editorView = args.view;
+            this.range = args.range;
+
+            this.variableSearchTerm = args.text.replace('{{', '');
+            return false;
+          },
+          onExit: () => {
+            this.variableSearchTerm = '';
+            this.showVariables = false;
+            return false;
+          },
+          onKeyDown: ({ event }) => {
+            return event.keyCode === 13 && this.showVariables;
           },
         }),
       ];
@@ -277,17 +326,22 @@ export default {
     },
 
     insertCannedResponse(cannedItem) {
+      const updatedCannedResponse = replaceVariablesInMessage({
+        message: cannedItem,
+        variables: this.variables,
+      });
+
       if (!this.editorView) {
         return null;
       }
 
       let from = this.range.from - 1;
       let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
-        cannedItem
+        updatedCannedResponse
       );
 
       if (node.childCount === 1) {
-        node = this.editorView.state.schema.text(cannedItem);
+        node = this.editorView.state.schema.text(updatedCannedResponse);
         from = this.range.from;
       }
 
@@ -302,6 +356,34 @@ export default {
 
       tr.scrollIntoView();
       AnalyticsHelper.track(ANALYTICS_EVENTS.INSERTED_A_CANNED_RESPONSE);
+      this.showCannedMenu = false;
+      return false;
+    },
+    insertVariable(variable) {
+      if (!this.editorView) {
+        return null;
+      }
+
+      let from = this.range.from - 1;
+      let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
+        variable
+      );
+
+      if (node.childCount === 1) {
+        node = this.editorView.state.schema.text(`{{ ${variable} }}`);
+        from = this.range.from;
+      }
+
+      const tr = this.editorView.state.tr.replaceWith(
+        from,
+        this.range.to,
+        node
+      );
+
+      this.state = this.editorView.state.apply(tr);
+      this.emitOnChange();
+
+      tr.scrollIntoView();
       return false;
     },
 
