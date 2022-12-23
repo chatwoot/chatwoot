@@ -38,7 +38,7 @@ class TextSearch
 
   def filter_contacts
     @contacts = PgSearch.multisearch((@params[:q]).to_s).where(
-      inbox_id: @inbox_ids, account_id: @current_account, searchable_type: 'Contact'
+      account_id: @current_account, searchable_type: 'Contact'
     ).joins('INNER JOIN contacts ON pg_search_documents.searchable_id = contacts.id').includes(:searchable).limit(20).collect(&:searchable)
   end
 end
