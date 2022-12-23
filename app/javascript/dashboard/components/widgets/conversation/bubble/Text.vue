@@ -35,10 +35,6 @@ export default {
       type: String,
       default: '',
     },
-    readableTime: {
-      type: String,
-      default: '',
-    },
     isEmail: {
       type: Boolean,
       default: true,
