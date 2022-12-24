@@ -52,6 +52,7 @@ export const createBubbleIcon = ({ className, path, target }) => {
   }
 
   target.className = bubbleClassName;
+  target.title = $t('START_CONVERSATION');
   return target;
 };
 
