@@ -52,8 +52,10 @@ class Conversation < ApplicationRecord
   include MultiSearchableHelpers
 
   multisearchable(
-    against: [:display_id, :name, :email, :phone_number],
-    additional_attributes: ->(conversation) { { conversation_id: conversation.id, account_id: conversation.account_id } }
+    against: [:display_id, :name, :email, :phone_number, :account_id],
+    additional_attributes: lambda { |conversation|
+                             { conversation_id: conversation.id, account_id: conversation.account_id, inbox_id: conversation.inbox_id }
+                           }
   )
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -103,7 +105,7 @@ class Conversation < ApplicationRecord
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
-  delegate :name, :email, :phone_number, to: :contact
+  delegate :name, :email, :phone_number, to: :contact, allow_nil: true
 
   def can_reply?
     channel = inbox&.channel

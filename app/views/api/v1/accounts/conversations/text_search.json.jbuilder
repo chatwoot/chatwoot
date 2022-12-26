@@ -3,6 +3,10 @@ json.payload do
     json.array! @result[:conversations] do |conversation|
       json.id conversation.display_id
       json.account_id conversation.account_id
+      json.created_at conversation.created_at.to_i
+      json.message do
+        json.partial! 'api/v1/models/multi_search_message', formats: [:json], message: conversation.messages.try(:first)
+      end
       json.contact do
         json.partial! 'api/v1/models/multi_search_contact', formats: [:json], contact: conversation.contact if conversation.try(:contact).present?
       end

@@ -31,7 +31,7 @@ class Contact < ApplicationRecord
 
   multisearchable(
     against: [:id, :email, :name, :phone_number],
-    additional_attributes: ->(contact) { { conversation_id: nil, account_id: contact.account_id } }
+    additional_attributes: ->(contact) { { conversation_id: nil, account_id: contact.account_id, inbox_id: nil } }
   )
 
   validates :account_id, presence: true
@@ -149,21 +149,23 @@ class Contact < ApplicationRecord
   
   # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
   # We can not find conversation_id from contacts directly so we added this joins here.
-  def self.rebuild_pg_search_documents
+  def self.rebuild_pg_search_documents(account_id)
     return super unless name == 'Contact'
 
     connection.execute <<~SQL.squish
-      INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, created_at, updated_at)
+      INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
         SELECT 'Contact' AS searchable_type,
                 contacts.id AS searchable_id,
                 CONCAT_WS(' ', contacts.id, contacts.email, contacts.name, contacts.phone_number, contacts.account_id) AS content,
                 contacts.account_id::int AS account_id,
-                conversations.id AS conversation_id,
+                conversations.id::int AS conversation_id,
+                conversations.inbox_id::int AS inbox_id,
                 now() AS created_at,
                 now() AS updated_at
         FROM contacts
-        LEFT OUTER JOIN conversations
+        INNER JOIN conversations
           ON conversations.contact_id = contacts.id
+        WHERE contacts.account_id = #{account_id}
     SQL
   end
 

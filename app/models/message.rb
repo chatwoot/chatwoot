@@ -39,7 +39,7 @@ class Message < ApplicationRecord
   multisearchable(
     against: [:content],
     if: :allowed_message_types?,
-    additional_attributes: ->(message) { { conversation_id: message.conversation_id, account_id: message.account_id } }
+    additional_attributes: ->(message) { { conversation_id: message.conversation_id, account_id: message.account_id, inbox_id: message.inbox_id } }
   )
 
   before_validation :ensure_content_type
@@ -168,6 +168,26 @@ class Message < ApplicationRecord
     return false if template? && %w[input_csat text].exclude?(content_type)
 
     true
+  end
+
+  # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
+  # We can not find conversation_id from contacts directly so we added this joins here.
+  def self.rebuild_pg_search_documents(account_id)
+    return super unless name == 'Message'
+
+    connection.execute <<~SQL.squish
+      INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
+        SELECT 'Message' AS searchable_type,
+                messages.id AS searchable_id,
+                CONCAT_WS(' ', messages.content) AS content,
+                messages.account_id::int AS account_id,
+                messages.conversation_id::int AS conversation_id,
+                messages.inbox_id::int AS inbox_id,
+                now() AS created_at,
+                now() AS updated_at
+        FROM messages
+        WHERE messages.account_id = #{account_id}
+    SQL
   end
 
   private

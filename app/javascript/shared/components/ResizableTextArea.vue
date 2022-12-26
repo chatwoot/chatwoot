@@ -37,6 +37,13 @@ export default {
       this.resizeTextarea();
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.value) {
+        this.resizeTextarea();
+      }
+    });
+  },
   methods: {
     resizeTextarea() {
       if (!this.value) {

@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Conversations",
     "MENTION_HEADING": "Mentions",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Sans suivi",
     "SEARCH": {
       "INPUT": "Rechercher des personnes, des conversations, des réponses standardisées ..."
     },
@@ -57,12 +57,12 @@
     "REPLY_TO_TWEET": "Répondre à ce tweet",
     "LINK_TO_STORY": "Aller à l'histoire instagram",
     "SENT": "Envoyé avec succès",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Lu",
+    "DELIVERED": "Reçu",
     "NO_MESSAGES": "Pas de messages",
     "NO_CONTENT": "Aucun contenu disponible",
     "HIDE_QUOTED_TEXT": "Masquer le texte cité",
     "SHOW_QUOTED_TEXT": "Afficher le texte cité",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Lu"
   }
 }
