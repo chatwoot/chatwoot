@@ -3,10 +3,15 @@
     <thumbnail size="42px" :username="conversation.contact.name" />
     <div class="conversation-details">
       <div class="conversation-meta">
-        <inbox-name :inbox="conversation.inbox" />
-        <span class="timestamp">
-          <time-ago :timestamp="conversation.created_at" />
-        </span>
+        <p class="inbox-name">
+          <inbox-name :inbox="conversation.inbox" />
+        </p>
+        <div>
+          <span class="timestamp">
+            <time-ago :timestamp="conversation.created_at" />
+          </span>
+          <p class="conversation-id">Conv: {{ conversation.id }}</p>
+        </div>
       </div>
       <p class="name">{{ conversation.contact.name }}</p>
       <div v-dompurify-html="messageContent" class="message-content" />
@@ -36,12 +41,7 @@ export default {
   },
   computed: {
     messageContent() {
-      return (
-        this.formatMessage(
-          this.conversation.messages[this.conversation.messages.length - 1]
-            .content
-        ) || ''
-      );
+      return this.formatMessage(this.conversation.message.content) || '';
     },
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -91,12 +91,18 @@ export default {
 
   .conversation-meta {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
-    margin-bottom: var(--space-small);
     .timestamp {
       color: var(--s-500);
       font-size: var(--font-size-small);
+    }
+    .conversation-id {
+      text-align: right;
+    }
+
+    .inbox-name {
+      margin: var(--space-small) 0;
     }
   }
 }

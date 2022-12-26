@@ -6,7 +6,7 @@ module MultiSearchableHelpers
       using: {
         trigram: {
           word_similarity: true,
-          threshold: 0.3
+          threshold: 0.8
         },
         tsearch: { any_word: true }
       }
@@ -30,7 +30,7 @@ module MultiSearchableHelpers
     end
   end
 
-  def rebuild_search_documents(account_id)
+  def self.rebuild_search_documents(account_id)
     connection.execute <<~SQL.squish
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
         SELECT 'Conversation' AS searchable_type,
