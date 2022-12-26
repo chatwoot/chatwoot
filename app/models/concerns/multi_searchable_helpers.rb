@@ -26,7 +26,7 @@ module MultiSearchableHelpers
     # We can not find conversation_id from contacts directly so we added this joins here.
     def self.rebuild_pg_search_documents(account_id)
       return unless self.name == 'Conversation'
-      rebuild_pg_search_documents(account_id)
+      rebuild_search_documents(account_id)
     end
   end
 
