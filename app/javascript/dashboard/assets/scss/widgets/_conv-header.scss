@@ -60,11 +60,11 @@ $resolve-button-width: 13.2rem;
   flex-grow: 1;
   justify-content: flex-end;
 
-  &.has-open-sidebar {
-    justify-content: flex-end;
-  }
-
   @include breakpoint(640px down) {
     margin-top: var(--space-small);
+  }
+
+  &.has-open-sidebar {
+    justify-content: flex-end;
   }
 }
