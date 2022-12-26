@@ -73,6 +73,10 @@
       "FIELD": "Geçersiz alan"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Görüşmenizi değerlendirin",
     "SUBMITTED_TITLE": "Değerlendirmeniz için teşekkürler",

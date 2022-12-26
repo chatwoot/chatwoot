@@ -1,10 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SidemenuIcon matches snapshot 1`] = `
-<button>
-  <fluent-icon
-    class="hamburger--menu"
-    icon="list"
-  />
-</button>
+<woot-button
+  class="toggle-sidebar"
+  color-scheme="secondary"
+  icon="list"
+  size="small"
+  variant="clear"
+/>
 `;

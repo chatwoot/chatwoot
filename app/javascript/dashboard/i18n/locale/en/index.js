@@ -10,7 +10,8 @@ import chatlist from './chatlist.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
 import conversation from './conversation.json';
-import csatMgmtMgmt from './csatMgmt.json';
+import csatMgmt from './csatMgmt.json';
+import emoji from './emoji.json';
 import generalSettings from './generalSettings.json';
 import helpCenter from './helpCenter.json';
 import inboxMgmt from './inboxMgmt.json';
@@ -40,7 +41,8 @@ export default {
   ...contact,
   ...contactFilters,
   ...conversation,
-  ...csatMgmtMgmt,
+  ...csatMgmt,
+  ...emoji,
   ...generalSettings,
   ...helpCenter,
   ...inboxMgmt,

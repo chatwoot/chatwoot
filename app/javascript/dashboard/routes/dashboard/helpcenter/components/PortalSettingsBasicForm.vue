@@ -16,7 +16,7 @@
             {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL') }}
           </label>
           <div class="logo-container">
-            <thumbnail :username="name" size="56" variant="square" />
+            <thumbnail :username="name" size="56px" variant="square" />
             <woot-button
               v-if="false"
               class="upload-button"

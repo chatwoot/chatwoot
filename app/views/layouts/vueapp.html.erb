@@ -51,11 +51,10 @@
       }
       window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '')%>'
     </script>
-    <% if @global_config['ANALYTICS_TOKEN'].present? && @global_config['ANALYTICS_HOST'].present? %>
+    <% if @global_config['ANALYTICS_TOKEN'].present? %>
     <script>
       window.analyticsConfig = {
         token: '<%= @global_config['ANALYTICS_TOKEN'] %>',
-        host: '<%= @global_config['ANALYTICS_HOST'] %>',
       }
     </script>
     <% end %>

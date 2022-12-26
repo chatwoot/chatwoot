@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Καταχωρήστε ένα λογαριασμό",
     "TITLE": "Καταχώρηση",
+    "TESTIMONIAL_HEADER": "Το μόνο που χρειάζεται είναι ένα βήμα για να προχωρήσουμε",
+    "TESTIMONIAL_CONTENT": "Είστε ένα βήμα μακριά από την εμπλοκή των πελατών σας, και την εύρεση νέων.",
     "TERMS_ACCEPT": "Με την καταχώρηση, έχετε συμφωνήσει με τους όρους μας <a href=\"https://www.chatwoot.com/terms\">T & C</a> και <a href=\"https://www.chatwoot.com/privacy-policy\">την πολιτική ιδιωτικών δεδομένων</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Ονομασία Λογαριασμού",
-      "PLACEHOLDER": "Συμπληρώστε όνομα λογαριασμού π. χ. Wayne Α. Ε",
-      "ERROR": "Το όνομα του λογαριασμού είναι πολύ σύντομο"
+    "COMPANY_NAME": {
+      "LABEL": "Επωνυμία εταιρείας",
+      "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας σας. π. χ.: Wayne Enterprises",
+      "ERROR": "Το όνομα της εταιρείας είναι πολύ σύντομο"
     },
     "FULL_NAME": {
       "LABEL": "Πλήρες όνομα",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "email εργασίας",
       "PLACEHOLDER": "συμπληρώστε το email εργασίας πχ: papadopoulos@wyane.com",
-      "ERROR": "Η διεύθυνση email είναι εσφαλμένη"
+      "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
     },
     "PASSWORD": {
       "LABEL": "Κωδικός",

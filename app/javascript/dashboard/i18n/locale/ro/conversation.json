@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Niciun răspuns",
     "RATING_TITLE": "Evaluare",
     "FEEDBACK_TITLE": "Păreri",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Rezolvă",
       "REOPEN_ACTION": "Redeschide",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marchează ca în așteptare",
       "RESOLVED": "Marcați ca rezolvat",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Redeschiderea conversației",
       "SNOOZE": {
         "TITLE": "Amânați",

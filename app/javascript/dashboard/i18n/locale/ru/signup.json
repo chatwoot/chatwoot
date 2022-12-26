@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Создать аккаунт",
     "TITLE": "Регистрация",
+    "TESTIMONIAL_HEADER": "Все, что нужно сделать, это один шаг для продвижения вперед",
+    "TESTIMONIAL_CONTENT": "Вы находитесь на расстоянии всего одного шага от привлечения своих клиентов, удержав их и находя новые.",
     "TERMS_ACCEPT": "Зарегистрировавшись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">правилами пользования</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Имя аккаунта",
-      "PLACEHOLDER": "Введите имя аккаунта, например: Wayne Enterprises",
-      "ERROR": "Имя аккаунта слишком короткое"
+    "COMPANY_NAME": {
+      "LABEL": "Название компании",
+      "PLACEHOLDER": "Введите имя вашей компании, например: Wayne Enterprises",
+      "ERROR": "Название компании слишком короткое"
     },
     "FULL_NAME": {
       "LABEL": "Полное имя",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Рабочий email",
       "PLACEHOLDER": "Введите ваш рабочий email адрес. Например: bruce@wayne.enterprises",
-      "ERROR": "Неверный email"
+      "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
     },
     "PASSWORD": {
       "LABEL": "Пароль",

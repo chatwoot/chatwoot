@@ -73,6 +73,10 @@
       "FIELD": "Неверное поле"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Оцените разговор",
     "SUBMITTED_TITLE": "Спасибо за оценку",

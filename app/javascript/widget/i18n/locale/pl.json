@@ -73,6 +73,10 @@
       "FIELD": "Nieprawidłowe pole"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Oceń udzielone Ci wsparcie",
     "SUBMITTED_TITLE": "Dziękujemy za przesłanie oceny",

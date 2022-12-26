@@ -103,7 +103,9 @@
           "Online",
           "Occupato",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Il tuo indirizzo email",
@@ -134,6 +136,7 @@
     "SELECTOR_SUBTITLE": "Seleziona un account dal seguente elenco",
     "PROFILE_SETTINGS": "Impostazioni profilo",
     "KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Disconnettiti"
   },
   "APP_GLOBAL": {
@@ -177,6 +180,7 @@
     "CONVERSATIONS": "Conversazioni",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
     "MENTIONED_CONVERSATIONS": "Menzioni",
+    "UNATTENDED_CONVERSATIONS": "Non partecipate",
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
@@ -225,6 +229,10 @@
       "CATEGORY": "Categoria",
       "CATEGORY_EMPTY_MESSAGE": "Nessuna categoria trovata"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Leggi i documenti"
   },
   "BILLING_SETTINGS": {
@@ -256,7 +264,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome account",
+        "LABEL": "Nome azienda",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Invia"

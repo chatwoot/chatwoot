@@ -10,11 +10,11 @@ import 'videojs-record/dist/css/videojs.record.css';
 
 import videojs from 'video.js';
 
-import inboxMixin from '../../../../shared/mixins/inboxMixin';
 import alertMixin from '../../../../shared/mixins/alertMixin';
 
 import Recorder from 'opus-recorder';
 import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
+import waveWorker from 'opus-recorder/dist/waveWorker.min';
 
 import WaveSurfer from 'wavesurfer.js';
 import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
@@ -23,19 +23,25 @@ import 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import 'videojs-record/dist/videojs.record.js';
 import 'videojs-record/dist/plugins/videojs.record.opus-recorder.js';
 import { format, addSeconds } from 'date-fns';
+import { AUDIO_FORMATS } from 'shared/constants/messages';
 
 WaveSurfer.microphone = MicrophonePlugin;
 
 export default {
   name: 'WootAudioRecorder',
-  mixins: [inboxMixin, alertMixin],
+  mixins: [alertMixin],
+  props: {
+    audioRecordFormat: {
+      type: String,
+      default: AUDIO_FORMATS.WEBM,
+    },
+  },
   data() {
     return {
       player: false,
       recordingDateStarted: new Date(0),
       initialTimeDuration: '00:00',
       recorderOptions: {
-        debug: true,
         controls: true,
         bigPlayButton: false,
         fluid: false,
@@ -70,13 +76,28 @@ export default {
           record: {
             audio: true,
             video: false,
-            displayMilliseconds: false,
-            maxLength: 300,
-            audioEngine: 'opus-recorder',
-            audioWorkerURL: encoderWorker,
-            audioChannels: 1,
-            audioSampleRate: 48000,
-            audioBitRate: 128,
+            maxLength: 900,
+            timeSlice: 1000,
+            maxFileSize: 15 * 1024 * 1024,
+            ...(this.audioRecordFormat === AUDIO_FORMATS.WEBM && {
+              monitorGain: 0,
+              recordingGain: 1,
+              numberOfChannels: 1,
+              encoderSampleRate: 16000,
+              originalSampleRateOverride: 16000,
+              streamPages: true,
+              maxFramesPerPage: 1,
+              encoderFrameSize: 1,
+              encoderPath: waveWorker,
+            }),
+            ...(this.audioRecordFormat === AUDIO_FORMATS.OGG && {
+              displayMilliseconds: false,
+              audioEngine: 'opus-recorder',
+              audioWorkerURL: encoderWorker,
+              audioChannels: 1,
+              audioSampleRate: 48000,
+              audioBitRate: 128,
+            }),
           },
         },
       },
