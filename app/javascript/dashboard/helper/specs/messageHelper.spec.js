@@ -3,6 +3,7 @@ import {
   getFirstName,
   getLastName,
   getMessageVariables,
+  getUndefinedVariablesInMessage,
 } from '../messageHelper';
 
 const variables = {
@@ -109,5 +110,17 @@ describe('#getMessageVariables', () => {
       'agent.last_name': 'Smith',
       'agent.email': 'samuel@example.com',
     });
+  });
+});
+
+describe('#getUndefinedVariablesInMessage', () => {
+  it('returns the undefined variables', () => {
+    const message = 'Please dm me at {{contact.twitter}}';
+    expect(
+      getUndefinedVariablesInMessage({ message, variables }).length
+    ).toEqual(1);
+    expect(getUndefinedVariablesInMessage({ message, variables })).toEqual(
+      expect.arrayContaining(['{{contact.twitter}}'])
+    );
   });
 });

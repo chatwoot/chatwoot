@@ -127,6 +127,12 @@
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
+
+    <woot-confirm-modal
+      ref="confirmDialog"
+      :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
+      :description="undefinedVariableMessage"
+    />
   </div>
 </template>
 
@@ -154,7 +160,10 @@ import {
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
-import { getMessageVariables } from 'dashboard/helper/messageHelper';
+import {
+  getMessageVariables,
+  getUndefinedVariablesInMessage,
+} from 'dashboard/helper/messageHelper';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -227,6 +236,7 @@ export default {
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
+      undefinedVariableMessage: '',
     };
   },
   computed: {
@@ -674,7 +684,7 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
-    async onSendReply() {
+    confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
       }
@@ -693,6 +703,25 @@ export default {
         this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
+      }
+    },
+    async onSendReply() {
+      const undefinedVariables = getUndefinedVariablesInMessage({
+        message: this.message,
+        variables: this.messageVariables,
+      });
+      if (undefinedVariables.length > 0) {
+        const undefinedVariablesCount =
+          undefinedVariables.length > 1 ? undefinedVariables.length : 1;
+        this.undefinedVariableMessage = `You have ${undefinedVariablesCount} undefined variables in your message: ${undefinedVariables.join(
+          ', '
+        )}. Would you like to send the message anyway?`;
+        const ok = await this.$refs.confirmDialog.showConfirmation();
+        if (ok) {
+          this.confirmOnSendReply();
+        }
+      } else {
+        this.confirmOnSendReply();
       }
     },
     async sendMessage(messagePayload) {

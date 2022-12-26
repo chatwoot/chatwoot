@@ -40,3 +40,19 @@ export const getMessageVariables = ({ conversation }) => {
     'agent.email': assignee?.email ? assignee?.email : '',
   };
 };
+
+export const getUndefinedVariablesInMessage = ({ message, variables }) => {
+  const regex = /{{(.*?)}}/g;
+  const matches = message.match(regex);
+  const undefinedVariables = [];
+  matches.forEach(match => {
+    const variable = match
+      .replace('{{', '')
+      .replace('}}', '')
+      .trim();
+    if (!variables[variable]) {
+      undefinedVariables.push(match);
+    }
+  });
+  return undefinedVariables;
+};
