@@ -6,7 +6,7 @@ module MultiSearchableHelpers
       using: {
         trigram: {
           word_similarity: true,
-          threshold: 0.6
+          threshold: 0.3
         },
         tsearch: { any_word: true }
       }
@@ -24,12 +24,13 @@ module MultiSearchableHelpers
 
     # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
     # We can not find conversation_id from contacts directly so we added this joins here.
-    def self.rebuild_pg_search_documents(_account_id)
-      return unless name == 'Conversation'
+    def self.rebuild_pg_search_documents(account_id)
+      return unless self.name == 'Conversation'
+      rebuild_search_documents(account_id)
     end
   end
 
-  def rebuild_pg_search_documents(account_id)
+  def rebuild_search_documents(account_id)
     connection.execute <<~SQL.squish
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
         SELECT 'Conversation' AS searchable_type,
