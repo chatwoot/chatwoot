@@ -3,15 +3,19 @@
     <thumbnail size="42px" :username="conversation.contact.name" />
     <div class="conversation-details">
       <div class="conversation-meta">
-        <p class="inbox-name">
+        <div class="left-column">
           <inbox-name :inbox="conversation.inbox" />
-        </p>
-        <div>
-          <span class="timestamp">
-            <time-ago :timestamp="conversation.created_at" />
+          <div class="agent-details">
+            <thumbnail size="16px" :username="conversation.agent.name" />
+            <span>{{ conversation.agent.name }}</span>
+          </div>
+          <span class="conversation-id">
+            Conversation Id: {{ conversation.id }}
           </span>
-          <p class="conversation-id">Conv: {{ conversation.id }}</p>
         </div>
+        <span class="timestamp">
+          <time-ago :timestamp="conversation.created_at" />
+        </span>
       </div>
       <p class="name">{{ conversation.contact.name }}</p>
       <div v-dompurify-html="messageContent" class="message-content" />
@@ -91,18 +95,25 @@ export default {
 
   .conversation-meta {
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: space-between;
-    .timestamp {
-      color: var(--s-500);
-      font-size: var(--font-size-small);
-    }
-    .conversation-id {
-      text-align: right;
-    }
 
-    .inbox-name {
-      margin: var(--space-small) 0;
+    .left-column {
+      display: flex;
+      align-items: center;
+      .agent-details {
+        display: flex;
+        align-items: center;
+        margin-left: var(--space-slab);
+        span {
+          margin-left: var(--space-small);
+        }
+      }
+      .conversation-id {
+        margin-left: var(--space-slab);
+        color: var(--s-500);
+        font-size: var(--font-size-small);
+      }
     }
   }
 }
