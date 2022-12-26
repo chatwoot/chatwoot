@@ -139,7 +139,11 @@ export default {
   left: 0;
   margin: auto;
   right: 0;
-  top: 17rem !important;
+  top: 10rem !important;
   width: 90%;
+}
+
+::v-deep .ProseMirror-menubar {
+  display: none;
 }
 </style>
