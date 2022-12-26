@@ -794,16 +794,16 @@ export default {
 
 .conversations-list-wrap {
   flex-shrink: 0;
-  width: 34rem;
+  flex-basis: 34rem;
   overflow: hidden;
   @include breakpoint(large up) {
-    width: 36rem;
+    flex-basis: 36rem;
   }
   @include breakpoint(xlarge up) {
-    width: 35rem;
+    flex-basis: 38rem;
   }
   @include breakpoint(xxlarge up) {
-    width: 38rem;
+    flex-basis: 42rem;
   }
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
@@ -814,10 +814,7 @@ export default {
   }
 
   &.list--full-width {
-    width: 100%;
-    @include breakpoint(xxxlarge up) {
-      flex-basis: 100%;
-    }
+    flex-basis: 100%;
   }
 }
 .filter--actions {

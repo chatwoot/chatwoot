@@ -326,6 +326,7 @@
     .is-text {
       display: inline-flex;
       text-align: start;
+      align-items: center;
 
       @include breakpoint(xxxlarge up) {
         display: flex;
