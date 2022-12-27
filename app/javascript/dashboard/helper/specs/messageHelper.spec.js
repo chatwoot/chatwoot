@@ -123,4 +123,14 @@ describe('#getUndefinedVariablesInMessage', () => {
       expect.arrayContaining(['{{contact.twitter}}'])
     );
   });
+  it('skip variables in string with code blocks', () => {
+    const message =
+      'hey {{contact_name}} how are you? ``` code: {{contact_name}} ```';
+    expect(
+      getUndefinedVariablesInMessage({ message, variables }).length
+    ).toEqual(1);
+    expect(getUndefinedVariablesInMessage({ message, variables })).toEqual(
+      expect.arrayContaining(['{{contact_name}}'])
+    );
+  });
 });

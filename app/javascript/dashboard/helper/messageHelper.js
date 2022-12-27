@@ -1,11 +1,13 @@
+const MESSAGE_VARIABLES_REGEX = /{{(.*?)}}/g;
 export const replaceVariablesInMessage = ({ message, variables }) => {
-  const regex = /{{(.*?)}}/g;
-  return message.replace(regex, (match, replace) => {
+  return message.replace(MESSAGE_VARIABLES_REGEX, (match, replace) => {
     return variables[replace.trim()]
       ? variables[replace.trim().toLowerCase()]
       : '';
   });
 };
+
+const skipCodeBlocks = str => str.replace(/```(?:.|\n)+?```/g, '');
 
 export const getFirstName = ({ name }) => {
   return name.split(' ')[0];
@@ -42,9 +44,12 @@ export const getMessageVariables = ({ conversation }) => {
 };
 
 export const getUndefinedVariablesInMessage = ({ message, variables }) => {
-  const regex = /{{(.*?)}}/g;
-  const matches = message.match(regex);
+  const messageWithOutCodeBlocks = skipCodeBlocks(message);
+  const matches = messageWithOutCodeBlocks.match(MESSAGE_VARIABLES_REGEX);
   const undefinedVariables = [];
+  if (!matches) {
+    return [];
+  }
   matches.forEach(match => {
     const variable = match
       .replace('{{', '')
