@@ -74,8 +74,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Søg efter emojis",
+    "NOT_FOUND": "Ingen emoji matcher din søgning"
   },
   "CSAT": {
     "TITLE": "Bedøm din samtale",
