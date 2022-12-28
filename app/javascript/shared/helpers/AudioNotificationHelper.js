@@ -30,8 +30,19 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
     };
   };
 
+  const getAlertTone = alertType => {
+    if (alertType === 'dashboard') {
+      const {
+        notification_tone: tone,
+      } = window.WOOT.$store.getters.getUISettings;
+      return tone;
+    }
+    return 'ding';
+  };
+
   if (audioCtx) {
-    const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
+    const alertTone = getAlertTone(type);
+    const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
     const audioRequest = new Request(resourceUrl);
 
     fetch(audioRequest)
@@ -91,6 +102,26 @@ export const getAssigneeFromNotification = currentConv => {
   }
   return id;
 };
+
+export const getAllConversationsByAssignee = (conversations, assigneeId) => {
+  const allConversationsByAssignee = [];
+  conversations.forEach(conv => {
+    const assignee = getAssigneeFromNotification(conv);
+    if (assignee === assigneeId) {
+      allConversationsByAssignee.push(conv);
+    }
+  });
+  return allConversationsByAssignee;
+};
+
+export const getUnreadCountFromAllConversations = conversations => {
+  let unreadCount = 0;
+  conversations.forEach(conv => {
+    unreadCount += conv.unread_count;
+  });
+  return unreadCount;
+};
+
 export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
   const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
@@ -98,10 +129,22 @@ export const newMessageNotification = data => {
   const currentConv =
     window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
   const assigneeId = getAssigneeFromNotification(currentConv);
-  const isDocHidden = document.hidden;
+  // const allConversations = window.WOOT.$store.getters.getAllConversations;
+  // const allConversationsByAssigneeId = getAllConversationsByAssignee(
+  //   allConversations,
+  //   assigneeId
+  // );
+  // const unreadCountFromAllConversations = getUnreadCountFromAllConversations(
+  //   allConversationsByAssigneeId
+  // );
+
   const {
     enable_audio_alerts: enableAudioAlerts = false,
+    play_audio_when_tab_is_inactive: playAudioWhenTabIsInactive,
+    // play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
   } = window.WOOT.$store.getters.getUISettings;
+  const isDocHidden = playAudioWhenTabIsInactive ? document.hidden : true;
+
   const playAudio = shouldPlayAudio(
     data,
     currentConvId,
@@ -118,6 +161,23 @@ export const newMessageNotification = data => {
     window.playAudioAlert();
     showBadgeOnFavicon();
   }
+
+  // if (
+  //   playAudioUntilAllConversationsAreRead &&
+  //   isNotificationEnabled &&
+  //   isDocHidden
+  // ) {
+  //   const playAudioEvery30Seconds = () => {
+  //     window.playAudioAlert();
+  //     showBadgeOnFavicon();
+  //     setTimeout(playAudioEvery30Seconds, 30000);
+  //   };
+  //   if (unreadCountFromAllConversations > 0) {
+  //     playAudioEvery30Seconds();
+  //   } else {
+  //     clearTimeout(playAudioEvery30Seconds);
+  //   }
+  // }
 };
 
 export const playNewMessageNotificationInWidget = () => {
