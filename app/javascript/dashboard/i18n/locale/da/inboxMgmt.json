@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Du skal konfigurere dit webhook URL og verifikations token, i Facebook Developer portal med værdierne vist nedenfor.",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook verifikations token"
         },
         "SUBMIT_BUTTON": "Opret WhatsApp Kanal",
         "API": {
@@ -421,7 +421,7 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Forretningstider",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot konfiguration"
     },
     "SETTINGS": "Indstillinger",
     "FEATURES": {
