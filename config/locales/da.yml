@@ -153,7 +153,7 @@ da:
     search:
       search_placeholder: Search for article by title or body...
       empty_placeholder: Ingen resultater fundet.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: Søger...
+      results_title: Søgeresultater
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Søg efter artiklerne her eller gennemse kategorierne nedenfor.
