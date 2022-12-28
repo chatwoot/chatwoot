@@ -1,13 +1,14 @@
 <template>
   <div class="column content-box">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-right-top"
-      icon="add-circle"
-      @click="openAddPopup()"
+    <router-link
+      :to="addAccountScoping('settings/automations/new')"
+      class="button success button--fixed-right-top"
     >
-      {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
-    </woot-button>
+      <fluent-icon icon="add-circle" />
+      <span class="button__content">
+        {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
+      </span>
+    </router-link>
     <div class="row">
       <div class="small-8 columns with-right-space">
         <p
@@ -129,13 +130,14 @@ import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import timeMixin from 'dashboard/mixins/time';
+import accountMixin from 'dashboard/mixins/account.js';
 
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
   },
-  mixins: [alertMixin, timeMixin],
+  mixins: [alertMixin, timeMixin, accountMixin],
   data() {
     return {
       loading: {},
@@ -221,26 +223,6 @@ export default {
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
         this.showAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
-      }
-    },
-    async submitAutomation(payload, mode) {
-      try {
-        const action =
-          mode === 'edit' ? 'automations/update' : 'automations/create';
-        const successMessage =
-          mode === 'edit'
-            ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
-            : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-        await this.$store.dispatch(action, payload);
-        this.showAlert(successMessage);
-        this.hideAddPopup();
-        this.hideEditPopup();
-      } catch (error) {
-        const errorMessage =
-          mode === 'edit'
-            ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
-            : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
       }
     },
     async toggleAutomation(automation, status) {

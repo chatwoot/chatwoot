@@ -149,11 +149,27 @@ export default {
         this.automation.actions.splice(index, 1);
       }
     },
-    submitAutomation() {
+    async submitAutomation(mode = 'add') {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      const automation = generateAutomationPayload(this.automation);
-      this.$emit('saveAutomation', automation, this.mode);
+      const payload = generateAutomationPayload(this.automation);
+      try {
+        const action =
+          mode === 'edit' ? 'automations/update' : 'automations/create';
+        const successMessage =
+          mode === 'edit'
+            ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
+            : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
+        await this.$store.dispatch(action, payload);
+        this.showAlert(successMessage);
+        this.router.push({ name: 'automation_list' });
+      } catch (error) {
+        const errorMessage =
+          mode === 'edit'
+            ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
+            : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      }
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[

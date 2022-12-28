@@ -19,7 +19,16 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
+  getAutomation: _state => id => {
+    return _state.records.find(record => record.id === Number(id));
+  },
 };
+
+async function sleep(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
 
 export const actions = {
   get: async function getAutomations({ commit }) {
@@ -27,6 +36,21 @@ export const actions = {
     try {
       const response = await AutomationAPI.get();
       commit(types.SET_AUTOMATIONS, response.data.payload);
+    } catch (error) {
+      // Ignore error
+    } finally {
+      commit(types.SET_AUTOMATION_UI_FLAG, { isFetching: false });
+    }
+  },
+  getSingleAutomation: async function getAutomationById(
+    { commit },
+    automationId
+  ) {
+    commit(types.SET_AUTOMATION_UI_FLAG, { isFetching: true });
+    try {
+      await sleep(10000);
+      const response = await AutomationAPI.show(automationId);
+      commit(types.ADD_AUTOMATION, response.data.payload);
     } catch (error) {
       // Ignore error
     } finally {

@@ -1,28 +1,41 @@
 import SettingsContent from '../Wrapper';
 import Automation from './Index';
-import { frontendURL } from '../../../../helper/URLHelper';
+const AddAutomation = () => import('./AddAutomationRule.vue');
+const EditAutomation = () => import('./EditAutomationRule.vue');
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/settings/automation'),
+      path: frontendURL('accounts/:accountId/settings/automations'),
       component: SettingsContent,
-      props: {
-        headerTitle: 'AUTOMATION.HEADER',
-        icon: 'automation',
-        showNewButton: false,
+      props: params => {
+        const showBackButton = params.name !== 'automation_list';
+        return {
+          headerTitle: 'AUTOMATION.HEADER',
+          headerButtonText: 'AUTOMATION.HEADER_BTN_TXT',
+          icon: 'automation',
+          showBackButton,
+        };
       },
       children: [
         {
           path: '',
-          name: 'automation_wrapper',
-          redirect: 'list',
-        },
-        {
-          path: 'list',
           name: 'automation_list',
           component: Automation,
-          roles: ['administrator'],
+          roles: ['administrator', 'agent'],
+        },
+        {
+          path: 'new',
+          name: 'automation_new',
+          component: AddAutomation,
+          roles: ['administrator', 'agent'],
+        },
+        {
+          path: ':automationId/edit',
+          name: 'automation_edit',
+          component: EditAutomation,
+          roles: ['administrator', 'agent'],
         },
       ],
     },

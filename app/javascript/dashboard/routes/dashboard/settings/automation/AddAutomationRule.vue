@@ -1,55 +1,7 @@
 <template>
   <div class="column">
-    <woot-modal-header :header-title="$t('AUTOMATION.ADD.TITLE')" />
-    <div class="row modal-content">
-      <div class="medium-12 columns">
-        <woot-input
-          v-model="automation.name"
-          :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
-          type="text"
-          :class="{ error: $v.automation.name.$error }"
-          :error="
-            $v.automation.name.$error
-              ? $t('AUTOMATION.ADD.FORM.NAME.ERROR')
-              : ''
-          "
-          :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
-          @blur="$v.automation.name.$touch"
-        />
-        <woot-input
-          v-model="automation.description"
-          :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
-          type="text"
-          :class="{ error: $v.automation.description.$error }"
-          :error="
-            $v.automation.description.$error
-              ? $t('AUTOMATION.ADD.FORM.DESC.ERROR')
-              : ''
-          "
-          :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
-          @blur="$v.automation.description.$touch"
-        />
-        <div class="event_wrapper">
-          <label :class="{ error: $v.automation.event_name.$error }">
-            {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-            <select v-model="automation.event_name" @change="onEventChange()">
-              <option
-                v-for="event in automationRuleEvents"
-                :key="event.key"
-                :value="event.key"
-              >
-                {{ event.value }}
-              </option>
-            </select>
-            <span v-if="$v.automation.event_name.$error" class="message">
-              {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
-            </span>
-          </label>
-          <p v-if="hasAutomationMutated" class="info-message">
-            {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
-          </p>
-        </div>
-        <!-- // Conditions Start -->
+    <div class="row">
+      <div class="small-8 columns with-right-space canvas content-box">
         <section>
           <label>
             {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
@@ -88,8 +40,6 @@
             </div>
           </div>
         </section>
-        <!-- // Conditions End -->
-        <!-- // Actions Start -->
         <section>
           <label>
             {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
@@ -123,13 +73,67 @@
             </div>
           </div>
         </section>
-        <!-- // Actions End -->
-        <div class="medium-12 columns">
-          <div class="modal-footer justify-content-end w-full">
-            <woot-button class="button clear" @click.prevent="onClose">
-              {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
-            </woot-button>
-            <woot-button @click="submitAutomation">
+      </div>
+      <div class="small-4 columns">
+        <div class="automation__properties-panel">
+          <div class="automation-form">
+            <woot-input
+              v-model="automation.name"
+              :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
+              type="text"
+              class="automation-form_input"
+              :class="{ error: $v.automation.name.$error }"
+              :error="
+                $v.automation.name.$error
+                  ? $t('AUTOMATION.ADD.FORM.NAME.ERROR')
+                  : ''
+              "
+              :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
+              @blur="$v.automation.name.$touch"
+            />
+            <label>
+              <span>{{ $t('AUTOMATION.ADD.FORM.DESC.LABEL') }}</span>
+              <textarea
+                v-model="automation.description"
+                class="automation-form_input"
+                :class="{ error: $v.automation.description.$error }"
+                :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
+                rows="4"
+                @blur="$v.automation.description.$touch"
+              />
+              <p v-if="$v.automation.description.$error" class="message error">
+                {{ $t('AUTOMATION.ADD.FORM.DESC.ERROR') }}
+              </p>
+            </label>
+            <div class="event_wrapper">
+              <label :class="{ error: $v.automation.event_name.$error }">
+                {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
+                <select
+                  v-model="automation.event_name"
+                  @change="onEventChange()"
+                >
+                  <option
+                    v-for="event in automationRuleEvents"
+                    :key="event.key"
+                    :value="event.key"
+                  >
+                    {{ event.value }}
+                  </option>
+                </select>
+                <span v-if="$v.automation.event_name.$error" class="message">
+                  {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
+                </span>
+              </label>
+              <p v-if="hasAutomationMutated" class="info-message">
+                {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
+              </p>
+            </div>
+          </div>
+          <div>
+            <woot-button
+              class="automation_form-submit"
+              @click="submitAutomation"
+            >
               {{ $t('AUTOMATION.ADD.SUBMIT') }}
             </woot-button>
           </div>
@@ -220,11 +224,25 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.automation__properties-panel {
+  padding: var(--space-slab);
+  background-color: var(--white);
+  height: calc(100vh - 5.6rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid var(--s-50);
+}
+
+.automation_form-submit {
+  width: 100%;
+}
+
 .filters-wrap {
   padding: var(--space-normal);
   border-radius: var(--border-radius-large);
   border: 1px solid var(--color-border);
-  background: var(--color-background-light);
+  background-color: white;
   margin-bottom: var(--space-normal);
 }
 
@@ -238,8 +256,44 @@ export default {
   .info-message {
     font-size: var(--font-size-mini);
     color: var(--s-500);
-    text-align: right;
   }
   margin-bottom: var(--space-medium);
+}
+
+.row {
+  height: 100%;
+}
+.canvas {
+  background-image: radial-gradient(var(--s-75) 1.2px, transparent 0);
+  background-size: var(--space-normal) var(--space-normal);
+  height: 100%;
+  max-height: 100%;
+  padding: var(--space-normal) var(--space-larger);
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+::v-deep .automation-form_input > [type='text'],
+.automation-form_input {
+  margin: 0;
+}
+
+.message.error {
+  color: var(--r-400);
+  display: block;
+  font-size: 1.4rem;
+  font-size: var(--font-size-small);
+  font-weight: 400;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+textarea.error {
+  border: 1px solid var(--r-400);
+}
+
+.automation-form > :not([hidden]) ~ :not([hidden]) {
+  margin-top: var(--space-one);
+  margin-bottom: var(--space-one);
 }
 </style>

@@ -66,6 +66,7 @@
       "TITLE": "Edit Automation Rule",
       "SUBMIT": "Update",
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "LOADING": "Fetching automation rule",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
@@ -83,7 +84,7 @@
       "CREATE": "Create",
       "DELETE": "Delete",
       "CANCEL": "Cancel",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events"
     },
     "CONDITION": {
       "DELETE_MESSAGE": "You need to have atleast one condition to save",
