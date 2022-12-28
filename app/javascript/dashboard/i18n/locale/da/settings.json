@@ -20,9 +20,9 @@
         "NOTE": "Din e-mailadresse er din identitet og bruges til at logge ind."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
+        "TITLE": "Genvejstast til at sende beskeder",
         "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "UPDATE_SUCCESS": "Dine indstillinger er blevet opdateret",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
@@ -162,7 +162,7 @@
       "UPLOADING": "Uploader..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Se på kort"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Send"
