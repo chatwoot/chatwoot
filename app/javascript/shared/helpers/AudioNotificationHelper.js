@@ -15,10 +15,20 @@ export const getAudioContext = () => {
   return audioCtx;
 };
 
+const getAlertTone = alertType => {
+  if (alertType === 'dashboard') {
+    const {
+      notification_tone: tone,
+    } = window.WOOT.$store.getters.getUISettings;
+    return tone;
+  }
+  return 'ding';
+};
+
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = getAudioContext();
 
-  const playsound = audioBuffer => {
+  const playSound = audioBuffer => {
     window.playAudioAlert = () => {
       if (audioCtx) {
         const source = audioCtx.createBufferSource();
@@ -31,13 +41,14 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   };
 
   if (audioCtx) {
-    const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
+    const alertTone = getAlertTone(type);
+    const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
     const audioRequest = new Request(resourceUrl);
 
     fetch(audioRequest)
       .then(response => response.arrayBuffer())
       .then(buffer => {
-        audioCtx.decodeAudioData(buffer).then(playsound);
+        audioCtx.decodeAudioData(buffer).then(playSound);
         return new Promise(res => res());
       })
       .catch(() => {
@@ -91,6 +102,7 @@ export const getAssigneeFromNotification = currentConv => {
   }
   return id;
 };
+
 export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
   const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
@@ -98,10 +110,13 @@ export const newMessageNotification = data => {
   const currentConv =
     window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
   const assigneeId = getAssigneeFromNotification(currentConv);
-  const isDocHidden = document.hidden;
+
   const {
     enable_audio_alerts: enableAudioAlerts = false,
+    always_play_audio_alert: alwaysPlayAudioAlert,
   } = window.WOOT.$store.getters.getUISettings;
+  const isDocHidden = alwaysPlayAudioAlert ? true : document.hidden;
+
   const playAudio = shouldPlayAudio(
     data,
     currentConvId,
