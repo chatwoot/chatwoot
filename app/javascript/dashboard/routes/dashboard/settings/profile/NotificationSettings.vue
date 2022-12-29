@@ -10,50 +10,115 @@
         </p>
       </div>
       <div class="columns small-9">
-        <div>
-          <input
-            id="audio_enable_alert_none"
-            v-model="enableAudioAlerts"
-            class="notification--checkbox"
-            type="radio"
-            value="none"
-            @input="handleAudioInput"
-          />
-          <label for="audio_enable_alert_none">
-            {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NONE') }}
-          </label>
-        </div>
-        <div>
-          <input
-            id="audio_enable_alert_mine"
-            v-model="enableAudioAlerts"
-            class="notification--checkbox"
-            type="radio"
-            value="mine"
-            @input="handleAudioInput"
-          />
-          <label for="audio_enable_alert_mine">
-            {{
-              $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ASSIGNED')
-            }}
-          </label>
-        </div>
-        <div>
-          <input
-            id="audio_enable_alert_all"
-            v-model="enableAudioAlerts"
-            class="notification--checkbox"
-            type="radio"
-            value="all"
-            @input="handleAudioInput"
-          />
-          <label for="audio_enable_alert_all">
+        <div class="notification-items--wrapper">
+          <span class="text-block-title notification-label">
             {{
               $t(
-                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALL_CONVERSATIONS'
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE'
               )
             }}
-          </label>
+          </span>
+          <div>
+            <input
+              id="audio_enable_alert_none"
+              v-model="enableAudioAlerts"
+              class="notification--checkbox"
+              type="radio"
+              value="none"
+              @input="handleAudioInput"
+            />
+            <label for="audio_enable_alert_none">
+              {{
+                $t(
+                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.NONE'
+                )
+              }}
+            </label>
+          </div>
+          <div>
+            <input
+              id="audio_enable_alert_mine"
+              v-model="enableAudioAlerts"
+              class="notification--checkbox"
+              type="radio"
+              value="mine"
+              @input="handleAudioInput"
+            />
+            <label for="audio_enable_alert_mine">
+              {{
+                $t(
+                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.ASSIGNED'
+                )
+              }}
+            </label>
+          </div>
+          <div>
+            <input
+              id="audio_enable_alert_all"
+              v-model="enableAudioAlerts"
+              class="notification--checkbox"
+              type="radio"
+              value="all"
+              @input="handleAudioInput"
+            />
+            <label for="audio_enable_alert_all">
+              {{
+                $t(
+                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.ALL_CONVERSATIONS'
+                )
+              }}
+            </label>
+          </div>
+        </div>
+        <div class="notification-items--wrapper">
+          <span class="text-block-title notification-label">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
+              )
+            }}
+          </span>
+          <div>
+            <select
+              v-model="notificationTone"
+              class="tone-selector"
+              @change="handleAudioToneChange"
+            >
+              <option
+                v-for="tone in notificationAlertTones"
+                :key="tone.value"
+                :value="tone.value"
+              >
+                {{ tone.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="notification-items--wrapper">
+          <span class="text-block-title notification-label">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE'
+              )
+            }}
+          </span>
+          <div>
+            <input
+              id="audio_alert_when_tab_is_inactive"
+              v-model="playAudioWhenTabIsInactive"
+              class="notification--checkbox"
+              type="checkbox"
+              value="tab_is_inactive"
+              @input="handleAudioAlertConditions"
+            />
+            <label for="audio_alert_when_tab_is_inactive">
+              {{
+                $t(
+                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_ONE'
+                )
+              }}
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -257,6 +322,18 @@ export default {
       selectedPushFlags: [],
       enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
+      playAudioWhenTabIsInactive: false,
+      notificationTone: 'ding',
+      notificationAlertTones: [
+        {
+          value: 'ding',
+          label: 'Ding',
+        },
+        {
+          value: 'bell',
+          label: 'Bell',
+        },
+      ],
     };
   },
   computed: {
@@ -280,20 +357,27 @@ export default {
       this.selectedPushFlags = value;
     },
     uiSettings(value) {
-      const { enable_audio_alerts: enableAudio = false } = value;
-      this.enableAudioAlerts = enableAudio;
+      this.notificationUISettings(value);
     },
   },
   mounted() {
     if (hasPushPermissions()) {
       this.getPushSubscription();
     }
-
+    this.notificationUISettings(this.uiSettings);
     this.$store.dispatch('userNotificationSettings/get');
-    const { enable_audio_alerts: enableAudio = false } = this.uiSettings;
-    this.enableAudioAlerts = enableAudio;
   },
   methods: {
+    notificationUISettings(uiSettings) {
+      const {
+        enable_audio_alerts: enableAudio = false,
+        always_play_audio_alert: alwaysPlayAudioAlert,
+        notification_tone: notificationTone,
+      } = uiSettings;
+      this.enableAudioAlerts = enableAudio;
+      this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
+      this.notificationTone = notificationTone || 'ding';
+    },
     onRegistrationSuccess() {
       this.hasEnabledPushPermissions = true;
     },
@@ -351,6 +435,19 @@ export default {
       });
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
+    handleAudioAlertConditions(e) {
+      let condition = e.target.value;
+      if (condition === 'tab_is_inactive') {
+        this.updateUISettings({
+          always_play_audio_alert: !e.target.checked,
+        });
+      }
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+    },
+    handleAudioToneChange(e) {
+      this.updateUISettings({ notification_tone: e.target.value });
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+    },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
         const newSelectedFlags = selected.filter(flag => flag !== current);
@@ -371,5 +468,22 @@ export default {
 
 .push-notification--button {
   margin-bottom: var(--space-one);
+}
+
+.notification-items--wrapper {
+  margin-bottom: var(--space-smaller);
+}
+
+.notification-label {
+  display: flex;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-small);
+}
+
+.tone-selector {
+  height: var(--space-large);
+  padding-bottom: var(--space-micro);
+  padding-top: var(--space-micro);
+  width: var(--space-mega);
 }
 </style>
