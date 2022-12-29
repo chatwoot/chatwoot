@@ -69,8 +69,7 @@
         },
         "CONDITIONS": {
           "TITLE": "Conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the conversations in the selected alert type is read"
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
