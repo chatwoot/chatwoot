@@ -15,53 +15,6 @@ export const getAudioContext = () => {
   return audioCtx;
 };
 
-export const getAllConversationsByAssignee = (conversations, currentUserId) => {
-  const allConversationsByAssignee = [];
-  conversations.forEach(conv => {
-    if (currentUserId) {
-      allConversationsByAssignee.push(conv);
-    }
-  });
-  return allConversationsByAssignee;
-};
-
-export const getUnreadCountFromAllConversations = conversations => {
-  let unreadCount = 0;
-  conversations.forEach(conv => {
-    unreadCount += conv.unread_count;
-  });
-  return unreadCount;
-};
-
-export const playAudioEvery30Seconds = () => {
-  const {
-    enable_audio_alerts: enableAudioAlerts = false,
-    play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
-  } = window.WOOT.$store.getters.getUISettings;
-  const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
-
-  if (enableAudioAlerts !== 'none' && playAudioUntilAllConversationsAreRead) {
-    const allConversations = window.WOOT.$store.getters.getAllConversations;
-    const allConversationsByUserId = getAllConversationsByAssignee(
-      allConversations,
-      currentUserId
-    );
-    const unreadCountFromAllConversations = getUnreadCountFromAllConversations(
-      allConversationsByUserId
-    );
-
-    if (unreadCountFromAllConversations > 0) {
-      window.playAudioAlert();
-      showBadgeOnFavicon();
-      setTimeout(() => {
-        playAudioEvery30Seconds();
-      }, 30000);
-    } else {
-      clearTimeout();
-    }
-  }
-};
-
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = getAudioContext();
 
@@ -91,7 +44,6 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
     const alertTone = getAlertTone(type);
     const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
     const audioRequest = new Request(resourceUrl);
-    playAudioEvery30Seconds();
 
     fetch(audioRequest)
       .then(response => response.arrayBuffer())

@@ -119,23 +119,6 @@
               }}
             </label>
           </div>
-          <div>
-            <input
-              id="audio_alert_until_all_conversations_are_read"
-              v-model="playAudioUntilAllConversationsAreRead"
-              class="notification--checkbox"
-              type="checkbox"
-              value="conversations_are_read"
-              @input="handleAudioAlertConditions"
-            />
-            <label for="audio_alert_until_all_conversations_are_read">
-              {{
-                $t(
-                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_TWO'
-                )
-              }}
-            </label>
-          </div>
         </div>
       </div>
     </div>
@@ -340,7 +323,6 @@ export default {
       enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
       playAudioWhenTabIsInactive: false,
-      playAudioUntilAllConversationsAreRead: false,
       notificationTone: 'ding',
       notificationAlertTones: [
         {
@@ -390,12 +372,10 @@ export default {
       const {
         enable_audio_alerts: enableAudio = false,
         play_audio_when_tab_is_inactive: playAudioWhenTabIsInactive,
-        play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
         notification_tone: notificationTone,
       } = uiSettings;
       this.enableAudioAlerts = enableAudio;
       this.playAudioWhenTabIsInactive = playAudioWhenTabIsInactive;
-      this.playAudioUntilAllConversationsAreRead = playAudioUntilAllConversationsAreRead;
       this.notificationTone = notificationTone;
     },
     onRegistrationSuccess() {
@@ -460,10 +440,6 @@ export default {
       if (condition === 'tab_is_inactive') {
         this.updateUISettings({
           play_audio_when_tab_is_inactive: e.target.checked,
-        });
-      } else if (condition === 'conversations_are_read') {
-        this.updateUISettings({
-          play_audio_until_all_conversations_are_read: e.target.checked,
         });
       }
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
