@@ -174,7 +174,7 @@ export default {
           feedback_message: this.feedbackMessage,
         };
       } catch (error) {
-        const errorMessage = error?.response?.data?.message;
+        const errorMessage = error?.response?.data?.error;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
       } finally {
         this.isUpdating = false;

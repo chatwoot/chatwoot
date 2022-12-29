@@ -2,11 +2,11 @@
   "REGISTER": {
     "TRY_WOOT": "Registrar una cuenta",
     "TITLE": "Registrarse",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TESTIMONIAL_HEADER": "Todo lo que se necesita es un paso adelante",
+    "TESTIMONIAL_CONTENT": "Usted está a un paso de involucrar a sus clientes, conservarlos y encontrar nuevos.",
     "TERMS_ACCEPT": "Al registrarte, aceptas nuestra <a href=\"https://www.chatwoot.com/terms\">T & C</a> y nuestra <a href=\"https://www.chatwoot.com/privacy-policy\">política de privacidad</a>",
     "COMPANY_NAME": {
-      "LABEL": "Company name",
+      "LABEL": "Nombre de la empresa",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
       "ERROR": "Company name is too short"
     },
