@@ -15,10 +15,57 @@ export const getAudioContext = () => {
   return audioCtx;
 };
 
+export const getAllConversationsByAssignee = (conversations, currentUserId) => {
+  const allConversationsByAssignee = [];
+  conversations.forEach(conv => {
+    if (currentUserId) {
+      allConversationsByAssignee.push(conv);
+    }
+  });
+  return allConversationsByAssignee;
+};
+
+export const getUnreadCountFromAllConversations = conversations => {
+  let unreadCount = 0;
+  conversations.forEach(conv => {
+    unreadCount += conv.unread_count;
+  });
+  return unreadCount;
+};
+
+export const playAudioEvery30Seconds = () => {
+  const {
+    enable_audio_alerts: enableAudioAlerts = false,
+    play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
+  } = window.WOOT.$store.getters.getUISettings;
+  const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
+
+  if (enableAudioAlerts !== 'none' && playAudioUntilAllConversationsAreRead) {
+    const allConversations = window.WOOT.$store.getters.getAllConversations;
+    const allConversationsByUserId = getAllConversationsByAssignee(
+      allConversations,
+      currentUserId
+    );
+    const unreadCountFromAllConversations = getUnreadCountFromAllConversations(
+      allConversationsByUserId
+    );
+
+    if (unreadCountFromAllConversations > 0) {
+      window.playAudioAlert();
+      showBadgeOnFavicon();
+      setTimeout(() => {
+        playAudioEvery30Seconds();
+      }, 30000);
+    } else {
+      clearTimeout();
+    }
+  }
+};
+
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = getAudioContext();
 
-  const playsound = audioBuffer => {
+  const playSound = audioBuffer => {
     window.playAudioAlert = () => {
       if (audioCtx) {
         const source = audioCtx.createBufferSource();
@@ -44,11 +91,12 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
     const alertTone = getAlertTone(type);
     const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
     const audioRequest = new Request(resourceUrl);
+    playAudioEvery30Seconds();
 
     fetch(audioRequest)
       .then(response => response.arrayBuffer())
       .then(buffer => {
-        audioCtx.decodeAudioData(buffer).then(playsound);
+        audioCtx.decodeAudioData(buffer).then(playSound);
         return new Promise(res => res());
       })
       .catch(() => {
@@ -103,25 +151,6 @@ export const getAssigneeFromNotification = currentConv => {
   return id;
 };
 
-export const getAllConversationsByAssignee = (conversations, assigneeId) => {
-  const allConversationsByAssignee = [];
-  conversations.forEach(conv => {
-    const assignee = getAssigneeFromNotification(conv);
-    if (assignee === assigneeId) {
-      allConversationsByAssignee.push(conv);
-    }
-  });
-  return allConversationsByAssignee;
-};
-
-export const getUnreadCountFromAllConversations = conversations => {
-  let unreadCount = 0;
-  conversations.forEach(conv => {
-    unreadCount += conv.unread_count;
-  });
-  return unreadCount;
-};
-
 export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
   const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
@@ -129,19 +158,10 @@ export const newMessageNotification = data => {
   const currentConv =
     window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
   const assigneeId = getAssigneeFromNotification(currentConv);
-  // const allConversations = window.WOOT.$store.getters.getAllConversations;
-  // const allConversationsByAssigneeId = getAllConversationsByAssignee(
-  //   allConversations,
-  //   assigneeId
-  // );
-  // const unreadCountFromAllConversations = getUnreadCountFromAllConversations(
-  //   allConversationsByAssigneeId
-  // );
 
   const {
     enable_audio_alerts: enableAudioAlerts = false,
     play_audio_when_tab_is_inactive: playAudioWhenTabIsInactive,
-    // play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
   } = window.WOOT.$store.getters.getUISettings;
   const isDocHidden = playAudioWhenTabIsInactive ? document.hidden : true;
 
@@ -161,23 +181,6 @@ export const newMessageNotification = data => {
     window.playAudioAlert();
     showBadgeOnFavicon();
   }
-
-  // if (
-  //   playAudioUntilAllConversationsAreRead &&
-  //   isNotificationEnabled &&
-  //   isDocHidden
-  // ) {
-  //   const playAudioEvery30Seconds = () => {
-  //     window.playAudioAlert();
-  //     showBadgeOnFavicon();
-  //     setTimeout(playAudioEvery30Seconds, 30000);
-  //   };
-  //   if (unreadCountFromAllConversations > 0) {
-  //     playAudioEvery30Seconds();
-  //   } else {
-  //     clearTimeout(playAudioEvery30Seconds);
-  //   }
-  // }
 };
 
 export const playNewMessageNotificationInWidget = () => {
