@@ -15,6 +15,16 @@ export const getAudioContext = () => {
   return audioCtx;
 };
 
+const getAlertTone = alertType => {
+  if (alertType === 'dashboard') {
+    const {
+      notification_tone: tone,
+    } = window.WOOT.$store.getters.getUISettings;
+    return tone;
+  }
+  return 'ding';
+};
+
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = getAudioContext();
 
@@ -28,16 +38,6 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
         source.start();
       }
     };
-  };
-
-  const getAlertTone = alertType => {
-    if (alertType === 'dashboard') {
-      const {
-        notification_tone: tone,
-      } = window.WOOT.$store.getters.getUISettings;
-      return tone;
-    }
-    return 'ding';
   };
 
   if (audioCtx) {
