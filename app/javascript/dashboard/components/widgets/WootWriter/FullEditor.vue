@@ -20,7 +20,7 @@ import {
 
 // import { buildFullEditorMenuItems } from './src/menu';
 
-import '@chatwoot/prosemirror-schema/src/woot-editor.css';
+import '@chatwoot/prosemirror-schema/src/styles/article.css';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
@@ -162,9 +162,11 @@ export default {
 
 .ProseMirror-prompt {
   z-index: var(--z-index-highest);
-  background: var(--color-background-light);
+  background: var(--white);
+  box-shadow: var(--shadow-large);
   border-radius: var(--border-radius-normal);
   border: 1px solid var(--color-border);
+  min-width: 40rem;
 }
 
 .is-private {

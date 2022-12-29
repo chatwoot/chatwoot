@@ -49,7 +49,7 @@ import AnalyticsHelper, {
   ANALYTICS_EVENTS,
 } from '../../../helper/AnalyticsHelper';
 
-import '@chatwoot/prosemirror-schema/src/woot-editor.css';
+import '@chatwoot/prosemirror-schema/src/styles/base.css';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
@@ -286,7 +286,7 @@ export default {
         cannedItem
       );
 
-      if (node.childCount === 1) {
+      if (node.isTextblock) {
         node = this.editorView.state.schema.text(cannedItem);
         from = this.range.from;
       }

@@ -79,41 +79,38 @@ export default {
 <style lang="scss" scoped>
 .edit-article--container {
   margin: var(--space-large) auto;
-  width: 640px;
+  padding: 0 var(--space-medium);
+  max-width: 89.6rem;
+  width: 100%;
 }
 
 .article-heading {
   font-size: var(--font-size-giga);
   font-weight: var(--font-weight-bold);
+  width: 100%;
   min-height: var(--space-jumbo);
   max-height: 64rem;
   height: auto;
   border: 0px solid transparent;
   padding: 0;
   color: var(--s-900);
+  padding: var(--space-normal);
+
+  &:hover {
+    background: var(--s-25);
+    border-radius: var(--border-radius-normal);
+  }
+}
+
+.article-content {
+  padding: 0 var(--space-normal);
 }
 
 ::v-deep {
   .ProseMirror-menubar-wrapper {
-    .ProseMirror-menubar .ProseMirror-menuitem {
-      .ProseMirror-icon {
-        margin-right: var(--space-normal);
-        font-size: var(--font-size-small);
-      }
-    }
-
     .ProseMirror-woot-style {
       min-height: var(--space-giga);
       max-height: 100%;
-
-      p {
-        font-size: var(--font-size-default);
-        line-height: 1.5;
-      }
-
-      li::marker {
-        font-size: var(--font-size-default);
-      }
     }
   }
 }
