@@ -371,12 +371,12 @@ export default {
     notificationUISettings(uiSettings) {
       const {
         enable_audio_alerts: enableAudio = false,
-        play_audio_when_tab_is_inactive: playAudioWhenTabIsInactive,
+        always_play_audio_alert: alwaysPlayAudioAlert,
         notification_tone: notificationTone,
       } = uiSettings;
       this.enableAudioAlerts = enableAudio;
-      this.playAudioWhenTabIsInactive = playAudioWhenTabIsInactive;
-      this.notificationTone = notificationTone;
+      this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
+      this.notificationTone = notificationTone || 'ding';
     },
     onRegistrationSuccess() {
       this.hasEnabledPushPermissions = true;
@@ -439,15 +439,13 @@ export default {
       let condition = e.target.value;
       if (condition === 'tab_is_inactive') {
         this.updateUISettings({
-          play_audio_when_tab_is_inactive: e.target.checked,
+          always_play_audio_alert: !e.target.checked,
         });
       }
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     handleAudioToneChange(e) {
-      this.updateUISettings({
-        notification_tone: e.target.value,
-      });
+      this.updateUISettings({ notification_tone: e.target.value });
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     toggleInput(selected, current) {

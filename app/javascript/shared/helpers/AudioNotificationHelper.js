@@ -113,9 +113,9 @@ export const newMessageNotification = data => {
 
   const {
     enable_audio_alerts: enableAudioAlerts = false,
-    play_audio_when_tab_is_inactive: playAudioWhenTabIsInactive,
+    always_play_audio_alert: alwaysPlayAudioAlert,
   } = window.WOOT.$store.getters.getUISettings;
-  const isDocHidden = playAudioWhenTabIsInactive ? document.hidden : true;
+  const isDocHidden = alwaysPlayAudioAlert ? true : document.hidden;
 
   const playAudio = shouldPlayAudio(
     data,
