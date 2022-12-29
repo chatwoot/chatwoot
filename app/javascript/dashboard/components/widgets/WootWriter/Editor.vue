@@ -15,29 +15,27 @@
 </template>
 
 <script>
-import { EditorView } from 'prosemirror-view';
-
-import { defaultMarkdownSerializer } from 'prosemirror-markdown';
 import {
-  addMentionsToMarkdownSerializer,
+  Selection,
+  EditorView,
+  EditorState,
+  defaultMarkdownParser,
+  messageSchema,
+  wootMessageWriterSetup,
+  defaultMarkdownSerializer,
   addMentionsToMarkdownParser,
-  schemaWithMentions,
-} from '@chatwoot/prosemirror-schema/src/mentions/schema';
-
+  addMentionsToMarkdownSerializer,
+} from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import { EditorState, Selection } from 'prosemirror-state';
-import { defaultMarkdownParser } from 'prosemirror-markdown';
-import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 
-import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
@@ -51,11 +49,13 @@ import AnalyticsHelper, {
   ANALYTICS_EVENTS,
 } from '../../../helper/AnalyticsHelper';
 
+import '@chatwoot/prosemirror-schema/src/woot-editor.css';
+
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
     doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
-    plugins: wootWriterSetup({
-      schema: schemaWithMentions,
+    plugins: wootMessageWriterSetup({
+      schema: messageSchema,
       placeholder,
       plugins,
     }),

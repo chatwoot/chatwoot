@@ -14,8 +14,6 @@
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
-      :is-format-mode="true"
-      :override-line-breaks="true"
       @focus="onFocus"
       @blur="onBlur"
       @input="onContentInput"
@@ -26,7 +24,7 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
 
 export default {
   components: {
