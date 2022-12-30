@@ -104,7 +104,10 @@ class Message < ApplicationRecord
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      conversation: { assignee_id: conversation.assignee_id }
+      conversation: {
+        assignee_id: conversation.assignee_id,
+        unread_count: conversation.unread_incoming_messages.count
+      }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
     validate_instagram_story if instagram_story_mention?
