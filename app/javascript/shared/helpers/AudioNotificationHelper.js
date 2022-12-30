@@ -15,16 +15,6 @@ export const getAudioContext = () => {
   return audioCtx;
 };
 
-const getAlertTone = alertType => {
-  if (alertType === 'dashboard') {
-    const {
-      notification_tone: tone,
-    } = window.WOOT.$store.getters.getUISettings;
-    return tone;
-  }
-  return 'ding';
-};
-
 let timer;
 const clearSetTimeout = () => {
   if (timer) {
@@ -33,7 +23,7 @@ const clearSetTimeout = () => {
 };
 
 export const playAudioEvery30Seconds = () => {
-  const TIME = 30000;
+  const TIME = 3000;
   const {
     enable_audio_alerts: enableAudioAlerts = false,
     play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
@@ -60,6 +50,17 @@ export const playAudioEvery30Seconds = () => {
   }
 };
 
+const getAlertTone = alertType => {
+  if (alertType === 'dashboard') {
+    playAudioEvery30Seconds();
+    const {
+      notification_tone: tone,
+    } = window.WOOT.$store.getters.getUISettings;
+    return tone;
+  }
+  return 'ding';
+};
+
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = getAudioContext();
 
@@ -79,10 +80,6 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
     const alertTone = getAlertTone(type);
     const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
     const audioRequest = new Request(resourceUrl);
-
-    if (type === 'dashboard') {
-      playAudioEvery30Seconds();
-    }
 
     fetch(audioRequest)
       .then(response => response.arrayBuffer())
