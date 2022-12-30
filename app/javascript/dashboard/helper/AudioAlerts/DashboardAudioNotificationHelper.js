@@ -11,22 +11,22 @@ class DashboardAudioNotificationHelper {
     this.recurringNotificationTimer = null;
     this.audioAlertType = 'none';
     this.playAlertOnlyWhenHidden = true;
-    this.playAudioAlertUntilAllConversationsAreRead = false;
+    this.alertIfUnreadConversationExist = false;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
-    this.timer = null;
+    this.recurringNotificationTimer = null;
   }
 
   setInstanceValues = ({
     currentUserId,
     alwaysPlayAudioAlert,
-    playAudioUntilAllConversationsAreRead,
+    alertIfUnreadConversationExist,
     audioAlertType,
     audioAlertTone,
   }) => {
     this.audioAlertType = audioAlertType;
     this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
-    this.playAudioAlertUntilAllConversationsAreRead = playAudioUntilAllConversationsAreRead;
+    this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
     this.currentUserId = currentUserId;
     this.audioAlertTone = audioAlertTone;
     initOnEvents.forEach(e => {
@@ -57,14 +57,11 @@ class DashboardAudioNotificationHelper {
   };
 
   playAudioEvery30Seconds = () => {
-    if (
-      this.playAudioAlertUntilAllConversationsAreRead &&
-      this.audioAlertType !== 'none'
-    ) {
+    if (this.alertIfUnreadConversationExist && this.audioAlertType !== 'none') {
       const TIME = 30000;
       const {
         enable_audio_alerts: enableAudioAlerts = false,
-        play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
+        alert_if_unread_assigned_conversation_exist: playAudioUntilAllConversationsAreRead,
       } = window.WOOT.$store.getters.getUISettings;
 
       if (
@@ -139,7 +136,7 @@ class DashboardAudioNotificationHelper {
       return;
     }
 
-    if (this.playAudioAlertUntilAllConversationsAreRead) {
+    if (this.alertIfUnreadConversationExist) {
       this.clearSetTimeout();
       this.playAudioEvery30Seconds();
     }

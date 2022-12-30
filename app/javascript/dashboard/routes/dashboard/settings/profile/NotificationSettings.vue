@@ -340,7 +340,7 @@ export default {
       enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
       playAudioWhenTabIsInactive: false,
-      playAudioUntilAllConversationsAreRead: false,
+      alertIfUnreadConversationExist: false,
       notificationTone: 'ding',
       notificationAlertTones: [
         {
@@ -390,12 +390,12 @@ export default {
       const {
         enable_audio_alerts: enableAudio = false,
         always_play_audio_alert: alwaysPlayAudioAlert,
-        play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
+        alert_if_unread_assigned_conversation_exist: alertIfUnreadConversationExist,
         notification_tone: notificationTone,
       } = uiSettings;
       this.enableAudioAlerts = enableAudio;
       this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
-      this.playAudioUntilAllConversationsAreRead = playAudioUntilAllConversationsAreRead;
+      this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
       this.notificationTone = notificationTone || 'ding';
     },
     onRegistrationSuccess() {
@@ -463,7 +463,7 @@ export default {
         });
       } else if (condition === 'conversations_are_read') {
         this.updateUISettings({
-          play_audio_until_all_conversations_are_read: e.target.checked,
+          alert_if_unread_assigned_conversation_exist: e.target.checked,
         });
       }
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
