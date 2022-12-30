@@ -169,10 +169,14 @@ export default {
   z-index: var(--z-index-low);
   overflow: auto;
   background: white;
-  flex-basis: 28rem;
+  flex-basis: 100%;
 
-  @include breakpoint(768px down) {
-    flex-basis: fit-content;
+  @include breakpoint(small up) {
+    flex-basis: 26rem;
+  }
+
+  @include breakpoint(medium up) {
+    flex-basis: 28rem;
   }
 
   @include breakpoint(large up) {

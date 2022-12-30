@@ -107,7 +107,8 @@ export default {
   },
   methods: {
     handleResize() {
-      if (window.innerWidth <= 992) {
+      const { SMALL_SCREEN_BREAKPOINT } = wootConstants;
+      if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
         this.isDesktopView = false;
       } else {
         this.isDesktopView = true;

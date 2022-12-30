@@ -171,21 +171,22 @@ export default {
 
 .conv-header {
   flex: 0 0 var(--space-jumbo);
+  flex-direction: row;
 
-  @include breakpoint(640px down) {
-    flex-direction: row;
+  @include breakpoint(small up) {
+    flex-direction: column;
   }
 }
 
 .conversation-header--details {
   display: flex;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   width: 100%;
 
-  @include breakpoint(640px down) {
-    flex-direction: column;
+  @include breakpoint(small up) {
+    flex-direction: row;
   }
 }
 
