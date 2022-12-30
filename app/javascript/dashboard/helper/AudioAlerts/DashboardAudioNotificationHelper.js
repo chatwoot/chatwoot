@@ -11,18 +11,22 @@ class DashboardAudioNotificationHelper {
     this.recurringNotificationTimer = null;
     this.audioAlertType = 'none';
     this.playAlertOnlyWhenHidden = true;
+    this.playAudioAlertUntilAllConversationsAreRead = false;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
+    this.timer = null;
   }
 
   setInstanceValues = ({
     currentUserId,
     alwaysPlayAudioAlert,
+    playAudioUntilAllConversationsAreRead,
     audioAlertType,
     audioAlertTone,
   }) => {
     this.audioAlertType = audioAlertType;
     this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
+    this.playAudioAlertUntilAllConversationsAreRead = playAudioUntilAllConversationsAreRead;
     this.currentUserId = currentUserId;
     this.audioAlertTone = audioAlertTone;
     initOnEvents.forEach(e => {
@@ -40,8 +44,51 @@ class DashboardAudioNotificationHelper {
       initOnEvents.forEach(event => {
         document.removeEventListener(event, this.onAudioListenEvent, false);
       });
+      this.playAudioEvery30Seconds();
     } catch (error) {
       // Ignore audio fetch errors
+    }
+  };
+
+  clearSetTimeout = () => {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  };
+
+  playAudioEvery30Seconds = () => {
+    if (
+      this.playAudioAlertUntilAllConversationsAreRead &&
+      this.audioAlertType !== 'none'
+    ) {
+      const TIME = 30000;
+      const {
+        enable_audio_alerts: enableAudioAlerts = false,
+        play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
+      } = window.WOOT.$store.getters.getUISettings;
+
+      if (
+        enableAudioAlerts !== 'none' &&
+        playAudioUntilAllConversationsAreRead
+      ) {
+        const mineConversation = window.WOOT.$store.getters.getMineChats({
+          assigneeType: 'me',
+          status: 'open',
+        });
+        const hasUnreadConversation = mineConversation.some(conv => {
+          return conv.unread_count > 0;
+        });
+
+        if (hasUnreadConversation) {
+          this.timer = setTimeout(() => {
+            window.playAudioAlert();
+            showBadgeOnFavicon();
+            this.playAudioEvery30Seconds();
+          }, TIME);
+        } else {
+          this.clearSetTimeout();
+        }
+      }
     }
   };
 
@@ -90,6 +137,11 @@ class DashboardAudioNotificationHelper {
     // If the user has disabled alerts when active on the dashboard, the dismiss the alert
     if (this.playAlertOnlyWhenHidden && !document.hidden) {
       return;
+    }
+
+    if (this.playAudioAlertUntilAllConversationsAreRead) {
+      this.clearSetTimeout();
+      this.playAudioEvery30Seconds();
     }
 
     window.playAudioAlert();

@@ -20,6 +20,7 @@ const initializeAudioAlerts = user => {
   const {
     always_play_audio_alert: alwaysPlayAudioAlert,
     enable_audio_alerts: audioAlertType,
+    play_audio_until_all_conversations_are_read: playAudioAlertUntilAllConversationsAreRead,
     notification_tone: audioAlertTone,
   } = uiSettings;
 
@@ -28,6 +29,8 @@ const initializeAudioAlerts = user => {
     audioAlertType: audioAlertType || 'none',
     audioAlertTone: audioAlertTone || 'ding',
     alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
+    playAudioUntilAllConversationsAreRead:
+      playAudioAlertUntilAllConversationsAreRead || false,
   });
 };
 
