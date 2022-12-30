@@ -1,110 +1,67 @@
 <template>
-  <div class="wizard-body small-9 columns">
-    <page-header
-      :header-title="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.DESC')"
-    />
-    <form class="row" @submit.prevent="createChannel()">
-      <div class="medium-8 columns">
-        <label :class="{ error: $v.channelName.$error }">
-          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.LABEL') }}
-          <input
-            v-model.trim="channelName"
-            type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-            "
-            @blur="$v.channelName.$touch"
-          />
-          <span v-if="$v.channelName.$error" class="message">{{
-            $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.ERROR')
-          }}</span>
-        </label>
+  <div
+    v-if="!forwardTo"
+    class="wizard-body small-12 medium-9 columns height-auto"
+  >
+    <div class="row channels">
+      <div
+        class="small-6 medium-4 large-3 columns channel"
+        @click="onMicrosoftClick"
+      >
+        <img src="~dashboard/assets/images/channels/microsoft.png" />
+        <h3 class="channel__title">
+          Microsoft
+        </h3>
       </div>
-
-      <div class="medium-8 columns">
-        <label :class="{ error: $v.email.$error }">
-          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.LABEL') }}
-          <input
-            v-model.trim="email"
-            type="text"
-            :placeholder="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.PLACEHOLDER')"
-            @blur="$v.email.$touch"
-          />
-        </label>
-        <p class="help-text">
-          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.SUBTITLE') }}
-        </p>
+      <div
+        class="small-6 medium-4 large-3 columns channel"
+        @click="onOtherClick"
+      >
+        <img src="~dashboard/assets/images/channels/email.png" />
+        <h3 class="channel__title">
+          Other
+        </h3>
       </div>
-
-      <div class="medium-12 columns">
-        <woot-submit-button
-          :loading="uiFlags.isCreating"
-          :button-text="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.SUBMIT_BUTTON')"
-        />
-      </div>
-    </form>
+    </div>
   </div>
+  <forward-to-option v-else />
 </template>
-
 <script>
-import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
-import { required, email } from 'vuelidate/lib/validators';
-import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
-
+import * as msal from '@azure/msal-browser';
+import ForwardToOption from './Email/ForwardToOption.vue';
 export default {
   components: {
-    PageHeader,
+    ForwardToOption,
   },
-  mixins: [alertMixin],
   data() {
-    return {
-      channelName: '',
-      email: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-    }),
-  },
-  validations: {
-    channelName: { required },
-    email: { required, email },
+    return { forwardTo: false };
   },
   methods: {
-    async createChannel() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
-
+    async onMicrosoftClick() {
       try {
-        const emailChannel = await this.$store.dispatch(
-          'inboxes/createChannel',
-          {
-            name: this.channelName,
-            channel: {
-              type: 'email',
-              email: this.email,
-            },
-          }
-        );
-
-        router.replace({
-          name: 'settings_inboxes_add_agents',
-          params: {
-            page: 'new',
-            inbox_id: emailChannel.id,
+        const msalConfig = {
+          auth: {
+            clientId: '67fa631b-e958-4ccb-95f0-ecede13d53ce',
           },
+        };
+
+        const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+        const loginResponse = await msalInstance.loginPopup({
+          scopes: [
+            'https://outlook.office.com/IMAP.AccessAsUser.All',
+            'https://outlook.office.com/SMTP.Send',
+          ],
+          redirectUri: 'http://localhost:3000',
         });
-      } catch (error) {
-        this.showAlert(
-          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE')
-        );
+
+        console.log(loginResponse);
+      } catch (err) {
+        // handle error
       }
+    },
+    onOtherClick() {
+      this.forwardTo = true;
     },
   },
 };
