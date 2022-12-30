@@ -1,4 +1,5 @@
 import AnalyticsHelper from './AnalyticsHelper';
+import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 
 export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
 export const CHATWOOT_RESET = 'CHATWOOT_RESET';
@@ -32,5 +33,20 @@ export const initializeChatwootEvents = () => {
         cloudCustomer: 'true',
       });
     }
+
+    // InitializeAudioNotifications
+    const { ui_settings: uiSettings } = user || {};
+    const {
+      always_play_audio_alert: alwaysPlayAudioAlert,
+      enable_audio_alerts: audioAlertType,
+      notification_tone: audioAlertTone,
+    } = uiSettings;
+
+    DashboardAudioNotificationHelper.setInstanceValues({
+      currentUserId: user.id,
+      audioAlertType: audioAlertType || 'none',
+      audioAlertTone: audioAlertTone || 'ding',
+      alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
+    });
   });
 };
