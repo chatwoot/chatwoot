@@ -14,7 +14,6 @@ class DashboardAudioNotificationHelper {
     this.alertIfUnreadConversationExist = false;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
-    this.recurringNotificationTimer = null;
   }
 
   setInstanceValues = ({
@@ -50,43 +49,43 @@ class DashboardAudioNotificationHelper {
     }
   };
 
-  clearSetTimeout = () => {
-    if (this.timer) {
-      clearTimeout(this.timer);
+  executeRecurringNotification = () => {
+    const mineConversation = window.WOOT.$store.getters.getMineChats({
+      assigneeType: 'me',
+      status: 'open',
+    });
+    const hasUnreadConversation = mineConversation.some(conv => {
+      return conv.unread_count > 0;
+    });
+
+    if (hasUnreadConversation) {
+      window.playAudioAlert();
+      showBadgeOnFavicon();
     }
+    this.clearSetTimeout();
+  };
+
+  clearSetTimeout = () => {
+    if (this.recurringNotificationTimer) {
+      clearTimeout(this.recurringNotificationTimer);
+    }
+    this.recurringNotificationTimer = setTimeout(
+      this.executeRecurringNotification,
+      5000
+    );
   };
 
   playAudioEvery30Seconds = () => {
-    if (this.alertIfUnreadConversationExist && this.audioAlertType !== 'none') {
-      const TIME = 30000;
-      const {
-        enable_audio_alerts: enableAudioAlerts = false,
-        alert_if_unread_assigned_conversation_exist: playAudioUntilAllConversationsAreRead,
-      } = window.WOOT.$store.getters.getUISettings;
-
-      if (
-        enableAudioAlerts !== 'none' &&
-        playAudioUntilAllConversationsAreRead
-      ) {
-        const mineConversation = window.WOOT.$store.getters.getMineChats({
-          assigneeType: 'me',
-          status: 'open',
-        });
-        const hasUnreadConversation = mineConversation.some(conv => {
-          return conv.unread_count > 0;
-        });
-
-        if (hasUnreadConversation) {
-          this.timer = setTimeout(() => {
-            window.playAudioAlert();
-            showBadgeOnFavicon();
-            this.playAudioEvery30Seconds();
-          }, TIME);
-        } else {
-          this.clearSetTimeout();
-        }
-      }
+    //  Audio alert is disabled dismiss the timer
+    if (this.audioAlertType === 'none') {
+      return;
     }
+    // If assigned conversation flag is disabled dismiss the timer
+    if (!this.alertIfUnreadConversationExist) {
+      return;
+    }
+
+    this.clearSetTimeout();
   };
 
   isConversationAssignedToCurrentUser = message => {
@@ -136,13 +135,9 @@ class DashboardAudioNotificationHelper {
       return;
     }
 
-    if (this.alertIfUnreadConversationExist) {
-      this.clearSetTimeout();
-      this.playAudioEvery30Seconds();
-    }
-
     window.playAudioAlert();
     showBadgeOnFavicon();
+    this.playAudioEvery30Seconds();
   };
 }
 

@@ -122,7 +122,7 @@
           <div>
             <input
               id="audio_alert_until_all_conversations_are_read"
-              v-model="playAudioUntilAllConversationsAreRead"
+              v-model="alertIfUnreadConversationExist"
               class="notification--checkbox"
               type="checkbox"
               value="conversations_are_read"

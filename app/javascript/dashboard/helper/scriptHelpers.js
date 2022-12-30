@@ -29,8 +29,7 @@ const initializeAudioAlerts = user => {
     audioAlertType: audioAlertType || 'none',
     audioAlertTone: audioAlertTone || 'ding',
     alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
-    playAudioUntilAllConversationsAreRead:
-      alertIfUnreadConversationExist || false,
+    alertIfUnreadConversationExist: alertIfUnreadConversationExist || false,
   });
 };
 
