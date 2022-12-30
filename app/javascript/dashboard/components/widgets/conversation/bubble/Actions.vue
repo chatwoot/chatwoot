@@ -186,7 +186,7 @@ export default {
       return `https://www.instagram.com/stories/${storySender}/${storyId}`;
     },
     showStatusIndicators() {
-      if ((this.isOutgoing || this.isTemplate) && !this.private) {
+      if ((this.isOutgoing || this.isTemplate) && !this.isPrivate) {
         return true;
       }
       return false;
