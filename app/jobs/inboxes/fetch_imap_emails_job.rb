@@ -6,7 +6,11 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   def perform(channel)
     return unless should_fetch_email?(channel)
 
-    fetch_mail_for_channel(channel)
+    if channel.ms_oauth_token_available?
+      fetch_mail_for_ms_oauth_channel(channel)
+    else
+      fetch_mail_for_channel(channel)
+    end
     # clearing old failures like timeouts since the mail is now successfully processed
     channel.reauthorized!
   rescue *ExceptionList::IMAP_EXCEPTIONS
@@ -29,12 +33,25 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Mail.defaults do
       retriever_method :imap, address: channel.imap_address,
                               port: channel.imap_port,
-                              user_name: channel.imap_login,
+                              user_name: user_name,
                               password: channel.imap_password,
                               enable_ssl: channel.imap_enable_ssl
     end
 
     Mail.find(what: :last, count: 10, order: :asc).each do |inbound_mail|
+      next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+
+      process_mail(inbound_mail, channel)
+    end
+  end
+
+  def fetch_mail_for_ms_oauth_channel(channel)
+    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
+    imap.authenticate('XOAUTH2', channel.email, channel.ms_oauth_token)
+    imap.select('INBOX')
+    imap.search(['ALL']).each do |message_id|
+      inbound_mail =  Mail.read_from_string imap.fetch(message_id,'RFC822')[0].attr['RFC822']
+
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
