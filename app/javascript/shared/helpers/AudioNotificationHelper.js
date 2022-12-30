@@ -22,7 +22,7 @@ const clearSetTimeout = () => {
   }
 };
 
-export const playAudioEvery30Seconds = () => {
+const playAudioEvery30Seconds = () => {
   const TIME = 30000;
   const {
     enable_audio_alerts: enableAudioAlerts = false,
