@@ -50,7 +50,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     imap.authenticate('XOAUTH2', channel.email, channel.ms_oauth_token)
     imap.select('INBOX')
     imap.search(['ALL']).each do |message_id|
-      inbound_mail =  Mail.read_from_string imap.fetch(message_id,'RFC822')[0].attr['RFC822']
+      inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 

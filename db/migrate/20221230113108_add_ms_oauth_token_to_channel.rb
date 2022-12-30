@@ -1,6 +1,8 @@
 class AddMsOauthTokenToChannel < ActiveRecord::Migration[6.1]
   def change
-    add_column :channel_email, :ms_oauth_token, :text
-    add_column :channel_email, :ms_oauth_token_expires_on, :datetime
+    change_table :channel_email, bulk: true do |t|
+      t.text :ms_oauth_token
+      t.datetime :ms_oauth_token_expires_on
+    end
   end
 end
