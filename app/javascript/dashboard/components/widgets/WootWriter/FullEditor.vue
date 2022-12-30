@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="editor-root">
+    <div class="editor-root editor--article">
       <div ref="editor" />
     </div>
   </div>
@@ -20,7 +20,7 @@ import {
 
 // import { buildFullEditorMenuItems } from './src/menu';
 
-import '@chatwoot/prosemirror-schema/src/styles/article.css';
+import '@chatwoot/prosemirror-schema/src/styles/article.scss';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 

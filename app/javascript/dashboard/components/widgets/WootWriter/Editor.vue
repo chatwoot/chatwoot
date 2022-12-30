@@ -49,7 +49,7 @@ import AnalyticsHelper, {
   ANALYTICS_EVENTS,
 } from '../../../helper/AnalyticsHelper';
 
-import '@chatwoot/prosemirror-schema/src/styles/base.css';
+import '@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
