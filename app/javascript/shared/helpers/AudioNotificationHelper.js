@@ -23,7 +23,7 @@ const clearSetTimeout = () => {
 };
 
 export const playAudioEvery30Seconds = () => {
-  const TIME = 3000;
+  const TIME = 30000;
   const {
     enable_audio_alerts: enableAudioAlerts = false,
     play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
