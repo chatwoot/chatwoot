@@ -119,6 +119,23 @@
               }}
             </label>
           </div>
+          <div>
+            <input
+              id="audio_alert_until_all_conversations_are_read"
+              v-model="alertIfUnreadConversationExist"
+              class="notification--checkbox"
+              type="checkbox"
+              value="conversations_are_read"
+              @input="handleAudioAlertConditions"
+            />
+            <label for="audio_alert_until_all_conversations_are_read">
+              {{
+                $t(
+                  'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_TWO'
+                )
+              }}
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -323,6 +340,7 @@ export default {
       enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
       playAudioWhenTabIsInactive: false,
+      alertIfUnreadConversationExist: false,
       notificationTone: 'ding',
       notificationAlertTones: [
         {
@@ -372,10 +390,12 @@ export default {
       const {
         enable_audio_alerts: enableAudio = false,
         always_play_audio_alert: alwaysPlayAudioAlert,
+        alert_if_unread_assigned_conversation_exist: alertIfUnreadConversationExist,
         notification_tone: notificationTone,
       } = uiSettings;
       this.enableAudioAlerts = enableAudio;
       this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
+      this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
       this.notificationTone = notificationTone || 'ding';
     },
     onRegistrationSuccess() {
@@ -440,6 +460,10 @@ export default {
       if (condition === 'tab_is_inactive') {
         this.updateUISettings({
           always_play_audio_alert: !e.target.checked,
+        });
+      } else if (condition === 'conversations_are_read') {
+        this.updateUISettings({
+          alert_if_unread_assigned_conversation_exist: e.target.checked,
         });
       }
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
