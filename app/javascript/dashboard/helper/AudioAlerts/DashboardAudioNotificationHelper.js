@@ -5,7 +5,6 @@ import {
   getAlertAudio,
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
-import store from '../../store';
 
 class DashboardAudioNotificationHelper {
   constructor() {
@@ -52,7 +51,9 @@ class DashboardAudioNotificationHelper {
   };
 
   isMessageFromCurrentConversation = message => {
-    return store.getters.getSelectedChat?.id === message.conversation_id;
+    return (
+      window.WOOT.$store.getters.getSelectedChat?.id === message.conversation_id
+    );
   };
 
   isMessageFromCurrentUser = message => {
