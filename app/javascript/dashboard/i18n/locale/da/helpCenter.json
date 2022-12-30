@@ -218,7 +218,7 @@
           "LABEL": "Tilpasset Domæne",
           "PLACEHOLDER": "Portal brugerdefineret domæne",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "ERROR": "Indtast et gyldigt domæne URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link Til Hjemmeside",

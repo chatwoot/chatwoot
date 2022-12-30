@@ -42,8 +42,8 @@
     "RATING_TITLE": "Vērtējums",
     "FEEDBACK_TITLE": "Atsauksmes",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Rādīt etiķetes",
+      "HIDE_LABELS": "Slēpt etiķetes"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Atrisināt",
