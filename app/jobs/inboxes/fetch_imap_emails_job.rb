@@ -33,7 +33,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Mail.defaults do
       retriever_method :imap, address: channel.imap_address,
                               port: channel.imap_port,
-                              user_name: channel.imap_login,
+                              user_name: user_name,
                               password: channel.imap_password,
                               enable_ssl: channel.imap_enable_ssl
     end
