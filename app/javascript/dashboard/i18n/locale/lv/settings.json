@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Paziņojumi",
         "NOTE": "Iespējot audio paziņojumus informācijas panelī jauniem ziņojumiem un sarunām.",
-        "NONE": "Nav",
-        "ASSIGNED": "Piešķirtās Sarunas",
-        "ALL_CONVERSATIONS": "Visas Sarunas"
+        "ALERT_TYPE": {
+          "TITLE": "Brīdinājumu notikumi:",
+          "NONE": "Nav",
+          "ASSIGNED": "Piešķirtās Sarunas",
+          "ALL_CONVERSATIONS": "Visas Sarunas"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Brīdinājumu signāls:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Brīdinājumu nosacījumi:",
+          "CONDITION_ONE": "Sūtīt audio brīdinājumus tikai tad, ja pārlūkprogrammas logs nav aktīvs",
+          "CONDITION_TWO": "Sūtīt brīdinājumus ik pēc 30 sekundēm, līdz visas piešķirtās sarunas ir izlasītas"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-pasta Ziņojumi",
@@ -104,8 +115,8 @@
           "Aizņemts",
           "Bezsaistē"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "Pieejamība ir veiksmīgi iestatīta",
+        "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz"
       },
       "EMAIL": {
         "LABEL": "Jūsu e-pasta adrese",
@@ -136,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
     "PROFILE_SETTINGS": "Profila Iestatījumi",
     "KEYBOARD_SHORTCUTS": "Tastatūras Īsinājumtaustiņi",
+    "SUPER_ADMIN_CONSOLE": "Superadministratora Konsole",
     "LOGOUT": "Izrakstīties"
   },
   "APP_GLOBAL": {
@@ -229,8 +241,8 @@
       "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Automātiski atzīmēt bezsaistē",
+      "INFO_TEXT": "Ļaut sistēmai, kad neizmantojat lietotni vai informācijas paneli, automātiski atzīmēt Jūs bezsaistē."
     },
     "DOCS": "Lasīt dokumentus"
   },

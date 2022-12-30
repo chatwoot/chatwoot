@@ -16,11 +16,6 @@ import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import {
-  getAlertAudio,
-  initOnEvents,
-} from '../shared/helpers/AudioNotificationHelper';
-import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from '../dashboard/constants';
@@ -93,17 +88,6 @@ window.onload = () => {
   }).$mount('#app');
 };
 
-const setupAudioListeners = () => {
-  getAlertAudio().then(() => {
-    initOnEvents.forEach(event => {
-      document.removeEventListener(event, setupAudioListeners, false);
-    });
-  });
-};
 window.addEventListener('load', () => {
   window.playAudioAlert = () => {};
-  initOnEvents.forEach(e => {
-    document.addEventListener(e, setupAudioListeners, false);
-  });
-  initFaviconSwitcher();
 });

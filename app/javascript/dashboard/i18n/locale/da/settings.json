@@ -20,9 +20,9 @@
         "NOTE": "Din e-mailadresse er din identitet og bruges til at logge ind."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
+        "TITLE": "Genvejstast til at sende beskeder",
         "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "UPDATE_SUCCESS": "Dine indstillinger er blevet opdateret",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Lyd Notifikationer",
         "NOTE": "Aktivér lydmeddelelser i dashboard for nye beskeder og samtaler.",
-        "NONE": "Ingen",
-        "ASSIGNED": "Tildelte Samtaler",
-        "ALL_CONVERSATIONS": "Alle Samtaler"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Ingen",
+          "ASSIGNED": "Tildelte Samtaler",
+          "ALL_CONVERSATIONS": "Alle Samtaler"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Notifikationer",
@@ -136,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Vælg en konto fra følgende liste",
     "PROFILE_SETTINGS": "Profilindstillinger",
     "KEYBOARD_SHORTCUTS": "Tastaturgenveje",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Log Ud"
   },
   "APP_GLOBAL": {
@@ -161,7 +173,7 @@
       "UPLOADING": "Uploader..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Se på kort"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Send"

@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Powiadomienia dźwiękowe",
         "NOTE": "Włącz powiadomienia audio na pulpicie dla nowych wiadomości i konwersacji.",
-        "NONE": "Brak",
-        "ASSIGNED": "Przypisane rozmowy",
-        "ALL_CONVERSATIONS": "Rozmowy"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Brak",
+          "ASSIGNED": "Przypisane rozmowy",
+          "ALL_CONVERSATIONS": "Rozmowy"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Powiadomienia e-mail",
@@ -136,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Ustawienia profilu",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Wyloguj się"
   },
   "APP_GLOBAL": {
