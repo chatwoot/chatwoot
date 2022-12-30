@@ -108,7 +108,10 @@ export const mutations = {
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
-      chat.unread_count = message.conversation?.unread_count || 0;
+      const {
+        conversation: { unread_count: unreadCount = 0 },
+      } = message;
+      chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
         window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
