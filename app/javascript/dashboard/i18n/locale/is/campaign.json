@@ -103,8 +103,8 @@
         "DELETE": "Eyða"
       },
       "STATUS": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
+        "ENABLED": "Virkt",
+        "DISABLED": "Slökkt",
         "COMPLETED": "Completed",
         "ACTIVE": "Active"
       },

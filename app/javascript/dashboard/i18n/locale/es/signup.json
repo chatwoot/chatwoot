@@ -7,8 +7,8 @@
     "TERMS_ACCEPT": "Al registrarte, aceptas nuestra <a href=\"https://www.chatwoot.com/terms\">T & C</a> y nuestra <a href=\"https://www.chatwoot.com/privacy-policy\">política de privacidad</a>",
     "COMPANY_NAME": {
       "LABEL": "Nombre de la empresa",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Introduce el nombre de tu empresa, por ejemplo: Wayne Enterprises",
+      "ERROR": "El nombre de la cuenta es demasiado corto"
     },
     "FULL_NAME": {
       "LABEL": "Nombre completo",
@@ -18,7 +18,7 @@
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "bruce@wayne.empresas",
-      "ERROR": "Please enter a valid work email address"
+      "ERROR": "Por favor, introduzca una dirección de correo válida"
     },
     "PASSWORD": {
       "LABEL": "Contraseña",
