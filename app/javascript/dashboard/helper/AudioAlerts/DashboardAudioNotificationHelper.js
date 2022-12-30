@@ -6,6 +6,8 @@ import {
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
 
+const NOTIFICATION_TIME = 30000;
+
 class DashboardAudioNotificationHelper {
   constructor() {
     this.recurringNotificationTimer = null;
@@ -58,7 +60,9 @@ class DashboardAudioNotificationHelper {
       return conv.unread_count > 0;
     });
 
-    if (hasUnreadConversation) {
+    const shouldPlayAlert = !this.playAlertOnlyWhenHidden || document.hidden;
+
+    if (hasUnreadConversation && shouldPlayAlert) {
       window.playAudioAlert();
       showBadgeOnFavicon();
     }
@@ -71,7 +75,7 @@ class DashboardAudioNotificationHelper {
     }
     this.recurringNotificationTimer = setTimeout(
       this.executeRecurringNotification,
-      5000
+      NOTIFICATION_TIME
     );
   };
 
