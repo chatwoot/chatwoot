@@ -6,9 +6,9 @@
       />
       <div class="shortcut__wrap margin-top-3">
         <div class="title-key__wrap">
-          <span class="sub-block-title">
+          <h5 class="text-block-title">
             {{ $t('KEYBOARD_SHORTCUTS.TOGGLE_MODAL') }}
-          </span>
+          </h5>
           <div class="shortcut-key__wrap">
             <p class="shortcut-key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
@@ -22,9 +22,9 @@
 
       <div class="shortcut__wrap">
         <div class="title-key__wrap">
-          <span class="sub-block-title">
+          <h5 class="text-block-title">
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.OPEN_CONVERSATION') }}
-          </span>
+          </h5>
           <div class="shortcut-key__wrap">
             <div class="open-conversation__key">
               <span class="shortcut-key">
@@ -33,7 +33,7 @@
               <span class="shortcut-key">
                 J
               </span>
-              <span class="forward-slash sub-block-title">
+              <span class="forward-slash text-block-title">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
               </span>
             </div>
@@ -47,9 +47,9 @@
         </div>
 
         <div class="title-key__wrap">
-          <span class="sub-block-title">
+          <h5 class="text-block-title">
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
-          </span>
+          </h5>
           <div class="shortcut-key__wrap">
             <span class="shortcut-key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
@@ -67,9 +67,9 @@
           :key="shortcutKey.id"
           class="title-key__wrap"
         >
-          <span class="sub-block-title">
+          <h5 class="text-block-title">
             {{ title(shortcutKey) }}
-          </span>
+          </h5>
           <div class="shortcut-key__wrap">
             <span class="shortcut-key">
               {{ shortcutKey.firstkey }}
@@ -139,11 +139,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   min-width: 40rem;
-}
-
-.sub-block-title {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
 }
 
 .forward-slash {
