@@ -59,7 +59,7 @@
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPE": {
-          "TITLE": "Alert types:",
+          "TITLE": "Alert events:",
           "NONE": "None",
           "ASSIGNED": "Assigned Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
@@ -68,7 +68,7 @@
           "TITLE": "Alert tone:"
         },
         "CONDITIONS": {
-          "TITLE": "Conditions:",
+          "TITLE": "Alert conditions:",
           "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
         }
