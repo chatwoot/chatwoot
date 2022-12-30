@@ -25,6 +25,41 @@ const getAlertTone = alertType => {
   return 'ding';
 };
 
+let timer;
+const clearSetTimeout = () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+};
+
+export const playAudioEvery30Seconds = () => {
+  const TIME = 30000;
+  const {
+    enable_audio_alerts: enableAudioAlerts = false,
+    play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
+  } = window.WOOT.$store.getters.getUISettings;
+
+  if (enableAudioAlerts !== 'none' && playAudioUntilAllConversationsAreRead) {
+    const mineConversation = window.WOOT.$store.getters.getMineChats({
+      assigneeType: 'me',
+      status: 'open',
+    });
+    const hasUnreadConversation = mineConversation.some(conv => {
+      return conv.unread_count > 0;
+    });
+
+    if (hasUnreadConversation) {
+      timer = setTimeout(() => {
+        window.playAudioAlert();
+        showBadgeOnFavicon();
+        playAudioEvery30Seconds();
+      }, TIME);
+    } else {
+      clearSetTimeout();
+    }
+  }
+};
+
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = getAudioContext();
 
@@ -44,6 +79,10 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
     const alertTone = getAlertTone(type);
     const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
     const audioRequest = new Request(resourceUrl);
+
+    if (type === 'dashboard') {
+      playAudioEvery30Seconds();
+    }
 
     fetch(audioRequest)
       .then(response => response.arrayBuffer())
@@ -114,6 +153,7 @@ export const newMessageNotification = data => {
   const {
     enable_audio_alerts: enableAudioAlerts = false,
     always_play_audio_alert: alwaysPlayAudioAlert,
+    play_audio_until_all_conversations_are_read: playAudioUntilAllConversationsAreRead,
   } = window.WOOT.$store.getters.getUISettings;
   const isDocHidden = alwaysPlayAudioAlert ? true : document.hidden;
 
@@ -132,6 +172,11 @@ export const newMessageNotification = data => {
   if (playAudio && isNotificationEnabled) {
     window.playAudioAlert();
     showBadgeOnFavicon();
+  }
+
+  if (playAudioUntilAllConversationsAreRead && isNotificationEnabled) {
+    clearSetTimeout();
+    playAudioEvery30Seconds();
   }
 };
 
