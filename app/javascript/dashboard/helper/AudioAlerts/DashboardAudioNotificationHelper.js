@@ -68,13 +68,12 @@ class DashboardAudioNotificationHelper {
   };
 
   onNewMessage = message => {
-    // If the message is sent by the current user, then dismiss the alert
-    if (this.isMessageFromCurrentUser(message)) {
-      return;
-    }
-
-    // If the correct notification is not enabled, then dismiss the alert
-    if (!this.shouldNotifyOnMessage(message)) {
+    // If the message is sent by the current user or the
+    // correct notification is not enabled, then dismiss the alert
+    if (
+      this.isMessageFromCurrentUser(message) ||
+      !this.shouldNotifyOnMessage(message)
+    ) {
       return;
     }
 

@@ -14,6 +14,23 @@ export const initializeAnalyticsEvents = () => {
   window.bus.$on(ANALYTICS_RESET, () => {});
 };
 
+const initializeAudioAlerts = user => {
+  // InitializeAudioNotifications
+  const { ui_settings: uiSettings } = user || {};
+  const {
+    always_play_audio_alert: alwaysPlayAudioAlert,
+    enable_audio_alerts: audioAlertType,
+    notification_tone: audioAlertTone,
+  } = uiSettings;
+
+  DashboardAudioNotificationHelper.setInstanceValues({
+    currentUserId: user.id,
+    audioAlertType: audioAlertType || 'none',
+    audioAlertTone: audioAlertTone || 'ding',
+    alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
+  });
+};
+
 export const initializeChatwootEvents = () => {
   window.bus.$on(CHATWOOT_RESET, () => {
     if (window.$chatwoot) {
@@ -34,19 +51,6 @@ export const initializeChatwootEvents = () => {
       });
     }
 
-    // InitializeAudioNotifications
-    const { ui_settings: uiSettings } = user || {};
-    const {
-      always_play_audio_alert: alwaysPlayAudioAlert,
-      enable_audio_alerts: audioAlertType,
-      notification_tone: audioAlertTone,
-    } = uiSettings;
-
-    DashboardAudioNotificationHelper.setInstanceValues({
-      currentUserId: user.id,
-      audioAlertType: audioAlertType || 'none',
-      audioAlertTone: audioAlertTone || 'ding',
-      alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
-    });
+    initializeAudioAlerts(user);
   });
 };
