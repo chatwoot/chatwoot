@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلان های صوتی",
         "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
-        "NONE": "هیچکدام",
-        "ASSIGNED": "مکالمات اختصاص داده شده",
-        "ALL_CONVERSATIONS": "همه گفتگوها"
+        "ALERT_TYPE": {
+          "TITLE": "رویدادهای هشدار:",
+          "NONE": "هیچکدام",
+          "ASSIGNED": "مکالمات اختصاص داده شده",
+          "ALL_CONVERSATIONS": "همه گفتگوها"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "شرط‌های هشدار:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -136,6 +147,7 @@
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
+    "SUPER_ADMIN_CONSOLE": "کنسول سوپر مدیر",
     "LOGOUT": "خروج از حساب‌کاربری"
   },
   "APP_GLOBAL": {

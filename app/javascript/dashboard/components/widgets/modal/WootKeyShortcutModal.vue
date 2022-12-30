@@ -1,89 +1,87 @@
 <template>
-  <transition name="slide-up">
-    <div class="modal-mask">
-      <div v-on-clickaway="() => $emit('clickaway')" class="modal-container">
-        <div class="header-wrap">
-          <div class="title-shortcut-key__wrap">
-            <h2 class="page-title">
-              {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
-            </h2>
-            <div class="shortcut-key__wrap">
-              <p class="shortcut-key">
-                {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
-              </p>
-              <p class="shortcut-key key">
-                {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
-              </p>
-            </div>
+  <woot-modal :show="show" size="medium" :on-close="() => $emit('close')">
+    <div class="column content-box">
+      <woot-modal-header
+        :header-title="$t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS')"
+      />
+      <div class="shortcut__wrap margin-top-3">
+        <div class="title-key__wrap">
+          <h5 class="text-block-title">
+            {{ $t('KEYBOARD_SHORTCUTS.TOGGLE_MODAL') }}
+          </h5>
+          <div class="shortcut-key__wrap">
+            <p class="shortcut-key">
+              {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
+            </p>
+            <p class="shortcut-key key">
+              {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
+            </p>
           </div>
-          <button class="cursor-pointer" @click="$emit('close')">
-            <fluent-icon icon="dismiss" />
-          </button>
+        </div>
+      </div>
+
+      <div class="shortcut__wrap">
+        <div class="title-key__wrap">
+          <h5 class="text-block-title">
+            {{ $t('KEYBOARD_SHORTCUTS.TITLE.OPEN_CONVERSATION') }}
+          </h5>
+          <div class="shortcut-key__wrap">
+            <div class="open-conversation__key">
+              <span class="shortcut-key">
+                {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
+              </span>
+              <span class="shortcut-key">
+                J
+              </span>
+              <span class="forward-slash text-block-title">
+                {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
+              </span>
+            </div>
+            <span class="shortcut-key">
+              {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
+            </span>
+            <span class="shortcut-key key">
+              K
+            </span>
+          </div>
         </div>
 
-        <div class="shortcut__wrap">
-          <div class="title-key__wrap">
-            <span class="sub-block-title">
-              {{ $t('KEYBOARD_SHORTCUTS.TITLE.OPEN_CONVERSATION') }}
+        <div class="title-key__wrap">
+          <h5 class="text-block-title">
+            {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
+          </h5>
+          <div class="shortcut-key__wrap">
+            <span class="shortcut-key">
+              {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
             </span>
-            <div class="shortcut-key__wrap">
-              <div class="open-conversation__key">
-                <span class="shortcut-key">
-                  {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-                </span>
-                <span class="shortcut-key">
-                  J
-                </span>
-                <span class="forward-slash sub-block-title">
-                  {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
-                </span>
-              </div>
-              <span class="shortcut-key">
-                {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </span>
-              <span class="shortcut-key key">
-                K
-              </span>
-            </div>
+            <span class="shortcut-key">
+              {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
+            </span>
+            <span class="shortcut-key key">
+              E
+            </span>
           </div>
-
-          <div class="title-key__wrap">
-            <span class="sub-block-title">
-              {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
+        </div>
+        <div
+          v-for="shortcutKey in shortcutKeys"
+          :key="shortcutKey.id"
+          class="title-key__wrap"
+        >
+          <h5 class="text-block-title">
+            {{ title(shortcutKey) }}
+          </h5>
+          <div class="shortcut-key__wrap">
+            <span class="shortcut-key">
+              {{ shortcutKey.firstkey }}
             </span>
-            <div class="shortcut-key__wrap">
-              <span class="shortcut-key">
-                {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
-              </span>
-              <span class="shortcut-key">
-                {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </span>
-              <span class="shortcut-key key">
-                E
-              </span>
-            </div>
-          </div>
-          <div
-            v-for="shortcutKey in shortcutKeys"
-            :key="shortcutKey.id"
-            class="title-key__wrap"
-          >
-            <span class="sub-block-title">
-              {{ title(shortcutKey) }}
+            <span class="shortcut-key key">
+              {{ shortcutKey.secondKey }}
             </span>
-            <div class="shortcut-key__wrap">
-              <span class="shortcut-key">
-                {{ shortcutKey.firstkey }}
-              </span>
-              <span class="shortcut-key key">
-                {{ shortcutKey.secondKey }}
-              </span>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  </transition>
+  </woot-modal>
 </template>
 
 <script>
@@ -92,6 +90,12 @@ import { SHORTCUT_KEYS } from './constants';
 
 export default {
   mixins: [clickaway],
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       shortcutKeys: SHORTCUT_KEYS,
@@ -106,19 +110,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-container {
-  padding: var(--space-medium) var(--space-large) var(--space-large)
-    var(--space-large);
-  width: fit-content;
-}
-
-.header-wrap {
-  align-items: flex-start;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--space-slab);
-}
-
 .title-shortcut-key__wrap {
   display: flex;
 }
@@ -140,6 +131,7 @@ export default {
   grid-template-columns: repeat(2, 0.5fr);
   gap: var(--space-smaller) var(--space-large);
   margin-top: var(--space-small);
+  padding: 0 var(--space-large) var(--space-large);
 }
 
 .title-key__wrap {
@@ -147,11 +139,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   min-width: 40rem;
-}
-
-.sub-block-title {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
 }
 
 .forward-slash {

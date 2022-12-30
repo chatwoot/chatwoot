@@ -1,6 +1,6 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
+    "LOADING": "Sæki samtöl",
     "LOAD_MORE_CONVERSATIONS": "Sækja fleiri spjöll",
     "EOF": "Öll spjöll eru hlaðin🎉",
     "LIST": {
@@ -14,7 +14,7 @@
     },
     "FILTER_ALL": "Allt",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Mine",
+      "me": "Mitt",
       "unassigned": "Óúthlutað",
       "all": "Allt"
     },
@@ -46,23 +46,23 @@
         "CONTENT": "File Attachment"
       },
       "location": {
-        "CONTENT": "Location"
+        "CONTENT": "Staðsetning"
       },
       "fallback": {
         "CONTENT": "hefur deilt vefslóð"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "RECEIVED_VIA_EMAIL": "Móttekið í tölvupósti",
+    "VIEW_TWEET_IN_TWITTER": "Opna tíst á Twitter",
+    "REPLY_TO_TWEET": "Svara þessu tísti",
+    "LINK_TO_STORY": "Opna instagram sögu",
+    "SENT": "Sent",
+    "READ": "Lesið",
+    "DELIVERED": "Afhent",
     "NO_MESSAGES": "Engin skilaboð",
-    "NO_CONTENT": "No content available",
+    "NO_CONTENT": "Ekkert efni fannst",
     "HIDE_QUOTED_TEXT": "Fela tilvitnaðan texta",
     "SHOW_QUOTED_TEXT": "Sýna tilvitnaðan texta",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Lesið"
   }
 }
