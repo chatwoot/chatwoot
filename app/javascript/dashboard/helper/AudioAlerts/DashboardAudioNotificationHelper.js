@@ -6,11 +6,14 @@ import {
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
 
+const NOTIFICATION_TIME = 30000;
+
 class DashboardAudioNotificationHelper {
   constructor() {
     this.recurringNotificationTimer = null;
     this.audioAlertType = 'none';
     this.playAlertOnlyWhenHidden = true;
+    this.alertIfUnreadConversationExist = false;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
   }
@@ -18,11 +21,13 @@ class DashboardAudioNotificationHelper {
   setInstanceValues = ({
     currentUserId,
     alwaysPlayAudioAlert,
+    alertIfUnreadConversationExist,
     audioAlertType,
     audioAlertTone,
   }) => {
     this.audioAlertType = audioAlertType;
     this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
+    this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
     this.currentUserId = currentUserId;
     this.audioAlertTone = audioAlertTone;
     initOnEvents.forEach(e => {
@@ -40,9 +45,51 @@ class DashboardAudioNotificationHelper {
       initOnEvents.forEach(event => {
         document.removeEventListener(event, this.onAudioListenEvent, false);
       });
+      this.playAudioEvery30Seconds();
     } catch (error) {
       // Ignore audio fetch errors
     }
+  };
+
+  executeRecurringNotification = () => {
+    const mineConversation = window.WOOT.$store.getters.getMineChats({
+      assigneeType: 'me',
+      status: 'open',
+    });
+    const hasUnreadConversation = mineConversation.some(conv => {
+      return conv.unread_count > 0;
+    });
+
+    const shouldPlayAlert = !this.playAlertOnlyWhenHidden || document.hidden;
+
+    if (hasUnreadConversation && shouldPlayAlert) {
+      window.playAudioAlert();
+      showBadgeOnFavicon();
+    }
+    this.clearSetTimeout();
+  };
+
+  clearSetTimeout = () => {
+    if (this.recurringNotificationTimer) {
+      clearTimeout(this.recurringNotificationTimer);
+    }
+    this.recurringNotificationTimer = setTimeout(
+      this.executeRecurringNotification,
+      NOTIFICATION_TIME
+    );
+  };
+
+  playAudioEvery30Seconds = () => {
+    //  Audio alert is disabled dismiss the timer
+    if (this.audioAlertType === 'none') {
+      return;
+    }
+    // If assigned conversation flag is disabled dismiss the timer
+    if (!this.alertIfUnreadConversationExist) {
+      return;
+    }
+
+    this.clearSetTimeout();
   };
 
   isConversationAssignedToCurrentUser = message => {
@@ -94,6 +141,7 @@ class DashboardAudioNotificationHelper {
 
     window.playAudioAlert();
     showBadgeOnFavicon();
+    this.playAudioEvery30Seconds();
   };
 }
 
