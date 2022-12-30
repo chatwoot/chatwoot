@@ -127,7 +127,7 @@ export const IFrameHelper = {
 
   setupAudioListeners: () => {
     const { baseUrl = '' } = window.$chatwoot;
-    getAlertAudio(baseUrl, 'widget').then(() =>
+    getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
