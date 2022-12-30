@@ -23,7 +23,7 @@
         "ERROR": "Por favor, introduzca un nombre de cuenta válido"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Idioma del sitio",
         "PLACEHOLDER": "Tu nombre de cuenta",
         "ERROR": ""
       },
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "Pulse Enter para seleccionar",
       "ENTER_TO_REMOVE": "Presione Enter para eliminar",
       "SELECT_ONE": "Seleccione uno",
-      "SELECT": "Select"
+      "SELECT": "Seleccionar"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -139,6 +139,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Cargando aplicación del tablero..."
   }
 }

@@ -30,7 +30,7 @@
           "PLACEHOLDER": "Vinsamlegast bætið við efnistexta",
           "ERROR": "Efnistexta vantar"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Senda"
       },
       "API": {
         "SUCCESS_MESSAGE": "Stöðluðu svari bætt við",
@@ -51,7 +51,7 @@
           "PLACEHOLDER": "Vinsamlegast bætið við efnistexta",
           "ERROR": "Efnistexta vantar"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Senda"
       },
       "BUTTON_TEXT": "Breyta",
       "API": {
