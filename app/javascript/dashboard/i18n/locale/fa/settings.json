@@ -282,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "مشاهده همه کلیدهای میانبر",
     "TITLE": {
       "OPEN_CONVERSATION": "باز کردن گفتگو",
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
