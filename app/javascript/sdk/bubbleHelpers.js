@@ -52,7 +52,7 @@ export const createBubbleIcon = ({ className, path, target }) => {
   }
 
   target.className = bubbleClassName;
-  target.title = $t('START_CONVERSATION');
+  target.title = 'Open chat window';
   return target;
 };
 
