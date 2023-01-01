@@ -22,7 +22,7 @@
         @close-account-create-modal="closeCreateAccountModal"
       />
       <woot-key-shortcut-modal
-        v-if="showShortcutModal"
+        :show.sync="showShortcutModal"
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
