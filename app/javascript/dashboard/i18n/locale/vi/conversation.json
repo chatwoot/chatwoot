@@ -42,8 +42,8 @@
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Hiển thị nhãn",
+      "HIDE_LABELS": "Ẩn nhãn"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Giải quyết",
@@ -68,7 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Đánh dấu chưa giải quyết",
       "RESOLVED": "Đánh dấu là đã giải quyết",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "Đánh dấu là chưa đọc",
       "REOPEN": "Mở lại hội thoại",
       "SNOOZE": {
         "TITLE": "Báo lại",

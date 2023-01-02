@@ -6,7 +6,7 @@
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
+        "LABEL": "Bot Naam",
         "PLACEHOLDER": "Give your bot a name",
         "ERROR": "Bot name is required"
       },
