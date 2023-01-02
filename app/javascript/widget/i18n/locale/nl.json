@@ -8,13 +8,13 @@
       "SUBMIT": "Bevestigen"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Bericht opnieuw verzenden",
+      "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We zijn online",
-    "OFFLINE": "Op dit moment zijn we niet aanwezig"
+    "OFFLINE": "We zijn momenteel afwezig"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
@@ -22,8 +22,8 @@
     "IN_A_DAY": "Reageert meestal binnen een dag"
   },
   "START_CONVERSATION": "Start Chat",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "Gesprek beëindigen",
+  "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
   "START_NEW_CONVERSATION": "Een nieuw gesprek starten",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Uw e-mailadres",
         "PLACEHOLDER": "Voer uw e-mailadres in",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "E-mailadres is vereist",
         "VALID_ERROR": "Voer een geldig e-mailadres in"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefoonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Vul je telefoonnummer in",
+        "REQUIRED_ERROR": "Telefoon nummer is vereist",
+        "VALID_ERROR": "Telefoonnummer moet van E.164-formaat zijn: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Bericht",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is vereist"
   },
   "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -74,8 +74,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Zoek emojis",
+    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden"
   },
   "CSAT": {
     "TITLE": "Beoordeel uw gesprek",

@@ -23,9 +23,9 @@ nl:
     reset_password_failure: Oh ho! We konden geen gebruiker vinden met het opgegeven e-mailadres.
   errors:
     validations:
-      presence: must not be blank
+      presence: mag niet leeg zijn
     webhook:
-      invalid: Invalid events
+      invalid: Ongeldige gebeurtenissen
     signup:
       disposable_email: Wij staan geen verwijderbare e-mails toe
       invalid_email: Je hebt een ongeldig e-mailadres ingevoerd
@@ -33,86 +33,86 @@ nl:
       failed: Aanmelden mislukt
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Ongeldig datatype
     contacts:
       import:
-        failed: File is blank
+        failed: Bestand is leeg
       email:
-        invalid: Invalid email
+        invalid: Ongeldig email
       phone_number:
-        invalid: should be in e164 format
+        invalid: moet in e164-formaat zijn
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: moet uniek zijn in de categorie en portal
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Controleer de netwerkverbinding, IMAP-adres en probeer het opnieuw.
+        no_response_error: Controleer de IMAP-gegevens en probeer het opnieuw.
+        host_unreachable_error: Host onbereikbaar, controleer het IMAP-adres, IMAP-poort en probeer het opnieuw.
+        connection_timed_out_error: Verbinding time-out voor %{address}:%{port}
+        connection_closed_error: Verbinding verbroken.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: mag niet beginnen of eindigen met symbolen, en mag geen < > / \ @ karakters hebben.
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Rapportering van %{since} tot %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Agent naam
+      conversations_count: Aantal gesprekken
+      avg_first_response_time: Gem. eerste reactie (minuten)
+      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
     inbox_csv:
-      inbox_name: Inbox name
+      inbox_name: Naam postvak
       inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Aantal conversaties
+      avg_first_response_time: Gem. eerste reactie (minuten)
+      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
     label_csv:
       label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Aantal conversaties
+      avg_first_response_time: Gem. eerste reactie (minuten)
+      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    default_group_by: day
+      team_name: Team Naam
+      conversations_count: Aantal gesprekken
+      avg_first_response_time: Gem. eerste reactie (minuten)
+      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
+    default_group_by: dag
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Contact Naam
+        contact_email_address: Contact e-mailadres
+        contact_phone_number: Contactpersoon telefoonnummer
+        link_to_the_conversation: Link naar gesprek
         agent_name: Naam medewerker
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        rating: Beoordeling
+        feedback: Feedback Opmerking
+        recorded_at: Datum opgenomen
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[New conversation] - #%{display_id} is aangemaakt in %{inbox_name}"
+      conversation_assignment: "[Toegewezen aan jou] - #%{display_id} is aan jou toegewezen"
+      assigned_conversation_new_message: "[Nieuw bericht] - #%{display_id} %{content}"
+      conversation_mention: "Je bent genoemd in gesprek [ID - %{display_id}] door %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
-      deleted: This message was deleted
+      instagram_story_content: "%{story_sender} heeft je genoemd in het verhaal: "
+      instagram_deleted_story_content: Dit verhaal is niet meer beschikbaar.
+      deleted: Dit bericht werd verwijderd
     activity:
       status:
         resolved: "Gesprek werd gemarkeerd door %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "Gesprek werd opgelost door %{contact_name}"
         open: "Gesprek werd heropend door %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        pending: "Gesprek werd gemarkeerd als in afwachting door %{user_name}"
+        snoozed: "Gesprek werd gesluimerd door %{user_name}"
+        auto_resolved: "Gesprek werd door systeem gemarkeerd als opgelost na %{duration} dagen inactiviteit"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} heeft dit gesprek aan zichzelf toegewezen"
         assigned: "Toegewezen aan %{assignee_name} door %{user_name}"
         removed: "Gesprek niet toegewezen door %{user_name}"
       team:
         assigned: "Toegewezen aan %{team_name} door %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        assigned_with_assignee: "Toegewezen aan %{assignee_name} via %{team_name} door %{user_name}"
         removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
@@ -153,7 +153,7 @@ nl:
     search:
       search_placeholder: Search for article by title or body...
       empty_placeholder: Geen resultaten gevonden.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: Zoeken...
+      results_title: Zoekresultaten
     hero:
       sub_title: Search for the articles here or browse the categories below.
