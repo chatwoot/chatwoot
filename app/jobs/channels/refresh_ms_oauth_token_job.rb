@@ -4,7 +4,6 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
   def perform
     Channel::Email.all.each do |channel|
       # refresh the token here, offline access should work
-
       ms_oauth_token_hash = channel.ms_oauth_token_hash || {}
 
       return unless ms_oauth_token_hash[:access_token].present?
