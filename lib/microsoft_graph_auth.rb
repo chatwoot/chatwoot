@@ -1,4 +1,4 @@
-# Copyright (c) Microsoft Corporation.
+git # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # frozen_string_literal: true
 
@@ -9,7 +9,7 @@ require 'omniauth-oauth2'
 class OmniAuth::Strategies::MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   option :name, :microsoft_graph_auth
 
-  DEFAULT_SCOPE = 'openid email profile User.Read offline_access'
+  DEFAULT_SCOPE = 'openid email profile User.Read offline_access'.freeze
 
   # Configure the Microsoft identity platform endpoints
   option :client_options,

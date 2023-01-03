@@ -1,9 +1,13 @@
+# refer: https://gitlab.com/gitlab-org/ruby/gems/gitlab-mail_room/-/blob/master/lib/mail_room/microsoft_graph/connection.rb
+# refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp/tree/b4a6869fe4a438cde42b161196484a929f1bee46
+# https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-configurable-token-lifetimes
+
 class Channels::RefreshMsOauthTokenJob < ApplicationJob
   queue_as :low
 
   def perform
     Channel::Email.where(provider: 'microsoft').each do |channel|
-      # refresh the token here, offline_access should work
+      # refresh the token here, with microsoft offline_access scope
       provider_config = channel.provider_config || {}
 
       refresh_tokens(channel, provider_config.with_indifferent_access) if provider_config[:refresh_token].present?
@@ -26,7 +30,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
   # <RefreshTokensSnippet>
   def refresh_tokens(channel, token_hash)
     oauth_strategy = OmniAuth::Strategies::MicrosoftGraphAuth.new(
-      nil, ENV.fetch['AZURE_APP_ID'], ENV.fetch['AZURE_APP_SECRET']
+      nil, ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil)
     )
 
     token = OAuth2::AccessToken.new(
