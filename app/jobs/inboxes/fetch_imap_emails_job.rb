@@ -33,7 +33,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Mail.defaults do
       retriever_method :imap, address: channel.imap_address,
                               port: channel.imap_port,
-                              user_name: user_name,
+                              user_name: channel.imap_login,
                               password: channel.imap_password,
                               enable_ssl: channel.imap_enable_ssl
     end
@@ -46,8 +46,12 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_ms_oauth_channel(channel)
+    access_token = valid_imap_ms_oauth_token channel
+
+    return unless access_token
+
     imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
-    imap.authenticate('XOAUTH2', channel.email, channel.ms_oauth_token)
+    imap.authenticate('XOAUTH2', imap_login, access_token)
     imap.select('INBOX')
     imap.search(['ALL']).each do |message_id|
       inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
@@ -62,5 +66,9 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
+  end
+
+  def valid_imap_ms_oauth_token(channel)
+    Channels::RefreshMsOauthTokenJob.new.access_token(channel, channel.ms_oauth_token_hash.with_indifferent_access)
   end
 end
