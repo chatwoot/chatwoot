@@ -49,8 +49,6 @@ import AnalyticsHelper, {
   ANALYTICS_EVENTS,
 } from '../../../helper/AnalyticsHelper';
 
-import '@chatwoot/prosemirror-schema/src/styles/base.scss';
-
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
     doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
@@ -372,6 +370,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@chatwoot/prosemirror-schema/src/styles/base.scss';
+
 .ProseMirror-menubar-wrapper {
   display: flex;
   flex-direction: column;

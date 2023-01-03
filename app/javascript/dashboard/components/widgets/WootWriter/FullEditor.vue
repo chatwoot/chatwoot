@@ -17,7 +17,6 @@ import {
   Selection,
 } from '@chatwoot/prosemirror-schema';
 
-import '@chatwoot/prosemirror-schema/src/styles/article.scss';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
@@ -136,6 +135,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@chatwoot/prosemirror-schema/src/styles/article.scss';
+
 .ProseMirror-menubar-wrapper {
   display: flex;
   flex-direction: column;
