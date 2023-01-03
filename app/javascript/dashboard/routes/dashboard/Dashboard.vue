@@ -97,8 +97,8 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
     this.handleResize();
+    window.addEventListener('resize', this.handleResize);
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {

@@ -173,7 +173,7 @@ export default {
   flex: 0 0 var(--space-jumbo);
   flex-direction: row;
 
-  @include breakpoint(small up) {
+  @include breakpoint(medium up) {
     flex-direction: column;
   }
 }
@@ -185,7 +185,7 @@ export default {
   align-items: center;
   width: 100%;
 
-  @include breakpoint(small up) {
+  @include breakpoint(medium up) {
     flex-direction: row;
   }
 }

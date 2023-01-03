@@ -171,10 +171,6 @@ export default {
   background: white;
   flex-basis: 100%;
 
-  @include breakpoint(small up) {
-    flex-basis: 26rem;
-  }
-
   @include breakpoint(medium up) {
     flex-basis: 28rem;
   }
