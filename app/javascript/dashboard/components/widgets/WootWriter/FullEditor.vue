@@ -8,8 +8,7 @@
 
 <script>
 import {
-  schema,
-  // articleSchema,
+  articleSchema,
   wootArticleWriterSetup,
   EditorView,
   defaultMarkdownParser,
@@ -17,8 +16,6 @@ import {
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-
-// import { buildFullEditorMenuItems } from './src/menu';
 
 import '@chatwoot/prosemirror-schema/src/styles/article.scss';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
@@ -28,7 +25,7 @@ const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
     doc: defaultMarkdownParser.parse(content),
     plugins: wootArticleWriterSetup({
-      schema,
+      schema: articleSchema,
       placeholder,
       plugins,
     }),
@@ -42,15 +39,10 @@ export default {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
-    isPrivate: { type: Boolean, default: false },
   },
   data() {
     return {
-      showCannedMenu: false,
-      mentionSearchKey: '',
-      cannedSearchTerm: '',
       editorView: null,
-      range: null,
       state: undefined,
       plugins: [],
     };
@@ -127,8 +119,12 @@ export default {
       this.$emit('input', this.contentFromEditor);
     },
 
-    onKeyup() {},
-    onKeydown() {},
+    onKeyup() {
+      this.$emit('keyup');
+    },
+    onKeydown() {
+      this.$emit('keydown');
+    },
     onBlur() {
       this.$emit('blur');
     },
@@ -167,35 +163,5 @@ export default {
   border-radius: var(--border-radius-normal);
   border: 1px solid var(--color-border);
   min-width: 40rem;
-}
-
-.is-private {
-  .prosemirror-mention-node {
-    font-weight: var(--font-weight-medium);
-    background: var(--s-50);
-    color: var(--s-900);
-    padding: 0 var(--space-smaller);
-  }
-}
-
-.editor-wrap {
-  margin-bottom: var(--space-normal);
-}
-
-.message-editor {
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-normal);
-  padding: 0 var(--space-slab);
-  margin-bottom: 0;
-}
-
-.editor_warning {
-  border: 1px solid var(--r-400);
-}
-
-.editor-warning__message {
-  color: var(--r-400);
-  font-weight: var(--font-weight-normal);
-  padding: var(--space-smaller) 0 0 0;
 }
 </style>
