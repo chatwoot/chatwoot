@@ -41,7 +41,7 @@ export default {
       try {
         const msalConfig = {
           auth: {
-            clientId: '67fa631b-e958-4ccb-95f0-ecede13d53ce',
+            clientId: 'f200029c-6075-41bc-872d-1b37af066b21',
           },
         };
 
@@ -51,11 +51,39 @@ export default {
           scopes: [
             'https://outlook.office.com/IMAP.AccessAsUser.All',
             'https://outlook.office.com/SMTP.Send',
+            'offline_access',
           ],
           redirectUri: 'http://localhost:3000',
         });
 
         console.log(loginResponse);
+
+        // var currentAccount = loginResponse.account;
+
+        // refresh token silently if fails open a popup to add user details for login
+        // var silentRequest = {
+        //   scopes: ["Mail.Read"],
+        //   account: currentAccount,
+        //   forceRefresh: false,
+        //   cacheLookupPolicy: 'acquireTokenSilent' // will default to CacheLookupPolicy.Default if omitted
+        // };
+
+        // var request = {
+        //   scopes: ["Mail.Read"],
+        //   loginHint: currentAccount.username // For v1 endpoints, use upn from idToken claims
+        // };
+
+        // const tokenResponse = await msalInstance.acquireTokenSilent(silentRequest).catch(async (error) => {
+        //   if (error instanceof InteractionRequiredAuthError) {
+        //     // fallback to interaction when silent call fails
+        //     return await msalInstance.acquireTokenPopup(request).catch(error => {
+        //       if (error instanceof InteractionRequiredAuthError) {
+        //         // fallback to interaction when silent call fails
+        //         return msalInstance.acquireTokenRedirect(request)
+        //       }
+        //     });
+        //   }
+        // });
       } catch (err) {
         // handle error
       }
