@@ -12,8 +12,7 @@
 #  imap_login                :string           default("")
 #  imap_password             :string           default("")
 #  imap_port                 :integer          default(0)
-#  ms_oauth_token            :text
-#  ms_oauth_token_expires_on :datetime
+#  ms_oauth_token_hash       :jsonb
 #  smtp_address              :string           default("")
 #  smtp_authentication       :string           default("login")
 #  smtp_domain               :string           default("")
@@ -52,6 +51,10 @@ class Channel::Email < ApplicationRecord
 
   def name
     'Email'
+  end
+
+  def ms_oauth_token_available?
+    ms_oauth_token_hash[:access_token].present?
   end
 
   private
