@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Звукові сповіщення",
         "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
-        "NONE": "Нiчого",
-        "ASSIGNED": "Призначені розмови",
-        "ALL_CONVERSATIONS": "Всі розмови"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Нiчого",
+          "ASSIGNED": "Призначені розмови",
+          "ALL_CONVERSATIONS": "Всі розмови"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",
@@ -271,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Відкрити розмову",
       "RESOLVE_AND_NEXT": "Вирішити і перейти до наступного",

@@ -3,7 +3,7 @@
     "LINK": "Profile Settings",
     "TITLE": "Profile Settings",
     "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
+    "DELETE_AVATAR": "Eyða mynd",
     "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
     "AVATAR_DELETE_FAILED": "Villa kom upp við að eyða notendamynd, vinsamlegast reyndu aftur",
     "UPDATE_SUCCESS": "Prófíllinn þinn hefur verið uppfærður",
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Virkjaðu hljóðtilkynningar á mælaborðinu fyrir ný skilaboð og samtöl.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Enginn",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
@@ -165,7 +176,7 @@
       "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Senda"
     }
   },
   "CONFIRM_EMAIL": "Verifying...",
@@ -187,7 +198,7 @@
     "HOME": "Home",
     "AGENTS": "Þjónustufulltrúar",
     "AGENT_BOTS": "Bots",
-    "INBOXES": "Inboxes",
+    "INBOXES": "Innhólf",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Stöðluð svör",
     "INTEGRATIONS": "Integrations",
@@ -267,10 +278,11 @@
         "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Senda"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

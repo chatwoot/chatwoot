@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Hangüzenetek",
         "NOTE": "Hangüzenetek engedélyezése a vezérlőpulton új üzenetek és beszélgetések esetén.",
-        "NONE": "Nincs",
-        "ASSIGNED": "Hozzárendelt Beszélgetések",
-        "ALL_CONVERSATIONS": "Beszélgetések"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Nincs",
+          "ASSIGNED": "Hozzárendelt Beszélgetések",
+          "ALL_CONVERSATIONS": "Beszélgetések"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mail értesítések",
@@ -271,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

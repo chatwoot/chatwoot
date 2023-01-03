@@ -74,8 +74,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Leita að emoji",
+    "NOT_FOUND": "Enginn emoji fannst"
   },
   "CSAT": {
     "TITLE": "Gefðu samtalinu einkunn",
