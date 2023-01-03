@@ -4,7 +4,7 @@
       v-if="uiFlags.isFetching && !automation"
       :message="$t('AUTOMATION.EDIT.LOADING')"
     />
-    <div v-else class="row">
+    <div v-if="automation" class="row">
       <div class="small-8 columns with-right-space canvas content-box">
         <section>
           <label>
