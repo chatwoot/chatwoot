@@ -138,7 +138,7 @@
               class="automation_form-submit"
               @click="submitAutomation"
             >
-              {{ $t('AUTOMATION.ADD.SUBMIT') }}
+              {{ $t('AUTOMATION.EDIT.SUBMIT') }}
             </woot-button>
           </div>
         </div>
