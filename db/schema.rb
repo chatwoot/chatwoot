@@ -252,7 +252,8 @@ ActiveRecord::Schema.define(version: 2022_12_30_113108) do
     t.string "smtp_authentication", default: "login"
     t.string "smtp_openssl_verify_mode", default: "none"
     t.boolean "smtp_enable_ssl_tls", default: false
-    t.jsonb "ms_oauth_token_hash"
+    t.jsonb "provider_config", default: {}
+    t.string "provider"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
