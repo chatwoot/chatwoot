@@ -10,6 +10,7 @@
       @toggle-accounts="toggleAccountModal"
       @key-shortcut-modal="toggleKeyShortcutModal"
       @open-notification-panel="openNotificationPanel"
+      @open-promo-popup="openPromoPopup"
     />
     <div class="secondary-sidebar">
       <secondary-sidebar
@@ -210,6 +211,9 @@ export default {
     },
     openNotificationPanel() {
       this.$emit('open-notification-panel');
+    },
+    openPromoPopup() {
+      this.$emit('open-promo-popup');
     },
   },
 };

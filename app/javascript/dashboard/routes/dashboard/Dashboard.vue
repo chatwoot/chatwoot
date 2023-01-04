@@ -4,6 +4,7 @@
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
       @open-notification-panel="openNotificationPanel"
+      @open-promo-popup="openPromoPopup"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
@@ -33,6 +34,9 @@
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
         <add-label-modal @close="hideAddLabelPopup" />
       </woot-modal>
+      <woot-modal :show.sync="showPromoPopup" :on-close="closePromoPopup">
+        <christmas-promo-popup @close="closePromoPopup" />
+      </woot-modal>
     </section>
   </div>
 </template>
@@ -47,7 +51,7 @@ import AccountSelector from 'dashboard/components/layout/sidebarComponents/Accou
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-
+import ChristmasPromoPopup from './ChristmasPromoPopup';
 export default {
   components: {
     Sidebar,
@@ -57,6 +61,7 @@ export default {
     AccountSelector,
     AddLabelModal,
     NotificationPanel,
+    ChristmasPromoPopup,
   },
   mixins: [uiSettingsMixin],
   data() {
@@ -67,6 +72,7 @@ export default {
       showAddLabelModal: false,
       showShortcutModal: false,
       isNotificationPanel: false,
+      showPromoPopup: false,
     };
   },
   computed: {
@@ -114,6 +120,12 @@ export default {
     },
     openNotificationPanel() {
       this.isNotificationPanel = true;
+    },
+    openPromoPopup() {
+      this.showPromoPopup = true;
+    },
+    closePromoPopup() {
+      this.showPromoPopup = false;
     },
     closeNotificationPanel() {
       this.isNotificationPanel = false;

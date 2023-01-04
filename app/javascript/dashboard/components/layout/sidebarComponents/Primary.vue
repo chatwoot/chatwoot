@@ -16,6 +16,7 @@
       />
     </nav>
     <div class="menu vertical user-menu">
+      <gift-icon @open-promo-popup="openPromoPopup" />
       <primary-nav-item
         v-if="!isACustomBrandedInstance"
         icon="book-open-globe"
@@ -41,6 +42,7 @@ import PrimaryNavItem from './PrimaryNavItem';
 import OptionsMenu from './OptionsMenu';
 import AgentDetails from './AgentDetails';
 import NotificationBell from './NotificationBell';
+import GiftIcon from './GiftIcon';
 import wootConstants from 'dashboard/constants';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
@@ -51,6 +53,7 @@ export default {
     OptionsMenu,
     AgentDetails,
     NotificationBell,
+    GiftIcon,
   },
   props: {
     isACustomBrandedInstance: {
@@ -97,6 +100,9 @@ export default {
     },
     openNotificationPanel() {
       this.$emit('open-notification-panel');
+    },
+    openPromoPopup() {
+      this.$emit('open-promo-popup');
     },
   },
 };
