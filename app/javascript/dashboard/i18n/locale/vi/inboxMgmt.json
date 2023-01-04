@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Số Điện Thoại",
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Vui lòng cung cấp số điện thoại hợp lệ bắt đầu bằng dấu `+` và không chứa bất kỳ dấu cách nào."
         },
         "API_CALLBACK": {
           "TITLE": "URL gọi lại",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Số Điện Thoại",
             "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "Vui lòng cung cấp số điện thoại hợp lệ bắt đầu bằng dấu `+` và không chứa bất kỳ dấu cách nào."
           },
           "SUBMIT_BUTTON": "Tạo kênh Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Số Điện Thoại",
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Vui lòng cung cấp số điện thoại hợp lệ bắt đầu bằng dấu `+` và không chứa bất kỳ dấu cách nào."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID số điện thoại",
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL gọi lại",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Bạn phải định cấu hình URL webhook và mã xác minh trong cổng Nhà phát triển của Facebook với các giá trị được hiển thị bên dưới.",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Mã xác minh Webhook"
         },
         "SUBMIT_BUTTON": "Tạo kênh WhatsApp",
         "API": {
@@ -421,7 +421,7 @@
       "PRE_CHAT_FORM": "Biểu mẫu trước khi trò chuyện",
       "BUSINESS_HOURS": "Giờ làm việc",
       "WIDGET_BUILDER": "Trình tạo widget",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Cấu hình Bot"
     },
     "SETTINGS": "Cài đặt",
     "FEATURES": {
@@ -445,8 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc trò chuyện",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Bật tiếp tục cuộc trò chuyện qua email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Cuộc trò chuyện sẽ tiếp tục qua email nếu có địa chỉ email liên lạc.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Khóa cuộc trò chuyện duy nhất",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Bật hoặc tắt nhiều cuộc trò chuyện cho cùng một liên hệ trong hộp thư đến này",
       "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",

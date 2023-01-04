@@ -1,50 +1,50 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
+    "HEADER": "Innhólf",
     "SIDEBAR_TXT": "<p><b>Innhólf</b></p> <p> Þegar þú tengir vefsíðu eða Facebook-síðu við Chatwoot er það kallað <b>Innhólf</b>. Þú getur haft ótakmörkuð innhólf á Chatwoot reikningnum þínum. </p><p> Smelltu á <b>Bæta við innhólfi</b> til að tengja vefsíðu eða Facebook-síðu. </p><p> Í stjórnborðinu geturðu séð öll samtölin úr öllum innhólfunum þínum á einum stað og svarað þeim undir flipanum 'Samtöl'. </p><p> Þú getur líka séð samtöl sem eru sértæk fyrir innhólf með því að smella á innhólfsnafnið í vinstri glugganum á mælaborðinu. </p>",
     "LIST": {
       "404": "Það eru engin innhólf tengd við þennan reikning."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "Veldu rás",
         "route": "settings_inbox_new",
         "body": "Veldu þjónustuveituna sem þú vilt samþætta við Chatwoot."
       },
       {
-        "title": "Create Inbox",
+        "title": "Nýtt innhólf",
         "route": "settings_inboxes_page_channel",
         "body": "Staðfestu reikninginn þinn og búðu til pósthólf."
       },
       {
-        "title": "Add Agents",
+        "title": "Bæta við þjónustufulltrúa",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Bæta þjónustufulltrúum á nýja innhólfið."
       },
       {
         "title": "Voila!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "Þú ert tilbúin til að halda áfram!"
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "Nafn Innhólfs",
+        "PLACEHOLDER": "Sláðu inn nafn innhólfsins (Dæmi: Acme ehf)",
+        "ERROR": "Vinsamlegast sláðu inn gilt nafn innhólfs"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "Nafn Vefsíðu",
+        "PLACEHOLDER": "Sláðu inn nafn vefsíðu (Dæmi: Acme ehf)"
       },
       "FB": {
         "HELP": "PS: Með því að skrá þig inn fáum við aðeins aðgang að skilaboðum síðunnar þinnar. Chatwoot getur aldrei nálgast einkaskilaboðin þín.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "CHOOSE_PAGE": "Veldu Síðu",
+        "CHOOSE_PLACEHOLDER": "Veldu síðu úr listanum",
+        "INBOX_NAME": "Nafn Innhólfs",
+        "ADD_NAME": "Bættu við nafni á innhólfið",
+        "PICK_NAME": "Veldu nafn fyrir innhólfið",
+        "PICK_A_VALUE": "Veldu gildi"
       },
       "TWITTER": {
         "HELP": "Til að bæta Twitter prófílnum þínum við sem rás þarftu að auðkenna Twitter prófílinn þinn með því að smella á 'Skráðu þig inn með Twitter'",
@@ -54,138 +54,138 @@
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
+        "TITLE": "Vefsíðu rás",
         "DESC": "Búðu til rás fyrir vefsíðuna þína og byrjaðu að aðstoða viðskiptavini þína í gegnum netspjallið okkar.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "LOADING_MESSAGE": "Búa til Vefsíðu Þjónustu Rás",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Rásamynd"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "Vefkróks URL",
+          "PLACEHOLDER": "Sláðu inn URL Vefkróks",
+          "ERROR": "Vinsamlega skráðu gilt URL"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Lén Vefsíðu",
+          "PLACEHOLDER": "Sláðu lénið á vefsíðunni þinni (dæmi: acme.is)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Móttöku Fyrirsögn",
+          "PLACEHOLDER": "Hæ!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
+          "LABEL": "Móttöku taglína",
           "PLACEHOLDER": "Við gerum það einfalt að tengjast okkur. Spyrðu okkur hvað sem er eða deildu þínu áliti."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
+          "LABEL": "Móttökuskilaboð rásar",
           "PLACEHOLDER": "Acme Inc svarar iðulega innan nokkura klukkustunda."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
+          "LABEL": "Virkja móttöku skilaboð",
           "HELP_TEXT": "Sendu sjálfkrafa kveðjuskilaboð þegar nýtt samtal er búið til.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "ENABLED": "Virkt",
+          "DISABLED": "Slökkt"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
+          "TITLE": "Skrá Svartíma",
+          "IN_A_FEW_MINUTES": "Eftir örfáar mínútur",
+          "IN_A_FEW_HOURS": "Eftir nokkrar klukkustundir",
+          "IN_A_DAY": "Eftir sólarhring",
           "HELP_TEXT": "Þessi svartími mun birtast á netspjallinu"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Litur Widgets",
+          "PLACEHOLDER": "Uppfæra litinn notaðan í widgetinu"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "Skrá innhólf",
         "API": {
           "ERROR_MESSAGE": "Við gátum ekki búið til vefsíðurás, vinsamlegast reyndu aftur"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "TITLE": "Twilio SMS/WhatsApp Rás",
         "DESC": "Innleiddu Twilio og byrjaðu að aðstoða viðskiptavini þína með SMS eða WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "SID Aðgangs",
+          "PLACEHOLDER": "Vinsamlegast sláðu inn SID á Twilio Aðganginum þínum",
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
+          "LABEL": "SID Skilaboðaþjónustu",
           "PLACEHOLDER": "Vinsamlegast sláðu inn Twilio Messaging Service SID",
-          "ERROR": "This field is required",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit",
+          "USE_MESSAGING_SERVICE": "Nota Twilio Skilaboðaþjónustuna"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Tegund Rásar",
+          "ERROR": "Vinsamlegast veldu tegund rásar"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
+          "LABEL": "Auðkenningar token",
           "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Nafn Innhólfs",
+          "PLACEHOLDER": "Vinsamlegast sláðu inn nafn innhólfs",
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
+          "LABEL": "Símanúmer",
           "PLACEHOLDER": "Vinsamlega sláðu inn símanúmerið sem skilaboð verða send frá.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Vinsamlegast sláðu inn gilt símanúmer sem byrjar með ´+´ merki og inniheldur ekki nein bil."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
           "SUBTITLE": "Þú verður að stilla afturhringingarslóð skilaboða í Twilio með slóðinni sem nefnd er hér."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Skrá Twilio Rás",
         "API": {
           "ERROR_MESSAGE": "Við gátum ekki auðkennt Twilio auðkenni, vinsamlegast reyndu aftur"
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS Rás",
+        "DESC": "Byrjaðu að aðstoða viðskiptavinina þína í gegnum SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Bandbreidd"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Það tókst ekki að skrá SMS rásina"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "Reikningsnúmer",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
           },
           "API_KEY": {
             "LABEL": "API Lykill",
             "PLACEHOLDER": "Please enter your Bandwith API Key",
-            "ERROR": "This field is required"
+            "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
             "PLACEHOLDER": "Please enter your Bandwith API Secret",
-            "ERROR": "This field is required"
+            "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
           },
           "APPLICATION_ID": {
             "LABEL": "Application ID",
             "PLACEHOLDER": "Vinsamlegast sláðu inn Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "Nafn Innhólfs",
+            "PLACEHOLDER": "Vinsamlegast sláðu inn nafn innhólfs",
+            "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
+            "LABEL": "Símanúmer",
             "PLACEHOLDER": "Vinsamlega sláðu inn símanúmerið sem skilaboð verða send frá.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "Vinsamlegast sláðu inn gilt símanúmer sem byrjar með ´+´ merki og inniheldur ekki nein bil."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -207,14 +207,14 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "Nafn Innhólfs",
           "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
+          "LABEL": "Símanúmer",
           "PLACEHOLDER": "Vinsamlega sláðu inn símanúmerið sem skilaboð verða send frá.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Vinsamlegast sláðu inn gilt símanúmer sem byrjar með ´+´ merki og inniheldur ekki nein bil."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -254,58 +254,58 @@
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
           "SUBTITLE": "Stilltu slóðina þar sem þú vilt fá svarhringingar á atburði.",
-          "PLACEHOLDER": "Webhook URL"
+          "PLACEHOLDER": "URL Vefkróks"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Skrá API Rás",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Það tókst ekki að vista api rásina"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "Tölvupóst Rás",
+        "DESC": "Innleiða tölvupósthólfið þitt.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Nafn Rásar",
+          "PLACEHOLDER": "Vinsamlegast sláðu inn nafn rásar",
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "Netfang",
           "SUBTITLE": "Tölvupóstur þar sem viðskiptavinir þínir senda þér þjónustubeiðnir",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "Netfang"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Skrá Tölvupóst Rás",
         "API": {
           "ERROR_MESSAGE": "Við gátum ekki vistað tölvupóstrásina"
         },
         "FINISH_MESSAGE": "Byrja að áframsenda tölvupóstinn þinn á eftirfarandi netfang."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
+        "TITLE": "LINE Rás",
         "DESC": "Samþættu við LINE rásina og byrjaðu að þjónusta viðskiptavini þína.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Nafn Rásar",
+          "PLACEHOLDER": "Vinsamlegast sláðu inn nafn rásar",
+          "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "Einkennisnúmer LINE Rásar",
+          "PLACEHOLDER": "Einkennisnúmer LINE Rásar"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Leyndarmál LINE Rásar",
+          "PLACEHOLDER": "Leyndarmál LINE Rásar"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "Token LINE Rásar",
+          "PLACEHOLDER": "Token LINE Rásar"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Skrá LINE Rás",
         "API": {
           "ERROR_MESSAGE": "Við gátum ekki vistað LINE rásina"
         },
@@ -315,30 +315,30 @@
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
+        "TITLE": "Telegram Rás",
         "DESC": "Samþættu við Telegram rásina og byrjaðu að þjónusta viðskiptavini þína.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
           "SUBTITLE": "Stilltu bot token sem þú hefur fengið frá Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Skrá Telegram Rás",
         "API": {
           "ERROR_MESSAGE": "Við gátum ekki vistað Telegram rásina"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Veldu rás",
         "DESC": "Chatwoot styður vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef þú vilt búa til sérsniðna rás geturðu búið hana til með því að nota API rásina. Til að byrja skaltu velja eina af rásunum hér að neðan."
       },
       "AGENTS": {
         "TITLE": "Þjónustufulltrúar",
         "DESC": "Hér geturðu bætt við þjónustufulltrúum til að hafa umsjón með nýstofnuða innhólfinu þínu. Aðeins þessir völdu Þjónustufulltrúar munu hafa aðgang að innhólfinu þínu. Þjónustufulltrúar sem eru ekki hluti af þessu innhólfi munu ekki geta séð eða svarað skilaboðum í þessu innhólfi þegar þeir skrá sig inn. <br> <b>PS:</b> Sem stjórnandi, ef þú þarft aðgang að öllum pósthólfum, ættir þú að bæta sjálfum þér sem þjónustufulltrúa við öll innhólf sem þú býrð til.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Bættu við að minnsta kosti einum þjónustufulltrúa á innhólfið",
+        "PICK_AGENTS": "Veldu þjónustufulltrúa fyrir innhólfið"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
+        "TITLE": "Innhólfs Upplýsingar",
         "DESC": "Í fellilistanum hér að neðan, veldu Facebook síðuna sem þú vilt tengja við Chatwoot. Þú getur líka gefið innhólfinu sérsniðið nafn til að þekkja það betur."
       },
       "FINISH": {
@@ -347,76 +347,76 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
+      "LOADING_FB": "Auðkenni við Facebook...",
       "ERROR_FB_AUTH": "Eitthvað fór úrskeiðis, vinsamlegast endurnýjaðu síðuna...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "CREATING_CHANNEL": "Skrái innhólfið...",
+      "TITLE": "Stilla Upplýsingar Innhólfs",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
+      "ADD_AGENTS": "Er að bæta þjónustufulltrúum á innhólfið..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
+      "TITLE": "Innhólfið þitt er tilbúið!",
       "MESSAGE": "Þú getur nú átt samskipti við viðskiptavini þína í gegnum nýju rásina þína. Gangi þér vel við þjónustuna",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
+      "BUTTON_TEXT": "Taktu mig þangað",
+      "MORE_SETTINGS": "Fleiri stillingar",
       "WEBSITE_SUCCESS": "Þú hefur lokið við að búa til vefsíðurás. Afritaðu kóðann sem sýndur er hér að neðan og límdu hann á vefsíðuna þína. Næst þegar viðskiptavinur notar spjallið birtist samtalið sjálfkrafa í innhólfinu þínu."
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "Endurauðkenna",
+    "VIEW": "Skoða",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
+        "SUCCESS_MESSAGE": "Stillingar innhólfs voru uppfærðar",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Sjálfvirkum skráningum var breytt",
         "ERROR_MESSAGE": "Við gátum ekki uppfært stillingar innhólfs. Vinsamlegast reyndu aftur síðar."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Virkt",
+        "DISABLED": "Slökkt"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Virkt",
+        "DISABLED": "Slökkt"
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Virkt",
+        "DISABLED": "Slökkt"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Virkt",
+        "DISABLED": "Slökkt"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Virkt",
+        "DISABLED": "Slökkt"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Virkja"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eyða",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Eyða mynd",
       "CONFIRM": {
         "TITLE": "Staðfesta eyðingu",
         "MESSAGE": "Ertu viss um að þú viljir eyða",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Vinsamlegast sláðu inn {inboxName} til að staðfesta",
         "YES": "Já, eyða",
         "NO": "Nei, hætta við eyðingu"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
+        "SUCCESS_MESSAGE": "Innhólfi eytt",
         "ERROR_MESSAGE": "Gat ekki eytt innhólfi. Vinsamlegast reyndu aftur síðar.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_SUCCESS_MESSAGE": "Mynd eytt",
         "AVATAR_ERROR_MESSAGE": "Gat ekki eytt notandamynd innhólfsins. Vinsamlegast reyndu aftur síðar."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
+      "SETTINGS": "Stillingar",
+      "COLLABORATORS": "Samstarfsaðilar",
+      "CONFIGURATION": "Stillingar",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
@@ -446,7 +446,7 @@
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtöl halda áfram með tölvupósti ef tengiliðanetfangið er tiltækt.",
       "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Kveikja eða slökkva á samtíma samtölum fyrir sama tengilið í þessu innhólfi",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Virkja eða slökkva á sjálfvirkri úthlutun nýrra samtöla til umboðsmanna sem bætt er við þetta innhólf.",
@@ -469,7 +469,7 @@
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Takmarkaðu hámarksfjölda samtala úr þessu innhólfi sem hægt er að úthluta sjálfkrafa á þjónustufulltrúa"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
+      "TITLE": "Endurauðkenna",
       "SUBTITLE": "Facebook tengingin þín er útrunnin, vinsamlegast tengdu Facebook síðuna þína aftur til að halda áfram þjónustu",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
@@ -515,116 +515,116 @@
         "UNAVAILABLE": "Unavailable",
         "HOURS": "hours",
         "VALIDATION_ERROR": "Upphafstími ætti að vera fyrir lokunartíma.",
-        "CHOOSE": "Choose"
+        "CHOOSE": "Velja"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Allan Daginn"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "SUBTITLE": "Skrá IMAP upplýsingar",
+      "NOTE_TEXT": "Vinsamlegast tilltu IMAP til að virkja SMTP.",
+      "UPDATE": "Uppfæra IMAP stilingar",
+      "TOGGLE_AVAILABILITY": "Virkja IMAP stillingar fyrir þetta innhólf",
       "TOGGLE_HELP": "Að virkja IMAP mun hjálpa notandanum að fá tölvupóst",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP stillingar voru uppfærðar",
+        "ERROR_MESSAGE": "Tókst ekki að uppfæra IMAP stillingar"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "Slóð",
+        "PLACE_HOLDER": "Slóð (Dæmi: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Notandanafn",
+        "PLACE_HOLDER": "Notandanafn"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Lykilorð",
+        "PLACE_HOLDER": "Lykilorð"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Virkja SSL"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "SUBTITLE": "Skrá SMTP upplýsingar",
+      "UPDATE": "Uppfæra SMTP stillingar",
+      "TOGGLE_AVAILABILITY": "Kveikja á SMTP stillingu fyrir þetta innhólf",
       "TOGGLE_HELP": "Að virkja SMTP mun hjálpa notandanum að senda tölvupóst",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP stillingum var breytt",
+        "ERROR_MESSAGE": "Tókst ekki að uppfæra SMTP stillingar"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "Slóð",
+        "PLACE_HOLDER": "Slóð (Dæmi: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Notandanafn",
+        "PLACE_HOLDER": "Notandanafn"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Lykilorð",
+        "PLACE_HOLDER": "Lykilorð"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "Lén",
+        "PLACE_HOLDER": "Lén"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Dulkóðun",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Opna SSL Sannreyningar Ham",
+      "AUTH_MECHANISM": "Auðkenning"
     },
-    "NOTE": "Note: ",
+    "NOTE": "Merkimiði: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Vefsíðumynd",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "Vefsíðumynd eytt",
+              "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndu aftur"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "Nafn Vefsíðu",
+          "PLACE_HOLDER": "Sláðu inn nafn vefsíðu (Dæmi: Acme ehf)",
+          "ERROR": "Vinsamlegast sláðu inn gilt vefsíðunafn"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "Móttöku Fyrirsögn",
+          "PLACE_HOLDER": "Hæ!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
+          "LABEL": "Móttöku taglína",
           "PLACE_HOLDER": "Við gerum það einfalt að tengjast okkur. Spyrðu okkur hvað sem er eða deildu þínu áliti."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "Svartími",
+          "IN_A_FEW_MINUTES": "Eftir örfáar mínútur",
+          "IN_A_FEW_HOURS": "Eftir nokkrar klukkustundir",
+          "IN_A_DAY": "Eftir sólarhring"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "Litur Widgets",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Staðsetning Widget Blöðru",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tegund Widget Blöðru",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Spjallaðu við okkur",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "Titill Widget Blöðru",
           "PLACE_HOLDER": "Spjallaðu við okkur"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Uppfæra stillingar widgets",
           "API": {
             "SUCCESS_MESSAGE": "Widget settings updated successfully",
             "ERROR_MESSAGE": "Unable to update widget settings"
