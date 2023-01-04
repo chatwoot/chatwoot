@@ -22,6 +22,6 @@ trigger_imap_email_inboxes_job:
 
 # refresh ms oauth token for the channel
 trigger_ms_oauth_token_refresh:
-  cron: '* */2 * * *'
+  cron: '* */1 * * *'
   class: 'Channels::RefreshMsOauthTokenJob'
   queue: scheduled_jobs

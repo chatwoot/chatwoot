@@ -2,25 +2,24 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
   queue_as :low
 
   def perform
-    Channel::Email.all.each do |channel|
-      # refresh the token here, offline access should work
+    Channel::Email.where(provider: 'microsoft').each do |channel|
+      # refresh the token here, offline_access should work
+      provider_config = channel.provider_config || {}
 
-      ms_oauth_token_hash = channel.ms_oauth_token_hash || {}
-
-      refresh_tokens(channel, ms_oauth_token_hash) if ms_oauth_token_hash[:access_token].present?
+      refresh_tokens(channel, provider_config.with_indifferent_access) if provider_config[:refresh_token].present?
     end
   end
 
   # if the token is not expired yet then skip the refresh token step
-  def access_token(channel, ms_oauth_token_hash)
-    expiry = Time.zone.at(ms_oauth_token_hash[:expires_at] - 300)
+  def access_token(channel, provider_config)
+    expiry = DateTime.parse(provider_config[:expires_on]) - 5.minutes
 
-    if Time.zone.now > expiry
+    if Time.current > expiry
       # Token expired, refresh
-      new_hash = refresh_tokens channel, ms_oauth_token_hash
+      new_hash = refresh_tokens channel, provider_config
       new_hash[:access_token]
     else
-      ms_oauth_token_hash[:access_token]
+      provider_config[:access_token]
     end
   end
 
@@ -36,17 +35,20 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
     )
 
     # Refresh the tokens
-    new_tokens = token.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_at)
+    new_tokens = token.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_on)
 
-    update_channel_ms_oauth_tokens(channel, new_tokens)
-    channel.ms_oauth_token_hash
+    update_channel_provider_config(channel, new_tokens)
+    channel.provider_config
   end
   # </RefreshTokensSnippet>
 
-  def update_channel_ms_oauth_tokens(channel, new_tokens)
+  def update_channel_provider_config(channel, new_tokens)
     new_tokens = new_tokens.with_indifferent_access
-    channel.ms_oauth_token_hash = { access_token: new_tokens.delete(:access_token), refresh_token: new_tokens.delete(:refresh_token),
-                                    expires_at: new_tokens.delete(:expires_at) }
+    channel.provider_config = {
+      access_token: new_tokens.delete(:access_token),
+      refresh_token: new_tokens.delete(:refresh_token),
+      expires_on: new_tokens.delete(:expires_on)
+    }
     channel.save!
   end
 end

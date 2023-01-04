@@ -12,7 +12,8 @@
 #  imap_login                :string           default("")
 #  imap_password             :string           default("")
 #  imap_port                 :integer          default(0)
-#  ms_oauth_token_hash       :jsonb
+#  provider                  :string
+#  provider_config           :jsonb
 #  smtp_address              :string           default("")
 #  smtp_authentication       :string           default("login")
 #  smtp_domain               :string           default("")
@@ -42,7 +43,7 @@ class Channel::Email < ApplicationRecord
   self.table_name = 'channel_email'
   EDITABLE_ATTRS = [:email, :imap_enabled, :imap_login, :imap_password, :imap_address, :imap_port, :imap_enable_ssl, :imap_inbox_synced_at,
                     :smtp_enabled, :smtp_login, :smtp_password, :smtp_address, :smtp_port, :smtp_domain, :smtp_enable_starttls_auto,
-                    :smtp_enable_ssl_tls, :smtp_openssl_verify_mode, :smtp_authentication, :ms_oauth_token].freeze
+                    :smtp_enable_ssl_tls, :smtp_openssl_verify_mode, :smtp_authentication, :provider].freeze
 
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true
@@ -54,7 +55,15 @@ class Channel::Email < ApplicationRecord
   end
 
   def ms_oauth_token_available?
-    ms_oauth_token_hash[:access_token].present?
+    provider_config['access_token'].present? && provider == 'microsoft'
+  end
+
+  def update_provider_config(params)
+    provider_config = params[:provider_config]
+    return unless provider == 'microsoft'
+
+    update(provider_config: { access_token: provider_config[:accessToken], refresh_token: provider_config[:refreshToken],
+                              expires_on: provider_config[:expiresOn] })
   end
 
   private
