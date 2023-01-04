@@ -46,30 +46,27 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_ms_oauth_channel(channel)
-    access_token = valid_imap_ms_oauth_token channel
+    access_token = valid_ms_oauth_token channel
 
     return unless access_token
 
-    # auth = 'Bearer ' + access_token
-    # all_mails = HTTParty.get("https://graph.microsoft.com/v1.0/me/mailfolders/inbox/messages", :headers => { "Authorization" => auth })['value']
-
-    # all_mails.each do |mail|
-    #   inbound_mail = Mail.read_from_string mail
-    #   next if channel.inbox.messages.find_by(source_id: inbound_mail['id'].value).present?
-
-    #   process_mail(inbound_mail, channel)
-    # end
-
-    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
-    imap.authenticate('XOAUTH2', channel.imap_login, access_token)
-    imap.select('INBOX')
-    imap.search(['ALL']).each do |message_id|
-      inbound_mail =  Mail.read_from_string imap.fetch(message_id,'RFC822')[0].attr['RFC822']
+    imap = imap_instance(channel, access_token)
+    yesterday = (Time.zone.today - 1).strftime('%d-%b-%Y')
+    tomorrow = (Time.zone.today + 1).strftime('%d-%b-%Y')
+    imap.search(['BEFORE', tomorrow, 'SINCE', yesterday]).each do |message_id|
+      inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
     end
+  end
+
+  def imap_instance(channel, access_token)
+    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
+    imap.authenticate('XOAUTH2', channel.imap_login, access_token)
+    imap.select('INBOX')
+    imap
   end
 
   def process_mail(inbound_mail, channel)
@@ -78,7 +75,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
 
-  def valid_imap_ms_oauth_token(channel)
-    Channels::RefreshMsOauthTokenJob.new.access_token(channel, channel.ms_oauth_token_hash.with_indifferent_access)
+  def valid_ms_oauth_token(channel)
+    Channels::RefreshMsOauthTokenJob.new.access_token(channel, channel.provider_config.with_indifferent_access)
   end
 end

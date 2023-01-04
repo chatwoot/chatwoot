@@ -9,7 +9,7 @@ require 'omniauth-oauth2'
 class OmniAuth::Strategies::MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   option :name, :microsoft_graph_auth
 
-  DEFAULT_SCOPE = 'openid email profile User.Read offline_access'.freeze
+  DEFAULT_SCOPE = 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send'.freeze
 
   # Configure the Microsoft identity platform endpoints
   option :client_options,
@@ -33,7 +33,7 @@ class OmniAuth::Strategies::MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
 
   def raw_info
     # Get user profile information from the /me endpoint
-    @raw_info ||= access_token.get('https://graph.microsoft.com/v1.0/me?$select=displayName,mail,mailboxSettings,userPrincipalName').parsed
+    @raw_info ||= access_token.get('https://graph.microsoft.com/v1.0/me?$select=displayName').parsed
   end
 
   def authorize_params
