@@ -50,26 +50,26 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
     return unless access_token
 
-    auth = "Bearer #{access_token}"
-    all_mails = HTTParty.get('https://graph.microsoft.com/v1.0/me/mailfolders/inbox/messages', headers: { 'Authorization' => auth })['value']
+    # auth = 'Bearer ' + access_token
+    # all_mails = HTTParty.get("https://graph.microsoft.com/v1.0/me/mailfolders/inbox/messages", :headers => { "Authorization" => auth })['value']
 
-    all_mails.each do |mail|
-      inbound_mail = Mail.read_from_string mail
-      next if channel.inbox.messages.find_by(source_id: inbound_mail['id'].value).present?
-
-      process_mail(inbound_mail, channel)
-    end
-
-    # imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
-    # imap.authenticate('XOAUTH2', 'tejaswinichile@chatwoot.onmicrosoft.com', "Bearer ")
-    # imap.select('INBOX')
-    # imap.search(['ALL']).each do |message_id|
-    #   inbound_mail =  Mail.read_from_string imap.fetch(message_id,'RFC822')[0].attr['RFC822']
-
-    #   next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+    # all_mails.each do |mail|
+    #   inbound_mail = Mail.read_from_string mail
+    #   next if channel.inbox.messages.find_by(source_id: inbound_mail['id'].value).present?
 
     #   process_mail(inbound_mail, channel)
     # end
+
+    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
+    imap.authenticate('XOAUTH2', channel.imap_login, access_token)
+    imap.select('INBOX')
+    imap.search(['ALL']).each do |message_id|
+      inbound_mail =  Mail.read_from_string imap.fetch(message_id,'RFC822')[0].attr['RFC822']
+
+      next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+
+      process_mail(inbound_mail, channel)
+    end
   end
 
   def process_mail(inbound_mail, channel)
