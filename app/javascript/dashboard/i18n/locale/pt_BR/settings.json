@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações de Áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
-        "NONE": "Nenhuma",
-        "ASSIGNED": "Conversas atribuídas",
-        "ALL_CONVERSATIONS": "Todas as conversas"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Nenhuma",
+          "ASSIGNED": "Conversas atribuídas",
+          "ALL_CONVERSATIONS": "Todas as conversas"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -271,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversa",
       "RESOLVE_AND_NEXT": "Resolver e ir para o próximo",
