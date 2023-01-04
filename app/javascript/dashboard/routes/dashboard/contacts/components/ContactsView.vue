@@ -20,12 +20,12 @@
         :is-loading="uiFlags.isFetching"
         :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
-        :sort-config="sortConfig"
         @on-sort-change="onSortChange"
       />
       <table-footer
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
+        :page-size="15"
         @page-change="onPageChange"
       />
     </div>
@@ -115,7 +115,7 @@ export default {
       showCreateModal: false,
       showImportModal: false,
       selectedContactId: '',
-      sortConfig: { name: 'asc' },
+      sortConfig: { last_activity_at: 'desc' },
       showFiltersModal: false,
       contactFilterItems: contactFilterItems.map(filter => ({
         ...filter,
@@ -230,8 +230,8 @@ export default {
         return acc;
       }, '');
       if (!sortAttr) {
-        this.sortConfig = { name: 'asc' };
-        sortAttr = 'name';
+        this.sortConfig = { last_activity_at: 'desc' };
+        sortAttr = '-last_activity_at';
       }
       return sortAttr;
     },
