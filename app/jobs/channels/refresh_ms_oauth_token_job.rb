@@ -2,10 +2,9 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
   queue_as :low
 
   def perform
-    Channel::Email.all.each do |inbox|
+    Channel::Email.all.each do |channel|
       # refresh the token here, offline access should work
 
-      channel = inbox.channel
       ms_oauth_token_hash = channel.ms_oauth_token_hash || {}
 
       return unless ms_oauth_token_hash[:access_token].present?
@@ -31,7 +30,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
   # <RefreshTokensSnippet>
   def refresh_tokens(channel, token_hash)
     oauth_strategy = OmniAuth::Strategies::MicrosoftGraphAuth.new(
-      nil, ENV['AZURE_APP_ID'], ENV['AZURE_APP_SECRET']
+      nil, ENV.fetch['AZURE_APP_ID'], ENV.fetch['AZURE_APP_SECRET']
     )
 
     token = OAuth2::AccessToken.new(
