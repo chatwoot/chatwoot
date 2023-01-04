@@ -41,6 +41,7 @@ export default {
       try {
         const msalConfig = {
           auth: {
+            // clientId: 'd9695165-4042-45b5-99af-aaf8d09c98ae',
             clientId: 'f200029c-6075-41bc-872d-1b37af066b21',
           },
         };
@@ -51,7 +52,7 @@ export default {
           scopes: [
             'https://outlook.office.com/IMAP.AccessAsUser.All',
             'https://outlook.office.com/SMTP.Send',
-            'offline_access',
+            'offline_access'
           ],
           redirectUri: 'http://localhost:3000',
         });
