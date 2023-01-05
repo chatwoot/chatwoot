@@ -13,7 +13,7 @@
       @mouseover="onHover(index)"
     >
       <a class="text-truncate">
-        <strong>{{ item.label }}</strong>
+        <strong>{{ getTitle(item) }}</strong>
       </a>
     </li>
   </ul>
@@ -34,6 +34,7 @@ export default {
       selectedIndex: 0,
     };
   },
+
   watch: {
     items(newItems) {
       if (newItems.length < this.selectedIndex + 1) {
@@ -42,6 +43,9 @@ export default {
     },
   },
   methods: {
+    getTitle(item) {
+      return `${item.label} - {{${item.key}}}`;
+    },
     getTopPadding() {
       if (this.items.length <= 4) {
         return -(this.items.length * 2.9 + 1.7);
