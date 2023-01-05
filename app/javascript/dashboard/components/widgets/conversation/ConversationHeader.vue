@@ -5,7 +5,6 @@
         <back-button v-if="showBackButton" :back-url="backButtonUrl" />
         <Thumbnail
           :src="currentContact.thumbnail"
-          size="40px"
           :badge="inboxBadge"
           :username="currentContact.name"
           :status="currentContact.availability_status"
