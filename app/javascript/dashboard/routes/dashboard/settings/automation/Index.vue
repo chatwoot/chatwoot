@@ -42,16 +42,24 @@
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
               <td class="button-wrapper">
-                <woot-button
-                  v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
+                <router-link
+                  :to="
+                    addAccountScoping(
+                      `settings/automations/${automation.id}/edit`
+                    )
+                  "
                   class-names="grey-btn"
-                  :is-loading="loading[automation.id]"
-                  icon="edit"
-                  @click="openEditPopup(automation)"
-                />
+                >
+                  <woot-button
+                    v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
+                    variant="smooth"
+                    size="tiny"
+                    color-scheme="secondary"
+                    :is-loading="loading[automation.id]"
+                    icon="edit"
+                    @click="openEditPopup(automation)"
+                  />
+                </router-link>
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
                   variant="smooth"
@@ -82,18 +90,6 @@
         <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
-    <woot-modal
-      :show.sync="showAddPopup"
-      size="medium"
-      :on-close="hideAddPopup"
-    >
-      <add-automation-rule
-        v-if="showAddPopup"
-        :on-close="hideAddPopup"
-        @saveAutomation="submitAutomation"
-      />
-    </woot-modal>
-
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
@@ -104,19 +100,6 @@
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
-
-    <woot-modal
-      :show.sync="showEditPopup"
-      size="medium"
-      :on-close="hideEditPopup"
-    >
-      <edit-automation-rule
-        v-if="showEditPopup"
-        :on-close="hideEditPopup"
-        :selected-response="selectedResponse"
-        @saveAutomation="submitAutomation"
-      />
-    </woot-modal>
     <woot-confirm-modal
       ref="confirmDialog"
       :title="toggleModalTitle"
@@ -126,17 +109,12 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import AddAutomationRule from './AddAutomationRule.vue';
-import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import timeMixin from 'dashboard/mixins/time';
 import accountMixin from 'dashboard/mixins/account.js';
 
 export default {
-  components: {
-    AddAutomationRule,
-    EditAutomationRule,
-  },
+  components: {},
   mixins: [alertMixin, timeMixin, accountMixin],
   data() {
     return {

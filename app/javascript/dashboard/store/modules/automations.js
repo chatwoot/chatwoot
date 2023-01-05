@@ -24,12 +24,6 @@ export const getters = {
   },
 };
 
-async function sleep(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-}
-
 export const actions = {
   get: async function getAutomations({ commit }) {
     commit(types.SET_AUTOMATION_UI_FLAG, { isFetching: true });
@@ -48,7 +42,6 @@ export const actions = {
   ) {
     commit(types.SET_AUTOMATION_UI_FLAG, { isFetching: true });
     try {
-      await sleep(10000);
       const response = await AutomationAPI.show(automationId);
       commit(types.ADD_AUTOMATION, response.data.payload);
     } catch (error) {
