@@ -2,9 +2,9 @@
   <div class="christmas-promo">
     <h2>Get 25% off on all Chatwoot plans</h2>
     <p class="promo-code">
-      Use XMASCHATWOOT22
-      <fluent-icon icon="copy" class="copy--icon" @click.native="onCopy" /> to
-      avail the discount
+      Use the code: XMASCHATWOOT22
+      <fluent-icon icon="copy" class="copy--icon" @click.native="onCopy" />
+      during checkout
     </p>
   </div>
 </template>
@@ -28,7 +28,9 @@ export default {
 <style scoped lang="scss">
 .christmas-promo {
   height: var(--space-giga);
-  background-color: var(--r-400);
+  background-image: url('/dashboard/images/christmas-promo.webp');
+  background-position: center;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
