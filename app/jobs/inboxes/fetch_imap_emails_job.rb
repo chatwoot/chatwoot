@@ -6,11 +6,9 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   def perform(channel)
     return unless should_fetch_email?(channel)
 
-    if channel.ms_oauth_token_available?
-      fetch_mail_for_ms_oauth_channel(channel)
-    else
-      fetch_mail_for_channel(channel)
-    end
+    # fetching email for microsoft provider
+    channel.microsoft? ? fetch_mail_for_ms_provider(channel) : fetch_mail_for_channel(channel)
+
     # clearing old failures like timeouts since the mail is now successfully processed
     channel.reauthorized!
   rescue *ExceptionList::IMAP_EXCEPTIONS
@@ -45,15 +43,12 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     end
   end
 
-  def fetch_mail_for_ms_oauth_channel(channel)
-    access_token = valid_ms_oauth_token channel
+  def fetch_mail_for_ms_provider(channel)
+    access_token = valid_access_token channel
 
     return unless access_token
 
-
-    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
-    imap.authenticate('XOAUTH2', channel.imap_login, access_token)
-    imap.select('INBOX')
+    imap = imap_authenticate(channel, access_token)
 
     yesterday = (Time.zone.today - 1).strftime('%d-%b-%Y')
     tomorrow = (Time.zone.today + 1).strftime('%d-%b-%Y')
@@ -66,13 +61,21 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     end
   end
 
+  def imap_authenticate(channel, access_token)
+    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
+    imap.authenticate('XOAUTH2', channel.imap_login, access_token)
+    imap.select('INBOX')
+    imap
+  end
+
   def process_mail(inbound_mail, channel)
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
 
-  def valid_ms_oauth_token(channel)
+  # Making sure the access token is valid for microsoft provider
+  def valid_access_token(channel)
     Channels::RefreshMsOauthTokenJob.new.access_token(channel, channel.provider_config.with_indifferent_access)
   end
 end

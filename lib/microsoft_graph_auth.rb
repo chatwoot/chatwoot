@@ -2,6 +2,8 @@
 # Licensed under the MIT License.
 # frozen_string_literal: true
 
+# Refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp
+
 require 'omniauth-oauth2'
 
 # Implements an OmniAuth strategy to get a Microsoft Graph
