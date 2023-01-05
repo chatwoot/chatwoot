@@ -55,8 +55,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     imap.authenticate('XOAUTH2', channel.imap_login, access_token)
     imap.select('INBOX')
 
-    yesterday = (Date.today - 1).strftime('%d-%b-%Y')
-    tomorrow = (Date.today + 1).strftime('%d-%b-%Y')
+    yesterday = (Time.zone.today - 1).strftime('%d-%b-%Y')
+    tomorrow = (Time.zone.today + 1).strftime('%d-%b-%Y')
     imap.search(['BEFORE', tomorrow, 'SINCE', yesterday]).each do |message_id|
       inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
