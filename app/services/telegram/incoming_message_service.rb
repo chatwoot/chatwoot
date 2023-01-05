@@ -20,6 +20,7 @@ class Telegram::IncomingMessageService
       sender: @contact,
       source_id: (params[:message][:message_id]).to_s
     )
+    attach_location
     attach_files
     @message.save!
   end
@@ -111,8 +112,23 @@ class Telegram::IncomingMessageService
     )
   end
 
+  def attach_location
+    return unless location
+
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :location,
+      coordinates_lat: location['latitude'],
+      coordinates_long: location['longitude']
+    )
+  end
+
   def file
     @file ||= visual_media_params || params[:message][:voice].presence || params[:message][:audio].presence || params[:message][:document].presence
+  end
+
+  def location
+    @location ||= params[:message][:location].presence
   end
 
   def visual_media_params
