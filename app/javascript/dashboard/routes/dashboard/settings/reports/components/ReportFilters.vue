@@ -96,6 +96,7 @@
         <template v-else-if="type === 'team'">
           {{ $t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL') }}
         </template>
+        <!-- handle default condition because the prop is not limited to the given 4 values -->
         <template v-else>
           {{ $t('FORMS.MULTISELECT.SELECT_ONE') }}
         </template>
