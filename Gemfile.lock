@@ -818,7 +818,7 @@ DEPENDENCIES
   web-console
   webmock
   webpacker (~> 5.4, >= 5.4.3)
-  webpush
+  webpush!
   wisper (= 2.0.0)
   working_hours
 
