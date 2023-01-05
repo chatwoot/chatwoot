@@ -54,7 +54,7 @@ class Channel::Email < ApplicationRecord
     'Email'
   end
 
-  def ms_oauth_token_available?
+  def microsoft?
     provider_config['access_token'].present? && provider == 'microsoft'
   end
 
