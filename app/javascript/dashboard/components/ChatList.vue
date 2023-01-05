@@ -794,20 +794,8 @@ export default {
 
 .conversations-list-wrap {
   flex-shrink: 0;
-  flex-basis: 34rem;
+  flex-basis: clamp(32rem, 4vw + 34rem, 44rem);
   overflow: hidden;
-  @include breakpoint(large up) {
-    flex-basis: 36rem;
-  }
-  @include breakpoint(xlarge up) {
-    flex-basis: 38rem;
-  }
-  @include breakpoint(xxlarge up) {
-    flex-basis: 42rem;
-  }
-  @include breakpoint(xxxlarge up) {
-    flex-basis: 46rem;
-  }
 
   &.hide {
     display: none;

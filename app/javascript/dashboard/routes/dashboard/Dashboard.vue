@@ -98,12 +98,22 @@ export default {
   },
   mounted() {
     this.handleResize();
-    window.addEventListener('resize', this.handleResize);
+    let throttled = false;
+    const delay = 150;
+    window.addEventListener('resize', () => {
+      if (!throttled) {
+        this.handleResize();
+        throttled = true;
+        setTimeout(() => {
+          throttled = false;
+        }, delay);
+      }
+    });
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
+    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   methods: {
     handleResize() {
