@@ -61,7 +61,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def imap_authenticate(channel, access_token)
-    Net::IMAP.new(channel.imap_address, channel.imap_port, true)
+    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
     imap.authenticate('XOAUTH2', channel.imap_login, access_token)
     imap.select('INBOX')
     imap
