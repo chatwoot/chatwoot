@@ -117,7 +117,7 @@
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
+        "FORM_SUBMIT": "Uppfæra",
         "FORM_CANCEL": "Hætta við",
         "API_SUCCESS": "Dashboard app updated successfully",
         "API_ERROR": "Ekki tókst að uppfæra forrit. Vinsamlegast reyndu aftur síðar"
