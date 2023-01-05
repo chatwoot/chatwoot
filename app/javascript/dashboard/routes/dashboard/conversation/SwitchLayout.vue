@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style lang="scss" soped>
+<style lang="scss" scoped>
 .layout-switch__container {
   align-items: center;
   background-color: var(--s-100);

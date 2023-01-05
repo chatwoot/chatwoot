@@ -8,40 +8,18 @@
   >
     <slot />
     <div
-      class="chat-list__top"
+      class="chat-list-top__wrap"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
     >
-      <h1 class="page-title text-truncate" :title="pageTitle">
-        {{ pageTitle }}
-      </h1>
-
-      <div class="filter--actions">
-        <chat-filter
-          v-if="!hasAppliedFiltersOrActiveFolders"
-          @statusFilterChange="updateStatusType"
-        />
-        <div v-if="hasAppliedFilters && !hasActiveFolders">
+      <div class="chat-list__top">
+        <div class="chat-list-header__wrap">
+          <h1 class="page-title text-truncate" :title="pageTitle">
+            {{ pageTitle }}
+          </h1>
           <woot-button
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="secondary"
-            icon="save"
-            @click="onClickOpenAddFoldersModal"
-          />
-          <woot-button
-            v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="alert"
-            icon="dismiss-circle"
-            @click="resetAndFetchData"
-          />
-        </div>
-        <div v-if="hasActiveFolders">
-          <woot-button
+            v-if="hasActiveFolders"
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-            size="tiny"
+            size="small"
             variant="smooth"
             color-scheme="alert"
             icon="delete"
@@ -49,11 +27,47 @@
             @click="onClickOpenDeleteFoldersModal"
           />
         </div>
-
+        <switch-layout
+          :is-on-expanded-layout="isOnExpandedLayout"
+          @toggle="$emit('toggle-conversation-layout')"
+        />
+      </div>
+      <div class="filter--actions">
+        <chat-filter
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          class="chat-status--filter"
+          @statusFilterChange="updateStatusType"
+        />
+        <sort-by-filter
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          @changeSortByFilter="updateSortByFilterType"
+        />
+        <div v-if="hasAppliedFilters && !hasActiveFolders">
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
+            size="small"
+            variant="hollow"
+            color-scheme="secondary"
+            icon="save"
+            @click="onClickOpenAddFoldersModal"
+          >
+            {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
+          </woot-button>
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
+            size="small"
+            variant="hollow"
+            color-scheme="alert"
+            icon="dismiss-circle"
+            @click="resetAndFetchData"
+          >
+            {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
+          </woot-button>
+        </div>
         <woot-button
-          v-else
+          v-if="!hasActiveFolders"
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           icon="filter"
           size="small"
@@ -168,6 +182,7 @@
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';
+import SortByFilter from './widgets/conversation/SortByFilter';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
@@ -181,6 +196,7 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import SwitchLayout from 'dashboard/routes/dashboard/conversation/SwitchLayout';
 
 import {
   hasPressedAltAndJKey,
@@ -201,6 +217,8 @@ export default {
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
+    SortByFilter,
+    SwitchLayout,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
   props: {
@@ -237,6 +255,7 @@ export default {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      activeSortBy: wootConstants.SORT_BY_TYPE.LATEST,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -342,6 +361,7 @@ export default {
         teamId: this.teamId || undefined,
         conversationType: this.conversationType || undefined,
         folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
+        sortBy: this.activeSortBy,
       };
     },
     pageTitle() {
@@ -434,6 +454,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
+    this.$store.dispatch('setChatSortByFilter', this.activeSortBy);
     this.resetAndFetchData();
 
     bus.$on('fetch_conversation_stats', () => {
@@ -574,6 +595,12 @@ export default {
     updateStatusType(index) {
       if (this.activeStatus !== index) {
         this.activeStatus = index;
+        this.resetAndFetchData();
+      }
+    },
+    updateSortByFilterType(index) {
+      if (this.activeSortBy !== index) {
+        this.activeSortBy = index;
         this.resetAndFetchData();
       }
     },
@@ -830,11 +857,11 @@ export default {
 }
 
 .filter__applied {
-  padding: 0 0 var(--space-slab) 0 !important;
+  padding-bottom: var(--space-small) !important;
   border-bottom: 1px solid var(--color-border);
 }
 
 .delete-custom-view__button {
-  margin-right: var(--space-normal);
+  margin-left: var(--space-slab);
 }
 </style>

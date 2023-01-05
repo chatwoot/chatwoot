@@ -277,6 +277,10 @@ const actions = {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
   },
 
+  setChatSortByFilter({ commit }, data) {
+    commit(types.CHANGE_CHAT_SORT_BY_FILTER, data);
+  },
+
   updateAssignee({ commit }, data) {
     commit(types.UPDATE_ASSIGNEE, data);
   },
