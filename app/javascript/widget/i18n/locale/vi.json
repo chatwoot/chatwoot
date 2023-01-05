@@ -74,8 +74,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Tìm kiếm biểu tượng cảm xúc",
+    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn"
   },
   "CSAT": {
     "TITLE": "Đánh giá hội thoại",
