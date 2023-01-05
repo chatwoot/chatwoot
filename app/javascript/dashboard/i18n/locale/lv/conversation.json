@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Nav atbildes",
     "RATING_TITLE": "Vērtējums",
     "FEEDBACK_TITLE": "Atsauksmes",
+    "CARD": {
+      "SHOW_LABELS": "Rādīt etiķetes",
+      "HIDE_LABELS": "Slēpt etiķetes"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Atrisināt",
       "REOPEN_ACTION": "Atkārtoti atvērt",

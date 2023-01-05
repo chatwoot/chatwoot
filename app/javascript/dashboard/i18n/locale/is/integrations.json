@@ -110,7 +110,7 @@
       },
       "CREATE": {
         "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
+        "FORM_SUBMIT": "Senda",
         "FORM_CANCEL": "Hætta við",
         "API_SUCCESS": "Dashboard app configured successfully",
         "API_ERROR": "Ekki tókst að bæta við forriti. Vinsamlegast reyndu aftur síðar"

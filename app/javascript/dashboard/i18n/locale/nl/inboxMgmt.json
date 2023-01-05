@@ -659,7 +659,7 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "Op dit moment zijn we niet aanwezig"
+          "OFFLINE": "We zijn momenteel afwezig"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"

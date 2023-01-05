@@ -66,6 +66,8 @@ export default {
       const labelContainer = this.$refs.labelContainer;
       const labels = this.$refs.labelContainer.querySelectorAll('.label');
       let labelOffset = 0;
+      this.showExpandLabelButton = false;
+
       Array.from(labels).forEach((label, index) => {
         labelOffset += label.offsetWidth + 8;
 
@@ -82,9 +84,10 @@ export default {
 
 <style lang="scss" scoped>
 .show-more--button {
-  height: var(--space-medium);
+  height: var(--space-two);
   position: sticky;
   flex-shrink: 0;
+  right: 0;
   margin-right: var(--space-medium);
 
   &.secondary:focus {

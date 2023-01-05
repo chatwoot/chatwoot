@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Αριθμός τηλεφώνου",
           "PLACEHOLDER": "Παρακαλώ εισάγετε έναν αριθμό τηλεφώνου από τον οποίο θα σταλεί το μήνυμα.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Παρακαλώ δώστε έναν έγκυρο αριθμό τηλεφώνου που ξεκινά με ένα σύμβολο `+` και δεν περιέχει κενά."
         },
         "API_CALLBACK": {
           "TITLE": "URL επανάκλησης",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Αριθμός τηλεφώνου",
             "PLACEHOLDER": "Παρακαλώ εισάγετε έναν αριθμό τηλεφώνου από τον οποίο θα σταλεί το μήνυμα.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "Παρακαλώ δώστε έναν έγκυρο αριθμό τηλεφώνου που ξεκινά με ένα σύμβολο `+` και δεν περιέχει κενά."
           },
           "SUBMIT_BUTTON": "Δημιουργήστε Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Αριθμός τηλεφώνου",
           "PLACEHOLDER": "Παρακαλώ εισάγετε έναν αριθμό τηλεφώνου από τον οποίο θα σταλεί το μήνυμα.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Παρακαλώ δώστε έναν έγκυρο αριθμό τηλεφώνου που ξεκινά με ένα σύμβολο `+` και δεν περιέχει κενά."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Αριθμός Τηλεφώνου",

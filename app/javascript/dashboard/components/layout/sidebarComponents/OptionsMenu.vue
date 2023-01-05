@@ -61,6 +61,24 @@
             </a>
           </router-link>
         </woot-dropdown-item>
+        <woot-dropdown-item v-if="currentUser.type === 'SuperAdmin'">
+          <a
+            href="/super_admin"
+            class="button small clear secondary"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+            @click="$emit('close')"
+          >
+            <fluent-icon
+              icon="content-settings"
+              size="14"
+              class="icon icon--font"
+            />
+            <span class="button__content">
+              {{ $t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE') }}
+            </span>
+          </a>
+        </woot-dropdown-item>
         <woot-dropdown-item>
           <woot-button
             variant="clear"

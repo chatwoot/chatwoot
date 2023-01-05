@@ -37,29 +37,29 @@
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
-      "TYPE": "Bot Type"
+      "404": "Keine Bots gefunden, Sie können einen Bot erstellen, indem Sie auf den 'Neuen Bot konfigurieren' Button klicken ↗",
+      "LOADING": "Bots werden geladen...",
+      "TYPE": "Bot-Typ"
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
-      "TITLE": "Delete Bot",
+      "TITLE": "Bot löschen",
       "SUBMIT": "Löschen",
       "CANCEL_BUTTON_TEXT": "Stornieren",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "DESCRIPTION": "Sind Sie sicher, dass Sie diesen Bot löschen wollen? Diese Aktion kann nicht rückgängig gemacht werden",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
+        "SUCCESS_MESSAGE": "Bot erfolgreich gelöscht",
         "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Bearbeiten",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
+      "LOADING": "Bots werden geladen...",
+      "TITLE": "Bot bearbeiten",
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Bot konnte nicht aktualisiert werden, bitte versuchen Sie es später erneut"
       }
     },
     "TYPES": {
