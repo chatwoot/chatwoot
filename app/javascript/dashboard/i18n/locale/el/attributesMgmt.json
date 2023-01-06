@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Η ιδιότητα προστέθηκε με επιτυχία",
-        "ERROR_MESSAGE": "Δεν ήταν δυνατή η δημιουργία Ιδιότητας, Παρακαλώ δοκιμάστε ξανά αργότερα"
+        "SUCCESS_MESSAGE": "Η ιδιότητα προστέθηκε με επιτυχία!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {
