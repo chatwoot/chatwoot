@@ -10,7 +10,7 @@ export const replaceVariablesInMessage = ({ message, variables }) => {
 const skipCodeBlocks = str => str.replace(/```(?:.|\n)+?```/g, '');
 
 export const getFirstName = ({ name }) => {
-  return name.split(' ')[0];
+  return name.split(' ').shift();
 };
 
 export const getLastName = ({ name }) => {
