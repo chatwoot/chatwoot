@@ -8,11 +8,11 @@
 
 <script>
 import {
-  articleSchema,
+  fullSchema,
   wootArticleWriterSetup,
   EditorView,
-  defaultMarkdownParser,
-  defaultMarkdownSerializer,
+  ArticleMarkdownSerializer,
+  ArticleMarkdownTransformer,
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
@@ -22,9 +22,9 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
-    doc: defaultMarkdownParser.parse(content),
+    doc: new ArticleMarkdownTransformer(fullSchema).parse(content),
     plugins: wootArticleWriterSetup({
-      schema: articleSchema,
+      schema: fullSchema,
       placeholder,
       plugins,
     }),
@@ -32,7 +32,6 @@ const createState = (content, placeholder, plugins = []) => {
 };
 
 export default {
-  name: 'WootMessageEditor',
   mixins: [eventListenerMixins, uiSettingsMixin],
   props: {
     value: { type: String, default: '' },
@@ -49,7 +48,7 @@ export default {
   computed: {
     contentFromEditor() {
       if (this.editorView) {
-        return defaultMarkdownSerializer.serialize(this.editorView.state.doc);
+        return ArticleMarkdownSerializer.serialize(this.editorView.state.doc);
       }
       return '';
     },

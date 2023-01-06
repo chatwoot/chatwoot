@@ -16,15 +16,13 @@
 
 <script>
 import {
-  Selection,
-  EditorView,
-  EditorState,
-  defaultMarkdownParser,
   messageSchema,
   wootMessageWriterSetup,
-  defaultMarkdownSerializer,
-  addMentionsToMarkdownParser,
-  addMentionsToMarkdownSerializer,
+  EditorView,
+  MessageMarkdownTransformer,
+  MessageMarkdownSerializer,
+  EditorState,
+  Selection,
 } from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
@@ -51,7 +49,7 @@ import AnalyticsHelper, {
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
-    doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
+    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
     plugins: wootMessageWriterSetup({
       schema: messageSchema,
       placeholder,
@@ -86,9 +84,7 @@ export default {
   },
   computed: {
     contentFromEditor() {
-      return addMentionsToMarkdownSerializer(
-        defaultMarkdownSerializer
-      ).serialize(this.editorView.state.doc);
+      return MessageMarkdownSerializer.serialize(this.editorView.state.doc);
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -280,11 +276,11 @@ export default {
       }
 
       let from = this.range.from - 1;
-      let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
+      let node = new MessageMarkdownTransformer(messageSchema).parse(
         cannedItem
       );
 
-      if (node.isTextblock) {
+      if (node.textContent === cannedItem) {
         node = this.editorView.state.schema.text(cannedItem);
         from = this.range.from;
       }
@@ -384,6 +380,7 @@ export default {
 
 .editor-root {
   width: 100%;
+  position: relative;
 }
 
 .ProseMirror-woot-style {
