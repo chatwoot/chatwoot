@@ -20,6 +20,8 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     inbox_channel(instagram_id)
     # person can connect the channel and then delete the inbox
     return if @inbox.blank?
+    # This channel might require reauthorization, may be owner might have changed the fb password
+    return if @inbox.channel.reauthorization_required?
 
     return unsend_message if message_is_deleted?
 
@@ -34,15 +36,14 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
       result = k.get_object(ig_scope_id) || {}
-    rescue Koala::Facebook::AuthenticationError
+    rescue Koala::Facebook::AuthenticationError => e
       @inbox.channel.authorization_error!
-      raise
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     rescue StandardError, Koala::Facebook::ClientError => e
-      result = {}
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
 
-    find_or_create_contact(result) if result.present?
+    find_or_create_contact(result) if defined?(result) && result.present?
   end
 
   def agent_message_via_echo?
