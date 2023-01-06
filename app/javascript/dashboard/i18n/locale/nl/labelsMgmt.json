@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "Label naam",
         "PLACEHOLDER": "Label naam",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "Labelnaam is vereist",
+        "MINIMUM_LENGTH_ERROR": "Minimum lengte van 2 is vereist",
+        "VALID_ERROR": "Enkel letters, cijfers, liggend streepje & underscore zijn toegestaan"
       },
       "DESCRIPTION": {
         "LABEL": "Beschrijving",
