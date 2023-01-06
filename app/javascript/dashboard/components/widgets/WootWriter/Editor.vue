@@ -403,6 +403,9 @@ export default {
     color: var(--s-900);
     padding: 0 var(--space-smaller);
   }
+  .ProseMirror-menubar {
+    background: var(--y-50);
+  }
 }
 
 .editor-wrap {
