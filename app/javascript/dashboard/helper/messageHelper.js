@@ -9,14 +9,15 @@ export const replaceVariablesInMessage = ({ message, variables }) => {
 
 const skipCodeBlocks = str => str.replace(/```(?:.|\n)+?```/g, '');
 
-export const getFirstName = ({ name }) => {
-  return name.split(' ').shift();
+export const getFirstName = ({ user }) => {
+  return user?.name ? user.name.split(' ').shift() : '';
 };
 
-export const getLastName = ({ name }) => {
-  return name.split(' ').length > 1
-    ? name.split(' ').pop()
-    : '';
+export const getLastName = ({ user }) => {
+  if (user && user.name) {
+    return user.name.split(' ').length > 1 ? user.name.split(' ').pop() : '';
+  }
+  return '';
 };
 
 export const getMessageVariables = ({ conversation }) => {
@@ -27,18 +28,14 @@ export const getMessageVariables = ({ conversation }) => {
 
   return {
     'contact.name': sender?.name,
-    'contact.first_name': getFirstName({ name: sender?.name }),
-    'contact.last_name': getLastName({ name: sender?.name }),
+    'contact.first_name': getFirstName({ user: sender }),
+    'contact.last_name': getLastName({ user: sender }),
     'contact.email': sender?.email,
     'contact.phone': sender?.phone_number,
     'conversation.id': id,
     'agent.name': assignee?.name ? assignee?.name : '',
-    'agent.first_name': assignee?.name
-      ? getFirstName({ name: assignee?.name })
-      : '',
-    'agent.last_name': assignee?.name
-      ? getLastName({ name: assignee?.name })
-      : '',
+    'agent.first_name': getFirstName({ user: assignee }),
+    'agent.last_name': getLastName({ user: assignee }),
     'agent.email': assignee?.email ? assignee?.email : '',
   };
 };

@@ -60,25 +60,25 @@ describe('#replaceVariablesInMessage', () => {
 
 describe('#getFirstName', () => {
   it('returns the first name of the contact', () => {
-    const name = 'John Doe';
-    expect(getFirstName({ name })).toBe('John');
+    const assignee = { name: 'John Doe' };
+    expect(getFirstName({ user: assignee })).toBe('John');
   });
 
   it('returns the first name of the contact with multiple names', () => {
-    const name = 'John Doe Smith';
-    expect(getFirstName({ name })).toBe('John');
+    const assignee = { name: 'John Doe Smith' };
+    expect(getFirstName({ user: assignee })).toBe('John');
   });
 });
 
 describe('#getLastName', () => {
   it('returns the last name of the contact', () => {
-    const name = 'John Doe';
-    expect(getLastName({ name })).toBe('Doe');
+    const assignee = { name: 'John Doe' };
+    expect(getLastName({ user: assignee })).toBe('Doe');
   });
 
   it('returns the last name of the contact with multiple names', () => {
-    const name = 'John Doe Smith';
-    expect(getLastName({ name })).toBe('Smith');
+    const assignee = { name: 'John Doe Smith' };
+    expect(getLastName({ user: assignee })).toBe('Smith');
   });
 });
 
