@@ -1,6 +1,7 @@
 # refer: https://gitlab.com/gitlab-org/ruby/gems/gitlab-mail_room/-/blob/master/lib/mail_room/microsoft_graph/connection.rb
 # refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp/tree/b4a6869fe4a438cde42b161196484a929f1bee46
 # https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-configurable-token-lifetimes
+require 'microsoft_graph_auth'
 
 class Channels::RefreshMsOauthTokenJob < ApplicationJob
   queue_as :low
@@ -29,7 +30,8 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
 
   # <RefreshTokensSnippet>
   def refresh_tokens(channel, token_hash)
-    oauth_strategy = OmniAuth::Strategies::MicrosoftGraphAuth.new(
+    token_hash = token_hash.with_indifferent_access
+    oauth_strategy = MicrosoftGraphAuth.new(
       nil, ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil)
     )
 
@@ -42,7 +44,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
     new_tokens = token.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_on)
 
     update_channel_provider_config(channel, new_tokens)
-    channel.provider_config
+    channel.provider_config.with_indifferent_access
   end
   # </RefreshTokensSnippet>
 

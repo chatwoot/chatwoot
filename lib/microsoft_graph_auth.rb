@@ -1,4 +1,4 @@
-git # Copyright (c) Microsoft Corporation.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # frozen_string_literal: true
 
@@ -8,10 +8,10 @@ require 'omniauth-oauth2'
 
 # Implements an OmniAuth strategy to get a Microsoft Graph
 # compatible token from Azure AD
-class OmniAuth::Strategies::MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
+class MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   option :name, :microsoft_graph_auth
 
-  DEFAULT_SCOPE = 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send'.freeze
+  DEFAULT_SCOPE = 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send'
 
   # Configure the Microsoft identity platform endpoints
   option :client_options,
