@@ -136,7 +136,7 @@ export default {
   },
   data() {
     return {
-      isSidebarOpen: false,
+      isSidebarOpen: true,
       showActionsDropdown: false,
       alertMessage: '',
       ARTICLE_STATUS_TYPES: ARTICLE_STATUS_TYPES,
