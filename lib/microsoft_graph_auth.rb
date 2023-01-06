@@ -50,6 +50,6 @@ class OmniAuth::Strategies::MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   # query parameters. Azure fails validation because that doesn't match the
   # registered callback.
   def callback_url
-    options[:redirect_uri] || (full_host + script_name + callback_path)
+    ENV.fetch('FRONTEND_URL', nil) + app_path
   end
 end

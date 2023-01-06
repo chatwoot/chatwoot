@@ -1,5 +1,6 @@
 # refer: https://gitlab.com/gitlab-org/ruby/gems/gitlab-mail_room/-/blob/master/lib/mail_room/microsoft_graph/connection.rb
 # refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp/tree/b4a6869fe4a438cde42b161196484a929f1bee46
+# https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-configurable-token-lifetimes
 
 class Channels::RefreshMsOauthTokenJob < ApplicationJob
   queue_as :low

@@ -7,7 +7,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     return unless should_fetch_email?(channel)
 
     # fetching email for microsoft provider
-    channel.microsoft? ? fetch_mail_for_ms_provider(channel) : fetch_mail_for_channel(channel)
+    fetch_mail_for_ms_provider(channel)
+    fetch_mail_for_channel(channel)
 
     # clearing old failures like timeouts since the mail is now successfully processed
     channel.reauthorized!
@@ -26,6 +27,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_channel(channel)
+    return if channel.microsoft?
+
     # TODO: rather than setting this as default method for all mail objects, lets if can do new mail object
     # using Mail.retriever_method.new(params)
     Mail.defaults do
@@ -44,6 +47,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_ms_provider(channel)
+    return unless channel.microsoft?
+
     access_token = valid_access_token channel
 
     return unless access_token
