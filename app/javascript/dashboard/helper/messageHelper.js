@@ -43,18 +43,11 @@ export const getMessageVariables = ({ conversation }) => {
 export const getUndefinedVariablesInMessage = ({ message, variables }) => {
   const messageWithOutCodeBlocks = skipCodeBlocks(message);
   const matches = messageWithOutCodeBlocks.match(MESSAGE_VARIABLES_REGEX);
-  const undefinedVariables = [];
-  if (!matches) {
-    return [];
-  }
-  matches.forEach(match => {
-    const variable = match
-      .replace('{{', '')
-      .replace('}}', '')
-      .trim();
-    if (!variables[variable]) {
-      undefinedVariables.push(match);
-    }
-  });
-  return undefinedVariables;
+  if (!matches) return [];
+
+  return matches.map(match => {
+    return match.replace('{{', '').replace('}}', '').trim()
+  }).filter(variable => {
+    return !variables[variable]
+  })
 };
