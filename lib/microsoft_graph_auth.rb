@@ -44,4 +44,12 @@ class OmniAuth::Strategies::MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
       params[:scope] ||= DEFAULT_SCOPE
     end
   end
+
+  # Override callback URL
+  # OmniAuth by default passes the entire URL of the callback, including
+  # query parameters. Azure fails validation because that doesn't match the
+  # registered callback.
+  def callback_url
+    ENV.fetch('FRONTEND_URL', nil) + app_path
+  end
 end
