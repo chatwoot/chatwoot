@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "เพิ่มแอตทริบิวต์เเบบกำหนดเองสำเร็จแล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถสร้างแอตทริบิวต์เเบบกำหนดเอง ได้โปรดลองใหม่อีกครั้ง"
+        "SUCCESS_MESSAGE": "เพิ่มแอตทริบิวต์เเบบกำหนดเองสำเร็จแล้ว!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {
