@@ -15,7 +15,7 @@ export const getFirstName = ({ name }) => {
 
 export const getLastName = ({ name }) => {
   return name.split(' ').length > 1
-    ? name.split(' ')[name.split(' ').length - 1]
+    ? name.split(' ').pop()
     : '';
 };
 
