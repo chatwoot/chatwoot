@@ -98,31 +98,33 @@ export default {
   },
   mounted() {
     this.handleResize();
-    let throttled = false;
-    const delay = 150;
-    window.addEventListener('resize', () => {
-      if (!throttled) {
-        this.handleResize();
-        throttled = true;
-        setTimeout(() => {
-          throttled = false;
-        }, delay);
-      }
-    });
+    window.addEventListener('resize', this.handleResize);
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
+
   methods: {
     handleResize() {
       const { SMALL_SCREEN_BREAKPOINT } = wootConstants;
-      if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
-        this.isDesktopView = false;
-      } else {
-        this.isDesktopView = true;
+      let throttled = false;
+      const delay = 150;
+
+      if (throttled) {
+        return;
       }
+      throttled = true;
+
+      setTimeout(() => {
+        throttled = false;
+        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
+          this.isDesktopView = false;
+        } else {
+          this.isDesktopView = true;
+        }
+      }, delay);
     },
     toggleSidebar() {
       this.updateUISettings({
