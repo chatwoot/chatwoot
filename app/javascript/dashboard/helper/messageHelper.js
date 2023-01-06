@@ -36,7 +36,7 @@ export const getMessageVariables = ({ conversation }) => {
     'agent.name': assignee?.name ? assignee?.name : '',
     'agent.first_name': getFirstName({ user: assignee }),
     'agent.last_name': getLastName({ user: assignee }),
-    'agent.email': assignee?.email ? assignee?.email : '',
+    'agent.email': assignee?.email ?? '',
   };
 };
 
