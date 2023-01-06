@@ -4,7 +4,7 @@
     <p class="promo-code">
       Use the code: XMASCHATWOOT22
       <fluent-icon icon="copy" class="copy--icon" @click.native="onCopy" />
-      during checkout
+      during checkout.
     </p>
     <router-link
       :to="addAccountScoping('settings/billing')"
