@@ -12,11 +12,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
   def perform
     create_test_text
-    instagram_id, contact_id = if agent_message_via_echo?
-                                 [@messaging[:sender][:id], @messaging[:recipient][:id]]
-                               else
-                                 [@messaging[:recipient][:id], @messaging[:sender][:id]]
-                               end
+    instagram_id, contact_id = instagram_and_contact_ids
     inbox_channel(instagram_id)
     # person can connect the channel and then delete the inbox
     return if @inbox.blank?
@@ -31,6 +27,14 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   end
 
   private
+
+  def instagram_and_contact_ids
+    if agent_message_via_echo?
+      [@messaging[:sender][:id], @messaging[:recipient][:id]]
+    else
+      [@messaging[:recipient][:id], @messaging[:sender][:id]]
+    end
+  end
 
   def ensure_contact(ig_scope_id)
     begin
