@@ -45,9 +45,14 @@ export const getUndefinedVariablesInMessage = ({ message, variables }) => {
   const matches = messageWithOutCodeBlocks.match(MESSAGE_VARIABLES_REGEX);
   if (!matches) return [];
 
-  return matches.map(match => {
-    return match.replace('{{', '').replace('}}', '').trim()
-  }).filter(variable => {
-    return !variables[variable]
-  })
+  return matches
+    .map(match => {
+      return match
+        .replace('{{', '')
+        .replace('}}', '')
+        .trim();
+    })
+    .filter(variable => {
+      return !variables[variable];
+    });
 };
