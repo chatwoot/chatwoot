@@ -5,7 +5,7 @@
         "ADD_NEW_FILTER": "Add Filter",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
         "FILTER_DELETE_ERROR": "Þú ættir að hafa að minnsta kosti eina síu til að vista",
-        "SUBMIT_BUTTON_LABEL": "Submit",
+        "SUBMIT_BUTTON_LABEL": "Senda",
         "CANCEL_BUTTON_LABEL": "Hætta við",
         "CLEAR_BUTTON_LABEL": "Clear Filters",
         "EMPTY_VALUE_ERROR": "Value is required",
@@ -28,7 +28,7 @@
         "ATTRIBUTES": {
             "NAME": "Nafn",
             "EMAIL": "Email",
-            "PHONE_NUMBER": "Phone number",
+            "PHONE_NUMBER": "Símanúmer",
             "IDENTIFIER": "Identifier",
             "CITY": "City",
             "COUNTRY": "Country",
