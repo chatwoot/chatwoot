@@ -140,7 +140,7 @@ export default {
     left: 0;
     margin: auto;
     right: 0;
-    top: 10rem !important;
+    top: var(--space-mega) !important;
     width: 90%;
   }
 
