@@ -58,6 +58,8 @@ en:
     categories:
       locale:
         unique: should be unique in the category and portal
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.

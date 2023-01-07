@@ -13,7 +13,7 @@ describe Integrations::Dyte::ProcessorService do
   end
 
   describe '#create_a_meeting' do
-    context 'when the API is response is success' do
+    context 'when the API response is success' do
       before do
         stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meeting')
           .to_return(
@@ -30,7 +30,7 @@ describe Integrations::Dyte::ProcessorService do
       end
     end
 
-    context 'when the API is response is errored' do
+    context 'when the API response is errored' do
       before do
         stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meeting')
           .to_return(
@@ -49,7 +49,7 @@ describe Integrations::Dyte::ProcessorService do
   end
 
   describe '#add_participant_to_meeting' do
-    context 'when the API is response is success' do
+    context 'when the API response is success' do
       before do
         stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meetings/m_id/participant')
           .to_return(

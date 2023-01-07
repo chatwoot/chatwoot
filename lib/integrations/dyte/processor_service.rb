@@ -8,7 +8,8 @@ class Integrations::Dyte::ProcessorService
     return response if response[:error].present?
 
     meeting = response['meeting']
-    create_a_dyte_integration_message(meeting, title, agent)
+    message = create_a_dyte_integration_message(meeting, title, agent)
+    message.push_event_data
   end
 
   def add_participant_to_meeting(meeting_id, user)

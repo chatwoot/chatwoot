@@ -39,7 +39,7 @@ describe Dyte do
   end
 
   context 'when add_participant_to_meeting is called' do
-    context 'when API parameters is missing' do
+    context 'when API parameters are missing' do
       it 'raises an exception' do
         expect { dyte_client.add_participant_to_meeting }.to raise_error(StandardError)
       end
