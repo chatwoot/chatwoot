@@ -43,7 +43,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Atributo personalizado adicionado com sucesso!",
-        "ERROR_MESSAGE": "Não foi possível atualizar a regra de automação, por favor, tente novamente mais tarde."
+        "ERROR_MESSAGE": "Não foi possível criar um atributo personalizado. Por favor, tente novamente mais tarde."
       }
     },
     "DELETE": {
