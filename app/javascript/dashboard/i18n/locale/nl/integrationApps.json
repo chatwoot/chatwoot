@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "Postvak In",
       "DELETE": {
         "BUTTON_TEXT": "Verwijderen"
       }
