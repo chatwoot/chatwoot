@@ -42,7 +42,6 @@ $resolve-button-width: 13.2rem;
     margin-right: var(--space-normal);
     min-width: 0;
 
-
     .user--profile__meta {
       align-items: flex-start;
       display: flex;
@@ -54,13 +53,17 @@ $resolve-button-width: 13.2rem;
   }
 }
 
-
 .header-actions-wrap {
   align-items: center;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
   justify-content: flex-end;
+  margin-top: var(--space-small);
+
+  @include breakpoint(medium up) {
+    margin-top: 0;
+  }
 
   &.has-open-sidebar {
     justify-content: flex-end;
