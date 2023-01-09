@@ -372,6 +372,10 @@ export default {
   display: flex;
   flex-direction: column;
 
+  .ProseMirror-menubar {
+    min-height: var(--space-two) !important;
+  }
+
   > .ProseMirror {
     padding: 0;
     word-break: break-word;

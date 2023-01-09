@@ -133,7 +133,10 @@ export default {
         conversationDisplayType === LAYOUT_TYPES.CONDENSED
           ? LAYOUT_TYPES.EXPANDED
           : LAYOUT_TYPES.CONDENSED;
-      this.updateUISettings({ conversation_display_type: newViewType });
+      this.updateUISettings({
+        conversation_display_type: newViewType,
+        previously_used_conversation_display_type: newViewType,
+      });
     },
     fetchConversationIfUnavailable() {
       if (!this.conversationId) {
