@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#32bcedb506ae2f265a9e17c972f7e7c4318a6b5a",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#beta",
     "@chatwoot/utils": "^0.0.10",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
