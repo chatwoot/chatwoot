@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Update",
+      "SUBMIT": "Uppfæra",
       "CANCEL_BUTTON_TEXT": "Hætta við",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
@@ -104,8 +104,8 @@
       "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
       "ACTIVATION_ERROR": "Gat ekki virkjað sjálfvirkni, vinsamlegast reyndu aftur síðar",
       "DEACTIVATION_ERROR": "Gat ekki slökkt á sjálfvirkni, vinsamlegast reyndu aftur síðar",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "CONFIRMATION_LABEL": "Já",
+      "CANCEL_LABEL": "Nei"
     },
     "ATTACHMENT": {
       "UPLOAD_ERROR": "Gat ekki hlaðið upp viðhengi, vinsamlegast reyndu aftur",
