@@ -81,7 +81,7 @@ export default {
   padding-top: var(--space-small);
   position: absolute;
   width: 100%;
-  z-index: 100;
+  z-index: var( --z-index-normal);
 
   .active a {
     background: var(--w-500);
