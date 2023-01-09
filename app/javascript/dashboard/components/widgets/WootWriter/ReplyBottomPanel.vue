@@ -87,6 +87,7 @@
         :title="'Whatsapp Templates'"
         @click="$emit('selectWhatsappTemplate')"
       />
+      <video-call-button :conversation-id="conversationId" />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -124,13 +125,13 @@ import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
 } from 'shared/constants/messages';
-
+import VideoCallButton from '../VideoCallButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload },
+  components: { FileUpload, VideoCallButton },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
@@ -208,6 +209,10 @@ export default {
     hasWhatsappTemplates: {
       type: Boolean,
       default: false,
+    },
+    conversationId: {
+      type: Number,
+      required: true,
     },
   },
   computed: {
