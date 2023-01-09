@@ -32,8 +32,10 @@
 import DyteAPI from 'dashboard/api/integrations/dyte';
 
 const DYTE_MEETING_LINK = 'https://app.dyte.in/meeting/stage/';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   props: {
     messageId: {
       type: Number,
@@ -61,7 +63,7 @@ export default {
         } = await DyteAPI.addParticipantToMeeting(this.messageId);
         this.dyteAuthToken = authToken;
       } catch (err) {
-        // Ignore the error
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.DYTE.JOIN_ERROR'));
       } finally {
         this.isLoading = false;
       }
@@ -83,7 +85,7 @@ export default {
   right: 0;
   width: 100%;
   height: 100%;
-  z-index: var(  --z-index-high);
+  z-index: var(--z-index-high);
   padding: var(--space-smaller);
   background: var(--b-800);
 
