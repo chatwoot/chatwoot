@@ -47,6 +47,7 @@ import AccountSelector from 'dashboard/components/layout/sidebarComponents/Accou
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import wootConstants from 'dashboard/constants';
 
 export default {
   components: {
@@ -67,6 +68,7 @@ export default {
       showAddLabelModal: false,
       showShortcutModal: false,
       isNotificationPanel: false,
+      isDesktopView: false,
     };
   },
   computed: {
@@ -77,14 +79,53 @@ export default {
       const { show_secondary_sidebar: showSecondarySidebar } = this.uiSettings;
       return showSecondarySidebar;
     },
+    previouslyUsedDisplayType() {
+      const {
+        previously_used_conversation_display_type: conversationDisplayType,
+      } = this.uiSettings;
+      return conversationDisplayType;
+    },
+  },
+  watch: {
+    isDesktopView() {
+      const { LAYOUT_TYPES } = wootConstants;
+      this.updateUISettings({
+        conversation_display_type: !this.isDesktopView
+          ? LAYOUT_TYPES.EXPANDED
+          : this.previouslyUsedDisplayType,
+      });
+    },
   },
   mounted() {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
+
   methods: {
+    handleResize() {
+      const { SMALL_SCREEN_BREAKPOINT } = wootConstants;
+      let throttled = false;
+      const delay = 150;
+
+      if (throttled) {
+        return;
+      }
+      throttled = true;
+
+      setTimeout(() => {
+        throttled = false;
+        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
+          this.isDesktopView = false;
+        } else {
+          this.isDesktopView = true;
+        }
+      }, delay);
+    },
     toggleSidebar() {
       this.updateUISettings({
         show_secondary_sidebar: !this.isSidebarOpen,
