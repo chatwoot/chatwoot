@@ -30,8 +30,7 @@
 </template>
 <script>
 import DyteAPI from 'dashboard/api/integrations/dyte';
-
-const DYTE_MEETING_LINK = 'https://app.dyte.in/meeting/stage/';
+import { buildDyteURL } from 'shared/helpers/IntegrationHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -51,7 +50,7 @@ export default {
   },
   computed: {
     meetingLink() {
-      return `${DYTE_MEETING_LINK}${this.meetingData.room_name}?authToken=${this.dyteAuthToken}&showSetupScreen=true&disableVideoBackground=true`;
+      return buildDyteURL(this.meetingData.room_name, this.dyteAuthToken);
     },
   },
   methods: {
