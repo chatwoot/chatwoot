@@ -76,7 +76,9 @@
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer"
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",

@@ -15,8 +15,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import DyteAPI from 'dashboard/api/integrations/dyte';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   props: {
     conversationId: {
       type: Number,
@@ -45,7 +47,7 @@ export default {
       try {
         await DyteAPI.createAMeeting(this.conversationId);
       } catch (error) {
-        // Ignore Error
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.DYTE.CREATE_ERROR'));
       } finally {
         this.isLoading = false;
       }
