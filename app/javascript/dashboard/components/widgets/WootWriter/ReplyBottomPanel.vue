@@ -128,7 +128,7 @@ import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
 } from 'shared/constants/messages';
-import VideoCallButton from '../VideoCallButton.vue';
+import VideoCallButton from '../VideoCallButton';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 
