@@ -713,9 +713,14 @@ export default {
       if (undefinedVariables.length > 0) {
         const undefinedVariablesCount =
           undefinedVariables.length > 1 ? undefinedVariables.length : 1;
-        this.undefinedVariableMessage = `You have ${undefinedVariablesCount} undefined variables in your message: ${undefinedVariables.join(
-          ', '
-        )}. Would you like to send the message anyway?`;
+        this.undefinedVariableMessage = this.$t(
+          'CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.MESSAGE',
+          {
+            undefinedVariablesCount,
+            undefinedVariables: undefinedVariables.join(', '),
+          }
+        );
+
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
           this.confirmOnSendReply();
