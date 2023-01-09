@@ -54,8 +54,6 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     return unless access_token
 
     imap = imap_authenticate(channel, access_token)
-    yesterday = (Time.zone.today - 1).strftime('%d-%b-%Y')
-    tomorrow = (Time.zone.today + 1).strftime('%d-%b-%Y')
     imap.search(['BEFORE', tomorrow, 'SINCE', yesterday]).each do |message_id|
       inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
@@ -81,5 +79,13 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   # Making sure the access token is valid for microsoft provider
   def valid_access_token(channel)
     Channels::RefreshMsOauthTokenJob.new.access_token(channel, channel.provider_config.with_indifferent_access)
+  end
+
+  def yesterday
+    (Time.zone.today - 1).strftime('%d-%b-%Y')
+  end
+
+  def tomorrow
+    (Time.zone.today + 1).strftime('%d-%b-%Y')
   end
 end
