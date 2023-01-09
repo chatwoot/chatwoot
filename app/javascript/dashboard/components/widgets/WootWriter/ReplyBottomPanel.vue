@@ -87,7 +87,10 @@
         :title="'Whatsapp Templates'"
         @click="$emit('selectWhatsappTemplate')"
       />
-      <video-call-button :conversation-id="conversationId" />
+      <video-call-button
+        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
+        :conversation-id="conversationId"
+      />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -274,7 +277,7 @@ export default {
       }
     },
     showMessageSignatureButton() {
-      return !this.isPrivate && this.isAnEmailChannel;
+      return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;

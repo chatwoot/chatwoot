@@ -17,6 +17,7 @@
         <bubble-integration
           :message-id="data.id"
           :content-attributes="contentAttributes"
+          :inbox-id="data.inbox_id"
         />
         <span
           v-if="isPending && hasAttachments"
