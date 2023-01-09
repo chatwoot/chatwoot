@@ -14,16 +14,16 @@ export default {
   mixins: [inboxMixin],
   props: {
     messageId: {
-      type: Number,
-      required: true,
+      type: [String, Number],
+      default: 0,
     },
     contentAttributes: {
       type: Object,
       default: () => ({}),
     },
     inboxId: {
-      type: Number,
-      required: true,
+      type: [String, Number],
+      default: 0,
     },
   },
   computed: {
