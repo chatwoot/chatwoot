@@ -9,11 +9,23 @@ RSpec.describe Channels::RefreshMsOauthTokenJob, type: :job do
   let!(:microsoft_email_channel) do
     create(:channel_email, provider_config: { access_token: access_token, refresh_token: refresh_token, expires_on: expires_on })
   end
-  let(:stub_token) do
+  before do
     stub_request(:post, "#{azure_ad_endpoint}/common/oauth2/v2.0/token").to_return(
       body: { 'access_token' => access_token, 'refresh_token' => refresh_token, 'expires_on' => expires_on }.to_json,
       headers: { 'Content-Type' => 'application/json' }
     )
+
+
+    stub_request(:post, "https://login.microsoftonline.com/common/oauth2/v2.0/token").with(
+      body: {"grant_type"=>"refresh_token", "refresh_token"=>refresh_token},
+      headers: {
+        'Accept'=>'*/*',
+        'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        'Authorization'=>'Basic Og==',
+        'Content-Type'=>'application/x-www-form-urlencoded',
+        'User-Agent'=>'Faraday v1.10.0'
+      }).
+      to_return(status: 200, body: "", headers: {})
   end
 
   describe '#refresh_token' do
