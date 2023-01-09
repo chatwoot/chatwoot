@@ -8,6 +8,7 @@
       @click="toggleDropdown"
     >
       {{ $t('CHAT_LIST.CHAT_ASSIGNEE_TYPE_FILTER_ITEMS')[activeType]['TEXT'] }}
+      <span class="assignee-type--count count">{{ activeTypeCount }}</span>
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
@@ -35,14 +36,14 @@
               :class="{ active: assigneeType.key === activeType }"
               @click="() => onTabChange(assigneeType.key)"
             >
-              <div>
+              <div class="item--wrap">
                 <span>{{ assigneeType.name }}</span>
                 <span class="count">{{ assigneeType.count }}</span>
               </div>
               <fluent-icon
                 v-if="assigneeType.key === activeType"
                 icon="checkmark"
-                size="16"
+                size="14"
                 class="icon"
               />
             </woot-button>
@@ -78,6 +79,11 @@ export default {
       default: () => [],
     },
   },
+  computed: {
+    activeTypeCount() {
+      return this.items?.find(item => item.key === this.activeType).count;
+    },
+  },
   methods: {
     onTabChange(value) {
       if (value) {
@@ -97,7 +103,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.assignee-type--count {
+  background: var(--s-100) !important;
+  min-width: var(--space-two);
+}
+
 .filter-items {
+  .item--wrap {
+    display: flex;
+    align-items: center;
+  }
+
   &.active {
     background: var(--s-25);
     border-color: var(--s-50);
@@ -108,9 +124,11 @@ export default {
 .count {
   background: var(--s-75);
   border-radius: var(--border-radius-normal);
-  color: var(--s-700);
+  color: var(--s-800);
   font-size: var(--font-size-micro);
-  padding: var(--space-micro) var(--space-smaller);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-smaller);
+  padding: var(--space-smaller);
 }
 
 ::v-deep {
@@ -119,15 +137,17 @@ export default {
   }
   .button.small {
     height: 2.8rem;
+    padding: var(--space-smaller) var(--space-small);
   }
   .button__content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    white-space: nowrap;
   }
 }
 
 .icon {
-  margin-left: var(--space-small);
+  margin-left: var(--space-smaller);
 }
 </style>

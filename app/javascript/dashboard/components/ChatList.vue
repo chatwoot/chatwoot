@@ -13,6 +13,12 @@
           <h1 class="page-title text-truncate" :title="pageTitle">
             {{ pageTitle }}
           </h1>
+          <span
+            v-if="hasAppliedFiltersOrActiveFolders"
+            class="text-block-title count-view"
+          >
+            {{ `(${conversationCountFilterView})` }}
+          </span>
           <woot-button
             v-if="hasActiveFolders"
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
@@ -22,6 +28,16 @@
             icon="delete"
             class="delete-custom-view__button"
             @click="onClickOpenDeleteFoldersModal"
+          />
+          <woot-button
+            v-if="!hasActiveFolders"
+            v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
+            variant="clear"
+            color-scheme="secondary"
+            icon="filter"
+            size="small"
+            class="btn-filter"
+            @click="onToggleAdvanceFiltersModal"
           />
         </div>
         <switch-layout
@@ -70,16 +86,6 @@
             {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
           </woot-button>
         </div>
-        <woot-button
-          v-if="!hasActiveFolders"
-          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          variant="clear"
-          color-scheme="secondary"
-          icon="filter"
-          size="small"
-          class="btn-filter"
-          @click="onToggleAdvanceFiltersModal"
-        />
       </div>
     </div>
 
@@ -385,6 +391,12 @@ export default {
         return this.activeFolder.name;
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
+    },
+    conversationCountFilterView() {
+      const selectedType = this.assigneeTabItems.find(
+        item => item.key === wootConstants.ASSIGNEE_TYPE.ALL
+      );
+      return selectedType ? selectedType.count : 0;
     },
     conversationList() {
       let conversationList = [];
@@ -811,7 +823,6 @@ export default {
 }
 
 .conversations-list {
-  border-top: 1px solid var(--s-75);
   // Prevent the list from scrolling if the submenu is opened
   &.is-context-menu-open {
     overflow: hidden !important;
@@ -820,7 +831,7 @@ export default {
 
 .conversations-list-wrap {
   flex-shrink: 0;
-  flex-basis: clamp(32rem, 4vw + 34rem, 44rem);
+  flex-basis: clamp(34rem, 5vw + 34rem, 48rem);
   overflow: hidden;
 
   &.hide {
@@ -836,6 +847,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-slab);
+  overflow-y: auto;
 
   .filter--wrap {
     display: flex;

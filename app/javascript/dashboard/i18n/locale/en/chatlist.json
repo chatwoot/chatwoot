@@ -51,13 +51,16 @@
     "CHAT_SORT_BY_FILTER": "Sort by",
     "CHAT_SORT_BY_FILTER_ITEMS": {
       "last_activity_at": {
-        "TEXT": "Last activity at"
+        "TEXT": "Last activity at",
+        "LABEL": "Sorted by last activity"
       },
       "sort_on_created_at": {
-        "TEXT": "Created at"
+        "TEXT": "Created at",
+        "LABEL": "Sorted by created at"
       },
       "last_user_message_at": {
-        "TEXT": "Last user message at"
+        "TEXT": "Last user message at",
+        "LABEL": "Sorted by last message"
       }
     },
     "ATTACHMENTS": {

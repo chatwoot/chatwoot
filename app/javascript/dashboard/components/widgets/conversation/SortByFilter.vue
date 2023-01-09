@@ -7,11 +7,13 @@
       class="selector-button"
       @click="toggleDropdown"
     >
-      {{ $t('CHAT_LIST.CHAT_SORT_BY_FILTER') }}
+      <span class="text-truncate button-text">
+        {{ $t('CHAT_LIST.CHAT_SORT_BY_FILTER_ITEMS')[activeSortBy]['LABEL'] }}
+      </span>
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
-        size="16"
+        size="14"
       />
     </woot-button>
     <div
@@ -35,7 +37,7 @@
               :class="{ active: sortBy === activeSortBy }"
               @click="() => onTabChange(sortBy)"
             >
-              {{ value['TEXT'] }}
+              <span class="text-truncate button-text">{{ value['TEXT'] }}</span>
               <fluent-icon
                 v-if="sortBy === activeSortBy"
                 icon="checkmark"
@@ -88,6 +90,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/woot';
+
 .filter-items {
   &.active {
     background: var(--s-25);
@@ -99,6 +103,15 @@ export default {
 ::v-deep {
   .button.small {
     height: 2.8rem;
+    padding: var(--space-smaller) var(--space-small);
+    max-width: 100%;
+
+    @include breakpoint(large up) {
+      max-width: 16rem;
+    }
+    @include breakpoint(xxlarge up) {
+      max-width: 100%;
+    }
   }
   .button__content {
     display: flex;
@@ -107,7 +120,11 @@ export default {
   }
 }
 
+.button-text {
+  line-height: 1.2;
+}
+
 .icon {
-  margin-left: var(--space-small);
+  margin-left: var(--space-smaller);
 }
 </style>

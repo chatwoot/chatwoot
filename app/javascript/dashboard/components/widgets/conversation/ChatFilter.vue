@@ -11,7 +11,7 @@
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
-        size="16"
+        size="14"
       />
     </woot-button>
     <div
@@ -120,15 +120,17 @@ export default {
   }
   .button.small {
     height: 2.8rem;
+    padding: var(--space-smaller) var(--space-small);
   }
   .button__content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    white-space: nowrap;
   }
 }
 
 .icon {
-  margin-left: var(--space-small);
+  margin-left: var(--space-smaller);
 }
 </style>

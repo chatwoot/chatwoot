@@ -86,6 +86,7 @@
   }
 
   .chat-list-top__wrap {
+    border-bottom: 1px solid var(--s-75);
     padding: $zero $space-normal $space-micro;
 
     .chat-list__top {
@@ -100,6 +101,10 @@
 
         .page-title {
           margin-bottom: $zero;
+        }
+
+        .count-view {
+          margin: var(--space-micro) 0 0 var(--space-smaller);
         }
       }
     }
