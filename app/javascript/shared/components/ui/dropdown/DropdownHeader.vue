@@ -25,7 +25,6 @@ export default {
     text-align: left;
     white-space: nowrap;
     padding: var(--space-small) var(--space-small);
-    margin-top: var(--space-smaller);
     font-size: var(--font-size-mini);
     color: var(--s-600);
     font-weight: var(--font-weight-medium);

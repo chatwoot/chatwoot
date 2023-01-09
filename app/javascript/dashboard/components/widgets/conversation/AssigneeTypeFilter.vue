@@ -7,7 +7,7 @@
       class="selector-button"
       @click="toggleDropdown"
     >
-      {{ $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS')[activeStatus]['TEXT'] }}
+      {{ $t('CHAT_LIST.CHAT_ASSIGNEE_TYPE_FILTER_ITEMS')[activeType]['TEXT'] }}
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
@@ -21,23 +21,26 @@
     >
       <woot-dropdown-menu>
         <woot-dropdown-sub-menu
-          :title="this.$t('CHAT_LIST.CHAT_STATUS_FILTER')"
+          :title="this.$t('CHAT_LIST.CHAT_ASSIGNEE_TYPE_FILTER')"
         >
           <woot-dropdown-item
-            v-for="(value, status) in $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS')"
-            :key="status"
+            v-for="assigneeType in items"
+            :key="assigneeType.key"
           >
             <woot-button
               variant="clear"
               color-scheme="secondary"
               size="small"
               class="filter-items"
-              :class="{ active: status === activeStatus }"
-              @click="() => onTabChange(status)"
+              :class="{ active: assigneeType.key === activeType }"
+              @click="() => onTabChange(assigneeType.key)"
             >
-              {{ value['TEXT'] }}
+              <div>
+                <span>{{ assigneeType.name }}</span>
+                <span class="count">{{ assigneeType.count }}</span>
+              </div>
               <fluent-icon
-                v-if="status === activeStatus"
+                v-if="assigneeType.key === activeType"
                 icon="checkmark"
                 size="16"
                 class="icon"
@@ -53,8 +56,6 @@
 <script>
 import wootConstants from '../../../constants';
 import { mixin as clickaway } from 'vue-clickaway';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { hasPressedAltAndBKey } from 'shared/helpers/KeyboardHelpers';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu';
@@ -66,34 +67,24 @@ export default {
     WootDropdownMenu,
     WootDropdownSubMenu,
   },
-  mixins: [eventListenerMixins, clickaway],
+  mixins: [clickaway],
   data: () => ({
-    activeStatus: wootConstants.STATUS_TYPE.OPEN,
+    activeType: wootConstants.ASSIGNEE_TYPE.ME,
     showActionsDropdown: false,
   }),
-  methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndBKey(e)) {
-        if (this.activeStatus === wootConstants.STATUS_TYPE.OPEN) {
-          this.activeStatus = wootConstants.STATUS_TYPE.RESOLVED;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.RESOLVED) {
-          this.activeStatus = wootConstants.STATUS_TYPE.PENDING;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.PENDING) {
-          this.activeStatus = wootConstants.STATUS_TYPE.SNOOZED;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.SNOOZED) {
-          this.activeStatus = wootConstants.STATUS_TYPE.ALL;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.ALL) {
-          this.activeStatus = wootConstants.STATUS_TYPE.OPEN;
-        }
-      }
-      this.onTabChange();
+  props: {
+    items: {
+      type: Array,
+      default: () => [],
     },
+  },
+  methods: {
     onTabChange(value) {
       if (value) {
-        this.activeStatus = value;
+        this.activeType = value;
       }
-      this.$store.dispatch('setChatFilter', this.activeStatus);
-      this.$emit('statusFilterChange', this.activeStatus);
+      this.$store.dispatch('setChatFilter', this.activeType);
+      this.$emit('filterChange', this.activeType);
       this.closeDropdown();
     },
     toggleDropdown() {
@@ -114,9 +105,17 @@ export default {
   }
 }
 
+.count {
+  background: var(--s-75);
+  border-radius: var(--border-radius-normal);
+  color: var(--s-700);
+  font-size: var(--font-size-micro);
+  padding: var(--space-micro) var(--space-smaller);
+}
+
 ::v-deep {
   .dropdown-pane {
-    width: var(--space-mega);
+    width: 14rem;
   }
   .button.small {
     height: 2.8rem;

@@ -103,27 +103,6 @@
         }
       }
     }
-
-    .status--filter {
-      background-color: $color-background-light;
-      border: 1px solid var(--s-200);
-      color: var(--s-700);
-      float: right;
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
-      height: $space-large;
-      margin: 0;
-      padding: $zero $space-medium $zero $space-slab;
-      width: auto;
-
-      &:hover {
-        background-color: $color-background;
-      }
-    }
-
-    .chat-status--filter {
-      margin-right: $space-smaller;
-    }
   }
 
   .content-box {

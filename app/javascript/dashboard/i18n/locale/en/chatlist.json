@@ -18,6 +18,19 @@
       "unassigned": "Unassigned",
       "all": "All"
     },
+    "CHAT_ASSIGNEE_TYPE_FILTER": "Assignee type",
+    "CHAT_ASSIGNEE_TYPE_FILTER_ITEMS": {
+      "me": {
+        "TEXT": "Mine"
+      },
+      "unassigned": {
+        "TEXT": "Unassigned"
+      },
+      "all": {
+        "TEXT": "All"
+      }
+    },
+    "CHAT_STATUS_FILTER": "Status",
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"
@@ -30,6 +43,9 @@
       },
       "snoozed": {
         "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "All"
       }
     },
     "CHAT_SORT_BY_FILTER": "Sort by",

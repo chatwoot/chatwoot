@@ -32,8 +32,11 @@
           >
             {{ selectedItem.name }}
           </h4>
-          <i v-if="showSearchDropdown" class="icon ion-chevron-up" />
-          <i v-else class="icon ion-chevron-down" />
+          <fluent-icon
+            :icon="showSearchDropdown ? 'chevron-up' : 'chevron-down'"
+            class="icon"
+            size="18"
+          />
         </div>
       </div>
     </woot-button>
