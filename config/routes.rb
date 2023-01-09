@@ -217,6 +217,13 @@ Rails.application.routes.draw do
         end
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
+        namespace :integrations do
+          resource :dyte, controller: 'dyte', only: [] do
+            collection do
+              post :add_participant_to_meeting
+            end
+          end
+        end
       end
     end
 
