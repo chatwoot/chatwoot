@@ -280,6 +280,7 @@ export default {
 .message-text--metadata {
   align-items: flex-start;
   display: flex;
+  margin-left: var(--space-small);
 
   .time {
     margin-right: var(--space-small);
