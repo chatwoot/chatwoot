@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Запросить историю разговора",
     "SEND_EMAIL_SUCCESS": "Субтитры чата успешно отправлены",
     "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }
