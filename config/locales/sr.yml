@@ -44,6 +44,8 @@ sr-Latn:
     categories:
       locale:
         unique: treba biti jedinstvena u kategoriji i portalu
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Molim vas proverite vezu sa mrežom, IMAP adresu i pokušajte ponovo.
@@ -137,6 +139,10 @@ sr-Latn:
     online:
       delete: "%{contact_name} je dostupan, molim vas pokušajte ponovo"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack je alat za ćaskanje koji objedinjuje sve vaše komunikacije na jedno mesto. Integracijom Slack-a, možete biti obavešteni o svim novim razgovorima na vašem nalogu direktno u Slack-u."
