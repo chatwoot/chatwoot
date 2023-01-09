@@ -158,6 +158,12 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
+            resource :dyte, controller: 'dyte', only: [] do
+              collection do
+                post :create_a_meeting
+                post :add_participant_to_meeting
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
