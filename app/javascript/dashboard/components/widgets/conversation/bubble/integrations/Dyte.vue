@@ -83,7 +83,7 @@ export default {
   right: 0;
   width: 100%;
   height: 100%;
-  z-index: 10000;
+  z-index: var(  --z-index-high);
   padding: var(--space-smaller);
   background: var(--b-800);
 
