@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Request a conversation transcript",
     "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
     "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }
