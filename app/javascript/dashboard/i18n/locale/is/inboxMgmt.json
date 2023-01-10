@@ -421,11 +421,11 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot stillingar"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Stillingar",
     "FEATURES": {
-      "LABEL": "Features",
+      "LABEL": "Fídusar",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Leyfa notendum að ljúka samtali úr græjunni"
@@ -437,7 +437,7 @@
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
+      "UPDATE": "Uppfæra",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Virkja eða slökkva á söfnunarreit tölvupósts í nýju samtali",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
@@ -483,13 +483,13 @@
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Key",
         "TYPE": "Type",
-        "REQUIRED": "Required"
+        "REQUIRED": "Nauðsynlegt"
       },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Já",
+          "DISABLED": "Nei"
         }
       },
       "PRE_CHAT_MESSAGE": {

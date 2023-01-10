@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot тепер синхронізує всі вхідні розмови на <b><i>customer-conversations</i></b> каналу всередині вашого slack workplace.</p><p>Відповідь на тему розмови в <b><i>customer-conversations</i></b> slack канал створить відповідь покупцю через chatwoot.</p><p>Розпочніть відповіді з <b><i>нотатки:</i></b> для створення приватних нотаток замість відповідей.</p><p>Якщо автор на slack має профіль агента в chatwoot під тим самим повідомленням, відповіді будуть надані відповідно.</p><p>, коли користувач не має пов'язаного агента, відповідь буде виконана з профілю бота.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
