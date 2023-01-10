@@ -32,6 +32,7 @@
 
 class Message < ApplicationRecord
   include MessageFilterHelpers
+  include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   before_validation :ensure_content_type
