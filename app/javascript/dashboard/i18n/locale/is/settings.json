@@ -11,7 +11,7 @@
     "AFTER_EMAIL_CHANGED": "Prófíllinn þinn hefur verið uppfærður, vinsamlegast skráðu þig inn aftur þar sem innskráningarskilríkjum þínum er breytt",
     "FORM": {
       "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
+      "ERROR": "Vinsamlegast lagfærðu villurnar",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
@@ -47,7 +47,7 @@
         "PLACEHOLDER": "Settu inn persónulegu skilaboðaundirskriftina þína hér."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
+        "TITLE": "Lykilorð",
         "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
         "BTN_TEXT": "Change password"
       },
@@ -193,13 +193,13 @@
     "MENTIONED_CONVERSATIONS": "Mentions",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
-    "SETTINGS": "Settings",
+    "SETTINGS": "Stillingar",
     "CONTACTS": "Contacts",
     "HOME": "Home",
     "AGENTS": "Þjónustufulltrúar",
     "AGENT_BOTS": "Bots",
     "INBOXES": "Innhólf",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Skilaboð",
     "CANNED_RESPONSES": "Stöðluð svör",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",

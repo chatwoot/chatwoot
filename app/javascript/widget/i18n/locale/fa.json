@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "درخواست رونوشت گفتگو",
     "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

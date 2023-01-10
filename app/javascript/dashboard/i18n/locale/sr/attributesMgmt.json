@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno dodat",
-        "ERROR_MESSAGE": "Nije bilo moguće kreirati prilagođeni atribut. Molim Vas pokušajte kasnije"
+        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno dodat!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {

@@ -76,6 +76,13 @@
         "BODY": "<br/> <p> ما اکنون تمام مکالمات ورودی را در کانال <b><i> گفتگوهای مشتری </i> </b> داخل محل کار شما همگام سازی می کنیم. </p> <p> پاسخ به یک رشته مکالمه در کانال مکالمه <b><i> مشتری- مکالمات </ i> </b> از طریق برنامه پاسخی به مشتری ایجاد می کند. </ p> <p> پاسخ ها را با <b> <i> شروع کنید توجه: </i> </b> برای ایجاد یادداشت های خصوصی به جای پاسخ ها. </p> <p> اگر پاسخ دهنده در slack نمایه نماینده ای در برنامه تحت همان ایمیل داشته باشد ، پاسخ ها به همین ترتیب مرتبط می شوند. </ p> <p> وقتی ارسال کننده نمایه نماینده مرتبطی ندارد ، پاسخها از نمایه ربات انجام می شود. </p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
