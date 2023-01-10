@@ -1,15 +1,14 @@
 <template>
-  <button
+  <woot-button
     v-tooltip.left="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
+    icon="arrow-right-import"
+    size="tiny"
+    variant="smooth"
+    color-scheme="secondary"
     class="layout-switch__container"
+    :class="{ expanded: isOnExpandedLayout }"
     @click="toggle"
-  >
-    <fluent-icon
-      icon="arrow-right-import"
-      :size="16"
-      :class="{ expanded: isOnExpandedLayout }"
-    />
-  </button>
+  />
 </template>
 
 <script>
@@ -38,8 +37,9 @@ export default {
   color: var(--s-600);
   display: flex;
   padding: var(--space-micro) var(--space-smaller);
-
-  .expanded {
+  width: calc(var(--space-larger) - var(--space-one)) !important;
+  &.expanded .icon {
+    flex-shrink: 0;
     transform: rotate(180deg);
   }
 }
