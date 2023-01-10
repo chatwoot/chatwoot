@@ -177,9 +177,9 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import AssigneeTypeFilter from './widgets/conversation/AssigneeTypeFilter';
-import ChatFilter from './widgets/conversation/ChatFilter';
-import SortByFilter from './widgets/conversation/SortByFilter';
+import AssigneeTypeFilter from './widgets/conversation/filters/AssigneeTypeFilter';
+import ChatFilter from './widgets/conversation/filters/ChatFilter';
+import SortByFilter from './widgets/conversation/filters/SortByFilter';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
@@ -838,7 +838,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-slab);
+  padding-bottom: var(--space-slab);
   overflow-y: auto;
 
   .filter--wrap {

@@ -7,11 +7,14 @@
       class="selector-button"
       @click="toggleDropdown"
     >
-      {{ $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS')[activeStatus]['TEXT'] }}
+      {{ title }}
+      <span v-if="activeTypeCount" class="filter-count count">{{
+        activeTypeCount
+      }}</span>
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
-        size="14"
+        size="16"
       />
     </woot-button>
     <div
@@ -20,24 +23,24 @@
       class="dropdown-pane dropdown-pane--open"
     >
       <woot-dropdown-menu>
-        <woot-dropdown-sub-menu :title="$t('CHAT_LIST.CHAT_STATUS_FILTER')">
-          <woot-dropdown-item
-            v-for="(value, status) in $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS')"
-            :key="status"
-          >
+        <woot-dropdown-sub-menu :title="dropdownTitle">
+          <woot-dropdown-item v-for="item in items" :key="item.key">
             <woot-button
               variant="clear"
               color-scheme="secondary"
               size="small"
               class="filter-items"
-              :class="{ active: status === activeStatus }"
-              @click="() => onTabChange(status)"
+              :class="{ active: item.key === selectedValue }"
+              @click="() => onTabChange(item.key)"
             >
-              {{ value['TEXT'] }}
+              <div class="item--wrap">
+                <span>{{ item.name }}</span>
+                <span v-if="item.count" class="count">{{ item.count }}</span>
+              </div>
               <fluent-icon
-                v-if="status === activeStatus"
+                v-if="item.key === selectedValue"
                 icon="checkmark"
-                size="16"
+                size="14"
                 class="icon"
               />
             </woot-button>
@@ -49,10 +52,7 @@
 </template>
 
 <script>
-import wootConstants from '../../../constants';
 import { mixin as clickaway } from 'vue-clickaway';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { hasPressedAltAndBKey } from 'shared/helpers/KeyboardHelpers';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu';
@@ -64,34 +64,35 @@ export default {
     WootDropdownMenu,
     WootDropdownSubMenu,
   },
-  mixins: [eventListenerMixins, clickaway],
+  mixins: [clickaway],
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    dropdownTitle: {
+      type: String,
+      default: '',
+    },
+    items: {
+      type: [Array, Object],
+      default: () => [],
+    },
+    selectedValue: {
+      type: String,
+      default: '',
+    },
+    activeTypeCount: {
+      type: String,
+      default: '',
+    },
+  },
   data: () => ({
-    activeStatus: wootConstants.STATUS_TYPE.OPEN,
     showActionsDropdown: false,
   }),
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndBKey(e)) {
-        if (this.activeStatus === wootConstants.STATUS_TYPE.OPEN) {
-          this.activeStatus = wootConstants.STATUS_TYPE.RESOLVED;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.RESOLVED) {
-          this.activeStatus = wootConstants.STATUS_TYPE.PENDING;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.PENDING) {
-          this.activeStatus = wootConstants.STATUS_TYPE.SNOOZED;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.SNOOZED) {
-          this.activeStatus = wootConstants.STATUS_TYPE.ALL;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.ALL) {
-          this.activeStatus = wootConstants.STATUS_TYPE.OPEN;
-        }
-      }
-      this.onTabChange();
-    },
     onTabChange(value) {
-      if (value) {
-        this.activeStatus = value;
-      }
-      this.$store.dispatch('setChatFilter', this.activeStatus);
-      this.$emit('statusFilterChange', this.activeStatus);
+      this.$emit('filterChange', value);
       this.closeDropdown();
     },
     toggleDropdown() {
@@ -104,7 +105,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.filter-count {
+  background: var(--s-100) !important;
+  min-width: var(--space-two);
+}
+
 .filter-items {
+  .item--wrap {
+    display: flex;
+    align-items: center;
+  }
+
   &.active {
     background: var(--s-25);
     border-color: var(--s-50);
@@ -112,10 +123,17 @@ export default {
   }
 }
 
+.count {
+  background: var(--s-75);
+  border-radius: var(--border-radius-normal);
+  color: var(--s-800);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-smaller);
+  padding: var(--space-smaller);
+}
+
 ::v-deep {
-  .dropdown-pane {
-    width: var(--space-mega);
-  }
   .button.small {
     height: 2.8rem;
     padding: var(--space-smaller) var(--space-small);
