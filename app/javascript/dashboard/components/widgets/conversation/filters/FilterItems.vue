@@ -14,7 +14,7 @@
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
-        size="16"
+        size="14"
       />
     </woot-button>
     <div
