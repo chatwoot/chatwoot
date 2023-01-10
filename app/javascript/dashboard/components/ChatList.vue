@@ -388,7 +388,7 @@ export default {
       const selectedType = this.assigneeTabItems.find(
         item => item.key === wootConstants.ASSIGNEE_TYPE.ALL
       );
-      return selectedType ? selectedType.count : 0;
+      return selectedType ? selectedType.count.toLocaleString() : 0;
     },
     conversationList() {
       let conversationList = [];

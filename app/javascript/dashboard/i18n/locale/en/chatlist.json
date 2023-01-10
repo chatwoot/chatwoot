@@ -31,6 +31,20 @@
       }
     },
     "CHAT_STATUS_FILTER": "Status",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Open"
+      },
+      "resolved": {
+        "TEXT": "Resolved"
+      },
+      "pending": {
+        "TEXT": "Pending"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
+      }
+    },
     "CHAT_SORT_BY_FILTER": "Sort by",
 
     "ATTACHMENTS": {

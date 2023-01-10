@@ -8,9 +8,9 @@
       @click="toggleDropdown"
     >
       {{ title }}
-      <span v-if="activeTypeCount" class="filter-count count">{{
-        activeTypeCount
-      }}</span>
+      <span v-if="activeTypeCount" class="filter-count count">
+        {{ activeTypeCount }}
+      </span>
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
@@ -35,7 +35,9 @@
             >
               <div class="item--wrap">
                 <span>{{ item.name }}</span>
-                <span v-if="item.count" class="count">{{ item.count }}</span>
+                <span v-if="item.count" class="count">
+                  {{ item.count.toLocaleString() }}
+                </span>
               </div>
               <fluent-icon
                 v-if="item.key === selectedValue"
