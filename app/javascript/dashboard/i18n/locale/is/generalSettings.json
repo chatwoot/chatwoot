@@ -1,30 +1,30 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Account settings",
-    "SUBMIT": "Update settings",
-    "BACK": "Back",
+    "TITLE": "Aðgangs stillingar",
+    "SUBMIT": "Uppfæra stillingar",
+    "BACK": "Til baka",
     "UPDATE": {
-      "ERROR": "Could not update settings, try again!",
-      "SUCCESS": "Successfully updated account settings"
+      "ERROR": "Gat ekki uppfært stillingar, reyndu aftur!",
+      "SUCCESS": "Tókst að uppfæra stillingar"
     },
     "FORM": {
-      "ERROR": "Please fix form errors",
+      "ERROR": "Vinsamlegast lagfærðu villurnar",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "Almennar stillingar",
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
+        "TITLE": "Númer aðgangs",
         "NOTE": "Þetta auðkenni er nauðsynlegt ef þú ert að byggja upp API byggða samþættingu"
       },
       "NAME": {
-        "LABEL": "Account name",
-        "PLACEHOLDER": "Your account name",
-        "ERROR": "Please enter a valid account name"
+        "LABEL": "Aðgangsnafn",
+        "PLACEHOLDER": "Þitt aðgangsnafn",
+        "ERROR": "Vinsamlegast sláðu inn samþykkt aðgangsnafn"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
-        "PLACEHOLDER": "Your account name",
+        "LABEL": "Tungumál síðu",
+        "PLACEHOLDER": "Þitt aðgangsnafn",
         "ERROR": ""
       },
       "DOMAIN": {
@@ -33,8 +33,8 @@
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "Þjónustu tölvupóstur",
+        "PLACEHOLDER": "Þjónustu tölvupóstur fyrirtækisins",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
@@ -48,57 +48,57 @@
       }
     },
     "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Læra meira"
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one",
-      "SELECT": "Select"
+      "ENTER_TO_SELECT": "Enter til þess að velja",
+      "ENTER_TO_REMOVE": "Enter til þess að fjarlægja",
+      "SELECT_ONE": "Veldu eitt",
+      "SELECT": "Velja"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
-    "DELETE_TITLE": "deleted",
+    "HEADER": "Skilaboð",
+    "MARK_ALL_DONE": "Merkja allt tilbúð",
+    "DELETE_TITLE": "eyða",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "Ólesnar tilkynningar",
+      "ALL_NOTIFICATIONS": "Skoða allar tilkynningar",
+      "LOADING_UNREAD_MESSAGE": "Hleð ólesnum skilaboðum...",
+      "EMPTY_MESSAGE": "Þú átt enginn ólesin skilaboð"
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Hleð skilaboðum...",
+      "404": "Engin skilaboð",
       "TABLE_HEADER": [
         "Nafn",
-        "Phone Number",
+        "Símanúmer",
         "Samtöl",
-        "Last Contacted"
+        "Síðast samband"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Nýtt samtal",
+      "conversation_assignment": "Samtali úthlutað",
+      "assigned_conversation_new_message": "Nýtt skilaboð",
+      "conversation_mention": "Nefna"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Aftengdur Chatwoot"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Uppfæra"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "Leita eða stökkva til",
     "SECTIONS": {
-      "GENERAL": "General",
-      "REPORTS": "Reports",
-      "CONVERSATION": "Conversation",
+      "GENERAL": "Almennar",
+      "REPORTS": "Skýrslur",
+      "CONVERSATION": "Samtal",
       "CHANGE_ASSIGNEE": "Breyta úthlutun",
       "CHANGE_TEAM": "Breyta Teymi",
       "ADD_LABEL": "Merkja samtalið",
