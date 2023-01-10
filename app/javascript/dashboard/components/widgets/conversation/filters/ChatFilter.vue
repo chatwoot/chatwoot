@@ -4,7 +4,7 @@
     :dropdown-title="$t('CHAT_LIST.CHAT_STATUS_FILTER')"
     :items="statusItems"
     :selected-value="activeStatus"
-    @filterChange="onTabChange"
+    @changeFilter="onTabChange"
   />
 </template>
 

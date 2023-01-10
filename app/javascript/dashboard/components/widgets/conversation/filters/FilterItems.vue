@@ -77,7 +77,7 @@ export default {
       default: '',
     },
     items: {
-      type: [Array, Object],
+      type: Array,
       default: () => [],
     },
     selectedValue: {
@@ -94,7 +94,7 @@ export default {
   }),
   methods: {
     onTabChange(value) {
-      this.$emit('filterChange', value);
+      this.$emit('changeFilter', value);
       this.closeDropdown();
     },
     toggleDropdown() {

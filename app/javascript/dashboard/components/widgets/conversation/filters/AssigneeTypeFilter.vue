@@ -5,7 +5,7 @@
     :items="items"
     :selected-value="activeType"
     :active-type-count="activeTypeCount"
-    @filterChange="onTabChange"
+    @changeFilter="onTabChange"
   />
 </template>
 

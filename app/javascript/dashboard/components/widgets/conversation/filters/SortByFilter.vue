@@ -4,7 +4,7 @@
     :dropdown-title="$t('CHAT_LIST.CHAT_SORT_BY_FILTER')"
     :items="sortByItems"
     :selected-value="activeSortBy"
-    @filterChange="onTabChange"
+    @changeFilter="onTabChange"
   />
 </template>
 
@@ -31,7 +31,7 @@ export default {
         label: 'Sorted by created at',
       },
       {
-        key: wootConstants.SORT_BY_TYPE.LAST_USER_MESSAGED_AT,
+        key: wootConstants.SORT_BY_TYPE.LAST_USER_MESSAGE_AT,
         name: 'Last user message at',
         label: 'Sorted by last message',
       },
