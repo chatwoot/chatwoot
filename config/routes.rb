@@ -39,7 +39,6 @@ Rails.application.routes.draw do
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
-
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
@@ -150,6 +149,10 @@ Rails.application.routes.draw do
           end
 
           namespace :twitter do
+            resource :authorization, only: [:create]
+          end
+
+          namespace :microsoft do
             resource :authorization, only: [:create]
           end
 
@@ -338,6 +341,12 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
   end
+
+  # namespace :microsoft do
+  #   resources :callback, only: [:show]
+  # end
+
+  get 'microsoft/callback', to: 'microsoft/callbacks#show'
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications

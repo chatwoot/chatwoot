@@ -17,9 +17,9 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
 
   # if the token is not expired yet then skip the refresh token step
   def access_token(channel, provider_config)
-    expiry = DateTime.parse(provider_config[:expires_on]) - 5.minutes
+    expiry = DateTime.parse(provider_config['expires_on']) - 5.minutes
 
-    if Time.current > expiry
+    if Time.current.utc > expiry
       # Token expired, refresh
       new_hash = refresh_tokens channel, provider_config
       new_hash[:access_token]

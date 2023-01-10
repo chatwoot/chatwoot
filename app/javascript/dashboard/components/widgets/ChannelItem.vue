@@ -13,6 +13,10 @@
       src="~dashboard/assets/images/channels/twitter.png"
     />
     <img
+      v-if="channel.key === 'microsoft'"
+      src="~dashboard/assets/images/channels/microsoft.png"
+    />
+    <img
       v-if="channel.key === 'telegram'"
       src="~dashboard/assets/images/channels/telegram.png"
     />
@@ -75,6 +79,9 @@ export default {
       }
       if (key === 'twitter') {
         return this.enabledFeatures.channel_twitter;
+      }
+      if (key === 'microsoft') {
+        return true;
       }
       if (key === 'email') {
         return this.enabledFeatures.channel_email;

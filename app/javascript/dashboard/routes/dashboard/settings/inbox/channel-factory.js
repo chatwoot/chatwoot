@@ -1,6 +1,7 @@
 import Facebook from './channels/Facebook';
 import Website from './channels/Website';
 import Twitter from './channels/Twitter';
+import Microsoft from './channels/Microsoft';
 import Api from './channels/Api';
 import Email from './channels/Email';
 import Sms from './channels/Sms';
@@ -18,6 +19,7 @@ const channelViewList = {
   whatsapp: Whatsapp,
   line: Line,
   telegram: Telegram,
+  microsoft: Microsoft,
 };
 
 export default {

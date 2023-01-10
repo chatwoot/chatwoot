@@ -37,7 +37,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
           permitted_params.except(:channel)
         )
       )
-      channel.update_provider_config(params[:channel]) if @inbox.email?
       @inbox.save!
     end
   end

@@ -35,4 +35,8 @@ module Api::V1::MicrosoftGraphHelper
 
     make_api_call 'POST', create_message_reply_url, token, mail_body
   end
+
+  def user_info(access_token)
+    make_api_call 'GET', '/v1.0/me/', access_token
+  end
 end
