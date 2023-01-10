@@ -84,6 +84,12 @@ export default {
       } = this.uiSettings;
       return conversationDisplayType;
     },
+    previouslyUsedSidebarView() {
+      const {
+        previously_used_sidebar_view: showSecondarySidebar,
+      } = this.uiSettings;
+      return showSecondarySidebar;
+    },
   },
   watch: {
     displayLayoutType() {
@@ -93,6 +99,10 @@ export default {
           this.displayLayoutType === LAYOUT_TYPES.EXPANDED
             ? LAYOUT_TYPES.EXPANDED
             : this.previouslyUsedDisplayType,
+        show_secondary_sidebar:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? false
+            : this.previouslyUsedSidebarView,
       });
     },
   },
@@ -129,6 +139,7 @@ export default {
     toggleSidebar() {
       this.updateUISettings({
         show_secondary_sidebar: !this.isSidebarOpen,
+        previously_used_sidebar_view: !this.isSidebarOpen,
       });
     },
     openCreateAccountModal() {
