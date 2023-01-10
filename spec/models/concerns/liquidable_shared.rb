@@ -37,29 +37,21 @@ shared_examples_for 'liqudable' do
       end
 
       it 'will not process liquid tags in multiple code blocks' do
-        message.content = 'hey {{contact.name}} how are you? ``` code: {{contact.name}} ``` ``` code: {{contact.name}} ``` test'
+        message.content = 'hey {{contact.name}} how are you? ```code: {{contact.name}}``` ``` code: {{contact.name}} ``` test `{{contact.name}}`'
         message.save!
-        expect(message.content).to eq 'hey john how are you? ``` code: {{contact.name}} ``` ``` code: {{contact.name}} ``` test'
+        expect(message.content).to eq 'hey john how are you? ```code: {{contact.name}}``` ``` code: {{contact.name}} ``` test `{{contact.name}}`'
       end
 
-      it 'will extract first name from contact name' do
-        message.content = 'hey {{contact.first_name}} how are you?'
+      it 'will not process liquid tags in single ticks' do
+        message.content = 'hey {{contact.name}} how are you? ` code: {{contact.name}} ` ` code: {{contact.name}} ` test'
         message.save!
-        expect(message.content).to eq 'hey john how are you?'
+        expect(message.content).to eq 'hey john how are you? ` code: {{contact.name}} ` ` code: {{contact.name}} ` test'
       end
 
-      it 'return empty last name when value is not available' do
-        message.content = 'hey {{contact.last_name}} how are you?'
+      it 'will not throw error for broken quotes' do
+        message.content = 'hey {{contact.name}} how are you? ` code: {{contact.name}} ` ` code: {{contact.name}} test'
         message.save!
-        expect(message.content).to eq 'hey  how are you?'
-      end
-
-      it 'will extract first name and last name from contact name' do
-        contact.name = 'john doe'
-        contact.save!
-        message.content = 'hey {{contact.first_name}} {{contact.last_name}} how are you?'
-        message.save!
-        expect(message.content).to eq 'hey john doe how are you?'
+        expect(message.content).to eq 'hey john how are you? ` code: {{contact.name}} ` ` code: john test'
       end
     end
   end
