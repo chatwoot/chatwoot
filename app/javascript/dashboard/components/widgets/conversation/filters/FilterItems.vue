@@ -136,14 +136,21 @@ export default {
 }
 
 ::v-deep {
-  .button.small {
+  .selector-button {
     padding: var(--space-smaller) var(--space-small);
   }
+
   .button__content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
+  }
+
+  .dropdown-menu__item {
+    .button.small {
+      height: 2.8rem;
+    }
   }
 }
 
