@@ -7,14 +7,16 @@ describe Whatsapp::IncomingMessageService do
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
+    let!(:params) do
+      {
+        'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+        'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
+                         'timestamp' => '1633034394', 'type' => 'text' }]
+      }.with_indifferent_access
+    end
 
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
-        params = {
-          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
-          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
-                           'timestamp' => '1633034394', 'type' => 'text' }]
-        }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
@@ -22,12 +24,6 @@ describe Whatsapp::IncomingMessageService do
       end
 
       it 'appends to last conversation when if conversation already exisits' do
-        params = {
-          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
-          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
-                           'timestamp' => '1633034394', 'type' => 'text' }]
-        }.with_indifferent_access
-
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }
         last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
@@ -36,6 +32,15 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.conversations.count).to eq(3)
         # message appended to the last conversation
         expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+      end
+
+      it 'will not create duplicate messages when same message is received' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+
+        # this shouldn't create a duplicate message
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
       end
     end
 
