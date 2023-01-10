@@ -161,7 +161,7 @@
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Hefja samtal",
-    "TITLE": "New conversation",
+    "TITLE": "Nýtt samtal",
     "DESC": "Byrjaðu nýtt samtal með því að senda ný skilaboð.",
     "NO_INBOX": "Gat ekki fundið innhólf til að hefja nýtt samtal við þennan tengilið.",
     "FORM": {
@@ -203,7 +203,7 @@
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Nafn",
-        "PHONE_NUMBER": "Phone Number",
+        "PHONE_NUMBER": "Símanúmer",
         "CONVERSATIONS": "Samtöl",
         "LAST_ACTIVITY": "Last Activity",
         "COUNTRY": "Country",

@@ -8,6 +8,7 @@
         :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
         :is-updating="isUpdating"
         :is-saved="isSaved"
+        :is-sidebar-open="showArticleSettings"
         @back="onClickGoBack"
         @open="openArticleSettings"
         @close="closeArticleSettings"

@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot mun nú samstilla öll innkomin samtöl inn á <b><i>customer-conversations</i></b> á Slack vinnusvæðinu þínu.</p><p>Að svara samtalsþræði í <b><i>customer-conversations</i></b> Slack rás mun senda svar til viðskiptavinar í gegnum chatwoot.</p><p>Byrjaðu svörin með <b><i> note:</i></b> til að búa til einkaglósur í stað svara.</p><p>Ef svarandinn á Slack er með skráðann þjónustufulltrúa í chatwoot undir sama netfangi verða svörin tengd í samræmi við það.</p><p>Þegar svarandinn er ekki með tengdan þjónustufulltrúa verða svörin gerð úr spjallmanna prófílnum.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Eyða",
       "API": {
@@ -117,7 +124,7 @@
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
+        "FORM_SUBMIT": "Uppfæra",
         "FORM_CANCEL": "Hætta við",
         "API_SUCCESS": "Dashboard app updated successfully",
         "API_ERROR": "Ekki tókst að uppfæra forrit. Vinsamlegast reyndu aftur síðar"

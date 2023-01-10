@@ -44,6 +44,8 @@ lv:
     categories:
       locale:
         unique: vajadzētu būt unikālai, kategorijā un portālā 
+    dyte:
+      invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -137,6 +139,10 @@ lv:
     online:
       delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte ir rīks, kas lietojumprogrammai palīdz pievienot audio un video tiešraidi, izmantojot tikai dažas koda rindiņas. Šī integrācija ļauj piedāvāt iespēju Jūsu aģentiem veikt video vai balss zvanu ar klientiem, neizejot no Chatwoot."
+      meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
       name: "Slack"
       description: "Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack."

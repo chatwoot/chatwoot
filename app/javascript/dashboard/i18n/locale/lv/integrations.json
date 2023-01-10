@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot tagad sinhronizēs visas ienākošās <b><i>customer-conversations</i></b> kanāla sarunas, kas atrodas Jūsu slack workplace.</p><p>Atbildot uz sarunas vītni, <b><i>customer-conversations</i></b> slack kanālā tiks izveidota atbilde klientam, izmantojot chatwoot.</p><p>Sāciet atbildes ar <b><i>note:</i></b> lai izveidotu individuālas piezīmes, nevis atbildes.</p><p>Ja slack atbildētājam ir aģenta profils pakalpojumā chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks attiecīgi sasaistītas.</p><p>Kad atbildētājam nebūs piesaistīts aģenta profils, atbildes tiks sniegtas no robotprogrammatūras profila.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Dzēst",
       "API": {
