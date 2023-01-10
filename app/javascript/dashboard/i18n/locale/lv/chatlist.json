@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Sarunas",
     "MENTION_HEADING": "Pieminēšanas",
+    "UNATTENDED_HEADING": "Bez uzraudzības",
     "SEARCH": {
       "INPUT": "Meklēt Cilvēkus, Tērzēšanas, Saglabātās Atbildes.."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Atbildēt uz šo tvītu",
     "LINK_TO_STORY": "Doties uz instagram stāstu",
     "SENT": "Veiksmīgi nosūtīts",
+    "READ": "Izlasīts veiksmīgi",
+    "DELIVERED": "Piegādāts veiksmīgi",
     "NO_MESSAGES": "Nav Ziņojumu",
     "NO_CONTENT": "Saturs nav pieejams",
     "HIDE_QUOTED_TEXT": "Paslēpt Citēto Tekstu",

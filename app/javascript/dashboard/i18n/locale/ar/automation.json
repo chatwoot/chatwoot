@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "تغيير نوع الحدث سوف يعيد تعيين الشروط والأحداث التي أضفتها أدناه"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ"
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",

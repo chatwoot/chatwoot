@@ -175,7 +175,7 @@
       "SUBJECT": {
         "LABEL": "Subject",
         "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "제목은 공백일 수 없습니다."
       },
       "MESSAGE": {
         "LABEL": "메시지",
@@ -276,7 +276,7 @@
       "CANCEL": "취소",
       "NAME": {
         "LABEL": "사용자 지정 속성 이름",
-        "PLACEHOLDER": "Eg: shopify id",
+        "PLACEHOLDER": "Shopify id",
         "ERROR": "Invalid custom attribute name"
       },
       "VALUE": {
@@ -305,13 +305,13 @@
         "LIST": {
           "PLACEHOLDER": "Select value",
           "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "NO_RESULT": "검색 결과가 없습니다."
         }
       }
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "INVALID_URL": "잘못된 주소입니다."
     }
   },
   "MERGE_CONTACTS": {
@@ -332,7 +332,7 @@
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "에러_메시지"
     },
     "FORM": {
       "SUBMIT": " Merge contacts",

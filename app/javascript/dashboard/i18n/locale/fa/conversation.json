@@ -41,6 +41,10 @@
     "NO_RESPONSE": "بدون پاسخ",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
+    "CARD": {
+      "SHOW_LABELS": "مشاهده کردن برچسب‌ها",
+      "HIDE_LABELS": "پنهان کردن برچسب‌ها"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "علامت گذاری به عنوان در انتظار",
       "RESOLVED": "علامت زدن به عنوان حل شده",
+      "MARK_AS_UNREAD": "علامت گذاری به عنوان خوانده نشده",
       "REOPEN": "مکالمه را دوباره باز کنید",
       "SNOOZE": {
         "TITLE": "به تعویق انداختن",

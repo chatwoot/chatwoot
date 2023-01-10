@@ -24,14 +24,14 @@
           "body": "Create a new team of agents."
         },
         {
-          "title": "Add Agents",
+          "title": "Bæta við þjónustufulltrúa",
           "route": "settings_teams_add_agents",
           "body": "Add agents to the team."
         },
         {
           "title": "Finish",
           "route": "settings_teams_finish",
-          "body": "You are all set to go!"
+          "body": "Þú ert tilbúin til að halda áfram!"
         }
       ]
     },
@@ -60,7 +60,7 @@
         {
           "title": "Finish",
           "route": "settings_teams_edit_finish",
-          "body": "You are all set to go!"
+          "body": "Þú ert tilbúin til að halda áfram!"
         }
       ]
     },
@@ -70,7 +70,7 @@
     "AGENTS": {
       "AGENT": "AGENT",
       "EMAIL": "NETFANG",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
@@ -82,7 +82,7 @@
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {

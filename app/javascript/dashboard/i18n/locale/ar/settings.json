@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "الإشعارات الصوتية",
         "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
-        "NONE": "لا شيء",
-        "ASSIGNED": "المحادثات المسندة",
-        "ALL_CONVERSATIONS": "كل المحادثات"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "لا شيء",
+          "ASSIGNED": "المحادثات المسندة",
+          "ALL_CONVERSATIONS": "كل المحادثات"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "إشعارات البريد الإلكتروني",
@@ -103,7 +114,9 @@
           "متصل",
           "مشغول",
           "غير متصل"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "عنوان البريد الإلكتروني الخاص بك",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "تسجيل الخروج"
   },
   "APP_GLOBAL": {
@@ -177,6 +191,7 @@
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
+    "UNATTENDED_CONVERSATIONS": "بدون حضور",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
@@ -225,6 +240,10 @@
       "CATEGORY": "الفئة",
       "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "قراءة المستندات"
   },
   "BILLING_SETTINGS": {
@@ -256,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الحساب",
+        "LABEL": "اسم الشركة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
       "SUBMIT": "إرسال"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "فتح المحادثة",
       "RESOLVE_AND_NEXT": "حل وانتقل إلى التالي",

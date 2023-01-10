@@ -14,6 +14,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       custom_attributes: custom_attributes,
       snoozed_until: snoozed_until,
       unread_count: unread_incoming_messages.count,
+      first_reply_created_at: first_reply_created_at,
       **push_timestamps
     }
   end
@@ -22,10 +23,6 @@ class Conversations::EventDataPresenter < SimpleDelegator
 
   def push_messages
     [messages.chat.last&.push_event_data].compact
-  end
-
-  def label_list
-    labels.pluck(:id, :name)
   end
 
   def push_meta

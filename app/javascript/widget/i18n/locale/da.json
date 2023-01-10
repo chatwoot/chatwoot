@@ -73,6 +73,10 @@
       "FIELD": "Ugyldigt felt"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Søg efter emojis",
+    "NOT_FOUND": "Ingen emoji matcher din søgning"
+  },
   "CSAT": {
     "TITLE": "Bedøm din samtale",
     "SUBMITTED_TITLE": "Tak for din bedømmelse",

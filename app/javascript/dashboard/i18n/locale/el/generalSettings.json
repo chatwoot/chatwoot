@@ -23,7 +23,7 @@
         "ERROR": "Παρακαλώ συμπληρώστε ένα έγκυρο όνομα λογαριασμού"
       },
       "LANGUAGE": {
-        "LABEL": "Γλώσσα Ιστοσελίδας (Beta)",
+        "LABEL": "Γλώσσα ιστοσελίδας",
         "PLACEHOLDER": "Το όνομα του Λογαριασμού",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
       "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
-      "SELECT_ONE": "Επιλέξτε ένα"
+      "SELECT_ONE": "Επιλέξτε ένα",
+      "SELECT": "Επιλογή"
     }
   },
   "NOTIFICATIONS_PAGE": {

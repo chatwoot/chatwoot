@@ -1,8 +1,33 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::Whatsapp do
+  describe 'concerns' do
+    let(:channel) { create(:channel_whatsapp) }
+
+    before do
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+      stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
+    end
+
+    it_behaves_like 'reauthorizable'
+
+    context 'when prompt_reauthorization!' do
+      it 'calls channel notifier mail for whatsapp' do
+        admin_mailer = double
+        mailer_double = double
+
+        expect(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).and_return(admin_mailer)
+        expect(admin_mailer).to receive(:whatsapp_disconnect).with(channel.inbox).and_return(mailer_double)
+        expect(mailer_double).to receive(:deliver_later)
+
+        channel.prompt_reauthorization!
+      end
+    end
+  end
+
   describe 'validate_provider_config' do
     let(:channel) { build(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account)) }
 

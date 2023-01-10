@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "음성 알림",
         "NOTE": "대시보드에서 새 메시지 및 대화에 대한 오디오 알림을 활성화합니다.",
-        "NONE": "없음",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "없음",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "이메일 알림",
@@ -103,7 +114,9 @@
           "온라인",
           "바쁨",
           "오프라인"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "이메일 주소",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
     "PROFILE_SETTINGS": "프로필 설정",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "로그아웃"
   },
   "APP_GLOBAL": {
@@ -177,6 +191,7 @@
     "CONVERSATIONS": "대화",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "멘션",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "보고서",
     "SETTINGS": "설정",
     "CONTACTS": "연락처",
@@ -225,6 +240,10 @@
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
@@ -256,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "계정 이름",
+        "LABEL": "회사명",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "보내기"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

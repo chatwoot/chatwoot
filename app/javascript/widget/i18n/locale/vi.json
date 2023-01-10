@@ -73,6 +73,10 @@
       "FIELD": "Trường không hợp lệ"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Tìm kiếm biểu tượng cảm xúc",
+    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn"
+  },
   "CSAT": {
     "TITLE": "Đánh giá hội thoại",
     "SUBMITTED_TITLE": "Cảm ơn vì đã đánh giá",

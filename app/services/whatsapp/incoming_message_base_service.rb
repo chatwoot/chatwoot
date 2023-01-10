@@ -7,11 +7,38 @@ class Whatsapp::IncomingMessageBaseService
   def perform
     processed_params
 
+    perform_statuses
+
     set_contact
     return unless @contact
 
     set_conversation
 
+    perform_messages
+  end
+
+  private
+
+  def perform_statuses
+    return if @processed_params[:statuses].blank?
+
+    status = @processed_params[:statuses].first
+    @message = Message.find_by(source_id: status[:id])
+    return unless @message
+
+    update_message_with_status(@message, status)
+  end
+
+  def update_message_with_status(message, status)
+    message.status = status[:status]
+    if status[:status] == 'failed' && status[:errors].present?
+      error = status[:errors]&.first
+      message.external_error = "#{error[:code]}: #{error[:title]}"
+    end
+    message.save!
+  end
+
+  def perform_messages
     return if @processed_params[:messages].blank? || unprocessable_message_type?
 
     @message = @conversation.messages.build(
@@ -26,8 +53,6 @@ class Whatsapp::IncomingMessageBaseService
     attach_location
     @message.save!
   end
-
-  private
 
   def processed_params
     @processed_params ||= params
@@ -96,9 +121,11 @@ class Whatsapp::IncomingMessageBaseService
     return if %w[text button interactive location].include?(message_type)
 
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
-    attachment_file = download_attachment_file(attachment_payload)
-
     @message.content ||= attachment_payload[:caption]
+
+    attachment_file = download_attachment_file(attachment_payload)
+    return if attachment_file.blank?
+
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),

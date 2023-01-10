@@ -42,8 +42,6 @@
   value:
 - name: ANALYTICS_TOKEN
   value:
-- name: ANALYTICS_HOST
-  value:
 - name: DIRECT_UPLOADS_ENABLED
   value: false
   locked: false
@@ -72,3 +70,5 @@
   value:
 - name: DEPLOYMENT_ENV
   value: self-hosted
+- name: CSML_EDITOR_HOST
+  value:

@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Załóż konto",
     "TITLE": "Rejestracja",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Rejestrując się, akceptujesz naszą <a href=\"https://www.chatwoot.com/terms\">T & C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">politykę prywatności</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Nazwa konta",
-      "PLACEHOLDER": "Wprowadź nazwę konta, np. Wayne Enterprises",
-      "ERROR": "Nazwa konta jest zbyt krótka"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Imię i nazwisko",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "E-mail służbowy",
       "PLACEHOLDER": "Podaj swój służbowy adres e-mail, np. bruce@wayne.enterprises",
-      "ERROR": "Adres e-mail jest nieprawidłowy"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Hasło",

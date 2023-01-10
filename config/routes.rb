@@ -85,6 +85,7 @@ Rails.application.routes.draw do
               post :toggle_status
               post :toggle_typing_status
               post :update_last_seen
+              post :unread
               post :custom_attributes
             end
           end
@@ -157,6 +158,12 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
+            resource :dyte, controller: 'dyte', only: [] do
+              collection do
+                post :create_a_meeting
+                post :add_participant_to_meeting
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -181,6 +188,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :collection
         member do
           post :availability
+          post :auto_offline
           put :set_active_account
         end
       end
@@ -209,6 +217,13 @@ Rails.application.routes.draw do
         end
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
+        namespace :integrations do
+          resource :dyte, controller: 'dyte', only: [] do
+            collection do
+              post :add_participant_to_meeting
+            end
+          end
+        end
       end
     end
 

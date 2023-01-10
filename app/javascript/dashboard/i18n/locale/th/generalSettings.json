@@ -23,7 +23,7 @@
         "ERROR": "กรุณากรอกชื่อบัญชีให้ถูกต้อง"
       },
       "LANGUAGE": {
-        "LABEL": "ภาษา (ทดสอบ)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "ชื่อบัญชีของคุณ",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "กด enter เพื่อเลือก",
       "ENTER_TO_REMOVE": "กด enter เพื่อลบ",
-      "SELECT_ONE": "เลือก"
+      "SELECT_ONE": "เลือก",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {

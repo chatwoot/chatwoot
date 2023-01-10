@@ -16,3 +16,8 @@ export const isValidPassword = value => {
     containsSpecialCharacter
   );
 };
+export const isNumber = value => /^\d+$/.test(value);
+export const isDomain = value => {
+  const domainRegex = /^([\p{L}0-9]+(-[\p{L}0-9]+)*\.)+[a-z]{2,}$/gmu;
+  return domainRegex.test(value);
+};
