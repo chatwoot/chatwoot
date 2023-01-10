@@ -22,7 +22,7 @@
     >
       <woot-dropdown-menu>
         <woot-dropdown-sub-menu
-          :title="this.$t('CHAT_LIST.CHAT_ASSIGNEE_TYPE_FILTER')"
+          :title="$t('CHAT_LIST.CHAT_ASSIGNEE_TYPE_FILTER')"
         >
           <woot-dropdown-item
             v-for="assigneeType in items"
