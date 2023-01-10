@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Richiedi la trascrizione della conversazione",
     "SEND_EMAIL_SUCCESS": "La trascrizione della chat è stata inviata con successo",
     "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

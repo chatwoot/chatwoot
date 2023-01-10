@@ -77,7 +77,7 @@
     },
     "EDIT": {
       "TITLE": "Edit campaign",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "UPDATE_BUTTON_TEXT": "Uppfæra",
       "API": {
         "SUCCESS_MESSAGE": "Campaign updated successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
