@@ -282,7 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Εμφάνιση όλων των συντομεύσεων",
     "TITLE": {
       "OPEN_CONVERSATION": "Άνοιγμα συνομιλίας",
       "RESOLVE_AND_NEXT": "Επίλυση και μετακίνηση στην επόμενη",
