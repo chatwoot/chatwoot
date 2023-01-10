@@ -22,9 +22,7 @@
       class="dropdown-pane dropdown-pane--open"
     >
       <woot-dropdown-menu>
-        <woot-dropdown-sub-menu
-          :title="this.$t('CHAT_LIST.CHAT_SORT_BY_FILTER')"
-        >
+        <woot-dropdown-sub-menu :title="$t('CHAT_LIST.CHAT_SORT_BY_FILTER')">
           <woot-dropdown-item
             v-for="(value, sortBy) in $t('CHAT_LIST.CHAT_SORT_BY_FILTER_ITEMS')"
             :key="sortBy"

@@ -46,25 +46,17 @@
         />
       </div>
       <div v-if="!hasActiveFolders" class="filter--actions">
-        <div
-          v-if="!hasAppliedFilters && !hasActiveFolders"
-          class="filter--wrap"
-        >
+        <div v-if="!hasAppliedFiltersOrActiveFolders" class="filter--wrap">
           <assignee-type-filter
-            v-if="!hasAppliedFiltersOrActiveFolders"
             :items="assigneeTabItems"
             class="chat-status--filter"
             @filterChange="updateAssigneeTab"
           />
           <chat-filter
-            v-if="!hasAppliedFiltersOrActiveFolders"
             class="chat-status--filter"
             @statusFilterChange="updateStatusType"
           />
-          <sort-by-filter
-            v-if="!hasAppliedFiltersOrActiveFolders"
-            @changeSortByFilter="updateSortByFilterType"
-          />
+          <sort-by-filter @changeSortByFilter="updateSortByFilterType" />
         </div>
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button

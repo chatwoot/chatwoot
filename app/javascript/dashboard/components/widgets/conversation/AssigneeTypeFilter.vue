@@ -69,19 +69,21 @@ export default {
     WootDropdownSubMenu,
   },
   mixins: [clickaway],
-  data: () => ({
-    activeType: wootConstants.ASSIGNEE_TYPE.ME,
-    showActionsDropdown: false,
-  }),
   props: {
     items: {
       type: Array,
       default: () => [],
     },
   },
+  data: () => ({
+    activeType: wootConstants.ASSIGNEE_TYPE.ME,
+    showActionsDropdown: false,
+  }),
   computed: {
     activeTypeCount() {
-      return this.items?.find(item => item.key === this.activeType).count;
+      return this.items
+        ?.find(item => item.key === this.activeType)
+        .count.toLocaleString();
     },
   },
   methods: {

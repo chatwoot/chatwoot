@@ -20,9 +20,7 @@
       class="dropdown-pane dropdown-pane--open"
     >
       <woot-dropdown-menu>
-        <woot-dropdown-sub-menu
-          :title="$t('CHAT_LIST.CHAT_STATUS_FILTER')"
-        >
+        <woot-dropdown-sub-menu :title="$t('CHAT_LIST.CHAT_STATUS_FILTER')">
           <woot-dropdown-item
             v-for="(value, status) in $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS')"
             :key="status"
