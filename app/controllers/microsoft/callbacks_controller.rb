@@ -14,7 +14,7 @@ class Microsoft::CallbacksController < ApplicationController
 
     @response = client.auth_code.get_token(
       oauth_code,
-      redirect_uri: 'http://localhost:3000/microsoft/callback'
+      redirect_uri: "#{base_utl}/microsoft/callback"
     )
 
     ActiveRecord::Base.transaction do
@@ -26,6 +26,10 @@ class Microsoft::CallbacksController < ApplicationController
   end
 
   private
+
+  def base_url
+    'http://localhost:3000/'
+  end
 
   def oauth_code
     params[:code]
@@ -60,23 +64,18 @@ class Microsoft::CallbacksController < ApplicationController
   end
 
   def create_inbox
-    channel_email = Channel::Email.new(
-      {
-        account: account,
-        email: users_data['email'],
-        imap_login: users_data['email'],
-        imap_address: 'outlook.office365.com',
-        imap_port: '993',
-        imap_enabled: true,
-
+    channel_email = Channel::Email.create!(
+      { account: account, email: users_data['email'],
+        imap_login: users_data['email'], imap_address: 'outlook.office365.com',
+        imap_port: '993', imap_enabled: true,
         provider: 'microsoft',
         provider_config: {
           access_token: parsed_body['access_token'],
           refresh_token: parsed_body['refresh_token'],
           expires_on: (Time.current.utc + 1.hour).to_s
-        }
-      }
+        } }
     )
+
     account.inboxes.create!(
       account: account,
       name: users_data['name'],

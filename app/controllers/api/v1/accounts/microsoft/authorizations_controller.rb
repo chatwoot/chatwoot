@@ -2,18 +2,16 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
   before_action :check_authorization
 
   def create
-    client = ::OAuth2::Client.new(
-      ENV.fetch('AZURE_APP_ID', nil),
-      ENV.fetch('AZURE_APP_SECRET', nil),
-      {
-        site: 'https://login.microsoftonline.com',
-        authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-        token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
-      }
-    )
+    client = ::OAuth2::Client.new(ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil),
+                                  {
+                                    site: 'https://login.microsoftonline.com',
+                                    authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                                    token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
+                                  })
     redirect_url = client.auth_code.authorize_url({
-                                                    redirect_uri: 'http://localhost:3000/microsoft/callback',
-                                                    scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid',
+                                                    redirect_uri: "#{base_url}/microsoft/callback",
+                                                    scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All
+                                                            https://outlook.office.com/SMTP.Send openid',
                                                     prompt: 'consent'
                                                   })
     if redirect_url
@@ -28,5 +26,9 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
 
   def check_authorization
     raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
+  end
+
+  def base_url
+    'http://localhost:3000'
   end
 end
