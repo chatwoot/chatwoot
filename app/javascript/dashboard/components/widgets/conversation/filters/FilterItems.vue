@@ -137,7 +137,6 @@ export default {
 
 ::v-deep {
   .button.small {
-    height: 2.8rem;
     padding: var(--space-smaller) var(--space-small);
   }
   .button__content {
