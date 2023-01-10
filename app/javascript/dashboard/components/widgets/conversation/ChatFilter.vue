@@ -21,7 +21,7 @@
     >
       <woot-dropdown-menu>
         <woot-dropdown-sub-menu
-          :title="this.$t('CHAT_LIST.CHAT_STATUS_FILTER')"
+          :title="$t('CHAT_LIST.CHAT_STATUS_FILTER')"
         >
           <woot-dropdown-item
             v-for="(value, status) in $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS')"
