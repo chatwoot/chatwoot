@@ -29,6 +29,6 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
   end
 
   def base_url
-    'http://localhost:3000'
+    ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
   end
 end

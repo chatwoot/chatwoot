@@ -2,6 +2,8 @@
 # refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp/tree/b4a6869fe4a438cde42b161196484a929f1bee46
 # https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-configurable-token-lifetimes
 
+require 'microsoft_graph_auth'
+
 class Channels::RefreshMsOauthTokenJob < ApplicationJob
   queue_as :low
 
@@ -16,9 +18,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
 
   # if the token is not expired yet then skip the refresh token step
   def access_token(channel, provider_config)
-    expiry = DateTime.parse(provider_config['expires_on']) - 5.minutes
-
-    if Time.current.utc > expiry
+    if Time.current.utc >= expires_on(provider_config['expires_on'])
       # Token expired, refresh
       new_hash = refresh_tokens channel, provider_config
       new_hash[:access_token]
@@ -27,10 +27,14 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
     end
   end
 
+  def expires_on(expiry)
+    expiry.presence ? DateTime.parse(expiry) - 5.minutes : Time.current.utc
+  end
+
   # <RefreshTokensSnippet>
   def refresh_tokens(channel, token_hash)
-    oauth_strategy = OmniAuth::Strategies::MicrosoftGraphAuth.new(
-      nil, ENV.fetch['AZURE_APP_ID'], ENV.fetch['AZURE_APP_SECRET']
+    oauth_strategy = ::MicrosoftGraphAuth.new(
+      nil, ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil)
     )
 
     token = OAuth2::AccessToken.new(
@@ -39,7 +43,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
     )
 
     # Refresh the tokens
-    new_tokens = token.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_on)
+    new_tokens = token.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_in)
 
     update_channel_provider_config(channel, new_tokens)
     channel.provider_config
@@ -51,7 +55,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
     channel.provider_config = {
       access_token: new_tokens.delete(:access_token),
       refresh_token: new_tokens.delete(:refresh_token),
-      expires_on: new_tokens.delete(:expires_on)
+      expires_on: new_tokens.delete(:expires_in)
     }
     channel.save!
   end
