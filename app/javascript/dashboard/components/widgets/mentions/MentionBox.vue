@@ -82,6 +82,10 @@ export default {
   width: 100%;
   z-index: 100;
 
+  .dropdown-menu__item:last-child {
+    padding-bottom: var(--space-smaller);
+  }
+
   .active a {
     background: var(--w-500);
   }

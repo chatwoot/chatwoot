@@ -10,7 +10,7 @@
       @blur="onBlur"
       @input="onTitleInput"
     />
-    <woot-message-editor
+    <woot-article-editor
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
@@ -24,11 +24,11 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
+import WootArticleEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
 
 export default {
   components: {
-    WootMessageEditor,
+    WootArticleEditor,
     ResizableTextArea,
   },
   props: {
@@ -96,6 +96,7 @@ export default {
   padding: 0;
   color: var(--s-900);
   padding: var(--space-normal);
+  resize: none;
 
   &:hover {
     background: var(--s-25);
@@ -105,6 +106,7 @@ export default {
 
 .article-content {
   padding: 0 var(--space-normal);
+  height: fit-content;
 }
 
 ::v-deep {
