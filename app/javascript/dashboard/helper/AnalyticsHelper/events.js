@@ -11,6 +11,13 @@ export const CONVERSATION_EVENTS = {
   ADDED_AN_INBOX: 'Added an inbox',
 };
 
+export const LABEL_EVENTS = {
+  CREATE: 'Created a new label',
+  UPDATE: 'Updated a label',
+  DELETED: 'Deleted a label',
+  APPLY_LABEL: 'Apply a label',
+};
+
 // REPORTS EVENTS
 export const REPORTS_EVENTS = {
   DOWNLOAD_REPORT: 'Downloaded a report',
@@ -25,7 +32,6 @@ export const CONTACTS_EVENTS = {
   IMPORT_MODAL_OPEN: 'Open import contacts modal',
   IMPORT_FAILURE: 'Import contacts failed',
   IMPORT_SUCCESS: 'Import contacts success',
-  NEW_CONTACT_LABEL: 'Created a new contact label',
 };
 
 // CAMPAIGN EVENTS
