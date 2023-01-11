@@ -40,8 +40,8 @@ export const CONTACTS_EVENTS = {
 export const CAMPAIGNS_EVENTS = {
   OPEN_NEW_CAMPAIGN_MODAL: 'Open new campaign modal',
   CREATE_CAMPAIGN: 'Create new campaign',
-  EDIT_CAMPAIGN: 'Edit ongoing campaign',
-  DELETE_CAMPAIGN: 'Delete ongoing campaign',
+  UPDATE_CAMPAIGN: 'Update campaign',
+  DELETE_CAMPAIGN: 'Delete campaign',
 };
 
 // PORTAL EVENTS

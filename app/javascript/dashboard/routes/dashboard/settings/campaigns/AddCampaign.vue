@@ -177,6 +177,8 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 import { URLPattern } from 'urlpattern-polyfill';
+import AnalyticsHelper from '../../../../helper/AnalyticsHelper';
+import { CAMPAIGNS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -275,6 +277,11 @@ export default {
       ];
     },
   },
+  mounted() {
+    AnalyticsHelper.track(CAMPAIGNS_EVENTS.OPEN_NEW_CAMPAIGN_MODAL, {
+      type: this.campaignType,
+    });
+  },
   methods: {
     onClose() {
       this.$emit('on-close');
@@ -339,6 +346,12 @@ export default {
       try {
         const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/create', campaignDetails);
+
+        // tracking this here instead of the store to track the type of campaign
+        AnalyticsHelper.track(CAMPAIGNS_EVENTS.CREATE_CAMPAIGN, {
+          type: this.campaignType,
+        });
+
         this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
