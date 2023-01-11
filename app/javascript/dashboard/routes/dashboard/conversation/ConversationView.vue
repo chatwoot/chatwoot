@@ -8,10 +8,12 @@
       :conversation-type="conversationType"
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @toggle-conversation-layout="toggleConversationLayout"
       @conversation-load="onConversationLoad"
     >
-      <pop-over-search />
+      <pop-over-search
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
+      />
     </chat-list>
     <conversation-box
       v-if="showMessageView"

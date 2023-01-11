@@ -12,6 +12,10 @@
           :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
           @focus="onSearch"
         />
+        <switch-layout
+          :is-on-expanded-layout="isOnExpandedLayout"
+          @toggle="$emit('toggle-conversation-layout')"
+        />
       </div>
     </div>
     <div v-if="showSearchBox" class="results-wrap">
@@ -57,9 +61,11 @@ import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
 import ResultItem from './ResultItem';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import SwitchLayout from './SwitchLayout.vue';
 export default {
   components: {
     ResultItem,
+    SwitchLayout,
   },
 
   directives: {
@@ -71,6 +77,13 @@ export default {
   },
 
   mixins: [timeMixin, messageFormatterMixin, clickaway],
+
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      required: true,
+    },
+  },
 
   data() {
     return {

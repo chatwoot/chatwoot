@@ -40,10 +40,6 @@
             @click="onToggleAdvanceFiltersModal"
           />
         </div>
-        <switch-layout
-          :is-on-expanded-layout="isOnExpandedLayout"
-          @toggle="$emit('toggle-conversation-layout')"
-        />
       </div>
       <div v-if="!hasActiveFolders" class="filter--actions">
         <div v-if="!hasAppliedFiltersOrActiveFolders" class="filter--wrap">
@@ -192,7 +188,6 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import SwitchLayout from 'dashboard/routes/dashboard/conversation/SwitchLayout';
 
 import {
   hasPressedAltAndJKey,
@@ -214,7 +209,6 @@ export default {
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
-    SwitchLayout,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
   props: {
@@ -848,7 +842,7 @@ export default {
 }
 
 .btn-filter {
-  margin: 0 var(--space-smaller);
+  margin: 0 var(--space-smaller) 0 var(--space-small);
 }
 
 .delete-custom-view__button {
