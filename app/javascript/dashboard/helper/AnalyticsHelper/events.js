@@ -1,23 +1,25 @@
 // CONVERSATION EVENTS
-export const EXECUTED_A_MACRO = 'Executed a macro';
-export const SENT_MESSAGE = 'Sent a message';
-export const SENT_PRIVATE_NOTE = 'Sent a private note';
-export const INSERTED_A_CANNED_RESPONSE = 'Inserted a canned response';
-export const USED_MENTIONS = 'Used mentions';
-export const MERGED_CONTACTS = 'Used merge contact option';
-export const ADDED_TO_CANNED_RESPONSE = 'Used added to canned response option';
-export const ADDED_A_CUSTOM_ATTRIBUTE = 'Added a custom attribute';
-export const ADDED_AN_INBOX = 'Added an inbox';
+export const CONVERSATION_EVENTS = {
+  EXECUTED_A_MACRO: 'Executed a macro',
+  SENT_MESSAGE: 'Sent a message',
+  SENT_PRIVATE_NOTE: 'Sent a private note',
+  INSERTED_A_CANNED_RESPONSE: 'Inserted a canned response',
+  USED_MENTIONS: 'Used mentions',
+  MERGED_CONTACTS: 'Used merge contact option',
+  ADDED_TO_CANNED_RESPONSE: 'Used added to canned response option',
+  ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
+  ADDED_AN_INBOX: 'Added an inbox',
+};
 
 // REPORTS EVENTS
-export const REPORTS = {
+export const REPORTS_EVENTS = {
   DOWNLOAD_REPORT: 'Downloaded a report',
   FILTERED_REPORT: 'Filtered a report',
   BUSINESS_HOUR_TOGGLE: 'Business hour toggle',
 };
 
 // CONTACTS PAGE EVENTS
-export const CONTACTS = {
+export const CONTACTS_EVENTS = {
   APPLY_FILTER: 'Filter contacts list',
   APPLY_SORT: 'Sort contacts list',
   SEARCH: 'Search contacts list',
@@ -28,7 +30,7 @@ export const CONTACTS = {
 };
 
 // CAMPAIGN EVENTS
-export const CAMPAIGNS = {
+export const CAMPAIGNS_EVENTS = {
   OPEN_NEW_CAMPAIGN_MODAL: 'Open new campaign modal',
   CREATE_CAMPAIGN: 'Create new campaign',
   EDIT_CAMPAIGN: 'Edit ongoing campaign',
@@ -36,7 +38,7 @@ export const CAMPAIGNS = {
 };
 
 // PORTAL EVENTS
-export const PORTALS = {
+export const PORTALS_EVENTS = {
   CREATE_PORTAL: 'Create a new portal',
   DELETE_PORTAL: 'Delete a portal',
   PREVIEW_PORTAL: 'Preview a portal',
@@ -57,22 +59,4 @@ export const PORTALS = {
   ARCHIVE_ARTICLE: 'Archive an article',
   DELETE_ARTICLE: 'Delete an article',
   PREVIEW_ARTICLE: 'Preview article',
-};
-
-export const ANALYTICS_EVENTS = {
-  REPORTS,
-  CONTACTS,
-  CAMPAIGNS,
-  PORTALS,
-  CONVERSATION: {
-    EXECUTED_A_MACRO,
-    SENT_MESSAGE,
-    SENT_PRIVATE_NOTE,
-    INSERTED_A_CANNED_RESPONSE,
-    USED_MENTIONS,
-    MERGED_CONTACTS,
-    ADDED_TO_CANNED_RESPONSE,
-    ADDED_A_CUSTOM_ATTRIBUTE,
-    ADDED_AN_INBOX,
-  },
 };
