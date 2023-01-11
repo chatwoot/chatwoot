@@ -62,6 +62,4 @@ class AnalyticsHelper {
   }
 }
 
-export * as ANALYTICS_EVENTS from './events';
-
 export default new AnalyticsHelper(window.analyticsConfig);
