@@ -62,6 +62,8 @@ import { GROUP_BY_FILTER, METRIC_CHART } from '../constants';
 import reportMixin from '../../../../../mixins/reportMixin';
 import { formatTime } from '@chatwoot/utils';
 import { generateFileName } from '../../../../../helper/downloadHelper';
+import AnalyticsHelper from '../../../../../helper/AnalyticsHelper';
+import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -282,6 +284,11 @@ export default {
         this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
       }
       this.fetchAllData();
+
+      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'date',
+        reportType: this.type,
+      });
     },
     onFilterChange(payload) {
       if (payload) {
@@ -292,6 +299,12 @@ export default {
     onGroupByFilterChange(payload) {
       this.groupBy = GROUP_BY_FILTER[payload.id];
       this.fetchAllData();
+
+      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'groupBy',
+        filterValue: this.groupBy?.period,
+        reportType: this.type,
+      });
     },
     fetchFilterItems(group_by) {
       switch (group_by) {
@@ -308,6 +321,12 @@ export default {
     onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
+
+      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'businessHours',
+        filterValue: value,
+        reportType: this.type,
+      });
     },
   },
 };

@@ -14,8 +14,7 @@ export const CONVERSATION_EVENTS = {
 // REPORTS EVENTS
 export const REPORTS_EVENTS = {
   DOWNLOAD_REPORT: 'Downloaded a report',
-  FILTERED_REPORT: 'Filtered a report',
-  BUSINESS_HOUR_TOGGLE: 'Business hour toggle',
+  FILTER_REPORT: 'Filtered a report',
 };
 
 // CONTACTS PAGE EVENTS
