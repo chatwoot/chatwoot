@@ -63,7 +63,7 @@
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
-        :enable-variables="true"
+        :enable-variables="false"
         :variables="messageVariables"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
