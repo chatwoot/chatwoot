@@ -45,7 +45,10 @@
         "TEXT": "Snoozed"
       }
     },
-    "CHAT_SORT_BY_FILTER": "Sort by",
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by"
+    },
 
     "ATTACHMENTS": {
       "image": {

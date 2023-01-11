@@ -21,7 +21,7 @@
           </span>
         </div>
       </div>
-      <div v-if="!hasActiveFolders" class="filter--actions">
+      <div class="filter--actions">
         <div v-if="!hasAppliedFiltersOrActiveFolders" class="filter--wrap">
           <assignee-type-filter
             :items="assigneeTabItems"
@@ -42,16 +42,17 @@
             size="tiny"
             @click="onToggleAdvanceFiltersModal"
           />
-          <woot-button
-            v-if="hasActiveFolders"
-            v-tooltip.right="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="alert"
-            icon="delete"
-            @click="onClickOpenDeleteFoldersModal"
-          />
         </div>
+        <woot-button
+          v-if="hasActiveFolders"
+          size="tiny"
+          variant="smooth"
+          color-scheme="alert"
+          icon="delete"
+          @click="onClickOpenDeleteFoldersModal"
+        >
+          {{ $t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON') }}
+        </woot-button>
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
             size="tiny"

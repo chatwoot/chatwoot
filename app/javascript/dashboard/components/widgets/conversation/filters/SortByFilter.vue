@@ -1,8 +1,8 @@
 <template>
   <woot-chat-list-filter
-    v-tooltip.left="'Sort conversations'"
+    v-tooltip.left="$t('CHAT_LIST.CHAT_SORT_BY_FILTER.TITLE')"
     :title="activeSortByLabel"
-    :dropdown-title="$t('CHAT_LIST.CHAT_SORT_BY_FILTER')"
+    :dropdown-title="$t('CHAT_LIST.CHAT_SORT_BY_FILTER.DROPDOWN_TITLE')"
     :items="sortByItems"
     :icon="activeSortBy ? 'arrow-sort' : ''"
     :selected-value="activeSortBy"
