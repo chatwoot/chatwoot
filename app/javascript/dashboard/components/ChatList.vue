@@ -19,26 +19,6 @@
           >
             {{ `(${conversationCountFilterView})` }}
           </span>
-          <woot-button
-            v-if="hasActiveFolders"
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="alert"
-            icon="delete"
-            class="delete-custom-view__button"
-            @click="onClickOpenDeleteFoldersModal"
-          />
-          <woot-button
-            v-if="!hasActiveFolders"
-            v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-            variant="clear"
-            color-scheme="secondary"
-            icon="filter"
-            size="small"
-            class="btn-filter"
-            @click="onToggleAdvanceFiltersModal"
-          />
         </div>
       </div>
       <div v-if="!hasActiveFolders" class="filter--actions">
@@ -53,20 +33,38 @@
             @statusFilterChange="updateStatusType"
           />
           <sort-by-filter @changeSortByFilter="updateSortByFilterType" />
+          <woot-button
+            v-if="!hasActiveFolders"
+            v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="filter"
+            size="tiny"
+            @click="onToggleAdvanceFiltersModal"
+          />
+          <woot-button
+            v-if="hasActiveFolders"
+            v-tooltip.right="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="alert"
+            icon="delete"
+            @click="onClickOpenDeleteFoldersModal"
+          />
         </div>
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
-            size="small"
-            variant="hollow"
-            color-scheme="secondary"
+            size="tiny"
+            variant="smooth"
+            color-scheme="success"
             icon="save"
             @click="onClickOpenAddFoldersModal"
           >
             {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
           </woot-button>
           <woot-button
-            size="small"
-            variant="hollow"
+            size="tiny"
+            variant="smooth"
             color-scheme="alert"
             icon="dismiss-circle"
             @click="resetAndFetchData"
@@ -832,7 +830,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: var(--space-slab);
+  padding-bottom: var(--space-small);
   overflow-y: auto;
 
   .filter--wrap {
@@ -843,9 +841,5 @@ export default {
 
 .btn-filter {
   margin: 0 var(--space-smaller) 0 var(--space-small);
-}
-
-.delete-custom-view__button {
-  margin-left: var(--space-slab);
 }
 </style>

@@ -2,19 +2,20 @@
   <div>
     <woot-button
       variant="smooth"
-      size="small"
+      size="tiny"
+      :icon="icon"
       color-scheme="secondary"
       class="selector-button"
       @click="toggleDropdown"
     >
       {{ title }}
-      <span v-if="activeTypeCount" class="filter-count count">
+      <span v-if="activeTypeCount" class="filter-count badge secondary">
         {{ activeTypeCount }}
       </span>
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon"
-        size="14"
+        size="12"
       />
     </woot-button>
     <div
@@ -28,14 +29,14 @@
             <woot-button
               variant="clear"
               color-scheme="secondary"
-              size="small"
+              size="tiny"
               class="filter-items"
               :class="{ active: item.key === selectedValue }"
               @click="() => onTabChange(item.key)"
             >
               <div class="item--wrap">
                 <span>{{ item.name }}</span>
-                <span v-if="item.count" class="count">
+                <span v-if="item.count" class="badge ">
                   {{ item.count.toLocaleString() }}
                 </span>
               </div>
@@ -84,6 +85,10 @@ export default {
       type: String,
       default: '',
     },
+    icon: {
+      type: String,
+      default: '',
+    },
     activeTypeCount: {
       type: String,
       default: '',
@@ -107,9 +112,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.filter-count {
-  background: var(--s-100) !important;
-  min-width: var(--space-two);
+.badge {
+  margin-left: var(--space-smaller);
+  background: var(--s-100);
+  color: var(--s-800);
+  font-weight: var(--font-weight-bold);
 }
 
 .filter-items {
@@ -125,19 +132,10 @@ export default {
   }
 }
 
-.count {
-  background: var(--s-75);
-  border-radius: var(--border-radius-normal);
-  color: var(--s-800);
-  font-size: var(--font-size-micro);
-  font-weight: var(--font-weight-bold);
-  margin-left: var(--space-smaller);
-  padding: var(--space-smaller);
-}
-
 ::v-deep {
   .selector-button {
-    padding: var(--space-smaller) var(--space-small);
+    padding: var(--space-smaller) var(--space-smaller) var(--space-smaller)
+      var(--space-small);
   }
 
   .button__content {
@@ -145,12 +143,6 @@ export default {
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
-  }
-
-  .dropdown-menu__item {
-    .button.small {
-      height: 2.8rem;
-    }
   }
 }
 

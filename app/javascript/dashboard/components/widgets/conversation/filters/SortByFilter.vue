@@ -1,8 +1,10 @@
 <template>
   <woot-chat-list-filter
+    v-tooltip.left="'Sort conversations'"
     :title="activeSortByLabel"
     :dropdown-title="$t('CHAT_LIST.CHAT_SORT_BY_FILTER')"
     :items="sortByItems"
+    :icon="activeSortBy ? 'arrow-sort' : ''"
     :selected-value="activeSortBy"
     @changeFilter="onTabChange"
   />
@@ -23,17 +25,17 @@ export default {
       {
         key: wootConstants.SORT_BY_TYPE.LATEST,
         name: 'Last activity at',
-        label: 'Sorted by last activity',
+        label: 'Last activity',
       },
       {
         key: wootConstants.SORT_BY_TYPE.CREATED_AT,
         name: 'Created at',
-        label: 'Sorted by created at',
+        label: 'Created at',
       },
       {
         key: wootConstants.SORT_BY_TYPE.LAST_USER_MESSAGE_AT,
         name: 'Last user message at',
-        label: 'Sorted by last message',
+        label: 'Last message',
       },
     ],
   }),

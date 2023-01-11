@@ -4,7 +4,7 @@
       <woot-sidemenu-icon v-if="!showSearchBox" />
       <div class="search" :class="{ 'is-active': showSearchBox }">
         <div class="icon">
-          <fluent-icon icon="search" class="search--icon" size="28" />
+          <fluent-icon icon="search" class="search--icon" size="16" />
         </div>
         <input
           v-model="searchTerm"
@@ -155,8 +155,8 @@ export default {
 <style lang="scss" scoped>
 .search-wrap {
   position: relative;
-  padding: var(--space-one) var(--space-normal) var(--space-smaller)
-    var(--space-normal);
+  padding: var(--space-smaller) var(--space-normal);
+  margin-top: var(--space-smaller);
 }
 
 .search-header--wrap {
@@ -170,6 +170,7 @@ export default {
   flex: 1;
   padding: 0;
   border-bottom: 1px solid transparent;
+  padding: var(--space-smaller) 0;
 
   &:hover {
     .search--icon {
@@ -193,12 +194,11 @@ export default {
 
 .search--icon {
   color: var(--s-600);
-  font-size: var(--font-size-large);
-  padding: 0 var(--space-small) 0 0;
 }
 
 .icon {
   display: flex;
+  margin-right: var(--space-smaller);
 }
 
 input::placeholder {
