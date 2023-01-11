@@ -224,6 +224,13 @@ export default {
       this.fetchChartData();
     },
     onDateRangeChange({ from, to, groupBy }) {
+      // do not track filter change on inital load
+      if (this.from !== 0 && this.to !== 0) {
+        AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+          filterType: 'date',
+          reportType: 'conversations',
+        });
+      }
       this.from = from;
       this.to = to;
       this.filterItemsList = this.fetchFilterItems(groupBy);
@@ -237,11 +244,6 @@ export default {
         this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
       }
       this.fetchAllData();
-
-      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'date',
-        reportType: 'conversations',
-      });
     },
     onFilterChange(payload) {
       this.groupBy = GROUP_BY_FILTER[payload.id];

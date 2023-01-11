@@ -68,13 +68,16 @@ export default {
       this.getResponses();
     },
     onDateRangeChange({ from, to }) {
+      // do not track filter change on inital load
+      if (this.from !== 0 && this.to !== 0) {
+        AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+          filterType: 'date',
+          reportType: 'csat',
+        });
+      }
       this.from = from;
       this.to = to;
       this.getAllData();
-      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'date',
-        reportType: 'csat',
-      });
     },
     onAgentsFilterChange(agents) {
       this.userIds = agents.map(el => el.id);
