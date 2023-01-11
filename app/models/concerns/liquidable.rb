@@ -26,6 +26,8 @@ module Liquidable
 
     template = Liquid::Template.parse(modified_liquid_content)
     self.content = template.render(message_drops)
+  rescue Liquid::Error
+    # If there is an error in the liquid syntax, we don't want to process it
   end
 
   def modified_liquid_content
