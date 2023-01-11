@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="profile--settings--row row">
+    <div class="profile--settings--row audio-settings--view row">
       <div class="columns small-3 ">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE') }}
