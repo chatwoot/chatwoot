@@ -25,7 +25,6 @@ export const REPORTS_EVENTS = {
 
 // CONTACTS PAGE EVENTS
 export const CONTACTS_EVENTS = {
-  // TODO: Determine if these events are required
   APPLY_FILTER: 'Filtered contacts list',
   APPLY_SORT: 'Sorted contacts list',
   SEARCH: 'Searched contacts list',
