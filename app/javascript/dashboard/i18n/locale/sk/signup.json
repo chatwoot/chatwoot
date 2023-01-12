@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Registrovať účet",
     "TITLE": "Registrovať",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Registráciou vyjadrujete súhlas s našimi <a href=\"https://www.chatwoot.com/terms\">všeobecnými obchodnými podmienkami</a> a <a href=\"https://www.chatwoot.com/privacy-policy\">zásadami ochrany osobných údajov</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Názov účtu",
-      "PLACEHOLDER": "Zadajte názov účtu. napr: Wayne Enterprises",
-      "ERROR": "Názov účtu je príliš krátky"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Celé meno",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Pracovný e-mail",
       "PLACEHOLDER": "Zadajte svoju pracovnú e-mailovú adresu. Napr.: bruce@wayne.enterprises",
-      "ERROR": "E-mailová adresa je neplatná"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Heslo",

@@ -7,6 +7,7 @@
       <edit-article-header
         :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
         draft-state="saved"
+        :is-sidebar-open="showArticleSettings"
         @back="onClickGoBack"
         @open="openArticleSettings"
         @close="closeArticleSettings"
@@ -87,6 +88,7 @@ export default {
               articleSlug: articleId,
               portalSlug: this.selectedPortalSlug,
               locale: this.locale,
+              recentlyCreated: true,
             },
           });
         } catch (error) {

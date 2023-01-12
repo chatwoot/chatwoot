@@ -105,7 +105,10 @@ export default {
       return this.portal?.config?.allowed_locales;
     },
     articlesCount() {
-      return this.portal?.meta?.all_articles_count;
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.reduce((acc, locale) => {
+        return acc + locale.articles_count;
+      }, 0);
     },
   },
   mounted() {
@@ -121,6 +124,7 @@ export default {
           locale: code,
         },
       });
+      this.$emit('fetch-portal');
       this.$emit('open-portal-page');
     },
     isLocaleActive(code, slug) {

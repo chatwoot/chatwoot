@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numero di telefono",
           "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
-          "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "URL di callback",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Numero di telefono",
             "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
-            "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Crea un canale Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numero di telefono",
           "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
-          "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID numero di telefono",
@@ -388,6 +388,10 @@
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Abilita"
       }
@@ -416,7 +420,8 @@
       "CAMPAIGN": "Campagne",
       "PRE_CHAT_FORM": "Modulo pre-chat",
       "BUSINESS_HOURS": "Ore di lavoro",
-      "WIDGET_BUILDER": "Costruttore Widget"
+      "WIDGET_BUILDER": "Costruttore Widget",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Impostazioni",
     "FEATURES": {
@@ -440,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Attiva/Disabilita il sondaggio CSAT (soddisfazione del cliente) dopo aver risolto una conversazione",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Impostazioni della casella",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della casella",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",

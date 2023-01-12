@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Samtaler",
     "MENTION_HEADING": "Omtaler",
+    "UNATTENDED_HEADING": "Unattet",
     "SEARCH": {
       "INPUT": "Søg efter Mennesker, Chats, Gemte svar .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Svar på dette tweet",
     "LINK_TO_STORY": "Gå til instagram historie",
     "SENT": "Sendt med succes",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Ingen Beskeder",
     "NO_CONTENT": "Intet tilgængeligt indhold",
     "HIDE_QUOTED_TEXT": "Skjul Citeret Tekst",

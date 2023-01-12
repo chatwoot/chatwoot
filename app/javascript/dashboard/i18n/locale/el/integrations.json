@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Το Chatwoot θα συγχρονίσει τώρα όλες τις εισερχόμενες συνομιλίες στο κανάλι <b><i>πελατών-συνομιλιών</i></b> μέσα στο slack χώρο εργασίας σας.</p><p>Απάντηση σε μια συνομιλία από <b><i>συνομιλίες πελατών</i></b> το κανάλι slack θα δημιουργήσει μια απάντηση για στον πελάτη μέσω chatwoot.</p><p>Ξεκινήστε τις απαντήσεις με το <b><i>note:</i></b> για να δημιουργήσετε ιδιωτικές σημειώσεις αντί για απαντήσεις.</p><p>Αν ο χρήστης στο slack έχει προφίλ πράκτορα στο chatwoot με το ίδιο email, οι απαντήσεις θα συσχετιστούν ανάλογα.</p><p>Εφόσον δεν έχει προφίλ συνδεδεμένου πράκτορα, οι απαντήσεις θα γίνουν από το προφίλ bot.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
       "API": {

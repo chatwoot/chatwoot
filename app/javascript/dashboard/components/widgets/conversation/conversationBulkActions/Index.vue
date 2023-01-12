@@ -43,23 +43,24 @@
           variant="smooth"
           color-scheme="secondary"
           icon="person-assign"
+          class="margin-right-smaller"
           @click="toggleAgentList"
+        />
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.ASSIGN_TEAM_TOOLTIP')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="people-team-add"
+          @click="toggleTeamsList"
         />
       </div>
       <transition name="popover-animation">
         <label-actions
           v-if="showLabelActions"
+          triangle-position="8.5"
           @assign="assignLabels"
           @close="showLabelActions = false"
-        />
-      </transition>
-      <transition name="popover-animation">
-        <agent-selector
-          v-if="showAgentsList"
-          :selected-inboxes="selectedInboxes"
-          :conversation-count="conversations.length"
-          @select="submit"
-          @close="showAgentsList = false"
         />
       </transition>
       <transition name="popover-animation">
@@ -70,8 +71,27 @@
           :show-resolve="!showResolvedAction"
           :show-reopen="!showOpenAction"
           :show-snooze="!showSnoozedAction"
+          triangle-position="5.6"
           @update="updateConversations"
           @close="showUpdateActions = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <agent-selector
+          v-if="showAgentsList"
+          :selected-inboxes="selectedInboxes"
+          :conversation-count="conversations.length"
+          triangle-position="2.8"
+          @select="submit"
+          @close="showAgentsList = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <team-actions
+          v-if="showTeamsList"
+          triangle-position="0.2"
+          @assign-team="assignTeam"
+          @close="showTeamsList = false"
         />
       </transition>
     </div>
@@ -85,11 +105,13 @@
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
 import LabelActions from './LabelActions.vue';
+import TeamActions from './TeamActions.vue';
 export default {
   components: {
     AgentSelector,
     UpdateActions,
     LabelActions,
+    TeamActions,
   },
   props: {
     conversations: {
@@ -122,6 +144,8 @@ export default {
       showAgentsList: false,
       showUpdateActions: false,
       showLabelActions: false,
+      showTeamsList: false,
+      popoverPositions: {},
     };
   },
   methods: {
@@ -137,6 +161,9 @@ export default {
     assignLabels(labels) {
       this.$emit('assign-labels', labels);
     },
+    assignTeam(team) {
+      this.$emit('assign-team', team);
+    },
     resolveConversations() {
       this.$emit('resolve-conversations');
     },
@@ -148,6 +175,9 @@ export default {
     },
     toggleAgentList() {
       this.showAgentsList = !this.showAgentsList;
+    },
+    toggleTeamsList() {
+      this.showTeamsList = !this.showTeamsList;
     },
   },
 };

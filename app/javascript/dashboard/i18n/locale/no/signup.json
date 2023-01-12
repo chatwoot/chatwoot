@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Registrer en konto",
     "TITLE": "Registrer",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Ved å registrere deg, samtykker du til våre <a href=\"https://www.chatwoot.com/terms\"> brukerbetingelser </a> og <a href=\"https://www.chatwoot.com/privacy-policy\">retningslinjer for personvern</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Kontonavn",
-      "PLACEHOLDER": "Skriv inn et kontonavn. f. eks: Ola's bedrift",
-      "ERROR": "Kontonavnet er for kort"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Fullt navn",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Bedriftse-postadresse",
       "PLACEHOLDER": "Skriv inn din profesjonelle e-postadresse. F.eks: ola@olasbedrift.no",
-      "ERROR": "E-postadressen er ugyldig"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Passord",

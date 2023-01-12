@@ -87,6 +87,10 @@
         :title="'Whatsapp Templates'"
         @click="$emit('selectWhatsappTemplate')"
       />
+      <video-call-button
+        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
+        :conversation-id="conversationId"
+      />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -124,13 +128,13 @@ import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
 } from 'shared/constants/messages';
-
+import VideoCallButton from '../VideoCallButton';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload },
+  components: { FileUpload, VideoCallButton },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
@@ -209,6 +213,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
@@ -232,11 +240,18 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
+      // Disable audio recorder for safari browser as recording is not supported
+      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
+        navigator.userAgent
+      );
+
       return (
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.VOICE_RECORDER
-        ) && this.showAudioRecorder
+        ) &&
+        this.showAudioRecorder &&
+        !isSafari
       );
     },
     showAudioPlayStopButton() {
@@ -262,7 +277,7 @@ export default {
       }
     },
     showMessageSignatureButton() {
-      return !this.isPrivate && this.isAnEmailChannel;
+      return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;

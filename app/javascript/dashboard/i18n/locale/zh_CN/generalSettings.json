@@ -23,7 +23,7 @@
         "ERROR": "请输入有效的帐户名称"
       },
       "LANGUAGE": {
-        "LABEL": "网站语言(Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "您的帐户名称",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "按回车键选择",
       "ENTER_TO_REMOVE": "按回车键删除",
-      "SELECT_ONE": "请选择一个"
+      "SELECT_ONE": "请选择一个",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {

@@ -73,6 +73,10 @@
       "FIELD": "Campo inválido"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Pesquisar emojis",
+    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa"
+  },
   "CSAT": {
     "TITLE": "Avalie sua conversa",
     "SUBMITTED_TITLE": "Obrigado por enviar a classificação",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Solicitar uma transcrição de conversa",
     "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

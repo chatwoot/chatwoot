@@ -33,7 +33,7 @@ export default {
     margin-left: -$space-one;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.7);
-    border-top-color: lighten($color-woot, 10%);
+    border-top-color: rgba(255, 255, 255, 0.2);
     animation: spinner 0.9s linear infinite;
   }
 }

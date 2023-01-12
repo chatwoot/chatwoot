@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "تم إضافة سمة مخصصة بنجاح",
-        "ERROR_MESSAGE": "تعذر إنشاء سمة مخصصة، الرجاء المحاولة مرة أخرى لاحقاً"
+        "SUCCESS_MESSAGE": "تم إضافة سمة مخصصة بنجاح!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {

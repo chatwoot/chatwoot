@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "對話",
     "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "搜尋人、聊天室、保存回覆"
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Reply to this tweet",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "傳送成功",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "沒有訊息",
     "NO_CONTENT": "沒有可用內容",
     "HIDE_QUOTED_TEXT": "隱藏引用文字",

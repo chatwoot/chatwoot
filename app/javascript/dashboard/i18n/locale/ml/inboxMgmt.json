@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "ഫോൺ നമ്പർ",
           "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
-          "ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക. ഫോൺ നമ്പർ `+`ചിഹ്നത്തിൽ ആരംഭിക്കണം."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "ഫോൺ നമ്പർ",
             "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
-            "ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക. ഫോൺ നമ്പർ `+`ചിഹ്നത്തിൽ ആരംഭിക്കണം."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "ഫോൺ നമ്പർ",
           "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
-          "ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക. ഫോൺ നമ്പർ `+`ചിഹ്നത്തിൽ ആരംഭിക്കണം."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +388,10 @@
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -416,7 +420,8 @@
       "CAMPAIGN": "പ്രചാരണങ്ങൾ",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "FEATURES": {
@@ -440,6 +445,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ഇമെയിൽ വഴി സംഭാഷണ തുടർച്ച പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "ബന്ധപ്പെടാനുള്ള ഇമെയിൽ വിലാസം ലഭ്യമാണെങ്കിൽ സംഭാഷണങ്ങൾ ഇമെയിൽ വഴി തുടരും.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "പുതിയ സംഭാഷണങ്ങളിൽ ലഭ്യമായ ഏജന്റുമാരുടെ ഓട്ടോമാറ്റിക് അസൈൻമെന്റ് പ്രാപ്തമാക്കുകയോ അപ്രാപ്തമാക്കുകയോ ചെയ്യുക",
