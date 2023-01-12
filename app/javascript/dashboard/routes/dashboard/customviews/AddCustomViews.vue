@@ -31,6 +31,7 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
+import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   mixins: [alertMixin],
@@ -84,11 +85,17 @@ export default {
           filter_type: this.filterType,
           query: this.customViewsQuery,
         });
+        // eslint-disable-next-line no-console
+        console.log(this.name, this.filterType, this.customViewsQuery);
         this.alertMessage =
           this.filterType === 0
             ? this.$t('FILTER.CUSTOM_VIEWS.ADD.API_FOLDERS.SUCCESS_MESSAGE')
             : this.$t('FILTER.CUSTOM_VIEWS.ADD.API_SEGMENTS.SUCCESS_MESSAGE');
         this.onClose();
+
+        this.$track(CONTACTS_EVENTS.SAVE_FILTER, {
+          type: this.filterType === 0 ? 'folder' : 'segment',
+        });
       } catch (error) {
         const errorMessage = error?.message;
         this.alertMessage =

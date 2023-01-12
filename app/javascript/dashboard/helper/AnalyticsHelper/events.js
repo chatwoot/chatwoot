@@ -26,9 +26,11 @@ export const REPORTS_EVENTS = {
 // CONTACTS PAGE EVENTS
 export const CONTACTS_EVENTS = {
   APPLY_FILTER: 'Filtered contacts list',
+  SAVE_FILTER: 'Saved a filter',
+  DELETE_FILTER: 'Deleted a filter',
+
   APPLY_SORT: 'Sorted contacts list',
   SEARCH: 'Searched contacts list',
-  SAVE_FILTER: 'Saved filter',
   CREATE_CONTACT: 'Created a contact',
   IMPORT_MODAL_OPEN: 'Opened import contacts modal',
   IMPORT_FAILURE: 'Import contacts failed',
