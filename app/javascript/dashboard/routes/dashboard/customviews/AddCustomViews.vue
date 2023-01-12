@@ -85,8 +85,6 @@ export default {
           filter_type: this.filterType,
           query: this.customViewsQuery,
         });
-        // eslint-disable-next-line no-console
-        console.log(this.name, this.filterType, this.customViewsQuery);
         this.alertMessage =
           this.filterType === 0
             ? this.$t('FILTER.CUSTOM_VIEWS.ADD.API_FOLDERS.SUCCESS_MESSAGE')
