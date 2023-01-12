@@ -24,7 +24,6 @@ import MergeContact from 'dashboard/modules/contact/components/MergeContact';
 import ContactAPI from 'dashboard/api/contacts';
 
 import { mapGetters } from 'vuex';
-import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { CONVERSATION_EVENTS } from '../../helper/AnalyticsHelper/events';
 
 export default {
@@ -74,7 +73,7 @@ export default {
       }
     },
     async onMergeContacts(childContactId) {
-      AnalyticsHelper.track(CONVERSATION_EVENTS.MERGED_CONTACTS);
+      this.$track(CONVERSATION_EVENTS.MERGED_CONTACTS);
       try {
         await this.$store.dispatch('contacts/merge', {
           childId: childContactId,

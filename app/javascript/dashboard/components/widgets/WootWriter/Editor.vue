@@ -47,7 +47,6 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 const createState = (content, placeholder, plugins = []) => {
@@ -270,7 +269,7 @@ export default {
       );
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
-      AnalyticsHelper.track(CONVERSATION_EVENTS.USED_MENTIONS);
+      this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
 
       return false;
     },
@@ -300,7 +299,7 @@ export default {
       this.emitOnChange();
 
       tr.scrollIntoView();
-      AnalyticsHelper.track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+      this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
     },
 

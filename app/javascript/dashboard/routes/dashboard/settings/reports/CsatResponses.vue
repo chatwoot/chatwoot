@@ -25,7 +25,6 @@ import CsatTable from './components/CsatTable';
 import ReportFilterSelector from './components/FilterSelector';
 import { mapGetters } from 'vuex';
 import { generateFileName } from '../../../../helper/downloadHelper';
-import AnalyticsHelper from '../../../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
@@ -70,7 +69,7 @@ export default {
     onDateRangeChange({ from, to }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
-        AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
           reportType: 'csat',
         });
@@ -82,7 +81,7 @@ export default {
     onAgentsFilterChange(agents) {
       this.userIds = agents.map(el => el.id);
       this.getAllData();
-      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'agent',
         reportType: 'csat',
       });

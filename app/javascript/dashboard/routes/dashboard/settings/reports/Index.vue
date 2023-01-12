@@ -58,7 +58,6 @@ import ReportFilterSelector from './components/FilterSelector';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import reportMixin from '../../../../mixins/reportMixin';
 import { formatTime } from '@chatwoot/utils';
-import AnalyticsHelper from '../../../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 const REPORTS_KEYS = {
@@ -226,7 +225,7 @@ export default {
     onDateRangeChange({ from, to, groupBy }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
-        AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
           reportType: 'conversations',
         });
@@ -249,7 +248,7 @@ export default {
       this.groupBy = GROUP_BY_FILTER[payload.id];
       this.fetchAllData();
 
-      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'groupBy',
         filterValue: this.groupBy?.period,
         reportType: 'conversations',
@@ -271,7 +270,7 @@ export default {
       this.businessHours = value;
       this.fetchAllData();
 
-      AnalyticsHelper.track(REPORTS_EVENTS.FILTER_REPORT, {
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'businessHours',
         filterValue: value,
         reportType: 'conversations',
