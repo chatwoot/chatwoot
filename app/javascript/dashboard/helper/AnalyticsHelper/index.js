@@ -92,4 +92,5 @@ class AnalyticsHelper {
   }
 }
 
+// This object is shared across, the init is called in app/javascript/packs/application.js
 export default new AnalyticsHelper(window.analyticsConfig);

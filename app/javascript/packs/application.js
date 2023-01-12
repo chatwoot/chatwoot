@@ -30,6 +30,7 @@ import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import AnalyticsHelper from '../dashboard/helper/AnalyticsHelper';
+import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 
 Vue.config.env = process.env;
 
@@ -55,6 +56,9 @@ Vue.use(VTooltip, {
   defaultHtml: false,
 });
 Vue.use(hljs.vuePlugin);
+
+// Add the plugin, this is initialized later in this file
+Vue.use(AnalyticsPlugin);
 
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
