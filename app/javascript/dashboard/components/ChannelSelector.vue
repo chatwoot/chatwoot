@@ -39,7 +39,7 @@ export default {
 
   &:hover {
     border: 1px solid var(--w-500);
-    box-shadow: var(--shadow-small);
+    box-shadow: var(--shadow-medium);
     z-index: var(--z-index-high);
   }
 
