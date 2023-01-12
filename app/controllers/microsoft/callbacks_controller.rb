@@ -10,7 +10,7 @@ class Microsoft::CallbacksController < ApplicationController
     ActiveRecord::Base.transaction do
       inbox = find_or_create_inbox
       ::Redis::Alfred.delete('current_account_id')
-      redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
+      redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     rescue StandardError => e
       Rails.logger.error e
       redirect_to microsoft_app_redirect_url
