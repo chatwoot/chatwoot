@@ -19,10 +19,6 @@ class Microsoft::CallbacksController < ApplicationController
 
   private
 
-  def base_url
-    ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
-  end
-
   def oauth_code
     params[:code]
   end
@@ -53,27 +49,25 @@ class Microsoft::CallbacksController < ApplicationController
 
     return channel_email.inbox if channel_email.inbox.presence
 
-    inbox = account.inboxes.create_or_find_by!(
+    account.inboxes.create_or_find_by!(
       account: account,
       channel: channel_email,
       name: users_data['name']
     )
-
-    inbox
   end
 
   def create_imap_email_channel
     channel_email = Channel::Email.find_or_create_by!(email: users_data['email'], account: account)
     channel_email.update!({
-      imap_login: users_data['email'], imap_address: 'outlook.office365.com',
-      imap_port: '993', imap_enabled: true,
-      provider: 'microsoft',
-      provider_config: {
-        access_token: parsed_body['access_token'],
-        refresh_token: parsed_body['refresh_token'],
-        expires_on: (Time.current.utc + 1.hour).to_s
-      }
-    })
+                            imap_login: users_data['email'], imap_address: 'outlook.office365.com',
+                            imap_port: '993', imap_enabled: true,
+                            provider: 'microsoft',
+                            provider_config: {
+                              access_token: parsed_body['access_token'],
+                              refresh_token: parsed_body['refresh_token'],
+                              expires_on: (Time.current.utc + 1.hour).to_s
+                            }
+                          })
     channel_email
   end
 end
