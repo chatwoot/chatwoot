@@ -30,7 +30,17 @@
         "TEXT": "All"
       }
     },
-    "CHAT_STATUS_FILTER": "Status",
+    "CHAT_STATUS_FILTER": {
+      "TITLE": "Status",
+      "DROPDOWN_TITLE": "Status",
+      "ITEMS": {
+        "OPEN": "Open",
+        "RESOLVED": "Resolved",
+        "PENDING": "Pending",
+        "SNOOZED": "Snoozed",
+        "ALL": "All"
+      }
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"
@@ -47,7 +57,21 @@
     },
     "CHAT_SORT_BY_FILTER": {
       "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by"
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
     },
 
     "ATTACHMENTS": {

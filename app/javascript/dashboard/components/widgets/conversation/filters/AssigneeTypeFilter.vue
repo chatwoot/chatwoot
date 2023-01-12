@@ -22,9 +22,11 @@ export default {
       default: () => [],
     },
   },
-  data: () => ({
-    activeType: wootConstants.ASSIGNEE_TYPE.ME,
-  }),
+  data() {
+    return {
+      activeType: wootConstants.ASSIGNEE_TYPE.ME,
+    };
+  },
   computed: {
     activeTypeCount() {
       return this.items

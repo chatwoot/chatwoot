@@ -36,7 +36,7 @@
             >
               <div class="item--wrap">
                 <span>{{ item.name }}</span>
-                <span v-if="item.count" class="badge ">
+                <span v-if="item.count" class="badge">
                   {{ item.count.toLocaleString() }}
                 </span>
               </div>

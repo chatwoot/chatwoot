@@ -1,7 +1,7 @@
 <template>
   <woot-chat-list-filter
     :title="activeStatusLabel"
-    :dropdown-title="$t('CHAT_LIST.CHAT_STATUS_FILTER')"
+    :dropdown-title="$t('CHAT_LIST.CHAT_STATUS_FILTER.TITLE')"
     :items="statusItems"
     :selected-value="activeStatus"
     @changeFilter="onTabChange"
@@ -19,31 +19,33 @@ export default {
     WootChatListFilter,
   },
   mixins: [eventListenerMixins],
-  data: () => ({
-    activeStatus: wootConstants.STATUS_TYPE.OPEN,
-    statusItems: [
-      {
-        key: wootConstants.STATUS_TYPE.OPEN,
-        name: 'Open',
-      },
-      {
-        key: wootConstants.STATUS_TYPE.RESOLVED,
-        name: 'Resolved',
-      },
-      {
-        key: wootConstants.STATUS_TYPE.PENDING,
-        name: 'Pending',
-      },
-      {
-        key: wootConstants.STATUS_TYPE.SNOOZED,
-        name: 'Snoozed',
-      },
-      {
-        key: wootConstants.STATUS_TYPE.ALL,
-        name: 'All',
-      },
-    ],
-  }),
+  data() {
+    return {
+      activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      statusItems: [
+        {
+          key: wootConstants.STATUS_TYPE.OPEN,
+          name: this.$t('CHAT_LIST.CHAT_STATUS_FILTER.ITEMS.OPEN'),
+        },
+        {
+          key: wootConstants.STATUS_TYPE.RESOLVED,
+          name: this.$t('CHAT_LIST.CHAT_STATUS_FILTER.ITEMS.RESOLVED'),
+        },
+        {
+          key: wootConstants.STATUS_TYPE.PENDING,
+          name: this.$t('CHAT_LIST.CHAT_STATUS_FILTER.ITEMS.PENDING'),
+        },
+        {
+          key: wootConstants.STATUS_TYPE.SNOOZED,
+          name: this.$t('CHAT_LIST.CHAT_STATUS_FILTER.ITEMS.SNOOZED'),
+        },
+        {
+          key: wootConstants.STATUS_TYPE.ALL,
+          name: this.$t('CHAT_LIST.CHAT_STATUS_FILTER.ITEMS.ALL'),
+        },
+      ],
+    };
+  },
 
   computed: {
     activeStatusLabel() {
