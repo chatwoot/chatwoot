@@ -111,6 +111,27 @@ describe('#actions', () => {
       ]);
     });
   });
+  describe('#disconnectBot', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({ data: {} });
+      await actions.disconnectBot({ commit }, { inboxId: 2 });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: true }],
+        [types.SET_AGENT_BOT_INBOX, { inboxId: 2, agentBotId: '' }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.disconnectBot({ commit }, { inboxId: 2, agentBotId: '' })
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: true }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: false }],
+      ]);
+    });
+  });
   describe('#fetchAgentBotInbox', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: { agent_bot: { id: 3 } } });
