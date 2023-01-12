@@ -47,7 +47,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_ms_provider(channel)
-    return unless channel.microsoft?
+    return unless channel.microsoft? && channel.provider_config[:access_token].blank?
 
     access_token = valid_access_token channel
 

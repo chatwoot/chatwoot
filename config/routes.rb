@@ -344,10 +344,6 @@ Rails.application.routes.draw do
     resources :callback, only: [:create]
   end
 
-  # namespace :microsoft do
-  #   resources :callback, only: [:show]
-  # end
-
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
 
   # ----------------------------------------------------------------------
