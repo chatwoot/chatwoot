@@ -1,14 +1,9 @@
 class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts::BaseController
+  include MicrosoftConcern
   before_action :check_authorization
 
   def create
-    client = ::OAuth2::Client.new(ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil),
-                                  {
-                                    site: 'https://login.microsoftonline.com',
-                                    authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-                                    token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
-                                  })
-    redirect_url = client.auth_code.authorize_url({
+    redirect_url = microsoft_client.auth_code.authorize_url({
                                                     redirect_uri: "#{base_url}/microsoft/callback",
                                                     scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All
                                                             https://outlook.office.com/SMTP.Send openid',

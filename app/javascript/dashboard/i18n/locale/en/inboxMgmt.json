@@ -552,6 +552,10 @@
       },
       "ENABLE_SSL": "Enable SSL"
     },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
+    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Set your SMTP details",

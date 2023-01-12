@@ -43,7 +43,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
     )
 
     # Refresh the tokens
-    new_tokens = token.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_in)
+    new_tokens = token.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_at)
 
     update_channel_provider_config(channel, new_tokens)
     channel.provider_config
@@ -55,7 +55,7 @@ class Channels::RefreshMsOauthTokenJob < ApplicationJob
     channel.provider_config = {
       access_token: new_tokens.delete(:access_token),
       refresh_token: new_tokens.delete(:refresh_token),
-      expires_on: new_tokens.delete(:expires_in)
+      expires_on: Time.at(new_tokens.delete(:expires_at)).utc.to_s
     }
     channel.save!
   end

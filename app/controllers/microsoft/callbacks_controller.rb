@@ -4,7 +4,7 @@ class Microsoft::CallbacksController < ApplicationController
   def show
     @response = microsoft_client.auth_code.get_token(
       oauth_code,
-      redirect_uri: "#{base_utl}/microsoft/callback"
+      redirect_uri: "#{base_url}/microsoft/callback"
     )
 
     ActiveRecord::Base.transaction do
@@ -49,25 +49,31 @@ class Microsoft::CallbacksController < ApplicationController
   end
 
   def find_or_create_inbox
-    channel_email = create_imap_email_channel(users_data)
+    channel_email = create_imap_email_channel
 
-    account.inboxes.create!(
+    return channel_email.inbox if channel_email.inbox.presence
+
+    inbox = account.inboxes.create_or_find_by!(
       account: account,
-      name: users_data['name'],
-      channel: channel_email
+      channel: channel_email,
+      name: users_data['name']
     )
+
+    inbox
   end
 
   def create_imap_email_channel
-    channel_email = Channel::Email.find_or_initialize_by(email: users_data['email'], account: account)
-    channel_email.imap_login = users_data['email']
-    channel_email.imap_address = 'outlook.office365.com'
-    channel_email.imap_port = '993'
-    channel_email.imap_enabled = true,
-                                 channel_email.provider = 'microsoft'
-    channel_email.provider_config = { access_token: parsed_body['access_token'], refresh_token: parsed_body['refresh_token'],
-                                      expires_on: (Time.current.utc + 1.hour).to_s }
-    channel_email.save!
+    channel_email = Channel::Email.find_or_create_by!(email: users_data['email'], account: account)
+    channel_email.update!({
+      imap_login: users_data['email'], imap_address: 'outlook.office365.com',
+      imap_port: '993', imap_enabled: true,
+      provider: 'microsoft',
+      provider_config: {
+        access_token: parsed_body['access_token'],
+        refresh_token: parsed_body['refresh_token'],
+        expires_on: (Time.current.utc + 1.hour).to_s
+      }
+    })
     channel_email
   end
 end

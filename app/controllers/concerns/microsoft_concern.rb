@@ -2,15 +2,12 @@ module MicrosoftConcern
   extend ActiveSupport::Concern
 
   def microsoft_client
-    ::OAuth2::Client.new(
-      ENV.fetch('AZURE_APP_ID', nil),
-      ENV.fetch('AZURE_APP_SECRET', nil),
-      {
-        site: 'https://login.microsoftonline.com',
-        authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-        token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
-      }
-    )
+    ::OAuth2::Client.new(ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil),
+                          {
+                            site: 'https://login.microsoftonline.com',
+                            authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                            token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
+                          })
   end
 
   private
