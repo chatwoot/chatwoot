@@ -354,6 +354,9 @@ export default {
       };
     },
     pageTitle() {
+      if (this.hasActiveFolders) {
+        return this.activeFolder.name;
+      }
       if (this.hasAppliedFilters) {
         return this.$t('CHAT_LIST.TAB_HEADING');
       }
@@ -371,9 +374,6 @@ export default {
       }
       if (this.conversationType === 'unattended') {
         return this.$t('CHAT_LIST.UNATTENDED_HEADING');
-      }
-      if (this.hasActiveFolders) {
-        return this.activeFolder.name;
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
@@ -606,6 +606,7 @@ export default {
         name: 'folder_conversations',
         params: { id: lastItemId },
       });
+      this.$store.dispatch('clearConversationFilters');
     },
     openLastItemAfterDeleteInFolder() {
       if (this.folders.length > 0) {
