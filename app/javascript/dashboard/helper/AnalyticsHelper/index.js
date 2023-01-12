@@ -4,7 +4,7 @@ import { AnalyticsBrowser } from '@june-so/analytics-next';
  * AnalyticsHelper class to initialize and track user analytics
  * @class AnalyticsHelper
  */
-class AnalyticsHelper {
+export class AnalyticsHelper {
   /**
    * @constructor
    * @param {Object} [options={}] - options for analytics
