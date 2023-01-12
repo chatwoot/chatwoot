@@ -23,8 +23,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$channel-hover-color: rgba(0, 0, 0, 0.1);
-
 .inactive {
   filter: grayscale(100%);
 }
