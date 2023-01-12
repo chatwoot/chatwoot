@@ -75,8 +75,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Verwijderen bevestigen",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "Weet je zeker dat je deze notitie wilt verwijderen?",
+      "YES": "Ja, verwijderen",
       "NO": "Nee, Bewaar het"
     }
   },
@@ -153,10 +153,10 @@
     "DELETE_AVATAR": {
       "API": {
         "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "ERROR_MESSAGE": "Contact avatar kon niet verwijderd worden. Probeer het later opnieuw."
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Contact succesvol opgeslagen",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "NEW_CONVERSATION": {
@@ -166,15 +166,15 @@
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Aan"
       },
       "INBOX": {
-        "LABEL": "Inbox",
+        "LABEL": "Postvak In",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "Onderwerp",
+        "PLACEHOLDER": "Onderwerp",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
@@ -184,44 +184,44 @@
       },
       "SUBMIT": "Send message",
       "CANCEL": "Annuleren",
-      "SUCCESS_MESSAGE": "Message sent!",
+      "SUCCESS_MESSAGE": "Bericht verzonden!",
       "GO_TO_CONVERSATION": "Bekijken",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
+    "HEADER": "Contacten",
     "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "SEARCH_BUTTON": "Zoeken",
+    "SEARCH_INPUT_PLACEHOLDER": "Zoeken naar contacten",
     "FILTER_CONTACTS": "Filteren",
     "FILTER_CONTACTS_SAVE": "Filter opslaan",
     "FILTER_CONTACTS_DELETE": "Filter verwijderen",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "404": "Er zijn geen contacten die overeenkomen met je zoekopdracht 🔍",
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Naam",
-        "PHONE_NUMBER": "Phone Number",
+        "PHONE_NUMBER": "Telefoonnummer",
         "CONVERSATIONS": "Gesprekken",
-        "LAST_ACTIVITY": "Last Activity",
+        "LAST_ACTIVITY": "Laatste Activiteit",
         "COUNTRY": "Country",
-        "CITY": "City",
+        "CITY": "Woonplaats",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Bedrijfsnaam",
         "EMAIL_ADDRESS": "Uw e-mailadres"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Details bekijken"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
+    "BACK_BUTTON": "Contacten",
     "LOADING": "Loading contact profile..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
+      "BUTTON": "Toevoegen",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
@@ -236,15 +236,15 @@
       "TITLE": "Notes"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "heeft een notitie toegevoegd"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
+      "BUTTON": "Toevoegen",
+      "PLACEHOLDER": "Notitie toevoegen",
       "TITLE": "Shift + Enter to create a note"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Notitie verwijderen"
     }
   },
   "EVENTS": {
@@ -297,39 +297,39 @@
         "ERROR": "Unable to delete attribute. Please try again later"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Attributen toevoegen",
+        "PLACEHOLDER": "Attributen zoeken",
+        "NO_RESULT": "Geen attributen gevonden"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Selecteer waarde",
+          "SEARCH_INPUT_PLACEHOLDER": "Zoek waarde",
+          "NO_RESULT": "Geen resultaten gevonden"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Geldige waarde is vereist",
+      "INVALID_URL": "Ongeldige URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "Contacten samenvoegen",
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Primair contact",
+      "HELP_LABEL": "Te behouden"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Contact om samen te voegen",
+      "PLACEHOLDER": "Zoeken naar contacten",
+      "HELP_LABEL": "Nog te verwijderen"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Samenvatting",
+      "DELETE_WARNING": "Contact van <strong>%{childContactName}</strong> zal worden verwijderd.",
+      "ATTRIBUTE_WARNING": "Contactgegevens van <strong>%{childContactName}</strong> worden gekopieerd naar <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

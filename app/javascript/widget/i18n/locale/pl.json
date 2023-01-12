@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Poproś o skrypt rozmowy",
     "SEND_EMAIL_SUCCESS": "Transkrypcja czatu została wysłana pomyślnie",
     "SEND_EMAIL_ERROR": "Wystąpił błąd, spróbuj ponownie"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }
