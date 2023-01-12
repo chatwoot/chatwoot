@@ -1,4 +1,4 @@
-export const CONVERSATION_EVENTS = {
+export const CONVERSATION_EVENTS = Object.freeze({
   EXECUTED_A_MACRO: 'Executed a macro',
   SENT_MESSAGE: 'Sent a message',
   SENT_PRIVATE_NOTE: 'Sent a private note',
@@ -8,23 +8,23 @@ export const CONVERSATION_EVENTS = {
   ADDED_TO_CANNED_RESPONSE: 'Used added to canned response option',
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
-};
+});
 
-export const LABEL_EVENTS = {
+export const LABEL_EVENTS = Object.freeze({
   CREATE: 'Created a label',
   UPDATE: 'Updated a label',
   DELETED: 'Deleted a label',
   APPLY_LABEL: 'Applied a label',
-};
+});
 
 // REPORTS EVENTS
-export const REPORTS_EVENTS = {
+export const REPORTS_EVENTS = Object.freeze({
   DOWNLOAD_REPORT: 'Downloaded a report',
   FILTER_REPORT: 'Filtered a report',
-};
+});
 
 // CONTACTS PAGE EVENTS
-export const CONTACTS_EVENTS = {
+export const CONTACTS_EVENTS = Object.freeze({
   APPLY_FILTER: 'Filtered contacts list',
   SAVE_FILTER: 'Saved a filter',
   DELETE_FILTER: 'Deleted a filter',
@@ -35,18 +35,18 @@ export const CONTACTS_EVENTS = {
   IMPORT_MODAL_OPEN: 'Opened import contacts modal',
   IMPORT_FAILURE: 'Import contacts failed',
   IMPORT_SUCCESS: 'Imported contacts',
-};
+});
 
 // CAMPAIGN EVENTS
-export const CAMPAIGNS_EVENTS = {
+export const CAMPAIGNS_EVENTS = Object.freeze({
   OPEN_NEW_CAMPAIGN_MODAL: 'Opened new campaign modal',
   CREATE_CAMPAIGN: 'Created a campaign',
   UPDATE_CAMPAIGN: 'Updated a campaign',
   DELETE_CAMPAIGN: 'Deleted a campaign',
-};
+});
 
 // PORTAL EVENTS
-export const PORTALS_EVENTS = {
+export const PORTALS_EVENTS = Object.freeze({
   ONBOARD_BASIC_INFORMATION: 'New Portal: Completed basic information',
   ONBOARD_CUSTOMIZATION: 'New portal: Completed customization',
   CREATE_PORTAL: 'Created a portal',
@@ -67,4 +67,4 @@ export const PORTALS_EVENTS = {
   ARCHIVE_ARTICLE: 'Archived an article',
   DELETE_ARTICLE: 'Deleted an article',
   PREVIEW_ARTICLE: 'Previewed article',
-};
+});
