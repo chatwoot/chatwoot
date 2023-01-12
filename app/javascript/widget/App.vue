@@ -81,7 +81,9 @@ export default {
   },
   mounted() {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
-    this.setLocale(locale);
+    if (locale) {
+      this.setLocale(locale);
+    }
     this.setWidgetColor(widgetColor);
     setHeader(window.authToken);
     if (this.isIFrame) {
@@ -236,7 +238,9 @@ export default {
         }
         const message = IFrameHelper.getMessage(e);
         if (message.event === 'config-set') {
-          this.setLocale(message.locale);
+          if (message.locale) {
+            this.setLocale(message.locale);
+          }
           this.setBubbleLabel();
           this.fetchOldConversations().then(() => this.setUnreadView());
           this.fetchAvailableAgents(websiteToken);
