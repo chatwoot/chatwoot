@@ -47,18 +47,20 @@ export const CAMPAIGNS_EVENTS = {
 
 // PORTAL EVENTS
 export const PORTALS_EVENTS = {
+  ONBOARD_BASIC_INFORMATION: 'New Portal: Completed basic information',
+  ONBOARD_CUSTOMIZATION: 'New portal: Completed customization',
   CREATE_PORTAL: 'Created a portal',
   DELETE_PORTAL: 'Deleted a portal',
   UPDATE_PORTAL: 'Updated a portal',
 
-  CREATE_LOCALE: 'Created a locale',
-  SET_DEFAULT_LOCALE: 'Set default locale',
-  DELETE_LOCALE: 'Deleted a locale',
-  SWITCH_LOCALE: 'Switched locale',
+  CREATE_LOCALE: 'Created a portal locale',
+  SET_DEFAULT_LOCALE: 'Set default portal locale',
+  DELETE_LOCALE: 'Deleted a portal locale',
+  SWITCH_LOCALE: 'Switched portal locale',
 
-  CREATE_CATEGORY: 'Created a category',
-  DELETE_CATEGORY: 'Deleted a category',
-  EDIT_CATEGORY: 'Edited a category',
+  CREATE_CATEGORY: 'Created a portal category',
+  DELETE_CATEGORY: 'Deleted a portal category',
+  EDIT_CATEGORY: 'Edited a portal category',
 
   CREATE_ARTICLE: 'Created an article',
   PUBLISH_ARTICLE: 'Published an article',
