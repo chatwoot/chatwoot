@@ -20,27 +20,27 @@ export const LABEL_EVENTS = Object.freeze({
 // REPORTS EVENTS
 export const REPORTS_EVENTS = Object.freeze({
   DOWNLOAD_REPORT: 'Downloaded a report',
-  FILTER_REPORT: 'Filtered a report',
+  FILTER_REPORT: 'Used filters in the reports',
 });
 
 // CONTACTS PAGE EVENTS
 export const CONTACTS_EVENTS = Object.freeze({
-  APPLY_FILTER: 'Filtered contacts list',
-  SAVE_FILTER: 'Saved a filter',
-  DELETE_FILTER: 'Deleted a filter',
+  APPLY_FILTER: 'Applied filters in the contacts list',
+  SAVE_FILTER: 'Saved a filter in the contacts list',
+  DELETE_FILTER: 'Deleted a filter in the contacts list',
 
   APPLY_SORT: 'Sorted contacts list',
   SEARCH: 'Searched contacts list',
   CREATE_CONTACT: 'Created a contact',
   IMPORT_MODAL_OPEN: 'Opened import contacts modal',
   IMPORT_FAILURE: 'Import contacts failed',
-  IMPORT_SUCCESS: 'Imported contacts',
+  IMPORT_SUCCESS: 'Imported contacts successfully',
 });
 
 // CAMPAIGN EVENTS
 export const CAMPAIGNS_EVENTS = Object.freeze({
   OPEN_NEW_CAMPAIGN_MODAL: 'Opened new campaign modal',
-  CREATE_CAMPAIGN: 'Created a campaign',
+  CREATE_CAMPAIGN: 'Created a new campaign',
   UPDATE_CAMPAIGN: 'Updated a campaign',
   DELETE_CAMPAIGN: 'Deleted a campaign',
 });
