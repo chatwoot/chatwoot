@@ -1,10 +1,10 @@
 <template>
-  <div class="small-6 medium-4 large-3 channel" @click="$emit('click')">
-    <img :src="src" />
+  <button class="small-6 medium-4 large-3 channel" @click="$emit('click')">
+    <img :src="src" :alt="title" />
     <h3 class="channel__title">
       {{ title }}
     </h3>
-  </div>
+  </button>
 </template>
 
 <script>
