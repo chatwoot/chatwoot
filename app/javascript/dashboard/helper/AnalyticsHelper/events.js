@@ -64,7 +64,6 @@ export const PORTALS_EVENTS = {
 
   CREATE_ARTICLE: 'Created an article',
   PUBLISH_ARTICLE: 'Published an article',
-  UPDATE_ARTICLE_SETTINGS: 'Updated article settings',
   ARCHIVE_ARTICLE: 'Archived an article',
   DELETE_ARTICLE: 'Deleted an article',
   PREVIEW_ARTICLE: 'Previewed article',
