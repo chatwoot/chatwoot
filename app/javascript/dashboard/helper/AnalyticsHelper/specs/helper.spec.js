@@ -1,4 +1,4 @@
-import { AnalyticsHelper } from '../';
+import helperObject, { AnalyticsHelper } from '../';
 
 jest.mock('@june-so/analytics-next', () => ({
   AnalyticsBrowser: {
@@ -12,6 +12,12 @@ jest.mock('@june-so/analytics-next', () => ({
     ],
   },
 }));
+
+describe('helperObject', () => {
+  it('should return an instance of AnalyticsHelper', () => {
+    expect(helperObject).toBeInstanceOf(AnalyticsHelper);
+  });
+});
 
 describe('AnalyticsHelper', () => {
   let analyticsHelper;
@@ -56,6 +62,26 @@ describe('AnalyticsHelper', () => {
           avatar: 'avatar_url',
         }
       );
+      expect(analyticsHelper.analytics.group).toHaveBeenCalled();
+    });
+
+    it('should call identify on analytics browser without group', () => {
+      analyticsHelper.identify({
+        id: '123',
+        email: 'test@example.com',
+        name: 'Test User',
+        avatar_url: 'avatar_url',
+        accounts: [{ id: '1', name: 'Account 1' }],
+        account_id: '5',
+      });
+
+      expect(analyticsHelper.analytics.group).not.toHaveBeenCalled();
+    });
+
+    it('should not call analytics.page if analytics is null', () => {
+      analyticsHelper.analytics = null;
+      analyticsHelper.identify({});
+      expect(analyticsHelper.analytics).toBe(null);
     });
   });
 
@@ -71,6 +97,15 @@ describe('AnalyticsHelper', () => {
         userId: '123',
         event: 'Test Event',
         properties: { prop1: 'value1', prop2: 'value2' },
+      });
+    });
+
+    it('should call track on analytics browser with default properties', () => {
+      analyticsHelper.track('Test Event');
+      expect(analyticsHelper.analytics.track).toHaveBeenCalledWith({
+        userId: '123',
+        event: 'Test Event',
+        properties: {},
       });
     });
 
@@ -93,6 +128,12 @@ describe('AnalyticsHelper', () => {
       };
       analyticsHelper.page(params);
       expect(analyticsHelper.analytics.page).toHaveBeenCalledWith(params);
+    });
+
+    it('should not call analytics.page if analytics is null', () => {
+      analyticsHelper.analytics = null;
+      analyticsHelper.page();
+      expect(analyticsHelper.analytics).toBe(null);
     });
   });
 });
