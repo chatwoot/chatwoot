@@ -22,7 +22,6 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
                            })
       end
       let(:auth_code) { microsoft_client.auth_code }
-      let(:raw_response) { double }
 
       it 'returns unathorized for agent' do
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
