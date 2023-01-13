@@ -11,7 +11,7 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
                                                               prompt: 'consent'
                                                             })
     if redirect_url
-      ::Redis::Alfred.setex(email, Current.account.id)
+      ::Redis::Alfred.setex(email, Current.account.id, 5.minutes)
       render json: { success: true, url: redirect_url }
     else
       render json: { success: false }, status: :unprocessable_entity

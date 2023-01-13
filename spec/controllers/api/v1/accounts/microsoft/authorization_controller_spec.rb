@@ -36,7 +36,7 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
         allow(::OAuth2::Client).to receive(:new).and_return(microsoft_client)
         allow(microsoft_client).to receive(:auth_code).and_return(auth_code)
         allow(auth_code).to receive(:authorize_url).and_return(
-          microsoft_client.authorize_url({ redirect_uri: 'http:0.0.0.0:3000/microsoft/callback' })
+          microsoft_client.authorize_url({ redirect_uri: 'http://0.0.0.0:3000/microsoft/callback' })
         )
 
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
