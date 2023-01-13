@@ -9,7 +9,7 @@ class Microsoft::CallbacksController < ApplicationController
 
     ActiveRecord::Base.transaction do
       inbox = find_or_create_inbox
-      ::Redis::Alfred.delete(users_data['email' ])
+      ::Redis::Alfred.delete(users_data['email'])
       redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     rescue StandardError => e
       Rails.logger.error e
