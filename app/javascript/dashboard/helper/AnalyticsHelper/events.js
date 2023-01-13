@@ -4,6 +4,9 @@ export const CONVERSATION_EVENTS = Object.freeze({
   SENT_PRIVATE_NOTE: 'Sent a private note',
   INSERTED_A_CANNED_RESPONSE: 'Inserted a canned response',
   USED_MENTIONS: 'Used mentions',
+});
+
+export const CORE_EVENTS = Object.freeze({
   ADDED_TO_CANNED_RESPONSE: 'Used added to canned response option',
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
