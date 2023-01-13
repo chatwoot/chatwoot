@@ -10,7 +10,6 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   end
   let(:new_tokens) { { access_token: access_token, refresh_token: refresh_token, expires_at: expires_on, token_type: 'bearer' } }
 
-
   describe '#access_token' do
     context 'when token is not expired' do
       it 'returns the existing access token' do
@@ -20,12 +19,12 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
     end
 
     context 'when token is expired' do
-      let(:expires_on) { Time.zone.now + 1.minutes }
+      let(:expires_on) { 1.minute.from_now }
 
-      before do 
+      before do
         stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token').with(
           body: { 'grant_type' => 'refresh_token', 'refresh_token' => refresh_token }
-        ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' } )
+        ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
       it 'fetches new access token and refresh tokens' do
