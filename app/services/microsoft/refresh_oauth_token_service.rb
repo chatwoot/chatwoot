@@ -4,18 +4,7 @@
 
 require 'microsoft_graph_auth'
 
-class Channels::RefreshMsOauthTokenJob < ApplicationJob
-  queue_as :low
-
-  def perform
-    Channel::Email.where(provider: 'microsoft').each do |channel|
-      # refresh the token here, with microsoft offline_access scope
-      provider_config = channel.provider_config || {}
-
-      refresh_tokens(channel, provider_config.with_indifferent_access) if provider_config[:refresh_token].present?
-    end
-  end
-
+class Microsoft::RefreshOauthTokenService
   # if the token is not expired yet then skip the refresh token step
   def access_token(channel, provider_config)
     if Time.current.utc >= expires_on(provider_config['expires_on'])

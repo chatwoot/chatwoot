@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Channels::RefreshMsOauthTokenJob do
+RSpec.describe Microsoft::RefreshOauthTokenService do
   let(:access_token) { SecureRandom.hex }
   let(:refresh_token) { SecureRandom.hex }
   let(:expires_on) { Time.zone.now + 3600 }
