@@ -109,7 +109,8 @@ export default {
         );
       } catch (error) {
         this.showAlert(
-          this.$t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECTED_ERROR_MESSAGE')
+          error?.message ||
+            this.$t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECTED_ERROR_MESSAGE')
         );
       }
     },
