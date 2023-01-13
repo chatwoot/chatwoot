@@ -91,6 +91,6 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
   # Making sure the access token is valid for microsoft provider
   def valid_access_token(channel)
-    Microsoft::RefreshOauthTokenService.new.access_token(channel, channel.provider_config.with_indifferent_access)
+    Microsoft::RefreshOauthTokenService.new(channel: channel).access_token
   end
 end
