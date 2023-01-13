@@ -68,6 +68,6 @@ class Microsoft::CallbacksController < ApplicationController
                               expires_on: (Time.current.utc + 1.hour).to_s
                             }
                           })
-    channel_email
+    channel_email.reload
   end
 end
