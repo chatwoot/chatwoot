@@ -6,7 +6,7 @@ export const CONVERSATION_EVENTS = Object.freeze({
   USED_MENTIONS: 'Used mentions',
 });
 
-export const CORE_EVENTS = Object.freeze({
+export const ACCOUNT_EVENTS = Object.freeze({
   ADDED_TO_CANNED_RESPONSE: 'Used added to canned response option',
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
