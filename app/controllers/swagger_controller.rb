@@ -11,8 +11,8 @@ class SwaggerController < ApplicationController
 
   def derived_path
     params[:path] ||= 'index.html'
-    path = params[:path]
-    path << ".#{params[:format]}" unless path.ends_with?(params[:format].to_s)
+    path = Rack::Utils.clean_path_info(params[:path])
+    path << ".#{Rack::Utils.clean_path_info(params[:format])}" unless path.ends_with?(params[:format].to_s)
     path
   end
 end
