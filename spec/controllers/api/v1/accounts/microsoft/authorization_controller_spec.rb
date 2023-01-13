@@ -41,6 +41,7 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
 
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
              headers: administrator.create_new_auth_token,
+             params: { email: administrator.email },
              as: :json
 
         expect(response).to have_http_status(:success)
