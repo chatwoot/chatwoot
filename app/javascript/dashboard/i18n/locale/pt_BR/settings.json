@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações de Áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
-        "NONE": "Nenhuma",
-        "ASSIGNED": "Conversas atribuídas",
-        "ALL_CONVERSATIONS": "Todas as conversas"
+        "ALERT_TYPE": {
+          "TITLE": "Tipo de Alerta:",
+          "NONE": "Nenhuma",
+          "ASSIGNED": "Conversas atribuídas",
+          "ALL_CONVERSATIONS": "Todas as conversas"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Titulo:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Condições:",
+          "CONDITION_ONE": "Condição 1",
+          "CONDITION_TWO": "Condição 2"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -103,7 +114,9 @@
           "Disponível",
           "Ocupado",
           "Desconectado"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
+    "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
     "LOGOUT": "Sair"
   },
   "APP_GLOBAL": {
@@ -159,7 +173,7 @@
       "UPLOADING": "Enviando..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Ver Localização"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
@@ -177,6 +191,7 @@
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
+    "UNATTENDED_CONVERSATIONS": "Não atendidas",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
@@ -225,6 +240,10 @@
       "CATEGORY": "Categoria",
       "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Marcar offline automaticamente",
+      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle."
+    },
     "DOCS": "Ler documentos"
   },
   "BILLING_SETTINGS": {
@@ -256,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome do Cliente",
+        "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Informe o nome da conta"
       },
       "SUBMIT": "Enviar"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Alternar Modal",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversa",
       "RESOLVE_AND_NEXT": "Resolver e ir para o próximo",

@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Rozhovory",
     "MENTION_HEADING": "Zmienky",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Vyhľadávanie ľudí, konverzácií, uložených odpovedí.."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Odpovedať na tento Tweet",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Úspešne odoslané",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Žiadne správy",
     "NO_CONTENT": "Žiaden obsah nie je k dispozícii",
     "HIDE_QUOTED_TEXT": "Skryť citovaný text",

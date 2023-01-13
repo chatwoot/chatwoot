@@ -41,6 +41,10 @@
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "评分",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
       "REOPEN_ACTION": "重新打开",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "标记为待处理",
       "RESOLVED": "标记为已解决",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
         "TITLE": "推迟",

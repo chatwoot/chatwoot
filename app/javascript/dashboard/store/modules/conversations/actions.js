@@ -10,6 +10,9 @@ import {
   isOnUnattendedView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
+import AnalyticsHelper, {
+  ANALYTICS_EVENTS,
+} from '../../../helper/AnalyticsHelper';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -171,6 +174,11 @@ const actions = {
         status: MESSAGE_STATUS.PROGRESS,
       });
       const response = await MessageApi.create(pendingMessage);
+      AnalyticsHelper.track(
+        pendingMessage.private
+          ? ANALYTICS_EVENTS.SENT_PRIVATE_NOTE
+          : ANALYTICS_EVENTS.SENT_MESSAGE
+      );
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,

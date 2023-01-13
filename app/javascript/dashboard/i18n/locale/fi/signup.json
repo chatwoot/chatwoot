@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Luo tili",
     "TITLE": "Rekisteröidy",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Rekisteröitymällä hyväksyt <a href=\"https://www.chatwoot.com/terms\">käyttöehdot & säännöt</a> sekä <a href=\"https://www.chatwoot.com/privacy-policy\">yksityisyydensuojan</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Tilin nimi",
-      "PLACEHOLDER": "Anna käyttäjän nimi, esim: Wayne Enterprises",
-      "ERROR": "Tilin nimi on liian lyhyt"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Koko nimi",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Työsähköposti",
       "PLACEHOLDER": "Anna työsi sähköpostiosoite, esim: bruce@wayne.enterprises",
-      "ERROR": "Sähköpostiosoite ei ole kelvollinen"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Salasana",

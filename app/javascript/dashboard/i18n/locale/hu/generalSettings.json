@@ -23,7 +23,7 @@
         "ERROR": "Kérjük helyes fióknevet adj meg"
       },
       "LANGUAGE": {
-        "LABEL": "Oldal nyelve (Béta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "A fiókneved",
         "ERROR": ""
       },

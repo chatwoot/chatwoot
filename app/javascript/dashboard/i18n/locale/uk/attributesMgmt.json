@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Користувацький атрибут успішно додано",
-        "ERROR_MESSAGE": "Не вдалося створити користувацький атрибут, будь ласка спробуйте пізніше"
+        "SUCCESS_MESSAGE": "Користувацький атрибут успішно додано!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {

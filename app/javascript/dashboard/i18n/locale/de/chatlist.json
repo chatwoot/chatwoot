@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Gespräche",
     "MENTION_HEADING": "Erwähnungen",
+    "UNATTENDED_HEADING": "Unbeaufsichtigt",
     "SEARCH": {
       "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Auf diesen Tweet antworten",
     "LINK_TO_STORY": "Zur Instagram-Geschichte",
     "SENT": "Erfolgreich gesendet",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Keine Nachrichten",
     "NO_CONTENT": "Kein Inhalt verfügbar",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",

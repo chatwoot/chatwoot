@@ -73,6 +73,10 @@
       "FIELD": "שדה לא חוקי"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
     "SUBMITTED_TITLE": "תודה על שליחת הדירוג",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "בקש תמליל שיחה",
     "SEND_EMAIL_SUCCESS": "תמליל הצ'אט נשלח בהצלחה",
     "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

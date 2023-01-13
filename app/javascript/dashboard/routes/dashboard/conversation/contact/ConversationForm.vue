@@ -66,7 +66,7 @@
               @click="replaceTextWithCannedResponse"
             />
           </div>
-          <div v-if="isAnEmailInbox || isAnWebWidgetInbox">
+          <div v-if="isEmailOrWebWidgetInbox">
             <label>
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
               <reply-email-head
@@ -80,6 +80,7 @@
                   class="message-editor"
                   :class="{ editor_warning: $v.message.$error }"
                   :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
+                  @toggle-canned-menu="toggleCannedMenu"
                   @blur="$v.message.$touch"
                 />
                 <span v-if="$v.message.$error" class="editor-warning__message">
@@ -229,13 +230,16 @@ export default {
         this.selectedInbox.inbox.channel_type === INBOX_TYPES.WEB
       );
     },
+    isEmailOrWebWidgetInbox() {
+      return this.isAnEmailInbox || this.isAnWebWidgetInbox;
+    },
     hasWhatsappTemplates() {
       return !!this.selectedInbox.inbox?.message_templates;
     },
   },
   watch: {
     message(value) {
-      this.hasSlashCommand = value[0] === '/';
+      this.hasSlashCommand = value[0] === '/' && !this.isEmailOrWebWidgetInbox;
       const hasNextWord = value.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
@@ -258,6 +262,9 @@ export default {
       setTimeout(() => {
         this.message = message;
       }, 50);
+    },
+    toggleCannedMenu(value) {
+      this.showCannedMenu = value;
     },
     prepareWhatsAppMessagePayload({ message: content, templateParams }) {
       const payload = {
@@ -315,12 +322,10 @@ export default {
 }
 
 .canned-response {
-  position: relative;
-  top: var(--space-medium);
-
   ::v-deep .mention--box {
     border-left: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);
+    top: var(--space-jumbo) !important;
   }
 }
 
@@ -354,5 +359,15 @@ export default {
 }
 .row.gutter-small {
   gap: var(--space-small);
+}
+
+::v-deep .mention--box {
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  left: 0;
+  margin: auto;
+  right: 0;
+  top: 18rem !important;
+  width: 90%;
 }
 </style>

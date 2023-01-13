@@ -23,7 +23,7 @@
         "ERROR": "الرجاء إدخال اسم حساب صحيح"
       },
       "LANGUAGE": {
-        "LABEL": "لغة الموقع (تجريبي)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "اسم الحساب الخاص بك",
         "ERROR": ""
       },

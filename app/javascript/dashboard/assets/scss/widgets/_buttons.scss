@@ -155,12 +155,20 @@ $default-button-height: 4.0rem;
   // Sizes
   &.tiny {
     height: var(--space-medium);
+
+    .icon+.button__content {
+      padding-left: var(--space-micro);
+    }
   }
 
   &.small {
     height: var(--space-large);
     padding-bottom: var(--space-smaller);
     padding-top: var(--space-smaller);
+
+    .icon+.button__content {
+      padding-left: var(--space-smaller);
+    }
   }
 
   &.large {
@@ -190,6 +198,10 @@ $default-button-height: 4.0rem;
     height: auto;
     margin: 0;
     padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
 }
