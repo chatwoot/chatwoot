@@ -61,8 +61,8 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # Remove unnecessary files
-RUN rm -rf /gems/ruby/3.0.0/cache/*.gem \
-  && find /gems/ruby/3.0.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
+RUN rm -rf /gems/ruby/3.1.0/cache/*.gem \
+  && find /gems/ruby/3.1.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
 
 # final build stage
 FROM ruby:3.1.3-alpine3.16
