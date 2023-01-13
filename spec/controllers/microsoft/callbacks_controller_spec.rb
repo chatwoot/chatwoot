@@ -23,9 +23,9 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
     it 'creates inboxes if authentication is successful' do
       headers = { 'Content-Type' => 'application/json' }
       body = { id_token: JWT.encode({ email: 'test@test.com', name: 'test' }, false) }
-      microsoft_response = instance_double(response, headers: headers, body: body)
-      subject = OAuth2::Response.new(microsoft_response)
       # rubocop:disable RSpec/VerifiedDoubles
+      microsoft_response = double('response', headers: headers, body: body)
+      subject = OAuth2::Response.new(microsoft_response)
       response = double(OAuth2::Response, response: subject)
       # rubocop:enable RSpec/VerifiedDoubles
       allow(OAuth2::Client).to receive(:new).and_return(microsoft_client)
