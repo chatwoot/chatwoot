@@ -8,7 +8,7 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   let!(:microsoft_email_channel) do
     create(:channel_email, provider_config: { access_token: access_token, refresh_token: refresh_token, expires_on: expires_on })
   end
-  let(:new_tokens) { { access_token: access_token, refresh_token: refresh_token, expires_at: expires_on, token_type: 'bearer' } }
+  let(:new_tokens) { { access_token: access_token, refresh_token: refresh_token, expires_at: expires_on.to_i, token_type: 'bearer' } }
 
   describe '#access_token' do
     context 'when token is not expired' do
@@ -30,6 +30,10 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
       it 'fetches new access token and refresh tokens' do
         microsoft_email_channel.provider_config['expires_on'] = Time.zone.now - 3600
         microsoft_email_channel.save!
+
+        token_service = double
+        allow(OAuth2::AccessToken).to receive(:new).and_return(token_service)
+        allow(token_service).to receive(:refresh!).and_return(new_tokens)
 
         expect(described_class.new(channel: microsoft_email_channel).access_token).not_to eq(access_token)
         expect(microsoft_email_channel.reload.provider_config['access_token']).to eq(new_tokens[:access_token])
