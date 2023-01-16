@@ -27,12 +27,12 @@ RSpec.describe Channel::Email do
 
   context 'when microsoft?' do
     it 'returns false' do
-      expect(channel.microsoft?).to eq(false)
+      expect(channel.microsoft?).to be(false)
     end
 
     it 'returns true' do
       channel.provider = 'microsoft'
-      expect(channel.microsoft?).to eq(true)
+      expect(channel.microsoft?).to be(true)
     end
   end
 end
