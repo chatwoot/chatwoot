@@ -55,7 +55,7 @@ class Channel::Email < ApplicationRecord
   end
 
   def microsoft?
-    provider_config['access_token'].present? && provider == 'microsoft'
+    provider == 'microsoft'
   end
 
   def update_provider_config(params)
