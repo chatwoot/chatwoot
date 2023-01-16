@@ -24,4 +24,15 @@ RSpec.describe Channel::Email do
   it 'has a valid name' do
     expect(channel.name).to eq('Email')
   end
+
+  context 'when microsoft?' do
+    it 'returns false' do
+      expect(channel.microsoft?).to be(false)
+    end
+
+    it 'returns true' do
+      channel.provider = 'microsoft'
+      expect(channel.microsoft?).to be(true)
+    end
+  end
 end
