@@ -215,6 +215,7 @@ export default {
           'audio-settings--view'
         );
         if (audioSettings) {
+          // TODO [ref](https://github.com/chatwoot/chatwoot/pull/6233#discussion_r1069636890)
           audioSettings[0].scrollIntoView(
             { behavior: 'smooth', block: 'start' },
             150
