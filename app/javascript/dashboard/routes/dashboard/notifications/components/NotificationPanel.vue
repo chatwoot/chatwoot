@@ -211,12 +211,12 @@ export default {
       this.$router.push({ name: 'profile_settings_index' });
       this.closeNotificationPanel();
       this.$nextTick(() => {
-        const audioSettings = document.getElementsByClassName(
-          'audio-settings--view'
+        const audioSettings = document.getElementById(
+          'profile-settings-notifications'
         );
         if (audioSettings) {
           // TODO [ref](https://github.com/chatwoot/chatwoot/pull/6233#discussion_r1069636890)
-          audioSettings[0].scrollIntoView(
+          audioSettings.scrollIntoView(
             { behavior: 'smooth', block: 'start' },
             150
           );
