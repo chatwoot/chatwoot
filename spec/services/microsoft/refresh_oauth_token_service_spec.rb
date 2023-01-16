@@ -31,10 +31,6 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
         microsoft_email_channel.provider_config['expires_on'] = Time.zone.now - 3600
         microsoft_email_channel.save!
 
-        token_service = double
-        allow(OAuth2::AccessToken).to receive(:new).and_return(token_service)
-        allow(token_service).to receive(:refresh!).and_return(new_tokens)
-
         expect(described_class.new(channel: microsoft_email_channel).access_token).not_to eq(access_token)
         expect(microsoft_email_channel.reload.provider_config['access_token']).to eq(new_tokens[:access_token])
         expect(microsoft_email_channel.reload.provider_config['refresh_token']).to eq(new_tokens[:refresh_token])
