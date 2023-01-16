@@ -7,14 +7,12 @@ class Microsoft::CallbacksController < ApplicationController
       redirect_uri: "#{base_url}/microsoft/callback"
     )
 
-    ActiveRecord::Base.transaction do
-      inbox = find_or_create_inbox
-      ::Redis::Alfred.delete(users_data['email'])
-      redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
-    rescue StandardError => e
-      Rails.logger.error e
-      redirect_to microsoft_app_redirect_url
-    end
+    inbox = find_or_create_inbox
+    ::Redis::Alfred.delete(users_data['email'])
+    redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e).capture_exception
+    redirect_to '/'
   end
 
   private
@@ -40,24 +38,26 @@ class Microsoft::CallbacksController < ApplicationController
     @account ||= Account.find(account_id)
   end
 
-  def microsoft_app_redirect_url
-    app_new_microsoft_inbox_url(account_id: account.id)
-  end
-
   def find_or_create_inbox
-    channel_email = create_imap_email_channel
-
-    return channel_email.inbox if channel_email.inbox.presence
-
-    account.inboxes.create_or_find_by!(
-      account: account,
-      channel: channel_email,
-      name: users_data['name']
-    )
+    channel_email = Channel::Email.find_by(email: users_data['email'], account: account)
+    channel_email ||= create_microsoft_channel_with_inbox
+    update_microsoft_channel(channel_email)
+    channel_email.inbox
   end
 
-  def create_imap_email_channel
-    channel_email = Channel::Email.find_or_create_by!(email: users_data['email'], account: account)
+  def create_microsoft_channel_with_inbox
+    ActiveRecord::Base.transaction do
+      channel_email = Channel::Email.create!(email: users_data['email'], account: account)
+      account.inboxes.create!(
+        account: account,
+        channel: channel_email,
+        name: users_data['name']
+      )
+      channel_email
+    end
+  end
+
+  def update_microsoft_channel(channel_email)
     channel_email.update!({
                             imap_login: users_data['email'], imap_address: 'outlook.office365.com',
                             imap_port: '993', imap_enabled: true,
@@ -68,6 +68,5 @@ class Microsoft::CallbacksController < ApplicationController
                               expires_on: (Time.current.utc + 1.hour).to_s
                             }
                           })
-    channel_email.reload
   end
 end
