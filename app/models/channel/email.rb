@@ -58,14 +58,6 @@ class Channel::Email < ApplicationRecord
     provider == 'microsoft'
   end
 
-  def update_provider_config(params)
-    provider_config = params[:provider_config]
-    return unless provider == 'microsoft'
-
-    update(provider_config: { access_token: provider_config[:accessToken], refresh_token: provider_config[:refreshToken],
-                              expires_on: provider_config[:expiresOn] })
-  end
-
   private
 
   def ensure_forward_to_email
