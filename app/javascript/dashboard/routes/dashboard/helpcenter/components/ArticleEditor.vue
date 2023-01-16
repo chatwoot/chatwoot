@@ -10,12 +10,10 @@
       @blur="onBlur"
       @input="onTitleInput"
     />
-    <woot-message-editor
+    <woot-article-editor
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
-      :is-format-mode="true"
-      :override-line-breaks="true"
       @focus="onFocus"
       @blur="onBlur"
       @input="onContentInput"
@@ -26,11 +24,11 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import WootArticleEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
 
 export default {
   components: {
-    WootMessageEditor,
+    WootArticleEditor,
     ResizableTextArea,
   },
   props: {
@@ -81,41 +79,41 @@ export default {
 <style lang="scss" scoped>
 .edit-article--container {
   margin: var(--space-large) auto;
-  width: 640px;
+  padding: 0 var(--space-medium);
+  max-width: 89.6rem;
+  width: 100%;
 }
 
 .article-heading {
   font-size: var(--font-size-giga);
   font-weight: var(--font-weight-bold);
+  width: 100%;
   min-height: var(--space-jumbo);
   max-height: 64rem;
   height: auto;
+  margin-bottom: var(--space-small);
   border: 0px solid transparent;
   padding: 0;
   color: var(--s-900);
+  padding: var(--space-normal);
+  resize: none;
+
+  &:hover {
+    background: var(--s-25);
+    border-radius: var(--border-radius-normal);
+  }
+}
+
+.article-content {
+  padding: 0 var(--space-normal);
+  height: fit-content;
 }
 
 ::v-deep {
   .ProseMirror-menubar-wrapper {
-    .ProseMirror-menubar .ProseMirror-menuitem {
-      .ProseMirror-icon {
-        margin-right: var(--space-normal);
-        font-size: var(--font-size-small);
-      }
-    }
-
     .ProseMirror-woot-style {
       min-height: var(--space-giga);
       max-height: 100%;
-
-      p {
-        font-size: var(--font-size-default);
-        line-height: 1.5;
-      }
-
-      li::marker {
-        font-size: var(--font-size-default);
-      }
     }
   }
 }

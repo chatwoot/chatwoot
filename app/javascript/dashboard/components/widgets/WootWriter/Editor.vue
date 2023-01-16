@@ -20,22 +20,19 @@
 </template>
 
 <script>
-import { EditorView } from 'prosemirror-view';
-
-import { defaultMarkdownSerializer } from 'prosemirror-markdown';
 import {
-  addMentionsToMarkdownSerializer,
-  addMentionsToMarkdownParser,
-  schemaWithMentions,
-} from '@chatwoot/prosemirror-schema/src/mentions/schema';
-
+  messageSchema,
+  wootMessageWriterSetup,
+  EditorView,
+  MessageMarkdownTransformer,
+  MessageMarkdownSerializer,
+  EditorState,
+  Selection,
+} from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import { EditorState, Selection } from 'prosemirror-state';
-import { defaultMarkdownParser } from 'prosemirror-markdown';
-import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
@@ -43,7 +40,6 @@ import VariableList from '../conversation/VariableList';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 
-import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
@@ -60,9 +56,9 @@ import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
-    doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
-    plugins: wootWriterSetup({
-      schema: schemaWithMentions,
+    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
+    plugins: wootMessageWriterSetup({
+      schema: messageSchema,
       placeholder,
       plugins,
     }),
@@ -100,9 +96,7 @@ export default {
   },
   computed: {
     contentFromEditor() {
-      return addMentionsToMarkdownSerializer(
-        defaultMarkdownSerializer
-      ).serialize(this.editorView.state.doc);
+      return MessageMarkdownSerializer.serialize(this.editorView.state.doc);
     },
     shouldShowVariables() {
       return this.enableVariables && this.showVariables && !this.isPrivate;
@@ -336,12 +330,12 @@ export default {
       }
 
       let from = this.range.from - 1;
-      let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
-        updatedCannedResponse
+      let node = new MessageMarkdownTransformer(messageSchema).parse(
+        cannedItem
       );
 
-      if (node.childCount === 1) {
-        node = this.editorView.state.schema.text(updatedCannedResponse);
+      if (node.textContent === cannedItem) {
+        node = this.editorView.state.schema.text(cannedItem);
         from = this.range.from;
       }
 
@@ -454,6 +448,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@chatwoot/prosemirror-schema/src/styles/base.scss';
+
 .ProseMirror-menubar-wrapper {
   display: flex;
   flex-direction: column;
@@ -470,6 +466,7 @@ export default {
 
 .editor-root {
   width: 100%;
+  position: relative;
 }
 
 .ProseMirror-woot-style {
@@ -491,6 +488,9 @@ export default {
     background: var(--s-50);
     color: var(--s-900);
     padding: 0 var(--space-smaller);
+  }
+  .ProseMirror-menubar {
+    background: var(--y-50);
   }
 }
 
