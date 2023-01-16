@@ -4,12 +4,13 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
 
   def create
     email = params[:authorization][:email]
-    redirect_url = microsoft_client.auth_code.authorize_url({
-                                                              redirect_uri: "#{base_url}/microsoft/callback",
-                                                              scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All
-                                                            https://outlook.office.com/SMTP.Send openid',
-                                                              prompt: 'consent'
-                                                            })
+    redirect_url = microsoft_client.auth_code.authorize_url(
+      {
+        redirect_uri: "#{base_url}/microsoft/callback",
+        scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid',
+        prompt: 'consent'
+      }
+    )
     if redirect_url
       ::Redis::Alfred.setex(email, Current.account.id, 5.minutes)
       render json: { success: true, url: redirect_url }
