@@ -203,6 +203,7 @@ export const SDK_CSS = `
 
 .woot-widget-bubble {
   transform-origin: center;
+  will-change: transform, opacity;
   transform: translateX(0) scale(1) rotate(0deg);
   transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
 }
@@ -216,7 +217,7 @@ export const SDK_CSS = `
   transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
 }
 .woot-widget-bubble.woot-widget--expanded.woot--hide {
-  transform: translateX(16px);
+  transform: translateX(8px);
   transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
 }
 .woot-widget-bubble.woot-widget-bubble--flat.woot--close {
@@ -224,7 +225,7 @@ export const SDK_CSS = `
   transition: transform 300ms ease, opacity 10ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
 }
 .woot-widget-bubble.woot-widget-bubble--flat.woot--close.woot--hide {
-  transform: translateX(16px);
+  transform: translateX(8px);
   transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
 }
 .woot-widget-bubble.woot-widget--expanded.woot-widget-bubble--flat {
@@ -232,7 +233,7 @@ export const SDK_CSS = `
   transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
 }
 .woot-widget-bubble.woot-widget--expanded.woot-widget-bubble--flat.woot--hide {
-  transform: translateX(16px);
+  transform: translateX(8px);
   transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
 }
 
