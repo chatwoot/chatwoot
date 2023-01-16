@@ -135,6 +135,7 @@ export default {
       });
     },
     setLocale(localeWithVariation) {
+      if (!localeWithVariation) return;
       const { enabledLanguages } = window.chatwootWebChannel;
       const localeWithoutVariation = localeWithVariation.split('_')[0];
       const hasLocaleWithoutVariation = enabledLanguages.some(
