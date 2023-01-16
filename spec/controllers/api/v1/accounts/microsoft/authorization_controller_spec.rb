@@ -15,36 +15,33 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
-      let(:microsoft_client) do
-        OAuth2::Client.new('client_id', 'client_secret', {
-                             site: 'https://login.microsoftonline.com',
-                             authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
-                           })
-      end
-      let(:auth_code) { microsoft_client.auth_code }
 
       it 'returns unathorized for agent' do
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
              headers: agent.create_new_auth_token,
+             params: { email: administrator.email },
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
 
       it 'creates a new authorization and returns the redirect url' do
-        allow(::OAuth2::Client).to receive(:new).and_return(microsoft_client)
-        allow(microsoft_client).to receive(:auth_code).and_return(auth_code)
-        allow(auth_code).to receive(:authorize_url).and_return(
-          microsoft_client.authorize_url({ redirect_uri: 'http://0.0.0.0:3000/microsoft/callback' })
-        )
-
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
              headers: administrator.create_new_auth_token,
              params: { email: administrator.email },
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['url']).to include('microsoft')
+        microsoft_service = Class.new { extend MicrosoftConcern }
+        response_url = microsoft_service.microsoft_client.auth_code.authorize_url(
+          {
+            redirect_uri: "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
+            scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid',
+            prompt: 'consent'
+          }
+        )
+        expect(JSON.parse(response.body)['url']).to eq response_url
+        expect(::Redis::Alfred.get(administrator.email)).to eq(account.id.to_s)
       end
     end
   end
