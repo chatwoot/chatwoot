@@ -1,3 +1,3 @@
 backend: RAILS_ENV=test bin/rails s -p 5050
 frontend: bin/webpack-dev-server
-worker: RAILS_ENV=test bundle exec sidekiq -C config/sidekiq.yml
+worker: dotenv RAILS_ENV=test bundle exec sidekiq -C config/sidekiq.yml
