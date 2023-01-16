@@ -6,11 +6,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   def perform(channel)
     return unless should_fetch_email?(channel)
 
-    # fetching email for microsoft provider
-    channel.microsoft? ? fetch_mail_for_ms_provider(channel) : fetch_mail_for_channel(channel)
-
-    # clearing old failures like timeouts since the mail is now successfully processed
-    channel.reauthorized!
+    process_email_for_channel(channel)
   rescue *ExceptionList::IMAP_EXCEPTIONS
     channel.authorization_error!
   rescue EOFError => e
@@ -23,6 +19,17 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
   def should_fetch_email?(channel)
     channel.imap_enabled? && !channel.reauthorization_required?
+  end
+
+  def process_email_for_channel(channel)
+    # fetching email for microsoft provider
+    if channel.microsoft?
+      fetch_mail_for_ms_provider(channel)
+    else
+      fetch_mail_for_channel(channel)
+    end
+    # clearing old failures like timeouts since the mail is now successfully processed
+    channel.reauthorized!
   end
 
   def fetch_mail_for_channel(channel)
