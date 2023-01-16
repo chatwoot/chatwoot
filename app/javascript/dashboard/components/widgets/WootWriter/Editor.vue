@@ -374,6 +374,8 @@ export default {
 
   .ProseMirror-menubar {
     min-height: var(--space-two) !important;
+    margin-left: var(--space-minus-one);
+    padding-bottom: 0;
   }
 
   > .ProseMirror {
