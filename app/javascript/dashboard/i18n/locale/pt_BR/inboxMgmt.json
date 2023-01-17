@@ -53,6 +53,10 @@
           "ENABLE": "Criar conversas dos Tweets mencionados"
         }
       },
+      "MICROSOFT": {
+        "HELP": "Para adicionar sua conta da Microsoft como um canal, você precisa autenticar em sua conta clicando em 'Entrar com a Microsoft' ",
+        "ERROR_MESSAGE": "Ocorreu um erro ao conectar com a Microsoft, por favor, tente novamente"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal do website",
         "DESC": "Crie um canal para seu site e comece a oferecer suporte a seus clientes através do nosso widget do site.",
@@ -547,6 +551,10 @@
         "PLACE_HOLDER": "Senha"
       },
       "ENABLE_SSL": "Habilitar o SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Autorize novamente sua conta MICROSOFT"
     },
     "SMTP": {
       "TITLE": "SMTP",

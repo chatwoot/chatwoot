@@ -23,7 +23,7 @@
   },
   "START_CONVERSATION": "Iniciar Conversa",
   "END_CONVERSATION": "Finalizar Conversa",
-  "CONTINUE_CONVERSATION": "Continuar conversa",
+  "CONTINUE_CONVERSATION": "Continuar a conversa",
   "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
@@ -89,8 +89,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Clique aqui para entrar",
+      "LEAVE_THE_ROOM": "Sair da ligação"
     }
   }
 }

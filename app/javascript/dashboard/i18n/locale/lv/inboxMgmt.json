@@ -53,6 +53,10 @@
           "ENABLE": "Izveidot sarunas no minētajiem Tvītiem"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Tīmekļa vietnes kanāls",
         "DESC": "Izveidot savai tīmekļa vietnei kanālu un sākt atbalstīt savus klientus, izmantojot mūsu tīmekļu vietnes logrīku.",
@@ -547,6 +551,10 @@
         "PLACE_HOLDER": "Parole"
       },
       "ENABLE_SSL": "Iespējot SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
