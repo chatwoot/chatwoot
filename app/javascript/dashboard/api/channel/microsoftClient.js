@@ -6,8 +6,8 @@ class MicrosoftClient extends ApiClient {
     super('microsoft', { accountScoped: true });
   }
 
-  generateAuthorization() {
-    return axios.post(`${this.url}/authorization`);
+  generateAuthorization(payload) {
+    return axios.post(`${this.url}/authorization`, payload);
   }
 }
 

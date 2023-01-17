@@ -8,6 +8,12 @@
       class="microsoft--sign-in-form"
       @submit.prevent="requestAuthorization"
     >
+      <woot-input
+        v-model.trim="email"
+        type="text"
+        :placeholder="$t('INBOX_MGMT.ADD.MICROSOFT.EMAIL_PLACEHOLDER')"
+        @blur="$v.email.$touch"
+      />
       <woot-submit-button
         icon="brand-twitter"
         button-text="Sign in with Microsoft"
@@ -21,18 +27,27 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import microsoftClient from 'dashboard/api/channel/microsoftClient';
 import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
+import { required, email } from 'vuelidate/lib/validators';
 
 export default {
   components: { SettingsSubPageHeader },
   mixins: [alertMixin],
   data() {
-    return { isRequestingAuthorization: false };
+    return { email: '', isRequestingAuthorization: false };
+  },
+  validations: {
+    email: { required, email },
   },
   methods: {
     async requestAuthorization() {
       try {
+        this.$v.$touch();
+        if (this.$v.$invalid) return;
+
         this.isRequestingAuthorization = true;
-        const response = await microsoftClient.generateAuthorization();
+        const response = await microsoftClient.generateAuthorization({
+          email: this.email,
+        });
         const {
           data: { url },
         } = response;
