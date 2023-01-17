@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Αντιγραφή",
-      "COPY_SUCCESSFUL": "Ο κώδικας αντιγράφτηκε με επιτυχία στο πρόχειρο"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Εμφάνιση Περισσότερων",
