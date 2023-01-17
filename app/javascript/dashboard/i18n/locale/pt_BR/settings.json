@@ -69,8 +69,8 @@
         },
         "CONDITIONS": {
           "TITLE": "Condições:",
-          "CONDITION_ONE": "Condição 1",
-          "CONDITION_TWO": "Condição 2"
+          "CONDITION_ONE": "Enviar alertas de áudio apenas se a janela do navegador não estiver ativa",
+          "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {

@@ -239,7 +239,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "van",
     "TO": "Aan",
     "BCC": "Bcc",
     "CC": "Cc",
