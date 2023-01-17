@@ -1,23 +1,22 @@
 <template>
-  <div v-if="items.length" ref="mentionsListContainer" class="mention--box">
-    <ul class="vertical dropdown menu">
-      <woot-dropdown-item
-        v-for="(item, index) in items"
-        :id="`mention-item-${index}`"
-        :key="item.key"
-        @mouseover="onHover(index)"
-      >
-        <woot-button
-          size="small"
-          class="text-truncate"
-          :variant="index === selectedIndex ? 'smooth' : 'clear'"
-          @click="onListItemSelection(index)"
-        >
-          <strong>{{ item.label }}</strong> - {{ item.description }}
-        </woot-button>
-      </woot-dropdown-item>
-    </ul>
-  </div>
+  <ul
+    v-if="items.length"
+    class="vertical dropdown menu mention--box"
+    :style="{ top: getTopPadding() + 'rem' }"
+  >
+    <li
+      v-for="(item, index) in items"
+      :id="`mention-item-${index}`"
+      :key="item.key"
+      :class="{ active: index === selectedIndex }"
+      @click="onListItemSelection(index)"
+      @mouseover="onHover(index)"
+    >
+      <a class="text-truncate">
+        <strong>{{ item.label }}</strong> - {{ item.description }}
+      </a>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -70,21 +69,17 @@ export default {
 <style scoped lang="scss">
 .mention--box {
   background: var(--white);
-  box-shadow: var(--shadow-medium);
+  border-bottom: var(--space-small) solid var(--white);
   border-radius: var(--border-radius-normal);
   border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-medium);
   left: 0;
-  bottom: 100%;
-  max-height: 18rem;
+  max-height: 14rem;
   overflow: auto;
-  padding: var(--space-small) var(--space-small) 0;
+  padding-top: var(--space-small);
   position: absolute;
   width: 100%;
   z-index: 100;
-
-  .dropdown-menu__item:last-child {
-    padding-bottom: var(--space-smaller);
-  }
 
   .active a {
     background: var(--w-500);
