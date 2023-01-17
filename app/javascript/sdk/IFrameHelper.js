@@ -56,7 +56,8 @@ export const IFrameHelper = {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
     iframe.src = widgetUrl;
-
+    iframe.allow =
+      'camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;';
     iframe.id = 'chatwoot_live_chat_widget';
     iframe.style.visibility = 'hidden';
 

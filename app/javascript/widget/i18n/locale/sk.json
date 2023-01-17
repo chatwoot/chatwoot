@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Request a conversation transcript",
     "SEND_EMAIL_SUCCESS": "Prepis chatu bol úspešne odoslaný",
     "SEND_EMAIL_ERROR": "There was an error, please try again"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }
