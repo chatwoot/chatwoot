@@ -162,6 +162,8 @@ group :test do
   gem 'database_cleaner'
   # mock http calls
   gem 'webmock'
+  # test profiling
+  gem 'test-prof'
 end
 
 group :development, :test do
