@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلان های صوتی",
         "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
-        "NONE": "هیچکدام",
-        "ASSIGNED": "مکالمات اختصاص داده شده",
-        "ALL_CONVERSATIONS": "همه گفتگوها"
+        "ALERT_TYPE": {
+          "TITLE": "رویدادهای هشدار:",
+          "NONE": "هیچکدام",
+          "ASSIGNED": "مکالمات اختصاص داده شده",
+          "ALL_CONVERSATIONS": "همه گفتگوها"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "شرط‌های هشدار:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -103,7 +114,9 @@
           "آنلاین",
           "مشغول",
           "آفلاین"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "در دسترس بودن با موفقیت تنظیم شد",
+        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید"
       },
       "EMAIL": {
         "LABEL": "ایمیل شما",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
+    "SUPER_ADMIN_CONSOLE": "کنسول سوپر مدیر",
     "LOGOUT": "خروج از حساب‌کاربری"
   },
   "APP_GLOBAL": {
@@ -158,6 +172,9 @@
       "DOWNLOAD": "دانلود",
       "UPLOADING": "در حال آپلود..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "مشاهده‌ بر روی نقشه"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "ثبت"
     }
@@ -174,11 +191,13 @@
     "CONVERSATIONS": "گفتگوها",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
+    "UNATTENDED_CONVERSATIONS": "بی سرپرست",
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
     "HOME": "صفحه اصلی",
     "AGENTS": "ایجنت ها",
+    "AGENT_BOTS": "ربات‌ها",
     "INBOXES": "صندوق‌های ورودی",
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
@@ -189,6 +208,7 @@
     "LABELS": "برچسب‌ها",
     "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
     "AUTOMATION": "خودکارسازی",
+    "MACROS": "ماکروها",
     "TEAMS": "تیم‌ها",
     "BILLING": "صورتحساب",
     "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
@@ -219,6 +239,10 @@
       "ARCHIVED": "بایگانی شد",
       "CATEGORY": "دسته‌بندی",
       "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "علامت گذاری خودکار به صورت آفلاین",
+      "INFO_TEXT": "هنگامی که از برنامه یا پیشخوان استفاده نمی‌کنید، به سیستم اجازه دهید به طور خودکار شما را به صورت آفلاین علامت گذاری کند."
     },
     "DOCS": "اسناد را بخوانید"
   },
@@ -251,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "عنوان حساب",
+        "LABEL": "نام شرکت",
         "PLACEHOLDER": "شرکت ایران ناسیونال"
       },
       "SUBMIT": "ثبت"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "مشاهده همه کلیدهای میانبر",
     "TITLE": {
       "OPEN_CONVERSATION": "باز کردن گفتگو",
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",

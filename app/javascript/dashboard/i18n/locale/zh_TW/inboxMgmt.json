@@ -53,6 +53,10 @@
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "網站頻道",
         "DESC": "為您的網站建立一個頻道並通過我們的網站小元件開始支持您的客户。",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "電話號碼",
           "PLACEHOLDER": "請輸入發送消息的電話號碼。",
-          "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "回呼地址",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "電話號碼",
             "PLACEHOLDER": "請輸入發送消息的電話號碼。",
-            "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "電話號碼",
           "PLACEHOLDER": "請輸入發送消息的電話號碼。",
-          "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "回呼地址",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook 網址",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "您的收件匣已準備就緒！",
-      "MESSAGE": "您現在可以通過您的新頻道與您的客户聯繫。開心的支援客戶吧 ",
+      "MESSAGE": "您現在可以通過您的新頻道與您的客户聯繫。開心的支援客戶吧",
       "BUTTON_TEXT": "带我到這裡",
       "MORE_SETTINGS": "更多設定",
       "WEBSITE_SUCCESS": "您已成功完成建立網站頻道。複製下面顯示的代碼並將其黏貼在您的網站上。 下次客户使用即時聊天時，對話將自動出現在您的收件匣中。"
@@ -383,6 +389,10 @@
         "DISABLED": "已停用"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "已啟用",
+        "DISABLED": "已停用"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "已啟用",
         "DISABLED": "已停用"
       },
@@ -414,7 +424,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "服務時間",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "設定",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
       "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用此收件匣客服的對話自動分配。",
@@ -538,6 +551,10 @@
         "PLACE_HOLDER": "密碼"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

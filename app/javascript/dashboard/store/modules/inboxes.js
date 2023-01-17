@@ -6,6 +6,9 @@ import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
 import { throwErrorMessage } from '../utils/api';
+import AnalyticsHelper, {
+  ANALYTICS_EVENTS,
+} from '../../helper/AnalyticsHelper';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
@@ -55,7 +58,7 @@ export const getters = {
     const {
       message_templates: whatsAppMessageTemplates,
       additional_attributes: additionalAttributes,
-    } = inbox;
+    } = inbox || {};
 
     const { message_templates: apiInboxMessageTemplates } =
       additionalAttributes || {};
@@ -63,7 +66,7 @@ export const getters = {
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
     // filtering out the whatsapp templates with media
-    if (messagesTemplates) {
+    if (messagesTemplates instanceof Array) {
       return messagesTemplates.filter(template => {
         return !template.components.some(
           i => i.format === 'IMAGE' || i.format === 'VIDEO'
@@ -117,6 +120,12 @@ export const getters = {
   },
 };
 
+const sendAnalyticsEvent = channelType => {
+  AnalyticsHelper.track(ANALYTICS_EVENTS.ADDED_AN_INBOX, {
+    channelType,
+  });
+};
+
 export const actions = {
   get: async ({ commit }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: true });
@@ -134,6 +143,8 @@ export const actions = {
       const response = await WebChannel.create(params);
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      const { channel = {} } = params;
+      sendAnalyticsEvent(channel.type);
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
@@ -146,6 +157,7 @@ export const actions = {
       const response = await WebChannel.create(buildInboxData(params));
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('website');
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
@@ -158,6 +170,7 @@ export const actions = {
       const response = await TwilioChannel.create(params);
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('twilio');
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
@@ -170,6 +183,7 @@ export const actions = {
       const response = await FBChannel.create(params);
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('facebook');
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });

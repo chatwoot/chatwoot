@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Sense resposta",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
       "REOPEN_ACTION": "Tornar a obrir",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Torna a obrir la conversa",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -208,7 +213,8 @@
       "CONVERSATION_LABELS": "Etiquetes de converses",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Converses prèvies"
+      "PREVIOUS_CONVERSATION": "Converses prèvies",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

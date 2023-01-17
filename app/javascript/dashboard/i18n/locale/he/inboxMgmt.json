@@ -53,6 +53,10 @@
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "ערוץ האתר",
         "DESC": "צור ערוץ לאתר שלך והתחל לתמוך בלקוחות שלך באמצעות ווידג'ט האתר שלנו.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "מספר טלפון",
           "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "כתובת אתר להתקשרות חוזרת",
@@ -158,7 +162,7 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "מזהה חשבון",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "שדה חובה"
           },
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "מספר טלפון",
             "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-            "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "מספר טלפון",
           "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "כתובת אתר להתקשרות חוזרת",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "צור ערוץ וואטסאפ",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "תיבת הדואר הנכנס שלך מוכנה!",
-      "MESSAGE": "כעת תוכל ליצור קשר עם הלקוחות שלך דרך הערוץ החדש שלך. תמיכה שמחה ",
+      "MESSAGE": "כעת תוכל ליצור קשר עם הלקוחות שלך דרך הערוץ החדש שלך. תמיכה שמחה",
       "BUTTON_TEXT": "קח אותי לשם",
       "MORE_SETTINGS": "הגדרות נוספות",
       "WEBSITE_SUCCESS": "סיימת בהצלחה ליצור ערוץ אתר אינטרנט. העתק את הקוד המוצג למטה והדבק אותו באתר שלך. בפעם הבאה שלקוח ישתמש בצ'אט החי, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך."
@@ -383,6 +389,10 @@
         "DISABLED": "כבוי"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
       },
@@ -414,7 +424,8 @@
       "CAMPAIGN": "קמפיין",
       "PRE_CHAT_FORM": "טופס צ'אט מקדים",
       "BUSINESS_HOURS": "שעות פעילות",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "הגדרות",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
@@ -538,6 +551,10 @@
         "PLACE_HOLDER": "סיסמה"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

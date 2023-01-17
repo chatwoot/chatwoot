@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "계정 생성",
     "TITLE": "회원가입",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "회원가입 시, 당신은 우리의 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 및<a href=\"https://www.chatwoot.com/privacy-policy\">개인 정보 보호 정책</a>에 동의하게 됩니다.",
-    "ACCOUNT_NAME": {
-      "LABEL": "계정 이름",
-      "PLACEHOLDER": "계정 이름을 입력합니다. 예: Girls Generation",
-      "ERROR": "계정 이름이 너무 짧음"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "전체 이름",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "회사 이메일",
       "PLACEHOLDER": "회사 이메일 주소를 입력하세요. 예: taeyeon@girls.generation",
-      "ERROR": "이메일 주소가 잘못되었습니다."
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "비밀번호",

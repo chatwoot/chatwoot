@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio-Benachrichtigungen",
         "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
-        "NONE": "Keine",
-        "ASSIGNED": "Zugewiesene Unterhaltungen",
-        "ALL_CONVERSATIONS": "Alle Unterhaltungen"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Keine",
+          "ASSIGNED": "Zugewiesene Unterhaltungen",
+          "ALL_CONVERSATIONS": "Alle Konversationen"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Benachrichtigungen",
@@ -103,7 +114,9 @@
           "Online",
           "Beschäftigt",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Deine Emailadresse",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
     "KEYBOARD_SHORTCUTS": "Tastenkombinationen",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Ausloggen"
   },
   "APP_GLOBAL": {
@@ -158,6 +172,9 @@
       "DOWNLOAD": "Herunterladen",
       "UPLOADING": "Wird hochgeladen..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Abschicken"
     }
@@ -174,11 +191,13 @@
     "CONVERSATIONS": "Gespräche",
     "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
+    "UNATTENDED_CONVERSATIONS": "Unbeaufsichtigt",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
     "CONTACTS": "Kontakte",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Posteingänge",
     "NOTIFICATIONS": "Push-Benachrichtigungen",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
@@ -189,6 +208,7 @@
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
     "AUTOMATION": "Automatisierung",
+    "MACROS": "Makros",
     "TEAMS": "Teams",
     "BILLING": "Rechnungen",
     "CUSTOM_VIEWS_FOLDER": "Ordner",
@@ -219,6 +239,10 @@
       "ARCHIVED": "Archiviert",
       "CATEGORY": "Kategorie",
       "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Dokumente lesen"
   },
@@ -251,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Kontobezeichnung",
+        "LABEL": "Firmenname",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Abschicken"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Unterhaltung öffnen",
       "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",

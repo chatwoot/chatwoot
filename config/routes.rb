@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     get '/app', to: 'dashboard#index'
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_microsoft_inbox_agents'
 
     resource :widget, only: [:show]
     namespace :survey do
@@ -39,7 +41,6 @@ Rails.application.routes.draw do
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
-
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
@@ -58,9 +59,8 @@ Rails.application.routes.draw do
             post :attach_file, on: :collection
           end
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
-            member do
-              post :execute
-            end
+            post :execute, on: :member
+            post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
@@ -86,6 +86,7 @@ Rails.application.routes.draw do
               post :toggle_status
               post :toggle_typing_status
               post :update_last_seen
+              post :unread
               post :custom_attributes
             end
           end
@@ -153,11 +154,21 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :microsoft do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
+            resource :dyte, controller: 'dyte', only: [] do
+              collection do
+                post :create_a_meeting
+                post :add_participant_to_meeting
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -182,6 +193,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :collection
         member do
           post :availability
+          post :auto_offline
           put :set_active_account
         end
       end
@@ -210,6 +222,13 @@ Rails.application.routes.draw do
         end
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
+        namespace :integrations do
+          resource :dyte, controller: 'dyte', only: [] do
+            collection do
+              post :add_participant_to_meeting
+            end
+          end
+        end
       end
     end
 
@@ -290,6 +309,7 @@ Rails.application.routes.draw do
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
   get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'
   get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
@@ -324,6 +344,8 @@ Rails.application.routes.draw do
     resources :callback, only: [:create]
   end
 
+  get 'microsoft/callback', to: 'microsoft/callbacks#show'
+
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get 'apple-app-site-association' => 'apple_app#site_association'
@@ -346,7 +368,7 @@ Rails.application.routes.draw do
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
         post :seed, on: :member
       end
-      resources :users, only: [:index, :new, :create, :show, :edit, :update]
+      resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]

@@ -23,7 +23,7 @@ el:
     reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
   errors:
     validations:
-      presence: must not be blank
+      presence: δεν πρέπει να είναι κενό
     webhook:
       invalid: Μη έγκυρα συμβάντα
     signup:
@@ -33,17 +33,19 @@ el:
       failed: Η εγγραφή απέτυχε
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Μη έγκυρος τύπος δεδομένων
     contacts:
       import:
         failed: Το αρχείο είναι κενό
       email:
-        invalid: Invalid email
+        invalid: Ακατάλληλο email
       phone_number:
-        invalid: should be in e164 format
+        invalid: πρέπει να είναι σε μορφή e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: πρέπει να είναι μοναδικό στην κατηγορία και την πύλη
+    dyte:
+      invalid_message_type: "Μη έγκυρος τύπος μηνύματος. Δεν επιτρέπεται η ενέργεια"
     inboxes:
       imap:
         socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.
@@ -137,6 +139,10 @@ el:
     online:
       delete: "%{contact_name} είναι Online, παρακαλώ προσπαθήστε ξανά αργότερα"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Το Dyte είναι εργαλείο που σας βοηθά να προσθέσετε ζωντανό ήχο & βίντεο στην εφαρμογή σας με λίγες μόνο γραμμές κώδικα. Αυτή η ενσωμάτωση σας επιτρέπει να δώσετε μια επιλογή στους πράκτορές σας να έχουν ένα βίντεο ή μια φωνητική κλήση με τους πελάτες σας χωρίς να φύγετε από το Chatwoot."
+      meeting_name: "Ό πράκτορας %{agent_name} ξεκίνησε μια συνάντηση"
     slack:
       name: "Slack"
       description: "Το Slack είναι ένα εργαλείο συνομιλιών (chat) το οποίο ενώνει σε ένα σημείο όλες τις επικοινωνίες. Ενοποιώντας με το Slack, μπορείτε να λαμβάνετε ειδοποιήσεις για όλες τις συνομιλίες στον λογαριασμό σας από το Slack."
@@ -149,3 +155,11 @@ el:
     fullcontact:
       name: "Πλήρης Επαφή"
       description: "Το FullContact Indegration βοηθά στον εμπλουτισμό προφίλ επισκεπτών. Προσδιορίστε τους χρήστες μόλις μοιραστούν τη διεύθυνση ηλεκτρονικού ταχυδρομείου τους και να τους προσφέρουν προσαρμοσμένη εξυπηρέτηση πελατών. Συνδέστε το FullContact με το λογαριασμό σας, κοινοποιώντας το κλειδί API FullContact."
+  public_portal:
+    search:
+      search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...
+      empty_placeholder: Δεν βρέθηκαν αποτελέσματα.
+      loading_placeholder: Αναζήτηση...
+      results_title: Αποτελέσματα Αναζήτησης
+    hero:
+      sub_title: Αναζητήστε τα άρθρα εδώ ή περιηγηθείτε στις κατηγορίες παρακάτω.

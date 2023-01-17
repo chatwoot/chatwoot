@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Razgovori",
     "MENTION_HEADING": "Spominjanja",
+    "UNATTENDED_HEADING": "Nedodeljeni",
     "SEARCH": {
       "INPUT": "Tražite osobe, razgovore, gotove odgovore .."
     },
@@ -56,6 +57,8 @@
     "REPLY_TO_TWEET": "Odgovori na tweet",
     "LINK_TO_STORY": "Idi na instagram priču",
     "SENT": "Uspešno poslano",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Nema poruka",
     "NO_CONTENT": "Nema sadržaja",
     "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",

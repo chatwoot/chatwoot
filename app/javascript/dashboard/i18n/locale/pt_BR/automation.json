@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Alterar o tipo de evento irá redefinir as condições e eventos que você adicionou abaixo"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Você precisa ter pelo menos uma condição para salvar"
+      "DELETE_MESSAGE": "Você precisa ter pelo menos uma condição para salvar",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atributos personalizados do contato",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados da conversa"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",

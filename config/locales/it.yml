@@ -44,6 +44,8 @@ it:
     categories:
       locale:
         unique: dovrebbe essere unico nella categoria e nel portale
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -137,6 +139,10 @@ it:
     online:
       delete: "%{contact_name} è online, riprova più tardi"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack è uno strumento di chat che porta tutta la vostra comunicazione insieme in un unico posto. Integrando Slack, puoi ricevere una notifica di tutte le nuove conversazioni nel tuo account direttamente all'interno di Slack."
@@ -149,3 +155,11 @@ it:
     fullcontact:
       name: "Fullcontact"
       description: "L'integrazione di FullContact aiuta ad arricchire i profili dei visitatori. Identifica gli utenti non appena condividono il loro indirizzo email e offri loro un servizio clienti personalizzato. Collega FullContact al tuo account condividendo la chiave API di FullContent."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Nessun risultato trovato.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.

@@ -68,6 +68,10 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${id}/update_last_seen`);
   }
 
+  markMessagesUnread({ id }) {
+    return axios.post(`${this.url}/${id}/unread`);
+  }
+
   toggleTyping({ conversationId, status, isPrivate }) {
     return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
       typing_status: status,
@@ -103,6 +107,16 @@ class ConversationApi extends ApiClient {
   updateCustomAttributes({ conversationId, customAttributes }) {
     return axios.post(`${this.url}/${conversationId}/custom_attributes`, {
       custom_attributes: customAttributes,
+    });
+  }
+
+  fetchParticipants(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/participants`);
+  }
+
+  updateParticipants({ conversationId, userIds }) {
+    return axios.patch(`${this.url}/${conversationId}/participants`, {
+      user_ids: userIds,
     });
   }
 }

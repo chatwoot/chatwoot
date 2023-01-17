@@ -7,6 +7,7 @@ json.name portal.name
 json.page_title portal.page_title
 json.slug portal.slug
 json.archived portal.archived
+json.account_id portal.account_id
 
 json.config do
   json.allowed_locales do
@@ -27,11 +28,11 @@ json.portal_members do
 end
 
 json.meta do
-  json.all_articles_count portal.articles.size
-  json.archived_articles_count portal.articles.archived.size
-  json.published_count portal.articles.published.size
-  json.draft_articles_count portal.articles.draft.size
-  json.mine_articles_count portal.articles.search_by_author(current_user.id).size if current_user.present?
-  json.categories_count portal.categories.size
+  json.all_articles_count articles.try(:size)
+  json.archived_articles_count articles.try(:archived).try(:size)
+  json.published_count articles.try(:published).try(:size)
+  json.draft_articles_count articles.try(:draft).try(:size)
+  json.mine_articles_count articles.search_by_author(current_user.id).try(:size) if current_user.present? && articles.any?
+  json.categories_count portal.categories.try(:size)
   json.default_locale portal.default_locale
 end

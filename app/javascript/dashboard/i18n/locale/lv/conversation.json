@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Nav atbildes",
     "RATING_TITLE": "Vērtējums",
     "FEEDBACK_TITLE": "Atsauksmes",
+    "CARD": {
+      "SHOW_LABELS": "Rādīt etiķetes",
+      "HIDE_LABELS": "Slēpt etiķetes"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Atrisināt",
       "REOPEN_ACTION": "Atkārtoti atvērt",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Atzīmēt kā neapstiprinātu",
       "RESOLVED": "Atzīmēt kā atrisinātu",
+      "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
       "REOPEN": "Atkārtoti atvērt sarunu",
       "SNOOZE": {
         "TITLE": "Atlikt",
@@ -151,7 +156,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
       "DELETE": "Dzēst",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +213,8 @@
       "CONVERSATION_LABELS": "Sarunu Etiķetes",
       "CONVERSATION_INFO": "Sarunas Informācija",
       "CONTACT_ATTRIBUTES": "Kontaktpersonas Īpašības",
-      "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas"
+      "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

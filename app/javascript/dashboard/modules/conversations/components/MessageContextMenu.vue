@@ -12,9 +12,9 @@
     </woot-modal>
     <woot-button
       icon="more-vertical"
-      class="button--delete-message"
       color-scheme="secondary"
-      variant="link"
+      variant="clear"
+      size="small"
       @click="handleContextMenuClick"
     />
     <div
@@ -40,6 +40,7 @@
             variant="clear"
             size="small"
             icon="clipboard"
+            color-scheme="secondary"
             @click="handleCopy"
           >
             {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
@@ -52,6 +53,7 @@
             variant="clear"
             size="small"
             icon="comment-add"
+            color-scheme="secondary"
             @click="showCannedResponseModal"
           >
             {{ $t('CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE') }}
@@ -70,6 +72,9 @@ import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import AnalyticsHelper, {
+  ANALYTICS_EVENTS,
+} from '../../../helper/AnalyticsHelper';
 
 export default {
   components: {
@@ -125,6 +130,7 @@ export default {
       this.$emit('toggle', false);
     },
     showCannedResponseModal() {
+      AnalyticsHelper.track(ANALYTICS_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
     },
   },
@@ -132,12 +138,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-pane {
-  bottom: var(--space-medium);
+  bottom: var(--space-large);
 }
 .dropdown-pane--left {
-  right: var(--space-small);
+  right: var(--space-minus-small);
 }
 .dropdown-pane--right {
-  left: var(--space-small);
+  left: var(--space-minus-small);
 }
 </style>

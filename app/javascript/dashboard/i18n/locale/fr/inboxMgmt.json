@@ -53,6 +53,10 @@
           "ENABLE": "Créer des conversations à partir de Tweets mentionnés"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal site Web",
         "DESC": "Créez un canal pour votre site Web et commencez à assister vos clients à l'aide de notre widget de site Web.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numéro de téléphone",
           "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
-          "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "URL de rappel (callback)",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Numéro de téléphone",
             "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
-            "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Créer un canal de bande passante",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numéro de téléphone",
           "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
-          "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL de rappel (callback)",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL du Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Créer le canal WhatsApp",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "Votre boîte de réception est prête !",
-      "MESSAGE": "Vous pouvez maintenant vous impliquer auprès de vos clients par le biais de votre nouveau canal. Bonne assistance ",
+      "MESSAGE": "Vous pouvez maintenant vous impliquer auprès de vos clients par le biais de votre nouveau canal. Bonne assistance",
       "BUTTON_TEXT": "Emmenez-moi là",
       "MORE_SETTINGS": "Plus de paramètres",
       "WEBSITE_SUCCESS": "Vous avez terminé avec succès la création d'un canal Web. Copiez le code affiché ci-dessous et collez-le sur votre site web. La prochaine fois qu'un client utilisera le chat en direct, la conversation apparaîtra automatiquement dans votre boîte de réception."
@@ -383,6 +389,10 @@
         "DISABLED": "Désactivé"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
       },
@@ -414,7 +424,8 @@
       "CAMPAIGN": "Campagnes",
       "PRE_CHAT_FORM": "Formulaire avant chat",
       "BUSINESS_HOURS": "Heures de bureau",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Paramètres",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Activer/Désactiver l'enquête CSAT(satisfaction du client) après avoir résolu une conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activer la continuité de la conversation par e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Les conversations se poursuivront par courrier électronique si l'adresse e-mail du contact est disponible.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
@@ -538,6 +551,10 @@
         "PLACE_HOLDER": "Mot de passe"
       },
       "ENABLE_SSL": "Activer SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

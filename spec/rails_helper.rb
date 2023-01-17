@@ -7,6 +7,10 @@ require 'rspec/rails'
 require 'pundit/rspec'
 require 'sidekiq/testing'
 
+# test-prof helpers for tests optimization
+require 'test_prof/recipes/rspec/before_all'
+require 'test_prof/recipes/rspec/let_it_be'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -64,6 +68,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include SlackStubs
+  config.include FileUploadHelpers
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveSupport::Testing::TimeHelpers
   config.include ActionCable::TestHelper

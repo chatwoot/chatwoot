@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări audio",
         "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
-        "NONE": "Nimic",
-        "ASSIGNED": "Conversații atribuite",
-        "ALL_CONVERSATIONS": "Toate conversațiile"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Nimic",
+          "ASSIGNED": "Conversații atribuite",
+          "ALL_CONVERSATIONS": "Toate conversațiile"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări prin e-mail",
@@ -103,7 +114,9 @@
           "Online",
           "Ocupat",
           "Deconectat"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Adresa ta de email",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
     "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Deconectare"
   },
   "APP_GLOBAL": {
@@ -158,6 +172,9 @@
       "DOWNLOAD": "Descărcare",
       "UPLOADING": "Încărcare..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Trimite"
     }
@@ -174,11 +191,13 @@
     "CONVERSATIONS": "Conversații",
     "ALL_CONVERSATIONS": "Toate conversațiile",
     "MENTIONED_CONVERSATIONS": "Menţionări",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
     "CONTACTS": "Contacte",
     "HOME": "Acasa",
     "AGENTS": "Agenți",
+    "AGENT_BOTS": "Boți",
     "INBOXES": "Căsuțe",
     "NOTIFICATIONS": "Notificări",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
@@ -189,6 +208,7 @@
     "LABELS": "Etichete",
     "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
     "AUTOMATION": "Automatizare",
+    "MACROS": "Macros",
     "TEAMS": "Echipe",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Foldere",
@@ -219,6 +239,10 @@
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -251,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nume cont",
+        "LABEL": "Nume companie",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Trimite"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Deschiderea conversației",
       "RESOLVE_AND_NEXT": "Rezolvarea și trecerea la următorul",

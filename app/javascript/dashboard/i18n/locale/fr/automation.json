@@ -86,12 +86,14 @@
       "RESET_MESSAGE": "Changer le type d'événement réinitialisera les conditions et les événements que vous avez ajoutés ci-dessous"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer"
+      "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Attributs personnalisés des contacts",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Saisissez votre message ici",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Sélectionner une équipe"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activer la règle d'automatisation",
@@ -109,7 +111,7 @@
       "UPLOAD_ERROR": "Could not upload attachment, Please try again",
       "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "Téléversement...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }

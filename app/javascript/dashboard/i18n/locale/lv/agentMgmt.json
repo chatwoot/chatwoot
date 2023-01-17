@@ -12,12 +12,12 @@
       "404": "Šim kontam nav piesaistīts neviens aģents",
       "TITLE": "Pārvaldīt Jūsu komandas aģentus",
       "DESC": "Jūs varat pievienot/noņemt aģentus pie/no savas komandas.",
-      "NAME": "Vārds",
-      "EMAIL": "e-pasts",
+      "NAME": "Nosaukums",
+      "EMAIL": "Epasts",
       "STATUS": "Statuss",
       "ACTIONS": "Darbības",
       "VERIFIED": "Pārbaudīts",
-      "VERIFICATION_PENDING": "Gaida apstiprinājumu"
+      "VERIFICATION_PENDING": "Tiek gaidīta verifikācija"
     },
     "ADD": {
       "TITLE": "Pievienot aģentu Jūsu komandai",

@@ -53,6 +53,10 @@
           "ENABLE": "إنشاء محادثات من التغريدات المشار إليها"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "قناة الموقع",
         "DESC": "قم بإنشاء قناة تواصل لموقع الويب الخاص بك وابدأ في استقبال الرسائل من عملائك عبر صندوق الدردشة المباشرة.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "رقم الهاتف",
           "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي سيتم إرسال الرسائل منه.",
-          "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
+          "ERROR": "الرجاء تقديم رقم هاتف صالح يبدأ بإشارة '+' ولا يحتوي على أي مسافات."
         },
         "API_CALLBACK": {
           "TITLE": "عنوان Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "رقم الهاتف",
             "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي سيتم إرسال الرسائل منه.",
-            "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
+            "ERROR": "الرجاء تقديم رقم هاتف صالح يبدأ بإشارة '+' ولا يحتوي على أي مسافات."
           },
           "SUBMIT_BUTTON": "إنشاء قناة عرض التردد",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "رقم الهاتف",
           "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي سيتم إرسال الرسائل منه.",
-          "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
+          "ERROR": "الرجاء تقديم رقم هاتف صالح يبدأ بإشارة '+' ولا يحتوي على أي مسافات."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "رقم الهاتف",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "عنوان Callback URL",
-          "SUBTITLE": "يجب عليك تكوين URL webhook في بوابة مطور فيسبوك مع عنوان URL المذكور هنا."
+          "SUBTITLE": "يجب عليك تكوين رابط الويب هوك و رمز التحقق في بوابة مطور الفيسبوك مع القيم الموضحة أدناه.",
+          "WEBHOOK_URL": "رابط Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "رمز التحقق من Webhook"
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "أصبحت قناة التواصل جاهزة الآن!",
-      "MESSAGE": "يمكنك الآن التواصل مع عملائك من خلال قناتك الجديدة ",
+      "MESSAGE": "يمكنك الآن التواصل مع عملائك من خلال قناتك الجديدة",
       "BUTTON_TEXT": "خذني إلى هناك",
       "MORE_SETTINGS": "المزيد من الإعدادات",
       "WEBSITE_SUCCESS": "لقد انتهيت بنجاح من إنشاء قناة دردشة مباشرة لموقعك. انسخ الرمز الموضح أدناه وقم بإضافته إلى موقع الويب الخاص بك. في المرة القادمة التي يستخدم فيها العميل الدردشة المباشرة، ستظهر المحادثة تلقائياً على صندوق الوارد الخاص بك."
@@ -383,6 +389,10 @@
         "DISABLED": "معطّل"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "مفعل",
+        "DISABLED": "معطّل"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
       },
@@ -414,7 +424,8 @@
       "CAMPAIGN": "الحملات",
       "PRE_CHAT_FORM": "نموذج ما قبل الدردشة",
       "BUSINESS_HOURS": "ساعات العمل",
-      "WIDGET_BUILDER": "منشئ اللايف شات"
+      "WIDGET_BUILDER": "منشئ اللايف شات",
+      "BOT_CONFIGURATION": "اعدادات البوت"
     },
     "SETTINGS": "الإعدادات",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "تمكين/تعطيل تقييم خدمة العملاء بعد إنتهاء المحادثة",
       "ENABLE_CONTINUITY_VIA_EMAIL": "تمكين استمرارية المحادثة عبر البريد الإلكتروني",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "المحادثات ستستمر عبر البريد الإلكتروني إذا كان عنوان البريد الإلكتروني لجهة الاتصال متاحاً.",
+      "LOCK_TO_SINGLE_CONVERSATION": "قفل إلى محادثة واحدة",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "تمكين أو تعطيل محادثات متعددة لنفس جهة الاتصال في هذا البريد الوارد",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
@@ -538,6 +551,10 @@
         "PLACE_HOLDER": "كلمة المرور"
       },
       "ENABLE_SSL": "تمكين SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

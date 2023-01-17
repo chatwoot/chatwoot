@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_10_212946) do
+ActiveRecord::Schema.define(version: 2022_12_30_113108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -252,6 +252,8 @@ ActiveRecord::Schema.define(version: 2022_10_10_212946) do
     t.string "smtp_authentication", default: "login"
     t.string "smtp_openssl_verify_mode", default: "none"
     t.boolean "smtp_enable_ssl_tls", default: false
+    t.jsonb "provider_config", default: {}
+    t.string "provider"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -535,6 +537,7 @@ ActiveRecord::Schema.define(version: 2022_10_10_212946) do
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
     t.jsonb "auto_assignment_config", default: {}
+    t.boolean "lock_to_single_conversation", default: false, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -577,14 +580,12 @@ ActiveRecord::Schema.define(version: 2022_10_10_212946) do
     t.bigint "account_id", null: false
     t.string "name", null: false
     t.integer "visibility", default: 0
-    t.bigint "created_by_id", null: false
-    t.bigint "updated_by_id", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
     t.jsonb "actions", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_macros_on_account_id"
-    t.index ["created_by_id"], name: "index_macros_on_created_by_id"
-    t.index ["updated_by_id"], name: "index_macros_on_updated_by_id"
   end
 
   create_table "mentions", force: :cascade do |t|

@@ -1,6 +1,8 @@
 export const MESSAGE_STATUS = {
   FAILED: 'failed',
   SENT: 'sent',
+  DELIVERED: 'delivered',
+  READ: 'read',
   PROGRESS: 'progress',
 };
 
@@ -9,6 +11,13 @@ export const MESSAGE_TYPE = {
   OUTGOING: 1,
   ACTIVITY: 2,
   TEMPLATE: 3,
+};
+
+export const CONVERSATION_STATUS = {
+  OPEN: 'open',
+  RESOLVED: 'resolved',
+  PENDING: 'pending',
+  SNOOZED: 'snoozed',
 };
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
@@ -63,3 +72,8 @@ export const CSAT_RATINGS = [
     color: '#44CE4B',
   },
 ];
+
+export const AUDIO_FORMATS = {
+  WEBM: 'audio/webm',
+  OGG: 'audio/ogg',
+};

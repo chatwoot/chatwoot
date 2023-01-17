@@ -20,9 +20,9 @@
         "NOTE": "Din e-mailadresse er din identitet og bruges til at logge ind."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
+        "TITLE": "Genvejstast til at sende beskeder",
         "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "UPDATE_SUCCESS": "Dine indstillinger er blevet opdateret",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Lyd Notifikationer",
         "NOTE": "Aktivér lydmeddelelser i dashboard for nye beskeder og samtaler.",
-        "NONE": "Ingen",
-        "ASSIGNED": "Tildelte Samtaler",
-        "ALL_CONVERSATIONS": "Alle Samtaler"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Ingen",
+          "ASSIGNED": "Tildelte Samtaler",
+          "ALL_CONVERSATIONS": "Alle Samtaler"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Notifikationer",
@@ -103,7 +114,9 @@
           "Online",
           "Optaget",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Din e-mail adresse",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Vælg en konto fra følgende liste",
     "PROFILE_SETTINGS": "Profilindstillinger",
     "KEYBOARD_SHORTCUTS": "Tastaturgenveje",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Log Ud"
   },
   "APP_GLOBAL": {
@@ -158,6 +172,9 @@
       "DOWNLOAD": "Download",
       "UPLOADING": "Uploader..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Se på kort"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Send"
     }
@@ -174,11 +191,13 @@
     "CONVERSATIONS": "Samtaler",
     "ALL_CONVERSATIONS": "Alle Samtaler",
     "MENTIONED_CONVERSATIONS": "Omtaler",
+    "UNATTENDED_CONVERSATIONS": "Unattet",
     "REPORTS": "Rapporter",
     "SETTINGS": "Indstillinger",
     "CONTACTS": "Kontakter",
     "HOME": "Hjem",
     "AGENTS": "Agenter",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Indbakker",
     "NOTIFICATIONS": "Notifikationer",
     "CANNED_RESPONSES": "Standardsvar Svar",
@@ -189,6 +208,7 @@
     "LABELS": "Etiketter",
     "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
     "AUTOMATION": "Automatisering",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Fakturering",
     "CUSTOM_VIEWS_FOLDER": "Mapper",
@@ -219,6 +239,10 @@
       "ARCHIVED": "Arkiveret",
       "CATEGORY": "Kategori",
       "CATEGORY_EMPTY_MESSAGE": "Ingen kategorier fundet"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Læs dokumenter"
   },
@@ -251,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Kontonavn",
+        "LABEL": "Virksomhedens Navn",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Send"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Åbn samtale",
       "RESOLVE_AND_NEXT": "Løs og flyt til næste",

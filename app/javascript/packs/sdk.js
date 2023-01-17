@@ -18,6 +18,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   }
 
   const chatwootSettings = window.chatwootSettings || {};
+  let locale = chatwootSettings.locale;
+
+  if (chatwootSettings.useBrowserLanguage) {
+    locale = window.navigator.language.replace('-', '_');
+  }
+
   window.$chatwoot = {
     baseUrl,
     hasLoaded: false,
@@ -25,7 +31,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     isOpen: false,
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
-    locale: chatwootSettings.locale,
+    locale,
+    useBrowserLanguage: chatwootSettings.useBrowserLanguage || false,
     type: getBubbleView(chatwootSettings.type),
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
@@ -58,7 +65,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.events.popoutChatWindow({
         baseUrl: window.$chatwoot.baseUrl,
         websiteToken: window.$chatwoot.websiteToken,
-        locale: window.$chatwoot.locale,
+        locale,
       });
     },
 

@@ -53,6 +53,10 @@
           "ENABLE": "Creați conversații din tweet-urile menționate"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal web",
         "DESC": "Creați un canal pentru site-ul dvs. și începeți să asigurati suportul clienților prin intermediul widget-ului nostru web.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Număr de telefon",
             "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-            "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Creați un canal de lățime de bandă",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Creați canalul WhatsApp",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "Inbox-ul este gata!",
-      "MESSAGE": "Acum poți intra în contact cu clienții tăi prin noul tău Canal. Suport fericit ",
+      "MESSAGE": "Acum poți intra în contact cu clienții tăi prin noul tău Canal. Suport fericit",
       "BUTTON_TEXT": "Du-mă acolo",
       "MORE_SETTINGS": "Mai multe setări",
       "WEBSITE_SUCCESS": "Ați finalizat cu succes crearea unui canal web. Copiați codul de mai jos și inserati-l pe site-ul dvs. Data viitoare când un client folosește conversația live, conversația va apărea automat pe căsuța poștală."
@@ -383,6 +389,10 @@
         "DISABLED": "Dezactivat"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat"
       },
@@ -414,7 +424,8 @@
       "CAMPAIGN": "Campanii",
       "PRE_CHAT_FORM": "Formular pre chat",
       "BUSINESS_HOURS": "Program de lucru",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Setări",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Activați/dezactivați sondajul CSAT (Satisfacția clienților) după rezolvarea unei conversații",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activați continuitatea conversației prin e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversațiile vor continua prin e-mail dacă adresa de e-mail de contact este disponibilă.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Setări Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
@@ -539,6 +552,10 @@
       },
       "ENABLE_SSL": "Activare SSL"
     },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
+    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Setarea detaliilor SMTP",
@@ -622,7 +639,7 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "Previzualizați",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {

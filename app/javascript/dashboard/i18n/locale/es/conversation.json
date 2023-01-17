@@ -41,6 +41,10 @@
     "NO_RESPONSE": "No hay respuesta",
     "RATING_TITLE": "Calificación",
     "FEEDBACK_TITLE": "Comentarios",
+    "CARD": {
+      "SHOW_LABELS": "Mostrar etiquetas",
+      "HIDE_LABELS": "Ocultar etiquetas"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendiente",
       "RESOLVED": "Marcar como resuelto",
+      "MARK_AS_UNREAD": "Marcar como no leído",
       "REOPEN": "Resolver conversación",
       "SNOOZE": {
         "TITLE": "Posponer",
@@ -208,7 +213,8 @@
       "CONVERSATION_LABELS": "Etiquetas de conversación",
       "CONVERSATION_INFO": "Información de la conversación",
       "CONTACT_ATTRIBUTES": "Atributos de contacto",
-      "PREVIOUS_CONVERSATION": "Conversaciones anteriores"
+      "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

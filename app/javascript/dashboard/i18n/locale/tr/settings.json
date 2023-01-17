@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Bildirimler",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "Hiç",
-        "ASSIGNED": "Atanmış Görüşmeler",
-        "ALL_CONVERSATIONS": "Tüm Görüşmeler"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Hiç",
+          "ASSIGNED": "Atanmış Görüşmeler",
+          "ALL_CONVERSATIONS": "Tüm Görüşmeler"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-posta Bildirimleri",
@@ -103,7 +114,9 @@
           "Çevirimiçi",
           "Meşgul",
           "Çevirimdışı"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Sizin E-posta Adresiniz",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Aşağıdaki listeden bir hesap seçin",
     "PROFILE_SETTINGS": "Profil ayarları",
     "KEYBOARD_SHORTCUTS": "Klavye Kısayolları",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Çıkış Yap"
   },
   "APP_GLOBAL": {
@@ -158,6 +172,9 @@
       "DOWNLOAD": "İndir",
       "UPLOADING": "Yükleniyor ..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Yolla"
     }
@@ -174,11 +191,13 @@
     "CONVERSATIONS": "Konuşmalar",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Gelen kutuları",
     "NOTIFICATIONS": "Bildirimler",
     "CANNED_RESPONSES": "Hazır Yanıtlar",
@@ -189,6 +208,7 @@
     "LABELS": "Etiketler",
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
     "AUTOMATION": "Otomasyon",
+    "MACROS": "Macros",
     "TEAMS": "Ekipler",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Klasörler",
@@ -219,6 +239,10 @@
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -251,13 +275,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Hesap adı",
+        "LABEL": "Şirket Adı",
         "PLACEHOLDER": "Şirketiniz"
       },
       "SUBMIT": "Yolla"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Görüşmeyi aç",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

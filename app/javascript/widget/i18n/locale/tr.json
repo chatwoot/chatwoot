@@ -24,7 +24,7 @@
   "START_CONVERSATION": "Görüşmeyi Başlatın",
   "END_CONVERSATION": "Görüşmeyi Sonlandır",
   "CONTINUE_CONVERSATION": "Görüşmeye devam et",
-  "START_NEW_CONVERSATION": "Yeni çatı başla",
+  "START_NEW_CONVERSATION": "Yeni Görüşme Başlatın",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
     "CLOSE_MESSAGES_BUTTON": "Kapat",
@@ -73,6 +73,10 @@
       "FIELD": "Geçersiz alan"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Görüşmenizi değerlendirin",
     "SUBMITTED_TITLE": "Değerlendirmeniz için teşekkürler",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Konuşma transkripti talep et",
     "SEND_EMAIL_SUCCESS": "Sohbet metni başarıyla gönderildi",
     "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

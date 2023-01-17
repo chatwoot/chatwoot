@@ -1,74 +1,29 @@
 <template>
-  <div class="user-thumbnail-box" :style="{ height: size, width: size }">
+  <div
+    :class="thumbnailBoxClass"
+    :style="{ height: size, width: size }"
+    :title="title"
+  >
+    <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
     <img
-      v-if="!imgError && Boolean(src)"
-      id="image"
+      v-show="shouldShowImage"
       :src="src"
       :class="thumbnailClass"
-      @error="onImgError()"
+      @load="onImgLoad"
+      @error="onImgError"
     />
     <Avatar
-      v-else
+      v-show="!shouldShowImage"
       :username="userNameWithoutEmoji"
       :class="thumbnailClass"
       :size="avatarSize"
-      :variant="variant"
     />
     <img
-      v-if="badge === 'instagram_direct_message'"
-      id="badge"
+      v-if="badgeSrc"
       class="source-badge"
       :style="badgeStyle"
-      src="/integrations/channels/badges/instagram-dm.png"
-    />
-    <img
-      v-else-if="badge === 'facebook'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/messenger.png"
-    />
-    <img
-      v-else-if="badge === 'twitter-tweet'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/twitter-tweet.png"
-    />
-    <img
-      v-else-if="badge === 'twitter-dm'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/twitter-dm.png"
-    />
-    <img
-      v-else-if="badge === 'whatsapp'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/whatsapp.png"
-    />
-    <img
-      v-else-if="badge === 'sms'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/sms.png"
-    />
-    <img
-      v-else-if="badge === 'Channel::Line'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/line.png"
-    />
-    <img
-      v-else-if="badge === 'Channel::Telegram'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/telegram.png"
+      :src="`/integrations/channels/badges/${badgeSrc}.png`"
+      alt="Badge"
     />
     <div
       v-if="showStatusIndicator"
@@ -83,7 +38,7 @@
  * Src - source for round image
  * Size - Size of the thumbnail
  * Badge - Chat source indication { fb / telegram }
- * Username - User name for avatar
+ * Username - Username for avatar
  */
 import Avatar from './Avatar';
 import { removeEmoji } from 'shared/helpers/emoji';
@@ -103,7 +58,7 @@ export default {
     },
     badge: {
       type: String,
-      default: 'fb',
+      default: '',
     },
     username: {
       type: String,
@@ -121,6 +76,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    title: {
+      type: String,
+      default: '',
+    },
     variant: {
       type: String,
       default: 'circle',
@@ -128,6 +87,7 @@ export default {
   },
   data() {
     return {
+      hasImageLoaded: false,
       imgError: false,
     };
   },
@@ -141,6 +101,19 @@ export default {
     },
     avatarSize() {
       return Number(this.size.replace(/\D+/g, ''));
+    },
+    badgeSrc() {
+      return {
+        instagram_direct_message: 'instagram-dm',
+        facebook: 'messenger',
+        'twitter-tweet': 'twitter-tweet',
+        'twitter-dm': 'twitter-dm',
+        whatsapp: 'whatsapp',
+        sms: 'sms',
+        'Channel::Line': 'line',
+        'Channel::Telegram': 'telegram',
+        'Channel::WebWidget': '',
+      }[this.badge];
     },
     badgeStyle() {
       const size = Math.floor(this.avatarSize / 3);
@@ -158,19 +131,33 @@ export default {
         this.variant === 'circle' ? 'thumbnail-rounded' : 'thumbnail-square';
       return `user-thumbnail ${classname} ${variant}`;
     },
+    thumbnailBoxClass() {
+      const boxClass = this.variant === 'circle' ? 'is-rounded' : '';
+      return `user-thumbnail-box ${boxClass}`;
+    },
+    shouldShowImage() {
+      if (!this.src) {
+        return false;
+      }
+      if (this.hasImageLoaded) {
+        return !this.imgError;
+      }
+      return false;
+    },
   },
   watch: {
-    src: {
-      handler(value, oldValue) {
-        if (value !== oldValue && this.imgError) {
-          this.imgError = false;
-        }
-      },
+    src(value, oldValue) {
+      if (value !== oldValue && this.imgError) {
+        this.imgError = false;
+      }
     },
   },
   methods: {
     onImgError() {
       this.imgError = true;
+    },
+    onImgLoad() {
+      this.hasImageLoaded = true;
     },
   },
 };
@@ -182,6 +169,10 @@ export default {
   max-width: 100%;
   position: relative;
 
+  &.is-rounded {
+    border-radius: 50%;
+  }
+
   .user-thumbnail {
     border-radius: 50%;
     &.thumbnail-square {
@@ -191,6 +182,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     object-fit: cover;
+    vertical-align: initial;
 
     &.border {
       border: 1px solid white;
@@ -224,10 +216,6 @@ export default {
 
   .user-online-status--busy {
     background: var(--y-500);
-  }
-
-  .user-online-status--offline {
-    background: var(--s-500);
   }
 
   .user-online-status--offline {

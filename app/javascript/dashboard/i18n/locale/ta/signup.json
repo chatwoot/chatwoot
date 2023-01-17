@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "சமர்ப்பிக்கவும்",
     "TITLE": "பதியவும்",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "பதிவுபெறுவதன் மூலம், எங்கள் <a href=\"https://www.chatwoot.com/terms\"> விதிமுறைகள் மற்றும் நிபந்தனைகள், மற்றும் <a href=\"https://www.chatwoot.com/privacy-policy\"> தனியுரிமைக் கொள்கையை ஒப்புக்கொள்கிறீர்கள்",
-    "ACCOUNT_NAME": {
-      "LABEL": "கணக்கின் பெயர்",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Full name",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Work email",
       "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "பாஸ்வேர்ட்",

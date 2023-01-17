@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Tidak ada respon",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Menyelesaikan",
       "REOPEN_ACTION": "Buka Kembali",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -208,7 +213,8 @@
       "CONVERSATION_LABELS": "Label Percakapan",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya"
+      "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

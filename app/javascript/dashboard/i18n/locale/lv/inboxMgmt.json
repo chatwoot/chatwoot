@@ -53,6 +53,10 @@
           "ENABLE": "Izveidot sarunas no minētajiem Tvītiem"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Tīmekļa vietnes kanāls",
         "DESC": "Izveidot savai tīmekļa vietnei kanālu un sākt atbalstīt savus klientus, izmantojot mūsu tīmekļu vietnes logrīku.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
         "API_CALLBACK": {
           "TITLE": "Atzvanīšanas URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Tālruņa numurs",
             "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-            "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+            "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
           },
           "SUBMIT_BUTTON": "Izveidot Bandwidth kanālu",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Tālruņa numura ID",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Atzvanīšanas URL",
-          "SUBTITLE": "Jums ir facebook izstrādātāju portālā jānokonfigurē webhook URL, izmantojot šeit minēto URL."
+          "SUBTITLE": "Jums Facebook izstrādātāju portālā ir jānokonfigurē webhoot URL un verifikācijas token ar tālāk norādītajām vērtībām.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verifikācijas Token"
         },
         "SUBMIT_BUTTON": "Izveidot WhatsApp kanālu",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "Jūsu Iesūtne ir gatava!",
-      "MESSAGE": "Tagad Jūs varat izmantot savu jauno Kanālu lai sazinātos ar saviem klientiem. Priecīgu atbalstīšanu ",
+      "MESSAGE": "Tagad Jūs varat izmantot savu jauno Kanālu lai sazinātos ar saviem klientiem. Priecīgu atbalstīšanu",
       "BUTTON_TEXT": "Iet uz",
       "MORE_SETTINGS": "Papildu iestatījumi",
       "WEBSITE_SUCCESS": "Jūs esat veiksmīgi pabeidzis tīmekļa vietnes kanāla izveidi. Nokopējiet tālāk redzamo kodu un ievietojiet to savā tīmekļa vietnē. Nākamreiz, kad klients izmantos tiešsaistes tērzēšanu, saruna automātiski tiks parādīta Jūsu iesūtnē."
@@ -383,6 +389,10 @@
         "DISABLED": "Atspējots"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Iespējots",
         "DISABLED": "Atspējots"
       },
@@ -414,7 +424,8 @@
       "CAMPAIGN": "Kampaņas",
       "PRE_CHAT_FORM": "Pirms-Tērzēšanas Veidlapa",
       "BUSINESS_HOURS": "Darba Laiks",
-      "WIDGET_BUILDER": "Logrīku Veidotājs"
+      "WIDGET_BUILDER": "Logrīku Veidotājs",
+      "BOT_CONFIGURATION": "Robota Konfigurācija"
     },
     "SETTINGS": "Iestatījumi",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Pieturēties pie vienas sarunas",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Iespējot vai atspējot vairākas sarunas vienai un tai pašai kontaktpersonai šajā iesūtnē",
       "INBOX_UPDATE_TITLE": "Iesūtnes Iestatījumi",
       "INBOX_UPDATE_SUB_TEXT": "Atjaunināt Jūsu iesūtnes iestatījumus",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Iespējot vai atspējot jaunu sarunu automātisku piešķiršanu šai iesūtnei pievienotajiem aģentiem.",
@@ -538,6 +551,10 @@
         "PLACE_HOLDER": "Parole"
       },
       "ENABLE_SSL": "Iespējot SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

@@ -53,6 +53,10 @@
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "வலைத்தள சேனல்",
         "DESC": "உங்கள் வலைத்தளத்திற்கு ஒரு சேனலை உருவாக்கி, எங்கள் வலைத்தள விட்ஜெட் வழியாக உங்கள் வாடிக்கையாளர்களுக்கு சேவையளிக்கத் தொடங்குங்கள்.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "தொலைபேசி எண்",
             "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-            "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "வெப்ஹூக் URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "உங்கள் இன்பாக்ஸ் தயாராக உள்ளது!",
-      "MESSAGE": "உங்கள் புதிய சேனல் மூலம் இப்போது உங்கள் வாடிக்கையாளர்களுடன் ஈடுபடலாம். மகிழ்ச்சியாய் ஆதரவு அளியுங்கள் ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "என்னை அங்கே அழைத்துச் செல்லுங்கள்",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "வலைத்தள சேனலை உருவாக்குவதை வெற்றிகரமாக முடித்துவிட்டீர்கள். கீழே காட்டப்பட்டுள்ள உங்கள் இணையதளத்தில் ஒட்டவும். அடுத்த முறை வாடிக்கையாளர் நேரடி சாட்டை பயன்படுத்தும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும்."
@@ -383,6 +389,10 @@
         "DISABLED": "முடக்கப்பட்டது"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "இயக்கப்பட்டது",
+        "DISABLED": "முடக்கப்பட்டது"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "இயக்கப்பட்டது",
         "DISABLED": "முடக்கப்பட்டது"
       },
@@ -414,7 +424,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "அமைப்புகள்",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
       "AUTO_ASSIGNMENT_SUB_TEXT": "இந்த இன்பாக்ஸில் சேர்க்கப்பட்ட ஏஜென்ட்களுக்கு புதிய உரையாடல்களின் தானியங்கி ஒதுக்கீட்டை இயக்கவும் அல்லது முடக்கவும்.",
@@ -538,6 +551,10 @@
         "PLACE_HOLDER": "பாஸ்வேர்ட்"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

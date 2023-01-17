@@ -53,6 +53,10 @@
           "ENABLE": "ایجاد گفتگوهایی که از توییت‌های اشاره شده هستند"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "کانال وب‌سایت",
         "DESC": "یک کانال به وب سایت خود بسازید تا مشتریان بتوانند از طریق ویجت سایت با شما گفتگو کنند.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "شماره تلفن",
           "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
-          "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
+          "ERROR": "لطفا یک شماره تلفن معتبر ارائه دهید که با علامت «+» شروع شود و بدون فاصله بین اعداد باشد."
         },
         "API_CALLBACK": {
           "TITLE": "آدرس URL مربوط به API",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "شماره تلفن",
             "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
-            "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
+            "ERROR": "لطفا یک شماره تلفن معتبر ارائه دهید که با علامت «+» شروع شود و بدون فاصله بین اعداد باشد."
           },
           "SUBMIT_BUTTON": "ایجاد کانال Bandwidth",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "شماره تلفن",
           "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
-          "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
+          "ERROR": "لطفا یک شماره تلفن معتبر ارائه دهید که با علامت «+» شروع شود و بدون فاصله بین اعداد باشد."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "شناسه شماره تلفن",
@@ -239,7 +243,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "آدرس URL مربوط به API",
-          "SUBTITLE": "شما باید URL webhook را در پورتال توسعه دهنده فیس بوک با URL ذکر شده در اینجا پیکربندی کنید."
+          "SUBTITLE": "شما باید URL webhook و رمز تأیید را در پورتال توسعه دهنده فیس بوک با مقادیر نشان داده شده در زیر پیکربندی کنید.",
+          "WEBHOOK_URL": "آدرس URL وب هوک",
+          "WEBHOOK_VERIFICATION_TOKEN": "توکن تایید Webhook"
         },
         "SUBMIT_BUTTON": "ایجاد کانال واتساپ",
         "API": {
@@ -357,7 +363,7 @@
     },
     "FINISH": {
       "TITLE": "صندوق ورودی حاضره!",
-      "MESSAGE": "حالا از طریق این کانال جدید می‌توانید با مشتریان صحبت کنید. به امید موفقیت ",
+      "MESSAGE": "حالا از طریق این کانال جدید می‌توانید با مشتریان صحبت کنید. به امید موفقیت",
       "BUTTON_TEXT": "نشانم بده",
       "MORE_SETTINGS": "تنظیمات بیشتر",
       "WEBSITE_SUCCESS": "ساختن کانال وب سایت با موفقیت انجام شد. قطعه کد زیر را کپی کرده و در سایت خود قرار دهید. در صورتیکه مشتری از ویجت پشتیبانی آنلاین استفاده کند گفتگوی شما در این صندوق ورودی ظاهر می‌شود."
@@ -385,6 +391,10 @@
       "ENABLE_CONTINUITY_VIA_EMAIL": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "فعال شد",
+        "DISABLED": "غیرفعال شد"
       },
       "ENABLE_HMAC": {
         "LABEL": "فعال"
@@ -414,7 +424,8 @@
       "CAMPAIGN": "کمپین ها",
       "PRE_CHAT_FORM": "فرم پیش چت",
       "BUSINESS_HOURS": "ساعت کاری",
-      "WIDGET_BUILDER": "سازنده ابزارک"
+      "WIDGET_BUILDER": "سازنده ابزارک",
+      "BOT_CONFIGURATION": "پیکربندی ربات"
     },
     "SETTINGS": "تنظیمات",
     "FEATURES": {
@@ -438,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "پس از پایان گفتگو ، نظرسنجی CSAT (رضایت مشتری) را فعال/غیرفعال کنید",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
+      "LOCK_TO_SINGLE_CONVERSATION": "قفل کردن مکالمه تکی",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "چند مکالمه را برای یک مخاطب در این صندوق ورودی فعال یا غیرفعال کنید",
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
@@ -538,6 +551,10 @@
         "PLACE_HOLDER": "رمز عبور"
       },
       "ENABLE_SSL": "فعال کردن SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

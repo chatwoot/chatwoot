@@ -3,9 +3,12 @@
     "CONVERSATIONS_SELECTED": "%{conversationCount} المحادثات المحددة",
     "AGENT_SELECT_LABEL": "اختر وكيل",
     "ASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من أنك تريد تعيين %{conversationCount} %{conversationLabel} إلى",
+    "UNASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من إلغاء تعيين %{conversationCount} %{conversationLabel}؟",
     "GO_BACK_LABEL": "العودة للخلف",
     "ASSIGN_LABEL": "تكليف",
+    "YES": "نعم",
     "ASSIGN_AGENT_TOOLTIP": "إسناد وكيل",
+    "ASSIGN_TEAM_TOOLTIP": "تعيين فريق",
     "ASSIGN_SUCCESFUL": "تم تعيين المحادثات بنجاح",
     "ASSIGN_FAILED": "فشل في تعيين المحادثات، الرجاء المحاولة مرة أخرى",
     "RESOLVE_SUCCESFUL": "تم تسوية المحادثات بنجاح",
@@ -24,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "تعيين التسميات المحددة",
       "ASSIGN_SUCCESFUL": "تم تعيين التسميات بنجاح",
       "ASSIGN_FAILED": "فشل في تعيين التسميات ، الرجاء المحاولة مرة أخرى"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "اختيار فريق",
+      "NONE": "لا شيء",
+      "NO_TEAMS_AVAILABLE": "لا توجد فرق مضافة إلى هذا الحساب حتى الآن.",
+      "ASSIGN_SELECTED_TEAMS": "تعيين فريق محدد",
+      "ASSIGN_SUCCESFUL": "تم تعيين الفرق بنجاح",
+      "ASSIGN_FAILED": "فشل تعيين الفريق، الرجاء المحاولة مرة أخرى"
     }
   }
 }

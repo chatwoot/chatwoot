@@ -236,8 +236,10 @@ export default {
       });
     },
     articleCount() {
-      const { all_articles_count: count } = this.portal.meta;
-      return count;
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.reduce((acc, locale) => {
+        return acc + locale.articles_count;
+      }, 0);
     },
   },
   methods: {
@@ -248,7 +250,7 @@ export default {
       this.$emit('open-site', this.portal.slug);
     },
     openSettings() {
-      this.fetchPortalsAndItsCategories();
+      this.fetchPortalAndItsCategories();
       this.navigateToPortalEdit();
     },
     onClickOpenDeleteModal(portal) {
@@ -258,12 +260,18 @@ export default {
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.portal.slug,
-        });
-      });
+    async fetchPortalAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+      const {
+        slug,
+        config: { allowed_locales: allowedLocales },
+      } = this.portal;
+      const selectedPortalParam = {
+        portalSlug: slug,
+        locale: allowedLocales[0].code,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
     },
     async onClickDeletePortal() {
       const { slug } = this.selectedPortalForDelete;
@@ -376,7 +384,6 @@ export default {
         }
       }
       .portal-title {
-        color: var(--s-900);
         margin-bottom: 0;
       }
       .portal-count {
@@ -389,13 +396,16 @@ export default {
       }
     }
     .portal-locales {
-      margin-top: var(--space-medium);
-      margin-bottom: var(--space-small);
+      margin-bottom: var(--space-large);
       .locale-title {
         color: var(--s-800);
         font-weight: var(--font-weight-medium);
         margin-bottom: var(--space-small);
       }
+    }
+
+    .portal--heading {
+      margin-bottom: var(--space-normal);
     }
   }
   .portal-settings--icon {
