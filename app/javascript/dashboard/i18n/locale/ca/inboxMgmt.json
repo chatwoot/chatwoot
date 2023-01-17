@@ -53,6 +53,10 @@
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal Web",
         "DESC": "Crea un canal per al vostre lloc web i comença a donar suport als vostres clients mitjançant el teu widget del lloc web.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telèfon",
           "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-          "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Número de telèfon",
             "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-            "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telèfon",
           "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-          "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +392,10 @@
         "ENABLED": "Habilita",
         "DISABLED": "Inhabilita"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Habilita",
+        "DISABLED": "Inhabilita"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -441,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses",
@@ -541,6 +551,10 @@
         "PLACE_HOLDER": "Contrasenya"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

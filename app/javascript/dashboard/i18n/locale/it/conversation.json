@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Nessuna risposta",
     "RATING_TITLE": "Valutazione",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Risolvi",
       "REOPEN_ACTION": "Riapri",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Segna come in sospeso",
       "RESOLVED": "Contrassegna come risolto",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Riapri la conversazione",
       "SNOOZE": {
         "TITLE": "Posticipa",

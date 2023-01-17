@@ -53,6 +53,10 @@
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website kanaal",
         "DESC": "Maak een kanaal voor uw website en begin met het ondersteunen van uw klanten via onze website widget.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefoon nummer",
           "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-          "ERROR": "Voer een geldige waarde in. Telefoonnummer moet beginnen met `+` teken."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Telefoon nummer",
             "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-            "ERROR": "Voer een geldige waarde in. Telefoonnummer moet beginnen met `+` teken."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefoon nummer",
           "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-          "ERROR": "Voer een geldige waarde in. Telefoonnummer moet beginnen met `+` teken."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +392,10 @@
         "ENABLED": "Ingeschakeld",
         "DISABLED": "Uitgeschakeld"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Ingeschakeld",
+        "DISABLED": "Uitgeschakeld"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -441,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
       "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
       "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd.",
@@ -541,6 +551,10 @@
         "PLACE_HOLDER": "Wachtwoord"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -653,7 +667,7 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "Op dit moment zijn we niet aanwezig"
+          "OFFLINE": "We zijn momenteel afwezig"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"

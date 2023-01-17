@@ -23,7 +23,7 @@
         "ERROR": "Anna kelvollinen tilin nimi"
       },
       "LANGUAGE": {
-        "LABEL": "Sivuston kieli (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Tilisi nimi",
         "ERROR": ""
       },

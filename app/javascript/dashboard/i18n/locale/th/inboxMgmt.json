@@ -53,6 +53,10 @@
           "ENABLE": "สร้างการสนทนาใหม่จากการกล่าวถึงในทวีต"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "ช่องเว็บไซต์",
         "DESC": "สร้างช่องสำหรับเว็บของคุณเเละเริ่มที่จะช่วยเหลือลูกค้าของคุณด้วยวิดเจ็ต",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "หมายเลขโทรศัพท์",
           "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
-          "ERROR": "กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้องต้องเริ่มด้วย \"+\""
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "ลิ้งเรียกกลับ",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "หมายเลขโทรศัพท์",
             "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
-            "ERROR": "กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้องต้องเริ่มด้วย \"+\""
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "สร้างช่องทาง Bandwidth",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "หมายเลขโทรศัพท์",
           "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
-          "ERROR": "กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้องต้องเริ่มด้วย \"+\""
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +392,10 @@
         "ENABLED": "เปิด",
         "DISABLED": "ปิด"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "เปิด",
+        "DISABLED": "ปิด"
+      },
       "ENABLE_HMAC": {
         "LABEL": "เปิดใช้งาน"
       }
@@ -441,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "เปิดหรือปิด CSAT(แบบสอบถามความพีงพอใจลูกค้า) หลังจากเสร็จสิ้นการสนทนา",
       "ENABLE_CONTINUITY_VIA_EMAIL": "เปิดให้มีการสนทนาต่อทางอีเมลได้",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "การสนทนาจะสามารถดำเนินการต่อผ่านทางอีเมลได้ หากลูกค้าให้อีเมลไว้",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "ตั้งค่ากล่องข้อความ",
       "INBOX_UPDATE_SUB_TEXT": "อัปเดตกล่องข้อความ",
       "AUTO_ASSIGNMENT_SUB_TEXT": "เปิดหรือปิดระบบมอบหมายงานอัตโนมัติสำหรับข้อความใหม่ให้กับพนักงานในกล่องสนทนานี้",
@@ -541,6 +551,10 @@
         "PLACE_HOLDER": "หรัสผ่าน"
       },
       "ENABLE_SSL": "เปิดใช้ SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

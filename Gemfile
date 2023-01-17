@@ -4,7 +4,7 @@ ruby '3.0.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~>6.1'
+gem 'rails', '~> 6.1', '>= 6.1.6.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -37,6 +37,8 @@ gem 'json_schemer'
 gem 'rack-attack'
 # a utility tool for streaming, flexible and safe downloading of remote files
 gem 'down', '~> 5.0'
+# authentication type to fetch and send mail over oauth2.0
+gem 'gmail_xoauth'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -56,7 +58,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker', '~> 5.x'
+gem 'webpacker', '~> 5.4', '>= 5.4.3'
 # metrics on heroku
 gem 'barnes'
 
@@ -94,7 +96,7 @@ gem 'ddtrace'
 gem 'elastic-apm'
 gem 'newrelic_rpm'
 gem 'scout_apm'
-gem 'sentry-rails', '~> 5.3'
+gem 'sentry-rails', '~> 5.3', '>= 5.3.1'
 gem 'sentry-ruby', '~> 5.3'
 gem 'sentry-sidekiq', '~> 5.3'
 
@@ -177,7 +179,7 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '~> 5.0.0'
+  gem 'rspec-rails', '~> 5.0.3'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -188,3 +190,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+# worked with microsoft refresh token
+gem 'omniauth-oauth2'

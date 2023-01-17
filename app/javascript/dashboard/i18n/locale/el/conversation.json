@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Καμία ανταπόκριση",
     "RATING_TITLE": "Αξιολόγηση",
     "FEEDBACK_TITLE": "Ανατροφοδότηση",
+    "CARD": {
+      "SHOW_LABELS": "Προβολή ετικετών",
+      "HIDE_LABELS": "Απόκρυψη ετικετών"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Επίλυση",
       "REOPEN_ACTION": "Επαναφορά",
@@ -64,6 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Σήμανση ως εκκρεμής",
       "RESOLVED": "Σήμανση ως επιλυμένου",
+      "MARK_AS_UNREAD": "Σήμανση ως μη αναγνωσμένο",
       "REOPEN": "Άνοιγμα συνομιλίας",
       "SNOOZE": {
         "TITLE": "Αναβολή",

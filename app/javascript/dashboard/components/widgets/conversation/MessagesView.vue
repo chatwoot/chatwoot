@@ -38,10 +38,8 @@
         class="message--read ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
@@ -60,10 +58,8 @@
         class="message--unread ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
     </ul>
@@ -431,12 +427,7 @@ export default {
       position: fixed;
       left: unset;
       position: absolute;
-
-      &::before {
-        transform: rotate(0deg);
-        left: var(--space-smaller);
-        bottom: var(--space-minus-slab);
-      }
+      bottom: var(--space-smaller);
     }
   }
 }

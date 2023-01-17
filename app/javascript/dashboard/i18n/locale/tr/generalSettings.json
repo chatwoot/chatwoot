@@ -23,7 +23,7 @@
         "ERROR": "Lütfen geçerli bir hesap adı girin"
       },
       "LANGUAGE": {
-        "LABEL": "Site dili (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Hesap adınız",
         "ERROR": ""
       },

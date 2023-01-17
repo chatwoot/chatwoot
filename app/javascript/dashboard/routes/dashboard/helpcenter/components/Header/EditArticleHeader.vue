@@ -113,6 +113,10 @@ const { ARTICLE_STATUS_TYPES } = wootConstants;
 export default {
   mixins: [alertMixin, clickaway],
   props: {
+    isSidebarOpen: {
+      type: Boolean,
+      default: true,
+    },
     backButtonLabel: {
       type: String,
       default: '',
@@ -136,10 +140,9 @@ export default {
   },
   data() {
     return {
-      isSidebarOpen: false,
       showActionsDropdown: false,
       alertMessage: '',
-      ARTICLE_STATUS_TYPES: ARTICLE_STATUS_TYPES,
+      ARTICLE_STATUS_TYPES,
     };
   },
   computed: {
@@ -205,11 +208,9 @@ export default {
       }
     },
     openSidebar() {
-      this.isSidebarOpen = true;
       this.$emit('open');
     },
     closeSidebar() {
-      this.isSidebarOpen = false;
       this.$emit('close');
     },
     openActionsDropdown() {

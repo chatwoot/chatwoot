@@ -53,6 +53,10 @@
           "ENABLE": "Konversationen aus erwähnten Tweets erstellen"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website-Kanal",
         "DESC": "Erstellen Sie einen Kanal für Ihre Website und unterstützen Sie Ihre Kunden über unser Website-Widget.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-          "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
+          "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Telefonnummer",
             "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-            "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
+            "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
           },
           "SUBMIT_BUTTON": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-          "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
+          "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefonnummer-ID",
@@ -388,6 +392,10 @@
         "ENABLED": "Aktiviert",
         "DISABLED": "Deaktiviert"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Deaktiviert"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Aktivieren"
       }
@@ -441,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
@@ -541,6 +551,10 @@
         "PLACE_HOLDER": "Passwort"
       },
       "ENABLE_SSL": "SSL aktivieren"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

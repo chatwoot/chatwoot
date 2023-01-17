@@ -23,7 +23,7 @@
         "ERROR": "Te rugăm să introduci un nume de cont valid"
       },
       "LANGUAGE": {
-        "LABEL": "Limba site-ului (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Numele contului tău",
         "ERROR": ""
       },
