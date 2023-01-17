@@ -656,6 +656,7 @@ GEM
     statsd-ruby (1.5.0)
     stripe (6.5.0)
     telephone_number (1.4.16)
+    test-prof (1.0.11)
     thor (1.2.1)
     tilt (2.0.10)
     time_diff (0.3.0)
@@ -815,6 +816,7 @@ DEPENDENCIES
   squasher
   stripe
   telephone_number
+  test-prof
   time_diff
   twilio-ruby (~> 5.66)
   twitty
