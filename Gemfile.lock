@@ -249,6 +249,8 @@ GEM
     gli (2.21.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    gmail_xoauth (0.4.2)
+      oauth (>= 0.3.6)
     google-apis-core (0.7.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
@@ -437,6 +439,20 @@ GEM
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.10)
+    oauth2 (2.0.9)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
+    omniauth (2.1.0)
+      hashie (>= 3.4.6)
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-oauth2 (1.8.0)
+      oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
     orm_adapter (0.5.0)
     os (1.1.4)
     parallel (1.22.1)
@@ -465,6 +481,8 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-protection (3.0.5)
+      rack
     rack-proxy (0.7.2)
       rack
     rack-test (2.0.2)
@@ -620,6 +638,9 @@ GEM
       gli
       hashie
       websocket-driver
+    snaky_hash (2.0.1)
+      hashie
+      version_gem (~> 1.1, >= 1.1.1)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -635,6 +656,7 @@ GEM
     statsd-ruby (1.5.0)
     stripe (6.5.0)
     telephone_number (1.4.16)
+    test-prof (1.0.11)
     thor (1.2.1)
     tilt (2.0.10)
     time_diff (0.3.0)
@@ -663,6 +685,7 @@ GEM
     valid_email2 (4.0.3)
       activemodel (>= 3.2)
       mail (~> 2.5)
+    version_gem (1.1.1)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -735,6 +758,7 @@ DEPENDENCIES
   flag_shih_tzu
   foreman
   geocoder
+  gmail_xoauth
   google-cloud-dialogflow
   google-cloud-storage
   groupdate
@@ -756,6 +780,7 @@ DEPENDENCIES
   maxminddb
   mock_redis
   newrelic_rpm
+  omniauth-oauth2
   pg
   pg_search
   procore-sift
@@ -791,6 +816,7 @@ DEPENDENCIES
   squasher
   stripe
   telephone_number
+  test-prof
   time_diff
   twilio-ruby (~> 5.66)
   twitty

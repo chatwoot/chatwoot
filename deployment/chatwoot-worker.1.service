@@ -7,7 +7,7 @@ Type=simple
 User=chatwoot
 WorkingDirectory=/home/chatwoot/chatwoot
 
-ExecStart=/bin/bash -lc 'bundle exec sidekiq -C config/sidekiq.yml'
+ExecStart=/bin/bash -lc 'dotenv bundle exec sidekiq -C config/sidekiq.yml'
 
 Restart=always
 RestartSec=1
