@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "نسخ",
-      "COPY_SUCCESSFUL": "تم نسخ الكود إلى الحافظة بنجاح"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "إظهار المزيد",
