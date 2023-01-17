@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiază",
-      "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
