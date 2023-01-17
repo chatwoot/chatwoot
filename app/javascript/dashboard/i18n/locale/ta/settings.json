@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "நகல்",
-      "COPY_SUCCESSFUL": "குறியீடு கிளிப்போர்டில் வெற்றிகரமாக காப்பி செய்யப்பட்டது"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
