@@ -7,6 +7,10 @@ require 'rspec/rails'
 require 'pundit/rspec'
 require 'sidekiq/testing'
 
+# test-prof helpers for tests optimization
+require 'test_prof/recipes/rspec/before_all'
+require 'test_prof/recipes/rspec/let_it_be'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
