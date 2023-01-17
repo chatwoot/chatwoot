@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Conversaties filteren",
+    "SUBTITLE": "Voeg hieronder filters toe en druk op 'Filters toepassen' om te filteren.",
+    "ADD_NEW_FILTER": "Filter toevoegen",
+    "FILTER_DELETE_ERROR": "U moet minstens één filter hebben om op te slaan",
+    "SUBMIT_BUTTON_LABEL": "Filters toepassen",
     "CANCEL_BUTTON_LABEL": "Annuleren",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Filters wissen",
+    "EMPTY_VALUE_ERROR": "Waarde is vereist",
+    "TOOLTIP_LABEL": "Gesprekken filteren",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "EN",
+      "OR": "OF"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "Gelijk aan",
+      "not_equal_to": "Niet gelijk aan",
+      "contains": "Bevat",
+      "does_not_contain": "Bevat niet",
+      "is_present": "Is aanwezig",
+      "is_not_present": "Is niet aanwezig",
+      "is_greater_than": "Is groter dan",
+      "is_less_than": "Is lager dan",
+      "days_before": "Is x dagen vóór"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Waar",
+      "FALSE": "Onwaar"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Inbox Name",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "ASSIGNEE_NAME": "Verantwoordelijke (naam)",
+      "INBOX_NAME": "Inbox Naam",
+      "TEAM_NAME": "Team Naam",
+      "CONVERSATION_IDENTIFIER": "Conversatie ID",
+      "CAMPAIGN_NAME": "Campagne Naam",
       "LABELS": "Labelen",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "BROWSER_LANGUAGE": "Browser Taal",
+      "COUNTRY_NAME": "Land Naam",
+      "REFERER_LINK": "Verwijzende link",
+      "CUSTOM_ATTRIBUTE_LIST": "Lijst",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Getal",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Selectievakje",
+      "CREATED_AT": "Aangemaakt op",
+      "LAST_ACTIVITY": "Laatste Activiteit"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Standaard Filters",
+      "ADDITIONAL_FILTERS": "Aanvullende filters",
       "CUSTOM_ATTRIBUTES": "Aanpasbare attributen"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "Wil je deze filter opslaan?",
+        "LABEL": "Geef deze filter een naam",
+        "PLACEHOLDER": "Voer een naam in voor deze filter",
+        "ERROR_MESSAGE": "Naam is vereist",
+        "SAVE_BUTTON": "Filter opslaan",
         "CANCEL_BUTTON": "Annuleren",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Map succesvol aangemaakt",
+          "ERROR_MESSAGE": "Fout tijdens het aanmaken van map"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment succesvol aangemaakt",
+          "ERROR_MESSAGE": "Fout bij het maken van segment"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Filter verwijderen",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Verwijderen bevestigen",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Weet u zeker dat u de filter wilt verwijderen? ",
             "YES": "Ja, verwijderen",
             "NO": "Nee, Bewaar het"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Map succesvol verwijderd",
+          "ERROR_MESSAGE": "Fout bij verwijderen map"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segment succesvol verwijderd",
+          "ERROR_MESSAGE": "Fout bij verwijderen segment"
         }
       }
     }
