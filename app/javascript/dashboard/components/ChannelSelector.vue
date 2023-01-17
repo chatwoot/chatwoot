@@ -36,7 +36,7 @@ export default {
   margin: -1px;
   padding: var(--space-normal) 0;
   transition: all 0.2s ease-in;
-
+  align-items: center;
   &:hover {
     border: 1px solid var(--w-500);
     box-shadow: var(--shadow-medium);
