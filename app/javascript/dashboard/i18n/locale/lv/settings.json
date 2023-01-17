@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopēt",
-      "COPY_SUCCESSFUL": "Kods ir veiksmīgi nokopēts uz clipboard"
+      "COPY_SUCCESSFUL": "Kopēts starpliktuvē"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Parādīt Vairāk",
