@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copia",
-      "COPY_SUCCESSFUL": "Codice copiato negli appunti correttamente"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mostra di più",
