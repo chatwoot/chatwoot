@@ -17,12 +17,12 @@
 }
 
 .tooltip {
+  background-color: #000000d5;
   border-radius: $space-smaller;
   font-size: $font-size-mini;
   max-width: 20rem;
   padding: $space-smaller $space-small;
   z-index: 999;
-  background-color: #000000d5;
 }
 
 code {
