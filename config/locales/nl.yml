@@ -134,7 +134,7 @@ nl:
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Beoordeel het gesprek, %{link}"
   contacts:
     online:
       delete: "%{contact_name} is Online, please try again later"
