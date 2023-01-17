@@ -77,11 +77,11 @@
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Нажмите, чтобы присоединиться",
+      "LEAVE_THE_ROOM": "Выйти из комнаты",
+      "START_VIDEO_CALL_HELP_TEXT": "Начать новый видеозвонок с клиентом",
+      "JOIN_ERROR": "Произошла ошибка при подключении к вызову, попробуйте еще раз",
+      "CREATE_ERROR": "Произошла ошибка при создании ссылки на встречу, попробуйте еще раз"
     },
     "DELETE": {
       "BUTTON_TEXT": "Удалить",
