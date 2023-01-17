@@ -62,6 +62,7 @@ if resource.email?
     json.imap_address resource.channel.try(:imap_address)
     json.imap_port resource.channel.try(:imap_port)
     json.imap_enabled resource.channel.try(:imap_enabled)
+    json.microsoft_reauthorization resource.channel.try(:microsoft?) && resource.channel.try(:provider_config).empty?
     json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
   end
 

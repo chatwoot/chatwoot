@@ -2,8 +2,8 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} المحادثات المحددة",
     "AGENT_SELECT_LABEL": "اختر وكيل",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من أنك تريد تعيين %{conversationCount} %{conversationLabel} إلى",
+    "UNASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من إلغاء تعيين %{conversationCount} %{conversationLabel}؟",
     "GO_BACK_LABEL": "العودة للخلف",
     "ASSIGN_LABEL": "تكليف",
     "YES": "نعم",
@@ -31,10 +31,10 @@
     "TEAMS": {
       "TEAM_SELECT_LABEL": "اختيار فريق",
       "NONE": "لا شيء",
-      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
-      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
-      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
-      "ASSIGN_FAILED": "Failed to assign team, please try again"
+      "NO_TEAMS_AVAILABLE": "لا توجد فرق مضافة إلى هذا الحساب حتى الآن.",
+      "ASSIGN_SELECTED_TEAMS": "تعيين فريق محدد",
+      "ASSIGN_SUCCESFUL": "تم تعيين الفرق بنجاح",
+      "ASSIGN_FAILED": "فشل تعيين الفريق، الرجاء المحاولة مرة أخرى"
     }
   }
 }
