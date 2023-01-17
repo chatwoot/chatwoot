@@ -1,78 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "ماكروس",
+    "HEADER_BTN_TXT": "إضافة ماكرو جديد",
+    "HEADER_BTN_TXT_SAVE": "حفظ الماكرو",
+    "LOADING": "جاري جلب الماكروس",
+    "SIDEBAR_TXT": "<p><b>الماكروس</b><p>الماكرو هو مجموعة من الإجراءات المحفوظة التي تساعد وكلاء خدمة العملاء على إكمال المهام بسهولة. يمكن للوكلاء تحديد مجموعة من الإجراءات مثل وضع علامة على محادثة مع تسمية، وإرسال نص بريد إلكتروني، وتحديث سمة مخصصة، إلخ. ويمكنهم تنفيذ هذه الإجراءات بنقرة واحدة. وعندما يدير الوكلاء الكلية، يتم تنفيذ الإجراءات بالتسلسل حسب الترتيب الذي تحدده. يحسن الماكرو الإنتاجية ويزيد الاتساق في الإجراءات. </p><p>يمكن أن يكون الماكرو مفيداً بطريقتين. </p><p><b>كوكيل يساعد:</b> إذا قام وكيل بمجموعة من الإجراءات عدة مرات، يمكنهم حفظه كماكلي وتنفيذ جميع الإجراءات معاً باستخدام نقرة واحدة.</p><p><b>كخيار للدخول إلى عضوية الفريق:</b> يجب على كل وكيل إجراء العديد من الشيكات والإجراءات المختلفة خلال كل محادثة. سيكون عضو فريق الدعم الجديد من أونبواردينغ سهلا إذا كان الماكرو المحدد مسبقا متاحا على الحساب. وبدلا من وصف كل خطوة بالتفصيل، يمكن للمدير/الفريق أن يشير إلى الكتلة الكلية المستخدمة في سيناريوهات مختلفة.</p>",
+    "ERROR": "حدث خطأ ما. الرجاء المحاولة مرة أخرى",
+    "ORDER_INFO": "سيتم تشغيل الماكرو بالترتيب الذي تضيفه إجراءاتك. يمكنك إعادة ترتيبهم بسحبهم بواسطة المعالج بجانب كل عقدة.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "اسم الماكرو",
+          "PLACEHOLDER": "أدخل اسم الماكرو الخاص بك",
+          "ERROR": "الاسم مطلوب لإنشاء الماكرو"
         },
         "ACTIONS": {
           "LABEL": "الإجراءات"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "تمت إضافة الماكرو بنجاح",
+        "ERROR_MESSAGE": "غير قادر على إنشاء الماكرو ، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "الاسم",
-        "Created by",
-        "Last updated by",
-        "Visibility"
+        "تم إنشاؤها بواسطة",
+        "آخر تحديث بواسطة",
+        "الظهور"
       ],
-      "404": "No macros found"
+      "404": "لم يتم العثور على الماكروس"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "حذف الماكرو",
       "CONFIRM": {
         "MESSAGE": "هل أنت متأكد من الحذف ",
         "YES": "نعم، احذف",
         "NO": "لا"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "تم حذف الماكرو بنجاح",
+        "ERROR_MESSAGE": "حدث خطأ أثناء حذف الماكرو. الرجاء المحاولة مرة أخرى في وقت لاحق"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "تعديل الماكرو",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "تم تحديث الماكرو بنجاح",
+        "ERROR_MESSAGE": "تعذر تحديث الماكرو ، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "بداية الإجرائات",
+      "END_FLOW": "نهاية الإجرائات",
+      "LOADING": "جاري جلب الماكروس",
+      "ADD_BTN_TOOLTIP": "إضافة إجراء جديد",
+      "DELETE_BTN_TOOLTIP": "حذف الإجراء",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "الرؤية الخاصة بالماكرو",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "عامة",
+          "DESCRIPTION": "هذا الماكرو متاح بشكل عام لجميع الوكلاء في هذا الحساب."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "خاص",
+          "DESCRIPTION": "هذا الماكرو سيكون خاصا لك ولن يكون متاحا للآخرين."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "تنفيذ",
+      "PREVIEW": "معاينة الماكرو",
+      "EXECUTED_SUCCESSFULLY": "تم تنفيذ الماكرو بنجاح"
     }
   }
 }

@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atributo Personalizado adicionado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível criar um atributo personalizado, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Atributo Personalizado adicionado com sucesso!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {

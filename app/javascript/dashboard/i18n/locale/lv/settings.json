@@ -282,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Skatīt visus īsinājumtaustiņus",
     "TITLE": {
       "OPEN_CONVERSATION": "Atvērt sarunu",
       "RESOLVE_AND_NEXT": "Atrisināt un pāriet uz nākamo",

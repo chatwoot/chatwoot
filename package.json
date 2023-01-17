@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.12.1",
+  "version": "2.13.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#7e8acadd10d7b932c0dc0bd0a18f804434f83517",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#beta",
     "@chatwoot/utils": "^0.0.10",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
@@ -47,9 +47,6 @@
     "md5": "^2.3.0",
     "ninja-keys": "^1.1.9",
     "opus-recorder": "^8.0.5",
-    "prosemirror-markdown": "1.5.1",
-    "prosemirror-state": "1.3.4",
-    "prosemirror-view": "1.18.4",
     "semver": "7.3.5",
     "spinkit": "~1.2.5",
     "tailwindcss": "^1.9.6",
