@@ -63,7 +63,7 @@
         />
       </div>
       <multiselect-dropdown-items
-        :options="agentList"
+        :options="agentsList"
         :selected-items="selectedWatchers"
         :has-thumbnail="true"
         @click="onClickItem"
@@ -77,6 +77,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import Spinner from 'shared/components/Spinner';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
+import agentMixin from 'dashboard/mixins/agentMixin';
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
 
@@ -86,7 +87,7 @@ export default {
     ThumbnailGroup,
     MultiselectDropdownItems,
   },
-  mixins: [alertMixin, clickaway],
+  mixins: [alertMixin, agentMixin, clickaway],
   props: {
     conversationId: {
       type: [Number, String],
@@ -105,7 +106,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      agentList: 'agents/getAgents',
       watchersUiFlas: 'conversationWatchers/getUIFlags',
       currentUser: 'getCurrentUser',
     }),
