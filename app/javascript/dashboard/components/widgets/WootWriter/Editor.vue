@@ -331,11 +331,11 @@ export default {
 
       let from = this.range.from - 1;
       let node = new MessageMarkdownTransformer(messageSchema).parse(
-        cannedItem
+        updatedCannedResponse
       );
 
-      if (node.textContent === cannedItem) {
-        node = this.editorView.state.schema.text(cannedItem);
+      if (node.textContent === updatedCannedResponse) {
+        node = this.editorView.state.schema.text(updatedCannedResponse);
         from = this.range.from;
       }
 
@@ -357,13 +357,12 @@ export default {
       if (!this.editorView) {
         return null;
       }
-
       let from = this.range.from - 1;
-      let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
-        variable
+      let node = new MessageMarkdownTransformer(messageSchema).parse(
+        `${variable}`
       );
 
-      if (node.childCount === 1) {
+      if (node.textContent === variable) {
         node = this.editorView.state.schema.text(`{{ ${variable} }}`);
         from = this.range.from;
       }
