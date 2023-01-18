@@ -164,9 +164,7 @@ import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import AnalyticsHelper, {
-  ANALYTICS_EVENTS,
-} from '../../../helper/AnalyticsHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -710,7 +708,7 @@ export default {
     },
     replaceText(message) {
       setTimeout(() => {
-        AnalyticsHelper.track(ANALYTICS_EVENTS.INSERTED_A_CANNED_RESPONSE);
+        this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = message;
       }, 100);
     },
