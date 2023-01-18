@@ -56,7 +56,8 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
-         :password_has_required_content
+         :password_has_required_content,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
@@ -200,6 +201,20 @@ class User < ApplicationRecord
       unread_count: notifications.where(account_id: account_id, read_at: nil).count,
       count: notifications.where(account_id: account_id).count
     }
+  end
+
+  def self.from_omniauth(access_token)
+    data = access_token.info
+    user = User.where(email: data['email']).first
+
+    # Uncomment the section below if you want users to be created if they don't exist
+    # unless user
+    #     user = User.create(name: data['name'],
+    #        email: data['email'],
+    #        password: Devise.friendly_token[0,20]
+    #     )
+    # end
+    user
   end
 
   private
