@@ -70,6 +70,7 @@ import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from '../contactFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
+import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     FilterInputBox,
@@ -251,6 +252,12 @@ export default {
         JSON.parse(JSON.stringify(this.appliedFilters))
       );
       this.$emit('applyFilter', this.appliedFilters);
+      this.$track(CONTACTS_EVENTS.APPLY_FILTER, {
+        applied_filters: this.appliedFilters.map(filter => ({
+          key: filter.attribute_key,
+          operator: filter.filter_operator,
+        })),
+      });
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(
