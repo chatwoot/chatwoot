@@ -42,8 +42,8 @@
     "RATING_TITLE": "Calificación",
     "FEEDBACK_TITLE": "Comentarios",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Mostrar etiquetas",
+      "HIDE_LABELS": "Ocultar etiquetas"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -68,7 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendiente",
       "RESOLVED": "Marcar como resuelto",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "Marcar como no leído",
       "REOPEN": "Resolver conversación",
       "SNOOZE": {
         "TITLE": "Posponer",

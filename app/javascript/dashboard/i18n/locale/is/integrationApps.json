@@ -4,8 +4,8 @@
     "NO_HOOK_CONFIGURED": "Það eru engar %{integrationId} samþættingar stilltar á þessum reikningi.",
     "HEADER": "Applications",
     "STATUS": {
-      "ENABLED": "Enabled",
-      "DISABLED": "Disabled"
+      "ENABLED": "Virkt",
+      "DISABLED": "Slökkt"
     },
     "CONFIGURE": "Configure",
     "ADD_BUTTON": "Add a new hook",
