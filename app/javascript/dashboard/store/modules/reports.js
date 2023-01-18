@@ -2,6 +2,8 @@
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 import { downloadCsvFile } from '../../helper/downloadHelper';
+import AnalyticsHelper from '../../helper/AnalyticsHelper';
+import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 
 const state = {
   fetchingStatus: false,
@@ -116,6 +118,10 @@ export const actions = {
     return Report.getAgentReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'agent',
+          businessHours: reportObj?.businessHours,
+        });
       })
       .catch(error => {
         console.error(error);
@@ -125,6 +131,10 @@ export const actions = {
     return Report.getLabelReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'label',
+          businessHours: reportObj?.businessHours,
+        });
       })
       .catch(error => {
         console.error(error);
@@ -134,6 +144,10 @@ export const actions = {
     return Report.getInboxReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'inbox',
+          businessHours: reportObj?.businessHours,
+        });
       })
       .catch(error => {
         console.error(error);
@@ -143,6 +157,10 @@ export const actions = {
     return Report.getTeamReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'team',
+          businessHours: reportObj?.businessHours,
+        });
       })
       .catch(error => {
         console.error(error);

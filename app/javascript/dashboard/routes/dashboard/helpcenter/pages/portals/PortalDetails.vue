@@ -15,6 +15,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import PortalSettingsBasicForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsBasicForm';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -49,6 +50,11 @@ export default {
           name: 'portal_customization',
           params: { portalSlug: portal.slug },
         });
+        const analyticsPayload = {
+          has_custom_domain: portal.domain !== '',
+        };
+        this.$track(PORTALS_EVENTS.ONBOARD_BASIC_INFORMATION, analyticsPayload);
+        this.$track(PORTALS_EVENTS.CREATE_PORTAL, analyticsPayload);
       } catch (error) {
         this.alertMessage =
           error?.message ||
