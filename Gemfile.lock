@@ -467,8 +467,16 @@ GEM
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
+    omniauth-google-oauth2 (1.1.1)
+      jwt (>= 2.0)
+      oauth2 (~> 2.0.6)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8.0)
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.1)
+      actionpack (>= 4.2)
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
     os (1.1.4)
@@ -798,7 +806,10 @@ DEPENDENCIES
   net-pop
   net-smtp
   newrelic_rpm
+  omniauth
+  omniauth-google-oauth2
   omniauth-oauth2
+  omniauth-rails_csrf_protection (~> 1.0)
   pg
   pg_search
   procore-sift
