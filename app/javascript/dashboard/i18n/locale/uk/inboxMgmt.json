@@ -53,6 +53,10 @@
           "ENABLE": "Створити розмову зі згаданих твітів"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Канал Веб-сайт",
         "DESC": "Створіть канал для свого сайту та почніть підтримувати своїх клієнтів за допомогою нашого віджету.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Номер телефону",
           "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Номер телефону",
             "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
           },
           "SUBMIT_BUTTON": "Створити Bandwidth канал",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Номер телефону",
           "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID номера телефону",
@@ -547,6 +551,10 @@
         "PLACE_HOLDER": "Пароль"
       },
       "ENABLE_SSL": "Увімкнути SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

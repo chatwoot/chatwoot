@@ -96,7 +96,9 @@ export default {
 <style scoped lang="scss">
 .mention--box {
   background: var(--white);
+  border-radius: var(--border-radius-normal);
   border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-medium);
   font-size: var(--font-size-small);
   left: 0;
   line-height: 1.2;

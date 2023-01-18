@@ -70,7 +70,9 @@ export default {
 .mention--box {
   background: var(--white);
   border-bottom: var(--space-small) solid var(--white);
+  border-radius: var(--border-radius-normal);
   border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-medium);
   left: 0;
   max-height: 14rem;
   overflow: auto;

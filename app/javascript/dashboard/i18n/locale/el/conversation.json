@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Καμία ανταπόκριση",
     "RATING_TITLE": "Αξιολόγηση",
     "FEEDBACK_TITLE": "Ανατροφοδότηση",
+    "CARD": {
+      "SHOW_LABELS": "Προβολή ετικετών",
+      "HIDE_LABELS": "Απόκρυψη ετικετών"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Επίλυση",
       "REOPEN_ACTION": "Επαναφορά",

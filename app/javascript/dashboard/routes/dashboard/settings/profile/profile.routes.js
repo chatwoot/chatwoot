@@ -13,6 +13,7 @@ export default {
         headerTitle: 'PROFILE_SETTINGS.TITLE',
         icon: 'edit',
         showNewButton: false,
+        showSidemenuIcon: false,
       },
       children: [
         {

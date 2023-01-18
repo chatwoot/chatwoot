@@ -6,8 +6,16 @@ const vue = require('./loaders/vue');
 environment.plugins.prepend('VueLoaderPlugin', new VueLoaderPlugin());
 environment.loaders.prepend('vue', vue);
 
-environment.loaders.append('opus', {
+environment.loaders.append('opus-ogg', {
   test: /encoderWorker\.min\.js$/,
+  loader: 'file-loader',
+  options: {
+    name: '[name].[ext]',
+  },
+});
+
+environment.loaders.append('opus-wav', {
+  test: /waveWorker\.min\.js$/,
   loader: 'file-loader',
   options: {
     name: '[name].[ext]',

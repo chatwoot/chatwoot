@@ -41,6 +41,10 @@
     "NO_RESPONSE": "Sem resposta",
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Mostrar rótulos",
+      "HIDE_LABELS": "Ocultar os rótulos"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",

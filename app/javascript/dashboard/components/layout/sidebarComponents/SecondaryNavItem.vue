@@ -106,18 +106,22 @@ export default {
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      globalConfig: 'globalConfig/get',
     }),
     hasSubMenu() {
       return !!this.menuItem.children;
     },
     isMenuItemVisible() {
-      if (!this.menuItem.featureFlag) {
-        return true;
+      if (this.menuItem.globalConfigFlag) {
+        return !!this.globalConfig[this.menuItem.globalConfigFlag];
       }
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        this.menuItem.featureFlag
-      );
+      if (this.menuItem.featureFlag) {
+        return this.isFeatureEnabledonAccount(
+          this.accountId,
+          this.menuItem.featureFlag
+        );
+      }
+      return true;
     },
     isAllConversations() {
       return (

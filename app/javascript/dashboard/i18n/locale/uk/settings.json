@@ -20,17 +20,17 @@
         "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Комбінація клавіш для надсилання повідомлень",
+        "NOTE": "Ви можете обрати гарячу клавішу (Enter або Cmd/Ctrl+Enter) на основі ваших вподобань.",
+        "UPDATE_SUCCESS": "Ваші налаштування були успішно оновлені",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Надсилати повідомлення, натиснувши клавішу Enter замість кнопки надсилання."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Надсилати повідомлення, натиснувши комбінацію Cmd/Ctrl + Enter замість кнопки надсилання."
           }
         }
       },
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Звукові сповіщення",
         "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
-        "NONE": "Нiчого",
-        "ASSIGNED": "Призначені розмови",
-        "ALL_CONVERSATIONS": "Всі розмови"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Нiчого",
+          "ASSIGNED": "Призначені розмови",
+          "ALL_CONVERSATIONS": "Всі розмови"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",
@@ -103,7 +114,9 @@
           "Онлайн",
           "Зайнятий",
           "Не в мережі"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",
@@ -134,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Вийти"
   },
   "APP_GLOBAL": {
@@ -226,6 +240,10 @@
       "CATEGORY": "Категорія",
       "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
     },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
     "DOCS": "Читати документи"
   },
   "BILLING_SETTINGS": {
@@ -264,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Відкрити розмову",
       "RESOLVE_AND_NEXT": "Вирішити і перейти до наступного",
