@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe '.well-known/microsoft-identity-association.json', type: :request do
+describe 'MicrosoftController', type: :request do
   describe 'GET /.well-known/microsoft-identity-association.json' do
     it 'successfully retrieves assetlinks.json file' do
       get '/.well-known/microsoft-identity-association.json'
