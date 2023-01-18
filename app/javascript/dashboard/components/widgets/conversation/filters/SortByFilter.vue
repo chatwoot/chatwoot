@@ -1,6 +1,9 @@
 <template>
   <woot-chat-list-filter
-    v-tooltip.left="$t('CHAT_LIST.CHAT_SORT_BY_FILTER.TITLE')"
+    v-tooltip.right="{
+      content: $t('CHAT_LIST.CHAT_SORT_BY_FILTER.TITLE'),
+      delay: { show: 500, hide: 0 },
+    }"
     :title="activeSortByLabel"
     :dropdown-title="$t('CHAT_LIST.CHAT_SORT_BY_FILTER.DROPDOWN_TITLE')"
     :items="sortByItems"
@@ -18,9 +21,15 @@ export default {
   components: {
     WootChatListFilter,
   },
+  props: {
+    activeType: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
-      activeSortBy: wootConstants.SORT_BY_TYPE.LATEST,
+      activeSortBy: this.activeType,
       sortByItems: [
         {
           key: wootConstants.SORT_BY_TYPE.LATEST,

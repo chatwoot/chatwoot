@@ -23,6 +23,7 @@
         :menu-config="activeSecondaryMenu"
         :current-role="currentRole"
         :is-on-chatwoot-cloud="isOnChatwootCloud"
+        :sub-menu-dropdown-items="assigneeTabItems"
         @add-label="showAddLabelPopup"
         @toggle-accounts="toggleAccountModal"
       />
@@ -83,6 +84,7 @@ export default {
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
+      conversationStats: 'conversationStats/getStats',
     }),
     activeCustomView() {
       if (this.activePrimaryMenu.key === 'contacts') {
@@ -141,6 +143,21 @@ export default {
           menuItem => menuItem.key === this.activeSecondaryMenu.parentNav
         ) || {};
       return activePrimaryMenu;
+    },
+    assigneeTabItems() {
+      const ASSIGNEE_TYPE_TAB_KEYS = {
+        me: 'mineCount',
+        unassigned: 'unAssignedCount',
+        all: 'allCount',
+      };
+      return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
+        const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
+        return {
+          key,
+          name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+          count,
+        };
+      });
     },
   },
 

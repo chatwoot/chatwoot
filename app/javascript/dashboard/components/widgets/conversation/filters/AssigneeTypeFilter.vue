@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import wootConstants from 'dashboard/constants';
 import WootChatListFilter from './FilterItems';
 export default {
   components: {
@@ -21,10 +20,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    activeTab: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
-      activeType: wootConstants.ASSIGNEE_TYPE.ME,
+      activeType: this.activeTab,
     };
   },
   computed: {

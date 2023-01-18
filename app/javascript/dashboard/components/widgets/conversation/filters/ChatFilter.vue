@@ -19,9 +19,15 @@ export default {
     WootChatListFilter,
   },
   mixins: [eventListenerMixins],
+  props: {
+    activeType: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
-      activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      activeStatus: this.activeType,
       statusItems: [
         {
           key: wootConstants.STATUS_TYPE.OPEN,

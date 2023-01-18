@@ -27,6 +27,7 @@ const conversations = accountId => ({
       toState: frontendURL(`accounts/${accountId}/dashboard`),
       toolTip: 'Conversation from all subscribed inboxes',
       toStateName: 'home',
+      hasDropdownSubMenu: true,
     },
     {
       icon: 'mention',

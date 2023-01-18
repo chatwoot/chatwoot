@@ -6,6 +6,7 @@
         v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
+        :sub-menu-dropdown-items="subMenuDropdownItems"
       />
       <secondary-nav-item
         v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
@@ -60,6 +61,10 @@ export default {
     isOnChatwootCloud: {
       type: Boolean,
       default: false,
+    },
+    subMenuDropdownItems: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {

@@ -24,18 +24,27 @@
       <div class="filter--actions">
         <div v-if="!hasAppliedFiltersOrActiveFolders" class="filter--wrap">
           <assignee-type-filter
+            v-if="!isAllConversation"
             :items="assigneeTabItems"
+            :active-tab="activeAssigneeTab"
             class="chat-status--filter"
             @filterChange="updateAssigneeTab"
           />
           <chat-filter
             class="chat-status--filter"
+            :active-type="activeStatus"
             @statusFilterChange="updateStatusType"
           />
-          <sort-by-filter @changeSortByFilter="updateSortByFilterType" />
+          <sort-by-filter
+            :active-type="activeSortBy"
+            @changeSortByFilter="updateSortByFilterType"
+          />
           <woot-button
             v-if="!hasActiveFolders"
-            v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
+            v-tooltip.right="{
+              content: $t('FILTER.TOOLTIP_LABEL'),
+              delay: { show: 500, hide: 0 },
+            }"
             variant="smooth"
             color-scheme="secondary"
             icon="filter"
@@ -427,6 +436,10 @@ export default {
     uniqueInboxes() {
       return [...new Set(this.selectedInboxes)];
     },
+    isAllConversation() {
+      const { name } = this.$route;
+      return name === 'home' || name === 'inbox_conversation';
+    },
   },
   watch: {
     activeTeam() {
@@ -454,6 +467,9 @@ export default {
 
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
+    });
+    bus.$on('changeAssigneeFilter', value => {
+      this.updateAssigneeTab(value);
     });
   },
   methods: {
@@ -581,6 +597,7 @@ export default {
       if (this.activeAssigneeTab !== selectedTab) {
         this.resetBulkActions();
         bus.$emit('clearSearchInput');
+        bus.$emit('assigneeTabChanged', selectedTab);
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();

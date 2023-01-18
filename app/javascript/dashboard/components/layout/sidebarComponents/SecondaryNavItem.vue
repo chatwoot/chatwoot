@@ -26,7 +26,19 @@
         class="secondary-menu--icon"
         size="14"
       />
-      {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      <div class="menu-title--wrap">
+        <span> {{ $t(`SIDEBAR.${menuItem.label}`) }}</span>
+        <div
+          v-if="menuItem.hasDropdownSubMenu"
+          class="dropdown-icon"
+          @click="onClickOpenSubMenu"
+        >
+          <fluent-icon
+            :icon="showSecondarySubMenu ? 'chevron-up' : 'chevron-down'"
+            size="14"
+          />
+        </div>
+      </div>
       <span v-if="showChildCount(menuItem.count)" class="count-view">
         {{ `${menuItem.count}` }}
       </span>
@@ -39,6 +51,27 @@
         {{ $t('SIDEBAR.BETA') }}
       </span>
     </router-link>
+    <div
+      v-if="showSubMenuDropdown"
+      class="dropdown-submenu--wrap nested vertical menu"
+    >
+      <ul
+        v-for="item in subMenuDropdownItems"
+        :key="item.key"
+        class="dropdown-submenu--item button clear menu-item text-truncate"
+        :class="{ 'is-active': selectedSubMenu === item.key }"
+        @click="onClickChange(item.key)"
+      >
+        <li>
+          {{ item.name }}
+          <span
+            class="badge secondary badge secondary menu-label text-truncate"
+          >
+            {{ item.count }}
+          </span>
+        </li>
+      </ul>
+    </div>
 
     <ul v-if="hasSubMenu" class="nested vertical menu">
       <secondary-child-nav-item
@@ -79,12 +112,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-
+import wootConstants from 'dashboard/constants';
 import adminMixin from '../../../mixins/isAdmin';
 import {
   getInboxClassByType,
   getInboxWarningIconClass,
 } from 'dashboard/helper/inbox';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
 import {
@@ -94,12 +128,22 @@ import {
 
 export default {
   components: { SecondaryChildNavItem },
-  mixins: [adminMixin],
+  mixins: [adminMixin, uiSettingsMixin],
   props: {
     menuItem: {
       type: Object,
       default: () => ({}),
     },
+    subMenuDropdownItems: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      selectedSubMenu: wootConstants.ASSIGNEE_TYPE.ME,
+      showSecondarySubMenu: true,
+    };
   },
   computed: {
     ...mapGetters({
@@ -122,6 +166,20 @@ export default {
         );
       }
       return true;
+    },
+    showSecondarySidebarSubMenu() {
+      const {
+        show_secondary_sidebar_sub_menu: showSecondarySubMenu = true,
+      } = this.uiSettings;
+      return showSecondarySubMenu;
+    },
+    showSubMenuDropdown() {
+      const { name } = this.$route;
+      return (
+        (name === 'home' || name === 'inbox_conversation') &&
+        this.menuItem.hasDropdownSubMenu &&
+        this.showSecondarySidebarSubMenu
+      );
     },
     isAllConversations() {
       return (
@@ -195,6 +253,11 @@ export default {
       return '';
     },
   },
+  mounted() {
+    bus.$on('assigneeTabChanged', tab => {
+      this.selectedSubMenu = tab;
+    });
+  },
   methods: {
     computedInboxClass(child) {
       const { type, phoneNumber } = child;
@@ -230,6 +293,20 @@ export default {
     showChildCount(count) {
       return Number.isInteger(count);
     },
+    onClickOpenSubMenu() {
+      this.updateUISettings({
+        show_secondary_sidebar_sub_menu: !this.showSecondarySidebarSubMenu,
+      });
+    },
+    onClickChange(value) {
+      this.selectedSubMenu = value;
+      if (this.$route.name !== 'home') {
+        this.$router.push({
+          name: 'home',
+        });
+      }
+      bus.$emit('changeAssigneeFilter', value);
+    },
   },
 };
 </script>
@@ -259,6 +336,25 @@ export default {
   line-height: var(--space-normal);
   margin: var(--space-small) 0;
   padding: 0 var(--space-small);
+
+  .menu-title--wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .dropdown-icon {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: var(--space-micro);
+      border-radius: var(--border-radius-normal);
+
+      &:hover {
+        background: var(--s-100);
+      }
+    }
+  }
 }
 
 .secondary-menu--link {
@@ -359,6 +455,38 @@ export default {
   .submenu-icon {
     padding: 0;
     margin-left: var(--space-small);
+  }
+}
+
+.dropdown-submenu--wrap {
+  margin-bottom: var(--space-smaller);
+  margin-left: var(--space-two) !important;
+
+  .dropdown-submenu--item {
+    color: var(--s-600);
+    height: var(--space-medium);
+    padding: var(--space-smaller);
+    margin: var(--space-small) 0 0 0;
+
+    &:hover {
+      background: var(--s-25);
+    }
+    &.is-active {
+      background: var(--s-50);
+    }
+
+    li {
+      align-items: center;
+      display: flex;
+      margin-left: var(--space-smaller);
+
+      .badge {
+        margin-left: var(--space-smaller);
+        background: var(--s-100);
+        color: var(--s-800);
+        font-weight: var(--font-weight-bold);
+      }
+    }
   }
 }
 </style>
