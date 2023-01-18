@@ -2,7 +2,7 @@
   <div
     v-tooltip.top="{
       content: tooltipText,
-      delay: { show: 1000, hide: 0 },
+      delay: { show: 1500, hide: 0 },
       hideOnClick: true,
     }"
     class="time-ago"
@@ -49,14 +49,14 @@ export default {
     createdAtTime() {
       return this.shortTimestamp(this.createdAtTimeAgo);
     },
-    isCreatedAt() {
+    createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
       const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
       return !isBeforeAMonth
         ? `Created ${this.createdAtTimeAgo}`
         : `Created at: ${this.dateFormat(this.createdAtTimestamp)}`;
     },
-    isLastActivity() {
+    lastActivity() {
       const lastActivityTimeDiff =
         Date.now() - this.lastActivityTimestamp * 1000;
       const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
@@ -65,8 +65,8 @@ export default {
         : `Last activity: ${this.dateFormat(this.lastActivityTimestamp)}`;
     },
     tooltipText() {
-      return `${this.isCreatedAt}
-              ${this.isLastActivity}`;
+      return `${this.createdAt}
+              ${this.lastActivity}`;
     },
   },
   watch: {
