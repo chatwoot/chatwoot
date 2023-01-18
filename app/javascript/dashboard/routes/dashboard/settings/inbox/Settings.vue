@@ -470,7 +470,7 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        this.isAnEmailChannel ||
+        (this.isAnEmailChannel && !this.inbox.provider) ||
         this.isAWhatsAppChannel ||
         this.isAWebWidgetInbox
       ) {

@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Beszélgetés kivonat igénylése",
     "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
     "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

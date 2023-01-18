@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot giờ đây sẽ đồng bộ hóa tất cả các cuộc trò chuyện đến vào kênh <b><i>cuộc trò chuyện với khách hàng</i></b> bên trong nơi làm việc Slack của bạn.</p><p>Trả lời chuỗi hội thoại trong kênh Slack <b><i>cuộc trò chuyện với khách hàng</i></b> sẽ tạo phản hồi lại cho khách hàng thông qua chatwoot. </p><p>Bắt đầu câu trả lời bằng <b><i>ghi chú:</i></b> để tạo ghi chú riêng tư thay vì trả lời.</p><p>Nếu người trả lời trên slack có hồ sơ đại lý trong chatwoot dưới cùng một email, thì các câu trả lời sẽ được liên kết theo đó.</p><p>Khi người trả lời không có hồ sơ đại lý được liên kết, các câu trả lời sẽ được thực hiện từ hồ sơ bot.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
       "API": {

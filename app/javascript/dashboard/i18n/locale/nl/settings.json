@@ -22,11 +22,11 @@
       "SEND_MESSAGE": {
         "TITLE": "Hotkey to send messages",
         "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "UPDATE_SUCCESS": "Uw instellingen zijn met succes bijgewerkt",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Verstuur berichten door op Enter te drukken in plaats van op de verzendknop te klikken."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
@@ -194,7 +194,7 @@
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapporten",
     "SETTINGS": "Instellingen",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Contacten",
     "HOME": "Startpagina",
     "AGENTS": "Medewerkers",
     "AGENT_BOTS": "Bots",
@@ -225,7 +225,7 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Medewerkers",
     "REPORTS_LABEL": "Labelen",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Postvak In",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
@@ -237,7 +237,7 @@
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "CATEGORY": "Categorie",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

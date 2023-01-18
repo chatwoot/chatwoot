@@ -180,7 +180,6 @@ export const SDK_CSS = `
 
 .woot--hide {
   bottom: -100vh !important;
-  transform: translateY(40px);
   top: unset !important;
   opacity: 0;
   visibility: hidden !important;
@@ -189,6 +188,53 @@ export const SDK_CSS = `
 
 .woot-widget--without-bubble {
   bottom: 20px !important;
+}
+.woot-widget-holder.woot--hide{
+  transform: translateY(40px);
+}
+.woot-widget-bubble.woot--close {
+  transform: translateX(0px) scale(1) rotate(0deg);
+  transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot--close.woot--hide {
+  transform: translateX(8px) scale(.75) rotate(45deg);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+
+.woot-widget-bubble {
+  transform-origin: center;
+  will-change: transform, opacity;
+  transform: translateX(0) scale(1) rotate(0deg);
+  transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot--hide {
+  transform: translateX(8px) scale(.75) rotate(-30deg);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+
+.woot-widget-bubble.woot-widget--expanded {
+  transform: translateX(0px);
+  transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot-widget--expanded.woot--hide {
+  transform: translateX(8px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+.woot-widget-bubble.woot-widget-bubble--flat.woot--close {
+  transform: translateX(0px);
+  transition: transform 300ms ease, opacity 10ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot-widget-bubble--flat.woot--close.woot--hide {
+  transform: translateX(8px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+.woot-widget-bubble.woot-widget--expanded.woot-widget-bubble--flat {
+  transform: translateX(0px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot-widget--expanded.woot-widget-bubble--flat.woot--hide {
+  transform: translateX(8px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
 }
 
 @media only screen and (max-width: 667px) {
