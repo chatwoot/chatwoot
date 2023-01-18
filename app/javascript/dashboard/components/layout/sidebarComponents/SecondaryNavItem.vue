@@ -34,7 +34,7 @@
           @click="onClickOpenSubMenu"
         >
           <fluent-icon
-            :icon="showSecondarySubMenu ? 'chevron-up' : 'chevron-down'"
+            :icon="showSecondarySidebarSubMenu ? 'chevron-up' : 'chevron-down'"
             size="14"
           />
         </div>
