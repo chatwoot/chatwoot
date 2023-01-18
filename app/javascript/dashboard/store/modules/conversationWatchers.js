@@ -23,7 +23,7 @@ export const getters = {
 
 export const actions = {
   show: async ({ commit }, { conversationId }) => {
-    commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
+    commit(types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, {
       isFetching: true,
     });
 
@@ -31,21 +31,21 @@ export const actions = {
       const response = await ConversationInboxApi.fetchParticipants(
         conversationId
       );
-      commit(types.SET_CONVERSATION_WATCHERS, {
+      commit(types.SET_CONVERSATION_PARTICIPANTS, {
         conversationId,
         data: response.data,
       });
     } catch (error) {
       throwErrorMessage(error);
     } finally {
-      commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
+      commit(types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, {
         isFetching: false,
       });
     }
   },
 
   update: async ({ commit }, { conversationId, userIds }) => {
-    commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
+    commit(types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, {
       isUpdating: true,
     });
 
@@ -54,14 +54,14 @@ export const actions = {
         conversationId,
         userIds,
       });
-      commit(types.SET_CONVERSATION_WATCHERS, {
+      commit(types.SET_CONVERSATION_PARTICIPANTS, {
         conversationId,
         data: response.data,
       });
     } catch (error) {
       throwErrorMessage(error);
     } finally {
-      commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
+      commit(types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, {
         isUpdating: false,
       });
     }
@@ -69,14 +69,14 @@ export const actions = {
 };
 
 export const mutations = {
-  [types.SET_CONVERSATION_WATCHERS_UI_FLAG]($state, data) {
+  [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG]($state, data) {
     $state.uiFlags = {
       ...$state.uiFlags,
       ...data,
     };
   },
 
-  [types.SET_CONVERSATION_WATCHERS]($state, { data, conversationId }) {
+  [types.SET_CONVERSATION_PARTICIPANTS]($state, { data, conversationId }) {
     Vue.set($state.records, conversationId, data);
   },
 };

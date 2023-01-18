@@ -12,12 +12,12 @@ describe('#actions', () => {
       axios.get.mockResolvedValue({ data: { id: 1 } });
       await actions.show({ commit }, { conversationId: 1 });
       expect(commit.mock.calls).toEqual([
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isFetching: true }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isFetching: true }],
         [
-          types.SET_CONVERSATION_WATCHERS,
+          types.SET_CONVERSATION_PARTICIPANTS,
           { conversationId: 1, data: { id: 1 } },
         ],
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isFetching: false }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isFetching: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -26,8 +26,8 @@ describe('#actions', () => {
         actions.show({ commit }, { conversationId: 1 })
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isFetching: true }],
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isFetching: false }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isFetching: true }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isFetching: false }],
       ]);
     });
   });
@@ -40,12 +40,12 @@ describe('#actions', () => {
         { conversationId: 2, userIds: [{ id: 2 }] }
       );
       expect(commit.mock.calls).toEqual([
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isUpdating: true }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isUpdating: true }],
         [
-          types.SET_CONVERSATION_WATCHERS,
+          types.SET_CONVERSATION_PARTICIPANTS,
           { conversationId: 2, data: [{ id: 2 }] },
         ],
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isUpdating: false }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -54,8 +54,8 @@ describe('#actions', () => {
         actions.update({ commit }, { conversationId: 1, content: 'hi' })
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isUpdating: true }],
-        [types.SET_CONVERSATION_WATCHERS_UI_FLAG, { isUpdating: false }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isUpdating: true }],
+        [types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG, { isUpdating: false }],
       ]);
     });
   });

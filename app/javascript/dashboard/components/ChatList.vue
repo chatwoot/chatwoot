@@ -361,7 +361,7 @@ export default {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       if (this.conversationType === 'participating') {
-        return this.$t('CONVERSATION_WATCHERS.SIDEBAR_MENU_TITLE');
+        return this.$t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
       }
       if (this.conversationType === 'unattended') {
         return this.$t('CHAT_LIST.UNATTENDED_HEADING');

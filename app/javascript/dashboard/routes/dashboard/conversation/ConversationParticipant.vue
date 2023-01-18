@@ -8,12 +8,12 @@
             {{ totalWatchersText }}
           </p>
           <p v-else class="text-muted message-text">
-            {{ $t('CONVERSATION_WATCHERS.NO_WATCHERS_TEXT') }}
+            {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
           </p>
         </div>
         <woot-button
-          v-tooltip.left="$t('CONVERSATION_WATCHERS.ADD_WATCHERS')"
-          :title="$t('CONVERSATION_WATCHERS.ADD_WATCHERS')"
+          v-tooltip.left="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
+          :title="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
           icon="settings"
           size="tiny"
           variant="smooth"
@@ -29,7 +29,7 @@
         :users-list="thumbnailList"
       />
       <p v-if="isUserWatching" class="text-muted message-text">
-        {{ $t('CONVERSATION_WATCHERS.YOU_ARE_WATCHING') }}
+        {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
       </p>
       <woot-button
         v-else
@@ -38,7 +38,7 @@
         size="small"
         @click="onSelfAssign"
       >
-        {{ $t('CONVERSATION_WATCHERS.WATCH_CONVERSATION') }}
+        {{ $t('CONVERSATION_PARTICIPANTS.WATCH_CONVERSATION') }}
       </woot-button>
     </div>
     <div
@@ -52,7 +52,7 @@
     >
       <div class="dropdown__header">
         <h4 class="text-block-title text-truncate">
-          {{ $t('CONVERSATION_WATCHERS.ADD_WATCHERS') }}
+          {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
         </h4>
         <woot-button
           icon="dismiss"
@@ -138,11 +138,11 @@ export default {
     },
     moreThumbnailsText() {
       if (this.moreAgentCount > 1) {
-        return this.$t('CONVERSATION_WATCHERS.REMANING_WATCHERS_TEXT', {
+        return this.$t('CONVERSATION_PARTICIPANTS.REMANING_PARTICIPANTS_TEXT', {
           count: this.moreAgentCount,
         });
       }
-      return this.$t('CONVERSATION_WATCHERS.REMANING_WATCHER_TEXT', {
+      return this.$t('CONVERSATION_PARTICIPANTS.REMANING_PARTICIPANT_TEXT', {
         count: 1,
       });
     },
@@ -151,11 +151,11 @@ export default {
     },
     totalWatchersText() {
       if (this.selectedWatchers.length > 1) {
-        return this.$t('CONVERSATION_WATCHERS.TOTAL_WATCHERS_TEXT', {
+        return this.$t('CONVERSATION_PARTICIPANTS.TOTAL_PARTICIPANTS_TEXT', {
           count: this.selectedWatchers.length,
         });
       }
-      return this.$t('CONVERSATION_WATCHERS.TOTAL_WATCHER_TEXT', {
+      return this.$t('CONVERSATION_PARTICIPANTS.TOTAL_PARTICIPANT_TEXT', {
         count: 1,
       });
     },
@@ -179,7 +179,9 @@ export default {
     },
     async updateParticipant(userIds) {
       const conversationId = this.conversationId;
-      let alertMessage = this.$t('CONVERSATION_WATCHERS.API.SUCCESS_MESSAGE');
+      let alertMessage = this.$t(
+        'CONVERSATION_PARTICIPANTS.API.SUCCESS_MESSAGE'
+      );
 
       try {
         await this.$store.dispatch('conversationWatchers/update', {
@@ -188,7 +190,8 @@ export default {
         });
       } catch (error) {
         alertMessage =
-          error?.message || this.$t('CONVERSATION_WATCHERS.API.ERROR_MESSAGE');
+          error?.message ||
+          this.$t('CONVERSATION_PARTICIPANTS.API.ERROR_MESSAGE');
       } finally {
         this.showAlert(alertMessage);
       }

@@ -44,7 +44,7 @@
             class="conversation--actions"
           >
             <accordion-item
-              :title="$t('CONVERSATION_WATCHERS.SIDEBAR_TITLE')"
+              :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"
               :is-open="isContactSidebarItemOpen('is_conv_participants_open')"
               @click="
                 value =>

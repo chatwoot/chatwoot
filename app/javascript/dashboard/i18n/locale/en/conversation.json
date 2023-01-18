@@ -245,21 +245,21 @@
     "CC": "Cc",
     "SUBJECT": "Subject"
   },
-  "CONVERSATION_WATCHERS": {
+  "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation watchers",
+    "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "No results found",
-    "ADD_WATCHERS": "Select watchers",
-    "REMANING_WATCHERS_TEXT": "+%{count} others",
-    "REMANING_WATCHER_TEXT": "+%{count} other",
-    "TOTAL_WATCHERS_TEXT": "%{count} people are watching.",
-    "TOTAL_WATCHER_TEXT": "%{count} person is watching.",
-    "NO_WATCHERS_TEXT": "No one is watching!.",
-    "WATCH_CONVERSATION": "Watch conversation",
-    "YOU_ARE_WATCHING": "You are watching this",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
     "API": {
       "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Watchers updated!"
+      "SUCCESS_MESSAGE": "Participants updated!"
     }
   }
 }
