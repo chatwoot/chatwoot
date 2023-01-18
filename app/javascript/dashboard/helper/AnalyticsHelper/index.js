@@ -1,12 +1,26 @@
 import { AnalyticsBrowser } from '@june-so/analytics-next';
 
-class AnalyticsHelper {
+/**
+ * AnalyticsHelper class to initialize and track user analytics
+ * @class AnalyticsHelper
+ */
+export class AnalyticsHelper {
+  /**
+   * @constructor
+   * @param {Object} [options={}] - options for analytics
+   * @param {string} [options.token] - analytics token
+   */
   constructor({ token: analyticsToken } = {}) {
     this.analyticsToken = analyticsToken;
     this.analytics = null;
     this.user = {};
   }
 
+  /**
+   * Initialize analytics
+   * @function
+   * @async
+   */
   async init() {
     if (!this.analyticsToken) {
       return;
@@ -18,6 +32,11 @@ class AnalyticsHelper {
     this.analytics = analytics;
   }
 
+  /**
+   * Identify the user
+   * @function
+   * @param {Object} user - User object
+   */
   identify(user) {
     if (!this.analytics) {
       return;
@@ -41,6 +60,12 @@ class AnalyticsHelper {
     }
   }
 
+  /**
+   * Track any event
+   * @function
+   * @param {string} eventName - event name
+   * @param {Object} [properties={}] - event properties
+   */
   track(eventName, properties = {}) {
     if (!this.analytics) {
       return;
@@ -53,6 +78,11 @@ class AnalyticsHelper {
     });
   }
 
+  /**
+   * Track the page views
+   * @function
+   * @param {Object} params - Page view properties
+   */
   page(params) {
     if (!this.analytics) {
       return;
@@ -62,6 +92,5 @@ class AnalyticsHelper {
   }
 }
 
-export * as ANALYTICS_EVENTS from './events';
-
+// This object is shared across, the init is called in app/javascript/packs/application.js
 export default new AnalyticsHelper(window.analyticsConfig);
