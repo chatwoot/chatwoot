@@ -9,6 +9,10 @@ module MessageFilterHelpers
     incoming? || outgoing?
   end
 
+  def notifiable?
+    incoming? || outgoing?
+  end
+
   def conversation_transcriptable?
     incoming? || outgoing?
   end

@@ -28,21 +28,10 @@ class NotificationListener < BaseListener
   end
 
   def message_created(event)
-    message, account = extract_message_and_account(event)
-    conversation = message.conversation
+    message, _account = extract_message_and_account(event)
 
     # Check if the message contains any mentions
     Messages::MentionService.new(message: message).perform
-
-    # only want to notify agents about customer messages
-    return unless message.incoming?
-    return unless conversation.assignee
-
-    NotificationBuilder.new(
-      notification_type: 'assigned_conversation_new_message',
-      user: conversation.assignee,
-      account: account,
-      primary_actor: message
-    ).perform
+    Messages::NewMessageNotificationService.new(message: message).perform
   end
 end

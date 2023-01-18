@@ -75,6 +75,27 @@ describe NotificationListener do
       listener.message_created(event)
     end
 
+    it 'will call new message notification service' do
+      notification_service = instance_double(Messages::NewMessageNotificationService)
+      allow(Messages::NewMessageNotificationService).to receive(:new).and_return(notification_service)
+      allow(notification_service).to receive(:perform)
+
+      create(:inbox_member, user: first_agent, inbox: inbox)
+      conversation.reload
+
+      message = build(
+        :message,
+        conversation: conversation,
+        account: account,
+        content: 'hi',
+        private: true
+      )
+
+      expect(notification_service).to receive(:perform)
+      event = Events::Base.new(event_name, Time.zone.now, message: message)
+      listener.message_created(event)
+    end
+
     context 'when message content is empty' do
       it 'will be processed correctly' do
         builder = double
@@ -94,7 +115,7 @@ describe NotificationListener do
 
         event = Events::Base.new(event_name, Time.zone.now, message: message)
         # want to validate message_created doesnt throw an error
-        expect(listener.message_created(event)).to be_nil
+        expect { listener.message_created(event) }.not_to raise_error
       end
     end
   end

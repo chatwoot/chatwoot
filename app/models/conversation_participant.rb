@@ -11,9 +11,10 @@
 #
 # Indexes
 #
-#  index_conversation_participants_on_account_id       (account_id)
-#  index_conversation_participants_on_conversation_id  (conversation_id)
-#  index_conversation_participants_on_user_id          (user_id)
+#  index_conversation_participants_on_account_id                   (account_id)
+#  index_conversation_participants_on_conversation_id              (conversation_id)
+#  index_conversation_participants_on_user_id                      (user_id)
+#  index_conversation_participants_on_user_id_and_conversation_id  (user_id,conversation_id) UNIQUE
 #
 class ConversationParticipant < ApplicationRecord
   validates :account_id, presence: true
@@ -25,6 +26,7 @@ class ConversationParticipant < ApplicationRecord
   belongs_to :user
 
   before_validation :ensure_account_id
+  validates :user_id, uniqueness: { scope: [:conversation_id] }
 
   private
 
