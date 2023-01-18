@@ -35,9 +35,8 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
 import MacroPreview from './MacroPreview';
-import AnalyticsHelper, {
-  ANALYTICS_EVENTS,
-} from '../../../../helper/AnalyticsHelper';
+import { CONVERSATION_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+
 export default {
   components: {
     MacroPreview,
@@ -67,7 +66,7 @@ export default {
           macroId: macro.id,
           conversationIds: [this.conversationId],
         });
-        AnalyticsHelper.track(ANALYTICS_EVENTS.EXECUTED_A_MACRO);
+        this.$track(CONVERSATION_EVENTS.EXECUTED_A_MACRO);
         this.showAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY'));
       } catch (error) {
         this.showAlert(this.$t('MACROS.ERROR'));
