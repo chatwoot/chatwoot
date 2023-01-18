@@ -17,7 +17,9 @@
 }
 
 .tooltip {
-  background-color: #000000d5;
+  --tooltip-background-color: #000000d5;
+
+  background-color: var(--tooltip-background-color);
   border-radius: $space-smaller;
   font-size: $font-size-mini;
   max-width: 20rem;

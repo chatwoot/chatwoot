@@ -12,12 +12,13 @@ export default {
       const unixTime = fromUnixTime(time);
       return formatDistanceToNow(unixTime, { addSuffix: true });
     },
+    dateFormat(time, dateFormat = 'MMM d, yyyy') {
+      const unixTime = fromUnixTime(time);
+      return format(unixTime, dateFormat);
+    },
     shortTimestamp(time) {
-      const timestamp = time;
-      const convertToShortTime = timestamp
-        .replace('about', '')
-        .replace('over', '')
-        .replace('almost', '')
+      const convertToShortTime = time
+        .replace(/about|over|almost|/g, '')
         .replace('less than a minute ago', 'now')
         .replace(' minute ago', 'm')
         .replace(' minutes ago', 'm')

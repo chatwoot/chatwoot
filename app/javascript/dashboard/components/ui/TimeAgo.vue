@@ -2,14 +2,12 @@
   <div
     v-tooltip.top="{
       content: tooltipText,
-      delay: { show: 300, hide: 0 },
+      delay: { show: 1000, hide: 0 },
       hideOnClick: true,
     }"
     class="time-ago"
   >
-    <span>{{ createdAtTime }}</span>
-    <fluent-icon icon="circle" size="4" class="icon" />
-    <span>{{ lastActivityTime }}</span>
+    <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
   </div>
 </template>
 
@@ -51,9 +49,24 @@ export default {
     createdAtTime() {
       return this.shortTimestamp(this.createdAtTimeAgo);
     },
+    isCreatedAt() {
+      const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
+      const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
+      return !isBeforeAMonth
+        ? `Created ${this.createdAtTimeAgo}`
+        : `Created at: ${this.dateFormat(this.createdAtTimestamp)}`;
+    },
+    isLastActivity() {
+      const lastActivityTimeDiff =
+        Date.now() - this.lastActivityTimestamp * 1000;
+      const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
+      return !isNotActive
+        ? `Last activity ${this.lastActivityAtTimeAgo}`
+        : `Last activity: ${this.dateFormat(this.lastActivityTimestamp)}`;
+    },
     tooltipText() {
-      return `Created at: ${this.createdAtTimeAgo}
-              Last activity: ${this.lastActivityAtTimeAgo}`;
+      return `${this.isCreatedAt}
+              ${this.isLastActivity}`;
     },
   },
   watch: {
@@ -106,10 +119,6 @@ export default {
 
   &:hover {
     color: var(--b-900);
-  }
-
-  .icon {
-    vertical-align: middle;
   }
 }
 </style>
