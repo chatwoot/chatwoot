@@ -32,6 +32,7 @@ export const getMessageVariables = ({ conversation }) => {
     'contact.last_name': getLastName({ user: sender }),
     'contact.email': sender?.email,
     'contact.phone': sender?.phone_number,
+    'contact.id': sender?.id,
     'conversation.id': id,
     'agent.name': assignee?.name ? assignee?.name : '',
     'agent.first_name': getFirstName({ user: assignee }),
