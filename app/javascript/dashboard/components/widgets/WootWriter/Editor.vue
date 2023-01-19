@@ -317,17 +317,21 @@ export default {
       return false;
     },
     insertCannedResponse(cannedItem) {
+      const updatedMessage = replaceVariablesInMessage({
+        message: cannedItem,
+        variables: this.variables,
+      });
       if (!this.editorView) {
         return null;
       }
 
       let from = this.range.from - 1;
       let node = new MessageMarkdownTransformer(messageSchema).parse(
-        cannedItem
+        updatedMessage
       );
 
-      if (node.textContent === cannedItem) {
-        node = this.editorView.state.schema.text(cannedItem);
+      if (node.textContent === updatedMessage) {
+        node = this.editorView.state.schema.text(updatedMessage);
         from = this.range.from;
       }
 

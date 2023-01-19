@@ -146,16 +146,6 @@ export default {
 </script>
 <style scoped lang="scss">
 ::v-deep {
-  .mention--box {
-    border-left: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
-    left: 0;
-    margin: auto;
-    right: 0;
-    top: 7rem !important;
-    width: 90%;
-  }
-
   .ProseMirror-menubar {
     display: none;
   }
