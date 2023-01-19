@@ -151,13 +151,14 @@
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
-      :on-close="onToggleAdvanceFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
-        :on-close="onToggleAdvanceFiltersModal"
+        :initial-applied-filters="appliedFilter"
+        :on-close="closeAdvanceFiltersModal"
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
@@ -248,11 +249,13 @@ export default {
       selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
+      appliedFilter: [],
     };
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -287,6 +290,13 @@ export default {
         this.hasCurrentPageEndReached &&
         !this.chatListLoading
       );
+    },
+    currentUserDetails() {
+      const { id, name } = this.currentUser;
+      return {
+        id,
+        name,
+      };
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
@@ -461,7 +471,14 @@ export default {
       this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
-      this.showAdvancedFilters = !this.showAdvancedFilters;
+      if (!this.hasAppliedFilters) {
+        this.initializeExistingFilterToModal();
+      }
+      this.showAdvancedFilters = true;
+    },
+    closeAdvanceFiltersModal() {
+      this.showAdvancedFilters = false;
+      this.appliedFilter = [];
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
@@ -520,6 +537,7 @@ export default {
         return;
       }
       this.fetchConversations();
+      this.appliedFilter = [];
     },
     fetchConversations() {
       this.$store
@@ -772,6 +790,74 @@ export default {
     },
     onContextMenuToggle(state) {
       this.isContextMenuOpen = state;
+    },
+    initializeExistingFilterToModal() {
+      if (this.activeStatus !== '') {
+        this.appliedFilter.push({
+          attribute_key: 'status',
+          attribute_model: 'standard',
+          filter_operator: 'equal_to',
+          values: [
+            {
+              id: this.activeStatus,
+              name: this.$t(
+                `CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${this.activeStatus}.TEXT`
+              ),
+            },
+          ],
+          query_operator: 'and',
+          custom_attribute_type: '',
+        });
+      }
+      if (this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ME) {
+        this.appliedFilter.push({
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
+          values: this.currentUserDetails,
+          query_operator: 'and',
+          custom_attribute_type: '',
+        });
+      }
+      if (this.conversationInbox) {
+        this.appliedFilter.push({
+          attribute_key: 'inbox_id',
+          attribute_model: 'standard',
+          filter_operator: 'equal_to',
+          values: [
+            {
+              id: this.conversationInbox,
+              name: this.inbox.name,
+            },
+          ],
+          query_operator: 'and',
+          custom_attribute_type: '',
+        });
+      }
+      if (this.teamId) {
+        this.appliedFilter.push({
+          attribute_key: 'team_id',
+          attribute_model: 'standard',
+          filter_operator: 'equal_to',
+          values: this.activeTeam,
+          query_operator: 'and',
+          custom_attribute_type: '',
+        });
+      }
+      if (this.label) {
+        this.appliedFilter.push({
+          attribute_key: 'labels',
+          attribute_model: 'standard',
+          filter_operator: 'equal_to',
+          values: [
+            {
+              id: this.label,
+              name: this.label,
+            },
+          ],
+          query_operator: 'and',
+          custom_attribute_type: '',
+        });
+      }
     },
   },
 };

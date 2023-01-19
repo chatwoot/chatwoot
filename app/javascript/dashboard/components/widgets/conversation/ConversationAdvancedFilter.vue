@@ -76,6 +76,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    initialAppliedFilters: {
+      type: Array,
+      default: () => [],
+    },
   },
   validations: {
     appliedFilters: {
@@ -101,7 +105,7 @@ export default {
   data() {
     return {
       show: true,
-      appliedFilters: [],
+      appliedFilters: this.initialAppliedFilters,
       filterTypes: this.initialFilterTypes,
       filterAttributeGroups,
       filterGroups: [],
@@ -119,6 +123,7 @@ export default {
     this.setFilterAttributes();
     this.$store.dispatch('campaigns/get');
     if (this.getAppliedConversationFilters.length) {
+      this.appliedFilters = [];
       this.appliedFilters = [...this.getAppliedConversationFilters];
     } else {
       this.appliedFilters.push({
@@ -229,10 +234,6 @@ export default {
                 name: statusFilters[status].TEXT,
               };
             }),
-            {
-              id: 'all',
-              name: this.$t('CHAT_LIST.FILTER_ALL'),
-            },
           ];
         case 'assignee_id':
           return this.$store.getters['agents/getAgents'];
