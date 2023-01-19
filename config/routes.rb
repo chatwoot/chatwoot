@@ -5,8 +5,11 @@ Rails.application.routes.draw do
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',
     sessions: 'devise_overrides/sessions',
-    token_validations: 'devise_overrides/token_validations'
+    token_validations: 'gem/token_validations',
   }, via: [:get, :post]
+
+  devise_for :users, only: :omniauth_callbacks, controllers: { omniauth_callbacks: 'auth/omniauth_callbacks' }
+
 
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
