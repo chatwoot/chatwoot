@@ -29,13 +29,13 @@
       <div class="menu-title--wrap">
         <span> {{ $t(`SIDEBAR.${menuItem.label}`) }}</span>
         <div
-          v-if="menuItem.hasDropdownSubMenu"
+          v-if="showSubMenuDropdown"
           class="dropdown-icon"
           @click="onClickOpenSubMenu"
         >
           <fluent-icon
             :icon="showSecondarySidebarSubMenu ? 'chevron-up' : 'chevron-down'"
-            size="14"
+            size="12"
           />
         </div>
       </div>
@@ -52,7 +52,7 @@
       </span>
     </router-link>
     <div
-      v-if="showSubMenuDropdown"
+      v-if="showSubMenuDropdown && showSecondarySidebarSubMenu"
       class="dropdown-submenu--wrap nested vertical menu"
     >
       <ul
@@ -151,9 +151,13 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       globalConfig: 'globalConfig/get',
+      appliedFilters: 'getAppliedConversationFilters',
     }),
     hasSubMenu() {
       return !!this.menuItem.children;
+    },
+    hasAppliedFilters() {
+      return this.appliedFilters.length !== 0;
     },
     isMenuItemVisible() {
       if (this.menuItem.globalConfigFlag) {
@@ -178,7 +182,7 @@ export default {
       return (
         (name === 'home' || name === 'inbox_conversation') &&
         this.menuItem.hasDropdownSubMenu &&
-        this.showSecondarySidebarSubMenu
+        !this.hasAppliedFilters
       );
     },
     isAllConversations() {
@@ -431,7 +435,7 @@ export default {
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
-  line-height: 18px;
+  line-height: 1.4;
   border: 1px solid transparent;
   border-radius: 2em;
   color: var(--g-800);
