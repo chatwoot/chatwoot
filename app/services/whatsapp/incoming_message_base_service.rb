@@ -37,6 +37,8 @@ class Whatsapp::IncomingMessageBaseService
     return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
 
     update_message_with_status(@message, @processed_params[:statuses].first)
+  rescue ArgumentError => e
+    Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
 
   def update_message_with_status(message, status)
