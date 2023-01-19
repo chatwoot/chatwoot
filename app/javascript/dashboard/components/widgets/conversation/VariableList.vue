@@ -1,13 +1,13 @@
 <template>
-  <variable :items="items" @mention-select="handleVariableClick" />
+  <mention-box :items="items" @mention-select="handleVariableClick" />
 </template>
 
 <script>
 import { MESSAGE_VARIABLES } from 'shared/constants/messages';
-import Variable from '../variable/Variable.vue';
+import MentionBox from '../mentions/MentionBox.vue';
 
 export default {
-  components: { Variable },
+  components: { MentionBox },
   props: {
     searchKey: {
       type: String,
@@ -21,7 +21,11 @@ export default {
           variable.label.includes(this.searchKey) ||
           variable.key.includes(this.searchKey)
         );
-      });
+      }).map(variable => ({
+        label: variable.key,
+        key: variable.key,
+        description: variable.label,
+      }));
     },
   },
   methods: {

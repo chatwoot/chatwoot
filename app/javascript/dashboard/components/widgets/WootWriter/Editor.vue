@@ -352,15 +352,8 @@ export default {
       if (!this.editorView) {
         return null;
       }
-      let from = this.range.from - 1;
-      let node = new MessageMarkdownTransformer(messageSchema).parse(
-        `${variable}`
-      );
-
-      if (node.textContent === variable) {
-        node = this.editorView.state.schema.text(`{{ ${variable} }}`);
-        from = this.range.from;
-      }
+      let node = this.editorView.state.schema.text(`{{${variable}}}`);
+      const from = this.range.from;
 
       const tr = this.editorView.state.tr.replaceWith(
         from,
