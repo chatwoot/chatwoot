@@ -49,10 +49,8 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import AnalyticsHelper, {
-  ANALYTICS_EVENTS,
-} from '../../../helper/AnalyticsHelper';
 import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
@@ -314,28 +312,22 @@ export default {
       );
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
-      AnalyticsHelper.track(ANALYTICS_EVENTS.USED_MENTIONS);
+      this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
 
       return false;
     },
-
     insertCannedResponse(cannedItem) {
-      const updatedCannedResponse = replaceVariablesInMessage({
-        message: cannedItem,
-        variables: this.variables,
-      });
-
       if (!this.editorView) {
         return null;
       }
 
       let from = this.range.from - 1;
       let node = new MessageMarkdownTransformer(messageSchema).parse(
-        updatedCannedResponse
+        cannedItem
       );
 
-      if (node.textContent === updatedCannedResponse) {
-        node = this.editorView.state.schema.text(updatedCannedResponse);
+      if (node.textContent === cannedItem) {
+        node = this.editorView.state.schema.text(cannedItem);
         from = this.range.from;
       }
 
@@ -349,8 +341,7 @@ export default {
       this.emitOnChange();
 
       tr.scrollIntoView();
-      AnalyticsHelper.track(ANALYTICS_EVENTS.INSERTED_A_CANNED_RESPONSE);
-      this.showCannedMenu = false;
+      this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
     },
     insertVariable(variable) {
