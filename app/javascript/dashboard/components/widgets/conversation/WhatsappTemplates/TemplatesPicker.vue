@@ -69,7 +69,7 @@ export default {
     whatsAppTemplateMessages() {
       return this.$store.getters['inboxes/getWhatsAppTemplates'](
         this.inboxId
-      ).filter(template => template.status === 'approved');
+      ).filter(template => template.status === 'APPROVED');
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>
