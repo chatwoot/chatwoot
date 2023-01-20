@@ -1,4 +1,4 @@
-class Auth::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+class Auth::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   def google_oauth2
     @user = User.from_omniauth(request.env['omniauth.auth'])
 
