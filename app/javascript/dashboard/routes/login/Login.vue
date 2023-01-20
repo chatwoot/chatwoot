@@ -1,6 +1,6 @@
 <template>
-  <div class="medium-12 column login">
-    <div class="text-center medium-12 login__hero align-self-top">
+  <main class="medium-12 column login">
+    <section class="text-center medium-12 login__hero align-self-top">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
@@ -11,11 +11,11 @@
           useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
         }}
       </h2>
-    </div>
-    <div class="row align-center">
+    </section>
+    <section class="row align-center">
       <div v-if="!email" class="small-12 medium-4 column">
-        <form class="login-box column align-self-top" @submit.prevent="login()">
-          <div class="column log-in-form">
+        <div ref="loginBox" class="login-box column align-self-top">
+          <form class="column log-in-form" @submit.prevent="login()">
             <label :class="{ error: $v.credentials.email.$error }">
               {{ $t('LOGIN.EMAIL.LABEL') }}
               <input
@@ -46,9 +46,9 @@
               :loading="loginApi.showLoading"
               button-class="large expanded"
             />
-          </div>
         </form>
-        <div class="column text-center sigin__footer">
+        </div>
+        <div class="text-center column sigin__footer">
           <p v-if="!globalConfig.disableUserProfileUpdate">
             <router-link to="auth/reset/password">
               {{ $t('LOGIN.FORGOT_PASSWORD') }}
@@ -62,8 +62,8 @@
         </div>
       </div>
       <woot-spinner v-else size="" />
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script>
