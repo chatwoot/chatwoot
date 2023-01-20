@@ -16,6 +16,7 @@
     },
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "SUBMIT": "Login",
+    "GOOGLE_OAUTH": "Login with Google"
   }
 }

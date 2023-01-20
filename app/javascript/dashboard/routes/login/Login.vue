@@ -47,6 +47,21 @@
               button-class="large expanded"
             />
           </form>
+          <template v-if="showGoogleOAuth">
+            <div class="separator">
+              OR
+            </div>
+            <form :action="getGoogleAuthUrl()" method="post">
+              <button class="button large expanded button__google_login">
+                <img
+                  src="/assets/images/auth/google.svg"
+                  alt="Google Logo"
+                  class="icon"
+                />
+                {{ $t('LOGIN.GOOGLE_OAUTH') }}
+              </button>
+            </form>
+          </template>
         </div>
         <div class="text-center column sigin__footer">
           <p v-if="!globalConfig.disableUserProfileUpdate">
@@ -69,9 +84,9 @@
 <script>
 import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import WootSubmitButton from '../../components/buttons/FormSubmitButton';
+import WootSubmitButton from 'components/buttons/FormSubmitButton';
 import { mapGetters } from 'vuex';
-import { parseBoolean } from '../../../shared/helpers/string';
+import { parseBoolean } from 'helpers/string';
 
 export default {
   components: {
@@ -128,10 +143,13 @@ export default {
       this.loginApi.message = message;
       bus.$emit('newToastMessage', this.loginApi.message);
     },
+    getGoogleAuthUrl() {
+      return window.chatwootConfig.googleOAuthUrl;
+    },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
-    showGoogleOauth() {
+    showGoogleOAuth() {
       return parseBoolean(window.chatwootConfig.googleOAuthEnabled);
     },
     login() {
@@ -183,6 +201,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0rem;
+  gap: 1rem;
+  color: var(--s-300);
+  font-size: var(--font-size-small);
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--s-100);
+  }
+}
+
+.button__google_login {
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px solid var(--s-100);
+  color: var(--b-800);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .login-box.invalid {
     animation: shake 0.5s linear;
