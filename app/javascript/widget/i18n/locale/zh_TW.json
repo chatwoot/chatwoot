@@ -73,6 +73,10 @@
       "FIELD": "無效的欄位"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "為此對話評分",
     "SUBMITTED_TITLE": "感謝您提交的評分",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "請求對話記錄",
     "SEND_EMAIL_SUCCESS": "對話記錄已成功發送",
     "SEND_EMAIL_ERROR": "出現錯誤，請重試"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

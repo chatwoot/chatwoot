@@ -78,7 +78,7 @@ class Attachment < ApplicationRecord
       file_size: file.byte_size
     }
 
-    metadata = merge_story_mention_image(metadata) if message.inbox.instagram?
+    metadata[:data_url] = metadata[:thumb_url] = external_url if message.instagram_story_mention?
     metadata
   end
 

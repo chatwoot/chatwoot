@@ -3,12 +3,7 @@ require 'json'
 class FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
-    date: 'date',
-    text: 'text',
-    number: 'numeric',
-    link: 'text',
-    list: 'text',
-    checkbox: 'boolean'
+    date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
 
   def initialize(params, user)
@@ -60,7 +55,7 @@ class FilterService
   end
 
   def case_insensitive_values(query_hash)
-    if query_hash['custom_attribute_type'].present? && query_hash['values'][0].is_a?(String)
+    if @custom_attribute_type.present? && query_hash['values'][0].is_a?(String)
       string_filter_values(query_hash)
     else
       query_hash['values']
@@ -125,11 +120,13 @@ class FilterService
     query_operator = query_hash[:query_operator]
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
-    if attribute_data_type == 'text'
-      "  LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-    else
-      "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-    end
+    query = if attribute_data_type == 'text'
+              "  LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+            else
+              "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+            end
+
+    query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
   end
 
   def custom_attribute(attribute_key, account, custom_attribute_type)
@@ -138,6 +135,12 @@ class FilterService
     @custom_attribute = current_account.custom_attribute_definitions.where(
       attribute_model: attribute_model
     ).find_by(attribute_key: attribute_key)
+  end
+
+  def not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
+    return '' unless query_hash[:filter_operator] == 'not_equal_to'
+
+    " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL "
   end
 
   def equals_to_filter_string(filter_operator, current_index)

@@ -42,6 +42,7 @@ import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import allLocales from 'shared/constants/locales.js';
+import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     Modal,
@@ -108,6 +109,11 @@ export default {
           'HELP_CENTER.PORTAL.ADD_LOCALE.API.SUCCESS_MESSAGE'
         );
         this.onClose();
+        this.$track(PORTALS_EVENTS.CREATE_LOCALE, {
+          localeAdded: this.selectedLocale,
+          totalLocales: updatedLocales.length,
+          from: this.$route.name,
+        });
       } catch (error) {
         this.alertMessage =
           error?.message ||

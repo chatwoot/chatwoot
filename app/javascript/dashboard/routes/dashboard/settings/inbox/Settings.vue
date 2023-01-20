@@ -258,6 +258,28 @@
           </p>
         </label>
 
+        <label
+          v-if="canLocktoSingleConversation"
+          class="medium-9 columns settings-item"
+        >
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION') }}
+          <select v-model="locktoSingleConversation">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
@@ -380,6 +402,7 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
+      locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
       selectedInboxName: '',
@@ -447,7 +470,8 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        this.isAnEmailChannel ||
+        (this.isAnEmailChannel && !this.inbox.provider) ||
+        (this.isAnEmailChannel && this.inbox.provider === 'microsoft') ||
         this.isAWhatsAppChannel ||
         this.isAWebWidgetInbox
       ) {
@@ -495,6 +519,9 @@ export default {
         return `${this.inbox.name} (${this.inbox.email})`;
       }
       return this.inbox.name;
+    },
+    canLocktoSingleConversation() {
+      return this.isASmsInbox || this.isAWhatsAppChannel;
     },
     inboxNameLabel() {
       if (this.isAWebWidgetInbox) {
@@ -567,6 +594,7 @@ export default {
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
+        this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
       });
     },
     async updateInbox() {
@@ -579,6 +607,7 @@ export default {
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
+          lock_to_single_conversation: this.locktoSingleConversation,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,

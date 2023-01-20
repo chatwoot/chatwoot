@@ -39,6 +39,8 @@ export default {
 <style scoped lang="scss">
 .wrap-content {
   word-wrap: break-word;
+  margin-top: var(--space-small);
+
   .content-value {
     font-weight: var(--font-weight-bold);
   }

@@ -31,6 +31,11 @@ export const AUTOMATIONS = {
     ],
     actions: [
       {
+        key: 'assign_agent',
+        name: 'Assign to agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
+      {
         key: 'assign_team',
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
@@ -99,13 +104,20 @@ export const AUTOMATIONS = {
       //   inputType: 'search_select',
       //   filterOperators: OPERATOR_TYPES_1,
       // },
-      // {
-      //   key: 'country_code',
-      //   name: 'Country',
-      //   attributeI18nKey: 'COUNTRY_NAME',
-      //   inputType: 'search_select',
-      //   filterOperators: OPERATOR_TYPES_1,
-      // },
+      {
+        key: 'mail_subject',
+        name: 'Email Subject',
+        attributeI18nKey: 'MAIL_SUBJECT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'country_code',
+        name: 'Country',
+        attributeI18nKey: 'COUNTRY_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
       // {
       //   key: 'referer',
       //   name: 'Referrer Link',
@@ -122,6 +134,11 @@ export const AUTOMATIONS = {
       },
     ],
     actions: [
+      {
+        key: 'assign_agent',
+        name: 'Assign to agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
       {
         key: 'assign_team',
         name: 'Assign a team',
@@ -190,13 +207,20 @@ export const AUTOMATIONS = {
       //   inputType: 'search_select',
       //   filterOperators: OPERATOR_TYPES_1,
       // },
-      // {
-      //   key: 'country_code',
-      //   name: 'Country',
-      //   attributeI18nKey: 'COUNTRY_NAME',
-      //   inputType: 'search_select',
-      //   filterOperators: OPERATOR_TYPES_1,
-      // },
+      {
+        key: 'mail_subject',
+        name: 'Email Subject',
+        attributeI18nKey: 'MAIL_SUBJECT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'country_code',
+        name: 'Country',
+        attributeI18nKey: 'COUNTRY_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
       // {
       //   key: 'referer',
       //   name: 'Referrer Link',
@@ -227,6 +251,11 @@ export const AUTOMATIONS = {
       },
     ],
     actions: [
+      {
+        key: 'assign_agent',
+        name: 'Assign to agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
       {
         key: 'assign_team',
         name: 'Assign a team',
@@ -297,6 +326,11 @@ export const AUTOMATION_RULE_EVENTS = [
 ];
 
 export const AUTOMATION_ACTION_TYPES = [
+  {
+    key: 'assign_agent',
+    label: 'Assign to agent',
+    inputType: 'search_select',
+  },
   {
     key: 'assign_team',
     label: 'Assign a team',

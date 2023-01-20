@@ -1,8 +1,3 @@
-/* eslint no-console: 0 */
-/* eslint-env browser */
-/* eslint-disable no-new */
-/* Vue Core */
-
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
@@ -21,18 +16,12 @@ import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import {
-  getAlertAudio,
-  initOnEvents,
-} from '../shared/helpers/AudioNotificationHelper';
-import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from '../dashboard/constants';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
-import posthog from 'posthog-js';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -40,6 +29,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 
 Vue.config.env = process.env;
 
@@ -47,13 +37,20 @@ if (window.errorLoggingConfig) {
   Sentry.init({
     Vue,
     dsn: window.errorLoggingConfig,
-    integrations: [new Integrations.BrowserTracing()],
-  });
-}
+    denyUrls: [
+      // Chrome extensions
+      /^chrome:\/\//i,
+      /chrome-extension:/i,
+      /extensions\//i,
 
-if (window.analyticsConfig) {
-  posthog.init(window.analyticsConfig.token, {
-    api_host: window.analyticsConfig.host,
+      // Locally saved copies
+      /file:\/\//i,
+
+      // Safari extensions.
+      /safari-web-extension:/i,
+      /safari-extension:/i,
+    ],
+    integrations: [new Integrations.BrowserTracing()],
   });
 }
 
@@ -71,6 +68,7 @@ Vue.use(VTooltip, {
   defaultHtml: false,
 });
 Vue.use(hljs.vuePlugin);
+Vue.use(AnalyticsPlugin);
 
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
@@ -103,17 +101,6 @@ window.onload = () => {
   }).$mount('#app');
 };
 
-const setupAudioListeners = () => {
-  getAlertAudio().then(() => {
-    initOnEvents.forEach(event => {
-      document.removeEventListener(event, setupAudioListeners, false);
-    });
-  });
-};
 window.addEventListener('load', () => {
   window.playAudioAlert = () => {};
-  initOnEvents.forEach(e => {
-    document.addEventListener(e, setupAudioListeners, false);
-  });
-  initFaviconSwitcher();
 });

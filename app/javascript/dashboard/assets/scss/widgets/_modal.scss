@@ -82,8 +82,8 @@
     @include flex-align($x: flex-end, $y: middle);
     padding: $space-small $zero;
 
-    button {
-      font-size: $font-size-small;
+    .button {
+      margin-left: var(--space-small);
     }
 
     &.justify-content-end {

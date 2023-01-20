@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "自定义属性添加成功",
-        "ERROR_MESSAGE": "无法创建自定义属性，请稍后再试"
+        "SUCCESS_MESSAGE": "自定义属性添加成功!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {

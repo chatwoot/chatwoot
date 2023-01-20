@@ -258,7 +258,13 @@ describe AutomationRuleListener do
       end
 
       it 'triggers automation rule send email to the team' do
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
+        message_delivery = instance_double(ActionMailer::MessageDelivery)
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation).with(
+          conversation, team,
+          'Please pay attention to this conversation, its from high priority customer'
+        ).and_return(message_delivery)
+        allow(message_delivery).to receive(:deliver_now)
 
         listener.conversation_updated(event)
       end

@@ -171,11 +171,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required, url, minLength } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
+import { URLPattern } from 'urlpattern-polyfill';
+import { CAMPAIGNS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -221,8 +223,23 @@ export default {
         },
         endPoint: {
           required,
-          minLength: minLength(7),
-          url,
+          shouldBeAValidURLPattern(value) {
+            try {
+              // eslint-disable-next-line
+              new URLPattern(value);
+              return true;
+            } catch (error) {
+              return false;
+            }
+          },
+          shouldStartWithHTTP(value) {
+            if (value) {
+              return (
+                value.startsWith('https://') || value.startsWith('http://')
+              );
+            }
+            return false;
+          },
         },
         timeOnPage: {
           required,
@@ -258,6 +275,11 @@ export default {
         ...this.senderList,
       ];
     },
+  },
+  mounted() {
+    this.$track(CAMPAIGNS_EVENTS.OPEN_NEW_CAMPAIGN_MODAL, {
+      type: this.campaignType,
+    });
   },
   methods: {
     onClose() {
@@ -323,6 +345,12 @@ export default {
       try {
         const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/create', campaignDetails);
+
+        // tracking this here instead of the store to track the type of campaign
+        this.$track(CAMPAIGNS_EVENTS.CREATE_CAMPAIGN, {
+          type: this.campaignType,
+        });
+
         this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {

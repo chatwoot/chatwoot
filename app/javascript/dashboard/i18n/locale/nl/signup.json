@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Registreer een account",
     "TITLE": "Registreren",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Door je aan te melden ga je akkoord met onze <a href=\"https://www.chatwoot.com/terms\">T & C</a> en <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy Policy</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "accountnaam",
-      "PLACEHOLDER": "Voer een accountnaam in. Bijvoorbeeld: Wayne Enterprises",
-      "ERROR": "Accountnaam is te kort"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Volledige naam",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Werk e-mail",
       "PLACEHOLDER": "Voer je werk-e-mailadres in, bijvoorbeeld: bruce@wayne.enterprises",
-      "ERROR": "E-mailadres is ongeldig"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Wachtwoord",

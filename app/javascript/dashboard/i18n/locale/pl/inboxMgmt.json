@@ -53,6 +53,10 @@
           "ENABLE": "Utwórz rozmowy ze wspomnianych Tweetów"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Kanał strony internetowej",
         "DESC": "Utwórz kanał dla swojej strony internetowej i zacznij wspierać swoich klientów za pomocą naszego widżetu na stronie.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numer telefonu",
           "PLACEHOLDER": "Wprowadź numer telefonu, z którego zostanie wysłana wiadomość.",
-          "ERROR": "Wprowadź prawidłową wartość. Numer telefonu powinien zaczynać się od znaku `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Numer telefonu",
             "PLACEHOLDER": "Wprowadź numer telefonu, z którego zostanie wysłana wiadomość.",
-            "ERROR": "Wprowadź prawidłową wartość. Numer telefonu powinien zaczynać się od znaku `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numer telefonu",
           "PLACEHOLDER": "Wprowadź numer telefonu, z którego zostanie wysłana wiadomość.",
-          "ERROR": "Wprowadź prawidłową wartość. Numer telefonu powinien zaczynać się od znaku `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +392,10 @@
         "ENABLED": "Włączone",
         "DISABLED": "Wyłączone"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -416,7 +424,8 @@
       "CAMPAIGN": "Kampania",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Godziny pracy",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Ustawienia",
     "FEATURES": {
@@ -440,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Włącz/Wyłącz ankietę CSAT(Customer satisfraction) po rozwiązaniu rozmowy",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Włącz ciągłość rozmowy przez e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Rozmowy będą kontynuowane przez e-mail, jeśli adres e-mail kontaktu jest dostępny.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",
@@ -540,6 +551,10 @@
         "PLACE_HOLDER": "Hasło"
       },
       "ENABLE_SSL": "Włącz SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

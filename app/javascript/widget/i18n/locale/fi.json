@@ -73,6 +73,10 @@
       "FIELD": "Invalid field"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Anna arvio palvelusta",
     "SUBMITTED_TITLE": "Kiitos, että lähetit arvion",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Request a conversation transcript",
     "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
     "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }
