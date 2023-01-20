@@ -71,6 +71,7 @@ import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import WootSubmitButton from '../../components/buttons/FormSubmitButton';
 import { mapGetters } from 'vuex';
+import { parseBoolean } from '../../../shared/helpers/string';
 
 export default {
   components: {
@@ -128,7 +129,10 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     showSignupLink() {
-      return window.chatwootConfig.signupEnabled === 'true';
+      return parseBoolean(window.chatwootConfig.signupEnabled);
+    },
+    showGoogleOauth() {
+      return parseBoolean(window.chatwootConfig.googleOAuthEnabled);
     },
     login() {
       this.loginApi.showLoading = true;
