@@ -182,6 +182,7 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import filterMixin from 'shared/mixins/filterMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -203,7 +204,13 @@ export default {
     DeleteCustomViews,
     ConversationBulkActions,
   },
-  mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
+  mixins: [
+    timeMixin,
+    conversationMixin,
+    eventListenerMixins,
+    alertMixin,
+    filterMixin,
+  ],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -790,74 +797,6 @@ export default {
     },
     onContextMenuToggle(state) {
       this.isContextMenuOpen = state;
-    },
-    initializeExistingFilterToModal() {
-      if (this.activeStatus !== '') {
-        this.appliedFilter.push({
-          attribute_key: 'status',
-          attribute_model: 'standard',
-          filter_operator: 'equal_to',
-          values: [
-            {
-              id: this.activeStatus,
-              name: this.$t(
-                `CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${this.activeStatus}.TEXT`
-              ),
-            },
-          ],
-          query_operator: 'and',
-          custom_attribute_type: '',
-        });
-      }
-      if (this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ME) {
-        this.appliedFilter.push({
-          attribute_key: 'assignee_id',
-          filter_operator: 'equal_to',
-          values: this.currentUserDetails,
-          query_operator: 'and',
-          custom_attribute_type: '',
-        });
-      }
-      if (this.conversationInbox) {
-        this.appliedFilter.push({
-          attribute_key: 'inbox_id',
-          attribute_model: 'standard',
-          filter_operator: 'equal_to',
-          values: [
-            {
-              id: this.conversationInbox,
-              name: this.inbox.name,
-            },
-          ],
-          query_operator: 'and',
-          custom_attribute_type: '',
-        });
-      }
-      if (this.teamId) {
-        this.appliedFilter.push({
-          attribute_key: 'team_id',
-          attribute_model: 'standard',
-          filter_operator: 'equal_to',
-          values: this.activeTeam,
-          query_operator: 'and',
-          custom_attribute_type: '',
-        });
-      }
-      if (this.label) {
-        this.appliedFilter.push({
-          attribute_key: 'labels',
-          attribute_model: 'standard',
-          filter_operator: 'equal_to',
-          values: [
-            {
-              id: this.label,
-              name: this.label,
-            },
-          ],
-          query_operator: 'and',
-          custom_attribute_type: '',
-        });
-      }
     },
   },
 };
