@@ -4,6 +4,8 @@ export const CONVERSATION_EVENTS = Object.freeze({
   SENT_PRIVATE_NOTE: 'Sent a private note',
   INSERTED_A_CANNED_RESPONSE: 'Inserted a canned response',
   USED_MENTIONS: 'Used mentions',
+
+  APPLY_FILTER: 'Applied filters in the conversation list',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
