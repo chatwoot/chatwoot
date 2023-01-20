@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Þú getur fengið tölvupóst á þitt lén núna."
       }
     },
-    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
+    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir ExiZap er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
     "LEARN_MORE": "Læra meira"
   },
   "FORMS": {
@@ -87,7 +87,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Aftengdur Chatwoot"
+      "TEXT": "Aftengdur ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Uppfæra"

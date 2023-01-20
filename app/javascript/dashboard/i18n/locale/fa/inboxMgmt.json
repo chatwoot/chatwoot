@@ -53,10 +53,6 @@
           "ENABLE": "ایجاد گفتگوهایی که از توییت‌های اشاره شده هستند"
         }
       },
-      "MICROSOFT": {
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
-      },
       "WEBSITE_CHANNEL": {
         "TITLE": "کانال وب‌سایت",
         "DESC": "یک کانال به وب سایت خود بسازید تا مشتریان بتوانند از طریق ویجت سایت با شما گفتگو کنند.",
@@ -333,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "کانالی را انتخاب کنید",
-        "DESC": "Chatwoot از ویجت های چت زنده، فیس بوک مسنجر، پروفایل های توییتر، واتساپ، ایمیل ها و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید، می توانید آن را با استفاده از کانال API ایجاد کنید. برای شروع، یکی از کانال های زیر را انتخاب کنید."
+        "DESC": "ExiZap از ویجت های چت زنده، فیس بوک مسنجر، پروفایل های توییتر، واتساپ، ایمیل ها و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید، می توانید آن را با استفاده از کانال API ایجاد کنید. برای شروع، یکی از کانال های زیر را انتخاب کنید."
       },
       "AGENTS": {
         "TITLE": "ایجنت ها",
@@ -551,10 +547,6 @@
         "PLACE_HOLDER": "رمز عبور"
       },
       "ENABLE_SSL": "فعال کردن SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

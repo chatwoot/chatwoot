@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "תיבות דואר נכנס",
-    "SIDEBAR_TXT": "<p><b>תיבת דואר נכנס</b></p> <p> כאשר אתה מחבר אתר אינטרנט או דף פייסבוק ל-Chatwoot, זה נקרא <b>תיבת דואר נכנס</b>. אתה יכול לקבל תיבות דואר נכנס בלתי מוגבלות בחשבון Chatwoot שלך. </p><p> לחץ על <b>הוסף תיבת דואר נכנס</b> כדי לחבר אתר או דף פייסבוק. </p><p> בלוח המחוונים, תוכל לראות את כל השיחות מכל תיבות הדואר הנכנס שלך במקום אחד ולהגיב להן בכרטיסייה 'שיחות'. </p><p> תוכל גם לראות שיחות ספציפיות לתיבת דואר נכנס על ידי לחיצה על שם תיבת הדואר הנכנס בחלונית השמאלית של לוח המחוונים. </p>",
+    "SIDEBAR_TXT": "<p><b>תיבת דואר נכנס</b></p> <p> כאשר אתה מחבר אתר אינטרנט או דף פייסבוק ל-ExiZap, זה נקרא <b>תיבת דואר נכנס</b>. אתה יכול לקבל תיבות דואר נכנס בלתי מוגבלות בחשבון ExiZap שלך. </p><p> לחץ על <b>הוסף תיבת דואר נכנס</b> כדי לחבר אתר או דף פייסבוק. </p><p> בלוח המחוונים, תוכל לראות את כל השיחות מכל תיבות הדואר הנכנס שלך במקום אחד ולהגיב להן בכרטיסייה 'שיחות'. </p><p> תוכל גם לראות שיחות ספציפיות לתיבת דואר נכנס על ידי לחיצה על שם תיבת הדואר הנכנס בחלונית השמאלית של לוח המחוונים. </p>",
     "LIST": {
       "404": "אין תיבות דואר נכנס מצורפות לחשבון זה."
     },
@@ -9,7 +9,7 @@
       {
         "title": "בחר ערוץ",
         "route": "settings_inbox_new",
-        "body": "בחר את הספק שברצונך לשלב עם Chatwoot."
+        "body": "בחר את הספק שברצונך לשלב עם ExiZap."
       },
       {
         "title": "צור תיבת דואר נכנס",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)"
       },
       "FB": {
-        "HELP": "נ. ב: על ידי כניסה, אנו מקבלים גישה רק להודעות של הדף שלך. לעולם לא ניתן לגשת להודעות הפרטיות שלך על ידי Chatwoot.",
+        "HELP": "נ. ב: על ידי כניסה, אנו מקבלים גישה רק להודעות של הדף שלך. לעולם לא ניתן לגשת להודעות הפרטיות שלך על ידי ExiZap.",
         "CHOOSE_PAGE": "בחר עמוד",
         "CHOOSE_PLACEHOLDER": "בחר עמוד מהרשימה",
         "INBOX_NAME": "שם תיבת הדואר הנכנס",
@@ -52,10 +52,6 @@
         "TWEETS": {
           "ENABLE": "Create conversations from mentioned Tweets"
         }
-      },
-      "MICROSOFT": {
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "ערוץ האתר",
@@ -333,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "בחר ערוץ",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "סוכנים",
@@ -343,11 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "פרטי תיבת דואר נכנס",
-        "DESC": "מהתפריט הנפתח למטה, בחר את דף הפייסבוק שברצונך להתחבר ל-Chatwoot. אתה יכול גם לתת שם מותאם אישית לתיבת הדואר הנכנס שלך לזיהוי טוב יותר."
+        "DESC": "מהתפריט הנפתח למטה, בחר את דף הפייסבוק שברצונך להתחבר ל-ExiZap. אתה יכול גם לתת שם מותאם אישית לתיבת הדואר הנכנס שלך לזיהוי טוב יותר."
       },
       "FINISH": {
         "TITLE": "הצלחתי!",
-        "DESC": "סיימת בהצלחה לשלב את דף הפייסבוק שלך עם Chatwoot. בפעם הבאה שלקוח ישלח הודעה לדף שלך, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך.<br>אנחנו גם מספקים לך סקריפט ווידג'ט שתוכל להוסיף בקלות לאתר שלך. ברגע שזה פעיל באתר שלך, לקוחות יכולים לשלוח לך הודעות ישירות מהאתר שלך ללא עזרה של כל כלי חיצוני והשיחה תופיע ממש כאן, ב-Chatwoot.<br>מגניב, הא? ובכן, אנחנו בטוח מנסים להיות :)"
+        "DESC": "סיימת בהצלחה לשלב את דף הפייסבוק שלך עם ExiZap. בפעם הבאה שלקוח ישלח הודעה לדף שלך, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך.<br>אנחנו גם מספקים לך סקריפט ווידג'ט שתוכל להוסיף בקלות לאתר שלך. ברגע שזה פעיל באתר שלך, לקוחות יכולים לשלוח לך הודעות ישירות מהאתר שלך ללא עזרה של כל כלי חיצוני והשיחה תופיע ממש כאן, ב-ExiZap.<br>מגניב, הא? ובכן, אנחנו בטוח מנסים להיות :)"
       }
     },
     "DETAILS": {
@@ -552,10 +548,6 @@
       },
       "ENABLE_SSL": "Enable SSL"
     },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
-    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Set your SMTP details",
@@ -672,7 +664,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "מופעל על ידי Chatwoot",
+      "BRANDING_TEXT": "מופעל על ידי ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }

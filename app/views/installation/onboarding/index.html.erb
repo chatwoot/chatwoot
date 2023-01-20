@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SuperAdmin | Chatwoot</title>
+    <title>SuperAdmin | ExiZap</title>
     <%= javascript_pack_tag 'superadmin' %>
     <%= stylesheet_pack_tag 'superadmin' %>
   </head>
@@ -15,7 +15,7 @@
             class="hero__logo"
           />
           <h2 class="hero--title">
-            Howdy, Welcome to Chatwoot 👋
+            Olá, bem-vindo ao ExiZap 👋
           </h2>
         </div>
         <div class="row align-center">
@@ -26,29 +26,29 @@
                 <div data-alert class="alert-box warning"><%= flash[:error] %></div>
                 <% end %>
                 <label>
-                  <span>Name</span>
-                  <%= text_field :user, :name, placeholder: "Enter your full name. eg: Bruce Wayne", required: true %>
+                  <span>Nome</span>
+                  <%= text_field :user, :name, placeholder: "Escreva seu nome completo. ex.: Bruce Wayne", required: true %>
                 </label>
                 <label>
-                  <span>Company Name</span>
-                  <%= text_field :user, :company, placeholder: "Enter your company name. eg: Wayne Enterprises", required: true %>
+                  <span>Nome Empresa</span>
+                  <%= text_field :user, :company, placeholder: "Digite o nome da sua empresa. ex.: Wayne Enterprises", required: true %>
                 </label>
                 <label>
-                  <span>Work Email</span>
-                  <%= email_field :user, :email, placeholder: "Enter your work email address. eg: bruce@wayne.enterprises", required: true %>
+                  <span>Seu Email</span>
+                  <%= email_field :user, :email, placeholder: "Digite seu endereço de e-mail de trabalho. por exemplo: bruce@wayne.enterprises", required: true %>
                 </label>
                 <label>
-                  <span>Password</span>
-                  <%= password_field :user, :password, placeholder: "Enter a password with 6 characters or more.", required: true %>
+                  <span>Sua Senha</span>
+                  <%= password_field :user, :password, placeholder: "Digite uma senha com 6 caracteres ou mais.", required: true %>
                 </label>
                 <div class="update-subscription--checkbox">
                   <%= check_box_tag "subscribe_to_updates", 'true', true %>
                   <label for="subscribe_to_updates">
-                    Subscribe to release notes, newsletters & product feedback surveys.
+                    Assinar notas de lançamentos de versões, boletins informativos e pesquisas de feedback de produtos.
                   </label>
                 </div>
                 <button type="submit" class="button nice large expanded">
-                  Finish Setup
+                  Fim Setup
                 </button>
               </div>
             <% end %>
