@@ -35,6 +35,10 @@
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
+        googleOAuthEnabled: '<%= @global_config['GOOGLE_OAUTH_ENABLED'] %>',
+        <% if @global_config['GOOGLE_OAUTH_ENABLED'] %>
+        googleOAuthUrl: '<%= user_google_oauth2_omniauth_authorize_path %>',
+        <% end %>
         fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
