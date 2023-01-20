@@ -46,7 +46,7 @@
               :loading="loginApi.showLoading"
               button-class="large expanded"
             />
-        </form>
+          </form>
         </div>
         <div class="text-center column sigin__footer">
           <p v-if="!globalConfig.disableUserProfileUpdate">
@@ -152,6 +152,11 @@ export default {
             window.location = '/app/login';
           }
 
+          this.$refs.loginBox.classList.add('invalid');
+          setTimeout(() => {
+            this.$refs.loginBox.classList.remove('invalid');
+          }, 500);
+
           if (response && response.status === 401) {
             const { errors } = response.data;
             const hasAuthErrorMsg =
@@ -172,3 +177,31 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@media (prefers-reduced-motion: no-preference) {
+  .login-box.invalid {
+    animation: shake 0.5s linear;
+  }
+  @keyframes shake {
+    8%,
+    41% {
+      -webkit-transform: translateX(-10px);
+    }
+    25%,
+    58% {
+      -webkit-transform: translateX(10px);
+    }
+    75% {
+      -webkit-transform: translateX(-5px);
+    }
+    92% {
+      -webkit-transform: translateX(5px);
+    }
+    0%,
+    100% {
+      -webkit-transform: translateX(0);
+    }
+  }
+}
+</style>
