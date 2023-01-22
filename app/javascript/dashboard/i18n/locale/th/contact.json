@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "ลบรูปของผู้ติดต่อสำเร็จ",
+        "ERROR_MESSAGE": "ไม่สามารถลบรูปของผู้ติดต่อได้ กรุณาลองใหม่ภายหลัง"
       }
     },
     "SUCCESS_MESSAGE": "สร้างการติดต่อเรียบร้อยเเล้ว",
