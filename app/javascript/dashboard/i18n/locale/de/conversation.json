@@ -42,8 +42,8 @@
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Label anzeigen",
+      "HIDE_LABELS": "Labels ausblenden"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -68,7 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Als ausstehend markieren",
       "RESOLVED": "Als gelöst markieren",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "Als ungelesen markieren",
       "REOPEN": "Konversation wieder öffnen",
       "SNOOZE": {
         "TITLE": "Erinnern",
