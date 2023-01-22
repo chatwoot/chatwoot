@@ -24,11 +24,11 @@
       "TITLE": "Agenten-Bot auswählen",
       "DESC": "Sie können einen Agenten-Bot aus der Liste in diesen Posteingang setzen. Der Bot kann die Unterhaltung anfangs bearbeiten und bei Bedarf an einen Agenten übertragen.",
       "SUBMIT": "Aktualisieren",
-      "DISCONNECT": "Disconnect Bot",
+      "DISCONNECT": "Bot trennen",
       "SUCCESS_MESSAGE": "Agenten-Bot erfolgreich aktualisiert",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Agent-Bot erfolgreich getrennt",
       "ERROR_MESSAGE": "Konnte den Agenten-Bot nicht aktualisieren, bitte versuchen Sie es später erneut",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
+      "DISCONNECTED_ERROR_MESSAGE": "Konnte den Agenten-Bot nicht trennen, bitte versuchen Sie es später erneut",
       "SELECT_PLACEHOLDER": "Bot auswählen"
     },
     "ADD": {
@@ -52,7 +52,7 @@
       "DESCRIPTION": "Sind Sie sicher, dass Sie diesen Bot löschen wollen? Diese Aktion kann nicht rückgängig gemacht werden",
       "API": {
         "SUCCESS_MESSAGE": "Bot erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "ERROR_MESSAGE": "Konnte den Bot nicht löschen, bitte versuche es später erneut"
       }
     },
     "EDIT": {
