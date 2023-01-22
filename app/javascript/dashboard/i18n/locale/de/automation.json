@@ -87,8 +87,8 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "Du musst mindestens eine Bedingung zum Speichern haben",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "Benutzerdefinierte Kontakt-Attribute",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Benutzerdefinierte Konversations-Attribute"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich",
