@@ -16,7 +16,7 @@ class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCon
     # auth response to avoid CookieOverflow.
     session['dta.omniauth.auth'] = request.env['omniauth.auth'].except('extra')
     session['dta.omniauth.params'] = request.env['omniauth.params']
-    
+
     path = "/omniauth/#{params[:provider]}/callback"
     klass = request.scheme == 'https' ? URI::HTTPS : URI::HTTP
     redirect_route = klass.build(host: request.host, port: request.port, path: path).to_s
