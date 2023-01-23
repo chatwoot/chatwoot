@@ -1,4 +1,4 @@
-class Auth::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   def google_oauth2
     @user = User.from_omniauth(request.env['omniauth.auth'])
 
@@ -9,5 +9,9 @@ class Auth::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCont
       session['devise.google_data'] = request.env['omniauth.auth'].except('extra') # Removing extra as it can overflow some session stores
       redirect_to new_user_registration_url, alert: @user.errors.full_messages.join("\n")
     end
+  end
+
+  def default_devise_mapping
+    'user'
   end
 end
