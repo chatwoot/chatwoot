@@ -113,6 +113,17 @@ describe Whatsapp::IncomingMessageService do
         expect(message.reload.status).to eq('failed')
         expect(message.external_error).to eq('123: abc')
       end
+
+      it 'will not throw error if unsupported status' do
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'deleted',
+                           'errors' => [{ 'code': 123, 'title': 'abc' }] }]
+        }.with_indifferent_access
+
+        message = Message.find_by!(source_id: from)
+        expect(message.status).to eq('sent')
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform }.not_to raise_error
+      end
     end
 
     context 'when valid interactive message params' do

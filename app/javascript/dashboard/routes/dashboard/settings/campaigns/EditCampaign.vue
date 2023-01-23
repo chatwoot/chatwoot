@@ -259,7 +259,7 @@ export default {
           id: this.selectedCampaign.id,
           title: this.title,
           message: this.message,
-          inbox_id: this.$route.params.inboxId,
+          inbox_id: this.selectedInbox,
           trigger_only_during_business_hours:
             // eslint-disable-next-line prettier/prettier
             this.triggerOnlyDuringBusinessHours,

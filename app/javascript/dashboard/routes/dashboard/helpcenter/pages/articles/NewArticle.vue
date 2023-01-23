@@ -29,6 +29,7 @@ import ArticleEditor from '../../components/ArticleEditor.vue';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin.js';
 import ArticleSettings from './ArticleSettings.vue';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     EditArticleHeader,
@@ -90,6 +91,9 @@ export default {
               locale: this.locale,
               recentlyCreated: true,
             },
+          });
+          this.$track(PORTALS_EVENTS.CREATE_ARTICLE, {
+            locale: this.locale,
           });
         } catch (error) {
           this.alertMessage =

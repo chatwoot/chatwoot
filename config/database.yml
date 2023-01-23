@@ -1,9 +1,10 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>
   port: <%= ENV.fetch('POSTGRES_PORT', '5432') %>
+   # ref: https://github.com/mperham/sidekiq/issues/2985#issuecomment-531097962
+  pool: <%= Sidekiq.server? ? Sidekiq.options[:concurrency] : ENV.fetch('RAILS_MAX_THREADS', 5) %>
 
 development:
   <<: *default

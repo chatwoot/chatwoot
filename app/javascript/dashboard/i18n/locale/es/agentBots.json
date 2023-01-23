@@ -24,8 +24,11 @@
       "TITLE": "Seleccione un bot de agente",
       "DESC": "Puedes establecer un bot de agente desde la lista a esta bandeja de entrada. El bot puede inicialmente manejar la conversación y transferirla a un agente cuando sea necesario.",
       "SUBMIT": "Actualizar",
+      "DISCONNECT": "Desconectar Bot",
       "SUCCESS_MESSAGE": "El bot del agente se ha actualizado con éxito",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Desconectado correctamente el bot agente",
       "ERROR_MESSAGE": "No se pudo actualizar el bot de agente, por favor inténtalo de nuevo más tarde",
+      "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar el bot de agente, por favor inténtalo de nuevo más tarde",
       "SELECT_PLACEHOLDER": "Seleccionar bot"
     },
     "ADD": {
