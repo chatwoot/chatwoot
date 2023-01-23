@@ -158,6 +158,8 @@ export default {
       }
     },
     editorId() {
+      this.showCannedMenu = false;
+      this.cannedSearchTerm = '';
       this.reloadState();
     },
     isPrivate() {
