@@ -8,7 +8,7 @@
         "SUBMIT_BUTTON_LABEL": "Envoyer",
         "CANCEL_BUTTON_LABEL": "Annuler",
         "CLEAR_BUTTON_LABEL": "Effacer les filtres",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "EMPTY_VALUE_ERROR": "La valeur est requise",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "ET",
@@ -42,8 +42,8 @@
             "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Filtres standards",
+            "ADDITIONAL_FILTERS": "Filtres supplémentaires",
             "CUSTOM_ATTRIBUTES": "Attributs personnalisés"
         }
     }
