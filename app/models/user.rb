@@ -108,7 +108,9 @@ class User < ApplicationRecord
   end
 
   def set_password_and_uid
-    self.uid = email
+    if self.provider == 'email'
+      self.uid = email
+    end
   end
 
   def active_account_user
@@ -201,19 +203,6 @@ class User < ApplicationRecord
       unread_count: notifications.where(account_id: account_id, read_at: nil).count,
       count: notifications.where(account_id: account_id).count
     }
-  end
-
-  def self.from_omniauth(access_token)
-    data = access_token.info
-    User.where(email: data['email']).first
-
-    # Uncomment the section below if you want users to be created if they don't exist
-    # unless user
-    #     user = User.create(name: data['name'],
-    #        email: data['email'],
-    #        password: Devise.friendly_token[0,20]
-    #     )
-    # end
   end
 
   private
