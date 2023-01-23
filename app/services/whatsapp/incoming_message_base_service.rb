@@ -41,17 +41,20 @@ class Whatsapp::IncomingMessageBaseService
   def perform_messages
     return if @processed_params[:messages].blank? || unprocessable_message_type?
 
-    @message = @conversation.messages.build(
-      content: message_content(@processed_params[:messages].first),
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: :incoming,
-      sender: @contact,
-      source_id: @processed_params[:messages].first[:id].to_s
-    )
-    attach_files
-    attach_location
-    @message.save!
+    message = @processed_params[:messages].first
+    if message_type == 'contacts'
+      message['contacts'].each do |contact|
+        contact[:id] = generateHash
+        create_message(contact)
+        attach_contact(contact)
+        @message.save!
+      end
+    else
+      create_message(message)
+      attach_files
+      attach_location
+      @message.save!
+    end
   end
 
   def processed_params
@@ -63,7 +66,8 @@ class Whatsapp::IncomingMessageBaseService
     message.dig(:text, :body) ||
       message.dig(:button, :text) ||
       message.dig(:interactive, :button_reply, :title) ||
-      message.dig(:interactive, :list_reply, :title)
+      message.dig(:interactive, :list_reply, :title) ||
+      message.dig(:name, :formatted_name)
   end
 
   def account
@@ -105,6 +109,7 @@ class Whatsapp::IncomingMessageBaseService
     return :audio if %w[audio voice].include?(file_type)
     return :video if ['video'].include?(file_type)
     return :location if ['location'].include?(file_type)
+    return :contact if ['contacts'].include?(file_type)
 
     :file
   end
@@ -114,11 +119,11 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def unprocessable_message_type?
-    %w[reaction contacts ephemeral unsupported].include?(message_type)
+    %w[reaction ephemeral unsupported].include?(message_type)
   end
 
   def attach_files
-    return if %w[text button interactive location].include?(message_type)
+    return if %w[text button interactive location contacts].include?(message_type)
 
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
     @message.content ||= attachment_payload[:caption]
@@ -154,5 +159,38 @@ class Whatsapp::IncomingMessageBaseService
       fallback_title: location_name,
       external_url: location['url']
     )
+  end
+
+  def create_message(message)
+    @message = @conversation.messages.build(
+      content: message_content(message),
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      message_type: :incoming,
+      sender: @contact,
+      source_id: message[:id].to_s
+    )
+  end
+
+  def attach_contact(contact)
+    phones = contact[:phones]
+    phones = [contact_empty] if phones.blank?
+
+    phones.each do |phone|
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_content_type(message_type),
+        fallback_title: phone[:phone].to_s
+      )
+    end
+  end
+
+  def contact_empty
+    {phone: "NO PHONE NUMBER"}
+  end
+
+  def generateHash
+    enum = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(20)
+    enum.next.join
   end
 end

@@ -106,9 +106,12 @@ export const actions = {
       );
       commit(types.SET_CONTACT_ITEM, response.data.payload.contact);
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      return response.data.payload.contact;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
-      if (error.response?.data?.message) {
+      if (error.response?.status === 422) {
+        throw new DuplicateContactException(error.response.data.attributes);
+      } else if (error.response?.data?.message) {
         throw new ExceptionWithMessage(error.response.data.message);
       } else {
         throw new Error(error);
@@ -233,6 +236,7 @@ export const actions = {
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+      return payload;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     }
