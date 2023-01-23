@@ -39,16 +39,17 @@ jobs:
           command: bundle -v
 
       - run:
-          name: Install nvm
+          name: Swap node versions
           command: |
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            set +e
+            wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+     	    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            nvm install v16
 
-      - run:
-          name: Install node16
-          command: |
-            nvm install 16
+           echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+           echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
       # Run bundler
       # Load installed gems from cache if possible, bundle install then save cache
