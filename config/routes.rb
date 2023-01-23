@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     passwords: 'devise_overrides/passwords',
     sessions: 'devise_overrides/sessions',
     token_validations: 'gem/token_validations',
-    omniauth_callbacks: 'users/omniauth_callbacks',
+    omniauth_callbacks: 'users/omniauth_callbacks'
   }, via: [:get, :post]
 
   devise_for :users, only: :omniauth_callbacks, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
