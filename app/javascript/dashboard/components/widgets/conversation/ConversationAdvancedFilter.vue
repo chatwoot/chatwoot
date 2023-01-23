@@ -61,6 +61,7 @@ import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from './advancedFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -287,6 +288,12 @@ export default {
         JSON.parse(JSON.stringify(this.appliedFilters))
       );
       this.$emit('applyFilter', this.appliedFilters);
+      this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {
+        applied_filters: this.appliedFilters.map(filter => ({
+          key: filter.attribute_key,
+          operator: filter.filter_operator,
+        })),
+      });
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(
