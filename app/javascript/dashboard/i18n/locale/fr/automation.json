@@ -88,7 +88,7 @@
     "CONDITION": {
       "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer",
       "CONTACT_CUSTOM_ATTR_LABEL": "Attributs personnalisés des contacts",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Attributs personnalisés de la conversation"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
@@ -108,11 +108,11 @@
       "CANCEL_LABEL": "Non"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Impossible d'envoyer la pièce jointe, veuillez réessayer",
+      "LABEL_IDLE": "Charger une pièce jointe",
       "LABEL_UPLOADING": "Téléversement...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Téléchargé avec succès",
+      "LABEL_UPLOAD_FAILED": "Échec de l'envoi"
     }
   }
 }
