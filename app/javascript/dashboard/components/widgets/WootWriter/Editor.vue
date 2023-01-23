@@ -370,6 +370,7 @@ export default {
       // The `{{ }}` are added to the message, but the cursor is placed
       // and onExit of suggestionsPlugin is not called. So we need to manually hide
       this.showVariables = false;
+      this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
       tr.scrollIntoView();
       return false;
     },
