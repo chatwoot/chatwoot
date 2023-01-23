@@ -1,5 +1,5 @@
 <template>
-  <div class="macro">
+  <div class="macro button secondary clear ">
     <span class="text-truncate">{{ macro.name }}</span>
     <div class="macros-actions">
       <woot-button
@@ -35,6 +35,8 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
 import MacroPreview from './MacroPreview';
+import { CONVERSATION_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+
 export default {
   components: {
     MacroPreview,
@@ -64,6 +66,7 @@ export default {
           macroId: macro.id,
           conversationIds: [this.conversationId],
         });
+        this.$track(CONVERSATION_EVENTS.EXECUTED_A_MACRO);
         this.showAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY'));
       } catch (error) {
         this.showAlert(this.$t('MACROS.ERROR'));
@@ -87,20 +90,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0;
-  padding: var(--space-small);
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--border-radius-normal);
-  color: var(--s-700);
-
-  &:hover {
-    background: var(--s-25);
-    color: var(--s-600);
-  }
-
-  &:focus {
-    border-color: var(--w-300);
-  }
+  line-height: var(--space-normal);
 
   .macros-actions {
     display: flex;

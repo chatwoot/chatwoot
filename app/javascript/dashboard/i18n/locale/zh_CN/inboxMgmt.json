@@ -53,6 +53,10 @@
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "网站频道",
         "DESC": "为您的网站创建一个频道并通过我们的网站小部件开始支持您的客户。",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "电话号码",
           "PLACEHOLDER": "请输入发送消息的电话号码。",
-          "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "回调地址",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "电话号码",
             "PLACEHOLDER": "请输入发送消息的电话号码。",
-            "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "创建Bandwidth渠道",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "电话号码",
           "PLACEHOLDER": "请输入发送消息的电话号码。",
-          "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +392,10 @@
         "ENABLED": "已启用",
         "DISABLED": "已禁用"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -441,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",
@@ -541,6 +551,10 @@
         "PLACE_HOLDER": "密码"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

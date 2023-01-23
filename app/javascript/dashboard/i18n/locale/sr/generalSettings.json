@@ -23,7 +23,7 @@
         "ERROR": "Molim vas unesite ispravan naziv naloga"
       },
       "LANGUAGE": {
-        "LABEL": "Jezik sajta (beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Naziv vašeg naloga",
         "ERROR": ""
       },

@@ -8,8 +8,7 @@
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
     <help-center-sidebar
-      v-if="portals.length"
-      :class="sidebarClassName"
+      v-if="showHelpCenterSidebar"
       :header-title="headerTitle"
       :portal-slug="selectedPortalSlug"
       :locale-slug="selectedLocaleInPortal"
@@ -19,7 +18,7 @@
       @open-popover="openPortalPopover"
       @open-modal="onClickOpenAddCategoryModal"
     />
-    <section class="app-content columns" :class="contentClassName">
+    <section class="app-content columns">
       <router-view />
       <command-bar />
       <account-selector
@@ -40,6 +39,7 @@
         :portals="portals"
         :active-portal-slug="selectedPortalSlug"
         :active-locale="selectedLocaleInPortal"
+        @fetch-portal="fetchPortalAndItsCategories"
         @close-popover="closePortalPopover"
       />
       <add-category
@@ -83,7 +83,6 @@ export default {
   mixins: [portalMixin, uiSettingsMixin],
   data() {
     return {
-      isSidebarOpen: false,
       isOnDesktop: true,
       showShortcutModal: false,
       showNotificationPanel: false,
@@ -102,6 +101,15 @@ export default {
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    isSidebarOpen() {
+      const {
+        show_help_center_secondary_sidebar: showSecondarySidebar,
+      } = this.uiSettings;
+      return showSecondarySidebar;
+    },
+    showHelpCenterSidebar() {
+      return this.portals.length === 0 ? false : this.isSidebarOpen;
+    },
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);
@@ -110,24 +118,6 @@ export default {
     },
     selectedLocaleInPortal() {
       return this.$route.params.locale || this.defaultPortalLocale;
-    },
-    sidebarClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas is-open';
-      }
-      return 'off-canvas is-transition-push is-closed';
-    },
-    contentClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push';
-      }
-      return 'off-canvas-content has-transition-push';
     },
     selectedPortalName() {
       return this.selectedPortal ? this.selectedPortal.name : '';
@@ -227,24 +217,35 @@ export default {
   },
 
   watch: {
-    '$route.params.portalSlug'() {
-      this.fetchPortalsAndItsCategories();
+    '$route.name'() {
+      const routeName = this.$route?.name;
+      const routeParams = this.$route?.params;
+      const updateMetaInAllPortals = routeName === 'list_all_portals';
+      const updateMetaInEditArticle =
+        routeName === 'edit_article' && routeParams?.recentlyCreated;
+      const updateMetaInLocaleArticles =
+        routeName === 'list_all_locale_articles' &&
+        routeParams?.recentlyDeleted;
+      if (
+        updateMetaInAllPortals ||
+        updateMetaInEditArticle ||
+        updateMetaInLocaleArticles
+      ) {
+        this.fetchPortalAndItsCategories();
+      }
     },
   },
 
   mounted() {
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
 
     const slug = this.$route.params.portalSlug;
     if (slug) this.lastActivePortalSlug = slug;
 
-    this.fetchPortalsAndItsCategories();
+    this.fetchPortalAndItsCategories();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
-    window.removeEventListener('resize', this.handleResize);
   },
   updated() {
     const slug = this.$route.params.portalSlug;
@@ -257,17 +258,14 @@ export default {
     }
   },
   methods: {
-    handleResize() {
-      if (window.innerWidth > 1200) {
-        this.isOnDesktop = true;
-      } else {
-        this.isOnDesktop = false;
+    toggleSidebar() {
+      if (this.portals.length > 0) {
+        this.updateUISettings({
+          show_help_center_secondary_sidebar: !this.isSidebarOpen,
+        });
       }
     },
-    toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    },
-    async fetchPortalsAndItsCategories() {
+    async fetchPortalAndItsCategories() {
       await this.$store.dispatch('portals/index');
       const selectedPortalParam = {
         portalSlug: this.selectedPortalSlug,
@@ -307,8 +305,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.off-canvas-content.is-open-left.has-transition-push {
-  transform: translateX(var(--space-giga));
-}
-</style>

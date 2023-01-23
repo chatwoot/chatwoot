@@ -48,6 +48,14 @@ export const getters = {
     return currentAccount.availability;
   },
 
+  getCurrentUserAutoOffline($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount.auto_offline;
+  },
+
   getCurrentAccountId(_, __, rootState) {
     if (rootState.route.params && rootState.route.params.accountId) {
       return Number(rootState.route.params.accountId);
@@ -169,6 +177,15 @@ export const actions = {
         id,
         availabilityStatus: params.availability,
       });
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
+  updateAutoOffline: async ({ commit }, { accountId, autoOffline }) => {
+    try {
+      const response = await authAPI.updateAutoOffline(accountId, autoOffline);
+      commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
       // Ignore error
     }

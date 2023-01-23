@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Зареєструватися",
     "TITLE": "Реєстрація",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Назва облікового запису",
-      "PLACEHOLDER": "Введіть ім'я облікового запису; наприклад: Wayne Enterprises",
-      "ERROR": "Ім'я аккаунту закоротке"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Повне ім'я",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Робоча електронна пошта",
       "PLACEHOLDER": "Введіть робочу адресу електронної пошти; наприклад: bruce@wayne.enterprises",
-      "ERROR": "Адреса електронної пошти недійсна"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Пароль",

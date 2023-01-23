@@ -23,7 +23,7 @@
         "ERROR": "正しいアカウント名を入力してください"
       },
       "LANGUAGE": {
-        "LABEL": "サイト言語(ベータ版)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "あなたのアカウント名",
         "ERROR": ""
       },

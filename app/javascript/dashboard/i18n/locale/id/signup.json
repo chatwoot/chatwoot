@@ -2,11 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Daftar akun",
     "TITLE": "Daftar",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Dengan mendaftar, Anda menyetujui <a href=\"https://www.chatwoot.com/terms\">S&K</a> dan <a href=\"https://www.chatwoot.com/privacy-policy\">Kebijakan Privasi</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Nama Akun",
-      "PLACEHOLDER": "Masukkan nama akun. cth: Wayne Enterprises",
-      "ERROR": "Nama Akun terlalu pendek"
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Nama Lengkap",
@@ -16,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Email kantor",
       "PLACEHOLDER": "Masukkan alamat email kantor Anda. cth: bruce@wayne.enterprises",
-      "ERROR": "Alamat email salah"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Kata Sandi",

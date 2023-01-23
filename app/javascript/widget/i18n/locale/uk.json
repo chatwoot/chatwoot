@@ -22,7 +22,7 @@
     "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
   },
   "START_CONVERSATION": "Розпочати розмову",
-  "END_CONVERSATION": "Закінчити спілкуванна",
+  "END_CONVERSATION": "Закінчити спілкування",
   "CONTINUE_CONVERSATION": "Продовжити спілкування",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
   "UNREAD_VIEW": {
@@ -73,6 +73,10 @@
       "FIELD": "Невірно заповнене поле"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Пошук емодзі",
+    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту"
+  },
   "CSAT": {
     "TITLE": "Оцініть вашу бесіду",
     "SUBMITTED_TITLE": "Дякуємо за оцінку",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Запит на текст розмови",
     "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
     "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

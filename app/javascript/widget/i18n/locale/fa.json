@@ -73,6 +73,10 @@
       "FIELD": "فیلد نامتعارف"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "جستجوی ایموجی",
+    "NOT_FOUND": "هیچ ایموجی با جستجوی شما مطابقت ندارد"
+  },
   "CSAT": {
     "TITLE": "به گفتگوی خود امتیاز دهید",
     "SUBMITTED_TITLE": "با تشکر از شما برای ثبت امتیاز",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "درخواست رونوشت گفتگو",
     "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

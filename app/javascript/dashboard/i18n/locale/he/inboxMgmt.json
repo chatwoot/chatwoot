@@ -53,6 +53,10 @@
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "ערוץ האתר",
         "DESC": "צור ערוץ לאתר שלך והתחל לתמוך בלקוחות שלך באמצעות ווידג'ט האתר שלנו.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "מספר טלפון",
           "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "כתובת אתר להתקשרות חוזרת",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "מספר טלפון",
             "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-            "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "מספר טלפון",
           "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -388,6 +392,10 @@
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      },
       "ENABLE_HMAC": {
         "LABEL": "אפשר"
       }
@@ -441,6 +449,8 @@
       "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
@@ -541,6 +551,10 @@
         "PLACE_HOLDER": "סיסמה"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

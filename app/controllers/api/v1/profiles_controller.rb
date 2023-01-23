@@ -18,6 +18,10 @@ class Api::V1::ProfilesController < Api::BaseController
     head :ok
   end
 
+  def auto_offline
+    @user.account_users.find_by!(account_id: auto_offline_params[:account_id]).update!(auto_offline: auto_offline_params[:auto_offline] || false)
+  end
+
   def availability
     @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
   end
@@ -35,6 +39,10 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def availability_params
     params.require(:profile).permit(:account_id, :availability)
+  end
+
+  def auto_offline_params
+    params.require(:profile).permit(:account_id, :auto_offline)
   end
 
   def profile_params
