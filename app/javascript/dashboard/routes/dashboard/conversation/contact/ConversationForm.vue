@@ -322,10 +322,10 @@ export default {
 }
 
 .canned-response {
+  position: relative;
   ::v-deep .mention--box {
-    border-left: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
-    top: var(--space-jumbo) !important;
+    top: unset !important;
+    height: fit-content;
   }
 }
 

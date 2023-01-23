@@ -9,7 +9,7 @@
       >
         <woot-button
           size="small"
-          class="text-truncate"
+          class="canned-item__button"
           :variant="index === selectedIndex ? '' : 'clear'"
           :class="{ active: index === selectedIndex }"
           @click="onListItemSelection(index)"
@@ -108,5 +108,11 @@ export default {
   .button {
     transition: none;
   }
+}
+
+.canned-item__button::v-deep .button__content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
