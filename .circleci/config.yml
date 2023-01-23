@@ -38,6 +38,18 @@ jobs:
           name: Which bundler?
           command: bundle -v
 
+      - run:
+          name: Install nvm
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+      - run:
+          name: Install node16
+          command: |
+            nvm install 16
+
       # Run bundler
       # Load installed gems from cache if possible, bundle install then save cache
       # Multiple caches are used to increase the chance of a cache hit
