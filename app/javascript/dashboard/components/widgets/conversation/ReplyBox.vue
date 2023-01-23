@@ -71,6 +71,7 @@
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
+        @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
       />
     </div>
@@ -220,7 +221,6 @@ export default {
       message: '',
       isFocused: false,
       showEmojiPicker: false,
-      showMentions: false,
       attachedFiles: [],
       isRecordingAudio: false,
       recordingAudioState: '',
@@ -228,7 +228,6 @@ export default {
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
-      hasUserMention: false,
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
@@ -236,6 +235,10 @@ export default {
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
+
+      showMentions: false,
+      showCannedMenu: false,
+      showVariablesMenu: false,
     };
   },
   computed: {
@@ -629,8 +632,9 @@ export default {
     },
     isAValidEvent(selectedKey) {
       return (
-        !this.hasUserMention &&
+        !this.showMentions &&
         !this.showCannedMenu &&
+        !this.showVariablesMenu &&
         this.isFocused &&
         isEditorHotKeyEnabled(this.uiSettings, selectedKey)
       );
@@ -649,10 +653,13 @@ export default {
       });
     },
     toggleUserMention(currentMentionState) {
-      this.hasUserMention = currentMentionState;
+      this.showMentions = currentMentionState;
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
+    },
+    toggleVariablesMenu(value) {
+      this.showVariablesMenu = value;
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;

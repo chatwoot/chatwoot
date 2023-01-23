@@ -201,6 +201,9 @@ export default {
     showCannedMenu(updatedValue) {
       this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
     },
+    showVariables(updatedValue) {
+      this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
+    },
     value(newValue = '') {
       if (newValue !== this.contentFromEditor) {
         this.reloadState();
@@ -364,6 +367,9 @@ export default {
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
 
+      // The `{{ }}` are added to the message, but the cursor is placed
+      // and onExit of suggestionsPlugin is not called. So we need to manually hide
+      this.showVariables = false;
       tr.scrollIntoView();
       return false;
     },
