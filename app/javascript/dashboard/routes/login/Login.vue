@@ -51,7 +51,7 @@
             <div class="separator">
               OR
             </div>
-            <form :action="getGoogleAuthUrl()" method="post">
+            <a :href="getGoogleAuthUrl()">
               <button class="button large expanded button__google_login">
                 <img
                   src="/assets/images/auth/google.svg"
@@ -60,7 +60,7 @@
                 />
                 {{ $t('LOGIN.GOOGLE_OAUTH') }}
               </button>
-            </form>
+            </a>
           </template>
         </div>
         <div class="text-center column sigin__footer">
@@ -144,7 +144,23 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     getGoogleAuthUrl() {
-      return window.chatwootConfig.googleOAuthUrl;
+      const baseUrl =
+        'https://accounts.google.com/o/oauth2/auth/oauthchooseaccount';
+      const clientId = window.googleOAuthClientId;
+      const redirectUri = `http://localhost:3000/app/oauth-callback/google_oauth2`;
+      const responseType = 'code';
+      const scope = 'email profile';
+
+      // Build the query string
+      const queryString = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        response_type: responseType,
+        scope: scope,
+      }).toString();
+
+      // Construct the full URL
+      return `${baseUrl}?${queryString}`;
     },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);

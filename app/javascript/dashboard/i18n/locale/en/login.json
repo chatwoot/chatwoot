@@ -17,6 +17,7 @@
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create new account",
     "SUBMIT": "Login",
-    "GOOGLE_OAUTH": "Login with Google"
+    "GOOGLE_OAUTH": "Login with Google",
+    "LOGIN_WAIT": "Hang tight while we log you in..."
   }
 }
