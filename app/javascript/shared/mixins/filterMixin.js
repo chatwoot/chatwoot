@@ -42,6 +42,10 @@ export default {
     },
 
     initializeExistingFilterToModal() {
+      this.initializeStatusAndAssigneeFilterToModal();
+      this.initializeInboxTeamAndLabelFilterToModal();
+    },
+    initializeStatusAndAssigneeFilterToModal() {
       if (this.activeStatus !== '') {
         this.appliedFilter.push({
           attribute_key: 'status',
@@ -68,6 +72,8 @@ export default {
           custom_attribute_type: '',
         });
       }
+    },
+    initializeInboxTeamAndLabelFilterToModal() {
       if (this.conversationInbox) {
         this.appliedFilter.push({
           attribute_key: 'inbox_id',
