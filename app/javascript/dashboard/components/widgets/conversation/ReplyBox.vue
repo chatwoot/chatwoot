@@ -64,12 +64,15 @@
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
+        :enable-variables="true"
+        :variables="messageVariables"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
+        @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
       />
     </div>
@@ -127,6 +130,12 @@
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
+
+    <woot-confirm-modal
+      ref="confirmDialog"
+      :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
+      :description="undefinedVariableMessage"
+    />
   </div>
 </template>
 
@@ -153,7 +162,11 @@ import {
   AUDIO_FORMATS,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
+import {
+  getMessageVariables,
+  getUndefinedVariablesInMessage,
+} from 'dashboard/helper/messageHelper';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -209,7 +222,6 @@ export default {
       message: '',
       isFocused: false,
       showEmojiPicker: false,
-      showMentions: false,
       attachedFiles: [],
       isRecordingAudio: false,
       recordingAudioState: '',
@@ -217,13 +229,16 @@ export default {
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
-      hasUserMention: false,
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
+      undefinedVariableMessage: '',
+      showMentions: false,
+      showCannedMenu: false,
+      showVariablesMenu: false,
     };
   },
   computed: {
@@ -470,6 +485,12 @@ export default {
       }
       return AUDIO_FORMATS.OGG;
     },
+    messageVariables() {
+      const variables = getMessageVariables({
+        conversation: this.currentChat,
+      });
+      return variables;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -611,8 +632,9 @@ export default {
     },
     isAValidEvent(selectedKey) {
       return (
-        !this.hasUserMention &&
+        !this.showMentions &&
         !this.showCannedMenu &&
+        !this.showVariablesMenu &&
         this.isFocused &&
         isEditorHotKeyEnabled(this.uiSettings, selectedKey)
       );
@@ -631,10 +653,13 @@ export default {
       });
     },
     toggleUserMention(currentMentionState) {
-      this.hasUserMention = currentMentionState;
+      this.showMentions = currentMentionState;
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
+    },
+    toggleVariablesMenu(value) {
+      this.showVariablesMenu = value;
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;
@@ -665,7 +690,7 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
-    async onSendReply() {
+    confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
       }
@@ -684,6 +709,30 @@ export default {
         this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
+      }
+    },
+    async onSendReply() {
+      const undefinedVariables = getUndefinedVariablesInMessage({
+        message: this.message,
+        variables: this.messageVariables,
+      });
+      if (undefinedVariables.length > 0) {
+        const undefinedVariablesCount =
+          undefinedVariables.length > 1 ? undefinedVariables.length : 1;
+        this.undefinedVariableMessage = this.$t(
+          'CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.MESSAGE',
+          {
+            undefinedVariablesCount,
+            undefinedVariables: undefinedVariables.join(', '),
+          }
+        );
+
+        const ok = await this.$refs.confirmDialog.showConfirmation();
+        if (ok) {
+          this.confirmOnSendReply();
+        }
+      } else {
+        this.confirmOnSendReply();
       }
     },
     async sendMessage(messagePayload) {
@@ -708,9 +757,13 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
+      const updatedMessage = replaceVariablesInMessage({
+        message,
+        variables: this.messageVariables,
+      });
       setTimeout(() => {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
-        this.message = message;
+        this.message = updatedMessage;
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
