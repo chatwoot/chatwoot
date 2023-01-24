@@ -30,6 +30,17 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
       raise StandardError, 'Invalid Login'
     end
 
+    # if @resource.nil?
+    #   # if this is a new record, create an account with the AccountBuilder
+    #   @resource, @account = AccountBuilder.new(
+    #     account_name: auth_hash['info']['name'],
+    #     user_full_name: auth_hash['info']['name'],
+    #     email: auth_hash['info']['email'],
+    #     locale: I18n.locale,
+    #     confirmed: auth_hash['info']['email_verified']
+    #   ).perform
+    # end
+
     @resource
   end
 
