@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Tạm dừng"
+      },
+      "all": {
+        "TEXT": "Tất cả"
       }
     },
     "ATTACHMENTS": {
