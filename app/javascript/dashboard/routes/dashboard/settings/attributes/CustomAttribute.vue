@@ -213,6 +213,7 @@ export default {
 .woot-table {
   width: 100%;
   margin-top: var(--space-small);
+  table-layout: fixed;
 }
 
 .no-items-error-message {

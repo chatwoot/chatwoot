@@ -21,10 +21,23 @@
               </option>
             </select>
           </label>
-          <woot-submit-button
-            :button-text="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
-            :loading="uiFlags.isSettingAgentBot"
-          />
+          <div class="button-container">
+            <woot-submit-button
+              :button-text="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
+              :loading="uiFlags.isSettingAgentBot"
+            />
+            <woot-button
+              type="button"
+              :disabled="!selectedAgentBotId"
+              :loading="uiFlags.isDisconnecting"
+              variant="smooth"
+              color-scheme="alert"
+              class="button--disconnect"
+              @click="disconnectBot"
+            >
+              {{ $t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECT') }}
+            </woot-button>
+          </div>
         </div>
       </settings-section>
     </form>
@@ -86,6 +99,27 @@ export default {
         this.showAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.ERROR_MESSAGE'));
       }
     },
+    async disconnectBot() {
+      try {
+        await this.$store.dispatch('agentBots/disconnectBot', {
+          inboxId: this.inbox.id,
+        });
+        this.showAlert(
+          this.$t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECTED_SUCCESS_MESSAGE')
+        );
+      } catch (error) {
+        this.showAlert(
+          error?.message ||
+            this.$t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECTED_ERROR_MESSAGE')
+        );
+      }
+    },
   },
 };
 </script>
+
+<style scoped lang="scss">
+.button--disconnect {
+  margin-left: var(--space-small);
+}
+</style>

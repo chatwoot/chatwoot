@@ -62,6 +62,7 @@ if resource.email?
     json.imap_address resource.channel.try(:imap_address)
     json.imap_port resource.channel.try(:imap_port)
     json.imap_enabled resource.channel.try(:imap_enabled)
+    json.microsoft_reauthorization resource.channel.try(:microsoft?) && resource.channel.try(:provider_config).empty?
     json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
   end
 
@@ -88,9 +89,10 @@ if resource.api?
   json.additional_attributes resource.channel.try(:additional_attributes)
 end
 
+json.provider resource.channel.try(:provider)
+
 ### WhatsApp Channel
 if resource.whatsapp?
-  json.provider resource.channel.try(:provider)
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
 end

@@ -3,7 +3,7 @@
     "HEADER": {
       "FILTER": "Filter by",
       "SORT": "Sort by",
-      "SETTINGS_BUTTON": "Settings",
+      "SETTINGS_BUTTON": "Stillingar",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
@@ -86,7 +86,7 @@
             "COUNT_LABEL": "articles",
             "ADD": "Add locale",
             "VISIT": "Visit site",
-            "SETTINGS": "Settings",
+            "SETTINGS": "Stillingar",
             "DELETE": "Eyða"
           },
           "PORTAL_CONFIG": {
@@ -181,7 +181,7 @@
           }
         ],
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Til baka",
           "BASIC_SETTINGS_PAGE": {
             "HEADER": "Create Portal",
             "TITLE": "Help center information",

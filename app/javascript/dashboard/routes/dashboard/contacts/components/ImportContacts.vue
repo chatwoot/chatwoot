@@ -45,6 +45,7 @@
 import Modal from '../../../../components/Modal';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -71,6 +72,9 @@ export default {
       return '/downloads/import-contacts-sample.csv';
     },
   },
+  mounted() {
+    this.$track(CONTACTS_EVENTS.IMPORT_MODAL_OPEN);
+  },
   methods: {
     async uploadFile() {
       try {
@@ -78,10 +82,12 @@ export default {
         await this.$store.dispatch('contacts/import', this.file);
         this.onClose();
         this.showAlert(this.$t('IMPORT_CONTACTS.SUCCESS_MESSAGE'));
+        this.$track(CONTACTS_EVENTS.IMPORT_SUCCESS);
       } catch (error) {
         this.showAlert(
           error.message || this.$t('IMPORT_CONTACTS.ERROR_MESSAGE')
         );
+        this.$track(CONTACTS_EVENTS.IMPORT_FAILURE);
       }
     },
     handleFileUpload() {

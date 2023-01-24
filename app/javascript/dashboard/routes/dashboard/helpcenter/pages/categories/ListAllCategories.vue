@@ -64,6 +64,7 @@ import portalMixin from '../../mixins/portalMixin';
 import CategoryListItem from './CategoryListItem';
 import AddCategory from './AddCategory';
 import EditCategory from './EditCategory';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -137,15 +138,18 @@ export default {
         locale: localeCode,
       });
     },
-    async deleteCategory(categoryId) {
+    async deleteCategory(category) {
       try {
         await this.$store.dispatch('categories/delete', {
           portalSlug: this.currentPortalSlug,
-          categoryId: categoryId,
+          categoryId: category.id,
         });
         this.alertMessage = this.$t(
           'HELP_CENTER.CATEGORY.DELETE.API.SUCCESS_MESSAGE'
         );
+        this.$track(PORTALS_EVENTS.DELETE_CATEGORY, {
+          hasArticles: category?.meta?.articles_count !== 0,
+        });
       } catch (error) {
         const errorMessage = error?.message;
         this.alertMessage =
