@@ -78,7 +78,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       "#{phone_id_path}/messages",
       headers: api_headers,
       body: {
-        messaging_product: 'whatsapp',
+        :messaging_product => 'whatsapp',
         'to' => phone_number,
         'type' => type,
         type.to_s => type_content
