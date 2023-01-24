@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Emails διαχωρισμένα με κόμματα",
           "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Αποστολή",
+          "CANCEL": "Άκυρο"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
