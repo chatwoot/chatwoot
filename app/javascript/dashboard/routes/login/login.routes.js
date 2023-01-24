@@ -1,5 +1,4 @@
 import Login from './Login';
-import OAuthCallback from './OAuthCallback';
 import { frontendURL } from '../../helper/URLHelper';
 
 export default {
@@ -15,11 +14,6 @@ export default {
         ssoAccountId: route.query.sso_account_id,
         ssoConversationId: route.query.sso_conversation_id,
       }),
-    },
-    {
-      path: frontendURL('oauth-callback/:provider'),
-      name: 'oauth-callback',
-      component: OAuthCallback,
     },
   ],
 };
