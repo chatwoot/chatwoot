@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Pausad"
+      },
+      "all": {
+        "TEXT": "Alla"
       }
     },
     "ATTACHMENTS": {
