@@ -63,8 +63,8 @@ describe Whatsapp::IncomingMessageService do
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{
             'errors' => [{ 'code': 131_051, 'title': 'Message type is currently not supported.' }],
-            'from': '2423423243', 'id': 'wamid.SDFADSf23sfasdafasdfa',
-            'timestamp': '1667047370', 'type': 'unsupported'
+            :from => '2423423243', :id => 'wamid.SDFADSf23sfasdafasdfa',
+            :timestamp => '1667047370', :type => 'unsupported'
           }]
         }.with_indifferent_access
 
@@ -131,7 +131,7 @@ describe Whatsapp::IncomingMessageService do
         params = {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa',
-                           'interactive': {
+                           :interactive => {
                              'button_reply': {
                                'id': '1',
                                'title': 'First Button'
@@ -195,11 +195,11 @@ describe Whatsapp::IncomingMessageService do
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa',
                            'location' => { 'id' => 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
-                                           'address': 'San Francisco, CA, USA',
-                                           'latitude': 37.7893768,
-                                           'longitude': -122.3895553,
-                                           'name': 'Bay Bridge',
-                                           'url': 'http://location_url.test' },
+                                           :address => 'San Francisco, CA, USA',
+                                           :latitude => 37.7893768,
+                                           :longitude => -122.3895553,
+                                           :name => 'Bay Bridge',
+                                           :url => 'http://location_url.test' },
                            'timestamp' => '1633034394', 'type' => 'location' }]
         }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform

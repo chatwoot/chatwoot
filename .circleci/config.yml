@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/build
   docker:
     # specify the version you desire here
-    - image: cimg/ruby:3.0.4-browsers
+    - image: cimg/ruby:3.1.3-browsers
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -37,6 +37,18 @@ jobs:
       - run:
           name: Which bundler?
           command: bundle -v
+
+      - run:
+          name: Swap node versions
+          command: |
+            set +e
+            wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            nvm install v16
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
       # Run bundler
       # Load installed gems from cache if possible, bundle install then save cache
@@ -193,4 +205,3 @@ workflows:
       - upload-coverage:
           requires:
              - build
-
