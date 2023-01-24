@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "หลับ"
+      },
+      "all": {
+        "TEXT": "ทั้งหมด"
       }
     },
     "ATTACHMENTS": {
