@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Erinnern"
+      },
+      "all": {
+        "TEXT": "Alle"
       }
     },
     "ATTACHMENTS": {
