@@ -44,6 +44,8 @@ ru:
     categories:
       locale:
         unique: Должны быть уникальными в категории и портале
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -137,6 +139,10 @@ ru:
     online:
       delete: "%{contact_name} в сети, повторите попытку позже"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack это сервис, который позволяет объединить рабочие коммуникации в одном месте. При интеграции с Slack вы будете получать уведомления обо всех новых разговорах прямо в Slack."

@@ -10,4 +10,8 @@ describe('Test mixin function', () => {
   it('should return proper value from bool', () => {
     expect(wrapper.vm.setFilterAttributes).toBeTruthy();
   });
+
+  it('should return proper value from bool', () => {
+    expect(wrapper.vm.initializeExistingFilterToModal).toBeTruthy();
+  });
 });

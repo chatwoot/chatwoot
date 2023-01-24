@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Brugerdefineret attribut blev tilføjet",
-        "ERROR_MESSAGE": "Kunne ikke oprette en brugerdefineret attribut. Prøv igen senere"
+        "SUCCESS_MESSAGE": "Brugerdefineret attribut blev tilføjet!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {

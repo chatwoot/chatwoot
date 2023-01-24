@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot ora sincronizzerà tutte le conversazioni in arrivo nel canale <b><i>conversazioni dei clienti</i></b> all'interno del tuo spazio di lavoro Slack.</p><p>Rispondendo a un thread di conversazione nel canale Slack <b><i>conversazioni dei clienti</i></b> verrà creata una risposta al cliente attraverso chatwoot.</p><p>Inizia le risposte con <b><i>nota:</i></b> per creare note private invece che risposte.</p><p>Se il replicante su slack ha un profilo agente in chatwoot sotto la stessa email, le risposte saranno associate di conseguenza.</p><p>Quando il replicante non ha un profilo di agente associato, le risposte saranno fatte dal profilo del bot.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Elimina",
       "API": {

@@ -1,7 +1,7 @@
 module MultiSearchableHelpers
   extend ActiveSupport::Concern
 
-  included do
+  included do # rubocop:disable Metrics/BlockLength
     PgSearch.multisearch_options = {
       using: {
         trigram: {
@@ -25,27 +25,24 @@ module MultiSearchableHelpers
     # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
     # We can not find conversation_id from contacts directly so we added this joins here.
     def self.rebuild_pg_search_documents(account_id)
-      return unless self.name == 'Conversation'
-      rebuild_search_documents(account_id)
-    end
-  end
+      return unless name == 'Conversation'
 
-  def self.rebuild_search_documents(account_id)
-    connection.execute <<~SQL.squish
-      INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
-        SELECT 'Conversation' AS searchable_type,
-                conversations.id AS searchable_id,
-                CONCAT_WS(' ', conversations.display_id, contacts.email, contacts.name, contacts.phone_number, conversations.account_id) AS content,
-                conversations.account_id::int AS account_id,
-                conversations.id::int AS conversation_id,
-                conversations.inbox_id::int AS inbox_id,
-                now() AS created_at,
-                now() AS updated_at
-        FROM conversations
-        INNER JOIN contacts
-          ON conversations.contact_id = contacts.id
-        WHERE conversations.account_id = #{account_id}
-    SQL
+      connection.execute <<~SQL.squish
+        INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
+          SELECT 'Conversation' AS searchable_type,
+                  conversations.id AS searchable_id,
+                  CONCAT_WS(' ', conversations.display_id, contacts.email, contacts.name, contacts.phone_number, conversations.account_id) AS content,
+                  conversations.account_id::int AS account_id,
+                  conversations.id::int AS conversation_id,
+                  conversations.inbox_id::int AS inbox_id,
+                  now() AS created_at,
+                  now() AS updated_at
+          FROM conversations
+          INNER JOIN contacts
+            ON conversations.contact_id = contacts.id
+          WHERE conversations.account_id = #{account_id}
+      SQL
+    end
   end
 
   def contact_pg_search_record

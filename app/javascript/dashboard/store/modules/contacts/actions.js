@@ -5,6 +5,8 @@ import {
 import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
 import AccountActionsAPI from '../../../api/accountActions';
+import AnalyticsHelper from '../../../helper/AnalyticsHelper';
+import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 const buildContactFormData = contactParams => {
   const formData = new FormData();
@@ -104,6 +106,8 @@ export const actions = {
       const response = await ContactAPI.create(
         isFormData ? buildContactFormData(contactParams) : contactParams
       );
+
+      AnalyticsHelper.track(CONTACTS_EVENTS.CREATE_CONTACT);
       commit(types.SET_CONTACT_ITEM, response.data.payload.contact);
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
     } catch (error) {

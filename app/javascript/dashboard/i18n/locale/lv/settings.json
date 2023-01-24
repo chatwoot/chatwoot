@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Paziņojumi",
         "NOTE": "Iespējot audio paziņojumus informācijas panelī jauniem ziņojumiem un sarunām.",
-        "NONE": "Nav",
-        "ASSIGNED": "Piešķirtās Sarunas",
-        "ALL_CONVERSATIONS": "Visas Sarunas"
+        "ALERT_TYPE": {
+          "TITLE": "Brīdinājumu notikumi:",
+          "NONE": "Nav",
+          "ASSIGNED": "Piešķirtās Sarunas",
+          "ALL_CONVERSATIONS": "Visas Sarunas"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Brīdinājumu signāls:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Brīdinājumu nosacījumi:",
+          "CONDITION_ONE": "Sūtīt audio brīdinājumus tikai tad, ja pārlūkprogrammas logs nav aktīvs",
+          "CONDITION_TWO": "Sūtīt brīdinājumus ik pēc 30 sekundēm, līdz visas piešķirtās sarunas ir izlasītas"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-pasta Ziņojumi",
@@ -271,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Skatīt visus īsinājumtaustiņus",
     "TITLE": {
       "OPEN_CONVERSATION": "Atvērt sarunu",
       "RESOLVE_AND_NEXT": "Atrisināt un pāriet uz nākamo",

@@ -15,6 +15,7 @@ export const state = {
     isUpdating: false,
     isFetchingAgentBot: false,
     isSettingAgentBot: false,
+    isDisconnecting: false,
   },
   agentBotInbox: {},
 };
@@ -117,6 +118,18 @@ export const actions = {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isSettingAgentBot: false });
+    }
+  },
+
+  disconnectBot: async ({ commit }, { inboxId }) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: true });
+    try {
+      await InboxesAPI.setAgentBot(inboxId, null);
+      commit(types.SET_AGENT_BOT_INBOX, { agentBotId: '', inboxId });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: false });
     }
   },
 };

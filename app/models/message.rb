@@ -32,6 +32,7 @@
 
 class Message < ApplicationRecord
   include MessageFilterHelpers
+  include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
   include PgSearch::Model
   include MultiSearchableHelpers
@@ -65,7 +66,8 @@ class Message < ApplicationRecord
     form: 6,
     article: 7,
     incoming_email: 8,
-    input_csat: 9
+    input_csat: 9,
+    integrations: 10
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -112,7 +114,10 @@ class Message < ApplicationRecord
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      conversation: { assignee_id: conversation.assignee_id }
+      conversation: {
+        assignee_id: conversation.assignee_id,
+        unread_count: conversation.unread_incoming_messages.count
+      }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
     validate_instagram_story if instagram_story_mention?
@@ -170,16 +175,15 @@ class Message < ApplicationRecord
     true
   end
 
-  # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
-  # We can not find conversation_id from contacts directly so we added this joins here.
+  # NOTE: To add multi search records with jobs based on account_id.
   def self.rebuild_pg_search_documents(account_id)
     return super unless name == 'Message'
 
-    connection.execute <<~SQL.squish
+    ActiveRecord::Base.connection.execute <<~SQL.squish
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
         SELECT 'Message' AS searchable_type,
                 messages.id AS searchable_id,
-                CONCAT_WS(' ', messages.content) AS content,
+                LEFT(messages.content, 1048575) AS content,
                 messages.account_id::int AS account_id,
                 messages.conversation_id::int AS conversation_id,
                 messages.inbox_id::int AS inbox_id,
