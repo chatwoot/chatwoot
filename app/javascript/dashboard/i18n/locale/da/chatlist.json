@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Udsat"
+      },
+      "all": {
+        "TEXT": "Alle"
       }
     },
     "ATTACHMENTS": {
