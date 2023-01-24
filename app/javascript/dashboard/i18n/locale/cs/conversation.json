@@ -132,6 +132,14 @@
           "PLACEHOLDER": "E-maily oddělené čárkami",
           "ERROR": "Zadejte prosím platnou e-mailovou adresu"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Poslat",
+          "CANCEL": "Zrušit"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
