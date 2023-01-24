@@ -19,3 +19,10 @@ trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
   class: 'Inboxes::FetchImapEmailInboxesJob'
   queue: scheduled_jobs
+
+
+# execute At every 12 hours to validate the instagram story link
+trigger_instagram_mock_webhook_job:
+  cron: '* 6 * * *'
+  class: 'Webhooks::FetchInstagramMessagesJob'
+  queue: scheduled_jobs
