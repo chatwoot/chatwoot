@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-pasts",
-          "SUBTITLE": "E-pasts, uz kuru Jūsu klienti nosūta atbalsta biļetes",
+          "SUBTITLE": "Norādiet e-pasta adresi, uz kuru Jūsu klienti sūta atbalsta pieprasījumus.",
           "PLACEHOLDER": "E-pasts"
         },
         "SUBMIT_BUTTON": "Izveidot E-pasta Kanālu",
