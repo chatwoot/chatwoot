@@ -132,6 +132,14 @@
           "PLACEHOLDER": "E-mails adskilt af kommaer",
           "ERROR": "Indtast venligst gyldige e-mailadresser"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Send",
+          "CANCEL": "Annuller"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
