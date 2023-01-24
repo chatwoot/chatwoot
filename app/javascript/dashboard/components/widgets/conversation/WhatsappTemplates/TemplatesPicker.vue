@@ -53,6 +53,9 @@
 </template>
 
 <script>
+// TODO: Remove this when we support all formats
+const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
+
 export default {
   props: {
     inboxId: {
@@ -67,9 +70,14 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      return this.$store.getters['inboxes/getWhatsAppTemplates'](
-        this.inboxId
-      ).filter(template => template.status.toLowerCase() === 'approved');
+      // TODO: Remove the last filter when we support all formats
+      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
+        .filter(template => template.status.toLowerCase() === 'approved')
+        .filter(template => {
+          return template.components.every(component => {
+            return !formatsToRemove.includes(component.format);
+          });
+        });
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>
