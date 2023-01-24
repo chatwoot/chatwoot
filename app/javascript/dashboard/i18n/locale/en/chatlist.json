@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "All"
       }
     },
     "ATTACHMENTS": {
