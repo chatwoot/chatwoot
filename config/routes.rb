@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',
     sessions: 'devise_overrides/sessions',
-    token_validations: 'gem/token_validations',
+    token_validations: 'devise_overrides/token_validations',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }, via: [:get, :post]
 
