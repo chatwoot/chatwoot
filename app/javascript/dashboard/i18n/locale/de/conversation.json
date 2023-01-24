@@ -132,6 +132,14 @@
           "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
           "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Senden",
+          "CANCEL": "Stornieren"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
