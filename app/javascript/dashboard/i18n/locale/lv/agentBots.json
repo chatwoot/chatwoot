@@ -24,8 +24,11 @@
       "TITLE": "Izvēlieties aģentu robotu",
       "DESC": "Jūs varat piesaistīt šai iesūtnei aģentu robotu, no saraksta. Robots sākotnēji var apstrādāt sarunu un nepieciešamības gadījumā pārsūtīt to aģentam.",
       "SUBMIT": "Atjaunināt",
+      "DISCONNECT": "Atvienot Robotu",
       "SUCCESS_MESSAGE": "Aģents robots ir veiksmīgi atjaunināts",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Aģenta robots ir veiksmīgi atvienots",
       "ERROR_MESSAGE": "Nevarēja atjaunināt aģentu robotu. Lūdzu, vēlāk mēģiniet vēlreiz",
+      "DISCONNECTED_ERROR_MESSAGE": "Nevarēja atvienot aģenta robotu. Lūdzu, vēlāk mēģiniet vēlreiz",
       "SELECT_PLACEHOLDER": "Izvēlieties Robotu"
     },
     "ADD": {

@@ -61,6 +61,7 @@ import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from './advancedFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -73,6 +74,10 @@ export default {
       default: () => {},
     },
     initialFilterTypes: {
+      type: Array,
+      default: () => [],
+    },
+    initialAppliedFilters: {
       type: Array,
       default: () => [],
     },
@@ -101,7 +106,7 @@ export default {
   data() {
     return {
       show: true,
-      appliedFilters: [],
+      appliedFilters: this.initialAppliedFilters,
       filterTypes: this.initialFilterTypes,
       filterAttributeGroups,
       filterGroups: [],
@@ -119,6 +124,7 @@ export default {
     this.setFilterAttributes();
     this.$store.dispatch('campaigns/get');
     if (this.getAppliedConversationFilters.length) {
+      this.appliedFilters = [];
       this.appliedFilters = [...this.getAppliedConversationFilters];
     } else {
       this.appliedFilters.push({
@@ -229,10 +235,6 @@ export default {
                 name: statusFilters[status].TEXT,
               };
             }),
-            {
-              id: 'all',
-              name: this.$t('CHAT_LIST.FILTER_ALL'),
-            },
           ];
         case 'assignee_id':
           return this.$store.getters['agents/getAgents'];
@@ -287,6 +289,12 @@ export default {
         JSON.parse(JSON.stringify(this.appliedFilters))
       );
       this.$emit('applyFilter', this.appliedFilters);
+      this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {
+        applied_filters: this.appliedFilters.map(filter => ({
+          key: filter.attribute_key,
+          operator: filter.filter_operator,
+        })),
+      });
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(

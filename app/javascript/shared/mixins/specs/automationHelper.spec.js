@@ -214,7 +214,7 @@ describe('automationMethodsMixin', () => {
   it('getDefaultActions returns the resp default action model', () => {
     const genericActionModel = [
       {
-        action_name: 'assign_team',
+        action_name: 'assign_agent',
         action_params: [],
       },
     ];

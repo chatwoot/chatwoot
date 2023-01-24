@@ -42,8 +42,8 @@
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Mostrar rótulos",
+      "HIDE_LABELS": "Ocultar os rótulos"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",

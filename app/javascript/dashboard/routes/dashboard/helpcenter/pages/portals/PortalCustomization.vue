@@ -17,6 +17,7 @@ import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcent
 import { mapGetters } from 'vuex';
 
 import { getRandomColor } from 'dashboard/helper/labelColor';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -52,7 +53,6 @@ export default {
     },
     async updatePortalSettings(portalObj) {
       const portalSlug = this.$route.params.portalSlug;
-
       try {
         await this.$store.dispatch('portals/update', {
           portalSlug,
@@ -61,6 +61,12 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
         );
+
+        this.$track(PORTALS_EVENTS.ONBOARD_CUSTOMIZATION, {
+          hasHomePageLink: Boolean(portalObj.homepage_link),
+          hasPageTitle: Boolean(portalObj.page_title),
+          hasHeaderText: Boolean(portalObj.headerText),
+        });
       } catch (error) {
         this.alertMessage =
           error?.message ||

@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atribut personalizat adăugat cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut crea un atribut personalizat, încercați din nou mai târziu"
+        "SUCCESS_MESSAGE": "Atribut personalizat adăugat cu succes!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {
