@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-post",
-          "SUBTITLE": "E-post der kundene dine sender deg henvendelser",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "E-post"
         },
         "SUBMIT_BUTTON": "Opprett e-postkanal",
