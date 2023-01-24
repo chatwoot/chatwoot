@@ -132,6 +132,14 @@
           "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem",
           "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Nedefinēti mainīgie",
+        "MESSAGE": "Jūsu ziņojumā: {undefinedVariables} ir {undefinedVariablesCount} nedefinēti mainīgie. Vai tomēr vēlaties nosūtīt ziņojumu?",
+        "CONFIRM": {
+          "YES": "Nosūtīt",
+          "CANCEL": "Atcelt"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privāta Piezīme: Redzama tikai Jums un Jūsu komandai",
