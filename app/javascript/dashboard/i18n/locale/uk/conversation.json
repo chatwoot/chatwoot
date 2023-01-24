@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Адреси електронної пошти, розділені комами",
           "ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Надіслати",
+          "CANCEL": "Скасувати"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
