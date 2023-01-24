@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Elnémított"
+      },
+      "all": {
+        "TEXT": "Mind"
       }
     },
     "ATTACHMENTS": {
