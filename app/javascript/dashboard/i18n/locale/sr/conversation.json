@@ -132,6 +132,14 @@
           "PLACEHOLDER": "E-pošte odvojene zarezima",
           "ERROR": "Molim vas unesite ispravne adrese e-pošte"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Pošalji",
+          "CANCEL": "Otkaži"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privatna beleška: Vidljiva samo vama i vašem timu",
