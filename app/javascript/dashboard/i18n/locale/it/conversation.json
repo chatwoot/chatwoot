@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Email separate da virgole",
           "ERROR": "Inserisci indirizzi email validi"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Invia",
+          "CANCEL": "annulla"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
