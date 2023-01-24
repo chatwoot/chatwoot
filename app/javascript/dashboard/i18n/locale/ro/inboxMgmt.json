@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "E-mail unde clienții vă trimit bilete de suport",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Creare canal Email",
