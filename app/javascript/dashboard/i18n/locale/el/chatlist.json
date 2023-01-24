@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Αναβολή"
+      },
+      "all": {
+        "TEXT": "Όλες"
       }
     },
     "ATTACHMENTS": {
