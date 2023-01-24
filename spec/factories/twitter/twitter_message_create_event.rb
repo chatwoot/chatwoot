@@ -8,7 +8,7 @@ FactoryBot.define do
         'type' => 'message_create',
         'id' => '123',
         'message_create' => {
-          target: { 'recipient_id' => '1' },
+          :target => { 'recipient_id' => '1' },
           'sender_id' => '2',
           'source_app_id' => '268278',
           'message_data' => {
