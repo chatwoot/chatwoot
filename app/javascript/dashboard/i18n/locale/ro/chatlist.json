@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Amânat"
+      },
+      "all": {
+        "TEXT": "Toate"
       }
     },
     "ATTACHMENTS": {
