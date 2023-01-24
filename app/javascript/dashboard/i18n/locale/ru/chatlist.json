@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Отложено"
+      },
+      "all": {
+        "TEXT": "Все"
       }
     },
     "ATTACHMENTS": {
