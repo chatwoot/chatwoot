@@ -132,6 +132,14 @@
           "PLACEHOLDER": "แยกอีเมลโดยใช้เครื่องหมายคอมม่า",
           "ERROR": "โปรดกรอกอีเมลที่ถูกต้อง"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "ส่ง",
+          "CANCEL": "ยกเลิก"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "โน้ตส่วนตัว: มีเพียงคุณและทีมเท่านั้นที่มองเห็นได้",
