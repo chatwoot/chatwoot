@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Netföng aðskilin með kommum",
           "ERROR": "Vinsamlegast sláðu inn gilt netfang"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Send",
+          "CANCEL": "Hætta við"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Einkaglósa: Aðeins sýnilegt þér og teymi þínu",
