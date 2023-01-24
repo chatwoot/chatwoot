@@ -323,10 +323,6 @@ export default {
 
 .canned-response {
   position: relative;
-  ::v-deep .mention--box {
-    top: unset !important;
-    height: fit-content;
-  }
 }
 
 .input-group-label {
@@ -362,12 +358,10 @@ export default {
 }
 
 ::v-deep .mention--box {
-  border-left: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
   left: 0;
   margin: auto;
   right: 0;
-  top: 18rem !important;
-  width: 90%;
+  top: unset;
+  height: fit-content;
 }
 </style>
