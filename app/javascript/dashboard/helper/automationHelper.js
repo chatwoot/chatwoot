@@ -97,8 +97,9 @@ export const generateConditionOptions = (options, key = 'id') => {
   });
 };
 
-export const getActionOptions = ({ teams, labels, type }) => {
+export const getActionOptions = ({ agents, teams, labels, type }) => {
   const actionsMap = {
+    assign_agent: agents,
     assign_team: teams,
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
@@ -178,7 +179,7 @@ export const getDefaultConditions = eventName => {
 export const getDefaultActions = () => {
   return [
     {
-      action_name: 'assign_team',
+      action_name: 'assign_agent',
       action_params: [],
     },
   ];
@@ -213,7 +214,7 @@ export const isCustomAttribute = (attrs, key) => {
 
 export const generateCustomAttributes = (
   conversationAttributes = [],
-  contactAttribtues = [],
+  contactAttributes = [],
   conversationlabel,
   contactlabel
 ) => {
@@ -228,14 +229,14 @@ export const generateCustomAttributes = (
       ...conversationAttributes
     );
   }
-  if (contactAttribtues.length) {
+  if (contactAttributes.length) {
     customAttributes.push(
       {
         key: `contact_custom_attribute`,
         name: contactlabel,
         disabled: true,
       },
-      ...contactAttribtues
+      ...contactAttributes
     );
   }
   return customAttributes;

@@ -1,5 +1,5 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
-import { playNewMessageNotificationInWidget } from 'shared/helpers/AudioNotificationHelper';
+import { playNewMessageNotificationInWidget } from 'widget/helpers/WidgetAudioNotificationHelper';
 import { ON_AGENT_MESSAGE_RECEIVED } from '../constants/widgetBusEvents';
 
 class ActionCableConnector extends BaseActionCableConnector {

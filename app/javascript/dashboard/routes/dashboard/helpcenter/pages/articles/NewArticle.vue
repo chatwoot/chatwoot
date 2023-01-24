@@ -7,6 +7,7 @@
       <edit-article-header
         :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
         draft-state="saved"
+        :is-sidebar-open="showArticleSettings"
         @back="onClickGoBack"
         @open="openArticleSettings"
         @close="closeArticleSettings"
@@ -28,6 +29,7 @@ import ArticleEditor from '../../components/ArticleEditor.vue';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin.js';
 import ArticleSettings from './ArticleSettings.vue';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     EditArticleHeader,
@@ -87,7 +89,11 @@ export default {
               articleSlug: articleId,
               portalSlug: this.selectedPortalSlug,
               locale: this.locale,
+              recentlyCreated: true,
             },
+          });
+          this.$track(PORTALS_EVENTS.CREATE_ARTICLE, {
+            locale: this.locale,
           });
         } catch (error) {
           this.alertMessage =
