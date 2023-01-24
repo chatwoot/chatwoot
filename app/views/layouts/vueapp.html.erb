@@ -37,6 +37,7 @@
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
         googleOAuthEnabled: '<%= @global_config['GOOGLE_OAUTH_ENABLED'] %>',
         googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
+        googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
         fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
