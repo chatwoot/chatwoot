@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Posticipato"
+      },
+      "all": {
+        "TEXT": "Tutti"
       }
     },
     "ATTACHMENTS": {
