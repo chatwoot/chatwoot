@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Courriel",
-          "SUBTITLE": "Adresse de courriel où vos clients vous envoient des demandes d'assistance",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Courriel"
         },
         "SUBMIT_BUTTON": "Créer le canal Courriel",
