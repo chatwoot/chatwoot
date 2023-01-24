@@ -79,6 +79,7 @@
                   v-model="message"
                   class="message-editor"
                   :class="{ editor_warning: $v.message.$error }"
+                  :enable-variables="true"
                   :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
                   @toggle-canned-menu="toggleCannedMenu"
                   @blur="$v.message.$touch"

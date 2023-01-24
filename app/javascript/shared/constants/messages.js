@@ -77,3 +77,50 @@ export const AUDIO_FORMATS = {
   WEBM: 'audio/webm',
   OGG: 'audio/ogg',
 };
+
+export const MESSAGE_VARIABLES = [
+  {
+    label: 'Conversation Id',
+    key: 'conversation.id',
+  },
+  {
+    label: 'Contact Id',
+    key: 'contact.id',
+  },
+  {
+    label: 'Contact name',
+    key: 'contact.name',
+  },
+  {
+    label: 'Contact first name',
+    key: 'contact.first_name',
+  },
+  {
+    label: 'Contact last name',
+    key: 'contact.last_name',
+  },
+  {
+    label: 'Contact email',
+    key: 'contact.email',
+  },
+  {
+    label: 'Contact phone',
+    key: 'contact.phone',
+  },
+  {
+    label: 'Agent name',
+    key: 'agent.name',
+  },
+  {
+    label: 'Agent first name',
+    key: 'agent.first_name',
+  },
+  {
+    label: 'Agent last name',
+    key: 'agent.last_name',
+  },
+  {
+    label: 'Agent email',
+    key: 'agent.email',
+  },
+];
