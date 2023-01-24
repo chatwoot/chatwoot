@@ -132,6 +132,14 @@
           "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
           "ERROR": "בבקשה הכנס כתוכת אימייל"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "שלח",
+          "CANCEL": "ביטול"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "פתקים פרטיים: רק אתה והצוות שלך יכולים לראות",
