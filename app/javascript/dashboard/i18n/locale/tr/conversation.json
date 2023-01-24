@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
           "ERROR": "Lütfen geçerli bir e-posta adresi girin"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Gönder",
+          "CANCEL": "İptal Et"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
