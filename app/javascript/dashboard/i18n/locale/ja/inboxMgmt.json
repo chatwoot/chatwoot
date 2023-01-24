@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Eメール",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Eメール"
         },
         "SUBMIT_BUTTON": "Eメールチャンネルを作成",
