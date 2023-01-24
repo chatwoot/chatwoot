@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Email nơi khách hàng của bạn gửi cho bạn vé hỗ trợ",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Tạo kênh Email",
