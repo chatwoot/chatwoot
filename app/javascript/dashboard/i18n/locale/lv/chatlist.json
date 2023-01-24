@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Atlikts"
+      },
+      "all": {
+        "TEXT": "Visi"
       }
     },
     "ATTACHMENTS": {
