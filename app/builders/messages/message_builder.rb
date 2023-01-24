@@ -51,21 +51,19 @@ class Messages::MessageBuilder
     cc_emails = @params[:cc_emails].split(',') if @params[:cc_emails]
     bcc_emails = @params[:bcc_emails].split(',') if @params[:bcc_emails]
 
-    # validate cc and bcc emails
-    if cc_emails.present?
-      cc_emails.each do |email|
-        raise StandardError, 'Invalid cc email' unless email.match?(URI::MailTo::EMAIL_REGEXP)
-      end
-    end
-
-    if bcc_emails.present?
-      bcc_emails.each do |email|
-        raise StandardError, 'Invalid bcc email' unless email.match?(URI::MailTo::EMAIL_REGEXP)
-      end
-    end
+    validate_email_addresses(cc_emails, bcc_emails)
 
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
+  end
+
+  def validate_email_addresses(cc_emails, bcc_emails)
+    cc_emails&.each do |email|
+      raise StandardError, 'Invalid email address' unless email.match?(URI::MailTo::EMAIL_REGEXP)
+    end
+    bcc_emails&.each do |email|
+      raise StandardError, 'Invalid email address' unless email.match?(URI::MailTo::EMAIL_REGEXP)
+    end
   end
 
   def message_type
