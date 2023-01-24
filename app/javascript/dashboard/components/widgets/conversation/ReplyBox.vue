@@ -161,7 +161,7 @@ import {
   AUDIO_FORMATS,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
@@ -235,7 +235,6 @@ export default {
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
-
       showMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
@@ -757,9 +756,13 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
+      const updatedMessage = replaceVariablesInMessage({
+        message,
+        variables: this.messageVariables,
+      });
       setTimeout(() => {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
-        this.message = message;
+        this.message = updatedMessage;
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
