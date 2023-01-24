@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Correos separados por comas",
           "ERROR": "Por favor, introduzca correo válido"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Enviar",
+          "CANCEL": "Cancelar"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
