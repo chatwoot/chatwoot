@@ -132,6 +132,14 @@
           "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Envoyer",
+          "CANCEL": "Annuler"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
