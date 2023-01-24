@@ -1,4 +1,4 @@
-class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   def omniauth_success
     get_resource_from_auth_hash
 
@@ -7,7 +7,9 @@ class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCon
       @resource.skip_confirmation!
     end
 
-    @resource.save!
+    # once the resource is found and verified
+    # we can just send them to the login page again with the SSO params
+    # that will log them in
     encoded_email = ERB::Util.url_encode(@resource.email)
     redirect_to "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}"
   end
@@ -17,7 +19,7 @@ class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCon
   end
 
   def get_resource_from_auth_hash
-    # find or create user by provider and provider uid
+    # find the user with their email instead of UID and token
     @resource = resource_class.where(
       email: auth_hash['info']['email']
     ).first

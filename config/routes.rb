@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     passwords: 'devise_overrides/passwords',
     sessions: 'devise_overrides/sessions',
     token_validations: 'devise_overrides/token_validations',
-    omniauth_callbacks: 'users/omniauth_callbacks'
+    omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
   ## renders the frontend paths only if its not an api only server
