@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Các e\u001dmail phân biệt bởi dấu phẩy",
           "ERROR": "Vui lòng điền địa chỉ email hợp lệ"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Gửi",
+          "CANCEL": "Huỷ"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
