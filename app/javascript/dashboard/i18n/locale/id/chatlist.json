@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Ditunda Sebentar"
+      },
+      "all": {
+        "TEXT": "Semua"
       }
     },
     "ATTACHMENTS": {
