@@ -132,6 +132,14 @@
           "PLACEHOLDER": "Письма, разделенные запятыми",
           "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Отправить",
+          "CANCEL": "Отменить"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
