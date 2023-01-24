@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "ایمیل",
-          "SUBTITLE": "آدرس ایمیلی که مشتریان درخواست پشتیبانی را برای شما ارسال کنند",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "ایمیل"
         },
         "SUBMIT_BUTTON": "ایجاد کانال ایمیل",
@@ -346,7 +346,7 @@
         "DESC": "چت ووت با موفقیت به فیس بوک متصل شد. از به بعد هر مشتری که پیامی در این صفحه بنویسید، آن پیام در صندوق ورودی چت ووت ظاهر می‌شود و گفتگویی ایجاد می‌شود..<br>فراموش نکنید که ما یک ویجت برای سایت‌ها هم داریم که با قرار دادن آن در سایت، مشتری می‌تواند به صورت آنلاین با شما گفتگو کند و پیام‌ها در صندوق ورودی آن ظاهر می‌شود<br>باحال نیست؟ ما همیشه باحالیم! :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
+        "TITLE": "ارائه دهنده ایمیل خود را انتخاب کنید",
         "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
       },
       "MICROSOFT": {
