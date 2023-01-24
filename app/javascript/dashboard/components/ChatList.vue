@@ -151,13 +151,14 @@
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
-      :on-close="onToggleAdvanceFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
-        :on-close="onToggleAdvanceFiltersModal"
+        :initial-applied-filters="appliedFilter"
+        :on-close="closeAdvanceFiltersModal"
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
@@ -181,6 +182,7 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import filterMixin from 'shared/mixins/filterMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -202,7 +204,13 @@ export default {
     DeleteCustomViews,
     ConversationBulkActions,
   },
-  mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
+  mixins: [
+    timeMixin,
+    conversationMixin,
+    eventListenerMixins,
+    alertMixin,
+    filterMixin,
+  ],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -248,11 +256,13 @@ export default {
       selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
+      appliedFilter: [],
     };
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -287,6 +297,13 @@ export default {
         this.hasCurrentPageEndReached &&
         !this.chatListLoading
       );
+    },
+    currentUserDetails() {
+      const { id, name } = this.currentUser;
+      return {
+        id,
+        name,
+      };
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
@@ -461,7 +478,14 @@ export default {
       this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
-      this.showAdvancedFilters = !this.showAdvancedFilters;
+      if (!this.hasAppliedFilters) {
+        this.initializeExistingFilterToModal();
+      }
+      this.showAdvancedFilters = true;
+    },
+    closeAdvanceFiltersModal() {
+      this.showAdvancedFilters = false;
+      this.appliedFilter = [];
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
@@ -520,6 +544,7 @@ export default {
         return;
       }
       this.fetchConversations();
+      this.appliedFilter = [];
     },
     fetchConversations() {
       this.$store
