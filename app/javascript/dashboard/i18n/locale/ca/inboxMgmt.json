@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Correu electrònic",
-          "SUBTITLE": "Correu electrònic on els vostres clients us envien tickets de support",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Correu electrònic"
         },
         "SUBMIT_BUTTON": "Crea un correu electrònic del Canal",
