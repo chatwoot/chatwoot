@@ -132,6 +132,14 @@
           "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
           "ERROR": "لطفا آدرس‌ ایمیل معتبر وارد کنید"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "متغیرهای تعریف نشده",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "ارسال",
+          "CANCEL": "انصراف"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
