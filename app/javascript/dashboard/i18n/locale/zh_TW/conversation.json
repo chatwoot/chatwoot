@@ -132,6 +132,14 @@
           "PLACEHOLDER": "使用半型逗號分隔 Email",
           "ERROR": "請輸入有效的電子信箱"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "發送",
+          "CANCEL": "取消"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
