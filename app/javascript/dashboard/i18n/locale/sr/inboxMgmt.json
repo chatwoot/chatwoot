@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-pošta",
-          "SUBTITLE": "E-pošta gde će vaši potrošači slati tikete podrške",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "E-pošta"
         },
         "SUBMIT_BUTTON": "Napravite kanal e-pošte",
