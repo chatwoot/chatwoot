@@ -72,7 +72,7 @@ class Attachment < ApplicationRecord
   def file_metadata
     metadata = {
       extension: extension,
-      data_url: "https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=17937549734485855&signature=Abwjid_CnIfbes9tElVmZ3pGzsgYxZ_ZRPv1NJdm6RcDvMmKmOXFmlHhWdL_ROzstq7vHpPwid_dCeGApbpGt-8L5CxXYeWAyjg9E0oSldADiFqFGwf6f4wFdLA-vbsavNGKoOfUbdoO5AyasqwfnxU7SfRcregJAgm0wZC9e3ZgJyi-gH1Vz1D-fPHHSdolIV3vN6cvPVJo9WV772h8Qp2iN40yt9-V",
+      data_url: file_url,
       thumb_url: thumb_url,
       file_size: file.byte_size
     }

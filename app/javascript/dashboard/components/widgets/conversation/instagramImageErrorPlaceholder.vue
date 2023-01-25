@@ -1,7 +1,7 @@
 <template>
   <div class="image-placeholder">
     <fluent-icon icon="document-error" size="32" />
-    <p>Could not load instagram story</p>
+    <p>{{ $t('COMPONENTS.FILE_BUBBLE.INSTAGRAM_STORY_UNAVAILABLE') }}</p>
   </div>
 </template>
 
