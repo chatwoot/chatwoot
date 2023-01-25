@@ -14,7 +14,7 @@
     </section>
     <section class="row align-center">
       <div v-if="!email" class="small-12 medium-4 column">
-        <div ref="loginBox" class="login-box column align-self-top">
+        <div class="login-box column align-self-top">
           <form class="column log-in-form" @submit.prevent="login()">
             <label :class="{ error: $v.credentials.email.$error }">
               {{ $t('LOGIN.EMAIL.LABEL') }}
@@ -209,11 +209,6 @@ export default {
             window.location = '/app/login';
           }
 
-          this.$refs.loginBox.classList.add('invalid');
-          setTimeout(() => {
-            this.$refs.loginBox.classList.remove('invalid');
-          }, 500);
-
           if (response && response.status === 401) {
             const { errors } = response.data;
             const hasAuthErrorMsg =
@@ -234,58 +229,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.separator {
-  display: flex;
-  align-items: center;
-  margin: 2rem 0rem;
-  gap: 1rem;
-  color: var(--s-300);
-  font-size: var(--font-size-small);
-
-  &::before,
-  &::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--s-100);
-  }
-}
-
-.button__google_login {
-  background: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  border: 1px solid var(--s-100);
-  color: var(--b-800);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .login-box.invalid {
-    animation: shake 0.5s linear;
-  }
-  @keyframes shake {
-    8%,
-    41% {
-      -webkit-transform: translateX(-10px);
-    }
-    25%,
-    58% {
-      -webkit-transform: translateX(10px);
-    }
-    75% {
-      -webkit-transform: translateX(-5px);
-    }
-    92% {
-      -webkit-transform: translateX(5px);
-    }
-    0%,
-    100% {
-      -webkit-transform: translateX(0);
-    }
-  }
-}
-</style>
