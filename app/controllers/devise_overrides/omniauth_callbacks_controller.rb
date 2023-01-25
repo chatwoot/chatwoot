@@ -19,7 +19,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     redirect_to "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}"
   end
 
-  def resource_class(mapping = nil)
+  def resource_class(_mapping = nil)
     User
   end
 
