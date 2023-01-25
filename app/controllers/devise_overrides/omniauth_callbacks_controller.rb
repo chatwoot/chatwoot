@@ -2,6 +2,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   def omniauth_success
     get_resource_from_auth_hash
 
+    if @resource.nil?
+      redirect_to "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?error=oauth-no-user"
+      return
+    end
+
     if confirmable_enabled?
       # don't send confirmation email!!!
       @resource.skip_confirmation!
@@ -23,25 +28,6 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     @resource = resource_class.where(
       email: auth_hash['info']['email']
     ).first
-
-    if @resource.nil?
-      # raise invalid login error instead of user not found
-      # this is to prevent enumeration attacks
-      raise StandardError, 'Invalid Login'
-    end
-
-    # if @resource.nil?
-    #   # if this is a new record, create an account with the AccountBuilder
-    #   @resource, @account = AccountBuilder.new(
-    #     account_name: auth_hash['info']['name'],
-    #     user_full_name: auth_hash['info']['name'],
-    #     email: auth_hash['info']['email'],
-    #     locale: I18n.locale,
-    #     confirmed: auth_hash['info']['email_verified']
-    #   ).perform
-    # end
-
-    @resource
   end
 
   def default_devise_mapping
