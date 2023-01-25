@@ -31,14 +31,15 @@ RSpec.describe Channel::FacebookPage do
       end
     end
 
-    context 'when fetch istagram story' do
+    context 'when fetch instagram story' do
       let!(:account) { create(:account) }
       let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
       let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
       let(:fb_object) { double }
       let(:message) { create(:message, inbox_id: instagram_inbox.id) }
+      let(:instagram_message) { create(:message, :instagram_story_mention, inbox_id: instagram_inbox.id) }
 
-      it 'calls fetches story_link for valid story' do
+      it '#fetch_instagram_story_link' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
           { story:
@@ -55,6 +56,14 @@ RSpec.describe Channel::FacebookPage do
         )
         story_link = instagram_channel.fetch_instagram_story_link(message)
         expect(story_link).to eq('https://www.example.com/test.jpeg')
+      end
+
+      it '#delete_instagram_story' do
+        expect(instagram_message.attachments.count).to eq(1)
+
+        instagram_channel.delete_instagram_story(instagram_message)
+
+        expect(instagram_message.attachments.count).to eq(0)
       end
     end
   end
