@@ -88,6 +88,10 @@ import WootSubmitButton from 'components/buttons/FormSubmitButton';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from 'helpers/string';
 
+const ERROR_MESSAGES = {
+  'oauth-no-user': 'LOGIN.OAUTH.NO_USER',
+};
+
 export default {
   components: {
     WootSubmitButton,
@@ -99,6 +103,7 @@ export default {
     ssoConversationId: { type: String, default: '' },
     config: { type: String, default: '' },
     email: { type: String, default: '' },
+    authError: { type: String, default: '' },
   },
   data() {
     return {
@@ -134,6 +139,16 @@ export default {
   created() {
     if (this.ssoAuthToken) {
       this.login();
+    }
+    if (this.authError) {
+      const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
+      this.showAlert(this.$t(message));
+      // wait for idle state
+      window.requestIdleCallback(() => {
+        // Remove the error query param from the url
+        const { query } = this.$route;
+        this.$router.replace({ query: { ...query, error: undefined } });
+      });
     }
   },
   methods: {
