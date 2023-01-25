@@ -1,6 +1,6 @@
 <template>
   <div class="image message-text__wrap">
-    <img :src="url" @click="onClick" @error="onImgError()" />
+    <img :src="url" @click="onClick" @error="onImgError()" :alt="Story no longer available" />
     <woot-modal :full-width="true" :show.sync="show" :on-close="onClose">
       <img :src="url" class="modal-image" />
     </woot-modal>
@@ -29,7 +29,8 @@ export default {
       this.show = true;
     },
     onImgError() {
-      this.$emit('error');
+      console.log('Image failed to load');
+      this.props.url = "";
     },
   },
 };
