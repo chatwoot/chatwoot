@@ -2,7 +2,7 @@
   <div class="image message-text__wrap">
     <img
       :src="url"
-      alt="Resource.is.not.available"
+      alt="Resource is not available"
       @click="onClick"
       @error="onImgError()"
     />
