@@ -183,7 +183,7 @@ class Message < ApplicationRecord
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
         SELECT 'Message' AS searchable_type,
                 messages.id AS searchable_id,
-                LEFT(messages.content, 1048575) AS content,
+                LEFT(messages.content, 500000) AS content,
                 messages.account_id::int AS account_id,
                 messages.conversation_id::int AS conversation_id,
                 messages.inbox_id::int AS inbox_id,
