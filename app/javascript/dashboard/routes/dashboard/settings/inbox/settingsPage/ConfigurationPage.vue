@@ -105,7 +105,9 @@
       </settings-section>
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
-        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')"
+        :sub-title="
+          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
+        "
       >
         <div class="whatsapp-settings--content">
           <woot-input
@@ -229,7 +231,8 @@ export default {
   margin-top: var(--space-small);
 
   .input {
-    flex: 0.98;
+    flex: 1;
+    margin-right: var(--space-small);
     ::v-deep input {
       margin-bottom: 0;
     }
