@@ -34,7 +34,7 @@ export default {
       this.show = true;
     },
     onImgError() {
-      this.props.url = '';
+      this.$emit('error');
     },
   },
 };
