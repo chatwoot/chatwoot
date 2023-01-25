@@ -1,6 +1,11 @@
 <template>
   <div class="image message-text__wrap">
-    <img :src="url" @click="onClick" @error="onImgError()" />
+    <img
+      :src="url"
+      alt="Resource.is.not.available"
+      @click="onClick"
+      @error="onImgError()"
+    />
     <woot-modal :full-width="true" :show.sync="show" :on-close="onClose">
       <img :src="url" class="modal-image" />
     </woot-modal>
@@ -29,7 +34,7 @@ export default {
       this.show = true;
     },
     onImgError() {
-      this.$emit('error');
+      this.props.url = '';
     },
   },
 };
