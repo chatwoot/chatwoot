@@ -103,6 +103,30 @@
       >
         <woot-code :script="inbox.provider_config.api_key" />
       </settings-section>
+      <settings-section
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
+        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')"
+      >
+        <div class="whatsapp-settings--content">
+          <woot-input
+            v-model.trim="whatsAppInboxAPIKey"
+            type="text"
+            class="input"
+            :placeholder="
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
+              )
+            "
+          />
+          <woot-button
+            size="small"
+            :disabled="$v.whatsAppInboxAPIKey.$invalid"
+            @click="updateWhatsAppInboxAPIKey"
+          >
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
+          </woot-button>
+        </div>
+      </settings-section>
     </div>
   </div>
 </template>
@@ -114,6 +138,7 @@ import SettingsSection from '../../../../../components/SettingsSection';
 import ImapSettings from '../ImapSettings';
 import SmtpSettings from '../SmtpSettings';
 import MicrosoftReauthorize from '../channels/microsoft/Reauthorize';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   components: {
@@ -132,7 +157,11 @@ export default {
   data() {
     return {
       hmacMandatory: false,
+      whatsAppInboxAPIKey: '',
     };
+  },
+  validations: {
+    whatsAppInboxAPIKey: { required },
   },
   watch: {
     inbox() {
@@ -164,6 +193,60 @@ export default {
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       }
     },
+    async updateWhatsAppInboxAPIKey() {
+      try {
+        if (this.isAWhatsAppCloudChannel) {
+          const {
+            phone_number_id: phoneNumberId,
+            business_account_id: businessAccountId,
+            webhook_verify_token: webhookVerifyToken,
+          } = this.inbox.provider_config;
+
+          const payload = {
+            id: this.inbox.id,
+            formData: false,
+            provider_config: {
+              api_key: this.whatsAppInboxAPIKey,
+              phone_number_id: phoneNumberId,
+              business_account_id: businessAccountId,
+              webhook_verify_token: webhookVerifyToken,
+            },
+          };
+          await this.$store.dispatch('inboxes/updateInbox', payload);
+        }
+
+        if (this.is360DialogWhatsAppChannel) {
+          const payload = {
+            id: this.inbox.id,
+            formData: false,
+            provider_config: {
+              api_key: this.whatsAppInboxAPIKey,
+            },
+          };
+          await this.$store.dispatch('inboxes/updateInbox', payload);
+        }
+
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      }
+    },
   },
 };
 </script>
+<style lang="scss" scoped>
+.whatsapp-settings--content {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin-top: var(--space-small);
+
+  .input {
+    flex: 0.98;
+    ::v-deep input {
+      margin-bottom: 0;
+    }
+  }
+}
+</style>
