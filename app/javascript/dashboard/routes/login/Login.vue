@@ -58,7 +58,7 @@
                   alt="Google Logo"
                   class="icon"
                 />
-                {{ $t('LOGIN.GOOGLE_OAUTH') }}
+                {{ $t('LOGIN.OAUTH.GOOGLE_LOGIN') }}
               </button>
             </a>
           </template>
