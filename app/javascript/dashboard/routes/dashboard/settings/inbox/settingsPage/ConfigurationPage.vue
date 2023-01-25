@@ -190,45 +190,31 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
     async updateWhatsAppInboxAPIKey() {
       try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+        };
+
         if (this.isAWhatsAppCloudChannel) {
-          const {
-            phone_number_id: phoneNumberId,
-            business_account_id: businessAccountId,
-            webhook_verify_token: webhookVerifyToken,
-          } = this.inbox.provider_config;
-
-          const payload = {
-            id: this.inbox.id,
-            formData: false,
-            provider_config: {
-              api_key: this.whatsAppInboxAPIKey,
-              phone_number_id: phoneNumberId,
-              business_account_id: businessAccountId,
-              webhook_verify_token: webhookVerifyToken,
-            },
+          payload.provider_config = {
+            api_key: this.whatsAppInboxAPIKey,
+            ...this.inbox.provider_config,
           };
-          await this.$store.dispatch('inboxes/updateInbox', payload);
+        } else if (this.is360DialogWhatsAppChannel) {
+          payload.provider_config = {
+            api_key: this.whatsAppInboxAPIKey,
+          };
         }
 
-        if (this.is360DialogWhatsAppChannel) {
-          const payload = {
-            id: this.inbox.id,
-            formData: false,
-            provider_config: {
-              api_key: this.whatsAppInboxAPIKey,
-            },
-          };
-          await this.$store.dispatch('inboxes/updateInbox', payload);
-        }
-
+        await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },
