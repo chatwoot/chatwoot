@@ -159,6 +159,10 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     getGoogleAuthUrl() {
+      // Ideally a request to /auth/google_oauth2 should be made
+      // Creating the URL manually because the devise-token-auth with
+      // omniauth has a standing issue on redirecting the post request
+      // https://github.com/lynndylanhurley/devise_token_auth/issues/1466
       const baseUrl =
         'https://accounts.google.com/o/oauth2/auth/oauthchooseaccount';
       const clientId = window.chatwootConfig.googleOAuthClientId;
