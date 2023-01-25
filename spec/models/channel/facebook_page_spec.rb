@@ -31,7 +31,7 @@ RSpec.describe Channel::FacebookPage do
       end
     end
 
-    context 'when fetch istagram story' do
+    context 'when fetch instagram story' do
       let!(:account) { create(:account) }
       let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
       let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
