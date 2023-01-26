@@ -50,7 +50,7 @@
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
         "ERROR_MESSAGE": "Houve um erro ao conectar com o Twitter, por favor, tente novamente",
         "TWEETS": {
-          "ENABLE": "Criar conversas dos Tweets mencionados"
+          "ENABLE": "Criar conversas a partir dos Tweets mencionados"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do webhook",
-          "PLACEHOLDER": "Digite sua URL de Webhook",
+          "PLACEHOLDER": "Digite a URL do Webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telefone",
           "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
-          "ERROR": "Por favor, forneça um número de telefone válido que começa com uma placa `+` e não contém quaisquer espaços."
+          "ERROR": "Por favor, forneça um número de telefone válido que comece com o símbolo \"+\" e não contenha espaços."
         },
         "API_CALLBACK": {
           "TITLE": "URL de retorno",
@@ -159,7 +159,7 @@
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID da Conta",
-            "PLACEHOLDER": "Por favor, insira sua ID de conta de bandwidth",
+            "PLACEHOLDER": "Por favor, insira o ID de sua conta no Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "API_KEY": {
@@ -169,12 +169,12 @@
           },
           "API_SECRET": {
             "LABEL": "Chave secreta API",
-            "PLACEHOLDER": "Por favor insira o seu Segredo da API Bandwith",
+            "PLACEHOLDER": "Por favor, insira a sua chave da API Bandwith",
             "ERROR": "Este campo é obrigatório"
           },
           "APPLICATION_ID": {
             "LABEL": "ID da aplicação",
-            "PLACEHOLDER": "Por favor, insira sua ID de aplicação de bandwidth",
+            "PLACEHOLDER": "Por favor, insira o ID de sua conta no Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "INBOX_NAME": {
@@ -185,11 +185,11 @@
           "PHONE_NUMBER": {
             "LABEL": "Número de telefone",
             "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
-            "ERROR": "Por favor, forneça um número de telefone válido que começa com uma placa `+` e não contém quaisquer espaços."
+            "ERROR": "Por favor, forneça um número de telefone válido que comece com o símbolo \"+\" e não contenha espaços."
           },
-          "SUBMIT_BUTTON": "Criar canal de banda",
+          "SUBMIT_BUTTON": "Criar canal Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "Não fomos capazes de autenticar as credenciais de banda larga, por favor tente novamente"
+            "ERROR_MESSAGE": "Não pudemos autenticar as credenciais de Bandwidth, por favor, tente novamente"
           },
           "API_CALLBACK": {
             "TITLE": "URL de retorno",
@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "e-mail",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Forneça o endereço de e-mail onde os seus clientes podem enviam pedidos de suporte.",
           "PLACEHOLDER": "e-mail"
         },
         "SUBMIT_BUTTON": "Criar canal de e-mail",
