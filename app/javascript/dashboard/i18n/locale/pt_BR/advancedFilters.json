@@ -6,23 +6,23 @@
     "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para salvar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
     "CANCEL_BUTTON_LABEL": "Cancelar",
-    "CLEAR_BUTTON_LABEL": "Limpar Filtros",
+    "CLEAR_BUTTON_LABEL": "Limpar filtros",
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
     "TOOLTIP_LABEL": "Filtrar conversas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
-      "OR": "ou"
+      "OR": "OU"
     },
     "OPERATOR_LABELS": {
       "equal_to": "Igual a",
-      "not_equal_to": "Não igual a",
+      "not_equal_to": "Diferente",
       "contains": "Contém",
       "does_not_contain": "Não contém",
       "is_present": "Está presente",
       "is_not_present": "Não está presente",
       "is_greater_than": "É maior que",
       "is_less_than": "É menor que",
-      "days_before": "É x dias antes"
+      "days_before": "É X dias antes"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Verdadeiro",
@@ -32,13 +32,13 @@
       "STATUS": "SItuação",
       "ASSIGNEE_NAME": "Nome do Responsável",
       "INBOX_NAME": "Nome da Caixa de Entrada",
-      "TEAM_NAME": "Nome da Equipe",
+      "TEAM_NAME": "Nome da Time",
       "CONVERSATION_IDENTIFIER": "Identificador de conversa",
       "CAMPAIGN_NAME": "Nome da Campanha",
       "LABELS": "Marcadores",
       "BROWSER_LANGUAGE": "Idioma do navegador",
       "COUNTRY_NAME": "Nome do País",
-      "REFERER_LINK": "Link de referência",
+      "REFERER_LINK": "Link de origem",
       "CUSTOM_ATTRIBUTE_LIST": "Lista",
       "CUSTOM_ATTRIBUTE_TEXT": "Texto",
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
@@ -48,7 +48,7 @@
       "LAST_ACTIVITY": "Última atividade"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Filtros Padrão",
+      "STANDARD_FILTERS": "Filtros Padrões",
       "ADDITIONAL_FILTERS": "Filtros adicionais",
       "CUSTOM_ATTRIBUTES": "Atributos Personalizados"
     },
@@ -56,9 +56,9 @@
       "ADD": {
         "TITLE": "Você quer salvar este filtro?",
         "LABEL": "Nomear este filtro",
-        "PLACEHOLDER": "Digite um nome para este filtro",
+        "PLACEHOLDER": "Insira um nome para este filtro",
         "ERROR_MESSAGE": "O nome é obrigatório",
-        "SAVE_BUTTON": "Salvar Filtro",
+        "SAVE_BUTTON": "Salvar filtro",
         "CANCEL_BUTTON": "Cancelar",
         "API_FOLDERS": {
           "SUCCESS_MESSAGE": "Pasta criada com sucesso",
@@ -74,7 +74,7 @@
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Confirmar exclusão",
-            "MESSAGE": "Tem certeza que deseja excluir o filtro ",
+            "MESSAGE": "Tem certeza que deseja excluir o filtro ? ",
             "YES": "Sim, excluir",
             "NO": "Não, mantenha"
           }
