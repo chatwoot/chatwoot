@@ -14,7 +14,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   # Deprecated: This API will be removed in 2.7.0
   def assignable_agents
-    @assignable_agents = (Current.account.users.where(id: @inbox.members.select(:user_id)) + Current.account.administrators).uniq
+    @assignable_agents = @inbox.assignable_agents
   end
 
   def campaigns

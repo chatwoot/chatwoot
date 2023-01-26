@@ -20,17 +20,22 @@ class ConversationParticipant < ApplicationRecord
   validates :account_id, presence: true
   validates :conversation_id, presence: true
   validates :user_id, presence: true
+  validates :user_id, uniqueness: { scope: [:conversation_id] }
+  validate :ensure_inbox_access
 
   belongs_to :account
   belongs_to :conversation
   belongs_to :user
 
   before_validation :ensure_account_id
-  validates :user_id, uniqueness: { scope: [:conversation_id] }
 
   private
 
   def ensure_account_id
     self.account_id = conversation&.account_id
+  end
+
+  def ensure_inbox_access
+    errors.add(:user, 'must have inbox access') if conversation && conversation.inbox.assignable_agents.exclude?(user)
   end
 end
