@@ -21,6 +21,11 @@ RSpec.describe 'Conversation Participants API', type: :request do
       let(:participant1) { create(:user, account: account, role: :agent) }
       let(:participant2) { create(:user, account: account, role: :agent) }
 
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: participant1)
+        create(:inbox_member, inbox: conversation.inbox, user: participant2)
+      end
+
       it 'returns all the partipants for the conversation' do
         create(:conversation_participant, conversation: conversation, user: participant1)
         create(:conversation_participant, conversation: conversation, user: participant2)
@@ -45,6 +50,10 @@ RSpec.describe 'Conversation Participants API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:participant) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: participant)
+      end
 
       it 'creates a new participants when its authorized agent' do
         params = { user_ids: [participant.id] }
@@ -75,6 +84,12 @@ RSpec.describe 'Conversation Participants API', type: :request do
       let(:participant_to_be_added) { create(:user, account: account, role: :agent) }
       let(:participant_to_be_removed) { create(:user, account: account, role: :agent) }
 
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: participant)
+        create(:inbox_member, inbox: conversation.inbox, user: participant_to_be_added)
+        create(:inbox_member, inbox: conversation.inbox, user: participant_to_be_removed)
+      end
+
       it 'updates participants when its authorized agent' do
         params = { user_ids: [participant.id, participant_to_be_added.id] }
         create(:conversation_participant, conversation: conversation, user: participant)
@@ -104,6 +119,10 @@ RSpec.describe 'Conversation Participants API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:participant) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: participant)
+      end
 
       it 'deletes participants when its authorized agent' do
         params = { user_ids: [participant.id] }

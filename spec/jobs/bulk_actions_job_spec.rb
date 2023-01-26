@@ -15,6 +15,12 @@ RSpec.describe BulkActionsJob, type: :job do
   let!(:conversation_2) { create(:conversation, account_id: account.id, status: :open) }
   let!(:conversation_3) { create(:conversation, account_id: account.id, status: :open) }
 
+  before do
+    Conversation.all.each do |conversation|
+      create(:inbox_member, inbox: conversation.inbox, user: agent)
+    end
+  end
+
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(account: account, params: params, user: agent)

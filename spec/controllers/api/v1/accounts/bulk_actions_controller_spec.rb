@@ -12,6 +12,10 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
     create(:conversation, account_id: account.id, status: :open, team_id: team_1.id)
     create(:conversation, account_id: account.id, status: :open)
     create(:conversation, account_id: account.id, status: :open)
+    Conversation.all.each do |conversation|
+      create(:inbox_member, inbox: conversation.inbox, user: agent_1)
+      create(:inbox_member, inbox: conversation.inbox, user: agent_2)
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/bulk_action' do

@@ -19,6 +19,9 @@ describe Messages::NewMessageNotificationService do
     let(:builder) { double }
 
     before do
+      create(:inbox_member, inbox: inbox, user: participating_agent_1)
+      create(:inbox_member, inbox: inbox, user: participating_agent_2)
+      create(:inbox_member, inbox: inbox, user: assignee)
       create(:conversation_participant, conversation: conversation, user: participating_agent_1)
       create(:conversation_participant, conversation: conversation, user: participating_agent_2)
       create(:conversation_participant, conversation: conversation, user: assignee)

@@ -16,6 +16,7 @@ RSpec.describe AutoAssignment::AgentAssignmentService do
   end
 
   before do
+    inbox_members.each { |inbox_member| create(:account_user, account: account, user: inbox_member.user) }
     allow(::OnlineStatusTracker).to receive(:get_available_users).and_return(online_users)
   end
 
