@@ -73,6 +73,10 @@ shared_examples_for 'assignment_handler' do
     end
     let(:assignment_mailer) { instance_double(AgentNotifications::ConversationNotificationsMailer, deliver: true) }
 
+    before do
+      create(:inbox_member, user: agent, inbox: conversation.inbox)
+    end
+
     it 'assigns the agent to conversation' do
       expect(update_assignee).to be(true)
       expect(conversation.reload.assignee).to eq(agent)

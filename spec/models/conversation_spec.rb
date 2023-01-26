@@ -105,6 +105,8 @@ RSpec.describe Conversation, type: :model do
     let(:label) { create(:label, account: account) }
 
     before do
+      create(:inbox_member, user: old_assignee, inbox: conversation.inbox)
+      create(:inbox_member, user: new_assignee, inbox: conversation.inbox)
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
       Current.user = old_assignee
     end
