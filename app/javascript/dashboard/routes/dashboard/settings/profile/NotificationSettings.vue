@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="profile-settings-notifications">
     <div class="profile--settings--row row">
       <div class="columns small-3 ">
         <h4 class="block-title">
