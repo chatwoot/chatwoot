@@ -134,8 +134,8 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Variáveis não definidas",
+        "MESSAGE": "Você tem {undefinedVariablesCount} variáveis não definidas em sua mensagem: {undefinedVariables}. Gostaria de enviar a mensagem mesmo assim?",
         "CONFIRM": {
           "YES": "Enviar",
           "CANCEL": "Cancelar"
