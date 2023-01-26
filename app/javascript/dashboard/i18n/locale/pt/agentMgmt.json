@@ -93,9 +93,9 @@
       "NO_RESULTS": "Nenhum resultado encontrado."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "nenhum",
+      "PLACEHOLDER": "Nenhum",
       "TITLE": {
-        "AGENT": "Escolher Agente",
+        "AGENT": "Escolher agente",
         "TEAM": "Escolher Equipa"
       },
       "SEARCH": {
