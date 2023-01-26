@@ -3,6 +3,7 @@ export const CONVERSATION_EVENTS = Object.freeze({
   SENT_MESSAGE: 'Sent a message',
   SENT_PRIVATE_NOTE: 'Sent a private note',
   INSERTED_A_CANNED_RESPONSE: 'Inserted a canned response',
+  INSERTED_A_VARIABLE: 'Inserted a variable',
   USED_MENTIONS: 'Used mentions',
 
   APPLY_FILTER: 'Applied filters in the conversation list',
