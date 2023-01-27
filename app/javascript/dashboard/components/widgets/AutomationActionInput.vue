@@ -92,6 +92,7 @@
       v-if="inputType === 'textarea'"
       v-model="castMessageVmodel"
       rows="4"
+      :enable-variables="true"
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />
