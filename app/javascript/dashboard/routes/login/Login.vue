@@ -185,7 +185,7 @@ export default {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
     showGoogleOAuth() {
-      return parseBoolean(window.chatwootConfig.googleOAuthEnabled);
+      return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
     login() {
       this.loginApi.showLoading = true;
@@ -229,3 +229,30 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0rem;
+  gap: 1rem;
+  color: var(--s-300);
+  font-size: var(--font-size-small);
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--s-100);
+  }
+}
+.button__google_login {
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px solid var(--s-100);
+  color: var(--b-800);
+}
+</style>
