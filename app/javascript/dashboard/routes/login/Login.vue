@@ -86,7 +86,7 @@ import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import WootSubmitButton from 'components/buttons/FormSubmitButton';
 import { mapGetters } from 'vuex';
-import { parseBoolean } from 'helpers/string';
+import { parseBoolean } from '@chatwoot/utils';
 
 const ERROR_MESSAGES = {
   'oauth-no-user': 'LOGIN.OAUTH.NO_USER',
