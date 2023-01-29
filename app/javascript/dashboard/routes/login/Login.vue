@@ -47,7 +47,7 @@
               button-class="large expanded"
             />
           </form>
-          <template v-if="showGoogleOAuth">
+          <template v-if="showGoogleOAuth()">
             <div class="separator">
               OR
             </div>
