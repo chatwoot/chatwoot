@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descărcare",
-      "UPLOADING": "Încărcare..."
+      "UPLOADING": "Încărcare...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Această poveste nu mai este disponibilă."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
