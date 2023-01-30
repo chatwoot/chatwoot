@@ -22,8 +22,8 @@ module MultiSearchableHelpers
       )
     end
 
-    # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
-    # We can not find conversation_id from contacts directly so we added this joins here.
+    # NOTE: To add multi search records with contacts.name associated to conversation for previously added records.
+    # We can not find contacts.name from conversations directly so we added this joins here.
     def self.rebuild_pg_search_documents(account_id)
       return unless name == 'Conversation'
 

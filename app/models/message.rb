@@ -174,7 +174,7 @@ class Message < ApplicationRecord
     true
   end
 
-  # NOTE: To add multi search records with jobs based on account_id.
+  # NOTE: To add multi search records with jobs based on account_id filter and conversation_id and adding the mesage content upto 500_000 Bytes
   def self.rebuild_pg_search_documents(account_id)
     return super unless name == 'Message'
 
