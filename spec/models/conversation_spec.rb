@@ -458,6 +458,7 @@ RSpec.describe Conversation, type: :model do
         first_reply_created_at: nil,
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
+        created_at: conversation.created_at.to_i,
         unread_count: 0
       }
     end
