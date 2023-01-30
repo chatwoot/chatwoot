@@ -11,7 +11,7 @@ module Redis::Config
 
     def base_config
       {
-        url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
+        # url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
         password: ENV.fetch('REDIS_PASSWORD', nil).presence,
         ssl_params: { verify_mode: Chatwoot.redis_ssl_verify_mode },
         reconnect_attempts: 2,
