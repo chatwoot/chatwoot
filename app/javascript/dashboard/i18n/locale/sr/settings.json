@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Preuzmi",
-      "UPLOADING": "Dodavanje..."
+      "UPLOADING": "Dodavanje...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ova priča više nije dostupna."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
