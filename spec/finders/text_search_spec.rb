@@ -13,7 +13,7 @@ describe ::TextSearch do
     create(:inbox_member, user: user_2, inbox: inbox)
 
     create(:contact, name: '1223', account_id: account.id)
-    create(:contact, name: 'Potter', account_id: account.id)
+    create(:contact, name: 'Lily Potter', account_id: account.id)
     contact_2 = create(:contact, name: 'Harry Potter', account_id: account.id, email: 'harry@chatwoot.com')
     conversation_1 = create(:conversation, account: account, inbox: inbox, assignee: user_1, display_id: 1213)
     conversation_2 = create(:conversation, account: account, inbox: inbox, assignee: user_1, display_id: 1223)
@@ -36,7 +36,7 @@ describe ::TextSearch do
       it 'filter conversations by number' do
         params = { q: '122' }
         result = described_class.new(user_1, params).perform
-        expect(result[:conversations].length).to eq 1
+        expect(result[:conversations].length).to eq 4
         expect(result[:contacts].length).to eq 1
       end
 
