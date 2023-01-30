@@ -211,10 +211,10 @@
   display: inline-block;
   font-size: $font-size-default;
   line-height: 1.5;
+  max-width: 100%;
   padding: $space-slab $space-normal;
   text-align: left;
   word-break: break-word;
-  max-width: 100%;
 
   :not([audio]) {
     max-width: 100%;
