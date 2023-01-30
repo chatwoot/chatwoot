@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Скачать",
-      "UPLOADING": "Загружаем..."
+      "UPLOADING": "Загружаем...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Эта история больше недоступна."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Просмотреть на карте"
