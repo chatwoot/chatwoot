@@ -4,7 +4,7 @@ RSpec.describe Webhooks::TelegramEventsJob, type: :job do
   subject(:job) { described_class.perform_later(params) }
 
   let!(:telegram_channel) { create(:channel_telegram) }
-  let!(:params) { { bot_token: telegram_channel.bot_token, 'telegram' => { test: 'test' } } }
+  let!(:params) { { :bot_token => telegram_channel.bot_token, 'telegram' => { test: 'test' } } }
 
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
