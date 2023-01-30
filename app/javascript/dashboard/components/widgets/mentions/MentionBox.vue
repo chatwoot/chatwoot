@@ -13,7 +13,7 @@
       @mouseover="onHover(index)"
     >
       <a class="text-truncate">
-        <strong>{{ item.label }}</strong> - {{ item.description }}
+        <slot :item="item" />
       </a>
     </li>
   </ul>
