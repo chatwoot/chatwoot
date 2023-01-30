@@ -1,5 +1,12 @@
 <template>
-  <mention-box :items="items" @mention-select="handleVariableClick" />
+  <mention-box :items="items" @mention-select="handleVariableClick">
+    <template slot-scope="{ item }">
+      <span class="text-capitalize variable--list-label">
+        {{ item.description }}
+      </span>
+      ({{ item.label }})
+    </template>
+  </mention-box>
 </template>
 
 <script>
@@ -35,3 +42,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.variable--list-label {
+  font-weight: var(--font-weight-bold);
+}
+</style>

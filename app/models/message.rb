@@ -120,7 +120,6 @@ class Message < ApplicationRecord
       }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
-    validate_instagram_story if instagram_story_mention?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
   end
