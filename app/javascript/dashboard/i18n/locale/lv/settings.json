@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Lejupielādēt",
-      "UPLOADING": "Notiek augšupielāde..."
+      "UPLOADING": "Notiek augšupielāde...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Šis stāsts vairs nav pieejams."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Skatīt kartē"
