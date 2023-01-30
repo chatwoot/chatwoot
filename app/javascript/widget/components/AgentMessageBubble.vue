@@ -142,14 +142,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-
-.chat-bubble .message-content::v-deep pre {
-  background: $color-primary-light;
-  color: $color-body;
-  overflow-y: auto;
-  padding: $space-smaller;
-}
-</style>

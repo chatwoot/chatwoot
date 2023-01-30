@@ -391,14 +391,6 @@
     text-decoration: underline;
   }
 
-  blockquote {
-    border-left-color: var(--s-300);
-
-    p {
-      color: var(--s-300);
-    }
-  }
-
   p:last-child {
     margin-bottom: 0;
   }
@@ -419,35 +411,8 @@
     text-decoration: underline;
   }
 
-  blockquote {
-    border-left-color: var(--w-100);
-
-    p {
-      color: var(--w-100);
-    }
-  }
-
   p:last-child {
     margin-bottom: 0;
   }
 }
 
-.bubble {
-  pre {
-    background: var(--b-50);
-    border-radius: var(--border-radius-normal);
-    border: 1px solid var(--color-border);
-    display: block;
-    margin: var(--space-small) 0;
-    padding: var(--space-slab);
-  }
-
-  pre code {
-    display: block;
-    padding: 0;
-  }
-
-  code {
-    background: var(--b-50);
-  }
-}

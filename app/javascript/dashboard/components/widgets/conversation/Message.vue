@@ -192,12 +192,12 @@ export default {
       return fullHTMLContent || fullTextContent || '';
     },
     displayQuotedButton() {
-      if (!this.isIncoming) {
-        return false;
-      }
-
       if (this.emailMessageContent.includes('<blockquote')) {
         return true;
+      }
+
+      if (!this.isIncoming) {
+        return false;
       }
 
       return false;
@@ -591,5 +591,72 @@ li.right {
 
 .context-menu {
   position: relative;
+}
+
+/* Markdown styling */
+
+.bubble .text-content {
+  p code {
+    background-color: var(--s-75);
+    display: inline-block;
+    line-height: 1;
+
+    border-radius: var(--border-radius-small);
+    padding: var(--space-smaller);
+  }
+
+  pre {
+    background-color: var(--s-75);
+    border-color: var(--s-75);
+    color: var(--s-800);
+    border-radius: var(--border-radius-normal);
+    padding: var(--space-small);
+    margin-top: var(--space-smaller);
+    margin-bottom: var(--space-small);
+    display: block;
+    line-height: 1.7;
+    white-space: pre-wrap;
+
+    code {
+      background-color: transparent;
+      color: var(--s-800);
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: var(--space-micro) solid var(--s-75);
+    color: var(--s-800);
+    padding: var(--space-smaller) var(--space-small);
+    margin: var(--space-smaller) 0;
+    padding: var(--space-small) var(--space-small) 0 var(--space-normal);
+  }
+}
+
+.right .bubble .text-content {
+  p code {
+    background-color: var(--w-600);
+    color: var(--white);
+  }
+
+  pre {
+    background-color: var(--w-800);
+    border-color: var(--w-700);
+    color: var(--white);
+
+    code {
+      background-color: transparent;
+      color: var(--white);
+    }
+  }
+
+  blockquote {
+    border-left: var(--space-micro) solid var(--w-400);
+    color: var(--white);
+
+    p {
+      color: var(--w-75);
+    }
+  }
 }
 </style>
