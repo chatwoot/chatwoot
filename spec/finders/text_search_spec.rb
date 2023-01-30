@@ -34,10 +34,10 @@ describe ::TextSearch do
   describe '#perform' do
     context 'with text search' do
       it 'filter conversations by number' do
-        params = { q: '122' }
+        params = { q: '1223' }
         result = described_class.new(user_1, params).perform
-        expect(result[:conversations].length).to eq 4
-        expect(result[:contacts].length).to eq 5
+        expect(result[:conversations].length).to eq 2
+        expect(result[:contacts].length).to eq 1
       end
 
       it 'filter message and contacts by string' do
