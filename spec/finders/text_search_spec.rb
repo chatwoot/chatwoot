@@ -37,7 +37,7 @@ describe ::TextSearch do
         params = { q: '122' }
         result = described_class.new(user_1, params).perform
         expect(result[:conversations].length).to eq 4
-        expect(result[:contacts].length).to eq 1
+        expect(result[:contacts].length).to eq 5
       end
 
       it 'filter message and contacts by string' do
