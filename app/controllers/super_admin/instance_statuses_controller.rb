@@ -24,11 +24,6 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
                                  end
   end
 
-  def redis_status
-    r = Redis.new(Redis::Config.app)
-    @metrics['Redis alive'] = (r.ping == 'PONG')
-  end
-
   def redis_metrics
     r = Redis.new(Redis::Config.app)
     if r.ping == 'PONG'
@@ -42,8 +37,8 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
       @metrics['Redis total memory available'] = redis_server['total_system_memory_human']
       @metrics["Redis 'maxmemory' setting"] = redis_server['maxmemory']
       @metrics["Redis 'maxmemory_policy' setting"] = redis_server['maxmemory_policy']
-    else
-      @metrics['Redis alive'] = 'false'
     end
+  rescue Redis::CannotConnectError
+    @metrics['Redis alive'] = false
   end
 end
