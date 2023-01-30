@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
-      "UPLOADING": "Đang tải lên..."
+      "UPLOADING": "Đang tải lên...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Hội thoại này không còn nữa."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Xem trên bản đồ"
