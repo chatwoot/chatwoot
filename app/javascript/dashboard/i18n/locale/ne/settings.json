@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "डाउनलोड",
-      "UPLOADING": "अपलोड गर्दै..."
+      "UPLOADING": "अपलोड गर्दै...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
