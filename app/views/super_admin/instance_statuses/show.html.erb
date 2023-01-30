@@ -13,7 +13,7 @@
     <th>Value</th>
   </tr>
   <tr>
-    <td>Chatwoot Version</td>
+    <td>Chatwoot version</td>
     <td><%= @instance_version %></td>
   </tr>
   <tr>
@@ -28,6 +28,12 @@
     <td>Redis alive</td>
     <td><%= @instance_redis %></td>
   </tr>
+  <% @redis_metrics.each do |key,value| %>
+   <tr>
+   <td> <%= key %> </td>
+   <td> <%= value %> </td>
+  </tr>
+  <% end %>
 </table>
 
 </section>
