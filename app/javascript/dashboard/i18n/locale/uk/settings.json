@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
-      "UPLOADING": "Завантажується..."
+      "UPLOADING": "Завантажується...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ця історія більше не доступна."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
