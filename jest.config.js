@@ -15,7 +15,7 @@ module.exports = {
   cacheDirectory: '<rootDir>/.jest-cache',
   collectCoverage: false,
   coverageDirectory: 'buildreports',
-  collectCoverageFrom: ['**/app/javascript/**/*.{js,vue}'],
+  collectCoverageFrom: ['**/app/javascript/**/*.js'],
   reporters: ['default'],
   // setupTestFrameworkScriptFile: './tests/setup.ts',
   transformIgnorePatterns: ['node_modules/*'],
