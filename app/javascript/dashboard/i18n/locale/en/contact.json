@@ -207,6 +207,7 @@
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "Conversations",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
