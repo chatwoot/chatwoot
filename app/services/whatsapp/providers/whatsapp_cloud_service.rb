@@ -70,11 +70,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def process_attachments(phone_number, message)
-    responses = []
     message.attachments.each do |attachment|
-      responses << send_attachment_message(phone_number, message, attachment)
+      send_attachment_message(phone_number, message, attachment)
     end
-    responses
   end
 
   def send_attachment_message(phone_number, message, attachment)
@@ -95,6 +93,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response)
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: message.inbox.account).capture_exception
+    {}
   end
 
   def process_response(response)
