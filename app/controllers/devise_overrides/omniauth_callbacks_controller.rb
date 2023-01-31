@@ -3,8 +3,13 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     get_resource_from_auth_hash
 
     if @resource.nil?
-      redirect_to "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?error=oauth-no-user"
-      return
+      # create a new user & account if we cannot find one
+      if validate_bussiness_account
+        create_account_for_user
+      else
+        redirect_to "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?error=business-account-only"
+        return
+      end
     end
 
     if confirmable_enabled?
@@ -25,9 +30,25 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def get_resource_from_auth_hash
     # find the user with their email instead of UID and token
+    puts auth_hash
     @resource = resource_class.where(
       email: auth_hash['info']['email']
     ).first
+  end
+
+  def validate_bussiness_account
+    # return true if the user is a business account, false if it is a gmail account
+    !auth_hash['info']['email'].include?('@gmail.com')
+  end
+
+  def create_account_for_user
+    @resource, @account = AccountBuilder.new(
+      account_name: auth_hash['info']['name'],
+      user_full_name: auth_hash['info']['name'],
+      email: auth_hash['info']['email'],
+      locale: I18n.locale,
+      confirmed: auth_hash['info']['email_verified']
+    ).perform
   end
 
   def default_devise_mapping

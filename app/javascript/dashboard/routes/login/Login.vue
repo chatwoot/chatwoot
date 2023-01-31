@@ -90,6 +90,7 @@ import { parseBoolean } from '@chatwoot/utils';
 
 const ERROR_MESSAGES = {
   'oauth-no-user': 'LOGIN.OAUTH.NO_USER',
+  'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
 
 export default {

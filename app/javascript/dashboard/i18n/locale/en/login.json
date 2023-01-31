@@ -16,6 +16,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
       "NO_USER": "User not found. You need to sign up first"
     },
     "FORGOT_PASSWORD": "Forgot your password?",
