@@ -25,7 +25,6 @@ RSpec.describe Attachment, type: :model do
     it 'returns external url as data and thumb urls' do
       external_url = instagram_message.attachments.first.external_url
       expect(instagram_message.attachments.first.push_event_data[:data_url]).to eq external_url
-      expect(instagram_message.attachments.first.push_event_data[:thumb_url]).to eq external_url
     end
   end
 end

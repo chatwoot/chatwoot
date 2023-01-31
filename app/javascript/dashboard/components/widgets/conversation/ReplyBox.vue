@@ -236,6 +236,7 @@ export default {
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
       showMentions: false,
+      showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
     };
@@ -631,6 +632,7 @@ export default {
     },
     isAValidEvent(selectedKey) {
       return (
+        !this.showUserMentions &&
         !this.showMentions &&
         !this.showCannedMenu &&
         !this.showVariablesMenu &&
@@ -652,7 +654,7 @@ export default {
       });
     },
     toggleUserMention(currentMentionState) {
-      this.showMentions = currentMentionState;
+      this.showUserMentions = currentMentionState;
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
