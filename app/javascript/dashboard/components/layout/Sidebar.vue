@@ -233,9 +233,6 @@ export default {
     width: 40rem;
   }
 }
-.off-canvas-content.is-open-left {
-  transform: translateX(18.8rem);
-}
 
 .secondary-sidebar {
   overflow-y: auto;

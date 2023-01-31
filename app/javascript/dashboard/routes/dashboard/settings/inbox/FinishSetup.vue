@@ -50,12 +50,11 @@
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div class="medium-6 small-offset-3">
-          <woot-code
-            v-if="isAEmailInbox"
-            lang="html"
-            :script="currentInbox.forward_to_email"
-          />
+        <div
+          v-if="isAEmailInbox && !currentInbox.provider"
+          class="medium-6 small-offset-3"
+        >
+          <woot-code lang="html" :script="currentInbox.forward_to_email" />
         </div>
         <div class="footer">
           <router-link
@@ -140,7 +139,7 @@ export default {
         )}`;
       }
 
-      if (this.isAEmailInbox) {
+      if (this.isAEmailInbox && !this.currentInbox.provider) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 

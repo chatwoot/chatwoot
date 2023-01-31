@@ -1,6 +1,7 @@
 import { shouldBeUrl } from '../Validators';
 import { isValidPassword } from '../Validators';
 import { isNumber } from '../Validators';
+import { isDomain } from '../Validators';
 
 describe('#shouldBeUrl', () => {
   it('should return correct url', () => {
@@ -33,5 +34,20 @@ describe('#isNumber', () => {
     expect(isNumber('123-')).toEqual(false);
     expect(isNumber('123./')).toEqual(false);
     expect(isNumber('string')).toEqual(false);
+  });
+});
+
+describe('#isDomain', () => {
+  it('should return correct domain', () => {
+    expect(isDomain('test.com')).toEqual(true);
+    expect(isDomain('www.test.com')).toEqual(true);
+  });
+
+  it('should return wrong domain', () => {
+    expect(isDomain('test')).toEqual(false);
+    expect(isDomain('test.')).toEqual(false);
+    expect(isDomain('test.123')).toEqual(false);
+    expect(isDomain('http://www.test.com')).toEqual(false);
+    expect(isDomain('https://test.in')).toEqual(false);
   });
 });

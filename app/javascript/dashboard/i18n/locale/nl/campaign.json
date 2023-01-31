@@ -89,7 +89,7 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "Bericht",
-        "INBOX": "Inbox",
+        "INBOX": "Postvak In",
         "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",
@@ -98,7 +98,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Toevoegen",
         "EDIT": "Bewerken",
         "DELETE": "Verwijderen"
       },

@@ -37,7 +37,6 @@
 @include foundation-prototype-sizing;
 @include foundation-prototype-spacing;
 
-
 @import 'typography';
 @import 'layout';
 @import 'animations';
@@ -61,7 +60,6 @@
 @import 'widgets/woot-tables';
 
 @import 'views/settings/inbox';
-@import 'views/settings/channel';
 @import 'views/settings/integrations';
 
 @import 'plugins/multiselect';

@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot תסנכרן כעת את כל השיחות הנכנסות לערוץ <b><i>שיחות-לקוח</i></b> בתוך מקום העבודה הרפוי שלך.</p><p>משיב ל- שרשור שיחה ב<b><i>שיחות לקוח</i></b> ערוץ רפוי ייצור תגובה חזרה ללקוח באמצעות chatwoot.</p><p>התחל את התשובות עם <b><i> הערה:</i></b> כדי ליצור הערות פרטיות במקום תשובות.</p><p>אם למשיב ב-slack יש פרופיל סוכן ב-chatwoot תחת אותו דוא\"ל, התשובות ישויכו בהתאם.</b> p><p>כאשר למשיב אין פרופיל סוכן משויך, התשובות ייעשו מפרופיל הבוט.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {

@@ -60,20 +60,34 @@ dialogflow:
     }
   ]
   visible_properties: ['project_id']
-fullcontact:
-  id: fullcontact
-  logo: fullcontact.png
-  i18n_key: fullcontact
-  action: /fullcontact
+dyte:
+  id: dyte
+  logo: dyte.png
+  i18n_key: dyte
+  action: /dyte
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema:
+  settings_json_schema: {
+    "type": "object",
+    "properties": {
+        "api_key": { "type": "string" },
+        "organization_id": { "type": "string" },
+      },
+    "required": ["api_key", "organization_id"],
+    "additionalProperties": false,
+  }
+  settings_form_schema: [
     {
-      'type': 'object',
-      'properties': { 'api_key': { 'type': 'string' } },
-      'required': ['api_key'],
-      'additionalProperties': false,
-    }
-  settings_form_schema:
-    [{ 'label': 'API Key', 'type': 'text', 'name': 'api_key',"validation": "required", }]
-  visible_properties: ['api_key']
+      "label": "Organization ID",
+      "type": "text",
+      "name": "organization_id",
+      "validation": "required",
+    },
+    {
+      "label": "API Key",
+      "type": "text",
+      "name": "api_key",
+      "validation": "required",
+    },
+  ]
+  visible_properties: ["organization_id"]

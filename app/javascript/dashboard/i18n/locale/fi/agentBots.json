@@ -24,8 +24,11 @@
       "TITLE": "Select an agent bot",
       "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
       "SUBMIT": "Päivitä",
+      "DISCONNECT": "Disconnect Bot",
       "SUCCESS_MESSAGE": "Successfully updated the agent bot",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
       "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
       "SELECT_PLACEHOLDER": "Select Bot"
     },
     "ADD": {

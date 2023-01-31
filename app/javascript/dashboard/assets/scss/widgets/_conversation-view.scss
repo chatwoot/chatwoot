@@ -81,8 +81,12 @@
   }
 
   .conversations-list {
-    @include scroll-on-hover;
+    overflow-y: auto;
     flex: 1 1;
+
+    @include breakpoint(large up) {
+      @include scroll-on-hover;
+    }
   }
 
   .chat-list__top {
@@ -324,6 +328,7 @@
       var(--space-one);
 
     .is-text {
+      align-items: center;
       display: inline-flex;
       text-align: start;
 

@@ -1,8 +1,5 @@
 <template>
-  <li
-    v-if="hasAttachments || data.content || isEmailContentType"
-    :class="alignBubble"
-  >
+  <li v-if="shouldRenderMessage" :class="alignBubble">
     <div :class="wrapClass">
       <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
@@ -16,6 +13,11 @@
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
+        />
+        <bubble-integration
+          :message-id="data.id"
+          :content-attributes="contentAttributes"
+          :inbox-id="data.inbox_id"
         />
         <span
           v-if="isPending && hasAttachments"
@@ -42,6 +44,9 @@
               :latitude="attachment.coordinates_lat"
               :longitude="attachment.coordinates_long"
               :name="attachment.fallback_title"
+            />
+            <instagram-image-error-placeholder
+              v-else-if="hasImageError && hasInstagramStory"
             />
             <bubble-file v-else :url="attachment.data_url" />
           </div>
@@ -111,17 +116,17 @@
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import BubbleActions from './bubble/Actions';
+import BubbleFile from './bubble/File';
+import BubbleImage from './bubble/Image';
+import BubbleIntegration from './bubble/Integration.vue';
+import BubbleLocation from './bubble/Location';
 import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
-import BubbleImage from './bubble/Image';
-import BubbleFile from './bubble/File';
 import BubbleVideo from './bubble/Video.vue';
-import BubbleActions from './bubble/Actions';
-import BubbleLocation from './bubble/Location';
-
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
-
+import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -130,14 +135,16 @@ import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 export default {
   components: {
     BubbleActions,
-    BubbleText,
-    BubbleImage,
     BubbleFile,
-    BubbleVideo,
-    BubbleMailHead,
+    BubbleImage,
+    BubbleIntegration,
     BubbleLocation,
+    BubbleMailHead,
+    BubbleText,
+    BubbleVideo,
     ContextMenu,
     Spinner,
+    instagramImageErrorPlaceholder,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -169,6 +176,14 @@ export default {
     };
   },
   computed: {
+    shouldRenderMessage() {
+      return (
+        this.hasAttachments ||
+        this.data.content ||
+        this.isEmailContentType ||
+        this.isAnIntegrationMessage
+      );
+    },
     emailMessageContent() {
       const {
         html_content: { full: fullHTMLContent } = {},
@@ -273,6 +288,9 @@ export default {
     },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;
+    },
+    isAnIntegrationMessage() {
+      return this.contentType === 'integrations';
     },
     emailHeadAttributes() {
       return {

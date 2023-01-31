@@ -32,7 +32,7 @@
       "TEAM_SELECT_LABEL": "Vælg Team",
       "NONE": "Ingen",
       "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
-      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SELECTED_TEAMS": "Tildel det valgte team",
       "ASSIGN_SUCCESFUL": "Teams assiged successfully",
       "ASSIGN_FAILED": "Failed to assign team, please try again"
     }

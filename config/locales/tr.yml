@@ -44,6 +44,8 @@ tr:
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -137,6 +139,10 @@ tr:
     online:
       delete: "%{contact_name} is Online, please try again later"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack, tüm iletişiminizi tek bir yerde bir araya getiren bir sohbet aracıdır. Slack'i entegre ederek, hesabınızdaki tüm yeni konuşmalardan Slack'inizin içinde bildirim alabilirsiniz."

@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
-        "NONE": "Ninguna",
-        "ASSIGNED": "Conversaciones asignadas",
-        "ALL_CONVERSATIONS": "Todas las conversaciones"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Ninguna",
+          "ASSIGNED": "Conversaciones asignadas",
+          "ALL_CONVERSATIONS": "Todas las conversaciones"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones por email",
@@ -104,8 +115,8 @@
           "Ocupado",
           "Fuera de línea"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
+        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
@@ -136,7 +147,7 @@
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "SUPER_ADMIN_CONSOLE": "Consola de Super Admin",
     "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {
@@ -230,8 +241,8 @@
       "CATEGORY_EMPTY_MESSAGE": "No se encontraron categorías"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Marcar como desconectado automáticamente",
+      "INFO_TEXT": "Permite que el sistema te marque automáticamente sin conexión cuando no estás usando la aplicación o el tablero."
     },
     "DOCS": "Leer documentos"
   },
@@ -271,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversación",
       "RESOLVE_AND_NEXT": "Resolver y pasar al siguiente",

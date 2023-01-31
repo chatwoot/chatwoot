@@ -16,14 +16,15 @@ const state = {
   },
 };
 
+const isAValidAppIntegration = integration => {
+  return ['dialogflow', 'dyte'].includes(integration.id);
+};
 export const getters = {
   getIntegrations($state) {
-    return $state.records.filter(
-      item => item.id !== 'fullcontact' && item.id !== 'dialogflow'
-    );
+    return $state.records.filter(item => !isAValidAppIntegration(item));
   },
   getAppIntegrations($state) {
-    return $state.records.filter(item => item.id === 'dialogflow');
+    return $state.records.filter(item => isAValidAppIntegration(item));
   },
   getIntegration: $state => integrationId => {
     const [integration] = $state.records.filter(

@@ -76,6 +76,13 @@
         "BODY": "<br/><p>ستتم الآن مزامنة جميع المحادثات الواردة إلى <b><i>محادثة الزبائن</i></b> داخل مكان العمل الخاص بك.</p><p>الرد على موضوع محادثة في <b><i>محادثة العملاء</i></b> قناة الركود سوف تقوم بإنشاء رد على العميل من خلال المحادثة.</p><p>ابدأ الردود ب <b><i>ملاحظة:</i></b> لإنشاء ملاحظات خاصة بدلاً من الردود.</p><p>إذا كان للرد على slack ملف تعريف الوكيل في الدردشة تحت نفس البريد الإلكتروني، فسيتم ربط الردود وفقا لذلك.</p><p>عندما لا يكون للرد ملف شخصي للوكيل المرتبط، ستتم الردود من ملف بوت الشخصي.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {

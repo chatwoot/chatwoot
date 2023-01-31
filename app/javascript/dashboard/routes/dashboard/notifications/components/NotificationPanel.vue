@@ -27,6 +27,14 @@
           </woot-button>
           <woot-button
             color-scheme="secondary"
+            variant="smooth"
+            size="tiny"
+            class-names="action-button"
+            icon="settings"
+            @click="openAudioNotificationSettings"
+          />
+          <woot-button
+            color-scheme="secondary"
             variant="link"
             size="tiny"
             icon="dismiss"
@@ -199,6 +207,22 @@ export default {
     onMarkAllDoneClick() {
       this.$store.dispatch('notifications/readAll');
     },
+    openAudioNotificationSettings() {
+      this.$router.push({ name: 'profile_settings_index' });
+      this.closeNotificationPanel();
+      this.$nextTick(() => {
+        const audioSettings = document.getElementById(
+          'profile-settings-notifications'
+        );
+        if (audioSettings) {
+          // TODO [ref](https://github.com/chatwoot/chatwoot/pull/6233#discussion_r1069636890)
+          audioSettings.scrollIntoView(
+            { behavior: 'smooth', block: 'start' },
+            150
+          );
+        }
+      });
+    },
     closeNotificationPanel() {
       this.$emit('close');
     },
@@ -244,13 +268,13 @@ export default {
   .total-count {
     padding: var(--space-smaller) var(--space-small);
     background: var(--b-50);
-    border-radius: var(--border-radius-rounded);
+    border-radius: var(--border-radius-normal);
     font-size: var(--font-size-micro);
     font-weight: var(--font-weight-bold);
+    margin-left: var(--space-smaller);
   }
 
   .action-button {
-    padding: var(--space-micro) var(--space-small);
     margin-right: var(--space-small);
   }
 }

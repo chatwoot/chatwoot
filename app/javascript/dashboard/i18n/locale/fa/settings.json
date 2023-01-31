@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلان های صوتی",
         "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
-        "NONE": "هیچکدام",
-        "ASSIGNED": "مکالمات اختصاص داده شده",
-        "ALL_CONVERSATIONS": "همه گفتگوها"
+        "ALERT_TYPE": {
+          "TITLE": "رویدادهای هشدار:",
+          "NONE": "هیچکدام",
+          "ASSIGNED": "مکالمات اختصاص داده شده",
+          "ALL_CONVERSATIONS": "همه گفتگوها"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "شرط‌های هشدار:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -271,6 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "مشاهده همه کلیدهای میانبر",
     "TITLE": {
       "OPEN_CONVERSATION": "باز کردن گفتگو",
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",

@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "Tryk enter for at vælge",
       "ENTER_TO_REMOVE": "Tryk enter for at fjerne",
       "SELECT_ONE": "Vælg en",
-      "SELECT": "Select"
+      "SELECT": "Vælg"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -139,6 +139,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Indlæser Dashboard App..."
   }
 }

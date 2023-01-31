@@ -90,6 +90,10 @@
     </div>
     <imap-settings :inbox="inbox" />
     <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
+    <microsoft-reauthorize
+      v-if="inbox.microsoft_reauthorization"
+      :inbox="inbox"
+    />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="settings--content">
@@ -109,12 +113,14 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from '../../../../../components/SettingsSection';
 import ImapSettings from '../ImapSettings';
 import SmtpSettings from '../SmtpSettings';
+import MicrosoftReauthorize from '../channels/microsoft/Reauthorize';
 
 export default {
   components: {
     SettingsSection,
     ImapSettings,
     SmtpSettings,
+    MicrosoftReauthorize,
   },
   mixins: [inboxMixin, alertMixin],
   props: {

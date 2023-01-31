@@ -104,6 +104,8 @@ module ActivityMessageHandler
   end
 
   def create_assignee_change_activity(user_name)
+    user_name = activity_message_ownner(user_name)
+
     return unless user_name
 
     content = generate_assignee_change_activity_content(user_name)

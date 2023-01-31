@@ -16,11 +16,6 @@ import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import {
-  getAlertAudio,
-  initOnEvents,
-} from '../shared/helpers/AudioNotificationHelper';
-import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from '../dashboard/constants';
@@ -34,7 +29,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
-import AnalyticsHelper from '../dashboard/helper/AnalyticsHelper';
+import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 
 Vue.config.env = process.env;
 
@@ -42,6 +37,19 @@ if (window.errorLoggingConfig) {
   Sentry.init({
     Vue,
     dsn: window.errorLoggingConfig,
+    denyUrls: [
+      // Chrome extensions
+      /^chrome:\/\//i,
+      /chrome-extension:/i,
+      /extensions\//i,
+
+      // Locally saved copies
+      /file:\/\//i,
+
+      // Safari extensions.
+      /safari-web-extension:/i,
+      /safari-extension:/i,
+    ],
     integrations: [new Integrations.BrowserTracing()],
   });
 }
@@ -60,6 +68,7 @@ Vue.use(VTooltip, {
   defaultHtml: false,
 });
 Vue.use(hljs.vuePlugin);
+Vue.use(AnalyticsPlugin);
 
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
@@ -79,7 +88,6 @@ window.WootConstants = constants;
 window.axios = createAxios(axios);
 window.bus = new Vue();
 initializeChatwootEvents();
-AnalyticsHelper.init();
 initializeAnalyticsEvents();
 initalizeRouter();
 
@@ -93,17 +101,6 @@ window.onload = () => {
   }).$mount('#app');
 };
 
-const setupAudioListeners = () => {
-  getAlertAudio().then(() => {
-    initOnEvents.forEach(event => {
-      document.removeEventListener(event, setupAudioListeners, false);
-    });
-  });
-};
 window.addEventListener('load', () => {
   window.playAudioAlert = () => {};
-  initOnEvents.forEach(e => {
-    document.addEventListener(e, setupAudioListeners, false);
-  });
-  initFaviconSwitcher();
 });

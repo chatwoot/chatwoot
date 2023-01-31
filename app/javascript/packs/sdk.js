@@ -18,7 +18,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   }
 
   const chatwootSettings = window.chatwootSettings || {};
-  let locale = chatwootSettings.locale || 'en';
+  let locale = chatwootSettings.locale;
+
   if (chatwootSettings.useBrowserLanguage) {
     locale = window.navigator.language.replace('-', '_');
   }

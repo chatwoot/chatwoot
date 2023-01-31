@@ -31,6 +31,11 @@ export const AUTOMATIONS = {
     ],
     actions: [
       {
+        key: 'assign_agent',
+        name: 'Assign to agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
+      {
         key: 'assign_team',
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
@@ -129,6 +134,11 @@ export const AUTOMATIONS = {
       },
     ],
     actions: [
+      {
+        key: 'assign_agent',
+        name: 'Assign to agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
       {
         key: 'assign_team',
         name: 'Assign a team',
@@ -242,6 +252,11 @@ export const AUTOMATIONS = {
     ],
     actions: [
       {
+        key: 'assign_agent',
+        name: 'Assign to agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
+      {
         key: 'assign_team',
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
@@ -311,6 +326,11 @@ export const AUTOMATION_RULE_EVENTS = [
 ];
 
 export const AUTOMATION_ACTION_TYPES = [
+  {
+    key: 'assign_agent',
+    label: 'Assign to agent',
+    inputType: 'search_select',
+  },
   {
     key: 'assign_team',
     label: 'Assign a team',

@@ -2,13 +2,13 @@
   "REGISTER": {
     "TRY_WOOT": "Registrer en konto",
     "TITLE": "Registrer",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TESTIMONIAL_HEADER": "Alt, hvad der skal til, er blot et skridt for at komme videre",
+    "TESTIMONIAL_CONTENT": "Du er et skridt fra at engagere dine kunder, fastholde dem og finde nye kunder.",
     "TERMS_ACCEPT": "Ved at tilmelde dig, accepterer du vores <a href=\"https://www.chatwoot.com/terms\">T & C</a> og <a href=\"https://www.chatwoot.com/privacy-policy\">Privatlivspolitik</a>",
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "Firmanavn",
+      "PLACEHOLDER": "Indtast dit firmanavn, fx: Wayne Enterprises",
+      "ERROR": "Firmanavn er for kort"
     },
     "FULL_NAME": {
       "LABEL": "Fulde navn",
@@ -18,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Arbejde e-mail",
       "PLACEHOLDER": "Indtast din arbejdsmailadresse fx: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "ERROR": "Indtast venligst en gyldig arbejdsmail"
     },
     "PASSWORD": {
       "LABEL": "Adgangskode",

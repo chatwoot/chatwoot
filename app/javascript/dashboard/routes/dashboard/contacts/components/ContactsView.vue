@@ -20,12 +20,12 @@
         :is-loading="uiFlags.isFetching"
         :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
-        :sort-config="sortConfig"
         @on-sort-change="onSortChange"
       />
       <table-footer
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
+        :page-size="15"
         @page-change="onPageChange"
       />
     </div>
@@ -86,6 +86,7 @@ import contactFilterItems from '../contactFilterItems';
 import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
+import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -115,7 +116,7 @@ export default {
       showCreateModal: false,
       showImportModal: false,
       selectedContactId: '',
-      sortConfig: { name: 'asc' },
+      sortConfig: { last_activity_at: 'desc' },
       showFiltersModal: false,
       contactFilterItems: contactFilterItems.map(filter => ({
         ...filter,
@@ -230,8 +231,8 @@ export default {
         return acc;
       }, '');
       if (!sortAttr) {
-        this.sortConfig = { name: 'asc' };
-        sortAttr = 'name';
+        this.sortConfig = { last_activity_at: 'desc' };
+        sortAttr = '-last_activity_at';
       }
       return sortAttr;
     },
@@ -334,6 +335,14 @@ export default {
     onSortChange(params) {
       this.sortConfig = params;
       this.fetchContacts(this.meta.currentPage);
+
+      const sortBy =
+        Object.entries(params).find(pair => Boolean(pair[1])) || [];
+
+      this.$track(CONTACTS_EVENTS.APPLY_SORT, {
+        appliedOn: sortBy[0],
+        order: sortBy[1],
+      });
     },
     onToggleFilters() {
       this.showFiltersModal = !this.showFiltersModal;

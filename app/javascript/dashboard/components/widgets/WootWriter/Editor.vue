@@ -6,38 +6,40 @@
       @click="insertMentionNode"
     />
     <canned-response
-      v-if="showCannedMenu && !isPrivate"
+      v-if="shouldShowCannedResponses"
       :search-key="cannedSearchTerm"
       @click="insertCannedResponse"
+    />
+    <variable-list
+      v-if="shouldShowVariables"
+      :search-key="variableSearchTerm"
+      @click="insertVariable"
     />
     <div ref="editor" />
   </div>
 </template>
 
 <script>
-import { EditorView } from 'prosemirror-view';
-
-import { defaultMarkdownSerializer } from 'prosemirror-markdown';
 import {
-  addMentionsToMarkdownSerializer,
-  addMentionsToMarkdownParser,
-  schemaWithMentions,
-} from '@chatwoot/prosemirror-schema/src/mentions/schema';
-
+  messageSchema,
+  wootMessageWriterSetup,
+  EditorView,
+  MessageMarkdownTransformer,
+  MessageMarkdownSerializer,
+  EditorState,
+  Selection,
+} from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import { EditorState, Selection } from 'prosemirror-state';
-import { defaultMarkdownParser } from 'prosemirror-markdown';
-import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
+import VariableList from '../conversation/VariableList';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 
-import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
@@ -47,15 +49,14 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import AnalyticsHelper, {
-  ANALYTICS_EVENTS,
-} from '../../../helper/AnalyticsHelper';
+import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
-    doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
-    plugins: wootWriterSetup({
-      schema: schemaWithMentions,
+    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
+    plugins: wootMessageWriterSetup({
+      schema: messageSchema,
       placeholder,
       plugins,
     }),
@@ -64,7 +65,7 @@ const createState = (content, placeholder, plugins = []) => {
 
 export default {
   name: 'WootMessageEditor',
-  components: { TagAgents, CannedResponse },
+  components: { TagAgents, CannedResponse, VariableList },
   mixins: [eventListenerMixins, uiSettingsMixin],
   props: {
     value: { type: String, default: '' },
@@ -74,13 +75,18 @@ export default {
     enableSuggestions: { type: Boolean, default: true },
     overrideLineBreaks: { type: Boolean, default: false },
     updateSelectionWith: { type: String, default: '' },
+    enableVariables: { type: Boolean, default: false },
+    enableCannedResponses: { type: Boolean, default: true },
+    variables: { type: Object, default: () => ({}) },
   },
   data() {
     return {
       showUserMentions: false,
       showCannedMenu: false,
+      showVariables: false,
       mentionSearchKey: '',
       cannedSearchTerm: '',
+      variableSearchTerm: '',
       editorView: null,
       range: null,
       state: undefined,
@@ -88,9 +94,15 @@ export default {
   },
   computed: {
     contentFromEditor() {
-      return addMentionsToMarkdownSerializer(
-        defaultMarkdownSerializer
-      ).serialize(this.editorView.state.doc);
+      return MessageMarkdownSerializer.serialize(this.editorView.state.doc);
+    },
+    shouldShowVariables() {
+      return this.enableVariables && this.showVariables && !this.isPrivate;
+    },
+    shouldShowCannedResponses() {
+      return (
+        this.enableCannedResponses && this.showCannedMenu && !this.isPrivate
+      );
     },
     plugins() {
       if (!this.enableSuggestions) {
@@ -111,6 +123,7 @@ export default {
             this.range = args.range;
 
             this.mentionSearchKey = args.text.replace('@', '');
+
             return false;
           },
           onExit: () => {
@@ -150,6 +163,34 @@ export default {
             return event.keyCode === 13 && this.showCannedMenu;
           },
         }),
+        suggestionsPlugin({
+          matcher: triggerCharacters('{{'),
+          suggestionClass: '',
+          onEnter: args => {
+            if (this.isPrivate) {
+              return false;
+            }
+            this.showVariables = true;
+            this.range = args.range;
+            this.editorView = args.view;
+            return false;
+          },
+          onChange: args => {
+            this.editorView = args.view;
+            this.range = args.range;
+
+            this.variableSearchTerm = args.text.replace('{{', '');
+            return false;
+          },
+          onExit: () => {
+            this.variableSearchTerm = '';
+            this.showVariables = false;
+            return false;
+          },
+          onKeyDown: ({ event }) => {
+            return event.keyCode === 13 && this.showVariables;
+          },
+        }),
       ];
     },
   },
@@ -160,12 +201,17 @@ export default {
     showCannedMenu(updatedValue) {
       this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
     },
+    showVariables(updatedValue) {
+      this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
+    },
     value(newValue = '') {
       if (newValue !== this.contentFromEditor) {
         this.reloadState();
       }
     },
     editorId() {
+      this.showCannedMenu = false;
+      this.cannedSearchTerm = '';
       this.reloadState();
     },
     isPrivate() {
@@ -271,23 +317,26 @@ export default {
       );
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
-      AnalyticsHelper.track(ANALYTICS_EVENTS.USED_MENTIONS);
+      this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
 
       return false;
     },
-
     insertCannedResponse(cannedItem) {
+      const updatedMessage = replaceVariablesInMessage({
+        message: cannedItem,
+        variables: this.variables,
+      });
       if (!this.editorView) {
         return null;
       }
 
       let from = this.range.from - 1;
-      let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
-        cannedItem
+      let node = new MessageMarkdownTransformer(messageSchema).parse(
+        updatedMessage
       );
 
-      if (node.childCount === 1) {
-        node = this.editorView.state.schema.text(cannedItem);
+      if (node.textContent === updatedMessage) {
+        node = this.editorView.state.schema.text(updatedMessage);
         from = this.range.from;
       }
 
@@ -301,7 +350,30 @@ export default {
       this.emitOnChange();
 
       tr.scrollIntoView();
-      AnalyticsHelper.track(ANALYTICS_EVENTS.INSERTED_A_CANNED_RESPONSE);
+      this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+      return false;
+    },
+    insertVariable(variable) {
+      if (!this.editorView) {
+        return null;
+      }
+      let node = this.editorView.state.schema.text(`{{${variable}}}`);
+      const from = this.range.from;
+
+      const tr = this.editorView.state.tr.replaceWith(
+        from,
+        this.range.to,
+        node
+      );
+
+      this.state = this.editorView.state.apply(tr);
+      this.emitOnChange();
+
+      // The `{{ }}` are added to the message, but the cursor is placed
+      // and onExit of suggestionsPlugin is not called. So we need to manually hide
+      this.showVariables = false;
+      this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
+      tr.scrollIntoView();
       return false;
     },
 
@@ -372,9 +444,17 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@chatwoot/prosemirror-schema/src/styles/base.scss';
+
 .ProseMirror-menubar-wrapper {
   display: flex;
   flex-direction: column;
+
+  .ProseMirror-menubar {
+    min-height: var(--space-two) !important;
+    margin-left: var(--space-minus-one);
+    padding-bottom: 0;
+  }
 
   > .ProseMirror {
     padding: 0;
@@ -384,6 +464,7 @@ export default {
 
 .editor-root {
   width: 100%;
+  position: relative;
 }
 
 .ProseMirror-woot-style {
@@ -405,6 +486,9 @@ export default {
     background: var(--s-50);
     color: var(--s-900);
     padding: 0 var(--space-smaller);
+  }
+  .ProseMirror-menubar {
+    background: var(--y-50);
   }
 }
 

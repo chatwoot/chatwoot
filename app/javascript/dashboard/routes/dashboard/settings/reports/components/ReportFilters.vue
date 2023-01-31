@@ -90,7 +90,16 @@
     </div>
     <div v-else class="small-12 medium-3 pull-right">
       <p>
-        {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
+        <template v-if="type === 'inbox'">
+          {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
+        </template>
+        <template v-else-if="type === 'team'">
+          {{ $t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL') }}
+        </template>
+        <!-- handle default condition because the prop is not limited to the given 4 values -->
+        <template v-else>
+          {{ $t('FORMS.MULTISELECT.SELECT_ONE') }}
+        </template>
       </p>
       <multiselect
         v-model="currentSelectedFilter"

@@ -88,10 +88,11 @@
       v-model="action_params"
       :teams="dropdownValues"
     />
-    <textarea
+    <woot-message-editor
       v-if="inputType === 'textarea'"
-      v-model="action_params"
+      v-model="castMessageVmodel"
       rows="4"
+      :enable-variables="true"
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />
@@ -107,10 +108,12 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
+    WootMessageEditor,
   },
   props: {
     value: {
@@ -172,6 +175,17 @@ export default {
         'has-error': this.v.action_params.$dirty && this.v.action_params.$error,
         'is-a-macro': this.isMacro,
       };
+    },
+    castMessageVmodel: {
+      get() {
+        if (Array.isArray(this.action_params)) {
+          return this.action_params[0];
+        }
+        return this.action_params;
+      },
+      set(value) {
+        this.action_params = value;
+      },
     },
   },
   methods: {
@@ -280,5 +294,9 @@ export default {
 }
 .action-message {
   margin: var(--space-small) var(--space-zero) var(--space-zero);
+}
+// Prosemirror does not have a native way of hiding the menu bar, hence
+::v-deep .ProseMirror-menubar {
+  display: none;
 }
 </style>

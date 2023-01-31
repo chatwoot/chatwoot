@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot će sada sinhronizovati sve dolazne razgovore u kanal <b><i>customer-conversations</i></b> unutar vašeg slack radnog mesta.</p><p>Odgovaranjem na razgovor u <b><i>customer-conversations</i></b> slack kanal će napraviti odgovor potrošaču kroz chatwoot.</p><p>Započnite odgovore sa <b><i>note:</i></b> da bi ste napravili privatne beleške umesto odgovora.</p><p>Ako odgovarač na slack-u ima agentski profil u chatwoot-u pod istom adresom e-pošte, odgovori će biti odgovarajuće povezani.</p><p>Kada odgovarač nema povezani agentski profil, odgovori će biti napravljeni od strane bot profila.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Izbriši",
       "API": {

@@ -172,6 +172,7 @@ export default {
 
   .selector-name {
     align-items: center;
+    line-height: 1.2;
     margin: 0 var(--space-small);
   }
 

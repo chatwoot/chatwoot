@@ -107,7 +107,7 @@ export default {
 <style scoped lang="scss">
 .macros__node-drag-handle {
   position: absolute;
-  left: var(--space-minus-medium);
+  left: var(--space-minus-large);
   cursor: move;
 }
 .macro__node-action-container {

@@ -1,41 +1,41 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TRY_WOOT": "Nýskráning",
+    "TITLE": "Nýskráning",
+    "TESTIMONIAL_HEADER": "Það þarf aðeins eitt skref framávið",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Með því að skrá þig samþykkir þú <a href=\"https://www.chatwoot.com/terms\">Skilmála</a> okkar og <a href=\"https://www.chatwoot.com/privacy -policy\">Persónuverndarstefnu</a>",
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "Nafn fyrirtækis",
+      "PLACEHOLDER": "Sláðu inn nafn fyrirtækisins þíns. Dæmi: Wayne Enterprises",
+      "ERROR": "Nafn fyrirtækis er of stutt"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Fullt nafn",
+      "PLACEHOLDER": "Skráðu inn fullt nafn. Dæmi: Bruce Wayne",
+      "ERROR": "Fullt nafn er of stutt"
     },
     "EMAIL": {
-      "LABEL": "Work email",
+      "LABEL": "Vinnu netfang",
       "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "ERROR": "Vinsamlegast sláðu inn gilt vinnu netfang"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short",
+      "LABEL": "Lykilorð",
+      "PLACEHOLDER": "Lykilorð",
+      "ERROR": "Lykilorið er of stutt",
       "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Staðfesta Lykilorð",
+      "PLACEHOLDER": "Staðfesta Lykilorð",
+      "ERROR": "Lykilorðin stemma ekki"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
+      "SUCCESS_MESSAGE": "Nýskráning tókst",
       "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
     },
-    "SUBMIT": "Submit",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "Senda",
+    "HAVE_AN_ACCOUNT": "Ertu nú þegar með aðgang?"
   }
 }

@@ -76,6 +76,13 @@
         "BODY": "<br/><p>Chatwoot จะเชื่อมข้อความทั้งหมดไว้ที่ช่อง <b><i>การสนทนากับลูกค้า</i></b> บน slack ของคุณ หากตอบกลับเธรดบน slack ในช่อง <b><i>การสนทนากับลูกค้า</i></b> จะมีสร้างการตอบกลับลูกค้าใน Chatwoot ด้วยเช่นเดียวกัน </p><p>การตอบกลับด้วย<b><i>โน๊ต</i></b>จะสร้างโน๊ตส่วนตัวแทนการตอบกลับเป็นข้อความ และหากผู้ตอบกลับบน slack มีโปรไฟล์พนักงานบน Chatwoot ซึ่งใช้อีเมลเดียวกัน การตอบกลับของเขาจะถูกส่งจากโปรไฟล์ที่เชื่อมไว้ใน Chatwoot </p><p>แต่หากผู้ตอบกลับไม่ได้มีโปรไฟล์พนักงานที่เชื่อมกัน การตอบกลับบน slack จะแสดงผลเป็นการตอบกลับที่มาจากโปรไฟล์บอทใน Chatwoot แทน</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "API": {

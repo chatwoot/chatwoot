@@ -81,7 +81,7 @@
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Excluir contato",
+    "BUTTON_LABEL": "Excluir Contato",
     "TITLE": "Excluir contato",
     "DESC": "Excluir detalhes do contato",
     "CONFIRM": {
@@ -152,7 +152,7 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Avatar de contato excluído com sucesso",
+        "SUCCESS_MESSAGE": "Avatar do contato excluído com sucesso",
         "ERROR_MESSAGE": "Não foi possível excluir o avatar do contato. Por favor, tente novamente mais tarde."
       }
     },
@@ -195,7 +195,7 @@
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Salvar Filtro",
+    "FILTER_CONTACTS_SAVE": "Salvar filtro",
     "FILTER_CONTACTS_DELETE": "Excluir filtro",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
@@ -217,7 +217,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Contato",
-    "LOADING": "Carregando perfil de contato..."
+    "LOADING": "Carregando o perfil do contato..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -236,7 +236,7 @@
       "TITLE": "Observações"
     },
     "LIST": {
-      "LABEL": "Adicionando uma anotação"
+      "LABEL": "adicionou uma anotação"
     },
     "ADD": {
       "BUTTON": "Adicionar",
@@ -244,7 +244,7 @@
       "TITLE": "Shift + Enter para criar uma nota"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Deletar Anotação"
+      "DELETE": "Excluir anotação"
     }
   },
   "EVENTS": {
@@ -258,7 +258,7 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Adicionar atributo",
+    "ADD_BUTTON_TEXT": "Adicionar atributos",
     "BUTTON": "Criar atributo personalizado",
     "NOT_AVAILABLE": "Não há atributos personalizados para este contato.",
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
@@ -297,7 +297,7 @@
         "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Adicionar atributo",
+        "TITLE": "Adicionar atributos",
         "PLACEHOLDER": "Procurar atributos",
         "NO_RESULT": "Nenhum atributo encontrado"
       },

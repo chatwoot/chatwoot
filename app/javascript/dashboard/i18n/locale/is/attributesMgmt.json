@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Gat ekki búið til sérsniðna eiginleika, vinsamlegast reyndu aftur síðar"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {
@@ -62,7 +62,7 @@
     },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "UPDATE_BUTTON_TEXT": "Uppfæra",
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",

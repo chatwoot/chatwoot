@@ -109,14 +109,7 @@ export default {
   flex-shrink: 0;
   overflow: hidden;
   padding: var(--space-small);
-
-  @include breakpoint(xlarge down) {
-    position: absolute;
-  }
-
-  @include breakpoint(xlarge up) {
-    position: unset;
-  }
+  position: unset;
 
   &:hover {
     overflow: auto;

@@ -66,11 +66,11 @@ export default {
     },
     sortParam: {
       type: String,
-      default: 'name',
+      default: 'last_activity_at',
     },
     sortOrder: {
       type: String,
-      default: 'asc',
+      default: 'desc',
     },
   },
   data() {

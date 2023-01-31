@@ -53,6 +53,10 @@
           "ENABLE": "Konversationen aus erwähnten Tweets erstellen"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website-Kanal",
         "DESC": "Erstellen Sie einen Kanal für Ihre Website und unterstützen Sie Ihre Kunden über unser Website-Widget.",
@@ -134,7 +138,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +189,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Telefonnummer",
             "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
           },
           "SUBMIT_BUTTON": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
           "API": {
@@ -214,7 +218,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefonnummer-ID",
@@ -547,6 +551,10 @@
         "PLACE_HOLDER": "Passwort"
       },
       "ENABLE_SSL": "SSL aktivieren"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

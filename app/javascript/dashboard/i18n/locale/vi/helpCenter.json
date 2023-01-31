@@ -20,7 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "Tất cả các bài",
       "PUBLISH_BUTTON": "Phát hành",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
+      "MOVE_TO_ARCHIVE_BUTTON": "Di chuyển đến lưu trữ",
       "PREVIEW": "Xem trước",
       "ADD_TRANSLATION": "Thêm bản dịch",
       "OPEN_SIDEBAR": "Mở thanh bên",
@@ -114,13 +114,13 @@
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Xóa cổng thông tin",
+          "MESSAGE": "Bạn có chắc chắn muốn xóa cổng thông tin này",
+          "YES": "Có, xóa cổng thông tin",
+          "NO": "Không, giữ cổng thông tin",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Đã xóa cổng thông tin thành công",
+            "DELETE_ERROR": "Lỗi khi xóa cổng thông tin"
           }
         }
       },
