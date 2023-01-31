@@ -1,6 +1,6 @@
 <template>
-  <div class="medium-12 column login">
-    <div class="text-center medium-12 login__hero align-self-top">
+  <main class="medium-12 column login">
+    <section class="text-center medium-12 login__hero align-self-top">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
@@ -11,11 +11,11 @@
           useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
         }}
       </h2>
-    </div>
-    <div class="row align-center">
+    </section>
+    <section class="row align-center">
       <div v-if="!email" class="small-12 medium-4 column">
-        <form class="login-box column align-self-top" @submit.prevent="login()">
-          <div class="column log-in-form">
+        <div class="login-box column align-self-top">
+          <form class="column log-in-form" @submit.prevent="login()">
             <label :class="{ error: $v.credentials.email.$error }">
               {{ $t('LOGIN.EMAIL.LABEL') }}
               <input
@@ -46,9 +46,24 @@
               :loading="loginApi.showLoading"
               button-class="large expanded"
             />
-          </div>
-        </form>
-        <div class="column text-center sigin__footer">
+          </form>
+          <template v-if="showGoogleOAuth()">
+            <div class="separator">
+              OR
+            </div>
+            <a :href="getGoogleAuthUrl()">
+              <button class="button large expanded button__google_login">
+                <img
+                  src="/assets/images/auth/google.svg"
+                  alt="Google Logo"
+                  class="icon"
+                />
+                {{ $t('LOGIN.OAUTH.GOOGLE_LOGIN') }}
+              </button>
+            </a>
+          </template>
+        </div>
+        <div class="text-center column sigin__footer">
           <p v-if="!globalConfig.disableUserProfileUpdate">
             <router-link to="auth/reset/password">
               {{ $t('LOGIN.FORGOT_PASSWORD') }}
@@ -62,15 +77,20 @@
         </div>
       </div>
       <woot-spinner v-else size="" />
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script>
 import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import WootSubmitButton from '../../components/buttons/FormSubmitButton';
+import WootSubmitButton from 'components/buttons/FormSubmitButton';
 import { mapGetters } from 'vuex';
+import { parseBoolean } from '@chatwoot/utils';
+
+const ERROR_MESSAGES = {
+  'oauth-no-user': 'LOGIN.OAUTH.NO_USER',
+};
 
 export default {
   components: {
@@ -83,6 +103,7 @@ export default {
     ssoConversationId: { type: String, default: '' },
     config: { type: String, default: '' },
     email: { type: String, default: '' },
+    authError: { type: String, default: '' },
   },
   data() {
     return {
@@ -119,6 +140,16 @@ export default {
     if (this.ssoAuthToken) {
       this.login();
     }
+    if (this.authError) {
+      const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
+      this.showAlert(this.$t(message));
+      // wait for idle state
+      window.requestIdleCallback(() => {
+        // Remove the error query param from the url
+        const { query } = this.$route;
+        this.$router.replace({ query: { ...query, error: undefined } });
+      });
+    }
   },
   methods: {
     showAlert(message) {
@@ -127,8 +158,34 @@ export default {
       this.loginApi.message = message;
       bus.$emit('newToastMessage', this.loginApi.message);
     },
+    getGoogleAuthUrl() {
+      // Ideally a request to /auth/google_oauth2 should be made
+      // Creating the URL manually because the devise-token-auth with
+      // omniauth has a standing issue on redirecting the post request
+      // https://github.com/lynndylanhurley/devise_token_auth/issues/1466
+      const baseUrl =
+        'https://accounts.google.com/o/oauth2/auth/oauthchooseaccount';
+      const clientId = window.chatwootConfig.googleOAuthClientId;
+      const redirectUri = window.chatwootConfig.googleOAuthCallbackUrl;
+      const responseType = 'code';
+      const scope = 'email profile';
+
+      // Build the query string
+      const queryString = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        response_type: responseType,
+        scope: scope,
+      }).toString();
+
+      // Construct the full URL
+      return `${baseUrl}?${queryString}`;
+    },
     showSignupLink() {
-      return window.chatwootConfig.signupEnabled === 'true';
+      return parseBoolean(window.chatwootConfig.signupEnabled);
+    },
+    showGoogleOAuth() {
+      return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
     login() {
       this.loginApi.showLoading = true;
@@ -172,3 +229,30 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0rem;
+  gap: 1rem;
+  color: var(--s-300);
+  font-size: var(--font-size-small);
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--s-100);
+  }
+}
+.button__google_login {
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px solid var(--s-100);
+  color: var(--b-800);
+}
+</style>

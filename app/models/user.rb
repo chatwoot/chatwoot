@@ -56,7 +56,8 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
-         :password_has_required_content
+         :password_has_required_content,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
@@ -107,7 +108,7 @@ class User < ApplicationRecord
   end
 
   def set_password_and_uid
-    self.uid = email
+    self.uid = email if provider == 'email'
   end
 
   def active_account_user
