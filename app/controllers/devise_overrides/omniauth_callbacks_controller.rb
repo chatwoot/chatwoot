@@ -1,4 +1,6 @@
 class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+  include EmailHelper
+
   def omniauth_success
     get_resource_from_auth_hash
 
@@ -43,7 +45,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def create_account_for_user
     @resource, @account = AccountBuilder.new(
-      account_name: auth_hash['info']['name'],
+      account_name: extract_domain_without_tld(auth_hash['info']['email']),
       user_full_name: auth_hash['info']['name'],
       email: auth_hash['info']['email'],
       locale: I18n.locale,
