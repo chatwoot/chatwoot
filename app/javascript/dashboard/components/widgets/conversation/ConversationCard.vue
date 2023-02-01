@@ -41,9 +41,20 @@
           {{ assignee.name }}
         </span>
       </div>
-      <h4 class="conversation--user">
-        {{ currentContact.name }}
-      </h4>
+      <div class="conversation-user--wrap">
+        <h4 class="conversation--user">
+          {{ currentContact.name }}
+        </h4>
+        <div class="conversation--meta">
+          <span class="timestamp">
+            <time-ago
+              :last-activity-timestamp="chat.timestamp"
+              :created-at-timestamp="chat.created_at"
+            />
+          </span>
+          <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
+        </div>
+      </div>
       <p v-if="lastMessageInChat" class="conversation--message">
         <fluent-icon
           v-if="isMessagePrivate"
@@ -85,15 +96,6 @@
           {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div class="conversation--meta">
-        <span class="timestamp">
-          <time-ago
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-          />
-        </span>
-        <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
-      </div>
       <card-labels :conversation-id="chat.id" />
     </div>
     <woot-context-menu
@@ -397,9 +399,6 @@ export default {
   .checkbox-wrapper {
     margin-top: var(--space-large);
   }
-  .conversation--meta {
-    margin-top: var(--space-normal);
-  }
 }
 
 .conversation--details {
@@ -419,7 +418,7 @@ export default {
 .conversation--metadata {
   display: flex;
   justify-content: space-between;
-  padding-right: var(--space-normal);
+  // padding-right: var(--space-normal);
 
   .label {
     background: none;

@@ -15,6 +15,10 @@ body {
   width: 100%;
 }
 
+.app-rtl--wrapper {
+  direction: rtl;
+}
+
 .banner + .app-wrapper {
   .button--fixed-right-top {
     top: 5.6 * $space-one;

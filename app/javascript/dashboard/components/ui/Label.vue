@@ -106,6 +106,7 @@ export default {
 
 .label {
   display: inline-flex;
+  direction: initial;
   align-items: center;
   font-weight: var(--font-weight-medium);
   margin-right: var(--space-smaller);

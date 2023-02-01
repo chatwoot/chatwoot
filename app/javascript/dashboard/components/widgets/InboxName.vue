@@ -25,16 +25,19 @@ export default {
 </script>
 <style scoped>
 .inbox--name {
+  align-items: center;
   display: inline-flex;
+  direction: initial;
   padding: var(--space-micro) 0;
   line-height: var(--space-slab);
   font-weight: var(--font-weight-medium);
   background: none;
   color: var(--s-500);
   font-size: var(--font-size-mini);
+  margin: 0 var(--space-one) 0 var(--space-one);
 }
 
 .inbox--icon {
-  margin-right: var(--space-micro);
+  margin: var(--space-micro);
 }
 </style>

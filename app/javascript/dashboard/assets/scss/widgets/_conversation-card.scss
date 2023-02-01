@@ -16,7 +16,7 @@
   border-left: $space-micro solid transparent;
   border-top: 1px solid transparent;
   cursor: pointer;
-  padding: 0 0 0 $space-normal;
+  padding: 0 $space-normal;
   position: relative;
 
   &.active {
@@ -51,13 +51,17 @@
     @include border-light-bottom;
     @include border-light-top;
     border-bottom-color: transparent;
-    margin: 0 0 0 $space-one;
     padding: $space-slab 0;
+  }
+
+  .conversation-user--wrap {
+    display: flex;
+    justify-content: space-between;
   }
 
   .conversation--user {
     font-size: $font-size-small;
-    margin-bottom: 0;
+    margin: 0 $space-normal;
     text-transform: capitalize;
 
     .label {
@@ -77,7 +81,7 @@
     font-weight: $font-weight-normal;
     height: $space-medium;
     line-height: $space-medium;
-    margin: 0;
+    margin: 0 $space-normal;
     max-width: 96%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -88,9 +92,7 @@
   .conversation--meta {
     @include flex;
     flex-direction: column;
-    position: absolute;
-    right: $space-normal;
-    top: $space-normal;
+    justify-content: center;
 
     .unread {
       $unread-size: $space-normal;

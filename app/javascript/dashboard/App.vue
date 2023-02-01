@@ -1,5 +1,10 @@
 <template>
-  <div v-if="!authUIFlags.isFetching" id="app" class="app-wrapper app-root">
+  <div
+    v-if="!authUIFlags.isFetching"
+    id="app"
+    class="app-wrapper app-root"
+    :class="{ 'app-rtl--wrapper': isRTLSupportedLanguage }"
+  >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <transition name="fade" mode="out-in">
       <router-view />
@@ -22,6 +27,8 @@ import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -56,6 +63,10 @@ export default {
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
       return accounts.length > 0;
+    },
+    isRTLSupportedLanguage() {
+      const { locale } = this.getAccount(this.currentAccountId);
+      return getLanguageDirection(locale);
     },
   },
 

@@ -155,8 +155,6 @@ export default {
 <style lang="scss" scoped>
 .search-wrap {
   position: relative;
-  padding: var(--space-one) var(--space-normal) var(--space-smaller)
-    var(--space-normal);
 }
 
 .search-header--wrap {

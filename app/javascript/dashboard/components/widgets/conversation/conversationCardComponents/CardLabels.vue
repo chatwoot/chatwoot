@@ -112,6 +112,7 @@ export default {
     flex-flow: row wrap;
 
     .label {
+      direction: initial;
       margin-bottom: var(--space-smaller);
     }
 
@@ -125,6 +126,7 @@ export default {
   }
 
   .label {
+    direction: initial;
     margin-bottom: 0;
   }
 }

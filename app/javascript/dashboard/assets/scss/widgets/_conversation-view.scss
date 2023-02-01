@@ -69,6 +69,10 @@
   @include flex;
   flex-direction: column;
 
+  .conversations-list--header {
+    padding: var(--space-one) var(--space-normal) var(--space-smaller);
+  }
+
   .load-more-conversations {
     font-size: $font-size-small;
     margin: 0;
@@ -81,8 +85,8 @@
   }
 
   .conversations-list {
-    overflow-y: auto;
     flex: 1 1;
+    overflow-y: auto;
 
     @include breakpoint(large up) {
       @include scroll-on-hover;
@@ -119,6 +123,7 @@
 
 .conversation-panel {
   @include flex;
+  direction: initial;
   flex: 1 1 1px;
   flex-direction: column;
   height: 100%;

@@ -261,6 +261,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  .button-group {
+    clip-path: inset(0% 0% 0% 0% round var(--border-radius-normal));
+
+    button {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
 }
 
 .dropdown-pane {

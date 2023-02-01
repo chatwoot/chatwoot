@@ -26,6 +26,8 @@
 }
 
 .wizard-box {
+  direction: initial;
+
   .item {
     @include background-light;
 

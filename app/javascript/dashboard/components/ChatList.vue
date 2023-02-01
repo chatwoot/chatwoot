@@ -6,79 +6,80 @@
       'list--full-width': isOnExpandedLayout,
     }"
   >
-    <slot />
-    <div
-      class="chat-list__top"
-      :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
-    >
-      <h1 class="page-title text-truncate" :title="pageTitle">
-        {{ pageTitle }}
-      </h1>
+    <div class="conversations-list--header">
+      <slot />
+      <div
+        class="chat-list__top"
+        :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
+      >
+        <h1 class="page-title text-truncate" :title="pageTitle">
+          {{ pageTitle }}
+        </h1>
 
-      <div class="filter--actions">
-        <chat-filter
-          v-if="!hasAppliedFiltersOrActiveFolders"
-          @statusFilterChange="updateStatusType"
-        />
-        <div v-if="hasAppliedFilters && !hasActiveFolders">
+        <div class="filter--actions">
+          <chat-filter
+            v-if="!hasAppliedFiltersOrActiveFolders"
+            @statusFilterChange="updateStatusType"
+          />
+          <div v-if="hasAppliedFilters && !hasActiveFolders">
+            <woot-button
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
+              size="tiny"
+              variant="smooth"
+              color-scheme="secondary"
+              icon="save"
+              @click="onClickOpenAddFoldersModal"
+            />
+            <woot-button
+              v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
+              size="tiny"
+              variant="smooth"
+              color-scheme="alert"
+              icon="dismiss-circle"
+              @click="resetAndFetchData"
+            />
+          </div>
+          <div v-if="hasActiveFolders">
+            <woot-button
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+              size="tiny"
+              variant="smooth"
+              color-scheme="alert"
+              icon="delete"
+              class="delete-custom-view__button"
+              @click="onClickOpenDeleteFoldersModal"
+            />
+          </div>
+
           <woot-button
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
-            size="tiny"
-            variant="smooth"
+            v-else
+            v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
+            variant="clear"
             color-scheme="secondary"
-            icon="save"
-            @click="onClickOpenAddFoldersModal"
-          />
-          <woot-button
-            v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="alert"
-            icon="dismiss-circle"
-            @click="resetAndFetchData"
+            icon="filter"
+            size="small"
+            class="btn-filter"
+            @click="onToggleAdvanceFiltersModal"
           />
         </div>
-        <div v-if="hasActiveFolders">
-          <woot-button
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="alert"
-            icon="delete"
-            class="delete-custom-view__button"
-            @click="onClickOpenDeleteFoldersModal"
-          />
-        </div>
-
-        <woot-button
-          v-else
-          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          variant="clear"
-          color-scheme="secondary"
-          icon="filter"
-          size="small"
-          class="btn-filter"
-          @click="onToggleAdvanceFiltersModal"
-        />
       </div>
+
+      <add-custom-views
+        v-if="showAddFoldersModal"
+        :custom-views-query="foldersQuery"
+        :open-last-saved-item="openLastSavedItemInFolder"
+        @close="onCloseAddFoldersModal"
+      />
+
+      <delete-custom-views
+        v-if="showDeleteFoldersModal"
+        :show-delete-popup.sync="showDeleteFoldersModal"
+        :active-custom-view="activeFolder"
+        :custom-views-id="foldersId"
+        :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
+        @close="onCloseDeleteFoldersModal"
+      />
     </div>
-
-    <add-custom-views
-      v-if="showAddFoldersModal"
-      :custom-views-query="foldersQuery"
-      :open-last-saved-item="openLastSavedItemInFolder"
-      @close="onCloseAddFoldersModal"
-    />
-
-    <delete-custom-views
-      v-if="showDeleteFoldersModal"
-      :show-delete-popup.sync="showDeleteFoldersModal"
-      :active-custom-view="activeFolder"
-      :custom-views-id="foldersId"
-      :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
-      @close="onCloseDeleteFoldersModal"
-    />
-
     <chat-type-tabs
       v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
