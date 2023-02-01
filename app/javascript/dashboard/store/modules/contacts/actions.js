@@ -240,6 +240,7 @@ export const actions = {
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     }
+    return [];
   },
 
   setContactFilters({ commit }, data) {
