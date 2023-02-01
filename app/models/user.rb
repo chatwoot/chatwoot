@@ -108,7 +108,7 @@ class User < ApplicationRecord
   end
 
   def set_password_and_uid
-    self.uid = email if provider == 'email'
+    self.uid = email
   end
 
   def active_account_user
