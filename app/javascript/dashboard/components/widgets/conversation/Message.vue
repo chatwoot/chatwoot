@@ -45,6 +45,9 @@
               :longitude="attachment.coordinates_long"
               :name="attachment.fallback_title"
             />
+            <instagram-image-error-placeholder
+              v-else-if="hasImageError && hasInstagramStory"
+            />
             <bubble-file v-else :url="attachment.data_url" />
           </div>
         </div>
@@ -123,7 +126,7 @@ import BubbleText from './bubble/Text';
 import BubbleVideo from './bubble/Video.vue';
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
-
+import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -141,6 +144,7 @@ export default {
     BubbleVideo,
     ContextMenu,
     Spinner,
+    instagramImageErrorPlaceholder,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
