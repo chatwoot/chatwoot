@@ -35,7 +35,7 @@
       "SUCCESS_MESSAGE": "Успешная регистрация",
       "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
     },
-    "SUBMIT": "Create account",
+    "SUBMIT": "Создать новый аккаунт",
     "HAVE_AN_ACCOUNT": "Уже есть аккаунт?"
   }
 }
