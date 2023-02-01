@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ::TextSearch do
-  subject(:text_search) { described_class.new(user_1, params) }
+  subject(:text_search) { described_class.new(current_user: user_1, current_account: account, params: params) }
 
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
@@ -35,27 +35,27 @@ describe ::TextSearch do
     context 'with text search' do
       it 'filter conversations by number' do
         params = { q: '1223' }
-        result = described_class.new(user_1, params).perform
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         expect(result[:conversations].length).to eq 2
         expect(result[:contacts].length).to eq 1
       end
 
       it 'filter message and contacts by string' do
         params = { q: 'pot' }
-        result = described_class.new(user_1, params).perform
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         expect(result[:messages].length).to be 1
         expect(result[:contacts].length).to be 2
       end
 
       it 'filter conversations by contact details' do
         params = { q: 'pot' }
-        result = described_class.new(user_1, params).perform
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         expect(result[:conversations].length).to be 1
       end
 
       it 'filter conversations by contact email' do
         params = { q: 'harry@chatwoot.com' }
-        result = described_class.new(user_1, params).perform
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         expect(result[:conversations].length).to be 1
       end
     end
