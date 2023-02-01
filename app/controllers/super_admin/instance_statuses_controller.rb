@@ -28,7 +28,7 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     r = Redis.new(Redis::Config.app)
     if r.ping == 'PONG'
       redis_server = r.info
-      @metrics['Redis alive'] = 'false'
+      @metrics['Redis alive'] = 'true'
       @metrics['Redis version'] = redis_server['redis_version']
       @metrics['Redis number of connected clients'] = redis_server['connected_clients']
       @metrics["Redis 'maxclients' setting"] = redis_server['maxclients']
