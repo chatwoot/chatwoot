@@ -8,7 +8,7 @@ class MicrosoftController < ApplicationController
   private
 
   def set_version_header
-    response.headers['Content-Length'] = {associatedApplications: [{ applicationId: @identity_json}]}.to_json.length
+    response.headers['Content-Length'] = { associatedApplications: [{ applicationId: @identity_json }] }.to_json.length
   end
 
   def microsoft_indentity
