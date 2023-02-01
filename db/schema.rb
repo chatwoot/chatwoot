@@ -679,15 +679,12 @@ ActiveRecord::Schema.define(version: 2022_12_30_113108) do
 
   create_table "pg_search_documents", force: :cascade do |t|
     t.text "content"
-    t.bigint "conversation_id"
     t.bigint "account_id"
-    t.bigint "inbox_id"
     t.string "searchable_type"
     t.bigint "searchable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_pg_search_documents_on_account_id"
-    t.index ["conversation_id"], name: "index_pg_search_documents_on_conversation_id"
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
   end
 
