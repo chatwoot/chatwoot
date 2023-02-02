@@ -32,7 +32,6 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def get_resource_from_auth_hash
     # find the user with their email instead of UID and token
-    puts auth_hash
     @resource = resource_class.where(
       email: auth_hash['info']['email']
     ).first
@@ -40,7 +39,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def validate_bussiness_account
     # return true if the user is a business account, false if it is a gmail account
-    !auth_hash['info']['email'].include?('@gmail.com')
+    !auth_hash['info']['email'].exclude?('@gmail.com')
   end
 
   def create_account_for_user
