@@ -121,7 +121,6 @@
             "
           />
           <woot-button
-            size="small"
             :disabled="$v.whatsAppInboxAPIKey.$invalid"
             @click="updateWhatsAppInboxAPIKey"
           >
