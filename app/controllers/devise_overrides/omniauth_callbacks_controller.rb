@@ -39,7 +39,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def validate_bussiness_account
     # return true if the user is a business account, false if it is a gmail account
-    !auth_hash['info']['email'].exclude?('@gmail.com')
+    auth_hash['info']['email'].exclude?('@gmail.com')
   end
 
   def create_account_for_user
