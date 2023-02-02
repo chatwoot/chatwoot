@@ -30,7 +30,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     User
   end
 
-  def get_resource_from_auth_hash
+  def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
     # find the user with their email instead of UID and token
     @resource = resource_class.where(
       email: auth_hash['info']['email']
