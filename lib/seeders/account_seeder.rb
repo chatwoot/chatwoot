@@ -94,13 +94,17 @@ class Seeders::AccountSeeder
 
   def create_messages(conversation:, messages:)
     messages.each do |message_data|
-      if message_data['message_type'] == 'incoming'
-        sender = User.find_by(email: message_data['sender']) if message_data['sender'].present?
-      else
-        sender = conversation.contact
-      end
+      sender = find_message_sender(conversation, message_data)
       conversation.messages.create!(message_data.slice('content', 'message_type').merge(account: conversation.inbox.account, sender: sender,
                                                                                         inbox: conversation.inbox))
+    end
+  end
+
+  def find_message_sender(conversation, message_data)
+    if message_data['message_type'] == 'incoming'
+      User.find_by(email: message_data['sender']) if message_data['sender'].present?
+    else
+      conversation.contact
     end
   end
 
