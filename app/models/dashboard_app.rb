@@ -33,7 +33,7 @@ class DashboardApp < ApplicationRecord
         'required' => %w[url type],
         'properties' => {
           'type' => { 'enum': ['frame'] },
-          'url' => { 'type': 'string', 'format' => 'uri' }
+          'url' => { :type => 'string', 'format' => 'uri' }
         }
       },
       'additionalProperties' => false,
