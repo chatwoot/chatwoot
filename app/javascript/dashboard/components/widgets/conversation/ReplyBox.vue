@@ -20,6 +20,7 @@
       <canned-response
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
+        class="normal-editor__canned-box"
         :search-key="mentionSearchKey"
         @click="replaceText"
       />
@@ -1045,6 +1046,7 @@ export default {
 }
 
 .reply-box__top {
+  position: relative;
   padding: 0 var(--space-normal);
   border-top: 1px solid var(--color-border);
   margin-top: -1px;
@@ -1081,5 +1083,10 @@ export default {
   ::v-deep p:last-child {
     margin-bottom: 0;
   }
+}
+
+.normal-editor__canned-box {
+  width: calc(100% - 2 * var(--space-normal));
+  left: var(--space-normal);
 }
 </style>
