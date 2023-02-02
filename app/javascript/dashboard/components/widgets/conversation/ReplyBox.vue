@@ -20,6 +20,7 @@
       <canned-response
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
+        class="normal-editor__canned-box"
         :search-key="mentionSearchKey"
         @click="replaceText"
       />
@@ -236,6 +237,7 @@ export default {
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
       showMentions: false,
+      showUserMentions: false,
       showCannedMenu: false,
       showVariablesMenu: false,
     };
@@ -631,6 +633,7 @@ export default {
     },
     isAValidEvent(selectedKey) {
       return (
+        !this.showUserMentions &&
         !this.showMentions &&
         !this.showCannedMenu &&
         !this.showVariablesMenu &&
@@ -652,7 +655,7 @@ export default {
       });
     },
     toggleUserMention(currentMentionState) {
-      this.showMentions = currentMentionState;
+      this.showUserMentions = currentMentionState;
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
@@ -1043,6 +1046,7 @@ export default {
 }
 
 .reply-box__top {
+  position: relative;
   padding: 0 var(--space-normal);
   border-top: 1px solid var(--color-border);
   margin-top: -1px;
@@ -1079,5 +1083,10 @@ export default {
   ::v-deep p:last-child {
     margin-bottom: 0;
   }
+}
+
+.normal-editor__canned-box {
+  width: calc(100% - 2 * var(--space-normal));
+  left: var(--space-normal);
 }
 </style>
