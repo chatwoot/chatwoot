@@ -14,6 +14,16 @@
           <h3 class="sub-block-title contact--name">
             {{ contact.name }}
           </h3>
+          <fluent-icon
+            v-if="contact.created_at"
+            v-tooltip="
+              `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
+                contact.created_at
+              )}`
+            "
+            icon="info"
+            size="14"
+          />
           <a
             :href="contactProfileLink"
             class="fs-default"
@@ -28,10 +38,7 @@
             />
           </a>
         </div>
-        <p v-if="contact.created_at">
-          {{ $t('CONTACT_PANEL.CREATED_AT_LABEL') }}
-          {{ dynamicTime(contact.created_at) }}
-        </p>
+
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
         </p>
