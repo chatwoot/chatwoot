@@ -78,5 +78,26 @@ describe ::Messages::MessageBuilder do
         end
       end
     end
+
+    context 'when email channel messages' do
+      let!(:channel_email) { create(:channel_email, account: account) }
+      let(:inbox_member) { create(:inbox_member, inbox: channel_email.inbox) }
+      let(:conversation) { create(:conversation, inbox: channel_email.inbox, account: account) }
+      let(:params) do
+        ActionController::Parameters.new({ cc_emails: 'test_cc_mail@test.com', bcc_emails: 'test_bcc_mail@test.com' })
+      end
+
+      it 'creates message with content_attributes for cc and bcc email addresses' do
+        message = message_builder
+
+        expect(message.content_attributes[:cc_emails]).to eq [params[:cc_emails]]
+        expect(message.content_attributes[:bcc_emails]).to eq [params[:bcc_emails]]
+      end
+
+      it 'does not create message with wrong cc and bcc email addresses' do
+        params = ActionController::Parameters.new({ cc_emails: 'test.com', bcc_emails: 'test_bcc.com' })
+        expect { described_class.new(user, conversation, params).perform }.to raise_error 'Invalid email address'
+      end
+    end
   end
 end
