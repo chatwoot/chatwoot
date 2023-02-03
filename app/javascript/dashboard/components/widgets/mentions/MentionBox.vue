@@ -8,7 +8,6 @@
         @mouseover="onHover(index)"
       >
         <woot-button
-          size="small"
           class="canned-item__button"
           :variant="index === selectedIndex ? '' : 'clear'"
           :class="{ active: index === selectedIndex }"
@@ -107,6 +106,8 @@ export default {
 
   .button {
     transition: none;
+    height: var(--space-large);
+    line-height: 1.4;
   }
 }
 
