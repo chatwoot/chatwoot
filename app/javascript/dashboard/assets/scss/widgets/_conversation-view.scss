@@ -70,7 +70,7 @@
   flex-direction: column;
 
   .conversations-list--header {
-    padding: var(--space-one) var(--space-normal) var(--space-smaller);
+    padding: var(--space-one) var(--space-normal) 0;
   }
 
   .load-more-conversations {
@@ -97,11 +97,10 @@
     @include flex;
     align-items: center;
     justify-content: space-between;
-    padding: $zero $zero $space-micro;
+    padding: $space-smaller $zero $space-micro;
 
     .page-title {
       margin-bottom: $zero;
-      margin-left: $space-normal;
     }
 
     .status--filter {

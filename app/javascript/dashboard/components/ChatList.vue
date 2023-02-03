@@ -819,6 +819,7 @@ export default {
 }
 
 .conversations-list-wrap {
+  border-right: 1px solid var(--color-border);
   flex-shrink: 0;
   flex-basis: clamp(32rem, 4vw + 34rem, 44rem);
   overflow: hidden;
