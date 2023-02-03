@@ -22,6 +22,8 @@ class Contacts::ContactableInboxesService
       api_contactable_inbox(inbox)
     when 'Channel::WebWidget'
       website_contactable_inbox(inbox)
+    when 'Channel::Xmpp'
+      xmpp_contactable_inbox(inbox)
     end
   end
 
@@ -69,5 +71,11 @@ class Contacts::ContactableInboxesService
     when 'whatsapp'
       { source_id: "whatsapp:#{@contact.phone_number}", inbox: inbox }
     end
+  end
+
+  def xmpp_contactable_inbox(inbox)
+    return if @contact.custom_attributes["jid"].blank?
+
+    { source_id: @contact.custom_attributes["jid"], inbox: inbox }
   end
 end

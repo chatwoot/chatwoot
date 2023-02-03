@@ -21,6 +21,8 @@ class ContactInboxBuilder
       email_source_id
     when 'Channel::Sms'
       phone_source_id
+    when 'Channel::Xmpp'
+      xmpp_source_id
     when 'Channel::Api', 'Channel::WebWidget'
       SecureRandom.uuid
     else
@@ -56,6 +58,12 @@ class ContactInboxBuilder
     when 'whatsapp'
       "whatsapp:#{@contact.phone_number}"
     end
+  end
+
+  def xmpp_source_id
+    raise ActionController::ParameterMissing, 'contact jid' unless @contact.custom_attributes["jid"]
+
+    @contact.custom_attributes["jid"]
   end
 
   def create_contact_inbox
