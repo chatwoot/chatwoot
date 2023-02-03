@@ -24,18 +24,18 @@
       :class="`dropdown-pane--${menuPosition}`"
     >
       <woot-dropdown-menu>
+        <woot-dropdown-item v-if="showDelete">
+          <woot-button
+            variant="clear"
+            color-scheme="alert"
+            size="small"
+            icon="delete"
+            @click="handleDelete"
+          >
+            {{ $t('CONVERSATION.CONTEXT_MENU.DELETE') }}
+          </woot-button>
+        </woot-dropdown-item>
         <woot-dropdown-item v-if="showCopy">
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="alert"
-              size="small"
-              icon="delete"
-              @click="handleDelete"
-            >
-              {{ $t('CONVERSATION.CONTEXT_MENU.DELETE') }}
-            </woot-button>
-          </woot-dropdown-item>
           <woot-button
             variant="clear"
             size="small"
@@ -46,10 +46,8 @@
             {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
           </woot-button>
         </woot-dropdown-item>
-
-        <woot-dropdown-item>
+        <woot-dropdown-item v-if="showCannedResponseOption">
           <woot-button
-            v-if="showCannedResponseOption"
             variant="clear"
             size="small"
             icon="comment-add"
@@ -91,6 +89,10 @@ export default {
       default: false,
     },
     showCopy: {
+      type: Boolean,
+      default: false,
+    },
+    showDelete: {
       type: Boolean,
       default: false,
     },
