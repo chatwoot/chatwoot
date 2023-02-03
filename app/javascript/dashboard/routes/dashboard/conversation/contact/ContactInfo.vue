@@ -1,13 +1,21 @@
 <template>
   <div class="contact--profile">
     <div class="contact--info">
-      <thumbnail
-        v-if="showAvatar"
-        :src="contact.thumbnail"
-        size="56px"
-        :username="contact.name"
-        :status="contact.availability_status"
-      />
+      <div class="contact-info--header">
+        <thumbnail
+          v-if="showAvatar"
+          :src="contact.thumbnail"
+          size="56px"
+          :username="contact.name"
+          :status="contact.availability_status"
+        />
+        <woot-button
+          :icon="closeIconName"
+          class="clear secondary"
+          :class="{ 'close-button--rtl': isRTLView }"
+          @click="onPanelToggle"
+        />
+      </div>
 
       <div class="contact--details">
         <div v-if="showAvatar" class="contact--name-wrap">
@@ -159,6 +167,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
 import { getCountryFlag } from 'dashboard/helper/flag';
+import directionMixin from 'shared/mixins/directionMixin';
 
 export default {
   components: {
@@ -169,7 +178,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin, clickaway],
+  mixins: [alertMixin, adminMixin, clickaway, directionMixin],
   props: {
     contact: {
       type: Object,
@@ -182,6 +191,10 @@ export default {
     showAvatar: {
       type: Boolean,
       default: true,
+    },
+    closeIconName: {
+      type: String,
+      default: 'chevron-right',
     },
   },
   data() {
@@ -248,6 +261,9 @@ export default {
       this.showConversationModal = false;
       this.showEditModal = false;
     },
+    onPanelToggle() {
+      this.$emit('toggle-panel');
+    },
     findCountryFlag(countryCode, cityAndCountry) {
       try {
         const countryFlag = countryCode ? getCountryFlag(countryCode) : '🌎';
@@ -299,6 +315,16 @@ export default {
   text-align: left;
 }
 
+.contact-info--header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.close-button--rtl {
+  transform: rotate(180deg);
+}
+
 .contact--name-wrap {
   display: flex;
   align-items: center;
@@ -335,10 +361,11 @@ export default {
     margin-right: var(--space-small);
   }
 }
-.merege-summary--card {
+.merge-summary--card {
   padding: var(--space-normal);
 }
 .contact--bio {
+  direction: initial;
   word-wrap: break-word;
 }
 

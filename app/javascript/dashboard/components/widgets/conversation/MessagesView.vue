@@ -22,6 +22,7 @@
         size="tiny"
         color-scheme="secondary"
         class="sidebar-toggle--button"
+        :class="{ 'sidebar-toggle-button--rtl': isRTLView }"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
@@ -102,6 +103,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import directionMixin from 'shared/mixins/directionMixin';
 
 export default {
   components: {
@@ -109,7 +111,7 @@ export default {
     ReplyBox,
     Banner,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins, directionMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -453,6 +455,9 @@ export default {
     border: 1px solid var(--color-border-light);
     border-right: 0;
     box-sizing: border-box;
+  }
+  .sidebar-toggle-button--rtl {
+    transform: rotate(180deg);
   }
 }
 </style>

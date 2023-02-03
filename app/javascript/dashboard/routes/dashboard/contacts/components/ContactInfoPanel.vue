@@ -3,13 +3,12 @@
     class="small-12 medium-3 bg-white contact--panel"
     :class="{ 'border-left': showAvatar }"
   >
-    <span v-if="showAvatar" class="close-button" @click="onClose">
-      <fluent-icon icon="dismiss" class="close-icon" />
-    </span>
     <contact-info
       :show-avatar="showAvatar"
       :contact="contact"
+      close-icon-name="dismiss"
       @panel-close="onClose"
+      @toggle-panel="onClose"
     />
     <draggable
       :list="contactSidebarItems"
@@ -161,19 +160,6 @@ export default {
 .list-group {
   .list-group-item {
     background-color: var(--white);
-  }
-}
-
-.close-button {
-  position: absolute;
-  right: var(--space-normal);
-  top: 3.6rem;
-  font-size: var(--font-size-big);
-  color: var(--s-500);
-  z-index: 1;
-
-  .close-icon {
-    margin-right: var(--space-smaller);
   }
 }
 

@@ -124,10 +124,12 @@ import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 const semver = require('semver');
 
 export default {
-  mixins: [accountMixin, alertMixin, configMixin],
+  mixins: [accountMixin, alertMixin, configMixin, uiSettingsMixin],
   data() {
     return {
       id: '',
@@ -250,10 +252,18 @@ export default {
         });
         this.$root.$i18n.locale = this.locale;
         this.getAccount(this.id).locale = this.locale;
+        this.updateDirectionView(this.locale);
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
+    },
+
+    updateDirectionView(locale) {
+      const isRTLSupported = getLanguageDirection(locale);
+      this.updateUISettings({
+        rtl_view: isRTLSupported,
+      });
     },
   },
 };

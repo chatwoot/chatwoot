@@ -10,7 +10,11 @@
       {{ account.name }}
     </p>
     <transition name="fade">
-      <div v-if="showSwitchButton" class="account-context--switch-group">
+      <div
+        v-if="showSwitchButton"
+        class="account-context--switch-group"
+        :class="{ 'account-context--switch-group--rtl': isRTLView }"
+      >
         <woot-button
           variant="clear"
           size="tiny"
@@ -26,7 +30,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import directionMixin from 'shared/mixins/directionMixin';
+
 export default {
+  mixins: [directionMixin],
   data() {
     return { showSwitchButton: false };
   },
@@ -69,7 +76,7 @@ export default {
 }
 
 .switch-button {
-  margin-right: var(--space-small);
+  margin: 0 var(--space-small);
 }
 
 .account-context--switch-group {
@@ -93,6 +100,16 @@ export default {
   right: 0;
   top: 0;
   width: 100%;
+}
+
+.account-context--switch-group--rtl {
+  --overlay-shadow: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 50%
+  );
+
+  background-image: var(--overlay-shadow);
 }
 
 .fade-enter-active,
