@@ -3,6 +3,7 @@
     <div
       v-on-clickaway="closeNotificationPanel"
       class="notification-wrap flex-space-between"
+      :class="{ 'notification-wrap--rtl': isRTLView }"
     >
       <div class="header-wrap w-full flex-space-between">
         <div class="header-title--wrap flex-view">
@@ -111,12 +112,13 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 
 import NotificationPanelList from './NotificationPanelList';
+import directionMixin from 'shared/mixins/directionMixin';
 
 export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, directionMixin],
   data() {
     return {
       pageSize: 15,
@@ -249,6 +251,12 @@ export default {
   left: var(--space-jumbo);
   margin: var(--space-small);
 }
+
+.notification-wrap--rtl {
+  left: 0;
+  right: var(--space-jumbo);
+}
+
 .header-wrap {
   flex-direction: row;
   align-items: center;

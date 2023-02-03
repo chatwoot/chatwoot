@@ -50,6 +50,7 @@ export default {
 }
 
 .badge {
+  direction: initial;
   position: absolute;
   right: var(--space-minus-smaller);
   top: var(--space-minus-smaller);

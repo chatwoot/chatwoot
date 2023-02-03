@@ -108,6 +108,7 @@
 
       <woot-submit-button
         class="button nice success button--fixed-right-top"
+        :class="{ 'button--fixed-left-top': isRTLView }"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
         :loading="isUpdating"
       />
@@ -126,10 +127,17 @@ import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import directionMixin from 'shared/mixins/directionMixin';
 const semver = require('semver');
 
 export default {
-  mixins: [accountMixin, alertMixin, configMixin, uiSettingsMixin],
+  mixins: [
+    accountMixin,
+    alertMixin,
+    configMixin,
+    uiSettingsMixin,
+    directionMixin,
+  ],
   data() {
     return {
       id: '',

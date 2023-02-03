@@ -1,4 +1,4 @@
-$default-button-height: 4.0rem;
+$default-button-height: 4rem;
 
 .button {
   align-items: center;
@@ -14,16 +14,16 @@ $default-button-height: 4.0rem;
     padding: 0 var(--space-small);
   }
 
-  .icon--emoji+.button__content {
+  .icon--emoji + .button__content {
     padding-left: var(--space-small);
   }
 
-  .icon--font+.button__content {
+  .icon--font + .button__content {
     padding-left: var(--space-small);
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon+.button__content {
+  .icon + .button__content {
     padding-left: var(--space-small);
     width: auto;
   }
@@ -50,22 +50,22 @@ $default-button-height: 4.0rem;
 
     &.secondary {
       border-color: var(--s-200);
-      color: var(--s-700)
+      color: var(--s-700);
     }
 
     &.success {
       border-color: var(--s-200);
-      color: var(--g-700)
+      color: var(--g-700);
     }
 
     &.alert {
       border-color: var(--s-200);
-      color: var(--r-700)
+      color: var(--r-700);
     }
 
     &.warning {
       border-color: var(--s-200);
-      color: var(--y-700)
+      color: var(--y-700);
     }
 
     &:hover {
@@ -94,7 +94,6 @@ $default-button-height: 4.0rem;
   &.smooth {
     @include button-style(var(--w-50), var(--w-100), var(--w-700));
 
-
     &.secondary {
       @include button-style(var(--s-50), var(--s-100), var(--s-700));
     }
@@ -116,19 +115,19 @@ $default-button-height: 4.0rem;
     color: var(--w-700);
 
     &.secondary {
-      color: var(--s-700)
+      color: var(--s-700);
     }
 
     &.success {
-      color: var(--g-700)
+      color: var(--g-700);
     }
 
     &.alert {
-      color: var(--r-700)
+      color: var(--r-700);
     }
 
     &.warning {
-      color: var(--y-700)
+      color: var(--y-700);
     }
 
     &:hover {
@@ -156,7 +155,7 @@ $default-button-height: 4.0rem;
   &.tiny {
     height: var(--space-medium);
 
-    .icon+.button__content {
+    .icon + .button__content {
       padding-left: var(--space-micro);
     }
   }
@@ -166,7 +165,7 @@ $default-button-height: 4.0rem;
     padding-bottom: var(--space-smaller);
     padding-top: var(--space-smaller);
 
-    .icon+.button__content {
+    .icon + .button__content {
       padding-left: var(--space-smaller);
     }
   }
@@ -203,13 +202,18 @@ $default-button-height: 4.0rem;
       text-decoration: underline;
     }
   }
-
 }
-
 
 // @TDOD move to utility file
 .button--fixed-right-top {
   position: fixed;
   right: $space-small;
+  top: $space-small;
+}
+
+.button--fixed-left-top {
+  left: $space-small;
+  position: fixed;
+  right: unset;
   top: $space-small;
 }

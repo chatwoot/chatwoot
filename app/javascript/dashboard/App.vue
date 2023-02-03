@@ -3,7 +3,7 @@
     v-if="!authUIFlags.isFetching"
     id="app"
     class="app-wrapper app-root"
-    :class="{ 'app-rtl--wrapper': isRTLSupportedLanguage }"
+    :class="{ 'app-rtl--wrapper': isRTLView }"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <transition name="fade" mode="out-in">
@@ -27,7 +27,7 @@ import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import directionMixin from 'shared/mixins/directionMixin';
 
 import {
   registerSubscription,
@@ -44,6 +44,7 @@ export default {
     UpdateBanner,
     WootSnackbarBox,
   },
+  mixins: [directionMixin],
 
   data() {
     return {
@@ -63,10 +64,6 @@ export default {
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
       return accounts.length > 0;
-    },
-    isRTLSupportedLanguage() {
-      const { locale } = this.getAccount(this.currentAccountId);
-      return getLanguageDirection(locale);
     },
   },
 
