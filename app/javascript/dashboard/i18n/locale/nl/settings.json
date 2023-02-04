@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopiëren",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Code succesvol naar het klembord gekopieerd "
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
