@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "อีเมล์",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "อีเมล์ที่ใช้สำหรับลูกค้าที่จะส่งข้อความตั๋วช่วยเหลือ",
           "PLACEHOLDER": "อีเมล์"
         },
         "SUBMIT_BUTTON": "สร้างช่องอีเมล์",
