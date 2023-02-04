@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopyala",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
