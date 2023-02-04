@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-mail",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "E-mail, na ktorý vám zákazníci posielajú podporné tikety",
           "PLACEHOLDER": "E-mail"
         },
         "SUBMIT_BUTTON": "Vytvoriť e-mailový kanál",
