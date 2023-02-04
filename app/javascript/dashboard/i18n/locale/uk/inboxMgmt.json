@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Пишіть куди клієнти відправляють вам квитки підтримки",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Створити Канал E-mail",
