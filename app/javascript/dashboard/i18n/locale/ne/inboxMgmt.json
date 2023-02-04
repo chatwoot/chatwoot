@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Email where your customers sends you support tickets",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Create Email Channel",
