@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Το Email στο οποίο οι πελάτες σας θα στέλνουν αιτήματα υποστήριξης",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Δημιουργία Καναλιού Email",
