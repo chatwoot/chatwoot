@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopiér",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Kode kopieret til udklipsholder med succes"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Vis Mere",
