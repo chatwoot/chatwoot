@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-Posta",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Müşterilerinizin size destek gönderdiği e-posta",
           "PLACEHOLDER": "E-Posta"
         },
         "SUBMIT_BUTTON": "E-posta Kanalı Oluşturun",
