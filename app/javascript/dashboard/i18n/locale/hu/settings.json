@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Másolás",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Vágólapra másolva"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
