@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Kirim email ke tempat pelanggan Anda mengirimkan tiket dukungan",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Buat Channel Email",
