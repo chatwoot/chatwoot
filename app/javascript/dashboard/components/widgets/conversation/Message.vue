@@ -105,7 +105,8 @@
         v-if="isBubble && !isMessageDeleted"
         :is-open="showContextMenu"
         :show-copy="hasText"
-        :show-canned-response-option="isOutgoing"
+        :show-delete="hasTextOrAttachment"
+        :show-canned-response-option="isOutgoing && hasText"
         :menu-position="contextMenuPosition"
         :message-content="data.content"
         @toggle="handleContextMenuClick"
@@ -307,6 +308,9 @@ export default {
     },
     hasText() {
       return !!this.data.content;
+    },
+    hasTextOrAttachment() {
+      return this.hasText || this.data.attachments.length > 0;
     },
     tooltipForSender() {
       const name = this.senderNameForAvatar;

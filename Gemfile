@@ -107,12 +107,7 @@ gem 'sidekiq-cron', '~> 1.3'
 
 ##-- Push notification service --##
 gem 'fcm'
-
-# Ref: https://github.com/mastodon/mastodon/pull/18449
-# ref: https://github.com/zaru/webpush/pull/106
-# lets switch to web-push gem once the above PR is merged
-# https://github.com/zaru/webpush/pull/106#issuecomment-1342925261
-gem 'webpush', git: 'https://github.com/ClearlyClaire/webpush.git', ref: 'f14a4d52e201128b1b00245d11b6de80d6cfdcd9'
+gem 'web-push'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
