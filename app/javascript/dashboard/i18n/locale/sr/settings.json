@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopiraj",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Kod je uspešno kopiran na beležnicu"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Prikaži više",
