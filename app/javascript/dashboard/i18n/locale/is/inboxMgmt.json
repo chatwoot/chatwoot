@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Netfang",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Tölvupóstur þar sem viðskiptavinir þínir senda þér þjónustubeiðnir",
           "PLACEHOLDER": "Netfang"
         },
         "SUBMIT_BUTTON": "Skrá Tölvupóst Rás",
