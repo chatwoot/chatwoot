@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "이메일",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "고객이 지원 티켓을 보내는 이메일",
           "PLACEHOLDER": "이메일"
         },
         "SUBMIT_BUTTON": "이메일 채널 만들기",
