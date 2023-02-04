@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "ایمیل",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "آدرس ایمیلی که مشتریان درخواست پشتیبانی را برای شما ارسال کنند",
           "PLACEHOLDER": "ایمیل"
         },
         "SUBMIT_BUTTON": "ایجاد کانال ایمیل",
