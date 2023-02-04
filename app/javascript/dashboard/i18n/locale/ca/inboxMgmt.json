@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Correu electrònic",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Correu electrònic on els vostres clients us envien tickets de support",
           "PLACEHOLDER": "Correu electrònic"
         },
         "SUBMIT_BUTTON": "Crea un correu electrònic del Canal",
@@ -674,7 +674,7 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "OFFLINE": "Estem fora en aquest moment"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
