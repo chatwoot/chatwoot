@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopírovat",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Kód byl úspěšně zkopírován do schránky"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
