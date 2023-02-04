@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Копировать",
-      "COPY_SUCCESSFUL": "Скопировано в буфер обмена"
+      "COPY_SUCCESSFUL": "Код скопирован в буфер обмена"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Показать больше",
