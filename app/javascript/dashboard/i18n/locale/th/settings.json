@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "คัดลอก",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "คัดลอกไปยังคลิปบอร์ดเเล้ว"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "แสดงเพิ่มเติม",
