@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiar",
-      "COPY_SUCCESSFUL": "Copiado para a área de transferência"
+      "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mostrar Mais",
