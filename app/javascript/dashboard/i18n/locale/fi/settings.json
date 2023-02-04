@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopioi",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "Koodi kopioitu leikepöydälle onnistuneesti"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
