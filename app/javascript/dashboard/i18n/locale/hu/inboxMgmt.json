@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-mail",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Az e-mail ahova az ügyfeled a támogatási kérelmeit küldi",
           "PLACEHOLDER": "E-mail"
         },
         "SUBMIT_BUTTON": "E-mail csatorna létrehozása",
