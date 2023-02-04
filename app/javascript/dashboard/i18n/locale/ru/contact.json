@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Начат из",
     "INITIATED_AT": "Начат в",
     "IP_ADDRESS": "IP адрес",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Новое сообщение",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Номер телефона",
         "CONVERSATIONS": "Диалоги",
         "LAST_ACTIVITY": "Последние действия",
+        "CREATED_AT": "Дата создания",
         "COUNTRY": "Страна",
         "CITY": "Город",
         "SOCIAL_PROFILES": "Профили в соц. сетях",
