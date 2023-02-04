@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Initiated from",
     "INITIATED_AT": "Initiated at",
     "IP_ADDRESS": "ที่อยู่ไอพี",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "ข้อความใหม่",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ไม่มีการสนทนาก่อนหน้านี้ที่เชื่อมโยงกับผู้ติดต่อนี้",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "หมายเลขโทรศัพท์",
         "CONVERSATIONS": "การสนทนา",
         "LAST_ACTIVITY": "ล่าสุดเมื่อ",
+        "CREATED_AT": "สร้างเมื่อ",
         "COUNTRY": "ประเทศ",
         "CITY": "เมือง",
         "SOCIAL_PROFILES": "โปรไฟล์โซเชียล",
