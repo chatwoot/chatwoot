@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "البريد الإلكتروني",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "البريد الإلكتروني حيث يرسل عملاؤك تذاكر الدعم",
           "PLACEHOLDER": "البريد الإلكتروني"
         },
         "SUBMIT_BUTTON": "إنشاء قناة البريد الإلكتروني",
