@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Sähköposti",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Sähköposti, johon asiakkaasi lähettää viestit",
           "PLACEHOLDER": "Sähköposti"
         },
         "SUBMIT_BUTTON": "Luo sähköpostikanava",
