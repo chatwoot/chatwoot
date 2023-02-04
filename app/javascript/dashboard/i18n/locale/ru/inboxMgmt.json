@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Email куда ваши клиенты пишут запросы",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Создать источник email",
