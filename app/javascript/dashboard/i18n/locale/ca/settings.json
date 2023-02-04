@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copia",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "El codi s'ha copiat al porta-retalls amb èxit"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
