@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopieren",
-      "COPY_SUCCESSFUL": "In Zwischenablage kopiert"
+      "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mehr zeigen",
