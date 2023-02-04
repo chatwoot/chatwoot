@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "אימייל",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "אימייל לאן הלקוחות שלך שולחים לך כרטיסי תמיכה",
           "PLACEHOLDER": "אימייל"
         },
         "SUBMIT_BUTTON": "צור ערוץ דוא\"ל",
