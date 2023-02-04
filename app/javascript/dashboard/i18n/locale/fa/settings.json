@@ -162,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "کپی",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "COPY_SUCCESSFUL": "کد به حافظه کپی شد"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "نمایش بیشتر",
