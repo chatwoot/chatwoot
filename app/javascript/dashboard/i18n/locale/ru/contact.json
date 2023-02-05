@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Начат из",
     "INITIATED_AT": "Начат в",
     "IP_ADDRESS": "IP адрес",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
