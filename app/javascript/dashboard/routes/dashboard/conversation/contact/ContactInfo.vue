@@ -22,6 +22,16 @@
           <h3 class="sub-block-title contact--name">
             {{ contact.name }}
           </h3>
+          <fluent-icon
+            v-if="contact.created_at"
+            v-tooltip="
+              `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
+                contact.created_at
+              )}`
+            "
+            icon="info"
+            size="14"
+          />
           <a
             :href="contactProfileLink"
             class="fs-default"
@@ -36,6 +46,7 @@
             />
           </a>
         </div>
+
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
         </p>
@@ -155,7 +166,7 @@
 </template>
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-
+import timeMixin from 'dashboard/mixins/time';
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
@@ -178,7 +189,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin, clickaway, directionMixin],
+  mixins: [alertMixin, adminMixin, clickaway, timeMixin, directionMixin],
   props: {
     contact: {
       type: Object,
