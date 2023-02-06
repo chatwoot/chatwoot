@@ -63,6 +63,9 @@
       :is-loading="isSignupInProgress"
       icon="arrow-chevron-right"
     />
+    <GoogleOAuthButton v-if="showGoogleOAuth()">
+      {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
+    </GoogleOAuthButton>
     <p v-dompurify-html="termsLink" class="accept--terms" />
   </form>
 </template>
@@ -78,6 +81,7 @@ import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import AuthInput from '../AuthInput.vue';
 import AuthSubmitButton from '../AuthSubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
+import GoogleOAuthButton from '../../../../components/ui/Auth/GoogleOAuthButton.vue';
 var CompanyEmailValidator = require('company-email-validator');
 
 export default {
@@ -85,6 +89,7 @@ export default {
     AuthInput,
     AuthSubmitButton,
     VueHcaptcha,
+    GoogleOAuthButton,
   },
   mixins: [globalConfigMixin, alertMixin],
   data() {
@@ -183,6 +188,9 @@ export default {
       this.credentials.hCaptchaClientResponse = token;
       this.didCaptchaReset = false;
     },
+    showGoogleOAuth() {
+      return Boolean(window.chatwootConfig.googleOAuthClientId);
+    },
     resetCaptcha() {
       if (!this.globalConfig.hCaptchaSiteKey) {
         return;
@@ -213,5 +221,21 @@ export default {
 
 .accept--terms {
   margin: var(--space-normal) 0 var(--space-smaller) 0;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0rem;
+  gap: 1rem;
+  color: var(--s-300);
+  font-size: var(--font-size-small);
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--s-100);
+  }
 }
 </style>
