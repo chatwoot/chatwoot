@@ -21,7 +21,7 @@ export default {
   props: {
     showSeparator: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   methods: {
