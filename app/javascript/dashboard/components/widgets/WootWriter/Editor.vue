@@ -27,6 +27,7 @@ import {
 import {
   suggestionsPlugin,
   triggerCharacters,
+  imageUploadPlugin,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 import { EditorState, Selection } from 'prosemirror-state';
 import { defaultMarkdownParser } from 'prosemirror-markdown';
@@ -98,6 +99,11 @@ export default {
       }
 
       return [
+        imageUploadPlugin({
+          upload: this.uploadImage,
+          onUploadStart: this.onUploadStart,
+          onUploadStop: this.onUploadStop,
+        }),
         suggestionsPlugin({
           matcher: triggerCharacters('@'),
           onEnter: args => {
@@ -200,6 +206,13 @@ export default {
     this.focusEditorInputField();
   },
   methods: {
+    onImageUploadStart() {
+      // Start Uploading the iamge here
+      this.$emit('image-upload-start');
+    },
+    onImageUploadStop() {
+      // append the image to the editor
+    },
     reloadState() {
       this.state = createState(this.value, this.placeholder, this.plugins);
       this.editorView.updateState(this.state);
