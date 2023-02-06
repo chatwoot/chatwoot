@@ -1,10 +1,10 @@
 <template>
   <div class="file flex flex-row items-center p-3 cursor-pointer">
-    <div class="icon-wrap" :style="{ color: textColor }">
+    <div class="icon-wrap">
       <fluent-icon icon="document" size="28" />
     </div>
     <div class="meta">
-      <div class="title" :style="{ color: textColor }">
+      <div class="title dark:text-slate-50">
         {{ title }}
       </div>
       <div class="link-wrap mb-1">
@@ -12,7 +12,6 @@
           class="download"
           rel="noreferrer noopener nofollow"
           target="_blank"
-          :style="{ color: textColor }"
           :href="url"
         >
           {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
@@ -24,12 +23,13 @@
 
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { getContrastingTextColor } from '@chatwoot/utils';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {
     FluentIcon,
   },
+  mixins: [darkModeMixin],
   props: {
     url: {
       type: String,
@@ -52,9 +52,6 @@ export default {
     },
     fileName() {
       return this.url.substring(this.url.lastIndexOf('/') + 1);
-    },
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
     },
   },
   methods: {
