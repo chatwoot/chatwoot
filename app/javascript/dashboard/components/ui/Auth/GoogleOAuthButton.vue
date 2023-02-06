@@ -48,9 +48,6 @@ export default {
       // Construct the full URL
       return `${baseUrl}?${queryString}`;
     },
-    showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
-    },
   },
 };
 </script>
