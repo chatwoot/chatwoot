@@ -39,7 +39,7 @@ class Message < ApplicationRecord
 
   multisearchable(
     against: [:content],
-    if: :allowed_message_types?,
+    if: :searchable_message_types?,
     additional_attributes: ->(message) { { account_id: message.account_id } }
   )
 
@@ -174,11 +174,6 @@ class Message < ApplicationRecord
     true
   end
 
-  # NOTE: To add multi search records with jobs based on account_id filter and conversation_id and adding the mesage content upto 500_000 Bytes
-  def self.rebuild_pg_search_documents(account_id)
-    return super unless name == 'Message'
-  end
-
   private
 
   def ensure_content_type
@@ -290,9 +285,5 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def allowed_message_types?
-    incoming? || outgoing?
   end
 end
