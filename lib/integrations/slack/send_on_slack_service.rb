@@ -36,8 +36,21 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     if conversation.identifier.present?
       "#{private_indicator}#{message.content}"
     else
-      "\n*Inbox:* #{message.inbox.name} (#{message.inbox.inbox_type})\n\n#{message.content}"
+      "#{formatted_inbox_name}#{email_subject_line}\n#{message.content}"
     end
+  end
+
+  def formatted_inbox_name
+    "\n*Inbox:* #{message.inbox.name} (#{message.inbox.inbox_type})\n"
+  end
+
+  def email_subject_line
+    return '' unless message.inbox.email?
+
+    email_payload = message.content_attributes['email']
+    return "*Subject:* #{email_payload['subject']}\n\n" if email_payload.present? && email_payload['subject'].present?
+
+    ''
   end
 
   def avatar_url(sender)
