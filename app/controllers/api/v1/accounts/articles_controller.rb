@@ -15,7 +15,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     @article = @portal.articles.create!(article_params)
     @article.associate_root_article(article_params[:associated_article_id])
     @article.draft!
-    process_attached_background_image
     render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
 
@@ -25,7 +24,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def update
     @article.update!(article_params) if params[:article].present?
-    process_attached_background_image
+    render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
 
   def destroy
@@ -40,16 +39,11 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
       filename: params[:background_image].original_filename,
       content_type: params[:background_image].content_type
     )
-    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
+    file_blob.save!
+    render json: { file_url: url_for(file_blob) }
   end
 
   private
-
-  def process_attached_background_image
-    blob_id = params[:blob_id]
-    blob = ActiveStorage::Blob.find_by(id: blob_id)
-    @article.background_image.attach(blob)
-  end
 
   def fetch_article
     @article = @portal.articles.find(params[:id])
