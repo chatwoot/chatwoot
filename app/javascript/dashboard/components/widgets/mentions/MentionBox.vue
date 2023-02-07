@@ -83,6 +83,7 @@ export default {
   border-radius: var(--border-radius-normal);
   border-top: 1px solid var(--color-border);
   box-shadow: var(--shadow-medium);
+  direction: initial;
   left: 0;
   bottom: 100%;
   max-height: 15.6rem;

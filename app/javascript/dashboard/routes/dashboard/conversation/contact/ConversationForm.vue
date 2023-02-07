@@ -343,6 +343,7 @@ export default {
   .contact-name {
     margin: 0;
     margin-left: var(--space-small);
+    margin-right: var(--space-small);
   }
 }
 
@@ -364,5 +365,6 @@ export default {
   right: 0;
   top: unset;
   height: fit-content;
+  direction: initial;
 }
 </style>

@@ -345,7 +345,7 @@ export default {
 .contact--name {
   text-transform: capitalize;
   white-space: normal;
-  margin: 0 var(--space-smaller) 0 0;
+  margin: 0 var(--space-smaller) 0 var(--space-smaller);
 
   a {
     color: var(--color-body);

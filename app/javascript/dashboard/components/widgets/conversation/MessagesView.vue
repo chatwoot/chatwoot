@@ -416,7 +416,7 @@ export default {
 
     .reply-box .reply-box__top {
       position: relative;
-      min-height: 44rem;
+      height: 50vh;
     }
 
     .reply-box__top .input {

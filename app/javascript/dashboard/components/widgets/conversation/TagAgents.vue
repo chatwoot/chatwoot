@@ -96,7 +96,7 @@ export default {
   left: 0;
   bottom: 100%;
   line-height: 1.2;
-  max-height: 20rem;
+  max-height: 15.6rem;
   overflow: auto;
   padding: var(--space-small) var(--space-small) 0 var(--space-small);
   position: absolute;
@@ -136,10 +136,6 @@ export default {
   }
 }
 
-.mention--thumbnail {
-  margin-right: var(--space-small);
-}
-
 .mention--user-name {
   margin-bottom: 0;
 }
@@ -152,5 +148,6 @@ export default {
 .mention--metadata {
   flex: 1;
   max-width: 100%;
+  margin: 0 var(--space-small);
 }
 </style>
