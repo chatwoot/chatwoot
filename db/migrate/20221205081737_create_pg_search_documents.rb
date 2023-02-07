@@ -8,6 +8,7 @@ class CreatePgSearchDocuments < ActiveRecord::Migration[6.1]
         t.timestamps null: false
       end
       add_index :pg_search_documents, :account_id
+      add_index :pg_search_documents, [:searchable_id, :searchable_type], unique: true, name: 'unique_searchables_index'
     end
   end
 

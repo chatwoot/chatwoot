@@ -1,6 +1,6 @@
 class Conversations::UpdatePgSearchDocumentJob < ApplicationJob
   queue_as :low
-  
+
   def perform(contact_id)
     contact = Contact.find(contact_id)
     update_pg_search_document(contact)
