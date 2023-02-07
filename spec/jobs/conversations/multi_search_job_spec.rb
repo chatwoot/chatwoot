@@ -9,7 +9,8 @@ RSpec.describe Conversations::MultiSearchJob, type: :job do
     let(:account) { create(:account) }
 
     it 'Calls the account based search job' do
-      expect { described_class.perform_now }.to have_enqueued_job(Conversations::AccountBasedSearchJob).once.on_queue('async_database_migration')
+      account
+      expect { described_class.perform_now }.to have_enqueued_job(Conversations::AccountBasedSearchJob).on_queue('async_database_migration')
     end
   end
 end

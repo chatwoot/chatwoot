@@ -71,7 +71,7 @@ RSpec.describe Contact do
 
     it 'updates email when adding valid email' do
       contact = create(:contact)
-      expect(contact.update!(email: 'test@test.com')).to be trueupdate_pg_search_document_job
+      expect(contact.update!(email: 'test@test.com')).to be true
       expect(contact.email).to eq 'test@test.com'
     end
   end
