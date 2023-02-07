@@ -232,5 +232,35 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['id']).to eq(root_article.id)
       end
     end
+
+    describe 'Upload an image' do
+      let(:article) { create(:article, account_id: account.id, category_id: category.id, portal_id: portal.id, author_id: agent.id) }
+
+      it 'update the article with an image' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/portals/#{article.portal.slug}/articles/attach_file",
+             headers: agent.create_new_auth_token,
+             params: { background_image: file }
+
+        expect(response).to have_http_status(:success)
+
+        blob = JSON.parse(response.body)
+
+        expect(blob['blob_key']).to be_present
+        expect(blob['blob_id']).to be_present
+
+        params = { blob_id: blob['blob_id'] }
+
+        expect(article.background_image.attachment).not_to be_present
+
+        patch "/api/v1/accounts/#{account.id}/portals/#{article.portal.slug}/articles/#{article.id}",
+              headers: agent.create_new_auth_token,
+              params: params
+
+        expect(article.reload.background_image.presence).to be_truthy
+        expect(article.reload.background_image.attachment).to be_present
+      end
+    end
   end
 end
