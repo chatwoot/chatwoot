@@ -17,8 +17,6 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
                 now() AS created_at,
                 now() AS updated_at
         FROM contacts
-        INNER JOIN conversations
-          ON conversations.contact_id = contacts.id
         WHERE contacts.account_id = #{account_id}
     SQL
   end
