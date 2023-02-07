@@ -209,7 +209,16 @@ export const actions = {
 // mutations
 export const mutations = {
   [types.SET_CURRENT_USER_AVAILABILITY](_state, availability) {
-    Vue.set(_state.currentUser, 'availability', availability);
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === _state.currentUser.account_id) {
+        return { ...account, availability, availability_status: availability };
+      }
+      return account;
+    });
+    Vue.set(_state, 'currentUser', {
+      ..._state.currentUser,
+      accounts,
+    });
   },
   [types.CLEAR_USER](_state) {
     _state.currentUser = initialState.currentUser;

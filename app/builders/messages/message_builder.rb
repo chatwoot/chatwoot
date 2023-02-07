@@ -48,8 +48,11 @@ class Messages::MessageBuilder
   def process_emails
     return unless @conversation.inbox&.inbox_type == 'Email'
 
-    cc_emails = @params[:cc_emails].split(',') if @params[:cc_emails]
-    bcc_emails = @params[:bcc_emails].split(',') if @params[:bcc_emails]
+    cc_emails = []
+    cc_emails = @params[:cc_emails].split(',') if @params[:cc_emails].present?
+
+    bcc_emails = []
+    bcc_emails = @params[:bcc_emails].split(',') if @params[:bcc_emails].present?
 
     all_email_addresses = cc_emails + bcc_emails
     validate_email_addresses(all_email_addresses)
