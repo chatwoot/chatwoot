@@ -27,6 +27,7 @@
 #
 class Article < ApplicationRecord
   include PgSearch::Model
+  include Rails.application.routes.url_helpers
 
   has_many :associated_articles,
            class_name: :Article,
@@ -43,6 +44,7 @@ class Article < ApplicationRecord
   belongs_to :category
   belongs_to :portal
   belongs_to :author, class_name: 'User'
+  has_one_attached :background_image
 
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
@@ -104,6 +106,18 @@ class Article < ApplicationRecord
 
   def draft!
     update(status: :draft)
+  end
+
+  def file_base_data
+    {
+      id: background_image.id,
+      portal_id: id,
+      file_type: background_image.content_type,
+      account_id: account_id,
+      file_url: url_for(background_image),
+      blob_id: background_image.blob_id,
+      filename: background_image.filename.to_s
+    }
   end
 
   private

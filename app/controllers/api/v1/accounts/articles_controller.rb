@@ -1,7 +1,7 @@
 class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
   before_action :check_authorization
-  before_action :fetch_article, except: [:index, :create]
+  before_action :fetch_article, except: [:index, :create, :attach_file]
   before_action :set_current_page, only: [:index]
 
   def index
@@ -15,6 +15,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     @article = @portal.articles.create!(article_params)
     @article.associate_root_article(article_params[:associated_article_id])
     @article.draft!
+    process_attached_background_image
     render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
 
@@ -23,7 +24,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def show; end
 
   def update
-    @article.update!(article_params)
+    @article.update!(article_params) if params[:article].present?
+    process_attached_background_image
   end
 
   def destroy
@@ -31,7 +33,23 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def attach_file
+    file_blob = ActiveStorage::Blob.create_and_upload!(
+      key: nil,
+      io: params[:background_image].tempfile,
+      filename: params[:background_image].original_filename,
+      content_type: params[:background_image].content_type
+    )
+    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
+  end
+
   private
+
+  def process_attached_background_image
+    blob_id = params[:blob_id]
+    blob = ActiveStorage::Blob.find_by(id: blob_id)
+    @article.background_image.attach(blob)
+  end
 
   def fetch_article
     @article = @portal.articles.find(params[:id])

@@ -28,3 +28,5 @@ json.associated_articles do
     end
   end
 end
+
+json.background_image article.file_base_data if article.background_image.present?
