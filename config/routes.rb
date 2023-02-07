@@ -177,6 +177,7 @@ Rails.application.routes.draw do
               patch :archive
               put :add_members
             end
+            post :attach_file, on: :collection
             resources :categories
             resources :articles
           end
