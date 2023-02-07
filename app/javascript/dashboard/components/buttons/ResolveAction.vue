@@ -257,18 +257,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .app-rtl--wrapper {
-  .button-group .button:first-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: var(--border-radius-normal);
-    border-bottom-right-radius: var(--border-radius-normal);
-  }
+  .resolve-actions {
+    .button-group .button:first-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: var(--border-radius-normal);
+      border-bottom-right-radius: var(--border-radius-normal);
+    }
 
-  .button-group .button:last-child {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: var(--border-radius-normal);
-    border-bottom-left-radius: var(--border-radius-normal);
+    .button-group .button:last-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: var(--border-radius-normal);
+      border-bottom-left-radius: var(--border-radius-normal);
+    }
   }
 }
 
