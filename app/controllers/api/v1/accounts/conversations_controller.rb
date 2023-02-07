@@ -144,6 +144,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation_params
     additional_attributes = params[:additional_attributes]&.permit! || {}
+    additional_attributes.merge!(xmpp_attributes)
     custom_attributes = params[:custom_attributes]&.permit! || {}
     status = params[:status].present? ? { status: params[:status] } : {}
 
@@ -168,5 +169,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def assignee?
     @conversation.assignee_id? && current_user == @conversation.assignee
+  end
+
+  def xmpp_attributes
+    return {} unless @contact_inbox.inbox.xmpp?
+    return { type: "chat" } if @contact_inbox.conversations.empty?
+    { type: "chat", thread_id: SecureRandom.uuid }
   end
 end
