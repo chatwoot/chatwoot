@@ -45,13 +45,20 @@ class Microsoft::CallbacksController < ApplicationController
     channel_email.inbox
   end
 
+  # Fallback name, for when name field is missing from users_data
+  def fallback_name
+    return 'New Inbox' if users_data['email'].blank?
+
+    users_data['email'].split('@').first.parameterize.titleize
+  end
+
   def create_microsoft_channel_with_inbox
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
       account.inboxes.create!(
         account: account,
         channel: channel_email,
-        name: users_data['name'] || users_data['email'].split('@').first
+        name: users_data['name'] || fallback_name
       )
       channel_email
     end
