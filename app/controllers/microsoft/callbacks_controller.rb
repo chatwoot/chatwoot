@@ -51,7 +51,7 @@ class Microsoft::CallbacksController < ApplicationController
       account.inboxes.create!(
         account: account,
         channel: channel_email,
-        name: users_data['name']
+        name: users_data['name'] || users_data['email'].split('@').first
       )
       channel_email
     end
