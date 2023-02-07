@@ -201,7 +201,8 @@ class Contact < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
   end
 
+  # update each conversations pg_search_documet record with updated contact attributes
   def update_conversation_pgsearch_document
-    conversations.each(&:update_pg_search_document)
+    Conversations::UpdatePgSearchDocumentJob.perform_later(id)
   end
 end
