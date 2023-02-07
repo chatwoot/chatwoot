@@ -40,7 +40,7 @@ describe ::Conversations::AccountBasedSearchJob, type: :job do
 
       described_class.perform_now(account.id)
 
-      total_records = Conversation.count + Contact.joins(:conversations).count + Message.count
+      total_records = Conversation.count + Contact.count + Message.count
 
       expect(PgSearch::Document.count).to eq(total_records)
     end
