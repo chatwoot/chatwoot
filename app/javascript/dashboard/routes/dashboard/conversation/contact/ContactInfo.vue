@@ -11,8 +11,7 @@
         />
         <woot-button
           :icon="closeIconName"
-          class="clear secondary"
-          :class="{ 'close-button--rtl': isRTLView }"
+          class="clear secondary close-button--rtl"
           @click="onPanelToggle"
         />
       </div>
@@ -178,7 +177,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
 import { getCountryFlag } from 'dashboard/helper/flag';
-import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
   components: {
@@ -189,7 +187,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin, clickaway, timeMixin, rtlMixin],
+  mixins: [alertMixin, adminMixin, clickaway, timeMixin],
   props: {
     contact: {
       type: Object,
@@ -332,8 +330,10 @@ export default {
   flex-direction: row;
 }
 
-.close-button--rtl {
-  transform: rotate(180deg);
+.app-rtl--wrapper {
+  .close-button--rtl {
+    transform: rotate(180deg);
+  }
 }
 
 .contact--name-wrap {

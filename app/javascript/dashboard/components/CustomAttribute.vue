@@ -6,7 +6,6 @@
           <input
             v-model="editedValue"
             class="checkbox"
-            :class="{ 'checkbox--rtl': isRTLView }"
             type="checkbox"
             @change="onUpdate"
           />
@@ -121,14 +120,12 @@ import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { isValidURL } from '../helper/URLHelper';
-import rtlMixin from 'shared/mixins/rtlMixin';
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
   },
-  mixins: [rtlMixin],
   props: {
     label: { type: String, required: true },
     values: { type: Array, default: () => [] },
@@ -270,6 +267,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .checkbox {
+    margin-left: var(--space-small);
+  }
+}
 .custom-attribute {
   padding: var(--space-slab) var(--space-normal);
 }
@@ -305,9 +307,6 @@ export default {
 .checkbox {
   margin-right: var(--space-small);
   margin-bottom: 0;
-}
-.checkbox--rtl {
-  margin-left: var(--space-small);
 }
 .name-button__wrap {
   display: flex;

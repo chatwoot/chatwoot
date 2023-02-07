@@ -5,6 +5,7 @@ table {
   thead {
     th {
       font-weight: $font-weight-bold;
+      text-align: left;
       text-transform: uppercase;
     }
   }
@@ -17,6 +18,14 @@ table {
     td {
       padding: $space-one $space-small;
     }
+  }
+}
+
+.app-rtl--wrapper {
+  table,
+  thead,
+  th {
+    text-align: right;
   }
 }
 

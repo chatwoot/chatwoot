@@ -214,9 +214,17 @@ $default-button-height: 4rem;
   top: $space-small;
 }
 
-.button--fixed-left-top {
-  left: $space-small;
+.button--fixed-top {
   position: fixed;
-  right: unset;
+  right: $space-small;
   top: $space-small;
+}
+
+.app-rtl--wrapper {
+  .button--fixed-top {
+    left: $space-small;
+    position: fixed;
+    right: unset;
+    top: $space-small;
+  }
 }

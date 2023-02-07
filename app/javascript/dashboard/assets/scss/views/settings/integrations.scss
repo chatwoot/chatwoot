@@ -18,12 +18,14 @@
       }
     }
 
-    .integration--title {
-      font-size: $font-size-large;
+    .integration--type {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .integration--description {
-      padding-right: $space-medium;
+    .integration--title {
+      font-size: $font-size-large;
     }
 
     .button-wrap {

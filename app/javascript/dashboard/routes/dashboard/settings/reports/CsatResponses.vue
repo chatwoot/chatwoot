@@ -9,7 +9,7 @@
     />
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="arrow-download"
       @click="downloadReports"
     >

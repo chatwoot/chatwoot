@@ -2,7 +2,7 @@
   <div class="column content-box">
     <router-link
       :to="addAccountScoping('settings/macros/new')"
-      class="button success button--fixed-right-top"
+      class="button success button--fixed-top"
     >
       <fluent-icon icon="add-circle" />
       <span class="button__content">
@@ -64,6 +64,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from 'dashboard/mixins/account.js';
 import MacrosTableRow from './MacrosTableRow';
+
 export default {
   components: {
     MacrosTableRow,

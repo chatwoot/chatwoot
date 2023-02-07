@@ -2,7 +2,7 @@
   <div class="column content-box">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="add-circle"
       @click="openAddPopup"
     >
@@ -201,6 +201,7 @@ export default {
   border-radius: $space-smaller;
   height: $space-normal;
   margin-right: $space-smaller;
+  margin-left: $space-smaller;
   width: $space-normal;
   border: 1px solid var(--color-border-light);
 }
