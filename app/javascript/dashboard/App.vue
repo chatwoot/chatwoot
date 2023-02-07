@@ -27,7 +27,7 @@ import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
-import directionMixin from 'shared/mixins/directionMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 import {
   registerSubscription,
@@ -44,7 +44,7 @@ export default {
     UpdateBanner,
     WootSnackbarBox,
   },
-  mixins: [directionMixin],
+  mixins: [rtlMixin],
 
   data() {
     return {

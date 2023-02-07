@@ -103,7 +103,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import directionMixin from 'shared/mixins/directionMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
   components: {
@@ -111,7 +111,7 @@ export default {
     ReplyBox,
     Banner,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins, directionMixin],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins, rtlMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,

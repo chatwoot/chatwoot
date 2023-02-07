@@ -178,7 +178,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
 import { getCountryFlag } from 'dashboard/helper/flag';
-import directionMixin from 'shared/mixins/directionMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
   components: {
@@ -189,7 +189,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin, clickaway, timeMixin, directionMixin],
+  mixins: [alertMixin, adminMixin, clickaway, timeMixin, rtlMixin],
   props: {
     contact: {
       type: Object,

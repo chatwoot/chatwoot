@@ -30,10 +30,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import directionMixin from 'shared/mixins/directionMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
-  mixins: [directionMixin],
+  mixins: [rtlMixin],
   data() {
     return { showSwitchButton: false };
   },

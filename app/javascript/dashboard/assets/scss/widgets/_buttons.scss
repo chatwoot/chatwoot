@@ -16,15 +16,18 @@ $default-button-height: 4rem;
 
   .icon--emoji + .button__content {
     padding-left: var(--space-small);
+    padding-right: var(--space-small);
   }
 
   .icon--font + .button__content {
     padding-left: var(--space-small);
+    padding-right: var(--space-small);
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
   .icon + .button__content {
     padding-left: var(--space-small);
+    padding-right: var(--space-small);
     width: auto;
   }
 

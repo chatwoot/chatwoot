@@ -179,7 +179,7 @@ import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import directionMixin from 'shared/mixins/directionMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -203,7 +203,7 @@ export default {
     uiSettingsMixin,
     alertMixin,
     messageFormatterMixin,
-    directionMixin,
+    rtlMixin,
   ],
   props: {
     selectedTweet: {

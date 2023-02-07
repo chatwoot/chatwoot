@@ -127,17 +127,11 @@ import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import directionMixin from 'shared/mixins/directionMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 const semver = require('semver');
 
 export default {
-  mixins: [
-    accountMixin,
-    alertMixin,
-    configMixin,
-    uiSettingsMixin,
-    directionMixin,
-  ],
+  mixins: [accountMixin, alertMixin, configMixin, uiSettingsMixin, rtlMixin],
   data() {
     return {
       id: '',

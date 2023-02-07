@@ -112,13 +112,13 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 
 import NotificationPanelList from './NotificationPanelList';
-import directionMixin from 'shared/mixins/directionMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [clickaway, directionMixin],
+  mixins: [clickaway, rtlMixin],
   data() {
     return {
       pageSize: 15,

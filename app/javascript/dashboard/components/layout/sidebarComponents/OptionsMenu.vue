@@ -4,7 +4,7 @@
       v-if="show"
       v-on-clickaway="onClickAway"
       class="dropdown-pane"
-      :class="{ 'dropdown-pane--open': show }"
+      :class="{ 'dropdown-pane--open': show, 'dropdown-pane--rtl': isRTLView }"
     >
       <availability-status />
       <li class="divider" />
@@ -102,6 +102,7 @@ import Auth from '../../../api/auth';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
   components: {
@@ -109,7 +110,7 @@ export default {
     WootDropdownItem,
     AvailabilityStatus,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, rtlMixin],
   props: {
     show: {
       type: Boolean,
@@ -155,5 +156,9 @@ export default {
   bottom: var(--space-larger);
   min-width: 22rem;
   z-index: var(--z-index-low);
+}
+
+.dropdown-pane--rtl {
+  right: var(--space-smaller);
 }
 </style>

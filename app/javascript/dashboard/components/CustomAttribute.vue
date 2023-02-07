@@ -6,6 +6,7 @@
           <input
             v-model="editedValue"
             class="checkbox"
+            :class="{ 'checkbox--rtl': isRTLView }"
             type="checkbox"
             @change="onUpdate"
           />
@@ -120,12 +121,14 @@ import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { isValidURL } from '../helper/URLHelper';
+import rtlMixin from 'shared/mixins/rtlMixin';
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
   },
+  mixins: [rtlMixin],
   props: {
     label: { type: String, required: true },
     values: { type: Array, default: () => [] },
@@ -271,6 +274,19 @@ export default {
   padding: var(--space-slab) var(--space-normal);
 }
 
+.input-group {
+  margin-top: var(--space-smaller);
+  margin-bottom: var(--space-smaller);
+}
+
+.input-group-button {
+  margin: 0 var(--space-smaller);
+
+  button {
+    border-radius: var(--border-radius-normal) !important;
+  }
+}
+
 .title-wrap {
   display: flex;
   align-items: center;
@@ -287,7 +303,11 @@ export default {
   align-items: center;
 }
 .checkbox {
-  margin: 0 var(--space-small) 0 0;
+  margin-right: var(--space-small);
+  margin-bottom: 0;
+}
+.checkbox--rtl {
+  margin-left: var(--space-small);
 }
 .name-button__wrap {
   display: flex;
@@ -297,6 +317,7 @@ export default {
 }
 .attribute-name {
   width: 100%;
+
   &.error {
     color: var(--r-400);
   }
@@ -328,6 +349,7 @@ export default {
   .action-buttons__wrap {
     display: flex;
     max-width: var(--space-larger);
+    margin: 0 var(--space-smaller);
   }
 }
 .value {
