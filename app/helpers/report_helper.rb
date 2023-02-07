@@ -33,7 +33,8 @@ module ReportHelper
   end
 
   def avg_first_response_time
-    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'first_response', account_id: account.id))
+    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'first_response',
+                                                                                account_id: account.id).where.not(user_id: nil))
     return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
 
     grouped_reporting_events.average(:value)
