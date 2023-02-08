@@ -35,6 +35,16 @@ const buildContactFormData = contactParams => {
   return formData;
 };
 
+export const raiseContactCreateErrors = error => {
+  if (error.response?.status === 422) {
+    throw new DuplicateContactException(error.response.data.attributes);
+  } else if (error.response?.data?.message) {
+    throw new ExceptionWithMessage(error.response.data.message);
+  } else {
+    throw new Error(error);
+  }
+};
+
 export const actions = {
   search: async ({ commit }, { search, page, sortAttr, label }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
@@ -113,13 +123,7 @@ export const actions = {
       return response.data.payload.contact;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
-      if (error.response?.status === 422) {
-        throw new DuplicateContactException(error.response.data.attributes);
-      } else if (error.response?.data?.message) {
-        throw new ExceptionWithMessage(error.response.data.message);
-      } else {
-        throw new Error(error);
-      }
+      return raiseContactCreateErrors(error);
     }
   },
 

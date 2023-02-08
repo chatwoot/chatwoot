@@ -57,34 +57,24 @@ class Whatsapp::IncomingMessageBaseService
 
     message = @processed_params[:messages].first
     if message_type == 'contacts'
-      message['contacts'].each do |contact|
-        create_message(contact)
-        attach_contact(contact)
-        @message.save!
-      end
+      create_contact_messages(message)
     else
-      create_message(message)
-      attach_files
-      attach_location
-      @message.save!
+      create_regular_message(message)
+    end
+    @message.save!
+  end
+
+  def create_contact_messages(message)
+    message['contacts'].each do |contact|
+      create_message(contact)
+      attach_contact(contact)
     end
   end
 
-  def processed_params
-    @processed_params ||= params
-  end
-
-  def message_content(message)
-    # TODO: map interactive messages back to button messages in chatwoot
-    message.dig(:text, :body) ||
-      message.dig(:button, :text) ||
-      message.dig(:interactive, :button_reply, :title) ||
-      message.dig(:interactive, :list_reply, :title) ||
-      message.dig(:name, :formatted_name)
-  end
-
-  def account
-    @account ||= inbox.account
+  def create_regular_message(message)
+    create_message(message)
+    attach_files
+    attach_location if message_type == 'location'
   end
 
   def set_contact
@@ -101,24 +91,11 @@ class Whatsapp::IncomingMessageBaseService
     @contact = contact_inbox.contact
   end
 
-  def conversation_params
-    {
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      contact_id: @contact.id,
-      contact_inbox_id: @contact_inbox.id
-    }
-  end
-
   def set_conversation
     @conversation = @contact_inbox.conversations.last
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
-  end
-
-  def message_type
-    @processed_params[:messages].first[:type]
   end
 
   def attach_files
@@ -171,7 +148,7 @@ class Whatsapp::IncomingMessageBaseService
 
   def attach_contact(contact)
     phones = contact[:phones]
-    phones = [contact_empty] if phones.blank?
+    phones = [{ phone: 'Phone number is not available' }] if phones.blank?
 
     phones.each do |phone|
       @message.attachments.new(
@@ -180,9 +157,5 @@ class Whatsapp::IncomingMessageBaseService
         fallback_title: phone[:phone].to_s
       )
     end
-  end
-
-  def contact_empty
-    { phone: 'NO PHONE NUMBER' }
   end
 end

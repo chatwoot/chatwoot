@@ -1,17 +1,12 @@
 <template>
-  <div class="contact message-text__wrap">
-    <div class="icon-wrap">
-      <fluent-icon icon="book-contacts" class="file--icon" size="32" />
-    </div>
+  <div class="contact--group">
+    <fluent-icon icon="call" class="file--icon" size="18" />
     <div class="meta">
-      <h5 class="text-block-title text-truncate margin-bottom-0">
-        {{ name }}
-      </h5>
       <p class="text-truncate margin-bottom-0">
         {{ phoneNumber }}
       </p>
     </div>
-    <div v-if="number" class="link-wrap">
+    <div v-if="formattedPhoneNumber" class="link-wrap">
       <woot-button variant="clear" size="small" @click.prevent="addContact">
         {{ $t('CONVERSATION.SAVE_CONTACT') }}
       </woot-button>
@@ -39,16 +34,17 @@ export default {
     },
   },
   computed: {
-    number() {
+    formattedPhoneNumber() {
       return this.phoneNumber.replace(/\s|-|[A-Za-z]/g, '');
+    },
+    rawPhoneNumber() {
+      return this.phoneNumber.replace(/\D/g, '');
     },
   },
   methods: {
     async addContact() {
       try {
-        let contact = await this.filterContactByNumber(
-          this.number.replace('+', '')
-        );
+        let contact = await this.filterContactByNumber(this.rawPhoneNumber);
         if (!contact) {
           contact = await this.$store.dispatch(
             'contacts/create',
@@ -72,7 +68,7 @@ export default {
     getContactObject() {
       const contactItem = {
         name: this.name,
-        phone_number: this.number,
+        phone_number: `+${this.rawPhoneNumber}`,
       };
       return contactItem;
     },
@@ -101,11 +97,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contact {
-  display: flex;
+.contact--group {
   align-items: center;
+  display: flex;
+  margin-top: var(--space-smaller);
 
   .meta {
+    flex: 1;
     margin-left: var(--space-small);
   }
 

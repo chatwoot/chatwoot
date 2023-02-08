@@ -1,4 +1,34 @@
 module Whatsapp::IncomingMessageServiceHelpers
+  def conversation_params
+    {
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      contact_id: @contact.id,
+      contact_inbox_id: @contact_inbox.id
+    }
+  end
+
+  def processed_params
+    @processed_params ||= params
+  end
+
+  def account
+    @account ||= inbox.account
+  end
+
+  def message_type
+    @processed_params[:messages].first[:type]
+  end
+
+  def message_content(message)
+    # TODO: map interactive messages back to button messages in chatwoot
+    message.dig(:text, :body) ||
+      message.dig(:button, :text) ||
+      message.dig(:interactive, :button_reply, :title) ||
+      message.dig(:interactive, :list_reply, :title) ||
+      message.dig(:name, :formatted_name)
+  end
+
   def file_content_type(file_type)
     return :image if %w[image sticker].include?(file_type)
     return :audio if %w[audio voice].include?(file_type)
