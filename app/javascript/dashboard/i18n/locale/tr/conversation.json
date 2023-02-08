@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
