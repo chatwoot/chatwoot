@@ -53,6 +53,7 @@ import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 export default {
@@ -118,6 +119,9 @@ export default {
     confirmDeletion() {
       this.closeDeletePopup();
       this.deleteArticle();
+      this.$track(PORTALS_EVENTS.DELETE_ARTICLE, {
+        status: this.article?.status,
+      });
     },
     async saveArticle({ ...values }) {
       this.isUpdating = true;
@@ -171,6 +175,7 @@ export default {
           status: ARTICLE_STATUS_TYPES.ARCHIVE,
         });
         this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
+        this.$track(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'sidebar' });
       } catch (error) {
         this.alertMessage =
           error?.message || this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
@@ -186,6 +191,9 @@ export default {
     },
     showArticleInPortal() {
       window.open(this.portalLink, '_blank');
+      this.$track(PORTALS_EVENTS.PREVIEW_ARTICLE, {
+        status: this.article?.status,
+      });
     },
   },
 };

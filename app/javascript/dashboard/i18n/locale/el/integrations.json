@@ -77,11 +77,11 @@
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Κάντε κλικ εδώ για να συμμετάσχετε",
+      "LEAVE_THE_ROOM": "Αποχώρηση",
+      "START_VIDEO_CALL_HELP_TEXT": "Ξεκινήστε μια νέα βιντεοκλήση με τον πελάτη",
+      "JOIN_ERROR": "Παρουσιάστηκε σφάλμα κατά τη σύνδεση της κλήσης, παρακαλώ προσπαθήστε ξανά",
+      "CREATE_ERROR": "Παρουσιάστηκε σφάλμα κατά τη δημιουργία ενός συνδέσμου συνάντησης, παρακαλώ προσπαθήστε ξανά"
     },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",

@@ -158,7 +158,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
@@ -166,7 +166,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Uploading...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"

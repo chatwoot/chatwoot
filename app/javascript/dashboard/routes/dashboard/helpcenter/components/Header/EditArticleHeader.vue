@@ -107,6 +107,7 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
 import wootConstants from 'dashboard/constants.js';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
@@ -186,6 +187,11 @@ export default {
         });
         this.statusUpdateSuccessMessage(status);
         this.closeActionsDropdown();
+        if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
+          this.$track(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'header' });
+        } else if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+          this.$track(PORTALS_EVENTS.PUBLISH_ARTICLE);
+        }
       } catch (error) {
         this.alertMessage =
           error?.message || this.statusUpdateErrorMessage(status);

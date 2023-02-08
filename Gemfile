@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.4'
+ruby '3.1.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -37,6 +37,8 @@ gem 'json_schemer'
 gem 'rack-attack'
 # a utility tool for streaming, flexible and safe downloading of remote files
 gem 'down', '~> 5.0'
+# authentication type to fetch and send mail over oauth2.0
+gem 'gmail_xoauth'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -105,7 +107,7 @@ gem 'sidekiq-cron', '~> 1.3'
 
 ##-- Push notification service --##
 gem 'fcm'
-gem 'webpush'
+gem 'web-push'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
@@ -135,6 +137,11 @@ gem 'stripe'
 ## to populate db with sample data
 gem 'faker'
 
+# Can remove this in rails 7
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -160,6 +167,8 @@ group :test do
   gem 'database_cleaner'
   # mock http calls
   gem 'webmock'
+  # test profiling
+  gem 'test-prof'
 end
 
 group :development, :test do
@@ -186,3 +195,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+# worked with microsoft refresh token
+gem 'omniauth-oauth2'

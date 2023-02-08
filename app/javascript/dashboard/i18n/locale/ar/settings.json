@@ -59,18 +59,18 @@
         "TITLE": "الإشعارات الصوتية",
         "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "أحداث التنبيه:",
           "NONE": "لا شيء",
           "ASSIGNED": "المحادثات المسندة",
           "ALL_CONVERSATIONS": "كل المحادثات"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "نغمة التنبيه:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "شروط التنبيه:",
+          "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
+          "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -115,8 +115,8 @@
           "مشغول",
           "غير متصل"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
+        "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى"
       },
       "EMAIL": {
         "LABEL": "عنوان البريد الإلكتروني الخاص بك",
@@ -147,7 +147,7 @@
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "SUPER_ADMIN_CONSOLE": "وحدة تحكم المدير المتميز",
     "LOGOUT": "تسجيل الخروج"
   },
   "APP_GLOBAL": {
@@ -173,7 +173,7 @@
       "UPLOADING": "جاري الرفع..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "مشاهدة على الخريطة"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "إرسال"
@@ -197,7 +197,7 @@
     "CONTACTS": "جهات الاتصال",
     "HOME": "الرئيسية",
     "AGENTS": "موظف الدعم",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "البوتات",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",
@@ -208,7 +208,7 @@
     "LABELS": "الوسوم",
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
-    "MACROS": "Macros",
+    "MACROS": "ماكروس",
     "TEAMS": "الفرق",
     "BILLING": "الفواتير",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",
@@ -241,8 +241,8 @@
       "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "وضع علامة غير متصل تلقائيا",
+      "INFO_TEXT": "السماح للنظام بوضع علامة  غير متصل أوتوماتيكياً  عندما لا تستخدم التطبيق أو لوحة التحكم."
     },
     "DOCS": "قراءة المستندات"
   },
@@ -282,7 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "عرض جميع الاختصارات",
     "TITLE": {
       "OPEN_CONVERSATION": "فتح المحادثة",
       "RESOLVE_AND_NEXT": "حل وانتقل إلى التالي",

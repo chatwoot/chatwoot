@@ -24,8 +24,11 @@
       "TITLE": "Agenten-Bot auswählen",
       "DESC": "Sie können einen Agenten-Bot aus der Liste in diesen Posteingang setzen. Der Bot kann die Unterhaltung anfangs bearbeiten und bei Bedarf an einen Agenten übertragen.",
       "SUBMIT": "Aktualisieren",
+      "DISCONNECT": "Disconnect Bot",
       "SUCCESS_MESSAGE": "Agenten-Bot erfolgreich aktualisiert",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
       "ERROR_MESSAGE": "Konnte den Agenten-Bot nicht aktualisieren, bitte versuchen Sie es später erneut",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
       "SELECT_PLACEHOLDER": "Bot auswählen"
     },
     "ADD": {

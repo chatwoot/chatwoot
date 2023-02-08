@@ -74,8 +74,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "ابحث في الايموجي",
+    "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك"
   },
   "CSAT": {
     "TITLE": "قيم محادثتك",

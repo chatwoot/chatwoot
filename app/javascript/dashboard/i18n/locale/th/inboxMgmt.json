@@ -53,6 +53,10 @@
           "ENABLE": "สร้างการสนทนาใหม่จากการกล่าวถึงในทวีต"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "ช่องเว็บไซต์",
         "DESC": "สร้างช่องสำหรับเว็บของคุณเเละเริ่มที่จะช่วยเหลือลูกค้าของคุณด้วยวิดเจ็ต",
@@ -547,6 +551,10 @@
         "PLACE_HOLDER": "หรัสผ่าน"
       },
       "ENABLE_SSL": "เปิดใช้ SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",

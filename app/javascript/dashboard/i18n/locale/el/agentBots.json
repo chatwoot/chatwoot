@@ -24,8 +24,11 @@
       "TITLE": "Επιλέξτε ενός Agent Bot",
       "DESC": "Μπορείτε να ορίσετε ένα agent bot από τη λίστα σε αυτά τα εισερχόμενα. Το bot μπορεί αρχικά να χειριστεί τη συνομιλία και να την μεταφέρει σε έναν πράκτορα όταν χρειάζεται.",
       "SUBMIT": "Ενημέρωση",
+      "DISCONNECT": "Disconnect Bot",
       "SUCCESS_MESSAGE": "Επιτυχής ενημέρωση του agent bot",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
       "ERROR_MESSAGE": "Δεν ήταν δυνατή η ενημέρωση του agent bot, δοκιμάστε ξανά αργότερα",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
       "SELECT_PLACEHOLDER": "Επιλογή Bot"
     },
     "ADD": {

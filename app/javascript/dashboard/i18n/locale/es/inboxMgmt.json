@@ -53,6 +53,10 @@
           "ENABLE": "Crear conversaciones de los Tweets mencionados"
         }
       },
+      "MICROSOFT": {
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal del sitio web",
         "DESC": "Cree un canal para su sitio web y comience a apoyar a sus clientes a través de nuestro widget de sitio web.",
@@ -547,6 +551,10 @@
         "PLACE_HOLDER": "Contraseña"
       },
       "ENABLE_SSL": "Activar SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
