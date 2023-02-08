@@ -199,18 +199,13 @@ export default {
         const payload = {
           id: this.inbox.id,
           formData: false,
+          channel: {},
         };
 
-        if (this.isAWhatsAppCloudChannel) {
-          payload.provider_config = {
-            api_key: this.whatsAppInboxAPIKey,
-            ...this.inbox.provider_config,
-          };
-        } else if (this.is360DialogWhatsAppChannel) {
-          payload.provider_config = {
-            api_key: this.whatsAppInboxAPIKey,
-          };
-        }
+        payload.channel.provider_config = {
+          ...this.inbox.provider_config,
+          api_key: this.whatsAppInboxAPIKey,
+        };
 
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
