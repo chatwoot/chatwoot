@@ -58,7 +58,6 @@ class Whatsapp::IncomingMessageBaseService
     message = @processed_params[:messages].first
     if message_type == 'contacts'
       message['contacts'].each do |contact|
-        contact[:id] = generateHash
         create_message(contact)
         attach_contact(contact)
         @message.save!
@@ -118,22 +117,8 @@ class Whatsapp::IncomingMessageBaseService
     @conversation = ::Conversation.create!(conversation_params)
   end
 
-  def file_content_type(file_type)
-    return :image if %w[image sticker].include?(file_type)
-    return :audio if %w[audio voice].include?(file_type)
-    return :video if ['video'].include?(file_type)
-    return :location if ['location'].include?(file_type)
-    return :contact if ['contacts'].include?(file_type)
-
-    :file
-  end
-
   def message_type
     @processed_params[:messages].first[:type]
-  end
-
-  def unprocessable_message_type?
-    %w[reaction ephemeral unsupported].include?(message_type)
   end
 
   def attach_files
@@ -198,11 +183,6 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def contact_empty
-    {phone: "NO PHONE NUMBER"}
-  end
-
-  def generateHash
-    enum = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(20)
-    enum.next.join
+    { phone: 'NO PHONE NUMBER' }
   end
 end
