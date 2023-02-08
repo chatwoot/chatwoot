@@ -49,6 +49,22 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       expect(response).to redirect_to(%r{/app/login\?error=business-account-only$})
     end
 
+    # This test does not affect line coverage, but it is important to ensure that the logic
+    # does not allow any signup if the ENV explicitly disables it
+    it 'blocks signup if ENV disabled' do
+      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+        set_omniauth_config('does-not-exist-for-sure@example.com')
+        get '/omniauth/google_oauth2/callback'
+
+        # expect a 302 redirect to auth/google_oauth2/callback
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
+
+        # expect a 302 redirect to app/login with error disallowing signup
+        expect(response).to redirect_to(%r{/app/login\?error=no-account-found$})
+      end
+    end
+
     it 'allows login' do
       create(:user, email: 'test@example.com')
       set_omniauth_config('test@example.com')
