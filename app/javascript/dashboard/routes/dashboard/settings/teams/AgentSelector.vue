@@ -156,7 +156,7 @@ export default {
 
 .user-name {
   margin-bottom: 0;
-  margin-left: var(--space-small);
+  margin: 0 var(--space-small);
 }
 
 .add-agents__footer {

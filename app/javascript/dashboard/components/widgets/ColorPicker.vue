@@ -69,6 +69,10 @@ export default {
   width: $space-large;
 }
 
+.colorpicker--chrome {
+  direction: initial;
+}
+
 .colorpicker--chrome.vc-chrome {
   @include elegant-card;
 

@@ -454,6 +454,7 @@ export default {
   }
 
   .widget-preview {
+    direction: initial;
     display: flex;
     flex-direction: column;
     align-items: center;

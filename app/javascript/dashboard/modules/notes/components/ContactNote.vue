@@ -11,7 +11,7 @@
         <div class="date-wrap">
           <span class="fw-medium"> {{ noteAuthorName }} </span>
           <span> {{ $t('NOTES.LIST.LABEL') }} </span>
-          <span class="fw-medium"> {{ readableTime }} </span>
+          <span class="fw-medium time-stamp"> {{ readableTime }} </span>
         </div>
       </div>
       <div class="actions">
@@ -105,8 +105,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .time-stamp {
+    unicode-bidi: plaintext;
+  }
+}
 .note__content {
   margin-top: var(--space-normal);
+
+  p {
+    direction: initial;
+  }
 }
 
 .header {
