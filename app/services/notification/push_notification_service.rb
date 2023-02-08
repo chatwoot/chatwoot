@@ -49,7 +49,7 @@ class Notification::PushNotificationService
   def send_browser_push(subscription)
     return unless send_browser_push?(subscription)
 
-    Webpush.payload_send(
+    WebPush.payload_send(
       message: JSON.generate(push_message),
       endpoint: subscription.subscription_attributes['endpoint'],
       p256dh: subscription.subscription_attributes['p256dh'],
@@ -63,10 +63,10 @@ class Notification::PushNotificationService
       open_timeout: 5,
       read_timeout: 5
     )
-  rescue Webpush::ExpiredSubscription
+  rescue WebPush::ExpiredSubscription
     subscription.destroy!
   rescue Errno::ECONNRESET, Net::OpenTimeout, Net::ReadTimeout => e
-    Rails.logger.error "Webpush operation error: #{e.message}"
+    Rails.logger.error "WebPush operation error: #{e.message}"
   end
 
   def send_fcm_push(subscription)

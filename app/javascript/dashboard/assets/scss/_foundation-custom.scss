@@ -17,9 +17,10 @@
 }
 
 .tooltip {
+  background-color: var(--black-transparent);
   border-radius: $space-smaller;
   font-size: $font-size-mini;
-  max-width: 15rem;
+  max-width: var(--space-giga);
   padding: $space-smaller $space-small;
   z-index: 999;
 }

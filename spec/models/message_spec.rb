@@ -198,21 +198,21 @@ RSpec.describe Message, type: :model do
       }.to_json, headers: {})
     end
 
-    it 'deletes the attachment for deleted stories' do
+    it 'keeps the attachment for deleted stories' do
       expect(instagram_message.attachments.count).to eq 1
       stub_request(:get, %r{https://graph.facebook.com/.*}).to_return(status: 404)
       instagram_message.push_event_data
-      expect(instagram_message.reload.attachments.count).to eq 0
+      expect(instagram_message.reload.attachments.count).to eq 1
     end
 
-    it 'deletes the attachment for expired stories' do
+    it 'keeps the attachment for expired stories' do
       expect(instagram_message.attachments.count).to eq 1
       # for expired stories, the link will be empty
       stub_request(:get, %r{https://graph.facebook.com/.*}).to_return(status: 200, body: {
         story: { mention: { link: '', id: '17920786367196703' } }
       }.to_json, headers: {})
       instagram_message.push_event_data
-      expect(instagram_message.reload.attachments.count).to eq 0
+      expect(instagram_message.reload.attachments.count).to eq 1
     end
   end
 end

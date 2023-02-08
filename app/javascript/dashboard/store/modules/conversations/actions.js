@@ -175,8 +175,8 @@ const actions = {
       const response = await MessageApi.create(pendingMessage);
       AnalyticsHelper.track(
         pendingMessage.private
-          ? CONVERSATION_EVENTS.CONVERSATION.SENT_PRIVATE_NOTE
-          : CONVERSATION_EVENTS.CONVERSATION.SENT_MESSAGE
+          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
+          : CONVERSATION_EVENTS.SENT_MESSAGE
       );
       commit(types.ADD_MESSAGE, {
         ...response.data,
