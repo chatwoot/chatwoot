@@ -60,6 +60,8 @@ const SUPPORTED_WEBHOOK_EVENTS = [
   'conversation_updated',
   'message_created',
   'message_updated',
+  'contact_created',
+  'contact_updated',
   'webwidget_triggered',
 ];
 
