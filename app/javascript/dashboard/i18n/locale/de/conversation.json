@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
