@@ -61,13 +61,13 @@ class Whatsapp::IncomingMessageBaseService
     else
       create_regular_message(message)
     end
-    @message.save!
   end
 
   def create_contact_messages(message)
     message['contacts'].each do |contact|
       create_message(contact)
       attach_contact(contact)
+      @message.save!
     end
   end
 
@@ -75,6 +75,7 @@ class Whatsapp::IncomingMessageBaseService
     create_message(message)
     attach_files
     attach_location if message_type == 'location'
+    @message.save!
   end
 
   def set_contact
@@ -116,10 +117,6 @@ class Whatsapp::IncomingMessageBaseService
         content_type: attachment_file.content_type
       }
     )
-  end
-
-  def download_attachment_file(attachment_payload)
-    Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
   end
 
   def attach_location

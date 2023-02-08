@@ -1,4 +1,8 @@
 module Whatsapp::IncomingMessageServiceHelpers
+  def download_attachment_file(attachment_payload)
+    Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
+  end
+
   def conversation_params
     {
       account_id: @inbox.account_id,
