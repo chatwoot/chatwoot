@@ -76,7 +76,7 @@ import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../components/ui/Auth/GoogleOAuthButton.vue';
 
 const ERROR_MESSAGES = {
-  'oauth-no-user': 'LOGIN.OAUTH.NO_USER',
+  'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
 
