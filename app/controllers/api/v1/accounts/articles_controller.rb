@@ -34,7 +34,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def attach_file
     file_blob = ActiveStorage::Blob.create_and_upload!(
-      key: "portal_#{@portal.id}_article",
+      key: nil,
       io: params[:background_image].tempfile,
       filename: params[:background_image].original_filename,
       content_type: params[:background_image].content_type
