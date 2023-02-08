@@ -31,7 +31,7 @@ class Contact < ApplicationRecord
 
   multisearchable(
     against: [:id, :email, :name, :phone_number],
-    additional_attributes: ->(contact) { { conversation_id: nil, account_id: contact.account_id, inbox_id: nil } }
+    additional_attributes: ->(contact) { { account_id: contact.account_id } }
   )
 
   validates :account_id, presence: true
@@ -146,28 +146,6 @@ class Contact < ApplicationRecord
     phone_number_format
     email_format
   end
-  
-  # NOTE: To add multi search records with conversation_id associated to contacts for previously added records.
-  # We can not find conversation_id from contacts directly so we added this joins here.
-  def self.rebuild_pg_search_documents(account_id)
-    return super unless name == 'Contact'
-
-    connection.execute <<~SQL.squish
-      INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, conversation_id, inbox_id, created_at, updated_at)
-        SELECT 'Contact' AS searchable_type,
-                contacts.id AS searchable_id,
-                CONCAT_WS(' ', contacts.id, contacts.email, contacts.name, contacts.phone_number, contacts.account_id) AS content,
-                contacts.account_id::int AS account_id,
-                conversations.id::int AS conversation_id,
-                conversations.inbox_id::int AS inbox_id,
-                now() AS created_at,
-                now() AS updated_at
-        FROM contacts
-        INNER JOIN conversations
-          ON conversations.contact_id = contacts.id
-        WHERE contacts.account_id = #{account_id}
-    SQL
-  end
 
   private
 
@@ -209,10 +187,16 @@ class Contact < ApplicationRecord
   end
 
   def dispatch_update_event
+    update_conversation_pgsearch_document
     Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self)
   end
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+  end
+
+  # update each conversations pg_search_documet record with updated contact attributes
+  def update_conversation_pgsearch_document
+    Conversations::UpdatePgSearchDocumentJob.perform_later(id)
   end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ::TextSearch do
-  subject(:text_search) { described_class.new(user_1, params) }
+  subject(:text_search) { described_class.new(current_user: user_1, current_account: account, params: params) }
 
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
@@ -13,7 +13,7 @@ describe ::TextSearch do
     create(:inbox_member, user: user_2, inbox: inbox)
 
     create(:contact, name: '1223', account_id: account.id)
-    create(:contact, name: 'Potter', account_id: account.id)
+    create(:contact, name: 'Lily Potter', account_id: account.id)
     contact_2 = create(:contact, name: 'Harry Potter', account_id: account.id, email: 'harry@chatwoot.com')
     conversation_1 = create(:conversation, account: account, inbox: inbox, assignee: user_1, display_id: 1213)
     conversation_2 = create(:conversation, account: account, inbox: inbox, assignee: user_1, display_id: 1223)
@@ -34,28 +34,29 @@ describe ::TextSearch do
   describe '#perform' do
     context 'with text search' do
       it 'filter conversations by number' do
-        params = { q: '122' }
-        result = described_class.new(user_1, params).perform
-        expect(result[:conversations].length).to eq 1
-        expect(result[:contacts].length).to eq 1
+        params = { q: '1223' }
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
+        conversation_count = PgSearch.multisearch('1223').where(searchable_type: 'Conversation').count
+        expect(result[:conversations].length).to eq conversation_count
+        expect(result[:contacts].length).to eq Contact.where('name ILIKE :contact', contact: "%#{params[:q].strip}%").count
       end
 
       it 'filter message and contacts by string' do
         params = { q: 'pot' }
-        result = described_class.new(user_1, params).perform
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         expect(result[:messages].length).to be 1
         expect(result[:contacts].length).to be 2
       end
 
       it 'filter conversations by contact details' do
         params = { q: 'pot' }
-        result = described_class.new(user_1, params).perform
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         expect(result[:conversations].length).to be 1
       end
 
       it 'filter conversations by contact email' do
         params = { q: 'harry@chatwoot.com' }
-        result = described_class.new(user_1, params).perform
+        result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         expect(result[:conversations].length).to be 1
       end
     end

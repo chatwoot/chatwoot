@@ -1,13 +1,7 @@
 class TextSearch
-  attr_reader :current_user, :current_account, :params
+  pattr_initialize [:current_user!, :current_account!, :params!]
 
   DEFAULT_STATUS = 'open'.freeze
-
-  def initialize(current_user, params)
-    @current_user = current_user
-    @current_account = @current_user.account || Current.account
-    @params = params
-  end
 
   def perform
     set_inboxes
@@ -26,14 +20,16 @@ class TextSearch
 
   def filter_conversations
     @conversations = PgSearch.multisearch((@params[:q]).to_s).where(
-      inbox_id: @inbox_ids, account_id: @current_account, searchable_type: 'Conversation'
-    ).joins('INNER JOIN conversations ON pg_search_documents.searchable_id = conversations.id').includes(:searchable).limit(20).collect(&:searchable)
+      account_id: @current_account, searchable_type: 'Conversation'
+    ).joins("INNER JOIN conversations ON pg_search_documents.searchable_id = conversations.id
+      AND conversations.inbox_id IN (#{@inbox_ids.join(',')})").includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_messages
     @messages = PgSearch.multisearch((@params[:q]).to_s).where(
-      inbox_id: @inbox_ids, account_id: @current_account, searchable_type: 'Message'
-    ).joins('INNER JOIN messages ON pg_search_documents.searchable_id = messages.id').includes(:searchable).limit(20).collect(&:searchable)
+      account_id: @current_account, searchable_type: 'Message'
+    ).joins("INNER JOIN messages ON pg_search_documents.searchable_id = messages.id
+      AND messages.inbox_id IN (#{@inbox_ids.join(',')})").includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_contacts

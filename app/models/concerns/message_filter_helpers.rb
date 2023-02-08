@@ -17,6 +17,10 @@ module MessageFilterHelpers
     incoming? || outgoing? || input_csat?
   end
 
+  def searchable_message_types?
+    incoming? || outgoing?
+  end
+
   def instagram_story_mention?
     inbox.instagram? && try(:content_attributes)[:image_type] == 'story_mention'
   end

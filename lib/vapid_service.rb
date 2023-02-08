@@ -12,7 +12,7 @@ class VapidService
     return config['VAPID_KEYS'] if config['VAPID_KEYS'].present?
 
     # keys don't exist in the database. so let's generate and save them
-    keys = Webpush.generate_key
+    keys = WebPush.generate_key
     # TODO: remove the logic on environment variables when we completely deprecate
     public_key = ENV.fetch('VAPID_PUBLIC_KEY') { keys.public_key }
     private_key = ENV.fetch('VAPID_PRIVATE_KEY') { keys.private_key }

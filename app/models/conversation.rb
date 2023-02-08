@@ -54,7 +54,7 @@ class Conversation < ApplicationRecord
   multisearchable(
     against: [:display_id, :name, :email, :phone_number, :account_id],
     additional_attributes: lambda { |conversation|
-                             { conversation_id: conversation.id, account_id: conversation.account_id, inbox_id: conversation.inbox_id }
+                             { account_id: conversation.account_id }
                            }
   )
   validates :account_id, presence: true
@@ -101,7 +101,6 @@ class Conversation < ApplicationRecord
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
-  after_create_commit :update_contact_search_document, if: :contact_id?
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account

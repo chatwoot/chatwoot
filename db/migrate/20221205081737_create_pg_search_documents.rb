@@ -3,14 +3,12 @@ class CreatePgSearchDocuments < ActiveRecord::Migration[6.1]
     say_with_time('Creating table for pg_search multisearch') do
       create_table :pg_search_documents do |t|
         t.text :content
-        t.bigint 'conversation_id'
         t.bigint 'account_id'
-        t.bigint 'inbox_id'
         t.belongs_to :searchable, polymorphic: true, index: true
         t.timestamps null: false
       end
       add_index :pg_search_documents, :account_id
-      add_index :pg_search_documents, :conversation_id
+      add_index :pg_search_documents, [:searchable_id, :searchable_type], unique: true, name: 'unique_searchables_index'
     end
   end
 

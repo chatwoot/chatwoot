@@ -75,4 +75,12 @@ RSpec.describe Contact do
       expect(contact.email).to eq 'test@test.com'
     end
   end
+
+  context 'when update contact details' do
+    it 'will update conversation search document' do
+      contact = create(:contact)
+      create(:conversation, contact_id: contact.id)
+      expect { contact.update!(email: 'test123@test.com') }.to have_enqueued_job(Conversations::UpdatePgSearchDocumentJob)
+    end
+  end
 end
