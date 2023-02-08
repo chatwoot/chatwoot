@@ -4,7 +4,7 @@ ruby '3.1.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6.1', '>= 6.1.6.1'
+gem 'rails', '~> 6.1', '>= 6.1.7.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -98,12 +98,12 @@ gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails', '~> 5.3', '>= 5.3.1'
 gem 'sentry-ruby', '~> 5.3'
-gem 'sentry-sidekiq', '~> 5.3'
+gem 'sentry-sidekiq', '~> 5.3', '>= 5.3.1'
 
 ##-- background job processing --##
-gem 'sidekiq', '~> 6.4.0'
+gem 'sidekiq', '~> 6.4.2'
 # We want cron jobs
-gem 'sidekiq-cron', '~> 1.3'
+gem 'sidekiq-cron', '~> 1.6', '>= 1.6.0'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -162,7 +162,7 @@ end
 
 group :test do
   # Cypress in rails.
-  gem 'cypress-on-rails', '~> 1.0'
+  gem 'cypress-on-rails', '~> 1.13', '>= 1.13.1'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls
