@@ -45,6 +45,11 @@
               :longitude="attachment.coordinates_long"
               :name="attachment.fallback_title"
             />
+            <bubble-contact
+              v-else-if="attachment.file_type === 'contact'"
+              :name="data.content"
+              :phone-number="attachment.fallback_title"
+            />
             <instagram-image-error-placeholder
               v-else-if="hasImageError && hasInstagramStory"
             />
@@ -125,6 +130,7 @@ import BubbleLocation from './bubble/Location';
 import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
 import BubbleVideo from './bubble/Video.vue';
+import BubbleContact from './bubble/Contact';
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
 import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
@@ -143,6 +149,7 @@ export default {
     BubbleMailHead,
     BubbleText,
     BubbleVideo,
+    BubbleContact,
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
