@@ -10,6 +10,7 @@
           :status="contact.availability_status"
         />
         <woot-button
+          v-if="showCloseButton"
           :icon="closeIconName"
           class="clear secondary close-button--rtl"
           @click="onPanelToggle"
@@ -198,6 +199,10 @@ export default {
       default: '',
     },
     showAvatar: {
+      type: Boolean,
+      default: true,
+    },
+    showCloseButton: {
       type: Boolean,
       default: true,
     },

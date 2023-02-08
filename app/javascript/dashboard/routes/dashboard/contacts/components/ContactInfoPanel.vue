@@ -4,6 +4,7 @@
     :class="{ 'border-left': showAvatar }"
   >
     <contact-info
+      :show-close-button="showCloseButton"
       :show-avatar="showAvatar"
       :contact="contact"
       close-icon-name="dismiss"
@@ -109,6 +110,10 @@ export default {
       default: () => {},
     },
     showAvatar: {
+      type: Boolean,
+      default: true,
+    },
+    showCloseButton: {
       type: Boolean,
       default: true,
     },

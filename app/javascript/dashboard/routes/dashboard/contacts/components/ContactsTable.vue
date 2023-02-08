@@ -290,6 +290,25 @@ export default {
   height: 100%;
   overflow: hidden;
 }
+.app-rtl--wrapper {
+  .contacts-table-wrap {
+    &::v-deep {
+      .ve-table-content {
+        .ve-table-body .ve-table-body-tr .ve-table-body-td {
+          text-align: right !important;
+        }
+
+        .ve-table-header .ve-table-header-tr .ve-table-header-th {
+          text-align: right !important;
+        }
+      }
+    }
+
+    .user-block {
+      text-align: right;
+    }
+  }
+}
 
 .contacts-table-wrap::v-deep {
   .ve-table {
@@ -302,10 +321,7 @@ export default {
 
     .user-block {
       min-width: 0;
-    }
-
-    .user-thumbnail-box {
-      margin-right: var(--space-small);
+      margin: 0 var(--space-small);
     }
 
     .user-name {
