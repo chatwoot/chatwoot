@@ -472,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
       "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
-      "WHATSAPP_SECTION_TITLE": "API key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",
