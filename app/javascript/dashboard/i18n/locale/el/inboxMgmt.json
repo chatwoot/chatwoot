@@ -472,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Επιτρέψτε τα μηνύματα μετά την επίλυση της συνομιλίας",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Επιτρέψτε στους τελικούς χρήστες να στέλνουν μηνύματα ακόμη και μετά την επίλυση της συζήτησης.",
       "WHATSAPP_SECTION_SUBHEADER": "Αυτό το κλειδί API χρησιμοποιείται για την ενσωμάτωση με τα API WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Κλειδί API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Κλειδί API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Ενημέρωση"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Αυτόματο όριο ανάθεσης",
