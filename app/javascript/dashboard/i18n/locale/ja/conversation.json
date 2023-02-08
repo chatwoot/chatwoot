@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
     "UNKNOWN_FILE_TYPE": "不明なファイル",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "添付ファイルをアップロード中...",
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
