@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
