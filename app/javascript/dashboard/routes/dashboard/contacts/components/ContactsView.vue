@@ -382,6 +382,7 @@ export default {
 <style lang="scss" scoped>
 .contacts-page {
   width: 100%;
+  border-right: 1px solid var(--s-50);
 }
 
 .left-wrap {

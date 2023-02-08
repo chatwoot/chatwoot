@@ -63,6 +63,7 @@
               icon="chevron-left"
               size="16"
               class="margin-left-minus-slab"
+              :class="{ 'margin-right-minus-slab': isRTLView }"
             />
           </woot-button>
           <woot-button
@@ -97,6 +98,7 @@
               icon="chevron-right"
               size="16"
               class="margin-left-minus-slab"
+              :class="{ 'margin-right-minus-slab': isRTLView }"
             />
           </woot-button>
         </div>
@@ -109,6 +111,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 import NotificationPanelList from './NotificationPanelList';
 
@@ -116,7 +119,7 @@ export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, rtlMixin],
   data() {
     return {
       pageSize: 15,
@@ -230,6 +233,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .notification-wrap {
+    left: 0;
+    right: var(--space-jumbo);
+  }
+
+  .action-button {
+    margin-left: var(--space-small);
+    margin-right: 0;
+  }
+}
+
 .flex-view {
   display: flex;
 }
@@ -248,13 +263,6 @@ export default {
   position: absolute;
   left: var(--space-jumbo);
   margin: var(--space-small);
-}
-
-.app-rtl--wrapper {
-  .notification-wrap {
-    left: 0;
-    right: var(--space-jumbo);
-  }
 }
 
 .header-wrap {
@@ -280,6 +288,7 @@ export default {
     font-size: var(--font-size-micro);
     font-weight: var(--font-weight-bold);
     margin-left: var(--space-smaller);
+    margin-right: var(--space-smaller);
   }
 
   .action-button {

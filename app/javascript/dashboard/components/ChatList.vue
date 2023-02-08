@@ -849,4 +849,14 @@ export default {
 .delete-custom-view__button {
   margin-right: var(--space-normal);
 }
+
+.app-rtl--wrapper {
+  .tab--chat-type {
+    ::v-deep {
+      .tabs .tabs-title:first-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
 </style>

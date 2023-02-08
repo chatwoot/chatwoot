@@ -24,4 +24,12 @@ export default {
 .toggle-sidebar {
   margin-left: var(--space-minus-small);
 }
+
+.app-rtl--wrapper {
+  .toggle-sidebar {
+    margin-left: 0;
+    margin-right: var(--space-minus-small);
+    transform: rotate(180deg);
+  }
+}
 </style>

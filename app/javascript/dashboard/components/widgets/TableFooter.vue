@@ -25,6 +25,7 @@
             icon="chevron-left"
             size="18"
             class="margin-left-minus-slab"
+            :class="{ 'margin-right-minus-slab': isRTLView }"
           />
         </woot-button>
         <woot-button
@@ -66,6 +67,7 @@
             icon="chevron-right"
             size="18"
             class="margin-left-minus-slab"
+            :class="{ 'margin-right-minus-slab': isRTLView }"
           />
         </woot-button>
       </div>
@@ -74,8 +76,10 @@
 </template>
 
 <script>
+import rtlMixin from 'shared/mixins/rtlMixin';
 export default {
   components: {},
+  mixins: [rtlMixin],
   props: {
     currentPage: {
       type: Number,
