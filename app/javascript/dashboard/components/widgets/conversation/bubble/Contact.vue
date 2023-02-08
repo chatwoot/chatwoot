@@ -84,6 +84,7 @@ export default {
       const queryPayload = { payload: [query] };
       const contacts = await this.$store.dispatch('contacts/filter', {
         queryPayload,
+        resetState: false,
       });
       return contacts.shift();
     },
