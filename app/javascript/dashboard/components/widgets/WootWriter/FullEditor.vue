@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="editor-root editor--article">
+      <input ref="imageUploadInput" type="file" hidden @change="onFileChange" />
       <div ref="editor" />
     </div>
   </div>
@@ -20,13 +21,19 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
-const createState = (content, placeholder, plugins = []) => {
+const createState = (
+  content,
+  placeholder,
+  plugins = [],
+  onImageUpload = () => {}
+) => {
   return EditorState.create({
     doc: new ArticleMarkdownTransformer(fullSchema).parse(content),
     plugins: wootArticleWriterSetup({
       schema: fullSchema,
       placeholder,
       plugins,
+      onImageUpload,
     }),
   });
 };
@@ -64,7 +71,12 @@ export default {
     },
   },
   created() {
-    this.state = createState(this.value, this.placeholder, this.plugins);
+    this.state = createState(
+      this.value,
+      this.placeholder,
+      this.plugins,
+      this.openFileBrowser
+    );
   },
   mounted() {
     this.createEditorView();
@@ -73,8 +85,57 @@ export default {
     this.focusEditorInputField();
   },
   methods: {
+    openFileBrowser() {
+      this.$refs.imageUploadInput.click();
+    },
+    onFileChange() {
+      const file = this.$refs.imageUploadInput.files[0];
+      this.uploadImageToStorage(file);
+
+      this.$refs.imageUploadInput.value = '';
+    },
+    async uploadImageToStorage(file) {
+      try {
+        const fileUrl = await this.$store.dispatch('articles/attachImage', {
+          portalSlug: this.$route.params.portalSlug,
+          file,
+        });
+
+        if (fileUrl) {
+          this.onImageUploadStart(fileUrl);
+        }
+        // this.showAlert(this.$t('TEAMS_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+        // this.showAlert(this.$t('TEAMS_SETTINGS.DELETE.API.ERROR_MESSAGE'));
+      }
+    },
+    onImageUploadStart(fileUrl) {
+      const { selection } = this.editorView.state;
+      const from = selection.from;
+      const node = this.editorView.state.schema.nodes.image.create({
+        src: fileUrl,
+      });
+
+      if (node) {
+        const tr = this.editorView.state.tr
+          .replaceSelectionWith(node)
+          .insert(from, this.editorView.state.schema.node('paragraph'));
+        this.editorView.dispatch(tr.scrollIntoView());
+      }
+      this.$emit('image-upload-start');
+    },
+    onImageUploadStop() {
+      // append the image to the editor
+    },
     reloadState() {
-      this.state = createState(this.value, this.placeholder, this.plugins);
+      this.state = createState(
+        this.value,
+        this.placeholder,
+        this.plugins,
+        this.openFileBrowser
+      );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },
