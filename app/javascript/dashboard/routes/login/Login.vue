@@ -47,7 +47,7 @@
               button-class="large expanded"
             />
           </form>
-          <GoogleOAuthButton v-if="showGoogleOAuth()" />
+          <GoogleOAuthButton v-if="showGoogleOAuth()" button-size="large" />
         </div>
         <div class="text-center column sigin__footer">
           <p v-if="!globalConfig.disableUserProfileUpdate">
