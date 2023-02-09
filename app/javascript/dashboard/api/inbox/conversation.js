@@ -46,7 +46,7 @@ class ConversationApi extends ApiClient {
   }
 
   fullSearch({ q }) {
-    return axios.get(`${this.url}/text_search`, {
+    return axios.get(`${this.url.replace('/conversations', '')}/search`, {
       params: {
         q,
       },
