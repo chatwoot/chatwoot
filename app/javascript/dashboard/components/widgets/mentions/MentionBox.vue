@@ -1,22 +1,23 @@
 <template>
-  <ul
-    v-if="items.length"
-    class="vertical dropdown menu mention--box"
-    :style="{ top: getTopPadding() + 'rem' }"
-  >
-    <li
-      v-for="(item, index) in items"
-      :id="`mention-item-${index}`"
-      :key="item.key"
-      :class="{ active: index === selectedIndex }"
-      @click="onListItemSelection(index)"
-      @mouseover="onHover(index)"
-    >
-      <a class="text-truncate">
-        <strong>{{ item.label }}</strong> - {{ item.description }}
-      </a>
-    </li>
-  </ul>
+  <div v-if="items.length" ref="mentionsListContainer" class="mention--box">
+    <ul class="vertical dropdown menu">
+      <woot-dropdown-item
+        v-for="(item, index) in items"
+        :id="`mention-item-${index}`"
+        :key="item.key"
+        @mouseover="onHover(index)"
+      >
+        <woot-button
+          class="canned-item__button"
+          :variant="index === selectedIndex ? '' : 'clear'"
+          :class="{ active: index === selectedIndex }"
+          @click="onListItemSelection(index)"
+        >
+          <strong>{{ item.label }}</strong> - {{ item.description }}
+        </woot-button>
+      </woot-dropdown-item>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -40,17 +41,27 @@ export default {
         this.selectedIndex = 0;
       }
     },
+    selectedIndex() {
+      const container = this.$refs.mentionsListContainer;
+      const item = container.querySelector(
+        `#mention-item-${this.selectedIndex}`
+      );
+      if (item) {
+        const itemTop = item.offsetTop;
+        const itemBottom = itemTop + item.offsetHeight;
+        const containerTop = container.scrollTop;
+        const containerBottom = containerTop + container.offsetHeight;
+        if (itemTop < containerTop) {
+          container.scrollTop = itemTop;
+        } else if (itemBottom + 34 > containerBottom) {
+          container.scrollTop = itemBottom - container.offsetHeight + 34;
+        }
+      }
+    },
   },
   methods: {
-    getTopPadding() {
-      if (this.items.length <= 4) {
-        return -(this.items.length * 2.9 + 1.7);
-      }
-      return -14;
-    },
     handleKeyboardEvent(e) {
       this.processKeyDownEvent(e);
-      this.$el.scrollTop = 29 * this.selectedIndex;
     },
     onHover(index) {
       this.selectedIndex = index;
@@ -69,20 +80,40 @@ export default {
 <style scoped lang="scss">
 .mention--box {
   background: var(--white);
-  border-bottom: var(--space-small) solid var(--white);
   border-radius: var(--border-radius-normal);
   border-top: 1px solid var(--color-border);
   box-shadow: var(--shadow-medium);
   left: 0;
-  max-height: 14rem;
+  bottom: 100%;
+  max-height: 15.6rem;
   overflow: auto;
-  padding-top: var(--space-small);
+  padding: var(--space-small) var(--space-small) 0;
   position: absolute;
   width: 100%;
   z-index: 100;
 
-  .active a {
-    background: var(--w-500);
+  .dropdown-menu__item:last-child {
+    padding-bottom: var(--space-smaller);
   }
+
+  .active {
+    color: var(--white);
+
+    &:hover {
+      color: var(--w-700);
+    }
+  }
+
+  .button {
+    transition: none;
+    height: var(--space-large);
+    line-height: 1.4;
+  }
+}
+
+.canned-item__button::v-deep .button__content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

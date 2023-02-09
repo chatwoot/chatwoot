@@ -7,9 +7,6 @@
     >
       {{ value['TEXT'] }}
     </option>
-    <option value="all">
-      {{ $t('CHAT_LIST.FILTER_ALL') }}
-    </option>
   </select>
 </template>
 
