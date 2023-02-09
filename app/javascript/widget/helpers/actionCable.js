@@ -1,6 +1,15 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import { playNewMessageNotificationInWidget } from 'widget/helpers/WidgetAudioNotificationHelper';
 import { ON_AGENT_MESSAGE_RECEIVED } from '../constants/widgetBusEvents';
+import { IFrameHelper } from 'widget/helpers/utils';
+
+const isMessageInActiveConversation = (getters, message) => {
+  const activeConversationId =
+    getters['conversationAttributes/getConversationParams'].id;
+  return (
+    activeConversationId && message.conversation_id !== activeConversationId
+  );
+};
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -25,15 +34,24 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageCreated = data => {
+    if (isMessageInActiveConversation(this.app.$store.getters, data)) {
+      return;
+    }
+
     this.app.$store
       .dispatch('conversation/addOrUpdateMessage', data)
       .then(() => window.bus.$emit(ON_AGENT_MESSAGE_RECEIVED));
+
+    IFrameHelper.sendMessage({ event: 'onMessage', data });
     if (data.sender_type === 'User') {
       playNewMessageNotificationInWidget();
     }
   };
 
   onMessageUpdated = data => {
+    if (isMessageInActiveConversation(this.app.$store.getters, data)) {
+      return;
+    }
     this.app.$store.dispatch('conversation/addOrUpdateMessage', data);
   };
 
@@ -51,7 +69,13 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onTypingOn = data => {
-    if (data.is_private) {
+    const activeConversationId = this.app.$store.getters[
+      'conversationAttributes/getConversationParams'
+    ].id;
+    const isUserTypingOnAnotherConversation =
+      data.conversation && data.conversation.id !== activeConversationId;
+
+    if (isUserTypingOnAnotherConversation || data.is_private) {
       return;
     }
     this.clearTimer();
