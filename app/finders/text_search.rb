@@ -30,8 +30,9 @@ class TextSearch
     #   account_id: @current_account.id, searchable_type: 'Message'
     # ).joins("INNER JOIN messages ON pg_search_documents.searchable_id = messages.id
     #   AND messages.inbox_id IN (#{@inbox_ids.join(',')})").includes(:searchable).limit(20).collect(&:searchable)
-    binding.pry
-    @messages = Message.where(account_id: @current_account.id, inbox_id: @inbox_ids, message_type: [:incoming, :outgoing]).where.not(id: [305347, 1910988, 1953590, 4485918, 5730758, 5858699, 5908520, 5936813, 5987708, 6009638, 6028365, 6082901, 6304243]).text_search(@params[:q]).limit(20)
+    @messages = Message.where(account_id: @current_account.id, inbox_id: @inbox_ids, message_type: [:incoming, :outgoing]).where.not(
+      id: [305347, 1910988, 1953590, 4485918, 5730758, 5858699, 5908520, 5936813, 5987708, 6009638, 6028365, 6082901, 6304243]
+      ).text_search(@params[:q]).limit(20)
   end
 
   def filter_contacts
