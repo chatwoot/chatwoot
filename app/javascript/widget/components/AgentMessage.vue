@@ -24,7 +24,7 @@
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-50'))"
+          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <image-bubble
