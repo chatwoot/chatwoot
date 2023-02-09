@@ -4,7 +4,7 @@
       <fluent-icon icon="document" size="28" />
     </div>
     <div class="meta">
-      <div class="title" :style="{ color: textColor }">
+      <div class="title" :class="titleColor" :style="{ color: textColor }">
         {{ title }}
       </div>
       <div class="link-wrap mb-1">
@@ -24,12 +24,14 @@
 
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
     FluentIcon,
   },
+  mixins: [darkModeMixin],
   props: {
     url: {
       type: String,
@@ -43,6 +45,10 @@ export default {
       type: String,
       default: '',
     },
+    isUserBubble: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     title() {
@@ -53,8 +59,18 @@ export default {
     fileName() {
       return this.url.substring(this.url.lastIndexOf('/') + 1);
     },
-    textColor() {
+    contrastingTextColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    textColor() {
+      return this.isUserBubble && this.widgetColor
+        ? this.contrastingTextColor
+        : '';
+    },
+    titleColor() {
+      return !this.isUserBubble
+        ? this.$dm('text-black-900', 'dark:text-slate-50')
+        : '';
     },
   },
   methods: {
