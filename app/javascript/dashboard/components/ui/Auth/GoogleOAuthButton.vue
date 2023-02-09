@@ -4,7 +4,15 @@
       OR
     </div>
     <a :href="getGoogleAuthUrl()">
-      <button class="button large expanded button__google_login">
+      <button
+        class="button expanded button__google_login"
+        :class="{
+          // Explicit checking to ensure no other value is used
+          large: size === 'large',
+          small: size === 'small',
+          tiny: size === 'tiny',
+        }"
+      >
         <img
           src="/assets/images/auth/google.svg"
           alt="Google Logo"
@@ -17,11 +25,17 @@
 </template>
 
 <script>
+const allowedButtons = ['small', 'tiny', 'large'];
 export default {
   props: {
     showSeparator: {
       type: Boolean,
       default: true,
+    },
+    buttonSize: {
+      type: String,
+      default: 'large',
+      validator: value => allowedButtons.includes(value),
     },
   },
   methods: {
