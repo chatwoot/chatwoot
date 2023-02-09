@@ -11,6 +11,7 @@
           large: buttonSize === 'large',
           small: buttonSize === 'small',
           tiny: buttonSize === 'tiny',
+          // don't handle 'default' case
         }"
       >
         <img
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-const allowedButtons = ['small', 'tiny', 'large'];
+const allowedButtons = ['small', 'tiny', 'large', 'default'];
 export default {
   props: {
     showSeparator: {
