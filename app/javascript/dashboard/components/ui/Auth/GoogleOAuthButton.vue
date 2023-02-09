@@ -8,9 +8,9 @@
         class="button expanded button__google_login"
         :class="{
           // Explicit checking to ensure no other value is used
-          large: size === 'large',
-          small: size === 'small',
-          tiny: size === 'tiny',
+          large: buttonSize === 'large',
+          small: buttonSize === 'small',
+          tiny: buttonSize === 'tiny',
         }"
       >
         <img

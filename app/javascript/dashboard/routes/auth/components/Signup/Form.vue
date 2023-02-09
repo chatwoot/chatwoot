@@ -65,7 +65,7 @@
         icon="arrow-chevron-right"
       />
     </form>
-    <GoogleOAuthButton v-if="showGoogleOAuth()" size="small">
+    <GoogleOAuthButton v-if="showGoogleOAuth()" button-size="small">
       {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
     </GoogleOAuthButton>
     <p v-dompurify-html="termsLink" class="accept--terms" />
