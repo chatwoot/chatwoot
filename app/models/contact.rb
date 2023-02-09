@@ -108,6 +108,25 @@ class Contact < ApplicationRecord
     )
   }
 
+  pg_search_scope(
+    :text_search,
+    against: %i[
+      id
+      name
+      email
+      phone_number
+    ],
+    using: {
+      trigram: {
+        word_similarity: true,
+        threshold: 0.8
+      },
+      tsearch: {
+        prefix: true
+      }
+    }
+  )
+
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end

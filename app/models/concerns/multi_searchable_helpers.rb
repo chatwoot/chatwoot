@@ -6,7 +6,7 @@ module MultiSearchableHelpers
       using: {
         trigram: {
           word_similarity: true,
-          threshold: 0.8
+          threshold: 0.5
         },
         tsearch: { any_word: true }
       }
