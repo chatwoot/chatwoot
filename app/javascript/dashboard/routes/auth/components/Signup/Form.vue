@@ -2,17 +2,34 @@
   <div>
     <form @submit.prevent="submit">
       <div class="input-wrap">
-        <auth-input
-          v-model="credentials.fullName"
-          :class="{ error: $v.credentials.fullName.$error }"
-          :label="$t('REGISTER.FULL_NAME.LABEL')"
-          icon-name="person"
-          :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
-          :error="
-            $v.credentials.fullName.$error ? $t('REGISTER.FULL_NAME.ERROR') : ''
-          "
-          @blur="$v.credentials.fullName.$touch"
-        />
+        <div class="input-wrap__two-column">
+          <auth-input
+            v-model="credentials.fullName"
+            :class="{ error: $v.credentials.fullName.$error }"
+            :label="$t('REGISTER.FULL_NAME.LABEL')"
+            icon-name="person"
+            :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
+            :error="
+              $v.credentials.fullName.$error
+                ? $t('REGISTER.FULL_NAME.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.fullName.$touch"
+          />
+          <auth-input
+            v-model="credentials.accountName"
+            :class="{ error: $v.credentials.accountName.$error }"
+            icon-name="building-bank"
+            :label="$t('REGISTER.COMPANY_NAME.LABEL')"
+            :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
+            :error="
+              $v.credentials.accountName.$error
+                ? $t('REGISTER.COMPANY_NAME.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.accountName.$touch"
+          />
+        </div>
         <auth-input
           v-model.trim="credentials.email"
           type="email"
@@ -22,19 +39,6 @@
           :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
           :error="$v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''"
           @blur="$v.credentials.email.$touch"
-        />
-        <auth-input
-          v-model="credentials.accountName"
-          :class="{ error: $v.credentials.accountName.$error }"
-          icon-name="building-bank"
-          :label="$t('REGISTER.COMPANY_NAME.LABEL')"
-          :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
-          :error="
-            $v.credentials.accountName.$error
-              ? $t('REGISTER.COMPANY_NAME.ERROR')
-              : ''
-          "
-          @blur="$v.credentials.accountName.$touch"
         />
         <auth-input
           v-model.trim="credentials.password"
@@ -223,6 +227,14 @@ export default {
 
 .accept--terms {
   margin: var(--space-normal) 0 var(--space-smaller) 0;
+}
+
+.input-wrap {
+  .input-wrap__two-column {
+    display: grid;
+    gap: 1.6rem;
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+  }
 }
 
 .separator {
