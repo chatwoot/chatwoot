@@ -4,10 +4,11 @@ import { ON_AGENT_MESSAGE_RECEIVED } from '../constants/widgetBusEvents';
 import { IFrameHelper } from 'widget/helpers/utils';
 
 const isMessageInActiveConversation = (getters, message) => {
+  const { conversation_id: conversationId } = message;
   const activeConversationId =
     getters['conversationAttributes/getConversationParams'].id;
   return (
-    activeConversationId && message.conversation_id !== activeConversationId
+    activeConversationId && conversationId !== activeConversationId
   );
 };
 
