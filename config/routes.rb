@@ -178,8 +178,11 @@ Rails.application.routes.draw do
               patch :archive
               put :add_members
             end
+            post :attach_file, on: :collection
             resources :categories
-            resources :articles
+            resources :articles do
+              post :attach_file, on: :collection
+            end
           end
         end
       end
