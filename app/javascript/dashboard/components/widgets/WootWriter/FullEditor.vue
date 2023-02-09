@@ -136,19 +136,20 @@ export default {
       const node = this.editorView.state.schema.nodes.image.create({
         src: fileUrl,
       });
-
+      const paragraphNode = this.editorView.state.schema.node('paragraph');
       if (node) {
-        // Insert the image and the caption
+        // Insert the image and the caption wrapped inside a paragraph
         const tr = this.editorView.state.tr
-          .replaceSelectionWith(node)
+          .replaceSelectionWith(paragraphNode)
+          .insert(from + 1, node)
           .insert(
-            from + node.nodeSize,
+            from + paragraphNode.nodeSize + node.nodeSize,
             this.editorView.state.schema.text(
               this.$t('HELP_CENTER.ARTICLE_EDITOR.CAPTION_PLACEHOLDER'),
               [this.editorView.state.schema.mark('em')]
             )
-          )
-          .insert(from, this.editorView.state.schema.node('paragraph'));
+          );
+
         this.editorView.dispatch(tr.scrollIntoView());
         this.focusEditorInputField();
       }
