@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="editor-root editor--article">
-      <input ref="imageUploadInput" type="file" hidden @change="onFileChange" />
+      <input
+        ref="imageUploadInput"
+        type="file"
+        accept="image/*"
+        hidden
+        @change="onFileChange"
+      />
       <div ref="editor" />
     </div>
   </div>
@@ -17,10 +23,12 @@ import {
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import alertMixin from 'shared/mixins/alertMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
+const MAXIMUM_FILE_UPLOAD_SIZE = 16; // in MB
 const createState = (
   content,
   placeholder,
@@ -39,7 +47,7 @@ const createState = (
 };
 
 export default {
-  mixins: [eventListenerMixins, uiSettingsMixin],
+  mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -90,7 +98,16 @@ export default {
     },
     onFileChange() {
       const file = this.$refs.imageUploadInput.files[0];
-      this.uploadImageToStorage(file);
+
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.uploadImageToStorage(file);
+      } else {
+        this.showAlert(
+          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR_FILE_SIZE', {
+            size: MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
 
       this.$refs.imageUploadInput.value = '';
     },
@@ -104,11 +121,13 @@ export default {
         if (fileUrl) {
           this.onImageUploadStart(fileUrl);
         }
-        // this.showAlert(this.$t('TEAMS_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.SUCCESS')
+        );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        // this.showAlert(this.$t('TEAMS_SETTINGS.DELETE.API.ERROR_MESSAGE'));
+        this.showAlert(
+          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR')
+        );
       }
     },
     onImageUploadStart(fileUrl) {
@@ -119,12 +138,20 @@ export default {
       });
 
       if (node) {
+        // Insert the image and the caption
         const tr = this.editorView.state.tr
           .replaceSelectionWith(node)
+          .insert(
+            from + node.nodeSize,
+            this.editorView.state.schema.text(
+              this.$t('HELP_CENTER.ARTICLE_EDITOR.CAPTION_PLACEHOLDER'),
+              [this.editorView.state.schema.mark('em')]
+            )
+          )
           .insert(from, this.editorView.state.schema.node('paragraph'));
         this.editorView.dispatch(tr.scrollIntoView());
+        this.focusEditorInputField();
       }
-      this.$emit('image-upload-start');
     },
     onImageUploadStop() {
       // append the image to the editor
