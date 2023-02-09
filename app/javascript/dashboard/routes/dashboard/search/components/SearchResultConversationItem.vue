@@ -5,10 +5,10 @@
       <div class="conversation-meta">
         <div class="left-column">
           <inbox-name :inbox="conversation.inbox" />
-          <div class="agent-details">
-            <thumbnail size="16px" :username="conversation.agent.name" />
-            <span>{{ conversation.agent.name }}</span>
-          </div>
+          <!-- <div class="agent-details">
+            <thumbnail size="16px" :username="conversation.assignee.name" />
+            <span>{{ conversation.assignee.name }}</span>
+          </div> -->
           <span class="conversation-id">
             Conversation Id: {{ conversation.id }}
           </span>

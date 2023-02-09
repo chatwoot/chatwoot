@@ -105,6 +105,22 @@ class Message < ApplicationRecord
 
   after_update_commit :dispatch_update_event
 
+  pg_search_scope(
+    :text_search,
+    against: %i[
+      content
+    ],
+    using: {
+      trigram: {
+        word_similarity: true,
+        threshold: 0.8
+      },
+      tsearch: {
+        prefix: true
+      }
+    }
+  )
+
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
   end
