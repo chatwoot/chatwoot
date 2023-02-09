@@ -7,9 +7,7 @@ const isMessageInActiveConversation = (getters, message) => {
   const { conversation_id: conversationId } = message;
   const activeConversationId =
     getters['conversationAttributes/getConversationParams'].id;
-  return (
-    activeConversationId && conversationId !== activeConversationId
-  );
+  return activeConversationId && conversationId !== activeConversationId;
 };
 
 class ActionCableConnector extends BaseActionCableConnector {
