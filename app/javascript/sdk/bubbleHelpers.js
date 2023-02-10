@@ -16,7 +16,7 @@ export const notificationBubble = document.createElement('span');
 export const setBubbleText = bubbleText => {
   if (isExpandedView(window.$chatwoot.type)) {
     const textNode = document.getElementById('woot-widget--expanded__text');
-    textNode.innerHTML = bubbleText;
+    textNode.innerText = bubbleText;
   }
 };
 
