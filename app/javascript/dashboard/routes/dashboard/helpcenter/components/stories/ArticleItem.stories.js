@@ -15,7 +15,7 @@ export default {
         type: 'text',
       },
     },
-    readCount: {
+    views: {
       defaultValue: 13,
       control: {
         type: 'number',
@@ -57,7 +57,7 @@ ArticleItem.args = {
     name: 'John Doe',
   },
   category: 'Getting started',
-  readCount: 12,
+  views: 12,
   status: 'published',
   updatedAt: 1657255863,
 };
