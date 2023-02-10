@@ -15,6 +15,11 @@
     <section class="row align-center">
       <div v-if="!email" class="small-12 medium-4 column">
         <div class="login-box column align-self-top">
+          <GoogleOAuthButton
+            v-if="showGoogleOAuth()"
+            button-size="large"
+            class="oauth-reverse"
+          />
           <form class="column log-in-form" @submit.prevent="login()">
             <label :class="{ error: $v.credentials.email.$error }">
               {{ $t('LOGIN.EMAIL.LABEL') }}
@@ -47,7 +52,6 @@
               button-class="large expanded"
             />
           </form>
-          <GoogleOAuthButton v-if="showGoogleOAuth()" button-size="large" />
         </div>
         <div class="text-center column sigin__footer">
           <p v-if="!globalConfig.disableUserProfileUpdate">
@@ -197,28 +201,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.separator {
+.oauth-reverse {
   display: flex;
-  align-items: center;
-  margin: 2rem 0rem;
-  gap: 1rem;
-  color: var(--s-300);
-  font-size: var(--font-size-small);
-  &::before,
-  &::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--s-100);
-  }
-}
-.button__google_login {
-  background: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  border: 1px solid var(--s-100);
-  color: var(--b-800);
+  flex-direction: column-reverse;
 }
 </style>
