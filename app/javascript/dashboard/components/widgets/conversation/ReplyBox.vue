@@ -701,17 +701,29 @@ export default {
         if (this.isSignatureEnabledForInbox && this.messageSignature) {
           newMessage += '\n\n' + this.messageSignature;
         }
-        const messagePayload = this.getMessagePayload(newMessage);
+
+        if (this.isWhatsAppChannel) {
+          this.sendMessageAsMultipleMessages(newMessage);
+        } else {
+          const messagePayload = this.getMessagePayload(newMessage);
+          this.sendMessage(messagePayload);
+        }
 
         this.clearMessage();
         if (!this.isPrivate) {
           this.clearEmailField();
         }
-        this.sendMessage(messagePayload);
+
         this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
+    },
+    sendMessageAsMultipleMessages(message) {
+      const messages = this.getMessagePayloadForWhatsapp(message);
+      messages.forEach(messagePayload => {
+        this.sendMessage(messagePayload);
+      });
     },
     async onSendReply() {
       const undefinedVariables = getUndefinedVariablesInMessage({
@@ -950,6 +962,33 @@ export default {
       this.attachedFiles = this.attachedFiles.filter(
         (item, index) => itemIndex !== index
       );
+    },
+    getMessagePayloadForWhatsapp(message) {
+      const multipleMessagePayload = [];
+      const messagePayload = {
+        conversationId: this.currentChat.id,
+        message,
+        private: false,
+      };
+
+      multipleMessagePayload.push(messagePayload);
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        this.attachedFiles.forEach(attachment => {
+          const attachedFile = this.globalConfig.directUploadsEnabled
+            ? attachment.blobSignedId
+            : attachment.resource.file;
+          const attachmentPayload = {
+            conversationId: this.currentChat.id,
+            files: [attachedFile],
+            private: false,
+            message: '',
+          };
+          multipleMessagePayload.push(attachmentPayload);
+        });
+      }
+
+      return multipleMessagePayload;
     },
     getMessagePayload(message) {
       const messagePayload = {
