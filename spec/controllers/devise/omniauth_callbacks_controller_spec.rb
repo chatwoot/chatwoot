@@ -43,15 +43,17 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
     end
 
     it 'blocks personal accounts signup' do
-      set_omniauth_config('personal@gmail.com')
-      get '/omniauth/google_oauth2/callback'
+      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+        set_omniauth_config('personal@gmail.com')
+        get '/omniauth/google_oauth2/callback'
 
-      # expect a 302 redirect to auth/google_oauth2/callback
-      expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
-      follow_redirect!
+        # expect a 302 redirect to auth/google_oauth2/callback
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
 
-      # expect a 302 redirect to app/login with error disallowing personal accounts
-      expect(response).to redirect_to(%r{/app/login\?error=business-account-only$})
+        # expect a 302 redirect to app/login with error disallowing personal accounts
+        expect(response).to redirect_to(%r{/app/login\?error=business-account-only$})
+      end
     end
 
     # This test does not affect line coverage, but it is important to ensure that the logic
