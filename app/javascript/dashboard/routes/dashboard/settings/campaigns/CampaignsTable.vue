@@ -279,6 +279,10 @@ export default {
     }
     tbody.ve-table-body .ve-table-body-tr .ve-table-body-td {
       padding: var(--space-slab) var(--space-two);
+
+      .inbox--name {
+        margin: 0;
+      }
     }
   }
 
