@@ -11,7 +11,8 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       uid: '123545',
       info: {
         name: 'test',
-        email: for_email
+        email: for_email,
+        image: 'https://example.com/image.jpg'
       }
     )
   end
@@ -21,6 +22,7 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       set_omniauth_config('test_not_preset@example.com')
       allow(AccountBuilder).to receive(:new).and_return(account_builder)
       allow(account_builder).to receive(:perform).and_return(user_double)
+      allow(Avatar::AvatarFromUrlJob).to receive(:perform_later).and_return(true)
 
       get '/omniauth/google_oauth2/callback'
 
@@ -35,6 +37,7 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
                                                            locale: I18n.locale,
                                                            confirmed: nil
                                                          })
+      expect(account_builder).to have_received(:perform)
     end
 
     it 'blocks personal accounts signup' do
