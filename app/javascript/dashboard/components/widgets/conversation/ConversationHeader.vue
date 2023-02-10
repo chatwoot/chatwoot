@@ -11,7 +11,7 @@
         />
         <div class="user--profile__meta">
           <h3 class="user--name text-truncate">
-            <span class="margin-right-smaller">{{ currentContact.name }}</span>
+            <span>{{ currentContact.name }}</span>
             <fluent-icon
               v-if="!isHMACVerified"
               v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
@@ -21,11 +21,7 @@
             />
           </h3>
           <div class="conversation--header--actions text-truncate">
-            <inbox-name
-              v-if="hasMultipleInboxes"
-              :inbox="inbox"
-              class="margin-right-small"
-            />
+            <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
             <span
               v-if="isSnoozed"
               class="snoozed--display-text margin-right-small"
@@ -167,6 +163,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/woot';
+.app-rtl--wrapper {
+  .conversation--header--actions {
+    ::v-deep .inbox--name {
+      margin-left: var(--space-one);
+      margin-right: 0;
+    }
+  }
+}
 
 .conv-header {
   flex: 0 0 var(--space-jumbo);
@@ -216,6 +220,10 @@ export default {
   display: flex;
   font-size: var(--font-size-mini);
 
+  ::v-deep .inbox--name {
+    margin-left: 0;
+  }
+
   .user--profile__button {
     padding: 0;
   }
@@ -228,5 +236,6 @@ export default {
 
 .hmac-warning__icon {
   color: var(--y-600);
+  margin: 0 var(--space-smaller);
 }
 </style>
