@@ -58,7 +58,6 @@
             color-scheme="secondary"
             icon="filter"
             size="small"
-            class="btn-filter"
             @click="onToggleAdvanceFiltersModal"
           />
         </div>
@@ -835,10 +834,6 @@ export default {
 .filter--actions {
   display: flex;
   align-items: center;
-}
-
-.btn-filter {
-  margin: 0 var(--space-smaller);
 }
 
 .filter__applied {

@@ -109,7 +109,7 @@
       float: right;
       font-size: $font-size-mini;
       height: $space-medium;
-      margin: 0;
+      margin: 0 var(--space-smaller);
       padding: $zero $space-medium $zero $space-normal;
       width: auto;
     }

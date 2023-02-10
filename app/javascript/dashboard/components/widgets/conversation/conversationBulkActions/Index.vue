@@ -184,9 +184,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.app-rtl--wrapper {
+  .bulk-action__actions {
+    ::v-deep .button--only-icon:last-child {
+      margin-right: var(--space-smaller);
+    }
+  }
+}
 .bulk-action__container {
   border-bottom: 1px solid var(--s-100);
-  padding: var(--space-normal) var(--space-one);
+  padding: var(--space-normal);
   position: relative;
 }
 
@@ -195,7 +202,7 @@ export default {
 
   span {
     font-size: var(--font-size-mini);
-    margin-left: var(--space-smaller);
+    margin: 0 var(--space-smaller);
   }
 
   input[type='checkbox'] {

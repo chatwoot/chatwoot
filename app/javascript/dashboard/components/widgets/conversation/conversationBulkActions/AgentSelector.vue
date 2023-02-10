@@ -1,5 +1,5 @@
 <template>
-  <div class="bulk-action__agents">
+  <div v-on-clickaway="onClose" class="bulk-action__agents">
     <div class="triangle" :style="cssVars">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
@@ -50,7 +50,6 @@
                 :status="agent.availability_status"
                 :username="agent.name"
                 size="22px"
-                class="margin-right-small"
               />
               <span class="reports-option__title">{{ agent.name }}</span>
             </div>
@@ -183,6 +182,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.app-rtl--wrapper {
+  .bulk-action__agents {
+    right: unset;
+    left: var(--space-small);
+  }
+
+  .triangle {
+    right: unset;
+    left: var(--triangle-position);
+  }
+}
+
 .bulk-action__agents {
   background-color: var(--white);
   border-radius: var(--border-radius-large);
@@ -251,7 +262,8 @@ ul {
   &:hover {
     background-color: var(--s-50);
   }
-  span {
+  .reports-option__title {
+    margin: 0 var(--space-small);
     font-size: var(--font-size-small);
   }
 }

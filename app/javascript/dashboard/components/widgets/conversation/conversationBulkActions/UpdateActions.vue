@@ -126,6 +126,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.app-rtl--wrapper {
+  .actions-container {
+    right: unset;
+    left: var(--space-small);
+  }
+
+  .triangle {
+    right: unset;
+    left: var(--triangle-position);
+  }
+}
+
 .actions-container {
   background-color: var(--white);
   border-radius: var(--border-radius-large);
