@@ -66,6 +66,15 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe 'unnoficial whatsapp cloud api' do
+    let(:url) { 'https://some.whatsapp-api.com' }
+
+    it 'returns true' do
+      whatsapp_channel.provider_config['url'] = url
+      expect(whatsapp_channel.whatsapp_cloud_api_unofficial?).to be true
+    end
+  end
+
   describe '#send_template' do
     let(:template_info) do
       {

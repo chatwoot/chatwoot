@@ -26,4 +26,8 @@ class Whatsapp::Providers::BaseService
   def validate_provider_config
     raise 'Overwrite this method in child class'
   end
+
+  def whatsapp_cloud_api_unofficial?
+    false
+  end
 end

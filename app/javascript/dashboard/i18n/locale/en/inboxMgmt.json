@@ -211,6 +211,11 @@
           "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "This field is required"
         },
+        "URL": {
+          "LABEL": "Whatsapp Cloud API URL",
+          "PLACEHOLDER": "Please enter an Whatsapp Cloud API URL or use default https://graph.facebook.com",
+          "ERROR": "This field is required"
+        },
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",

@@ -85,6 +85,26 @@
       </label>
     </div>
 
+    <div class="medium-8 columns">
+      <label :class="{ error: $v.url.$error }">
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP.URL.LABEL') }}
+        <fieldset>
+          <legend>
+            <woot-switch v-model="advanced" size="small" :value="advanced" />
+          </legend>
+          <input
+            v-model.trim="url"
+            :disabled="!advanced"
+            type="text"
+            placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.URL.PLACEHOLDER')"
+          />
+          <span v-if="$v.url.$error" class="message">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.URL.ERROR') }}
+          </span>
+        </fieldset>
+      </label>
+    </div>
+
     <div class="medium-12 columns">
       <woot-submit-button
         :loading="uiFlags.isCreating"
@@ -99,7 +119,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
-import { isPhoneE164OrEmpty, isNumber } from 'shared/helpers/Validators';
+import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 
 export default {
   mixins: [alertMixin],
@@ -108,8 +128,10 @@ export default {
       inboxName: '',
       phoneNumber: '',
       apiKey: '',
+      url: 'https://graph.facebook.com',
       phoneNumberId: '',
       businessAccountId: '',
+      advanced: false,
     };
   },
   computed: {
@@ -119,8 +141,9 @@ export default {
     inboxName: { required },
     phoneNumber: { required, isPhoneE164OrEmpty },
     apiKey: { required },
-    phoneNumberId: { required, isNumber },
-    businessAccountId: { required, isNumber },
+    phoneNumberId: { required },
+    businessAccountId: { required },
+    url: { required },
   },
   methods: {
     async createChannel() {
@@ -142,6 +165,7 @@ export default {
                 api_key: this.apiKey,
                 phone_number_id: this.phoneNumberId,
                 business_account_id: this.businessAccountId,
+                url: this.url,
               },
             },
           }

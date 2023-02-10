@@ -50,6 +50,7 @@ class Channel::Whatsapp < ApplicationRecord
     true
   end
 
+  delegate :whatsapp_cloud_api_unofficial?, to: :provider_service
   delegate :send_message, to: :provider_service
   delegate :send_template, to: :provider_service
   delegate :sync_templates, to: :provider_service

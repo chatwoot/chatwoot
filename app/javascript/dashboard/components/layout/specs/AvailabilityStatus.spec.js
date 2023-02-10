@@ -5,6 +5,7 @@ import VueI18n from 'vue-i18n';
 
 import WootButton from 'dashboard/components/ui/WootButton';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
+import WootSwitch from 'dashboard/components/ui/Switch';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
 import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
@@ -18,6 +19,7 @@ localVue.component('woot-dropdown-header', WootDropdownHeader);
 localVue.component('woot-dropdown-menu', WootDropdownMenu);
 localVue.component('woot-dropdown-divider', WootDropdownDivider);
 localVue.component('woot-dropdown-item', WootDropdownItem);
+localVue.component('woot-switch', WootSwitch);
 
 const i18nConfig = new VueI18n({
   locale: 'en',

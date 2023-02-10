@@ -102,12 +102,13 @@ class Conversation < ApplicationRecord
   def can_reply?
     channel = inbox&.channel
 
+    return true if channel.try(:whatsapp_cloud_api_unofficial?)
+
     return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
     return true unless channel&.messaging_window_enabled?
 
-    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
-    last_message_in_messaging_window?(messaging_window)
+    last_message_in_messaging_window?(inbox.messaging_window)
   end
 
   def last_incoming_message

@@ -508,6 +508,23 @@ RSpec.describe Conversation, type: :model do
       end
     end
 
+    describe 'on channels is unnoficial whatsapp cloud api' do
+      let(:url) { 'https://some.whatsapp-api.com' }
+      let(:channel) do
+        create(
+          :channel_whatsapp,
+          { provider: 'whatsapp_cloud', provider_config: { 'url' => url }, validate_provider_config: false, sync_templates: false }
+        )
+      end
+      let(:inbox) { create(:inbox, channel: channel, account: channel.account) }
+      let(:conversation) { create(:conversation, inbox: inbox) }
+
+      it 'returns true' do
+        conversation.inbox.channel.provider_config['url'] = url
+        expect(conversation.can_reply?).to be true
+      end
+    end
+
     describe 'on channels with 24 hour restriction' do
       before do
         stub_request(:post, /graph.facebook.com/)

@@ -142,6 +142,10 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
+  def messaging_window
+    api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
+  end
+
   private
 
   def ensure_valid_max_assignment_limit
