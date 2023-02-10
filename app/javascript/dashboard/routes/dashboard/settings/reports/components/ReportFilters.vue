@@ -21,7 +21,6 @@
               :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
-              class="margin-right-small"
             />
             <span class="reports-option__desc">
               <span class="reports-option__title">{{ props.option.name }}</span>
@@ -35,9 +34,8 @@
               :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
-              class="margin-right-small"
             />
-            <p>{{ props.option.name }}</p>
+            <p class="reports-option__title">{{ props.option.name }}</p>
           </div>
         </template>
       </multiselect>
@@ -60,7 +58,7 @@
           <div class="reports-option__wrap">
             <div
               :style="{ backgroundColor: props.option.color }"
-              class="reports-option__rounded--item margin-right-small"
+              class="reports-option__rounded--item"
             />
             <span class="reports-option__desc">
               <span class="reports-option__title">
@@ -115,7 +113,9 @@
         @input="changeFilterSelection"
       />
     </div>
-    <div class="small-12 medium-3 pull-right margin-left-small">
+    <div
+      class="small-12 medium-3 pull-right margin-left-small margin-right-small"
+    >
       <p>
         {{ $t('REPORT.DURATION_FILTER_LABEL') }}
       </p>
@@ -143,7 +143,7 @@
     />
     <div
       v-if="notLast7Days"
-      class="small-12 medium-3 pull-right margin-left-small"
+      class="small-12 medium-3 pull-right margin-left-small margin-right-small"
     >
       <p>
         {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
@@ -160,7 +160,7 @@
       />
     </div>
     <div class="small-12 medium-3 business-hours">
-      <span class="business-hours-text margin-right-small">
+      <span class="business-hours-text">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>

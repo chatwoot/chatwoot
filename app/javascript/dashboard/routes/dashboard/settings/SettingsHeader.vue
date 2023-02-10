@@ -9,7 +9,7 @@
       />
       <fluent-icon v-if="icon" :icon="icon" :class="iconClass" />
       <slot />
-      <span>{{ headerTitle }}</span>
+      <span class="header-title">{{ headerTitle }}</span>
     </h1>
     <router-link
       v-if="showNewButton && isAdmin"

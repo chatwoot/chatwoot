@@ -6,6 +6,10 @@
   margin-left: var(--space-smaller);
 }
 
+.margin-right-small {
+  margin-right: var(--space-smaller);
+}
+
 .reports-option__rounded--item {
   border-radius: 100%;
   height: var(--space-two);
@@ -26,6 +30,10 @@
   display: flex;
 }
 
+.reports-option__title {
+  margin: 0 var(--space-small);
+}
+
 .business-hours {
   align-items: center;
   display: flex;
@@ -37,6 +45,7 @@
 
 .business-hours-text {
   font-size: var(--font-size-small);
+  margin: 0 var(--space-small);
 }
 
 .switch {

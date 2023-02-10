@@ -338,11 +338,11 @@ export default {
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-smaller) !important;
+  margin: 0 var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
-  line-height: 18px;
+  line-height: 14px;
   border: 1px solid transparent;
   border-radius: 2em;
   color: var(--g-800);
