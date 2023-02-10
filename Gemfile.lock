@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/ClearlyClaire/webpush.git
-  revision: f14a4d52e201128b1b00245d11b6de80d6cfdcd9
-  ref: f14a4d52e201128b1b00245d11b6de80d6cfdcd9
-  specs:
-    webpush (0.3.8)
-      hkdf (~> 0.2)
-      jwt (~> 2.0)
-
-GIT
   remote: https://github.com/chatwoot/devise-secure_password
   revision: d777b04f12652d576b1272b8f39857e3e0b3fc26
   specs:
@@ -146,7 +137,7 @@ GEM
     byebug (11.1.3)
     climate_control (1.1.1)
     coderay (1.1.3)
-    commonmarker (0.23.6)
+    commonmarker (0.23.7)
     concurrent-ruby (1.1.10)
     connection_pool (2.2.5)
     crack (0.4.5)
@@ -334,7 +325,7 @@ GEM
     hana (1.3.7)
     hashdiff (1.0.1)
     hashie (5.0.0)
-    hkdf (0.3.0)
+    hkdf (1.0.0)
     html2text (0.2.1)
       nokogiri (~> 1.6)
     http (5.1.0)
@@ -446,7 +437,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     netrc (0.11.0)
-    newrelic_rpm (8.9.0)
+    newrelic_rpm (8.15.0)
     nio4r (2.5.8)
     nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
@@ -472,6 +463,7 @@ GEM
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
+    openssl (3.1.0)
     orm_adapter (0.5.0)
     os (1.1.4)
     parallel (1.22.1)
@@ -713,6 +705,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    web-push (3.0.0)
+      hkdf (~> 1.0)
+      jwt (~> 2.0)
+      openssl (~> 3.0)
     webmock (3.18.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -759,7 +755,7 @@ DEPENDENCIES
   byebug
   climate_control
   commonmarker
-  cypress-on-rails (~> 1.0)
+  cypress-on-rails (~> 1.13, >= 1.13.1)
   database_cleaner
   ddtrace
   devise
@@ -811,7 +807,7 @@ DEPENDENCIES
   rack-attack
   rack-cors
   rack-timeout
-  rails (~> 6.1, >= 6.1.6.1)
+  rails (~> 6.1, >= 6.1.7.1)
   redis
   redis-namespace
   responders
@@ -826,10 +822,10 @@ DEPENDENCIES
   seed_dump
   sentry-rails (~> 5.3, >= 5.3.1)
   sentry-ruby (~> 5.3)
-  sentry-sidekiq (~> 5.3)
+  sentry-sidekiq (~> 5.3, >= 5.3.1)
   shoulda-matchers
-  sidekiq (~> 6.4.0)
-  sidekiq-cron (~> 1.3)
+  sidekiq (~> 6.4.2)
+  sidekiq-cron (~> 1.6, >= 1.6.0)
   simplecov (= 0.17.1)
   slack-ruby-client
   spring
@@ -845,9 +841,9 @@ DEPENDENCIES
   uglifier
   valid_email2
   web-console
+  web-push
   webmock
   webpacker (~> 5.4, >= 5.4.3)
-  webpush!
   wisper (= 2.0.0)
   working_hours
 
