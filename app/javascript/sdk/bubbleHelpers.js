@@ -16,7 +16,7 @@ export const notificationBubble = document.createElement('span');
 export const setBubbleText = bubbleText => {
   if (isExpandedView(window.$chatwoot.type)) {
     const textNode = document.getElementById('woot-widget--expanded__text');
-    textNode.innerHTML = bubbleText;
+    textNode.innerText = bubbleText;
   }
 };
 
@@ -46,7 +46,7 @@ export const createBubbleIcon = ({ className, path, target }) => {
   if (isExpandedView(window.$chatwoot.type)) {
     const textNode = document.createElement('div');
     textNode.id = 'woot-widget--expanded__text';
-    textNode.innerHTML = '';
+    textNode.innerText = '';
     target.appendChild(textNode);
     bubbleClassName += ' woot-widget--expanded';
   }
