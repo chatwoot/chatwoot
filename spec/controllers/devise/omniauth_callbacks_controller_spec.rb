@@ -19,25 +19,27 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
 
   describe '#omniauth_sucess' do
     it 'allows signup' do
-      set_omniauth_config('test_not_preset@example.com')
-      allow(AccountBuilder).to receive(:new).and_return(account_builder)
-      allow(account_builder).to receive(:perform).and_return(user_double)
-      allow(Avatar::AvatarFromUrlJob).to receive(:perform_later).and_return(true)
+      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+        set_omniauth_config('test_not_preset@example.com')
+        allow(AccountBuilder).to receive(:new).and_return(account_builder)
+        allow(account_builder).to receive(:perform).and_return(user_double)
+        allow(Avatar::AvatarFromUrlJob).to receive(:perform_later).and_return(true)
 
-      get '/omniauth/google_oauth2/callback'
+        get '/omniauth/google_oauth2/callback'
 
-      # expect a 302 redirect to auth/google_oauth2/callback
-      expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
-      follow_redirect!
+        # expect a 302 redirect to auth/google_oauth2/callback
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
 
-      expect(AccountBuilder).to have_received(:new).with({
-                                                           account_name: 'example',
-                                                           user_full_name: 'test',
-                                                           email: 'test_not_preset@example.com',
-                                                           locale: I18n.locale,
-                                                           confirmed: nil
-                                                         })
-      expect(account_builder).to have_received(:perform)
+        expect(AccountBuilder).to have_received(:new).with({
+                                                             account_name: 'example',
+                                                             user_full_name: 'test',
+                                                             email: 'test_not_preset@example.com',
+                                                             locale: I18n.locale,
+                                                             confirmed: nil
+                                                           })
+        expect(account_builder).to have_received(:perform)
+      end
     end
 
     it 'blocks personal accounts signup' do
