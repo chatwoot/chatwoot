@@ -8,7 +8,7 @@
         variant="smooth"
         color-scheme="secondary"
         icon="info"
-        class="margin-right-smaller margin-left-smaller"
+        class="margin-right-1 margin-left-1"
         @click="toggleMacroPreview(macro)"
       />
       <woot-button
