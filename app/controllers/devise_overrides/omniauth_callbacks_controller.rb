@@ -10,7 +10,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
       create_account_for_user
       token = @resource.send(:set_reset_password_token)
-      return redirect_to "/app/auth/password/edit?config=default&redirect_url=&reset_password_token=#{token}"
+      return redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
     end
 
     @resource.skip_confirmation! if confirmable_enabled?
