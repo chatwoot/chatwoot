@@ -45,6 +45,20 @@
   }
 }
 
+.app-rtl--wrapper {
+  .tabs-title {
+    &:first-child {
+      margin-left: $space-slab;
+      margin-right: unset;
+    }
+
+    &:last-child {
+      margin-left: unset;
+      margin-right: $space-slab;
+    }
+  }
+}
+
 .tabs-title {
   flex-shrink: 0;
   margin: $zero $space-slab;
@@ -55,7 +69,7 @@
     color: $color-gray;
     font-size: $font-size-micro;
     font-weight: $font-weight-black;
-    margin-left: $space-smaller;
+    margin: 0 $space-smaller;
     padding: $space-smaller;
   }
 
