@@ -17,6 +17,7 @@
 #  index_macros_on_account_id  (account_id)
 #
 class Macro < ApplicationRecord
+  audited
   include Rails.application.routes.url_helpers
 
   belongs_to :account
