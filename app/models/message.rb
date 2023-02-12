@@ -31,6 +31,7 @@
 #
 
 class Message < ApplicationRecord
+  audited
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15

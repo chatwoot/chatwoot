@@ -30,6 +30,7 @@
 #
 
 class Inbox < ApplicationRecord
+  audited
   include Reportable
   include Avatarable
   include OutOfOffisable

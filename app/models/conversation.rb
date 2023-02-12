@@ -42,6 +42,7 @@
 #
 
 class Conversation < ApplicationRecord
+  audited
   include Labelable
   include AssignmentHandler
   include AutoAssignmentHandler

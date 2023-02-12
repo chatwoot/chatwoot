@@ -17,6 +17,7 @@
 #
 
 class Webhook < ApplicationRecord
+  audited
   belongs_to :account
   belongs_to :inbox, optional: true
 

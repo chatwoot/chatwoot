@@ -22,6 +22,7 @@
 #
 
 class Account < ApplicationRecord
+  audited
   # used for single column multi flags
   include FlagShihTzu
   include Reportable

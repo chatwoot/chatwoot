@@ -18,6 +18,7 @@
 #  index_automation_rules_on_account_id  (account_id)
 #
 class AutomationRule < ApplicationRecord
+  audited
   include Rails.application.routes.url_helpers
 
   belongs_to :account

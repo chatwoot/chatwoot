@@ -21,6 +21,7 @@
 #
 
 class AccountUser < ApplicationRecord
+  audited
   include AvailabilityStatusable
 
   belongs_to :account
