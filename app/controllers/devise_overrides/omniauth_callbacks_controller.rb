@@ -10,6 +10,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
       create_account_for_user
       token = @resource.send(:set_reset_password_token)
+      frontend_url = ENV.fetch('FRONTEND_URL', nil)
       return redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
     end
 
