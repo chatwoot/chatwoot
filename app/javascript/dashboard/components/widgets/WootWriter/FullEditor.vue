@@ -141,21 +141,11 @@ export default {
         // Insert the image and the caption wrapped inside a paragraph
         const tr = this.editorView.state.tr
           .replaceSelectionWith(paragraphNode)
-          .insert(from + 1, node)
-          .insert(
-            from + paragraphNode.nodeSize + node.nodeSize,
-            this.editorView.state.schema.text(
-              this.$t('HELP_CENTER.ARTICLE_EDITOR.CAPTION_PLACEHOLDER'),
-              [this.editorView.state.schema.mark('em')]
-            )
-          );
+          .insert(from + 1, node);
 
         this.editorView.dispatch(tr.scrollIntoView());
         this.focusEditorInputField();
       }
-    },
-    onImageUploadStop() {
-      // append the image to the editor
     },
     reloadState() {
       this.state = createState(
