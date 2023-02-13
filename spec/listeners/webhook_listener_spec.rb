@@ -5,6 +5,7 @@ describe WebhookListener do
   let(:report_identity) { Reports::UpdateAccountIdentity.new(account, Time.zone.now) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
+  let!(:contact) { create(:contact, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
   let!(:message) do
     create(:message, message_type: 'outgoing',
@@ -12,6 +13,7 @@ describe WebhookListener do
   end
   let!(:message_created_event) { Events::Base.new(event_name, Time.zone.now, message: message) }
   let!(:conversation_created_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+  let!(:contact_event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
 
   describe '#message_created' do
     let(:event_name) { :'message.created' }
@@ -156,6 +158,62 @@ describe WebhookListener do
         ).once
 
         listener.conversation_updated(conversation_updated_event)
+      end
+    end
+  end
+
+  describe '#contact_created' do
+    let(:event_name) { :'contact.created' }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.contact_created(contact_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account)
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, contact.webhook_data.merge(event: 'contact_created')).once
+        listener.contact_created(contact_event)
+      end
+    end
+  end
+
+  describe '#contact_updated' do
+    let(:event_name) { :'contact.updated' }
+    let!(:contact_updated_event) { Events::Base.new(event_name, Time.zone.now, contact: contact, changed_attributes: changed_attributes) }
+    let(:changed_attributes) { { 'name' => ['Jane', 'Jane Doe'] } }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.contact_updated(contact_updated_event)
+      end
+    end
+
+    context 'when webhook is configured and there is no changed attributes' do
+      let(:changed_attributes) { {} }
+
+      it 'triggers webhook' do
+        create(:webhook, account: account)
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.contact_updated(contact_updated_event)
+      end
+    end
+
+    context 'when webhook is configured and there are changed attributes' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account)
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          contact.webhook_data.merge(
+            event: 'contact_updated',
+            changed_attributes: [{ 'name' => { :current_value => 'Jane Doe', :previous_value => 'Jane' } }]
+          )
+        ).once
+        listener.contact_updated(contact_updated_event)
       end
     end
   end
