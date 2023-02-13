@@ -52,16 +52,18 @@ class WebhookListener < BaseListener
   end
 
   def contact_created(event)
-    contact = extract_contact_and_account(event)[0]
+    contact, account = extract_contact_and_account(event)
     payload = contact.webhook_data.merge(event: __method__.to_s)
-    deliver_account_webhooks(payload, contact.account)
+    deliver_account_webhooks(payload, account)
   end
 
   def contact_updated(event)
-    contact = extract_contact_and_account(event)[0]
+    contact, account = extract_contact_and_account(event)
     changed_attributes = extract_changed_attributes(event)
+    return if changed_attributes.blank?
+
     payload = contact.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
-    deliver_account_webhooks(payload, contact.account)
+    deliver_account_webhooks(payload, account)
   end
 
   private
