@@ -53,10 +53,6 @@
           "ENABLE": "Créer des conversations à partir de Tweets mentionnés"
         }
       },
-      "MICROSOFT": {
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
-      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal site Web",
         "DESC": "Créez un canal pour votre site Web et commencez à assister vos clients à l'aide de notre widget de site Web.",
@@ -348,6 +344,17 @@
       "FINISH": {
         "TITLE": "Mission accomplie !",
         "DESC": "Vous avez terminé avec succès l’intégration de votre page Facebook avec Chatwoot. La prochaine fois qu’un client enverra un message à votre page, la conversation apparaîtra automatiquement dans votre boîte de réception.<br>Nous fournissons également un script de widget que vous pouvez facilement ajouter à votre site Web. Une fois que cela est configuré sur votre site web, les clients peuvent vous envoyer des messages directement depuis votre site Web sans l'aide d'un outil externe et la conversation apparaîtra ici, sur Chatwoot.<br>Cool, hein ? Eh bien, nous essayons de l'être :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -465,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Autoriser les messages après résolution de la conversation",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Autoriser les utilisateurs à envoyer des messages même après la résolution de la conversation.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "Clé de l'API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Clé de l'API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Mettre à jour"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -674,6 +685,10 @@
       },
       "BRANDING_TEXT": "Propulsé par Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }
