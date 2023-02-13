@@ -355,7 +355,7 @@ export default {
   color: var(--s-600);
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-bold);
-  margin-left: var(--space-smaller);
+  margin: 0 var(--space-smaller);
   padding: var(--space-zero) var(--space-smaller);
 }
 

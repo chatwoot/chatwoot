@@ -367,6 +367,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .container {
+    margin-left: unset !important;
+    margin-right: var(--space-small);
+  }
+
+  .configuration-items--wrap {
+    margin-left: var(--space-mega);
+    margin-right: unset !important;
+  }
+}
 .portal {
   background-color: var(--white);
   padding: var(--space-normal);
@@ -389,7 +400,7 @@ export default {
         display: flex;
         align-items: center;
         .status {
-          margin: 0 0 0 var(--space-small);
+          margin: 0 var(--space-small);
         }
       }
       .portal-title {

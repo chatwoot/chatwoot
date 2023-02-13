@@ -140,6 +140,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .actions-container {
+    margin-left: unset;
+    margin-right: var(--space-one);
+  }
+}
 .portal {
   background-color: var(--white);
   padding: var(--space-normal);
@@ -190,7 +196,7 @@ export default {
       .locale-content {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         width: 100%;
       }
 
@@ -232,10 +238,6 @@ export default {
       text-align: left;
       line-height: var(--space-normal);
       width: 100%;
-    }
-
-    .meta {
-      flex-grow: 1;
     }
   }
 }

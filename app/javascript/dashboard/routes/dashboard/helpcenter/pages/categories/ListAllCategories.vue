@@ -168,6 +168,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .header-left--wrap {
+    direction: initial;
+    justify-content: flex-end;
+  }
+}
 .category-list--container {
   width: 100%;
   padding-left: var(--space-normal);

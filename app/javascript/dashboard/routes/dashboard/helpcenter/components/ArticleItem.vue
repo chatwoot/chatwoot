@@ -121,6 +121,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .row--article-block {
+    td:last-child {
+      direction: initial;
+    }
+  }
+}
 td {
   font-weight: var(--font-weight-normal);
   color: var(--s-700);

@@ -211,6 +211,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  .article-settings--container {
+    flex-direction: row-reverse;
+    border-left: none;
+    border-right: 1px solid var(--color-border-light);
+    margin-left: 0;
+    margin-right: var(--space-normal);
+    padding-left: 0;
+    padding-right: var(--space-normal);
+  }
+}
 .article-settings--container {
   flex: 0.3;
   min-width: var(--space-giga);

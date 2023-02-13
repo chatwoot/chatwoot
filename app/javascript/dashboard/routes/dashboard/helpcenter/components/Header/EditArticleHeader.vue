@@ -42,7 +42,7 @@
         v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
         icon="pane-open"
-        class-names="article--buttons"
+        class-names="article--buttons sidebar-button"
         variant="hollow"
         size="small"
         color-scheme="secondary"
@@ -230,6 +230,35 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.app-rtl--wrapper {
+  .header-right--wrap {
+    .button-group .button:first-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: var(--border-radius-normal);
+      border-bottom-right-radius: var(--border-radius-normal);
+    }
+
+    .button-group .button:last-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: var(--border-radius-normal);
+      border-bottom-left-radius: var(--border-radius-normal);
+    }
+  }
+
+  .article--buttons {
+    .dropdown-pane {
+      position: absolute;
+      left: 0;
+      right: unset;
+    }
+  }
+
+  .sidebar-button {
+    transform: rotate(180deg);
+  }
+}
 .header--wrap {
   display: flex;
   align-items: center;

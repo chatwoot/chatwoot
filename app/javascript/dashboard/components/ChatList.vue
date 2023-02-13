@@ -805,6 +805,12 @@ export default {
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/woot';
 
+.app-rtl--wrapper {
+  .conversations-list-wrap {
+    border-right: none;
+  }
+}
+
 .spinner {
   margin-top: var(--space-normal);
   margin-bottom: var(--space-normal);
