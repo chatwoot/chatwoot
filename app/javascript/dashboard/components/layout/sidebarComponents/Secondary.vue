@@ -254,6 +254,7 @@ export default {
 
 .app-rtl--wrapper {
   .secondary-menu {
+    border-right: none;
     border-left: 1px solid var(--s-50);
   }
 }

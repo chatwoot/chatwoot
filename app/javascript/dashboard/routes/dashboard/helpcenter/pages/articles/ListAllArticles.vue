@@ -142,11 +142,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .container {
-    border-right: 1px solid var(--s-50);
-  }
-}
 .container {
   padding: 0 var(--space-normal);
   width: 100%;
