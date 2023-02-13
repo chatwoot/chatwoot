@@ -30,7 +30,7 @@
 #
 
 class Inbox < ApplicationRecord
-  audited
+  audited associated_with: :account
   include Reportable
   include Avatarable
   include OutOfOffisable

@@ -31,7 +31,7 @@
 #
 
 class Message < ApplicationRecord
-  audited
+  audited associated_with: :account, on: [:update, :destroy]
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15

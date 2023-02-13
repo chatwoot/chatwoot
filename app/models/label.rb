@@ -17,7 +17,7 @@
 #  index_labels_on_title_and_account_id  (title,account_id) UNIQUE
 #
 class Label < ApplicationRecord
-  audited
+  audited associated_with: :account
   include RegexHelper
   belongs_to :account
 
