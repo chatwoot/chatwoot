@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(version: 2023_02_02_132107) do
     t.string "user_type"
     t.string "username"
     t.string "action"
-    t.text "audited_changes"
+    t.jsonb "audited_changes"
     t.integer "version", default: 0
     t.string "comment"
     t.string "remote_address"
