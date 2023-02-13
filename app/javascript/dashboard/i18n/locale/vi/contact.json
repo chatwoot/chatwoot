@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
     "IP_ADDRESS": "Địa chỉ IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Số điện thoại",
         "CONVERSATIONS": "Các cuộc hội thoại",
         "LAST_ACTIVITY": "Hành động cuối cùng",
+        "CREATED_AT": "Tạo vào lúc",
         "COUNTRY": "Quốc gia",
         "CITY": "Tỉnh / Thành phố",
         "SOCIAL_PROFILES": "Hồ sơ xã hội",

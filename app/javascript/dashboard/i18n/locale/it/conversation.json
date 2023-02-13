@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Rimuovi selezione",
     "DOWNLOAD": "Scarica",
     "UNKNOWN_FILE_TYPE": "File sconosciuto",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Caricamento allegati...",
     "SUCCESS_DELETE_MESSAGE": "Messaggio eliminato con successo",
     "FAIL_DELETE_MESSSAGE": "Impossibile eliminare il messaggio! Riprova",
@@ -131,6 +132,14 @@
           "LABEL": "CCN",
           "PLACEHOLDER": "Email separate da virgole",
           "ERROR": "Inserisci indirizzi email validi"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Invia",
+          "CANCEL": "annulla"
         }
       }
     },
