@@ -35,6 +35,16 @@ const buildContactFormData = contactParams => {
   return formData;
 };
 
+export const raiseContactCreateErrors = error => {
+  if (error.response?.status === 422) {
+    throw new DuplicateContactException(error.response.data.attributes);
+  } else if (error.response?.data?.message) {
+    throw new ExceptionWithMessage(error.response.data.message);
+  } else {
+    throw new Error(error);
+  }
+};
+
 export const actions = {
   search: async ({ commit }, { search, page, sortAttr, label }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
@@ -110,13 +120,10 @@ export const actions = {
       AnalyticsHelper.track(CONTACTS_EVENTS.CREATE_CONTACT);
       commit(types.SET_CONTACT_ITEM, response.data.payload.contact);
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      return response.data.payload.contact;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
-      if (error.response?.data?.message) {
-        throw new ExceptionWithMessage(error.response.data.message);
-      } else {
-        throw new Error(error);
-      }
+      return raiseContactCreateErrors(error);
     }
   },
 
@@ -227,19 +234,26 @@ export const actions = {
     }
   },
 
-  filter: async ({ commit }, { page = 1, sortAttr, queryPayload } = {}) => {
+  filter: async (
+    { commit },
+    { page = 1, sortAttr, queryPayload, resetState = true } = {}
+  ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
       } = await ContactAPI.filter(page, sortAttr, queryPayload);
-      commit(types.CLEAR_CONTACTS);
-      commit(types.SET_CONTACTS, payload);
-      commit(types.SET_CONTACT_META, meta);
-      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+      if (resetState) {
+        commit(types.CLEAR_CONTACTS);
+        commit(types.SET_CONTACTS, payload);
+        commit(types.SET_CONTACT_META, meta);
+        commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+      }
+      return payload;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     }
+    return [];
   },
 
   setContactFilters({ commit }, data) {
