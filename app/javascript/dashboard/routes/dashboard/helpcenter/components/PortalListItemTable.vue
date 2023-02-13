@@ -122,6 +122,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-rtl--wrapper {
+  table {
+    thead tr th {
+      padding-left: var(--space-one);
+      padding-right: 0;
+    }
+    tbody tr td {
+      padding-left: var(--space-one);
+      padding-right: 0;
+    }
+  }
+}
+
 table {
   thead tr th {
     font-size: var(--font-size-small);
