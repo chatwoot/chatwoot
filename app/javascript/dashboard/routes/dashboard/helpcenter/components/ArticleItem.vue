@@ -30,7 +30,7 @@
     </td>
     <td>
       <span class="fs-small">
-        {{ readCount }}
+        {{ views || 0 }}
       </span>
     </td>
     <td>
@@ -76,7 +76,7 @@ export default {
       type: Object,
       default: () => {},
     },
-    readCount: {
+    views: {
       type: Number,
       default: 0,
     },
