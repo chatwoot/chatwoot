@@ -222,6 +222,7 @@ contacts:
       gender: 'male'
       conversations:
         - channel: Channel::Whatsapp
+          source_id: "123456723"
           messages: 
             - message_type: incoming
               content: hello world
@@ -263,6 +264,7 @@ contacts:
       gender: 'male'
       conversations:
         - channel: Channel::Whatsapp
+          source_id: "12323432"
           messages: 
             - message_type: incoming
               content: hello world
@@ -271,6 +273,7 @@ contacts:
       gender: 'male'
       conversations:
         - channel: Channel::Whatsapp
+          source_id: "12342234324"
           messages: 
             - message_type: incoming
               content: hello world
@@ -330,6 +333,12 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::Whatsapp
+          source_id: "1223423567"
+          labels: 
+            - billing
+            - delivery
+            - ops-handover
+            - premium-customer
           messages: 
             - message_type: incoming
               content: "Hey \n I didn't get the product delivered, but it shows it is delivered to my address. Please check"
@@ -338,6 +347,9 @@ contacts:
       gender: 'male'
       conversations:
         - channel: Channel::WebWidget
+          labels: 
+            - software
+            - ops-handover
           messages: 
             - message_type: incoming
               content: "Hey there, \n I need some help with the product, my button is not working on the website."
@@ -347,6 +359,10 @@ contacts:
       conversations:
         - channel: Channel::WebWidget
           assignee: michael_scott@paperlayer.test
+          labels: 
+            - billing
+            - software
+            - lead
           messages: 
             - message_type: incoming
               content: "Hey, \n My card is not working on your website. Please help"
@@ -357,6 +373,9 @@ contacts:
         - channel: Channel::Email
           source_id: "cmathersonj@va.test"
           assignee: michael_scott@paperlayer.test
+          labels: 
+            - billing
+            - lead
           messages: 
             - message_type: incoming
               content: "Hey, \n I'm looking for some help to figure out if it is the right product for me."
