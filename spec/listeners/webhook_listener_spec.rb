@@ -182,7 +182,7 @@ describe WebhookListener do
   end
 
   describe '#contact_updated' do
-    let(:event_name) { :'contact.created' }
+    let(:event_name) { :'contact.updated' }
     let!(:contact_updated_event) { Events::Base.new(event_name, Time.zone.now, contact: contact, changed_attributes: changed_attributes) }
     let(:changed_attributes) { { 'name' => ['Jane', 'Jane Doe'] } }
 
