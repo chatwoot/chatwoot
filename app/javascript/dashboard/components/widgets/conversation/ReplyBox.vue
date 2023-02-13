@@ -702,14 +702,13 @@ export default {
           newMessage += '\n\n' + this.messageSignature;
         }
 
-        if (this.isWhatsAppChannel) {
+        if (this.isAWhatsAppChannel) {
           this.sendMessageAsMultipleMessages(newMessage);
         } else {
           const messagePayload = this.getMessagePayload(newMessage);
           this.sendMessage(messagePayload);
         }
 
-        this.clearMessage();
         if (!this.isPrivate) {
           this.clearEmailField();
         }
