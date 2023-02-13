@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Noņemt Izvēli",
     "DOWNLOAD": "Lejupielādēt",
     "UNKNOWN_FILE_TYPE": "Nezināms Fails",
+    "SAVE_CONTACT": "Saglabāt",
     "UPLOADING_ATTACHMENTS": "Notiek pielikumu augšupielāde...",
     "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
     "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem",
           "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Nedefinēti mainīgie",
+        "MESSAGE": "Jūsu ziņojumā: {undefinedVariables} ir {undefinedVariablesCount} nedefinēti mainīgie. Vai tomēr vēlaties nosūtīt ziņojumu?",
+        "CONFIRM": {
+          "YES": "Nosūtīt",
+          "CANCEL": "Atcelt"
         }
       }
     },

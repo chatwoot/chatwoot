@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
@@ -42,8 +43,8 @@
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Label anzeigen",
+      "HIDE_LABELS": "Labels ausblenden"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -68,7 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Als ausstehend markieren",
       "RESOLVED": "Als gelöst markieren",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "Als ungelesen markieren",
       "REOPEN": "Konversation wieder öffnen",
       "SNOOZE": {
         "TITLE": "Erinnern",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
           "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Senden",
+          "CANCEL": "Stornieren"
         }
       }
     },
