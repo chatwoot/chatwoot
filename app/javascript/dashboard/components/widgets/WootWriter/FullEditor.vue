@@ -28,7 +28,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
-const MAXIMUM_FILE_UPLOAD_SIZE = 16; // in MB
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const createState = (
   content,
   placeholder,
