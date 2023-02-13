@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
     "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
@@ -131,6 +132,14 @@
           "LABEL": "BBC",
           "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
           "ERROR": "בבקשה הכנס כתוכת אימייל"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "שלח",
+          "CANCEL": "ביטול"
         }
       }
     },

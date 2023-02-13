@@ -15,6 +15,7 @@
     "INITIATED_FROM": "יזום מי",
     "INITIATED_AT": "יזם ב",
     "IP_ADDRESS": "כתובת IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "הודעה חדשה",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "לא היו שיחות קודמות המשויכות לאיש קשר זה.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "מספר טלפון",
         "CONVERSATIONS": "שיחות",
         "LAST_ACTIVITY": "פעילות אחרונה",
+        "CREATED_AT": "הוקם ב",
         "COUNTRY": "מדינה",
         "CITY": "עיר",
         "SOCIAL_PROFILES": "פרופילים חברתיים",
