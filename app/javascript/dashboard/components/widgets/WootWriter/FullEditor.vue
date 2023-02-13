@@ -4,7 +4,7 @@
       <input
         ref="imageUploadInput"
         type="file"
-        accept="image/png, image/jpeg, image/jpg, image/gif"
+        accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
         hidden
         @change="onFileChange"
       />
