@@ -156,6 +156,11 @@ class Conversation < ApplicationRecord
     Redis::Alfred.get(mute_key).present?
   end
 
+  def bot_handoff!
+    open!
+    dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
+  end
+
   def unread_messages
     messages.unread_since(agent_last_seen_at)
   end
