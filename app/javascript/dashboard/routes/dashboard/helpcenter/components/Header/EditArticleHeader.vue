@@ -5,6 +5,7 @@
         icon="chevron-left"
         variant="clear"
         size="small"
+        class="back-button"
         color-scheme="primary"
         @click="onClickGoBack"
       >
@@ -244,6 +245,12 @@ export default {
       border-bottom-right-radius: 0;
       border-top-left-radius: var(--border-radius-normal);
       border-bottom-left-radius: var(--border-radius-normal);
+    }
+  }
+
+  .header-left--wrap {
+    .back-button {
+      direction: initial;
     }
   }
 

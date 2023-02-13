@@ -29,4 +29,12 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style lang="scss" scoped>
+.app-rtl--wrapper {
+  .back-button {
+    direction: initial;
+    margin-right: var(--space-smaller);
+    margin-left: var(--space-normal);
+  }
+}
+</style>
