@@ -12,7 +12,7 @@ describe('#messageStamp', () => {
 describe('#dynamicTime', () => {
   it('returns correct value', () => {
     expect(TimeMixin.methods.dynamicTime(1612971343)).toEqual(
-      'almost 2 years ago'
+      'about 2 years ago'
     );
   });
 });
