@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Adiado"
+      },
+      "all": {
+        "TEXT": "Todos"
       }
     },
     "ATTACHMENTS": {
