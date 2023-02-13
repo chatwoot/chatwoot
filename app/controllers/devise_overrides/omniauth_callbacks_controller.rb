@@ -31,7 +31,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def account_signup_allowed?
-    ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_ACCOUNT_SIGNUP', false))
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true))
   end
 
   def resource_class(_mapping = nil)
