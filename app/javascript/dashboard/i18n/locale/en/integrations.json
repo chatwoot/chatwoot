@@ -16,7 +16,7 @@
             "MESSAGE_UPDATED": "Message updated",
             "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
             "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact update"
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {
