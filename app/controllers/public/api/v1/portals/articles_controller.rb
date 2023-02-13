@@ -16,8 +16,7 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
 
   def set_article
     @article = @category.articles.find(params[:id])
-    @article.views = @article.views ? @article.views + 1 : 1
-    @article.save
+    @article.increment_view_count
     @parsed_content = render_article_content(@article.content)
   end
 

@@ -41,8 +41,8 @@ RSpec.describe 'Public Articles API', type: :request do
   describe 'GET /public/api/v1/portals/:slug/articles/:id' do
     it 'Fetch article with the id' do
       get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/#{article.id}"
-
       expect(response).to have_http_status(:success)
+      expect(article.reload.views).to eq 1
     end
   end
 end
