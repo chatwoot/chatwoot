@@ -71,7 +71,7 @@ class Conversation < ApplicationRecord
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :resolvable, lambda { |auto_resolve_duration|
-    return [] if auto_resolve_duration.to_i.zero?
+    return none if auto_resolve_duration.to_i.zero?
 
     open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
   }
