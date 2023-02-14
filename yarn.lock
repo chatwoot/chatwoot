@@ -1393,7 +1393,7 @@
 
 "@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#feat-image-upload-beta":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#b0a2b6eb96a3fe2f8a7a1a2e1ee8b69234d0a9b6"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#734472e4674004b5dc7d94c1ebd8a91ddeee4278"
   dependencies:
     prosemirror-commands "^1.1.4"
     prosemirror-dropcursor "^1.3.2"
