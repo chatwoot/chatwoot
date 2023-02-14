@@ -672,7 +672,6 @@
         "USER_MESSAGE": "سلام",
         "AGENT_MESSAGE": "سلام"
       },
-      "BRANDING_TEXT": "قدرت گرفته از چت ووت",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }
