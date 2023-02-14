@@ -59,7 +59,6 @@ module ReportHelper
   def avg_first_response_time_summary
     reporting_events = scope.reporting_events
                             .where(name: 'first_response', account_id: account.id, created_at: range)
-                            .where.not(user_id: nil) # exclude bot responses
     avg_frt = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
 
     return 0 if avg_frt.blank?
