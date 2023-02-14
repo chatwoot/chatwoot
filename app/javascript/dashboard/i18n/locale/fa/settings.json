@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "دانلود",
-      "UPLOADING": "در حال آپلود..."
+      "UPLOADING": "در حال آپلود...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "این داستان دیگر در دسترس نیست."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "مشاهده‌ بر روی نقشه"

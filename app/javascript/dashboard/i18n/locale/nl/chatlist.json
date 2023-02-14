@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Gesluimerd"
+      },
+      "all": {
+        "TEXT": "Allemaal"
       }
     },
     "ATTACHMENTS": {

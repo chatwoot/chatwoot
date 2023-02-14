@@ -141,6 +141,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    csv-safe (3.1.1)
     cypress-on-rails (1.13.1)
       rack
     database_cleaner (2.0.1)
@@ -760,6 +761,7 @@ DEPENDENCIES
   byebug
   climate_control
   commonmarker
+  csv-safe
   cypress-on-rails (~> 1.13, >= 1.13.1)
   database_cleaner
   ddtrace

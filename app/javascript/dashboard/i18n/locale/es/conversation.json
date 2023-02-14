@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UNKNOWN_FILE_TYPE": "Archivo desconocido",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "Correos separados por comas",
           "ERROR": "Por favor, introduzca correo válido"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Enviar",
+          "CANCEL": "Cancelar"
         }
       }
     },
