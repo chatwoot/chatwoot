@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Fjern Markering",
     "DOWNLOAD": "Download",
     "UNKNOWN_FILE_TYPE": "Ukendt Fil",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Uploader vedhæftede filer...",
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "E-mails adskilt af kommaer",
           "ERROR": "Indtast venligst gyldige e-mailadresser"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Send",
+          "CANCEL": "Annuller"
         }
       }
     },

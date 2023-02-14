@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "已关闭"
+      },
+      "all": {
+        "TEXT": "所有的"
       }
     },
     "ATTACHMENTS": {
