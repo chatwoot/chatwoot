@@ -6,7 +6,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
     if @resource.nil?
       return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
-      return redirect_to login_page_url(error: 'business-account-only') unless validate_bussiness_account?
+      return redirect_to login_page_url(error: 'business-account-only') unless validate_business_account?
 
       create_account_for_user
       token = @resource.send(:set_reset_password_token)
@@ -47,7 +47,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     ).first
   end
 
-  def validate_bussiness_account?
+  def validate_business_account?
     # return true if the user is a business account, false if it is a gmail account
     auth_hash['info']['email'].exclude?('@gmail.com')
   end
