@@ -600,4 +600,11 @@ li.right {
 .context-menu {
   position: relative;
 }
+
+.app-rtl--wrapper {
+  li.right .context-menu-wrap {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
 </style>
