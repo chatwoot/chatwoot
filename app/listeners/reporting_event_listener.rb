@@ -28,7 +28,7 @@ class ReportingEventListener < BaseListener
     reporting_event = ReportingEvent.new(
       name: 'first_response',
       value: first_response_time,
-      value_in_business_hours: business_hours(conversation.inbox, conversation.created_at,
+      value_in_business_hours: business_hours(conversation.inbox, last_non_human_activity(conversation),
                                               message.created_at),
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
