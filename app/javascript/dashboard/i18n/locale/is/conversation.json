@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Sækja",
     "UNKNOWN_FILE_TYPE": "Óþekkt skrá",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Hleður upp viðhengi...",
     "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
     "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "Netföng aðskilin með kommum",
           "ERROR": "Vinsamlegast sláðu inn gilt netfang"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Send",
+          "CANCEL": "Hætta við"
         }
       }
     },

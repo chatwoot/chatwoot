@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
           "ERROR": "Lütfen geçerli bir e-posta adresi girin"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Gönder",
+          "CANCEL": "İptal Et"
         }
       }
     },

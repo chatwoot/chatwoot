@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Hafið frá",
     "INITIATED_AT": "Hafið",
     "IP_ADDRESS": "IP tala",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Ný skilaboð",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Engin fyrri samtöl eru tengd þessum tengilið.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Símanúmer",
         "CONVERSATIONS": "Samtöl",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

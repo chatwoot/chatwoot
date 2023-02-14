@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Διαγραφή Επιλογής",
     "DOWNLOAD": "Κατέβασμα",
     "UNKNOWN_FILE_TYPE": "Άγνωστο Αρχείο",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
     "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
     "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "Emails διαχωρισμένα με κόμματα",
           "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Αποστολή",
+          "CANCEL": "Άκυρο"
         }
       }
     },
