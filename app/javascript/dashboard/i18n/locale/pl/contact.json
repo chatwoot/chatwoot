@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Zainicjowano z",
     "INITIATED_AT": "Zainicjowano w",
     "IP_ADDRESS": "Adres IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nowa wiadomość",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Brak poprzednich rozmów powiązanych z tym kontaktem.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Numer telefonu",
         "CONVERSATIONS": "Rozmowy",
         "LAST_ACTIVITY": "Ostatnia aktywność",
+        "CREATED_AT": "Utworzono",
         "COUNTRY": "Kraj",
         "CITY": "Miasto",
         "SOCIAL_PROFILES": "Profile społecznościowe",

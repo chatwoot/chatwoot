@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
     "UNKNOWN_FILE_TYPE": "Невідомий файл",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
@@ -131,6 +132,14 @@
           "LABEL": "Прихована копія",
           "PLACEHOLDER": "Адреси електронної пошти, розділені комами",
           "ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Надіслати",
+          "CANCEL": "Скасувати"
         }
       }
     },

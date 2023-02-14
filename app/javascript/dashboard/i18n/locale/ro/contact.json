@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Inițiat de la",
     "INITIATED_AT": "Iniţiat la",
     "IP_ADDRESS": "Adresă IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Mesaj nou",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Număr de telefon",
         "CONVERSATIONS": "Conversații",
         "LAST_ACTIVITY": "Ultima activitate",
+        "CREATED_AT": "Creat la",
         "COUNTRY": "Țară",
         "CITY": "Oraș",
         "SOCIAL_PROFILES": "Social Profil",

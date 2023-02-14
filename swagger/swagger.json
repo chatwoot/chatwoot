@@ -5264,6 +5264,8 @@
               "conversation_created",
               "conversation_status_changed",
               "conversation_updated",
+              "contact_created",
+              "contact_updated",
               "message_created",
               "message_updated",
               "webwidget_triggered"

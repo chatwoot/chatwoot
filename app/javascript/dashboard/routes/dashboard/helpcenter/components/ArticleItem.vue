@@ -29,8 +29,8 @@
       </router-link>
     </td>
     <td>
-      <span class="fs-small">
-        {{ readCount }}
+      <span class="fs-small" :title="formattedViewCount">
+        {{ readableViewCount }}
       </span>
     </td>
     <td>
@@ -76,7 +76,7 @@ export default {
       type: Object,
       default: () => {},
     },
-    readCount: {
+    views: {
       type: Number,
       default: 0,
     },
@@ -94,6 +94,15 @@ export default {
   computed: {
     lastUpdatedAt() {
       return this.dynamicTime(this.updatedAt);
+    },
+    formattedViewCount() {
+      return Number(this.views || 0).toLocaleString('en');
+    },
+    readableViewCount() {
+      return new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        compactDisplay: 'short',
+      }).format(this.views || 0);
     },
     articleAuthorName() {
       return this.author.name;
