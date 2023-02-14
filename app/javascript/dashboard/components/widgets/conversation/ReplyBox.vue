@@ -702,7 +702,11 @@ export default {
           newMessage += '\n\n' + this.messageSignature;
         }
 
-        if (this.isAWhatsAppChannel) {
+        const isOnWhatsApp =
+          this.isATwilioWhatsAppChannel ||
+          this.isAWhatsAppCloudChannel ||
+          this.is360DialogWhatsAppChannel;
+        if (isOnWhatsApp && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(newMessage);
         } else {
           const messagePayload = this.getMessagePayload(newMessage);
