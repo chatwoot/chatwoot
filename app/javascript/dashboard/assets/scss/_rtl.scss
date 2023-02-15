@@ -72,12 +72,12 @@
       margin-left: 0;
       margin-right: $space-small;
     }
+  }
 
-    .settings.back-button {
-      direction: initial;
-      margin-left: var(--space-normal);
-      margin-right: var(--space-smaller);
-    }
+  .settings.back-button {
+    direction: initial;
+    margin-left: var(--space-normal);
+    margin-right: var(--space-smaller);
   }
 
   // Settings header action button
