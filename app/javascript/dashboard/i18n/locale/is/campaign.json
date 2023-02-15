@@ -1,9 +1,9 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
+    "HEADER": "Herferð",
     "SIDEBAR_TXT": "Fyrirbyggjandi skilaboð gera viðskiptavinum kleift að senda skilaboð á útleið til tengiliða sinna sem myndu kalla fram fleiri samtöl. Smelltu á <b>Bæta við herferð</b> til að búa til nýja herferð. Þú getur líka breytt eða eytt núverandi herferð með því að smella á Breyta eða Eyða hnappinn.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
+      "ONE_OFF": "Búa til einkvæma herðferð",
       "ONGOING": "Create a ongoing campaign"
     },
     "ADD": {
