@@ -4,7 +4,7 @@
       <div class="input-wrap">
         <div class="input-wrap__two-column">
           <auth-input
-            v-model="credentials.fullName"
+            v-model.trim="credentials.fullName"
             :class="{ error: $v.credentials.fullName.$error }"
             :label="$t('REGISTER.FULL_NAME.LABEL')"
             icon-name="person"
@@ -17,7 +17,7 @@
             @blur="$v.credentials.fullName.$touch"
           />
           <auth-input
-            v-model="credentials.accountName"
+            v-model.trim="credentials.accountName"
             :class="{ error: $v.credentials.accountName.$error }"
             icon-name="building-bank"
             :label="$t('REGISTER.COMPANY_NAME.LABEL')"
@@ -87,7 +87,7 @@ import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import AuthInput from '../AuthInput.vue';
 import AuthSubmitButton from '../AuthSubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
-import GoogleOAuthButton from '../../../../components/ui/Auth/GoogleOAuthButton.vue';
+import GoogleOAuthButton from 'dashboard/components/ui/Auth/GoogleOAuthButton.vue';
 var CompanyEmailValidator = require('company-email-validator');
 
 export default {
@@ -241,7 +241,7 @@ export default {
   display: flex;
   align-items: center;
   margin: 2rem 0rem;
-  gap: 1rem;
+  gap: var(--space-normal);
   color: var(--s-300);
   font-size: var(--font-size-small);
   &::before,

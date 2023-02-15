@@ -72,8 +72,8 @@ export default {
 .separator {
   display: flex;
   align-items: center;
-  margin: 2rem 0rem;
-  gap: 1rem;
+  margin: var(--space-two) var(--space-zero);
+  gap: var(--space-one);
   color: var(--s-300);
   font-size: var(--font-size-small);
   &::before,
@@ -89,7 +89,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--space-one);
   border: 1px solid var(--s-100);
   color: var(--b-800);
 }
