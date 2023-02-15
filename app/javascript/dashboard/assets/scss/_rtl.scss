@@ -48,6 +48,25 @@
     }
   }
 
+  // Woot button
+  .button {
+    .icon--emoji + .button__content {
+      padding-left: 0;
+      padding-right: var(--space-small);
+    }
+
+    .icon--font + .button__content {
+      padding-left: 0;
+      padding-right: var(--space-small);
+    }
+
+    .icon + .button__content {
+      padding-left: 0;
+      padding-right: var(--space-small);
+      width: auto;
+    }
+  }
+
   // Settings header
   .settings-header {
     .header--icon {
