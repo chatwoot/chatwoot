@@ -87,13 +87,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.app-rtl--wrapper {
-  .actions--container .resolve-actions {
-    margin-left: unset;
-    margin-right: var(--space-small);
-  }
-}
-
 .actions--container {
   align-items: center;
 

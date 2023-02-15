@@ -188,11 +188,6 @@ export default {
   text-align: left;
   line-height: var(--font-size-large);
 }
-.app-rtl--wrapper {
-  .search--input {
-    text-align: right;
-  }
-}
 
 .search--icon {
   color: var(--s-600);

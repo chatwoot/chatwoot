@@ -140,12 +140,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .actions-container {
-    margin-left: unset;
-    margin-right: var(--space-one);
-  }
-}
 .portal {
   background-color: var(--white);
   padding: var(--space-normal);

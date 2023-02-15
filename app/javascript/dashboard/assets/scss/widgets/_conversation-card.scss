@@ -148,15 +148,3 @@
     }
   }
 }
-
-.app-rtl--wrapper {
-  .conversation--meta {
-    left: $space-normal;
-    right: unset;
-
-    .unread {
-      margin-left: unset;
-      margin-right: auto;
-    }
-  }
-}

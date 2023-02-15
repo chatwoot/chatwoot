@@ -57,27 +57,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.app-rtl--wrapper {
-  .text-content {
-    p {
-      unicode-bidi: plaintext;
-    }
-    ul {
-      padding-left: unset;
-      padding-right: var(--space-two);
-
-      ol {
-        text-align: right;
-      }
-    }
-
-    ol {
-      li {
-        text-align: right;
-      }
-    }
-  }
-}
 .text-content {
   overflow: auto;
 

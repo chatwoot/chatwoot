@@ -267,11 +267,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .checkbox {
-    margin-left: var(--space-small);
-  }
-}
 .custom-attribute {
   padding: var(--space-slab) var(--space-normal);
 }

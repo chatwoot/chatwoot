@@ -102,12 +102,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .primary--sidebar {
-    border-right: none;
-    border-left: 1px solid var(--s-50);
-  }
-}
 .primary--sidebar {
   display: flex;
   flex-direction: column;

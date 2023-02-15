@@ -45,20 +45,6 @@
   }
 }
 
-.app-rtl--wrapper {
-  .tabs-title {
-    &:first-child {
-      margin-left: $space-slab;
-      margin-right: unset;
-    }
-
-    &:last-child {
-      margin-left: unset;
-      margin-right: $space-slab;
-    }
-  }
-}
-
 .tabs-title {
   flex-shrink: 0;
   margin: $zero $space-slab;

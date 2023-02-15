@@ -91,18 +91,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.app-rtl--wrapper {
-  .bulk-action__teams {
-    right: unset;
-    left: var(--space-small);
-  }
-
-  .triangle {
-    right: unset;
-    left: var(--triangle-position);
-  }
-}
-
 .bulk-action__teams {
   background-color: var(--white);
   border-radius: var(--border-radius-large);

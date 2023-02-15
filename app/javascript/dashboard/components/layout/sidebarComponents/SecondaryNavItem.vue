@@ -234,13 +234,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .secondary-menu--icon {
-    margin-left: var(--space-smaller);
-    margin-right: unset;
-  }
-}
-
 .sidebar-item {
   margin: var(--space-smaller) 0 0;
 }

@@ -100,12 +100,6 @@ export default {
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/woot';
 
-.app-rtl--wrapper {
-  .secondary-menu {
-    border-left: 1px solid var(--s-50);
-    border-right: none;
-  }
-}
 .secondary-menu {
   display: flex;
   flex-direction: column;

@@ -331,12 +331,6 @@ export default {
   flex-direction: row;
 }
 
-.app-rtl--wrapper {
-  .close-button--rtl {
-    transform: rotate(180deg);
-  }
-}
-
 .contact--name-wrap {
   display: flex;
   align-items: center;

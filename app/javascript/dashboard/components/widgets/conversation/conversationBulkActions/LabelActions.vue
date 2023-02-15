@@ -153,18 +153,6 @@ export default {
   }
 }
 
-.app-rtl--wrapper {
-  .labels-container {
-    right: unset;
-    left: var(--space-small);
-  }
-
-  .triangle {
-    right: unset;
-    left: var(--triangle-position);
-  }
-}
-
 .labels-container {
   background-color: var(--white);
   border-radius: var(--border-radius-large);
@@ -293,12 +281,6 @@ ul {
 
   button {
     width: 100%;
-  }
-}
-
-.app-rtl--wrapper {
-  .label__list-item .label-checkbox {
-    margin: 0 0 0 var(--space-one);
   }
 }
 </style>

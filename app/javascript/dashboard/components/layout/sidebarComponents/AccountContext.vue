@@ -96,18 +96,6 @@ export default {
   width: 100%;
 }
 
-.app-rtl--wrapper {
-  .account-context--switch-group {
-    --overlay-shadow: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 1) 50%
-    );
-
-    background-image: var(--overlay-shadow);
-  }
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 300ms ease;

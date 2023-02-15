@@ -191,6 +191,7 @@ export default {
     }
   }
 }
+
 .bulk-action__container {
   border-bottom: 1px solid var(--s-100);
   padding: var(--space-normal);

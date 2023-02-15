@@ -1,17 +1,6 @@
 $resolve-button-width: 13.2rem;
 
 // Conversation header - Light BG
-.app-rtl--wrapper {
-  .conv-header .user {
-    margin-left: var(--space-normal);
-    margin-right: unset;
-
-    .user--profile__meta {
-      margin-left: unset;
-      margin-right: $space-slab;
-    }
-  }
-}
 
 .conv-header {
   @include background-white;

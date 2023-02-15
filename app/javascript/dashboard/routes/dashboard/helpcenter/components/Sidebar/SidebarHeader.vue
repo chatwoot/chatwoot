@@ -69,12 +69,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .header-title--wrap {
-    margin-left: unset;
-    margin-right: var(--space-small);
-  }
-}
 .sidebar-header--wrap {
   display: flex;
   height: var(--space-jumbo);

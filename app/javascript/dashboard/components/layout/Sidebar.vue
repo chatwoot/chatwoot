@@ -297,14 +297,4 @@ export default {
 .secondary-menu .nested.vertical.menu {
   margin-left: var(--space-small);
 }
-
-.app-rtl--wrapper {
-  .secondary-menu .nested.vertical.menu {
-    align-items: flex-start;
-
-    li {
-      direction: initial;
-    }
-  }
-}
 </style>

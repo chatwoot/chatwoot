@@ -106,10 +106,6 @@ export default {
 
 <style lang="scss" scoped>
 .app-rtl--wrapper {
-  .time-stamp {
-    unicode-bidi: plaintext;
-  }
-
   .note__content {
     ::v-deep {
       p {
@@ -118,6 +114,7 @@ export default {
     }
   }
 }
+
 .note__content {
   margin-top: var(--space-normal);
 }
