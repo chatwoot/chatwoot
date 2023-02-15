@@ -20,7 +20,7 @@
   }
 
   .multiselect--active {
-    > .multiselect__tags {
+    >.multiselect__tags {
       border-color: $color-woot;
     }
   }
@@ -48,7 +48,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: fit-content;
+        width: 100%;
       }
 
       p {
@@ -145,6 +145,7 @@
 }
 
 .sidebar-labels-wrap {
+
   &.has-edited,
   &:hover {
     .multiselect {
@@ -153,15 +154,15 @@
   }
 
   .multiselect {
-    > .multiselect__select {
+    >.multiselect__select {
       visibility: hidden;
     }
 
-    > .multiselect__tags {
+    >.multiselect__tags {
       border-color: transparent;
     }
 
-    &.multiselect--active > .multiselect__tags {
+    &.multiselect--active>.multiselect__tags {
       border-color: $color-woot;
     }
   }

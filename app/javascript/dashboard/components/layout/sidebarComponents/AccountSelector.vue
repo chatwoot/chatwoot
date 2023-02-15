@@ -76,7 +76,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .account-selector--wrap {
-  direction: initial;
+  direction: ltr;
   margin-top: var(--space-normal);
 }
 .account-selector {

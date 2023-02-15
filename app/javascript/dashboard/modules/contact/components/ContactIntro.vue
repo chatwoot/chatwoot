@@ -105,7 +105,7 @@ export default {
 }
 
 .contact--bio {
-  direction: initial;
+  direction: ltr;
   margin: var(--space-smaller) 0 0;
 }
 

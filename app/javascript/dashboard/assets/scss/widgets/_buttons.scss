@@ -208,12 +208,6 @@ $default-button-height: 4rem;
 }
 
 // @TDOD move to utility file
-.button--fixed-right-top {
-  position: fixed;
-  right: $space-small;
-  top: $space-small;
-}
-
 .button--fixed-top {
   position: fixed;
   right: $space-small;

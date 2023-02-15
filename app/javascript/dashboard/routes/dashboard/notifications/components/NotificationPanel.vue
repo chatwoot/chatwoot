@@ -62,8 +62,7 @@
             <fluent-icon
               icon="chevron-left"
               size="16"
-              class="margin-left-minus-slab"
-              :class="{ 'margin-right-minus-slab': isRTLView }"
+              :class="notificationPanelFooterIconClass"
             />
           </woot-button>
           <woot-button
@@ -97,8 +96,7 @@
             <fluent-icon
               icon="chevron-right"
               size="16"
-              class="margin-left-minus-slab"
-              :class="{ 'margin-right-minus-slab': isRTLView }"
+              :class="notificationPanelFooterIconClass"
             />
           </woot-button>
         </div>
@@ -132,6 +130,11 @@ export default {
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
+    notificationPanelFooterIconClass() {
+      return this.isRTLView
+        ? 'margin-right-minus-slab'
+        : 'margin-left-minus-slab';
+    },
     totalUnreadNotifications() {
       return this.meta.unreadCount;
     },

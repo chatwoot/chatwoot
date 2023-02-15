@@ -70,7 +70,7 @@ export default {
 }
 
 .colorpicker--chrome {
-  direction: initial;
+  direction: ltr;
 }
 
 .colorpicker--chrome.vc-chrome {
