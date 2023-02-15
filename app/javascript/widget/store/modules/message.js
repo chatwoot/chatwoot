@@ -12,9 +12,12 @@ export const getters = {
 
 export const actions = {
   update: async (
-    { commit, dispatch },
+    { commit, dispatch, getters: { getUIFlags: uiFlags } },
     { email, messageId, submittedValues }
   ) => {
+    if (uiFlags.isUpdating) {
+      return;
+    }
     commit('toggleUpdateStatus', true);
     try {
       await MessageAPI.update({

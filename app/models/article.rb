@@ -106,6 +106,12 @@ class Article < ApplicationRecord
     update(status: :draft)
   end
 
+  def increment_view_count
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:views, views? ? views + 1 : 1)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   private
 
   def ensure_account_id

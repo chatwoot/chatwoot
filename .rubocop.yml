@@ -163,7 +163,7 @@ RSpec/NamedSubject:
   Enabled: false
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:
-  Max: 12
+  Max: 14
 
 AllCops:
   NewCops: enable

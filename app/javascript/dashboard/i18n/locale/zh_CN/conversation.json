@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "移除选择",
     "DOWNLOAD": "下载",
     "UNKNOWN_FILE_TYPE": "未知文件",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "正在上传附件...",
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
     "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "多个电子邮件地址之间用逗号隔开",
           "ERROR": "请输入有效的电子邮件地址"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "发送",
+          "CANCEL": "取消"
         }
       }
     },

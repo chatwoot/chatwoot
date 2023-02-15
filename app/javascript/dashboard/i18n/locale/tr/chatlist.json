@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Susturuldu"
+      },
+      "all": {
+        "TEXT": "Hepsi"
       }
     },
     "ATTACHMENTS": {

@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Ukloni izbor",
     "DOWNLOAD": "Preuzmi",
     "UNKNOWN_FILE_TYPE": "Nepoznata datoteka",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Dodavanje priloga...",
     "SUCCESS_DELETE_MESSAGE": "Poruka je uspešno obrisana",
     "FAIL_DELETE_MESSSAGE": "Nije bilo moguće obrisati poruku! Pokušajte ponovo",
@@ -131,6 +132,14 @@
           "LABEL": "BCC",
           "PLACEHOLDER": "E-pošte odvojene zarezima",
           "ERROR": "Molim vas unesite ispravne adrese e-pošte"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Pošalji",
+          "CANCEL": "Otkaži"
         }
       }
     },

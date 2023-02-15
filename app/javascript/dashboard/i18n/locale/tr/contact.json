@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Başlatıldı",
     "INITIATED_AT": "Başlatıldı",
     "IP_ADDRESS": "IP Adresi",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Yeni Mesaj",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefon numarası",
         "CONVERSATIONS": "Konuşmalar",
         "LAST_ACTIVITY": "Son aktivite",
+        "CREATED_AT": "Oluşturma",
         "COUNTRY": "Ülke",
         "CITY": "Şehir",
         "SOCIAL_PROFILES": "Sosyal profiller",
