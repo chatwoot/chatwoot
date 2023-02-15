@@ -8,6 +8,8 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
   end
 
   def rebuild_contact_pg_search_documents(account_id)
+    # return if PgSearch::Document.find_by(searchable_type: 'Contact', account_id: account_id).present?
+
     ActiveRecord::Base.connection.execute <<~SQL.squish
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, created_at, updated_at)
         SELECT 'Contact' AS searchable_type,
@@ -22,6 +24,8 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
   end
 
   def rebuild_conversation_pg_search_documents(account_id)
+    # return if PgSearch::Document.find_by(searchable_type: 'Conversation', account_id: account_id).present?
+
     ActiveRecord::Base.connection.execute <<~SQL.squish
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, created_at, updated_at)
         SELECT 'Conversation' AS searchable_type,
@@ -38,6 +42,8 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
   end
 
   def rebuild_message_pg_search_documents(account_id)
+    # return if PgSearch::Document.find_by(searchable_type: 'Message', account_id: account_id).present?
+
     ActiveRecord::Base.connection.execute <<~SQL.squish
       INSERT INTO pg_search_documents (searchable_type, searchable_id, content, account_id, created_at, updated_at)
         SELECT 'Message' AS searchable_type,
@@ -47,7 +53,7 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
                 now() AS created_at,
                 now() AS updated_at
         FROM messages
-        WHERE messages.account_id = #{account_id}
+        WHERE messages.account_id = #{account_id} AND messages.message_type IN (0, 1)
     SQL
   end
 end
