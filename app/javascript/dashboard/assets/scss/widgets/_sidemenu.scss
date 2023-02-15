@@ -65,9 +65,13 @@
 
 .header--icon {
   display: block;
-  margin-right: $space-normal;
+  margin-left: $space-small;
 
   @media screen and (max-width: 1200px) {
     display: none;
   }
+}
+
+.header-title {
+  margin: 0 $space-small;
 }

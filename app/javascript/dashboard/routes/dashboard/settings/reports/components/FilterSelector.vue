@@ -25,7 +25,7 @@
     />
     <div
       v-if="notLast7Days && groupByFilter"
-      class="small-12 medium-3 pull-right margin-left-small"
+      class="small-12 medium-3 pull-right margin-left-small margin-right-small"
     >
       <p aria-hidden="true" class="hide">
         {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
@@ -43,7 +43,7 @@
     </div>
     <div
       v-if="agentsFilter"
-      class="small-12 medium-3 pull-right margin-left-small"
+      class="small-12 medium-3 pull-right margin-left-small margin-right-small"
     >
       <multiselect
         v-model="selectedAgents"

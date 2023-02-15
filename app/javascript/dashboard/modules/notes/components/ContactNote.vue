@@ -106,16 +106,17 @@ export default {
 
 <style lang="scss" scoped>
 .app-rtl--wrapper {
-  .time-stamp {
-    unicode-bidi: plaintext;
+  .note__content {
+    ::v-deep {
+      p {
+        unicode-bidi: plaintext;
+      }
+    }
   }
 }
+
 .note__content {
   margin-top: var(--space-normal);
-
-  p {
-    direction: initial;
-  }
 }
 
 .header {
@@ -129,7 +130,7 @@ export default {
     align-items: center;
 
     .date-wrap {
-      margin-left: var(--space-smaller);
+      margin: 0 var(--space-smaller);
       padding: var(--space-micro);
       color: var(--color-body);
     }

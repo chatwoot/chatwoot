@@ -83,11 +83,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .show-more--button {
-    transform: rotate(180deg);
-  }
-}
 .show-more--button {
   height: var(--space-two);
   position: sticky;

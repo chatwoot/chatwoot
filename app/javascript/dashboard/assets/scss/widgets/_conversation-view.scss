@@ -109,7 +109,7 @@
       float: right;
       font-size: $font-size-mini;
       height: $space-medium;
-      margin: 0;
+      margin: 0 var(--space-smaller);
       padding: $zero $space-medium $zero $space-normal;
       width: auto;
     }
@@ -122,7 +122,6 @@
 
 .conversation-panel {
   @include flex;
-  direction: initial;
   flex: 1 1 1px;
   flex-direction: column;
   height: 100%;
@@ -328,8 +327,7 @@
     font-size: var(--font-size-small);
     justify-content: center;
     margin: var(--space-smaller) 0;
-    padding: var(--space-smaller) var(--space-micro) var(--space-smaller)
-      var(--space-one);
+    padding: var(--space-smaller) var(--space-small);
 
     .is-text {
       align-items: center;

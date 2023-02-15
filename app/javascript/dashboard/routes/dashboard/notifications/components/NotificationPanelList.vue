@@ -132,13 +132,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .notification-content--wrap {
-    margin-left: 0;
-    margin-right: var(--space-slab);
-  }
-}
-
 .flex-view {
   display: flex;
 }

@@ -58,7 +58,6 @@
             color-scheme="secondary"
             icon="filter"
             size="small"
-            class="btn-filter"
             @click="onToggleAdvanceFiltersModal"
           />
         </div>
@@ -837,10 +836,6 @@ export default {
   align-items: center;
 }
 
-.btn-filter {
-  margin: 0 var(--space-smaller);
-}
-
 .filter__applied {
   padding: 0 0 var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
@@ -848,15 +843,5 @@ export default {
 
 .delete-custom-view__button {
   margin-right: var(--space-normal);
-}
-
-.app-rtl--wrapper {
-  .tab--chat-type {
-    ::v-deep {
-      .tabs .tabs-title:first-child {
-        margin-right: 0;
-      }
-    }
-  }
 }
 </style>

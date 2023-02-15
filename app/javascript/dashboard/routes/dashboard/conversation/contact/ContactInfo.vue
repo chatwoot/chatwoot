@@ -314,10 +314,6 @@ export default {
   position: relative;
   align-items: flex-start;
   padding: var(--space-normal);
-
-  .user-thumbnail-box {
-    margin-right: var(--space-normal);
-  }
 }
 
 .contact--details {
@@ -333,12 +329,6 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-}
-
-.app-rtl--wrapper {
-  .close-button--rtl {
-    transform: rotate(180deg);
-  }
 }
 
 .contact--name-wrap {

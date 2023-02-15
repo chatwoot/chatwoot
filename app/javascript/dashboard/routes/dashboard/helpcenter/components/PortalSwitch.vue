@@ -190,7 +190,7 @@ export default {
       .locale-content {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         width: 100%;
       }
 
@@ -232,10 +232,6 @@ export default {
       text-align: left;
       line-height: var(--space-normal);
       width: 100%;
-    }
-
-    .meta {
-      flex-grow: 1;
     }
   }
 }

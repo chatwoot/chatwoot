@@ -233,18 +233,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.app-rtl--wrapper {
-  .notification-wrap {
-    left: 0;
-    right: var(--space-jumbo);
-  }
-
-  .action-button {
-    margin-left: var(--space-small);
-    margin-right: 0;
-  }
-}
-
 .flex-view {
   display: flex;
 }

@@ -5,6 +5,7 @@
         icon="chevron-left"
         variant="clear"
         size="small"
+        class="back-button"
         color-scheme="primary"
         @click="onClickGoBack"
       >
@@ -42,7 +43,7 @@
         v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
         icon="pane-open"
-        class-names="article--buttons"
+        class-names="article--buttons sidebar-button"
         variant="hollow"
         size="small"
         color-scheme="secondary"

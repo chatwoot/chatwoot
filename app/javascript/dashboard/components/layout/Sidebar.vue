@@ -295,11 +295,6 @@ export default {
 }
 
 .secondary-menu .nested.vertical.menu {
-  align-items: flex-start;
   margin-left: var(--space-small);
-
-  li {
-    direction: initial;
-  }
 }
 </style>

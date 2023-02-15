@@ -166,6 +166,7 @@ export default {
   padding: 0 var(--space-normal);
 }
 .page-meta {
+  direction: initial;
   font-size: var(--font-size-mini);
 }
 

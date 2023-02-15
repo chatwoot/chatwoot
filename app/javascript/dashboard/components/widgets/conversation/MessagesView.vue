@@ -455,10 +455,4 @@ export default {
     box-sizing: border-box;
   }
 }
-
-.app-rtl--wrapper {
-  .sidebar-toggle--button {
-    transform: rotate(180deg);
-  }
-}
 </style>
