@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_221_230_113_108) do
+ActiveRecord::Schema.define(version: 20_230_209_033_203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'pg_stat_statements'
   enable_extension 'pg_trgm'
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.string 'token'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['owner_type', 'owner_id'], name: 'index_access_tokens_on_owner_type_and_owner_id'
+    t.index %w[owner_type owner_id], name: 'index_access_tokens_on_owner_type_and_owner_id'
     t.index ['token'], name: 'index_access_tokens_on_token', unique: true
   end
 
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'active_at'
     t.integer 'availability', default: 0, null: false
     t.boolean 'auto_offline', default: true, null: false
-    t.index ['account_id', 'user_id'], name: 'uniq_user_id_per_account_id', unique: true
+    t.index %w[account_id user_id], name: 'uniq_user_id_per_account_id', unique: true
     t.index ['account_id'], name: 'index_account_users_on_account_id'
     t.index ['user_id'], name: 'index_account_users_on_user_id'
   end
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.string 'message_checksum', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['message_id', 'message_checksum'], name: 'index_action_mailbox_inbound_emails_uniqueness', unique: true
+    t.index %w[message_id message_checksum], name: 'index_action_mailbox_inbound_emails_uniqueness', unique: true
   end
 
   create_table 'active_storage_attachments', force: :cascade do |t|
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.bigint 'blob_id', null: false
     t.datetime 'created_at', null: false
     t.index ['blob_id'], name: 'index_active_storage_attachments_on_blob_id'
-    t.index ['record_type', 'record_id', 'name', 'blob_id'], name: 'index_active_storage_attachments_uniqueness', unique: true
+    t.index %w[record_type record_id name blob_id], name: 'index_active_storage_attachments_uniqueness', unique: true
   end
 
   create_table 'active_storage_blobs', force: :cascade do |t|
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
   create_table 'active_storage_variant_records', force: :cascade do |t|
     t.bigint 'blob_id', null: false
     t.string 'variation_digest', null: false
-    t.index ['blob_id', 'variation_digest'], name: 'index_active_storage_variant_records_uniqueness', unique: true
+    t.index %w[blob_id variation_digest], name: 'index_active_storage_variant_records_uniqueness', unique: true
   end
 
   create_table 'agent_bot_inboxes', force: :cascade do |t|
@@ -210,10 +210,10 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.bigint 'parent_category_id'
     t.bigint 'associated_category_id'
     t.index ['associated_category_id'], name: 'index_categories_on_associated_category_id'
-    t.index ['locale', 'account_id'], name: 'index_categories_on_locale_and_account_id'
+    t.index %w[locale account_id], name: 'index_categories_on_locale_and_account_id'
     t.index ['locale'], name: 'index_categories_on_locale'
     t.index ['parent_category_id'], name: 'index_categories_on_parent_category_id'
-    t.index ['slug', 'locale', 'portal_id'], name: 'index_categories_on_slug_and_locale_and_portal_id', unique: true
+    t.index %w[slug locale portal_id], name: 'index_categories_on_slug_and_locale_and_portal_id', unique: true
   end
 
   create_table 'channel_api', force: :cascade do |t|
@@ -266,7 +266,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.string 'instagram_id'
-    t.index ['page_id', 'account_id'], name: 'index_channel_facebook_pages_on_page_id_and_account_id', unique: true
+    t.index %w[page_id account_id], name: 'index_channel_facebook_pages_on_page_id_and_account_id', unique: true
     t.index ['page_id'], name: 'index_channel_facebook_pages_on_page_id'
   end
 
@@ -308,7 +308,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'updated_at', precision: 6, null: false
     t.integer 'medium', default: 0
     t.string 'messaging_service_sid'
-    t.index ['account_sid', 'phone_number'], name: 'index_channel_twilio_sms_on_account_sid_and_phone_number', unique: true
+    t.index %w[account_sid phone_number], name: 'index_channel_twilio_sms_on_account_sid_and_phone_number', unique: true
     t.index ['messaging_service_sid'], name: 'index_channel_twilio_sms_on_messaging_service_sid', unique: true
     t.index ['phone_number'], name: 'index_channel_twilio_sms_on_phone_number', unique: true
   end
@@ -321,7 +321,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.boolean 'tweets_enabled', default: true
-    t.index ['account_id', 'profile_id'], name: 'index_channel_twitter_profiles_on_account_id_and_profile_id', unique: true
+    t.index %w[account_id profile_id], name: 'index_channel_twitter_profiles_on_account_id_and_profile_id', unique: true
   end
 
   create_table 'channel_web_widgets', id: :serial, force: :cascade do |t|
@@ -365,7 +365,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.boolean 'hmac_verified', default: false
     t.string 'pubsub_token'
     t.index ['contact_id'], name: 'index_contact_inboxes_on_contact_id'
-    t.index ['inbox_id', 'source_id'], name: 'index_contact_inboxes_on_inbox_id_and_source_id', unique: true
+    t.index %w[inbox_id source_id], name: 'index_contact_inboxes_on_inbox_id_and_source_id', unique: true
     t.index ['inbox_id'], name: 'index_contact_inboxes_on_inbox_id'
     t.index ['pubsub_token'], name: 'index_contact_inboxes_on_pubsub_token', unique: true
     t.index ['source_id'], name: 'index_contact_inboxes_on_source_id'
@@ -383,9 +383,9 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.jsonb 'custom_attributes', default: {}
     t.datetime 'last_activity_at'
     t.index ['account_id'], name: 'index_contacts_on_account_id'
-    t.index ['email', 'account_id'], name: 'uniq_email_per_account_contact', unique: true
-    t.index ['identifier', 'account_id'], name: 'uniq_identifier_per_account_contact', unique: true
-    t.index ['phone_number', 'account_id'], name: 'index_contacts_on_phone_number_and_account_id'
+    t.index %w[email account_id], name: 'uniq_email_per_account_contact', unique: true
+    t.index %w[identifier account_id], name: 'uniq_identifier_per_account_contact', unique: true
+    t.index %w[phone_number account_id], name: 'index_contacts_on_phone_number_and_account_id'
   end
 
   create_table 'conversations', id: :serial, force: :cascade do |t|
@@ -401,7 +401,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'agent_last_seen_at'
     t.jsonb 'additional_attributes', default: {}
     t.bigint 'contact_inbox_id'
-    t.uuid 'uuid', default: -> { 'gen_random_uuid()' }, null: false
+    t.uuid 'uuid', default: -> { 'public.gen_random_uuid()' }, null: false
     t.string 'identifier'
     t.datetime 'last_activity_at', default: -> { 'CURRENT_TIMESTAMP' }, null: false
     t.bigint 'team_id'
@@ -410,16 +410,16 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.jsonb 'custom_attributes', default: {}
     t.datetime 'assignee_last_seen_at'
     t.datetime 'first_reply_created_at'
-    t.index ['account_id', 'display_id'], name: 'index_conversations_on_account_id_and_display_id', unique: true
+    t.index %w[account_id display_id], name: 'index_conversations_on_account_id_and_display_id', unique: true
     t.index ['account_id'], name: 'index_conversations_on_account_id'
-    t.index ['assignee_id', 'account_id'], name: 'index_conversations_on_assignee_id_and_account_id'
+    t.index %w[assignee_id account_id], name: 'index_conversations_on_assignee_id_and_account_id'
     t.index ['campaign_id'], name: 'index_conversations_on_campaign_id'
     t.index ['contact_id'], name: 'index_conversations_on_contact_id'
     t.index ['contact_inbox_id'], name: 'index_conversations_on_contact_inbox_id'
     t.index ['first_reply_created_at'], name: 'index_conversations_on_first_reply_created_at'
     t.index ['inbox_id'], name: 'index_conversations_on_inbox_id'
     t.index ['last_activity_at'], name: 'index_conversations_on_last_activity_at'
-    t.index ['status', 'account_id'], name: 'index_conversations_on_status_and_account_id'
+    t.index %w[status account_id], name: 'index_conversations_on_status_and_account_id'
     t.index ['team_id'], name: 'index_conversations_on_team_id'
     t.index ['uuid'], name: 'index_conversations_on_uuid', unique: true
   end
@@ -453,7 +453,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.text 'attribute_description'
     t.jsonb 'attribute_values', default: []
     t.index ['account_id'], name: 'index_custom_attribute_definitions_on_account_id'
-    t.index ['attribute_key', 'attribute_model', 'account_id'], name: 'attribute_key_model_index', unique: true
+    t.index %w[attribute_key attribute_model account_id], name: 'attribute_key_model_index', unique: true
   end
 
   create_table 'custom_filters', force: :cascade do |t|
@@ -499,7 +499,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.integer 'locale', default: 0, null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['name', 'account_id'], name: 'index_email_templates_on_name_and_account_id', unique: true
+    t.index %w[name account_id], name: 'index_email_templates_on_name_and_account_id', unique: true
   end
 
   create_table 'folders', force: :cascade do |t|
@@ -515,7 +515,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.integer 'inbox_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['inbox_id', 'user_id'], name: 'index_inbox_members_on_inbox_id_and_user_id', unique: true
+    t.index %w[inbox_id user_id], name: 'index_inbox_members_on_inbox_id_and_user_id', unique: true
     t.index ['inbox_id'], name: 'index_inbox_members_on_inbox_id'
   end
 
@@ -547,7 +547,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.boolean 'locked', default: true, null: false
-    t.index ['name', 'created_at'], name: 'index_installation_configs_on_name_and_created_at', unique: true
+    t.index %w[name created_at], name: 'index_installation_configs_on_name_and_created_at', unique: true
     t.index ['name'], name: 'index_installation_configs_on_name', unique: true
   end
 
@@ -573,7 +573,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['account_id'], name: 'index_labels_on_account_id'
-    t.index ['title', 'account_id'], name: 'index_labels_on_title_and_account_id', unique: true
+    t.index %w[title account_id], name: 'index_labels_on_title_and_account_id', unique: true
   end
 
   create_table 'macros', force: :cascade do |t|
@@ -597,7 +597,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['account_id'], name: 'index_mentions_on_account_id'
     t.index ['conversation_id'], name: 'index_mentions_on_conversation_id'
-    t.index ['user_id', 'conversation_id'], name: 'index_mentions_on_user_id_and_conversation_id', unique: true
+    t.index %w[user_id conversation_id], name: 'index_mentions_on_user_id_and_conversation_id', unique: true
     t.index ['user_id'], name: 'index_mentions_on_user_id'
   end
 
@@ -622,7 +622,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.index ['account_id'], name: 'index_messages_on_account_id'
     t.index ['conversation_id'], name: 'index_messages_on_conversation_id'
     t.index ['inbox_id'], name: 'index_messages_on_inbox_id'
-    t.index ['sender_type', 'sender_id'], name: 'index_messages_on_sender_type_and_sender_id'
+    t.index %w[sender_type sender_id], name: 'index_messages_on_sender_type_and_sender_id'
     t.index ['source_id'], name: 'index_messages_on_source_id'
   end
 
@@ -645,7 +645,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.integer 'push_flags', default: 0, null: false
-    t.index ['account_id', 'user_id'], name: 'by_account_user', unique: true
+    t.index %w[account_id user_id], name: 'by_account_user', unique: true
   end
 
   create_table 'notification_subscriptions', force: :cascade do |t|
@@ -671,8 +671,8 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['account_id'], name: 'index_notifications_on_account_id'
-    t.index ['primary_actor_type', 'primary_actor_id'], name: 'uniq_primary_actor_per_account_notifications'
-    t.index ['secondary_actor_type', 'secondary_actor_id'], name: 'uniq_secondary_actor_per_account_notifications'
+    t.index %w[primary_actor_type primary_actor_id], name: 'uniq_primary_actor_per_account_notifications'
+    t.index %w[secondary_actor_type secondary_actor_id], name: 'uniq_secondary_actor_per_account_notifications'
     t.index ['user_id'], name: 'index_notifications_on_user_id'
   end
 
@@ -685,8 +685,8 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'updated_at', precision: 6, null: false
     t.index "to_tsvector('simple'::regconfig, COALESCE(content, ''::text))", name: 'pg_multisearch_index', using: :gin
     t.index ['account_id'], name: 'index_pg_search_documents_on_account_id'
-    t.index ['searchable_id', 'searchable_type'], name: 'unique_searchables_index', unique: true
-    t.index ['searchable_type', 'searchable_id'], name: 'index_pg_search_documents_on_searchable'
+    t.index %w[searchable_id searchable_type], name: 'unique_searchables_index', unique: true
+    t.index %w[searchable_type searchable_id], name: 'index_pg_search_documents_on_searchable'
   end
 
   create_table 'platform_app_permissibles', force: :cascade do |t|
@@ -695,8 +695,8 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.bigint 'permissible_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['permissible_type', 'permissible_id'], name: 'index_platform_app_permissibles_on_permissibles'
-    t.index ['platform_app_id', 'permissible_id', 'permissible_type'], name: 'unique_permissibles_index', unique: true
+    t.index %w[permissible_type permissible_id], name: 'index_platform_app_permissibles_on_permissibles'
+    t.index %w[platform_app_id permissible_id permissible_type], name: 'unique_permissibles_index', unique: true
     t.index ['platform_app_id'], name: 'index_platform_app_permissibles_on_platform_app_id'
   end
 
@@ -711,8 +711,8 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.bigint 'user_id'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['portal_id', 'user_id'], name: 'index_portal_members_on_portal_id_and_user_id', unique: true
-    t.index ['user_id', 'portal_id'], name: 'index_portal_members_on_user_id_and_portal_id', unique: true
+    t.index %w[portal_id user_id], name: 'index_portal_members_on_portal_id_and_user_id', unique: true
+    t.index %w[user_id portal_id], name: 'index_portal_members_on_user_id_and_portal_id', unique: true
   end
 
   create_table 'portals', force: :cascade do |t|
@@ -735,7 +735,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
   create_table 'portals_members', id: false, force: :cascade do |t|
     t.bigint 'portal_id', null: false
     t.bigint 'user_id', null: false
-    t.index ['portal_id', 'user_id'], name: 'index_portals_members_on_portal_id_and_user_id', unique: true
+    t.index %w[portal_id user_id], name: 'index_portals_members_on_portal_id_and_user_id', unique: true
     t.index ['portal_id'], name: 'index_portals_members_on_portal_id'
     t.index ['user_id'], name: 'index_portals_members_on_user_id'
   end
@@ -745,8 +745,8 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.bigint 'related_category_id'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['category_id', 'related_category_id'], name: 'index_related_categories_on_category_id_and_related_category_id', unique: true
-    t.index ['related_category_id', 'category_id'], name: 'index_related_categories_on_related_category_id_and_category_id', unique: true
+    t.index %w[category_id related_category_id], name: 'index_related_categories_on_category_id_and_related_category_id', unique: true
+    t.index %w[related_category_id category_id], name: 'index_related_categories_on_related_category_id_and_category_id', unique: true
   end
 
   create_table 'reporting_events', force: :cascade do |t|
@@ -778,13 +778,13 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.string 'context', limit: 128
     t.datetime 'created_at'
     t.index ['context'], name: 'index_taggings_on_context'
-    t.index ['tag_id', 'taggable_id', 'taggable_type', 'context', 'tagger_id', 'tagger_type'], name: 'taggings_idx', unique: true
+    t.index %w[tag_id taggable_id taggable_type context tagger_id tagger_type], name: 'taggings_idx', unique: true
     t.index ['tag_id'], name: 'index_taggings_on_tag_id'
-    t.index ['taggable_id', 'taggable_type', 'context'], name: 'index_taggings_on_taggable_id_and_taggable_type_and_context'
-    t.index ['taggable_id', 'taggable_type', 'tagger_id', 'context'], name: 'taggings_idy'
+    t.index %w[taggable_id taggable_type context], name: 'index_taggings_on_taggable_id_and_taggable_type_and_context'
+    t.index %w[taggable_id taggable_type tagger_id context], name: 'taggings_idy'
     t.index ['taggable_id'], name: 'index_taggings_on_taggable_id'
     t.index ['taggable_type'], name: 'index_taggings_on_taggable_type'
-    t.index ['tagger_id', 'tagger_type'], name: 'index_taggings_on_tagger_id_and_tagger_type'
+    t.index %w[tagger_id tagger_type], name: 'index_taggings_on_tagger_id_and_tagger_type'
     t.index ['tagger_id'], name: 'index_taggings_on_tagger_id'
   end
 
@@ -799,7 +799,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.bigint 'user_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.index ['team_id', 'user_id'], name: 'index_team_members_on_team_id_and_user_id', unique: true
+    t.index %w[team_id user_id], name: 'index_team_members_on_team_id_and_user_id', unique: true
     t.index ['team_id'], name: 'index_team_members_on_team_id'
     t.index ['user_id'], name: 'index_team_members_on_user_id'
   end
@@ -812,7 +812,7 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['account_id'], name: 'index_teams_on_account_id'
-    t.index ['name', 'account_id'], name: 'index_teams_on_name_and_account_id', unique: true
+    t.index %w[name account_id], name: 'index_teams_on_name_and_account_id', unique: true
   end
 
   create_table 'telegram_bots', id: :serial, force: :cascade do |t|
@@ -851,10 +851,13 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.jsonb 'custom_attributes', default: {}
     t.string 'type'
     t.text 'message_signature'
+    t.datetime 'locked_at'
+    t.integer 'failed_attempts'
+    t.string 'unlock_token'
     t.index ['email'], name: 'index_users_on_email'
     t.index ['pubsub_token'], name: 'index_users_on_pubsub_token', unique: true
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
-    t.index ['uid', 'provider'], name: 'index_users_on_uid_and_provider', unique: true
+    t.index %w[uid provider], name: 'index_users_on_uid_and_provider', unique: true
   end
 
   create_table 'webhooks', force: :cascade do |t|
@@ -865,8 +868,9 @@ ActiveRecord::Schema.define(version: 20_221_230_113_108) do
     t.datetime 'updated_at', precision: 6, null: false
     t.integer 'webhook_type', default: 0
     t.jsonb 'subscriptions',
-default: ['conversation_status_changed', 'conversation_updated', 'conversation_created', 'message_created', 'message_updated', 'webwidget_triggered']
-    t.index ['account_id', 'url'], name: 'index_webhooks_on_account_id_and_url', unique: true
+            default: %w[conversation_status_changed conversation_updated conversation_created contact_created contact_updated message_created
+                        message_updated webwidget_triggered]
+    t.index %w[account_id url], name: 'index_webhooks_on_account_id_and_url', unique: true
   end
 
   create_table 'working_hours', force: :cascade do |t|
