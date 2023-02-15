@@ -12,10 +12,6 @@ class Messages::NewMessageNotificationService
 
   delegate :conversation, :sender, :account, to: :message
 
-  def conversation
-    message.conversation
-  end
-
   def notify_participating_users
     participating_users = conversation.conversation_participants.map(&:user)
     participating_users -= [sender] if sender.is_a?(User)

@@ -28,9 +28,8 @@ class NotificationListener < BaseListener
   end
 
   def message_created(event)
-    message, _account = extract_message_and_account(event)
+    message = extract_message_and_account(event)[0]
 
-    # Check if the message contains any mentions
     Messages::MentionService.new(message: message).perform
     Messages::NewMessageNotificationService.new(message: message).perform
   end
