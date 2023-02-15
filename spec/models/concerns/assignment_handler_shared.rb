@@ -85,6 +85,10 @@ shared_examples_for 'assignment_handler' do
       expect(update_assignee).to be(true)
     end
 
+    it 'adds assignee to conversation participants' do
+      expect { update_assignee }.to change { conversation.conversation_participants.count }.by(1)
+    end
+
     context 'when agent is current user' do
       before do
         Current.user = agent
