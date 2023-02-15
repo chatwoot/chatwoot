@@ -33,7 +33,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def account_signup_allowed?
     # set it to true by default, this is the behaviour across the app
-    ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true))
+    GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false') != 'false'
   end
 
   def resource_class(_mapping = nil)
