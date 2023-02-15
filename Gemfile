@@ -39,6 +39,8 @@ gem 'rack-attack'
 gem 'down', '~> 5.0'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
+# Prevent CSV injection
+gem 'csv-safe'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false

@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Kezdeményezve",
     "INITIATED_AT": "Kezdeményezve",
     "IP_ADDRESS": "IP cím",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Új üzenet",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefonszám",
         "CONVERSATIONS": "Beszélgetések",
         "LAST_ACTIVITY": "Utolsó aktivitás",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Ország",
         "CITY": "Város",
         "SOCIAL_PROFILES": "Social media profilok",

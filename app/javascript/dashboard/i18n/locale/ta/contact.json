@@ -15,6 +15,7 @@
     "INITIATED_FROM": "இருந்து தொடங்கப்பட்டது",
     "INITIATED_AT": "இல் தொடங்கப்பட்டது",
     "IP_ADDRESS": "IP Address",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "இந்த தொடர்புடன் முந்தைய உரையாடல்கள் எதுவும் இல்லை.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "உரையாடல்கள்",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
