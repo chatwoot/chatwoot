@@ -10,9 +10,9 @@ import {
   isOnUnattendedView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
-import AnalyticsHelper, {
-  ANALYTICS_EVENTS,
-} from '../../../helper/AnalyticsHelper';
+import AnalyticsHelper from '../../../helper/AnalyticsHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import messageTranslateActions from './actions/messageTranslateActions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -176,8 +176,8 @@ const actions = {
       const response = await MessageApi.create(pendingMessage);
       AnalyticsHelper.track(
         pendingMessage.private
-          ? ANALYTICS_EVENTS.SENT_PRIVATE_NOTE
-          : ANALYTICS_EVENTS.SENT_MESSAGE
+          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
+          : CONVERSATION_EVENTS.SENT_MESSAGE
       );
       commit(types.ADD_MESSAGE, {
         ...response.data,
@@ -342,6 +342,7 @@ const actions = {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
   ...messageReadActions,
+  ...messageTranslateActions,
 };
 
 export default actions;

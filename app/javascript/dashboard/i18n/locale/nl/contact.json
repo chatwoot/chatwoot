@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Geïnitieerd vanuit",
     "INITIATED_AT": "Geïnitieerd op",
     "IP_ADDRESS": "IP-adres",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nieuw bericht",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Er zijn geen eerdere gesprekken gekoppeld aan dit contact.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefoonnummer",
         "CONVERSATIONS": "Gesprekken",
         "LAST_ACTIVITY": "Laatste Activiteit",
+        "CREATED_AT": "Aangemaakt op",
         "COUNTRY": "Country",
         "CITY": "Woonplaats",
         "SOCIAL_PROFILES": "Social Profiles",

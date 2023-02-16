@@ -53,10 +53,6 @@
           "ENABLE": "إنشاء محادثات من التغريدات المشار إليها"
         }
       },
-      "MICROSOFT": {
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
-      },
       "WEBSITE_CHANNEL": {
         "TITLE": "قناة الموقع",
         "DESC": "قم بإنشاء قناة تواصل لموقع الويب الخاص بك وابدأ في استقبال الرسائل من عملائك عبر صندوق الدردشة المباشرة.",
@@ -348,6 +344,17 @@
       "FINISH": {
         "TITLE": "تم!",
         "DESC": "لقد تم بنجاح ربط صفحة فيسبوك الخاصة بك مع Chatwoot. في المرة القادمة التي يرسل فيها العملاء رسالة إلى صفحتك، ستظهر المحادثة تلقائيًا على صندوق الوارد الخاص بك هنا.<br>نحن نزودك أيضًا بالكود النصي لصندوق دردشة الماسنجر والذي يمكنك إضافته بسهولة إلى الموقع الخاص بك لاستقبال الرسائل من الزوار كذلك. بمجرد أن يتم ذلك على موقع الويب الخاص بك، يمكن للعملاء مراسلتك من موقع الويب الخاص بك بدون الحاجة لأي أدوات خارجية وستظهر المحادثة هنا على Chatwoot.<br>رائع، أليس كذلك؟ نحن بالتأكيد نحاول أن نكون الأفضل :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -465,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة.",
       "WHATSAPP_SECTION_SUBHEADER": "يتم استخدام مفتاح API هذا للتكامل مع واتسب APIs.",
-      "WHATSAPP_SECTION_TITLE": "مفتاح API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "مفتاح API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "تحديث"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "حد الإسناد التلقائي",
@@ -674,6 +685,10 @@
       },
       "BRANDING_TEXT": "مدعوم بواسطة Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

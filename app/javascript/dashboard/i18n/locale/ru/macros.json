@@ -26,9 +26,9 @@
     "LIST": {
       "TABLE_HEADER": [
         "Имя",
-        "Created by",
-        "Last updated by",
-        "Visibility"
+        "Создан",
+        "Обновлено",
+        "Видимость"
       ],
       "404": "No macros found"
     },

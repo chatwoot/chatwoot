@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   # AUTH STARTS
-  match 'auth/:provider/callback', to: 'home#callback', via: [:get, :post]
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',
     sessions: 'devise_overrides/sessions',
-    token_validations: 'devise_overrides/token_validations'
+    token_validations: 'devise_overrides/token_validations',
+    omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
   ## renders the frontend paths only if its not an api only server
@@ -74,9 +74,14 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
-              resources :messages, only: [:index, :create, :destroy]
+              resources :messages, only: [:index, :create, :destroy] do
+                member do
+                  post :translate
+                end
+              end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
             end
             member do
@@ -177,8 +182,11 @@ Rails.application.routes.draw do
               patch :archive
               put :add_members
             end
+            post :attach_file, on: :collection
             resources :categories
-            resources :articles
+            resources :articles do
+              post :attach_file, on: :collection
+            end
           end
         end
       end
@@ -350,6 +358,7 @@ Rails.application.routes.draw do
   # Routes for external service verifications
   get 'apple-app-site-association' => 'apple_app#site_association'
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
+  get '.well-known/microsoft-identity-association.json' => 'microsoft#identity_association'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
@@ -373,6 +382,7 @@ Rails.application.routes.draw do
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
+      resource :instance_status, only: [:show]
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]

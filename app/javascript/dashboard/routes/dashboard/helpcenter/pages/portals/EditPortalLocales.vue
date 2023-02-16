@@ -36,6 +36,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import LocaleItemTable from 'dashboard/routes/dashboard/helpcenter/components/PortalListItemTable.vue';
 import AddLocale from 'dashboard/routes/dashboard/helpcenter/components/AddLocale';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     LocaleItemTable,
@@ -85,6 +86,10 @@ export default {
           'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
         ),
       });
+      this.$track(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
+        newLocale: localeCode,
+        from: this.$route.name,
+      });
     },
     deletePortalLocale({ localeCode }) {
       const updatedLocales = this.allowedLocales.filter(
@@ -100,6 +105,10 @@ export default {
         errorMessage: this.$t(
           'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
         ),
+      });
+      this.$track(PORTALS_EVENTS.DELETE_LOCALE, {
+        deletedLocale: localeCode,
+        from: this.$route.name,
       });
     },
     async updatePortalLocales({

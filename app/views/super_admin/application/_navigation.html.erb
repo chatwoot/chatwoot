@@ -40,7 +40,7 @@ as defined by the routes in the `admin/` namespace
     </li>
 
     <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs" ].include?  resource.resource %>
+      <% next if ["account_users", "dashboard", "devise/sessions", "app_configs", "instance_statuses" ].include?  resource.resource %>
       <li class="navigation__link navigation__link--<%= nav_link_state(resource) %>">
         <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
         <%= link_to(
@@ -49,6 +49,11 @@ as defined by the routes in the `admin/` namespace
         ) if valid_action? :index, resource  %>
       </li>
     <% end %>
+
+  <li class="navigation__link">
+      <i class="ion ion-medkit"></i>
+      <%= link_to "Instance Health", super_admin_instance_status_url %>
+    </li>
 
     <li class="navigation__link">
       <i class="ion ion ion-network"></i>

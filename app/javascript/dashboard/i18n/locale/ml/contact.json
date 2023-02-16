@@ -15,6 +15,7 @@
     "INITIATED_FROM": "ആരംഭിച്ച ആൾ ",
     "INITIATED_AT": "ആരംഭിച്ച സമയം ",
     "IP_ADDRESS": "IP വിലാസം",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "പുതിയ സന്ദേശം",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ഈ കോൺടാക്റ്റുമായി മുമ്പത്തെ സംഭാഷണങ്ങളൊന്നും ബന്ധപ്പെടുത്തിയിട്ടില്ല.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "ഫോൺ നമ്പർ",
         "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
         "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
+        "CREATED_AT": "Created At",
         "COUNTRY": "രാജ്യം",
         "CITY": "നഗരം",
         "SOCIAL_PROFILES": "സോഷ്യൽ പ്രൊഫൈലുകൾ",

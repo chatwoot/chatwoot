@@ -2,6 +2,8 @@
 # https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
 # https://developers.facebook.com/docs/whatsapp/api/media/
 class Whatsapp::IncomingMessageBaseService
+  include ::Whatsapp::IncomingMessageServiceHelpers
+
   pattr_initialize [:inbox!, :params!]
 
   def perform
@@ -37,6 +39,8 @@ class Whatsapp::IncomingMessageBaseService
     return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
 
     update_message_with_status(@message, @processed_params[:statuses].first)
+  rescue ArgumentError => e
+    Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
 
   def update_message_with_status(message, status)
@@ -49,33 +53,29 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_messages
-    return if unprocessable_message_type?
+    return if unprocessable_message_type?(message_type)
 
-    @message = @conversation.messages.build(
-      content: message_content(@processed_params[:messages].first),
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: :incoming,
-      sender: @contact,
-      source_id: @processed_params[:messages].first[:id].to_s
-    )
+    message = @processed_params[:messages].first
+    if message_type == 'contacts'
+      create_contact_messages(message)
+    else
+      create_regular_message(message)
+    end
+  end
+
+  def create_contact_messages(message)
+    message['contacts'].each do |contact|
+      create_message(contact)
+      attach_contact(contact)
+      @message.save!
+    end
+  end
+
+  def create_regular_message(message)
+    create_message(message)
     attach_files
     attach_location if message_type == 'location'
     @message.save!
-  end
-
-  def processed_params
-    @processed_params ||= params
-  end
-
-  def message_content(message)
-    # TODO: map interactive messages back to button messages in chatwoot
-    message.dig(:text, :body) || message.dig(:button, :text) || message.dig(:interactive, :button_reply, :title) ||
-      message.dig(:interactive, :list_reply, :title)
-  end
-
-  def account
-    @account ||= inbox.account
   end
 
   def set_contact
@@ -92,15 +92,6 @@ class Whatsapp::IncomingMessageBaseService
     @contact = contact_inbox.contact
   end
 
-  def conversation_params
-    {
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      contact_id: @contact.id,
-      contact_inbox_id: @contact_inbox.id
-    }
-  end
-
   def set_conversation
     @conversation = @contact_inbox.conversations.last
     return if @conversation
@@ -108,25 +99,8 @@ class Whatsapp::IncomingMessageBaseService
     @conversation = ::Conversation.create!(conversation_params)
   end
 
-  def file_content_type(file_type)
-    return :image if %w[image sticker].include?(file_type)
-    return :audio if %w[audio voice].include?(file_type)
-    return :video if ['video'].include?(file_type)
-    return :location if ['location'].include?(file_type)
-
-    :file
-  end
-
-  def message_type
-    @processed_params[:messages].first[:type]
-  end
-
-  def unprocessable_message_type?
-    %w[reaction contacts ephemeral unsupported].include?(message_type)
-  end
-
   def attach_files
-    return if %w[text button interactive location].include?(message_type)
+    return if %w[text button interactive location contacts].include?(message_type)
 
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
     @message.content ||= attachment_payload[:caption]
@@ -145,10 +119,6 @@ class Whatsapp::IncomingMessageBaseService
     )
   end
 
-  def download_attachment_file(attachment_payload)
-    Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
-  end
-
   def attach_location
     location = @processed_params[:messages].first['location']
     location_name = location['name'] ? "#{location['name']}, #{location['address']}" : ''
@@ -160,5 +130,29 @@ class Whatsapp::IncomingMessageBaseService
       fallback_title: location_name,
       external_url: location['url']
     )
+  end
+
+  def create_message(message)
+    @message = @conversation.messages.build(
+      content: message_content(message),
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      message_type: :incoming,
+      sender: @contact,
+      source_id: message[:id].to_s
+    )
+  end
+
+  def attach_contact(contact)
+    phones = contact[:phones]
+    phones = [{ phone: 'Phone number is not available' }] if phones.blank?
+
+    phones.each do |phone|
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_content_type(message_type),
+        fallback_title: phone[:phone].to_s
+      )
+    end
   end
 end

@@ -13,6 +13,8 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  conversationParticipants: [],
+  conversationLastSeen: null,
 };
 
 // mutations
