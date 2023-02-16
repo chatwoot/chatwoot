@@ -57,7 +57,8 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
-         :password_has_required_content
+         :password_has_required_content,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
