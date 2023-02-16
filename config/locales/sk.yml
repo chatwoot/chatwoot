@@ -155,6 +155,9 @@ sk:
     fullcontact:
       name: "Fullcontact"
       description: "Integrácia so službou FullContact pomáha obohatiť profily návštevníkov. Identifikujte používateľov hneď, ako zdieľajú svoju e-mailovú adresu, a ponúknite im zákaznícky servis šitý na mieru. Pripojte aplikáciu FullContact k svojmu účtu zdieľaním kľúča API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
