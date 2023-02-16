@@ -2,13 +2,13 @@ import types from '../../../mutation-types';
 import { mutations } from '../../conversationWatchers';
 
 describe('#mutations', () => {
-  describe('#SET_CONVERSATION_WATCHERS', () => {
+  describe('#SET_CONVERSATION_PARTICIPANTS', () => {
     it('sets an individual record', () => {
       let state = {
         records: {},
       };
 
-      mutations[types.SET_CONVERSATION_WATCHERS](state, {
+      mutations[types.SET_CONVERSATION_PARTICIPANTS](state, {
         data: [],
         conversationId: 1,
       });
@@ -16,7 +16,7 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#SET_CONVERSATION_WATCHERS_UI_FLAG', () => {
+  describe('#SET_CONVERSATION_PARTICIPANTS_UI_FLAG', () => {
     it('set ui flags', () => {
       let state = {
         uiFlags: {
@@ -25,7 +25,7 @@ describe('#mutations', () => {
         },
       };
 
-      mutations[types.SET_CONVERSATION_WATCHERS_UI_FLAG](state, {
+      mutations[types.SET_CONVERSATION_PARTICIPANTS_UI_FLAG](state, {
         isFetching: false,
       });
       expect(state.uiFlags).toEqual({

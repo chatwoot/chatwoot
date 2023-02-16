@@ -154,6 +154,7 @@ export default {
   left: var(--space-slab);
   bottom: var(--space-larger);
   min-width: 22rem;
+  top: unset;
   z-index: var(--z-index-low);
 }
 </style>
