@@ -57,6 +57,17 @@
             {{ $t('CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE') }}
           </woot-button>
         </woot-dropdown-item>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            size="small"
+            icon="translate"
+            color-scheme="secondary"
+            @click="handleTranslate"
+          >
+            {{ $t('CONVERSATION.CONTEXT_MENU.TRANSLATE') }}
+          </woot-button>
+        </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
   </div>
@@ -132,6 +143,11 @@ export default {
     showCannedResponseModal() {
       this.$track(ACCOUNT_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
+    },
+
+    handleTranslate() {
+      this.$emit('translate');
+      this.handleContextMenuClick();
     },
   },
 };
