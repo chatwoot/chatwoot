@@ -4,7 +4,6 @@ describe NotificationListener do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:first_agent) { create(:user, account: account) }
-  let!(:second_agent) { create(:user, account: account) }
   let!(:agent_with_out_notification) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
@@ -55,68 +54,50 @@ describe NotificationListener do
       notification_setting.save!
     end
 
-    context 'when message contains mention' do
-      it 'creates notifications for inbox member who was mentioned' do
-        builder = double
-        allow(NotificationBuilder).to receive(:new).and_return(builder)
-        allow(builder).to receive(:perform)
+    it 'will call mention service' do
+      mention_service = instance_double(Messages::MentionService)
+      allow(Messages::MentionService).to receive(:new).and_return(mention_service)
+      allow(mention_service).to receive(:perform)
 
-        create(:inbox_member, user: first_agent, inbox: inbox)
-        conversation.reload
+      create(:inbox_member, user: first_agent, inbox: inbox)
+      conversation.reload
 
-        message = build(
-          :message,
-          conversation: conversation,
-          account: account,
-          content: "hi [#{first_agent.name}](mention://user/#{first_agent.id}/#{first_agent.name})",
-          private: true
-        )
+      message = build(
+        :message,
+        conversation: conversation,
+        account: account,
+        content: "hi [#{first_agent.name}](mention://user/#{first_agent.id}/#{first_agent.name})",
+        private: true
+      )
 
-        event = Events::Base.new(event_name, Time.zone.now, message: message)
-        listener.message_created(event)
-
-        expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
-                                                                user: first_agent,
-                                                                account: account,
-                                                                primary_actor: message)
-      end
+      expect(mention_service).to receive(:perform)
+      event = Events::Base.new(event_name, Time.zone.now, message: message)
+      listener.message_created(event)
     end
 
-    context 'when message contains multiple mentions' do
-      it 'creates notifications for inbox member who was mentioned' do
-        builder = double
-        allow(NotificationBuilder).to receive(:new).and_return(builder)
-        allow(builder).to receive(:perform)
-        create(:inbox_member, user: first_agent, inbox: inbox)
-        create(:inbox_member, user: second_agent, inbox: inbox)
-        conversation.reload
+    it 'will call new message notification service' do
+      notification_service = instance_double(Messages::NewMessageNotificationService)
+      allow(Messages::NewMessageNotificationService).to receive(:new).and_return(notification_service)
+      allow(notification_service).to receive(:perform)
 
-        message = build(
-          :message,
-          conversation: conversation,
-          account: account,
-          content: "hey [#{second_agent.name}](mention://user/#{second_agent.id}/#{second_agent.name})/
-                    [#{first_agent.name}](mention://user/#{first_agent.id}/#{first_agent.name}),
-                     please look in to this?",
-          private: true
-        )
+      create(:inbox_member, user: first_agent, inbox: inbox)
+      conversation.reload
 
-        event = Events::Base.new(event_name, Time.zone.now, message: message)
-        listener.message_created(event)
+      message = build(
+        :message,
+        conversation: conversation,
+        account: account,
+        content: 'hi',
+        private: true
+      )
 
-        expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
-                                                                user: second_agent,
-                                                                account: account,
-                                                                primary_actor: message)
-        expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
-                                                                user: first_agent,
-                                                                account: account,
-                                                                primary_actor: message)
-      end
+      expect(notification_service).to receive(:perform)
+      event = Events::Base.new(event_name, Time.zone.now, message: message)
+      listener.message_created(event)
     end
 
     context 'when message content is empty' do
-      it 'creates notifications' do
+      it 'will be processed correctly' do
         builder = double
         allow(NotificationBuilder).to receive(:new).and_return(builder)
         allow(builder).to receive(:perform)
@@ -134,7 +115,7 @@ describe NotificationListener do
 
         event = Events::Base.new(event_name, Time.zone.now, message: message)
         # want to validate message_created doesnt throw an error
-        expect(listener.message_created(event)).to be_nil
+        expect { listener.message_created(event) }.not_to raise_error
       end
     end
   end
