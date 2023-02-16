@@ -12,19 +12,9 @@ import {
 import messageReadActions from './actions/messageReadActions';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import messageTranslateActions from './actions/messageTranslateActions';
 // actions
 const actions = {
-  async translateMessage(_, { conversationId, messageId, targetLanguage }) {
-    try {
-      await MessageApi.translateMessage(
-        conversationId,
-        messageId,
-        targetLanguage
-      );
-    } catch (error) {
-      // ignore error
-    }
-  },
   getConversation: async ({ commit }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
@@ -352,6 +342,7 @@ const actions = {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
   ...messageReadActions,
+  ...messageTranslateActions,
 };
 
 export default actions;
