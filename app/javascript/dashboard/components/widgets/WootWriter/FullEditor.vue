@@ -1,6 +1,13 @@
 <template>
   <div>
     <div class="editor-root editor--article">
+      <input
+        ref="imageUploadInput"
+        type="file"
+        accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+        hidden
+        @change="onFileChange"
+      />
       <div ref="editor" />
     </div>
   </div>
@@ -16,23 +23,31 @@ import {
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import alertMixin from 'shared/mixins/alertMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
-const createState = (content, placeholder, plugins = []) => {
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+const createState = (
+  content,
+  placeholder,
+  plugins = [],
+  onImageUpload = () => {}
+) => {
   return EditorState.create({
     doc: new ArticleMarkdownTransformer(fullSchema).parse(content),
     plugins: wootArticleWriterSetup({
       schema: fullSchema,
       placeholder,
       plugins,
+      onImageUpload,
     }),
   });
 };
 
 export default {
-  mixins: [eventListenerMixins, uiSettingsMixin],
+  mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -64,7 +79,12 @@ export default {
     },
   },
   created() {
-    this.state = createState(this.value, this.placeholder, this.plugins);
+    this.state = createState(
+      this.value,
+      this.placeholder,
+      this.plugins,
+      this.openFileBrowser
+    );
   },
   mounted() {
     this.createEditorView();
@@ -73,8 +93,67 @@ export default {
     this.focusEditorInputField();
   },
   methods: {
+    openFileBrowser() {
+      this.$refs.imageUploadInput.click();
+    },
+    onFileChange() {
+      const file = this.$refs.imageUploadInput.files[0];
+
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.uploadImageToStorage(file);
+      } else {
+        this.showAlert(
+          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR_FILE_SIZE', {
+            size: MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
+
+      this.$refs.imageUploadInput.value = '';
+    },
+    async uploadImageToStorage(file) {
+      try {
+        const fileUrl = await this.$store.dispatch('articles/attachImage', {
+          portalSlug: this.$route.params.portalSlug,
+          file,
+        });
+
+        if (fileUrl) {
+          this.onImageUploadStart(fileUrl);
+        }
+        this.showAlert(
+          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.SUCCESS')
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR')
+        );
+      }
+    },
+    onImageUploadStart(fileUrl) {
+      const { selection } = this.editorView.state;
+      const from = selection.from;
+      const node = this.editorView.state.schema.nodes.image.create({
+        src: fileUrl,
+      });
+      const paragraphNode = this.editorView.state.schema.node('paragraph');
+      if (node) {
+        // Insert the image and the caption wrapped inside a paragraph
+        const tr = this.editorView.state.tr
+          .replaceSelectionWith(paragraphNode)
+          .insert(from + 1, node);
+
+        this.editorView.dispatch(tr.scrollIntoView());
+        this.focusEditorInputField();
+      }
+    },
     reloadState() {
-      this.state = createState(this.value, this.placeholder, this.plugins);
+      this.state = createState(
+        this.value,
+        this.placeholder,
+        this.plugins,
+        this.openFileBrowser
+      );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },
