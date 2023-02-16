@@ -116,11 +116,11 @@ describe('uiSettingsMixin', () => {
       const wrapper = shallowMount(Component, { store, localVue });
       expect(wrapper.vm.conversationSidebarItemsOrder).toEqual([
         { name: 'conversation_actions' },
-        { name: 'conversation_participants' },
         { name: 'macros' },
         { name: 'conversation_info' },
         { name: 'contact_attributes' },
         { name: 'previous_conversation' },
+        { name: 'conversation_participants' }
       ]);
     });
   });
