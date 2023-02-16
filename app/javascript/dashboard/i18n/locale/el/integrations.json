@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Η Συνομιλία Ενημερώθηκε",
             "MESSAGE_CREATED": "Δημιουργήθηκε Μήνυμα",
             "MESSAGE_UPDATED": "Το μήνυμα ενημερώθηκε",
-            "WEBWIDGET_TRIGGERED": "Το widget συνομιλίας άνοιξε από τον χρήστη"
+            "WEBWIDGET_TRIGGERED": "Το widget συνομιλίας άνοιξε από τον χρήστη",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {
