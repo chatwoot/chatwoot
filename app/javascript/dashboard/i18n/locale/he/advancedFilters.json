@@ -85,7 +85,7 @@
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "סגמנט נמחק בהצלחה",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "ERROR_MESSAGE": "שגיאה במחיקת הערך"
         }
       }
     }
