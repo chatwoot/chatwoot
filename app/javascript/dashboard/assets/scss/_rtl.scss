@@ -9,6 +9,11 @@
 
     .options-menu.dropdown-pane {
       right: var(--space-smaller);
+
+      .auto-offline--toggle {
+        padding: var(--space-smaller) var(--space-one) var(--space-smaller)
+          var(--space-smaller);
+      }
     }
   }
 
