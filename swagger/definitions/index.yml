@@ -158,13 +158,6 @@ conversation_status_toggle:
 conversation_labels:
   $ref: ./resource/extension/conversation/labels.yml
 
-## message
-extended_message:
-  allOf:
-    - $ref: '#/definitions/generic_id'
-    - $ref: '#/definitions/message'
-    - $ref: ./resource/extension/message/with_source_sender.yml
-
 
 ## report
 account_summary:
