@@ -1391,9 +1391,9 @@
     is-url "^1.2.4"
     nanoid "^2.1.11"
 
-"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#feat-image-upload-beta":
+"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#734472e4674004b5dc7d94c1ebd8a91ddeee4278"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#58fe4323c3c62c78df5150fca19fa169c9a9e881"
   dependencies:
     prosemirror-commands "^1.1.4"
     prosemirror-dropcursor "^1.3.2"
