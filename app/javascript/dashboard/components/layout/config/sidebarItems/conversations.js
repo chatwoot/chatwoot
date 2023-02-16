@@ -14,6 +14,8 @@ const conversations = accountId => ({
     'conversations_through_team',
     'conversation_mentions',
     'conversation_through_mentions',
+    'conversation_participating',
+    'conversation_through_participating',
     'folder_conversations',
     'conversations_through_folders',
     'conversation_unattended',

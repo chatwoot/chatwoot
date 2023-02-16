@@ -120,6 +120,7 @@ describe('uiSettingsMixin', () => {
         { name: 'conversation_info' },
         { name: 'contact_attributes' },
         { name: 'previous_conversation' },
+        { name: 'conversation_participants' },
       ]);
     });
   });
