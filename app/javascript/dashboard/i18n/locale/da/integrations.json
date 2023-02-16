@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Samtale Opdateret",
             "MESSAGE_CREATED": "Besked oprettet",
             "MESSAGE_UPDATED": "Besked opdateret",
-            "WEBWIDGET_TRIGGERED": "Live chat widget åbnet af brugeren"
+            "WEBWIDGET_TRIGGERED": "Live chat widget åbnet af brugeren",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {
