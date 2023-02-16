@@ -73,6 +73,39 @@
           :created-at="createdAt"
         />
       </div>
+      <woot-modal
+        v-if="showTranslateModal"
+        modal-type="right-aligned"
+        show
+        :on-close="onCloseTranslateModal"
+      >
+        <div class="column content">
+          <p>
+            <b>{{ $t('TRANSLATE_MODAL.ORIGINAL_CONTENT') }}</b>
+          </p>
+          <p v-dompurify-html="data.content" />
+          <br />
+          <hr />
+          <div v-if="translationsAvailable">
+            <p>
+              <b>{{ $t('TRANSLATE_MODAL.TRANSLATED_CONTENT') }}</b>
+            </p>
+            <div
+              v-for="(translation, language) in translations"
+              :key="language"
+            >
+              <p>
+                <strong>{{ language }}:</strong>
+              </p>
+              <p v-dompurify-html="translation" />
+              <br />
+            </div>
+          </div>
+          <p v-else>
+            {{ $t('TRANSLATE_MODAL.NO_TRANSLATIONS_AVAILABLE') }}
+          </p>
+        </div>
+      </woot-modal>
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
@@ -116,6 +149,7 @@
         :message-content="data.content"
         @toggle="handleContextMenuClick"
         @delete="handleDelete"
+        @translate="handleTranslate"
       />
     </div>
   </li>
@@ -138,6 +172,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -181,9 +216,14 @@ export default {
     return {
       showContextMenu: false,
       hasImageError: false,
+      showTranslateModal: false,
     };
   },
   computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      currentAccountId: 'getCurrentAccountId',
+    }),
     shouldRenderMessage() {
       return (
         this.hasAttachments ||
@@ -199,6 +239,9 @@ export default {
       } = this.contentAttributes.email || {};
       return fullHTMLContent || fullTextContent || '';
     },
+    translations() {
+      return this.contentAttributes.translations || {};
+    },
     displayQuotedButton() {
       if (!this.isIncoming) {
         return false;
@@ -209,6 +252,9 @@ export default {
       }
 
       return false;
+    },
+    translationsAvailable() {
+      return !!Object.keys(this.translations).length;
     },
     message() {
       if (this.contentType === 'input_csat') {
@@ -431,6 +477,19 @@ export default {
     },
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    handleTranslate() {
+      const { locale } = this.getAccount(this.currentAccountId);
+      const { conversation_id: conversationId, id: messageId } = this.data;
+      this.$store.dispatch('translateMessage', {
+        conversationId,
+        messageId,
+        targetLanguage: locale || 'en',
+      });
+      this.showTranslateModal = true;
+    },
+    onCloseTranslateModal() {
+      this.showTranslateModal = false;
     },
   },
 };
