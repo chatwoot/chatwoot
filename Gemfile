@@ -41,6 +41,8 @@ gem 'down', '~> 5.0'
 gem 'gmail_xoauth'
 # Prevent CSV injection
 gem 'csv-safe'
+# Support message translation
+gem 'google-cloud-translate'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -197,5 +199,11 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
+
+# need for google auth
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'

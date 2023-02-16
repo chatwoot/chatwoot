@@ -56,8 +56,8 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       before do
-        conversation.update!(assignee: agent)
         create(:inbox_member, inbox: conversation.inbox, user: agent)
+        conversation.update!(assignee: agent)
       end
 
       it 'unassigns the assignee from the conversation' do

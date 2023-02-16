@@ -1391,9 +1391,9 @@
     is-url "^1.2.4"
     nanoid "^2.1.11"
 
-"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#variable-mention":
+"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#2205f322e54517c415d54b013742838f2e5faf89"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#ebbf09d6ebd9138cdf2bb47257bb02ebbf01af53"
   dependencies:
     prosemirror-commands "^1.1.4"
     prosemirror-dropcursor "^1.3.2"
@@ -1410,12 +1410,12 @@
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.npmjs.org/@chatwoot/utils/-/utils-0.0.10.tgz#59f68cc28d8718b261ebed8b9c94d2c493b6c67f"
-  integrity sha512-Zd+wQTblWKUV1mhcXoabcfoLygx/Ock5pP0JQdfqW64lubhjYaRR4gCutEgqUcQB4nuOUH7MZ7BTzdZm4RoM/g==
+"@chatwoot/utils@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.11.tgz#6922492e21c20bdb0ef733967a0b94829d8f620f"
+  integrity sha512-uiLsuBYTlZGXJ/d7QfJ+hlO1u7U1750ON5iu0pus8t6GlJQdxvMQWuf6fHQtfsDNcvL1aXsQu3H6BUk/nVZLlw==
   dependencies:
-    date-fns "^2.22.1"
+    date-fns "^2.29.1"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
@@ -6902,10 +6902,10 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
-date-fns@^2.22.1:
-  version "2.28.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
-  integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
+date-fns@^2.29.1:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
+  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
 date-format-parse@^0.2.6:
   version "0.2.6"

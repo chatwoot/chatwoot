@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "อัปเดตการสนทนาแล้ว",
             "MESSAGE_CREATED": "สร้างข้อความแล้ว",
             "MESSAGE_UPDATED": "อัปเดตข้อความแล้ว",
-            "WEBWIDGET_TRIGGERED": "Live chat widget ถูกเปิดโดยผู้ใช้งาน"
+            "WEBWIDGET_TRIGGERED": "Live chat widget ถูกเปิดโดยผู้ใช้งาน",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {
