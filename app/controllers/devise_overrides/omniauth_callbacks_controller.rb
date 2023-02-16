@@ -4,16 +4,12 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   def omniauth_success
     get_resource_from_auth_hash
 
-    if @resource.nil?
-      return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
-      return redirect_to login_page_url(error: 'business-account-only') unless validate_business_account?
+    @resource.present? ? sign_in_user : sign_up_user
+  end
 
-      create_account_for_user
-      token = @resource.send(:set_reset_password_token)
-      frontend_url = ENV.fetch('FRONTEND_URL', nil)
-      return redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
-    end
+  private
 
+  def sign_in_user
     @resource.skip_confirmation! if confirmable_enabled?
 
     # once the resource is found and verified
@@ -22,6 +18,16 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     encoded_email = ERB::Util.url_encode(@resource.email)
     redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
   end
+
+  def sign_up_user
+    return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
+    return redirect_to login_page_url(error: 'business-account-only') unless validate_business_account?
+
+    create_account_for_user
+    token = @resource.send(:set_reset_password_token)
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    return redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
+  end 
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
