@@ -155,6 +155,9 @@ vi:
     fullcontact:
       name: "Fullcontact"
       description: "Tích hợp FullContact giúp làm phong phú hồ sơ khách truy cập. Xác định người dùng ngay khi họ chia sẻ địa chỉ email và cung cấp cho họ dịch vụ khách hàng phù hợp. Kết nối FullContact với tài khoản của bạn bằng cách chia sẻ Khóa API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Tìm bài viết theo tiêu đề hoặc nội dung...
