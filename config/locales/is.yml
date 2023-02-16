@@ -155,6 +155,9 @@ is:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact samþætting hjálpar til við að auðga gestaprófíla. Þekkja notendur um leið og þeir deila netfangi sínu og bjóða þeim sérsniðna þjónustu. Tengdu FullContact við reikninginn þinn með því að deila FullContact API lykilnum."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
