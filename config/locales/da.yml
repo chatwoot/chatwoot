@@ -155,6 +155,9 @@ da:
     fullcontact:
       name: "Fuldkontakt"
       description: "FullContact integration hjælper med at berige besøgende profiler. Identificere brugerne, så snart de deler deres e-mail-adresse og tilbyde dem skræddersyet kundeservice. Tilslut din FullContact til din konto ved at dele FullContact API-nøglen."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
