@@ -73,6 +73,10 @@
       "FIELD": "Ogiltigt fält"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Betygsätt din konversation",
     "SUBMITTED_TITLE": "Tack för att du lämnat in omdömet",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Skicka konversationstranskribering",
     "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
     "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

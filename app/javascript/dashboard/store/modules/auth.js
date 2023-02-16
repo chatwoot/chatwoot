@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
-import { setUser, clearCookiesOnLogout } from '../utils/api';
+
+import {
+  setUser,
+  clearCookiesOnLogout,
+  clearLocalStorageOnLogout,
+} from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const initialState = {
@@ -41,6 +46,14 @@ export const getters = {
       account => account.id === $getters.getCurrentAccountId
     );
     return currentAccount.availability;
+  },
+
+  getCurrentUserAutoOffline($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount.auto_offline;
   },
 
   getCurrentAccountId(_, __, rootState) {
@@ -89,6 +102,7 @@ export const actions = {
       authAPI
         .login(credentials)
         .then(response => {
+          clearLocalStorageOnLogout();
           window.location = getLoginRedirectURL({
             ssoAccountId,
             ssoConversationId,
@@ -168,9 +182,26 @@ export const actions = {
     }
   },
 
+  updateAutoOffline: async ({ commit }, { accountId, autoOffline }) => {
+    try {
+      const response = await authAPI.updateAutoOffline(accountId, autoOffline);
+      commit(types.SET_CURRENT_USER, response.data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
   setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
       commit(types.SET_CURRENT_USER_AVAILABILITY, data[$state.currentUser.id]);
+    }
+  },
+
+  setActiveAccount: async (_, { accountId }) => {
+    try {
+      await authAPI.setActiveAccount({ accountId });
+    } catch (error) {
+      // Ignore error
     }
   },
 };
@@ -178,7 +209,16 @@ export const actions = {
 // mutations
 export const mutations = {
   [types.SET_CURRENT_USER_AVAILABILITY](_state, availability) {
-    Vue.set(_state.currentUser, 'availability', availability);
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === _state.currentUser.account_id) {
+        return { ...account, availability, availability_status: availability };
+      }
+      return account;
+    });
+    Vue.set(_state, 'currentUser', {
+      ..._state.currentUser,
+      accounts,
+    });
   },
   [types.CLEAR_USER](_state) {
     _state.currentUser = initialState.currentUser;

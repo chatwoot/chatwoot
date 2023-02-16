@@ -58,7 +58,7 @@
               variant="smooth"
               icon="delete"
               color-scheme="alert"
-              @click="deleteCategory(category.id)"
+              @click="deleteCategory(category)"
             />
           </td>
         </tr>
@@ -83,8 +83,8 @@ export default {
     editCategory(category) {
       this.$emit('edit', category);
     },
-    deleteCategory(categoryId) {
-      this.$emit('delete', categoryId);
+    deleteCategory(category) {
+      this.$emit('delete', category);
     },
   },
 };
@@ -118,6 +118,6 @@ table {
   justify-content: center;
   color: var(--s-500);
   font-size: var(--font-size-default);
-  margin-top: var(--space-three);
+  margin-top: var(--space-large);
 }
 </style>

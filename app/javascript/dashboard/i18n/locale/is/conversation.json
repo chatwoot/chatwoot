@@ -1,0 +1,257 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Vinsamlegast veldu samtal úr vinstri glugganum",
+    "CSAT_REPLY_MESSAGE": "Vinsamlegast gefðu samtalinu einkun",
+    "404": "Því miður finnum við ekki samtalið. Vinsamlegast reyndu aftur",
+    "SWITCH_VIEW_LAYOUT": "Breyta uppsetningu",
+    "DASHBOARD_APP_TAB_MESSAGES": "Skilaboð",
+    "UNVERIFIED_SESSION": "Það er ekki búið að staðfesta einkenni þessa notanda",
+    "NO_MESSAGE_1": "Uh ó! Svo virðist sem engin skilaboð séu frá viðskiptavinum í innhólfinu þínu.",
+    "NO_MESSAGE_2": " til að senda skilaboð á síðuna þína!",
+    "NO_INBOX_1": "Halló! Svo virðist sem þú hafir ekki bætt við neinum innhólfum ennþá.",
+    "NO_INBOX_2": " til að byrja",
+    "NO_INBOX_AGENT": "Uh Ó! Þú virðist ekki vera hluti af neinu innhólfi. Vinsamlegast hafðu samband við kerfisstjóra",
+    "SEARCH_MESSAGES": "Leita að skilaboðum í samtölum",
+    "SEARCH": {
+      "TITLE": "Leita í skilaboðum",
+      "RESULT_TITLE": "Leitarniðurstöður",
+      "LOADING_MESSAGE": "Vinn úr gögnum...",
+      "PLACEHOLDER": "Sláðu inn texta til að leita í skilaboðum",
+      "NO_MATCHING_RESULTS": "Engar niðurstöður fundust."
+    },
+    "UNREAD_MESSAGES": "Ólesin skilaboð",
+    "UNREAD_MESSAGE": "Ólesið skilaboð",
+    "CLICK_HERE": "Smelltu hér",
+    "LOADING_INBOXES": "Hleð innhólfum",
+    "LOADING_CONVERSATIONS": "Loading Conversations",
+    "CANNOT_REPLY": "You cannot reply due to",
+    "24_HOURS_WINDOW": "24 hour message window restriction",
+    "NOT_ASSIGNED_TO_YOU": "Þetta samtal er ekki úthlutað á þig. Viltu úthluta þessu samtali á þig?",
+    "ASSIGN_TO_ME": "Úthluta á mig",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Þú getur aðeins svarað þessu samtali með því að nota sniðmátskilaboð vegna þess að",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "REPLYING_TO": "You are replying to:",
+    "REMOVE_SELECTION": "Remove Selection",
+    "DOWNLOAD": "Sækja",
+    "UNKNOWN_FILE_TYPE": "Óþekkt skrá",
+    "SAVE_CONTACT": "Save",
+    "UPLOADING_ATTACHMENTS": "Hleður upp viðhengi...",
+    "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
+    "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
+    "NO_RESPONSE": "Ekkert svar",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Endurgjöf",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "Resolve",
+      "REOPEN_ACTION": "Reopen",
+      "OPEN_ACTION": "Open",
+      "OPEN": "More",
+      "CLOSE": "Close",
+      "DETAILS": "details",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Mark as pending",
+      "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "REOPEN": "Enduropna samtal",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Þar til að næsta svar berst",
+        "TOMORROW": "Þar til á morgun",
+        "NEXT_WEEK": "Þar til í næstu viku"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Samtalsauðkenni %{conversationId} úthlutað á „%{agentName}“",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Úthlutaði flokki #%{labelName} á samtalsauðkenni %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Úthlutaði teymi #%{team} á samtalsauðkenni %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MSG_INPUT": "Shift + enter fyrir nýja línu. Byrjaðu á '/' til að velja tilbúið svar.",
+      "PRIVATE_MSG_INPUT": "Shift + enter fyrir nýja línu. Þetta verður aðeins sýnilegt fyrir þjónustufulltrúa",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
+      "CLICK_HERE": "Click here to update"
+    },
+    "REPLYBOX": {
+      "REPLY": "Reply",
+      "PRIVATE_NOTE": "Private Note",
+      "SEND": "Send",
+      "CREATE": "Add Note",
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Bæta við viðhengjum",
+      "TIP_AUDIORECORDER_ICON": "Taka upp hljóð",
+      "TIP_AUDIORECORDER_PERMISSION": "Leyfa aðgang að hljóði",
+      "TIP_AUDIORECORDER_ERROR": "Tókst ekki að opna hljóðið",
+      "DRAG_DROP": "Dragðu og slepptu viðhenginu hingað",
+      "START_AUDIO_RECORDING": "Hefja hljóðupptöku",
+      "STOP_AUDIO_RECORDING": "Stoppa hljóðupptöku",
+      "": "",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Bæta við bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Netföng aðskilin með kommum",
+          "ERROR": "Vinsamlegast sláðu inn gilt netfang"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Netföng aðskilin með kommum",
+          "ERROR": "Vinsamlegast sláðu inn gilt netfang"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Send",
+          "CANCEL": "Hætta við"
+        }
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Einkaglósa: Aðeins sýnilegt þér og teymi þínu",
+    "CHANGE_STATUS": "Stöðu samtals breytt",
+    "CHANGE_STATUS_FAILED": "Tókst ekki að breyta stöðu samtals",
+    "CHANGE_AGENT": "Úthlutuðum þjónustufulltrúa samtals breytt",
+    "CHANGE_AGENT_FAILED": "Tókst ekki að úthluta samtali",
+    "ASSIGN_LABEL_SUCCESFUL": "Merki úthlutað",
+    "ASSIGN_LABEL_FAILED": "Tókst ekki að úthluta merki",
+    "CHANGE_TEAM": "Teymi samtals breytt",
+    "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE})",
+    "MESSAGE_ERROR": "Ekki er hægt að senda þessi skilaboð, vinsamlegast reyndu aftur síðar",
+    "SENT_BY": "Sent af:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Tókst ekki að senda skilaboð! Reyndu aftur",
+    "TRY_AGAIN": "reyna aftur",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Veldu Þjónustufulltrúa",
+      "REMOVE": "Fjarlægja",
+      "ASSIGN": "Úthluta"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Afrita",
+      "DELETE": "Eyða",
+      "CREATE_A_CANNED_RESPONSE": "Bæta við stöðluðu svari"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Senda afrit af samtali",
+    "DESC": "Sendu afrit af samtali á tilgreint netfang",
+    "SUBMIT": "Senda",
+    "CANCEL": "Hætta við",
+    "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
+    "SEND_EMAIL_ERROR": "Það kom villa, vinsamlegas reyndu aftur",
+    "FORM": {
+      "SEND_TO_CONTACT": "Senda afritið á viðskiptavinin",
+      "SEND_TO_AGENT": "Sendu afritið til úthlutaðs þjónustufulltrúa",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Sendu afritið á annað netfang",
+      "EMAIL": {
+        "PLACEHOLDER": "Sláðu inn netfang",
+        "ERROR": "Vinsamlegast sláðu inn gilt netfang"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Velkomin/n á %{installationName}!",
+    "DESCRIPTION": "Takk fyrir að skrá þig. Við viljum að þú fáir sem mest út úr %{installationName}. Hér eru nokkur atriði sem þú getur gert í %{installationName} til að gera upplifunina ánægjulega.",
+    "READ_LATEST_UPDATES": "Sjáðu nýjustu uppfærslurnar okkar",
+    "ALL_CONVERSATION": {
+      "TITLE": "Öll samtölin þin á einum stað",
+      "DESCRIPTION": "Skoðaðu öll samtöl viðskiptavina þinna á einu mælaborði. Þú getur síað samtölin eftir innkominni rás, merkingu og stöðu."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Bjóða í teymið",
+      "DESCRIPTION": "Þar sem þú ert að búa þig undir að tala við viðskiptavini þína skaltu fá samstarfsfélaga þína til að aðstoða þig. Þú getur boðið samstarfsfélögum þínum með því að bæta netföngum þeirra við þjónustufulltrúalistann.",
+      "NEW_LINK": "Smelltu hér til að bjóða meðlim í teymið"
+    },
+    "INBOXES": {
+      "TITLE": "Tengja Innhólf",
+      "DESCRIPTION": "Tengdu ýmsar rásir þar sem viðskiptavinir þínir myndu tala við þig. Það getur verið netspjall á vefsíðu, Facebook eða Twitter síðan þín eða jafnvel WhatsApp númerið þitt.",
+      "NEW_LINK": "Smelltu hér til að bæta við innhólfi"
+    },
+    "LABELS": {
+      "TITLE": "Flokkaðu samtöl með merkjum",
+      "DESCRIPTION": "Merkingar eru auðveldari leið til að flokka samtalið þitt. Búðu til merki eins og #support-enquiry, #billing-question o.s.frv., svo þú getir notað þau í samtali síðar.",
+      "NEW_LINK": "Smelltu hér til að búa til merki"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Úthlutaður Þjónustufulltrúi",
+    "SELF_ASSIGN": "Úthluta á mig",
+    "TEAM_LABEL": "Úthlutað Teymi",
+    "SELECT": {
+      "PLACEHOLDER": "Enginn"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Nánari Upplýsingar Tengiliðs",
+      "CONVERSATION_ACTIONS": "Samtals Aðgerðir",
+      "CONVERSATION_LABELS": "Merkingar Samtala",
+      "CONVERSATION_INFO": "Samtals Upplýsingar",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Fyrri samtöl",
+      "MACROS": "Macros"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Eiginleika breytt",
+      "ERROR": "Ekki er hægt að uppfæra eigindina. Vinsamlegast reyndu aftur síðar"
+    },
+    "ADD": {
+      "TITLE": "Bæta við",
+      "SUCCESS": "Eiginleika bætt við",
+      "ERROR": "Ekki er hægt að bæta við eigindi. Vinsamlegast reyndu aftur síðar"
+    },
+    "DELETE": {
+      "SUCCESS": "Eiginleika eytt",
+      "ERROR": "Ekki er hægt að eyða eigindinni. Vinsamlegast reyndu aftur síðar"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Bæta við eiginleikum",
+      "PLACEHOLDER": "Leita í eiginleikum",
+      "NO_RESULT": "Engir eiginleikar fundust"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "From",
+    "TO": "Til",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
+  }
+}

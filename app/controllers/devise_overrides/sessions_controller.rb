@@ -16,7 +16,7 @@ class DeviseOverrides::SessionsController < ::DeviseTokenAuth::SessionsControlle
   end
 
   def render_create_success
-    render partial: 'devise/auth.json', locals: { resource: @resource }
+    render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
   end
 
   private

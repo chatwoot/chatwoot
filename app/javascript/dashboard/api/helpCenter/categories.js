@@ -7,8 +7,8 @@ class CategoriesAPI extends PortalsAPI {
     super('categories', { accountScoped: true });
   }
 
-  get({ portalSlug }) {
-    return axios.get(`${this.url}/${portalSlug}/categories`);
+  get({ portalSlug, locale }) {
+    return axios.get(`${this.url}/${portalSlug}/categories?locale=${locale}`);
   }
 
   create({ portalSlug, categoryObj }) {

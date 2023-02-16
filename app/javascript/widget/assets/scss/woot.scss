@@ -1,4 +1,5 @@
 @import 'shared/assets/stylesheets/animations';
+@import 'shared/assets/stylesheets/colors';
 
 @import 'reset';
 @import 'tailwindcss/base';
@@ -61,10 +62,7 @@ body {
 
 .is-flat-design {
   .chat-bubble {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
+    border-radius: 0 !important;
     box-shadow: none;
   }
 

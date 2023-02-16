@@ -72,6 +72,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def build_message
     return if @outgoing_echo && already_sent_from_chatwoot?
+    return if message_content.blank? && all_unsupported_files?
 
     @message = conversation.messages.create!(message_params)
 
@@ -115,6 +116,13 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     ).first
 
     cw_message.present?
+  end
+
+  def all_unsupported_files?
+    return if attachments.empty?
+
+    attachments_type = attachments.pluck(:type).uniq.first
+    unsupported_file_type?(attachments_type)
   end
 
   ### Sample response

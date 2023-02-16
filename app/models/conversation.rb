@@ -31,8 +31,10 @@
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
+#  index_conversations_on_contact_id                  (contact_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
+#  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_team_id                     (team_id)
@@ -61,7 +63,7 @@ class Conversation < ApplicationRecord
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :resolvable, lambda { |auto_resolve_duration|
-    return [] if auto_resolve_duration.to_i.zero?
+    return none if auto_resolve_duration.to_i.zero?
 
     open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
   }
@@ -84,6 +86,7 @@ class Conversation < ApplicationRecord
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
+  has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
@@ -208,7 +211,7 @@ class Conversation < ApplicationRecord
 
   def mark_conversation_pending_if_bot
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
-    self.status = :pending if inbox.agent_bot_inbox&.active? || inbox.hooks.pluck(:app_id).include?('dialogflow')
+    self.status = :pending if inbox.active_bot?
   end
 
   def notify_conversation_creation
@@ -217,7 +220,7 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_updation
     return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
-                                                                                custom_attributes]).present?
+                                                                                custom_attributes label_list first_reply_created_at]).present?
 
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
@@ -259,6 +262,8 @@ class Conversation < ApplicationRecord
 
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
+
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)

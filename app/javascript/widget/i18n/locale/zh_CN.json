@@ -73,6 +73,10 @@
       "FIELD": "无效字段"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "评价您的对话",
     "SUBMITTED_TITLE": "感谢您提交评分",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "请求会话抄本",
     "SEND_EMAIL_SUCCESS": "已成功发送聊天记录",
     "SEND_EMAIL_ERROR": "出现错误，请重试"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

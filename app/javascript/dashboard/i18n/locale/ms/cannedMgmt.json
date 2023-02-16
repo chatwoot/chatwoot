@@ -12,13 +12,13 @@
       "TABLE_HEADER": [
         "Short Code",
         "Content",
-        "Actions"
+        "Tindakan-tindakan"
       ]
     },
     "ADD": {
       "TITLE": "Add Canned Response",
       "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short Code",
@@ -34,12 +34,12 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       }
     },
     "EDIT": {
       "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short Code",
@@ -56,20 +56,20 @@
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Padamkan",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Pasti Padamkan",
+        "MESSAGE": "Adakan anda pasti untuk padamkan ",
+        "YES": "Ya, Padamkan ",
+        "NO": "Tidak, simpankan "
       }
     }
   }

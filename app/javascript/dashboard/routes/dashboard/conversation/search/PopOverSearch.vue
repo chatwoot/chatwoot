@@ -1,20 +1,22 @@
 <template>
   <div v-on-clickaway="closeSearch" class="search-wrap">
-    <div class="search" :class="{ 'is-active': showSearchBox }">
-      <woot-sidemenu-icon />
-      <div class="icon">
-        <fluent-icon icon="search" class="search--icon" size="28" />
+    <div class="search-header--wrap">
+      <woot-sidemenu-icon v-if="!showSearchBox" />
+      <div class="search" :class="{ 'is-active': showSearchBox }">
+        <div class="icon">
+          <fluent-icon icon="search" class="search--icon" size="28" />
+        </div>
+        <input
+          v-model="searchTerm"
+          class="search--input"
+          :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
+          @focus="onSearch"
+        />
+        <switch-layout
+          :is-on-expanded-layout="isOnExpandedLayout"
+          @toggle="$emit('toggle-conversation-layout')"
+        />
       </div>
-      <input
-        v-model="searchTerm"
-        class="search--input"
-        :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
-        @focus="onSearch"
-      />
-      <switch-layout
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle="$emit('toggle-conversation-layout')"
-      />
     </div>
     <div v-if="showSearchBox" class="results-wrap">
       <div class="show-results">
@@ -153,14 +155,21 @@ export default {
 <style lang="scss" scoped>
 .search-wrap {
   position: relative;
+  padding: var(--space-one) var(--space-normal) var(--space-smaller)
+    var(--space-normal);
+}
+
+.search-header--wrap {
+  display: flex;
+  justify-content: space-between;
+  min-height: var(--space-large);
 }
 
 .search {
   display: flex;
+  flex: 1;
   padding: 0;
   border-bottom: 1px solid transparent;
-  padding: var(--space-one) var(--space-normal) var(--space-smaller)
-    var(--space-normal);
 
   &:hover {
     .search--icon {
@@ -205,6 +214,7 @@ input::placeholder {
   width: 100%;
   max-height: 70vh;
   overflow: auto;
+  left: 0;
 }
 
 .show-results {

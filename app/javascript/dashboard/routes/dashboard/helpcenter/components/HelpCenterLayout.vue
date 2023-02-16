@@ -2,13 +2,13 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
+      @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
     <help-center-sidebar
-      v-if="portals.length"
-      :class="sidebarClassName"
+      v-if="showHelpCenterSidebar"
       :header-title="headerTitle"
       :portal-slug="selectedPortalSlug"
       :locale-slug="selectedLocaleInPortal"
@@ -16,11 +16,15 @@
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"
       @open-popover="openPortalPopover"
-      @open-modal="onClickOpenAddCatogoryModal"
+      @open-modal="onClickOpenAddCategoryModal"
     />
-    <section class="app-content columns" :class="contentClassName">
+    <section class="app-content columns">
       <router-view />
       <command-bar />
+      <account-selector
+        :show-account-modal="showAccountModal"
+        @close-account-modal="toggleAccountModal"
+      />
       <woot-key-shortcut-modal
         v-if="showShortcutModal"
         @close="closeKeyShortcutModal"
@@ -35,6 +39,7 @@
         :portals="portals"
         :active-portal-slug="selectedPortalSlug"
         :active-locale="selectedLocaleInPortal"
+        @fetch-portal="fetchPortalAndItsCategories"
         @close-popover="closePortalPopover"
       />
       <add-category
@@ -58,7 +63,9 @@ import PortalPopover from '../components/PortalPopover.vue';
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory';
 
@@ -71,17 +78,18 @@ export default {
     NotificationPanel,
     PortalPopover,
     AddCategory,
+    AccountSelector,
   },
-  mixins: [portalMixin],
+  mixins: [portalMixin, uiSettingsMixin],
   data() {
     return {
-      isSidebarOpen: false,
       isOnDesktop: true,
       showShortcutModal: false,
       showNotificationPanel: false,
       showPortalPopover: false,
       showAddCategoryModal: false,
       lastActivePortalSlug: '',
+      showAccountModal: false,
     };
   },
 
@@ -93,6 +101,15 @@ export default {
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    isSidebarOpen() {
+      const {
+        show_help_center_secondary_sidebar: showSecondarySidebar,
+      } = this.uiSettings;
+      return showSecondarySidebar;
+    },
+    showHelpCenterSidebar() {
+      return this.portals.length === 0 ? false : this.isSidebarOpen;
+    },
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);
@@ -101,24 +118,6 @@ export default {
     },
     selectedLocaleInPortal() {
       return this.$route.params.locale || this.defaultPortalLocale;
-    },
-    sidebarClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas is-open';
-      }
-      return 'off-canvas is-transition-push is-closed';
-    },
-    contentClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push';
-      }
-      return 'off-canvas-content has-transition-push';
     },
     selectedPortalName() {
       return this.selectedPortal ? this.selectedPortal.name : '';
@@ -133,14 +132,14 @@ export default {
     },
     accessibleMenuItems() {
       if (!this.selectedPortal) return [];
+
       const {
-        meta: {
-          all_articles_count: allArticlesCount,
-          mine_articles_count: mineArticlesCount,
-          draft_articles_count: draftArticlesCount,
-          archived_articles_count: archivedArticlesCount,
-        } = {},
-      } = this.selectedPortal;
+        allArticlesCount,
+        mineArticlesCount,
+        draftArticlesCount,
+        archivedArticlesCount,
+      } = this.meta;
+
       return [
         {
           icon: 'book',
@@ -195,6 +194,7 @@ export default {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
+          showNewButton: true,
           key: 'category',
           children: this.categories.map(category => ({
             id: category.id,
@@ -215,41 +215,64 @@ export default {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
   },
+
+  watch: {
+    '$route.name'() {
+      const routeName = this.$route?.name;
+      const routeParams = this.$route?.params;
+      const updateMetaInAllPortals = routeName === 'list_all_portals';
+      const updateMetaInEditArticle =
+        routeName === 'edit_article' && routeParams?.recentlyCreated;
+      const updateMetaInLocaleArticles =
+        routeName === 'list_all_locale_articles' &&
+        routeParams?.recentlyDeleted;
+      if (
+        updateMetaInAllPortals ||
+        updateMetaInEditArticle ||
+        updateMetaInLocaleArticles
+      ) {
+        this.fetchPortalAndItsCategories();
+      }
+    },
+  },
+
   mounted() {
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
 
     const slug = this.$route.params.portalSlug;
     if (slug) this.lastActivePortalSlug = slug;
 
-    this.fetchPortalsAndItsCategories();
+    this.fetchPortalAndItsCategories();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
-    window.removeEventListener('resize', this.handleResize);
   },
   updated() {
     const slug = this.$route.params.portalSlug;
-    if (slug) this.lastActivePortalSlug = slug;
+    if (slug !== this.lastActivePortalSlug) {
+      this.lastActivePortalSlug = slug;
+      this.updateUISettings({
+        last_active_portal_slug: slug,
+        last_active_locale_code: this.selectedLocaleInPortal,
+      });
+    }
   },
   methods: {
-    handleResize() {
-      if (window.innerWidth > 1200) {
-        this.isOnDesktop = true;
-      } else {
-        this.isOnDesktop = false;
+    toggleSidebar() {
+      if (this.portals.length > 0) {
+        this.updateUISettings({
+          show_help_center_secondary_sidebar: !this.isSidebarOpen,
+        });
       }
     },
-    toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    },
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.selectedPortalSlug,
-        });
-      });
+    async fetchPortalAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+      const selectedPortalParam = {
+        portalSlug: this.selectedPortalSlug,
+        locale: this.selectedLocaleInPortal,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
       this.$store.dispatch('agents/get');
     },
     toggleKeyShortcutModal() {
@@ -270,17 +293,15 @@ export default {
     closePortalPopover() {
       this.showPortalPopover = false;
     },
-    onClickOpenAddCatogoryModal() {
+    onClickOpenAddCategoryModal() {
       this.showAddCategoryModal = true;
     },
     onClickCloseAddCategoryModal() {
       this.showAddCategoryModal = false;
     },
+    toggleAccountModal() {
+      this.showAccountModal = !this.showAccountModal;
+    },
   },
 };
 </script>
-<style lang="scss" scoped>
-.off-canvas-content.is-open-left.has-transition-push {
-  transform: translateX(var(--space-giga));
-}
-</style>

@@ -2,8 +2,12 @@
 	<div class="max-w-4xl px-6 py-16 mx-auto space-y-12 w-full">
 		<div class="space-y-4">
 		<div>
-				<a class="text-slate-800 hover:underline leading-8"
-        href="/hc/<%= @portal.slug %>/<%= @category.slug %>" class=""><%= @portal.name %> Home</a>
+			<a
+				class="text-slate-800 hover:underline leading-8"
+        href="/hc/<%= @portal.slug %>/<%= @category.present? ? @category.slug : '' %>"
+			>
+				<%= @portal.name %> Home
+			</a>
 		<span>/</span>
 		<span>/</span>
 		</div>
@@ -23,7 +27,6 @@
 			<% end %>
 		</div>
 	</div>
-
 </div>
 <div class="max-w-4xl flex-grow w-full px-6 py-16 mx-auto space-y-12">
 	<article class="space-y-8 ">

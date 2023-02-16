@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
 RSpec.describe Message, type: :model do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:inbox_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }
     it { is_expected.to validate_presence_of(:account_id) }
+  end
+
+  describe 'concerns' do
+    it_behaves_like 'liqudable'
   end
 
   describe '#reopen_conversation' do
@@ -30,6 +35,32 @@ RSpec.describe Message, type: :model do
       conversation.mute!
       message.save!
       expect(message.conversation.open?).to be false
+    end
+
+    it 'will mark the conversation as pending if the agent bot is active' do
+      agent_bot = create(:agent_bot)
+      inbox = conversation.inbox
+      inbox.agent_bot = agent_bot
+      inbox.save!
+      conversation.resolved!
+      message.save!
+      expect(conversation.open?).to be false
+      expect(conversation.pending?).to be true
+    end
+  end
+
+  context 'with webhook_data' do
+    it 'contains the message attachment when attachment is present' do
+      message = create(:message)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+      expect(message.webhook_data.key?(:attachments)).to be true
+    end
+
+    it 'does not contain the message attachment when attachment is not present' do
+      message = create(:message)
+      expect(message.webhook_data.key?(:attachments)).to be false
     end
   end
 
@@ -106,6 +137,19 @@ RSpec.describe Message, type: :model do
     end
   end
 
+  context 'when attachments size maximum' do
+    let(:message) { build(:message, content_type: nil, account: create(:account)) }
+
+    it 'add errors to message for attachment size is more than allowed limit' do
+      16.times.each do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed'] })
+    end
+  end
+
   context 'when email notifiable message' do
     let(:message) { build(:message, content_type: nil, account: create(:account)) }
 
@@ -139,6 +183,36 @@ RSpec.describe Message, type: :model do
       message.message_type = 'template'
       message.content_type = 'text'
       expect(message.email_notifiable_message?).to be true
+    end
+  end
+
+  context 'when facebook channel with unavailable story link' do
+    let(:instagram_message) { create(:message, :instagram_story_mention) }
+
+    before do
+      # stubbing the request to facebook api during the message creation
+      stub_request(:get, %r{https://graph.facebook.com/.*}).to_return(status: 200, body: {
+        story: { mention: { link: 'http://graph.facebook.com/test-story-mention', id: '17920786367196703' } },
+        from: { username: 'Sender-id-1', id: 'Sender-id-1' },
+        id: 'instagram-message-id-1234'
+      }.to_json, headers: {})
+    end
+
+    it 'keeps the attachment for deleted stories' do
+      expect(instagram_message.attachments.count).to eq 1
+      stub_request(:get, %r{https://graph.facebook.com/.*}).to_return(status: 404)
+      instagram_message.push_event_data
+      expect(instagram_message.reload.attachments.count).to eq 1
+    end
+
+    it 'keeps the attachment for expired stories' do
+      expect(instagram_message.attachments.count).to eq 1
+      # for expired stories, the link will be empty
+      stub_request(:get, %r{https://graph.facebook.com/.*}).to_return(status: 200, body: {
+        story: { mention: { link: '', id: '17920786367196703' } }
+      }.to_json, headers: {})
+      instagram_message.push_event_data
+      expect(instagram_message.reload.attachments.count).to eq 1
     end
   end
 end

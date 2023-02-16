@@ -1,3 +1,3 @@
 json.payload do
-  json.partial! 'api/v1/models/macro.json.jbuilder', macro: @macro
+  json.partial! 'api/v1/models/macro', formats: [:json], macro: @macro
 end

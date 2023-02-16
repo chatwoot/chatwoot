@@ -19,6 +19,21 @@
         "TITLE": "الملف الشخصي",
         "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "المفتاح الرئيسي لإرسال الرسائل",
+        "NOTE": "يمكنك تحديد مفتاح سريع (إما Enter أو Cmd/Ctrl+Enter) استنادًا إلى تفضيلك للكتابة.",
+        "UPDATE_SUCCESS": "تم تحديث الإعدادات الخاصة بك بنجاح",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "إرسال الرسائل بالضغط على مفتاح الإدخال بدلاً من النقر على زر الإرسال."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (<unk> + <unk> )",
+            "CONTENT": "إرسال الرسائل بالضغط على Cmd/Ctrl + إدخال المفتاح بدلاً من النقر على زر الإرسال."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "توقيع الرسالة الشخصية",
         "NOTE": "إنشاء توقيع رسالة شخصية يتم إضافتها إلى جميع الرسائل التي ترسلها من المنصة. استخدم محرر المحتوى الغني لإنشاء توقيع شديد التخصيص.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "الإشعارات الصوتية",
         "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
-        "NONE": "لا شيء",
-        "ASSIGNED": "المحادثات المسندة",
-        "ALL_CONVERSATIONS": "كل المحادثات"
+        "ALERT_TYPE": {
+          "TITLE": "أحداث التنبيه:",
+          "NONE": "لا شيء",
+          "ASSIGNED": "المحادثات المسندة",
+          "ALL_CONVERSATIONS": "كل المحادثات"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "نغمة التنبيه:"
+        },
+        "CONDITIONS": {
+          "TITLE": "شروط التنبيه:",
+          "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
+          "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "إشعارات البريد الإلكتروني",
@@ -88,7 +114,9 @@
           "متصل",
           "مشغول",
           "غير متصل"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
+        "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى"
       },
       "EMAIL": {
         "LABEL": "عنوان البريد الإلكتروني الخاص بك",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
+    "SUPER_ADMIN_CONSOLE": "وحدة تحكم المدير المتميز",
     "LOGOUT": "تسجيل الخروج"
   },
   "APP_GLOBAL": {
@@ -126,8 +155,8 @@
     "TRAIL_BUTTON": "اشترك الآن",
     "DELETED_USER": "حذف المستخدم",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "تم تعليق الحساب",
+      "MESSAGE": "تم تعليق حسابك. يرجى الاتصال بفريق الدعم للمزيد من المعلومات."
     }
   },
   "COMPONENTS": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "تنزيل",
-      "UPLOADING": "جاري الرفع..."
+      "UPLOADING": "جاري الرفع...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "هذه القصة لم تعد متاحة."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "مشاهدة على الخريطة"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "إرسال"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
+    "UNATTENDED_CONVERSATIONS": "بدون حضور",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
     "HOME": "الرئيسية",
     "AGENTS": "موظف الدعم",
+    "AGENT_BOTS": "البوتات",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",
@@ -174,8 +209,9 @@
     "LABELS": "الوسوم",
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
+    "MACROS": "ماكروس",
     "TEAMS": "الفرق",
-    "BILLING": "Billing",
+    "BILLING": "الفواتير",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",
     "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
     "ALL_CONTACTS": "جميع جهات الاتصال",
@@ -197,32 +233,37 @@
     "REPORTS_OVERVIEW": "نظرة عامة",
     "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "TITLE": "مركز المساعدة (نسخة تجريبية)",
+      "ALL_ARTICLES": "جميع المقالات",
+      "MY_ARTICLES": "مقالاتي",
+      "DRAFT": "مسودة",
+      "ARCHIVED": "مؤرشفة",
       "CATEGORY": "الفئة",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
     },
-    "DOCS": "Read docs"
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "وضع علامة غير متصل تلقائيا",
+      "INFO_TEXT": "السماح للنظام بوضع علامة  غير متصل أوتوماتيكياً  عندما لا تستخدم التطبيق أو لوحة التحكم."
+    },
+    "DOCS": "قراءة المستندات"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "الفواتير",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "الباقة الحالية",
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**%{plan}** مع تراخيص **%{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "إدارة الاشتراك الخاص بك",
+      "DESCRIPTION": "عرض فواتيرك السابقة، تحرير تفاصيل الفوترة الخاصة بك، أو إلغاء اشتراكك.",
+      "BUTTON_TXT": "الذهاب إلى بوابة الفوترة"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "تحتاج مساعدة؟",
+      "DESCRIPTION": "هل تواجه أي مشاكل في الفواتير؟ نحن هنا للمساعدة.",
       "BUTTON_TXT": "تحدث الينا"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "حساب الفوترة الخاص بك قيد الإعداد. الرجاء تحديث الصفحة وحاول مرة أخرى."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الحساب",
+        "LABEL": "اسم الشركة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
       "SUBMIT": "إرسال"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "عرض جميع الاختصارات",
     "TITLE": {
       "OPEN_CONVERSATION": "فتح المحادثة",
       "RESOLVE_AND_NEXT": "حل وانتقل إلى التالي",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
       "SWITCH_CONVERSATION_STATUS": "التبديل إلى حالة المحادثة التالية",
       "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
-      "TOGGLE_RICH_CONTENT_EDITOR": "تبديل محرر المحتوى المتقدم",
       "SWITCH_TO_REPLY": "التبديل إلى الرد",
       "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
     },

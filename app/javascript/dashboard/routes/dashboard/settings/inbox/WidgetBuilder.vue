@@ -243,7 +243,7 @@ export default {
         this.$t('INBOX_MGMT.WIDGET_BUILDER.SCRIPT_SETTINGS', {
           options: JSON.stringify(options),
         }) +
-        script.substring(13, script.length)
+        script.substring(13)
       );
     },
     getWidgetViewOptions() {
@@ -445,8 +445,10 @@ export default {
     }
   }
 }
+
 .widget-container {
   width: 60%;
+
   @include breakpoint(900px down) {
     width: 100%;
   }
@@ -456,7 +458,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    min-height: 64rem;
+    min-height: 65rem;
     margin: var(--space-zero) var(--space-two) var(--space-two) var(--space-two);
     padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
     background: var(--s-50);

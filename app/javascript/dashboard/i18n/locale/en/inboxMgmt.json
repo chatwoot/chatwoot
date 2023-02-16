@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Phone number",
             "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -274,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Create Email Channel",
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "Nailed It!",
         "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Take me there",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
@@ -383,6 +396,10 @@
         "DISABLED": "Disabled"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +562,10 @@
         "PLACE_HOLDER": "Password"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -657,6 +685,10 @@
       },
       "BRANDING_TEXT": "Powered by Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

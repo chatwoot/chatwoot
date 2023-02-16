@@ -19,6 +19,21 @@
         "TITLE": "Profil",
         "NOTE": "Vaša adresa e-pošte je vaš identitet i koristi se za prijavu."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Potpis privatne poruke",
         "NOTE": "Napravite potpis privatne poruke koji će se dodavati svakoj poruci koju pošaljete u prijemno sanduče e-pošte. Koristite bogati uređivač sadržaja da bi ste napravili personalizovan potpis.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Zvučna obaveštenja",
         "NOTE": "Omogućavanje zvučnih obaveštenja u radnoj tabli za nove poruke i razgovore.",
-        "NONE": "Niko",
-        "ASSIGNED": "Dodeljeni razgovori",
-        "ALL_CONVERSATIONS": "Svi razgovori"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Niko",
+          "ASSIGNED": "Dodeljeni razgovori",
+          "ALL_CONVERSATIONS": "Svi razgovori"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Obaveštenja e-porukom",
@@ -88,7 +114,9 @@
           "Dostupan",
           "Zauzet",
           "Nedostupan"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Vaša adresa e-pošte",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Izaberite nalog iz sledećeg spiska",
     "PROFILE_SETTINGS": "Podešavanja profila",
     "KEYBOARD_SHORTCUTS": "Prečice tastature",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Odjavi se"
   },
   "APP_GLOBAL": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Preuzmi",
-      "UPLOADING": "Dodavanje..."
+      "UPLOADING": "Dodavanje...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ova priča više nije dostupna."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Pošalji"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "Razgovori",
     "ALL_CONVERSATIONS": "Svi razgovori",
     "MENTIONED_CONVERSATIONS": "Spominjanja",
+    "UNATTENDED_CONVERSATIONS": "Nedodeljeni",
     "REPORTS": "Izveštaji",
     "SETTINGS": "Podešavanja",
     "CONTACTS": "Kontakti",
     "HOME": "Početak",
     "AGENTS": "Agenti",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Prijemni sandučići",
     "NOTIFICATIONS": "Obaveštenja",
     "CANNED_RESPONSES": "Gotovi odgovori",
@@ -174,6 +209,7 @@
     "LABELS": "Oznake",
     "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
     "AUTOMATION": "Automatizacija",
+    "MACROS": "Macros",
     "TEAMS": "Timovi",
     "BILLING": "Plaćanje",
     "CUSTOM_VIEWS_FOLDER": "Fascikle",
@@ -197,12 +233,17 @@
     "REPORTS_OVERVIEW": "Pregled",
     "FACEBOOK_REAUTHORIZE": "Vaša veza sa Fejsbukom je istekla, molim vas povežite ponovo vašu Fejsbuk stranicu za nastavak servisa",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Svi članci",
       "MY_ARTICLES": "Moji članci",
       "DRAFT": "Nacrt",
       "ARCHIVED": "Arhivirano",
       "CATEGORY": "Kategorija",
       "CATEGORY_EMPTY_MESSAGE": "Nije pronađena nijedna kategorija"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Pročitaj dokumentaciju"
   },
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Naziv naloga",
+        "LABEL": "Ime firme",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Pošalji"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Otvoren razgovor",
       "RESOLVE_AND_NEXT": "Reši i idi na sledeći",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Idi na podešavanja",
       "SWITCH_CONVERSATION_STATUS": "Prebaci se na sledeći status razgovora",
       "SWITCH_TO_PRIVATE_NOTE": "Prebaci se na privatnu belešku",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Uključi uređivač bogatog sadržaja",
       "SWITCH_TO_REPLY": "Prebaci se na odgovor",
       "TOGGLE_SNOOZE_DROPDOWN": "Uključite padajućim menijom odlaganja"
     },

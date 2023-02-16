@@ -19,11 +19,21 @@
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div class="medium-6 small-offset-3">
+        <div v-if="isWhatsAppCloudInbox" class="medium-6 small-offset-3">
+          <p class="config--label">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
+          </p>
+          <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
+          <p class="config--label">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_VERIFICATION_TOKEN'
+              )
+            }}
+          </p>
           <woot-code
-            v-if="isAWhatsappWhatsappCloudInbox"
             lang="html"
-            :script="currentInbox.callback_webhook_url"
+            :script="currentInbox.provider_config.webhook_verify_token"
           />
         </div>
         <div class="medium-6 small-offset-3">
@@ -40,12 +50,11 @@
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div class="medium-6 small-offset-3">
-          <woot-code
-            v-if="isAEmailInbox"
-            lang="html"
-            :script="currentInbox.forward_to_email"
-          />
+        <div
+          v-if="isAEmailInbox && !currentInbox.provider"
+          class="medium-6 small-offset-3"
+        >
+          <woot-code lang="html" :script="currentInbox.forward_to_email" />
         </div>
         <div class="footer">
           <router-link
@@ -99,7 +108,7 @@ export default {
     isASmsInbox() {
       return this.currentInbox.channel_type === 'Channel::Sms';
     },
-    isAWhatsappWhatsappCloudInbox() {
+    isWhatsAppCloudInbox() {
       return (
         this.currentInbox.channel_type === 'Channel::Whatsapp' &&
         this.currentInbox.provider === 'whatsapp_cloud'
@@ -124,13 +133,13 @@ export default {
         )}`;
       }
 
-      if (this.isAWhatsappWhatsappCloudInbox) {
+      if (this.isWhatsAppCloudInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
         )}`;
       }
 
-      if (this.isAEmailInbox) {
+      if (this.isAEmailInbox && !this.currentInbox.provider) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 
@@ -158,5 +167,11 @@ export default {
 
 .settings-button {
   margin-right: var(--space-small);
+}
+
+.config--label {
+  color: var(--b-600);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-large);
 }
 </style>

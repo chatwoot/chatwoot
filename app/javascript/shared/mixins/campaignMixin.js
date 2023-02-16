@@ -1,10 +1,10 @@
 import { CAMPAIGN_TYPES } from '../constants/campaign';
+
 export default {
   computed: {
     campaignType() {
       const pageURL = window.location.href;
-      const type = pageURL.substr(pageURL.lastIndexOf('/') + 1);
-      return type;
+      return pageURL.substring(pageURL.lastIndexOf('/') + 1);
     },
     isOngoingType() {
       return this.campaignType === CAMPAIGN_TYPES.ONGOING;

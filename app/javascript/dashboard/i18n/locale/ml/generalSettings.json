@@ -23,7 +23,7 @@
         "ERROR": "ദയവായി സാധുവായ ഒരു അക്കൗണ്ട് പേര് നൽകുക"
       },
       "LANGUAGE": {
-        "LABEL": "സൈറ്റ് ഭാഷ (ബീറ്റ)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "നിങ്ങളുടെ അക്കൗണ്ടിന്റെ പേര്",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Press enter to select",
       "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "SELECT_ONE": "Select one",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

@@ -14,7 +14,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   # Deprecated: This API will be removed in 2.7.0
   def assignable_agents
-    @assignable_agents = (Current.account.users.where(id: @inbox.members.select(:user_id)) + Current.account.administrators).uniq
+    @assignable_agents = @inbox.assignable_agents
   end
 
   def campaigns
@@ -113,7 +113,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
-     :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved]
+     :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
+     :lock_to_single_conversation]
   end
 
   def permitted_params(channel_attributes = [])

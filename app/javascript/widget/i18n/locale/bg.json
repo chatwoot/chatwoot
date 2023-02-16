@@ -73,6 +73,10 @@
       "FIELD": "Невалидно поле"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Оценете този разговор",
     "SUBMITTED_TITLE": "Благодарим ви, че оценихте разговора",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Поискайте копие от разговора",
     "SEND_EMAIL_SUCCESS": "Копието от разговора бе изпратено успешно",
     "SEND_EMAIL_ERROR": "Възникна грешка, моля опитайте отново"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

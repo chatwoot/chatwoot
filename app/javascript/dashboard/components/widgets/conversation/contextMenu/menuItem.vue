@@ -18,7 +18,7 @@
       size="20px"
       class="agent-thumbnail"
     />
-    <p class="menu-label truncate-text">{{ option.label }}</p>
+    <p class="menu-label text-truncate">{{ option.label }}</p>
   </div>
 </template>
 
@@ -50,7 +50,6 @@ export default {
   padding: var(--space-smaller);
   border-radius: var(--border-radius-small);
   overflow: hidden;
-
   .menu-label {
     margin: 0;
     font-size: var(--font-size-mini);

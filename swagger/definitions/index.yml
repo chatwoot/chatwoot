@@ -58,6 +58,8 @@ public_conversation:
   $ref: ./resource/public/conversation.yml
 public_message:
   $ref: ./resource/public/message.yml
+public_inbox:
+  $ref: ./resource/public/inbox.yml
 
 
 ##  ---------- REQUEST------------- ##

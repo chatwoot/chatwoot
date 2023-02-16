@@ -144,7 +144,22 @@ export default {
     });
   },
 
+  updateAutoOffline(accountId, autoOffline = false) {
+    return axios.post(endPoints('autoOffline').url, {
+      profile: { account_id: accountId, auto_offline: autoOffline },
+    });
+  },
+
   deleteAvatar() {
     return axios.delete(endPoints('deleteAvatar').url);
+  },
+
+  setActiveAccount({ accountId }) {
+    const urlData = endPoints('setActiveAccount');
+    return axios.put(urlData.url, {
+      profile: {
+        account_id: accountId,
+      },
+    });
   },
 };

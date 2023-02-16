@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "利用不可",
     "EMAIL_ADDRESS": "Eメールアドレス",
     "PHONE_NUMBER": "電話番号",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "企業",
     "LOCATION": "場所",
@@ -14,6 +15,7 @@
     "INITIATED_FROM": "開始元",
     "INITIATED_AT": "開始場所",
     "IP_ADDRESS": "IP Address",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
@@ -172,8 +174,8 @@
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "件名",
+        "PLACEHOLDER": "件名",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
@@ -205,6 +207,7 @@
         "PHONE_NUMBER": "電話番号",
         "CONVERSATIONS": "会話データ",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

@@ -34,7 +34,7 @@ module MailboxHelper
   end
 
   def create_contact
-    @contact_inbox = ::ContactBuilder.new(
+    @contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: processed_mail.original_sender,
       inbox: @inbox,
       contact_attributes: {

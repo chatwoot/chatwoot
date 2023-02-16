@@ -1,10 +1,10 @@
 <template>
   <div class="file flex flex-row items-center p-3 cursor-pointer">
-    <div class="icon-wrap">
+    <div class="icon-wrap" :style="{ color: textColor }">
       <fluent-icon icon="document" size="28" />
     </div>
     <div class="meta">
-      <div class="title">
+      <div class="title" :class="titleColor" :style="{ color: textColor }">
         {{ title }}
       </div>
       <div class="link-wrap mb-1">
@@ -12,6 +12,7 @@
           class="download"
           rel="noreferrer noopener nofollow"
           target="_blank"
+          :style="{ color: textColor }"
           :href="url"
         >
           {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
@@ -23,11 +24,14 @@
 
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
     FluentIcon,
   },
+  mixins: [darkModeMixin],
   props: {
     url: {
       type: String,
@@ -41,6 +45,10 @@ export default {
       type: String,
       default: '',
     },
+    isUserBubble: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     title() {
@@ -49,8 +57,20 @@ export default {
         : decodeURI(this.fileName);
     },
     fileName() {
-      const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
-      return filename;
+      return this.url.substring(this.url.lastIndexOf('/') + 1);
+    },
+    contrastingTextColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
+    textColor() {
+      return this.isUserBubble && this.widgetColor
+        ? this.contrastingTextColor
+        : '';
+    },
+    titleColor() {
+      return !this.isUserBubble
+        ? this.$dm('text-black-900', 'dark:text-slate-50')
+        : '';
     },
   },
   methods: {

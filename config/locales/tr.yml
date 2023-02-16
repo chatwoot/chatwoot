@@ -23,9 +23,9 @@ tr:
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
   errors:
     validations:
-      presence: must not be blank
+      presence: boş bırakılmamalı
     webhook:
-      invalid: Invalid events
+      invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
       invalid_email: Geçersiz bir e-posta girdiniz
@@ -33,21 +33,23 @@ tr:
       failed: Kayıt başarısız oldu
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Hatalı veri türü
     contacts:
       import:
         failed: Dosya boş
       email:
-        invalid: Invalid email
+        invalid: Hatalı e-posta
       phone_number:
-        invalid: should be in e164 format
+        invalid: e164 formatında olmalı
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: kategori ve portalde tekil olmalı
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
+        socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
+        no_response_error: Lütfen IMAP erişim bilgilerinizi kontrol edip tekrar deneyin.
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
         connection_timed_out_error: Connection timed out for %{address}:%{port}
         connection_closed_error: Connection closed.
@@ -137,6 +139,10 @@ tr:
     online:
       delete: "%{contact_name} is Online, please try again later"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack, tüm iletişiminizi tek bir yerde bir araya getiren bir sohbet aracıdır. Slack'i entegre ederek, hesabınızdaki tüm yeni konuşmalardan Slack'inizin içinde bildirim alabilirsiniz."
@@ -149,3 +155,11 @@ tr:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Sonuç bulunamadı.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.

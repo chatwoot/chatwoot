@@ -2,8 +2,11 @@ class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts:
   before_action :ensure_inbox, only: [:create]
 
   def create
-    source_id = params[:source_id] || SecureRandom.uuid
-    @contact_inbox = ContactInbox.create!(contact: @contact, inbox: @inbox, source_id: source_id)
+    @contact_inbox = ContactInboxBuilder.new(
+      contact: @contact,
+      inbox: @inbox,
+      source_id: params[:source_id]
+    ).perform
   end
 
   private

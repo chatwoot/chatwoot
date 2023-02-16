@@ -23,7 +23,7 @@
         "ERROR": "Por favor, introduzca un nombre de cuenta válido"
       },
       "LANGUAGE": {
-        "LABEL": "Idioma del sitio (Beta)",
+        "LABEL": "Idioma del sitio",
         "PLACEHOLDER": "Tu nombre de cuenta",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Pulse Enter para seleccionar",
       "ENTER_TO_REMOVE": "Presione Enter para eliminar",
-      "SELECT_ONE": "Seleccione uno"
+      "SELECT_ONE": "Seleccione uno",
+      "SELECT": "Seleccionar"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Hasta la próxima semana",
       "UNTIL_TOMORROW": "Hasta mañana"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Cargando aplicación del tablero..."
   }
 }

@@ -6,7 +6,7 @@ export const frontendURL = (path, params) => {
 };
 
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
-  const { accounts = [] } = user || {};
+  const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
     account => account.id === Number(ssoAccountId)
   );
@@ -14,7 +14,9 @@ const getSSOAccountPath = ({ ssoAccountId, user }) => {
   if (ssoAccount) {
     accountPath = `accounts/${ssoAccountId}`;
   } else if (accounts.length) {
-    accountPath = `accounts/${accounts[0].id}`;
+    // If the account id is not found, redirect to the first account
+    const accountId = account_id || accounts[0].id;
+    accountPath = `accounts/${accountId}`;
   }
   return accountPath;
 };
@@ -54,6 +56,10 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/custom_view/${foldersId}/conversations/${id}`;
   } else if (conversationType === 'mention') {
     url = `accounts/${accountId}/mentions/conversations/${id}`;
+  } else if (conversationType === 'participating') {
+    url = `accounts/${accountId}/participating/conversations/${id}`;
+  } else if (conversationType === 'unattended') {
+    url = `accounts/${accountId}/unattended/conversations/${id}`;
   }
   return url;
 };
@@ -64,16 +70,23 @@ export const conversationListPageURL = ({
   inboxId,
   label,
   teamId,
+  customViewId,
 }) => {
   let url = `accounts/${accountId}/dashboard`;
   if (label) {
     url = `accounts/${accountId}/label/${label}`;
   } else if (teamId) {
     url = `accounts/${accountId}/team/${teamId}`;
-  } else if (conversationType === 'mention') {
-    url = `accounts/${accountId}/mentions/conversations`;
   } else if (inboxId) {
     url = `accounts/${accountId}/inbox/${inboxId}`;
+  } else if (customViewId) {
+    url = `accounts/${accountId}/custom_view/${customViewId}`;
+  } else if (conversationType) {
+    const urlMap = {
+      mention: 'mentions/conversations',
+      unattended: 'unattended/conversations',
+    };
+    url = `accounts/${accountId}/${urlMap[conversationType]}`;
   }
   return frontendURL(url);
 };

@@ -19,6 +19,21 @@
         "TITLE": "Perfil",
         "NOTE": "Su dirección de correo electrónico es su identidad y se utiliza para iniciar sesión."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Tecla rápida para enviar mensajes",
+        "NOTE": "Puede seleccionar una tecla de acceso rápido (Enter o Cmd/Ctrl+Enter) basándose en su preferencia de escritura.",
+        "UPDATE_SUCCESS": "Su configuración se ha actualizado correctamente",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Envía mensajes presionando la tecla Intro en lugar de hacer clic en el botón Enviar."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Envía mensajes pulsando Cmd/Ctrl + tecla Intro en lugar de hacer clic en el botón Enviar."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma de mensaje personal",
         "NOTE": "Cree una firma de mensaje personal que se añadirá a todos los mensajes que envíe desde su buzón de correo electrónico. Utilice el rico editor de contenidos para crear una firma altamente personalizada.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
-        "NONE": "Ninguna",
-        "ASSIGNED": "Conversaciones asignadas",
-        "ALL_CONVERSATIONS": "Todas las conversaciones"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Ninguna",
+          "ASSIGNED": "Conversaciones asignadas",
+          "ALL_CONVERSATIONS": "Todas las conversaciones"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones por email",
@@ -88,7 +114,9 @@
           "En línea",
           "Ocupado",
           "Fuera de línea"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
+        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
+    "SUPER_ADMIN_CONSOLE": "Consola de Super Admin",
     "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {
@@ -126,8 +155,8 @@
     "TRAIL_BUTTON": "Comprar ahora",
     "DELETED_USER": "Usuario eliminado",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Cuenta suspendida",
+      "MESSAGE": "Tu cuenta está suspendida. Comuníquese con el equipo de soporte para obtener más información."
     }
   },
   "COMPONENTS": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
-      "UPLOADING": "Subiendo..."
+      "UPLOADING": "Subiendo...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Esta historia ya no está disponible."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Ver en el mapa"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
+    "UNATTENDED_CONVERSATIONS": "Desatendido",
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
     "HOME": "Inicio",
     "AGENTS": "Agentes",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
@@ -174,8 +209,9 @@
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "AUTOMATION": "Automatización",
+    "MACROS": "Macros",
     "TEAMS": "Equipos",
-    "BILLING": "Billing",
+    "BILLING": "Facturación",
     "CUSTOM_VIEWS_FOLDER": "Carpetas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos los contactos",
@@ -197,32 +233,37 @@
     "REPORTS_OVERVIEW": "Resumen",
     "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "TITLE": "Centro de ayuda (Beta)",
+      "ALL_ARTICLES": "Todos los artículos",
+      "MY_ARTICLES": "Todos los artículos",
+      "DRAFT": "Borrador",
+      "ARCHIVED": "Archivado",
       "CATEGORY": "Categoría",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "No se encontraron categorías"
     },
-    "DOCS": "Read docs"
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Marcar como desconectado automáticamente",
+      "INFO_TEXT": "Permite que el sistema te marque automáticamente sin conexión cuando no estás usando la aplicación o el tablero."
+    },
+    "DOCS": "Leer documentos"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Facturación",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Plan actual",
+      "PLAN_NOTE": "Actualmente está suscrito al plan **%{plan}** con **%{quantity}** licencias"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Administre su suscripción",
+      "DESCRIPTION": "Vea sus facturas anteriores, edite sus datos de facturación o cancele su suscripción.",
+      "BUTTON_TXT": "Ir al portal de facturación"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "¿Necesitas ayuda?",
+      "DESCRIPTION": "¿Tienes a algún problema en la facturación? Estamos aquí para ayudarte.",
       "BUTTON_TXT": "Chatea con nosotros"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Tu cuenta de facturación está siendo configurada. Por favor, actualiza la página e inténtalo de nuevo."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nombre de cuenta",
+        "LABEL": "Empresa",
         "PLACEHOLDER": "Empresas de Wayne"
       },
       "SUBMIT": "Enviar"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversación",
       "RESOLVE_AND_NEXT": "Resolver y pasar al siguiente",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Ir a Ajustes",
       "SWITCH_CONVERSATION_STATUS": "Cambiar al siguiente estado de conversación",
       "SWITCH_TO_PRIVATE_NOTE": "Cambiar a nota privada",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Cambiar editor de contenido enriquecido",
       "SWITCH_TO_REPLY": "Cambiar a respuesta",
       "TOGGLE_SNOOZE_DROPDOWN": "Cambiar el menú desplegable"
     },

@@ -19,6 +19,21 @@
         "TITLE": "Анкета",
         "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Комбінація клавіш для надсилання повідомлень",
+        "NOTE": "Ви можете обрати гарячу клавішу (Enter або Cmd/Ctrl+Enter) на основі ваших вподобань.",
+        "UPDATE_SUCCESS": "Ваші налаштування були успішно оновлені",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Надсилати повідомлення, натиснувши клавішу Enter замість кнопки надсилання."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Надсилати повідомлення, натиснувши комбінацію Cmd/Ctrl + Enter замість кнопки надсилання."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Підпис особистого повідомлення",
         "NOTE": "Створити особистий підпис повідомлення, який буде додано до всіх повідомлень, надісланих з поштової скриньки. Використовуйте редактор багатокористувацького контенту для створення персоналізованого підпису.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Звукові сповіщення",
         "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
-        "NONE": "Нiчого",
-        "ASSIGNED": "Призначені розмови",
-        "ALL_CONVERSATIONS": "Всі розмови"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Нiчого",
+          "ASSIGNED": "Призначені розмови",
+          "ALL_CONVERSATIONS": "Всі розмови"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",
@@ -88,7 +114,9 @@
           "Онлайн",
           "Зайнятий",
           "Не в мережі"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Вийти"
   },
   "APP_GLOBAL": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
-      "UPLOADING": "Завантажується..."
+      "UPLOADING": "Завантажується...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ця історія більше не доступна."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Додати"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
+    "UNATTENDED_CONVERSATIONS": "Не зв'язаний",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
     "HOME": "Головна",
     "AGENTS": "Агенти",
+    "AGENT_BOTS": "Боти",
     "INBOXES": "Вхідні",
     "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
@@ -174,6 +209,7 @@
     "LABELS": "Мітки",
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Автоматизація",
+    "MACROS": "Macros",
     "TEAMS": "Команди",
     "BILLING": "Біллінг",
     "CUSTOM_VIEWS_FOLDER": "Папки",
@@ -197,12 +233,17 @@
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Всі статті",
       "MY_ARTICLES": "Мої статті",
       "DRAFT": "Чернетка",
       "ARCHIVED": "Архівовано",
       "CATEGORY": "Категорія",
       "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Читати документи"
   },
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Назва облікового запису",
+        "LABEL": "Назва компанії",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Додати"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Відкрити розмову",
       "RESOLVE_AND_NEXT": "Вирішити і перейти до наступного",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Перейти до налаштувань",
       "SWITCH_CONVERSATION_STATUS": "Перейти до статусу наступної розмови",
       "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Перемкнути редагування Rich Content",
       "SWITCH_TO_REPLY": "Перейти до відповіді",
       "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
     },

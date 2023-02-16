@@ -39,6 +39,24 @@
               />
             </accordion-item>
           </div>
+          <div
+            v-else-if="element.name === 'conversation_participants'"
+            class="conversation--actions"
+          >
+            <accordion-item
+              :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"
+              :is-open="isContactSidebarItemOpen('is_conv_participants_open')"
+              @click="
+                value =>
+                  toggleSidebarUIState('is_conv_participants_open', value)
+              "
+            >
+              <conversation-participant
+                :conversation-id="conversationId"
+                :inbox-id="inboxId"
+              />
+            </accordion-item>
+          </div>
           <div v-else-if="element.name === 'conversation_info'">
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
@@ -93,6 +111,19 @@
               />
             </accordion-item>
           </div>
+          <woot-feature-toggle
+            v-else-if="element.name === 'macros'"
+            feature-key="macros"
+          >
+            <accordion-item
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.MACROS')"
+              :is-open="isContactSidebarItemOpen('is_macro_open')"
+              compact
+              @click="value => toggleSidebarUIState('is_macro_open', value)"
+            >
+              <macros-list :conversation-id="conversationId" />
+            </accordion-item>
+          </woot-feature-toggle>
         </div>
       </transition-group>
     </draggable>
@@ -105,6 +136,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
+import ConversationParticipant from './ConversationParticipant.vue';
 
 import ContactInfo from './contact/ContactInfo';
 import ConversationInfo from './ConversationInfo';
@@ -112,6 +144,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import MacrosList from './Macros/List';
 
 export default {
   components: {
@@ -122,7 +155,9 @@ export default {
     CustomAttributes,
     CustomAttributeSelector,
     ConversationAction,
+    ConversationParticipant,
     draggable,
+    MacrosList,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {

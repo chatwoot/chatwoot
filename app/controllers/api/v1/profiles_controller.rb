@@ -18,8 +18,17 @@ class Api::V1::ProfilesController < Api::BaseController
     head :ok
   end
 
+  def auto_offline
+    @user.account_users.find_by!(account_id: auto_offline_params[:account_id]).update!(auto_offline: auto_offline_params[:auto_offline] || false)
+  end
+
   def availability
     @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
+  end
+
+  def set_active_account
+    @user.account_users.find_by(account_id: profile_params[:account_id]).update(active_at: Time.now.utc)
+    head :ok
   end
 
   private
@@ -32,6 +41,10 @@ class Api::V1::ProfilesController < Api::BaseController
     params.require(:profile).permit(:account_id, :availability)
   end
 
+  def auto_offline_params
+    params.require(:profile).permit(:account_id, :auto_offline)
+  end
+
   def profile_params
     params.require(:profile).permit(
       :email,
@@ -39,6 +52,7 @@ class Api::V1::ProfilesController < Api::BaseController
       :display_name,
       :avatar,
       :message_signature,
+      :account_id,
       ui_settings: {}
     )
   end

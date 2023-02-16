@@ -1,49 +1,49 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "TITLE": "Contacten filteren",
+        "SUBTITLE": "Voeg hieronder filters toe en druk op 'Verzenden' om contacten te filteren.",
+        "ADD_NEW_FILTER": "Filter toevoegen",
+        "CLEAR_ALL_FILTERS": "Alle filters wissen",
+        "FILTER_DELETE_ERROR": "U moet minstens één filter hebben om op te slaan",
         "SUBMIT_BUTTON_LABEL": "Bevestigen",
         "CANCEL_BUTTON_LABEL": "Annuleren",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "Filters wissen",
+        "EMPTY_VALUE_ERROR": "Waarde is vereist",
+        "TOOLTIP_LABEL": "Contacten filteren",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "EN",
+            "OR": "OF"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "equal_to": "Gelijk aan",
+            "not_equal_to": "Niet gelijk aan",
+            "contains": "Bevat",
+            "does_not_contain": "Bevat niet",
+            "is_present": "Is aanwezig",
+            "is_not_present": "Is niet aanwezig",
+            "is_greater_than": "Is groter dan",
+            "is_lesser_than": "Is minder dan",
+            "days_before": "Is x dagen vóór"
         },
         "ATTRIBUTES": {
             "NAME": "Naam",
             "EMAIL": "E-mailadres",
             "PHONE_NUMBER": "Telefoon nummer",
             "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CITY": "Woonplaats",
+            "COUNTRY": "Land",
+            "CUSTOM_ATTRIBUTE_LIST": "Lijst",
+            "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Getal",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Last Activity",
-            "REFERER_LINK": "Referrer link"
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Selectievakje",
+            "CREATED_AT": "Aangemaakt op",
+            "LAST_ACTIVITY": "Laatste Activiteit",
+            "REFERER_LINK": "Verwijzer link"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Standaard Filters",
+            "ADDITIONAL_FILTERS": "Aanvullende filters",
             "CUSTOM_ATTRIBUTES": "Aanpasbare attributen"
         }
     }

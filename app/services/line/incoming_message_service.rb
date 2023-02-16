@@ -81,7 +81,7 @@ class Line::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: line_contact_info['userId'],
       inbox: inbox,
       contact_attributes: contact_attributes

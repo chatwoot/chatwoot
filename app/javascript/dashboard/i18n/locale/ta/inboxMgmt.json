@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "தொலைபேசி எண்",
             "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-            "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "சரியான நம்பரை உள்ளிடவும். தொலைபேசி எண் `+` அடையாளத்துடன் தொடங்க வேண்டும்."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "வெப்ஹூக் URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "சரியாக செய்தீர்கள்!",
         "DESC": "உங்கள் பேஸ்புக் பக்கத்தை சாட்வூட்டுடன் வெற்றிகரமாக ஒருங்கிணைத்து விட்டீர்கள். அடுத்த முறை ஒரு வாடிக்கையாளர் உங்கள் பக்கத்திற்கு செய்தி அனுப்பும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும். <br> உங்கள் வலைத்தளத்திற்கு நீங்கள் எளிதாகச் சேர்க்கக்கூடிய விட்ஜெட் ஸ்கிரிப்டையும் நாங்கள் உங்களுக்கு வழங்குகிறோம். இது உங்கள் வலைத்தளத்தில் நேரலையில் வந்தவுடன், வாடிக்கையாளர்கள் எந்தவொரு வெளிப்புற கருவியின் உதவியும் இல்லாமல் உங்கள் வலைத்தளத்திலிருந்தே உங்களுக்கு செய்தி அனுப்பலாம், மேலும் உரையாடல் சாட்வூட்டில் இங்கேயே தோன்றும். <br> கூல், இல்லையா? சரி, நாங்கள் நிச்சயமாக இருக்க முயற்சிக்கிறோம் :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "உங்கள் இன்பாக்ஸ் தயாராக உள்ளது!",
-      "MESSAGE": "உங்கள் புதிய சேனல் மூலம் இப்போது உங்கள் வாடிக்கையாளர்களுடன் ஈடுபடலாம். மகிழ்ச்சியாய் ஆதரவு அளியுங்கள் ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "என்னை அங்கே அழைத்துச் செல்லுங்கள்",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "வலைத்தள சேனலை உருவாக்குவதை வெற்றிகரமாக முடித்துவிட்டீர்கள். கீழே காட்டப்பட்டுள்ள உங்கள் இணையதளத்தில் ஒட்டவும். அடுத்த முறை வாடிக்கையாளர் நேரடி சாட்டை பயன்படுத்தும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும்."
@@ -383,6 +396,10 @@
         "DISABLED": "முடக்கப்பட்டது"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "இயக்கப்பட்டது",
+        "DISABLED": "முடக்கப்பட்டது"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "இயக்கப்பட்டது",
         "DISABLED": "முடக்கப்பட்டது"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "அமைப்புகள்",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
       "AUTO_ASSIGNMENT_SUB_TEXT": "இந்த இன்பாக்ஸில் சேர்க்கப்பட்ட ஏஜென்ட்களுக்கு புதிய உரையாடல்களின் தானியங்கி ஒதுக்கீட்டை இயக்கவும் அல்லது முடக்கவும்.",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "புதுப்பிப்பு"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +562,10 @@
         "PLACE_HOLDER": "பாஸ்வேர்ட்"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -657,6 +685,10 @@
       },
       "BRANDING_TEXT": "சாட்வுட் மூலம் இயக்கபடுகிறது",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

@@ -6,6 +6,7 @@ labels: 'Bug'
 assignees: ''
 
 ---
+
 **Describe the bug**
 
 A clear and concise description of what the bug is.
@@ -16,11 +17,11 @@ Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
-4. See error
+4. See the error
 
 **Expected behavior**
 
-A clear and concise description of what you expected to happen.
+Share a clear and concise description of what you expected to happen.
 
 **Screenshots**
 
@@ -28,26 +29,49 @@ If applicable, add screenshots to help explain your problem.
 
 **Browser logs**
 
-Share the browser logs to debug the issue further
+Share the browser logs to debug the issue further.
 
 **Server logs**
 
-Share the server logs to debug the issue further
+Share the server logs to debug the issue further.
 
 **Environment**
 
-Describe whether you are using Chatwoot Cloud (app.chatwoot.com) or a self hosted installation of Chatwoot. If you are using a self hosted installation of Chatwoot describe the type of deployment (Docker/Linux VM installation/Heroku)
+Describe whether you are using Chatwoot Cloud (app.chatwoot.com) or a self-hosted installation of Chatwoot. If you are using a self-hosted installation of Chatwoot, describe the type of deployment (Docker/Linux VM installation/Heroku/Kubernetes/Other).
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
+- [ ] app.chatwoot.com (Chatwoot Cloud)
+- [ ] Self-hosted
+- - [ ] Linux VM
+- - [ ] Docker
+- - [ ] Kubernetes
+- - [ ] Heroku
+- - [ ] Other (Please specify)
+
+
+**Desktop (please complete the following information)** (If applicable)
+ - OS: [e.g. Linux, Windows, MacOS]
+ - Browser [e.g. chrome, firefox, safari]
  - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
+**Smartphone (please complete the following information)** (If applicable)
+ - Device: [e.g. iPhone6, Pixel7]
  - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
+ - Browser [e.g. stock browser, firefox, safari]
  - Version [e.g. 22]
+
+**Docker** (If applicable)
+
+Please share the output of the following.
+- `docker version`
+- `docker info`
+- `docker-compose version`
+
+**Cloud Provider** (If applicable)
+- [ ] AWS
+- [ ] GCP
+- [ ] Azure
+- [ ] DigitalOcean
+- [ ] Others
 
 **Additional context**
 

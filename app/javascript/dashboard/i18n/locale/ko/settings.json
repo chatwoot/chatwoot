@@ -19,6 +19,21 @@
         "TITLE": "프로필",
         "NOTE": "당신의 이메일 주소는 당신의 신분이고 로그인에 사용됩니다."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "음성 알림",
         "NOTE": "대시보드에서 새 메시지 및 대화에 대한 오디오 알림을 활성화합니다.",
-        "NONE": "없음",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "없음",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "이메일 알림",
@@ -88,7 +114,9 @@
           "온라인",
           "바쁨",
           "오프라인"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "이메일 주소",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
     "PROFILE_SETTINGS": "프로필 설정",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "로그아웃"
   },
   "APP_GLOBAL": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "다운로드",
-      "UPLOADING": "업로드 중..."
+      "UPLOADING": "업로드 중...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "보내기"
@@ -158,12 +191,14 @@
     "SWITCH": "Switch",
     "CONVERSATIONS": "대화",
     "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "멘션",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "보고서",
     "SETTINGS": "설정",
     "CONTACTS": "연락처",
     "HOME": "홈",
     "AGENTS": "에이전트",
+    "AGENT_BOTS": "봇",
     "INBOXES": "받은 메시지함",
     "NOTIFICATIONS": "알림",
     "CANNED_RESPONSES": "미리 준비된 답변",
@@ -174,6 +209,7 @@
     "LABELS": "라벨",
     "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "팀",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
@@ -190,19 +226,24 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "에이전트",
     "REPORTS_LABEL": "라벨",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "받은 메시지함",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오.",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "계정 이름",
+        "LABEL": "회사명",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "보내기"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Go to Settings",
       "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },

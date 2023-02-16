@@ -21,12 +21,20 @@ const EditCategory = () => import('./pages/categories/EditCategory');
 const ListCategoryArticles = () =>
   import('./pages/articles/ListCategoryArticles');
 const ListAllArticles = () => import('./pages/articles/ListAllArticles');
+const DefaultPortalArticles = () =>
+  import('./pages/articles/DefaultPortalArticles');
 const NewArticle = () => import('./pages/articles/NewArticle');
 const EditArticle = () => import('./pages/articles/EditArticle');
 
 const portalRoutes = [
   {
     path: getPortalRoute(''),
+    name: 'default_portal_articles',
+    roles: ['administrator', 'agent'],
+    component: DefaultPortalArticles,
+  },
+  {
+    path: getPortalRoute('all'),
     name: 'list_all_portals',
     roles: ['administrator', 'agent'],
     component: ListAllPortals,

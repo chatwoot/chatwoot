@@ -1,23 +1,14 @@
 <template>
   <modal :show.sync="show" :on-close="cancel">
     <div class="column content-box">
-      <woot-modal-header :header-title="title" />
-      <div class="row modal-content">
-        <div class="medium-12 columns">
-          <p>
-            {{ description }}
-          </p>
-        </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-button @click="confirm">
-              {{ confirmLabel }}
-            </woot-button>
-            <button class="button clear" @click="cancel">
-              {{ cancelLabel }}
-            </button>
-          </div>
-        </div>
+      <woot-modal-header :header-title="title" :header-content="description" />
+      <div class="modal-footer">
+        <woot-button variant="clear" @click="cancel">
+          {{ cancelLabel }}
+        </woot-button>
+        <woot-button @click="confirm">
+          {{ confirmLabel }}
+        </woot-button>
       </div>
     </div>
   </modal>
@@ -73,3 +64,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.modal-container .modal-footer {
+  padding: var(--space-normal) var(--space-medium);
+}
+</style>

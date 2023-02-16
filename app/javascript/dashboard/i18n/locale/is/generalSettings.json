@@ -1,0 +1,144 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Aðgangs stillingar",
+    "SUBMIT": "Uppfæra stillingar",
+    "BACK": "Til baka",
+    "UPDATE": {
+      "ERROR": "Gat ekki uppfært stillingar, reyndu aftur!",
+      "SUCCESS": "Tókst að uppfæra stillingar"
+    },
+    "FORM": {
+      "ERROR": "Vinsamlegast lagfærðu villurnar",
+      "GENERAL_SECTION": {
+        "TITLE": "Almennar stillingar",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Númer aðgangs",
+        "NOTE": "Þetta auðkenni er nauðsynlegt ef þú ert að byggja upp API byggða samþættingu"
+      },
+      "NAME": {
+        "LABEL": "Aðgangsnafn",
+        "PLACEHOLDER": "Þitt aðgangsnafn",
+        "ERROR": "Vinsamlegast sláðu inn samþykkt aðgangsnafn"
+      },
+      "LANGUAGE": {
+        "LABEL": "Tungumál síðu",
+        "PLACEHOLDER": "Þitt aðgangsnafn",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Incoming Email Domain",
+        "PLACEHOLDER": "Lénið þar sem þú færð tölvupóstinn",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Þjónustu tölvupóstur",
+        "PLACEHOLDER": "Þjónustu tölvupóstur fyrirtækisins",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Fjöldi daga eftir miða ætti að leysast sjálfkrafa ef engin virkni er",
+        "PLACEHOLDER": "30",
+        "ERROR": "Vinsamlega sláðu inn gilda lengd sjálfvirkrar úrlausnar (lágmark 1 dagur og hámark 999 dagar)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Samfellu samtals með tölvupósti er virkjuð fyrir reikninginn þinn.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Þú getur fengið tölvupóst á þitt lén núna."
+      }
+    },
+    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
+    "LEARN_MORE": "Læra meira"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Enter til þess að velja",
+      "ENTER_TO_REMOVE": "Enter til þess að fjarlægja",
+      "SELECT_ONE": "Veldu eitt",
+      "SELECT": "Velja"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Skilaboð",
+    "MARK_ALL_DONE": "Merkja allt tilbúð",
+    "DELETE_TITLE": "eyða",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Ólesnar tilkynningar",
+      "ALL_NOTIFICATIONS": "Skoða allar tilkynningar",
+      "LOADING_UNREAD_MESSAGE": "Hleð ólesnum skilaboðum...",
+      "EMPTY_MESSAGE": "Þú átt enginn ólesin skilaboð"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Hleð skilaboðum...",
+      "404": "Engin skilaboð",
+      "TABLE_HEADER": [
+        "Nafn",
+        "Símanúmer",
+        "Samtöl",
+        "Síðast samband"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Nýtt samtal",
+      "conversation_assignment": "Samtali úthlutað",
+      "assigned_conversation_new_message": "Nýtt skilaboð",
+      "conversation_mention": "Nefna"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Aftengdur Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Uppfæra"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Leita eða stökkva til",
+    "SECTIONS": {
+      "GENERAL": "Almennar",
+      "REPORTS": "Skýrslur",
+      "CONVERSATION": "Samtal",
+      "CHANGE_ASSIGNEE": "Breyta úthlutun",
+      "CHANGE_TEAM": "Breyta Teymi",
+      "ADD_LABEL": "Merkja samtalið",
+      "REMOVE_LABEL": "Fjarlægja merki af samtali",
+      "SETTINGS": "Stillingar"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Opna Stjórnborð Samtals",
+      "GO_TO_CONTACTS_DASHBOARD": "Opna Stjórnborð Tengiliða",
+      "GO_TO_REPORTS_OVERVIEW": "Opna yfirlit Skýrslna",
+      "GO_TO_CONVERSATION_REPORTS": "Opna Samtals Skýrslur",
+      "GO_TO_AGENT_REPORTS": "Opna Þjónustufulltrúa Skýrslur",
+      "GO_TO_LABEL_REPORTS": "Opna Merkja Skýrslur",
+      "GO_TO_INBOX_REPORTS": "Opna Innhólfs Skýrslur",
+      "GO_TO_TEAM_REPORTS": "Opna Teymis Skýrslur",
+      "GO_TO_SETTINGS_AGENTS": "Opna Stillingar Þjónustufulltrúa",
+      "GO_TO_SETTINGS_TEAMS": "Opna Stillingar Teymis",
+      "GO_TO_SETTINGS_INBOXES": "Opna Stillingar Innhólfs",
+      "GO_TO_SETTINGS_LABELS": "Opna Stillingar Merkja",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Opna Stillingar Staðlaðra Svara",
+      "GO_TO_SETTINGS_APPLICATIONS": "Opna Stillingar Forrits",
+      "GO_TO_SETTINGS_ACCOUNT": "Opna Stillingar Aðgangs",
+      "GO_TO_SETTINGS_PROFILE": "Opna Stillingar Prófíls",
+      "GO_TO_NOTIFICATIONS": "Opna Tilkynningar",
+      "ADD_LABELS_TO_CONVERSATION": "Merkja samtalið",
+      "ASSIGN_AN_AGENT": "Úthluta á þjónustufulltrúa",
+      "ASSIGN_A_TEAM": "Úthluta á teymi",
+      "MUTE_CONVERSATION": "Þagga samtal",
+      "UNMUTE_CONVERSATION": "Afþagga samtal",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Fjarlægja merki af samtali",
+      "REOPEN_CONVERSATION": "Enduropna samtal",
+      "RESOLVE_CONVERSATION": "Leysa samtal",
+      "SEND_TRANSCRIPT": "Senda afrit með tölvupósti",
+      "SNOOZE_CONVERSATION": "Fresta Samtali",
+      "UNTIL_NEXT_REPLY": "Þar til að næsta svar berst",
+      "UNTIL_NEXT_WEEK": "Þar til í næstu viku",
+      "UNTIL_TOMORROW": "Þar til á morgun"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Hleð Stjórnborði..."
+  }
+}

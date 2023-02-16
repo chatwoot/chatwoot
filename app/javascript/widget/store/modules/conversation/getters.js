@@ -32,7 +32,7 @@ export const getters = {
   },
   getUnreadMessageCount: _state => {
     const { userLastSeenAt } = _state.meta;
-    const count = Object.values(_state.conversations).filter(chat => {
+    return Object.values(_state.conversations).filter(chat => {
       const { created_at: createdAt, message_type: messageType } = chat;
       const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
       const hasNotSeen = userLastSeenAt
@@ -40,7 +40,6 @@ export const getters = {
         : true;
       return hasNotSeen && isOutGoing;
     }).length;
-    return count;
   },
   getUnreadTextMessages: (_state, _getters) => {
     const unreadCount = _getters.getUnreadMessageCount;
@@ -50,7 +49,6 @@ export const getters = {
       return messageType === MESSAGE_TYPE.OUTGOING;
     });
     const maxUnreadCount = Math.min(unreadCount, 3);
-    const allUnreadMessages = unreadAgentMessages.splice(-maxUnreadCount);
-    return allUnreadMessages;
+    return unreadAgentMessages.splice(-maxUnreadCount);
   },
 };

@@ -22,7 +22,7 @@
     "IN_A_DAY": "Responde normalmente em um dia"
   },
   "START_CONVERSATION": "Iniciar Conversa",
-  "END_CONVERSATION": "Fim da Conversa",
+  "END_CONVERSATION": "Finalizar Conversa",
   "CONTINUE_CONVERSATION": "Continuar conversa",
   "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
   "UNREAD_VIEW": {
@@ -73,6 +73,10 @@
       "FIELD": "Campo inválido"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Pesquisar emojis",
+    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa"
+  },
   "CSAT": {
     "TITLE": "Avalie sua conversa",
     "SUBMITTED_TITLE": "Obrigado por enviar a classificação",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Solicitar uma transcrição de conversa",
     "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Clique aqui para entrar",
+      "LEAVE_THE_ROOM": "Sair da ligação"
+    }
   }
 }

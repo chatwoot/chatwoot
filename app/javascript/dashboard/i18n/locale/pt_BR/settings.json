@@ -19,6 +19,21 @@
         "TITLE": "Perfil",
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para fazer login."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Tecla de atalho para enviar mensagens",
+        "NOTE": "Você pode selecionar uma tecla de atalho (Enter ou Cmd/Ctrl+Enter) com base na sua preferência de escrita.",
+        "UPDATE_SUCCESS": "Suas configurações foram atualizadas com sucesso",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Inserir (↵)",
+            "CONTENT": "Enviar mensagens pressionando a tecla Enter em vez de clicar no botão de enviar."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Pressione a tecla Cmd/Ctrl + Enter ao invés de clicar no botão enviar."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Assinatura de mensagens pessoais",
         "NOTE": "Crie uma assinatura de mensagem pessoal que será adicionada a todas as mensagens enviadas a partir da sua caixa de entrada. Use o editor de conteúdo para criar uma assinatura altamente personalizada.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações de Áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
-        "NONE": "Nenhuma",
-        "ASSIGNED": "Conversas atribuídas",
-        "ALL_CONVERSATIONS": "Todas as conversas"
+        "ALERT_TYPE": {
+          "TITLE": "Tipo de Alerta:",
+          "NONE": "Nenhuma",
+          "ASSIGNED": "Conversas atribuídas",
+          "ALL_CONVERSATIONS": "Todas as conversas"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Titulo:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Condições:",
+          "CONDITION_ONE": "Enviar alertas de áudio apenas se a janela do navegador não estiver ativa",
+          "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -88,7 +114,9 @@
           "Disponível",
           "Ocupado",
           "Desconectado"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
+    "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
     "LOGOUT": "Sair"
   },
   "APP_GLOBAL": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Baixar",
-      "UPLOADING": "Enviando..."
+      "UPLOADING": "Enviando...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Este story não está mais disponível."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Ver Localização"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
+    "UNATTENDED_CONVERSATIONS": "Não atendidas",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
     "HOME": "Principal",
     "AGENTS": "Agentes",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Atalhos",
@@ -174,6 +209,7 @@
     "LABELS": "Marcadores",
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
+    "MACROS": "Macros",
     "TEAMS": "Times",
     "BILLING": "Cobrança",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
@@ -197,12 +233,17 @@
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
     "HELP_CENTER": {
+      "TITLE": "Centro de ajuda",
       "ALL_ARTICLES": "Todos os artigos",
       "MY_ARTICLES": "Meus Artigos",
       "DRAFT": "Rascunho",
       "ARCHIVED": "Arquivado",
       "CATEGORY": "Categoria",
       "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Marcar offline automaticamente",
+      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle."
     },
     "DOCS": "Ler documentos"
   },
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome do Cliente",
+        "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Informe o nome da conta"
       },
       "SUBMIT": "Enviar"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Alternar Modal",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversa",
       "RESOLVE_AND_NEXT": "Resolver e ir para o próximo",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Ir para Configurações",
       "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo status da conversa",
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo rico",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
     },

@@ -11,7 +11,7 @@ class Rack::Attack
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # https://github.com/rack/rack-attack/issues/102
-  Rack::Attack.cache.store = Rack::Attack::StoreProxy::RedisProxy.new($velma)
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma)
 
   class Request < ::Rack::Request
     # You many need to specify a method to fetch the correct remote IP address
@@ -103,6 +103,11 @@ class Rack::Attack
   ## Prevent Contact update Bombing in Widget API ###
   throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
     req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+  end
+
+  ## Prevent Conversation Bombing through multiple sessions
+  throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
+    req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
   end
 end
 

@@ -1,19 +1,19 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Cienījamais klient 👋, lūdzu, veltiet savu laiku, lai sniegtu atsauksmes par sarunu, kas Jums bija ar %{inboxName}.",
     "RATING": {
-      "LABEL": "Rate your conversation",
-      "SUCCESS_MESSAGE": "Thank you for submitting the rating"
+      "LABEL": "Novērtējiet savu sarunu",
+      "SUCCESS_MESSAGE": "Paldies, ka iesniedzāt vērtējumu"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "Vai jums ir kādas domas, ar kurām vēlaties dalīties?",
+      "PLACEHOLDER": "Jūsu atsauksmes (izvēles kārtībā)",
+      "BUTTON_TEXT": "Iesniedziet atsauksmes"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survey updated successfully",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Aptauja ir veiksmīgi atjaunināta",
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     }
   },
-  "POWERED_BY": "Powered by Chatwoot"
+  "POWERED_BY": "Darbināts ar Chatwoot"
 }

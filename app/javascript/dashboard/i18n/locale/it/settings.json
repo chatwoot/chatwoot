@@ -19,6 +19,21 @@
         "TITLE": "Profilo",
         "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
         "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche audio",
         "NOTE": "Abilita le notifiche audio nella dashboard per nuovi messaggi e conversazioni.",
-        "NONE": "Nessuno",
-        "ASSIGNED": "Conversazioni assegnate",
-        "ALL_CONVERSATIONS": "Tutte le conversazioni"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Nessuno",
+          "ASSIGNED": "Conversazioni assegnate",
+          "ALL_CONVERSATIONS": "Tutte le conversazioni"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche email",
@@ -88,7 +114,9 @@
           "Online",
           "Occupato",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Il tuo indirizzo email",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Seleziona un account dal seguente elenco",
     "PROFILE_SETTINGS": "Impostazioni profilo",
     "KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Disconnettiti"
   },
   "APP_GLOBAL": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Scarica",
-      "UPLOADING": "Caricamento..."
+      "UPLOADING": "Caricamento...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Questa storia non è più disponibile."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Invia"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "Conversazioni",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
     "MENTIONED_CONVERSATIONS": "Menzioni",
+    "UNATTENDED_CONVERSATIONS": "Non partecipate",
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
     "HOME": "Home",
     "AGENTS": "Agenti",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Posta",
     "NOTIFICATIONS": "Notifiche",
     "CANNED_RESPONSES": "Risposte predefinite",
@@ -174,6 +209,7 @@
     "LABELS": "Etichette",
     "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
     "AUTOMATION": "Automazione",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Fatturazione",
     "CUSTOM_VIEWS_FOLDER": "Cartelle",
@@ -197,12 +233,17 @@
     "REPORTS_OVERVIEW": "Panoramica",
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Tutti gli articoli",
       "MY_ARTICLES": "I miei articoli",
       "DRAFT": "Bozza",
       "ARCHIVED": "Archiviato",
       "CATEGORY": "Categoria",
       "CATEGORY_EMPTY_MESSAGE": "Nessuna categoria trovata"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Leggi i documenti"
   },
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome account",
+        "LABEL": "Nome azienda",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Invia"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Apri conversazione",
       "RESOLVE_AND_NEXT": "Risolvi e vai alla prossima",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Vai alle impostazioni",
       "SWITCH_CONVERSATION_STATUS": "Passa allo stato successivo della conversazione",
       "SWITCH_TO_PRIVATE_NOTE": "Passa alle note private",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Attiva/Disattiva editor di contenuti esteso",
       "SWITCH_TO_REPLY": "Passa a Risposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Attiva/Disattiva sospensione a discesa"
     },

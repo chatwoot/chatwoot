@@ -13,12 +13,32 @@ module ConversationReplyMailerHelper
       @options[:cc] = cc_bcc_emails[0]
       @options[:bcc] = cc_bcc_emails[1]
     end
-
+    ms_smtp_settings
     set_delivery_method
+
     mail(@options)
   end
 
   private
+
+  def ms_smtp_settings
+    return unless @inbox.email? && @channel.imap_enabled && @inbox.channel.provider == 'microsoft'
+
+    smtp_settings = {
+      address: 'smtp.office365.com',
+      port: 587,
+      user_name: @channel.imap_login,
+      password: @channel.provider_config['access_token'],
+      domain: 'smtp.office365.com',
+      tls: false,
+      enable_starttls_auto: true,
+      openssl_verify_mode: 'none',
+      authentication: 'xoauth2'
+    }
+
+    @options[:delivery_method] = :smtp
+    @options[:delivery_method_options] = smtp_settings
+  end
 
   def set_delivery_method
     return unless @inbox.inbox_type == 'Email' && @channel.smtp_enabled
@@ -47,8 +67,12 @@ module ConversationReplyMailerHelper
     @inbox.inbox_type == 'Email' && @channel.imap_enabled
   end
 
+  def email_microsoft_auth_enabled
+    @inbox.inbox_type == 'Email' && @channel.provider == 'microsoft'
+  end
+
   def email_from
-    email_smtp_enabled ? @channel.email : from_email_with_name
+    email_microsoft_auth_enabled || email_smtp_enabled ? @channel.email : from_email_with_name
   end
 
   def email_reply_to

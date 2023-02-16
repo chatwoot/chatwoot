@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Μη Διαθέσιμο",
     "EMAIL_ADDRESS": "Διεύθυνση Email",
     "PHONE_NUMBER": "Αριθμός τηλεφώνου",
+    "IDENTIFIER": "Κωδικός",
     "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
     "COMPANY": "Εταιρία",
     "LOCATION": "Θέση",
@@ -14,6 +15,7 @@
     "INITIATED_FROM": "Αρχικοποίηση από",
     "INITIATED_AT": "Αρχικοποίηση τις",
     "IP_ADDRESS": "Διεύθυνση IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Νέο Μήνυμα",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή.",
@@ -151,8 +153,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Το avatar της επαφής διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή του avatar της επαφής. Παρακαλώ προσπαθήστε ξανά αργότερα."
       }
     },
     "SUCCESS_MESSAGE": "Η επαφή αποθηκεύτηκε με επιτυχία",
@@ -205,6 +207,7 @@
         "PHONE_NUMBER": "Αριθμός Τηλεφώνου",
         "CONVERSATIONS": "Συζητήσεις",
         "LAST_ACTIVITY": "Τελευταία Δραστηριότητα",
+        "CREATED_AT": "Δημιουργήθηκε στις",
         "COUNTRY": "Χώρα",
         "CITY": "Πόλη",
         "SOCIAL_PROFILES": "Social Profiles",

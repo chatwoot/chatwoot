@@ -1,267 +1,409 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "FILTER": "Filtrēt pēc",
+      "SORT": "Kārtot pēc",
+      "SETTINGS_BUTTON": "Iestatījumi",
+      "NEW_BUTTON": "Jauns Raksts",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publicēts",
+        "DRAFT": "Melnraksts",
+        "ARCHIVED": "Arhivēts"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Visi Raksti",
+        "MINE": "Mani Raksti",
+        "DRAFT": "Melnraksti",
+        "ARCHIVED": "Arhivētie Raksti"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Visi Raksti",
+      "PUBLISH_BUTTON": "Publicēt",
+      "MOVE_TO_ARCHIVE_BUTTON": "Pārvietot uz arhivēts",
+      "PREVIEW": "Priekšskatījums",
+      "ADD_TRANSLATION": "Pievienojiet tulkojumu",
+      "OPEN_SIDEBAR": "Atvērt sānjoslu",
+      "CLOSE_SIDEBAR": "Aizvērt sānjoslu",
+      "SAVING": "Notiek saglabāšana...",
+      "SAVED": "Saglabāts"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Raksta iestatījumi",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Kategorija",
+          "TITLE": "Izvēlieties kategoriju",
+          "PLACEHOLDER": "Izvēlieties kategoriju",
+          "NO_RESULT": "Kategorija nav atrasta",
+          "SEARCH_PLACEHOLDER": "Meklēt kategoriju"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autors",
+          "TITLE": "Izvēlieties autoru",
+          "PLACEHOLDER": "Izvēlieties autoru",
+          "NO_RESULT": "Autors nav atrasts",
+          "SEARCH_PLACEHOLDER": "Meklēt autoru"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta virsraksts",
+          "PLACEHOLDER": "Pievienot meta virsrakstu"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta apraksts",
+          "PLACEHOLDER": "Pievienojiet savu meta aprakstu, lai iegūtu labākus meklētājprogrammas optimizācijas rezultātus..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta tagi",
+          "PLACEHOLDER": "Pievienojiet meta tagus, atdalot tos ar komatu..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arhivēt rakstu",
+        "DELETE": "Dzēst rakstu"
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "Portāli",
+      "DEFAULT": "Noklusēts",
+      "NEW_BUTTON": "Jauns Portāls",
+      "ACTIVE_BADGE": "aktīvs",
+      "CHOOSE_LOCALE_LABEL": "Izvēlieties lokalizāciju",
+      "LOADING_MESSAGE": "Notiek portālu ielāde...",
+      "ARTICLES_LABEL": "raksti",
+      "NO_PORTALS_MESSAGE": "Nav pieejami portāli",
+      "ADD_NEW_LOCALE": "Pievienot jaunu lokalizāciju",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "Portāli",
+        "PORTAL_SETTINGS": "Portāla iestatījumi",
+        "SUBTITLE": "Jums ir vairāki portāli, un katram portālam var būt dažādas lokalizācijas.",
+        "CANCEL_BUTTON_LABEL": "Atcelt",
+        "CHOOSE_LOCALE_BUTTON": "Izvēlieties Lokalizāciju"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings"
+            "COUNT_LABEL": "raksti",
+            "ADD": "Pievienot lokalizāciju",
+            "VISIT": "Apmeklēt tīmekļa vietni",
+            "SETTINGS": "Iestatījumi",
+            "DELETE": "Dzēst"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Portāla Konfigurācijas",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
+              "NAME": "Nosaukums",
+              "DOMAIN": "Pielāgots domēns",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Portāla nosaukums",
+              "THEME": "Tēmas krāsa",
+              "SUB_TEXT": "Portāla apakšteksts"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Pieejamās lokalizācijas",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "Lokalizācijas nosaukums",
+              "CODE": "Lokalizācijas kods",
+              "ARTICLE_COUNT": "Rakstu skaits",
+              "CATEGORIES": "Kategoriju skaits",
+              "SWAP": "Apmainīt",
+              "DELETE": "Dzēst",
+              "DEFAULT_LOCALE": "Noklusējums"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Dzēst portālu",
+          "MESSAGE": "Vai tiešām vēlaties dzēst šo portālu",
+          "YES": "Jā, dzēst portālu",
+          "NO": "Nē, paturēt portālu",
+          "API": {
+            "DELETE_SUCCESS": "Portāls veiksmīgi izdzēsts",
+            "DELETE_ERROR": "Dzēšot portālu, radās kļūda"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Rediģēt portālu",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Pamatinformācija"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portāla pielāgošana"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Kategorijas"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Lokalizācijas"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Kategorijas iekš",
+          "NEW_CATEGORY": "Jauna kategorija",
+          "TABLE": {
+            "NAME": "Nosaukums",
+            "DESCRIPTION": "Apraksts",
+            "LOCALE": "Lokalizācija",
+            "ARTICLE_COUNT": "Rakstu skaits",
+            "ACTION_BUTTON": {
+              "EDIT": "Rediģēt kategoriju",
+              "DELETE": "Dzēst kategoriju"
+            },
+            "EMPTY_TEXT": "Kategorijas nav atrastas"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Atjaunināt pamata iestatījumus"
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
+            "title": "Palīdzības centra informācija",
             "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "body": "Pamatinformācija par portālu",
+            "CREATE_BASIC_SETTING_BUTTON": "Izveidot portāla pamatiestatījumus"
           },
           {
-            "title": "Help center customization",
+            "title": "Palīdzības centra pielāgošana",
             "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "body": "Pielāgot portālu",
+            "UPDATE_PORTAL_BUTTON": "Atjaunināt portāla iestatījumus"
           },
           {
-            "title": "Voila! 🎉",
+            "title": "Gatavs",
             "route": "portal_finish",
-            "body": "You're all set!",
-            "FINISH": "Finish"
+            "body": "Viss ir gatavs!",
+            "FINISH": "Pabeigt"
           }
         ],
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Atpakaļ",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Izveidot Portālu",
+            "TITLE": "Palīdzības centra informācija",
+            "CREATE_BASIC_SETTING_BUTTON": "Izveidot portāla pamatiestatījumus"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Portāla pielāgošana",
+            "TITLE": "Palīdzības centra pielāgošana",
+            "UPDATE_PORTAL_BUTTON": "Atjaunināt portāla iestatījumus"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Gatavs!",
+            "MESSAGE": "Tagad Jūs šo izveidoto portālu varat redzēt savā visu portālu lapā.",
+            "FINISH": "Dodieties uz visu portālu lapu"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "LABEL": "Logotips",
+          "UPLOAD_BUTTON": "Augšupielādēt logotipu",
+          "HELP_TEXT": "Šis logotips tiks attēlots portāla galvenē."
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "Nosaukums",
+          "PLACEHOLDER": "Portāla nosaukums",
+          "HELP_TEXT": "Nosaukums tiks izmantots publiskajā portālā iekšēji.",
+          "ERROR": "Nepieciešams nosaukums"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Portāla slug priekš URL",
+          "ERROR": "Nepieciešams slug"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
-          "ERROR": "Custom Domain is required"
+          "LABEL": "Pielāgots domēns",
+          "PLACEHOLDER": "Portāla pielāgots domēns",
+          "HELP_TEXT": "Pievienojiet tikai tad, ja vēlaties saviem portāliem izmantot pielāgotu domēnu. Piemēram: https://example.com",
+          "ERROR": "Ievadiet derīgu domēna URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page.",
-          "ERROR": "Home Page Link is required"
+          "LABEL": "Mājaslapas saite",
+          "PLACEHOLDER": "Portāla mājaslapas saite",
+          "HELP_TEXT": "Saite, ko izmanto lai atgrieztos no portāla uz sākumlapu. Piemēram: https://example.com",
+          "ERROR": "Ievadiet derīgu sākumlapas URL"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Portāla tēmas krāsa",
+          "HELP_TEXT": "Šī krāsa tiks parādīta kā portāla motīva krāsa."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "Lapas Nosaukums",
+          "PLACEHOLDER": "Portāla lapas nosaukums",
+          "HELP_TEXT": "Lapas nosaukums tiks izmantots publiskajā portālā.",
+          "ERROR": "Nepieciešams lapas nosaukums"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Galvenes Teksts",
+          "PLACEHOLDER": "Portāla galvenes teksts",
+          "HELP_TEXT": "Portāla galvenes teksts tiks izmantots publiskajā portālā.",
+          "ERROR": "Nepieciešams portāla galvenes teksts"
         },
         "API": {
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portāls ir veiksmīgi izveidots.",
+          "ERROR_MESSAGE_FOR_BASIC": "Nevarēja izveidot portālu. Mēģiniet vēlreiz.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portāls ir veiksmīgi atjaunināts.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Nevarēja atjaunināt portālu. Mēģiniet vēlreiz."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Pievienot jaunu lokalizāciju",
+        "SUB_TITLE": "Tādējādi pieejamo tulkojumu sarakstam tiek pievienota jauna lokalizācija.",
+        "PORTAL": "Portāls",
+        "LOCALE": {
+          "LABEL": "Lokalizācija",
+          "PLACEHOLDER": "Izvēlieties lokalizāciju",
+          "ERROR": "Nepieciešama lokalizācija"
+        },
+        "BUTTONS": {
+          "CREATE": "Izveidot lokalizāciju",
+          "CANCEL": "Atcelt"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Lokalizācija ir veiksmīgi pievienota",
+          "ERROR_MESSAGE": "Nevar pievienot lokalizāciju. Mēģiniet vēlreiz."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Noklusējuma lokalizācija ir veiksmīgi atjaunināta",
+          "ERROR_MESSAGE": "Nevar atjaunināt noklusējuma lokalizāciju. Mēģiniet vēlreiz."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Lokalizācija veiksmīgi noņemta no portāla",
+          "ERROR_MESSAGE": "Nevar noņemt lokalizāciju no portāla. Mēģiniet vēlreiz."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Notiek rakstu ielāde...",
+      "404": "Neviens raksts neatbilst jūsu meklēšanas vaicājumam 🔍",
+      "NO_ARTICLES": "Raksti nav pieejami",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "TITLE": "Nosaukums",
+        "CATEGORY": "Kategorija",
+        "READ_COUNT": "Lasīšanas skaits",
+        "STATUS": "Statuss",
+        "LAST_EDITED": "Pēdējo reizi rediģēts"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "persona"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Notiek raksta ielāde...",
+      "TITLE_PLACEHOLDER": "Šeit ir raksta nosaukums",
+      "CONTENT_PLACEHOLDER": "Uzrakstiet savu rakstu šeit",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Saglabājot rakstu, radās kļūda"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Publicējot rakstu, radās kļūda",
+        "SUCCESS": "Raksts veiksmīgi publicēts"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Arhivējot rakstu, radās kļūda",
+        "SUCCESS": "Raksts ir veiksmīgi arhivēts"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Apstiprināt Dzēšanu",
+          "MESSAGE": "Vai tiešām vēlaties izdzēst šo rakstu?",
+          "YES": "Jā, Dzēst",
+          "NO": "Nē, Paturēt"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Raksts ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Dzēšot rakstu, radās kļūda"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Lūdzu, pievienojiet raksta virsrakstu un saturu. Tikai tad Jūs varat atjaunināt iestatījumus"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Meklēt rakstus"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Izveidot kategoriju",
+        "SUB_TITLE": "Kategorija tiks izmantota publiskajā portālā, lai klasificētu rakstus.",
+        "PORTAL": "Portāls",
+        "LOCALE": "Lokalizācija",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "Nosaukums",
+          "PLACEHOLDER": "Kategorijas nosaukums",
+          "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
+          "ERROR": "Nepieciešams nosaukums"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Kategorijas slug priekš URL",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Nepieciešams slug"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "Apraksts",
+          "PLACEHOLDER": "Lūdzu, sniedziet īsu kategorijas aprakstu.",
+          "ERROR": "Nepieciešams apraksts"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "Izveidot kategoriju",
+          "CANCEL": "Atcelt"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Kategorija ir veiksmīgi izveidota",
+          "ERROR_MESSAGE": "Nevar izveidot kategoriju"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Rediģēt kategoriju",
+        "SUB_TITLE": "Rediģējot kategoriju, kategorija tiks atjaunināta publiskajā portālā.",
+        "PORTAL": "Portāls",
+        "LOCALE": "Lokalizācija",
+        "NAME": {
+          "LABEL": "Nosaukums",
+          "PLACEHOLDER": "Kategorijas nosaukums",
+          "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
+          "ERROR": "Nepieciešams nosaukums"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Kategorijas slug priekš URL",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Nepieciešams slug"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Apraksts",
+          "PLACEHOLDER": "Lūdzu, sniedziet īsu kategorijas aprakstu.",
+          "ERROR": "Nepieciešams apraksts"
+        },
+        "BUTTONS": {
+          "CREATE": "Atjaunināt kategoriju",
+          "CANCEL": "Atcelt"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorija ir veiksmīgi atjaunināta",
+          "ERROR_MESSAGE": "Nevar atjaunināt kategoriju"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorija ir veiksmīgi izdzēsta",
+          "ERROR_MESSAGE": "Nevar izdzēst kategoriju"
         }
       }
     }

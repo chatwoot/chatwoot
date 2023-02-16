@@ -14,6 +14,11 @@
 #  account_id       :integer          not null
 #  message_id       :integer          not null
 #
+# Indexes
+#
+#  index_attachments_on_account_id  (account_id)
+#  index_attachments_on_message_id  (message_id)
+#
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
@@ -33,12 +38,13 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   validate :acceptable_file
 
-  enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention]
+  enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention, :contact]
 
   def push_event_data
     return unless file_type
     return base_data.merge(location_metadata) if file_type.to_sym == :location
     return base_data.merge(fallback_data) if file_type.to_sym == :fallback
+    return base_data.merge(contact_metadata) if file_type.to_sym == :contact
 
     base_data.merge(file_metadata)
   end
@@ -65,12 +71,15 @@ class Attachment < ApplicationRecord
   private
 
   def file_metadata
-    {
+    metadata = {
       extension: extension,
       data_url: file_url,
       thumb_url: thumb_url,
       file_size: file.byte_size
     }
+
+    metadata[:data_url] = metadata[:thumb_url] = external_url if message.instagram_story_mention?
+    metadata
   end
 
   def location_metadata
@@ -95,6 +104,12 @@ class Attachment < ApplicationRecord
       message_id: message_id,
       file_type: file_type,
       account_id: account_id
+    }
+  end
+
+  def contact_metadata
+    {
+      fallback_title: fallback_title
     }
   end
 

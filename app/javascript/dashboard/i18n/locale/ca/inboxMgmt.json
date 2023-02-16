@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telèfon",
           "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-          "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Número de telèfon",
             "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-            "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telèfon",
           "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-          "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL del webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "L'has clavat!",
         "DESC": "Heu acabat d'integrar la vostra pàgina de Facebook amb Chatwoot. La propera vegada que un client escrigui un missatge a la vostra pàgina, la conversa apareixerà automàticament a la safata d'entrada. <br>També us proporcionem un script del widget que podeu afegir fàcilment al vostre web. Una vegada que estigui operatiu al vostre web, els clients us podran enviar missatges des del web sense l’ajuda de cap eina externa i la conversa apareixerà aquí mateix, a Chatwoot. <br>Genial, eh? Bé, segur que intentem ser-ho :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "La vostra safata d'entrada està a punt!",
-      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport ",
+      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport",
       "BUTTON_TEXT": "Porta'm allà",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada."
@@ -383,6 +396,10 @@
         "DISABLED": "Inhabilita"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Habilita",
+        "DISABLED": "Inhabilita"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Habilita",
         "DISABLED": "Inhabilita"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Configuracions",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualitza"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +562,10 @@
         "PLACE_HOLDER": "Contrasenya"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -650,13 +678,17 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "OFFLINE": "Estem fora en aquest moment"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
       "BRANDING_TEXT": "Desenvolupat per Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

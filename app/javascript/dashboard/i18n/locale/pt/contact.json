@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Não Disponível",
     "EMAIL_ADDRESS": "Endereço de email",
     "PHONE_NUMBER": "Número de telefone",
+    "IDENTIFIER": "Identificador",
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
     "COMPANY": "Empresa",
     "LOCATION": "Localização",
@@ -14,6 +15,7 @@
     "INITIATED_FROM": "Iniciado de",
     "INITIATED_AT": "Iniciado em",
     "IP_ADDRESS": "Endereço IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nova mensagem",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
@@ -205,6 +207,7 @@
         "PHONE_NUMBER": "Número de telefone",
         "CONVERSATIONS": "Conversas",
         "LAST_ACTIVITY": "Última atividade",
+        "CREATED_AT": "Criado Em",
         "COUNTRY": "País",
         "CITY": "Cidade",
         "SOCIAL_PROFILES": "Perfis Redes Sociais",

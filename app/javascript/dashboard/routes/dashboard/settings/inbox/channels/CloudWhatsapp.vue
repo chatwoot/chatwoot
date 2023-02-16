@@ -85,25 +85,6 @@
       </label>
     </div>
 
-    <div class="medium-8 columns">
-      <label :class="{ error: $v.webhookVerifyToken.$error }">
-        <span>
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.WEBHOOK_VERIFY_TOKEN.LABEL') }}
-        </span>
-        <input
-          v-model.trim="webhookVerifyToken"
-          type="text"
-          :placeholder="
-            $t('INBOX_MGMT.ADD.WHATSAPP.WEBHOOK_VERIFY_TOKEN.PLACEHOLDER')
-          "
-          @blur="$v.webhookVerifyToken.$touch"
-        />
-        <span v-if="$v.webhookVerifyToken.$error" class="message">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.WEBHOOK_VERIFY_TOKEN.ERROR') }}
-        </span>
-      </label>
-    </div>
-
     <div class="medium-12 columns">
       <woot-submit-button
         :loading="uiFlags.isCreating"
@@ -118,8 +99,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
-
-const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
+import { isPhoneE164OrEmpty, isNumber } from 'shared/helpers/Validators';
 
 export default {
   mixins: [alertMixin],
@@ -130,7 +110,6 @@ export default {
       apiKey: '',
       phoneNumberId: '',
       businessAccountId: '',
-      webhookVerifyToken: '',
     };
   },
   computed: {
@@ -138,11 +117,10 @@ export default {
   },
   validations: {
     inboxName: { required },
-    phoneNumber: { required, shouldStartWithPlusSign },
+    phoneNumber: { required, isPhoneE164OrEmpty },
     apiKey: { required },
-    phoneNumberId: { required },
-    businessAccountId: { required },
-    webhookVerifyToken: { required },
+    phoneNumberId: { required, isNumber },
+    businessAccountId: { required, isNumber },
   },
   methods: {
     async createChannel() {
@@ -164,7 +142,6 @@ export default {
                 api_key: this.apiKey,
                 phone_number_id: this.phoneNumberId,
                 business_account_id: this.businessAccountId,
-                webhook_verify_token: this.webhookVerifyToken,
               },
             },
           }

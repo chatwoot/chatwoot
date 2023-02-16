@@ -54,3 +54,5 @@ exclude_patterns:
   - 'app/javascript/widget/i18n/index.js'
   - 'app/javascript/survey/i18n/index.js'
   - 'app/javascript/shared/constants/locales.js'
+  - 'app/javascript/dashboard/helper/specs/macrosFixtures.js'
+  - 'app/javascript/dashboard/routes/dashboard/settings/macros/constants.js'

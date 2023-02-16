@@ -42,12 +42,23 @@
               $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.PLACEHOLDER')
             "
             :help-text="$t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.HELP_TEXT')"
+            :error="
+              $v.homePageLink.$error
+                ? $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.ERROR')
+                : ''
+            "
+            :class="{ error: $v.homePageLink.$error }"
+            @blur="$v.homePageLink.$touch"
           />
         </div>
       </div>
     </div>
     <div class="flex-end">
-      <woot-button :is-loading="isSubmitting" @click="onSubmitClick">
+      <woot-button
+        :is-loading="isSubmitting"
+        :is-disabled="$v.$invalid"
+        @click="onSubmitClick"
+      >
         {{
           $t(
             'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.UPDATE_PORTAL_BUTTON'
@@ -59,6 +70,7 @@
 </template>
 
 <script>
+import { url } from 'vuelidate/lib/validators';
 import { getRandomColor } from 'dashboard/helper/labelColor';
 
 import alertMixin from 'shared/mixins/alertMixin';
@@ -85,7 +97,11 @@ export default {
       alertMessage: '',
     };
   },
-  computed: {},
+  validations: {
+    homePageLink: {
+      url,
+    },
+  },
   mounted() {
     this.color = getRandomColor();
     this.updateDataFromStore();
@@ -102,6 +118,10 @@ export default {
       }
     },
     onSubmitClick() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       const portal = {
         id: this.portal.id,
         slug: this.portal.slug,

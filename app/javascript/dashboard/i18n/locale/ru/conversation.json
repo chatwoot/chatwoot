@@ -1,8 +1,9 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
+    "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените разговор",
     "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
-    "SWITCH_VIEW_LAYOUT": "Изменить раскладку",
+    "SWITCH_VIEW_LAYOUT": "Переключить вид",
     "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
     "UNVERIFIED_SESSION": "Подлинность этого пользователя не подтверждена",
     "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
@@ -34,12 +35,17 @@
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
     "UNKNOWN_FILE_TYPE": "Неизвестный файл",
+    "SAVE_CONTACT": "Сохранить",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
+    "CARD": {
+      "SHOW_LABELS": "Показать метки",
+      "HIDE_LABELS": "Скрыть метки"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
@@ -63,6 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Отметить как ожидающие",
       "RESOLVED": "Пометить как разрешено",
+      "MARK_AS_UNREAD": "Отметить как непрочитанное",
       "REOPEN": "Переоткрыть разговор",
       "SNOOZE": {
         "TITLE": "Отложено",
@@ -110,7 +117,6 @@
       "TIP_AUDIORECORDER_ICON": "Записать аудио",
       "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
       "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
-      "ENTER_TO_SEND": "Введите чтобы отправить",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
       "START_AUDIO_RECORDING": "Начать запись аудио",
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
@@ -127,6 +133,14 @@
           "PLACEHOLDER": "Письма, разделенные запятыми",
           "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Отправить",
+          "CANCEL": "Отменить"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
@@ -137,7 +151,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
     "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
-    "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "BOT": "Бот",
@@ -150,7 +164,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
-      "DELETE": "Удалить"
+      "DELETE": "Удалить",
+      "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +222,8 @@
       "CONVERSATION_LABELS": "Категории Диалога",
       "CONVERSATION_INFO": "Информация о беседе",
       "CONTACT_ATTRIBUTES": "Атрибуты контакта",
-      "PREVIOUS_CONVERSATION": "Предыдущие диалоги"
+      "PREVIOUS_CONVERSATION": "Предыдущие диалоги",
+      "MACROS": "Макросс"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

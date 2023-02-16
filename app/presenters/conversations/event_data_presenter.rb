@@ -8,11 +8,13 @@ class Conversations::EventDataPresenter < SimpleDelegator
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
+      labels: label_list,
       meta: push_meta,
       status: status,
       custom_attributes: custom_attributes,
       snoozed_until: snoozed_until,
       unread_count: unread_incoming_messages.count,
+      first_reply_created_at: first_reply_created_at,
       **push_timestamps
     }
   end
@@ -36,7 +38,8 @@ class Conversations::EventDataPresenter < SimpleDelegator
     {
       agent_last_seen_at: agent_last_seen_at.to_i,
       contact_last_seen_at: contact_last_seen_at.to_i,
-      timestamp: last_activity_at.to_i
+      timestamp: last_activity_at.to_i,
+      created_at: created_at.to_i
     }
   end
 end

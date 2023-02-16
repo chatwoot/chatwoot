@@ -1,5 +1,11 @@
 <template>
   <div class="menu-container">
+    <menu-item
+      v-if="!hasUnreadMessages"
+      :option="unreadOption"
+      variant="icon"
+      @click="$emit('mark-as-unread')"
+    />
     <template v-for="option in statusMenuConfig">
       <menu-item
         v-if="show(option.key)"
@@ -17,7 +23,10 @@
         @click="snoozeConversation(option.snoozedUntil)"
       />
     </menu-item-with-submenu>
-    <menu-item-with-submenu :option="labelMenuConfig">
+    <menu-item-with-submenu
+      :option="labelMenuConfig"
+      :sub-menu-available="!!labels.length"
+    >
       <template>
         <menu-item
           v-for="label in labels"
@@ -28,7 +37,10 @@
         />
       </template>
     </menu-item-with-submenu>
-    <menu-item-with-submenu :option="agentMenuConfig">
+    <menu-item-with-submenu
+      :option="agentMenuConfig"
+      :sub-menu-available="!!assignableAgents.length"
+    >
       <agent-loading-placeholder v-if="assignableAgentsUiFlags.isFetching" />
       <template v-else>
         <menu-item
@@ -40,7 +52,10 @@
         />
       </template>
     </menu-item-with-submenu>
-    <menu-item-with-submenu :option="teamMenuConfig">
+    <menu-item-with-submenu
+      :option="teamMenuConfig"
+      :sub-menu-available="!!teams.length"
+    >
       <menu-item
         v-for="team in teams"
         :key="team.id"
@@ -70,6 +85,10 @@ export default {
       type: String,
       default: '',
     },
+    hasUnreadMessages: {
+      type: Boolean,
+      default: false,
+    },
     inboxId: {
       type: Number,
       default: null,
@@ -78,6 +97,10 @@ export default {
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      unreadOption: {
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_UNREAD'),
+        icon: 'mail',
+      },
       statusMenuConfig: [
         {
           key: wootConstants.STATUS_TYPE.RESOLVED,
@@ -141,9 +164,19 @@ export default {
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.inboxId
-      );
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+          this.inboxId
+        ),
+      ];
     },
   },
   mounted() {

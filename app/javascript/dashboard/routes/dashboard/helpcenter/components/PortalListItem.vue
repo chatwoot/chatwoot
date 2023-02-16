@@ -188,13 +188,16 @@
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import LocaleItemTable from './PortalListItemTable';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
+import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+
 export default {
   components: {
     thumbnail,
     LocaleItemTable,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, uiSettingsMixin],
   props: {
     portal: {
       type: Object,
@@ -234,8 +237,10 @@ export default {
       });
     },
     articleCount() {
-      const { all_articles_count: count } = this.portal.meta;
-      return count;
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.reduce((acc, locale) => {
+        return acc + locale.articles_count;
+      }, 0);
     },
   },
   methods: {
@@ -246,7 +251,7 @@ export default {
       this.$emit('open-site', this.portal.slug);
     },
     openSettings() {
-      this.fetchPortalsAndItsCategories();
+      this.fetchPortalAndItsCategories();
       this.navigateToPortalEdit();
     },
     onClickOpenDeleteModal(portal) {
@@ -256,12 +261,18 @@ export default {
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.portal.slug,
-        });
-      });
+    async fetchPortalAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+      const {
+        slug,
+        config: { allowed_locales: allowedLocales },
+      } = this.portal;
+      const selectedPortalParam = {
+        portalSlug: slug,
+        locale: allowedLocales[0].code,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
     },
     async onClickDeletePortal() {
       const { slug } = this.selectedPortalForDelete;
@@ -274,6 +285,10 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_SUCCESS'
         );
+        this.updateUISettings({
+          last_active_portal_slug: undefined,
+          last_active_locale_code: undefined,
+        });
       } catch (error) {
         this.alertMessage =
           error?.message ||
@@ -295,6 +310,10 @@ export default {
           'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
         ),
       });
+      this.$track(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
+        newLocale: localeCode,
+        from: this.$route.name,
+      });
     },
     deletePortalLocale({ localeCode }) {
       const updatedLocales = this.allowedLocales.filter(
@@ -310,6 +329,10 @@ export default {
         errorMessage: this.$t(
           'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
         ),
+      });
+      this.$track(PORTALS_EVENTS.DELETE_LOCALE, {
+        deletedLocale: localeCode,
+        from: this.$route.name,
       });
     },
     async updatePortalLocales({
@@ -370,7 +393,6 @@ export default {
         }
       }
       .portal-title {
-        color: var(--s-900);
         margin-bottom: 0;
       }
       .portal-count {
@@ -383,13 +405,16 @@ export default {
       }
     }
     .portal-locales {
-      margin-top: var(--space-medium);
-      margin-bottom: var(--space-small);
+      margin-bottom: var(--space-large);
       .locale-title {
         color: var(--s-800);
         font-weight: var(--font-weight-medium);
         margin-bottom: var(--space-small);
       }
+    }
+
+    .portal--heading {
+      margin-bottom: var(--space-normal);
     }
   }
   .portal-settings--icon {

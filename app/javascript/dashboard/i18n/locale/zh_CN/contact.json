@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "不可用",
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
+    "IDENTIFIER": "标识符",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
     "COMPANY": "公司",
     "LOCATION": "位置",
@@ -14,6 +15,7 @@
     "INITIATED_FROM": "启动自：",
     "INITIATED_AT": "发起于",
     "IP_ADDRESS": "IP 地址",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "新消息",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
@@ -106,8 +108,8 @@
         "LABEL": "名字"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "输入联系人的简历",
+        "LABEL": "简历"
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "输入联系人的电子邮件地址",
@@ -205,6 +207,7 @@
         "PHONE_NUMBER": "电话号码",
         "CONVERSATIONS": "会话",
         "LAST_ACTIVITY": "最后一次活动",
+        "CREATED_AT": "创建于",
         "COUNTRY": "国家",
         "CITY": "城市",
         "SOCIAL_PROFILES": "社交资料",

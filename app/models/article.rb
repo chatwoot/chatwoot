@@ -6,6 +6,7 @@
 #  content               :text
 #  description           :text
 #  meta                  :jsonb
+#  slug                  :string           not null
 #  status                :integer
 #  title                 :string
 #  views                 :integer
@@ -22,6 +23,7 @@
 #
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
+#  index_articles_on_slug                   (slug) UNIQUE
 #
 class Article < ApplicationRecord
   include PgSearch::Model
@@ -43,6 +45,8 @@ class Article < ApplicationRecord
   belongs_to :author, class_name: 'User'
 
   before_validation :ensure_account_id
+  before_validation :ensure_article_slug
+
   validates :account_id, presence: true
   validates :category_id, presence: true
   validates :author_id, presence: true
@@ -55,6 +59,7 @@ class Article < ApplicationRecord
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
   scope :search_by_author, ->(author_id) { where(author_id: author_id) if author_id.present? }
   scope :search_by_status, ->(status) { where(status: status) if status.present? }
+  scope :order_by_updated_at, -> { reorder(updated_at: :desc) }
 
   # TODO: if text search slows down https://www.postgresql.org/docs/current/textsearch-features.html#TEXTSEARCH-UPDATE-TRIGGERS
   pg_search_scope(
@@ -79,11 +84,7 @@ class Article < ApplicationRecord
     ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
 
     records = records.text_search(params[:query]) if params[:query].present?
-    records.page(current_page(params))
-  end
-
-  def self.current_page(params)
-    params[:page] || 1
+    records
   end
 
   def associate_root_article(associated_article_id)
@@ -105,9 +106,19 @@ class Article < ApplicationRecord
     update(status: :draft)
   end
 
+  def increment_view_count
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:views, views? ? views + 1 : 1)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   private
 
   def ensure_account_id
     self.account_id = portal&.account_id
+  end
+
+  def ensure_article_slug
+    self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
   end
 end

@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Izaberite razgovor sa leve strane",
+    "CSAT_REPLY_MESSAGE": "Molim vas ocenite ovaj razgovor",
     "404": "Izvinite, ne možemo da pronađemo razgovor. Molim vas pokušajte ponovo",
     "SWITCH_VIEW_LAYOUT": "Promeni raspored",
     "DASHBOARD_APP_TAB_MESSAGES": "Poruke",
@@ -34,12 +35,17 @@
     "REMOVE_SELECTION": "Ukloni izbor",
     "DOWNLOAD": "Preuzmi",
     "UNKNOWN_FILE_TYPE": "Nepoznata datoteka",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Dodavanje priloga...",
     "SUCCESS_DELETE_MESSAGE": "Poruka je uspešno obrisana",
     "FAIL_DELETE_MESSSAGE": "Nije bilo moguće obrisati poruku! Pokušajte ponovo",
     "NO_RESPONSE": "Nema odgovora",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Povratne informacije",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Reši",
       "REOPEN_ACTION": "Ponovo otvori",
@@ -63,6 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označeno na čekanju",
       "RESOLVED": "Označi kao rešeno",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Ponovo otvori razgovor",
       "SNOOZE": {
         "TITLE": "Odloži",
@@ -110,7 +117,6 @@
       "TIP_AUDIORECORDER_ICON": "Snimi zvuk",
       "TIP_AUDIORECORDER_PERMISSION": "Dozvoli pristup zvuku",
       "TIP_AUDIORECORDER_ERROR": "Nije moguće pristupiti zvuku",
-      "ENTER_TO_SEND": "Enter za slanje",
       "DRAG_DROP": "Prevuci i pusti za dodavanje",
       "START_AUDIO_RECORDING": "Pokreni snimanje zvuka",
       "STOP_AUDIO_RECORDING": "Zaustavi snimanje zvuka",
@@ -127,6 +133,14 @@
           "PLACEHOLDER": "E-pošte odvojene zarezima",
           "ERROR": "Molim vas unesite ispravne adrese e-pošte"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Pošalji",
+          "CANCEL": "Otkaži"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privatna beleška: Vidljiva samo vama i vašem timu",
@@ -137,7 +151,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Oznaka je uspešno dodeljena",
     "ASSIGN_LABEL_FAILED": "Nije uspela dodela oznake",
     "CHANGE_TEAM": "Tim razgovora je promenjen",
-    "FILE_SIZE_LIMIT": "Datoteka premašuje ograničenje priloga od {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
     "BOT": "Bot",
@@ -150,7 +164,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiraj",
-      "DELETE": "Izbriši"
+      "DELETE": "Izbriši",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +222,8 @@
       "CONVERSATION_LABELS": "Oznake razgovora",
       "CONVERSATION_INFO": "Informacije o razgovoru",
       "CONTACT_ATTRIBUTES": "Atributi kontakta",
-      "PREVIOUS_CONVERSATION": "Prethodni razgovor"
+      "PREVIOUS_CONVERSATION": "Prethodni razgovor",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

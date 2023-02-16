@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Codi curt",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Introduïu un codi curt",
           "ERROR": "És necessari el codi curt"
         },
         "CONTENT": {

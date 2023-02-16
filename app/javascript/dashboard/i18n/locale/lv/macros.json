@@ -1,0 +1,78 @@
+{
+  "MACROS": {
+    "HEADER": "Macros",
+    "HEADER_BTN_TXT": "Pievienot jaunu makro",
+    "HEADER_BTN_TXT_SAVE": "Saglabāt makro",
+    "LOADING": "Notiek makro iegūšana",
+    "SIDEBAR_TXT": "<p><b>Makro</b><p>Makro ir saglabātu darbību kopa, kas palīdz klientu apkalpošanas aģentiem viegli veikt uzdevumus. Aģenti var definēt darbību kopu, piemēram, sarunas atzīmēšanu ar etiķeti, e-pasta transkripta nosūtīšanu, pielāgotas īpašības atjaunināšanu utt. Aģenti var veikt šīs darbības ar vienu klikšķi. Kad aģenti palaidīs makro, darbības tiks veiktas tādā secībā, kādā tās ir definētas. Makro uzlabo produktivitāti un palielina darbību konsekvenci. </p><p>Makro var būt noderīgs divos veidos. </p><p><b>Kā aģenta asistents:</b> Ja aģents vairākas reizes veic darbību kopu, viņš to var saglabāt kā makro un izpildīt visas darbības kopā, izmantojot vienu klikšķi.</p><p><b>Kā iespēja uzņemt komandas locekli:</b> Katram aģentam katras sarunas laikā ir jāveic daudzas dažādas pārbaudes/darbības. Jauna atbalsta komandas dalībnieka uzņemšana būs vienkārša, ja kontā būs pieejami iepriekš definēti makro. Tā vietā, lai detalizēti aprakstītu katru darbību, menedžers/komandas vadītājs var norādīt uz makro, kas tiek izmantots dažādos scenārijos.</p>",
+    "ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "ORDER_INFO": "Makro darbosies tādā secībā, kādā Jūs pievienosit savas darbības. Jūs varat tos pārkārtot, velkot tos aiz roktura kas atrodas blakus katram mezglam.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Makro nosaukums",
+          "PLACEHOLDER": "Ievadiet sava makro nosaukumu",
+          "ERROR": "Lai izveidotu makro, ir nepieciešams nosaukums"
+        },
+        "ACTIONS": {
+          "LABEL": "Darbības"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Nevar izveidot makro. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nosaukums",
+        "Izveidoja",
+        "Pēdējo reizi atjaunināja",
+        "Redzamība"
+      ],
+      "404": "Nav atrasts neviens makro"
+    },
+    "DELETE": {
+      "TOOLTIP": "Dzēst makro",
+      "CONFIRM": {
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst",
+        "NO": "Nē"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Dzēšot makro radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Rediģēt makro",
+      "API": {
+        "SUCCESS_MESSAGE": "Makro ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Nevarēja atjaunināt makro. Lūdzu, vēlāk mēģiniet vēlreiz"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Sākt Plūsmu",
+      "END_FLOW": "Beigt Plūsmu",
+      "LOADING": "Notiek makro iegūšana",
+      "ADD_BTN_TOOLTIP": "Pievienot jaunu darbību",
+      "DELETE_BTN_TOOLTIP": "Dzēst Darbību",
+      "VISIBILITY": {
+        "LABEL": "Makro Redzamība",
+        "GLOBAL": {
+          "LABEL": "Publisks",
+          "DESCRIPTION": "Šis makro ir publiski pieejams visiem šī konta aģentiem."
+        },
+        "PERSONAL": {
+          "LABEL": "Privāts",
+          "DESCRIPTION": "Šis makro būs privāts Jums un nebūs pieejams citiem."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Izpildīt",
+      "PREVIEW": "Priekšskatīt Makro",
+      "EXECUTED_SUCCESSFULLY": "Makro ir veiksmīgi izpildīts"
+    }
+  }
+}

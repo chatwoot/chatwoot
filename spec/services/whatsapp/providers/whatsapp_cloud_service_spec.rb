@@ -28,7 +28,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
 
-      it 'calls message endpoints for attachment message messages' do
+      it 'calls message endpoints for image attachment message messages' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
         attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
 
@@ -37,7 +37,27 @@ describe Whatsapp::Providers::WhatsappCloudService do
             body: hash_including({
                                    messaging_product: 'whatsapp',
                                    to: '+123456789',
-                                   type: 'image'
+                                   type: 'image',
+                                   image: WebMock::API.hash_including({ caption: message.content, link: anything })
+                                 })
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
+      it 'calls message endpoints for document attachment message messages' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/sample.pdf')), filename: 'sample.pdf', content_type: 'application/pdf')
+
+        # ref: https://github.com/bblimke/webmock/issues/900
+        # reason for Webmock::API.hash_including
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   to: '+123456789',
+                                   type: 'document',
+                                   document: WebMock::API.hash_including({ filename: 'sample.pdf', caption: message.content, link: anything })
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)

@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numero di telefono",
           "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
-          "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "URL di callback",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Numero di telefono",
             "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
-            "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Crea un canale Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Numero di telefono",
           "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
-          "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID numero di telefono",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL di callback",
-          "SUBTITLE": "È necessario configurare l'URL del webhook nel portale sviluppatore di facebook con l'URL menzionato qui."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL del webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Crea un canale WhatsApp",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "Azzeccato!",
         "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, cerchiamo di esserlo :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "La casella è pronta!",
-      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
+      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza",
       "BUTTON_TEXT": "Portami lì",
       "MORE_SETTINGS": "Altre impostazioni",
       "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella."
@@ -383,6 +396,10 @@
         "DISABLED": "Disabilitato"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "Campagne",
       "PRE_CHAT_FORM": "Modulo pre-chat",
       "BUSINESS_HOURS": "Ore di lavoro",
-      "WIDGET_BUILDER": "Costruttore Widget"
+      "WIDGET_BUILDER": "Costruttore Widget",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Impostazioni",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Attiva/Disabilita il sondaggio CSAT (soddisfazione del cliente) dopo aver risolto una conversazione",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Impostazioni della casella",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della casella",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Consenti messaggi dopo la risoluzione della conversazione",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo la risoluzione della conversazione.",
       "WHATSAPP_SECTION_SUBHEADER": "Questa chiave API viene utilizzata per l'integrazione con le API WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Chiave API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Chiave API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Aggiorna"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limite assegnazione automatica",
@@ -538,6 +562,10 @@
         "PLACE_HOLDER": "Password"
       },
       "ENABLE_SSL": "Abilita SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -657,6 +685,10 @@
       },
       "BRANDING_TEXT": "Offerto da Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

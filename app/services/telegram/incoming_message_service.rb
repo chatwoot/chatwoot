@@ -12,7 +12,7 @@ class Telegram::IncomingMessageService
     set_contact
     update_contact_avatar
     set_conversation
-    @message = @conversation.messages.create!(
+    @message = @conversation.messages.build(
       content: params[:message][:text].presence || params[:message][:caption],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -20,6 +20,7 @@ class Telegram::IncomingMessageService
       sender: @contact,
       source_id: (params[:message][:message_id]).to_s
     )
+    attach_location
     attach_files
     @message.save!
   end
@@ -31,7 +32,7 @@ class Telegram::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:message][:from][:id],
       inbox: inbox,
       contact_attributes: contact_attributes
@@ -111,8 +112,23 @@ class Telegram::IncomingMessageService
     )
   end
 
+  def attach_location
+    return unless location
+
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :location,
+      coordinates_lat: location['latitude'],
+      coordinates_long: location['longitude']
+    )
+  end
+
   def file
     @file ||= visual_media_params || params[:message][:voice].presence || params[:message][:audio].presence || params[:message][:document].presence
+  end
+
+  def location
+    @location ||= params[:message][:location].presence
   end
 
   def visual_media_params

@@ -7,6 +7,7 @@ import {
   CHATWOOT_RESET,
   CHATWOOT_SET_USER,
 } from '../../helper/scriptHelpers';
+import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../helper/localStorage';
 
 Cookies.defaults = { sameSite: 'Lax' };
 
@@ -37,10 +38,15 @@ export const clearBrowserSessionCookies = () => {
   Cookies.remove('user');
 };
 
+export const clearLocalStorageOnLogout = () => {
+  LocalStorage.remove(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES);
+};
+
 export const clearCookiesOnLogout = () => {
   window.bus.$emit(CHATWOOT_RESET);
   window.bus.$emit(ANALYTICS_RESET);
   clearBrowserSessionCookies();
+  clearLocalStorageOnLogout();
   const globalConfig = window.globalConfig || {};
   const logoutRedirectLink = globalConfig.LOGOUT_REDIRECT_LINK || '/';
   window.location = logoutRedirectLink;

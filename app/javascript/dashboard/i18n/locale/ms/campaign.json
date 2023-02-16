@@ -9,7 +9,7 @@
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "CREATE_BUTTON_TEXT": "Create",
       "FORM": {
         "TITLE": {
@@ -63,12 +63,12 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Padamkan",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Pasti Padamkan",
         "MESSAGE": "Are you sure to delete?",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Ya, Padamkan ",
+        "NO": "Tidak, simpankan "
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
@@ -100,7 +100,7 @@
       "BUTTONS": {
         "ADD": "Add",
         "EDIT": "Edit",
-        "DELETE": "Delete"
+        "DELETE": "Padamkan"
       },
       "STATUS": {
         "ENABLED": "Enabled",

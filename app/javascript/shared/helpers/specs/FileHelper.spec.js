@@ -24,7 +24,7 @@ describe('#File Helpers', () => {
       expect(fileSizeInMegaBytes(0)).toBe(0);
     });
     it('should return 19.07 if 20000000 is passed', () => {
-      expect(fileSizeInMegaBytes(20000000)).toBe('19.07');
+      expect(fileSizeInMegaBytes(20000000)).toBeCloseTo(19.07, 2);
     });
   });
   describe('checkFileSizeLimit', () => {

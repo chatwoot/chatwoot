@@ -19,6 +19,21 @@
         "TITLE": "个人信息",
         "NOTE": "您的电子邮件地址是您的身份并用于登录。"
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "啥都没有",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "啥都没有",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "电子邮件通知",
@@ -88,7 +114,9 @@
           "在线的",
           "忙碌中",
           "离线的"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "您的电子邮件地址",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
     "PROFILE_SETTINGS": "个人资料设置",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "退出登录"
   },
   "APP_GLOBAL": {
@@ -133,7 +162,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "复制",
-      "COPY_SUCCESSFUL": "代码复制到剪贴板成功"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
-      "UPLOADING": "上传中..."
+      "UPLOADING": "上传中...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "提交"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "会话",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "提及",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
     "HOME": "首页",
     "AGENTS": "客服代理们",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "收件箱",
     "NOTIFICATIONS": "消息通知",
     "CANNED_RESPONSES": "预设回复",
@@ -174,6 +209,7 @@
     "LABELS": "标签",
     "CUSTOM_ATTRIBUTES": "自定义属性",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
@@ -197,12 +233,17 @@
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "您的 Facebook 连接已过期，请重新连接您的 Facebook 页面以继续服务",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "CATEGORY": "类别",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "帐户名称",
+        "LABEL": "公司名称",
         "PLACEHOLDER": "Wayne企业"
       },
       "SUBMIT": "提交"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Go to Settings",
       "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },

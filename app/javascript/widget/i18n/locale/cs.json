@@ -73,6 +73,10 @@
       "FIELD": "Neplatné pole"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",
     "SUBMITTED_TITLE": "Děkujeme Vám za odeslání hodnocení",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Požádat o přepis konverzace",
     "SEND_EMAIL_SUCCESS": "Přepis chatu byl úspěšně odeslán",
     "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

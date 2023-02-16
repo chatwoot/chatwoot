@@ -36,7 +36,8 @@
         :active-portal-slug="activePortalSlug"
         :active-locale="activeLocale"
         :active="portal.slug === activePortalSlug"
-        @open-portal-page="onPortalSelect"
+        @open-portal-page="closePortalPopover"
+        @fetch-portal="fetchPortalAndItsCategories"
       />
     </div>
   </div>
@@ -69,14 +70,14 @@ export default {
     closePortalPopover() {
       this.$emit('close-popover');
     },
-    onPortalSelect() {
-      this.$emit('close-popover');
-    },
     openPortalPage() {
       this.closePortalPopover();
       this.$router.push({
         name: 'list_all_portals',
       });
+    },
+    fetchPortalAndItsCategories() {
+      this.$emit('fetch-portal');
     },
   },
 };
@@ -104,7 +105,7 @@ export default {
       .new-popover-link {
         display: flex;
         align-items: center;
-        padding: var(--space-half) var(--space-one);
+        padding: var(--space-smaller) var(--space-small);
         background-color: var(--s-25);
         font-size: var(--font-size-mini);
         color: var(--s-500);

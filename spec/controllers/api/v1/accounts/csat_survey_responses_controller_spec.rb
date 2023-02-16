@@ -111,6 +111,9 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
       end
 
       it 'filters csat metrics based on a date range' do
+        # clearing any existing csat responses
+        CsatSurveyResponse.destroy_all
+
         create(:csat_survey_response, account: account, created_at: 10.days.ago)
         create(:csat_survey_response, account: account, created_at: 3.days.ago)
 

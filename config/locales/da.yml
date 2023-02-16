@@ -23,9 +23,9 @@ da:
     reset_password_failure: Åh nej! Vi kunne ikke finde nogen bruger med den angivne e-mail.
   errors:
     validations:
-      presence: must not be blank
+      presence: må ikke være tomt
     webhook:
-      invalid: Invalid events
+      invalid: Ugyldige begivenheder
     signup:
       disposable_email: Vi tillader ikke engangs e-mails
       invalid_email: Du har indtastet en ugyldig e-mail
@@ -33,78 +33,80 @@ da:
       failed: Tilmelding mislykkedes
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Ugyldig datatype
     contacts:
       import:
-        failed: File is blank
+        failed: Filen er tom
       email:
         invalid: Invalid email
       phone_number:
-        invalid: should be in e164 format
+        invalid: skal være i e164 format
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: bør være unik i kategorien og portalen
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Tjek venligst netværksforbindelsen, IMAP-adressen og prøv igen.
+        no_response_error: Tjek venligst IMAP-legitimationsoplysningerne og prøv igen.
+        host_unreachable_error: Vært utilgængeligt, tjek venligst IMAP-adressen, IMAP-porten og prøv igen.
+        connection_timed_out_error: Forbindelsen fik timeout for %{address}:%{port}
+        connection_closed_error: Forbindelsen er lukket.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: bør ikke starte eller slutte med symboler, og det skal ikke have < > / \ @ tegn.
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Rapporteringsperiode %{since} til %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Agentens navn
+      conversations_count: Samtaler tæller
+      avg_first_response_time: Gns første svartid (minutter)
+      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      inbox_name: Indbakkens navn
+      inbox_type: Indbakke type
+      conversations_count: Antal samtaler
+      avg_first_response_time: Gns første svartid (minutter)
+      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      label_title: Etiketter
+      conversations_count: Antal samtaler
+      avg_first_response_time: Gns første svartid (minutter)
+      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    default_group_by: day
+      team_name: Team navn
+      conversations_count: Samtaler tæller
+      avg_first_response_time: Gns første svartid (minutter)
+      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
+    default_group_by: dag
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Kontakt Navn
+        contact_email_address: Kontakt E-Mail Adresse
+        contact_phone_number: Kontakt Telefonnummer
+        link_to_the_conversation: Link til samtalen
         agent_name: Agentens Navn
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        rating: Bedømmelse
+        feedback: Feedback Kommentar
+        recorded_at: Optaget dato
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Ny samtale] - #%{display_id} er blevet oprettet i %{inbox_name}"
+      conversation_assignment: "[Tildelt dig] - #%{display_id} er blevet tildelt dig"
+      assigned_conversation_new_message: "[Ny besked] - #%{display_id} %{content}"
+      conversation_mention: "Du er blevet nævnt i samtalen [ID - %{display_id}] af %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
-      deleted: This message was deleted
+      instagram_story_content: "%{story_sender} nævnte dig i historien: "
+      instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
+      deleted: Denne besked blev slettet
     activity:
       status:
         resolved: "Samtalen blev markeret som løst af %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "Samtalen blev løst af %{contact_name}"
         open: "Samtalen blev genåbnet af %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        pending: "Samtalen blev markeret som afventende af %{user_name}"
+        snoozed: "Samtalen blev udskudt af %{user_name}"
         auto_resolved: "Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet"
       assignee:
         self_assigned: "%{user_name} selv-tildelte denne samtale"
@@ -112,8 +114,8 @@ da:
         removed: "Samtale fjernet tildeling af %{user_name}"
       team:
         assigned: "Tildelt %{team_name} af %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "Tildelt %{assignee_name} via %{team_name} af %{user_name}"
+        removed: "Ikke tildelt fra %{team_name} af %{user_name}"
       labels:
         added: "%{user_name} tilføjede %{labels}"
         removed: "%{user_name} fjernede %{labels}"
@@ -123,29 +125,41 @@ da:
       greeting_message_body: "%{account_name} svarer typisk på et par timer."
       ways_to_reach_you_message_body: "Giv teamet en måde at kontakte dig på."
       email_input_box_message_body: "Få besked via e-mail"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Bedøm venligst samtalen"
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} fra %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} fra %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Nye beskeder i denne samtale"
       transcript_subject: "Samtaleudskrift"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Bedøm denne samtale, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} er online, prøv igen senere"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack er et chatværktøj, der bringer al din kommunikation sammen på ét sted. Ved at integrere Slack, kan du få besked om alle de nye samtaler på din konto lige inde i din Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Webhook begivenheder giver dig realtime oplysninger om, hvad der sker på din konto. Du kan gøre brug af webhooks til at kommunikere begivenhederne til dine foretrukne apps som Slack eller Github. Klik på Konfigurer for at opsætte dine webhooks."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Byg chatbots ved hjælp af Dialogflow og tilslut dem hurtigt til din indbakke. Lad robotterne håndtere forespørgslerne, før de afleverer dem til en kundeservice agent."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "Fuldkontakt"
+      description: "FullContact integration hjælper med at berige besøgende profiler. Identificere brugerne, så snart de deler deres e-mail-adresse og tilbyde dem skræddersyet kundeservice. Tilslut din FullContact til din konto ved at dele FullContact API-nøglen."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Ingen resultater fundet.
+      loading_placeholder: Søger...
+      results_title: Søgeresultater
+    hero:
+      sub_title: Søg efter artiklerne her eller gennemse kategorierne nedenfor.

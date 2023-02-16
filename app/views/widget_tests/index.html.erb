@@ -16,6 +16,7 @@ window.chatwootSettings = {
   hideMessageBubble: false,
   position: '<%= @widget_position %>',
   locale: 'en',
+  useBrowserLanguage: true,
   type: '<%= @widget_type %>',
   showPopoutButton: true,
   widgetStyle: '<%= @widget_style %>',
@@ -51,5 +52,10 @@ window.addEventListener('chatwoot:ready', function() {
 
 window.addEventListener('chatwoot:error', function(e) {
   console.log('chatwoot:error', e.detail)
+})
+
+
+window.addEventListener('chatwoot:on-message', function(e) {
+  console.log('chatwoot:on-message', e.detail)
 })
 </script>

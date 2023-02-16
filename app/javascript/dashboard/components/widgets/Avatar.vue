@@ -1,10 +1,6 @@
 <template>
-  <div
-    class="avatar-container"
-    :style="[style, customStyle]"
-    aria-hidden="true"
-  >
-    <span>{{ userInitial }}</span>
+  <div class="avatar-container" :style="style" aria-hidden="true">
+    {{ userInitial }}
   </div>
 </template>
 
@@ -16,69 +12,26 @@ export default {
       type: String,
       default: '',
     },
-    backgroundColor: {
-      type: String,
-      default: '#c2e1ff',
-    },
-    color: {
-      type: String,
-      default: '#1976cc',
-    },
-    customStyle: {
-      type: Object,
-      default: undefined,
-    },
     size: {
       type: Number,
       default: 40,
     },
-    src: {
-      type: String,
-      default: '',
-    },
-    rounded: {
-      type: Boolean,
-      default: true,
-    },
-    variant: {
-      type: String,
-      default: 'circle',
-    },
   },
   computed: {
     style() {
-      let style = {
-        width: `${this.size}px`,
-        height: `${this.size}px`,
-        borderRadius:
-          this.variant === 'square' ? 'var(--border-radius-large)' : '50%',
-        lineHeight: `${this.size + Math.floor(this.size / 20)}px`,
+      return {
         fontSize: `${Math.floor(this.size / 2.5)}px`,
       };
-
-      if (this.backgroundColor) {
-        style = { ...style, backgroundColor: this.backgroundColor };
-      }
-      if (this.color) {
-        style = { ...style, color: this.color };
-      }
-      return style;
     },
     userInitial() {
-      return this.initials || this.initial(this.username);
-    },
-  },
-  methods: {
-    initial(username) {
-      const parts = username ? username.split(/[ -]/) : [];
-      let initials = '';
-      for (let i = 0; i < parts.length; i += 1) {
-        initials += parts[i].charAt(0);
-      }
+      const parts = this.username.split(/[ -]/);
+      let initials = parts.reduce((acc, curr) => acc + curr.charAt(0), '');
+
       if (initials.length > 2 && initials.search(/[A-Z]/) !== -1) {
         initials = initials.replace(/[a-z]+/g, '');
       }
-      initials = initials.substr(0, 2).toUpperCase();
+      initials = initials.substring(0, 2).toUpperCase();
+
       return initials;
     },
   },
@@ -88,11 +41,13 @@ export default {
 <style lang="scss" scoped>
 .avatar-container {
   display: flex;
+  line-height: 100%;
   font-weight: 500;
   align-items: center;
   justify-content: center;
   text-align: center;
   background-image: linear-gradient(to top, var(--w-100) 0%, var(--w-75) 100%);
   color: var(--w-600);
+  cursor: default;
 }
 </style>

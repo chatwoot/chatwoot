@@ -1,65 +1,65 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER": "Kampagner",
+    "SIDEBAR_TXT": "Proaktive beskeder giver kunden mulighed for at sende udgående beskeder til deres kontakter, hvilket ville udløse flere samtaler. Klik på <b>Tilføj kampagne</b> for at oprette en ny kampagne. Du kan også redigere eller slette en eksisterende kampagne ved at klikke på Rediger eller Slet knappen.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "Opret en kampagne fra",
+      "ONGOING": "Opret en igangværende kampagne"
     },
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "Opret en kampagne",
+      "DESC": "Proaktive beskeder giver kunden mulighed for at sende udgående beskeder til deres kontakter, hvilket ville udløse flere samtaler.",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "CREATE_BUTTON_TEXT": "Opret",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "Titel",
+          "PLACEHOLDER": "Indtast titlen på kampagnen",
+          "ERROR": "Titel er påkrævet"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Planlagt tid",
+          "PLACEHOLDER": "Vælg venligst tid",
+          "CONFIRM": "Bekræft",
+          "ERROR": "Planlagt tid er påkrævet"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "Målgruppe",
+          "PLACEHOLDER": "Vælg kunde etiketter",
+          "ERROR": "Målgruppe er påkrævet"
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
+          "LABEL": "Vælg Indbakke",
+          "PLACEHOLDER": "Vælg Indbakke",
+          "ERROR": "Indbakke er påkrævet"
         },
         "MESSAGE": {
           "LABEL": "Besked",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "PLACEHOLDER": "Indtast venligst meddelelsen af kampagnen",
+          "ERROR": "Beskeden er påkrævet"
         },
         "SENT_BY": {
-          "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "LABEL": "Sendt af",
+          "PLACEHOLDER": "Vælg venligst indholdet af kampagnen",
+          "ERROR": "Afsenderen er påkrævet"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
+          "PLACEHOLDER": "Indtast venligst URL",
           "ERROR": "Angiv en gyldig URL"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "Tid på side (sekunder)",
+          "PLACEHOLDER": "Indtast venligst tid",
+          "ERROR": "Tid på siden er påkrævet"
         },
-        "ENABLED": "Enable campaign",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "Aktiver kampagne",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Udløs kun i åbningstiden",
+        "SUBMIT": "Tilføj Kampagne"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "Kampagne oprettet",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
       }
     },
     "DELETE": {
@@ -71,56 +71,56 @@
         "NO": "Nej, Behold "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Kampagne slettet",
+        "ERROR_MESSAGE": "Kunne ikke slette kampagnen. Prøv igen senere."
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "Rediger kampagne",
       "UPDATE_BUTTON_TEXT": "Opdater",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "Kampagne opdateret",
         "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "Indlæser kampagner...",
+      "404": "Der er ingen kampagner oprettet for denne indbakke.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
+        "TITLE": "Titel",
         "MESSAGE": "Besked",
-        "INBOX": "Inbox",
+        "INBOX": "Indbakke",
         "STATUS": "Status",
-        "SENDER": "Sender",
+        "SENDER": "Afsender",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "SCHEDULED_AT": "Planlagt tid",
+        "TIME_ON_PAGE": "Tid(sekunder)",
+        "CREATED_AT": "Oprettet den"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Tilføj",
         "EDIT": "Rediger",
         "DELETE": "Slet"
       },
       "STATUS": {
         "ENABLED": "Aktiveret",
         "DISABLED": "Deaktiveret",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "Afsluttet",
+        "ACTIVE": "Aktiv"
       },
       "SENDER": {
         "BOT": "Bot"
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+      "HEADER": "Kampagner",
+      "404": "Der er ingen slukkede kampagner oprettet",
+      "INBOXES_NOT_FOUND": "Opret venligst en sms-indbakke og begynd at tilføje kampagner"
     },
     "ONGOING": {
-      "HEADER": "Ongoing campaigns",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+      "HEADER": "Igangværende kampagner",
+      "404": "Der er ingen igangværende kampagner oprettet",
+      "INBOXES_NOT_FOUND": "Opret venligst en hjemmeside indbakke og begynd at tilføje kampagner"
     }
   }
 }

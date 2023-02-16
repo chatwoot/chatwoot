@@ -19,17 +19,19 @@
 
 class Channel::Whatsapp < ApplicationRecord
   include Channelable
+  include Reauthorizable
 
   self.table_name = 'channel_whatsapp'
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
   # default at the moment is 360dialog lets change later.
   PROVIDERS = %w[default whatsapp_cloud].freeze
+  before_validation :ensure_webhook_verify_token
 
   validates :provider, inclusion: { in: PROVIDERS }
-
   validates :phone_number, presence: true, uniqueness: true
   validate :validate_provider_config
+
   after_create :sync_templates
 
   def name
@@ -55,6 +57,10 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :api_headers, to: :provider_service
 
   private
+
+  def ensure_webhook_verify_token
+    provider_config['webhook_verify_token'] ||= SecureRandom.hex(16) if provider == 'whatsapp_cloud'
+  end
 
   def validate_provider_config
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?

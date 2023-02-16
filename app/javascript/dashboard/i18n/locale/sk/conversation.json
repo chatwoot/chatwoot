@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Vyberte si konverzáciu z ľavého panela",
+    "CSAT_REPLY_MESSAGE": "Prosím, ohodnoťte konverzáciu",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
@@ -34,12 +35,17 @@
     "REMOVE_SELECTION": "Odstrániť výber",
     "DOWNLOAD": "Stiahnuť",
     "UNKNOWN_FILE_TYPE": "Unknown File",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Prílohy sa nahrávajú...",
     "SUCCESS_DELETE_MESSAGE": "Správa bola úspešne odstránená",
     "FAIL_DELETE_MESSSAGE": "Správu sa nepodarilo vymazať! Skúste to znova",
     "NO_RESPONSE": "Žiadna odpoveď",
     "RATING_TITLE": "Hodnotenia",
     "FEEDBACK_TITLE": "Spätná väzba",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Vyriešiť",
       "REOPEN_ACTION": "Znovu otvoriť",
@@ -63,6 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označiť ako čakajúce na vybavenie",
       "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -110,7 +117,6 @@
       "TIP_AUDIORECORDER_ICON": "Record audio",
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "ENTER_TO_SEND": "Stlačte Enter na odoslanie",
       "DRAG_DROP": "Potiahnite sem na pripojenie",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
@@ -127,6 +133,14 @@
           "PLACEHOLDER": "E-maily oddelené čiarkami",
           "ERROR": "Zadajte platné e-mailové adresy"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Poslať",
+          "CANCEL": "Zrušiť"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
@@ -137,7 +151,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
     "BOT": "Bot",
@@ -150,7 +164,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "Vymazať"
+      "DELETE": "Vymazať",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +222,8 @@
       "CONVERSATION_LABELS": "Označenia konverzácii",
       "CONVERSATION_INFO": "Informácie o konverzácii",
       "CONTACT_ATTRIBUTES": "Atribúty kontaktu",
-      "PREVIOUS_CONVERSATION": "Prechádzajúce konverzácie"
+      "PREVIOUS_CONVERSATION": "Prechádzajúce konverzácie",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

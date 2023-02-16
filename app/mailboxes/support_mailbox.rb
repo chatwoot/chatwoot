@@ -7,6 +7,8 @@ class SupportMailbox < ApplicationMailbox
                     :decorate_mail
 
   def process
+    # to turn off spam conversation creation
+    return unless @account.active?
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
 
@@ -72,7 +74,7 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender)
+    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender&.downcase)
     if @contact.present?
       @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
     else

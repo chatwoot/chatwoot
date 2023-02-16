@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "Etiķetes",
+    "HEADER_BTN_TXT": "Pievienot etiķeti",
+    "LOADING": "Notiek etiķešu iegūšana",
+    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
+    "SIDEBAR_TXT": "<p><b>Etiķetes</b> <p>Etiķetes palīdz Jums klasificēt sarunas un noteikt tām prioritātes. Jūs varat piešķirt etiķeti sarunai izmantojot sānjoslu. <br /><br />Etiķetes ir piesaistītas kontam, un tās var izmantot lai izveidotu pielāgotas darbplūsmas jūsu organizācijā. Jūs varat piešķirt pielāgotu krāsu etiķetei, lai etiķeti vieglāk varētu atpazīt. Jūs varēsiet attēlot etiķeti sānjoslā, lai viegli varētu filtrēt sarunas.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Šajā kontā nav izveidotas etiķetes.",
+      "TITLE": "Pārvaldīt Etiķetes",
+      "DESC": "Etiķetes ļauj grupēt sarunas kopā.",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "Nosaukums",
+        "Apraksts",
+        "Krāsa"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "Etiķetes Nosaukums",
+        "PLACEHOLDER": "Etiķetes nosaukums",
+        "REQUIRED_ERROR": "Nepieciešams etiķetes nosaukums",
+        "MINIMUM_LENGTH_ERROR": "Nepieciešamais minimālais garums 2 simboli",
+        "VALID_ERROR": "Ir atļauti tikai Alfabēti burti, Cipari, Defise un Pasvītra"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Apraksts",
+        "PLACEHOLDER": "Etiķetes Apraksts"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Krāsa"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Rādīt etiķeti sānjoslā"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Rediģēt",
+      "CREATE": "Izveidot",
+      "DELETE": "Dzēst",
+      "CANCEL": "Atcelt"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Pievienot etiķeti",
+      "DESC": "Etiķetes ļauj grupēt sarunas kopā.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiķete ir veiksmīgi pievienota",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Rediģēt etiķeti",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiķete ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Dzēst",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiķete ir veiksmīgi izdzēsta",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
       }
     }
   }

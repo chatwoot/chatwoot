@@ -23,7 +23,7 @@
         "ERROR": "Molim vas unesite ispravan naziv naloga"
       },
       "LANGUAGE": {
-        "LABEL": "Jezik sajta (beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Naziv vašeg naloga",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Pritisnite enter da bi ste izabrali",
       "ENTER_TO_REMOVE": "Pritisnite enter da bi ste uklonili",
-      "SELECT_ONE": "Izaberite jedno"
+      "SELECT_ONE": "Izaberite jedno",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Do sledeće nedelje",
       "UNTIL_TOMORROW": "Do sutra"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

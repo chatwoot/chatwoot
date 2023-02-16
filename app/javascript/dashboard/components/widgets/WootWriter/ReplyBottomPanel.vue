@@ -11,7 +11,6 @@
         size="small"
         @click="toggleEmojiPicker"
       />
-      <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
       <file-upload
         ref="upload"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
@@ -48,6 +47,16 @@
         @click="toggleAudioRecorder"
       />
       <woot-button
+        v-if="showEditorToggle"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+        icon="quote"
+        emoji="🖊️"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="$emit('toggle-editor')"
+      />
+      <woot-button
         v-if="showAudioPlayStopButton"
         :icon="audioRecorderPlayStopIcon"
         emoji="🎤"
@@ -78,6 +87,10 @@
         :title="'Whatsapp Templates'"
         @click="$emit('selectWhatsappTemplate')"
       />
+      <video-call-button
+        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
+        :conversation-id="conversationId"
+      />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -91,17 +104,6 @@
       </transition>
     </div>
     <div class="right-wrap">
-      <div v-if="isFormatMode" class="enter-to-send--checkbox">
-        <input
-          :checked="enterToSendEnabled"
-          type="checkbox"
-          value="enterToSend"
-          @input="toggleEnterToSend"
-        />
-        <label for="enterToSend">
-          {{ $t('CONVERSATION.REPLYBOX.ENTER_TO_SEND') }}
-        </label>
-      </div>
       <woot-button
         size="small"
         :class-names="buttonClass"
@@ -121,16 +123,18 @@ import { hasPressedAltAndAKey } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
-
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
 } from 'shared/constants/messages';
-
+import VideoCallButton from '../VideoCallButton';
 import { REPLY_EDITOR_MODES } from './constants';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload },
+  components: { FileUpload, VideoCallButton },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
@@ -193,17 +197,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    isFormatMode: {
+    showEditorToggle: {
       type: Boolean,
       default: false,
     },
     isOnPrivateNote: {
       type: Boolean,
       default: false,
-    },
-    enterToSendEnabled: {
-      type: Boolean,
-      default: true,
     },
     enableMultipleFileUpload: {
       type: Boolean,
@@ -213,8 +213,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     isNote() {
       return this.mode === REPLY_EDITOR_MODES.NOTE;
     },
@@ -232,7 +240,19 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
-      return this.showAudioRecorder;
+      // Disable audio recorder for safari browser as recording is not supported
+      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
+        navigator.userAgent
+      );
+
+      return (
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.VOICE_RECORDER
+        ) &&
+        this.showAudioRecorder &&
+        !isSafari
+      );
     },
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
@@ -257,7 +277,7 @@ export default {
       }
     },
     showMessageSignatureButton() {
-      return !this.isPrivate && this.isAnEmailChannel;
+      return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
@@ -277,9 +297,6 @@ export default {
       if (hasPressedAltAndAKey(e)) {
         this.$refs.upload.$children[1].$el.click();
       }
-    },
-    toggleEnterToSend() {
-      this.$emit('toggleEnterToSend', !this.enterToSendEnabled);
     },
     toggleMessageSignature() {
       this.updateUISettings({
@@ -312,20 +329,6 @@ export default {
 
 .right-wrap {
   display: flex;
-
-  .enter-to-send--checkbox {
-    align-items: center;
-    display: flex;
-
-    input {
-      margin: 0;
-    }
-
-    label {
-      color: var(--s-500);
-      font-size: var(--font-size-mini);
-    }
-  }
 }
 
 ::v-deep .file-uploads {

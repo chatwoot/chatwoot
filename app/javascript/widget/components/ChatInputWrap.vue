@@ -53,10 +53,11 @@ import { mixin as clickaway } from 'vue-clickaway';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
-import EmojiInput from 'shared/components/emoji/EmojiInput';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+
+const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   name: 'ChatInputWrap',
@@ -189,7 +190,9 @@ export default {
 }
 
 .emoji-dialog {
-  right: space-smaller;
+  right: 0;
+  top: -302px;
+  max-width: 100%;
 
   &::before {
     right: $space-one;
@@ -208,9 +211,7 @@ export default {
   min-height: $space-large;
   max-height: 2.4 * $space-mega;
   resize: none;
-  padding: 0;
-  padding-top: $space-smaller;
-  padding-bottom: $space-smaller;
+  padding: $space-smaller 0;
   margin-top: $space-small;
   margin-bottom: $space-small;
 }

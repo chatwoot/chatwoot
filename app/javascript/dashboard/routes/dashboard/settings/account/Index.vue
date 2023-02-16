@@ -62,7 +62,10 @@
               "
             />
           </label>
-          <label :class="{ error: $v.autoResolveDuration.$error }">
+          <label
+            v-if="showAutoResolutionConfig"
+            :class="{ error: $v.autoResolveDuration.$error }"
+          >
             {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL') }}
             <input
               v-model="autoResolveDuration"
@@ -120,6 +123,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 const semver = require('semver');
 
 export default {
@@ -153,7 +157,15 @@ export default {
       globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    showAutoResolutionConfig() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
+      );
+    },
     hasAnUpdateAvailable() {
       if (!semver.valid(this.latestChatwootVersion)) {
         return false;

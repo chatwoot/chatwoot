@@ -32,6 +32,7 @@
             v-for="attribute in filterAttributes"
             :key="attribute.key"
             :value="attribute.key"
+            :disabled="attribute.disabled"
           >
             {{ attribute.name }}
           </option>
@@ -172,6 +173,10 @@ export default {
     filterGroups: {
       type: Array,
       default: () => [],
+    },
+    customAttributeType: {
+      type: String,
+      default: '',
     },
   },
   computed: {

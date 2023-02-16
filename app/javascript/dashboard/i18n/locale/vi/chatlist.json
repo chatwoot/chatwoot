@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Các cuộc hội thoại",
     "MENTION_HEADING": "Nhắn đến",
+    "UNATTENDED_HEADING": "Không giám sát",
     "SEARCH": {
       "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
     },
@@ -29,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Tạm dừng"
+      },
+      "all": {
+        "TEXT": "Tất cả"
       }
     },
     "ATTACHMENTS": {
@@ -54,12 +58,14 @@
     "RECEIVED_VIA_EMAIL": "Nhận được từ email",
     "VIEW_TWEET_IN_TWITTER": "Xem tweet trên Twitter",
     "REPLY_TO_TWEET": "Trả lời cho tweet này",
-    "LINK_TO_STORY": "Đến xem câu chuyên insta",
+    "LINK_TO_STORY": "Đến xem lịch sử instagram",
     "SENT": "Gửi thành công",
+    "READ": "Đọc thành công",
+    "DELIVERED": "Đã gửi thành công",
     "NO_MESSAGES": "Không có tin nhắn",
     "NO_CONTENT": "Không có nội dung",
     "HIDE_QUOTED_TEXT": "Ẩn văn bản được trích dẫn",
     "SHOW_QUOTED_TEXT": "Hiện Văn bản được trích dẫn",
-    "MESSAGE_READ": "Đã xem"
+    "MESSAGE_READ": "\bĐọc"
   }
 }

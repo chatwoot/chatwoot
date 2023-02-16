@@ -14,6 +14,12 @@
     <div v-if="error" class="text-red-400 mt-2 text-xs font-medium">
       {{ error }}
     </div>
+    <div
+      v-if="!error && helpText"
+      class="text-red-400 mt-2 text-xs font-medium"
+    >
+      {{ helpText }}
+    </div>
   </label>
 </template>
 <script>
@@ -38,6 +44,10 @@ export default {
       required: true,
     },
     error: {
+      type: String,
+      default: '',
+    },
+    helpText: {
       type: String,
       default: '',
     },

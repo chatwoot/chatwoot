@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonszám",
           "PLACEHOLDER": "Kérjük add meg a telefonszámot, amire az üzeneteket küldjük.",
-          "ERROR": "Kérjük helyes értéket adj meg. A telefonszám a '+' jellel kezdődjön."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Visszahívás URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Telefonszám",
             "PLACEHOLDER": "Kérjük add meg a telefonszámot, amire az üzeneteket küldjük.",
-            "ERROR": "Kérjük helyes értéket adj meg. A telefonszám a '+' jellel kezdődjön."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonszám",
           "PLACEHOLDER": "Kérjük add meg a telefonszámot, amire az üzeneteket küldjük.",
-          "ERROR": "Kérjük helyes értéket adj meg. A telefonszám a '+' jellel kezdődjön."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Visszahívás URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "Sikerült!",
         "DESC": "Sikeresen integráltad a Facebook oldaladat a Chatwoottal. Legközelebb amikor egy ügyfél üzenetet ír az oldaladra, a beszélgetés automatiksuan megjelenik az inboxodban.<br> Ezen kívül egy widget kódot biztosítunk számodra, amelyet könnyen hozzáadhatsz a weboldaladhoz. Amint ez kiélesítésre kerül, az ügyfelek üzenetet küldhetnek Neked a weboldaladról bármilyen külső eszköz igénybevétele nélkül és ez a beszélgetés itt a Chatwootban fog megjelenni. <br>Menő, nem? Hát megpróbáljuk :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "A fiókod elkészült!",
-      "MESSAGE": "Most már tudsz egyeztetni az ügyfeleiddel az új csatornán. Boldog támgoatást ",
+      "MESSAGE": "Most már tudsz egyeztetni az ügyfeleiddel az új csatornán. Boldog támgoatást",
       "BUTTON_TEXT": "Vigyél oda",
       "MORE_SETTINGS": "További beállítások",
       "WEBSITE_SUCCESS": "Sikeresen létrehoztad a website csatornát. Másold az itt látható kódot és helyezd el a weboldaladon. Legközelebb, mikor egy ügyfél az élő chatben van, a beszélgetés automatikusan megjelenik az inboxodban."
@@ -383,6 +396,10 @@
         "DISABLED": "Letiltva"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Engedélyezve",
+        "DISABLED": "Letiltva"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Chat előtti űrlap",
       "BUSINESS_HOURS": "Nyitvatartás",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Beállítások",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Fiókbeállítások",
       "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsolása vagy kikapcsolása az inboxhoz kapcsolódó automatikus ügynökhozzárendelésnek új beszélgetések esetén.",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Frissítés"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +562,10 @@
         "PLACE_HOLDER": "Jelszó"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -657,6 +685,10 @@
       },
       "BRANDING_TEXT": "Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

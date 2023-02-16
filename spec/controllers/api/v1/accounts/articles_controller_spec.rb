@@ -24,6 +24,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             category_id: category.id,
             description: 'test description',
             title: 'MyTitle',
+            slug: 'my-title',
             content: 'This is my content.',
             status: :published,
             author_id: agent.id
@@ -39,8 +40,9 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
       end
 
       it 'associate to the root article' do
-        root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
-        parent_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        root_article = create(:article, category: category, slug: 'root-article', portal: portal, account_id: account.id, author_id: agent.id,
+                                        associated_article_id: nil)
+        parent_article = create(:article, category: category, slug: 'parent-article', portal: portal, account_id: account.id, author_id: agent.id,
                                           associated_article_id: root_article.id)
 
         article_params = {
@@ -48,6 +50,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             category_id: category.id,
             description: 'test description',
             title: 'MyTitle',
+            slug: 'MyTitle',
             content: 'This is my content.',
             status: :published,
             author_id: agent.id,
@@ -73,6 +76,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             category_id: category.id,
             description: 'test description',
             title: 'MyTitle',
+            slug: 'MyTitle',
             content: 'This is my content.',
             status: :published,
             author_id: agent.id,
@@ -190,7 +194,9 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 1
-        expect(json_response['meta']['articles_count']).to be 2
+        expect(json_response['meta']['all_articles_count']).to be 2
+        expect(json_response['meta']['articles_count']).to be 1
+        expect(json_response['meta']['mine_articles_count']).to be 1
       end
     end
 
@@ -210,9 +216,9 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
       it 'get associated articles' do
         root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
-        child_article_1 = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_1 = create(:article, slug: 'child-1', category: category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
-        child_article_2 = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_2 = create(:article, slug: 'child-2', category: category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",
@@ -224,6 +230,24 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['associated_articles'][0]['id']).to eq(child_article_1.id)
         expect(json_response['payload']['associated_articles'][1]['id']).to eq(child_article_2.id)
         expect(json_response['payload']['id']).to eq(root_article.id)
+      end
+    end
+
+    describe 'Upload an image' do
+      let(:article) { create(:article, account_id: account.id, category_id: category.id, portal_id: portal.id, author_id: agent.id) }
+
+      it 'update the article with an image' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/portals/#{article.portal.slug}/articles/attach_file",
+             headers: agent.create_new_auth_token,
+             params: { background_image: file }
+
+        expect(response).to have_http_status(:success)
+
+        blob = JSON.parse(response.body)
+
+        expect(blob['file_url']).to be_present
       end
     end
   end

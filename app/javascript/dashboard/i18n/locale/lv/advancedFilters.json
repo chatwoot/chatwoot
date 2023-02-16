@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
-    "CANCEL_BUTTON_LABEL": "Cancel",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TITLE": "Filtrēt Sarunas",
+    "SUBTITLE": "Pievienojiet filtrus un noklikšķiniet uz 'Lietot filtrus', lai filtrētu sarunas.",
+    "ADD_NEW_FILTER": "Pievienot Filtru",
+    "FILTER_DELETE_ERROR": "Lai saglabātu, Jums ir jābūt vismaz vienam filtram",
+    "SUBMIT_BUTTON_LABEL": "Lietot filtrus",
+    "CANCEL_BUTTON_LABEL": "Atcelt",
+    "CLEAR_BUTTON_LABEL": "Atcelt Filtrus",
+    "EMPTY_VALUE_ERROR": "Nepieciešama vērtība",
+    "TOOLTIP_LABEL": "Filtrēt sarunas",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "UN",
+      "OR": "VAI"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "Vienāds ar",
+      "not_equal_to": "Nav vienāds ar",
+      "contains": "Satur",
+      "does_not_contain": "Nesatur",
+      "is_present": "Iekļauj sevī",
+      "is_not_present": "Neiekļauj sevī",
+      "is_greater_than": "Ir lielāks par",
+      "is_less_than": "Ir mazāks par",
+      "days_before": "Ir x dienas pirms"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Patiesi",
+      "FALSE": "Nepatiesi"
     },
     "ATTRIBUTES": {
-      "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Inbox Name",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Labels",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "STATUS": "Statuss",
+      "ASSIGNEE_NAME": "Piešķīrēja Vārds",
+      "INBOX_NAME": "Iesūtnes Nosaukums",
+      "TEAM_NAME": "Komandas Nosaukums",
+      "CONVERSATION_IDENTIFIER": "Sarunas Identifikators",
+      "CAMPAIGN_NAME": "Kampaņas Nosaukums",
+      "LABELS": "Etiķetes",
+      "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
+      "COUNTRY_NAME": "Valsts Nosaukums",
+      "REFERER_LINK": "Atsauces saite",
+      "CUSTOM_ATTRIBUTE_LIST": "Saraksts",
+      "CUSTOM_ATTRIBUTE_TEXT": "Teksts",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numurs",
+      "CUSTOM_ATTRIBUTE_LINK": "Saite",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Izvēles rūtiņa",
+      "CREATED_AT": "Izveidots",
+      "LAST_ACTIVITY": "Pēdējās Darbības"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
-      "CUSTOM_ATTRIBUTES": "Custom Attributes"
+      "STANDARD_FILTERS": "Standarta Filtri",
+      "ADDITIONAL_FILTERS": "Papildu Filtri",
+      "CUSTOM_ATTRIBUTES": "Pielāgotas Īpašības"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
-        "CANCEL_BUTTON": "Cancel",
+        "TITLE": "Vai vēlaties saglabāt šo filtru?",
+        "LABEL": "Piešķiriet filtram nosaukumu",
+        "PLACEHOLDER": "Ievadiet šī filtra nosaukumu",
+        "ERROR_MESSAGE": "Nepieciešams nosaukums",
+        "SAVE_BUTTON": "Saglabāt filtru",
+        "CANCEL_BUTTON": "Atcelt",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Mape ir veiksmīgi izveidota",
+          "ERROR_MESSAGE": "Izveidojot mapi, radās kļūda"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segments ir veiksmīgi izveidots",
+          "ERROR_MESSAGE": "Izveidojot segmentu, radās kļūda"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Dzēst filtru",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirm Deletion",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Yes, Delete",
-            "NO": "No, Keep it"
+            "TITLE": "Apstiprināt Dzēšanu",
+            "MESSAGE": "Vai tiešām vēlaties izdzēsīsiet šo filtru ",
+            "YES": "Jā, Dzēst",
+            "NO": "Nē, Paturēt"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Mape ir veiksmīgi izdzēsta",
+          "ERROR_MESSAGE": "Dzēšot mapi, radās kļūda"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segments ir veiksmīgi izdzēsts",
+          "ERROR_MESSAGE": "Dzēšot segmentu, radās kļūda"
         }
       }
     }

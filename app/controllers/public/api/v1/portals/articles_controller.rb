@@ -1,7 +1,7 @@
 class Public::Api::V1::Portals::ArticlesController < PublicController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
-  before_action :set_category
+  before_action :set_category, except: [:index]
   before_action :set_article, only: [:show]
   layout 'portal'
 
@@ -16,11 +16,12 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
 
   def set_article
     @article = @category.articles.find(params[:id])
+    @article.increment_view_count
     @parsed_content = render_article_content(@article.content)
   end
 
   def set_category
-    @category = @portal.categories.find_by!(slug: params[:category_slug])
+    @category = @portal.categories.find_by!(slug: params[:category_slug]) if params[:category_slug].present?
   end
 
   def portal

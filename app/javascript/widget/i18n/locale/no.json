@@ -73,6 +73,10 @@
       "FIELD": "Ugyldig felt"
     }
   },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Vurder samtalen din",
     "SUBMITTED_TITLE": "Takk for at du ga din vurdering",
@@ -82,5 +86,11 @@
     "BUTTON_TEXT": "Be om utskrift av samtalen",
     "SEND_EMAIL_SUCCESS": "Kopi av samtalen ble sendt",
     "SEND_EMAIL_ERROR": "Det oppstod en feil. Prøv igjen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

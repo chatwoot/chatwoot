@@ -41,11 +41,11 @@ export const actions = {
         portalSlug,
         articleObj,
       });
-      const { id: articleId, portal } = payload;
+      const { id: articleId } = payload;
       commit(types.ADD_ARTICLE, payload);
       commit(types.ADD_ARTICLE_ID, articleId);
       commit(types.ADD_ARTICLE_FLAG, articleId);
-      dispatch('portals/updatePortal', portal, { root: true });
+      dispatch('portals/updatePortal', portalSlug, { root: true });
       return articleId;
     } catch (error) {
       return throwErrorMessage(error);
@@ -122,5 +122,20 @@ export const actions = {
         articleId,
       });
     }
+  },
+
+  attachImage: async (_, { portalSlug, file }) => {
+    try {
+      const {
+        data: { file_url: fileUrl },
+      } = await articlesAPI.uploadImage({
+        portalSlug,
+        file,
+      });
+      return fileUrl;
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+    return '';
   },
 };

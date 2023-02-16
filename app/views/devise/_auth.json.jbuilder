@@ -1,3 +1,3 @@
 json.data do
-  json.partial! 'api/v1/models/user.json.jbuilder', resource: resource
+  json.partial! 'api/v1/models/user', formats: [:json], resource: resource
 end

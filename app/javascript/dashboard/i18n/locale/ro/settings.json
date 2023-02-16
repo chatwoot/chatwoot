@@ -19,6 +19,21 @@
         "TITLE": "Profil",
         "NOTE": "Adresa ta de email este identitatea ta și este folosită pentru a te autentifica."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Semnătura mesajului personal",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări audio",
         "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
-        "NONE": "Nimic",
-        "ASSIGNED": "Conversații atribuite",
-        "ALL_CONVERSATIONS": "Toate conversațiile"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Nimic",
+          "ASSIGNED": "Conversații atribuite",
+          "ALL_CONVERSATIONS": "Toate conversațiile"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări prin e-mail",
@@ -88,7 +114,9 @@
           "Online",
           "Ocupat",
           "Deconectat"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Adresa ta de email",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
     "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Deconectare"
   },
   "APP_GLOBAL": {
@@ -141,7 +170,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descărcare",
-      "UPLOADING": "Încărcare..."
+      "UPLOADING": "Încărcare...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Această poveste nu mai este disponibilă."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Trimite"
@@ -159,11 +192,13 @@
     "CONVERSATIONS": "Conversații",
     "ALL_CONVERSATIONS": "Toate conversațiile",
     "MENTIONED_CONVERSATIONS": "Menţionări",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
     "CONTACTS": "Contacte",
     "HOME": "Acasa",
     "AGENTS": "Agenți",
+    "AGENT_BOTS": "Boți",
     "INBOXES": "Căsuțe",
     "NOTIFICATIONS": "Notificări",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
@@ -174,6 +209,7 @@
     "LABELS": "Etichete",
     "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
     "AUTOMATION": "Automatizare",
+    "MACROS": "Macros",
     "TEAMS": "Echipe",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Foldere",
@@ -197,12 +233,17 @@
     "REPORTS_OVERVIEW": "Prezentare generală",
     "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nume cont",
+        "LABEL": "Nume companie",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Trimite"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Deschiderea conversației",
       "RESOLVE_AND_NEXT": "Rezolvarea și trecerea la următorul",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Accesați Pagina Setări",
       "SWITCH_CONVERSATION_STATUS": "Comutarea la următoarea stare a conversației",
       "SWITCH_TO_PRIVATE_NOTE": "Comutarea la Notă privată",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Comutarea editorului de conținut îmbogățit",
       "SWITCH_TO_REPLY": "Comutarea la Răspuns",
       "TOGGLE_SNOOZE_DROPDOWN": "Comutați snooze dropdown"
     },

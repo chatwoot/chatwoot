@@ -114,7 +114,7 @@
         "groupBy": "Year"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
+    "BUSINESS_HOURS": "Otváracie hodiny"
   },
   "AGENT_REPORTS": {
     "HEADER": "Prehľad agentov",

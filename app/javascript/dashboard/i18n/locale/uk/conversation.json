@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Будь ласка, виберіть бесіду з лівої панелі",
+    "CSAT_REPLY_MESSAGE": "Будь ласка, оцініть розмову",
     "404": "На жаль, не вдалося знайти розмову. Будь ласка, спробуйте ще раз",
     "SWITCH_VIEW_LAYOUT": "Змінити розкладку",
     "DASHBOARD_APP_TAB_MESSAGES": "Текст повідомлень",
@@ -34,12 +35,17 @@
     "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
     "UNKNOWN_FILE_TYPE": "Невідомий файл",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
     "NO_RESPONSE": "Немає відповіді",
     "RATING_TITLE": "Оцінка",
     "FEEDBACK_TITLE": "Зворотній зв'язок",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
       "REOPEN_ACTION": "Відкрити знову",
@@ -63,6 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Позначити як \"В очікуванні\"",
       "RESOLVED": "Позначити як вирішене",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Повторно відкрити розмову",
       "SNOOZE": {
         "TITLE": "Відкласти",
@@ -110,7 +117,6 @@
       "TIP_AUDIORECORDER_ICON": "Записати аудіо",
       "TIP_AUDIORECORDER_PERMISSION": "Надати доступ до аудіо",
       "TIP_AUDIORECORDER_ERROR": "Не вдалося відкрити аудіо",
-      "ENTER_TO_SEND": "Enter для надсилання",
       "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
       "START_AUDIO_RECORDING": "Почати аудіозапис",
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
@@ -127,6 +133,14 @@
           "PLACEHOLDER": "Адреси електронної пошти, розділені комами",
           "ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Надіслати",
+          "CANCEL": "Скасувати"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
@@ -137,7 +151,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Мітка успішно призначена",
     "ASSIGN_LABEL_FAILED": "Призначення мітки не вдалося",
     "CHANGE_TEAM": "Команда змінена",
-    "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "Файл перевищує максимальний розмір вкладень {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} МБ",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
@@ -150,7 +164,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копіювати",
-      "DELETE": "Видалити"
+      "DELETE": "Видалити",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +222,8 @@
       "CONVERSATION_LABELS": "Мітки бесіди",
       "CONVERSATION_INFO": "Інформація про бесіду",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
-      "PREVIOUS_CONVERSATION": "Попередні бесіди"
+      "PREVIOUS_CONVERSATION": "Попередні бесіди",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

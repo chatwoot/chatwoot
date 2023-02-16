@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "ഫോൺ നമ്പർ",
           "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
-          "ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക. ഫോൺ നമ്പർ `+`ചിഹ്നത്തിൽ ആരംഭിക്കണം."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "ഫോൺ നമ്പർ",
             "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
-            "ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക. ഫോൺ നമ്പർ `+`ചിഹ്നത്തിൽ ആരംഭിക്കണം."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "ഫോൺ നമ്പർ",
           "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
-          "ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക. ഫോൺ നമ്പർ `+`ചിഹ്നത്തിൽ ആരംഭിക്കണം."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "പൊളിച്ചു അടുക്കി!",
         "DESC": "നിങ്ങളുടെ ഫേസ്ബുക്ക് പേജ് ചാറ്റ് വൂട്ടുമായി സമന്വയിപ്പിക്കുന്നത് നിങ്ങൾ വിജയകരമായി പൂർത്തിയാക്കി. അടുത്ത തവണ ഒരു ഉപയോക്താവ് നിങ്ങളുടെ പേജിലേക്ക് സന്ദേശമയയ്ക്കുമ്പോൾ, സംഭാഷണം ഓട്ടോമാറ്റിക്കലി നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ദൃശ്യമാകും. <br> നിങ്ങൾക്ക് എളുപ്പത്തിൽ സംയോജിപ്പിക്കാൻ കഴിയുന്ന ഒരു വിജറ്റ് സ്ക്രിപ്റ്റും ഞങ്ങൾ നിങ്ങൾക്ക് നൽകുന്നു. ഇത് നിങ്ങളുടെ വെബ്‌സൈറ്റിലേക്ക് ചേർക്കുക. ഇത് നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ തത്സമയമായിക്കഴിഞ്ഞാൽ, ഉപയോക്താക്കൾക്ക് നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ നിന്ന് നിങ്ങൾക്ക് സന്ദേശം അയയ്‌ക്കാൻ കഴിയും, ഒപ്പം സംഭാഷണം ചാറ്റ് വൂട്ടിൽ തന്നെ ദൃശ്യമാകും. <br> കൊള്ളാം, അല്ലേ? :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "നിങ്ങളുടെ ഇൻ‌ബോക്സ് തയ്യാറാണ്!",
-      "MESSAGE": "നിങ്ങളുടെ പുതിയ ചാനലിലൂടെ നിങ്ങൾക്ക് ഇപ്പോൾ ഉപഭോക്താക്കളുമായി ഇടപഴകാൻ കഴിയും. പിന്തുണയ്ക്കുന്നതിൽ സന്തോഷിക്കൂ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "എന്നെ അവിടേക്ക് കൊണ്ടുപോകുക",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് ചാനൽ സൃഷ്ടിക്കുന്നത് വിജയകരമായി പൂർത്തിയാക്കി. ചുവടെ കാണിച്ചിരിക്കുന്ന കോഡ് പകർത്തി നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ ചേർക്കുക. അടുത്ത തവണ ഒരു ഉപഭോക്താവ് തത്സമയ ചാറ്റ് ഉപയോഗിക്കുമ്പോൾ, സംഭാഷണം ഓട്ടോമാറ്റിക് ആയി  നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ദൃശ്യമാകും."
@@ -383,6 +396,10 @@
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "പ്രചാരണങ്ങൾ",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ഇമെയിൽ വഴി സംഭാഷണ തുടർച്ച പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "ബന്ധപ്പെടാനുള്ള ഇമെയിൽ വിലാസം ലഭ്യമാണെങ്കിൽ സംഭാഷണങ്ങൾ ഇമെയിൽ വഴി തുടരും.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "പുതിയ സംഭാഷണങ്ങളിൽ ലഭ്യമായ ഏജന്റുമാരുടെ ഓട്ടോമാറ്റിക് അസൈൻമെന്റ് പ്രാപ്തമാക്കുകയോ അപ്രാപ്തമാക്കുകയോ ചെയ്യുക",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷം സന്ദേശങ്ങൾ അനുവദിക്കുക",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷവും സന്ദേശങ്ങൾ അയയ്ക്കാൻ അന്തിമ ഉപയോക്താക്കളെ അനുവദിക്കുക.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "അപ്‌ഡേറ്റ്"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +562,10 @@
         "PLACE_HOLDER": "പാസ്‌വേഡ്"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -657,6 +685,10 @@
       },
       "BRANDING_TEXT": "പ്രായോജകർ Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

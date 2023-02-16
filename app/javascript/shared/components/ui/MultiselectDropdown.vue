@@ -41,13 +41,22 @@
       :class="{ 'dropdown-pane--open': showSearchDropdown }"
       class="dropdown-pane"
     >
-      <h4 class="text-block-title text-truncate">
-        {{ multiselectorTitle }}
-      </h4>
+      <div class="dropdown__header">
+        <h4 class="text-block-title text-truncate">
+          {{ multiselectorTitle }}
+        </h4>
+        <woot-button
+          icon="dismiss"
+          size="tiny"
+          color-scheme="secondary"
+          variant="clear"
+          @click="onCloseDropdown"
+        />
+      </div>
       <multiselect-dropdown-items
         v-if="showSearchDropdown"
         :options="options"
-        :selected-item="selectedItem"
+        :selected-items="[selectedItem]"
         :has-thumbnail="hasThumbnail"
         :input-placeholder="inputPlaceholder"
         :no-search-result="noSearchResult"
@@ -163,6 +172,7 @@ export default {
 
   .selector-name {
     align-items: center;
+    line-height: 1.2;
     margin: 0 var(--space-small);
   }
 
@@ -170,6 +180,17 @@ export default {
     box-sizing: border-box;
     top: 4.2rem;
     width: 100%;
+  }
+}
+
+.dropdown__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-smaller);
+
+  .text-block-title {
+    margin: 0;
   }
 }
 </style>

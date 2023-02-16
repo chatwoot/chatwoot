@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "电话号码",
           "PLACEHOLDER": "请输入发送消息的电话号码。",
-          "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "回调地址",
@@ -185,20 +185,20 @@
           "PHONE_NUMBER": {
             "LABEL": "电话号码",
             "PLACEHOLDER": "请输入发送消息的电话号码。",
-            "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "创建Bandwidth渠道",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "我们无法身份验证Bandwidth凭据，请重试"
           },
           "API_CALLBACK": {
             "TITLE": "回调地址",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "您必须使用这里提到的URL来配置Bandwidth的消息回调URL。"
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
+        "TITLE": "WhatsApp 渠道",
         "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "电话号码",
           "PLACEHOLDER": "请输入发送消息的电话号码。",
-          "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "回调地址",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook 网址",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -274,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "向您的客户发送支持工单的电子邮件",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "创建电子邮件频道",
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "已被注明！",
         "DESC": "您已成功地将您的Facebook页面与Chatwoot集成。下次客户消息您的页面时，对话将自动出现在收件箱中。<br>我们还为您提供了一个小部件脚本，您可以轻松地添加到您的网站。 在您的网站上登录后， 客户可以在没有任何外部工具帮助的情况下从您的网站向您发送消息，对话将会在这里出现在Chatwoot 上。<br>酷，好吧？好吧，我们肯定试着是 :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "您的收件箱已准备就绪！",
-      "MESSAGE": "您现在可以通过您的新频道与您的客户联系。快乐支持 ",
+      "MESSAGE": "您现在可以通过您的新频道与您的客户联系。快乐支持",
       "BUTTON_TEXT": "带我到这里",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "您已成功完成创建网站频道。复制下面显示的代码并将其粘贴在您的网站上。 下次客户使用实时聊天时，对话将自动出现在您的收件箱中。"
@@ -383,6 +396,10 @@
         "DISABLED": "已禁用"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "已启用",
         "DISABLED": "已禁用"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "设置",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "更新"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -539,6 +563,10 @@
       },
       "ENABLE_SSL": "Enable SSL"
     },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
+    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Set your SMTP details",
@@ -622,7 +650,7 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "预览",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
@@ -657,6 +685,10 @@
       },
       "BRANDING_TEXT": "由 Chatwoot 支持",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

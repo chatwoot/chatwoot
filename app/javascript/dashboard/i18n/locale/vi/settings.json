@@ -19,9 +19,24 @@
         "TITLE": "Hồ sơ cá nhân",
         "NOTE": "Địa chỉ email của bạn là danh tính của bạn và được sử dụng để đăng nhập."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Phím nóng để gửi tin nhắn",
+        "NOTE": "Bạn có thể chọn một phím nóng (Enter hoặc Cmd/Ctrl+Enter) dựa trên sở thích viết của bạn.",
+        "UPDATE_SUCCESS": "Cài đặt của bạn đã được cập nhật thành công",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Enter thay vì nhấp vào nút gửi."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Cmd/Ctrl + enter thay vì nhấp vào nút gửi."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Chữ ký tin nhắn cá nhân",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Tạo chữ ký thư cá nhân sẽ được thêm vào tất cả các thư bạn gửi từ hộp thư email của mình. Sử dụng trình chỉnh sửa nội dung phong phú để tạo chữ ký được cá nhân hóa cao.",
         "BTN_TEXT": "Lưu chữ ký tin nhắn",
         "API_ERROR": "Không thể lưu chữ ký! Thử lại",
         "API_SUCCESS": "Chữ ký được lưu thành công"
@@ -43,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Âm thanh Thông báo",
         "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
-        "NONE": "Không có",
-        "ASSIGNED": "Cuộc trò chuyện được phân công",
-        "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
+        "ALERT_TYPE": {
+          "TITLE": "Sự kiện cảnh báo:",
+          "NONE": "Không có",
+          "ASSIGNED": "Cuộc trò chuyện được phân công",
+          "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Âm báo:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Điều kiện cảnh báo:",
+          "CONDITION_ONE": "Chỉ gửi cảnh báo âm thanh nếu cửa sổ trình duyệt không hoạt động",
+          "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại được chỉ định được đọc"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",
@@ -88,7 +114,9 @@
           "Trực Tuyến",
           "Bận",
           "Không Trực Tuyến"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
+        "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
       },
       "EMAIL": {
         "LABEL": "Địa chỉ email của bạn",
@@ -119,6 +147,7 @@
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
     "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
     "KEYBOARD_SHORTCUTS": "Phím tắt",
+    "SUPER_ADMIN_CONSOLE": "Bảng điều khiển dành cho quản trị viên cấp cao",
     "LOGOUT": "Đăng xuất"
   },
   "APP_GLOBAL": {
@@ -126,22 +155,26 @@
     "TRAIL_BUTTON": "Mua Ngay",
     "DELETED_USER": "Người dùng bị xoá",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Tài khoản bị ngưng",
+      "MESSAGE": "Tài khoản của bạn bị tạm ngưng. Vui lòng liên hệ với nhóm hỗ trợ để biết thêm thông tin."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Sao Chép",
-      "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Xem thêm",
+      "SHOW_LESS": "Xem ít"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
-      "UPLOADING": "Đang tải lên..."
+      "UPLOADING": "Đang tải lên...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Hội thoại này không còn nữa."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Xem trên bản đồ"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Gửi"
@@ -154,16 +187,18 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
+    "SWITCH": "Chuyển",
     "CONVERSATIONS": "Cuộc trò chuyện",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
+    "UNATTENDED_CONVERSATIONS": "Không giám sát",
     "REPORTS": "Báo cáo",
     "SETTINGS": "Cài Đặt",
     "CONTACTS": "Liên hệ",
     "HOME": "Trang Chủ",
     "AGENTS": "Đại lý",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Hộp thư đến",
     "NOTIFICATIONS": "Thông báo",
     "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
@@ -174,15 +209,16 @@
     "LABELS": "Nhãn",
     "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
     "AUTOMATION": "Tự động hoá",
+    "MACROS": "Macros",
     "TEAMS": "Nhóm",
-    "BILLING": "Billing",
+    "BILLING": "Phí",
     "CUSTOM_VIEWS_FOLDER": "Thư mục",
     "CUSTOM_VIEWS_SEGMENTS": "Phân khúc",
     "ALL_CONTACTS": "Tất cả liên lạc",
     "TAGGED_WITH": "Được gắn thẻ với",
     "NEW_LABEL": "Nhãn mới",
     "NEW_TEAM": "Nhóm mới",
-    "NEW_INBOX": "Hộp thư đến mới",
+    "NEW_INBOX": "Kênh mới",
     "REPORTS_CONVERSATION": "Các cuộc hội thoại",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Chiến dịch",
@@ -190,39 +226,44 @@
     "ONE_OFF": "Một lần",
     "REPORTS_AGENT": "Nhà cung cấp",
     "REPORTS_LABEL": "Nhãn",
-    "REPORTS_INBOX": "Hộp thư đến",
+    "REPORTS_INBOX": "Kênh",
     "REPORTS_TEAM": "Nhóm",
     "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Tổng quan",
     "FACEBOOK_REAUTHORIZE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "Trung tâm trợ giúp (Thử nghiệm)",
+      "ALL_ARTICLES": "Tất cả các bài",
+      "MY_ARTICLES": "Các bài của tôi",
+      "DRAFT": "Nháp",
+      "ARCHIVED": "Lưu trữ",
+      "CATEGORY": "Loại",
+      "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
     },
-    "DOCS": "Read docs"
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Tự động đánh dấu ngoại tuyến",
+      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan."
+    },
+    "DOCS": "Đọc tài liệu"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Phí",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Gói hiện tại",
+      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **%{plan}** với **%{quantity}** giấy phép"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Quản lý thuê bao của bạn",
+      "DESCRIPTION": "Xem các hóa đơn trước đây của bạn, chỉnh sửa chi tiết thanh toán hoặc hủy thuê bao của bạn.",
+      "BUTTON_TXT": "Đi tới cổng thanh toán"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Cần hỗ trợ?",
+      "DESCRIPTION": "Bạn có gặp phải bất kỳ vấn đề nào trong thanh toán không? Hãy cho chúng tôi biết.",
       "BUTTON_TXT": "Trò chuyện với chúng tôi"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Tài khoản thanh toán của bạn đang được định cấu hình. Hãy làm mới trang và thử lại."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
@@ -235,13 +276,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tên tài khoản",
+        "LABEL": "Tên công ty",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Gửi"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Xem tất cả phím tắt",
     "TITLE": {
       "OPEN_CONVERSATION": "Mở cuộc trò chuyện",
       "RESOLVE_AND_NEXT": "Giải quyết và đi đến cái tiếp theo",
@@ -256,7 +298,6 @@
       "GO_TO_SETTINGS": "Đi đến Cài đặt",
       "SWITCH_CONVERSATION_STATUS": "Chuyển sang trạng thái cuộc trò chuyện tiếp theo",
       "SWITCH_TO_PRIVATE_NOTE": "Chuyển sang Ghi chú Riêng tư",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Chuyển đổi trình chỉnh sửa Nội dung đa dạng thức",
       "SWITCH_TO_REPLY": "Chuyển sang phản hồi",
       "TOGGLE_SNOOZE_DROPDOWN": "Chuyển đổi thả xuống tạm dừng"
     },

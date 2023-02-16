@@ -1,7 +1,9 @@
 <section class="bg-white lg:container w-full py-6 px-4 flex flex-col h-full">
   <div class="flex justify-between items-center w-full">
-    <h3 class="text-xl text-slate-900 font-semibold subpixel-antialiased leading-relaxed hover:underline"">
-     <a href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>"><%= category.name %> </a>
+    <h3 class="text-xl text-slate-900 font-semibold subpixel-antialiased leading-relaxed hover:underline">
+      <a href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>">
+        <%= category.name %>
+      </a>
     </h3>
     <span class="text-slate-500">
       <%= category.articles.published.size %>
@@ -15,28 +17,27 @@
     </div>
     <% else %>
       <% category.articles.published.take(5).each do |article| %>
-      <div class="flex justify-between content-center my-1">
-        <a
-          class="text-slate-800 hover:underline leading-8"
-          href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>"
-        >
+      <a
+        class="text-slate-800 hover:underline leading-8"
+        href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>"
+      >
+        <div class="flex justify-between content-center my-1 -mx-1 p-1 rounded-lg hover:bg-slate-25">
           <%= article.title %>
-        </a>
-        <span class="flex items-center">
-          <svg
-            class="w-4 h-4 fill-current text-slate-700"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
-            />
-          </svg>
-        </span>
-      </div>
+          <span class="flex items-center">
+            <svg
+              class="w-4 h-4 fill-current text-slate-700"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z"
+              />
+            </svg>
+          </span>
+        </div>
+      </a>
       <% end %>
     <% end %>
   </div>

@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/build
   docker:
     # specify the version you desire here
-    - image: cimg/ruby:3.0.4-browsers
+    - image: cimg/ruby:3.1.3-browsers
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -19,6 +19,7 @@ defaults: &defaults
       - COVERAGE: true
       - LOG_LEVEL: warn
   parallelism: 4
+  resource_class: large
 
 jobs:
   build:
@@ -36,6 +37,18 @@ jobs:
       - run:
           name: Which bundler?
           command: bundle -v
+
+      - run:
+          name: Swap node versions
+          command: |
+            set +e
+            wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            nvm install v16
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
       # Run bundler
       # Load installed gems from cache if possible, bundle install then save cache
@@ -122,9 +135,11 @@ jobs:
             mkdir -p coverage
             ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --profile 10 \
-                              --out test-results/rspec/rspec.xml \
+            bundle exec rspec --format progress \
+                              --format RspecJunitFormatter \
+                              --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}
+          no_output_timeout: 30m
       - run:
           name: Code Climate Test Coverage
           command: |
@@ -137,7 +152,7 @@ jobs:
             ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
             yarn test:coverage --profile 10 \
-                               --out test-results/frontend_specs/rspec.xml \
+                               --out ~/tmp/test-results/yarn.xml \
                                -- ${TESTFILES}
       - run:
           name: Code Climate Test Coverage
@@ -190,4 +205,3 @@ workflows:
       - upload-coverage:
           requires:
              - build
-

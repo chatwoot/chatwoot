@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Filtrer Samtaler",
+    "SUBTITLE": "Tilføj filtre nedenfor og tryk på 'Anvend filtre' for at filtrere samtaler.",
+    "ADD_NEW_FILTER": "Tilføj Filter",
+    "FILTER_DELETE_ERROR": "Du skal have mindst et filter at gemme",
+    "SUBMIT_BUTTON_LABEL": "Anvend filtre",
     "CANCEL_BUTTON_LABEL": "Annuller",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Ryd Filtre",
+    "EMPTY_VALUE_ERROR": "Værdi er påkrævet",
+    "TOOLTIP_LABEL": "Filtrer samtaler",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "OG",
+      "OR": "ELLER"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "Lig med",
+      "not_equal_to": "Ikke lig med",
+      "contains": "Indeholder",
+      "does_not_contain": "Indeholder ikke",
+      "is_present": "Er til stede",
+      "is_not_present": "Er ikke til stede",
+      "is_greater_than": "Er større end",
+      "is_less_than": "Er mindre end",
+      "days_before": "Er x dage før"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Sandt",
+      "FALSE": "Falsk"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Ansvarlig Navn",
       "INBOX_NAME": "Indbakke Navn",
-      "TEAM_NAME": "Team Name",
+      "TEAM_NAME": "Hold Navn",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "CAMPAIGN_NAME": "Kampagne Navn",
       "LABELS": "Etiketter",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "BROWSER_LANGUAGE": "Browser Sprog",
+      "COUNTRY_NAME": "Land Navn",
+      "REFERER_LINK": "Refererer link",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Afkrydsningsfelt",
+      "CREATED_AT": "Oprettet Den",
+      "LAST_ACTIVITY": "Sidste Aktivitet"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Standard Filtre",
+      "ADDITIONAL_FILTERS": "Yderligere Filtre",
       "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "Vil du gemme dette filter?",
+        "LABEL": "Navngiv dette filter",
+        "PLACEHOLDER": "Angiv et navn for dette filter",
+        "ERROR_MESSAGE": "Navn er påkrævet",
+        "SAVE_BUTTON": "Gem filter",
         "CANCEL_BUTTON": "Annuller",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Mappe oprettet",
+          "ERROR_MESSAGE": "Fejl under oprettelse af mappe"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segmentet er oprettet",
+          "ERROR_MESSAGE": "Fejl under oprettelse af segment"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Slet filter",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Bekræft Sletning",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Er du sikker på du vil slette filteret ",
             "YES": "Ja, Slet",
             "NO": "Nej, behold det"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Mappen blev slettet",
+          "ERROR_MESSAGE": "Fejl under sletning af mappe"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segmentet blev slettet",
+          "ERROR_MESSAGE": "Fejl under sletning af segment"
         }
       }
     }

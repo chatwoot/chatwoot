@@ -1,1 +1,1 @@
-json.partial! 'portal', portal: @portal
+json.partial! 'portal', portal: @portal, articles: @articles

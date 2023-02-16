@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Survey updated successfully",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
     }
   },
   "POWERED_BY": "Powered by Chatwoot"

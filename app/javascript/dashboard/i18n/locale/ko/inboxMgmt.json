@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "휴대폰 번호",
           "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
-          "ERROR": "올바른 값을 입력하십시오. 전화번호는 + 기호로 시작해야 한다."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "콜백 URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "휴대폰 번호",
             "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
-            "ERROR": "올바른 값을 입력하십시오. 전화번호는 + 기호로 시작해야 한다."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "휴대폰 번호",
           "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
-          "ERROR": "올바른 값을 입력하십시오. 전화번호는 + 기호로 시작해야 한다."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "콜백 URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "웹훅 URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "못 박았다!",
         "DESC": "Facebook 페이지를 Chatwoot와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 Chatwoot에 나타납니다.<<br> 멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "받은 메시지함이 준비됨!",
-      "MESSAGE": "이제 새로운 채널을 통해 고객과 대화할 수 있습니다. 행복한 지원 ",
+      "MESSAGE": "이제 새로운 채널을 통해 고객과 대화할 수 있습니다. 행복한 지원",
       "BUTTON_TEXT": "나를 그곳으로 데려주세요.",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "웹사이트 채널 만들기를 완료하셨습니다. 아래 표시된 코드를 복사하여 웹사이트에 붙여 넣으십시오. 다음에 고객이 라이브 채팅을 사용할 때 대화는 받은 편지함에 자동으로 표시됩니다."
@@ -383,6 +396,10 @@
         "DISABLED": "사용 안 함"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "사용함",
         "DISABLED": "사용 안 함"
       },
@@ -414,7 +431,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "대화 전 설문",
       "BUSINESS_HOURS": "영업시간",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "설정",
     "FEATURES": {
@@ -438,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
       "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
       "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
@@ -452,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "업데이트"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +562,10 @@
         "PLACE_HOLDER": "비밀번호"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -657,6 +685,10 @@
       },
       "BRANDING_TEXT": "Chatwoot 작동중",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }
