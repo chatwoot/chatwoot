@@ -155,6 +155,9 @@ ru:
     fullcontact:
       name: "Полная карточка контакта"
       description: "Интеграция с FullContact помогает получить всю информацию о профиле посетителей. Определяйте пользователей как только они поделится своим электронным адресом и предложите им индивидуальное обслуживание клиентов. Подключите ваш FullContact к своей учетной записи, поделившись API ключом FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
