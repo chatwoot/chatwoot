@@ -86,6 +86,7 @@ import contactFilterItems from '../contactFilterItems';
 import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
+import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -334,6 +335,14 @@ export default {
     onSortChange(params) {
       this.sortConfig = params;
       this.fetchContacts(this.meta.currentPage);
+
+      const sortBy =
+        Object.entries(params).find(pair => Boolean(pair[1])) || [];
+
+      this.$track(CONTACTS_EVENTS.APPLY_SORT, {
+        appliedOn: sortBy[0],
+        order: sortBy[1],
+      });
     },
     onToggleFilters() {
       this.showFiltersModal = !this.showFiltersModal;

@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Conversazione aggiornata",
             "MESSAGE_CREATED": "Messaggio creato",
             "MESSAGE_UPDATED": "Messaggio aggiornato",
-            "WEBWIDGET_TRIGGERED": "Widget live chat aperto dall'utente"
+            "WEBWIDGET_TRIGGERED": "Widget live chat aperto dall'utente",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {

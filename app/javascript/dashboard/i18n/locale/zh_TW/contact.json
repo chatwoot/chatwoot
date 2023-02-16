@@ -15,6 +15,7 @@
     "INITIATED_FROM": "發起自：",
     "INITIATED_AT": "發起於",
     "IP_ADDRESS": "IP 位置",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "新訊息",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此聯絡人没有關聯到以前的對話。",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "聯絡人電話",
         "CONVERSATIONS": "對話",
         "LAST_ACTIVITY": "最後活動",
+        "CREATED_AT": "Created At",
         "COUNTRY": "國家",
         "CITY": "城市",
         "SOCIAL_PROFILES": "社群檔案",
