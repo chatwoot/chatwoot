@@ -56,7 +56,7 @@
       <multiselect-dropdown-items
         v-if="showSearchDropdown"
         :options="options"
-        :selected-item="selectedItem"
+        :selected-items="[selectedItem]"
         :has-thumbnail="hasThumbnail"
         :input-placeholder="inputPlaceholder"
         :no-search-result="noSearchResult"
