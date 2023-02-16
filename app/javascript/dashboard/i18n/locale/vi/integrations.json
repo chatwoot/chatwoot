@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
             "MESSAGE_CREATED": "Tin nhắn đã được tạo",
             "MESSAGE_UPDATED": "Tin nhắn đã được cập nhật",
-            "WEBWIDGET_TRIGGERED": "Tiện ích trò chuyện trực tuyến do người dùng mở"
+            "WEBWIDGET_TRIGGERED": "Tiện ích trò chuyện trực tuyến do người dùng mở",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {
