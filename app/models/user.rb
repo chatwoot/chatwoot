@@ -48,7 +48,7 @@ class User < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reportable
   include SsoAuthenticatable
-  include AccountUserMethods
+  include UserAttributeHelpers
 
   devise :database_authenticatable,
          :registerable,
@@ -78,6 +78,8 @@ class User < ApplicationRecord
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
+  has_many :conversation_participants, dependent: :destroy_async
+  has_many :participating_conversations, through: :conversation_participants, source: :conversation
 
   has_many :inbox_members, dependent: :destroy_async
   has_many :inboxes, through: :inbox_members, source: :inbox
@@ -110,22 +112,6 @@ class User < ApplicationRecord
 
   def set_password_and_uid
     self.uid = email
-  end
-
-  def active_account_user
-    account_users.order(active_at: :desc)&.first
-  end
-
-  def available_name
-    self[:display_name].presence || name
-  end
-
-  # Used internally for Chatwoot in Chatwoot
-  def hmac_identifier
-    hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']
-    return OpenSSL::HMAC.hexdigest('sha256', hmac_key, email) if hmac_key.present?
-
-    ''
   end
 
   def assigned_inboxes
