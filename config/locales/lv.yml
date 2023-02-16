@@ -155,6 +155,9 @@ lv:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."
+    google_translate:
+      name: "Google Tulkotājs"
+      description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
