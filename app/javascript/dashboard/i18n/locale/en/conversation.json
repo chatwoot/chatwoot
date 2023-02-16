@@ -165,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Copy",
       "DELETE": "Delete",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -270,5 +271,12 @@
       "ERROR_MESSAGE": "Could not update, try again!",
       "SUCCESS_MESSAGE": "Participants updated!"
     }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

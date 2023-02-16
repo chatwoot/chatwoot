@@ -42,6 +42,7 @@ const authIgnoreRoutes = [
   'auth_confirmation',
   'pushBack',
   'auth_password_edit',
+  'oauth-callback',
 ];
 
 const routeValidators = [
@@ -117,6 +118,7 @@ export const validateRouteAccess = (to, from, next, { getters }) => {
 
 export const initalizeRouter = () => {
   const userAuthentication = store.dispatch('setUser');
+
   router.beforeEach((to, from, next) => {
     AnalyticsHelper.page(to.name || '', {
       path: to.path,

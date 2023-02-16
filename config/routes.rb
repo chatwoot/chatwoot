@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   # AUTH STARTS
-  match 'auth/:provider/callback', to: 'home#callback', via: [:get, :post]
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',
     sessions: 'devise_overrides/sessions',
-    token_validations: 'devise_overrides/token_validations'
+    token_validations: 'devise_overrides/token_validations',
+    omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
   ## renders the frontend paths only if its not an api only server
@@ -74,7 +74,11 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
-              resources :messages, only: [:index, :create, :destroy]
+              resources :messages, only: [:index, :create, :destroy] do
+                member do
+                  post :translate
+                end
+              end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
