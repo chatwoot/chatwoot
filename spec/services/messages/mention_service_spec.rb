@@ -61,5 +61,10 @@ describe Messages::MentionService do
                                                               account: account,
                                                               primary_actor: message)
     end
+
+    it 'add the users to the participants list' do
+      described_class.new(message: message).perform
+      expect(conversation.conversation_participants.map(&:user_id)).to match_array([first_agent.id, second_agent.id])
+    end
   end
 end

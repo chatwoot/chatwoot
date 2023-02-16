@@ -9,6 +9,7 @@ class Messages::MentionService
 
     Conversations::UserMentionJob.perform_later(validated_mentioned_ids, message.conversation.id, message.account.id)
     generate_notifications_for_mentions(validated_mentioned_ids)
+    add_mentioned_users_as_participants(validated_mentioned_ids)
   end
 
   private
@@ -36,6 +37,12 @@ class Messages::MentionService
         account: message.account,
         primary_actor: message
       ).perform
+    end
+  end
+
+  def add_mentioned_users_as_participants(validated_mentioned_ids)
+    validated_mentioned_ids.each do |user_id|
+      message.conversation.conversation_participants.find_or_create_by!(user_id: user_id)
     end
   end
 end
