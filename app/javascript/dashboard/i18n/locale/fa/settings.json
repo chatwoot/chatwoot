@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد،‌ ایمیل بفرست",
         "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من ایمیل بفرست",
         "CONVERSATION_MENTION": "هنگامی که از شما در گفتگو نام برده می‌شود، از طریق ایمیل آگاه‌سازی ارسال کن",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "با ایجاد پیام جدید در مکالمه اختصاصی ، اعلان های ایمیل را ارسال کنید"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "با ایجاد پیام جدید در مکالمه اختصاصی ، اعلان های ایمیل را ارسال کنید",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "تغییرات تنظیمات اعلامیه‌ها با موفقیت ثبت شد",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من پوش نوتیفیکیشن بفرست",
         "CONVERSATION_MENTION": "هنگامی که از شما در مکالمه نام برده می شود پوش نوتیفیکیشن ارسال کنید",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "وقتی پیام جدیدی در مکالمه اختصاص داده شده ایجاد می شود ، پوش نوتیفیکیشن را ارسال کنید",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "در این مرورگر پوش نوتیفیکیشن را فعال کرده‌اید",
         "REQUEST_PUSH": "فعال کردن پوش نوتیفیکیشن"
       },
@@ -192,6 +194,7 @@
     "CONVERSATIONS": "گفتگوها",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "بی سرپرست",
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
