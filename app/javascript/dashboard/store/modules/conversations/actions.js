@@ -14,6 +14,17 @@ import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 // actions
 const actions = {
+  async translateMessage(_, { conversationId, messageId, targetLanguage }) {
+    try {
+      await MessageApi.translateMessage(
+        conversationId,
+        messageId,
+        targetLanguage
+      );
+    } catch (error) {
+      // ignore error
+    }
+  },
   getConversation: async ({ commit }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
