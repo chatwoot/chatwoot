@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="profile-settings-notifications">
     <div class="profile--settings--row row">
       <div class="columns small-3 ">
         <h4 class="block-title">
@@ -216,6 +216,22 @@
             }}
           </label>
         </div>
+        <div>
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_participating_conversation_new_message"
+            @input="handleEmailInput"
+          />
+          <label for="assigned_conversation_new_message">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
+          </label>
+        </div>
       </div>
     </div>
     <div
@@ -311,6 +327,23 @@
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.ASSIGNED_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
+          </label>
+        </div>
+
+        <div>
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_participating_conversation_new_message"
+            @input="handlePushInput"
+          />
+          <label for="assigned_conversation_new_message">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
               )
             }}
           </label>

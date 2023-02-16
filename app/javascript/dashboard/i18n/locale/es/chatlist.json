@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Postpuestas"
+      },
+      "all": {
+        "TEXT": "Todos"
       }
     },
     "ATTACHMENTS": {

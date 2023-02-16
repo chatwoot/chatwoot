@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Erinnern"
+      },
+      "all": {
+        "TEXT": "Alle"
       }
     },
     "ATTACHMENTS": {
@@ -57,8 +60,8 @@
     "REPLY_TO_TWEET": "Auf diesen Tweet antworten",
     "LINK_TO_STORY": "Zur Instagram-Geschichte",
     "SENT": "Erfolgreich gesendet",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Erfolgreich gelesen",
+    "DELIVERED": "Erfolgreich versendet",
     "NO_MESSAGES": "Keine Nachrichten",
     "NO_CONTENT": "Kein Inhalt verfügbar",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",

@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Диалог обновлён",
             "MESSAGE_CREATED": "Сообщение создано",
             "MESSAGE_UPDATED": "Сообщение обновлено",
-            "WEBWIDGET_TRIGGERED": "Виджет онлайн чата, открыт пользователем"
+            "WEBWIDGET_TRIGGERED": "Виджет онлайн чата, открыт пользователем",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {

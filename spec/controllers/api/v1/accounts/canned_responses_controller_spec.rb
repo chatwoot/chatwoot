@@ -4,7 +4,7 @@ RSpec.describe 'Canned Responses API', type: :request do
   let(:account) { create(:account) }
 
   before do
-    create(:canned_response, account: account)
+    create(:canned_response, account: account, content: 'Hey {{ contact.name }}, Thanks for reaching out', short_code: 'name-short-code')
   end
 
   describe 'GET /api/v1/accounts/{account.id}/canned_responses' do
@@ -29,9 +29,12 @@ RSpec.describe 'Canned Responses API', type: :request do
       end
 
       it 'returns all the canned responses the user searched for' do
-        create(:canned_response, account: account)
+        cr1 = account.canned_responses.first
+        create(:canned_response, account: account, content: 'Great! Looking forward', short_code: 'short-code')
+        cr2 = create(:canned_response, account: account, content: 'Thanks for reaching out', short_code: 'content-with-thanks')
+        cr3 = create(:canned_response, account: account, content: 'Thanks for reaching out', short_code: 'Thanks')
 
-        params = { search: CannedResponse.last.short_code }
+        params = { search: 'thanks' }
 
         get "/api/v1/accounts/#{account.id}/canned_responses",
             params: params,
@@ -39,7 +42,9 @@ RSpec.describe 'Canned Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)).to eq([CannedResponse.last].as_json)
+        expect(JSON.parse(response.body)).to eq(
+          [cr3, cr2, cr1].as_json
+        )
       end
     end
   end
@@ -65,7 +70,7 @@ RSpec.describe 'Canned Responses API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(CannedResponse.count).to eq(2)
+        expect(account.canned_responses.count).to eq(2)
       end
     end
   end

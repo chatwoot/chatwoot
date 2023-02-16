@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ดาวโหลด",
-      "UPLOADING": "กำลังอัปโหลด"
+      "UPLOADING": "กำลังอัปโหลด",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -197,7 +198,7 @@
     "CONTACTS": "ผู้ติดต่อ",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "บอท",
     "INBOXES": "กล่องข้อความ",
     "NOTIFICATIONS": "การแจ้งเตือน",
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",

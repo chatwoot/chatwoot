@@ -42,4 +42,19 @@ describe('#mutations', () => {
       });
     });
   });
+  describe('#SET_CURRENT_USER_AVAILABILITY', () => {
+    const state = {
+      currentUser: {
+        id: 1,
+        accounts: [{ id: 1, availability_status: 'offline' }],
+        account_id: 1,
+      },
+    };
+    it('set availability status for current user', () => {
+      mutations[types.SET_CURRENT_USER_AVAILABILITY](state, 'online');
+      expect(state.currentUser.accounts[0].availability_status).toEqual(
+        'online'
+      );
+    });
+  });
 });
