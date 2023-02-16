@@ -155,6 +155,9 @@ fa:
     fullcontact:
       name: "تماس کامل"
       description: "ادغام FullContact به غنی سازی پروفایل بازدیدکنندگان کمک می کند. به محض به اشتراک گذاشتن آدرس ایمیل کاربران ، آنها را شناسایی کرده و به آنها خدمات مشتری مناسب ارائه دهید. با به اشتراک گذاشتن کلید APC FullContact ، حساب FullContact خود را به حساب خود وصل کنید."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: جستجوی مقاله براساس عنوان یا متن...
