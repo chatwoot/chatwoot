@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "گفتگو به روز شد",
             "MESSAGE_CREATED": "پیام ایجاد شد",
             "MESSAGE_UPDATED": "پیام به روز شد",
-            "WEBWIDGET_TRIGGERED": "ابزارک گفتگو زنده توسط کاربر باز شده است"
+            "WEBWIDGET_TRIGGERED": "ابزارک گفتگو زنده توسط کاربر باز شده است",
+            "CONTACT_CREATED": "مخاطب ایجاد شد",
+            "CONTACT_UPDATED": "مخاطب به‌روزرسانی شد"
           }
         },
         "END_POINT": {
