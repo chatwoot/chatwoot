@@ -38,13 +38,6 @@ const conversations = accountId => ({
       toStateName: 'conversation_mentions',
     },
     {
-      icon: 'people-team',
-      label: 'PARTICIPATING_CONVERSATIONS',
-      key: 'conversation_participating',
-      toState: frontendURL(`accounts/${accountId}/participating/conversations`),
-      toStateName: 'conversation_participating',
-    },
-    {
       icon: 'mail-unread',
       label: 'UNATTENDED_CONVERSATIONS',
       key: 'conversation_unattended',
