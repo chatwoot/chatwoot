@@ -155,6 +155,9 @@ de:
     fullcontact:
       name: "Vollständiger Kontakt"
       description: "Die vollständige Kontakt-Integration hilft die Besucherprofile zu erweitern. Identifizieren Sie die Benutzer, sobald diese ihre E-Mail-Adresse speichern um Ihnen maßgeschneiderten Kundenservice anbieten. Verbinden Sie einen Kontakt mit Ihrem Konto, indem Sie den Kontakt-API-Schlüssel freigeben."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Artikel nach Titel oder Text suchen...
