@@ -5688,7 +5688,8 @@
           "description": "phone number of the contact"
         },
         "avatar": {
-          "type": "string <binary>",
+          "type": "string",
+          "format": "binary",
           "description": "Send the form data with the avatar image binary or use the avatar_url"
         },
         "avatar_url": {
@@ -5721,7 +5722,8 @@
           "description": "phone number of the contact"
         },
         "avatar": {
-          "type": "string <binary>",
+          "type": "string",
+          "format": "binary",
           "description": "Send the form data with the avatar image binary or use the avatar_url"
         },
         "avatar_url": {
@@ -6158,9 +6160,6 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/generic_id"
-        },
-        {
           "$ref": "#/definitions/conversation"
         },
         {
@@ -6236,27 +6235,6 @@
           }
         }
       }
-    },
-    "extended_message": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/generic_id"
-        },
-        {
-          "$ref": "#/definitions/message"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "source_id": {
-              "type": "number"
-            },
-            "sender": {
-              "type": "object"
-            }
-          }
-        }
-      ]
     },
     "account_summary": {
       "type": "object",
