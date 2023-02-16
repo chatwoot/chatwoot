@@ -110,8 +110,11 @@ class Notification < ApplicationRecord
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def conversation
-    return primary_actor.conversation if %w[assigned_conversation_new_message participating_conversation_new_message
-                                            conversation_mention].include? notification_type
+    return primary_actor.conversation if %w[
+      assigned_conversation_new_message
+      participating_conversation_new_message
+      conversation_mention
+    ].include? notification_type
 
     primary_actor
   end
