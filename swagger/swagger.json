@@ -6236,24 +6236,6 @@
         }
       }
     },
-    "extended_message": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/generic_id"
-        },
-        {
-          "$ref": "#/definitions/message"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "source_id": {
-              "type": "number"
-            }
-          }
-        }
-      ]
-    },
     "account_summary": {
       "type": "object",
       "properties": {
