@@ -12,7 +12,7 @@ export default {
       path: frontendURL('auth/signup'),
       name: 'auth_signup',
       component: Signup,
-      meta: { requireSignupEnabled: true },
+      meta: { requireSignupEnabled: false },
     },
     {
       path: frontendURL('auth'),
