@@ -294,6 +294,10 @@
     }
   }
 
+  .header-left-wrap .page-title {
+    margin-right: var(--space-slab) !important;
+  }
+
   .portal-container .container {
     margin-left: unset !important;
     margin-right: var(--space-small);
