@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_230_209_033_203) do
+ActiveRecord::Schema.define(version: 2023_02_17_104619) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
-  enable_extension 'pg_trgm'
 
   create_table "access_tokens", force: :cascade do |t|
     t.string "owner_type"
@@ -688,17 +689,17 @@ ActiveRecord::Schema.define(version: 20_230_209_033_203) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table 'pg_search_documents', force: :cascade do |t|
-    t.text 'content'
-    t.bigint 'account_id'
-    t.string 'searchable_type'
-    t.bigint 'searchable_id'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index "to_tsvector('simple'::regconfig, COALESCE(content, ''::text))", name: 'pg_multisearch_index', using: :gin
-    t.index ['account_id'], name: 'index_pg_search_documents_on_account_id'
-    t.index %w[searchable_id searchable_type], name: 'unique_searchables_index', unique: true
-    t.index %w[searchable_type searchable_id], name: 'index_pg_search_documents_on_searchable'
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.bigint "account_id"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index "to_tsvector('simple'::regconfig, COALESCE(content, ''::text))", name: "pg_multisearch_index", using: :gin
+    t.index ["account_id"], name: "index_pg_search_documents_on_account_id"
+    t.index ["searchable_id", "searchable_type"], name: "unique_searchables_index", unique: true
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
   end
 
   create_table "platform_app_permissibles", force: :cascade do |t|
@@ -905,25 +906,26 @@ ActiveRecord::Schema.define(version: 20_230_209_033_203) do
     "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
   end
 
-  create_trigger('conversations_before_insert_row_tr', :generated => true, :compatibility => 1)
-    .on('conversations')
-    .before(:insert)
-    .for_each(:row) do
+  create_trigger("conversations_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("conversations").
+      before(:insert).
+      for_each(:row) do
     "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
   end
 
-  create_trigger('camp_dpid_before_insert', :generated => true, :compatibility => 1)
-    .on('accounts')
-    .name('camp_dpid_before_insert')
-    .after(:insert)
-    .for_each(:row) do
+  create_trigger("camp_dpid_before_insert", :generated => true, :compatibility => 1).
+      on("accounts").
+      name("camp_dpid_before_insert").
+      after(:insert).
+      for_each(:row) do
     "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
   end
 
-  create_trigger('campaigns_before_insert_row_tr', :generated => true, :compatibility => 1)
-    .on('campaigns')
-    .before(:insert)
-    .for_each(:row) do
+  create_trigger("campaigns_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("campaigns").
+      before(:insert).
+      for_each(:row) do
     "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
   end
+
 end

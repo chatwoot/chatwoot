@@ -1,15 +1,20 @@
 class TextSearch
-  pattr_initialize [:current_user!, :current_account!, :params!]
+  pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
 
   DEFAULT_STATUS = 'open'.freeze
 
   def perform
     set_inboxes
-    {
-      messages: filter_messages,
-      conversations: filter_conversations,
-      contacts: filter_contacts
-    }
+    case search_type
+    when 'Message'
+      { messages: filter_messages }
+    when 'Conversation'
+      { conversations: filter_conversations }
+    when 'Contact'
+      { contacts: 'filter_contacts' }
+    else
+      { contacts: 'filter_contacts' }
+    end
   end
 
   def set_inboxes
@@ -20,21 +25,33 @@ class TextSearch
 
   def filter_conversations
     @conversations = PgSearch.multisearch((@params[:q]).to_s).where(
-      account_id: @current_account, searchable_type: 'Conversation'
-    ).joins("INNER JOIN conversations ON pg_search_documents.searchable_id = conversations.id
-      AND conversations.inbox_id IN (#{@inbox_ids.join(',')})").includes(:searchable).limit(20).collect(&:searchable)
+      "pg_search_documents.account_id = #{@current_account.id} AND searchable_type = 'Conversation' AND pg_search_documents.updated_at > ?", last_six_month
+    ).joins("INNER JOIN conversations
+      ON pg_search_documents.searchable_id = conversations.id
+      AND conversations.inbox_id IN (#{@inbox_ids.join(',')})
+      AND conversations.account_id = #{@current_account.id}").includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_messages
     @messages = PgSearch.multisearch((@params[:q]).to_s).where(
-      account_id: @current_account, searchable_type: 'Message'
+      "pg_search_documents.account_id = #{@current_account.id} AND searchable_type = 'Message' AND pg_search_documents.updated_at > ?", last_six_month
     ).joins("INNER JOIN messages ON pg_search_documents.searchable_id = messages.id
-      AND messages.inbox_id IN (#{@inbox_ids.join(',')})").includes(:searchable).limit(20).collect(&:searchable)
+      AND messages.inbox_id IN (#{@inbox_ids.join(',')})
+      AND messages.account_id = #{@current_account.id}
+      AND pg_search_documents.updated_at > #{last_six_month}"
+    ).includes(:searchable).limit(20).collect(&:searchable)
   end
 
   def filter_contacts
     @contacts = PgSearch.multisearch((@params[:q]).to_s).where(
-      account_id: @current_account, searchable_type: 'Contact'
-    ).joins('INNER JOIN contacts ON pg_search_documents.searchable_id = contacts.id').includes(:searchable).limit(20).collect(&:searchable)
+      "pg_search_documents.account_id = #{@current_account.id} AND searchable_type = 'Contact' AND pg_search_documents.updated_at > ?", last_six_month
+    ).joins("INNER JOIN contacts ON pg_search_documents.searchable_id = contacts.id
+      AND contacts.account_id = #{@current_account.id}
+      AND pg_search_documents.updated_at > #{last_six_month}"
+    ).includes(:searchable).limit(20).collect(&:searchable)
+  end
+
+  def last_six_month
+    (Time.current - 6.months)
   end
 end
