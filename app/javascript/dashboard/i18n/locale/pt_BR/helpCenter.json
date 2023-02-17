@@ -30,13 +30,13 @@
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Carregar imagem",
+        "TITLE": "Upload de imagem",
         "UPLOADING": "Enviando...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Imagem enviada com sucesso",
+        "ERROR": "Erro ao fazer upload da imagem",
+        "ERROR_FILE_SIZE": "O tamanho da imagem deve ser menor que {size}MB",
+        "ERROR_FILE_FORMAT": "O formato da imagem deve ser jpg, jpeg ou png",
+        "ERROR_FILE_DIMENSIONS": "Dimensões da imagem devem ser menores que 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
