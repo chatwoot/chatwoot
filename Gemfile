@@ -199,5 +199,11 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
+
+# need for google auth
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
