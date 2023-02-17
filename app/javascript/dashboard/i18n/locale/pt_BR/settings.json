@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa for criada",
         "CONVERSATION_MENTION": "Enviar notificações por email quando você for mencionado em uma conversa",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações por e-mail quando uma nova mensagem for criada numa conversa já atribuída",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em uma conversa que você participa"
       },
       "API": {
         "UPDATE_SUCCESS": "Suas preferências de notificação foram atualizadas com sucesso",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "Enviar notificações push quando uma nova conversa é criada",
         "CONVERSATION_MENTION": "Enviar notificações push quando você for mencionado em uma conversa",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações quando uma nova mensagem for criada numa conversa já atribuída",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações push quando uma nova mensagem é criada em uma conversa que você participa",
         "HAS_ENABLED_PUSH": "Você ativou push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificações push"
       },
@@ -194,7 +194,7 @@
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "Participantes",
     "UNATTENDED_CONVERSATIONS": "Não atendidas",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
