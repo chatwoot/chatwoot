@@ -185,6 +185,15 @@ export default {
           toolTip: 'Archived',
           toStateName: 'list_archived_articles',
         },
+        {
+          icon: 'settings',
+          label: 'HELP_CENTER.SETTINGS',
+          key: 'edit_portal_information',
+          toState: frontendURL(
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/edit`
+          ),
+          toStateName: 'edit_portal_information',
+        },
       ];
     },
     additionalSecondaryMenuItems() {
