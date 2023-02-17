@@ -32,11 +32,11 @@
       "IMAGE_UPLOAD": {
         "TITLE": "آپلود عکس",
         "UPLOADING": "در حال آپلود...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "تصویر با موفقیت آپلود شد",
+        "ERROR": "خطا هنگام آپلود تصویر",
+        "ERROR_FILE_SIZE": "اندازه تصویر باید کمتر از {size} مگابایت باشد",
+        "ERROR_FILE_FORMAT": "فرمت تصویر باید jpg، jpeg یا png باشد",
+        "ERROR_FILE_DIMENSIONS": "ابعاد تصویر باید کمتر از 2000*2000 باشد"
       }
     },
     "ARTICLE_SETTINGS": {
