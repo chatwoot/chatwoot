@@ -242,6 +242,7 @@
       "DRAFT": "Nacrt",
       "ARCHIVED": "Arhivirano",
       "CATEGORY": "Kategorija",
+      "SETTINGS": "Podešavanja",
       "CATEGORY_EMPTY_MESSAGE": "Nije pronađena nijedna kategorija"
     },
     "SET_AUTO_OFFLINE": {
