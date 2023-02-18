@@ -242,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "类别",
+      "SETTINGS": "设置",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {
