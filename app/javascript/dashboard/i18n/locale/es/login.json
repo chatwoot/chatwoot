@@ -15,9 +15,9 @@
       "UNAUTH": "Nombre de usuario / Contraseña incorrecto. Inténtelo de nuevo"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Iniciar sesión con Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Por favor, utiliza el correo electrónico de tu empresa para iniciar sesión",
+      "NO_ACCOUNT_FOUND": "No pudimos encontrar una cuenta para tu dirección de correo electrónico."
     },
     "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
     "CREATE_NEW_ACCOUNT": "Crear nueva cuenta",
