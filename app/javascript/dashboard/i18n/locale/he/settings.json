@@ -242,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "הגדרות",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {
