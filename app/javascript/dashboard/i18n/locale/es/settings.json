@@ -194,7 +194,7 @@
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "Participar",
     "UNATTENDED_CONVERSATIONS": "Desatendido",
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
@@ -242,6 +242,7 @@
       "DRAFT": "Borrador",
       "ARCHIVED": "Archivado",
       "CATEGORY": "Categoría",
+      "SETTINGS": "Ajustes",
       "CATEGORY_EMPTY_MESSAGE": "No se encontraron categorías"
     },
     "SET_AUTO_OFFLINE": {
