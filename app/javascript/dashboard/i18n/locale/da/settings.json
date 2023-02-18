@@ -242,6 +242,7 @@
       "DRAFT": "Kladde",
       "ARCHIVED": "Arkiveret",
       "CATEGORY": "Kategori",
+      "SETTINGS": "Indstillinger",
       "CATEGORY_EMPTY_MESSAGE": "Ingen kategorier fundet"
     },
     "SET_AUTO_OFFLINE": {
