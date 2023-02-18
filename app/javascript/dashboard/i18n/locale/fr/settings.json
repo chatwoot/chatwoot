@@ -242,6 +242,7 @@
       "DRAFT": "Brouillon",
       "ARCHIVED": "Archivé",
       "CATEGORY": "Catégorie",
+      "SETTINGS": "Paramètres",
       "CATEGORY_EMPTY_MESSAGE": "Aucune catégorie trouvée"
     },
     "SET_AUTO_OFFLINE": {
