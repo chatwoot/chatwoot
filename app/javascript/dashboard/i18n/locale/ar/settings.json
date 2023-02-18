@@ -242,6 +242,7 @@
       "DRAFT": "مسودة",
       "ARCHIVED": "مؤرشفة",
       "CATEGORY": "الفئة",
+      "SETTINGS": "الإعدادات",
       "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
     },
     "SET_AUTO_OFFLINE": {
