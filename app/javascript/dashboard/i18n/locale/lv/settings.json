@@ -242,6 +242,7 @@
       "DRAFT": "Melnraksts",
       "ARCHIVED": "Arhivēts",
       "CATEGORY": "Kategorija",
+      "SETTINGS": "Iestatījumi",
       "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
     },
     "SET_AUTO_OFFLINE": {
