@@ -242,6 +242,7 @@
       "DRAFT": "Черновик",
       "ARCHIVED": "Архив",
       "CATEGORY": "Категория",
+      "SETTINGS": "Настройки",
       "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
     },
     "SET_AUTO_OFFLINE": {
