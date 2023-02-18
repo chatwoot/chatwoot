@@ -35,7 +35,7 @@
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UNKNOWN_FILE_TYPE": "Archivo desconocido",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Guardar",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
@@ -135,8 +135,8 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Variables indefinidas",
+        "MESSAGE": "Tienes {undefinedVariablesCount} variables no definidas en tu mensaje: {undefinedVariables}. ¿Quieres enviar el mensaje de todos modos?",
         "CONFIRM": {
           "YES": "Enviar",
           "CANCEL": "Cancelar"
@@ -166,7 +166,7 @@
       "COPY": "Copiar",
       "DELETE": "Eliminar",
       "CREATE_A_CANNED_RESPONSE": "Añadir a respuestas predefinidas",
-      "TRANSLATE": "Translate"
+      "TRANSLATE": "Traducir"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -256,27 +256,27 @@
     "SUBJECT": "Asunto"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "Participar",
+    "SIDEBAR_TITLE": "Participantes de la conversación",
     "NO_RECORDS_FOUND": "No se encontraron resultados",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "ADD_PARTICIPANTS": "Seleccionar participantes",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} más",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} más",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} personas están participando.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} personas están participando.",
+    "NO_PARTICIPANTS_TEXT": "Nadie está participando!.",
+    "WATCH_CONVERSATION": "Abrir conversación",
+    "YOU_ARE_WATCHING": "Estás participando",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "No se pudo actualizar, ¡inténtelo de nuevo!",
+      "SUCCESS_MESSAGE": "¡Participantes actualizados!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Ver contenido traducido",
+    "DESC": "Puedes ver el contenido traducido en cada lenguaje.",
+    "ORIGINAL_CONTENT": "Contenido original",
+    "TRANSLATED_CONTENT": "Contenido traducido",
+    "NO_TRANSLATIONS_AVAILABLE": "No hay traducciones disponibles para este contenido"
   }
 }
