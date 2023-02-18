@@ -242,6 +242,7 @@
       "DRAFT": "Entwürfe",
       "ARCHIVED": "Archiviert",
       "CATEGORY": "Kategorie",
+      "SETTINGS": "Einstellungen",
       "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
     },
     "SET_AUTO_OFFLINE": {
