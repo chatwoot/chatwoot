@@ -242,6 +242,7 @@
       "DRAFT": "Чернетка",
       "ARCHIVED": "Архівовано",
       "CATEGORY": "Категорія",
+      "SETTINGS": "Налаштування",
       "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
     },
     "SET_AUTO_OFFLINE": {
