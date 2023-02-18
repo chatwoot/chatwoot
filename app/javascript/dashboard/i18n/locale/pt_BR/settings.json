@@ -242,6 +242,7 @@
       "DRAFT": "Rascunho",
       "ARCHIVED": "Arquivado",
       "CATEGORY": "Categoria",
+      "SETTINGS": "Confirgurações",
       "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
     },
     "SET_AUTO_OFFLINE": {
