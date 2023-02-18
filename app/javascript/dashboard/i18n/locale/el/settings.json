@@ -242,6 +242,7 @@
       "DRAFT": "Πρόχειρο",
       "ARCHIVED": "Αρχειοθετημένο",
       "CATEGORY": "Κατηγορία",
+      "SETTINGS": "Ρυθμίσεις",
       "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
     },
     "SET_AUTO_OFFLINE": {
