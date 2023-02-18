@@ -242,6 +242,7 @@
       "DRAFT": "Nháp",
       "ARCHIVED": "Lưu trữ",
       "CATEGORY": "Loại",
+      "SETTINGS": "Cài đặt",
       "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
     },
     "SET_AUTO_OFFLINE": {
