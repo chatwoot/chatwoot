@@ -242,6 +242,7 @@
       "DRAFT": "پیش‌نویس",
       "ARCHIVED": "بایگانی شد",
       "CATEGORY": "دسته‌بندی",
+      "SETTINGS": "تنظیمات",
       "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
     },
     "SET_AUTO_OFFLINE": {
