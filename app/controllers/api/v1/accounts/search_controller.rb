@@ -1,6 +1,6 @@
 class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
   def index
-    text_search('all')
+    @result = text_search('all')
   end
 
   def conversations
