@@ -54,7 +54,7 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
     searchUrl() {
-      return frontendURL(`accounts/${this.accountId}/search`);
+      return frontendURL(`accounts/${this.accountId}/search/messages`);
     },
   },
 };

@@ -34,7 +34,8 @@ class TextSearch
 
   def filter_messages
     @messages = PgSearch.multisearch((@params[:q]).to_s).where(
-      "pg_search_documents.account_id = #{@current_account.id} AND searchable_type = 'Message' AND pg_search_documents.updated_at > ?", last_six_month
+      "pg_search_documents.account_id = #{@current_account.id} AND searchable_type = 'Message'
+      AND pg_search_documents.updated_at > ?", last_six_month
     ).joins("INNER JOIN messages
       ON pg_search_documents.searchable_id = messages.id
       AND messages.inbox_id IN (#{@inbox_ids.join(',')})

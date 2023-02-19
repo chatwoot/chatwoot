@@ -46,11 +46,14 @@ class ConversationApi extends ApiClient {
   }
 
   fullSearch({ q }) {
-    return axios.get(`${this.url.replace('/conversations', '')}/search`, {
-      params: {
-        q,
-      },
-    });
+    return axios.get(
+      `${this.url.replace('/conversations', '')}/search/messages`,
+      {
+        params: {
+          q,
+        },
+      }
+    );
   }
 
   toggleStatus({ conversationId, status, snoozedUntil = null }) {
