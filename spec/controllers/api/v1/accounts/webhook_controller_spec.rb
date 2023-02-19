@@ -84,8 +84,8 @@ RSpec.describe 'Webhooks API', type: :request do
         expect(response).to have_http_status(:ok)
         expect(
           JSON.parse(response.body)['payload']['webhook']['subscriptions']
-        ).to eql %w[conversation_status_changed conversation_updated conversation_created message_created message_updated
-                    webwidget_triggered]
+        ).to eql %w[conversation_status_changed conversation_updated conversation_created contact_created contact_updated
+                    message_created message_updated webwidget_triggered]
       end
     end
   end

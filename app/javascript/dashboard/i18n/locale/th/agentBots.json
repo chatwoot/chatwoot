@@ -1,17 +1,17 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots",
+    "HEADER": "บอท",
     "LOADING_EDITOR": "Loading Editor...",
     "HEADER_BTN_TXT": "Add Bot Configuration",
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "LABEL": "ชื่อบอท",
+        "PLACEHOLDER": "ตั้งชื่อให้บอทของคุณ",
+        "ERROR": "กรุณากรอกชื่อของบอท"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
+        "LABEL": "คำอธิบาย",
         "PLACEHOLDER": "What does this bot do?"
       },
       "BOT_CONFIG": {

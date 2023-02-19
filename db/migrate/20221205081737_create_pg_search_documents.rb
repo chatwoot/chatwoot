@@ -8,6 +8,7 @@ class CreatePgSearchDocuments < ActiveRecord::Migration[6.1]
         t.timestamps null: false
       end
       add_index :pg_search_documents, :account_id
+      add_index :pg_search_documents, :searchable_type
       add_index :pg_search_documents, [:searchable_id, :searchable_type], unique: true, name: 'unique_searchables_index'
       execute <<~SQL.squish
         CREATE INDEX pg_multisearch_index ON pg_search_documents USING gin(to_tsvector('simple', coalesce("content"::text, '')));

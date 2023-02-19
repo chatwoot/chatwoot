@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "تم تحديث المحادثة",
             "MESSAGE_CREATED": "تم إنشاء رسالة",
             "MESSAGE_UPDATED": "تم تحديث الرسالة",
-            "WEBWIDGET_TRIGGERED": "أداة الدردشة المباشرة مفتوحة من قبل المستخدم"
+            "WEBWIDGET_TRIGGERED": "أداة الدردشة المباشرة مفتوحة من قبل المستخدم",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {

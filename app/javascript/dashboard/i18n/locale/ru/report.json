@@ -422,7 +422,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Открытые диалоги",
       "LOADING_MESSAGE": "Загрузка метрик разговора...",
-      "OPEN": "Открыть",
+      "OPEN": "Открытых",
       "UNATTENDED": "Несвязанные",
       "UNASSIGNED": "Неназначен"
     },
@@ -432,13 +432,13 @@
       "NO_AGENTS": "Нет диалогов связанных с операторами",
       "TABLE_HEADER": {
         "AGENT": "Оператор",
-        "OPEN": "ОТКРЫТЬ",
+        "OPEN": "ОТКРЫТЫХ",
         "UNATTENDED": "Несвязанные",
         "STATUS": "Статус"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Статус Оператора",
+      "HEADER": "Статус операторов",
       "ONLINE": "В сети",
       "BUSY": "Занят",
       "OFFLINE": "Оффлайн"
