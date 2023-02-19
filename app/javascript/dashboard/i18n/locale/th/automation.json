@@ -111,7 +111,7 @@
       "UPLOAD_ERROR": "ไม่สามารถอัปโหลดไฟล์แนบได้ โปรดลองใหม่อีกครั้ง",
       "LABEL_IDLE": "อัปโหลดไฟล์แนบ",
       "LABEL_UPLOADING": "กำลังอัปโหลด",
-      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOADED": "การอัปโหลดเสร็จสมบูรณ์",
       "LABEL_UPLOAD_FAILED": "อัปโหลดไม่สำเร็จ"
     }
   }

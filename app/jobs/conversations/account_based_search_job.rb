@@ -17,7 +17,7 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
                 QUOTE_LITERAL(CONCAT_WS(' ', contacts.id, contacts.email, contacts.name, contacts.phone_number, contacts.account_id)) AS content,
                 contacts.account_id::int AS account_id,
                 now() AS created_at,
-                now() AS updated_at
+                contacts.updated_at AS updated_at
         FROM contacts
         WHERE contacts.account_id = #{account_id}
     SQL
@@ -33,7 +33,7 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
                 QUOTE_LITERAL(CONCAT_WS(' ', conversations.display_id, contacts.email, contacts.name, contacts.phone_number, conversations.account_id)) AS content,
                 conversations.account_id::int AS account_id,
                 now() AS created_at,
-                now() AS updated_at
+                conversations.updated_at AS updated_at
         FROM conversations
         INNER JOIN contacts
           ON conversations.contact_id = contacts.id
@@ -51,7 +51,7 @@ class Conversations::AccountBasedSearchJob < ApplicationJob
                 QUOTE_LITERAL(LEFT(messages.content, 500000)) AS content,
                 messages.account_id::int AS account_id,
                 now() AS created_at,
-                now() AS updated_at
+                messages.updated_at AS updated_at
         FROM messages
         WHERE messages.account_id = #{account_id} AND messages.message_type IN (0, 1)
     SQL

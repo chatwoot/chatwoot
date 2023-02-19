@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Zahájeno od",
     "INITIATED_AT": "Zahájeno v",
     "IP_ADDRESS": "IP adresa",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "K tomuto kontaktu nejsou přiřazeny žádné předchozí konverzace.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefonní číslo",
         "CONVERSATIONS": "Konverzace",
         "LAST_ACTIVITY": "Poslední aktivita",
+        "CREATED_AT": "Vytvořeno",
         "COUNTRY": "Země",
         "CITY": "Město",
         "SOCIAL_PROFILES": "Sociální profily",

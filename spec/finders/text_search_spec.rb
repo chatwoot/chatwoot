@@ -37,8 +37,9 @@ describe ::TextSearch do
         params = { q: '1223' }
         result = described_class.new(current_user: user_1, current_account: account, params: params).perform
         conversation_count = PgSearch.multisearch('1223').where(searchable_type: 'Conversation').count
+        contacts_count = PgSearch.multisearch('1223').where(searchable_type: 'Contact').count
         expect(result[:conversations].length).to eq conversation_count
-        expect(result[:contacts].length).to eq Contact.where('name ILIKE :contact', contact: "%#{params[:q].strip}%").count
+        expect(result[:contacts].length).to eq contacts_count
       end
 
       it 'filter message and contacts by string' do

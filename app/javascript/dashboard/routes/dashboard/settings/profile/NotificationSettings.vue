@@ -216,10 +216,26 @@
             }}
           </label>
         </div>
+        <div>
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_participating_conversation_new_message"
+            @input="handleEmailInput"
+          />
+          <label for="assigned_conversation_new_message">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
+          </label>
+        </div>
       </div>
     </div>
     <div
-      v-if="vapidPublicKey && !isBrowserSafari"
+      v-if="vapidPublicKey && hasPushAPISupport"
       class="profile--settings--row row push-row"
     >
       <div class="columns small-3 ">
@@ -315,6 +331,23 @@
             }}
           </label>
         </div>
+
+        <div>
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_participating_conversation_new_message"
+            @input="handlePushInput"
+          />
+          <label for="assigned_conversation_new_message">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -360,11 +393,8 @@ export default {
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
       uiSettings: 'getUISettings',
     }),
-    isBrowserSafari() {
-      if (window.browserConfig) {
-        return window.browserConfig.is_safari === 'true';
-      }
-      return false;
+    hasPushAPISupport() {
+      return !!('Notification' in window);
     },
   },
   watch: {

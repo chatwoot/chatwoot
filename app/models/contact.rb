@@ -147,11 +147,16 @@ class Contact < ApplicationRecord
 
   def webhook_data
     {
-      id: id,
-      name: name,
+      account: account.webhook_data,
+      additional_attributes: additional_attributes,
       avatar: avatar_url,
-      type: 'contact',
-      account: account.webhook_data
+      custom_attributes: custom_attributes,
+      email: email,
+      id: id,
+      identifier: identifier,
+      name: name,
+      phone_number: phone_number,
+      thumbnail: avatar_url
     }
   end
 
@@ -207,7 +212,7 @@ class Contact < ApplicationRecord
 
   def dispatch_update_event
     update_conversation_pgsearch_document
-    Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self)
+    Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self, changed_attributes: previous_changes)
   end
 
   def dispatch_destroy_event
