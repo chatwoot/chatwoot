@@ -3,7 +3,7 @@
     <div class="flex flex-1 overflow-auto">
       <conversation-wrap :grouped-messages="groupedMessages" />
     </div>
-    <div class="px-5">
+    <div class="px-5 pb-5">
       <chat-footer />
     </div>
   </div>
