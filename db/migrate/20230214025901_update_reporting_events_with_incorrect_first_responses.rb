@@ -9,7 +9,7 @@ class UpdateReportingEventsWithIncorrectFirstResponses < ActiveRecord::Migration
         next if conversation.nil?
 
         last_bot_reply = conversation.messages.where(sender_type: 'AgentBot').order(created_at: :asc).last
-        first_human_reply = conversation.message.where(sender_type: 'User').order(created_at: :asc).first
+        first_human_reply = conversation.messages.where(sender_type: 'User').order(created_at: :asc).first
 
         # accomodate for campaign if required
         # new_value = difference between the first_human_reply and the first_bot_reply if it exists or first_human_reply and created at
