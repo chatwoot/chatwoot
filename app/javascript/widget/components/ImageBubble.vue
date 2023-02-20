@@ -39,7 +39,7 @@ export default {
 
 .image {
   display: block;
-
+  
   .wrap {
     position: relative;
     display: flex;
