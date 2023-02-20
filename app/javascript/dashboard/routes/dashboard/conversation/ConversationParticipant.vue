@@ -164,7 +164,7 @@ export default {
     conversationId() {
       this.fetchParticipants();
     },
-    watchersFromStore(participants) {
+    watchersFromStore(participants = []) {
       this.selectedWatchers = [...participants];
     },
   },
