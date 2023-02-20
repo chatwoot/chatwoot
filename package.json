@@ -126,18 +126,5 @@
       "lcov",
       "text"
     ]
-  },
-  "lint-staged": {
-    "app/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ],
-    "!(*schema).rb": [
-      "bundle exec rubocop -a",
-      "git add"
-    ],
-    "*.scss": [
-      "scss-lint"
-    ]
   }
 }
