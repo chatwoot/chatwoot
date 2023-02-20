@@ -20,6 +20,7 @@ import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from '../dashboard/constants';
 import * as Sentry from '@sentry/vue';
+import LogRocket from 'logrocket';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
 import {
@@ -52,6 +53,10 @@ if (window.errorLoggingConfig) {
     ],
     integrations: [new Integrations.BrowserTracing()],
   });
+}
+
+if (window.logRocketProjectId) {
+  LogRocket.init(window.logRocketProjectId);
 }
 
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);
