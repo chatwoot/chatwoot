@@ -112,7 +112,7 @@
         </p>
       </div>
       <div class="columns small-9 medium-5">
-        <secret-text :value="currentUser.access_token" />
+        <masked-text :value="currentUser.access_token" />
       </div>
     </div>
   </div>
@@ -130,7 +130,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin, {
   isEditorHotKeyEnabled,
 } from 'dashboard/mixins/uiSettings';
-import SecretText from 'dashboard/components/SecretText.vue';
+import MaskedText from 'dashboard/components/MaskedText.vue';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 
 export default {
@@ -139,7 +139,7 @@ export default {
     ChangePassword,
     MessageSignature,
     PreviewCard,
-    SecretText,
+    MaskedText,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
