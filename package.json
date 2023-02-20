@@ -43,6 +43,7 @@
     "highlight.js": "~10.4.1",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
+    "logrocket": "^3.0.1",
     "marked": "4.0.10",
     "md5": "^2.3.0",
     "ninja-keys": "^1.1.9",
