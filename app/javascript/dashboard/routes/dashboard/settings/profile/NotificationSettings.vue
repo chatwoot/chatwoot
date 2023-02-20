@@ -235,7 +235,7 @@
       </div>
     </div>
     <div
-      v-if="vapidPublicKey && !isBrowserSafari"
+      v-if="vapidPublicKey && hasPushAPISupport"
       class="profile--settings--row row push-row"
     >
       <div class="columns small-3 ">
@@ -393,11 +393,8 @@ export default {
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
       uiSettings: 'getUISettings',
     }),
-    isBrowserSafari() {
-      if (window.browserConfig) {
-        return window.browserConfig.is_safari === 'true';
-      }
-      return false;
+    hasPushAPISupport() {
+      return !!('Notification' in window);
     },
   },
   watch: {
