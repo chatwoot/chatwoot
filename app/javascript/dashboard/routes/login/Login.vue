@@ -1,15 +1,9 @@
 <template>
   <div class="medium-12 column login">
     <div class="text-center medium-12 login__hero align-self-top">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="hero__logo"
-      />
+
       <h2 class="hero__title">
-        {{
-          useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
-        }}
+        Welcome to Chat App!
       </h2>
     </div>
     <div class="row align-center">

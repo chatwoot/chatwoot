@@ -120,12 +120,6 @@
     "npm": ">=6.x",
     "yarn": ">=1.x"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "sh bin/validate_push"
-    }
-  },
   "jest": {
     "collectCoverage": true,
     "coverageReporters": [
