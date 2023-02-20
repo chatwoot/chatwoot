@@ -79,7 +79,6 @@ export default {
 }
 
 .preview-item {
-  direction: initial;
   display: flex;
   padding: var(--space-slab) 0 0;
   background: var(--color-background-light);

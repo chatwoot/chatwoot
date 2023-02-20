@@ -1,6 +1,5 @@
 .app-rtl--wrapper {
   direction: rtl;
-  unicode-bidi: embed;
 
   // Primary sidebar
   .primary--sidebar {
@@ -113,6 +112,18 @@
     text-align: right;
   }
 
+  // Table footer
+  .footer {
+    .page-meta {
+      direction: initial;
+    }
+  }
+
+  // Wizard box
+  .wizard-box {
+    direction: initial;
+  }
+
   // Conversation details
   .conversation-details-wrap {
     .conv-header {
@@ -162,6 +173,13 @@
             margin-right: auto;
           }
         }
+      }
+    }
+
+    // Conversation footer
+    .conversation-footer {
+      .preview-item {
+        direction: initial;
       }
     }
 
@@ -374,5 +392,40 @@
   .category-list--container .header-left--wrap {
     direction: initial;
     justify-content: flex-end;
+  }
+
+  // Widget builder
+  .widget-builder-container .widget-preview {
+    direction: initial;
+  }
+
+  // Other changes
+
+  .account-selector--wrap {
+    direction: initial;
+  }
+
+  .inbox--name {
+    direction: initial;
+  }
+
+  .colorpicker--chrome {
+    direction: initial;
+  }
+
+  .mention--box {
+    direction: initial;
+  }
+
+  .contact--details .contact--bio {
+    direction: ltr;
+  }
+
+  .merge-contacts .child-contact-wrap {
+    direction: ltr;
+  }
+
+  .contact--form .input-group {
+    direction: initial;
   }
 }

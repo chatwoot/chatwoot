@@ -27,7 +27,6 @@ export default {
 .inbox--name {
   align-items: center;
   display: inline-flex;
-  direction: initial;
   padding: var(--space-micro) 0;
   line-height: var(--space-slab);
   font-weight: var(--font-weight-medium);

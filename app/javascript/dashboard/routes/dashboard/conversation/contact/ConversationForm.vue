@@ -365,6 +365,5 @@ export default {
   right: 0;
   top: unset;
   height: fit-content;
-  direction: initial;
 }
 </style>

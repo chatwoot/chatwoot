@@ -174,7 +174,6 @@ export default {
 <style lang="scss" scoped>
 .child-contact-wrap {
   display: flex;
-  direction: ltr;
   width: 100%;
 }
 .child-contact {
