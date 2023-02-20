@@ -49,7 +49,15 @@ const plugins = [];
 
 if (window.logRocketProjectId) {
   LogRocket.init(window.logRocketProjectId);
-  const logRocketPlugin = createPlugin(LogRocket);
+  const logRocketPlugin = createPlugin(LogRocket, function(mutation) {
+    const eventsToIgnore = ['SET_CURRENT_USER', 'AUTHENTICATE', 'CLEAR_USER'];
+    if (eventsToIgnore.includes(mutation.type)) {
+      return null;
+    }
+
+    return mutation;
+  });
+
   plugins.push(logRocketPlugin);
 }
 
