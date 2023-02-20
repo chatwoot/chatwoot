@@ -1,4 +1,5 @@
 import AnalyticsHelper from './AnalyticsHelper';
+import LogRocket from 'logrocket';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 
 export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
@@ -10,6 +11,10 @@ export const ANALYTICS_RESET = 'ANALYTICS_RESET';
 export const initializeAnalyticsEvents = () => {
   window.bus.$on(ANALYTICS_IDENTITY, ({ user }) => {
     AnalyticsHelper.identify(user);
+    LogRocket.identify(user.id, {
+      email: user.email,
+      name: user.name,
+    });
   });
   window.bus.$on(ANALYTICS_RESET, () => {});
 };
