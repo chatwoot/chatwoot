@@ -11,10 +11,12 @@ export const ANALYTICS_RESET = 'ANALYTICS_RESET';
 export const initializeAnalyticsEvents = () => {
   window.bus.$on(ANALYTICS_IDENTITY, ({ user }) => {
     AnalyticsHelper.identify(user);
-    LogRocket.identify(user.id, {
-      email: user.email,
-      name: user.name,
-    });
+    if (window.logRocketProjectId) {
+      LogRocket.identify(user.id, {
+        email: user.email,
+        name: user.name,
+      });
+    }
   });
   window.bus.$on(ANALYTICS_RESET, () => {});
 };
