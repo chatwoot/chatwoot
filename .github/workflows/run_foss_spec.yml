@@ -73,6 +73,7 @@ jobs:
 
     - name: Upload rails log folder
       uses: actions/upload-artifact@v3
+      if: always()
       with:
         name: rails-log-folder
         path: log
