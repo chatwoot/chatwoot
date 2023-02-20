@@ -371,7 +371,6 @@ export default {
   padding: var(--space-normal);
 }
 .contact--bio {
-  direction: initial;
   word-wrap: break-word;
 }
 
