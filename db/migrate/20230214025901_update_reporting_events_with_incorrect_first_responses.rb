@@ -3,7 +3,7 @@ class UpdateReportingEventsWithIncorrectFirstResponses < ActiveRecord::Migration
 
   # rubocop:disable Metrics/AbcSize
   def change
-    Reporting::Event.where(name: 'first_response', user_id: nil).find_in_batches do |bot_responses|
+    ReportingEvent.where(name: 'first_response', user_id: nil).find_in_batches do |bot_responses|
       bot_responses.each do |event|
         conversation = event.conversation
         next if conversation.nil?
