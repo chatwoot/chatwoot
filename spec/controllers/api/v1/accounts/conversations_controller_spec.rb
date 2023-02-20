@@ -252,11 +252,11 @@ RSpec.describe 'Conversations API', type: :request do
         end
 
         it 'does not create a new conversation if source_id is not unique' do
-          create(:contact_inbox, contact: contact, inbox: inbox, source_id: 'test')
+          new_contact = create(:contact, account: account)
 
           post "/api/v1/accounts/#{account.id}/conversations",
                headers: agent.create_new_auth_token,
-               params: { source_id: 'test', inbox_id: inbox.id },
+               params: { source_id: contact_inbox.source_id, inbox_id: inbox.id, contact_id: new_contact.id },
                as: :json
           expect(response).to have_http_status(:unprocessable_entity)
         end
