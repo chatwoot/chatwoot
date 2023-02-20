@@ -1,4 +1,4 @@
-class DropReportingEventsWithIncorrectFirstResponses < ActiveRecord::Migration[6.1]
+class UpdateReportingEventsWithIncorrectFirstResponses < ActiveRecord::Migration[6.1]
   include ReportingEventHelper
 
   def change
