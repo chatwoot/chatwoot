@@ -153,7 +153,7 @@ export default {
 .options-menu.dropdown-pane {
   left: var(--space-slab);
   bottom: var(--space-larger);
-  min-width: 22rem;
+  min-width: var(--space-giga);
   top: unset;
   z-index: var(--z-index-low);
 }

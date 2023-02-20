@@ -181,7 +181,7 @@ export default {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: var(--space-smaller) var(--space-one) var(--space-smaller)
+  padding: var(--space-smaller) var(--space-smaller) var(--space-smaller)
     var(--space-one);
   margin: 0;
 
