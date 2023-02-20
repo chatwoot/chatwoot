@@ -15,7 +15,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     services:
       postgres:
         image: postgres:10.8
@@ -49,6 +49,10 @@ jobs:
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
     - name: yarn
       run: yarn install
 
@@ -70,3 +74,10 @@ jobs:
     - name: Run backend tests
       run: |
         bundle exec rspec --profile=10 --format documentation
+
+    - name: Upload rails log folder
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: rails-log-folder
+        path: log
