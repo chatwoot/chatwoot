@@ -1,18 +1,15 @@
 class UpdateReportingEventsWithIncorrectFirstResponses < ActiveRecord::Migration[6.1]
   include ReportingEventHelper
 
+  # rubocop:disable Metrics/AbcSize
   def change
-    recompute_first_responses
-  end
-
-  def recompute_first_responses
     Reporting::Event.where(name: 'first_response', user_id: nil).find_in_batches do |bot_responses|
       bot_responses.each do |event|
         conversation = event.conversation
         next if conversation.nil?
 
-        last_bot_reply = conversation.messages.where(sender_type: 'AgentBot').last
-        first_human_reply = conversation.message.where(sender_type: 'User').first
+        last_bot_reply = conversation.messages.where(sender_type: 'AgentBot').order(created_at: :asc).last
+        first_human_reply = conversation.message.where(sender_type: 'User').order(created_at: :asc).first
 
         # accomodate for campaign if required
         # new_value = difference between the first_human_reply and the first_bot_reply if it exists or first_human_reply and created at
@@ -44,4 +41,5 @@ class UpdateReportingEventsWithIncorrectFirstResponses < ActiveRecord::Migration
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
 end
