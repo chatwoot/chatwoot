@@ -1,4 +1,4 @@
-$default-button-height: 4rem;
+$default-button-height: 4.0rem;
 
 .button {
   align-items: center;
@@ -14,16 +14,16 @@ $default-button-height: 4rem;
     padding: 0 var(--space-small);
   }
 
-  .icon--emoji + .button__content {
+  .icon--emoji+.button__content {
     padding-left: var(--space-small);
   }
 
-  .icon--font + .button__content {
+  .icon--font+.button__content {
     padding-left: var(--space-small);
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon + .button__content {
+  .icon+.button__content {
     padding-left: var(--space-small);
     width: auto;
   }
@@ -94,6 +94,7 @@ $default-button-height: 4rem;
   &.smooth {
     @include button-style(var(--w-50), var(--w-100), var(--w-700));
 
+
     &.secondary {
       @include button-style(var(--s-50), var(--s-100), var(--s-700));
     }
@@ -155,7 +156,7 @@ $default-button-height: 4rem;
   &.tiny {
     height: var(--space-medium);
 
-    .icon + .button__content {
+    .icon+.button__content {
       padding-left: var(--space-micro);
     }
   }
@@ -165,7 +166,7 @@ $default-button-height: 4rem;
     padding-bottom: var(--space-smaller);
     padding-top: var(--space-smaller);
 
-    .icon + .button__content {
+    .icon+.button__content {
       padding-left: var(--space-smaller);
     }
   }
@@ -204,9 +205,3 @@ $default-button-height: 4rem;
   }
 }
 
-// @TDOD move to utility file
-.button--fixed-top {
-  position: fixed;
-  right: $space-small;
-  top: $space-small;
-}
