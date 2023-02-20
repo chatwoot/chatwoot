@@ -82,6 +82,7 @@
       "conversation_creation": "Novi razgovor",
       "conversation_assignment": "Dodeljen razgovoru",
       "assigned_conversation_new_message": "Nova poruka",
+      "participating_conversation_new_message": "Nova poruka",
       "conversation_mention": "Pominjanje"
     }
   },

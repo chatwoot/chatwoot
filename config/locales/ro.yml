@@ -155,6 +155,9 @@ ro:
     fullcontact:
       name: "Fullcontact"
       description: "Integrarea FullContact ajută la îmbogățirea profilurilor vizitatorilor. Identificați utilizatorii imediat ce își partajează adresa de e-mail și oferiți-le servicii personalizate pentru clienți. Conectați FullContact la contul dvs., partajând cheia API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

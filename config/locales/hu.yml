@@ -155,6 +155,9 @@ hu:
     fullcontact:
       name: "FullContact"
       description: "A FullContact integráció segít a látogatói profilok egységesítésében. Azonosítsa a felhasználókat, amint megosztják e-mail címüket, és kínáljon nekik személyre szabott ügyfélszolgálatot. Csatlakoztassa a FullContactot fiókjához a FullContact API-kulcs megosztásával."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
