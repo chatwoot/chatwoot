@@ -112,7 +112,7 @@
         </p>
       </div>
       <div class="columns small-9 medium-5">
-        <woot-code :script="currentUser.access_token" />
+        <secret-text :value="currentUser.access_token" />
       </div>
     </div>
   </div>
@@ -130,6 +130,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin, {
   isEditorHotKeyEnabled,
 } from 'dashboard/mixins/uiSettings';
+import SecretText from 'dashboard/components/SecretText.vue';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 
 export default {
@@ -138,6 +139,7 @@ export default {
     ChangePassword,
     MessageSignature,
     PreviewCard,
+    SecretText,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
