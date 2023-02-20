@@ -96,13 +96,15 @@ gem 'slack-ruby-client'
 gem 'google-cloud-dialogflow'
 
 ##-- apm and error monitoring ---#
-gem 'ddtrace'
-gem 'elastic-apm'
-gem 'newrelic_rpm'
-gem 'scout_apm'
-gem 'sentry-rails', '~> 5.3', '>= 5.3.1'
-gem 'sentry-ruby', '~> 5.3'
-gem 'sentry-sidekiq', '~> 5.3', '>= 5.3.1'
+# loaded only when environment variables are set.
+# ref application.rb
+gem 'ddtrace', require: false
+gem 'elastic-apm', require: false
+gem 'newrelic_rpm', require: false
+gem 'scout_apm', require: false
+gem 'sentry-rails', require: false
+gem 'sentry-ruby', require: false
+gem 'sentry-sidekiq', require: false
 
 ##-- background job processing --##
 gem 'sidekiq', '~> 6.4.2'
