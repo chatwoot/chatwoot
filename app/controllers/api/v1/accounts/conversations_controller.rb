@@ -153,7 +153,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       source_id: params[:source_id]
     ).perform
   rescue ActiveRecord::RecordNotUnique
-    redirect_to :action => 'unprocessable_entity', :status => :unprocessable_entity
+    render json: { error: 'source_id should be unique' }, status: :unprocessable_entity
   end
 
   def conversation_finder
