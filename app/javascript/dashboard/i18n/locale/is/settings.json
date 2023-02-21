@@ -11,7 +11,7 @@
     "AFTER_EMAIL_CHANGED": "Prófíllinn þinn hefur verið uppfærður, vinsamlegast skráðu þig inn aftur þar sem innskráningarskilríkjum þínum er breytt",
     "FORM": {
       "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
+      "ERROR": "Vinsamlegast lagfærðu villurnar",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
@@ -47,7 +47,7 @@
         "PLACEHOLDER": "Settu inn persónulegu skilaboðaundirskriftina þína hér."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
+        "TITLE": "Lykilorð",
         "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
         "BTN_TEXT": "Change password"
       },
@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Sækja",
-      "UPLOADING": "Hleður upp..."
+      "UPLOADING": "Hleður upp...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -193,13 +194,13 @@
     "MENTIONED_CONVERSATIONS": "Mentions",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
-    "SETTINGS": "Settings",
+    "SETTINGS": "Stillingar",
     "CONTACTS": "Contacts",
     "HOME": "Home",
     "AGENTS": "Þjónustufulltrúar",
     "AGENT_BOTS": "Bots",
     "INBOXES": "Innhólf",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Skilaboð",
     "CANNED_RESPONSES": "Stöðluð svör",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
@@ -220,7 +221,7 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "Samtöl",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
+    "CAMPAIGNS": "Herferð",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Þjónustufulltrúar",

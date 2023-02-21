@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
     "UNKNOWN_FILE_TYPE": "ملف غير معروف",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
           "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "إرسال",
+          "CANCEL": "إلغاء"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
@@ -214,7 +223,7 @@
       "CONVERSATION_INFO": "معلومات المحادثة",
       "CONTACT_ATTRIBUTES": "سمات جهة الاتصال",
       "PREVIOUS_CONVERSATION": "المحادثات السابقة",
-      "MACROS": "Macros"
+      "MACROS": "ماكروس"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

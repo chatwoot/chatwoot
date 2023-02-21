@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Hafið frá",
     "INITIATED_AT": "Hafið",
     "IP_ADDRESS": "IP tala",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Ný skilaboð",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Engin fyrri samtöl eru tengd þessum tengilið.",
@@ -161,7 +162,7 @@
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Hefja samtal",
-    "TITLE": "New conversation",
+    "TITLE": "Nýtt samtal",
     "DESC": "Byrjaðu nýtt samtal með því að senda ný skilaboð.",
     "NO_INBOX": "Gat ekki fundið innhólf til að hefja nýtt samtal við þennan tengilið.",
     "FORM": {
@@ -203,9 +204,10 @@
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Nafn",
-        "PHONE_NUMBER": "Phone Number",
+        "PHONE_NUMBER": "Símanúmer",
         "CONVERSATIONS": "Samtöl",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

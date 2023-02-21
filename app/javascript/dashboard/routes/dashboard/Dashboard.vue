@@ -62,13 +62,12 @@ export default {
   mixins: [uiSettingsMixin],
   data() {
     return {
-      isOnDesktop: true,
       showAccountModal: false,
       showCreateAccountModal: false,
       showAddLabelModal: false,
       showShortcutModal: false,
       isNotificationPanel: false,
-      isDesktopView: false,
+      displayLayoutType: '',
     };
   },
   computed: {
@@ -85,14 +84,25 @@ export default {
       } = this.uiSettings;
       return conversationDisplayType;
     },
+    previouslyUsedSidebarView() {
+      const {
+        previously_used_sidebar_view: showSecondarySidebar,
+      } = this.uiSettings;
+      return showSecondarySidebar;
+    },
   },
   watch: {
-    isDesktopView() {
+    displayLayoutType() {
       const { LAYOUT_TYPES } = wootConstants;
       this.updateUISettings({
-        conversation_display_type: !this.isDesktopView
-          ? LAYOUT_TYPES.EXPANDED
-          : this.previouslyUsedDisplayType,
+        conversation_display_type:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? LAYOUT_TYPES.EXPANDED
+            : this.previouslyUsedDisplayType,
+        show_secondary_sidebar:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? false
+            : this.previouslyUsedSidebarView,
       });
     },
   },
@@ -108,7 +118,7 @@ export default {
 
   methods: {
     handleResize() {
-      const { SMALL_SCREEN_BREAKPOINT } = wootConstants;
+      const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
       let throttled = false;
       const delay = 150;
 
@@ -120,15 +130,16 @@ export default {
       setTimeout(() => {
         throttled = false;
         if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
-          this.isDesktopView = false;
+          this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
         } else {
-          this.isDesktopView = true;
+          this.displayLayoutType = LAYOUT_TYPES.CONDENSED;
         }
       }, delay);
     },
     toggleSidebar() {
       this.updateUISettings({
         show_secondary_sidebar: !this.isSidebarOpen,
+        previously_used_sidebar_view: !this.isSidebarOpen,
       });
     },
     openCreateAccountModal() {

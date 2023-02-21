@@ -23,7 +23,7 @@
         "ERROR": "الرجاء إدخال اسم حساب صحيح"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "لغة الموقع",
         "PLACEHOLDER": "اسم الحساب الخاص بك",
         "ERROR": ""
       },
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "اضغط على زر الإدخال للاختيار",
       "ENTER_TO_REMOVE": "اضغط على زر الإدخال للحذف",
       "SELECT_ONE": "اختر واحدا",
-      "SELECT": "Select"
+      "SELECT": "اختر"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -139,6 +139,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "تحميل تطبيق لوحة التحكم..."
   }
 }

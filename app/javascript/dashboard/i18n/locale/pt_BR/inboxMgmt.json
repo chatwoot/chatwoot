@@ -50,7 +50,7 @@
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
         "ERROR_MESSAGE": "Houve um erro ao conectar com o Twitter, por favor, tente novamente",
         "TWEETS": {
-          "ENABLE": "Criar conversas dos Tweets mencionados"
+          "ENABLE": "Criar conversas a partir dos Tweets mencionados"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do webhook",
-          "PLACEHOLDER": "Digite sua URL de Webhook",
+          "PLACEHOLDER": "Digite a URL do Webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telefone",
           "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
-          "ERROR": "Por favor, forneça um número de telefone válido que começa com uma placa `+` e não contém quaisquer espaços."
+          "ERROR": "Por favor, forneça um número de telefone válido que comece com o símbolo \"+\" e não contenha espaços."
         },
         "API_CALLBACK": {
           "TITLE": "URL de retorno",
@@ -159,7 +159,7 @@
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID da Conta",
-            "PLACEHOLDER": "Por favor, insira sua ID de conta de bandwidth",
+            "PLACEHOLDER": "Por favor, insira o ID de sua conta no Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "API_KEY": {
@@ -169,12 +169,12 @@
           },
           "API_SECRET": {
             "LABEL": "Chave secreta API",
-            "PLACEHOLDER": "Por favor insira o seu Segredo da API Bandwith",
+            "PLACEHOLDER": "Por favor, insira a sua chave da API Bandwith",
             "ERROR": "Este campo é obrigatório"
           },
           "APPLICATION_ID": {
             "LABEL": "ID da aplicação",
-            "PLACEHOLDER": "Por favor, insira sua ID de aplicação de bandwidth",
+            "PLACEHOLDER": "Por favor, insira o ID de sua conta no Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "INBOX_NAME": {
@@ -185,11 +185,11 @@
           "PHONE_NUMBER": {
             "LABEL": "Número de telefone",
             "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
-            "ERROR": "Por favor, forneça um número de telefone válido que começa com uma placa `+` e não contém quaisquer espaços."
+            "ERROR": "Por favor, forneça um número de telefone válido que comece com o símbolo \"+\" e não contenha espaços."
           },
-          "SUBMIT_BUTTON": "Criar canal de banda",
+          "SUBMIT_BUTTON": "Criar canal Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "Não fomos capazes de autenticar as credenciais de banda larga, por favor tente novamente"
+            "ERROR_MESSAGE": "Não pudemos autenticar as credenciais de Bandwidth, por favor, tente novamente"
           },
           "API_CALLBACK": {
             "TITLE": "URL de retorno",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Tudo funcionando. Deu certo!",
         "DESC": "Você concluiu a integração da sua página do Facebook com o Chatwoot. Na próxima vez que um cliente enviar uma mensagem para sua página, a conversa aparecerá automaticamente na sua caixa de entrada. <br> Também estamos fornecendo um script de widget que você pode adicionar facilmente ao seu site. Assim que estiver disponível no seu site, os clientes poderão enviar mensagens diretamente do seu site, sem a ajuda de nenhuma ferramenta externa, e a conversa aparecerá aqui, no Chatwoot. Legal, hein? Com certeza estamos tentamos ser :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Selecione seu provedor de e-mail",
+        "DESCRIPTION": "Selecione um provedor de e-mail da lista abaixo. Se você não ver seu provedor de e-mail na lista, você pode selecionar a outra opção de provedor e fornecer as credenciais IMAP e SMTP."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Clique no botão Entrar com a Microsoft para começar. Você será redirecionado para o login do e-mail. Após aceitar as permissões solicitadas, você será redirecionado de volta para a etapa de criação da caixa de entrada.",
+        "EMAIL_PLACEHOLDER": "Digite o endereço de e-mail",
+        "HELP": "Para adicionar sua conta da Microsoft como um canal, você precisa autenticar em sua conta clicando em 'Entrar com a Microsoft' ",
+        "ERROR_MESSAGE": "Ocorreu um erro ao conectar com a Microsoft, por favor, tente novamente"
       }
     },
     "DETAILS": {
@@ -461,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os usuários finais enviem mensagens mesmo depois que a conversa for resolvida.",
       "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada para a integração com as APIs do WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Chave API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Digite a chave atualizada a ser usada para a integração com as APIs do WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "Chave API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave de API aqui",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limite de atribuição automática",
@@ -547,6 +562,10 @@
         "PLACE_HOLDER": "Senha"
       },
       "ENABLE_SSL": "Habilitar o SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Autorize novamente sua conta MICROSOFT"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +685,10 @@
       },
       "BRANDING_TEXT": "Desenvolvido por Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Outros Provedores"
     }
   }
 }

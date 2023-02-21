@@ -7,6 +7,6 @@ FactoryBot.define do
     content { 'MyText' }
     description { 'MyDescrption' }
     status { 1 }
-    views { 1 }
+    views { 0 }
   end
 end

@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Nailed It!",
         "DESC": "Þú hefur lokið við að innleiða Facebook síðuna þína í Chatwoot. Næst þegar viðskiptavinur sendir skilaboð á síðunni þinni birtist samtalið sjálfkrafa í innhólfinu þínu.<br>Við erum líka að útvega þér netspjalls skriftu sem þú getur auðveldlega bætt við vefsíðuna þína. Þegar þetta er komið á vefsvæðið þitt geta viðskiptavinir sent þér skilaboð beint frá vefsíðunni þinni án hjálpar utanaðkomandi tóla og samtalið mun birtast hér, í Chatwoot.<br>Svalt, ha? Jæja, við reynum að vera það :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -417,15 +428,15 @@
       "SETTINGS": "Stillingar",
       "COLLABORATORS": "Samstarfsaðilar",
       "CONFIGURATION": "Stillingar",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Herferð",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot stillingar"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Stillingar",
     "FEATURES": {
-      "LABEL": "Features",
+      "LABEL": "Fídusar",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Leyfa notendum að ljúka samtali úr græjunni"
@@ -437,7 +448,7 @@
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
+      "UPDATE": "Uppfæra",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Virkja eða slökkva á söfnunarreit tölvupósts í nýju samtali",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
@@ -461,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Leyfa skilaboð eftir að samtal hefur verið leyst",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leyfa endanotendum að senda skilaboð jafnvel eftir að samtalið er leyst.",
       "WHATSAPP_SECTION_SUBHEADER": "Þessi API lykill er notaður fyrir samþættingu við WhatsApp API.",
-      "WHATSAPP_SECTION_TITLE": "API Lykill"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Lykill",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Uppfæra"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -483,13 +498,13 @@
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Key",
         "TYPE": "Type",
-        "REQUIRED": "Required"
+        "REQUIRED": "Nauðsynlegt"
       },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Já",
+          "DISABLED": "Nei"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -547,6 +562,10 @@
         "PLACE_HOLDER": "Lykilorð"
       },
       "ENABLE_SSL": "Virkja SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +685,10 @@
       },
       "BRANDING_TEXT": "Keyrt af Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

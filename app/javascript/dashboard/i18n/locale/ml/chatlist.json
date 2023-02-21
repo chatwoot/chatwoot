@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "സ്‌നൂസ് ചെയ്തു"
+      },
+      "all": {
+        "TEXT": "എല്ലാം"
       }
     },
     "ATTACHMENTS": {

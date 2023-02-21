@@ -6,9 +6,8 @@ import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
 import { throwErrorMessage } from '../utils/api';
-import AnalyticsHelper, {
-  ANALYTICS_EVENTS,
-} from '../../helper/AnalyticsHelper';
+import AnalyticsHelper from '../../helper/AnalyticsHelper';
+import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
@@ -121,7 +120,7 @@ export const getters = {
 };
 
 const sendAnalyticsEvent = channelType => {
-  AnalyticsHelper.track(ANALYTICS_EVENTS.ADDED_AN_INBOX, {
+  AnalyticsHelper.track(ACCOUNT_EVENTS.ADDED_AN_INBOX, {
     channelType,
   });
 };

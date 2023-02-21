@@ -32,7 +32,7 @@
       "TITLE": "Article Settings",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
+          "LABEL": "Categorie",
           "TITLE": "Select category",
           "PLACEHOLDER": "Select category",
           "NO_RESULT": "No category found",
@@ -286,7 +286,7 @@
       "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Title",
-        "CATEGORY": "Category",
+        "CATEGORY": "Categorie",
         "READ_COUNT": "Read count",
         "STATUS": "Status",
         "LAST_EDITED": "Last edited"

@@ -1,8 +1,8 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Atributos Personalizados",
-    "HEADER_BTN_TXT": "Adicionar atributo personalizado",
-    "LOADING": "Buscando atributos personalizados",
+    "HEADER_BTN_TXT": "Criar atributo personalizado",
+    "LOADING": "Buscando atributos",
     "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo customizado rastreia fatos sobre seus contatos/conversa — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar no<b>Adicionar atributo personalizado.</b> Você também pode editar ou apagar um atributo existente clicando em Editar ou Apagar botão.</p>",
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atributo personalizado adicionado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível criar um atributo personalizado, por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Atributo personalizado adicionado com sucesso!",
+        "ERROR_MESSAGE": "Não foi possível criar um atributo personalizado. Por favor, tente novamente mais tarde."
       }
     },
     "DELETE": {

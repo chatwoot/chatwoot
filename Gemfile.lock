@@ -9,63 +9,63 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (6.1.6.1)
-      actionpack (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    actioncable (6.1.7.1)
+      actionpack (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailbox (6.1.6.1)
-      actionpack (= 6.1.6.1)
-      activejob (= 6.1.6.1)
-      activerecord (= 6.1.6.1)
-      activestorage (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    actionmailbox (6.1.7.1)
+      actionpack (= 6.1.7.1)
+      activejob (= 6.1.7.1)
+      activerecord (= 6.1.7.1)
+      activestorage (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       mail (>= 2.7.1)
-    actionmailer (6.1.6.1)
-      actionpack (= 6.1.6.1)
-      actionview (= 6.1.6.1)
-      activejob (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    actionmailer (6.1.7.1)
+      actionpack (= 6.1.7.1)
+      actionview (= 6.1.7.1)
+      activejob (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (6.1.6.1)
-      actionview (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    actionpack (6.1.7.1)
+      actionview (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       rack (~> 2.0, >= 2.0.9)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
-    actiontext (6.1.6.1)
-      actionpack (= 6.1.6.1)
-      activerecord (= 6.1.6.1)
-      activestorage (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    actiontext (6.1.7.1)
+      actionpack (= 6.1.7.1)
+      activerecord (= 6.1.7.1)
+      activestorage (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       nokogiri (>= 1.8.5)
-    actionview (6.1.6.1)
-      activesupport (= 6.1.6.1)
+    actionview (6.1.7.1)
+      activesupport (= 6.1.7.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
     active_record_query_trace (1.8)
-    activejob (6.1.6.1)
-      activesupport (= 6.1.6.1)
+    activejob (6.1.7.1)
+      activesupport (= 6.1.7.1)
       globalid (>= 0.3.6)
-    activemodel (6.1.6.1)
-      activesupport (= 6.1.6.1)
-    activerecord (6.1.6.1)
-      activemodel (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    activemodel (6.1.7.1)
+      activesupport (= 6.1.7.1)
+    activerecord (6.1.7.1)
+      activemodel (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
     activerecord-import (1.4.0)
       activerecord (>= 4.2)
-    activestorage (6.1.6.1)
-      actionpack (= 6.1.6.1)
-      activejob (= 6.1.6.1)
-      activerecord (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    activestorage (6.1.7.1)
+      actionpack (= 6.1.7.1)
+      activejob (= 6.1.7.1)
+      activerecord (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
-    activesupport (6.1.6.1)
+    activesupport (6.1.7.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -73,8 +73,8 @@ GEM
       zeitwerk (~> 2.3)
     acts-as-taggable-on (9.0.1)
       activerecord (>= 6.0, < 7.1)
-    addressable (2.8.0)
-      public_suffix (>= 2.0.2, < 5.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     administrate (0.17.0)
       actionpack (>= 5.0)
       actionview (>= 5.0)
@@ -135,12 +135,13 @@ GEM
     byebug (11.1.3)
     climate_control (1.1.1)
     coderay (1.1.3)
-    commonmarker (0.23.6)
+    commonmarker (0.23.7)
     concurrent-ruby (1.1.10)
     connection_pool (2.2.5)
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    csv-safe (3.1.1)
     cypress-on-rails (1.13.1)
       rack
     database_cleaner (2.0.1)
@@ -247,8 +248,10 @@ GEM
       grpc (~> 1.36)
     geocoder (1.8.0)
     gli (2.21.0)
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
+    gmail_xoauth (0.4.2)
+      oauth (>= 0.3.6)
     google-apis-core (0.7.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
@@ -286,6 +289,19 @@ GEM
       google-cloud-core (~> 1.6)
       googleauth (>= 0.16.2, < 2.a)
       mini_mime (~> 1.0)
+    google-cloud-translate (3.3.0)
+      google-cloud-core (~> 1.6)
+      google-cloud-translate-v2 (>= 0.0, < 2.a)
+      google-cloud-translate-v3 (>= 0.0, < 2.a)
+    google-cloud-translate-v2 (0.4.0)
+      faraday (>= 0.17.3, < 2.a)
+      google-cloud-core (~> 1.6)
+      googleapis-common-protos (>= 1.3.10, < 2.a)
+      googleapis-common-protos-types (>= 1.0.5, < 2.a)
+      googleauth (>= 0.16.2, < 2.a)
+    google-cloud-translate-v3 (0.5.0)
+      gapic-common (>= 0.10, < 2.a)
+      google-cloud-errors (~> 1.0)
     google-protobuf (3.21.7)
     google-protobuf (3.21.7-x86_64-darwin)
     google-protobuf (3.21.7-x86_64-linux)
@@ -321,7 +337,7 @@ GEM
     hana (1.3.7)
     hashdiff (1.0.1)
     hashie (5.0.0)
-    hkdf (0.3.0)
+    hkdf (1.0.0)
     html2text (0.2.1)
       nokogiri (~> 1.6)
     http (5.1.0)
@@ -358,7 +374,7 @@ GEM
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       uri_template (~> 0.7)
-    jwt (2.4.1)
+    jwt (2.5.0)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -424,8 +440,16 @@ GEM
     multipart-post (2.2.3)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
+    net-imap (0.3.1)
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.1)
+      timeout
+    net-smtp (0.3.3)
+      net-protocol
     netrc (0.11.0)
-    newrelic_rpm (8.9.0)
+    newrelic_rpm (8.15.0)
     nio4r (2.5.8)
     nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
@@ -437,6 +461,29 @@ GEM
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.10)
+    oauth2 (2.0.9)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
+    omniauth (2.1.0)
+      hashie (>= 3.4.6)
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-google-oauth2 (1.1.1)
+      jwt (>= 2.0)
+      oauth2 (~> 2.0.6)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8.0)
+    omniauth-oauth2 (1.8.0)
+      oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
+    openssl (3.1.0)
     orm_adapter (0.5.0)
     os (1.1.4)
     parallel (1.22.1)
@@ -453,46 +500,48 @@ GEM
       method_source (~> 1.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (4.0.7)
+    public_suffix (5.0.1)
     puma (5.6.4)
       nio4r (~> 2.0)
     pundit (2.2.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.6.1)
-    rack (2.2.4)
+    rack (2.2.6.2)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-protection (3.0.5)
+      rack
     rack-proxy (0.7.2)
       rack
     rack-test (2.0.2)
       rack (>= 1.3)
     rack-timeout (0.6.3)
-    rails (6.1.6.1)
-      actioncable (= 6.1.6.1)
-      actionmailbox (= 6.1.6.1)
-      actionmailer (= 6.1.6.1)
-      actionpack (= 6.1.6.1)
-      actiontext (= 6.1.6.1)
-      actionview (= 6.1.6.1)
-      activejob (= 6.1.6.1)
-      activemodel (= 6.1.6.1)
-      activerecord (= 6.1.6.1)
-      activestorage (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    rails (6.1.7.1)
+      actioncable (= 6.1.7.1)
+      actionmailbox (= 6.1.7.1)
+      actionmailer (= 6.1.7.1)
+      actionpack (= 6.1.7.1)
+      actiontext (= 6.1.7.1)
+      actionview (= 6.1.7.1)
+      activejob (= 6.1.7.1)
+      activemodel (= 6.1.7.1)
+      activerecord (= 6.1.7.1)
+      activestorage (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       bundler (>= 1.15.0)
-      railties (= 6.1.6.1)
+      railties (= 6.1.7.1)
       sprockets-rails (>= 2.0.0)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.4)
       loofah (~> 2.19, >= 2.19.1)
-    railties (6.1.6.1)
-      actionpack (= 6.1.6.1)
-      activesupport (= 6.1.6.1)
+    railties (6.1.7.1)
+      actionpack (= 6.1.7.1)
+      activesupport (= 6.1.7.1)
       method_source
       rake (>= 12.2)
       thor (~> 1.0)
@@ -620,6 +669,9 @@ GEM
       gli
       hashie
       websocket-driver
+    snaky_hash (2.0.1)
+      hashie
+      version_gem (~> 1.1, >= 1.1.1)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -635,11 +687,13 @@ GEM
     statsd-ruby (1.5.0)
     stripe (6.5.0)
     telephone_number (1.4.16)
+    test-prof (1.0.11)
     thor (1.2.1)
     tilt (2.0.10)
     time_diff (0.3.0)
       activesupport
       i18n
+    timeout (0.3.1)
     trailblazer-option (0.1.2)
     twilio-ruby (5.68.0)
       faraday (>= 0.9, < 3.0)
@@ -663,6 +717,7 @@ GEM
     valid_email2 (4.0.3)
       activemodel (>= 3.2)
       mail (~> 2.5)
+    version_gem (1.1.1)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -670,7 +725,11 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webmock (3.14.0)
+    web-push (3.0.0)
+      hkdf (~> 1.0)
+      jwt (~> 2.0)
+      openssl (~> 3.0)
+    webmock (3.18.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -679,9 +738,6 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
-    webpush (1.1.0)
-      hkdf (~> 0.2)
-      jwt (~> 2.0)
     webrick (1.7.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -718,7 +774,8 @@ DEPENDENCIES
   byebug
   climate_control
   commonmarker
-  cypress-on-rails (~> 1.0)
+  csv-safe
+  cypress-on-rails (~> 1.13, >= 1.13.1)
   database_cleaner
   ddtrace
   devise
@@ -735,8 +792,10 @@ DEPENDENCIES
   flag_shih_tzu
   foreman
   geocoder
+  gmail_xoauth
   google-cloud-dialogflow
   google-cloud-storage
+  google-cloud-translate
   groupdate
   haikunator
   hairtrigger
@@ -755,7 +814,14 @@ DEPENDENCIES
   listen
   maxminddb
   mock_redis
+  net-imap
+  net-pop
+  net-smtp
   newrelic_rpm
+  omniauth
+  omniauth-google-oauth2
+  omniauth-oauth2
+  omniauth-rails_csrf_protection (~> 1.0)
   pg
   pg_search
   procore-sift
@@ -765,7 +831,7 @@ DEPENDENCIES
   rack-attack
   rack-cors
   rack-timeout
-  rails (~> 6.1, >= 6.1.6.1)
+  rails (~> 6.1, >= 6.1.7.1)
   redis
   redis-namespace
   responders
@@ -780,10 +846,10 @@ DEPENDENCIES
   seed_dump
   sentry-rails (~> 5.3, >= 5.3.1)
   sentry-ruby (~> 5.3)
-  sentry-sidekiq (~> 5.3)
+  sentry-sidekiq (~> 5.3, >= 5.3.1)
   shoulda-matchers
-  sidekiq (~> 6.4.0)
-  sidekiq-cron (~> 1.3)
+  sidekiq (~> 6.4.2)
+  sidekiq-cron (~> 1.6, >= 1.6.0)
   simplecov (= 0.17.1)
   slack-ruby-client
   spring
@@ -791,6 +857,7 @@ DEPENDENCIES
   squasher
   stripe
   telephone_number
+  test-prof
   time_diff
   twilio-ruby (~> 5.66)
   twitty
@@ -798,14 +865,14 @@ DEPENDENCIES
   uglifier
   valid_email2
   web-console
+  web-push
   webmock
   webpacker (~> 5.4, >= 5.4.3)
-  webpush
   wisper (= 2.0.0)
   working_hours
 
 RUBY VERSION
-   ruby 3.0.4p208
+   ruby 3.1.3p185
 
 BUNDLED WITH
-   2.3.16
+   2.3.26

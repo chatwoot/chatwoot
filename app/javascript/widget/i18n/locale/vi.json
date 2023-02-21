@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Yêu cầu bản ghi hội thoại",
     "SEND_EMAIL_SUCCESS": "Bản ghi cuộc trò chuyện đã được gửi thành công",
     "SEND_EMAIL_ERROR": "Đã có lỗi, vui lòng thử lại"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

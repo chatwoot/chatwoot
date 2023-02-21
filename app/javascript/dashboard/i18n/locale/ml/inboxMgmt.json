@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "പൊളിച്ചു അടുക്കി!",
         "DESC": "നിങ്ങളുടെ ഫേസ്ബുക്ക് പേജ് ചാറ്റ് വൂട്ടുമായി സമന്വയിപ്പിക്കുന്നത് നിങ്ങൾ വിജയകരമായി പൂർത്തിയാക്കി. അടുത്ത തവണ ഒരു ഉപയോക്താവ് നിങ്ങളുടെ പേജിലേക്ക് സന്ദേശമയയ്ക്കുമ്പോൾ, സംഭാഷണം ഓട്ടോമാറ്റിക്കലി നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ദൃശ്യമാകും. <br> നിങ്ങൾക്ക് എളുപ്പത്തിൽ സംയോജിപ്പിക്കാൻ കഴിയുന്ന ഒരു വിജറ്റ് സ്ക്രിപ്റ്റും ഞങ്ങൾ നിങ്ങൾക്ക് നൽകുന്നു. ഇത് നിങ്ങളുടെ വെബ്‌സൈറ്റിലേക്ക് ചേർക്കുക. ഇത് നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ തത്സമയമായിക്കഴിഞ്ഞാൽ, ഉപയോക്താക്കൾക്ക് നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ നിന്ന് നിങ്ങൾക്ക് സന്ദേശം അയയ്‌ക്കാൻ കഴിയും, ഒപ്പം സംഭാഷണം ചാറ്റ് വൂട്ടിൽ തന്നെ ദൃശ്യമാകും. <br> കൊള്ളാം, അല്ലേ? :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -461,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷം സന്ദേശങ്ങൾ അനുവദിക്കുക",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷവും സന്ദേശങ്ങൾ അയയ്ക്കാൻ അന്തിമ ഉപയോക്താക്കളെ അനുവദിക്കുക.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "അപ്‌ഡേറ്റ്"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -547,6 +562,10 @@
         "PLACE_HOLDER": "പാസ്‌വേഡ്"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +685,10 @@
       },
       "BRANDING_TEXT": "പ്രായോജകർ Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

@@ -15,6 +15,7 @@
     "INITIATED_FROM": "شروع شده از",
     "INITIATED_AT": "شروع شده در",
     "IP_ADDRESS": "آدرس آی‌پی",
+    "CREATED_AT_LABEL": "ایجاد شده",
     "NEW_MESSAGE": "پیام جدید",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "شماره تلفن",
         "CONVERSATIONS": "گفتگوها",
         "LAST_ACTIVITY": "آخرین فعالیت",
+        "CREATED_AT": "ایجاد شده در",
         "COUNTRY": "کشور",
         "CITY": "شهر",
         "SOCIAL_PROFILES": "پروفایل‌های شبکه‌های اجتماعی",

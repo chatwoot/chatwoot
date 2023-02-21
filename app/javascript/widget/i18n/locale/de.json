@@ -74,8 +74,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Emojis durchsuchen",
+    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche"
   },
   "CSAT": {
     "TITLE": "Bewerten Sie Ihre Konversation",
@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Chat-Protokoll anfordern",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klicke hier, um beizutreten",
+      "LEAVE_THE_ROOM": "Anruf verlassen"
+    }
   }
 }

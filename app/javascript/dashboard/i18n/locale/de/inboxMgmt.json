@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Geschafft!",
         "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Chatwoot erfolgreich abgeschlossen. Wenn ein Kunde das nächste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen außerdem ein Widget-Skript zur Verfügung, das Sie ganz einfach zu Ihrer Website hinzufügen können. Sobald dies auf Ihrer Website live ist, können Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Chatwoot angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Wählen Sie Ihren E-Mail-Anbieter",
+        "DESCRIPTION": "Wählen Sie einen E-Mail-Anbieter aus der Liste unten. Wenn Ihr E-Mail-Provider nicht in der Liste steht, können Sie die 'Anderer Anbieter'-Option auswählen und die Zugangsdaten für IMAP und SMTP angeben."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Microsoft, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
+        "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
+        "HELP": "Um Ihr Microsoft-Konto als Kanal hinzuzufügen, müssen Sie Ihr Microsoft-Konto authentifizieren, indem Sie auf 'Mit Microsoft anmelden' klicken ",
+        "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       }
     },
     "DETAILS": {
@@ -421,7 +432,7 @@
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
       "BUSINESS_HOURS": "Öffnungszeiten",
       "WIDGET_BUILDER": "Widget-Generator",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot-Konfiguration"
     },
     "SETTINGS": "Einstellungen",
     "FEATURES": {
@@ -445,8 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Auf einzelne Unterhaltung sperren",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Mehrere Unterhaltungen für denselben Kontakt in diesem Posteingang aktivieren oder deaktivieren",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
@@ -461,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist.",
       "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird für die Integration mit den WhatsApp APIs verwendet.",
-      "WHATSAPP_SECTION_TITLE": "API-Schlüssel"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API-Schlüssel",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Aktualisieren"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limit für automatische Zuweisung",
@@ -547,6 +562,10 @@
         "PLACE_HOLDER": "Passwort"
       },
       "ENABLE_SSL": "SSL aktivieren"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "MICROSOFT-Konto erneut autorisieren"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +685,10 @@
       },
       "BRANDING_TEXT": "Unterstützt von Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Andere Anbieter"
     }
   }
 }

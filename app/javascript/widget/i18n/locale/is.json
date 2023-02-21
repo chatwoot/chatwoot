@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Biðja um afrit af samtalinu",
     "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
     "SEND_EMAIL_ERROR": "Það kom upp villa, vinsamlegast reyndur aftur"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

@@ -7,27 +7,23 @@ describe Whatsapp::IncomingMessageService do
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
+    let!(:params) do
+      {
+        'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+        'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
+                         'timestamp' => '1633034394', 'type' => 'text' }]
+      }.with_indifferent_access
+    end
 
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
-        params = {
-          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
-          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
-                           'timestamp' => '1633034394', 'type' => 'text' }]
-        }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
       end
 
-      it 'appends to last conversation when if conversation already exisits' do
-        params = {
-          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
-          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
-                           'timestamp' => '1633034394', 'type' => 'text' }]
-        }.with_indifferent_access
-
+      it 'appends to last conversation when if conversation already exists' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }
         last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
@@ -36,6 +32,15 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.conversations.count).to eq(3)
         # message appended to the last conversation
         expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+      end
+
+      it 'will not create duplicate messages when same message is received' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+
+        # this shouldn't create a duplicate message
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
       end
     end
 
@@ -58,8 +63,8 @@ describe Whatsapp::IncomingMessageService do
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{
             'errors' => [{ 'code': 131_051, 'title': 'Message type is currently not supported.' }],
-            'from': '2423423243', 'id': 'wamid.SDFADSf23sfasdafasdfa',
-            'timestamp': '1667047370', 'type': 'unsupported'
+            :from => '2423423243', :id => 'wamid.SDFADSf23sfasdafasdfa',
+            :timestamp => '1667047370', :type => 'unsupported'
           }]
         }.with_indifferent_access
 
@@ -108,6 +113,17 @@ describe Whatsapp::IncomingMessageService do
         expect(message.reload.status).to eq('failed')
         expect(message.external_error).to eq('123: abc')
       end
+
+      it 'will not throw error if unsupported status' do
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'deleted',
+                           'errors' => [{ 'code': 123, 'title': 'abc' }] }]
+        }.with_indifferent_access
+
+        message = Message.find_by!(source_id: from)
+        expect(message.status).to eq('sent')
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform }.not_to raise_error
+      end
     end
 
     context 'when valid interactive message params' do
@@ -115,7 +131,7 @@ describe Whatsapp::IncomingMessageService do
         params = {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa',
-                           'interactive': {
+                           :interactive => {
                              'button_reply': {
                                'id': '1',
                                'title': 'First Button'
@@ -179,11 +195,11 @@ describe Whatsapp::IncomingMessageService do
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa',
                            'location' => { 'id' => 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
-                                           'address': 'San Francisco, CA, USA',
-                                           'latitude': 37.7893768,
-                                           'longitude': -122.3895553,
-                                           'name': 'Bay Bridge',
-                                           'url': 'http://location_url.test' },
+                                           :address => 'San Francisco, CA, USA',
+                                           :latitude => 37.7893768,
+                                           :longitude => -122.3895553,
+                                           :name => 'Bay Bridge',
+                                           :url => 'http://location_url.test' },
                            'timestamp' => '1633034394', 'type' => 'location' }]
         }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
@@ -195,6 +211,39 @@ describe Whatsapp::IncomingMessageService do
         expect(location_attachment.coordinates_lat).to eq(37.7893768)
         expect(location_attachment.coordinates_long).to eq(-122.3895553)
         expect(location_attachment.external_url).to eq('http://location_url.test')
+      end
+    end
+
+    context 'when valid contact message params' do
+      it 'creates appropriate message and attachments' do
+        params = { 'contacts' => [{ 'profile' => { 'name' => 'Kedar' }, 'wa_id' => '919746334593' }],
+                   'messages' => [{ 'from' => '919446284490',
+                                    'id' => 'wamid.SDFADSf23sfasdafasdfa',
+                                    'timestamp' => '1675823265',
+                                    'type' => 'contacts',
+                                    'contacts' => [
+                                      {
+                                        'name' => { 'formatted_name' => 'Apple Inc.' },
+                                        'phones' => [{ 'phone' => '+911800', 'type' => 'MAIN' }]
+                                      },
+                                      { 'name' => { 'first_name' => 'Chatwoot', 'formatted_name' => 'Chatwoot' },
+                                        'phones' => [{ 'phone' => '+1 (415) 341-8386' }] }
+                                    ] }] }.with_indifferent_access
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(Contact.all.first.name).to eq('Kedar')
+
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+
+        # Two messages are tested deliberately to ensure multiple contact attachments work.
+        m1 = whatsapp_channel.inbox.messages.first
+        contact_attachments = m1.attachments.first
+        expect(m1.content).to eq('Apple Inc.')
+        expect(contact_attachments.fallback_title).to eq('+911800')
+
+        m2 = whatsapp_channel.inbox.messages.last
+        contact_attachments = m2.attachments.first
+        expect(m2.content).to eq('Chatwoot')
+        expect(contact_attachments.fallback_title).to eq('+1 (415) 341-8386')
       end
     end
   end

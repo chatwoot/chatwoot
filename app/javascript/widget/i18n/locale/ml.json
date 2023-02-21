@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "ഒരു സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ് അഭ്യർത്ഥിക്കുക",
     "SEND_EMAIL_SUCCESS": "ചാറ്റ് ട്രാൻസ്ക്രിപ്റ്റ് വിജയകരമായി അയച്ചു",
     "SEND_EMAIL_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

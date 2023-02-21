@@ -39,6 +39,24 @@
               />
             </accordion-item>
           </div>
+          <div
+            v-else-if="element.name === 'conversation_participants'"
+            class="conversation--actions"
+          >
+            <accordion-item
+              :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"
+              :is-open="isContactSidebarItemOpen('is_conv_participants_open')"
+              @click="
+                value =>
+                  toggleSidebarUIState('is_conv_participants_open', value)
+              "
+            >
+              <conversation-participant
+                :conversation-id="conversationId"
+                :inbox-id="inboxId"
+              />
+            </accordion-item>
+          </div>
           <div v-else-if="element.name === 'conversation_info'">
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
@@ -118,6 +136,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
+import ConversationParticipant from './ConversationParticipant.vue';
 
 import ContactInfo from './contact/ContactInfo';
 import ConversationInfo from './ConversationInfo';
@@ -136,6 +155,7 @@ export default {
     CustomAttributes,
     CustomAttributeSelector,
     ConversationAction,
+    ConversationParticipant,
     draggable,
     MacrosList,
   },

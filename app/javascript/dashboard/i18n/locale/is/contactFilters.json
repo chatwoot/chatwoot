@@ -27,7 +27,7 @@
         },
         "ATTRIBUTES": {
             "NAME": "Nafn",
-            "EMAIL": "Email",
+            "EMAIL": "Tölvupóstfang",
             "PHONE_NUMBER": "Símanúmer",
             "IDENTIFIER": "Identifier",
             "CITY": "City",

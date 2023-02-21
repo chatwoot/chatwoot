@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
+    "SAVE_CONTACT": "Salvar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
@@ -42,13 +43,13 @@
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Mostrar rótulos",
+      "HIDE_LABELS": "Ocultar os rótulos"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
-      "OPEN_ACTION": "Abertas",
+      "OPEN_ACTION": "Abrir",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
@@ -131,6 +132,14 @@
           "LABEL": "Cco",
           "PLACEHOLDER": "E-mails separados por vírgulas",
           "ERROR": "Por favor, insira endereços de e-mail válidos"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Variáveis não definidas",
+        "MESSAGE": "Você tem {undefinedVariablesCount} variáveis não definidas em sua mensagem: {undefinedVariables}. Gostaria de enviar a mensagem mesmo assim?",
+        "CONFIRM": {
+          "YES": "Enviar",
+          "CANCEL": "Cancelar"
         }
       }
     },

@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "சரியாக செய்தீர்கள்!",
         "DESC": "உங்கள் பேஸ்புக் பக்கத்தை சாட்வூட்டுடன் வெற்றிகரமாக ஒருங்கிணைத்து விட்டீர்கள். அடுத்த முறை ஒரு வாடிக்கையாளர் உங்கள் பக்கத்திற்கு செய்தி அனுப்பும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும். <br> உங்கள் வலைத்தளத்திற்கு நீங்கள் எளிதாகச் சேர்க்கக்கூடிய விட்ஜெட் ஸ்கிரிப்டையும் நாங்கள் உங்களுக்கு வழங்குகிறோம். இது உங்கள் வலைத்தளத்தில் நேரலையில் வந்தவுடன், வாடிக்கையாளர்கள் எந்தவொரு வெளிப்புற கருவியின் உதவியும் இல்லாமல் உங்கள் வலைத்தளத்திலிருந்தே உங்களுக்கு செய்தி அனுப்பலாம், மேலும் உரையாடல் சாட்வூட்டில் இங்கேயே தோன்றும். <br> கூல், இல்லையா? சரி, நாங்கள் நிச்சயமாக இருக்க முயற்சிக்கிறோம் :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -461,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "புதுப்பிப்பு"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -547,6 +562,10 @@
         "PLACE_HOLDER": "பாஸ்வேர்ட்"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +685,10 @@
       },
       "BRANDING_TEXT": "சாட்வுட் மூலம் இயக்கபடுகிறது",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

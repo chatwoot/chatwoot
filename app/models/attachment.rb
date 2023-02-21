@@ -38,12 +38,13 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   validate :acceptable_file
 
-  enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention]
+  enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention, :contact]
 
   def push_event_data
     return unless file_type
     return base_data.merge(location_metadata) if file_type.to_sym == :location
     return base_data.merge(fallback_data) if file_type.to_sym == :fallback
+    return base_data.merge(contact_metadata) if file_type.to_sym == :contact
 
     base_data.merge(file_metadata)
   end
@@ -103,6 +104,12 @@ class Attachment < ApplicationRecord
       message_id: message_id,
       file_type: file_type,
       account_id: account_id
+    }
+  end
+
+  def contact_metadata
+    {
+      fallback_title: fallback_title
     }
   end
 

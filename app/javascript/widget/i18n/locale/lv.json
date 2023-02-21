@@ -86,5 +86,11 @@
     "BUTTON_TEXT": "Pieprasīt sarunas transkriptu",
     "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
     "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
+      "LEAVE_THE_ROOM": "Beigt zvanu"
+    }
   }
 }

@@ -26,9 +26,9 @@
     "LIST": {
       "TABLE_HEADER": [
         "Naam",
-        "Created by",
+        "Aangemaakt door",
         "Last updated by",
-        "Visibility"
+        "Zichtbaarheid"
       ],
       "404": "No macros found"
     },
@@ -37,7 +37,7 @@
       "CONFIRM": {
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen",
-        "NO": "No"
+        "NO": "Nee"
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro deleted successfully",

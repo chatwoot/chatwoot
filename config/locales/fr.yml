@@ -44,6 +44,8 @@ fr:
     categories:
       locale:
         unique: Doit être unique dans la catégorie et le portail
+    dyte:
+      invalid_message_type: "Type de message invalide. Action non autorisée"
     inboxes:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
@@ -86,7 +88,7 @@ fr:
         agent_name: Nom de l'agent
         rating: Note
         feedback: Commentaire
-        recorded_at: Recorded date
+        recorded_at: Date d'enregistrement
   notifications:
     notification_title:
       conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
@@ -95,7 +97,7 @@ fr:
       conversation_mention: "Vous avez été mentionné dans la conversation [ID - %{display_id}] par %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} vous a mentionné dans l'histoire: "
+      instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
     activity:
@@ -137,6 +139,10 @@ fr:
     online:
       delete: "%{contact_name} est en ligne, veuillez réessayer plus tard"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte est un outil qui vous aide à ajouter de l'audio et de la vidéo en direct à votre application avec seulement quelques lignes de code. Cette intégration vous permet de donner une option à vos agents de passer un appel vidéo ou vocal avec vos clients sans quitter Chatwoot."
+      meeting_name: "%{agent_name} a démarré une réunion"
     slack:
       name: "Slack"
       description: "Slack est un outil de chat qui regroupe toutes vos communications en un seul endroit. En intégrant Slack, vous pouvez être notifié de toutes les nouvelles conversations de votre compte directement dans votre Slack."

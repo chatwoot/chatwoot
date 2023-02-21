@@ -241,7 +241,7 @@
           "TITLE": "URL",
           "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
           "WEBHOOK_URL": "URL вебхука",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Токен авторизации Webhook"
         },
         "SUBMIT_BUTTON": "Создать канал WhatsApp",
         "API": {
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Готово!",
         "DESC": "Вы успешно подключили страницу Facebook к Chatwoot. В следующий раз когда покупатель напишет вашей странице, диалог автоматически отобразится здесь.<br>Мы также предоставляем вам скрипт виджета, который вы можете легко добавить на ваш сайт. Как только вы добавите его на сайт, клиенты смогут отправлять вам сообщения прямо с вашего сайта без помощи какого-либо внешнего инструмента и диалог появится прямо здесь, в Chatwoot.<br>Круто, да"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Выберите почтового провайдера",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Введите адрес электронной почты",
+        "HELP": "Чтобы добавить учетную запись Microsoft в качестве канала, вам нужно авторизоваться в учетной записи Майкрософт, нажав на кнопку \"Войти с помощью Microsoft\" ",
+        "ERROR_MESSAGE": "Произошла ошибка при подключении к Microsoft, попробуйте еще раз"
       }
     },
     "DETAILS": {
@@ -461,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Ключ API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Ключ API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Обновить"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
@@ -547,6 +562,10 @@
         "PLACE_HOLDER": "Пароль"
       },
       "ENABLE_SSL": "Включить SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Повторите авторизацию учетной записи MICROSOFT"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +685,10 @@
       },
       "BRANDING_TEXT": "Работает на Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Другие провайдеры"
     }
   }
 }

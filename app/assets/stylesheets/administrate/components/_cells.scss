@@ -43,3 +43,20 @@
 .cell-label--number {
   text-align: right;
 }
+
+.cell-data__secret-field {
+  align-items: center;
+  display: flex;
+
+  span {
+    flex: 1;
+  }
+
+  button {
+    margin-left: 5px;
+
+    svg {
+      fill: currentColor;
+    }
+  }
+}

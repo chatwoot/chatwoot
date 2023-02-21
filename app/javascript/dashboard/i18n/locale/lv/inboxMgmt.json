@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-pasts",
-          "SUBTITLE": "E-pasts, uz kuru Jūsu klienti nosūta atbalsta biļetes",
+          "SUBTITLE": "Norādiet e-pasta adresi, uz kuru Jūsu klienti sūta atbalsta pieprasījumus.",
           "PLACEHOLDER": "E-pasts"
         },
         "SUBMIT_BUTTON": "Izveidot E-pasta Kanālu",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Sanāca!",
         "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar Chatwoot. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē Chatwoot.<br>"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Izvēlieties savu e-pasta pakalpojumu sniedzēju",
+        "DESCRIPTION": "Tālāk esošajā sarakstā izvēlieties e-pasta pakalpojumu sniedzēju. Ja sarakstā neredzat savu e-pasta pakalpojumu sniedzēju, varat izvēlēties citu pakalpojumu sniedzēja opciju un norādīt IMAP un SMTP akreditācijas datus."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
+        "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
+        "HELP": "Lai pievienotu savu Microsoft kontu kā kanālu, Jums ir jāautentificē savs Microsoft konts, noklikšķinot uz \"Pierakstīties ar Microsoft\" ",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "DETAILS": {
@@ -461,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
       "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_TITLE": "API atslēga"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet atjaunināto atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_TITLE": "API atslēga",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",
@@ -547,6 +562,10 @@
         "PLACE_HOLDER": "Parole"
       },
       "ENABLE_SSL": "Iespējot SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Atkārtoti autorizēt savu MICROSOFT kontu"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +685,10 @@
       },
       "BRANDING_TEXT": "Darbināts ar Chatwoot",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Citi Pakalpojuma Sniedzēji"
     }
   }
 }

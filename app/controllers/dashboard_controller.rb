@@ -55,7 +55,8 @@ class DashboardController < ActionController::Base
       ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       FACEBOOK_API_VERSION: 'v14.0',
-      IS_ENTERPRISE: ChatwootApp.enterprise?
+      IS_ENTERPRISE: ChatwootApp.enterprise?,
+      AZURE_APP_ID: ENV.fetch('AZURE_APP_ID', '')
     }
   end
 end
