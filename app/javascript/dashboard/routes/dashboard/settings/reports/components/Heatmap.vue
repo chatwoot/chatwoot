@@ -124,6 +124,8 @@ $heatmap-level-4: #36a1fb;
 $heatmap-level-5: #186cdd;
 $heatmap-level-6: #1b4c8d;
 
+$tile-height: 30px;
+
 .heatmap-wrapper {
   display: flex;
   width: 100%;
@@ -145,13 +147,13 @@ $heatmap-level-6: #1b4c8d;
   gap: 0.2rem;
 
   .heatmap-axis-label {
-    height: 50px;
-    min-width: 100px;
-    font-size: 1.5rem;
+    height: $tile-height;
+    min-width: 70px;
+    font-size: 1rem;
     font-weight: 600;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: end;
     justify-content: center;
 
     time {
@@ -175,7 +177,7 @@ $heatmap-level-6: #1b4c8d;
 
   .heatmap-tile {
     width: auto;
-    height: 50px;
+    height: $tile-height;
     border-radius: 0.4rem;
 
     &:hover {
