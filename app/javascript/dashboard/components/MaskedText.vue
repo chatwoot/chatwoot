@@ -57,8 +57,6 @@ export default {
   }
 
   .button--visibility {
-    margin-top: 0;
-    position: absolute;
     right: 60px;
   }
 }
