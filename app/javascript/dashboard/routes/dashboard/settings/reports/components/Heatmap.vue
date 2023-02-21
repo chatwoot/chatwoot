@@ -32,18 +32,7 @@
   </div>
 </template>
 <script>
-const asc = arr => arr.sort((a, b) => a - b);
-
-const quantile = (arr, q) => {
-  const sorted = asc(arr);
-  const pos = (sorted.length - 1) * q;
-  const base = Math.floor(pos);
-  const rest = pos - base;
-  if (sorted[base + 1] !== undefined) {
-    return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-  }
-  return sorted[base];
-};
+import { getQuanileIntervals } from 'shared/helpers/MathHelper';
 
 import fromUnixTime from 'date-fns/fromUnixTime';
 import startOfDay from 'date-fns/startOfDay';
@@ -87,14 +76,14 @@ export default {
     },
     getDataLimits() {
       const flattendedData = this.heatData.map(data => data.value);
-      this.quantileRange = [
-        quantile(flattendedData, 0.2),
-        quantile(flattendedData, 0.4),
-        quantile(flattendedData, 0.6),
-        quantile(flattendedData, 0.8),
-        quantile(flattendedData, 0.95),
-        quantile(flattendedData, 1),
-      ];
+      this.quantileRange = getQuanileIntervals(flattendedData, [
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        0.95,
+        1,
+      ]);
     },
     processData() {
       this.processedData = this.heatData.reduce((acc, data) => {
