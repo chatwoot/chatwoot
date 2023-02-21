@@ -14,7 +14,6 @@
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment user"
-          :style="{ backgroundColor: widgetColor }"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <image-bubble
@@ -29,6 +28,7 @@
               :url="attachment.data_url"
               :is-in-progress="isInProgress"
               :widget-color="widgetColor"
+              :style="{ backgroundColor: widgetColor }"
               is-user-bubble
             />
           </div>
