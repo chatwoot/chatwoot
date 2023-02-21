@@ -62,3 +62,5 @@ test/cypress/videos/*
 /config/*.enc
 
 .vscode/settings.json
+
+public/assets/
