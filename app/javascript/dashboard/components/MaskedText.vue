@@ -1,11 +1,13 @@
 <template>
   <div class="text--container">
-    <button class="button small button--text" @click="onCopy">
+    <woot-button size="small" class=" button--text" @click="onCopy">
       {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
-    </button>
+    </woot-button>
     <woot-button
       variant="clear"
-      class="small button--visibility"
+      size="small"
+      class="button--visibility"
+      color-scheme="secondary"
       :icon="masked ? 'eye-show' : 'eye-hide'"
       @click.prevent="toggleMasked"
     />
