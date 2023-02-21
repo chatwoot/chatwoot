@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "إرسال إشعارات للبريد الإلكتروني عند ورود محادثة جديدة",
         "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك في محادثة",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات البريد الإلكتروني عند إنشاء رسالة جديدة في محادثة موكلة",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة"
       },
       "API": {
         "UPDATE_SUCCESS": "يتم تحديث إعدادات الإشعارات بنجاح",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "إرسال إشعارات المتصفح عند ورود محادثة جديدة",
         "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك او الاشارة اليك في محادثة",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
         "HAS_ENABLED_PUSH": "لقد قمت بتمكين الإشعارات لهذا المتصفح.",
         "REQUEST_PUSH": "تفعيل إشعارات المتصفح"
       },
@@ -194,7 +194,7 @@
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "شارك",
     "UNATTENDED_CONVERSATIONS": "بدون حضور",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
