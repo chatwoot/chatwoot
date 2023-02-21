@@ -49,7 +49,8 @@ export default {
   position: relative;
   text-align: left;
 
-  .button--text {
+  .button--text,
+  .button--visibility {
     margin-top: 0;
     position: absolute;
     right: 0;
