@@ -4,7 +4,7 @@ ruby '3.1.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6.1', '>= 6.1.6.1'
+gem 'rails', '~> 6.1', '>= 6.1.7.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -39,6 +39,10 @@ gem 'rack-attack'
 gem 'down', '~> 5.0'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
+# Prevent CSV injection
+gem 'csv-safe'
+# Support message translation
+gem 'google-cloud-translate'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -98,21 +102,16 @@ gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails', '~> 5.3', '>= 5.3.1'
 gem 'sentry-ruby', '~> 5.3'
-gem 'sentry-sidekiq', '~> 5.3'
+gem 'sentry-sidekiq', '~> 5.3', '>= 5.3.1'
 
 ##-- background job processing --##
-gem 'sidekiq', '~> 6.4.0'
+gem 'sidekiq', '~> 6.4.2'
 # We want cron jobs
-gem 'sidekiq-cron', '~> 1.3'
+gem 'sidekiq-cron', '~> 1.6', '>= 1.6.0'
 
 ##-- Push notification service --##
 gem 'fcm'
-
-# Ref: https://github.com/mastodon/mastodon/pull/18449
-# ref: https://github.com/zaru/webpush/pull/106
-# lets switch to web-push gem once the above PR is merged
-# https://github.com/zaru/webpush/pull/106#issuecomment-1342925261
-gem 'webpush', git: 'https://github.com/ClearlyClaire/webpush.git', ref: 'f14a4d52e201128b1b00245d11b6de80d6cfdcd9'
+gem 'web-push'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
@@ -167,7 +166,7 @@ end
 
 group :test do
   # Cypress in rails.
-  gem 'cypress-on-rails', '~> 1.0'
+  gem 'cypress-on-rails', '~> 1.13', '>= 1.13.1'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls
@@ -200,5 +199,11 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
+
+# need for google auth
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'

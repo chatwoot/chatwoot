@@ -165,6 +165,17 @@ export const getDefaultConditions = eventName => {
       },
     ];
   }
+  if (eventName === 'conversation_opened') {
+    return [
+      {
+        attribute_key: 'browser_language',
+        filter_operator: 'equal_to',
+        values: '',
+        query_operator: 'and',
+        custom_attribute_type: '',
+      },
+    ];
+  }
   return [
     {
       attribute_key: 'status',

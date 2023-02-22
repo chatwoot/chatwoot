@@ -24,18 +24,18 @@
       :class="`dropdown-pane--${menuPosition}`"
     >
       <woot-dropdown-menu>
+        <woot-dropdown-item v-if="showDelete">
+          <woot-button
+            variant="clear"
+            color-scheme="alert"
+            size="small"
+            icon="delete"
+            @click="handleDelete"
+          >
+            {{ $t('CONVERSATION.CONTEXT_MENU.DELETE') }}
+          </woot-button>
+        </woot-dropdown-item>
         <woot-dropdown-item v-if="showCopy">
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="alert"
-              size="small"
-              icon="delete"
-              @click="handleDelete"
-            >
-              {{ $t('CONVERSATION.CONTEXT_MENU.DELETE') }}
-            </woot-button>
-          </woot-dropdown-item>
           <woot-button
             variant="clear"
             size="small"
@@ -46,10 +46,8 @@
             {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
           </woot-button>
         </woot-dropdown-item>
-
-        <woot-dropdown-item>
+        <woot-dropdown-item v-if="showCannedResponseOption">
           <woot-button
-            v-if="showCannedResponseOption"
             variant="clear"
             size="small"
             icon="comment-add"
@@ -57,6 +55,17 @@
             @click="showCannedResponseModal"
           >
             {{ $t('CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            size="small"
+            icon="translate"
+            color-scheme="secondary"
+            @click="handleTranslate"
+          >
+            {{ $t('CONVERSATION.CONTEXT_MENU.TRANSLATE') }}
           </woot-button>
         </woot-dropdown-item>
       </woot-dropdown-menu>
@@ -91,6 +100,10 @@ export default {
       default: false,
     },
     showCopy: {
+      type: Boolean,
+      default: false,
+    },
+    showDelete: {
       type: Boolean,
       default: false,
     },
@@ -130,6 +143,11 @@ export default {
     showCannedResponseModal() {
       this.$track(ACCOUNT_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
+    },
+
+    handleTranslate() {
+      this.$emit('translate');
+      this.handleContextMenuClick();
     },
   },
 };

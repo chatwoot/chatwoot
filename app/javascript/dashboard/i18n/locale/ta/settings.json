@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "பதிவிறக்கம்",
-      "UPLOADING": "பதிவேறுகிறது..."
+      "UPLOADING": "பதிவேறுகிறது...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"

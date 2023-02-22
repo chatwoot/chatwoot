@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
-      "UPLOADING": "Subiendo..."
+      "UPLOADING": "Subiendo...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Esta historia ya no está disponible."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Ver en el mapa"

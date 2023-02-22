@@ -21,7 +21,7 @@
           :title="article.title"
           :author="article.author"
           :category="article.category"
-          :read-count="article.readCount"
+          :views="article.views"
           :status="article.status"
           :updated-at="article.updated_at"
         />

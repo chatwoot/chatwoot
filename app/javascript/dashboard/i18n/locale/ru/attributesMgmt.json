@@ -43,7 +43,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Пользовательский атрибут успешно добавлен!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "ERROR_MESSAGE": "Не удалось создать пользовательский атрибут. Пожалуйста, повторите попытку позже."
       }
     },
     "DELETE": {

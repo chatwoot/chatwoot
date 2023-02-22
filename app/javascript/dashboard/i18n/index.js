@@ -33,6 +33,7 @@ import uk from './locale/uk';
 import vi from './locale/vi';
 import zh_CN from './locale/zh_CN';
 import zh_TW from './locale/zh_TW';
+import is from './locale/is';
 
 export default {
   ar,
@@ -70,4 +71,5 @@ export default {
   vi,
   zh_CN,
   zh_TW,
+  is,
 };

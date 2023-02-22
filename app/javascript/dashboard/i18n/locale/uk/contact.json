@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Почалося з",
     "INITIATED_AT": "Час початку",
     "IP_ADDRESS": "IP-адреса",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Нове повідомлення",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Номер телефону",
         "CONVERSATIONS": "Бесіди",
         "LAST_ACTIVITY": "Остання активність",
+        "CREATED_AT": "Створений в",
         "COUNTRY": "Країна",
         "CITY": "Місто",
         "SOCIAL_PROFILES": "Social Profiles",

@@ -15,6 +15,7 @@
     "INITIATED_FROM": "تم البدء من",
     "INITIATED_AT": "تم البدء في",
     "IP_ADDRESS": "عنوان IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "رسالة جديدة",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "لا توجد محادثات سابقة مرتبطة بجهة الاتصال هذه.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "رقم الهاتف",
         "CONVERSATIONS": "المحادثات",
         "LAST_ACTIVITY": "آخر نشاط",
+        "CREATED_AT": "تم إنشاؤها في",
         "COUNTRY": "الدولة",
         "CITY": "المدينة",
         "SOCIAL_PROFILES": "حسابات التواصل الاجتماعي",
