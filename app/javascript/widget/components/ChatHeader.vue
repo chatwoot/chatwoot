@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex justify-between p-5 w-full"
+    class="header-wrap flex justify-between p-5 w-full"
     :class="$dm('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex items-center">
@@ -106,3 +106,12 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.header-wrap {
+  @media screen and (min-width: 800px) {
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+</style>
