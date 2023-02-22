@@ -103,10 +103,10 @@ export default {
   .download {
     color: $color-woot;
     font-weight: $font-weight-medium;
-    padding: 0;
+    padding: 2px 0 0 0;
     margin: 0;
     font-size: $font-size-small;
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   .link-wrap {
