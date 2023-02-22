@@ -21,12 +21,14 @@ class MessageFinder
   end
 
   def current_messages
+    limit = @params[:limit] or 20
+
     if @params[:after].present?
-      messages.reorder('created_at asc').where('id >= ?', @params[:before].to_i).limit(20)
+      messages.reorder('created_at asc').where('id >= ?', @params[:before].to_i).limit(limit)
     elsif @params[:before].present?
-      messages.reorder('created_at desc').where('id < ?', @params[:before].to_i).limit(20).reverse
+      messages.reorder('created_at desc').where('id < ?', @params[:before].to_i).limit(limit).reverse
     else
-      messages.reorder('created_at desc').limit(20).reverse
+      messages.reorder('created_at desc').limit(limit).reverse
     end
   end
 end
