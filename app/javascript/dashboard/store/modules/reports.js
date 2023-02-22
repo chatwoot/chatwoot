@@ -10,7 +10,9 @@ const state = {
   reportData: [],
   accountReport: {
     isFetching: false,
+    isFetchingHeatmap: false,
     data: [],
+    heatmapData: [],
   },
   accountSummary: {
     avg_first_response_time: 0,
@@ -52,6 +54,7 @@ const getters = {
 export const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
+    console.log(reportObj);
     Report.getReports(
       reportObj.metric,
       reportObj.from,
@@ -68,6 +71,26 @@ export const actions = {
       );
       commit(types.default.SET_ACCOUNT_REPORTS, data);
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+    });
+  },
+  fetchAccountHeatmap({ commit }, reportObj) {
+    commit(types.default.TOGGLE_HEATMAP_LOADING, true);
+    Report.getReports(
+      reportObj.metric,
+      reportObj.from,
+      reportObj.to,
+      reportObj.type,
+      reportObj.id,
+      reportObj.groupBy,
+      reportObj.businessHours
+    ).then(heatmapData => {
+      let { data } = heatmapData;
+      data = data.filter(
+        el =>
+          reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
+      );
+      commit(types.default.SET_HEATMAP_DATA, data);
+      commit(types.default.TOGGLE_HEATMAP_LOADING, false);
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
@@ -172,8 +195,14 @@ const mutations = {
   [types.default.SET_ACCOUNT_REPORTS](_state, accountReport) {
     _state.accountReport.data = accountReport;
   },
+  [types.default.SET_HEATMAP_DATA](_state, heatmapData) {
+    _state.accountReport.heatmapData = heatmapData;
+  },
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, flag) {
     _state.accountReport.isFetching = flag;
+  },
+  [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
+    _state.accountReport.isFetchingHeatmap = flag;
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;
