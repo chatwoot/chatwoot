@@ -968,15 +968,9 @@ export default {
     },
     getMessagePayloadForWhatsapp(message) {
       const multipleMessagePayload = [];
-      const messagePayload = {
-        conversationId: this.currentChat.id,
-        message,
-        private: false,
-      };
-
-      multipleMessagePayload.push(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {
+        let caption = message;
         this.attachedFiles.forEach(attachment => {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
@@ -985,10 +979,18 @@ export default {
             conversationId: this.currentChat.id,
             files: [attachedFile],
             private: false,
-            message: '',
+            message: caption,
           };
           multipleMessagePayload.push(attachmentPayload);
+          caption = '';
         });
+      } else {
+        const messagePayload = {
+          conversationId: this.currentChat.id,
+          message,
+          private: false,
+        };
+        multipleMessagePayload.push(messagePayload);
       }
 
       return multipleMessagePayload;
