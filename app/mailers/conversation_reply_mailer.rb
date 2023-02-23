@@ -115,6 +115,14 @@ class ConversationReplyMailer < ApplicationMailer
     end
   end
 
+  def channel_email_with_name
+    if @conversation.assignee.present?
+      I18n.t('conversations.reply.channel_email.header.reply_with_name', assignee_name: assignee_name, from_email: @channel.email)
+    else
+      @channel.email
+    end
+  end
+
   def parse_email(email_string)
     Mail::Address.new(email_string).address
   end
