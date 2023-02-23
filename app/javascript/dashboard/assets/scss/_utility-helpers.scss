@@ -82,6 +82,6 @@
 
 .button--fixed-top {
   position: fixed;
-  right: $space-small;
-  top: $space-small;
+  right: var(--space-small);
+  top: var(--space-small);
 }
