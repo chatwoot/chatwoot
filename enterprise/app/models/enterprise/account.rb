@@ -1,4 +1,5 @@
 module Enterprise::Account
+  has_associated_audits
   def usage_limits
     {
       agents: agent_limits.to_i,

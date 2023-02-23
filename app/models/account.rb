@@ -22,8 +22,6 @@
 #
 
 class Account < ApplicationRecord
-  audited
-  has_associated_audits
   # used for single column multi flags
   include FlagShihTzu
   include Reportable

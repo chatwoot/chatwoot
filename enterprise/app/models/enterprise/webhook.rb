@@ -1,3 +1,3 @@
 module Enterprise::Webhook
-    audited associated_with: :account
+  audited associated_with: :account
 end
