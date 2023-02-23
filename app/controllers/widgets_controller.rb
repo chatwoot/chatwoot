@@ -18,6 +18,9 @@ class WidgetsController < ActionController::Base
 
   def set_web_widget
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error('web widget does not exist')
+    render json: { error: 'web widget does not exist' }, status: :not_found
   end
 
   def set_token
