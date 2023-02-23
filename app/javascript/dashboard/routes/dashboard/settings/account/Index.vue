@@ -107,7 +107,7 @@
       </div>
 
       <woot-submit-button
-        class="button nice success button--fixed-right-top"
+        class="button nice success button--fixed-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
         :loading="isUpdating"
       />

@@ -75,3 +75,9 @@
   align-items: center;
   display: flex;
 }
+
+.button--fixed-top {
+  position: fixed;
+  right: $space-small;
+  top: $space-small;
+}
