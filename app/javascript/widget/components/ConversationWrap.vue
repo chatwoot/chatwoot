@@ -128,8 +128,8 @@ export default {
 .conversation-wrap {
   flex: 1;
   padding: $space-large $space-small $space-small $space-small;
-  @media screen and (min-width: 800px) {
-    width: 50%;
+  @media screen and (min-width: $break-point-ipad) {
+    width: $break-point-ipad;
     margin: 0 auto;
   }
 }

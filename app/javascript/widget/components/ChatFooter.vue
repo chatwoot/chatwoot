@@ -134,8 +134,8 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .footer-chat {
-  @media screen and (min-width: 800px) {
-    width: 50%;
+  @media screen and (min-width: $break-point-ipad) {
+    width: $break-point-ipad;
     margin: 0 auto;
   }
 }
