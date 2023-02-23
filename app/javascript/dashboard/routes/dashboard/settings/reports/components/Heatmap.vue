@@ -143,8 +143,8 @@ $tile-height: 30px;
 
 .heatmap-labels {
   display: grid;
-  grid-template-rows: repeat(7, 1fr);
-  gap: 0.2rem;
+  grid-template-rows: 1fr;
+  gap: 0.4rem;
 
   .heatmap-axis-label {
     height: $tile-height;
@@ -165,7 +165,7 @@ $tile-height: 30px;
 
 .heatmap-container {
   display: grid;
-  grid-template-rows: repeat(7, 1fr);
+  grid-template-rows: 1fr;
   gap: 0.4rem;
   width: 100%;
 
