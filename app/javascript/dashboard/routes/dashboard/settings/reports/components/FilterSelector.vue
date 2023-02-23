@@ -1,6 +1,6 @@
 <template>
   <div class="flex-container flex-dir-column medium-flex-dir-row">
-    <div class="small-12 medium-3 pull-right">
+    <div class="small-12 medium-3 pull-right multiselect-wrap--small">
       <multiselect
         v-model="currentDateRangeSelection"
         track-by="name"
@@ -17,6 +17,7 @@
     </div>
     <woot-date-range-picker
       v-if="isDateRangeSelected"
+      class="margin-left-1"
       show-range
       :value="customDateRange"
       :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
@@ -25,7 +26,7 @@
     />
     <div
       v-if="notLast7Days && groupByFilter"
-      class="small-12 medium-3 pull-right margin-left-small"
+      class="small-12 medium-3 pull-right margin-left-1 margin-right-1 multiselect-wrap--small"
     >
       <p aria-hidden="true" class="hide">
         {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
@@ -43,7 +44,7 @@
     </div>
     <div
       v-if="agentsFilter"
-      class="small-12 medium-3 pull-right margin-left-small"
+      class="small-12 medium-3 pull-right margin-left-1 margin-right-1 multiselect-wrap--small"
     >
       <multiselect
         v-model="selectedAgents"
@@ -65,7 +66,7 @@
       v-if="showBusinessHoursSwitch"
       class="small-12 medium-3 business-hours"
     >
-      <span class="business-hours-text margin-right-small">
+      <span class="business-hours-text margin-right-1">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
@@ -76,12 +77,13 @@
 </template>
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
-const CUSTOM_DATE_RANGE_ID = 5;
 import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import { GROUP_BY_FILTER } from '../constants';
 import endOfDay from 'date-fns/endOfDay';
+
+const CUSTOM_DATE_RANGE_ID = 5;
 
 export default {
   components: {
@@ -207,9 +209,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.date-picker {
-  margin-left: var(--space-smaller);
-}
-</style>
