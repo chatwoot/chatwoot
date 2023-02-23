@@ -29,7 +29,7 @@
     </div>
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="add-circle"
     >
       <router-link :to="newAgentBotsURL" class="white-text">
