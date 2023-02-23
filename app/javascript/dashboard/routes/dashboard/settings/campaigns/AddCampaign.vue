@@ -58,6 +58,7 @@
 
         <label
           v-if="isOnOffType"
+          class="multiselect-wrap--small"
           :class="{ error: $v.selectedAudience.$error }"
         >
           {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.LABEL') }}

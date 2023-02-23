@@ -13,7 +13,7 @@
         :src="contact.thumbnail"
         :username="contact.name"
         size="32px"
-        class="margin-right-small"
+        class="margin-right-1"
       />
     </settings-header>
 
