@@ -25,6 +25,7 @@ export default {
 </script>
 <style scoped>
 .inbox--name {
+  align-items: center;
   display: inline-flex;
   padding: var(--space-micro) 0;
   line-height: var(--space-slab);
