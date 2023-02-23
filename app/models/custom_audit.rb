@@ -4,6 +4,8 @@ class CustomAudit < Audited::Audit
   private
 
   def log_additional_information
+    # rubocop:disable Rails/SkipsModelValidations
     update_columns(username: user.email)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end
