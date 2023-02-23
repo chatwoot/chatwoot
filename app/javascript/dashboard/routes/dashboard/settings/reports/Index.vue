@@ -16,17 +16,6 @@
       @filter-change="onFilterChange"
       @business-hours-toggle="onBusinessHoursToggle"
     />
-    <div class="card" style="margin-bottom: 50px;">
-      <div class="card-header">
-        <h5>Conversations Heatmap</h5>
-      </div>
-      <div v-if="accountReport.isFetchingHeatmap">
-        Loading
-      </div>
-      <div v-else class="card-body row" style="margin-top: 1rem">
-        <report-heatmap :heat-data="accountReport.heatmapData" />
-      </div>
-    </div>
     <div class="row">
       <woot-report-stats-card
         v-for="(metric, index) in metrics"
@@ -55,6 +44,17 @@
         <span v-else class="empty-state">
           {{ $t('REPORT.NO_ENOUGH_DATA') }}
         </span>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 20px;">
+      <div class="card-header">
+        <h5>Conversations Heatmap</h5>
+      </div>
+      <div v-if="accountReport.isFetchingHeatmap">
+        Loading
+      </div>
+      <div v-else class="card-body row" style="margin-top: 1rem">
+        <report-heatmap :heat-data="accountReport.heatmapData" />
       </div>
     </div>
   </div>
@@ -227,8 +227,8 @@ export default {
     fetchHeatmapData() {
       this.$store.dispatch('fetchAccountHeatmap', {
         metric: 'conversations_count',
-        from: 1676485800,
-        to: 1677090599,
+        from: this.from,
+        to: this.to,
         groupBy: 'hour',
         businessHours: false,
       });
