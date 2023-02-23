@@ -107,7 +107,7 @@
       </div>
 
       <woot-submit-button
-        class="button nice success button--fixed-right-top"
+        class="button nice success button--fixed-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
         :loading="isUpdating"
       />
@@ -125,9 +125,11 @@ import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 const semver = require('semver');
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [accountMixin, alertMixin, configMixin],
+  mixins: [accountMixin, alertMixin, configMixin, uiSettingsMixin],
   data() {
     return {
       id: '',
@@ -249,10 +251,19 @@ export default {
           auto_resolve_duration: this.autoResolveDuration,
         });
         this.$root.$i18n.locale = this.locale;
+        this.getAccount(this.id).locale = this.locale;
+        this.updateDirectionView(this.locale);
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
+    },
+
+    updateDirectionView(locale) {
+      const isRTLSupported = getLanguageDirection(locale);
+      this.updateUISettings({
+        rtl_view: isRTLSupported,
+      });
     },
   },
 };
