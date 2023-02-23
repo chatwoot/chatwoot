@@ -28,6 +28,7 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
       # the response time is the time between last bot reply created and the first human reply created
 
       next if last_bot_reply.blank?
+      next if last_bot_reply.created_at.to_i >= first_human_reply.created_at.to_i
 
       # this means a bot replied existed, so we need to update the event_start_time
       # rubocop:disable Rails/SkipsModelValidations
