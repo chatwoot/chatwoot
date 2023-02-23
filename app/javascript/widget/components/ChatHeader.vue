@@ -111,9 +111,7 @@ export default {
 @import 'widget/assets/scss/variables';
 
 .header-wrap {
-  @media screen and (min-width: $break-point-ipad) {
-    width: $break-point-ipad;
-    margin: 0 auto;
-  }
+  max-width: $break-point-tablet;
+  margin: 0 auto;
 }
 </style>
