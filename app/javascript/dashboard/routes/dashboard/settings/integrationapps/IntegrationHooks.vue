@@ -3,7 +3,7 @@
     <woot-button
       v-if="showAddButton"
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="add-circle"
       @click="openAddHookModal"
     >
