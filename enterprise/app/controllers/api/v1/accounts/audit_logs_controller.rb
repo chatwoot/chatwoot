@@ -1,3 +1,4 @@
+# module Enterprise::Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
 class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
   before_action :fetch_audit
