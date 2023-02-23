@@ -45,6 +45,11 @@ class ReportingEventListener < BaseListener
 
   def conversation_bot_handoff(event)
     conversation = extract_conversation_and_account(event)[0]
+
+    # check if a conversation_bot_handoff event exists for this conversation
+    bot_handoff_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
+    return if bot_handoff_event.present?
+
     time_to_handoff = conversation.updated_at.to_i - conversation.created_at.to_i
 
     reporting_event = ReportingEvent.new(
