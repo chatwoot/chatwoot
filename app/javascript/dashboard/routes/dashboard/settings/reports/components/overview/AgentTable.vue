@@ -32,6 +32,7 @@
 import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import rtlMixin from 'shared/mixins/rtlMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
@@ -42,6 +43,7 @@ export default {
     VeTable,
     VePagination,
   },
+  mixins: [rtlMixin],
   props: {
     agents: {
       type: Array,
@@ -83,7 +85,7 @@ export default {
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
           ),
           fixed: 'left',
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 25,
           renderBodyCell: ({ row }) => (
             <div class="row-user-block">
@@ -106,7 +108,7 @@ export default {
           title: this.$t(
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
           ),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
         {
@@ -115,7 +117,7 @@ export default {
           title: this.$t(
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
           ),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
       ];
@@ -165,21 +167,20 @@ export default {
     text-align: left;
 
     .user-block {
+      align-items: flex-start;
       display: flex;
       flex-direction: column;
       min-width: 0;
+      margin: 0 var(--space-small);
+
       .title {
         font-size: var(--font-size-small);
         margin: var(--zero);
-        line-height: 1;
+        line-height: 1.2;
       }
       .sub-title {
         font-size: var(--font-size-mini);
       }
-    }
-
-    .user-thumbnail-box {
-      margin-right: var(--space-small);
     }
   }
 
