@@ -53,7 +53,7 @@ export default {
       );
       bottom: 0;
       content: '';
-      height: 20%;
+      height: 16%;
       left: 0;
       opacity: 0.8;
       position: absolute;

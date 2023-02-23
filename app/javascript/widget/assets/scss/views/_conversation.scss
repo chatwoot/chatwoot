@@ -222,6 +222,10 @@
     max-width: 100%;
   }
 
+  &.has-attachment {
+    padding: 0;
+  }
+
   >a {
     color: $color-primary;
     word-break: break-all;

@@ -86,6 +86,7 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .file {
+  padding: $space-slab $space-normal !important;  
   .icon-wrap {
     font-size: $font-size-mega;
     color: $color-woot;
