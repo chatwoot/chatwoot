@@ -48,7 +48,7 @@
     </div>
     <div class="card" style="margin-top: 20px;">
       <div class="card-header">
-        <h5>Conversations Heatmap</h5>
+        <h5>Conversation Traffic</h5>
       </div>
       <div v-if="accountReport.isFetchingHeatmap">
         Loading
