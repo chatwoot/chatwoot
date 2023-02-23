@@ -42,7 +42,6 @@
 #
 
 class Conversation < ApplicationRecord
-  audited associated_with: :account
   include Labelable
   include AssignmentHandler
   include AutoAssignmentHandler
