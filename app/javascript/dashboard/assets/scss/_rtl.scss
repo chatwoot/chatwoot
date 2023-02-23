@@ -242,6 +242,14 @@
       text-align: right;
     }
 
+    // Card label
+    .label-container {
+      .label {
+        margin-left: var(--space-smaller);
+        margin-right: 0;
+      }
+    }
+
     // Secondary sidebar toggle button
     .toggle-sidebar {
       margin-left: 0;
