@@ -9,7 +9,6 @@
     .integration--image {
       display: flex;
       height: 10rem;
-      margin-right: $space-normal;
       width: 10rem;
 
       img {
@@ -22,6 +21,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      margin: 0 var(--space-normal);
     }
 
     .integration--title {
