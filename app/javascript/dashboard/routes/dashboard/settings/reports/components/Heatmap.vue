@@ -63,13 +63,13 @@ export default {
     getDayOfTheWeek(date) {
       const dayIndex = getDay(date);
       const days = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
+        this.$t('DAYS_OF_WEEK.SUNDAY'),
+        this.$t('DAYS_OF_WEEK.MONDAY'),
+        this.$t('DAYS_OF_WEEK.TUESDAY'),
+        this.$t('DAYS_OF_WEEK.WEDNESDAY'),
+        this.$t('DAYS_OF_WEEK.THURSDAY'),
+        this.$t('DAYS_OF_WEEK.FRIDAY'),
+        this.$t('DAYS_OF_WEEK.SATURDAY'),
       ];
       return days[dayIndex];
     },
