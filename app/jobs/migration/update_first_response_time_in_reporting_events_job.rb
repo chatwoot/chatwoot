@@ -1,5 +1,7 @@
 # Delete migration and spec after 2 consecutive releases.
 class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
+  include ReportingEventHelper
+
   queue_as :scheduled_jobs
 
   def perform(account)
@@ -31,7 +33,7 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
     # bot handoff happens at the last_bot_reply created time
     # the response time is the time between last bot reply created and the first human reply created
 
-    return if last_bot_reply.blank?
+    return if last_bot_reply.blank? || first_human_reply.blank?
     return if last_bot_reply.created_at.to_i >= first_human_reply.created_at.to_i
 
     # this means a bot replied existed, so we need to update the event_start_time

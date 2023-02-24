@@ -1,6 +1,4 @@
 class UpdateReportingEventsWithIncorrectFirstResponses < ActiveRecord::Migration[6.1]
-  include ReportingEventHelper
-
   def change
     ::Account.find_in_batches do |account_batch|
       Rails.logger.info "Updated reporting events till #{account_batch.first.id}\n"
