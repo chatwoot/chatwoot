@@ -13,6 +13,10 @@
         padding: var(--space-smaller) var(--space-one) var(--space-smaller)
           var(--space-smaller);
       }
+
+      .status-items .button {
+        text-align: right;
+      }
     }
   }
 
@@ -23,10 +27,13 @@
       border-right: 0;
 
       .nested.vertical.menu {
-        align-items: flex-start;
+        .badge--icon {
+          margin-left: var(--space-smaller);
+          margin-right: unset;
+        }
 
-        li {
-          direction: initial;
+        .menu-label {
+          text-align: right;
         }
       }
 
@@ -74,7 +81,7 @@
   .settings-header {
     .header--icon {
       margin-left: 0;
-      margin-right: $space-small;
+      margin-right: var(--space-small);
     }
   }
 
@@ -95,13 +102,13 @@
   // Woot Tabs
   .tabs-title {
     &:first-child {
-      margin-left: $space-slab;
+      margin-left: var(--space-small);
       margin-right: unset;
     }
 
     &:last-child {
       margin-left: unset;
-      margin-right: $space-slab;
+      margin-right: var(--space-small);
     }
   }
 
@@ -133,7 +140,7 @@
 
         .user--profile__meta {
           margin-left: unset;
-          margin-right: $space-slab;
+          margin-right: var(--space-small);
         }
       }
 
@@ -315,7 +322,7 @@
 
     .notification-content--wrap {
       margin-left: 0;
-      margin-right: var(--space-slab);
+      margin-right: var(--space-small);
     }
   }
 
@@ -326,8 +333,9 @@
     }
   }
 
-  .header-left-wrap .page-title {
-    margin-right: var(--space-slab) !important;
+  // scss-lint:disable SelectorDepth
+  .container .header-wrap .header-left-wrap .header-left-wrap > .page-title {
+    margin-right: var(--space-small);
   }
 
   .portal-container .container {
@@ -408,6 +416,28 @@
     justify-content: flex-end;
   }
 
+  // Toggle switch
+  .toggle-button {
+    &.small {
+      span {
+        &.active {
+          transform: translate(var(--space-minus-small), var(--space-zero));
+        }
+      }
+    }
+
+    span {
+      --minus-space-one-point-five: -1.5rem;
+
+      &.active {
+        transform: translate(
+          var(--minus-space-one-point-five),
+          var(--space-zero)
+        );
+      }
+    }
+  }
+
   // Widget builder
   .widget-builder-container .widget-preview {
     direction: initial;
@@ -454,5 +484,10 @@
 
   .contact--form .input-group {
     direction: initial;
+  }
+
+  // scss-lint:disable QualifyingElement
+  .dropdown-menu--header > span.title {
+    text-align: right;
   }
 }
