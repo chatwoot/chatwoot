@@ -80,8 +80,8 @@
   // Settings header
   .settings-header {
     .header--icon {
-      margin-left: 0;
-      margin-right: var(--space-small);
+      margin-left: var(--space-small);
+      margin-right: var(--space-smaller);
     }
   }
 
@@ -246,8 +246,14 @@
       }
     }
 
-    .search-header--wrap .search--input {
-      text-align: right;
+    .search-header--wrap {
+      .search--input {
+        text-align: right;
+      }
+
+      .layout-switch__container {
+        transform: rotate(180deg);
+      }
     }
 
     // Card label
