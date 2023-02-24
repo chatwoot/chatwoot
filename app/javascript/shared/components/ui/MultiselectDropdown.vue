@@ -140,7 +140,6 @@ export default {
 .selector-wrap {
   position: relative;
   width: 100%;
-  margin-right: var(--space-one);
   margin-bottom: var(--space-small);
 
   .selector-button {
