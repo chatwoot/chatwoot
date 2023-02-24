@@ -38,7 +38,7 @@
     </div>
     <div class="row">
       <metric-card
-        header="Conversation Traffic"
+        :header="this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')"
         :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
       >
         <report-heatmap :heat-data="accountConversationHeatmap" />

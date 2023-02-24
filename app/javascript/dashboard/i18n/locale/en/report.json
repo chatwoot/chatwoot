@@ -390,9 +390,12 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN" : "Open",
+      "OPEN": "Open",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
