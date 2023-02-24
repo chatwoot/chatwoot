@@ -66,7 +66,7 @@
 
 .header--icon {
   display: block;
-  margin: 0 var(--space-normal);
+  margin: 0 var(--space-small) 0 var(--space-smaller);
 
   @media screen and (max-width: 1200px) {
     display: none;
