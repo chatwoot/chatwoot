@@ -33,6 +33,7 @@ export default {
   background: none;
   color: var(--s-500);
   font-size: var(--font-size-mini);
+  margin: 0 var(--space-one);
 }
 
 .inbox--icon {

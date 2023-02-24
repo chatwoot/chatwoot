@@ -241,12 +241,21 @@
       }
 
       .show-more--button {
+        margin: unset;
         transform: rotate(180deg);
       }
     }
 
     .search-header--wrap .search--input {
       text-align: right;
+    }
+
+    // Card label
+    .label-container {
+      .label {
+        margin-left: var(--space-smaller);
+        margin-right: 0;
+      }
     }
 
     // Secondary sidebar toggle button
@@ -433,14 +442,27 @@
     direction: initial;
   }
 
+  // Modal
+  .modal-container {
+    text-align: right;
+
+    .modal-footer {
+      button {
+        margin-left: 0;
+        margin-right: var(--space-small);
+      }
+    }
+  }
+
   // Other changes
 
   .account-selector--wrap {
     direction: initial;
   }
 
-  .inbox--name {
-    direction: initial;
+  .inbox--name .inbox--icon {
+    margin-left: var(--space-micro);
+    margin-right: 0;
   }
 
   .colorpicker--chrome {
