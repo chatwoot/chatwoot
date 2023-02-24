@@ -291,6 +291,7 @@ export default {
   overflow: hidden;
 }
 
+// For RTL direction view
 .app-rtl--wrapper {
   .contacts-table-wrap {
     &::v-deep {
