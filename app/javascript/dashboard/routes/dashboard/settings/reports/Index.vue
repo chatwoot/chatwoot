@@ -46,17 +46,6 @@
         </span>
       </div>
     </div>
-    <div class="card" style="margin-top: 20px;">
-      <div class="card-header">
-        <h5>Conversation Traffic</h5>
-      </div>
-      <div v-if="accountReport.isFetchingHeatmap">
-        Loading
-      </div>
-      <div v-else class="card-body row" style="margin-top: 1rem">
-        <report-heatmap :heat-data="accountReport.heatmapData" />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -65,7 +54,6 @@ import { mapGetters } from 'vuex';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector';
-import ReportHeatmap from './components/Heatmap';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import reportMixin from '../../../../mixins/reportMixin';
 import { formatTime } from '@chatwoot/utils';
@@ -84,7 +72,6 @@ export default {
   name: 'ConversationReports',
   components: {
     ReportFilterSelector,
-    ReportHeatmap,
   },
   mixins: [reportMixin],
   data() {
@@ -212,7 +199,6 @@ export default {
         businessHours,
       });
       this.fetchChartData();
-      this.fetchHeatmapData();
     },
     fetchChartData() {
       const { from, to, groupBy, businessHours } = this;
@@ -222,15 +208,6 @@ export default {
         to,
         groupBy: groupBy.period,
         businessHours,
-      });
-    },
-    fetchHeatmapData() {
-      this.$store.dispatch('fetchAccountHeatmap', {
-        metric: 'conversations_count',
-        from: this.from,
-        to: this.to,
-        groupBy: 'hour',
-        businessHours: false,
       });
     },
     downloadAgentReports() {

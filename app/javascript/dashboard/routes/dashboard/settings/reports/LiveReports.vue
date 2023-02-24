@@ -38,6 +38,14 @@
     </div>
     <div class="row">
       <metric-card
+        header="Conversation Traffic"
+        :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
+      >
+        <report-heatmap :heat-data="accountConversationHeatmap" />
+      </metric-card>
+    </div>
+    <div class="row">
+      <metric-card
         :header="this.$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')"
       >
         <agent-table
@@ -56,11 +64,19 @@ import { mapGetters } from 'vuex';
 import AgentTable from './components/overview/AgentTable';
 import MetricCard from './components/overview/MetricCard';
 import { OVERVIEW_METRICS } from './constants';
+import ReportHeatmap from './components/Heatmap';
+
+import endOfDay from 'date-fns/endOfDay';
+import getUnixTime from 'date-fns/getUnixTime';
+import startOfDay from 'date-fns/startOfDay';
+import subDays from 'date-fns/subDays';
+
 export default {
   name: 'LiveReports',
   components: {
     AgentTable,
     MetricCard,
+    ReportHeatmap,
   },
   data() {
     return {
@@ -73,6 +89,7 @@ export default {
       agents: 'agents/getAgents',
       accountConversationMetric: 'getAccountConversationMetric',
       agentConversationMetric: 'getAgentConversationMetric',
+      accountConversationHeatmap: 'getAccountConversationHeatmapData',
       uiFlags: 'getOverviewUIFlags',
     }),
     agentStatusMetrics() {
@@ -108,6 +125,18 @@ export default {
     fetchAllData() {
       this.fetchAccountConversationMetric();
       this.fetchAgentConversationMetric();
+      this.fetchHeatmapData();
+    },
+    fetchHeatmapData() {
+      const today = endOfDay(new Date());
+      const sevenDaysAgo = startOfDay(subDays(today, 6));
+      this.$store.dispatch('fetchAccountConversationHeatmap', {
+        metric: 'conversations_count',
+        from: getUnixTime(sevenDaysAgo),
+        to: getUnixTime(today),
+        groupBy: 'hour',
+        businessHours: false,
+      });
     },
     fetchAccountConversationMetric() {
       this.$store.dispatch('fetchAccountConversationMetric', {

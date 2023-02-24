@@ -26,9 +26,11 @@ const state = {
   overview: {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
+      isFetchingAccountConversationsHeatmap: false,
       isFetchingAgentConversationMetric: false,
     },
     accountConversationMetric: {},
+    accountConversationHeatmap: [],
     agentConversationMetric: [],
   },
 };
@@ -42,6 +44,9 @@ const getters = {
   },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
+  },
+  getAccountConversationHeatmapData(_state) {
+    return _state.overview.accountConversationHeatmap;
   },
   getAgentConversationMetric(_state) {
     return _state.overview.agentConversationMetric;
@@ -73,7 +78,7 @@ export const actions = {
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
     });
   },
-  fetchAccountHeatmap({ commit }, reportObj) {
+  fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
     Report.getReports(
       reportObj.metric,
@@ -196,13 +201,13 @@ const mutations = {
     _state.accountReport.data = accountReport;
   },
   [types.default.SET_HEATMAP_DATA](_state, heatmapData) {
-    _state.accountReport.heatmapData = heatmapData;
+    _state.overview.accountConversationHeatmap = heatmapData;
   },
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, flag) {
     _state.accountReport.isFetching = flag;
   },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
-    _state.accountReport.isFetchingHeatmap = flag;
+    _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;
