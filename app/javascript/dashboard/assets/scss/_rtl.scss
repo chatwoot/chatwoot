@@ -81,7 +81,7 @@
   .settings-header {
     .header--icon {
       margin-left: 0;
-      margin-right: $space-small;
+      margin-right: var(--space-small);
     }
   }
 
@@ -102,13 +102,13 @@
   // Woot Tabs
   .tabs-title {
     &:first-child {
-      margin-left: $space-slab;
+      margin-left: var(--space-small);
       margin-right: unset;
     }
 
     &:last-child {
       margin-left: unset;
-      margin-right: $space-slab;
+      margin-right: var(--space-small);
     }
   }
 
@@ -140,7 +140,7 @@
 
         .user--profile__meta {
           margin-left: unset;
-          margin-right: $space-slab;
+          margin-right: var(--space-small);
         }
       }
 
@@ -322,7 +322,7 @@
 
     .notification-content--wrap {
       margin-left: 0;
-      margin-right: var(--space-slab);
+      margin-right: var(--space-small);
     }
   }
 
@@ -333,6 +333,7 @@
     }
   }
 
+  // scss-lint:disable SelectorDepth
   .container .header-wrap .header-left-wrap .header-left-wrap > .page-title {
     margin-right: var(--space-small);
   }
@@ -485,6 +486,7 @@
     direction: initial;
   }
 
+  // scss-lint:disable QualifyingElement
   .dropdown-menu--header > span.title {
     text-align: right;
   }
