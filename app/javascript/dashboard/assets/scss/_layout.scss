@@ -16,12 +16,12 @@ body {
 }
 
 .banner + .app-wrapper {
-  .button--fixed-right-top {
+  .button--fixed-top {
     top: 5.6 * $space-one;
   }
 
   .off-canvas-content {
-    .button--fixed-right-top {
+    .button--fixed-top {
       top: $space-small;
     }
   }
