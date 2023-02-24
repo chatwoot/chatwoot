@@ -26,6 +26,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return { showSwitchButton: false };
@@ -69,7 +70,7 @@ export default {
 }
 
 .switch-button {
-  margin-right: var(--space-small);
+  margin: 0 var(--space-small);
 }
 
 .account-context--switch-group {

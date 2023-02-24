@@ -7,17 +7,19 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <help-center-sidebar
-      v-if="showHelpCenterSidebar"
-      :header-title="headerTitle"
-      :portal-slug="selectedPortalSlug"
-      :locale-slug="selectedLocaleInPortal"
-      :sub-title="localeName(selectedLocaleInPortal)"
-      :accessible-menu-items="accessibleMenuItems"
-      :additional-secondary-menu-items="additionalSecondaryMenuItems"
-      @open-popover="openPortalPopover"
-      @open-modal="onClickOpenAddCategoryModal"
-    />
+    <div class="secondary-sidebar">
+      <help-center-sidebar
+        v-if="showHelpCenterSidebar"
+        :header-title="headerTitle"
+        :portal-slug="selectedPortalSlug"
+        :locale-slug="selectedLocaleInPortal"
+        :sub-title="localeName(selectedLocaleInPortal)"
+        :accessible-menu-items="accessibleMenuItems"
+        :additional-secondary-menu-items="additionalSecondaryMenuItems"
+        @open-popover="openPortalPopover"
+        @open-modal="onClickOpenAddCategoryModal"
+      />
+    </div>
     <section class="app-content columns">
       <router-view />
       <command-bar />
