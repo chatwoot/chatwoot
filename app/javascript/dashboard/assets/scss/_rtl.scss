@@ -13,6 +13,10 @@
         padding: var(--space-smaller) var(--space-one) var(--space-smaller)
           var(--space-smaller);
       }
+
+      .status-items button {
+        text-align: right;
+      }
     }
   }
 
@@ -432,5 +436,9 @@
 
   .contact--form .input-group {
     direction: initial;
+  }
+
+  .dropdown-menu--header .title {
+    text-align: right !important;
   }
 }
