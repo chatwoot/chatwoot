@@ -246,8 +246,14 @@
       }
     }
 
-    .search-header--wrap .search--input {
-      text-align: right;
+    .search-header--wrap {
+      .search--input {
+        text-align: right;
+      }
+
+      .layout-switch__container {
+        transform: rotate(180deg);
+      }
     }
 
     // Card label
