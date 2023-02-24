@@ -16,3 +16,20 @@ export const getQuanileIntervals = (data, interavals) => {
     return quantile(data, interval);
   });
 };
+
+export const reconcileHeatmapData = (data, heatmapData) => {
+  // data = [{timestamp: 123, value: 10}, {timestamp: 124, value: 20}]
+  // convert this data to key-value pair of timestamp and value
+  const parsedData = data.reduce((acc, curr) => {
+    acc[curr.timestamp] = curr.value;
+    return acc;
+  }, {});
+
+  return heatmapData.map(dataItem => {
+    if (parsedData[dataItem.timestamp]) {
+      dataItem.value = parsedData[dataItem.timestamp];
+    }
+
+    return dataItem;
+  });
+};

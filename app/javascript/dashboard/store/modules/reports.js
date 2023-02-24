@@ -4,6 +4,7 @@ import Report from '../../api/reports';
 import { downloadCsvFile } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
+import { reconcileHeatmapData } from '../../../shared/helpers/MathHelper';
 
 const state = {
   fetchingStatus: false,
@@ -78,7 +79,8 @@ export const actions = {
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
     });
   },
-  fetchAccountConversationHeatmap({ commit }, reportObj) {
+  fetchAccountConversationHeatmap({ commit }, params) {
+    const { reportObj, _options } = params;
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
     Report.getReports(
       reportObj.metric,
@@ -94,6 +96,14 @@ export const actions = {
         el =>
           reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
       );
+
+      if (_options && _options.reconcile) {
+        data = reconcileHeatmapData(
+          data,
+          state.overview.accountConversationHeatmap
+        );
+      }
+
       commit(types.default.SET_HEATMAP_DATA, data);
       commit(types.default.TOGGLE_HEATMAP_LOADING, false);
     });

@@ -128,21 +128,37 @@ export default {
       this.fetchHeatmapData();
     },
     fetchHeatmapData() {
-      const today = endOfDay(new Date());
-      const sevenDaysAgo = startOfDay(subDays(today, 6));
+      if (this.uiFlags.isFetchingAccountConversationsHeatmap) {
+        return;
+      }
+
       // the data for the last 6 days won't ever change,
       // so there's no need to fetch it again
-      // however it's not implemented right now
       // but we can write some logic to check if the data is already there
       // if it is there, we can refetch data only for today all over again
       // and reconcile it with the rest of the data
       // this will reduce the load on the server doing number crunching
+      let to = endOfDay(new Date());
+      let from = startOfDay(subDays(to, 6));
+      let reconcile = false;
+
+      if (this.accountConversationHeatmap.length) {
+        to = endOfDay(new Date());
+        from = startOfDay(to);
+        reconcile = true;
+      }
+
       this.$store.dispatch('fetchAccountConversationHeatmap', {
-        metric: 'conversations_count',
-        from: getUnixTime(sevenDaysAgo),
-        to: getUnixTime(today),
-        groupBy: 'hour',
-        businessHours: false,
+        reportObj: {
+          metric: 'conversations_count',
+          from: getUnixTime(from),
+          to: getUnixTime(to),
+          groupBy: 'hour',
+          businessHours: false,
+        },
+        _options: {
+          reconcile,
+        },
       });
     },
     fetchAccountConversationMetric() {
