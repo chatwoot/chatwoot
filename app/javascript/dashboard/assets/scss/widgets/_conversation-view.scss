@@ -81,8 +81,8 @@
   }
 
   .conversations-list {
-    overflow-y: auto;
     flex: 1 1;
+    overflow-y: auto;
 
     @include breakpoint(large up) {
       @include scroll-on-hover;
