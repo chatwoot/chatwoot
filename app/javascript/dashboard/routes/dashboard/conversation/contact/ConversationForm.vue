@@ -350,10 +350,6 @@ export default {
   min-height: 8rem;
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
 .row.gutter-small {
   gap: var(--space-small);
 }
