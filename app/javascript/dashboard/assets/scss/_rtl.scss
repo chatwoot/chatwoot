@@ -412,6 +412,18 @@
     direction: initial;
   }
 
+  // Modal
+  .modal-container {
+    text-align: right;
+
+    .modal-footer {
+      button {
+        margin-left: 0;
+        margin-right: var(--space-small);
+      }
+    }
+  }
+
   // Other changes
 
   .account-selector--wrap {
