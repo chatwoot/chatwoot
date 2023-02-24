@@ -181,7 +181,7 @@ export default {
 .notification-type {
   font-size: var(--font-size-micro);
   padding: var(--space-micro) var(--space-smaller);
-  margin-left: var(--space-small);
+  margin: 0 var(--space-small);
   background: var(--s-50);
   border-radius: var(--border-radius-normal);
 }
