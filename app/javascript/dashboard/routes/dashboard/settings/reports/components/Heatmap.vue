@@ -32,12 +32,11 @@
   </div>
 </template>
 <script>
-import { getQuanileIntervals } from 'shared/helpers/MathHelper';
-
-import fromUnixTime from 'date-fns/fromUnixTime';
-import startOfDay from 'date-fns/startOfDay';
+import { getQuantileIntervals } from '@chatwoot/utils';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
+
+import { groupHeatmapByDay } from 'helpers/HeatmapHelper';
 
 export default {
   name: 'Heatmap',
@@ -76,7 +75,7 @@ export default {
     },
     getDataLimits() {
       const flattendedData = this.heatData.map(data => data.value);
-      this.quantileRange = getQuanileIntervals(flattendedData, [
+      this.quantileRange = getQuantileIntervals(flattendedData, [
         0.2,
         0.4,
         0.6,
@@ -86,20 +85,7 @@ export default {
       ]);
     },
     processData() {
-      this.processedData = this.heatData.reduce((acc, data) => {
-        const date = fromUnixTime(data.timestamp);
-        const mapKey = startOfDay(date).toISOString();
-        const dataToAppend = {
-          ...data,
-          date: fromUnixTime(data.timestamp),
-          hour: date.getHours(),
-        };
-        if (!acc.has(mapKey)) {
-          acc.set(mapKey, []);
-        }
-        acc.get(mapKey).push(dataToAppend);
-        return acc;
-      }, new Map());
+      this.processedData = groupHeatmapByDay(this.heatData);
     },
     getHeatmapLevelClass(value) {
       if (!value) return '';
