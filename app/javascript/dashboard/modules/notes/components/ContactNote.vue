@@ -105,6 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// For RTL direction view
 .app-rtl--wrapper {
   .note__content {
     ::v-deep {

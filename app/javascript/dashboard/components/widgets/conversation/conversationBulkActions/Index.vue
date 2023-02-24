@@ -184,6 +184,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// For RTL direction view
 .app-rtl--wrapper {
   .bulk-action__actions {
     ::v-deep .button--only-icon:last-child {
