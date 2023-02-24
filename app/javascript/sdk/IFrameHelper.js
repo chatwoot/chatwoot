@@ -36,12 +36,14 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+import { openFullScreenWindow } from '../widget/helpers/fullscreenHelper';
 
-const updateAuthCookie = cookieContent =>
-  Cookies.set('cw_conversation', cookieContent, {
+const updateAuthCookie = (cookieContent, websiteToken) => {
+  Cookies.set(`cw_conversation_${websiteToken}`, cookieContent, {
     expires: 365,
     sameSite: 'Lax',
   });
+};
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -54,7 +56,7 @@ export const IFrameHelper = {
 
     loadCSS();
     const iframe = document.createElement('iframe');
-    const cwCookie = Cookies.get('cw_conversation');
+    const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
@@ -145,7 +147,7 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      updateAuthCookie(message.config.authToken);
+      updateAuthCookie(message.config.authToken, window.$chatwoot.websiteToken);
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
@@ -189,7 +191,7 @@ export const IFrameHelper = {
     },
 
     setAuthCookie({ data: { widgetAuthToken } }) {
-      updateAuthCookie(widgetAuthToken);
+      updateAuthCookie(widgetAuthToken, window.$chatwoot.websiteToken);
     },
 
     toggleBubble: state => {
@@ -204,9 +206,15 @@ export const IFrameHelper = {
     },
 
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
-      const cwCookie = Cookies.get('cw_conversation');
+      const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
       window.$chatwoot.toggle('close');
       popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
+    },
+
+    openFullScreenWindow: ({ baseUrl, websiteToken, locale, referral }) => {
+      const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
+      window.$chatwoot.toggle('close');
+      openFullScreenWindow(baseUrl, websiteToken, locale, referral, cwCookie);
     },
 
     closeWindow: () => {
