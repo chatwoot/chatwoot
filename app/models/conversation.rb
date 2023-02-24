@@ -49,7 +49,7 @@ class Conversation < ApplicationRecord
   include UrlHelper
   include SortHandler
   include PgSearch::Model
-  
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes

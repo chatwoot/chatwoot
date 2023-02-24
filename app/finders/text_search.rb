@@ -1,14 +1,17 @@
 class TextSearch
-  pattr_initialize [:current_user!, :current_account!, :params!]
-
-  DEFAULT_STATUS = 'open'.freeze
+  pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
 
   def perform
-    {
-      messages: filter_messages,
-      conversations: filter_conversations,
-      contacts: filter_contacts
-    }
+    case search_type
+    when 'Message'
+      { messages: filter_messages }
+    when 'Conversation'
+      { conversations: filter_conversations }
+    when 'Contact'
+      { contacts: filter_contacts }
+    else
+      { contacts: filter_contacts, messages: filter_messages, conversations: filter_conversations }
+    end
   end
 
   private
