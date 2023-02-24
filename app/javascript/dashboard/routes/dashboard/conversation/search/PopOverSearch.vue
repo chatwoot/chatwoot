@@ -4,7 +4,7 @@
       <woot-sidemenu-icon />
       <router-link :to="searchUrl" class="search--link">
         <div class="icon">
-          <fluent-icon icon="search" class="search--icon" size="28" />
+          <fluent-icon icon="search" class="search--icon" size="16" />
         </div>
         <p class="search--label">{{ $t('CONVERSATION.SEARCH_MESSAGES') }}</p>
       </router-link>
@@ -106,8 +106,7 @@ export default {
 
 .search--icon {
   color: var(--s-600);
-  font-size: var(--font-size-large);
-  padding: 0 var(--space-small) 0 0;
+  margin: 0 var(--space-smaller);
 }
 
 .icon {

@@ -15,6 +15,7 @@
     "INITIATED_FROM": "시작 위치",
     "INITIATED_AT": "시작 시간",
     "IP_ADDRESS": "IP 주소",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "새 메시지",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "전화 번호",
         "CONVERSATIONS": "대화",
         "LAST_ACTIVITY": "지난 활동",
+        "CREATED_AT": "에 만들어짐",
         "COUNTRY": "국가",
         "CITY": "도시",
         "SOCIAL_PROFILES": "소셜 프로필",

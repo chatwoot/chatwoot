@@ -38,10 +38,10 @@ class Macro < ApplicationRecord
     self.visibility = :personal if user.agent?
   end
 
-  def self.with_visibility(user, params)
+  def self.with_visibility(user, _params)
     records = Current.account.macros.global
     records = records.or(personal.where(created_by_id: user.id))
-    records.order(:id).page(current_page(params))
+    records.order(:id)
   end
 
   def self.current_page(params)

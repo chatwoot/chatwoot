@@ -36,7 +36,7 @@
             "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
             "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
             "CUSTOM_ATTRIBUTE_LINK": "Łącze",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole wyboru",
             "CREATED_AT": "Utworzono",
             "LAST_ACTIVITY": "Ostatnia aktywność",
             "REFERER_LINK": "Referrer link"

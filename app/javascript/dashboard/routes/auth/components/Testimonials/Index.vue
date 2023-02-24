@@ -84,6 +84,7 @@ export default {
   background: var(--w-400);
   display: flex;
   flex: 1 1;
+  overflow: hidden;
   position: relative;
 }
 

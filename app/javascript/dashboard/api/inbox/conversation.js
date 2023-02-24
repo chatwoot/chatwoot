@@ -45,14 +45,6 @@ class ConversationApi extends ApiClient {
     });
   }
 
-  fullSearch({ q }) {
-    return axios.get(`${this.url}/text_search`, {
-      params: {
-        q,
-      },
-    });
-  }
-
   toggleStatus({ conversationId, status, snoozedUntil = null }) {
     return axios.post(`${this.url}/${conversationId}/toggle_status`, {
       status,

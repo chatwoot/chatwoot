@@ -4,7 +4,6 @@ class TextSearch
   DEFAULT_STATUS = 'open'.freeze
 
   def perform
-    set_inboxes
     {
       messages: filter_messages,
       conversations: filter_conversations,
@@ -12,29 +11,27 @@ class TextSearch
     }
   end
 
-  def set_inboxes
-    @inbox_ids = @current_user.assigned_inboxes.pluck(:id)
-  end
-
   private
 
+  def accessable_inbox_ids
+    @accessable_inbox_ids ||= @current_user.assigned_inboxes.pluck(:id)
+  end
+
   def filter_conversations
-    @conversations = PgSearch.multisearch((@params[:q]).to_s).where(
-      account_id: @current_account, searchable_type: 'Conversation'
-    ).joins("INNER JOIN conversations ON pg_search_documents.searchable_id = conversations.id
-      AND conversations.inbox_id IN (#{@inbox_ids.join(',')})").includes(:searchable).limit(20).collect(&:searchable)
+    @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids).joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                                    .where("cast(conversations.display_id as text) LIKE :search OR contacts.name LIKE :search OR contacts.email LIKE :search OR contacts.phone_number
+      LIKE :search OR contacts.identifier LIKE :search", search: "%#{params[:q]}%").limit(10)
   end
 
   def filter_messages
-    @messages = PgSearch.multisearch((@params[:q]).to_s).where(
-      account_id: @current_account, searchable_type: 'Message'
-    ).joins("INNER JOIN messages ON pg_search_documents.searchable_id = messages.id
-      AND messages.inbox_id IN (#{@inbox_ids.join(',')})").includes(:searchable).limit(20).collect(&:searchable)
+    @messages = current_account.messages.where(inbox_id: accessable_inbox_ids).where('messages.content LIKE :search',
+                                                                                     search: "%#{params[:q]}%").limit(10)
   end
 
   def filter_contacts
-    @contacts = PgSearch.multisearch((@params[:q]).to_s).where(
-      account_id: @current_account, searchable_type: 'Contact'
-    ).joins('INNER JOIN contacts ON pg_search_documents.searchable_id = contacts.id').includes(:searchable).limit(20).collect(&:searchable)
+    @contacts = current_account.contacts.where(
+      "name LIKE :search OR email LIKE :search OR phone_number
+      LIKE :search OR identifier LIKE :search", search: "%#{params[:q]}%"
+    ).limit(10)
   end
 end

@@ -34,14 +34,6 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
-  include PgSearch::Model
-  include MultiSearchableHelpers
-
-  multisearchable(
-    against: [:content],
-    if: :searchable_message_types?,
-    additional_attributes: ->(message) { { account_id: message.account_id } }
-  )
 
   before_validation :ensure_content_type
 
@@ -77,7 +69,8 @@ class Message < ApplicationRecord
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at, :story_sender, :story_id, :external_error], coder: JSON
+                                         :external_created_at, :story_sender, :story_id, :external_error,
+                                         :translations], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 

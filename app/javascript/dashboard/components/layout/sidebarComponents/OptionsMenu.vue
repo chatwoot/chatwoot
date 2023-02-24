@@ -3,7 +3,7 @@
     <div
       v-if="show"
       v-on-clickaway="onClickAway"
-      class="dropdown-pane"
+      class="options-menu dropdown-pane"
       :class="{ 'dropdown-pane--open': show }"
     >
       <availability-status />
@@ -150,10 +150,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.dropdown-pane {
+.options-menu.dropdown-pane {
   left: var(--space-slab);
   bottom: var(--space-larger);
-  min-width: 22rem;
+  min-width: var(--space-giga);
+  top: unset;
   z-index: var(--z-index-low);
 }
 </style>

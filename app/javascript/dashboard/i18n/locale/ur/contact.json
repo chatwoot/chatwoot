@@ -15,6 +15,7 @@
     "INITIATED_FROM": "سے شروع کیا گیا۔",
     "INITIATED_AT": "پر شروع کیا گیا۔",
     "IP_ADDRESS": "آئی پی ایڈریس",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "نیا پیغام",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "اس کانٹیکٹ سے وابستہ کوئی پچھلی بات چیت موجود نہیں ہے۔.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "فون نمبر",
         "CONVERSATIONS": "مکالمات",
         "LAST_ACTIVITY": "آخری سرگرمی",
+        "CREATED_AT": "Created At",
         "COUNTRY": "ملک",
         "CITY": "شہر",
         "SOCIAL_PROFILES": "سوشل پروفائلز",

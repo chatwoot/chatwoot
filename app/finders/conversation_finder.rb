@@ -97,6 +97,8 @@ class ConversationFinder
     when 'mention'
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = @conversations.where(id: conversation_ids)
+    when 'participating'
+      @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     when 'unattended'
       @conversations = @conversations.where(first_reply_created_at: nil)
     end

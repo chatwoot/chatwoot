@@ -17,7 +17,7 @@ const state = {
 };
 
 const isAValidAppIntegration = integration => {
-  return ['dialogflow', 'dyte'].includes(integration.id);
+  return ['dialogflow', 'dyte', 'google_translate'].includes(integration.id);
 };
 export const getters = {
   getIntegrations($state) {

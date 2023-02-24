@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
     "UNKNOWN_FILE_TYPE": "Unknown File",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Envoi des pièces jointes...",
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
@@ -131,6 +132,14 @@
           "LABEL": "CCI",
           "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Envoyer",
+          "CANCEL": "Annuler"
         }
       }
     },

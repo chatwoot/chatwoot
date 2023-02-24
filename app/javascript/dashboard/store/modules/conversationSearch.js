@@ -1,4 +1,4 @@
-import ConversationAPI from '../../api/inbox/conversation';
+import SearchAPI from '../../api/search';
 import types from '../mutation-types';
 export const initialState = {
   records: [],
@@ -30,7 +30,7 @@ export const actions = {
     try {
       const {
         data: { payload },
-      } = await ConversationAPI.search({ q });
+      } = await SearchAPI.get({ q });
       commit(types.SEARCH_CONVERSATIONS_SET, payload);
     } catch (error) {
       // Ignore error
@@ -45,7 +45,7 @@ export const actions = {
     }
     commit(types.FULL_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await ConversationAPI.fullSearch({ q });
+      const { data } = await SearchAPI.get({ q });
       commit(types.FULL_SEARCH_SET, data.payload);
     } catch (error) {
       // Ignore error
