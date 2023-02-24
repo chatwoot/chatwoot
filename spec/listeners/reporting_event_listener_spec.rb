@@ -85,8 +85,13 @@ describe ReportingEventListener do
   end
 
   describe '#conversation_bot_handoff' do
-    it 'creates conversation_bot_handoff event' do
+    it 'creates conversation_bot_handoff event only once' do
       expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 0
+      event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation)
+      listener.conversation_bot_handoff(event)
+      expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 1
+
+      # add extra handoff event for the same and ensure it's not created
       event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation)
       listener.conversation_bot_handoff(event)
       expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 1
