@@ -1,11 +1,10 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
-    <woot-button
-      icon="chevron-right"
-      class="close-button clear secondary"
-      @click="onPanelToggle"
+    <contact-info
+      :contact="contact"
+      :channel-type="channelType"
+      @toggle-panel="onPanelToggle"
     />
-    <contact-info :contact="contact" :channel-type="channelType" />
     <draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
@@ -293,15 +292,6 @@ export default {
       }
     }
   }
-}
-
-.close-button {
-  position: absolute;
-  right: $space-two;
-  top: $space-slab;
-  font-size: $font-size-default;
-  color: $color-heading;
-  z-index: 9989;
 }
 
 .conversation--labels {

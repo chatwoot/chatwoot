@@ -43,6 +43,8 @@ export default {
 
 <style scoped lang="scss">
 .social--icons {
+  align-items: flex-end;
+  display: flex;
   margin: var(--space-small) 0 var(--space-smaller);
 }
 
