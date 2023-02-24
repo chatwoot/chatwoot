@@ -1,5 +1,5 @@
 <template>
-  <button class="back-button" @click.capture="goBack">
+  <button class="settings back-button" @click.capture="goBack">
     <fluent-icon icon="chevron-left" />
     {{ buttonLabel || $t('GENERAL_SETTINGS.BACK') }}
   </button>
@@ -29,4 +29,3 @@ export default {
   },
 };
 </script>
-<style scoped></style>
