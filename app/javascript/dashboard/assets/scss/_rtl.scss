@@ -27,10 +27,13 @@
       border-right: 0;
 
       .nested.vertical.menu {
-        align-items: flex-start;
+        .badge--icon {
+          margin-left: var(--space-smaller);
+          margin-right: unset;
+        }
 
-        li {
-          direction: initial;
+        .menu-label {
+          text-align: right;
         }
       }
 
