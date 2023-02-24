@@ -403,6 +403,28 @@
     justify-content: flex-end;
   }
 
+  // Toggle switch
+  .toggle-button {
+    &.small {
+      span {
+        &.active {
+          transform: translate(var(--space-minus-small), var(--space-zero));
+        }
+      }
+    }
+
+    span {
+      --minus-space-one-point-five: -1.5rem;
+
+      &.active {
+        transform: translate(
+          var(--minus-space-one-point-five),
+          var(--space-zero)
+        );
+      }
+    }
+  }
+
   // Widget builder
   .widget-builder-container .widget-preview {
     direction: initial;
