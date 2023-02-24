@@ -14,7 +14,7 @@
           var(--space-smaller);
       }
 
-      .status-items button {
+      .status-items .button {
         text-align: right;
       }
     }
@@ -333,8 +333,8 @@
     }
   }
 
-  .header-left-wrap .page-title {
-    margin-right: var(--space-slab) !important;
+  .container .header-wrap .header-left-wrap .header-left-wrap > .page-title {
+    margin-right: var(--space-small);
   }
 
   .portal-container .container {
@@ -485,7 +485,7 @@
     direction: initial;
   }
 
-  .dropdown-menu--header .title {
-    text-align: right !important;
+  .dropdown-menu--header > span.title {
+    text-align: right;
   }
 }
