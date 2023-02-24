@@ -6,7 +6,7 @@
       :username="user.name"
       :status="user.availability_status"
     />
-    <h6 class="text-block-title text-truncate text-capitalize">
+    <h6 class="text-block-title user-name text-truncate text-capitalize">
       {{ user.name }}
     </h6>
   </div>
