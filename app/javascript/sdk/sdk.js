@@ -44,11 +44,11 @@ export const SDK_CSS = `
   bottom: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .16) !important;
   cursor: pointer;
-  height: 64px;
+  height: 52px;
   padding: 0px;
   position: fixed;
   user-select: none;
-  width: 64px;
+  width: 52px;
   z-index: 2147483000 !important;
 }
 
@@ -57,7 +57,7 @@ export const SDK_CSS = `
 }
 
 .woot-widget-holder.woot-widget-holder--flat {
-  bottom: 90px;
+  bottom: 92px;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
@@ -134,7 +134,7 @@ export const SDK_CSS = `
 .woot-widget-bubble svg {
   all: revert;
   height: 24px;
-  margin: 20px;
+  margin: 14px;
   width: 24px;
 }
 
@@ -160,9 +160,9 @@ export const SDK_CSS = `
   content: ' ';
   display: inline;
   height: 24px;
-  left: 32px;
+  left: 26px;
   position: absolute;
-  top: 20px;
+  top: 15px;
   width: 2px;
 }
 
