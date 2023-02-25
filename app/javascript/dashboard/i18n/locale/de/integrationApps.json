@@ -1,62 +1,62 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Integrationen werden abgerufen",
-    "NO_HOOK_CONFIGURED": "Es wurden keine %{integrationId} Integrationen in diesem Konto konfiguriert.",
-    "HEADER": "Anwendungen",
-    "STATUS": {
-      "ENABLED": "Aktiviert",
-      "DISABLED": "Deaktiviert"
-    },
-    "CONFIGURE": "Konfigurieren",
-    "ADD_BUTTON": "Neuen Hook hinzufügen",
-    "DELETE": {
-      "TITLE": {
-        "INBOX": "Löschen bestätigen",
-        "ACCOUNT": "Verbindung trennen"
-      },
-      "MESSAGE": {
-        "INBOX": "Sind Sie sicher, dass Sie das löschen möchten?",
-        "ACCOUNT": "Möchten Sie die Verbindung wirklich trennen?"
-      },
-      "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Ja, löschen",
-        "ACCOUNT": "Ja, Verbindung trennen"
-      },
-      "CANCEL_BUTTON_TEXT": "Abbrechen",
-      "API": {
-        "SUCCESS_MESSAGE": "Hook wurde erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
-      }
-    },
-    "LIST": {
-      "FETCHING": "Hooks werden abgerufen",
-      "INBOX": "Posteingang",
-      "DELETE": {
-        "BUTTON_TEXT": "Löschen"
-      }
-    },
     "ADD": {
+      "API": {
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut",
+        "SUCCESS_MESSAGE": "Integrations-Hook erfolgreich hinzugefügt"
+      },
       "FORM": {
+        "CANCEL": "Abbrechen",
         "INBOX": {
           "LABEL": "Eingang auswählen",
           "PLACEHOLDER": "Posteingang auswählen"
         },
-        "SUBMIT": "Erstellen",
-        "CANCEL": "Abbrechen"
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Integrations-Hook erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        "SUBMIT": "Erstellen"
       }
     },
+    "ADD_BUTTON": "Neuen Hook hinzufügen",
+    "CONFIGURE": "Konfigurieren",
     "CONNECT": {
       "BUTTON_TEXT": "Verbinden"
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut",
+        "SUCCESS_MESSAGE": "Hook wurde erfolgreich gelöscht"
+      },
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
+      "CONFIRM_BUTTON_TEXT": {
+        "ACCOUNT": "Ja, Verbindung trennen",
+        "INBOX": "Ja, löschen"
+      },
+      "MESSAGE": {
+        "ACCOUNT": "Möchten Sie die Verbindung wirklich trennen?",
+        "INBOX": "Sind Sie sicher, dass Sie das löschen möchten?"
+      },
+      "TITLE": {
+        "ACCOUNT": "Verbindung trennen",
+        "INBOX": "Löschen bestätigen"
+      }
     },
     "DISCONNECT": {
       "BUTTON_TEXT": "Verbindung trennen"
     },
+    "FETCHING": "Integrationen werden abgerufen",
+    "HEADER": "Anwendungen",
+    "LIST": {
+      "DELETE": {
+        "BUTTON_TEXT": "Löschen"
+      },
+      "FETCHING": "Hooks werden abgerufen",
+      "INBOX": "Posteingang"
+    },
+    "NO_HOOK_CONFIGURED": "Es wurden keine %{integrationId} Integrationen in diesem Konto konfiguriert.",
     "SIDEBAR_DESCRIPTION": {
       "DIALOGFLOW": "Dialogflow ist eine Sprachverständnis-Plattform, die es einfach macht, eine interaktive Benutzeroberfläche in Ihre mobile App, Web-Anwendung, Gerät, Bot, interaktives Voice-Antwort-System etc. zu integrieren. <br /> <br /> Die Dialogflow-Integration mit %{installationName} ermöglicht es Ihnen, einen Dialogfluss-Bot mit Ihren Posteingängen zu verknüpfen. Dieser Bot erlaubt es Ihnen, eingehende Anfragen zunächst zu bearbeiten und diese bei Bedarf an einen Agenten zu übergeben. Dialogflow kann zur Qualifizierung der Leads, zur Reduzierung der Arbeitsbelastung von Agenten durch häufig gestellte Fragen usw. genutzt werden. <br /> <br /> Um Dialogflow hinzuzufügen, müssen Sie ein Service-Konto in Ihrer Google-Projekt-Konsole erstellen und die Zugangsdaten freigeben. Weitere Informationen finden Sie in der Dialogflow-Dokumentation."
+    },
+    "STATUS": {
+      "DISABLED": "Deaktiviert",
+      "ENABLED": "Aktiviert"
     }
   }
 }

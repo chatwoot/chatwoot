@@ -1,41 +1,41 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
-    "TITLE": "Registrati",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "API": {
+      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi",
+      "SUCCESS_MESSAGE": "Registrazione riuscita"
+    },
     "COMPANY_NAME": {
+      "ERROR": "Company name is too short",
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
-    },
-    "FULL_NAME": {
-      "LABEL": "Nome completo",
-      "PLACEHOLDER": "Inserisci il tuo nome completo, es.: Bruce Wayne",
-      "ERROR": "Nome account troppo corto"
-    },
-    "EMAIL": {
-      "LABEL": "Email di lavoro",
-      "PLACEHOLDER": "Inserisci il tuo indirizzo email di lavoro. es.: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
-    },
-    "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password troppo corta",
-      "IS_INVALID_PASSWORD": "La password dovrebbe contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale"
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises"
     },
     "CONFIRM_PASSWORD": {
+      "ERROR": "La password non corrisponde",
       "LABEL": "Conferma password",
-      "PLACEHOLDER": "Conferma password",
-      "ERROR": "La password non corrisponde"
+      "PLACEHOLDER": "Conferma password"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Registrazione riuscita",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+    "EMAIL": {
+      "ERROR": "Please enter a valid work email address",
+      "LABEL": "Email di lavoro",
+      "PLACEHOLDER": "Inserisci il tuo indirizzo email di lavoro. es.: bruce@wayne.enterprises"
+    },
+    "FULL_NAME": {
+      "ERROR": "Nome account troppo corto",
+      "LABEL": "Nome completo",
+      "PLACEHOLDER": "Inserisci il tuo nome completo, es.: Bruce Wayne"
+    },
+    "HAVE_AN_ACCOUNT": "Hai già un account?",
+    "PASSWORD": {
+      "ERROR": "Password troppo corta",
+      "IS_INVALID_PASSWORD": "La password dovrebbe contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale",
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password"
     },
     "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Hai già un account?"
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TITLE": "Registrati",
+    "TRY_WOOT": "Create an account"
   }
 }

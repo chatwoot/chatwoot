@@ -1,41 +1,41 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
-    "TITLE": "Reģistrēt",
-    "TESTIMONIAL_HEADER": "Viss, kas nepieciešams, ir viens solis, lai virzītos uz priekšu",
-    "TESTIMONIAL_CONTENT": "Jūs esat viena soļa attālumā no klientu piesaistīšanas, noturēšanas un jaunu klientu atrašanas.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "API": {
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz",
+      "SUCCESS_MESSAGE": "Reģistrācija sekmīga"
+    },
     "COMPANY_NAME": {
+      "ERROR": "Uzņēmuma nosaukums ir pārāk īss",
       "LABEL": "Uzņēmuma nosaukums",
-      "PLACEHOLDER": "Ievadiet sava uzņēmuma nosaukumu. Piemēram: Wayne Enterprises",
-      "ERROR": "Uzņēmuma nosaukums ir pārāk īss"
-    },
-    "FULL_NAME": {
-      "LABEL": "Pilnais vārds",
-      "PLACEHOLDER": "Ievadiet savu pilno vārdu. Piemēram: Bruce Wayne",
-      "ERROR": "Pilnais vārds ir pārāk īss"
-    },
-    "EMAIL": {
-      "LABEL": "Darba e-pasts",
-      "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram: bruce@wayne.enterprises",
-      "ERROR": "Lūdzu, ievadiet derīgu darba e-pasta adresi"
-    },
-    "PASSWORD": {
-      "LABEL": "Parole",
-      "PLACEHOLDER": "Parole",
-      "ERROR": "Parole ir pārāk īsa",
-      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme"
+      "PLACEHOLDER": "Ievadiet sava uzņēmuma nosaukumu. Piemēram: Wayne Enterprises"
     },
     "CONFIRM_PASSWORD": {
+      "ERROR": "Parole nesakrīt",
       "LABEL": "Apstipriniet Paroli",
-      "PLACEHOLDER": "Apstipriniet Paroli",
-      "ERROR": "Parole nesakrīt"
+      "PLACEHOLDER": "Apstipriniet Paroli"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Reģistrācija sekmīga",
-      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+    "EMAIL": {
+      "ERROR": "Lūdzu, ievadiet derīgu darba e-pasta adresi",
+      "LABEL": "Darba e-pasts",
+      "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram: bruce@wayne.enterprises"
+    },
+    "FULL_NAME": {
+      "ERROR": "Pilnais vārds ir pārāk īss",
+      "LABEL": "Pilnais vārds",
+      "PLACEHOLDER": "Ievadiet savu pilno vārdu. Piemēram: Bruce Wayne"
+    },
+    "HAVE_AN_ACCOUNT": "Jau ir konts?",
+    "PASSWORD": {
+      "ERROR": "Parole ir pārāk īsa",
+      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme",
+      "LABEL": "Parole",
+      "PLACEHOLDER": "Parole"
     },
     "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Jau ir konts?"
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_CONTENT": "Jūs esat viena soļa attālumā no klientu piesaistīšanas, noturēšanas un jaunu klientu atrašanas.",
+    "TESTIMONIAL_HEADER": "Viss, kas nepieciešams, ir viens solis, lai virzītos uz priekšu",
+    "TITLE": "Reģistrēt",
+    "TRY_WOOT": "Create an account"
   }
 }

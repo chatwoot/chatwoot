@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Chat dengan kami"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Ketik pesan Anda",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Unduh",
@@ -8,89 +17,80 @@
       "SUBMIT": "Kirim"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "ERROR_MESSAGE": "Couldn't send, try again",
+      "RETRY": "Send message again"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Kami sedang online",
-    "OFFLINE": "Kami sedang tidak tersedia saat ini"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
-    "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
-    "IN_A_DAY": "Biasanya membalas dalam sehari"
-  },
-  "START_CONVERSATION": "Mulai Percakapan",
-  "END_CONVERSATION": "Akhiri Percakapan",
   "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",
-  "START_NEW_CONVERSATION": "Mulai Percakapan",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
-    "CLOSE_MESSAGES_BUTTON": "Tutup",
-    "COMPANY_FROM": "dari",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Tell us more...",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "TITLE": "Rate your conversation"
   },
-  "BUBBLE": {
-    "LABEL": "Chat dengan kami"
+  "EMAIL_PLACEHOLDER": "Masukkan email Anda",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_ERROR": "Terjadi kesalahan, harap coba lagi",
+    "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "Akhiri Percakapan",
+  "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Masukkan email Anda",
-  "CHAT_PLACEHOLDER": "Ketik pesan Anda",
-  "TODAY": "Hari ini",
-  "YESTERDAY": "Kemarin",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Nama Lengkap",
-        "PLACEHOLDER": "Harap masukkan nama lengkap anda yang valid",
-        "REQUIRED_ERROR": "Nama Lengkap dibutuhkan"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Alamat email",
         "PLACEHOLDER": "Harap masukkan alamat email Anda",
         "REQUIRED_ERROR": "Alamat Email dibutuhkan",
         "VALID_ERROR": "Harap masukkan alamat email yang valid"
       },
+      "FULL_NAME": {
+        "LABEL": "Nama Lengkap",
+        "PLACEHOLDER": "Harap masukkan nama lengkap anda yang valid",
+        "REQUIRED_ERROR": "Nama Lengkap dibutuhkan"
+      },
+      "MESSAGE": {
+        "ERROR": "Pesan terlalu pendek",
+        "LABEL": "Pesan",
+        "PLACEHOLDER": "Harap masukkan pesan Anda"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Nomor Telpon",
         "PLACEHOLDER": "Masukan Nomor Telepon",
         "REQUIRED_ERROR": "Nomor Telepon Dibutuhkan",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Pesan",
-        "PLACEHOLDER": "Harap masukkan pesan Anda",
-        "ERROR": "Pesan terlalu pendek"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Invalid field"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Biasanya membalas dalam sehari",
+    "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
+    "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "Mulai Percakapan",
+  "START_NEW_CONVERSATION": "Mulai Percakapan",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Kami sedang tidak tersedia saat ini",
+    "ONLINE": "Kami sedang online"
   },
-  "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+  "TODAY": "Hari ini",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Tutup",
+    "COMPANY_FROM": "dari",
+    "VIEW_MESSAGES_BUTTON": "Lihat pesan baru"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
-    "SEND_EMAIL_ERROR": "Terjadi kesalahan, harap coba lagi"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Kemarin"
 }

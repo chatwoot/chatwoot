@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Načítání konverzací",
-    "LOAD_MORE_CONVERSATIONS": "Načíst více konverzací",
-    "EOF": "Všechny konverzace načteny 🎉",
-    "LIST": {
-      "404": "V této skupině nejsou žádné aktivní konverzace."
-    },
-    "TAB_HEADING": "Konverzace",
-    "MENTION_HEADING": "Zmínky",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
-    },
-    "FILTER_ALL": "Vše",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Vše",
       "me": "Moje",
-      "unassigned": "Nepřiřazeno",
-      "all": "Vše"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Otevřené"
-      },
-      "resolved": {
-        "TEXT": "Vyřešené"
-      },
-      "pending": {
-        "TEXT": "Čekající"
-      },
-      "snoozed": {
-        "TEXT": "Odložené"
-      },
-      "all": {
-        "TEXT": "Vše"
-      }
+      "unassigned": "Nepřiřazeno"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Zpráva obrázku"
-      },
       "audio": {
         "CONTENT": "Zvuková zpráva"
       },
-      "video": {
-        "CONTENT": "Video zpráva"
+      "fallback": {
+        "CONTENT": "sdílel URL"
       },
       "file": {
         "CONTENT": "Přílohu souboru"
       },
+      "image": {
+        "CONTENT": "Zpráva obrázku"
+      },
       "location": {
         "CONTENT": "Poloha"
       },
-      "fallback": {
-        "CONTENT": "sdílel URL"
+      "video": {
+        "CONTENT": "Video zpráva"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Obdrženo e-mailem",
-    "VIEW_TWEET_IN_TWITTER": "Zobrazit tweet na Twitteru",
-    "REPLY_TO_TWEET": "Odpovědět na tento tweet",
-    "LINK_TO_STORY": "Přejít na instagram příběh",
-    "SENT": "Úspěšně odesláno",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Vše"
+      },
+      "open": {
+        "TEXT": "Otevřené"
+      },
+      "pending": {
+        "TEXT": "Čekající"
+      },
+      "resolved": {
+        "TEXT": "Vyřešené"
+      },
+      "snoozed": {
+        "TEXT": "Odložené"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Žádné zprávy",
-    "NO_CONTENT": "Žádný obsah k dispozici",
+    "EOF": "Všechny konverzace načteny 🎉",
+    "FILTER_ALL": "Vše",
     "HIDE_QUOTED_TEXT": "Skrýt citovaný text",
+    "LINK_TO_STORY": "Přejít na instagram příběh",
+    "LIST": {
+      "404": "V této skupině nejsou žádné aktivní konverzace."
+    },
+    "LOADING": "Načítání konverzací",
+    "LOAD_MORE_CONVERSATIONS": "Načíst více konverzací",
+    "MENTION_HEADING": "Zmínky",
+    "MESSAGE_READ": "Přečtené",
+    "NO_CONTENT": "Žádný obsah k dispozici",
+    "NO_MESSAGES": "Žádné zprávy",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "Obdrženo e-mailem",
+    "REPLY_TO_TWEET": "Odpovědět na tento tweet",
+    "SEARCH": {
+      "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
+    },
+    "SENT": "Úspěšně odesláno",
     "SHOW_QUOTED_TEXT": "Zobrazit citovaný text",
-    "MESSAGE_READ": "Přečtené"
+    "TAB_HEADING": "Konverzace",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "Zobrazit tweet na Twitteru"
   }
 }

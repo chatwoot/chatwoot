@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Tērzēt ar mums"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Nederīgs lauks"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Rakstiet savu ziņojumu",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Lejupielādēt",
@@ -8,89 +17,80 @@
       "SUBMIT": "Iesniegt"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Sūtīt ziņojumu vēlreiz",
-      "ERROR_MESSAGE": "Nevarēja nosūtīt. Lūdzu, mēģiniet vēlreiz"
+      "ERROR_MESSAGE": "Nevarēja nosūtīt. Lūdzu, mēģiniet vēlreiz",
+      "RETRY": "Sūtīt ziņojumu vēlreiz"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Mēs esam tiešsaistē",
-    "OFFLINE": "Šobrīd mēs neesam uz vietas"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Parasti atbild pēc dažām minūtēm",
-    "IN_A_FEW_HOURS": "Parasti atbild pēc dažām stundām",
-    "IN_A_DAY": "Parasti atbild vienas dienas laikā"
-  },
-  "START_CONVERSATION": "Sākt Sarunu",
-  "END_CONVERSATION": "Beigt Sarunu",
   "CONTINUE_CONVERSATION": "Turpināt Sarunu",
-  "START_NEW_CONVERSATION": "Sākt jaunu sarunu",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Skatīt jaunus ziņojumus",
-    "CLOSE_MESSAGES_BUTTON": "Aizvērt",
-    "COMPANY_FROM": "no",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Pastāsti mums vairāk...",
+    "SUBMITTED_TITLE": "Paldies, ka iesniedzāt novērtējumu",
+    "TITLE": "Novērtējiet Jūsu sarunu"
   },
-  "BUBBLE": {
-    "LABEL": "Tērzēt ar mums"
+  "EMAIL_PLACEHOLDER": "Lūdzu, ievadiet savu e-pastu",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Pieprasīt sarunas transkriptu",
+    "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam",
+    "PLACEHOLDER": "Meklēt emocijzīmes"
+  },
+  "END_CONVERSATION": "Beigt Sarunu",
+  "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_FILE_UPLOAD_SIZE} pielikuma lieluma ierobežojumu",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
+      "LEAVE_THE_ROOM": "Beigt zvanu"
+    }
   },
   "POWERED_BY": "Darbināts ar Chatwoot",
-  "EMAIL_PLACEHOLDER": "Lūdzu, ievadiet savu e-pastu",
-  "CHAT_PLACEHOLDER": "Rakstiet savu ziņojumu",
-  "TODAY": "Šodien",
-  "YESTERDAY": "Vakar",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Lūdzu, pirms sarunas sākšanas, norādiet savu vārdu un e -pastu",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Pilns Vārds",
-        "PLACEHOLDER": "Lūdzu, ievadiet savu pilno vārdu",
-        "REQUIRED_ERROR": "Nepieciešams pilns vārds"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "e-pasta Adrese",
         "PLACEHOLDER": "Lūdzu ievadiet savu e-pasta adresi",
         "REQUIRED_ERROR": "Nepieciešama e -pasta adrese",
         "VALID_ERROR": "Lūdzu, ievadiet derīgu e-pasta adresi"
       },
+      "FULL_NAME": {
+        "LABEL": "Pilns Vārds",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu pilno vārdu",
+        "REQUIRED_ERROR": "Nepieciešams pilns vārds"
+      },
+      "MESSAGE": {
+        "ERROR": "Ziņojums ir pārāk īss",
+        "LABEL": "Ziņojums",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu ziņojumu"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Telefona numurs",
         "PLACEHOLDER": "Lūdzu, ievadiet savu tālruņa numuru",
         "REQUIRED_ERROR": "Nepieciešams tālruņa numurs",
         "VALID_ERROR": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Ziņojums",
-        "PLACEHOLDER": "Lūdzu, ievadiet savu ziņojumu",
-        "ERROR": "Ziņojums ir pārāk īss"
       }
     },
-    "CAMPAIGN_HEADER": "Lūdzu, pirms sarunas sākšanas, norādiet savu vārdu un e -pastu",
     "IS_REQUIRED": "ir nepieciešams"
   },
-  "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_FILE_UPLOAD_SIZE} pielikuma lieluma ierobežojumu",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Nederīgs lauks"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Parasti atbild vienas dienas laikā",
+    "IN_A_FEW_HOURS": "Parasti atbild pēc dažām stundām",
+    "IN_A_FEW_MINUTES": "Parasti atbild pēc dažām minūtēm"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Meklēt emocijzīmes",
-    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam"
+  "START_CONVERSATION": "Sākt Sarunu",
+  "START_NEW_CONVERSATION": "Sākt jaunu sarunu",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Šobrīd mēs neesam uz vietas",
+    "ONLINE": "Mēs esam tiešsaistē"
   },
-  "CSAT": {
-    "TITLE": "Novērtējiet Jūsu sarunu",
-    "SUBMITTED_TITLE": "Paldies, ka iesniedzāt novērtējumu",
-    "PLACEHOLDER": "Pastāsti mums vairāk..."
+  "TODAY": "Šodien",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Aizvērt",
+    "COMPANY_FROM": "no",
+    "VIEW_MESSAGES_BUTTON": "Skatīt jaunus ziņojumus"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Pieprasīt sarunas transkriptu",
-    "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
-    "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
-      "LEAVE_THE_ROOM": "Beigt zvanu"
-    }
-  }
+  "YESTERDAY": "Vakar"
 }

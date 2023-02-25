@@ -1,76 +1,125 @@
 {
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
+      "ASSIGN_AN_AGENT": "Assign an agent",
+      "ASSIGN_A_TEAM": "Assign a team",
+      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
+      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
+      "GO_TO_NOTIFICATIONS": "Go to Notifications",
+      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
+      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
+      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
+      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
+      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
+      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
+      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
+      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
+      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
+      "MUTE_CONVERSATION": "Mute conversation",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
+      "REOPEN_CONVERSATION": "Torna a obrir la conversa",
+      "RESOLVE_CONVERSATION": "Resol la conversa",
+      "SEND_TRANSCRIPT": "Send an email transcript",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "UNMUTE_CONVERSATION": "Unmute conversation",
+      "UNTIL_NEXT_REPLY": "Until next reply",
+      "UNTIL_NEXT_WEEK": "Until next week",
+      "UNTIL_TOMORROW": "Until tomorrow"
+    },
+    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SECTIONS": {
+      "ADD_LABEL": "Add label to the conversation",
+      "CHANGE_ASSIGNEE": "Change Assignee",
+      "CHANGE_TEAM": "Change Team",
+      "CONVERSATION": "Conversation",
+      "GENERAL": "General",
+      "REMOVE_LABEL": "Remove label from the conversation",
+      "REPORTS": "Informes",
+      "SETTINGS": "Configuracions"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
+      "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
+      "SELECT": "Select",
+      "SELECT_ONE": "Selecciona un"
+    }
+  },
   "GENERAL_SETTINGS": {
-    "TITLE": "Configuració del compte",
-    "SUBMIT": "Actualització de la configuració",
     "BACK": "Enrere",
+    "FORM": {
+      "ACCOUNT_ID": {
+        "NOTE": "This ID is required if you are building an API based integration",
+        "TITLE": "Account ID"
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)",
+        "LABEL": "El nombre de dies després que un ticket es resolgui automàticament si no hi ha activitat",
+        "PLACEHOLDER": "30"
+      },
+      "DOMAIN": {
+        "ERROR": "",
+        "LABEL": "Domini de correu electrònic entrant",
+        "PLACEHOLDER": "El domini on rebràs els correus electrònics"
+      },
+      "ERROR": "Corregiu els errors del formulari",
+      "FEATURES": {
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat.",
+        "INBOUND_EMAIL_ENABLED": "La continuïtat de converses amb correus electrònics està habilitada per al vostre compte."
+      },
+      "GENERAL_SECTION": {
+        "NOTE": "",
+        "TITLE": "Configuració general"
+      },
+      "LANGUAGE": {
+        "ERROR": "",
+        "LABEL": "Site language",
+        "PLACEHOLDER": "El nom del vostre compte"
+      },
+      "NAME": {
+        "ERROR": "Introduïu un nom de compte vàlid",
+        "LABEL": "Nom del compte",
+        "PLACEHOLDER": "El nom del vostre compte"
+      },
+      "SUPPORT_EMAIL": {
+        "ERROR": "",
+        "LABEL": "Correu electrònic d'assistència",
+        "PLACEHOLDER": "Correu electrònic d'assistència de la vostra companya"
+      }
+    },
+    "LEARN_MORE": "Learn more",
+    "SUBMIT": "Actualització de la configuració",
+    "TITLE": "Configuració del compte",
     "UPDATE": {
       "ERROR": "No s'ha pogut actualitzar la configuració, torna-ho a provar!",
       "SUCCESS": "La configuració del compte s'ha actualitzat correctament"
     },
-    "FORM": {
-      "ERROR": "Corregiu els errors del formulari",
-      "GENERAL_SECTION": {
-        "TITLE": "Configuració general",
-        "NOTE": ""
-      },
-      "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
-      },
-      "NAME": {
-        "LABEL": "Nom del compte",
-        "PLACEHOLDER": "El nom del vostre compte",
-        "ERROR": "Introduïu un nom de compte vàlid"
-      },
-      "LANGUAGE": {
-        "LABEL": "Site language",
-        "PLACEHOLDER": "El nom del vostre compte",
-        "ERROR": ""
-      },
-      "DOMAIN": {
-        "LABEL": "Domini de correu electrònic entrant",
-        "PLACEHOLDER": "El domini on rebràs els correus electrònics",
-        "ERROR": ""
-      },
-      "SUPPORT_EMAIL": {
-        "LABEL": "Correu electrònic d'assistència",
-        "PLACEHOLDER": "Correu electrònic d'assistència de la vostra companya",
-        "ERROR": ""
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "El nombre de dies després que un ticket es resolgui automàticament si no hi ha activitat",
-        "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
-      },
-      "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "La continuïtat de converses amb correus electrònics està habilitada per al vostre compte.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat."
-      }
-    },
-    "UPDATE_CHATWOOT": "L'actualització %{latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia.",
-    "LEARN_MORE": "Learn more"
+    "UPDATE_CHATWOOT": "L'actualització %{latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia."
   },
-  "FORMS": {
-    "MULTISELECT": {
-      "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
-      "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
-      "SELECT_ONE": "Selecciona un",
-      "SELECT": "Select"
+  "NETWORK": {
+    "BUTTON": {
+      "REFRESH": "Refresh"
+    },
+    "NOTIFICATION": {
+      "TEXT": "Disconnected from Chatwoot"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificacions",
-    "MARK_ALL_DONE": "Marca Tot Fet",
     "DELETE_TITLE": "deleted",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
-    },
+    "HEADER": "Notificacions",
     "LIST": {
-      "LOADING_MESSAGE": "Carregant notificacions...",
       "404": "Cap Notificació",
+      "LOADING_MESSAGE": "Carregant notificacions...",
       "TABLE_HEADER": [
         "Nom",
         "Número de telèfon",
@@ -78,67 +127,18 @@
         "Darrer contacte"
       ]
     },
+    "MARK_ALL_DONE": "Marca Tot Fet",
     "TYPE_LABEL": {
-      "conversation_creation": "Nova conversació",
-      "conversation_assignment": "Conversació Assignada",
       "assigned_conversation_new_message": "Missatge Nou",
+      "conversation_assignment": "Conversació Assignada",
+      "conversation_creation": "Nova conversació",
       "conversation_mention": "Menció"
-    }
-  },
-  "NETWORK": {
-    "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
     },
-    "BUTTON": {
-      "REFRESH": "Refresh"
+    "UNREAD_NOTIFICATION": {
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "EMPTY_MESSAGE": "You have no unread notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "TITLE": "Unread Notifications"
     }
-  },
-  "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
-    "SECTIONS": {
-      "GENERAL": "General",
-      "REPORTS": "Informes",
-      "CONVERSATION": "Conversation",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
-      "SETTINGS": "Configuracions"
-    },
-    "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Torna a obrir la conversa",
-      "RESOLVE_CONVERSATION": "Resol la conversa",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
-    }
-  },
-  "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

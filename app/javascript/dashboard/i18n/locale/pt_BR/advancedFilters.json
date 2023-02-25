@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Filtrar Conversas",
-    "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
     "ADD_NEW_FILTER": "Adicionar filtro",
-    "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para salvar",
-    "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Nome do Responsável",
+      "BROWSER_LANGUAGE": "Idioma do navegador",
+      "CAMPAIGN_NAME": "Nome da Campanha",
+      "CONVERSATION_IDENTIFIER": "Identificador de conversa",
+      "COUNTRY_NAME": "Nome do País",
+      "CREATED_AT": "Criado em",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_TEXT": "Texto",
+      "INBOX_NAME": "Nome da Caixa de Entrada",
+      "LABELS": "Marcadores",
+      "LAST_ACTIVITY": "Última atividade",
+      "REFERER_LINK": "Link de origem",
+      "STATUS": "SItuação",
+      "TEAM_NAME": "Nome da Time"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "Falso",
+      "TRUE": "Verdadeiro"
+    },
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar filtros",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Erro ao criar pasta",
+          "SUCCESS_MESSAGE": "Pasta criada com sucesso"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Erro ao criar segmento",
+          "SUCCESS_MESSAGE": "Segmento criado com sucesso"
+        },
+        "CANCEL_BUTTON": "Cancelar",
+        "ERROR_MESSAGE": "O nome é obrigatório",
+        "LABEL": "Nomear este filtro",
+        "PLACEHOLDER": "Insira um nome para este filtro",
+        "SAVE_BUTTON": "Salvar filtro",
+        "TITLE": "Você quer salvar este filtro?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Erro ao excluir pasta",
+          "SUCCESS_MESSAGE": "Pasta excluída com sucesso"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Erro ao excluir segmento",
+          "SUCCESS_MESSAGE": "Segmento apagado com sucesso"
+        },
+        "DELETE_BUTTON": "Excluir filtro",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "Tem certeza que deseja excluir o filtro ? ",
+            "NO": "Não, mantenha",
+            "TITLE": "Confirmar exclusão",
+            "YES": "Sim, excluir"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
-    "TOOLTIP_LABEL": "Filtrar conversas",
+    "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para salvar",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Filtros adicionais",
+      "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
+      "STANDARD_FILTERS": "Filtros Padrões"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Contém",
+      "days_before": "É X dias antes",
+      "does_not_contain": "Não contém",
+      "equal_to": "Igual a",
+      "is_greater_than": "É maior que",
+      "is_less_than": "É menor que",
+      "is_not_present": "Não está presente",
+      "is_present": "Está presente",
+      "not_equal_to": "Diferente"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
       "OR": "OU"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "Igual a",
-      "not_equal_to": "Diferente",
-      "contains": "Contém",
-      "does_not_contain": "Não contém",
-      "is_present": "Está presente",
-      "is_not_present": "Não está presente",
-      "is_greater_than": "É maior que",
-      "is_less_than": "É menor que",
-      "days_before": "É X dias antes"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "Verdadeiro",
-      "FALSE": "Falso"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "SItuação",
-      "ASSIGNEE_NAME": "Nome do Responsável",
-      "INBOX_NAME": "Nome da Caixa de Entrada",
-      "TEAM_NAME": "Nome da Time",
-      "CONVERSATION_IDENTIFIER": "Identificador de conversa",
-      "CAMPAIGN_NAME": "Nome da Campanha",
-      "LABELS": "Marcadores",
-      "BROWSER_LANGUAGE": "Idioma do navegador",
-      "COUNTRY_NAME": "Nome do País",
-      "REFERER_LINK": "Link de origem",
-      "CUSTOM_ATTRIBUTE_LIST": "Lista",
-      "CUSTOM_ATTRIBUTE_TEXT": "Texto",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Criado em",
-      "LAST_ACTIVITY": "Última atividade"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "Filtros Padrões",
-      "ADDITIONAL_FILTERS": "Filtros adicionais",
-      "CUSTOM_ATTRIBUTES": "Atributos Personalizados"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "Você quer salvar este filtro?",
-        "LABEL": "Nomear este filtro",
-        "PLACEHOLDER": "Insira um nome para este filtro",
-        "ERROR_MESSAGE": "O nome é obrigatório",
-        "SAVE_BUTTON": "Salvar filtro",
-        "CANCEL_BUTTON": "Cancelar",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pasta criada com sucesso",
-          "ERROR_MESSAGE": "Erro ao criar pasta"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento criado com sucesso",
-          "ERROR_MESSAGE": "Erro ao criar segmento"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "Excluir filtro",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "Confirmar exclusão",
-            "MESSAGE": "Tem certeza que deseja excluir o filtro ? ",
-            "YES": "Sim, excluir",
-            "NO": "Não, mantenha"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pasta excluída com sucesso",
-          "ERROR_MESSAGE": "Erro ao excluir pasta"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento apagado com sucesso",
-          "ERROR_MESSAGE": "Erro ao excluir segmento"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
+    "TITLE": "Filtrar Conversas",
+    "TOOLTIP_LABEL": "Filtrar conversas"
   }
 }

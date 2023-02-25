@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Chatelj velünk"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Érvénytelen mező"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Gépeld be üzeneted",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Letöltés",
@@ -8,89 +17,80 @@
       "SUBMIT": "Elküldés"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Üzenet elküldése újból",
-      "ERROR_MESSAGE": "Nem sikerült az elküldés, kérjük próbáld később"
+      "ERROR_MESSAGE": "Nem sikerült az elküldés, kérjük próbáld később",
+      "RETRY": "Üzenet elküldése újból"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Online vagyunk",
-    "OFFLINE": "Jelenleg nem vagyunk elérhetőek"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
-    "IN_A_FEW_HOURS": "Néhány órán belül válaszol",
-    "IN_A_DAY": "Általánban egy napon belül válaszol"
-  },
-  "START_CONVERSATION": "Beszélgetés megkezdése",
-  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Új beszélgetés megkezdése",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Új üzenetek",
-    "CLOSE_MESSAGES_BUTTON": "Bezárás",
-    "COMPANY_FROM": "innen",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Mondj nekünk többet...",
+    "SUBMITTED_TITLE": "Köszönjük, hogy elküldted az értékelést",
+    "TITLE": "Értékeld a beszélgetést"
   },
-  "BUBBLE": {
-    "LABEL": "Chatelj velünk"
+  "EMAIL_PLACEHOLDER": "Add meg az e-mailed",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Beszélgetés kivonat igénylése",
+    "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra",
+    "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "End Conversation",
+  "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Chatwoot",
-  "EMAIL_PLACEHOLDER": "Add meg az e-mailed",
-  "CHAT_PLACEHOLDER": "Gépeld be üzeneted",
-  "TODAY": "Ma",
-  "YESTERDAY": "Tegnap",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Kérjük a beszélgetés megkezdése előtt add meg neved és e-mail címed",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Teljes név",
-        "PLACEHOLDER": "Kérjük a teljes nevedet add meg",
-        "REQUIRED_ERROR": "A teljes név megadása kötelező"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Email cím",
         "PLACEHOLDER": "Kérjük helyes e-mailcímet adj meg",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "Kérjük helyes e-mailcímet adj meg"
       },
+      "FULL_NAME": {
+        "LABEL": "Teljes név",
+        "PLACEHOLDER": "Kérjük a teljes nevedet add meg",
+        "REQUIRED_ERROR": "A teljes név megadása kötelező"
+      },
+      "MESSAGE": {
+        "ERROR": "Az üzenet túl rövid",
+        "LABEL": "Üzenet",
+        "PLACEHOLDER": "Írd be az üzeneted"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Telefonszám",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Üzenet",
-        "PLACEHOLDER": "Írd be az üzeneted",
-        "ERROR": "Az üzenet túl rövid"
       }
     },
-    "CAMPAIGN_HEADER": "Kérjük a beszélgetés megkezdése előtt add meg neved és e-mail címed",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Érvénytelen mező"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Általánban egy napon belül válaszol",
+    "IN_A_FEW_HOURS": "Néhány órán belül válaszol",
+    "IN_A_FEW_MINUTES": "Néhány percen belül válaszol"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "Beszélgetés megkezdése",
+  "START_NEW_CONVERSATION": "Új beszélgetés megkezdése",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Jelenleg nem vagyunk elérhetőek",
+    "ONLINE": "Online vagyunk"
   },
-  "CSAT": {
-    "TITLE": "Értékeld a beszélgetést",
-    "SUBMITTED_TITLE": "Köszönjük, hogy elküldted az értékelést",
-    "PLACEHOLDER": "Mondj nekünk többet..."
+  "TODAY": "Ma",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Bezárás",
+    "COMPANY_FROM": "innen",
+    "VIEW_MESSAGES_BUTTON": "Új üzenetek"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Beszélgetés kivonat igénylése",
-    "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
-    "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Tegnap"
 }

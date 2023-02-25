@@ -1,144 +1,144 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrationer",
-    "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Abonnerede Begivenheder",
+    "CONNECT": {
+      "BUTTON_TEXT": "Tilslut"
+    },
+    "DASHBOARD_APPS": {
+      "CREATE": {
+        "API_ERROR": "Vi kunne ikke oprette en app. Prøv igen senere",
+        "API_SUCCESS": "Dashboard app konfigureret",
+        "FORM_CANCEL": "Annuller",
+        "FORM_SUBMIT": "Send",
+        "HEADER": "Tilføj en ny dashboard app"
+      },
+      "DELETE": {
+        "API_ERROR": "Vi kunne ikke slette appen. Prøv igen senere",
+        "API_SUCCESS": "Dashboard app slettet",
+        "CONFIRM_NO": "Nej, behold det",
+        "CONFIRM_YES": "Ja, slet det",
+        "MESSAGE": "Er du sikker på at du vil slette appen - %{appName}?",
+        "TITLE": "Bekræft sletning"
+      },
+      "DESCRIPTION": "Dashboard Apps giver organisationer mulighed for at integrere et program i instrumentbrættet for at give konteksten for kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at give brugeroplysninger, deres ordrer, eller deres tidligere betalingshistorik.",
       "FORM": {
+        "TITLE_ERROR": "Et navn til dashboard app er påkrævet",
+        "TITLE_LABEL": "Navn",
+        "TITLE_PLACEHOLDER": "Angiv et navn til din dashboard app",
+        "URL_ERROR": "En gyldig URL er påkrævet",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Angiv slutpunktets URL, hvor din app er vært"
+      },
+      "HEADER_BTN_TXT": "Tilføj en ny dashboard app",
+      "LIST": {
+        "404": "Der er ingen dashboard apps konfigureret på denne konto endnu",
+        "DELETE_TOOLTIP": "Slet app",
+        "EDIT_TOOLTIP": "Rediger app",
+        "LOADING": "Henter dashboard apps...",
+        "TABLE_HEADER": [
+          "Navn",
+          "Endpoint"
+        ]
+      },
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps tillader organisationer at integrere en applikation i Chatwoot-dashboardet for at give konteksten til kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at inde i instrumentbrættet til at give brugerinformation, deres ordrer eller deres tidligere betalingshistorie.</p><p>Når du indlejrer din applikation ved hjælp af instrumentbrættet i Chatwoot, dit program vil få konteksten af samtalen og kontakt som en vinduesbegivenhed. Gennemfør en lytter til besked begivenheden på din side for at modtage konteksten.</p><p>For at tilføje en ny dashboard app, klik på knappen 'Tilføj en ny dashboard app'.</p>",
+      "TITLE": "Dashboard Apps",
+      "UPDATE": {
+        "API_ERROR": "Vi kunne ikke opdatere appen. Prøv igen senere",
+        "API_SUCCESS": "Dashboard app opdateret",
+        "FORM_CANCEL": "Annuller",
+        "FORM_SUBMIT": "Opdater",
+        "HEADER": "Rediger dashboard app"
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Integrationen blev slettet"
+      },
+      "BUTTON_TEXT": "Slet"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer"
+    },
+    "HEADER": "Integrationer",
+    "SLACK": {
+      "HELP_TEXT": {
+        "BODY": "<br/><p>Chatwoot vil nu synkronisere alle indgående samtaler ind i <b><i>kundesamtaler</i></b> kanalen i din slack arbejdsplads.</p><p>Svar på en samtaletråd i <b><i>kunde-samtaler</i></b> slack kanal vil skabe et svar tilbage til kunden gennem chatwoot.</p><p>Start svarene med <b><i>note:</i></b> for at oprette private noter i stedet for svar.</p><p>Hvis replikatoren på slack har en agentprofil i chatwoot under samme e-mail, vil svarene blive tilknyttet i overensstemmelse hermed.</p><p>Når replikatoren ikke har en tilknyttet agentprofil, vil svarene blive fremsat fra bot-profilen.</p>",
+        "TITLE": "Brug Slack Integration"
+      }
+    },
+    "WEBHOOK": {
+      "ADD": {
+        "API": {
+          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
+          "SUCCESS_MESSAGE": "Webhook konfiguration tilføjet"
+        },
+        "CANCEL": "Annuller",
+        "TITLE": "Tilføj ny webhook"
+      },
+      "CONFIGURE": "Konfigurer",
+      "DELETE": {
+        "API": {
+          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
+          "SUCCESS_MESSAGE": "Webhook blev slettet"
+        },
+        "BUTTON_TEXT": "Slet",
+        "CONFIRM": {
+          "MESSAGE": "Er du sikker på at du vil slette webhook? (%{webhookURL})",
+          "NO": "Nej, behold det",
+          "TITLE": "Bekræft Sletning",
+          "YES": "Ja, Slet "
+        }
+      },
+      "EDIT": {
+        "API": {
+          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
+          "SUCCESS_MESSAGE": "Webhook konfiguration opdateret"
+        },
+        "BUTTON_TEXT": "Rediger",
+        "TITLE": "Rediger webhook"
+      },
+      "FORM": {
+        "ADD_SUBMIT": "Opret webhook",
         "CANCEL": "Annuller",
         "DESC": "Webhook-begivenheder giver dig realtidsoplysninger om, hvad der sker på din Chatwoot-konto. Angiv en gyldig URL for at konfigurere et callback.",
+        "EDIT_SUBMIT": "Opdater webhook",
+        "END_POINT": {
+          "ERROR": "Angiv en gyldig URL",
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Eksempel: https://example/api/webhook"
+        },
         "SUBSCRIPTIONS": {
-          "LABEL": "Begivenheder",
           "EVENTS": {
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_CREATED": "Samtale Oprettet",
             "CONVERSATION_STATUS_CHANGED": "Samtale Status Ændret",
             "CONVERSATION_UPDATED": "Samtale Opdateret",
             "MESSAGE_CREATED": "Besked oprettet",
             "MESSAGE_UPDATED": "Besked opdateret",
-            "WEBWIDGET_TRIGGERED": "Live chat widget åbnet af brugeren",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
-          }
-        },
-        "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Eksempel: https://example/api/webhook",
-          "ERROR": "Angiv en gyldig URL"
-        },
-        "EDIT_SUBMIT": "Opdater webhook",
-        "ADD_SUBMIT": "Opret webhook"
+            "WEBWIDGET_TRIGGERED": "Live chat widget åbnet af brugeren"
+          },
+          "LABEL": "Begivenheder"
+        }
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "Konfigurer",
       "HEADER": "Webhook indstillinger",
       "HEADER_BTN_TXT": "Tilføj ny webhook",
-      "LOADING": "Henter vedhæftede webhooks",
-      "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks er HTTP tilbagekald som kan defineres for hver konto. De udløses af begivenheder som oprettelse af beskeder i Chatwoot. Du kan oprette mere end én webhook for denne konto. <br /><br /> For at oprette en <b>webhook</b>, klik på <b>Tilføj ny webhook</b> knappen. Du kan også fjerne enhver eksisterende webhook ved at klikke på Slet knappen.</p>",
       "LIST": {
         "404": "Der er ingen webhooks konfigureret til denne konto.",
-        "TITLE": "Administrer webhooks",
         "TABLE_HEADER": [
           "Webhook endepunkt",
           "Handlinger"
-        ]
-      },
-      "EDIT": {
-        "BUTTON_TEXT": "Rediger",
-        "TITLE": "Rediger webhook",
-        "API": {
-          "SUCCESS_MESSAGE": "Webhook konfiguration opdateret",
-          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
-        }
-      },
-      "ADD": {
-        "CANCEL": "Annuller",
-        "TITLE": "Tilføj ny webhook",
-        "API": {
-          "SUCCESS_MESSAGE": "Webhook konfiguration tilføjet",
-          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
-        }
-      },
-      "DELETE": {
-        "BUTTON_TEXT": "Slet",
-        "API": {
-          "SUCCESS_MESSAGE": "Webhook blev slettet",
-          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
-        },
-        "CONFIRM": {
-          "TITLE": "Bekræft Sletning",
-          "MESSAGE": "Er du sikker på at du vil slette webhook? (%{webhookURL})",
-          "YES": "Ja, Slet ",
-          "NO": "Nej, behold det"
-        }
-      }
-    },
-    "SLACK": {
-      "HELP_TEXT": {
-        "TITLE": "Brug Slack Integration",
-        "BODY": "<br/><p>Chatwoot vil nu synkronisere alle indgående samtaler ind i <b><i>kundesamtaler</i></b> kanalen i din slack arbejdsplads.</p><p>Svar på en samtaletråd i <b><i>kunde-samtaler</i></b> slack kanal vil skabe et svar tilbage til kunden gennem chatwoot.</p><p>Start svarene med <b><i>note:</i></b> for at oprette private noter i stedet for svar.</p><p>Hvis replikatoren på slack har en agentprofil i chatwoot under samme e-mail, vil svarene blive tilknyttet i overensstemmelse hermed.</p><p>Når replikatoren ikke har en tilknyttet agentprofil, vil svarene blive fremsat fra bot-profilen.</p>"
-      }
-    },
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Slet",
-      "API": {
-        "SUCCESS_MESSAGE": "Integrationen blev slettet"
-      }
-    },
-    "CONNECT": {
-      "BUTTON_TEXT": "Tilslut"
-    },
-    "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Tilføj en ny dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps tillader organisationer at integrere en applikation i Chatwoot-dashboardet for at give konteksten til kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at inde i instrumentbrættet til at give brugerinformation, deres ordrer eller deres tidligere betalingshistorie.</p><p>Når du indlejrer din applikation ved hjælp af instrumentbrættet i Chatwoot, dit program vil få konteksten af samtalen og kontakt som en vinduesbegivenhed. Gennemfør en lytter til besked begivenheden på din side for at modtage konteksten.</p><p>For at tilføje en ny dashboard app, klik på knappen 'Tilføj en ny dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps giver organisationer mulighed for at integrere et program i instrumentbrættet for at give konteksten for kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at give brugeroplysninger, deres ordrer, eller deres tidligere betalingshistorik.",
-      "LIST": {
-        "404": "Der er ingen dashboard apps konfigureret på denne konto endnu",
-        "LOADING": "Henter dashboard apps...",
-        "TABLE_HEADER": [
-          "Navn",
-          "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Rediger app",
-        "DELETE_TOOLTIP": "Slet app"
+        "TITLE": "Administrer webhooks"
       },
-      "FORM": {
-        "TITLE_LABEL": "Navn",
-        "TITLE_PLACEHOLDER": "Angiv et navn til din dashboard app",
-        "TITLE_ERROR": "Et navn til dashboard app er påkrævet",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Angiv slutpunktets URL, hvor din app er vært",
-        "URL_ERROR": "En gyldig URL er påkrævet"
-      },
-      "CREATE": {
-        "HEADER": "Tilføj en ny dashboard app",
-        "FORM_SUBMIT": "Send",
-        "FORM_CANCEL": "Annuller",
-        "API_SUCCESS": "Dashboard app konfigureret",
-        "API_ERROR": "Vi kunne ikke oprette en app. Prøv igen senere"
-      },
-      "UPDATE": {
-        "HEADER": "Rediger dashboard app",
-        "FORM_SUBMIT": "Opdater",
-        "FORM_CANCEL": "Annuller",
-        "API_SUCCESS": "Dashboard app opdateret",
-        "API_ERROR": "Vi kunne ikke opdatere appen. Prøv igen senere"
-      },
-      "DELETE": {
-        "CONFIRM_YES": "Ja, slet det",
-        "CONFIRM_NO": "Nej, behold det",
-        "TITLE": "Bekræft sletning",
-        "MESSAGE": "Er du sikker på at du vil slette appen - %{appName}?",
-        "API_SUCCESS": "Dashboard app slettet",
-        "API_ERROR": "Vi kunne ikke slette appen. Prøv igen senere"
-      }
+      "LOADING": "Henter vedhæftede webhooks",
+      "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks er HTTP tilbagekald som kan defineres for hver konto. De udløses af begivenheder som oprettelse af beskeder i Chatwoot. Du kan oprette mere end én webhook for denne konto. <br /><br /> For at oprette en <b>webhook</b>, klik på <b>Tilføj ny webhook</b> knappen. Du kan også fjerne enhver eksisterende webhook ved at klikke på Slet knappen.</p>",
+      "SUBSCRIBED_EVENTS": "Abonnerede Begivenheder",
+      "TITLE": "Webhook"
     }
   }
 }

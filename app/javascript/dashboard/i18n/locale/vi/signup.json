@@ -1,41 +1,41 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
-    "TITLE": "Đăng kí",
-    "TESTIMONIAL_HEADER": "Tất cả chỉ cần một bước để tiến về phía trước",
-    "TESTIMONIAL_CONTENT": "Bạn chỉ còn một bước nữa là có thể thu hút khách hàng của mình, giữ chân họ và tìm kiếm những khách hàng mới.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "API": {
+      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau.",
+      "SUCCESS_MESSAGE": "Đăng Kí Thành Công"
+    },
     "COMPANY_NAME": {
+      "ERROR": "Tên công ty quá ngắn",
       "LABEL": "Tên công ty",
-      "PLACEHOLDER": "Nhập tên công ty của bạn. ví dụ: Doanh nghiệp Wayne",
-      "ERROR": "Tên công ty quá ngắn"
-    },
-    "FULL_NAME": {
-      "LABEL": "Tên đầy đủ",
-      "PLACEHOLDER": "Nhập tên đầy đủ của bạn. ví dụ: Wayne Enterprises",
-      "ERROR": "Tên đầy đủ quá ngắn"
-    },
-    "EMAIL": {
-      "LABEL": "Email công việc",
-      "PLACEHOLDER": "Nhập email công việc của bạn. ví dụ: bruce@wayne.enterprises",
-      "ERROR": "Vui lòng nhập địa chỉ email công việc hợp lệ"
-    },
-    "PASSWORD": {
-      "LABEL": "Mật khẩu",
-      "PLACEHOLDER": "Mật khẩu",
-      "ERROR": "Mật khẩu quá ngắn",
-      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
+      "PLACEHOLDER": "Nhập tên công ty của bạn. ví dụ: Doanh nghiệp Wayne"
     },
     "CONFIRM_PASSWORD": {
+      "ERROR": "Mật khẩu không khớp",
       "LABEL": "Xác nhận mật khẩu",
-      "PLACEHOLDER": "Xác nhận mật khẩu",
-      "ERROR": "Mật khẩu không khớp"
+      "PLACEHOLDER": "Xác nhận mật khẩu"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Đăng Kí Thành Công",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau."
+    "EMAIL": {
+      "ERROR": "Vui lòng nhập địa chỉ email công việc hợp lệ",
+      "LABEL": "Email công việc",
+      "PLACEHOLDER": "Nhập email công việc của bạn. ví dụ: bruce@wayne.enterprises"
+    },
+    "FULL_NAME": {
+      "ERROR": "Tên đầy đủ quá ngắn",
+      "LABEL": "Tên đầy đủ",
+      "PLACEHOLDER": "Nhập tên đầy đủ của bạn. ví dụ: Wayne Enterprises"
+    },
+    "HAVE_AN_ACCOUNT": "Đã có tài khoản?",
+    "PASSWORD": {
+      "ERROR": "Mật khẩu quá ngắn",
+      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt",
+      "LABEL": "Mật khẩu",
+      "PLACEHOLDER": "Mật khẩu"
     },
     "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Đã có tài khoản?"
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_CONTENT": "Bạn chỉ còn một bước nữa là có thể thu hút khách hàng của mình, giữ chân họ và tìm kiếm những khách hàng mới.",
+    "TESTIMONIAL_HEADER": "Tất cả chỉ cần một bước để tiến về phía trước",
+    "TITLE": "Đăng kí",
+    "TRY_WOOT": "Create an account"
   }
 }

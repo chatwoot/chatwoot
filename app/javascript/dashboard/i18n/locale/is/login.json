@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "API": {
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur",
+      "SUCCESS_MESSAGE": "Innskráning tókst",
+      "UNAUTH": "Notandanafn / lykilorð rangt. Vinsamlegast reyndu aftur"
+    },
+    "CREATE_NEW_ACCOUNT": "Stofna nýjan aðgang",
     "EMAIL": {
       "LABEL": "Tölvupóstfang",
       "PLACEHOLDER": "Tölvupóstfang t.d. someone@example.com"
     },
+    "FORGOT_PASSWORD": "Gleymt lykilorð?",
     "PASSWORD": {
       "LABEL": "Lykilorð",
       "PLACEHOLDER": "Lykilorð"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Innskráning tókst",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur",
-      "UNAUTH": "Notandanafn / lykilorð rangt. Vinsamlegast reyndu aftur"
-    },
-    "FORGOT_PASSWORD": "Gleymt lykilorð?",
-    "CREATE_NEW_ACCOUNT": "Stofna nýjan aðgang",
-    "SUBMIT": "Innskráning"
+    "SUBMIT": "Innskráning",
+    "TITLE": "Login to Chatwoot"
   }
 }

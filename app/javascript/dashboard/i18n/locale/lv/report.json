@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Sarunas",
-    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
-    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-    "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Sarunas",
-        "DESC": "( Kopā )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Ienākošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Izejošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Pirmās Atbildes Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Atrisināšanas Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Atrisināšanas Skaits",
-        "DESC": "( Kopā )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Pielietot",
+      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Pielāgots datumu diapazons"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
+    "FILTER_DROPDOWN_LABEL": "Izvēlieties Aģentu",
+    "HEADER": "Aģentu Pārskats",
+    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Kopā )",
+        "NAME": "Sarunas"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Pirmās Atbildes Laiks",
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Ienākošie ziņojumi"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Izejošie ziņojumi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Kopā )",
+        "NAME": "Atrisināšanas Skaits"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Atrisināšanas Laiks",
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Lejupielādēt CSAT Pārskatus",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Izvēlieties Aģentus"
+      }
+    },
+    "HEADER": "CSAT Pārskati",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Atbildes ātrums",
+        "TOOLTIP": "Kopējais atbilžu skaits / Kopējais nosūtīto CSAT aptaujas ziņojumu skaits * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Apmierinātības rādītājs",
+        "TOOLTIP": "Kopējais pozitīvo atbilžu skaits / Kopējais atbilžu skaits * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Kopējais atbilžu skaits",
+        "TOOLTIP": "Kopējais apkopoto atbilžu skaits"
+      }
+    },
+    "NO_RECORDS": "CSAT aptaujas atbildes nav pieejamas.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Piešķirtais aģents",
+        "CONTACT_NAME": "Kontaktpersona",
+        "FEEDBACK_TEXT": "Atsauksmes komentārs",
+        "RATING": "Vērtējums"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Pielietot",
       "PLACEHOLDER": "Izvēlieties datumu diapazonu"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupēt Pēc",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Pēdējās 7 dienas"
+      },
+      {
+        "id": 1,
+        "name": "Pēdējās 30 dienas"
+      },
+      {
+        "id": 2,
+        "name": "Pēdējie 3 mēneši"
+      },
+      {
+        "id": 3,
+        "name": "Pēdējie 6 mēneši"
+      },
+      {
+        "id": 4,
+        "name": "Pagājušais gads"
+      },
+      {
+        "id": 5,
+        "name": "Pielāgots datumu diapazons"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Lejupielādēt iesūtnes pārskatus",
+    "FILTER_DROPDOWN_LABEL": "Izvēlieties Iesūtni",
+    "HEADER": "Iesūtnes Pārskats",
+    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Kopā )",
+        "NAME": "Sarunas"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Pirmās Atbildes Laiks",
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Ienākošie ziņojumi"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Izejošie ziņojumi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Kopā )",
+        "NAME": "Atrisināšanas Skaits"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Atrisināšanas Laiks",
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Pielietot",
+      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Pēdējās 7 dienas"
+      },
+      {
+        "id": 1,
+        "name": "Pēdējās 30 dienas"
+      },
+      {
+        "id": 2,
+        "name": "Pēdējie 3 mēneši"
+      },
+      {
+        "id": 3,
+        "name": "Pēdējie 6 mēneši"
+      },
+      {
+        "id": 4,
+        "name": "Pagājušais gads"
+      },
+      {
+        "id": 5,
+        "name": "Pielāgots datumu diapazons"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Lejupielādēt etiķešu pārskatus",
+    "FILTER_DROPDOWN_LABEL": "Izvēlieties Etiķeti",
+    "HEADER": "Etiķešu Pārskats",
+    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Kopā )",
+        "NAME": "Sarunas"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Pirmās Atbildes Laiks",
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Ienākošie ziņojumi"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Izejošie ziņojumi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Kopā )",
+        "NAME": "Atrisināšanas Skaits"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Atrisināšanas Laiks",
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Atvērt Sarunas",
+      "LOADING_MESSAGE": "Notiek sarunu metrikas ielāde...",
+      "OPEN": "Atvērt",
+      "UNASSIGNED": "Nav piešķirtas",
+      "UNATTENDED": "Bez uzraudzības"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Aģentu sarunas",
+      "LOADING_MESSAGE": "Notiek aģentu metrikas ielāde...",
+      "NO_AGENTS": "Aģentu sarunas nenotiek",
+      "TABLE_HEADER": {
+        "AGENT": "Aģents",
+        "OPEN": "ATVĒRT",
+        "STATUS": "Statuss",
+        "UNATTENDED": "Bez uzraudzības"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Aizņemts",
+      "HEADER": "Aģenta statuss",
+      "OFFLINE": "Bezsaistē",
+      "ONLINE": "Tiešsaistē"
+    },
+    "HEADER": "Pārskats",
+    "LIVE": "Tiešraide"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Darba Laiks",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Pielietot",
+      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Pēdējās 7 dienas"
+      },
+      {
+        "id": 1,
+        "name": "Pēdējās 30 dienas"
+      },
+      {
+        "id": 2,
+        "name": "Pēdējie 3 mēneši"
+      },
+      {
+        "id": 3,
+        "name": "Pēdējie 6 mēneši"
+      },
+      {
+        "id": 4,
+        "name": "Pagājušais gads"
+      },
+      {
+        "id": 5,
+        "name": "Pielāgots datumu diapazons"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
     "DURATION_FILTER_LABEL": "Ilgums",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Diena"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Diena"
-      },
-      {
-        "id": 2,
-        "groupBy": "Nedēļa"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupēt Pēc",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Mēnesis"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Diena"
+      },
+      {
+        "id": 2,
+        "groupBy": "Nedēļa"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Gads"
       }
     ],
-    "BUSINESS_HOURS": "Darba Laiks"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Aģentu Pārskats",
+    "HEADER": "Sarunas",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
-    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-    "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
-    "FILTER_DROPDOWN_LABEL": "Izvēlieties Aģentu",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Sarunas",
-        "DESC": "( Kopā )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Ienākošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Izejošie ziņojumi",
-        "DESC": "( Kopā )"
+        "DESC": "( Kopā )",
+        "NAME": "Sarunas"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
         "NAME": "Pirmās Atbildes Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
         "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Atrisināšanas Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Atrisināšanas Skaits",
-        "DESC": "( Kopā )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Pēdējās 7 dienas"
-      },
-      {
-        "id": 1,
-        "name": "Pēdējās 30 dienas"
-      },
-      {
-        "id": 2,
-        "name": "Pēdējie 3 mēneši"
-      },
-      {
-        "id": 3,
-        "name": "Pēdējie 6 mēneši"
-      },
-      {
-        "id": 4,
-        "name": "Pagājušais gads"
-      },
-      {
-        "id": 5,
-        "name": "Pielāgots datumu diapazons"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Pielietot",
-      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Etiķešu Pārskats",
-    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
-    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-    "DOWNLOAD_LABEL_REPORTS": "Lejupielādēt etiķešu pārskatus",
-    "FILTER_DROPDOWN_LABEL": "Izvēlieties Etiķeti",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Sarunas",
-        "DESC": "( Kopā )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Ienākošie ziņojumi",
-        "DESC": "( Kopā )"
+        "DESC": "( Kopā )",
+        "NAME": "Ienākošie ziņojumi"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Izejošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Pirmās Atbildes Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Atrisināšanas Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Kopā )",
+        "NAME": "Izejošie ziņojumi"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Atrisināšanas Skaits",
-        "DESC": "( Kopā )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Pēdējās 7 dienas"
-      },
-      {
-        "id": 1,
-        "name": "Pēdējās 30 dienas"
-      },
-      {
-        "id": 2,
-        "name": "Pēdējie 3 mēneši"
-      },
-      {
-        "id": 3,
-        "name": "Pēdējie 6 mēneši"
-      },
-      {
-        "id": 4,
-        "name": "Pagājušais gads"
-      },
-      {
-        "id": 5,
-        "name": "Pielāgots datumu diapazons"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Pielietot",
-      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Iesūtnes Pārskats",
-    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
-    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-    "DOWNLOAD_INBOX_REPORTS": "Lejupielādēt iesūtnes pārskatus",
-    "FILTER_DROPDOWN_LABEL": "Izvēlieties Iesūtni",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Sarunas",
-        "DESC": "( Kopā )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Ienākošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Izejošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Pirmās Atbildes Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Kopā )",
+        "NAME": "Atrisināšanas Skaits"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Atrisināšanas Laiks",
         "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Atrisināšanas Skaits",
-        "DESC": "( Kopā )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Pēdējās 7 dienas"
-      },
-      {
-        "id": 1,
-        "name": "Pēdējās 30 dienas"
-      },
-      {
-        "id": 2,
-        "name": "Pēdējie 3 mēneši"
-      },
-      {
-        "id": 3,
-        "name": "Pēdējie 6 mēneši"
-      },
-      {
-        "id": 4,
-        "name": "Pagājušais gads"
-      },
-      {
-        "id": 5,
-        "name": "Pielāgots datumu diapazons"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Pielietot",
-      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
-    }
+    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Komandas Pārskats",
-    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
-    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-    "DOWNLOAD_TEAM_REPORTS": "Lejupielādēt komandas pārskatus",
-    "FILTER_DROPDOWN_LABEL": "Izvēlieties Komandu",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Sarunas",
-        "DESC": "( Kopā )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Ienākošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Izejošie ziņojumi",
-        "DESC": "( Kopā )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Pirmās Atbildes Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Atrisināšanas Laiks",
-        "DESC": "( Vidēji )",
-        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Atrisināšanas Skaits",
-        "DESC": "( Kopā )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Pielietot",
+      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Pielāgots datumu diapazons"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Pielietot",
-      "PLACEHOLDER": "Izvēlieties datumu diapazonu"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT Pārskati",
-    "NO_RECORDS": "CSAT aptaujas atbildes nav pieejamas.",
-    "DOWNLOAD": "Lejupielādēt CSAT Pārskatus",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Izvēlieties Aģentus"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Kontaktpersona",
-        "AGENT_NAME": "Piešķirtais aģents",
-        "RATING": "Vērtējums",
-        "FEEDBACK_TEXT": "Atsauksmes komentārs"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Kopējais atbilžu skaits",
-        "TOOLTIP": "Kopējais apkopoto atbilžu skaits"
+    "DOWNLOAD_TEAM_REPORTS": "Lejupielādēt komandas pārskatus",
+    "FILTER_DROPDOWN_LABEL": "Izvēlieties Komandu",
+    "HEADER": "Komandas Pārskats",
+    "LOADING_CHART": "Notiek diagrammas datu ielāde...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Kopā )",
+        "NAME": "Sarunas"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Apmierinātības rādītājs",
-        "TOOLTIP": "Kopējais pozitīvo atbilžu skaits / Kopējais atbilžu skaits * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Pirmās Atbildes Laiks",
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Atbildes ātrums",
-        "TOOLTIP": "Kopējais atbilžu skaits / Kopējais nosūtīto CSAT aptaujas ziņojumu skaits * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Pārskats",
-    "LIVE": "Tiešraide",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Atvērt Sarunas",
-      "LOADING_MESSAGE": "Notiek sarunu metrikas ielāde...",
-      "OPEN": "Atvērt",
-      "UNATTENDED": "Bez uzraudzības",
-      "UNASSIGNED": "Nav piešķirtas"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Aģentu sarunas",
-      "LOADING_MESSAGE": "Notiek aģentu metrikas ielāde...",
-      "NO_AGENTS": "Aģentu sarunas nenotiek",
-      "TABLE_HEADER": {
-        "AGENT": "Aģents",
-        "OPEN": "ATVĒRT",
-        "UNATTENDED": "Bez uzraudzības",
-        "STATUS": "Statuss"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Ienākošie ziņojumi"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Kopā )",
+        "NAME": "Izejošie ziņojumi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Kopā )",
+        "NAME": "Atrisināšanas Skaits"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Vidēji )",
+        "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
+        "NAME": "Atrisināšanas Laiks",
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Aģenta statuss",
-      "ONLINE": "Tiešsaistē",
-      "BUSY": "Aizņemts",
-      "OFFLINE": "Bezsaistē"
-    }
+    "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz."
   }
 }

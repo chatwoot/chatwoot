@@ -1,19 +1,19 @@
 {
+  "POWERED_BY": "Desarrollado por Chatwoot",
   "SURVEY": {
+    "API": {
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde",
+      "SUCCESS_MESSAGE": "Encuesta actualizada correctamente"
+    },
     "DESCRIPTION": "Estimado cliente 👋, por favor tómate unos momentos para compartir tus comentarios sobre la conversación que tuviste con %{inboxName}.",
+    "FEEDBACK": {
+      "BUTTON_TEXT": "Enviar comentarios",
+      "LABEL": "¿Tienes alguna idea que te gustaría compartir?",
+      "PLACEHOLDER": "Tus comentarios (opcional)"
+    },
     "RATING": {
       "LABEL": "Califica tu conversación",
       "SUCCESS_MESSAGE": "Gracias por enviar la valoración"
-    },
-    "FEEDBACK": {
-      "LABEL": "¿Tienes alguna idea que te gustaría compartir?",
-      "PLACEHOLDER": "Tus comentarios (opcional)",
-      "BUTTON_TEXT": "Enviar comentarios"
-    },
-    "API": {
-      "SUCCESS_MESSAGE": "Encuesta actualizada correctamente",
-      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
     }
-  },
-  "POWERED_BY": "Desarrollado por Chatwoot"
+  }
 }

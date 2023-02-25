@@ -1,21 +1,32 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Opret nyt team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Hold</b></p> <p>Hold lader dig organisere dine agenter i grupper baseret på deres ansvar. <br /> En agent kan være en del af flere hold. Du kan tildele samtaler til et team, når du arbejder i fællesskab. </p>",
-    "LIST": {
-      "404": "Der er ingen teams oprettet på denne konto.",
-      "EDIT_TEAM": "Rediger team"
+    "ADD": {
+      "AGENT_VALIDATION_ERROR": "Vælg mindst én agent.",
+      "BUTTON_TEXT": "Tilføj agenter",
+      "DESC": "Tilføj agenter til dit nyoprettede team. Dette lader dig samarbejde som et team om samtaler, få besked om nye begivenheder i samme samtale.",
+      "SELECT": "vælg",
+      "SELECTED_COUNT": "%{selected} ud af %{total} valgte agenter.",
+      "SELECT_ALL": "vælg alle agenter",
+      "TITLE": "Tilføj agenter til team - %{teamName}"
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Tilføjer agenter til dit Team...",
+      "AGENT": "AGENT",
+      "BUTTON_TEXT": "Tilføj agenter",
+      "EMAIL": "E-MAIL",
+      "SELECT": "vælg",
+      "SELECTED_COUNT": "%{selected} ud af %{total} valgte agenter.",
+      "SELECT_ALL": "vælg alle agenter"
     },
     "CREATE_FLOW": {
-      "CREATE": {
-        "TITLE": "Opret et nyt team",
-        "DESC": "Tilføj en titel og beskrivelse til dit nye team."
-      },
       "AGENTS": {
         "BUTTON_TEXT": "Tilføj agenter til team",
-        "TITLE": "Tilføj agenter til team - %{teamName}",
-        "DESC": "Tilføj agenter til dit nyoprettede team. Dette lader dig samarbejde som et team om samtaler, få besked om nye begivenheder i samme samtale."
+        "DESC": "Tilføj agenter til dit nyoprettede team. Dette lader dig samarbejde som et team om samtaler, få besked om nye begivenheder i samme samtale.",
+        "TITLE": "Tilføj agenter til team - %{teamName}"
+      },
+      "CREATE": {
+        "DESC": "Tilføj en titel og beskrivelse til dit nye team.",
+        "TITLE": "Opret et nyt team"
       },
       "WIZARD": [
         {
@@ -35,16 +46,30 @@
         }
       ]
     },
-    "EDIT_FLOW": {
-      "CREATE": {
-        "TITLE": "Rediger dine teamoplysninger",
-        "DESC": "Rediger titel og beskrivelse til dit team.",
-        "BUTTON_TEXT": "Opdater team"
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Kunne ikke slette teamet. Prøv igen.",
+        "SUCCESS_MESSAGE": "Team slettet."
       },
+      "BUTTON_TEXT": "Slet",
+      "CONFIRM": {
+        "MESSAGE": "Sletning af teamet vil fjerne teamtildelingen fra de samtaler, der er tildelt dette team.",
+        "NO": "Annuller",
+        "PLACE_HOLDER": "Skriv venligst {teamName} for at bekræfte",
+        "TITLE": "Er du sikker på du vil slette - %{teamName}",
+        "YES": "Slet "
+      }
+    },
+    "EDIT_FLOW": {
       "AGENTS": {
         "BUTTON_TEXT": "Opdater agenter i teamet",
-        "TITLE": "Tilføj agenter til team - %{teamName}",
-        "DESC": "Tilføj agenter til dit nyoprettede team. Alle de tilføjede agenter vil blive underrettet, når en samtale er tildelt til dette team."
+        "DESC": "Tilføj agenter til dit nyoprettede team. Alle de tilføjede agenter vil blive underrettet, når en samtale er tildelt til dette team.",
+        "TITLE": "Tilføj agenter til team - %{teamName}"
+      },
+      "CREATE": {
+        "BUTTON_TEXT": "Opdater team",
+        "DESC": "Rediger titel og beskrivelse til dit team.",
+        "TITLE": "Rediger dine teamoplysninger"
       },
       "WIZARD": [
         {
@@ -64,62 +89,37 @@
         }
       ]
     },
-    "TEAM_FORM": {
-      "ERROR_MESSAGE": "Kunne ikke gemme teamdetaljerne. Prøv igen."
-    },
-    "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "E-MAIL",
-      "BUTTON_TEXT": "Tilføj agenter",
-      "ADD_AGENTS": "Tilføjer agenter til dit Team...",
-      "SELECT": "vælg",
-      "SELECT_ALL": "vælg alle agenter",
-      "SELECTED_COUNT": "%{selected} ud af %{total} valgte agenter."
-    },
-    "ADD": {
-      "TITLE": "Tilføj agenter til team - %{teamName}",
-      "DESC": "Tilføj agenter til dit nyoprettede team. Dette lader dig samarbejde som et team om samtaler, få besked om nye begivenheder i samme samtale.",
-      "SELECT": "vælg",
-      "SELECT_ALL": "vælg alle agenter",
-      "SELECTED_COUNT": "%{selected} ud af %{total} valgte agenter.",
-      "BUTTON_TEXT": "Tilføj agenter",
-      "AGENT_VALIDATION_ERROR": "Vælg mindst én agent."
-    },
     "FINISH": {
-      "TITLE": "Dit team er klar!",
+      "BUTTON_TEXT": "Afslut",
       "MESSAGE": "Du kan nu samarbejde som et team om samtaler. Tillykke med at støtte ",
-      "BUTTON_TEXT": "Afslut"
+      "TITLE": "Dit team er klar!"
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Slet",
-      "API": {
-        "SUCCESS_MESSAGE": "Team slettet.",
-        "ERROR_MESSAGE": "Kunne ikke slette teamet. Prøv igen."
-      },
-      "CONFIRM": {
-        "TITLE": "Er du sikker på du vil slette - %{teamName}",
-        "PLACE_HOLDER": "Skriv venligst {teamName} for at bekræfte",
-        "MESSAGE": "Sletning af teamet vil fjerne teamtildelingen fra de samtaler, der er tildelt dette team.",
-        "YES": "Slet ",
-        "NO": "Annuller"
-      }
-    },
-    "SETTINGS": "Indstillinger",
     "FORM": {
-      "UPDATE": "Opdater team",
-      "CREATE": "Opret team",
-      "NAME": {
-        "LABEL": "Team navn",
-        "PLACEHOLDER": "Eksempel: Salg, Kundesupport"
+      "AUTO_ASSIGN": {
+        "LABEL": "Tillad automatisk tildeling af dette team."
       },
+      "CREATE": "Opret team",
       "DESCRIPTION": {
         "LABEL": "Hold Beskrivelse",
         "PLACEHOLDER": "Kort beskrivelse af dette team."
       },
-      "AUTO_ASSIGN": {
-        "LABEL": "Tillad automatisk tildeling af dette team."
+      "NAME": {
+        "LABEL": "Team navn",
+        "PLACEHOLDER": "Eksempel: Salg, Kundesupport"
       },
-      "SUBMIT_CREATE": "Opret team"
+      "SUBMIT_CREATE": "Opret team",
+      "UPDATE": "Opdater team"
+    },
+    "HEADER": "Teams",
+    "LIST": {
+      "404": "Der er ingen teams oprettet på denne konto.",
+      "EDIT_TEAM": "Rediger team"
+    },
+    "NEW_TEAM": "Opret nyt team",
+    "SETTINGS": "Indstillinger",
+    "SIDEBAR_TXT": "<p><b>Hold</b></p> <p>Hold lader dig organisere dine agenter i grupper baseret på deres ansvar. <br /> En agent kan være en del af flere hold. Du kan tildele samtaler til et team, når du arbejder i fællesskab. </p>",
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Kunne ikke gemme teamdetaljerne. Prøv igen."
     }
   }
 }

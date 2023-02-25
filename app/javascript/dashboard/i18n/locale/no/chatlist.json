@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Henter samtaler",
-    "LOAD_MORE_CONVERSATIONS": "Last inn flere samtaler",
-    "EOF": "Alle samtaler lastet 🎉",
-    "LIST": {
-      "404": "Det er ingen aktive samtaler i denne gruppen."
-    },
-    "TAB_HEADING": "Samtaler",
-    "MENTION_HEADING": "Mentions",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "Søk etter personer, samtaler, lagrede svar .."
-    },
-    "FILTER_ALL": "Alle",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Alle",
       "me": "Mine",
-      "unassigned": "Ikke tildelt",
-      "all": "Alle"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Åpne"
-      },
-      "resolved": {
-        "TEXT": "Løst"
-      },
-      "pending": {
-        "TEXT": "Pending"
-      },
-      "snoozed": {
-        "TEXT": "Snoozed"
-      },
-      "all": {
-        "TEXT": "Alle"
-      }
+      "unassigned": "Ikke tildelt"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Bildemelding"
-      },
       "audio": {
         "CONTENT": "Lydmelding"
       },
-      "video": {
-        "CONTENT": "Video beskjed"
+      "fallback": {
+        "CONTENT": "har delt en URL"
       },
       "file": {
         "CONTENT": "Vedlegg"
       },
+      "image": {
+        "CONTENT": "Bildemelding"
+      },
       "location": {
         "CONTENT": "Plassering"
       },
-      "fallback": {
-        "CONTENT": "har delt en URL"
+      "video": {
+        "CONTENT": "Video beskjed"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Mottatt via e-post",
-    "VIEW_TWEET_IN_TWITTER": "Vis tweet i Twitter",
-    "REPLY_TO_TWEET": "Svar på denne tweeten",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Alle"
+      },
+      "open": {
+        "TEXT": "Åpne"
+      },
+      "pending": {
+        "TEXT": "Pending"
+      },
+      "resolved": {
+        "TEXT": "Løst"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Ingen meldinger",
-    "NO_CONTENT": "No content available",
+    "EOF": "Alle samtaler lastet 🎉",
+    "FILTER_ALL": "Alle",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "LINK_TO_STORY": "Go to instagram story",
+    "LIST": {
+      "404": "Det er ingen aktive samtaler i denne gruppen."
+    },
+    "LOADING": "Henter samtaler",
+    "LOAD_MORE_CONVERSATIONS": "Last inn flere samtaler",
+    "MENTION_HEADING": "Mentions",
+    "MESSAGE_READ": "Read",
+    "NO_CONTENT": "No content available",
+    "NO_MESSAGES": "Ingen meldinger",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "Mottatt via e-post",
+    "REPLY_TO_TWEET": "Svar på denne tweeten",
+    "SEARCH": {
+      "INPUT": "Søk etter personer, samtaler, lagrede svar .."
+    },
+    "SENT": "Sent successfully",
     "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "TAB_HEADING": "Samtaler",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "Vis tweet i Twitter"
   }
 }

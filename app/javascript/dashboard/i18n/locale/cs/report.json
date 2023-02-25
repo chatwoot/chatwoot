@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Konverzace",
-    "LOADING_CHART": "Načítání dat mapy...",
-    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
-    "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Konverzace",
-        "DESC": "( celkem)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Příchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet rozlišení",
-        "DESC": "( celkem)"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použít",
+      "PLACEHOLDER": "Zvolte časové rozmezí"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Vlastní časové rozmezí"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
+    "FILTER_DROPDOWN_LABEL": "Vybrat agenta",
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( celkem)",
+        "NAME": "Konverzace"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Příchozí zprávy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Odchozí zprávy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( celkem)",
+        "NAME": "Počet rozlišení"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas rozlišení",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "HEADER": "CSAT Reports",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      }
+    },
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Contact",
+        "FEEDBACK_TEXT": "Feedback comment",
+        "RATING": "Hodnocení"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Použít",
       "PLACEHOLDER": "Zvolte časové rozmezí"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Seskupit podle",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Poslední 3 měsíce"
+      },
+      {
+        "id": 3,
+        "name": "Posledních 6 měsíců"
+      },
+      {
+        "id": 4,
+        "name": "Poslední rok"
+      },
+      {
+        "id": 5,
+        "name": "Vlastní časové rozmezí"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( celkem)",
+        "NAME": "Konverzace"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Příchozí zprávy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Odchozí zprávy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( celkem)",
+        "NAME": "Počet rozlišení"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas rozlišení",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použít",
+      "PLACEHOLDER": "Zvolte časové rozmezí"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Poslední 3 měsíce"
+      },
+      {
+        "id": 3,
+        "name": "Posledních 6 měsíců"
+      },
+      {
+        "id": 4,
+        "name": "Poslední rok"
+      },
+      {
+        "id": 5,
+        "name": "Vlastní časové rozmezí"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( celkem)",
+        "NAME": "Konverzace"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Příchozí zprávy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Odchozí zprávy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( celkem)",
+        "NAME": "Počet rozlišení"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas rozlišení",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Otevřít",
+      "UNASSIGNED": "Nepřiřazeno",
+      "UNATTENDED": "Unattended"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "STATUS": "Stav",
+        "UNATTENDED": "Unattended"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Zaneprázdněn",
+      "HEADER": "Agent status",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Overview",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Pracovní doba",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použít",
+      "PLACEHOLDER": "Zvolte časové rozmezí"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Poslední 3 měsíce"
+      },
+      {
+        "id": 3,
+        "name": "Posledních 6 měsíců"
+      },
+      {
+        "id": 4,
+        "name": "Poslední rok"
+      },
+      {
+        "id": 5,
+        "name": "Vlastní časové rozmezí"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
     "DURATION_FILTER_LABEL": "Doba trvání",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Den"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Den"
-      },
-      {
-        "id": 2,
-        "groupBy": "Týden"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Seskupit podle",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Měsíc"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Den"
+      },
+      {
+        "id": 2,
+        "groupBy": "Týden"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Rok"
       }
     ],
-    "BUSINESS_HOURS": "Pracovní doba"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Konverzace",
     "LOADING_CHART": "Načítání dat mapy...",
-    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
-    "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
-    "FILTER_DROPDOWN_LABEL": "Vybrat agenta",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Konverzace",
-        "DESC": "( celkem)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Příchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchozí zprávy",
-        "DESC": "( celkem)"
+        "DESC": "( celkem)",
+        "NAME": "Konverzace"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
         "NAME": "First Response Time",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet rozlišení",
-        "DESC": "( celkem)"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Posledních 7 dní"
-      },
-      {
-        "id": 1,
-        "name": "Posledních 30 dní"
-      },
-      {
-        "id": 2,
-        "name": "Poslední 3 měsíce"
-      },
-      {
-        "id": 3,
-        "name": "Posledních 6 měsíců"
-      },
-      {
-        "id": 4,
-        "name": "Poslední rok"
-      },
-      {
-        "id": 5,
-        "name": "Vlastní časové rozmezí"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použít",
-      "PLACEHOLDER": "Zvolte časové rozmezí"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "Načítání dat mapy...",
-    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Konverzace",
-        "DESC": "( celkem)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Příchozí zprávy",
-        "DESC": "( celkem)"
+        "DESC": "( celkem)",
+        "NAME": "Příchozí zprávy"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Odchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( celkem)",
+        "NAME": "Odchozí zprávy"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Počet rozlišení",
-        "DESC": "( celkem)"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Posledních 7 dní"
-      },
-      {
-        "id": 1,
-        "name": "Posledních 30 dní"
-      },
-      {
-        "id": 2,
-        "name": "Poslední 3 měsíce"
-      },
-      {
-        "id": 3,
-        "name": "Posledních 6 měsíců"
-      },
-      {
-        "id": 4,
-        "name": "Poslední rok"
-      },
-      {
-        "id": 5,
-        "name": "Vlastní časové rozmezí"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použít",
-      "PLACEHOLDER": "Zvolte časové rozmezí"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Načítání dat mapy...",
-    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Konverzace",
-        "DESC": "( celkem)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Příchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( celkem)",
+        "NAME": "Počet rozlišení"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Čas rozlišení",
         "DESC": "(Průměrný)",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas rozlišení",
         "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet rozlišení",
-        "DESC": "( celkem)"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Posledních 7 dní"
-      },
-      {
-        "id": 1,
-        "name": "Posledních 30 dní"
-      },
-      {
-        "id": 2,
-        "name": "Poslední 3 měsíce"
-      },
-      {
-        "id": 3,
-        "name": "Posledních 6 měsíců"
-      },
-      {
-        "id": 4,
-        "name": "Poslední rok"
-      },
-      {
-        "id": 5,
-        "name": "Vlastní časové rozmezí"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použít",
-      "PLACEHOLDER": "Zvolte časové rozmezí"
-    }
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Načítání dat mapy...",
-    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Konverzace",
-        "DESC": "( celkem)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Příchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchozí zprávy",
-        "DESC": "( celkem)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet rozlišení",
-        "DESC": "( celkem)"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použít",
+      "PLACEHOLDER": "Zvolte časové rozmezí"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Vlastní časové rozmezí"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použít",
-      "PLACEHOLDER": "Zvolte časové rozmezí"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Hodnocení",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( celkem)",
+        "NAME": "Konverzace"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Otevřít",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Nepřiřazeno"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
-      "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Stav"
+      "INCOMING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Příchozí zprávy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( celkem)",
+        "NAME": "Odchozí zprávy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( celkem)",
+        "NAME": "Počet rozlišení"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas rozlišení",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Zaneprázdněn",
-      "OFFLINE": "Offline"
-    }
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později."
   }
 }

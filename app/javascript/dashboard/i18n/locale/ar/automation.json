@@ -1,118 +1,118 @@
 {
   "AUTOMATION": {
-    "HEADER": "الأتمتة",
-    "HEADER_BTN_TXT": "إضافة قاعدة أتمتة",
-    "LOADING": "جلب قواعد الأتمتة",
-    "SIDEBAR_TXT": "<p><b>قواعد الأتمتة الآليه</b> <p>يمكن للأتمتة استبدال وأتمتة العمليات القائمة التي تتطلب جهداً يدوياً. يمكنك القيام بالعديد من الأشياء مع التشغيل الآلي، بما في ذلك إضافة تسميات وتعيين المحادثة لأفضل وكيل. لذا يركز الفريق على ما يفعلونه على أفضل وجه ويقضي وقتاً قليلاً على المهام اليدوية.</p>",
+    "ACTION": {
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
+      "TEAM_DROPDOWN_PLACEHOLDER": "اختيار فريق",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "اكتب رسالتك هنا"
+    },
     "ADD": {
-      "TITLE": "إضافة قاعدة أتمتة",
-      "SUBMIT": "إنشاء",
+      "ACTION_BUTTON_LABEL": "إضافة إجراء",
+      "API": {
+        "ERROR_MESSAGE": "تعذر إنشاء قاعدة أتمتة ، يرجى المحاولة مرة أخرى لاحقاً",
+        "SUCCESS_MESSAGE": "تمت إضافة قاعدة الأتمتة بنجاح"
+      },
       "CANCEL_BUTTON_TEXT": "إلغاء",
+      "CONDITION_BUTTON_LABEL": "إضافة شرط",
       "FORM": {
-        "NAME": {
-          "LABEL": "اسم القاعدة",
-          "PLACEHOLDER": "أدخل اسم القاعدة",
-          "ERROR": "الاسم مطلوب"
-        },
-        "DESC": {
-          "LABEL": "الوصف",
-          "PLACEHOLDER": "ادخل وصف القاعدة",
-          "ERROR": "الوصف مطلوب"
-        },
-        "EVENT": {
-          "LABEL": "الحدث",
-          "PLACEHOLDER": "الرجاء اختيار واحد",
-          "ERROR": "الحدث مطلوب"
+        "ACTIONS": {
+          "LABEL": "الإجراءات"
         },
         "CONDITIONS": {
           "LABEL": "الشروط"
         },
-        "ACTIONS": {
-          "LABEL": "الإجراءات"
+        "DESC": {
+          "ERROR": "الوصف مطلوب",
+          "LABEL": "الوصف",
+          "PLACEHOLDER": "ادخل وصف القاعدة"
+        },
+        "EVENT": {
+          "ERROR": "الحدث مطلوب",
+          "LABEL": "الحدث",
+          "PLACEHOLDER": "الرجاء اختيار واحد"
+        },
+        "NAME": {
+          "ERROR": "الاسم مطلوب",
+          "LABEL": "اسم القاعدة",
+          "PLACEHOLDER": "أدخل اسم القاعدة"
         }
       },
-      "CONDITION_BUTTON_LABEL": "إضافة شرط",
-      "ACTION_BUTTON_LABEL": "إضافة إجراء",
-      "API": {
-        "SUCCESS_MESSAGE": "تمت إضافة قاعدة الأتمتة بنجاح",
-        "ERROR_MESSAGE": "تعذر إنشاء قاعدة أتمتة ، يرجى المحاولة مرة أخرى لاحقاً"
-      }
+      "SUBMIT": "إنشاء",
+      "TITLE": "إضافة قاعدة أتمتة"
     },
+    "ATTACHMENT": {
+      "LABEL_IDLE": "ارفع المرفق",
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOADING": "جاري الرفع...",
+      "LABEL_UPLOAD_FAILED": "فشل الرفع",
+      "UPLOAD_ERROR": "تعذر تحميل المرفق، الرجاء المحاولة مرة أخرى"
+    },
+    "CLONE": {
+      "API": {
+        "ERROR_MESSAGE": "تعذر استنساخ قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+        "SUCCESS_MESSAGE": "تم نسخ الأتمتة بنجاح"
+      },
+      "TOOLTIP": "نسخ"
+    },
+    "CONDITION": {
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes",
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ"
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "تعذر حذف قاعدة الأتمتة، يرجى المحاولة مرة أخرى لاحقاً",
+        "SUCCESS_MESSAGE": "تم حذف قاعدة الأتمتة بنجاح"
+      },
+      "CANCEL_BUTTON_TEXT": "إلغاء",
+      "CONFIRM": {
+        "MESSAGE": "هل أنت متأكد من الحذف ",
+        "NO": "لا، احتفظ ",
+        "TITLE": "تأكيد الحذف",
+        "YES": "نعم، احذف "
+      },
+      "SUBMIT": "حذف",
+      "TITLE": "حذف قاعدة الأتمتة"
+    },
+    "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "تعذر تحديث قاعدة الأتمتة، الرجاء المحاولة مرة أخرى في وقت لاحق",
+        "SUCCESS_MESSAGE": "تم تحديث قاعدة الأتمتة بنجاح"
+      },
+      "CANCEL_BUTTON_TEXT": "إلغاء",
+      "SUBMIT": "تحديث",
+      "TITLE": "تعديل قاعدة الأتمتة"
+    },
+    "FORM": {
+      "CANCEL": "إلغاء",
+      "CREATE": "إنشاء",
+      "DELETE": "حذف",
+      "EDIT": "تعديل",
+      "RESET_MESSAGE": "تغيير نوع الحدث سوف يعيد تعيين الشروط والأحداث التي أضفتها أدناه"
+    },
+    "HEADER": "الأتمتة",
+    "HEADER_BTN_TXT": "إضافة قاعدة أتمتة",
     "LIST": {
+      "404": "لم يتم العثور على قواعد أتمتة",
       "TABLE_HEADER": [
         "الاسم",
         "الوصف",
         "مفعل",
         "تم إنشاؤها في"
-      ],
-      "404": "لم يتم العثور على قواعد أتمتة"
+      ]
     },
-    "DELETE": {
-      "TITLE": "حذف قاعدة الأتمتة",
-      "SUBMIT": "حذف",
-      "CANCEL_BUTTON_TEXT": "إلغاء",
-      "CONFIRM": {
-        "TITLE": "تأكيد الحذف",
-        "MESSAGE": "هل أنت متأكد من الحذف ",
-        "YES": "نعم، احذف ",
-        "NO": "لا، احتفظ "
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "تم حذف قاعدة الأتمتة بنجاح",
-        "ERROR_MESSAGE": "تعذر حذف قاعدة الأتمتة، يرجى المحاولة مرة أخرى لاحقاً"
-      }
-    },
-    "EDIT": {
-      "TITLE": "تعديل قاعدة الأتمتة",
-      "SUBMIT": "تحديث",
-      "CANCEL_BUTTON_TEXT": "إلغاء",
-      "API": {
-        "SUCCESS_MESSAGE": "تم تحديث قاعدة الأتمتة بنجاح",
-        "ERROR_MESSAGE": "تعذر تحديث قاعدة الأتمتة، الرجاء المحاولة مرة أخرى في وقت لاحق"
-      }
-    },
-    "CLONE": {
-      "TOOLTIP": "نسخ",
-      "API": {
-        "SUCCESS_MESSAGE": "تم نسخ الأتمتة بنجاح",
-        "ERROR_MESSAGE": "تعذر استنساخ قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً"
-      }
-    },
-    "FORM": {
-      "EDIT": "تعديل",
-      "CREATE": "إنشاء",
-      "DELETE": "حذف",
-      "CANCEL": "إلغاء",
-      "RESET_MESSAGE": "تغيير نوع الحدث سوف يعيد تعيين الشروط والأحداث التي أضفتها أدناه"
-    },
-    "CONDITION": {
-      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
-    },
-    "ACTION": {
-      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "اكتب رسالتك هنا",
-      "TEAM_DROPDOWN_PLACEHOLDER": "اختيار فريق"
-    },
+    "LOADING": "جلب قواعد الأتمتة",
+    "SIDEBAR_TXT": "<p><b>قواعد الأتمتة الآليه</b> <p>يمكن للأتمتة استبدال وأتمتة العمليات القائمة التي تتطلب جهداً يدوياً. يمكنك القيام بالعديد من الأشياء مع التشغيل الآلي، بما في ذلك إضافة تسميات وتعيين المحادثة لأفضل وكيل. لذا يركز الفريق على ما يفعلونه على أفضل وجه ويقضي وقتاً قليلاً على المهام اليدوية.</p>",
     "TOGGLE": {
-      "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
-      "DEACTIVATION_TITLE": "تغطيل قاعدة الأتمتة",
       "ACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
-      "DEACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى إلغاء تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
-      "ACTIVATION_SUCCESFUL": "تم تفعيل قاعدة الأتمتة بنجاح",
-      "DEACTIVATION_SUCCESFUL": "تم تعطيل قاعدة الأتمتة بنجاح",
       "ACTIVATION_ERROR": "تعذر تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
-      "DEACTIVATION_ERROR": "تعذر إلغاء تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+      "ACTIVATION_SUCCESFUL": "تم تفعيل قاعدة الأتمتة بنجاح",
+      "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
+      "CANCEL_LABEL": "لا",
       "CONFIRMATION_LABEL": "نعم",
-      "CANCEL_LABEL": "لا"
-    },
-    "ATTACHMENT": {
-      "UPLOAD_ERROR": "تعذر تحميل المرفق، الرجاء المحاولة مرة أخرى",
-      "LABEL_IDLE": "ارفع المرفق",
-      "LABEL_UPLOADING": "جاري الرفع...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "فشل الرفع"
+      "DEACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى إلغاء تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
+      "DEACTIVATION_ERROR": "تعذر إلغاء تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+      "DEACTIVATION_SUCCESFUL": "تم تعطيل قاعدة الأتمتة بنجاح",
+      "DEACTIVATION_TITLE": "تغطيل قاعدة الأتمتة"
     }
   }
 }

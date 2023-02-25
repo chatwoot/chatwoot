@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Fale conosco no chat"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Campo inválido"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Digite sua mensagem",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
@@ -8,89 +17,80 @@
       "SUBMIT": "Enviar"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Enviar mensagem novamente",
-      "ERROR_MESSAGE": "Não foi possível enviar, tente novamente"
+      "ERROR_MESSAGE": "Não foi possível enviar, tente novamente",
+      "RETRY": "Enviar mensagem novamente"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Estamos conectados",
-    "OFFLINE": "Estamos ausentes no momento"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Normalmente responde em alguns minutos",
-    "IN_A_FEW_HOURS": "Responde normalmente em algumas horas",
-    "IN_A_DAY": "Responde normalmente em um dia"
-  },
-  "START_CONVERSATION": "Iniciar Conversa",
-  "END_CONVERSATION": "Finalizar Conversa",
   "CONTINUE_CONVERSATION": "Continuar conversa",
-  "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
-    "CLOSE_MESSAGES_BUTTON": "Fechar",
-    "COMPANY_FROM": "De",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Conte-nos mais...",
+    "SUBMITTED_TITLE": "Obrigado por enviar a classificação",
+    "TITLE": "Avalie sua conversa"
   },
-  "BUBBLE": {
-    "LABEL": "Fale conosco no chat"
+  "EMAIL_PLACEHOLDER": "Por favor, insira seu e-mail",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Solicitar uma transcrição de conversa",
+    "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente",
+    "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa",
+    "PLACEHOLDER": "Pesquisar emojis"
+  },
+  "END_CONVERSATION": "Finalizar Conversa",
+  "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Clique aqui para entrar",
+      "LEAVE_THE_ROOM": "Sair da ligação"
+    }
   },
   "POWERED_BY": "Desenvolvido por Chatwoot",
-  "EMAIL_PLACEHOLDER": "Por favor, insira seu e-mail",
-  "CHAT_PLACEHOLDER": "Digite sua mensagem",
-  "TODAY": "Hoje",
-  "YESTERDAY": "Ontem",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Nome Completo",
-        "PLACEHOLDER": "Por favor, digite seu nome completo",
-        "REQUIRED_ERROR": "Nome Completo é mandatório"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Endereço de e-mail",
         "PLACEHOLDER": "Por favor, digite seu e-mail",
         "REQUIRED_ERROR": "Endereço de e-mail é obrigatório",
         "VALID_ERROR": "Por favor, insira um endereço de e-mail válido"
       },
+      "FULL_NAME": {
+        "LABEL": "Nome Completo",
+        "PLACEHOLDER": "Por favor, digite seu nome completo",
+        "REQUIRED_ERROR": "Nome Completo é mandatório"
+      },
+      "MESSAGE": {
+        "ERROR": "Mensagem muito curta",
+        "LABEL": "Messagem",
+        "PLACEHOLDER": "Por favor, digite sua mensagem"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Número de Telefone",
         "PLACEHOLDER": "Por favor, digite seu número de telefone",
         "REQUIRED_ERROR": "O número de telefone é obrigatório",
         "VALID_ERROR": "Número de telefone deve ser do formato E.164, por exemplo: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Messagem",
-        "PLACEHOLDER": "Por favor, digite sua mensagem",
-        "ERROR": "Mensagem muito curta"
       }
     },
-    "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
     "IS_REQUIRED": "é obrigatório"
   },
-  "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Campo inválido"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Responde normalmente em um dia",
+    "IN_A_FEW_HOURS": "Responde normalmente em algumas horas",
+    "IN_A_FEW_MINUTES": "Normalmente responde em alguns minutos"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Pesquisar emojis",
-    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa"
+  "START_CONVERSATION": "Iniciar Conversa",
+  "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Estamos ausentes no momento",
+    "ONLINE": "Estamos conectados"
   },
-  "CSAT": {
-    "TITLE": "Avalie sua conversa",
-    "SUBMITTED_TITLE": "Obrigado por enviar a classificação",
-    "PLACEHOLDER": "Conte-nos mais..."
+  "TODAY": "Hoje",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Fechar",
+    "COMPANY_FROM": "De",
+    "VIEW_MESSAGES_BUTTON": "Ver novas mensagens"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Solicitar uma transcrição de conversa",
-    "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
-    "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Clique aqui para entrar",
-      "LEAVE_THE_ROOM": "Sair da ligação"
-    }
-  }
+  "YESTERDAY": "Ontem"
 }

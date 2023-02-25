@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Xateja amb nosaltres"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Escriu el missatge",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
@@ -8,89 +17,80 @@
       "SUBMIT": "Envia"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "ERROR_MESSAGE": "Couldn't send, try again",
+      "RETRY": "Send message again"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Estem en línia",
-    "OFFLINE": "Estem fora en aquest moment"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
-    "IN_A_FEW_HOURS": "Normalment responem en poques hores",
-    "IN_A_DAY": "Normalment respon en un dia"
-  },
-  "START_CONVERSATION": "Inicia la conversa",
-  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Veure missatges nous",
-    "CLOSE_MESSAGES_BUTTON": "Tanca",
-    "COMPANY_FROM": "from",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Tell us more...",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "TITLE": "Rate your conversation"
   },
-  "BUBBLE": {
-    "LABEL": "Xateja amb nosaltres"
+  "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar",
+    "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "End Conversation",
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Desenvolupat per Chatwoot",
-  "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
-  "CHAT_PLACEHOLDER": "Escriu el missatge",
-  "TODAY": "Avui",
-  "YESTERDAY": "Ahir",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Nom complet",
-        "PLACEHOLDER": "Introdueix el vostre nom complet",
-        "REQUIRED_ERROR": "El Nom Complert és obligatori"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Adreça de correu electrònic",
         "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "Introduïu una adreça de correu electrònic vàlida"
       },
+      "FULL_NAME": {
+        "LABEL": "Nom complet",
+        "PLACEHOLDER": "Introdueix el vostre nom complet",
+        "REQUIRED_ERROR": "El Nom Complert és obligatori"
+      },
+      "MESSAGE": {
+        "ERROR": "Missatge massa curt",
+        "LABEL": "Missatge",
+        "PLACEHOLDER": "Si us plau, introdueix el teu missatge"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Número de telèfon",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Missatge",
-        "PLACEHOLDER": "Si us plau, introdueix el teu missatge",
-        "ERROR": "Missatge massa curt"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Invalid field"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Normalment respon en un dia",
+    "IN_A_FEW_HOURS": "Normalment responem en poques hores",
+    "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "Inicia la conversa",
+  "START_NEW_CONVERSATION": "Start a new conversation",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Estem fora en aquest moment",
+    "ONLINE": "Estem en línia"
   },
-  "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+  "TODAY": "Avui",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Tanca",
+    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "Veure missatges nous"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
-    "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Ahir"
 }

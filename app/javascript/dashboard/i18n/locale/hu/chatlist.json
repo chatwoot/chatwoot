@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Beszélgetések betöltése",
-    "LOAD_MORE_CONVERSATIONS": "További beszélgetések betöltése",
-    "EOF": "Minden beszélgetés betöltve 🎉",
-    "LIST": {
-      "404": "Nincs aktív üzenetváltás ebben a csoportban."
-    },
-    "TAB_HEADING": "Beszélgetések",
-    "MENTION_HEADING": "Megemlítések",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
-    },
-    "FILTER_ALL": "Mind",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Mind",
       "me": "Enyém",
-      "unassigned": "Gazdátlan",
-      "all": "Mind"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Megnyitás"
-      },
-      "resolved": {
-        "TEXT": "Megoldva"
-      },
-      "pending": {
-        "TEXT": "Függőben lévő"
-      },
-      "snoozed": {
-        "TEXT": "Elnémított"
-      },
-      "all": {
-        "TEXT": "Mind"
-      }
+      "unassigned": "Gazdátlan"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Képüzenet"
-      },
       "audio": {
         "CONTENT": "Hangüzenet"
       },
-      "video": {
-        "CONTENT": "Videoüzenet"
+      "fallback": {
+        "CONTENT": "megosztott URL-t tartalmaz"
       },
       "file": {
         "CONTENT": "Csatolt file"
       },
+      "image": {
+        "CONTENT": "Képüzenet"
+      },
       "location": {
         "CONTENT": "Hely"
       },
-      "fallback": {
-        "CONTENT": "megosztott URL-t tartalmaz"
+      "video": {
+        "CONTENT": "Videoüzenet"
       }
     },
-    "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
-    "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren",
-    "REPLY_TO_TWEET": "Válasz",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sikeresen elküldve",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Mind"
+      },
+      "open": {
+        "TEXT": "Megnyitás"
+      },
+      "pending": {
+        "TEXT": "Függőben lévő"
+      },
+      "resolved": {
+        "TEXT": "Megoldva"
+      },
+      "snoozed": {
+        "TEXT": "Elnémított"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Nincs üzenet",
-    "NO_CONTENT": "Nincs elérhető tartalom",
+    "EOF": "Minden beszélgetés betöltve 🎉",
+    "FILTER_ALL": "Mind",
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
+    "LINK_TO_STORY": "Go to instagram story",
+    "LIST": {
+      "404": "Nincs aktív üzenetváltás ebben a csoportban."
+    },
+    "LOADING": "Beszélgetések betöltése",
+    "LOAD_MORE_CONVERSATIONS": "További beszélgetések betöltése",
+    "MENTION_HEADING": "Megemlítések",
+    "MESSAGE_READ": "Read",
+    "NO_CONTENT": "Nincs elérhető tartalom",
+    "NO_MESSAGES": "Nincs üzenet",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
+    "REPLY_TO_TWEET": "Válasz",
+    "SEARCH": {
+      "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
+    },
+    "SENT": "Sikeresen elküldve",
     "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
-    "MESSAGE_READ": "Read"
+    "TAB_HEADING": "Beszélgetések",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren"
   }
 }

@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Četujte s nami"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Zadajte svoju správu",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Stiahnuť",
@@ -8,89 +17,80 @@
       "SUBMIT": "Odoslať"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "ERROR_MESSAGE": "Couldn't send, try again",
+      "RETRY": "Send message again"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Sme online",
-    "OFFLINE": "Momentálne nie sme k dispozícii"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Zvyčajne odpovedá do niekoľkých minút",
-    "IN_A_FEW_HOURS": "Zvyčajne odpovedá do niekoľkých hodín",
-    "IN_A_DAY": "Zvyčajne odpovedá do dňa"
-  },
-  "START_CONVERSATION": "Začať konverzáciu",
-  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Začať novú konverzáciu",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Zobraziť nové správy",
-    "CLOSE_MESSAGES_BUTTON": "Zatvoriť",
-    "COMPANY_FROM": "od",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Povedzte nám viac...",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "TITLE": "Ohodnoťte konverzáciu"
   },
-  "BUBBLE": {
-    "LABEL": "Četujte s nami"
+  "EMAIL_PLACEHOLDER": "Zadajte svoj e-mail",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "Prepis chatu bol úspešne odoslaný"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "End Conversation",
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Používame Chatwoot",
-  "EMAIL_PLACEHOLDER": "Zadajte svoj e-mail",
-  "CHAT_PLACEHOLDER": "Zadajte svoju správu",
-  "TODAY": "Dnes",
-  "YESTERDAY": "Včera",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Celé meno",
-        "PLACEHOLDER": "Prosím zadajte svoje celé meno",
-        "REQUIRED_ERROR": "Vyžaduje sa celé meno"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "E-mailová adresa",
         "PLACEHOLDER": "Zadajte svoj e-mail",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "Prosím zadajte platnú e-mailovú adresu"
       },
+      "FULL_NAME": {
+        "LABEL": "Celé meno",
+        "PLACEHOLDER": "Prosím zadajte svoje celé meno",
+        "REQUIRED_ERROR": "Vyžaduje sa celé meno"
+      },
+      "MESSAGE": {
+        "ERROR": "Message too short",
+        "LABEL": "Správa",
+        "PLACEHOLDER": "Zadajte svoju správu"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Telefónne číslo",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Správa",
-        "PLACEHOLDER": "Zadajte svoju správu",
-        "ERROR": "Message too short"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Invalid field"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Zvyčajne odpovedá do dňa",
+    "IN_A_FEW_HOURS": "Zvyčajne odpovedá do niekoľkých hodín",
+    "IN_A_FEW_MINUTES": "Zvyčajne odpovedá do niekoľkých minút"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "Začať konverzáciu",
+  "START_NEW_CONVERSATION": "Začať novú konverzáciu",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Momentálne nie sme k dispozícii",
+    "ONLINE": "Sme online"
   },
-  "CSAT": {
-    "TITLE": "Ohodnoťte konverzáciu",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Povedzte nám viac..."
+  "TODAY": "Dnes",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Zatvoriť",
+    "COMPANY_FROM": "od",
+    "VIEW_MESSAGES_BUTTON": "Zobraziť nové správy"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "Prepis chatu bol úspešne odoslaný",
-    "SEND_EMAIL_ERROR": "There was an error, please try again"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Včera"
 }

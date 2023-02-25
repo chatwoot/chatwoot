@@ -1,76 +1,125 @@
 {
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "ADD_LABELS_TO_CONVERSATION": "Добавить метку в разговор",
+      "ASSIGN_AN_AGENT": "Назначить сотрудника",
+      "ASSIGN_A_TEAM": "Назначить команду",
+      "GO_TO_AGENT_REPORTS": "Перейти к отчетам по сотрудникам",
+      "GO_TO_CONTACTS_DASHBOARD": "Перейти к панели контактов",
+      "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
+      "GO_TO_CONVERSATION_REPORTS": "Перейти к отчетам по диалогам",
+      "GO_TO_INBOX_REPORTS": "Перейти к отчётам по \"Входящим\"",
+      "GO_TO_LABEL_REPORTS": "Перейти к отчетам по меткам",
+      "GO_TO_NOTIFICATIONS": "Перейти к уведомлениям",
+      "GO_TO_REPORTS_OVERVIEW": "Перейти к обзору отчетов",
+      "GO_TO_SETTINGS_ACCOUNT": "Перейти в настройки учетной записи",
+      "GO_TO_SETTINGS_AGENTS": "Перейти к настройкам сотрудников",
+      "GO_TO_SETTINGS_APPLICATIONS": "Перейти в настройки приложения",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Перейти к настройкам шаблонных ответов",
+      "GO_TO_SETTINGS_INBOXES": "Перейти к настройкам источников",
+      "GO_TO_SETTINGS_LABELS": "Перейти к настройкам меток",
+      "GO_TO_SETTINGS_PROFILE": "Перейти в настройки профиля",
+      "GO_TO_SETTINGS_TEAMS": "Перейти к настройкам команд",
+      "GO_TO_TEAM_REPORTS": "Перейти к отчетам по командам",
+      "MUTE_CONVERSATION": "Заглушить диалог",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Удалить метку из разговора",
+      "REOPEN_CONVERSATION": "Переоткрыть разговор",
+      "RESOLVE_CONVERSATION": "Решить разговор",
+      "SEND_TRANSCRIPT": "Отправить историю переписки на email",
+      "SNOOZE_CONVERSATION": "Включить звук диалога",
+      "UNMUTE_CONVERSATION": "Включить диалог",
+      "UNTIL_NEXT_REPLY": "До следующего ответа",
+      "UNTIL_NEXT_WEEK": "До следующей недели",
+      "UNTIL_TOMORROW": "До завтра"
+    },
+    "SEARCH_PLACEHOLDER": "Искать или перейти к",
+    "SECTIONS": {
+      "ADD_LABEL": "Добавить метку в разговор",
+      "CHANGE_ASSIGNEE": "Изменить Назначенного",
+      "CHANGE_TEAM": "Изменить команду",
+      "CONVERSATION": "Диалоги",
+      "GENERAL": "Главное",
+      "REMOVE_LABEL": "Удалить метку из разговора",
+      "REPORTS": "Отчёты",
+      "SETTINGS": "Настройки"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Загрузка приложения панели управления..."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
+      "ENTER_TO_SELECT": "Нажмите Enter для выбора",
+      "SELECT": "Выбрать",
+      "SELECT_ONE": "Выберите один"
+    }
+  },
   "GENERAL_SETTINGS": {
-    "TITLE": "Настройки аккаунта",
-    "SUBMIT": "Изменить настройки",
     "BACK": "Назад",
+    "FORM": {
+      "ACCOUNT_ID": {
+        "NOTE": "Этот ID требуется для построения интеграции, основанной на API",
+        "TITLE": "ID аккаунта"
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "ERROR": "Введите корректную длительность для автозавершения диалога (минимум 1 день, максимум 999)",
+        "LABEL": "Количество дней после того, как тикет будет автоматически решен, если нет активности",
+        "PLACEHOLDER": "30"
+      },
+      "DOMAIN": {
+        "ERROR": "",
+        "LABEL": "Домен входящей почты",
+        "PLACEHOLDER": "Домен, на который вы принимаете письма"
+      },
+      "ERROR": "Пожалуйста исправьте ошибки",
+      "FEATURES": {
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен.",
+        "INBOUND_EMAIL_ENABLED": "Для вашего аккаунта включено продолжение диалогов по электронной почте."
+      },
+      "GENERAL_SECTION": {
+        "NOTE": "",
+        "TITLE": "Общие настройки"
+      },
+      "LANGUAGE": {
+        "ERROR": "",
+        "LABEL": "Язык сайта",
+        "PLACEHOLDER": "Имя вашего аккаунта"
+      },
+      "NAME": {
+        "ERROR": "Пожалуйста, введите корректное имя аккаунта",
+        "LABEL": "Имя аккаунта",
+        "PLACEHOLDER": "Имя вашего аккаунта"
+      },
+      "SUPPORT_EMAIL": {
+        "ERROR": "",
+        "LABEL": "Email поддержки",
+        "PLACEHOLDER": "Email службы поддержки вашей компании"
+      }
+    },
+    "LEARN_MORE": "Узнайте больше",
+    "SUBMIT": "Изменить настройки",
+    "TITLE": "Настройки аккаунта",
     "UPDATE": {
       "ERROR": "Не удалось обновить настройки, попробуйте снова!",
       "SUCCESS": "Настройки аккаунта обновлены"
     },
-    "FORM": {
-      "ERROR": "Пожалуйста исправьте ошибки",
-      "GENERAL_SECTION": {
-        "TITLE": "Общие настройки",
-        "NOTE": ""
-      },
-      "ACCOUNT_ID": {
-        "TITLE": "ID аккаунта",
-        "NOTE": "Этот ID требуется для построения интеграции, основанной на API"
-      },
-      "NAME": {
-        "LABEL": "Имя аккаунта",
-        "PLACEHOLDER": "Имя вашего аккаунта",
-        "ERROR": "Пожалуйста, введите корректное имя аккаунта"
-      },
-      "LANGUAGE": {
-        "LABEL": "Язык сайта",
-        "PLACEHOLDER": "Имя вашего аккаунта",
-        "ERROR": ""
-      },
-      "DOMAIN": {
-        "LABEL": "Домен входящей почты",
-        "PLACEHOLDER": "Домен, на который вы принимаете письма",
-        "ERROR": ""
-      },
-      "SUPPORT_EMAIL": {
-        "LABEL": "Email поддержки",
-        "PLACEHOLDER": "Email службы поддержки вашей компании",
-        "ERROR": ""
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Количество дней после того, как тикет будет автоматически решен, если нет активности",
-        "PLACEHOLDER": "30",
-        "ERROR": "Введите корректную длительность для автозавершения диалога (минимум 1 день, максимум 999)"
-      },
-      "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Для вашего аккаунта включено продолжение диалогов по электронной почте.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен."
-      }
-    },
-    "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
-    "LEARN_MORE": "Узнайте больше"
+    "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию."
   },
-  "FORMS": {
-    "MULTISELECT": {
-      "ENTER_TO_SELECT": "Нажмите Enter для выбора",
-      "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
-      "SELECT_ONE": "Выберите один",
-      "SELECT": "Выбрать"
+  "NETWORK": {
+    "BUTTON": {
+      "REFRESH": "Обновить"
+    },
+    "NOTIFICATION": {
+      "TEXT": "Отключён от Чата"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Уведомления",
-    "MARK_ALL_DONE": "Отметить все прочитанными",
     "DELETE_TITLE": "удалено",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Непрочитанные уведомления",
-      "ALL_NOTIFICATIONS": "Показать все уведомления",
-      "LOADING_UNREAD_MESSAGE": "Загрузка непрочитанных уведомлений...",
-      "EMPTY_MESSAGE": "У вас нет непрочитанных уведомлений"
-    },
+    "HEADER": "Уведомления",
     "LIST": {
-      "LOADING_MESSAGE": "Загрузка уведомлений...",
       "404": "Уведомления отсутствуют",
+      "LOADING_MESSAGE": "Загрузка уведомлений...",
       "TABLE_HEADER": [
         "Имя",
         "Номер телефона",
@@ -78,67 +127,18 @@
         "Последний Контакт"
       ]
     },
+    "MARK_ALL_DONE": "Отметить все прочитанными",
     "TYPE_LABEL": {
-      "conversation_creation": "Новая беседа",
-      "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
+      "conversation_assignment": "Беседа назначена",
+      "conversation_creation": "Новая беседа",
       "conversation_mention": "Упоминание"
-    }
-  },
-  "NETWORK": {
-    "NOTIFICATION": {
-      "TEXT": "Отключён от Чата"
     },
-    "BUTTON": {
-      "REFRESH": "Обновить"
+    "UNREAD_NOTIFICATION": {
+      "ALL_NOTIFICATIONS": "Показать все уведомления",
+      "EMPTY_MESSAGE": "У вас нет непрочитанных уведомлений",
+      "LOADING_UNREAD_MESSAGE": "Загрузка непрочитанных уведомлений...",
+      "TITLE": "Непрочитанные уведомления"
     }
-  },
-  "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Искать или перейти к",
-    "SECTIONS": {
-      "GENERAL": "Главное",
-      "REPORTS": "Отчёты",
-      "CONVERSATION": "Диалоги",
-      "CHANGE_ASSIGNEE": "Изменить Назначенного",
-      "CHANGE_TEAM": "Изменить команду",
-      "ADD_LABEL": "Добавить метку в разговор",
-      "REMOVE_LABEL": "Удалить метку из разговора",
-      "SETTINGS": "Настройки"
-    },
-    "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
-      "GO_TO_CONTACTS_DASHBOARD": "Перейти к панели контактов",
-      "GO_TO_REPORTS_OVERVIEW": "Перейти к обзору отчетов",
-      "GO_TO_CONVERSATION_REPORTS": "Перейти к отчетам по диалогам",
-      "GO_TO_AGENT_REPORTS": "Перейти к отчетам по сотрудникам",
-      "GO_TO_LABEL_REPORTS": "Перейти к отчетам по меткам",
-      "GO_TO_INBOX_REPORTS": "Перейти к отчётам по \"Входящим\"",
-      "GO_TO_TEAM_REPORTS": "Перейти к отчетам по командам",
-      "GO_TO_SETTINGS_AGENTS": "Перейти к настройкам сотрудников",
-      "GO_TO_SETTINGS_TEAMS": "Перейти к настройкам команд",
-      "GO_TO_SETTINGS_INBOXES": "Перейти к настройкам источников",
-      "GO_TO_SETTINGS_LABELS": "Перейти к настройкам меток",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Перейти к настройкам шаблонных ответов",
-      "GO_TO_SETTINGS_APPLICATIONS": "Перейти в настройки приложения",
-      "GO_TO_SETTINGS_ACCOUNT": "Перейти в настройки учетной записи",
-      "GO_TO_SETTINGS_PROFILE": "Перейти в настройки профиля",
-      "GO_TO_NOTIFICATIONS": "Перейти к уведомлениям",
-      "ADD_LABELS_TO_CONVERSATION": "Добавить метку в разговор",
-      "ASSIGN_AN_AGENT": "Назначить сотрудника",
-      "ASSIGN_A_TEAM": "Назначить команду",
-      "MUTE_CONVERSATION": "Заглушить диалог",
-      "UNMUTE_CONVERSATION": "Включить диалог",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Удалить метку из разговора",
-      "REOPEN_CONVERSATION": "Переоткрыть разговор",
-      "RESOLVE_CONVERSATION": "Решить разговор",
-      "SEND_TRANSCRIPT": "Отправить историю переписки на email",
-      "SNOOZE_CONVERSATION": "Включить звук диалога",
-      "UNTIL_NEXT_REPLY": "До следующего ответа",
-      "UNTIL_NEXT_WEEK": "До следующей недели",
-      "UNTIL_TOMORROW": "До завтра"
-    }
-  },
-  "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Загрузка приложения панели управления..."
   }
 }

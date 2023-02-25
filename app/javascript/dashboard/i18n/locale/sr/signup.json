@@ -1,41 +1,41 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
-    "TITLE": "Registruj",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "API": {
+      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije",
+      "SUCCESS_MESSAGE": "Registracija je uspešna"
+    },
     "COMPANY_NAME": {
+      "ERROR": "Company name is too short",
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
-    },
-    "FULL_NAME": {
-      "LABEL": "Puno ime",
-      "PLACEHOLDER": "Unesite vaše puno ime. npr.: Bruce Wayne",
-      "ERROR": "Puno ime je prekratko"
-    },
-    "EMAIL": {
-      "LABEL": "Poslovna e-pošta",
-      "PLACEHOLDER": "Unesite adresu vaše poslovne e-pošte. npr.: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
-    },
-    "PASSWORD": {
-      "LABEL": "Lozinka",
-      "PLACEHOLDER": "Lozinka",
-      "ERROR": "Lozinka je prekratka",
-      "IS_INVALID_PASSWORD": "Lozinka bi trebalo da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalni karakter"
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises"
     },
     "CONFIRM_PASSWORD": {
+      "ERROR": "Lozinka se ne poklapa",
       "LABEL": "Potvrdite lozinku",
-      "PLACEHOLDER": "Potvrdite lozinku",
-      "ERROR": "Lozinka se ne poklapa"
+      "PLACEHOLDER": "Potvrdite lozinku"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Registracija je uspešna",
-      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+    "EMAIL": {
+      "ERROR": "Please enter a valid work email address",
+      "LABEL": "Poslovna e-pošta",
+      "PLACEHOLDER": "Unesite adresu vaše poslovne e-pošte. npr.: bruce@wayne.enterprises"
+    },
+    "FULL_NAME": {
+      "ERROR": "Puno ime je prekratko",
+      "LABEL": "Puno ime",
+      "PLACEHOLDER": "Unesite vaše puno ime. npr.: Bruce Wayne"
+    },
+    "HAVE_AN_ACCOUNT": "Već imate nalog?",
+    "PASSWORD": {
+      "ERROR": "Lozinka je prekratka",
+      "IS_INVALID_PASSWORD": "Lozinka bi trebalo da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalni karakter",
+      "LABEL": "Lozinka",
+      "PLACEHOLDER": "Lozinka"
     },
     "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Već imate nalog?"
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TITLE": "Registruj",
+    "TRY_WOOT": "Create an account"
   }
 }

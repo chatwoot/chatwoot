@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Discutez avec nous"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Champ non valide"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Tapez votre message",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Télécharger",
@@ -8,89 +17,80 @@
       "SUBMIT": "Envoyer"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Envoyer le message à nouveau",
-      "ERROR_MESSAGE": "Impossible d'envoyer, réessayez"
+      "ERROR_MESSAGE": "Impossible d'envoyer, réessayez",
+      "RETRY": "Envoyer le message à nouveau"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Nous sommes en ligne",
-    "OFFLINE": "Nous sommes absents pour le moment"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
-    "IN_A_FEW_HOURS": "Répond généralement en quelques heures",
-    "IN_A_DAY": "Répond généralement dans la journée"
-  },
-  "START_CONVERSATION": "Démarrer la conversation",
-  "END_CONVERSATION": "Mettre fin à la conversation",
   "CONTINUE_CONVERSATION": "Continuer la conversation",
-  "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
-    "CLOSE_MESSAGES_BUTTON": "Fermer",
-    "COMPANY_FROM": "de",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Dites-nous en plus...",
+    "SUBMITTED_TITLE": "Merci d'avoir soumis votre évaluation",
+    "TITLE": "Évaluer votre conversation"
   },
-  "BUBBLE": {
-    "LABEL": "Discutez avec nous"
+  "EMAIL_PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Demander une transcription de la conversation",
+    "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer",
+    "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche",
+    "PLACEHOLDER": "Rechercher des émojis"
+  },
+  "END_CONVERSATION": "Mettre fin à la conversation",
+  "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Cliquez ici pour rejoindre",
+      "LEAVE_THE_ROOM": "Quitter l'appel"
+    }
   },
   "POWERED_BY": "Propulsé par Chatwoot",
-  "EMAIL_PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
-  "CHAT_PLACEHOLDER": "Tapez votre message",
-  "TODAY": "Aujourd'hui",
-  "YESTERDAY": "Hier",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Nom complet",
-        "PLACEHOLDER": "Veuillez entrer votre nom complet",
-        "REQUIRED_ERROR": "Le nom complet est requis"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Adresse de courriel",
         "PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
         "REQUIRED_ERROR": "L'adresse courriel est requise",
         "VALID_ERROR": "Veuillez saisir une adresse de courriel valide"
       },
+      "FULL_NAME": {
+        "LABEL": "Nom complet",
+        "PLACEHOLDER": "Veuillez entrer votre nom complet",
+        "REQUIRED_ERROR": "Le nom complet est requis"
+      },
+      "MESSAGE": {
+        "ERROR": "Message trop court",
+        "LABEL": "Message",
+        "PLACEHOLDER": "Veuillez entrer votre message"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Numéro de téléphone",
         "PLACEHOLDER": "Veuillez entrer votre numéro de téléphone",
         "REQUIRED_ERROR": "Le numéro de téléphone est requis",
         "VALID_ERROR": "Le numéro de téléphone doit être au format E.164. Ex : +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Veuillez entrer votre message",
-        "ERROR": "Message trop court"
       }
     },
-    "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
     "IS_REQUIRED": "est requis"
   },
-  "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Champ non valide"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Répond généralement dans la journée",
+    "IN_A_FEW_HOURS": "Répond généralement en quelques heures",
+    "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Rechercher des émojis",
-    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche"
+  "START_CONVERSATION": "Démarrer la conversation",
+  "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Nous sommes absents pour le moment",
+    "ONLINE": "Nous sommes en ligne"
   },
-  "CSAT": {
-    "TITLE": "Évaluer votre conversation",
-    "SUBMITTED_TITLE": "Merci d'avoir soumis votre évaluation",
-    "PLACEHOLDER": "Dites-nous en plus..."
+  "TODAY": "Aujourd'hui",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Fermer",
+    "COMPANY_FROM": "de",
+    "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Demander une transcription de la conversation",
-    "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
-    "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Cliquez ici pour rejoindre",
-      "LEAVE_THE_ROOM": "Quitter l'appel"
-    }
-  }
+  "YESTERDAY": "Hier"
 }

@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "דבר איתנו"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "שדה לא חוקי"
+    }
+  },
+  "CHAT_PLACEHOLDER": "הקלד הודעה",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "הורד",
@@ -8,89 +17,80 @@
       "SUBMIT": "שלח"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "ERROR_MESSAGE": "Couldn't send, try again",
+      "RETRY": "Send message again"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "אנחנו אונליין",
-    "OFFLINE": "אנחנו לא זמינים כרגע"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
-    "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
-    "IN_A_DAY": "מענה ממוצע לאחר יום"
-  },
-  "START_CONVERSATION": "התחל שיחה",
-  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "התחל שיחה חדשה",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
-    "CLOSE_MESSAGES_BUTTON": "סגור",
-    "COMPANY_FROM": "מ",
-    "BOT": "בוט"
+  "CSAT": {
+    "PLACEHOLDER": "ספר לנו עוד...",
+    "SUBMITTED_TITLE": "תודה על שליחת הדירוג",
+    "TITLE": "דרג את השיחה שלך"
   },
-  "BUBBLE": {
-    "LABEL": "דבר איתנו"
+  "EMAIL_PLACEHOLDER": "הזן בבקשה את האימייל שלך",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "בקש תמליל שיחה",
+    "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב",
+    "SEND_EMAIL_SUCCESS": "תמליל הצ'אט נשלח בהצלחה"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "End Conversation",
+  "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "מופעל על ידי Chatwoot",
-  "EMAIL_PLACEHOLDER": "הזן בבקשה את האימייל שלך",
-  "CHAT_PLACEHOLDER": "הקלד הודעה",
-  "TODAY": "היום",
-  "YESTERDAY": "אתמול",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "שם מלא",
-        "PLACEHOLDER": "הכנס שם מלא בבקשה",
-        "REQUIRED_ERROR": "שם מלא שדה חובה"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "כתובת מייל",
         "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "בבקשה הכנס כתוכת אימייל תקינה"
       },
+      "FULL_NAME": {
+        "LABEL": "שם מלא",
+        "PLACEHOLDER": "הכנס שם מלא בבקשה",
+        "REQUIRED_ERROR": "שם מלא שדה חובה"
+      },
+      "MESSAGE": {
+        "ERROR": "הודעה קצרה מדי",
+        "LABEL": "הודעה",
+        "PLACEHOLDER": "הקלד הודעה בבקשה"
+      },
       "PHONE_NUMBER": {
         "LABEL": "מספר טלפון",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "הודעה",
-        "PLACEHOLDER": "הקלד הודעה בבקשה",
-        "ERROR": "הודעה קצרה מדי"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "שדה לא חוקי"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "מענה ממוצע לאחר יום",
+    "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
+    "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "התחל שיחה",
+  "START_NEW_CONVERSATION": "התחל שיחה חדשה",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "אנחנו לא זמינים כרגע",
+    "ONLINE": "אנחנו אונליין"
   },
-  "CSAT": {
-    "TITLE": "דרג את השיחה שלך",
-    "SUBMITTED_TITLE": "תודה על שליחת הדירוג",
-    "PLACEHOLDER": "ספר לנו עוד..."
+  "TODAY": "היום",
+  "UNREAD_VIEW": {
+    "BOT": "בוט",
+    "CLOSE_MESSAGES_BUTTON": "סגור",
+    "COMPANY_FROM": "מ",
+    "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "בקש תמליל שיחה",
-    "SEND_EMAIL_SUCCESS": "תמליל הצ'אט נשלח בהצלחה",
-    "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "אתמול"
 }

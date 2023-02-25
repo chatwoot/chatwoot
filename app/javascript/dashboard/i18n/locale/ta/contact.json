@@ -1,225 +1,340 @@
 {
+  "CONTACTS_PAGE": {
+    "FIELDS": "Contact fields",
+    "FILTER_CONTACTS": "வடிகட்டவும்",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "HEADER": "Contacts",
+    "LIST": {
+      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Loading contacts...",
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "CITY": "City",
+        "COMPANY": "Company",
+        "CONVERSATIONS": "உரையாடல்கள்",
+        "COUNTRY": "Country",
+        "CREATED_AT": "Created At",
+        "EMAIL_ADDRESS": "ஈ-மெயில் முகவரி",
+        "LAST_ACTIVITY": "Last Activity",
+        "NAME": "பெயர்",
+        "PHONE_NUMBER": "Phone Number",
+        "SOCIAL_PROFILES": "Social Profiles"
+      },
+      "VIEW_DETAILS": "View details"
+    },
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts"
+  },
+  "CONTACT_FORM": {
+    "DELETE_AVATAR": {
+      "API": {
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later.",
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully"
+      }
+    },
+    "ERROR_MESSAGE": "There was an error, please try again",
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Contact Avatar"
+      },
+      "BIO": {
+        "LABEL": "Bio",
+        "PLACEHOLDER": "Enter the bio of the contact"
+      },
+      "CANCEL": "ரத்துசெய்",
+      "COMPANY_NAME": {
+        "LABEL": "Company Name",
+        "PLACEHOLDER": "Enter the company name"
+      },
+      "EMAIL_ADDRESS": {
+        "DUPLICATE": "This email address is in use for another contact.",
+        "ERROR": "Please enter a valid email address.",
+        "LABEL": "ஈ-மெயில் முகவரி",
+        "PLACEHOLDER": "Enter the email address of the contact"
+      },
+      "LOCATION": {
+        "LABEL": "இருப்பிடம்",
+        "PLACEHOLDER": "Enter the location of the contact"
+      },
+      "NAME": {
+        "LABEL": "Full Name",
+        "PLACEHOLDER": "Enter the full name of the contact"
+      },
+      "PHONE_NUMBER": {
+        "DUPLICATE": "This phone number is in use for another contact.",
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "LABEL": "Phone Number",
+        "PLACEHOLDER": "Enter the phone number of the contact"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "LABEL": "Facebook",
+          "PLACEHOLDER": "Enter the Facebook username"
+        },
+        "GITHUB": {
+          "LABEL": "Github",
+          "PLACEHOLDER": "Enter the Github username"
+        },
+        "LINKEDIN": {
+          "LABEL": "LinkedIn",
+          "PLACEHOLDER": "Enter the LinkedIn username"
+        },
+        "TWITTER": {
+          "LABEL": "Twitter",
+          "PLACEHOLDER": "Enter the Twitter username"
+        }
+      },
+      "SUBMIT": "சமர்பிக்கவும்"
+    },
+    "SUCCESS_MESSAGE": "Contact saved successfully"
+  },
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "ஈ-மெயில் முகவரி",
-    "PHONE_NUMBER": "தொலைபேசி எண்",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "இருப்பிடம்",
-    "BROWSER_LANGUAGE": "Browser Language",
-    "CONVERSATION_TITLE": "உரையாடல் விவரங்கள்",
-    "VIEW_PROFILE": "View Profile",
     "BROWSER": "புரவுஸர்",
-    "OS": "ஆப்பரேட்டிங் சிஸ்டம்",
-    "INITIATED_FROM": "இருந்து தொடங்கப்பட்டது",
-    "INITIATED_AT": "இல் தொடங்கப்பட்டது",
-    "IP_ADDRESS": "IP Address",
-    "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
+    "BROWSER_LANGUAGE": "Browser Language",
+    "COMPANY": "Company",
+    "CONTACT_ACTIONS": "Contact actions",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "இந்த தொடர்புடன் முந்தைய உரையாடல்கள் எதுவும் இல்லை.",
       "TITLE": "முந்தைய உரையாடல்கள்"
     },
+    "CONVERSATION_TITLE": "உரையாடல் விவரங்கள்",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "CREATED_AT_LABEL": "Created",
+    "EDIT_LABEL": "திருத்து",
+    "EMAIL_ADDRESS": "ஈ-மெயில் முகவரி",
+    "IDENTIFIER": "Identifier",
+    "INITIATED_AT": "இல் தொடங்கப்பட்டது",
+    "INITIATED_FROM": "இருந்து தொடங்கப்பட்டது",
+    "IP_ADDRESS": "IP Address",
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "Couldn't update labels",
+        "TITLE": "Contact Labels"
       },
       "CONVERSATION": {
-        "TITLE": "உரையாடல் லேபிள்கள்",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Add Labels",
+        "TITLE": "உரையாடல் லேபிள்கள்"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
+        "NO_RESULT": "No labels found",
         "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Add Labels"
       }
     },
+    "LOCATION": "இருப்பிடம்",
     "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "MUTE_CONTACT": "Mute Conversation",
+    "NEW_MESSAGE": "New message",
+    "NOT_AVAILABLE": "Not Available",
+    "OS": "ஆப்பரேட்டிங் சிஸ்டம்",
+    "PHONE_NUMBER": "தொலைபேசி எண்",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "திருத்து",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
+      "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "PREVIOUS_CONVERSATIONS": "முந்தைய உரையாடல்கள்"
-    }
-  },
-  "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
-  },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
-    "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
-      "CANCEL": "ரத்துசெய்"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "இல்லை, அதை வைத்திரு"
-    }
-  },
-  "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
-    "CONFIRM": {
-      "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
-      "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
-      "YES": "Yes, Delete",
-      "NO": "No, Keep"
-    },
-    "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
-    }
-  },
-  "CONTACT_FORM": {
-    "FORM": {
-      "SUBMIT": "சமர்பிக்கவும்",
-      "CANCEL": "ரத்துசெய்",
-      "AVATAR": {
-        "LABEL": "Contact Avatar"
-      },
-      "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
-      },
-      "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
-      },
-      "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "ஈ-மெயில் முகவரி",
-        "DUPLICATE": "This email address is in use for another contact.",
-        "ERROR": "Please enter a valid email address."
-      },
-      "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
-      },
-      "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "இருப்பிடம்"
-      },
-      "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
-      },
-      "SOCIAL_PROFILES": {
-        "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
-          "LABEL": "Facebook"
-        },
-        "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
-          "LABEL": "Twitter"
-        },
-        "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
-          "LABEL": "LinkedIn"
-        },
-        "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
-          "LABEL": "Github"
-        }
-      }
-    },
-    "DELETE_AVATAR": {
-      "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
-      }
-    },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
-  },
-  "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
-    "FORM": {
-      "TO": {
-        "LABEL": "To"
-      },
-      "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
-      },
-      "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
-      },
-      "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
-      },
-      "SUBMIT": "Send message",
-      "CANCEL": "ரத்துசெய்",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "GO_TO_CONVERSATION": "காண்க",
-      "ERROR_MESSAGE": "Couldn't send! try again"
-    }
-  },
-  "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
-    "FILTER_CONTACTS": "வடிகட்டவும்",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
-    "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "NO_CONTACTS": "There are no available contacts",
-      "TABLE_HEADER": {
-        "NAME": "பெயர்",
-        "PHONE_NUMBER": "Phone Number",
-        "CONVERSATIONS": "உரையாடல்கள்",
-        "LAST_ACTIVITY": "Last Activity",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Company",
-        "EMAIL_ADDRESS": "ஈ-மெயில் முகவரி"
-      },
-      "VIEW_DETAILS": "View details"
-    }
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "UNMUTE_CONTACT": "Unmute Conversation",
+    "VIEW_PROFILE": "View Profile"
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Contacts",
     "LOADING": "Loading contact profile..."
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "DESC": "Add basic information details about the contact.",
+    "TITLE": "Create new contact"
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
+    "ADD": {
+      "DESC": "Add custom information to this contact.",
+      "TITLE": "Create custom attribute"
+    },
+    "ADD_BUTTON_TEXT": "Add attributes",
+    "BUTTON": "Add custom attribute",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "FORM": {
+      "ADD": {
+        "ERROR": "Unable to add attribute. Please try again later",
+        "SUCCESS": "Attribute added successfully",
+        "TITLE": "Create new attribute "
+      },
+      "ATTRIBUTE_SELECT": {
+        "NO_RESULT": "No attributes found",
+        "PLACEHOLDER": "Search attributes",
+        "TITLE": "Add attributes"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "NO_RESULT": "No result found",
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value"
+        }
+      },
+      "CANCEL": "ரத்துசெய்",
+      "CREATE": "Add attribute",
+      "DELETE": {
+        "ERROR": "Unable to delete attribute. Please try again later",
+        "SUCCESS": "Attribute deleted successfully"
+      },
+      "NAME": {
+        "ERROR": "Invalid custom attribute name",
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id"
+      },
+      "UPDATE": {
+        "ERROR": "Unable to update attribute. Please try again later",
+        "SUCCESS": "Attribute updated successfully"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
+    },
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "VALIDATIONS": {
+      "INVALID_URL": "Invalid URL",
+      "REQUIRED": "Valid value is required"
+    }
+  },
+  "DELETE_CONTACT": {
+    "API": {
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later.",
+      "SUCCESS_MESSAGE": "Contact deleted successfully"
+    },
+    "BUTTON_LABEL": "Delete Contact",
+    "CONFIRM": {
+      "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
+      "NO": "No, Keep",
+      "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
+      "YES": "Yes, Delete"
+    },
+    "DESC": "Delete contact details",
+    "TITLE": "Delete contact"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "MESSAGE": "Are you want sure to delete this note?",
+      "NO": "இல்லை, அதை வைத்திரு",
+      "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
+      "YES": "Yes, Delete it"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Edit Contact",
+    "DESC": "Edit contact details",
+    "TITLE": "Edit contact"
+  },
+  "EVENTS": {
+    "BUTTON": {
+      "PILL_BUTTON_CONVO": "உரையாடல்கள்",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "notes"
+    },
+    "HEADER": {
+      "TITLE": "Activities"
+    }
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "ERROR_MESSAGE": "There was an error, please try again",
+    "FORM": {
+      "CANCEL": "ரத்துசெய்",
+      "LABEL": "CSV File",
+      "SUBMIT": "Import"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "TITLE": "Import Contacts"
+  },
+  "MERGE_CONTACTS": {
+    "CHILD": {
+      "HELP_LABEL": "To be deleted",
+      "PLACEHOLDER": "Search for a contact",
+      "TITLE": "Contact to merge"
+    },
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "FORM": {
+      "CANCEL": "ரத்துசெய்",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "ERROR_MESSAGE": "Could not merge contacts, try again!",
+      "SUBMIT": " Merge contacts",
+      "SUCCESS_MESSAGE": "Contact merged successfully"
+    },
+    "PRIMARY": {
+      "HELP_LABEL": "To be kept",
+      "TITLE": "Primary contact"
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "SUMMARY": {
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "TITLE": "Summary"
+    },
+    "TITLE": "Merge contacts"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "FORM": {
+      "CANCEL": "ரத்துசெய்",
+      "ERROR_MESSAGE": "Couldn't send! try again",
+      "GO_TO_CONVERSATION": "காண்க",
+      "INBOX": {
+        "ERROR": "Select an inbox",
+        "LABEL": "Inbox"
+      },
+      "MESSAGE": {
+        "ERROR": "Message can't be empty",
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here"
+      },
+      "SUBJECT": {
+        "ERROR": "Subject can't be empty",
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject"
+      },
+      "SUBMIT": "Send message",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "TO": {
+        "LABEL": "To"
+      }
+    },
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "TITLE": "New conversation"
+  },
+  "NOTES": {
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
+    },
+    "FETCHING_NOTES": "Fetching notes...",
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
+    },
+    "NOT_AVAILABLE": "There are no notes created for this contact"
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -229,121 +344,6 @@
     "FOOTER": {
       "DUE_DATE": "Due date",
       "LABEL_TITLE": "Set type"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
-    "HEADER": {
-      "TITLE": "Notes"
-    },
-    "LIST": {
-      "LABEL": "added a note"
-    },
-    "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Delete note"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Activities"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
-      "PILL_BUTTON_CONVO": "உரையாடல்கள்"
-    }
-  },
-  "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
-    },
-    "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
-    },
-    "FORM": {
-      "CREATE": "Add attribute",
-      "CANCEL": "ரத்துசெய்",
-      "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
-      },
-      "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
-      },
-      "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
-      },
-      "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
-      },
-      "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
-      },
-      "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
-      },
-      "ATTRIBUTE_TYPE": {
-        "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
-        }
-      }
-    },
-    "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
-    }
-  },
-  "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
-    "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
-    },
-    "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
-    },
-    "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
-    },
-    "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
-    },
-    "FORM": {
-      "SUBMIT": " Merge contacts",
-      "CANCEL": "ரத்துசெய்",
-      "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
-      },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

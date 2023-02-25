@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Tapisan Perbualan",
-    "SUBTITLE": "Tambahkan tapisan di bawah dan tekan \"Gunakan Tetapan\" untuk menapis perbualan.",
     "ADD_NEW_FILTER": "Tambahan Tapisan",
-    "FILTER_DELETE_ERROR": "Kamu perlukan sekurang-kurangnya satu tapisan untuk simpan tetapan",
-    "SUBMIT_BUTTON_LABEL": "Tetapkan tapisan",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Nama pernerima tugasas",
+      "BROWSER_LANGUAGE": "Bahasa Pelayar",
+      "CAMPAIGN_NAME": "Nama Kempen",
+      "CONVERSATION_IDENTIFIER": "Pengecam Perbualan",
+      "COUNTRY_NAME": "Nama Negara",
+      "CREATED_AT": "Dicipta Pada",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Semak",
+      "CUSTOM_ATTRIBUTE_LINK": "Pautan",
+      "CUSTOM_ATTRIBUTE_LIST": "Senarai",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nombor",
+      "CUSTOM_ATTRIBUTE_TEXT": "Teks",
+      "INBOX_NAME": "Nama Peti Inbox",
+      "LABELS": "Label",
+      "LAST_ACTIVITY": "Aktiviti Terakhir",
+      "REFERER_LINK": "Perujuk pautan",
+      "STATUS": "Status",
+      "TEAM_NAME": "Nama pasukan"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "Tidak benar",
+      "TRUE": "Benar"
+    },
     "CANCEL_BUTTON_LABEL": "Batalkan",
     "CLEAR_BUTTON_LABEL": "Kosongkan tapisan",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Ralat apabilia menetapkan folder ini",
+          "SUCCESS_MESSAGE": "Folder telah ditetapkan"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Segmen tidak berjaya ditetapkan",
+          "SUCCESS_MESSAGE": "Segmen telah berjaya ditetapkan"
+        },
+        "CANCEL_BUTTON": "Batal",
+        "ERROR_MESSAGE": "Nama diperlukan",
+        "LABEL": "Namakan penapis ini",
+        "PLACEHOLDER": "Masukan nama untuk penapis ini",
+        "SAVE_BUTTON": "Tetapkan penapis",
+        "TITLE": "Adakah kamu ingin menetapkan penapis ini?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Ralat apabila padamkan folder ini",
+          "SUCCESS_MESSAGE": "Folder ini sudah dipadamkan"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Ralat apabilia memadamkan segmen",
+          "SUCCESS_MESSAGE": "Segmen berjaya dipadam"
+        },
+        "DELETE_BUTTON": "Padam tapisan",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "Adakah anda pasti hendak padamkan tapisan ini ",
+            "NO": "Tidak, simpankan",
+            "TITLE": "Sahkan untuk dipadam",
+            "YES": "Baik, Padamkan"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "Nilai diperlukan",
-    "TOOLTIP_LABEL": "Tapiskan perbualan",
+    "FILTER_DELETE_ERROR": "Kamu perlukan sekurang-kurangnya satu tapisan untuk simpan tetapan",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Penapis Tambahan",
+      "CUSTOM_ATTRIBUTES": "Atribut Tersuai",
+      "STANDARD_FILTERS": "Penapis Standard"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Mengandungi",
+      "days_before": "Adalah x hari sebelum",
+      "does_not_contain": "Tidak mengandungi",
+      "equal_to": "Sama dengan",
+      "is_greater_than": "Adalah lebih besar",
+      "is_less_than": "Adalah lebih kurang",
+      "is_not_present": "Tidak sedia ada",
+      "is_present": "Sedia ada",
+      "not_equal_to": "Tak sama dengan"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "DAN",
       "OR": "ATAU"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "Sama dengan",
-      "not_equal_to": "Tak sama dengan",
-      "contains": "Mengandungi",
-      "does_not_contain": "Tidak mengandungi",
-      "is_present": "Sedia ada",
-      "is_not_present": "Tidak sedia ada",
-      "is_greater_than": "Adalah lebih besar",
-      "is_less_than": "Adalah lebih kurang",
-      "days_before": "Adalah x hari sebelum"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "Benar",
-      "FALSE": "Tidak benar"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "Status",
-      "ASSIGNEE_NAME": "Nama pernerima tugasas",
-      "INBOX_NAME": "Nama Peti Inbox",
-      "TEAM_NAME": "Nama pasukan",
-      "CONVERSATION_IDENTIFIER": "Pengecam Perbualan",
-      "CAMPAIGN_NAME": "Nama Kempen",
-      "LABELS": "Label",
-      "BROWSER_LANGUAGE": "Bahasa Pelayar",
-      "COUNTRY_NAME": "Nama Negara",
-      "REFERER_LINK": "Perujuk pautan",
-      "CUSTOM_ATTRIBUTE_LIST": "Senarai",
-      "CUSTOM_ATTRIBUTE_TEXT": "Teks",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Nombor",
-      "CUSTOM_ATTRIBUTE_LINK": "Pautan",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Semak",
-      "CREATED_AT": "Dicipta Pada",
-      "LAST_ACTIVITY": "Aktiviti Terakhir"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "Penapis Standard",
-      "ADDITIONAL_FILTERS": "Penapis Tambahan",
-      "CUSTOM_ATTRIBUTES": "Atribut Tersuai"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "Adakah kamu ingin menetapkan penapis ini?",
-        "LABEL": "Namakan penapis ini",
-        "PLACEHOLDER": "Masukan nama untuk penapis ini",
-        "ERROR_MESSAGE": "Nama diperlukan",
-        "SAVE_BUTTON": "Tetapkan penapis",
-        "CANCEL_BUTTON": "Batal",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder telah ditetapkan",
-          "ERROR_MESSAGE": "Ralat apabilia menetapkan folder ini"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmen telah berjaya ditetapkan",
-          "ERROR_MESSAGE": "Segmen tidak berjaya ditetapkan"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "Padam tapisan",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "Sahkan untuk dipadam",
-            "MESSAGE": "Adakah anda pasti hendak padamkan tapisan ini ",
-            "YES": "Baik, Padamkan",
-            "NO": "Tidak, simpankan"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder ini sudah dipadamkan",
-          "ERROR_MESSAGE": "Ralat apabila padamkan folder ini"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmen berjaya dipadam",
-          "ERROR_MESSAGE": "Ralat apabilia memadamkan segmen"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "Tetapkan tapisan",
+    "SUBTITLE": "Tambahkan tapisan di bawah dan tekan \"Gunakan Tetapan\" untuk menapis perbualan.",
+    "TITLE": "Tapisan Perbualan",
+    "TOOLTIP_LABEL": "Tapiskan perbualan"
   }
 }

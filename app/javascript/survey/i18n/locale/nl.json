@@ -1,19 +1,19 @@
 {
+  "POWERED_BY": "Mogelijk gemaakt door Chatwoot",
   "SURVEY": {
+    "API": {
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw",
+      "SUCCESS_MESSAGE": "Enquête succesvol bijgewerkt"
+    },
     "DESCRIPTION": "Beste klant 👋, neem even de tijd om feedback te delen over het gesprek dat u met %{inboxName} hebt gehad.",
+    "FEEDBACK": {
+      "BUTTON_TEXT": "Feedback verzenden",
+      "LABEL": "Heb je ideeën die je zou willen delen?",
+      "PLACEHOLDER": "Jouw feedback (optioneel)"
+    },
     "RATING": {
       "LABEL": "Beoordeel uw gesprek",
       "SUCCESS_MESSAGE": "Bedankt voor het indienen van een beoordeling"
-    },
-    "FEEDBACK": {
-      "LABEL": "Heb je ideeën die je zou willen delen?",
-      "PLACEHOLDER": "Jouw feedback (optioneel)",
-      "BUTTON_TEXT": "Feedback verzenden"
-    },
-    "API": {
-      "SUCCESS_MESSAGE": "Enquête succesvol bijgewerkt",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
     }
-  },
-  "POWERED_BY": "Mogelijk gemaakt door Chatwoot"
+  }
 }

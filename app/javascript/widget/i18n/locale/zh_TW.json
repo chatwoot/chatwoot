@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "與我們對話"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "無效的欄位"
+    }
+  },
+  "CHAT_PLACEHOLDER": "輸入你的訊息",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "下載",
@@ -8,89 +17,80 @@
       "SUBMIT": "送出"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "重新發送訊息",
-      "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
+      "ERROR_MESSAGE": "無法傳送！請重新嘗試。",
+      "RETRY": "重新發送訊息"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "我們在線上",
-    "OFFLINE": "我們目前不在線上"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆",
-    "IN_A_FEW_HOURS": "通常在幾小時內回覆",
-    "IN_A_DAY": "通常在一天內回覆"
-  },
-  "START_CONVERSATION": "開始對話",
-  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "繼續對話",
-  "START_NEW_CONVERSATION": "開始一個新對話",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "查看新訊息",
-    "CLOSE_MESSAGES_BUTTON": "關閉",
-    "COMPANY_FROM": "from",
-    "BOT": "機器人"
+  "CSAT": {
+    "PLACEHOLDER": "告訴我們更多...",
+    "SUBMITTED_TITLE": "感謝您提交的評分",
+    "TITLE": "為此對話評分"
   },
-  "BUBBLE": {
-    "LABEL": "與我們對話"
+  "EMAIL_PLACEHOLDER": "請輸入您的電子信箱",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "請求對話記錄",
+    "SEND_EMAIL_ERROR": "出現錯誤，請重試",
+    "SEND_EMAIL_SUCCESS": "對話記錄已成功發送"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "End Conversation",
+  "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "請輸入您的電子信箱",
-  "CHAT_PLACEHOLDER": "輸入你的訊息",
-  "TODAY": "今天",
-  "YESTERDAY": "昨天",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "聯絡人姓名",
-        "PLACEHOLDER": "請輸入您的完整姓名",
-        "REQUIRED_ERROR": "姓名為必填"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "電子信箱地址",
         "PLACEHOLDER": "請輸入你的 Email",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "請輸入一個有效的電子信箱"
       },
+      "FULL_NAME": {
+        "LABEL": "聯絡人姓名",
+        "PLACEHOLDER": "請輸入您的完整姓名",
+        "REQUIRED_ERROR": "姓名為必填"
+      },
+      "MESSAGE": {
+        "ERROR": "訊息過短",
+        "LABEL": "訊息",
+        "PLACEHOLDER": "請輸入你的訊息"
+      },
       "PHONE_NUMBER": {
         "LABEL": "聯絡人電話",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "訊息",
-        "PLACEHOLDER": "請輸入你的訊息",
-        "ERROR": "訊息過短"
       }
     },
-    "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "無效的欄位"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "通常在一天內回覆",
+    "IN_A_FEW_HOURS": "通常在幾小時內回覆",
+    "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "開始對話",
+  "START_NEW_CONVERSATION": "開始一個新對話",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "我們目前不在線上",
+    "ONLINE": "我們在線上"
   },
-  "CSAT": {
-    "TITLE": "為此對話評分",
-    "SUBMITTED_TITLE": "感謝您提交的評分",
-    "PLACEHOLDER": "告訴我們更多..."
+  "TODAY": "今天",
+  "UNREAD_VIEW": {
+    "BOT": "機器人",
+    "CLOSE_MESSAGES_BUTTON": "關閉",
+    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "查看新訊息"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "請求對話記錄",
-    "SEND_EMAIL_SUCCESS": "對話記錄已成功發送",
-    "SEND_EMAIL_ERROR": "出現錯誤，請重試"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "昨天"
 }

@@ -1,50 +1,50 @@
 {
-    "CONTACTS_FILTER": {
-        "TITLE": "Filtriraj kontakte",
-        "SUBTITLE": "Dodajte filtere ispod i kliknite na 'Primeni' da bi ste flitrirali kontakte.",
-        "ADD_NEW_FILTER": "Dodajte filter",
-        "CLEAR_ALL_FILTERS": "Ukloni sve filtere",
-        "FILTER_DELETE_ERROR": "Trebali bi da imate barem jedan filter da bi ste ga sačuvali",
-        "SUBMIT_BUTTON_LABEL": "Pošalji",
-        "CANCEL_BUTTON_LABEL": "Otkaži",
-        "CLEAR_BUTTON_LABEL": "Poništite filtere",
-        "EMPTY_VALUE_ERROR": "Vrednost je neophodna",
-        "TOOLTIP_LABEL": "Filtriraj kontakte",
-        "QUERY_DROPDOWN_LABELS": {
-            "AND": "I",
-            "OR": "ILI"
-        },
-        "OPERATOR_LABELS": {
-            "equal_to": "Jednako sa",
-            "not_equal_to": "Nije jednako sa",
-            "contains": "Sadrži",
-            "does_not_contain": "Ne sadrži",
-            "is_present": "Postoji",
-            "is_not_present": "Ne postoji",
-            "is_greater_than": "Veće je od",
-            "is_lesser_than": "Je manje od",
-            "days_before": "Je x dana pre"
-        },
-        "ATTRIBUTES": {
-            "NAME": "Ime",
-            "EMAIL": "E-pošta",
-            "PHONE_NUMBER": "Broj telefona",
-            "IDENTIFIER": "Identifikator",
-            "CITY": "Grad",
-            "COUNTRY": "Država",
-            "CUSTOM_ATTRIBUTE_LIST": "Lista",
-            "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
-            "CUSTOM_ATTRIBUTE_LINK": "Veza",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
-            "CREATED_AT": "Kreirano",
-            "LAST_ACTIVITY": "Poslednja aktivnost",
-            "REFERER_LINK": "Veza preporuke"
-        },
-        "GROUPS": {
-            "STANDARD_FILTERS": "Standardni filteri",
-            "ADDITIONAL_FILTERS": "Dodatni filteri",
-            "CUSTOM_ATTRIBUTES": "Prilagođeni atributi"
-        }
-    }
+  "CONTACTS_FILTER": {
+    "ADD_NEW_FILTER": "Dodajte filter",
+    "ATTRIBUTES": {
+      "CITY": "Grad",
+      "COUNTRY": "Država",
+      "CREATED_AT": "Kreirano",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
+      "CUSTOM_ATTRIBUTE_LINK": "Veza",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "EMAIL": "E-pošta",
+      "IDENTIFIER": "Identifikator",
+      "LAST_ACTIVITY": "Poslednja aktivnost",
+      "NAME": "Ime",
+      "PHONE_NUMBER": "Broj telefona",
+      "REFERER_LINK": "Veza preporuke"
+    },
+    "CANCEL_BUTTON_LABEL": "Otkaži",
+    "CLEAR_ALL_FILTERS": "Ukloni sve filtere",
+    "CLEAR_BUTTON_LABEL": "Poništite filtere",
+    "EMPTY_VALUE_ERROR": "Vrednost je neophodna",
+    "FILTER_DELETE_ERROR": "Trebali bi da imate barem jedan filter da bi ste ga sačuvali",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Dodatni filteri",
+      "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
+      "STANDARD_FILTERS": "Standardni filteri"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Sadrži",
+      "days_before": "Je x dana pre",
+      "does_not_contain": "Ne sadrži",
+      "equal_to": "Jednako sa",
+      "is_greater_than": "Veće je od",
+      "is_lesser_than": "Je manje od",
+      "is_not_present": "Ne postoji",
+      "is_present": "Postoji",
+      "not_equal_to": "Nije jednako sa"
+    },
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "I",
+      "OR": "ILI"
+    },
+    "SUBMIT_BUTTON_LABEL": "Pošalji",
+    "SUBTITLE": "Dodajte filtere ispod i kliknite na 'Primeni' da bi ste flitrirali kontakte.",
+    "TITLE": "Filtriraj kontakte",
+    "TOOLTIP_LABEL": "Filtriraj kontakte"
+  }
 }

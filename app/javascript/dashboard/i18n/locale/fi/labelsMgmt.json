@@ -1,70 +1,70 @@
 {
   "LABEL_MGMT": {
+    "ADD": {
+      "API": {
+        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen",
+        "SUCCESS_MESSAGE": "Tunniste lisätty onnistuneesti"
+      },
+      "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
+      "TITLE": "Lisää tunniste"
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen",
+        "SUCCESS_MESSAGE": "Tunniste poistettu onnistuneesti"
+      },
+      "BUTTON_TEXT": "Poista",
+      "CONFIRM": {
+        "MESSAGE": "Oletko varma että haluat poistaa ",
+        "NO": "Ei, säilytä ",
+        "TITLE": "Vahvista poistaminen",
+        "YES": "Kyllä, poista "
+      }
+    },
+    "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen",
+        "SUCCESS_MESSAGE": "Tunniste päivitetty onnistuneesti"
+      },
+      "TITLE": "Muokkaa tunnistetta"
+    },
+    "FORM": {
+      "CANCEL": "Peruuta",
+      "COLOR": {
+        "LABEL": "Väri"
+      },
+      "CREATE": "Luo",
+      "DELETE": "Poista",
+      "DESCRIPTION": {
+        "LABEL": "Kuvaus",
+        "PLACEHOLDER": "Tunnisteen kuvaus"
+      },
+      "EDIT": "Muokkaa",
+      "NAME": {
+        "LABEL": "Tunnisteen nimi",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "PLACEHOLDER": "Tunnisteen nimi",
+        "REQUIRED_ERROR": "Label name is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Näytä tunniste sivupalkissa"
+      }
+    },
     "HEADER": "Tunnisteet",
     "HEADER_BTN_TXT": "Lisää tunniste",
-    "LOADING": "Haetaan tunnisteita",
-    "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
-    "SIDEBAR_TXT": "<p><b>Tunnisteet</b> <p>Tunnisteet auttavat sinua luokittelemaan keskustelut ja priorisoimaan ne. Voit määrittää tunnisteen keskusteluun sivupaneelista.<br /><br />Tunnisteet ovat sidottuja tiliin ja niitä voidaan käyttää luomaan mukautettuja työnkulkuja organisaatiollesi. Voit määrittää oman värin tunnisteeseen, mikä helpottaa tunnisteen tunnistamista. Voit näyttää otsikon sivupalkissa, jotta voit suodattaa keskustelut helposti.</p>",
     "LIST": {
       "404": "Tällä tilillä ei ole tunnisteita.",
-      "TITLE": "Hallitse tunnisteita",
       "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
       "TABLE_HEADER": [
         "Nimi",
         "Kuvaus",
         "Väri"
-      ]
+      ],
+      "TITLE": "Hallitse tunnisteita"
     },
-    "FORM": {
-      "NAME": {
-        "LABEL": "Tunnisteen nimi",
-        "PLACEHOLDER": "Tunnisteen nimi",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
-      },
-      "DESCRIPTION": {
-        "LABEL": "Kuvaus",
-        "PLACEHOLDER": "Tunnisteen kuvaus"
-      },
-      "COLOR": {
-        "LABEL": "Väri"
-      },
-      "SHOW_ON_SIDEBAR": {
-        "LABEL": "Näytä tunniste sivupalkissa"
-      },
-      "EDIT": "Muokkaa",
-      "CREATE": "Luo",
-      "DELETE": "Poista",
-      "CANCEL": "Peruuta"
-    },
-    "ADD": {
-      "TITLE": "Lisää tunniste",
-      "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
-      "API": {
-        "SUCCESS_MESSAGE": "Tunniste lisätty onnistuneesti",
-        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
-      }
-    },
-    "EDIT": {
-      "TITLE": "Muokkaa tunnistetta",
-      "API": {
-        "SUCCESS_MESSAGE": "Tunniste päivitetty onnistuneesti",
-        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
-      }
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Poista",
-      "API": {
-        "SUCCESS_MESSAGE": "Tunniste poistettu onnistuneesti",
-        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
-      },
-      "CONFIRM": {
-        "TITLE": "Vahvista poistaminen",
-        "MESSAGE": "Oletko varma että haluat poistaa ",
-        "YES": "Kyllä, poista ",
-        "NO": "Ei, säilytä "
-      }
-    }
+    "LOADING": "Haetaan tunnisteita",
+    "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
+    "SIDEBAR_TXT": "<p><b>Tunnisteet</b> <p>Tunnisteet auttavat sinua luokittelemaan keskustelut ja priorisoimaan ne. Voit määrittää tunnisteen keskusteluun sivupaneelista.<br /><br />Tunnisteet ovat sidottuja tiliin ja niitä voidaan käyttää luomaan mukautettuja työnkulkuja organisaatiollesi. Voit määrittää oman värin tunnisteeseen, mikä helpottaa tunnisteen tunnistamista. Voit näyttää otsikon sivupalkissa, jotta voit suodattaa keskustelut helposti.</p>"
   }
 }

@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "채팅하기"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CHAT_PLACEHOLDER": "메시지 입력",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "다운로드",
@@ -8,89 +17,80 @@
       "SUBMIT": "보내기"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "ERROR_MESSAGE": "Couldn't send, try again",
+      "RETRY": "Send message again"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "온라인",
-    "OFFLINE": "부재중"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
-    "IN_A_FEW_HOURS": "보통 몇 시간 내에 응답",
-    "IN_A_DAY": "보통 하루 안에 응답"
-  },
-  "START_CONVERSATION": "대화 시작",
-  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "새 메시지 보기",
-    "CLOSE_MESSAGES_BUTTON": "닫기",
-    "COMPANY_FROM": "from",
-    "BOT": "봇"
+  "CSAT": {
+    "PLACEHOLDER": "Tell us more...",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "TITLE": "Rate your conversation"
   },
-  "BUBBLE": {
-    "LABEL": "채팅하기"
+  "EMAIL_PLACEHOLDER": "이메일을 입력해주세요.",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_ERROR": "오류가 발생했습니다. 다시 시도하십시오.",
+    "SEND_EMAIL_SUCCESS": "대화 내용이 성공적으로 전송됨"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "End Conversation",
+  "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Chatwoot 작동중",
-  "EMAIL_PLACEHOLDER": "이메일을 입력해주세요.",
-  "CHAT_PLACEHOLDER": "메시지 입력",
-  "TODAY": "오늘",
-  "YESTERDAY": "어제",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "전체 이름",
-        "PLACEHOLDER": "전체 이름을 입력하십시오.",
-        "REQUIRED_ERROR": "Full Name is required"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "이메일 주소",
         "PLACEHOLDER": "이메일을 입력해주세요.",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "올바른 전자 메일 주소를 입력하십시오."
       },
+      "FULL_NAME": {
+        "LABEL": "전체 이름",
+        "PLACEHOLDER": "전체 이름을 입력하십시오.",
+        "REQUIRED_ERROR": "Full Name is required"
+      },
+      "MESSAGE": {
+        "ERROR": "너무 짧은 메시지",
+        "LABEL": "메시지",
+        "PLACEHOLDER": "메시지를 입력해 주세요."
+      },
       "PHONE_NUMBER": {
         "LABEL": "전화 번호",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "메시지",
-        "PLACEHOLDER": "메시지를 입력해 주세요.",
-        "ERROR": "너무 짧은 메시지"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Invalid field"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "보통 하루 안에 응답",
+    "IN_A_FEW_HOURS": "보통 몇 시간 내에 응답",
+    "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "대화 시작",
+  "START_NEW_CONVERSATION": "Start a new conversation",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "부재중",
+    "ONLINE": "온라인"
   },
-  "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+  "TODAY": "오늘",
+  "UNREAD_VIEW": {
+    "BOT": "봇",
+    "CLOSE_MESSAGES_BUTTON": "닫기",
+    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "새 메시지 보기"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "대화 내용이 성공적으로 전송됨",
-    "SEND_EMAIL_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "어제"
 }

@@ -1,21 +1,32 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Crea un nuovo team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams ti permette di organizzare i tuoi agenti in gruppi in base alle loro responsabilità. <br /> Un agente può far parte di più team. È possibile assegnare conversazioni a un team quando si lavora in collaborazione. </p>",
-    "LIST": {
-      "404": "Non ci sono team creati su questo account.",
-      "EDIT_TEAM": "Modifica team"
+    "ADD": {
+      "AGENT_VALIDATION_ERROR": "Seleziona almeno un agente.",
+      "BUTTON_TEXT": "Aggiungi agenti",
+      "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione.",
+      "SELECT": "seleziona",
+      "SELECTED_COUNT": "%{selected} su %{total} agenti selezionati.",
+      "SELECT_ALL": "seleziona tutti gli agenti",
+      "TITLE": "Aggiungi agenti al team - %{teamName}"
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Aggiunta di agenti al tuo team...",
+      "AGENT": "AGENTE",
+      "BUTTON_TEXT": "Aggiungi agenti",
+      "EMAIL": "EMAIL",
+      "SELECT": "seleziona",
+      "SELECTED_COUNT": "%{selected} su %{total} agenti selezionati.",
+      "SELECT_ALL": "seleziona tutti gli agenti"
     },
     "CREATE_FLOW": {
-      "CREATE": {
-        "TITLE": "Crea un nuovo team",
-        "DESC": "Aggiungi un titolo e una descrizione al tuo nuovo team."
-      },
       "AGENTS": {
         "BUTTON_TEXT": "Aggiungi agenti al team",
-        "TITLE": "Aggiungi agenti al team - %{teamName}",
-        "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione."
+        "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione.",
+        "TITLE": "Aggiungi agenti al team - %{teamName}"
+      },
+      "CREATE": {
+        "DESC": "Aggiungi un titolo e una descrizione al tuo nuovo team.",
+        "TITLE": "Crea un nuovo team"
       },
       "WIZARD": [
         {
@@ -35,16 +46,30 @@
         }
       ]
     },
-    "EDIT_FLOW": {
-      "CREATE": {
-        "TITLE": "Modifica i dettagli del tuo team",
-        "DESC": "Modifica titolo e descrizione del tuo team.",
-        "BUTTON_TEXT": "Aggiorna il team"
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Impossibile eliminare il team. Riprova.",
+        "SUCCESS_MESSAGE": "Team eliminato con successo."
       },
+      "BUTTON_TEXT": "Elimina",
+      "CONFIRM": {
+        "MESSAGE": "L'eliminazione del team rimuoverà l'assegnazione del team dalle conversazioni assegnate a questo team.",
+        "NO": "Annulla",
+        "PLACE_HOLDER": "Digita {teamName} per confermare",
+        "TITLE": "Sei sicuro di voler eliminare - %{teamName}",
+        "YES": "Elimina "
+      }
+    },
+    "EDIT_FLOW": {
       "AGENTS": {
         "BUTTON_TEXT": "Aggiorna agenti nel team",
-        "TITLE": "Aggiungi agenti al team - %{teamName}",
-        "DESC": "Aggiungi agenti al tuo team appena creato. Tutti gli agenti aggiunti verranno avvisati quando una conversazione viene assegnata a questo team."
+        "DESC": "Aggiungi agenti al tuo team appena creato. Tutti gli agenti aggiunti verranno avvisati quando una conversazione viene assegnata a questo team.",
+        "TITLE": "Aggiungi agenti al team - %{teamName}"
+      },
+      "CREATE": {
+        "BUTTON_TEXT": "Aggiorna il team",
+        "DESC": "Modifica titolo e descrizione del tuo team.",
+        "TITLE": "Modifica i dettagli del tuo team"
       },
       "WIZARD": [
         {
@@ -64,62 +89,37 @@
         }
       ]
     },
-    "TEAM_FORM": {
-      "ERROR_MESSAGE": "Impossibile salvare i dettagli del team. Riprova."
-    },
-    "AGENTS": {
-      "AGENT": "AGENTE",
-      "EMAIL": "EMAIL",
-      "BUTTON_TEXT": "Aggiungi agenti",
-      "ADD_AGENTS": "Aggiunta di agenti al tuo team...",
-      "SELECT": "seleziona",
-      "SELECT_ALL": "seleziona tutti gli agenti",
-      "SELECTED_COUNT": "%{selected} su %{total} agenti selezionati."
-    },
-    "ADD": {
-      "TITLE": "Aggiungi agenti al team - %{teamName}",
-      "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione.",
-      "SELECT": "seleziona",
-      "SELECT_ALL": "seleziona tutti gli agenti",
-      "SELECTED_COUNT": "%{selected} su %{total} agenti selezionati.",
-      "BUTTON_TEXT": "Aggiungi agenti",
-      "AGENT_VALIDATION_ERROR": "Seleziona almeno un agente."
-    },
     "FINISH": {
-      "TITLE": "Il tuo team è pronto!",
+      "BUTTON_TEXT": "Termina",
       "MESSAGE": "Ora puoi collaborare come team sulle conversazioni. Buon supporto ",
-      "BUTTON_TEXT": "Termina"
+      "TITLE": "Il tuo team è pronto!"
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Elimina",
-      "API": {
-        "SUCCESS_MESSAGE": "Team eliminato con successo.",
-        "ERROR_MESSAGE": "Impossibile eliminare il team. Riprova."
-      },
-      "CONFIRM": {
-        "TITLE": "Sei sicuro di voler eliminare - %{teamName}",
-        "PLACE_HOLDER": "Digita {teamName} per confermare",
-        "MESSAGE": "L'eliminazione del team rimuoverà l'assegnazione del team dalle conversazioni assegnate a questo team.",
-        "YES": "Elimina ",
-        "NO": "Annulla"
-      }
-    },
-    "SETTINGS": "Impostazioni",
     "FORM": {
-      "UPDATE": "Aggiorna il team",
-      "CREATE": "Crea un nuovo team",
-      "NAME": {
-        "LABEL": "Nome del team",
-        "PLACEHOLDER": "Esempio: Vendite, Assistenza clienti"
+      "AUTO_ASSIGN": {
+        "LABEL": "Consenti l'assegnazione automatica per questo team."
       },
+      "CREATE": "Crea un nuovo team",
       "DESCRIPTION": {
         "LABEL": "Descrizione team",
         "PLACEHOLDER": "Breve descrizione di questo team."
       },
-      "AUTO_ASSIGN": {
-        "LABEL": "Consenti l'assegnazione automatica per questo team."
+      "NAME": {
+        "LABEL": "Nome del team",
+        "PLACEHOLDER": "Esempio: Vendite, Assistenza clienti"
       },
-      "SUBMIT_CREATE": "Crea un nuovo team"
+      "SUBMIT_CREATE": "Crea un nuovo team",
+      "UPDATE": "Aggiorna il team"
+    },
+    "HEADER": "Teams",
+    "LIST": {
+      "404": "Non ci sono team creati su questo account.",
+      "EDIT_TEAM": "Modifica team"
+    },
+    "NEW_TEAM": "Crea un nuovo team",
+    "SETTINGS": "Impostazioni",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams ti permette di organizzare i tuoi agenti in gruppi in base alle loro responsabilità. <br /> Un agente può far parte di più team. È possibile assegnare conversazioni a un team quando si lavora in collaborazione. </p>",
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Impossibile salvare i dettagli del team. Riprova."
     }
   }
 }

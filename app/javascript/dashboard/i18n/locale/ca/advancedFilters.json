@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Filtre de converses",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
     "ADD_NEW_FILTER": "Afegeix filtre",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Aplicar filtres",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Assignee Name",
+      "BROWSER_LANGUAGE": "Browser Language",
+      "CAMPAIGN_NAME": "Campaign Name",
+      "CONVERSATION_IDENTIFIER": "Identificador de la conversa",
+      "COUNTRY_NAME": "Nom del país",
+      "CREATED_AT": "Created At",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_TEXT": "Llista",
+      "INBOX_NAME": "Nom de la safata d'entrada",
+      "LABELS": "Etiquetes",
+      "LAST_ACTIVITY": "Last Activity",
+      "REFERER_LINK": "Referer link",
+      "STATUS": "Estat",
+      "TEAM_NAME": "Nom de l'equip"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "Fals",
+      "TRUE": "Cert"
+    },
     "CANCEL_BUTTON_LABEL": "Cancel·la",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Error while creating folder",
+          "SUCCESS_MESSAGE": "Folder created successfully"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Error while creating segment",
+          "SUCCESS_MESSAGE": "Segment created successfully"
+        },
+        "CANCEL_BUTTON": "Cancel·la",
+        "ERROR_MESSAGE": "Name is required",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Enter a name for this filter",
+        "SAVE_BUTTON": "Save filter",
+        "TITLE": "Do you want to save this filter?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Error while deleting folder",
+          "SUCCESS_MESSAGE": "Folder deleted successfully"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Error while deleting segment",
+          "SUCCESS_MESSAGE": "Segment deleted successfully"
+        },
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "Are you sure to delete the filter ",
+            "NO": "No, manten-la",
+            "TITLE": "Confirma l'esborrat",
+            "YES": "Si, esborra"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "El valor és necessari",
-    "TOOLTIP_LABEL": "Filtre de converses",
+    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
+      "STANDARD_FILTERS": "Standard Filters"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Conté",
+      "days_before": "Is x days before",
+      "does_not_contain": "No conté",
+      "equal_to": "Igual a",
+      "is_greater_than": "És més gran que",
+      "is_less_than": "És més petit que",
+      "is_not_present": "No és present",
+      "is_present": "És present",
+      "not_equal_to": "No és igual a"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "I",
       "OR": "O"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "Igual a",
-      "not_equal_to": "No és igual a",
-      "contains": "Conté",
-      "does_not_contain": "No conté",
-      "is_present": "És present",
-      "is_not_present": "No és present",
-      "is_greater_than": "És més gran que",
-      "is_less_than": "És més petit que",
-      "days_before": "Is x days before"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "Cert",
-      "FALSE": "Fals"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "Estat",
-      "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Nom de la safata d'entrada",
-      "TEAM_NAME": "Nom de l'equip",
-      "CONVERSATION_IDENTIFIER": "Identificador de la conversa",
-      "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Etiquetes",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Nom del país",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Llista",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
-      "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
-      "CUSTOM_ATTRIBUTES": "Atributs personalitzats"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
-        "CANCEL_BUTTON": "Cancel·la",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "Confirma l'esborrat",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Si, esborra",
-            "NO": "No, manten-la"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "Aplicar filtres",
+    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "TITLE": "Filtre de converses",
+    "TOOLTIP_LABEL": "Filtre de converses"
   }
 }

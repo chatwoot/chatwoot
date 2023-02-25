@@ -1,6 +1,6 @@
 {
   "EMOJI": {
-    "PLACEHOLDER": "Meklēt emocijzīmes",
-    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam"
+    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam",
+    "PLACEHOLDER": "Meklēt emocijzīmes"
   }
 }

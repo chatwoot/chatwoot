@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "טוען שיחות",
-    "LOAD_MORE_CONVERSATIONS": "טען עוד שיחות",
-    "EOF": "כל השיחות נטענו 🎉",
-    "LIST": {
-      "404": "אין שיחות פעילות בקבוצה הזו."
-    },
-    "TAB_HEADING": "שיחות",
-    "MENTION_HEADING": "אִזְכּוּרים",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "חפש אנשים, צ'אטים, תגובות שמורות .."
-    },
-    "FILTER_ALL": "הכל",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "הכל",
       "me": "שלי",
-      "unassigned": "לא הוקצתה",
-      "all": "הכל"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "פתח"
-      },
-      "resolved": {
-        "TEXT": "נפתרה"
-      },
-      "pending": {
-        "TEXT": "ממתין ל"
-      },
-      "snoozed": {
-        "TEXT": "נימנום"
-      },
-      "all": {
-        "TEXT": "הכל"
-      }
+      "unassigned": "לא הוקצתה"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "הודעת תמונה"
-      },
       "audio": {
         "CONTENT": "הודעות קוליות"
       },
-      "video": {
-        "CONTENT": "הודעות וידאו"
+      "fallback": {
+        "CONTENT": "שיתף קישור"
       },
       "file": {
         "CONTENT": "קובץ מצורף"
       },
+      "image": {
+        "CONTENT": "הודעת תמונה"
+      },
       "location": {
         "CONTENT": "מיקום"
       },
-      "fallback": {
-        "CONTENT": "שיתף קישור"
+      "video": {
+        "CONTENT": "הודעות וידאו"
       }
     },
-    "RECEIVED_VIA_EMAIL": "התקבל בדואר אלקטרוני",
-    "VIEW_TWEET_IN_TWITTER": "צפה בציוץ בטוויטר",
-    "REPLY_TO_TWEET": "הגב לציוץ זה",
-    "LINK_TO_STORY": "מעבר לסטורי באינסטגרם",
-    "SENT": "נשלח בהצלחה",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "הכל"
+      },
+      "open": {
+        "TEXT": "פתח"
+      },
+      "pending": {
+        "TEXT": "ממתין ל"
+      },
+      "resolved": {
+        "TEXT": "נפתרה"
+      },
+      "snoozed": {
+        "TEXT": "נימנום"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "אין הודעות",
-    "NO_CONTENT": "אין תוכן זמין",
+    "EOF": "כל השיחות נטענו 🎉",
+    "FILTER_ALL": "הכל",
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
+    "LINK_TO_STORY": "מעבר לסטורי באינסטגרם",
+    "LIST": {
+      "404": "אין שיחות פעילות בקבוצה הזו."
+    },
+    "LOADING": "טוען שיחות",
+    "LOAD_MORE_CONVERSATIONS": "טען עוד שיחות",
+    "MENTION_HEADING": "אִזְכּוּרים",
+    "MESSAGE_READ": "קרא",
+    "NO_CONTENT": "אין תוכן זמין",
+    "NO_MESSAGES": "אין הודעות",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "התקבל בדואר אלקטרוני",
+    "REPLY_TO_TWEET": "הגב לציוץ זה",
+    "SEARCH": {
+      "INPUT": "חפש אנשים, צ'אטים, תגובות שמורות .."
+    },
+    "SENT": "נשלח בהצלחה",
     "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
-    "MESSAGE_READ": "קרא"
+    "TAB_HEADING": "שיחות",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "צפה בציוץ בטוויטר"
   }
 }

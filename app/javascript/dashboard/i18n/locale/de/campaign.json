@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
+    "ADD": {
+      "API": {
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut.",
+        "SUCCESS_MESSAGE": "Kampagne erfolgreich erstellt"
+      },
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
+      "CREATE_BUTTON_TEXT": "Erstellen",
+      "DESC": "Proaktive Nachrichten ermöglichen es dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, die mehr Konversationen auslösen würden.",
+      "FORM": {
+        "AUDIENCE": {
+          "ERROR": "Zielgruppe ist erforderlich",
+          "LABEL": "Zielgruppe",
+          "PLACEHOLDER": "Kunden-Labels auswählen"
+        },
+        "ENABLED": "Kampagne aktivieren",
+        "END_POINT": {
+          "ERROR": "Bitte geben Sie eine gültige URL ein",
+          "LABEL": "URL",
+          "PLACEHOLDER": "Bitte URL eingeben"
+        },
+        "INBOX": {
+          "ERROR": "Posteingang ist erforderlich",
+          "LABEL": "Posteingang auswählen",
+          "PLACEHOLDER": "Posteingang auswählen"
+        },
+        "MESSAGE": {
+          "ERROR": "Nachricht ist erforderlich",
+          "LABEL": "Nachricht",
+          "PLACEHOLDER": "Bitte geben Sie die Nachricht der Kampagne ein"
+        },
+        "SCHEDULED_AT": {
+          "CONFIRM": "Bestätigen",
+          "ERROR": "Geplante Zeit ist erforderlich",
+          "LABEL": "Geplanter Zeitpunkt",
+          "PLACEHOLDER": "Bitte wählen Sie die Zeit"
+        },
+        "SENT_BY": {
+          "ERROR": "Absender ist erforderlich",
+          "LABEL": "Gesendet von",
+          "PLACEHOLDER": "Bitte wählen Sie den Inhalt der Kampagne aus"
+        },
+        "SUBMIT": "Kampagne hinzufügen",
+        "TIME_ON_PAGE": {
+          "ERROR": "Uhrzeit auf Seite ist erforderlich",
+          "LABEL": "Zeit auf Seite (Sekunden)",
+          "PLACEHOLDER": "Bitte die Uhrzeit eingeben"
+        },
+        "TITLE": {
+          "ERROR": "Titel ist erforderlich",
+          "LABEL": "Titel",
+          "PLACEHOLDER": "Bitte geben Sie den Titel der Kampagne ein"
+        },
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Nur während Geschäftszeiten auslösen"
+      },
+      "TITLE": "Kampagne erstellen"
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Die Kampagne konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal.",
+        "SUCCESS_MESSAGE": "Kampagne erfolgreich gelöscht"
+      },
+      "BUTTON_TEXT": "Löschen",
+      "CONFIRM": {
+        "MESSAGE": "Sind Sie sicher, dass Sie das löschen möchten?",
+        "NO": "Nein, behalten ",
+        "TITLE": "Löschung bestätigen",
+        "YES": "Ja, löschen "
+      }
+    },
+    "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
+        "SUCCESS_MESSAGE": "Kampagne erfolgreich aktualisiert"
+      },
+      "TITLE": "Kampagne bearbeiten",
+      "UPDATE_BUTTON_TEXT": "Aktualisieren"
+    },
     "HEADER": "Kampagnen",
-    "SIDEBAR_TXT": "Proaktive Nachrichten ermöglichen es dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, die mehr Gespräche auslösen würden. Klicken Sie auf <b>Kampagne hinzufügen</b>, um eine neue Kampagne zu erstellen. Sie können eine bestehende Kampagne auch bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.",
     "HEADER_BTN_TXT": {
       "ONE_OFF": "Eine einmalige Kampagne erstellen",
       "ONGOING": "Eine laufende Kampagne erstellen"
     },
-    "ADD": {
-      "TITLE": "Kampagne erstellen",
-      "DESC": "Proaktive Nachrichten ermöglichen es dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, die mehr Konversationen auslösen würden.",
-      "CANCEL_BUTTON_TEXT": "Abbrechen",
-      "CREATE_BUTTON_TEXT": "Erstellen",
-      "FORM": {
-        "TITLE": {
-          "LABEL": "Titel",
-          "PLACEHOLDER": "Bitte geben Sie den Titel der Kampagne ein",
-          "ERROR": "Titel ist erforderlich"
-        },
-        "SCHEDULED_AT": {
-          "LABEL": "Geplanter Zeitpunkt",
-          "PLACEHOLDER": "Bitte wählen Sie die Zeit",
-          "CONFIRM": "Bestätigen",
-          "ERROR": "Geplante Zeit ist erforderlich"
-        },
-        "AUDIENCE": {
-          "LABEL": "Zielgruppe",
-          "PLACEHOLDER": "Kunden-Labels auswählen",
-          "ERROR": "Zielgruppe ist erforderlich"
-        },
-        "INBOX": {
-          "LABEL": "Posteingang auswählen",
-          "PLACEHOLDER": "Posteingang auswählen",
-          "ERROR": "Posteingang ist erforderlich"
-        },
-        "MESSAGE": {
-          "LABEL": "Nachricht",
-          "PLACEHOLDER": "Bitte geben Sie die Nachricht der Kampagne ein",
-          "ERROR": "Nachricht ist erforderlich"
-        },
-        "SENT_BY": {
-          "LABEL": "Gesendet von",
-          "PLACEHOLDER": "Bitte wählen Sie den Inhalt der Kampagne aus",
-          "ERROR": "Absender ist erforderlich"
-        },
-        "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Bitte URL eingeben",
-          "ERROR": "Bitte geben Sie eine gültige URL ein"
-        },
-        "TIME_ON_PAGE": {
-          "LABEL": "Zeit auf Seite (Sekunden)",
-          "PLACEHOLDER": "Bitte die Uhrzeit eingeben",
-          "ERROR": "Uhrzeit auf Seite ist erforderlich"
-        },
-        "ENABLED": "Kampagne aktivieren",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Nur während Geschäftszeiten auslösen",
-        "SUBMIT": "Kampagne hinzufügen"
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Kampagne erfolgreich erstellt",
-        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
-      }
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Löschen",
-      "CONFIRM": {
-        "TITLE": "Löschung bestätigen",
-        "MESSAGE": "Sind Sie sicher, dass Sie das löschen möchten?",
-        "YES": "Ja, löschen ",
-        "NO": "Nein, behalten "
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Kampagne erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Die Kampagne konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal."
-      }
-    },
-    "EDIT": {
-      "TITLE": "Kampagne bearbeiten",
-      "UPDATE_BUTTON_TEXT": "Aktualisieren",
-      "API": {
-        "SUCCESS_MESSAGE": "Kampagne erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
-      }
-    },
     "LIST": {
-      "LOADING_MESSAGE": "Lade Kampagnen...",
       "404": "Es wurden keine Kampagnen für diesen Posteingang erstellt.",
-      "TABLE_HEADER": {
-        "TITLE": "Titel",
-        "MESSAGE": "Nachricht",
-        "INBOX": "Posteingang",
-        "STATUS": "Status",
-        "SENDER": "Absender",
-        "URL": "URL",
-        "SCHEDULED_AT": "Geplanter Zeitpunkt",
-        "TIME_ON_PAGE": "Zeit (Sekunden)",
-        "CREATED_AT": "Erstellt am"
-      },
       "BUTTONS": {
         "ADD": "Hinzufügen",
-        "EDIT": "Bearbeiten",
-        "DELETE": "Löschen"
+        "DELETE": "Löschen",
+        "EDIT": "Bearbeiten"
       },
-      "STATUS": {
-        "ENABLED": "Aktiviert",
-        "DISABLED": "Deaktiviert",
-        "COMPLETED": "Erledigt",
-        "ACTIVE": "Aktiv"
-      },
+      "LOADING_MESSAGE": "Lade Kampagnen...",
       "SENDER": {
         "BOT": "Bot"
+      },
+      "STATUS": {
+        "ACTIVE": "Aktiv",
+        "COMPLETED": "Erledigt",
+        "DISABLED": "Deaktiviert",
+        "ENABLED": "Aktiviert"
+      },
+      "TABLE_HEADER": {
+        "CREATED_AT": "Erstellt am",
+        "INBOX": "Posteingang",
+        "MESSAGE": "Nachricht",
+        "SCHEDULED_AT": "Geplanter Zeitpunkt",
+        "SENDER": "Absender",
+        "STATUS": "Status",
+        "TIME_ON_PAGE": "Zeit (Sekunden)",
+        "TITLE": "Titel",
+        "URL": "URL"
       }
     },
     "ONE_OFF": {
-      "HEADER": "Einmalige Kampagne",
       "404": "Keine einmalige Kampagnen",
+      "HEADER": "Einmalige Kampagne",
       "INBOXES_NOT_FOUND": "Bitte erstellen Sie einen SMS-Posteingang und fügen Sie Kampagnen hinzu"
     },
     "ONGOING": {
-      "HEADER": "Laufende Kampagnen",
       "404": "Keine laufende Kampagnen",
+      "HEADER": "Laufende Kampagnen",
       "INBOXES_NOT_FOUND": "Bitte erstellen Sie einen Website-Posteingang und fügen Sie Kampagnen hinzu"
-    }
+    },
+    "SIDEBAR_TXT": "Proaktive Nachrichten ermöglichen es dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, die mehr Gespräche auslösen würden. Klicken Sie auf <b>Kampagne hinzufügen</b>, um eine neue Kampagne zu erstellen. Sie können eine bestehende Kampagne auch bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken."
   }
 }

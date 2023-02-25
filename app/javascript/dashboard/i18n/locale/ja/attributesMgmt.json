@@ -1,99 +1,99 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "カスタム属性",
-    "HEADER_BTN_TXT": "カスタム属性を追加",
-    "LOADING": "カスタム属性が取得中",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "カスタム属性を追加",
-      "SUBMIT": "作成",
+      "API": {
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later.",
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!"
+      },
       "CANCEL_BUTTON_TEXT": "キャンセル",
       "FORM": {
-        "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "名前が必須です"
-        },
         "DESC": {
+          "ERROR": "Description is required",
           "LABEL": "説明",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
-        },
-        "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
-        },
-        "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
-          "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
-          }
+          "PLACEHOLDER": "Enter custom attribute description"
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
           "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "IN_VALID": "Invalid key",
+          "LABEL": "Key",
+          "PLACEHOLDER": "Enter custom attribute key"
+        },
+        "MODEL": {
+          "ERROR": "Model is required",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one"
+        },
+        "NAME": {
+          "ERROR": "名前が必須です",
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter custom attribute display name"
+        },
+        "TYPE": {
+          "ERROR": "Type is required",
+          "LABEL": "Type",
+          "LIST": {
+            "ERROR": "Must have at least one value",
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key"
+          },
+          "PLACEHOLDER": "Please select a type"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
-      }
+      "SUBMIT": "作成",
+      "TITLE": "カスタム属性を追加"
     },
     "DELETE": {
-      "BUTTON_TEXT": "削除",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again.",
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully."
       },
+      "BUTTON_TEXT": "削除",
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "削除 ",
-        "NO": "キャンセル"
+        "NO": "キャンセル",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "YES": "削除 "
       }
     },
     "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again",
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully"
+      },
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "更新",
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",
           "PLACEHOLDER": "Please enter values and press enter key"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
-      }
+      "UPDATE_BUTTON_TEXT": "更新"
     },
-    "TABS": {
-      "HEADER": "カスタム属性",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
-    },
+    "HEADER": "カスタム属性",
+    "HEADER_BTN_TXT": "カスタム属性を追加",
     "LIST": {
+      "BUTTONS": {
+        "DELETE": "削除",
+        "EDIT": "編集"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
+      },
       "TABLE_HEADER": [
         "名前",
         "説明",
         "Type",
         "Key"
-      ],
-      "BUTTONS": {
-        "EDIT": "編集",
-        "DELETE": "削除"
-      },
-      "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
-      }
+      ]
+    },
+    "LOADING": "カスタム属性が取得中",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "TABS": {
+      "CONTACT": "Contact",
+      "CONVERSATION": "Conversation",
+      "HEADER": "カスタム属性"
     }
   }
 }

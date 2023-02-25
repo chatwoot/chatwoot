@@ -1,50 +1,50 @@
 {
-    "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Afegeix filtre",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-        "SUBMIT_BUTTON_LABEL": "Envia",
-        "CANCEL_BUTTON_LABEL": "Cancel·la",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "El valor és necessari",
-        "TOOLTIP_LABEL": "Filter contacts",
-        "QUERY_DROPDOWN_LABELS": {
-            "AND": "I",
-            "OR": "O"
-        },
-        "OPERATOR_LABELS": {
-            "equal_to": "Igual a",
-            "not_equal_to": "No és igual a",
-            "contains": "Conté",
-            "does_not_contain": "No conté",
-            "is_present": "És present",
-            "is_not_present": "No és present",
-            "is_greater_than": "És més gran que",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
-        },
-        "ATTRIBUTES": {
-            "NAME": "Nom",
-            "EMAIL": "Correu electrònic",
-            "PHONE_NUMBER": "Número de telèfon",
-            "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Llista",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Número",
-            "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Last Activity",
-            "REFERER_LINK": "Referrer link"
-        },
-        "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
-            "CUSTOM_ATTRIBUTES": "Atributs personalitzats"
-        }
-    }
+  "CONTACTS_FILTER": {
+    "ADD_NEW_FILTER": "Afegeix filtre",
+    "ATTRIBUTES": {
+      "CITY": "City",
+      "COUNTRY": "Country",
+      "CREATED_AT": "Created At",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_TEXT": "Llista",
+      "EMAIL": "Correu electrònic",
+      "IDENTIFIER": "Identifier",
+      "LAST_ACTIVITY": "Last Activity",
+      "NAME": "Nom",
+      "PHONE_NUMBER": "Número de telèfon",
+      "REFERER_LINK": "Referrer link"
+    },
+    "CANCEL_BUTTON_LABEL": "Cancel·la",
+    "CLEAR_ALL_FILTERS": "Clear All Filters",
+    "CLEAR_BUTTON_LABEL": "Clear Filters",
+    "EMPTY_VALUE_ERROR": "El valor és necessari",
+    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
+      "STANDARD_FILTERS": "Standard Filters"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Conté",
+      "days_before": "Is x days before",
+      "does_not_contain": "No conté",
+      "equal_to": "Igual a",
+      "is_greater_than": "És més gran que",
+      "is_lesser_than": "Is lesser than",
+      "is_not_present": "No és present",
+      "is_present": "És present",
+      "not_equal_to": "No és igual a"
+    },
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "I",
+      "OR": "O"
+    },
+    "SUBMIT_BUTTON_LABEL": "Envia",
+    "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+    "TITLE": "Filter Contacts",
+    "TOOLTIP_LABEL": "Filter contacts"
+  }
 }

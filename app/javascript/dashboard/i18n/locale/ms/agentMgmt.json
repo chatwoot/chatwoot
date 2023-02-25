@@ -1,103 +1,95 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Ejen",
-    "HEADER_BTN_TXT": "Tambahkan ejen",
-    "LOADING": "Mendapatkan senarai ejen",
-    "SIDEBAR_TXT": "<p><b>Ejen</b></p> <p> Seorang <b>Ejen</b> adalah ahli sistem bantuan anda. </p><p> Ejen boleh membaca dan menjawab mesej dari pengguna pengguna anda </p><p> Klik di <b>Tambah Ejen</b> untuk menambah bilangan ejen. Ejen yang ditambah akan menerima emel dengan pengesahan untuk mengaktifkan akaun mereka, selepas itu, mereka boleh akses Chatwoot dan respon kepada mesej. </p><p> Akses ke ciri-ciri Chatwoot adalah berdasarkan kepada peranan peranan berikut. </p><p> <b>Ejen</b> - Ejen dengan peranan ini boleh akses inbox, repot dan perbualan. Mereka boleh tugaskan perbualan kepada ejen lain atau mereka sendiri dan boleh selesaikan sendiri.</p><p> <b>Pentadbir</b> - Pentadbir boleh akses semua ciri-ciri Chatwoot yang dibenarkan terhadap akaun anda termasuk, settings dan apa apa yang ejen biasa boleh lakukan.</p>",
+    "ADD": {
+      "API": {
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi",
+        "EXIST_MESSAGE": "Emel ejen telah diguankkan, Tolong gunakkan emel yang lain",
+        "SUCCESS_MESSAGE": "Ejen berjaya ditambahkan"
+      },
+      "CANCEL_BUTTON_TEXT": "Batal",
+      "DESC": "Anda boleh tambahkan ejen yang akan mengendalikan perbualan untuk inbox anda.",
+      "FORM": {
+        "AGENT_TYPE": {
+          "ERROR": "Peranan diperlukan",
+          "LABEL": "Peranan",
+          "PLACEHOLDER": "Sila pilih peranan"
+        },
+        "EMAIL": {
+          "LABEL": "Emel",
+          "PLACEHOLDER": "Sila masukkan emel ejen anda"
+        },
+        "NAME": {
+          "LABEL": "Nama Ejen",
+          "PLACEHOLDER": "Sila masukkan nama ejen"
+        },
+        "SUBMIT": "Tambahkan ejen"
+      },
+      "TITLE": "Tambahkan ejen ke pasukan anda"
+    },
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Pentadbir",
       "AGENT": "Ejen"
     },
-    "LIST": {
-      "404": "Tiada ejen yang dikaitkan ke akaun ini",
-      "TITLE": "Tadbir ejen dalam pasukan anda",
-      "DESC": "Kamu boleh tambahkan/padamkan ejen dalam pasukan anda.",
-      "NAME": "Nama",
-      "EMAIL": "Emel",
-      "STATUS": "Status",
-      "ACTIONS": "Tindakan-tindakan",
-      "VERIFIED": "Disahkan",
-      "VERIFICATION_PENDING": "Pengesahan belum lagi selesai"
-    },
-    "ADD": {
-      "TITLE": "Tambahkan ejen ke pasukan anda",
-      "DESC": "Anda boleh tambahkan ejen yang akan mengendalikan perbualan untuk inbox anda.",
-      "CANCEL_BUTTON_TEXT": "Batal",
-      "FORM": {
-        "NAME": {
-          "LABEL": "Nama Ejen",
-          "PLACEHOLDER": "Sila masukkan nama ejen"
-        },
-        "AGENT_TYPE": {
-          "LABEL": "Peranan",
-          "PLACEHOLDER": "Sila pilih peranan",
-          "ERROR": "Peranan diperlukan"
-        },
-        "EMAIL": {
-          "LABEL": "Emel",
-          "PLACEHOLDER": "Sila masukkan emel ejen anda"
-        },
-        "SUBMIT": "Tambahkan ejen"
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Ejen berjaya ditambahkan",
-        "EXIST_MESSAGE": "Emel ejen telah diguankkan, Tolong gunakkan emel yang lain",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
-      }
-    },
     "DELETE": {
-      "BUTTON_TEXT": "Padamkan",
       "API": {
-        "SUCCESS_MESSAGE": "Ejen berjaya dipadam",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi",
+        "SUCCESS_MESSAGE": "Ejen berjaya dipadam"
       },
+      "BUTTON_TEXT": "Padamkan",
       "CONFIRM": {
-        "TITLE": "Pasti Padamkan",
         "MESSAGE": "Adakan anda pasti untuk padamkan ",
-        "YES": "Ya, Padamkan ",
-        "NO": "Tidak, simpankan "
+        "NO": "Tidak, simpankan ",
+        "TITLE": "Pasti Padamkan",
+        "YES": "Ya, Padamkan "
       }
     },
     "EDIT": {
-      "TITLE": "Edit ejen",
+      "API": {
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi",
+        "SUCCESS_MESSAGE": "Ejen berjaya dikemaskini"
+      },
+      "BUTTON_TEXT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
-        "NAME": {
-          "LABEL": "Nama Ejen",
-          "PLACEHOLDER": "Sila masukkan nama ejen"
-        },
         "AGENT_TYPE": {
+          "ERROR": "Peranan diperlukan",
           "LABEL": "Peranan",
-          "PLACEHOLDER": "Sila pilih peranan",
-          "ERROR": "Peranan diperlukan"
+          "PLACEHOLDER": "Sila pilih peranan"
         },
         "EMAIL": {
           "LABEL": "Emel",
           "PLACEHOLDER": "Sila masukkan emel ejen anda"
         },
+        "NAME": {
+          "LABEL": "Nama Ejen",
+          "PLACEHOLDER": "Sila masukkan nama ejen"
+        },
         "SUBMIT": "Edit ejen"
-      },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Batalkan",
-      "API": {
-        "SUCCESS_MESSAGE": "Ejen berjaya dikemaskini",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Reset kata laluan",
         "ADMIN_SUCCESS_MESSAGE": "Email untuk reset kata laluan telah di hantar kepada ejen yang berkenaan",
-        "SUCCESS_MESSAGE": "Kata laluan ejen telah berjaya set semula",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
-      }
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi",
+        "SUCCESS_MESSAGE": "Kata laluan ejen telah berjaya set semula"
+      },
+      "TITLE": "Edit ejen"
     },
-    "SEARCH": {
-      "NO_RESULTS": "Tiada dijumpa."
+    "HEADER": "Ejen",
+    "HEADER_BTN_TXT": "Tambahkan ejen",
+    "LIST": {
+      "404": "Tiada ejen yang dikaitkan ke akaun ini",
+      "ACTIONS": "Tindakan-tindakan",
+      "DESC": "Kamu boleh tambahkan/padamkan ejen dalam pasukan anda.",
+      "EMAIL": "Emel",
+      "NAME": "Nama",
+      "STATUS": "Status",
+      "TITLE": "Tadbir ejen dalam pasukan anda",
+      "VERIFICATION_PENDING": "Pengesahan belum lagi selesai",
+      "VERIFIED": "Disahkan"
     },
+    "LOADING": "Mendapatkan senarai ejen",
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Tiada",
-      "TITLE": {
-        "AGENT": "Pilih ejen",
-        "TEAM": "Pilih pasukan"
-      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Tiada ejen dijumpa",
@@ -107,7 +99,15 @@
           "AGENT": "Cari ejen",
           "TEAM": "Cari pasukan"
         }
+      },
+      "TITLE": {
+        "AGENT": "Pilih ejen",
+        "TEAM": "Pilih pasukan"
       }
-    }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Tiada dijumpa."
+    },
+    "SIDEBAR_TXT": "<p><b>Ejen</b></p> <p> Seorang <b>Ejen</b> adalah ahli sistem bantuan anda. </p><p> Ejen boleh membaca dan menjawab mesej dari pengguna pengguna anda </p><p> Klik di <b>Tambah Ejen</b> untuk menambah bilangan ejen. Ejen yang ditambah akan menerima emel dengan pengesahan untuk mengaktifkan akaun mereka, selepas itu, mereka boleh akses Chatwoot dan respon kepada mesej. </p><p> Akses ke ciri-ciri Chatwoot adalah berdasarkan kepada peranan peranan berikut. </p><p> <b>Ejen</b> - Ejen dengan peranan ini boleh akses inbox, repot dan perbualan. Mereka boleh tugaskan perbualan kepada ejen lain atau mereka sendiri dan boleh selesaikan sendiri.</p><p> <b>Pentadbir</b> - Pentadbir boleh akses semua ciri-ciri Chatwoot yang dibenarkan terhadap akaun anda termasuk, settings dan apa apa yang ejen biasa boleh lakukan.</p>"
   }
 }

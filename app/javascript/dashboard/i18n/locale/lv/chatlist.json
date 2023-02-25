@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Notiek sarunu iegūšana",
-    "LOAD_MORE_CONVERSATIONS": "Ielādēt vairāk sarunu",
-    "EOF": "Visas sarunas ir ielādētas 🎉",
-    "LIST": {
-      "404": "Šajā grupā nav aktīvu sarunu."
-    },
-    "TAB_HEADING": "Sarunas",
-    "MENTION_HEADING": "Pieminēšanas",
-    "UNATTENDED_HEADING": "Bez uzraudzības",
-    "SEARCH": {
-      "INPUT": "Meklēt Cilvēkus, Tērzēšanas, Saglabātās Atbildes.."
-    },
-    "FILTER_ALL": "Visi",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Visi",
       "me": "Mani",
-      "unassigned": "Nepiešķirtie",
-      "all": "Visi"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Atvērt"
-      },
-      "resolved": {
-        "TEXT": "Atrisināts"
-      },
-      "pending": {
-        "TEXT": "Gaida"
-      },
-      "snoozed": {
-        "TEXT": "Atlikts"
-      },
-      "all": {
-        "TEXT": "Visi"
-      }
+      "unassigned": "Nepiešķirtie"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Attēla ziņojums"
-      },
       "audio": {
         "CONTENT": "Audio ziņojums"
       },
-      "video": {
-        "CONTENT": "Video ziņojums"
+      "fallback": {
+        "CONTENT": "ir kopīgojis URL"
       },
       "file": {
         "CONTENT": "Faila pielikums"
       },
+      "image": {
+        "CONTENT": "Attēla ziņojums"
+      },
       "location": {
         "CONTENT": "Atrašanās vieta"
       },
-      "fallback": {
-        "CONTENT": "ir kopīgojis URL"
+      "video": {
+        "CONTENT": "Video ziņojums"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Saņemts pa e-pastu",
-    "VIEW_TWEET_IN_TWITTER": "Skatīt tvītu pakalpojumā Twitter",
-    "REPLY_TO_TWEET": "Atbildēt uz šo tvītu",
-    "LINK_TO_STORY": "Doties uz instagram stāstu",
-    "SENT": "Veiksmīgi nosūtīts",
-    "READ": "Izlasīts veiksmīgi",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Visi"
+      },
+      "open": {
+        "TEXT": "Atvērt"
+      },
+      "pending": {
+        "TEXT": "Gaida"
+      },
+      "resolved": {
+        "TEXT": "Atrisināts"
+      },
+      "snoozed": {
+        "TEXT": "Atlikts"
+      }
+    },
     "DELIVERED": "Piegādāts veiksmīgi",
-    "NO_MESSAGES": "Nav Ziņojumu",
-    "NO_CONTENT": "Saturs nav pieejams",
+    "EOF": "Visas sarunas ir ielādētas 🎉",
+    "FILTER_ALL": "Visi",
     "HIDE_QUOTED_TEXT": "Paslēpt Citēto Tekstu",
+    "LINK_TO_STORY": "Doties uz instagram stāstu",
+    "LIST": {
+      "404": "Šajā grupā nav aktīvu sarunu."
+    },
+    "LOADING": "Notiek sarunu iegūšana",
+    "LOAD_MORE_CONVERSATIONS": "Ielādēt vairāk sarunu",
+    "MENTION_HEADING": "Pieminēšanas",
+    "MESSAGE_READ": "Lasīt",
+    "NO_CONTENT": "Saturs nav pieejams",
+    "NO_MESSAGES": "Nav Ziņojumu",
+    "READ": "Izlasīts veiksmīgi",
+    "RECEIVED_VIA_EMAIL": "Saņemts pa e-pastu",
+    "REPLY_TO_TWEET": "Atbildēt uz šo tvītu",
+    "SEARCH": {
+      "INPUT": "Meklēt Cilvēkus, Tērzēšanas, Saglabātās Atbildes.."
+    },
+    "SENT": "Veiksmīgi nosūtīts",
     "SHOW_QUOTED_TEXT": "Rādīt Citēto Tekstu",
-    "MESSAGE_READ": "Lasīt"
+    "TAB_HEADING": "Sarunas",
+    "UNATTENDED_HEADING": "Bez uzraudzības",
+    "VIEW_TWEET_IN_TWITTER": "Skatīt tvītu pakalpojumā Twitter"
   }
 }

@@ -1,21 +1,32 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
-    "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+    "ADD": {
+      "AGENT_VALIDATION_ERROR": "Select at least one agent.",
+      "BUTTON_TEXT": "הוסף נציגים",
+      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "SELECT": "select",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECT_ALL": "select all agents",
+      "TITLE": "Add agents to team - %{teamName}"
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Adding Agents to your Team...",
+      "AGENT": "AGENT",
+      "BUTTON_TEXT": "הוסף נציגים",
+      "EMAIL": "מייל",
+      "SELECT": "select",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECT_ALL": "select all agents"
     },
     "CREATE_FLOW": {
-      "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
-      },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+        "TITLE": "Add agents to team - %{teamName}"
+      },
+      "CREATE": {
+        "DESC": "Add a title and description to your new team.",
+        "TITLE": "Create a new team"
       },
       "WIZARD": [
         {
@@ -35,16 +46,30 @@
         }
       ]
     },
-    "EDIT_FLOW": {
-      "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Couldn't delete the team. Try again.",
+        "SUCCESS_MESSAGE": "Team deleted successfully."
       },
+      "BUTTON_TEXT": "מחק",
+      "CONFIRM": {
+        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "NO": "ביטול",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "TITLE": "Are you sure want to delete - %{teamName}",
+        "YES": "מחק "
+      }
+    },
+    "EDIT_FLOW": {
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team.",
+        "TITLE": "Add agents to team - %{teamName}"
+      },
+      "CREATE": {
+        "BUTTON_TEXT": "Update team",
+        "DESC": "Edit title and description to your team.",
+        "TITLE": "Edit your team details"
       },
       "WIZARD": [
         {
@@ -64,62 +89,37 @@
         }
       ]
     },
-    "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
-    },
-    "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "מייל",
-      "BUTTON_TEXT": "הוסף נציגים",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
-    },
-    "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "הוסף נציגים",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
-    },
     "FINISH": {
-      "TITLE": "Your team is ready!",
+      "BUTTON_TEXT": "Finish",
       "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Your team is ready!"
     },
-    "DELETE": {
-      "BUTTON_TEXT": "מחק",
-      "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
-      },
-      "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
-        "YES": "מחק ",
-        "NO": "ביטול"
-      }
-    },
-    "SETTINGS": "הגדרות",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
-      "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
       },
+      "CREATE": "Create team",
       "DESCRIPTION": {
         "LABEL": "Team Description",
         "PLACEHOLDER": "Short description about this team."
       },
-      "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Create team",
+      "UPDATE": "Update team"
+    },
+    "HEADER": "Teams",
+    "LIST": {
+      "404": "There are no teams created on this account.",
+      "EDIT_TEAM": "Edit team"
+    },
+    "NEW_TEAM": "Create new team",
+    "SETTINGS": "הגדרות",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
     }
   }
 }

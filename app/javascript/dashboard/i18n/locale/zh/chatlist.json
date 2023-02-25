@@ -1,19 +1,29 @@
 {
   "CHAT_LIST": {
-    "LOADING": "正在获取对话",
-    "LOAD_MORE_CONVERSATIONS": "加载更多对话",
-    "EOF": "所有对话已加载 🎉",
-    "LIST": {
-      "404": "没有有效的对话在这个群组里面"
-    },
-    "TAB_HEADING": "会话",
-    "SEARCH": {
-      "INPUT": "搜索人、聊天室、保存回复"
-    },
     "ASSIGNEE_TYPE_TABS": {
+      "all": "所有的",
       "me": "我的",
-      "unassigned": "未分配的",
-      "all": "所有的"
+      "unassigned": "未分配的"
+    },
+    "ATTACHMENTS": {
+      "audio": {
+        "CONTENT": "音频消息"
+      },
+      "fallback": {
+        "CONTENT": "分享了一个网址"
+      },
+      "file": {
+        "CONTENT": "附件"
+      },
+      "image": {
+        "CONTENT": "图片消息"
+      },
+      "location": {
+        "CONTENT": "位置"
+      },
+      "video": {
+        "CONTENT": "视频消息"
+      }
     },
     "CHAT_STATUS_ITEMS": [
       {
@@ -29,28 +39,18 @@
         "VALUE": "snoozed"
       }
     ],
-    "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "图片消息"
-      },
-      "audio": {
-        "CONTENT": "音频消息"
-      },
-      "video": {
-        "CONTENT": "视频消息"
-      },
-      "file": {
-        "CONTENT": "附件"
-      },
-      "location": {
-        "CONTENT": "位置"
-      },
-      "fallback": {
-        "CONTENT": "分享了一个网址"
-      }
+    "EOF": "所有对话已加载 🎉",
+    "LIST": {
+      "404": "没有有效的对话在这个群组里面"
     },
+    "LOADING": "正在获取对话",
+    "LOAD_MORE_CONVERSATIONS": "加载更多对话",
     "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "REPLY_TO_TWEET": "Reply to this tweet",
+    "SEARCH": {
+      "INPUT": "搜索人、聊天室、保存回复"
+    },
+    "TAB_HEADING": "会话",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter"
   }
 }

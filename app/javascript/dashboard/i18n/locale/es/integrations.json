@@ -1,144 +1,144 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integraciones",
-    "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Eventos suscritos",
+    "CONNECT": {
+      "BUTTON_TEXT": "Conectar"
+    },
+    "DASHBOARD_APPS": {
+      "CREATE": {
+        "API_ERROR": "No pudimos crear una aplicación. Por favor, inténtalo de nuevo más tarde",
+        "API_SUCCESS": "Panel de control configurado correctamente",
+        "FORM_CANCEL": "Cancelar",
+        "FORM_SUBMIT": "Enviar",
+        "HEADER": "Añadir una nueva aplicación"
+      },
+      "DELETE": {
+        "API_ERROR": "No pudimos eliminar la aplicación. Por favor, inténtalo de nuevo más tarde",
+        "API_SUCCESS": "Panel de control eliminado con éxito",
+        "CONFIRM_NO": "No, mantenerlo",
+        "CONFIRM_YES": "Sí, eliminarlo",
+        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
+        "TITLE": "Confirme eliminación"
+      },
+      "DESCRIPTION": "Las aplicaciones de panel permiten a las organizaciones incrustar una aplicación dentro del panel de control para proporcionar el contexto para los agentes de soporte al cliente. Esta función le permite crear una aplicación de forma independiente e incrustada para proporcionar información de usuario, sus pedidos o su historial de pagos anterior.",
       "FORM": {
+        "TITLE_ERROR": "Se requiere un nombre para el panel de control",
+        "TITLE_LABEL": "Nombre",
+        "TITLE_PLACEHOLDER": "Ingrese un nombre para su aplicación de tablero",
+        "URL_ERROR": "Se requiere una URL válida",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Introduzca la URL del endpoint donde se aloja su aplicación"
+      },
+      "HEADER_BTN_TXT": "Añadir una nueva aplicación",
+      "LIST": {
+        "404": "Todavía no hay aplicaciones configuradas en esta cuenta",
+        "DELETE_TOOLTIP": "Eliminar aplicación",
+        "EDIT_TOOLTIP": "Editar aplicación",
+        "LOADING": "Obteniendo aplicaciones del tablero...",
+        "TABLE_HEADER": [
+          "Nombre",
+          "Endpoint"
+        ]
+      },
+      "SIDEBAR_TXT": "<p><b>Aplicaciones de panel</b></p><p>Aplicaciones de panel de control permiten a las organizaciones incrustar una aplicación dentro del panel de control de Chatwoot para proporcionar el contexto para los agentes de atención al cliente. Esta característica le permite crear una aplicación de forma independiente e incrustarla dentro del panel de control para proporcionar información de usuario, sus pedidos, o su historial de pagos anterior.</p><p>Cuando incrustas tu aplicación usando el panel de control en Chatwoot, tu aplicación obtendrá el contexto de la conversación y el contacto como un evento de ventana. Implementa un oyente para el evento del mensaje en tu página para recibir el contexto.</p><p>Para añadir una nueva aplicación de panel, haga clic en el botón 'Añadir una nueva aplicación de panel'.</p>",
+      "TITLE": "Panel de aplicaciones",
+      "UPDATE": {
+        "API_ERROR": "No pudimos actualizar la aplicación. Por favor, inténtalo de nuevo más tarde",
+        "API_SUCCESS": "Panel de control actualizado correctamente",
+        "FORM_CANCEL": "Cancelar",
+        "FORM_SUBMIT": "Actualizar",
+        "HEADER": "Editar panel de aplicación"
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Integración eliminada correctamente"
+      },
+      "BUTTON_TEXT": "Eliminar"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer"
+    },
+    "HEADER": "Integraciones",
+    "SLACK": {
+      "HELP_TEXT": {
+        "BODY": "<br/><p>Chatwoot ahora sincronizará todas las conversaciones entrantes en el canal <b><i>de conversaciones del cliente</i></b> dentro de tu lugar de trabajo slack.</p><p>Respondiendo a un tema de conversación en <b><i>conversaciones de clientes</i></b> canal de slack creará una respuesta al cliente a través de chatwoot.</p><p>Inicie las respuestas con <b><i>nota:</i></b> para crear notas privadas en lugar de respuestas.</p><p>Si el respondente de slack tiene un perfil de agente en el chatwoot bajo el mismo correo electrónico, las respuestas se asociarán en consecuencia.</p><p>Cuando el replicador no tiene un perfil de agente asociado, las respuestas se harán con el perfil del bot.</p>",
+        "TITLE": "Utilizando integración de Slack"
+      }
+    },
+    "WEBHOOK": {
+      "ADD": {
+        "API": {
+          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde",
+          "SUCCESS_MESSAGE": "Configuración de webhook añadida correctamente"
+        },
+        "CANCEL": "Cancelar",
+        "TITLE": "Añadir nuevo webhook"
+      },
+      "CONFIGURE": "Configurar",
+      "DELETE": {
+        "API": {
+          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde",
+          "SUCCESS_MESSAGE": "Webhook eliminado correctamente"
+        },
+        "BUTTON_TEXT": "Eliminar",
+        "CONFIRM": {
+          "MESSAGE": "¿Está seguro de eliminar el webhook? (%{webhookURL})",
+          "NO": "No, mantenerlo",
+          "TITLE": "Confirmar eliminación",
+          "YES": "Sí, eliminar "
+        }
+      },
+      "EDIT": {
+        "API": {
+          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde",
+          "SUCCESS_MESSAGE": "Configuración de webhook actualizada correctamente"
+        },
+        "BUTTON_TEXT": "Editar",
+        "TITLE": "Editar Webhook"
+      },
+      "FORM": {
+        "ADD_SUBMIT": "Crear webhook",
         "CANCEL": "Cancelar",
         "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
+        "EDIT_SUBMIT": "Actualizar webhook",
+        "END_POINT": {
+          "ERROR": "Por favor, introduzca una URL válida",
+          "LABEL": "URL de Webhook",
+          "PLACEHOLDER": "Ejemplo: https://example/api/webhook"
+        },
         "SUBSCRIPTIONS": {
-          "LABEL": "Eventos",
           "EVENTS": {
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_CREATED": "Conversación creada",
             "CONVERSATION_STATUS_CHANGED": "Estado de la conversación cambiado",
             "CONVERSATION_UPDATED": "Conversación actualizada",
             "MESSAGE_CREATED": "Mensaje creado",
             "MESSAGE_UPDATED": "Mensaje actualizado",
-            "WEBWIDGET_TRIGGERED": "Widget de Live Chat abierto por el usuario",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
-          }
-        },
-        "END_POINT": {
-          "LABEL": "URL de Webhook",
-          "PLACEHOLDER": "Ejemplo: https://example/api/webhook",
-          "ERROR": "Por favor, introduzca una URL válida"
-        },
-        "EDIT_SUBMIT": "Actualizar webhook",
-        "ADD_SUBMIT": "Crear webhook"
+            "WEBWIDGET_TRIGGERED": "Widget de Live Chat abierto por el usuario"
+          },
+          "LABEL": "Eventos"
+        }
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configurar",
       "HEADER": "Configuración de Webhook",
       "HEADER_BTN_TXT": "Añadir nuevo webhook",
-      "LOADING": "Obteniendo webhooks adjuntos",
-      "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks son callbacks HTTP que se pueden definir para cada cuenta. Son activados por eventos como la creación de mensajes en Chatwoot. Puede crear más de un webhook para esta cuenta. <br /><br /> Para crear un webhook <b></b>, haga clic en el <b>Añadir un nuevo webhook</b> botón. También puede eliminar cualquier webhook existente haciendo clic en el botón Borrar.</p>",
       "LIST": {
         "404": "No hay webhooks configurados para esta cuenta.",
-        "TITLE": "Administrar webhooks",
         "TABLE_HEADER": [
           "Final de Webhook",
           "Acciones"
-        ]
-      },
-      "EDIT": {
-        "BUTTON_TEXT": "Editar",
-        "TITLE": "Editar Webhook",
-        "API": {
-          "SUCCESS_MESSAGE": "Configuración de webhook actualizada correctamente",
-          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
-        }
-      },
-      "ADD": {
-        "CANCEL": "Cancelar",
-        "TITLE": "Añadir nuevo webhook",
-        "API": {
-          "SUCCESS_MESSAGE": "Configuración de webhook añadida correctamente",
-          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
-        }
-      },
-      "DELETE": {
-        "BUTTON_TEXT": "Eliminar",
-        "API": {
-          "SUCCESS_MESSAGE": "Webhook eliminado correctamente",
-          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
-        },
-        "CONFIRM": {
-          "TITLE": "Confirmar eliminación",
-          "MESSAGE": "¿Está seguro de eliminar el webhook? (%{webhookURL})",
-          "YES": "Sí, eliminar ",
-          "NO": "No, mantenerlo"
-        }
-      }
-    },
-    "SLACK": {
-      "HELP_TEXT": {
-        "TITLE": "Utilizando integración de Slack",
-        "BODY": "<br/><p>Chatwoot ahora sincronizará todas las conversaciones entrantes en el canal <b><i>de conversaciones del cliente</i></b> dentro de tu lugar de trabajo slack.</p><p>Respondiendo a un tema de conversación en <b><i>conversaciones de clientes</i></b> canal de slack creará una respuesta al cliente a través de chatwoot.</p><p>Inicie las respuestas con <b><i>nota:</i></b> para crear notas privadas en lugar de respuestas.</p><p>Si el respondente de slack tiene un perfil de agente en el chatwoot bajo el mismo correo electrónico, las respuestas se asociarán en consecuencia.</p><p>Cuando el replicador no tiene un perfil de agente asociado, las respuestas se harán con el perfil del bot.</p>"
-      }
-    },
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Eliminar",
-      "API": {
-        "SUCCESS_MESSAGE": "Integración eliminada correctamente"
-      }
-    },
-    "CONNECT": {
-      "BUTTON_TEXT": "Conectar"
-    },
-    "DASHBOARD_APPS": {
-      "TITLE": "Panel de aplicaciones",
-      "HEADER_BTN_TXT": "Añadir una nueva aplicación",
-      "SIDEBAR_TXT": "<p><b>Aplicaciones de panel</b></p><p>Aplicaciones de panel de control permiten a las organizaciones incrustar una aplicación dentro del panel de control de Chatwoot para proporcionar el contexto para los agentes de atención al cliente. Esta característica le permite crear una aplicación de forma independiente e incrustarla dentro del panel de control para proporcionar información de usuario, sus pedidos, o su historial de pagos anterior.</p><p>Cuando incrustas tu aplicación usando el panel de control en Chatwoot, tu aplicación obtendrá el contexto de la conversación y el contacto como un evento de ventana. Implementa un oyente para el evento del mensaje en tu página para recibir el contexto.</p><p>Para añadir una nueva aplicación de panel, haga clic en el botón 'Añadir una nueva aplicación de panel'.</p>",
-      "DESCRIPTION": "Las aplicaciones de panel permiten a las organizaciones incrustar una aplicación dentro del panel de control para proporcionar el contexto para los agentes de soporte al cliente. Esta función le permite crear una aplicación de forma independiente e incrustada para proporcionar información de usuario, sus pedidos o su historial de pagos anterior.",
-      "LIST": {
-        "404": "Todavía no hay aplicaciones configuradas en esta cuenta",
-        "LOADING": "Obteniendo aplicaciones del tablero...",
-        "TABLE_HEADER": [
-          "Nombre",
-          "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Editar aplicación",
-        "DELETE_TOOLTIP": "Eliminar aplicación"
+        "TITLE": "Administrar webhooks"
       },
-      "FORM": {
-        "TITLE_LABEL": "Nombre",
-        "TITLE_PLACEHOLDER": "Ingrese un nombre para su aplicación de tablero",
-        "TITLE_ERROR": "Se requiere un nombre para el panel de control",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Introduzca la URL del endpoint donde se aloja su aplicación",
-        "URL_ERROR": "Se requiere una URL válida"
-      },
-      "CREATE": {
-        "HEADER": "Añadir una nueva aplicación",
-        "FORM_SUBMIT": "Enviar",
-        "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Panel de control configurado correctamente",
-        "API_ERROR": "No pudimos crear una aplicación. Por favor, inténtalo de nuevo más tarde"
-      },
-      "UPDATE": {
-        "HEADER": "Editar panel de aplicación",
-        "FORM_SUBMIT": "Actualizar",
-        "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Panel de control actualizado correctamente",
-        "API_ERROR": "No pudimos actualizar la aplicación. Por favor, inténtalo de nuevo más tarde"
-      },
-      "DELETE": {
-        "CONFIRM_YES": "Sí, eliminarlo",
-        "CONFIRM_NO": "No, mantenerlo",
-        "TITLE": "Confirme eliminación",
-        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
-        "API_SUCCESS": "Panel de control eliminado con éxito",
-        "API_ERROR": "No pudimos eliminar la aplicación. Por favor, inténtalo de nuevo más tarde"
-      }
+      "LOADING": "Obteniendo webhooks adjuntos",
+      "SEARCH_404": "No hay elementos que coincidan con esta consulta",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks son callbacks HTTP que se pueden definir para cada cuenta. Son activados por eventos como la creación de mensajes en Chatwoot. Puede crear más de un webhook para esta cuenta. <br /><br /> Para crear un webhook <b></b>, haga clic en el <b>Añadir un nuevo webhook</b> botón. También puede eliminar cualquier webhook existente haciendo clic en el botón Borrar.</p>",
+      "SUBSCRIBED_EVENTS": "Eventos suscritos",
+      "TITLE": "Webhook"
     }
   }
 }

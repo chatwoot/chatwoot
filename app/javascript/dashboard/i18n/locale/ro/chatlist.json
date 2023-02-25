@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Preluare conversații",
-    "LOAD_MORE_CONVERSATIONS": "Încarcă mai multe conversații",
-    "EOF": "Toate conversațiile au fost încărcate 🎉",
-    "LIST": {
-      "404": "Nu sunt conversații active în acest grup."
-    },
-    "TAB_HEADING": "Conversații",
-    "MENTION_HEADING": "Mențiuni",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
-    },
-    "FILTER_ALL": "Toate",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Toate",
       "me": "Ale mele",
-      "unassigned": "Neatribuit",
-      "all": "Toate"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Deschide"
-      },
-      "resolved": {
-        "TEXT": "Rezolvat"
-      },
-      "pending": {
-        "TEXT": "În aşteptare"
-      },
-      "snoozed": {
-        "TEXT": "Amânat"
-      },
-      "all": {
-        "TEXT": "Toate"
-      }
+      "unassigned": "Neatribuit"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Mesaj imagine"
-      },
       "audio": {
         "CONTENT": "Mesaj audio"
       },
-      "video": {
-        "CONTENT": "Mesaj video"
+      "fallback": {
+        "CONTENT": "a partajat un URL"
       },
       "file": {
         "CONTENT": "Fişier ataşat"
       },
+      "image": {
+        "CONTENT": "Mesaj imagine"
+      },
       "location": {
         "CONTENT": "Locaţie"
       },
-      "fallback": {
-        "CONTENT": "a partajat un URL"
+      "video": {
+        "CONTENT": "Mesaj video"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Primit prin e-mail",
-    "VIEW_TWEET_IN_TWITTER": "Vezi tweet pe Twitter",
-    "REPLY_TO_TWEET": "Răspunde la acest tweet",
-    "LINK_TO_STORY": "Accesați povestea Instagram",
-    "SENT": "Trimis cu succes",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Toate"
+      },
+      "open": {
+        "TEXT": "Deschide"
+      },
+      "pending": {
+        "TEXT": "În aşteptare"
+      },
+      "resolved": {
+        "TEXT": "Rezolvat"
+      },
+      "snoozed": {
+        "TEXT": "Amânat"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Niciun mesaj",
-    "NO_CONTENT": "Nici un conținut disponibil",
+    "EOF": "Toate conversațiile au fost încărcate 🎉",
+    "FILTER_ALL": "Toate",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",
+    "LINK_TO_STORY": "Accesați povestea Instagram",
+    "LIST": {
+      "404": "Nu sunt conversații active în acest grup."
+    },
+    "LOADING": "Preluare conversații",
+    "LOAD_MORE_CONVERSATIONS": "Încarcă mai multe conversații",
+    "MENTION_HEADING": "Mențiuni",
+    "MESSAGE_READ": "Citește",
+    "NO_CONTENT": "Nici un conținut disponibil",
+    "NO_MESSAGES": "Niciun mesaj",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "Primit prin e-mail",
+    "REPLY_TO_TWEET": "Răspunde la acest tweet",
+    "SEARCH": {
+      "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
+    },
+    "SENT": "Trimis cu succes",
     "SHOW_QUOTED_TEXT": "Arată textul citat",
-    "MESSAGE_READ": "Citește"
+    "TAB_HEADING": "Conversații",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "Vezi tweet pe Twitter"
   }
 }

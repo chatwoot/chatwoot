@@ -1,50 +1,50 @@
 {
-    "CONTACTS_FILTER": {
-        "TITLE": "Kontakte filtern",
-        "SUBTITLE": "Fügen Sie unten Filter hinzu und klicken Sie auf 'Senden', um die Kontakte zu filtern.",
-        "ADD_NEW_FILTER": "Filter hinzufügen",
-        "CLEAR_ALL_FILTERS": "Alle Filter löschen",
-        "FILTER_DELETE_ERROR": "Sie sollten mindestens einen Filter zum Speichern haben",
-        "SUBMIT_BUTTON_LABEL": "Einreichen",
-        "CANCEL_BUTTON_LABEL": "Abbrechen",
-        "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
-        "EMPTY_VALUE_ERROR": "Wert ist erforderlich",
-        "TOOLTIP_LABEL": "Kontakte filtern",
-        "QUERY_DROPDOWN_LABELS": {
-            "AND": "UND",
-            "OR": "ODER"
-        },
-        "OPERATOR_LABELS": {
-            "equal_to": "Gleich",
-            "not_equal_to": "Nicht gleich",
-            "contains": "Enthält",
-            "does_not_contain": "Beinhaltet nicht",
-            "is_present": "Ist anwesend",
-            "is_not_present": "Ist nicht anwesend",
-            "is_greater_than": "Ist größer als",
-            "is_lesser_than": "Ist kleiner als",
-            "days_before": "Ist x Tage her"
-        },
-        "ATTRIBUTES": {
-            "NAME": "Name",
-            "EMAIL": "E-Mail",
-            "PHONE_NUMBER": "Telefonnummer",
-            "IDENTIFIER": "Identifizierer",
-            "CITY": "Stadt",
-            "COUNTRY": "Land",
-            "CUSTOM_ATTRIBUTE_LIST": "Liste",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Erstellt am",
-            "LAST_ACTIVITY": "Letzte Aktivität",
-            "REFERER_LINK": "Verweis-Link"
-        },
-        "GROUPS": {
-            "STANDARD_FILTERS": "Standardfilter",
-            "ADDITIONAL_FILTERS": "Zusätzliche Filter",
-            "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute"
-        }
-    }
+  "CONTACTS_FILTER": {
+    "ADD_NEW_FILTER": "Filter hinzufügen",
+    "ATTRIBUTES": {
+      "CITY": "Stadt",
+      "COUNTRY": "Land",
+      "CREATED_AT": "Erstellt am",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "EMAIL": "E-Mail",
+      "IDENTIFIER": "Identifizierer",
+      "LAST_ACTIVITY": "Letzte Aktivität",
+      "NAME": "Name",
+      "PHONE_NUMBER": "Telefonnummer",
+      "REFERER_LINK": "Verweis-Link"
+    },
+    "CANCEL_BUTTON_LABEL": "Abbrechen",
+    "CLEAR_ALL_FILTERS": "Alle Filter löschen",
+    "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
+    "EMPTY_VALUE_ERROR": "Wert ist erforderlich",
+    "FILTER_DELETE_ERROR": "Sie sollten mindestens einen Filter zum Speichern haben",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Zusätzliche Filter",
+      "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
+      "STANDARD_FILTERS": "Standardfilter"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Enthält",
+      "days_before": "Ist x Tage her",
+      "does_not_contain": "Beinhaltet nicht",
+      "equal_to": "Gleich",
+      "is_greater_than": "Ist größer als",
+      "is_lesser_than": "Ist kleiner als",
+      "is_not_present": "Ist nicht anwesend",
+      "is_present": "Ist anwesend",
+      "not_equal_to": "Nicht gleich"
+    },
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "UND",
+      "OR": "ODER"
+    },
+    "SUBMIT_BUTTON_LABEL": "Einreichen",
+    "SUBTITLE": "Fügen Sie unten Filter hinzu und klicken Sie auf 'Senden', um die Kontakte zu filtern.",
+    "TITLE": "Kontakte filtern",
+    "TOOLTIP_LABEL": "Kontakte filtern"
+  }
 }

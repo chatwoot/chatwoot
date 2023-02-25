@@ -1,278 +1,58 @@
 {
-  "PROFILE_SETTINGS": {
-    "LINK": "Setări profil",
-    "TITLE": "Setări profil",
-    "BTN_TEXT": "Actualizeaza profil",
-    "DELETE_AVATAR": "Șterge avatarul",
-    "AVATAR_DELETE_SUCCESS": "Avatar a fost șters cu succes",
-    "AVATAR_DELETE_FAILED": "Există o eroare în timp ce ștergeți avatarul, vă rugăm să încercați din nou",
-    "UPDATE_SUCCESS": "Profilul dvs. a fost actualizat cu succes",
-    "PASSWORD_UPDATE_SUCCESS": "Parola ta a fost schimbată cu succes",
-    "AFTER_EMAIL_CHANGED": "Profilul tău a fost actualizat cu succes, te rugăm să te autentifici din nou pentru că datele tale de autentificare au fost modificate",
-    "FORM": {
-      "AVATAR": "Imagine de profil",
-      "ERROR": "Vă rugăm să remediați erorile din formular",
-      "REMOVE_IMAGE": "Elimină",
-      "UPLOAD_IMAGE": "Încarcă imaginea",
-      "UPDATE_IMAGE": "Actualizare imagine",
-      "PROFILE_SECTION": {
-        "TITLE": "Profil",
-        "NOTE": "Adresa ta de email este identitatea ta și este folosită pentru a te autentifica."
-      },
-      "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
-        "CARD": {
-          "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
-          },
-          "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
-          }
-        }
-      },
-      "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Semnătura mesajului personal",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Salvarea semnăturii mesajului",
-        "API_ERROR": "Nu s-a putut trimite! Încearcă din nou",
-        "API_SUCCESS": "Semnătura salvată cu succes"
-      },
-      "MESSAGE_SIGNATURE": {
-        "LABEL": "Semnătura mesajului",
-        "ERROR": "Semnătura mesajului nu poate fi goală",
-        "PLACEHOLDER": "Introduceți semnătura mesajului personal aici."
-      },
-      "PASSWORD_SECTION": {
-        "TITLE": "Parola",
-        "NOTE": "Actualizarea parolei ar reseta autentificările pe mai multe dispozitive.",
-        "BTN_TEXT": "Schimba parola"
-      },
-      "ACCESS_TOKEN": {
-        "TITLE": "Token acces",
-        "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API"
-      },
-      "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificări audio",
-        "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
-        "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "Nimic",
-          "ASSIGNED": "Conversații atribuite",
-          "ALL_CONVERSATIONS": "Toate conversațiile"
-        },
-        "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
-        },
-        "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
-      },
-      "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificări prin e-mail",
-        "NOTE": "Actualizați preferințele de notificare prin e-mail aici",
-        "CONVERSATION_ASSIGNMENT": "Trimite notificări prin e-mail atunci când o conversație îmi este atribuită",
-        "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
-        "CONVERSATION_MENTION": "Trimiterea notificărilor prin e-mail atunci când sunteți menționat într-o conversație",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor prin e-mail atunci când se creează un mesaj nou într-o conversație atribuită"
-      },
-      "API": {
-        "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes",
-        "UPDATE_ERROR": "A apărut o eroare la actualizarea preferințelor, încercați din nou"
-      },
-      "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificări push",
-        "NOTE": "Actualizați preferințele de notificare push aici",
-        "CONVERSATION_ASSIGNMENT": "Trimite notificări push atunci când o conversație îmi este atribuită",
-        "CONVERSATION_CREATION": "Trimite notificări push atunci când o conversație nouă este creată",
-        "CONVERSATION_MENTION": "Trimiterea notificărilor push atunci când sunteți menționat într-o conversație",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor push atunci când se creează un mesaj nou într-o conversație atribuită",
-        "HAS_ENABLED_PUSH": "Ați activat apăsarea pentru acest browser.",
-        "REQUEST_PUSH": "Activează notificările push"
-      },
-      "PROFILE_IMAGE": {
-        "LABEL": "Imagine de profil"
-      },
-      "NAME": {
-        "LABEL": "Numele tău complet",
-        "ERROR": "Te rugăm să introduci un nume valid",
-        "PLACEHOLDER": "Te rugăm să introduci un nume valid"
-      },
-      "DISPLAY_NAME": {
-        "LABEL": "Nume afişat",
-        "ERROR": "Te rugăm să introduci un nume valid",
-        "PLACEHOLDER": "Te rugăm să introduci numele tău, care va fi folosit în conversații"
-      },
-      "AVAILABILITY": {
-        "LABEL": "Disponibilitate",
-        "STATUSES_LIST": [
-          "Online",
-          "Ocupat",
-          "Deconectat"
-        ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
-      },
-      "EMAIL": {
-        "LABEL": "Adresa ta de email",
-        "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă",
-        "PLACEHOLDER": "Te rugăm să introduci adresa ta de e-mail, aceasta va fi afișată în conversații"
-      },
-      "CURRENT_PASSWORD": {
-        "LABEL": "Parola curentă",
-        "ERROR": "Vă rugăm să introduceţi un nume de agent",
-        "PLACEHOLDER": "Vă rugăm să introduceți parola curentă"
-      },
-      "PASSWORD": {
-        "LABEL": "Parolă nouă",
-        "ERROR": "Te rugăm să introduci o parolă pentru lungimea de 6 caractere sau mai mult",
-        "PLACEHOLDER": "Te rog introdu o noua parola"
-      },
-      "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirmare parolă nouă",
-        "ERROR": "Confirmarea parolei trebuie să se potrivească cu parola",
-        "PLACEHOLDER": "Vă rugăm să reintroduceți noua parolă"
-      }
-    }
-  },
-  "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Schimba",
-    "CHANGE_ACCOUNTS": "Comută contul",
-    "CONTACT_SUPPORT": "Contact Suport",
-    "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
-    "PROFILE_SETTINGS": "Setări profil",
-    "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Deconectare"
-  },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "zile de încercare rămase.",
-    "TRAIL_BUTTON": "Cumpara acum",
-    "DELETED_USER": "Utilizator șters",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
-    }
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information.",
+      "TITLE": "Account Suspended"
+    },
+    "DELETED_USER": "Utilizator șters",
+    "TRAIL_BUTTON": "Cumpara acum",
+    "TRIAL_MESSAGE": "zile de încercare rămase."
+  },
+  "BILLING_SETTINGS": {
+    "CHAT_WITH_US": {
+      "BUTTON_TXT": "Discută cu noi",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Need help?"
+    },
+    "CURRENT_PLAN": {
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses",
+      "TITLE": "Current Plan"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "BUTTON_TXT": "Go to the billing portal",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "TITLE": "Manage your subscription"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "TITLE": "Billing"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiază",
       "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes"
     },
-    "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
-    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descărcare",
-      "UPLOADING": "Încărcare...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "Această poveste nu mai este disponibilă."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Această poveste nu mai este disponibilă.",
+      "UPLOADING": "Încărcare..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Trimite"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
     },
-    "FORM_BUBBLE": {
-      "SUBMIT": "Trimite"
+    "SHOW_MORE_BLOCK": {
+      "SHOW_LESS": "Show Less",
+      "SHOW_MORE": "Show More"
     }
   },
   "CONFIRM_EMAIL": "Verificare...",
-  "SETTINGS": {
-    "INBOXES": {
-      "NEW_INBOX": "Adaugă Inbox"
-    }
-  },
-  "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
-    "SWITCH": "Switch",
-    "CONVERSATIONS": "Conversații",
-    "ALL_CONVERSATIONS": "Toate conversațiile",
-    "MENTIONED_CONVERSATIONS": "Menţionări",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Rapoarte",
-    "SETTINGS": "Setări",
-    "CONTACTS": "Contacte",
-    "HOME": "Acasa",
-    "AGENTS": "Agenți",
-    "AGENT_BOTS": "Boți",
-    "INBOXES": "Căsuțe",
-    "NOTIFICATIONS": "Notificări",
-    "CANNED_RESPONSES": "Răspunsuri predefinite",
-    "INTEGRATIONS": "Integrări",
-    "PROFILE_SETTINGS": "Setări profil",
-    "ACCOUNT_SETTINGS": "Setările contului",
-    "APPLICATIONS": "Aplicatii",
-    "LABELS": "Etichete",
-    "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
-    "AUTOMATION": "Automatizare",
-    "MACROS": "Macros",
-    "TEAMS": "Echipe",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Foldere",
-    "CUSTOM_VIEWS_SEGMENTS": "Segmente",
-    "ALL_CONTACTS": "Toate persoanele de contact",
-    "TAGGED_WITH": "Etichetate cu",
-    "NEW_LABEL": "Etichetă nouă",
-    "NEW_TEAM": "Echipă nouă",
-    "NEW_INBOX": "Inbox nou",
-    "REPORTS_CONVERSATION": "Conversații",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Campanii",
-    "ONGOING": "În derulare",
-    "ONE_OFF": "Unul oprit",
-    "REPORTS_AGENT": "Agenți",
-    "REPORTS_LABEL": "Etichete",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Echipa",
-    "SET_AVAILABILITY_TITLE": "Setați-vă ca",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Prezentare generală",
-    "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
-    "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
-    },
-    "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
-    },
-    "DOCS": "Read docs"
-  },
-  "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
-    },
-    "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
-    },
-    "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Discută cu noi"
-    },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
-  },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",
-    "NEW_ACCOUNT": "Cont Nou",
-    "SELECTOR_SUBTITLE": "Creează un cont nou",
     "API": {
-      "SUCCESS_MESSAGE": "Agent actualizat cu succes",
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu",
       "EXIST_MESSAGE": "Contul există deja",
-      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      "SUCCESS_MESSAGE": "Agent actualizat cu succes"
     },
     "FORM": {
       "NAME": {
@@ -280,31 +60,251 @@
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Trimite"
-    }
+    },
+    "NEW_ACCOUNT": "Cont Nou",
+    "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",
+    "SELECTOR_SUBTITLE": "Creează un cont nou"
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "KEYS": {
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘"
+    },
     "TITLE": {
-      "OPEN_CONVERSATION": "Deschiderea conversației",
-      "RESOLVE_AND_NEXT": "Rezolvarea și trecerea la următorul",
-      "NAVIGATE_DROPDOWN": "Navigarea elementelor verticale",
-      "RESOLVE_CONVERSATION": "Detalii conversație",
-      "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
       "ADD_ATTACHMENT": "Fişier ataşat",
       "GO_TO_CONTACTS_DASHBOARD": "Accesați Tabloul de bord persoane de contact",
-      "TOGGLE_SIDEBAR": "Comutare bară laterală",
+      "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
       "GO_TO_REPORTS_SIDEBAR": "Accesați bara laterală Rapoarte",
-      "MOVE_TO_NEXT_TAB": "Deplasarea la fila următoare din lista de conversații",
       "GO_TO_SETTINGS": "Accesați Pagina Setări",
+      "MOVE_TO_NEXT_TAB": "Deplasarea la fila următoare din lista de conversații",
+      "NAVIGATE_DROPDOWN": "Navigarea elementelor verticale",
+      "OPEN_CONVERSATION": "Deschiderea conversației",
+      "RESOLVE_AND_NEXT": "Rezolvarea și trecerea la următorul",
+      "RESOLVE_CONVERSATION": "Detalii conversație",
       "SWITCH_CONVERSATION_STATUS": "Comutarea la următoarea stare a conversației",
       "SWITCH_TO_PRIVATE_NOTE": "Comutarea la Notă privată",
       "SWITCH_TO_REPLY": "Comutarea la Răspuns",
+      "TOGGLE_SIDEBAR": "Comutare bară laterală",
       "TOGGLE_SNOOZE_DROPDOWN": "Comutați snooze dropdown"
     },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+    "TOGGLE_MODAL": "View all shortcuts"
+  },
+  "PROFILE_SETTINGS": {
+    "AFTER_EMAIL_CHANGED": "Profilul tău a fost actualizat cu succes, te rugăm să te autentifici din nou pentru că datele tale de autentificare au fost modificate",
+    "AVATAR_DELETE_FAILED": "Există o eroare în timp ce ștergeți avatarul, vă rugăm să încercați din nou",
+    "AVATAR_DELETE_SUCCESS": "Avatar a fost șters cu succes",
+    "BTN_TEXT": "Actualizeaza profil",
+    "DELETE_AVATAR": "Șterge avatarul",
+    "FORM": {
+      "ACCESS_TOKEN": {
+        "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API",
+        "TITLE": "Token acces"
+      },
+      "API": {
+        "UPDATE_ERROR": "A apărut o eroare la actualizarea preferințelor, încercați din nou",
+        "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "ALERT_TYPE": {
+          "ALL_CONVERSATIONS": "Toate conversațiile",
+          "ASSIGNED": "Conversații atribuite",
+          "NONE": "Nimic",
+          "TITLE": "Alert events:"
+        },
+        "CONDITIONS": {
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read",
+          "TITLE": "Alert conditions:"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
+        "TITLE": "Notificări audio"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Disponibilitate",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "STATUSES_LIST": [
+          "Online",
+          "Ocupat",
+          "Deconectat"
+        ]
+      },
+      "AVATAR": "Imagine de profil",
+      "CURRENT_PASSWORD": {
+        "ERROR": "Vă rugăm să introduceţi un nume de agent",
+        "LABEL": "Parola curentă",
+        "PLACEHOLDER": "Vă rugăm să introduceți parola curentă"
+      },
+      "DISPLAY_NAME": {
+        "ERROR": "Te rugăm să introduci un nume valid",
+        "LABEL": "Nume afişat",
+        "PLACEHOLDER": "Te rugăm să introduci numele tău, care va fi folosit în conversații"
+      },
+      "EMAIL": {
+        "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă",
+        "LABEL": "Adresa ta de email",
+        "PLACEHOLDER": "Te rugăm să introduci adresa ta de e-mail, aceasta va fi afișată în conversații"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor prin e-mail atunci când se creează un mesaj nou într-o conversație atribuită",
+        "CONVERSATION_ASSIGNMENT": "Trimite notificări prin e-mail atunci când o conversație îmi este atribuită",
+        "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
+        "CONVERSATION_MENTION": "Trimiterea notificărilor prin e-mail atunci când sunteți menționat într-o conversație",
+        "NOTE": "Actualizați preferințele de notificare prin e-mail aici",
+        "TITLE": "Notificări prin e-mail"
+      },
+      "ERROR": "Vă rugăm să remediați erorile din formular",
+      "MESSAGE_SIGNATURE": {
+        "ERROR": "Semnătura mesajului nu poate fi goală",
+        "LABEL": "Semnătura mesajului",
+        "PLACEHOLDER": "Introduceți semnătura mesajului personal aici."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "API_ERROR": "Nu s-a putut trimite! Încearcă din nou",
+        "API_SUCCESS": "Semnătura salvată cu succes",
+        "BTN_TEXT": "Salvarea semnăturii mesajului",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "TITLE": "Semnătura mesajului personal"
+      },
+      "NAME": {
+        "ERROR": "Te rugăm să introduci un nume valid",
+        "LABEL": "Numele tău complet",
+        "PLACEHOLDER": "Te rugăm să introduci un nume valid"
+      },
+      "PASSWORD": {
+        "ERROR": "Te rugăm să introduci o parolă pentru lungimea de 6 caractere sau mai mult",
+        "LABEL": "Parolă nouă",
+        "PLACEHOLDER": "Te rog introdu o noua parola"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "ERROR": "Confirmarea parolei trebuie să se potrivească cu parola",
+        "LABEL": "Confirmare parolă nouă",
+        "PLACEHOLDER": "Vă rugăm să reintroduceți noua parolă"
+      },
+      "PASSWORD_SECTION": {
+        "BTN_TEXT": "Schimba parola",
+        "NOTE": "Actualizarea parolei ar reseta autentificările pe mai multe dispozitive.",
+        "TITLE": "Parola"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Imagine de profil"
+      },
+      "PROFILE_SECTION": {
+        "NOTE": "Adresa ta de email este identitatea ta și este folosită pentru a te autentifica.",
+        "TITLE": "Profil"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor push atunci când se creează un mesaj nou într-o conversație atribuită",
+        "CONVERSATION_ASSIGNMENT": "Trimite notificări push atunci când o conversație îmi este atribuită",
+        "CONVERSATION_CREATION": "Trimite notificări push atunci când o conversație nouă este creată",
+        "CONVERSATION_MENTION": "Trimiterea notificărilor push atunci când sunteți menționat într-o conversație",
+        "HAS_ENABLED_PUSH": "Ați activat apăsarea pentru acest browser.",
+        "NOTE": "Actualizați preferințele de notificare push aici",
+        "REQUEST_PUSH": "Activează notificările push",
+        "TITLE": "Notificări push"
+      },
+      "REMOVE_IMAGE": "Elimină",
+      "SEND_MESSAGE": {
+        "CARD": {
+          "CMD_ENTER_KEY": {
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button.",
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)"
+          },
+          "ENTER_KEY": {
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button.",
+            "HEADING": "Enter (↵)"
+          }
+        },
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "TITLE": "Hotkey to send messages",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully"
+      },
+      "UPDATE_IMAGE": "Actualizare imagine",
+      "UPLOAD_IMAGE": "Încarcă imaginea"
+    },
+    "LINK": "Setări profil",
+    "PASSWORD_UPDATE_SUCCESS": "Parola ta a fost schimbată cu succes",
+    "TITLE": "Setări profil",
+    "UPDATE_SUCCESS": "Profilul dvs. a fost actualizat cu succes"
+  },
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Adaugă Inbox"
     }
+  },
+  "SIDEBAR": {
+    "ACCOUNT_SETTINGS": "Setările contului",
+    "AGENTS": "Agenți",
+    "AGENT_BOTS": "Boți",
+    "ALL_CONTACTS": "Toate persoanele de contact",
+    "ALL_CONVERSATIONS": "Toate conversațiile",
+    "APPLICATIONS": "Aplicatii",
+    "AUTOMATION": "Automatizare",
+    "BETA": "Beta",
+    "BILLING": "Billing",
+    "CAMPAIGNS": "Campanii",
+    "CANNED_RESPONSES": "Răspunsuri predefinite",
+    "CONTACTS": "Contacte",
+    "CONVERSATIONS": "Conversații",
+    "CSAT": "CSAT",
+    "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
+    "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
+    "CUSTOM_VIEWS_FOLDER": "Foldere",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmente",
+    "DOCS": "Read docs",
+    "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found",
+      "DRAFT": "Draft",
+      "MY_ARTICLES": "My Articles",
+      "TITLE": "Help Center (Beta)"
+    },
+    "HOME": "Acasa",
+    "INBOXES": "Căsuțe",
+    "INTEGRATIONS": "Integrări",
+    "LABELS": "Etichete",
+    "MACROS": "Macros",
+    "MENTIONED_CONVERSATIONS": "Menţionări",
+    "NEW_INBOX": "Inbox nou",
+    "NEW_LABEL": "Etichetă nouă",
+    "NEW_TEAM": "Echipă nouă",
+    "NOTIFICATIONS": "Notificări",
+    "ONE_OFF": "Unul oprit",
+    "ONGOING": "În derulare",
+    "PROFILE_SETTINGS": "Setări profil",
+    "REPORTS": "Rapoarte",
+    "REPORTS_AGENT": "Agenți",
+    "REPORTS_CONVERSATION": "Conversații",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_LABEL": "Etichete",
+    "REPORTS_OVERVIEW": "Prezentare generală",
+    "REPORTS_TEAM": "Echipa",
+    "SETTINGS": "Setări",
+    "SET_AUTO_OFFLINE": {
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "TEXT": "Mark offline automatically"
+    },
+    "SET_AVAILABILITY_TITLE": "Setați-vă ca",
+    "SWITCH": "Switch",
+    "TAGGED_WITH": "Etichetate cu",
+    "TEAMS": "Echipe",
+    "UNATTENDED_CONVERSATIONS": "Unattended"
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Comută contul",
+    "CHANGE_AVAILABILITY_STATUS": "Schimba",
+    "CONTACT_SUPPORT": "Contact Suport",
+    "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
+    "LOGOUT": "Deconectare",
+    "PROFILE_SETTINGS": "Setări profil",
+    "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console"
   }
 }

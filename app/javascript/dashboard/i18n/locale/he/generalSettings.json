@@ -1,76 +1,125 @@
 {
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
+      "ASSIGN_AN_AGENT": "Assign an agent",
+      "ASSIGN_A_TEAM": "Assign a team",
+      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
+      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
+      "GO_TO_NOTIFICATIONS": "Go to Notifications",
+      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
+      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
+      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
+      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
+      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
+      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
+      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
+      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
+      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
+      "MUTE_CONVERSATION": "Mute conversation",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
+      "REOPEN_CONVERSATION": "פתח מחדש את השיחה",
+      "RESOLVE_CONVERSATION": "פתור את השיחה",
+      "SEND_TRANSCRIPT": "Send an email transcript",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "UNMUTE_CONVERSATION": "בטל השתקת שיחה",
+      "UNTIL_NEXT_REPLY": "Until next reply",
+      "UNTIL_NEXT_WEEK": "Until next week",
+      "UNTIL_TOMORROW": "Until tomorrow"
+    },
+    "SEARCH_PLACEHOLDER": "חפש או קפוץ ל",
+    "SECTIONS": {
+      "ADD_LABEL": "Add label to the conversation",
+      "CHANGE_ASSIGNEE": "Change Assignee",
+      "CHANGE_TEAM": "Change Team",
+      "CONVERSATION": "שיחה",
+      "GENERAL": "כללי",
+      "REMOVE_LABEL": "Remove label from the conversation",
+      "REPORTS": "דוחות",
+      "SETTINGS": "הגדרות"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
+      "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
+      "SELECT": "Select",
+      "SELECT_ONE": "תבחר אחד"
+    }
+  },
   "GENERAL_SETTINGS": {
-    "TITLE": "הגדרות חשבון",
-    "SUBMIT": "עדכן הגדרות",
     "BACK": "חזור",
+    "FORM": {
+      "ACCOUNT_ID": {
+        "NOTE": "This ID is required if you are building an API based integration",
+        "TITLE": "מזהה חשבון"
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)",
+        "LABEL": "מספר הימים לאחר כרטיס אמור להיפתר אוטומטית אם אין פעילות",
+        "PLACEHOLDER": "30"
+      },
+      "DOMAIN": {
+        "ERROR": "",
+        "LABEL": "דומיין דואר נכנס",
+        "PLACEHOLDER": "הדומיין שבו תקבלו את המיילים"
+      },
+      "ERROR": "אנא תקן שגיאות בטופס",
+      "FEATURES": {
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "אתה יכול לקבל אימיילים בדומיין המותאם אישית שלך עכשיו.",
+        "INBOUND_EMAIL_ENABLED": "רציפות השיחה עם הודעות אימייל מופעלת עבור החשבון שלך."
+      },
+      "GENERAL_SECTION": {
+        "NOTE": "",
+        "TITLE": "הגדרות כלליות"
+      },
+      "LANGUAGE": {
+        "ERROR": "",
+        "LABEL": "Site language",
+        "PLACEHOLDER": "שם החשבון שלך"
+      },
+      "NAME": {
+        "ERROR": "נא להזין שם חשבון חוקי",
+        "LABEL": "שם החשבון",
+        "PLACEHOLDER": "שם החשבון שלך"
+      },
+      "SUPPORT_EMAIL": {
+        "ERROR": "",
+        "LABEL": "אימייל לתמיכה",
+        "PLACEHOLDER": "דוא\"ל התמיכה של החברה שלך"
+      }
+    },
+    "LEARN_MORE": "Learn more",
+    "SUBMIT": "עדכן הגדרות",
+    "TITLE": "הגדרות חשבון",
     "UPDATE": {
       "ERROR": "לא ניתן היה לעדכן את ההגדרות, נסה שוב!",
       "SUCCESS": "הגדרות החשבון עודכנו בהצלחה"
     },
-    "FORM": {
-      "ERROR": "אנא תקן שגיאות בטופס",
-      "GENERAL_SECTION": {
-        "TITLE": "הגדרות כלליות",
-        "NOTE": ""
-      },
-      "ACCOUNT_ID": {
-        "TITLE": "מזהה חשבון",
-        "NOTE": "This ID is required if you are building an API based integration"
-      },
-      "NAME": {
-        "LABEL": "שם החשבון",
-        "PLACEHOLDER": "שם החשבון שלך",
-        "ERROR": "נא להזין שם חשבון חוקי"
-      },
-      "LANGUAGE": {
-        "LABEL": "Site language",
-        "PLACEHOLDER": "שם החשבון שלך",
-        "ERROR": ""
-      },
-      "DOMAIN": {
-        "LABEL": "דומיין דואר נכנס",
-        "PLACEHOLDER": "הדומיין שבו תקבלו את המיילים",
-        "ERROR": ""
-      },
-      "SUPPORT_EMAIL": {
-        "LABEL": "אימייל לתמיכה",
-        "PLACEHOLDER": "דוא\"ל התמיכה של החברה שלך",
-        "ERROR": ""
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "מספר הימים לאחר כרטיס אמור להיפתר אוטומטית אם אין פעילות",
-        "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
-      },
-      "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "רציפות השיחה עם הודעות אימייל מופעלת עבור החשבון שלך.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "אתה יכול לקבל אימיילים בדומיין המותאם אישית שלך עכשיו."
-      }
-    },
-    "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
-    "LEARN_MORE": "Learn more"
+    "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך."
   },
-  "FORMS": {
-    "MULTISELECT": {
-      "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
-      "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
-      "SELECT_ONE": "תבחר אחד",
-      "SELECT": "Select"
+  "NETWORK": {
+    "BUTTON": {
+      "REFRESH": "רענן"
+    },
+    "NOTIFICATION": {
+      "TEXT": "מנותק מ-Chatwoot"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "התראות",
-    "MARK_ALL_DONE": "סמן הכל כבוצע",
     "DELETE_TITLE": "נמחק",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "התראות שלא נקראו",
-      "ALL_NOTIFICATIONS": "הצג את כל ההתראות",
-      "LOADING_UNREAD_MESSAGE": "טוען התראות שלא נקראו...",
-      "EMPTY_MESSAGE": "אין לך התראות שלא נקראו"
-    },
+    "HEADER": "התראות",
     "LIST": {
-      "LOADING_MESSAGE": "טוען הודעות...",
       "404": "אין התראות",
+      "LOADING_MESSAGE": "טוען הודעות...",
       "TABLE_HEADER": [
         "שם",
         "מספר טלפון",
@@ -78,67 +127,18 @@
         "פניה אחרונה"
       ]
     },
+    "MARK_ALL_DONE": "סמן הכל כבוצע",
     "TYPE_LABEL": {
-      "conversation_creation": "שיחה חדשה",
-      "conversation_assignment": "שיחה הוקצתה",
       "assigned_conversation_new_message": "הודעה חדשה",
+      "conversation_assignment": "שיחה הוקצתה",
+      "conversation_creation": "שיחה חדשה",
       "conversation_mention": "אִזְכּוּר"
-    }
-  },
-  "NETWORK": {
-    "NOTIFICATION": {
-      "TEXT": "מנותק מ-Chatwoot"
     },
-    "BUTTON": {
-      "REFRESH": "רענן"
+    "UNREAD_NOTIFICATION": {
+      "ALL_NOTIFICATIONS": "הצג את כל ההתראות",
+      "EMPTY_MESSAGE": "אין לך התראות שלא נקראו",
+      "LOADING_UNREAD_MESSAGE": "טוען התראות שלא נקראו...",
+      "TITLE": "התראות שלא נקראו"
     }
-  },
-  "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "חפש או קפוץ ל",
-    "SECTIONS": {
-      "GENERAL": "כללי",
-      "REPORTS": "דוחות",
-      "CONVERSATION": "שיחה",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
-      "SETTINGS": "הגדרות"
-    },
-    "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "בטל השתקת שיחה",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "פתח מחדש את השיחה",
-      "RESOLVE_CONVERSATION": "פתור את השיחה",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
-    }
-  },
-  "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

@@ -1,225 +1,340 @@
 {
+  "CONTACTS_PAGE": {
+    "FIELDS": "Contact fields",
+    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "フィルターの保存",
+    "HEADER": "Contacts",
+    "LIST": {
+      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Loading contacts...",
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "CITY": "City",
+        "COMPANY": "企業",
+        "CONVERSATIONS": "会話データ",
+        "COUNTRY": "Country",
+        "CREATED_AT": "Created At",
+        "EMAIL_ADDRESS": "Eメールアドレス",
+        "LAST_ACTIVITY": "Last Activity",
+        "NAME": "名前",
+        "PHONE_NUMBER": "電話番号",
+        "SOCIAL_PROFILES": "Social Profiles"
+      },
+      "VIEW_DETAILS": "View details"
+    },
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts"
+  },
+  "CONTACT_FORM": {
+    "DELETE_AVATAR": {
+      "API": {
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later.",
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully"
+      }
+    },
+    "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。",
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "連絡先のアバター"
+      },
+      "BIO": {
+        "LABEL": "プロフィール",
+        "PLACEHOLDER": "連絡先のプロフィールを入力してください"
+      },
+      "CANCEL": "キャンセル",
+      "COMPANY_NAME": {
+        "LABEL": "企業名",
+        "PLACEHOLDER": "企業名を入力"
+      },
+      "EMAIL_ADDRESS": {
+        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
+        "ERROR": "正しいメールアドレスを入力してください.",
+        "LABEL": "Eメールアドレス",
+        "PLACEHOLDER": "連絡先のEメールアドレスを入力してください"
+      },
+      "LOCATION": {
+        "LABEL": "場所",
+        "PLACEHOLDER": "連絡先の所在地を入力してください"
+      },
+      "NAME": {
+        "LABEL": "フルネーム",
+        "PLACEHOLDER": "連絡先のフルネームを入力してください"
+      },
+      "PHONE_NUMBER": {
+        "DUPLICATE": "This phone number is in use for another contact.",
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "LABEL": "電話番号",
+        "PLACEHOLDER": "連絡先の電話番号を入力してください"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "LABEL": "Facebook",
+          "PLACEHOLDER": "Facebookのユーザー名を入力してください"
+        },
+        "GITHUB": {
+          "LABEL": "Github",
+          "PLACEHOLDER": "GitHubのユーザー名を入力してください"
+        },
+        "LINKEDIN": {
+          "LABEL": "LinkedIn",
+          "PLACEHOLDER": "LinkedIn のユーザー名を入力してください"
+        },
+        "TWITTER": {
+          "LABEL": "Twitter",
+          "PLACEHOLDER": "Twitterのユーザー名を入力してください"
+        }
+      },
+      "SUBMIT": "送信"
+    },
+    "SUCCESS_MESSAGE": "Contact saved successfully"
+  },
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "利用不可",
-    "EMAIL_ADDRESS": "Eメールアドレス",
-    "PHONE_NUMBER": "電話番号",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "企業",
-    "LOCATION": "場所",
-    "BROWSER_LANGUAGE": "ブラウザの言語",
-    "CONVERSATION_TITLE": "会話の詳細",
-    "VIEW_PROFILE": "View Profile",
     "BROWSER": "ブラウザ",
-    "OS": "OS",
-    "INITIATED_FROM": "開始元",
-    "INITIATED_AT": "開始場所",
-    "IP_ADDRESS": "IP Address",
-    "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
+    "BROWSER_LANGUAGE": "ブラウザの言語",
+    "COMPANY": "企業",
+    "CONTACT_ACTIONS": "Contact actions",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
       "TITLE": "前の会話"
     },
+    "CONVERSATION_TITLE": "会話の詳細",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "CREATED_AT_LABEL": "Created",
+    "EDIT_LABEL": "編集",
+    "EMAIL_ADDRESS": "Eメールアドレス",
+    "IDENTIFIER": "Identifier",
+    "INITIATED_AT": "開始場所",
+    "INITIATED_FROM": "開始元",
+    "IP_ADDRESS": "IP Address",
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "Couldn't update labels",
+        "TITLE": "Contact Labels"
       },
       "CONVERSATION": {
-        "TITLE": "会話のラベル",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Add Labels",
+        "TITLE": "会話のラベル"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
+        "NO_RESULT": "No labels found",
         "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Add Labels"
       }
     },
+    "LOCATION": "場所",
     "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "会話をミュート",
-    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "この会話は6時間ミュートされています。",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "MUTE_CONTACT": "会話をミュート",
+    "NEW_MESSAGE": "New message",
+    "NOT_AVAILABLE": "利用不可",
+    "OS": "OS",
+    "PHONE_NUMBER": "電話番号",
     "SEND_TRANSCRIPT": "会話のログを送信",
-    "EDIT_LABEL": "編集",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "カスタム属性",
       "CONTACT_LABELS": "Contact Labels",
+      "CUSTOM_ATTRIBUTES": "カスタム属性",
       "PREVIOUS_CONVERSATIONS": "前の会話"
-    }
-  },
-  "EDIT_CONTACT": {
-    "BUTTON_LABEL": "連絡先を編集",
-    "TITLE": "連絡先を編集",
-    "DESC": "連絡先の詳細を編集"
-  },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
-    "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
-      "CANCEL": "キャンセル"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
-    "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "削除の確認",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "いいえ、保存しておきます"
-    }
-  },
-  "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
-    "CONFIRM": {
-      "TITLE": "削除の確認",
-      "MESSAGE": "削除してもよろしいですか？ ",
-      "YES": "削除する",
-      "NO": "いいえ"
-    },
-    "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
-    }
-  },
-  "CONTACT_FORM": {
-    "FORM": {
-      "SUBMIT": "送信",
-      "CANCEL": "キャンセル",
-      "AVATAR": {
-        "LABEL": "連絡先のアバター"
-      },
-      "NAME": {
-        "PLACEHOLDER": "連絡先のフルネームを入力してください",
-        "LABEL": "フルネーム"
-      },
-      "BIO": {
-        "PLACEHOLDER": "連絡先のプロフィールを入力してください",
-        "LABEL": "プロフィール"
-      },
-      "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "連絡先のEメールアドレスを入力してください",
-        "LABEL": "Eメールアドレス",
-        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
-        "ERROR": "正しいメールアドレスを入力してください."
-      },
-      "PHONE_NUMBER": {
-        "PLACEHOLDER": "連絡先の電話番号を入力してください",
-        "LABEL": "電話番号",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
-      },
-      "LOCATION": {
-        "PLACEHOLDER": "連絡先の所在地を入力してください",
-        "LABEL": "場所"
-      },
-      "COMPANY_NAME": {
-        "PLACEHOLDER": "企業名を入力",
-        "LABEL": "企業名"
-      },
-      "SOCIAL_PROFILES": {
-        "FACEBOOK": {
-          "PLACEHOLDER": "Facebookのユーザー名を入力してください",
-          "LABEL": "Facebook"
-        },
-        "TWITTER": {
-          "PLACEHOLDER": "Twitterのユーザー名を入力してください",
-          "LABEL": "Twitter"
-        },
-        "LINKEDIN": {
-          "PLACEHOLDER": "LinkedIn のユーザー名を入力してください",
-          "LABEL": "LinkedIn"
-        },
-        "GITHUB": {
-          "PLACEHOLDER": "GitHubのユーザー名を入力してください",
-          "LABEL": "Github"
-        }
-      }
-    },
-    "DELETE_AVATAR": {
-      "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
-      }
-    },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
-  },
-  "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
-    "FORM": {
-      "TO": {
-        "LABEL": "To"
-      },
-      "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
-      },
-      "SUBJECT": {
-        "LABEL": "件名",
-        "PLACEHOLDER": "件名",
-        "ERROR": "Subject can't be empty"
-      },
-      "MESSAGE": {
-        "LABEL": "メッセージ",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
-      },
-      "SUBMIT": "Send message",
-      "CANCEL": "キャンセル",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "GO_TO_CONVERSATION": "表示",
-      "ERROR_MESSAGE": "Couldn't send! try again"
-    }
-  },
-  "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "フィルターの保存",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
-    "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "NO_CONTACTS": "There are no available contacts",
-      "TABLE_HEADER": {
-        "NAME": "名前",
-        "PHONE_NUMBER": "電話番号",
-        "CONVERSATIONS": "会話データ",
-        "LAST_ACTIVITY": "Last Activity",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "企業",
-        "EMAIL_ADDRESS": "Eメールアドレス"
-      },
-      "VIEW_DETAILS": "View details"
-    }
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "UNMUTE_CONTACT": "Unmute Conversation",
+    "VIEW_PROFILE": "View Profile"
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Contacts",
     "LOADING": "Loading contact profile..."
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "DESC": "Add basic information details about the contact.",
+    "TITLE": "Create new contact"
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
+    "ADD": {
+      "DESC": "Add custom information to this contact.",
+      "TITLE": "Create custom attribute"
+    },
+    "ADD_BUTTON_TEXT": "Add attributes",
+    "BUTTON": "Add custom attribute",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "FORM": {
+      "ADD": {
+        "ERROR": "Unable to add attribute. Please try again later",
+        "SUCCESS": "Attribute added successfully",
+        "TITLE": "Create new attribute "
+      },
+      "ATTRIBUTE_SELECT": {
+        "NO_RESULT": "No attributes found",
+        "PLACEHOLDER": "Search attributes",
+        "TITLE": "Add attributes"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "NO_RESULT": "No result found",
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value"
+        }
+      },
+      "CANCEL": "キャンセル",
+      "CREATE": "Add attribute",
+      "DELETE": {
+        "ERROR": "Unable to delete attribute. Please try again later",
+        "SUCCESS": "Attribute deleted successfully"
+      },
+      "NAME": {
+        "ERROR": "Invalid custom attribute name",
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id"
+      },
+      "UPDATE": {
+        "ERROR": "Unable to update attribute. Please try again later",
+        "SUCCESS": "Attribute updated successfully"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
+    },
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "VALIDATIONS": {
+      "INVALID_URL": "Invalid URL",
+      "REQUIRED": "Valid value is required"
+    }
+  },
+  "DELETE_CONTACT": {
+    "API": {
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later.",
+      "SUCCESS_MESSAGE": "Contact deleted successfully"
+    },
+    "BUTTON_LABEL": "Delete Contact",
+    "CONFIRM": {
+      "MESSAGE": "削除してもよろしいですか？ ",
+      "NO": "いいえ",
+      "TITLE": "削除の確認",
+      "YES": "削除する"
+    },
+    "DESC": "Delete contact details",
+    "TITLE": "Delete contact"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "MESSAGE": "Are you want sure to delete this note?",
+      "NO": "いいえ、保存しておきます",
+      "TITLE": "削除の確認",
+      "YES": "Yes, Delete it"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "連絡先を編集",
+    "DESC": "連絡先の詳細を編集",
+    "TITLE": "連絡先を編集"
+  },
+  "EVENTS": {
+    "BUTTON": {
+      "PILL_BUTTON_CONVO": "会話データ",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "notes"
+    },
+    "HEADER": {
+      "TITLE": "Activities"
+    }
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。",
+    "FORM": {
+      "CANCEL": "キャンセル",
+      "LABEL": "CSV File",
+      "SUBMIT": "Import"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "TITLE": "Import Contacts"
+  },
+  "MERGE_CONTACTS": {
+    "CHILD": {
+      "HELP_LABEL": "To be deleted",
+      "PLACEHOLDER": "Search for a contact",
+      "TITLE": "Contact to merge"
+    },
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "FORM": {
+      "CANCEL": "キャンセル",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "ERROR_MESSAGE": "Could not merge contacts, try again!",
+      "SUBMIT": " Merge contacts",
+      "SUCCESS_MESSAGE": "Contact merged successfully"
+    },
+    "PRIMARY": {
+      "HELP_LABEL": "To be kept",
+      "TITLE": "Primary contact"
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "SUMMARY": {
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "TITLE": "Summary"
+    },
+    "TITLE": "Merge contacts"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "FORM": {
+      "CANCEL": "キャンセル",
+      "ERROR_MESSAGE": "Couldn't send! try again",
+      "GO_TO_CONVERSATION": "表示",
+      "INBOX": {
+        "ERROR": "Select an inbox",
+        "LABEL": "Inbox"
+      },
+      "MESSAGE": {
+        "ERROR": "Message can't be empty",
+        "LABEL": "メッセージ",
+        "PLACEHOLDER": "Write your message here"
+      },
+      "SUBJECT": {
+        "ERROR": "Subject can't be empty",
+        "LABEL": "件名",
+        "PLACEHOLDER": "件名"
+      },
+      "SUBMIT": "Send message",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "TO": {
+        "LABEL": "To"
+      }
+    },
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "TITLE": "New conversation"
+  },
+  "NOTES": {
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
+    },
+    "FETCHING_NOTES": "Fetching notes...",
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
+    },
+    "NOT_AVAILABLE": "There are no notes created for this contact"
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -229,121 +344,6 @@
     "FOOTER": {
       "DUE_DATE": "Due date",
       "LABEL_TITLE": "Set type"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
-    "HEADER": {
-      "TITLE": "Notes"
-    },
-    "LIST": {
-      "LABEL": "added a note"
-    },
-    "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Delete note"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Activities"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
-      "PILL_BUTTON_CONVO": "会話データ"
-    }
-  },
-  "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
-    },
-    "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
-    },
-    "FORM": {
-      "CREATE": "Add attribute",
-      "CANCEL": "キャンセル",
-      "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
-      },
-      "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
-      },
-      "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
-      },
-      "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
-      },
-      "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
-      },
-      "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
-      },
-      "ATTRIBUTE_TYPE": {
-        "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
-        }
-      }
-    },
-    "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
-    }
-  },
-  "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
-    "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
-    },
-    "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
-    },
-    "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
-    },
-    "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
-    },
-    "FORM": {
-      "SUBMIT": " Merge contacts",
-      "CANCEL": "キャンセル",
-      "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
-      },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

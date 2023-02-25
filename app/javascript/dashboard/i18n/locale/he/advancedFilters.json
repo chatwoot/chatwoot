@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "סינון שיחות",
-    "SUBTITLE": "הוסף מסננים למטה והקש על 'החל מסננים' כדי לסנן שיחות.",
     "ADD_NEW_FILTER": "הוסף מסנן",
-    "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
-    "SUBMIT_BUTTON_LABEL": "שמור סננים",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "משויך ל",
+      "BROWSER_LANGUAGE": "שפת דפדפן",
+      "CAMPAIGN_NAME": "שם קמפיין",
+      "CONVERSATION_IDENTIFIER": "מזהה שיחה",
+      "COUNTRY_NAME": "שם המדינה",
+      "CREATED_AT": "הוקם ב",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
+      "CUSTOM_ATTRIBUTE_LINK": "קישור",
+      "CUSTOM_ATTRIBUTE_LIST": "רשימה",
+      "CUSTOM_ATTRIBUTE_NUMBER": "מספר",
+      "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
+      "INBOX_NAME": "שם תיבת הדואר הנכנס",
+      "LABELS": "תוויות",
+      "LAST_ACTIVITY": "פעילות אחרונה",
+      "REFERER_LINK": "קישור מפנה",
+      "STATUS": "מצב",
+      "TEAM_NAME": "שם צוות"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "לא נכון",
+      "TRUE": "נכון"
+    },
     "CANCEL_BUTTON_LABEL": "ביטול",
     "CLEAR_BUTTON_LABEL": "מחק סננים",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "שגיאה או תקלה בהקמת התיקיה",
+          "SUCCESS_MESSAGE": "התיקיה נשמרה בהצלחה"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "תקלה או שגיאה בהקמת הסגמנט",
+          "SUCCESS_MESSAGE": "הסגמנט נשמר בהצלחה"
+        },
+        "CANCEL_BUTTON": "ביטול",
+        "ERROR_MESSAGE": "שם שדה חובה",
+        "LABEL": "תן שם למסנן הזה",
+        "PLACEHOLDER": "תן שם למסנן הזה",
+        "SAVE_BUTTON": "שמור מסנן",
+        "TITLE": "האם אתה רוצה לשמור את המסנן הזה?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "שגיאה או תקלה במחיקת תיקיה",
+          "SUCCESS_MESSAGE": "תיקיה נמחקה בהצלחה"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "שגיאה במחיקת הערך",
+          "SUCCESS_MESSAGE": "סגמנט נמחק בהצלחה"
+        },
+        "DELETE_BUTTON": "מחק מסנן",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "האם אתה בטוח למחוק הסנן הזה ",
+            "NO": "לא, השאר",
+            "TITLE": "אשר מחיקה",
+            "YES": "כן, מחק"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "חובה ערך",
-    "TOOLTIP_LABEL": "סינון שיחות",
+    "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "סננים נוספים",
+      "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית",
+      "STANDARD_FILTERS": "סננים סטנדרטיים"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "מכיל",
+      "days_before": "זה x ימים לפני",
+      "does_not_contain": "לא מכיל",
+      "equal_to": "שווה ל",
+      "is_greater_than": "גדול מ",
+      "is_less_than": "קטן מ",
+      "is_not_present": "לא נוכח",
+      "is_present": "נוכח",
+      "not_equal_to": "לא שווה ל"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ו/גם",
       "OR": "או"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "שווה ל",
-      "not_equal_to": "לא שווה ל",
-      "contains": "מכיל",
-      "does_not_contain": "לא מכיל",
-      "is_present": "נוכח",
-      "is_not_present": "לא נוכח",
-      "is_greater_than": "גדול מ",
-      "is_less_than": "קטן מ",
-      "days_before": "זה x ימים לפני"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "נכון",
-      "FALSE": "לא נכון"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "מצב",
-      "ASSIGNEE_NAME": "משויך ל",
-      "INBOX_NAME": "שם תיבת הדואר הנכנס",
-      "TEAM_NAME": "שם צוות",
-      "CONVERSATION_IDENTIFIER": "מזהה שיחה",
-      "CAMPAIGN_NAME": "שם קמפיין",
-      "LABELS": "תוויות",
-      "BROWSER_LANGUAGE": "שפת דפדפן",
-      "COUNTRY_NAME": "שם המדינה",
-      "REFERER_LINK": "קישור מפנה",
-      "CUSTOM_ATTRIBUTE_LIST": "רשימה",
-      "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
-      "CUSTOM_ATTRIBUTE_NUMBER": "מספר",
-      "CUSTOM_ATTRIBUTE_LINK": "קישור",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
-      "CREATED_AT": "הוקם ב",
-      "LAST_ACTIVITY": "פעילות אחרונה"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "סננים סטנדרטיים",
-      "ADDITIONAL_FILTERS": "סננים נוספים",
-      "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "האם אתה רוצה לשמור את המסנן הזה?",
-        "LABEL": "תן שם למסנן הזה",
-        "PLACEHOLDER": "תן שם למסנן הזה",
-        "ERROR_MESSAGE": "שם שדה חובה",
-        "SAVE_BUTTON": "שמור מסנן",
-        "CANCEL_BUTTON": "ביטול",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "התיקיה נשמרה בהצלחה",
-          "ERROR_MESSAGE": "שגיאה או תקלה בהקמת התיקיה"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "הסגמנט נשמר בהצלחה",
-          "ERROR_MESSAGE": "תקלה או שגיאה בהקמת הסגמנט"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "מחק מסנן",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "אשר מחיקה",
-            "MESSAGE": "האם אתה בטוח למחוק הסנן הזה ",
-            "YES": "כן, מחק",
-            "NO": "לא, השאר"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "תיקיה נמחקה בהצלחה",
-          "ERROR_MESSAGE": "שגיאה או תקלה במחיקת תיקיה"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "סגמנט נמחק בהצלחה",
-          "ERROR_MESSAGE": "שגיאה במחיקת הערך"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "שמור סננים",
+    "SUBTITLE": "הוסף מסננים למטה והקש על 'החל מסננים' כדי לסנן שיחות.",
+    "TITLE": "סינון שיחות",
+    "TOOLTIP_LABEL": "סינון שיחות"
   }
 }

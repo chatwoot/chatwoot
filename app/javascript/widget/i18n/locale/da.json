@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Chat med os"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ugyldigt felt"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Skriv din besked",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
@@ -8,89 +17,80 @@
       "SUBMIT": "Send"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send besked igen",
-      "ERROR_MESSAGE": "Kunne ikke sende, prøv igen"
+      "ERROR_MESSAGE": "Kunne ikke sende, prøv igen",
+      "RETRY": "Send besked igen"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Vi er online",
-    "OFFLINE": "Vi er ikke tilgængelige i øjeblikket"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
-    "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
-    "IN_A_DAY": "Svarer typisk på en dag"
-  },
-  "START_CONVERSATION": "Start Samtale",
-  "END_CONVERSATION": "Afslut Samtale",
   "CONTINUE_CONVERSATION": "Fortsæt samtale",
-  "START_NEW_CONVERSATION": "Start en ny samtale",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Se nye beskeder",
-    "CLOSE_MESSAGES_BUTTON": "Luk",
-    "COMPANY_FROM": "fra",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Fortæl os mere...",
+    "SUBMITTED_TITLE": "Tak for din bedømmelse",
+    "TITLE": "Bedøm din samtale"
   },
-  "BUBBLE": {
-    "LABEL": "Chat med os"
+  "EMAIL_PLACEHOLDER": "Indtast venligst din e-mail",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Anmod om en samtaleudskrift",
+    "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen",
+    "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Ingen emoji matcher din søgning",
+    "PLACEHOLDER": "Søg efter emojis"
+  },
+  "END_CONVERSATION": "Afslut Samtale",
+  "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Drevet af Chatwoot",
-  "EMAIL_PLACEHOLDER": "Indtast venligst din e-mail",
-  "CHAT_PLACEHOLDER": "Skriv din besked",
-  "TODAY": "I dag",
-  "YESTERDAY": "I går",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Angiv venligst dit navn og e-mail, før du starter samtalen",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Fulde Navn",
-        "PLACEHOLDER": "Indtast venligst dit fulde navn",
-        "REQUIRED_ERROR": "Det fulde navn er påkrævet"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail Adresse",
         "PLACEHOLDER": "Indtast venligst din e-mail adresse",
         "REQUIRED_ERROR": "E-mail adresse er påkrævet",
         "VALID_ERROR": "Indtast venligst en gyldig e-mailadresse"
       },
+      "FULL_NAME": {
+        "LABEL": "Fulde Navn",
+        "PLACEHOLDER": "Indtast venligst dit fulde navn",
+        "REQUIRED_ERROR": "Det fulde navn er påkrævet"
+      },
+      "MESSAGE": {
+        "ERROR": "Beskeden er for kort",
+        "LABEL": "Besked",
+        "PLACEHOLDER": "Indtast venligst din besked"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Telefonnummer",
         "PLACEHOLDER": "Indtast venligst dit telefonnummer",
         "REQUIRED_ERROR": "Telefonnummer er påkrævet",
         "VALID_ERROR": "Telefonnummer skal være i E.164 format fx: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Besked",
-        "PLACEHOLDER": "Indtast venligst din besked",
-        "ERROR": "Beskeden er for kort"
       }
     },
-    "CAMPAIGN_HEADER": "Angiv venligst dit navn og e-mail, før du starter samtalen",
     "IS_REQUIRED": "er påkrævet"
   },
-  "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Ugyldigt felt"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Svarer typisk på en dag",
+    "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
+    "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Søg efter emojis",
-    "NOT_FOUND": "Ingen emoji matcher din søgning"
+  "START_CONVERSATION": "Start Samtale",
+  "START_NEW_CONVERSATION": "Start en ny samtale",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Vi er ikke tilgængelige i øjeblikket",
+    "ONLINE": "Vi er online"
   },
-  "CSAT": {
-    "TITLE": "Bedøm din samtale",
-    "SUBMITTED_TITLE": "Tak for din bedømmelse",
-    "PLACEHOLDER": "Fortæl os mere..."
+  "TODAY": "I dag",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Luk",
+    "COMPANY_FROM": "fra",
+    "VIEW_MESSAGES_BUTTON": "Se nye beskeder"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Anmod om en samtaleudskrift",
-    "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
-    "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "I går"
 }

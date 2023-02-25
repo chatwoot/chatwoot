@@ -1,99 +1,99 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "מאפיינים בהתאמה אישית",
-    "HEADER_BTN_TXT": "הוסף מאפיין מותאם אישית",
-    "LOADING": "שולף מאפיינים מותאמים אישית",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "הוסף מאפיין מותאם אישית",
-      "SUBMIT": "צור",
+      "API": {
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later.",
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!"
+      },
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
-        "NAME": {
-          "LABEL": "שם תצוגה",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "שם שדה חובה"
-        },
         "DESC": {
+          "ERROR": "נדרש תיאור",
           "LABEL": "תיאור",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "נדרש תיאור"
-        },
-        "MODEL": {
-          "LABEL": "חל על",
-          "PLACEHOLDER": "בבקשה תבחר אחד",
-          "ERROR": "דגם שדה חובה"
-        },
-        "TYPE": {
-          "LABEL": "סוג",
-          "PLACEHOLDER": "אנא בחר סוג",
-          "ERROR": "סוג הינו שדה חובה",
-          "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "חובה להזין לפחות ערך אחד"
-          }
+          "PLACEHOLDER": "Enter custom attribute description"
         },
         "KEY": {
-          "LABEL": "מפתח",
-          "PLACEHOLDER": "Enter custom attribute key",
           "ERROR": "מפתח הוא שדה חובה",
-          "IN_VALID": "מפתח אינו חוקי"
+          "IN_VALID": "מפתח אינו חוקי",
+          "LABEL": "מפתח",
+          "PLACEHOLDER": "Enter custom attribute key"
+        },
+        "MODEL": {
+          "ERROR": "דגם שדה חובה",
+          "LABEL": "חל על",
+          "PLACEHOLDER": "בבקשה תבחר אחד"
+        },
+        "NAME": {
+          "ERROR": "שם שדה חובה",
+          "LABEL": "שם תצוגה",
+          "PLACEHOLDER": "Enter custom attribute display name"
+        },
+        "TYPE": {
+          "ERROR": "סוג הינו שדה חובה",
+          "LABEL": "סוג",
+          "LIST": {
+            "ERROR": "חובה להזין לפחות ערך אחד",
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key"
+          },
+          "PLACEHOLDER": "אנא בחר סוג"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
-      }
+      "SUBMIT": "צור",
+      "TITLE": "הוסף מאפיין מותאם אישית"
     },
     "DELETE": {
-      "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "לא ניתן למחוק את המאפיין המותאם אישית. נסה שנית."
+        "ERROR_MESSAGE": "לא ניתן למחוק את המאפיין המותאם אישית. נסה שנית.",
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully."
       },
+      "BUTTON_TEXT": "מחק",
       "CONFIRM": {
-        "TITLE": "האם אתה בטוח רוצה למחוק - %{attributeName}",
-        "PLACE_HOLDER": "אנא הקלד {attributeName} כדי לאשר",
         "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "מחק ",
-        "NO": "ביטול"
+        "NO": "ביטול",
+        "PLACE_HOLDER": "אנא הקלד {attributeName} כדי לאשר",
+        "TITLE": "האם אתה בטוח רוצה למחוק - %{attributeName}",
+        "YES": "מחק "
       }
     },
     "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again",
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully"
+      },
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "עדכן",
       "TYPE": {
         "LIST": {
           "LABEL": "רשימת ערכים",
           "PLACEHOLDER": "Please enter values and press enter key"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
-      }
+      "UPDATE_BUTTON_TEXT": "עדכן"
     },
-    "TABS": {
-      "HEADER": "מאפיינים בהתאמה אישית",
-      "CONVERSATION": "שיחה",
-      "CONTACT": "איש קשר"
-    },
+    "HEADER": "מאפיינים בהתאמה אישית",
+    "HEADER_BTN_TXT": "הוסף מאפיין מותאם אישית",
     "LIST": {
+      "BUTTONS": {
+        "DELETE": "מחק",
+        "EDIT": "ערוך"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
+      },
       "TABLE_HEADER": [
         "שם",
         "תיאור",
         "סוג",
         "מפתח"
-      ],
-      "BUTTONS": {
-        "EDIT": "ערוך",
-        "DELETE": "מחק"
-      },
-      "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
-      }
+      ]
+    },
+    "LOADING": "שולף מאפיינים מותאמים אישית",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "TABS": {
+      "CONTACT": "איש קשר",
+      "CONVERSATION": "שיחה",
+      "HEADER": "מאפיינים בהתאמה אישית"
     }
   }
 }

@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Recupero delle conversazioni",
-    "LOAD_MORE_CONVERSATIONS": "Carica altre conversazioni",
-    "EOF": "Tutte le conversazioni caricate 🎉",
-    "LIST": {
-      "404": "Non ci sono conversazioni attive in questo gruppo."
-    },
-    "TAB_HEADING": "Conversazioni",
-    "MENTION_HEADING": "Menzioni",
-    "UNATTENDED_HEADING": "Non partecipate",
-    "SEARCH": {
-      "INPUT": "Cerca persone, Chat, risposte salvate .."
-    },
-    "FILTER_ALL": "Tutti",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Tutti",
       "me": "Mie",
-      "unassigned": "Non assegnato",
-      "all": "Tutti"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Aperte"
-      },
-      "resolved": {
-        "TEXT": "Risolti"
-      },
-      "pending": {
-        "TEXT": "In sospeso"
-      },
-      "snoozed": {
-        "TEXT": "Posticipato"
-      },
-      "all": {
-        "TEXT": "Tutti"
-      }
+      "unassigned": "Non assegnato"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Messaggio immagine"
-      },
       "audio": {
         "CONTENT": "Messaggio audio"
       },
-      "video": {
-        "CONTENT": "Messaggio video"
+      "fallback": {
+        "CONTENT": "ha condiviso un url"
       },
       "file": {
         "CONTENT": "File allegato"
       },
+      "image": {
+        "CONTENT": "Messaggio immagine"
+      },
       "location": {
         "CONTENT": "Posizione"
       },
-      "fallback": {
-        "CONTENT": "ha condiviso un url"
+      "video": {
+        "CONTENT": "Messaggio video"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Ricevuto via email",
-    "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter",
-    "REPLY_TO_TWEET": "Rispondi a questo tweet",
-    "LINK_TO_STORY": "Vai alla storia di instagram",
-    "SENT": "Inviato correttamente",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Tutti"
+      },
+      "open": {
+        "TEXT": "Aperte"
+      },
+      "pending": {
+        "TEXT": "In sospeso"
+      },
+      "resolved": {
+        "TEXT": "Risolti"
+      },
+      "snoozed": {
+        "TEXT": "Posticipato"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Nessun messaggio",
-    "NO_CONTENT": "Nessun contenuto disponibile",
+    "EOF": "Tutte le conversazioni caricate 🎉",
+    "FILTER_ALL": "Tutti",
     "HIDE_QUOTED_TEXT": "Nascondi testo citato",
+    "LINK_TO_STORY": "Vai alla storia di instagram",
+    "LIST": {
+      "404": "Non ci sono conversazioni attive in questo gruppo."
+    },
+    "LOADING": "Recupero delle conversazioni",
+    "LOAD_MORE_CONVERSATIONS": "Carica altre conversazioni",
+    "MENTION_HEADING": "Menzioni",
+    "MESSAGE_READ": "Leggi",
+    "NO_CONTENT": "Nessun contenuto disponibile",
+    "NO_MESSAGES": "Nessun messaggio",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "Ricevuto via email",
+    "REPLY_TO_TWEET": "Rispondi a questo tweet",
+    "SEARCH": {
+      "INPUT": "Cerca persone, Chat, risposte salvate .."
+    },
+    "SENT": "Inviato correttamente",
     "SHOW_QUOTED_TEXT": "Mostra testo citato",
-    "MESSAGE_READ": "Leggi"
+    "TAB_HEADING": "Conversazioni",
+    "UNATTENDED_HEADING": "Non partecipate",
+    "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter"
   }
 }

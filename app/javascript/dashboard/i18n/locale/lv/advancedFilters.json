@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Filtrēt Sarunas",
-    "SUBTITLE": "Pievienojiet filtrus un noklikšķiniet uz 'Lietot filtrus', lai filtrētu sarunas.",
     "ADD_NEW_FILTER": "Pievienot Filtru",
-    "FILTER_DELETE_ERROR": "Lai saglabātu, Jums ir jābūt vismaz vienam filtram",
-    "SUBMIT_BUTTON_LABEL": "Lietot filtrus",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Piešķīrēja Vārds",
+      "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
+      "CAMPAIGN_NAME": "Kampaņas Nosaukums",
+      "CONVERSATION_IDENTIFIER": "Sarunas Identifikators",
+      "COUNTRY_NAME": "Valsts Nosaukums",
+      "CREATED_AT": "Izveidots",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Izvēles rūtiņa",
+      "CUSTOM_ATTRIBUTE_LINK": "Saite",
+      "CUSTOM_ATTRIBUTE_LIST": "Saraksts",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numurs",
+      "CUSTOM_ATTRIBUTE_TEXT": "Teksts",
+      "INBOX_NAME": "Iesūtnes Nosaukums",
+      "LABELS": "Etiķetes",
+      "LAST_ACTIVITY": "Pēdējās Darbības",
+      "REFERER_LINK": "Atsauces saite",
+      "STATUS": "Statuss",
+      "TEAM_NAME": "Komandas Nosaukums"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "Nepatiesi",
+      "TRUE": "Patiesi"
+    },
     "CANCEL_BUTTON_LABEL": "Atcelt",
     "CLEAR_BUTTON_LABEL": "Atcelt Filtrus",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Izveidojot mapi, radās kļūda",
+          "SUCCESS_MESSAGE": "Mape ir veiksmīgi izveidota"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Izveidojot segmentu, radās kļūda",
+          "SUCCESS_MESSAGE": "Segments ir veiksmīgi izveidots"
+        },
+        "CANCEL_BUTTON": "Atcelt",
+        "ERROR_MESSAGE": "Nepieciešams nosaukums",
+        "LABEL": "Piešķiriet filtram nosaukumu",
+        "PLACEHOLDER": "Ievadiet šī filtra nosaukumu",
+        "SAVE_BUTTON": "Saglabāt filtru",
+        "TITLE": "Vai vēlaties saglabāt šo filtru?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Dzēšot mapi, radās kļūda",
+          "SUCCESS_MESSAGE": "Mape ir veiksmīgi izdzēsta"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Dzēšot segmentu, radās kļūda",
+          "SUCCESS_MESSAGE": "Segments ir veiksmīgi izdzēsts"
+        },
+        "DELETE_BUTTON": "Dzēst filtru",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "Vai tiešām vēlaties izdzēsīsiet šo filtru ",
+            "NO": "Nē, Paturēt",
+            "TITLE": "Apstiprināt Dzēšanu",
+            "YES": "Jā, Dzēst"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "Nepieciešama vērtība",
-    "TOOLTIP_LABEL": "Filtrēt sarunas",
+    "FILTER_DELETE_ERROR": "Lai saglabātu, Jums ir jābūt vismaz vienam filtram",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Papildu Filtri",
+      "CUSTOM_ATTRIBUTES": "Pielāgotas Īpašības",
+      "STANDARD_FILTERS": "Standarta Filtri"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Satur",
+      "days_before": "Ir x dienas pirms",
+      "does_not_contain": "Nesatur",
+      "equal_to": "Vienāds ar",
+      "is_greater_than": "Ir lielāks par",
+      "is_less_than": "Ir mazāks par",
+      "is_not_present": "Neiekļauj sevī",
+      "is_present": "Iekļauj sevī",
+      "not_equal_to": "Nav vienāds ar"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "UN",
       "OR": "VAI"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "Vienāds ar",
-      "not_equal_to": "Nav vienāds ar",
-      "contains": "Satur",
-      "does_not_contain": "Nesatur",
-      "is_present": "Iekļauj sevī",
-      "is_not_present": "Neiekļauj sevī",
-      "is_greater_than": "Ir lielāks par",
-      "is_less_than": "Ir mazāks par",
-      "days_before": "Ir x dienas pirms"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "Patiesi",
-      "FALSE": "Nepatiesi"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "Statuss",
-      "ASSIGNEE_NAME": "Piešķīrēja Vārds",
-      "INBOX_NAME": "Iesūtnes Nosaukums",
-      "TEAM_NAME": "Komandas Nosaukums",
-      "CONVERSATION_IDENTIFIER": "Sarunas Identifikators",
-      "CAMPAIGN_NAME": "Kampaņas Nosaukums",
-      "LABELS": "Etiķetes",
-      "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
-      "COUNTRY_NAME": "Valsts Nosaukums",
-      "REFERER_LINK": "Atsauces saite",
-      "CUSTOM_ATTRIBUTE_LIST": "Saraksts",
-      "CUSTOM_ATTRIBUTE_TEXT": "Teksts",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Numurs",
-      "CUSTOM_ATTRIBUTE_LINK": "Saite",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Izvēles rūtiņa",
-      "CREATED_AT": "Izveidots",
-      "LAST_ACTIVITY": "Pēdējās Darbības"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "Standarta Filtri",
-      "ADDITIONAL_FILTERS": "Papildu Filtri",
-      "CUSTOM_ATTRIBUTES": "Pielāgotas Īpašības"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "Vai vēlaties saglabāt šo filtru?",
-        "LABEL": "Piešķiriet filtram nosaukumu",
-        "PLACEHOLDER": "Ievadiet šī filtra nosaukumu",
-        "ERROR_MESSAGE": "Nepieciešams nosaukums",
-        "SAVE_BUTTON": "Saglabāt filtru",
-        "CANCEL_BUTTON": "Atcelt",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mape ir veiksmīgi izveidota",
-          "ERROR_MESSAGE": "Izveidojot mapi, radās kļūda"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segments ir veiksmīgi izveidots",
-          "ERROR_MESSAGE": "Izveidojot segmentu, radās kļūda"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "Dzēst filtru",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "Apstiprināt Dzēšanu",
-            "MESSAGE": "Vai tiešām vēlaties izdzēsīsiet šo filtru ",
-            "YES": "Jā, Dzēst",
-            "NO": "Nē, Paturēt"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mape ir veiksmīgi izdzēsta",
-          "ERROR_MESSAGE": "Dzēšot mapi, radās kļūda"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segments ir veiksmīgi izdzēsts",
-          "ERROR_MESSAGE": "Dzēšot segmentu, radās kļūda"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "Lietot filtrus",
+    "SUBTITLE": "Pievienojiet filtrus un noklikšķiniet uz 'Lietot filtrus', lai filtrētu sarunas.",
+    "TITLE": "Filtrēt Sarunas",
+    "TOOLTIP_LABEL": "Filtrēt sarunas"
   }
 }

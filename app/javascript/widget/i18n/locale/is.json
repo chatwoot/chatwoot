@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Spjallaðu við okkur"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ógildur reitur"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Skrifaðu skilaboðin hér",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Sækja",
@@ -8,89 +17,80 @@
       "SUBMIT": "Senda"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Endursenda skilaboð",
-      "ERROR_MESSAGE": "Tókst ekki að senda skilaboðin, reyndu aftur"
+      "ERROR_MESSAGE": "Tókst ekki að senda skilaboðin, reyndu aftur",
+      "RETRY": "Endursenda skilaboð"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Við erum tengd",
-    "OFFLINE": "Það er enginn við í augnablikinu"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Svarar iðulega innan nokkura mínútna",
-    "IN_A_FEW_HOURS": "Svarar iðulega innan nokkura klukkustunda",
-    "IN_A_DAY": "Svarar iðulega samdægurs"
-  },
-  "START_CONVERSATION": "Hefja samtal",
-  "END_CONVERSATION": "Ljúka samtali",
   "CONTINUE_CONVERSATION": "Halda samtali áfram",
-  "START_NEW_CONVERSATION": "Hefja nýtt samtal",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Sjá nýjustu skilaboð",
-    "CLOSE_MESSAGES_BUTTON": "Loka",
-    "COMPANY_FROM": "frá",
-    "BOT": "Spjallmenni"
+  "CSAT": {
+    "PLACEHOLDER": "Segðu okkur meira...",
+    "SUBMITTED_TITLE": "Takk fyrir að gefa samtalinu einkunn",
+    "TITLE": "Gefðu samtalinu einkunn"
   },
-  "BUBBLE": {
-    "LABEL": "Spjallaðu við okkur"
+  "EMAIL_PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Biðja um afrit af samtalinu",
+    "SEND_EMAIL_ERROR": "Það kom upp villa, vinsamlegast reyndur aftur",
+    "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Enginn emoji fannst",
+    "PLACEHOLDER": "Leita að emoji"
+  },
+  "END_CONVERSATION": "Ljúka samtali",
+  "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_FILE_UPLOAD_SIZE})",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Keyrt af Chatwoot",
-  "EMAIL_PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt",
-  "CHAT_PLACEHOLDER": "Skrifaðu skilaboðin hér",
-  "TODAY": "Í dag",
-  "YESTERDAY": "Í gær",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Vinsamlegast sláðu inn nafn og netfang áður en samtalið hefst",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Fullt nafn",
-        "PLACEHOLDER": "Vinsamlegast sláðu inn nafnið þitt",
-        "REQUIRED_ERROR": "Það verður að skrifa fullt nafn"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Netfang",
         "PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt",
         "REQUIRED_ERROR": "Það verður að skrifa netfang",
         "VALID_ERROR": "Það verður að skrifa gilt netfang"
       },
+      "FULL_NAME": {
+        "LABEL": "Fullt nafn",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn nafnið þitt",
+        "REQUIRED_ERROR": "Það verður að skrifa fullt nafn"
+      },
+      "MESSAGE": {
+        "ERROR": "Skilaboðin eru of stutt",
+        "LABEL": "Skilaboð",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn skilaboð"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Símanúmer",
         "PLACEHOLDER": "Vinsamlegast sláðu inn símanúmerið þitt",
         "REQUIRED_ERROR": "Það verður að skrifa símanúmer",
         "VALID_ERROR": "Símanúmerið þarf að vera á E.164 sniðmáti, t.d. +3547776666"
-      },
-      "MESSAGE": {
-        "LABEL": "Skilaboð",
-        "PLACEHOLDER": "Vinsamlegast sláðu inn skilaboð",
-        "ERROR": "Skilaboðin eru of stutt"
       }
     },
-    "CAMPAIGN_HEADER": "Vinsamlegast sláðu inn nafn og netfang áður en samtalið hefst",
     "IS_REQUIRED": "er nauðsynlegt"
   },
-  "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_FILE_UPLOAD_SIZE})",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Ógildur reitur"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Svarar iðulega samdægurs",
+    "IN_A_FEW_HOURS": "Svarar iðulega innan nokkura klukkustunda",
+    "IN_A_FEW_MINUTES": "Svarar iðulega innan nokkura mínútna"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Leita að emoji",
-    "NOT_FOUND": "Enginn emoji fannst"
+  "START_CONVERSATION": "Hefja samtal",
+  "START_NEW_CONVERSATION": "Hefja nýtt samtal",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Það er enginn við í augnablikinu",
+    "ONLINE": "Við erum tengd"
   },
-  "CSAT": {
-    "TITLE": "Gefðu samtalinu einkunn",
-    "SUBMITTED_TITLE": "Takk fyrir að gefa samtalinu einkunn",
-    "PLACEHOLDER": "Segðu okkur meira..."
+  "TODAY": "Í dag",
+  "UNREAD_VIEW": {
+    "BOT": "Spjallmenni",
+    "CLOSE_MESSAGES_BUTTON": "Loka",
+    "COMPANY_FROM": "frá",
+    "VIEW_MESSAGES_BUTTON": "Sjá nýjustu skilaboð"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Biðja um afrit af samtalinu",
-    "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
-    "SEND_EMAIL_ERROR": "Það kom upp villa, vinsamlegast reyndur aftur"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Í gær"
 }

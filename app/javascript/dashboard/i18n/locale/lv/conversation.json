@@ -1,257 +1,257 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Lūdzu, izvēlieties sarunu kreisajā rūtī",
-    "CSAT_REPLY_MESSAGE": "Lūdzu, novērtējiet sarunu",
     "404": "Atvainojiet, mēs nevaram atrast sarunu. Lūdzu mēģiniet vēlreiz",
-    "SWITCH_VIEW_LAYOUT": "Pārslēgt izkārtojumu",
-    "DASHBOARD_APP_TAB_MESSAGES": "Ziņojumi",
-    "UNVERIFIED_SESSION": "Šā lietotāja identitāte nav pārbaudīta",
-    "NO_MESSAGE_1": "Ak, vai! Izskatās, ka Jūsu iesūtnē nav ziņojumu no klientiem.",
-    "NO_MESSAGE_2": " lai nosūtītu ziņojumu uz savu lapu!",
-    "NO_INBOX_1": "Hola! Izskatās, ka jūs vēl neesat pievienojis nevienu iesūtni.",
-    "NO_INBOX_2": " lai sāktu",
-    "NO_INBOX_AGENT": "Ak, vai! Izskatās, ka Jūs neesat nevienas iesūtnes dalībnieks. Lūdzu, sazinieties ar savu administratoru",
-    "SEARCH_MESSAGES": "Meklēt ziņojumus sarunās",
-    "SEARCH": {
-      "TITLE": "Meklēt ziņojumus",
-      "RESULT_TITLE": "Meklēšanas Rezultāti",
-      "LOADING_MESSAGE": "Tiek apkopoti dati...",
-      "PLACEHOLDER": "Ievadiet jebkuru tekstu, lai meklētu ziņojumus",
-      "NO_MATCHING_RESULTS": "Nav atrasts."
-    },
-    "UNREAD_MESSAGES": "Nelasītie ziņojumi",
-    "UNREAD_MESSAGE": "Nelasīts ziņojums",
-    "CLICK_HERE": "Noklikšķiniet šeit",
-    "LOADING_INBOXES": "Notiek iesūtņu ielāde",
-    "LOADING_CONVERSATIONS": "Notiek sarunu ielāde",
-    "CANNOT_REPLY": "Jūs nevarat atbildēt, jo",
     "24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
-    "NOT_ASSIGNED_TO_YOU": "Šī saruna nav Jums piešķirta. Vai vēlaties piešķirt šo sarunu sev?",
+    "ASSIGNMENT": {
+      "ASSIGN": "Piešķirt",
+      "REMOVE": "Noņemt",
+      "SELECT_AGENT": "Izvēlieties Aģentu"
+    },
+    "ASSIGN_LABEL_FAILED": "Etiķetes piešķiršana neizdevās",
+    "ASSIGN_LABEL_SUCCESFUL": "Etiķete ir veiksmīgi piešķirta",
     "ASSIGN_TO_ME": "Piešķirt sev",
-    "TWILIO_WHATSAPP_CAN_REPLY": "Jūs varat atbildēt uz šo sarunu, tikai izmantojot veidnes ziņojumu, jo",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
-    "SELECT_A_TWEET_TO_REPLY": "Lūdzu, izvēlieties tvītu, uz kuru atbildēt.",
-    "REPLYING_TO": "Jūs atbildat uz:",
-    "REMOVE_SELECTION": "Noņemt Izvēli",
-    "DOWNLOAD": "Lejupielādēt",
-    "UNKNOWN_FILE_TYPE": "Nezināms Fails",
-    "SAVE_CONTACT": "Saglabāt",
-    "UPLOADING_ATTACHMENTS": "Notiek pielikumu augšupielāde...",
-    "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
-    "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
-    "NO_RESPONSE": "Nav atbildes",
-    "RATING_TITLE": "Vērtējums",
-    "FEEDBACK_TITLE": "Atsauksmes",
+    "BOT": "Bot",
+    "CANNOT_REPLY": "Jūs nevarat atbildēt, jo",
     "CARD": {
-      "SHOW_LABELS": "Rādīt etiķetes",
-      "HIDE_LABELS": "Slēpt etiķetes"
-    },
-    "HEADER": {
-      "RESOLVE_ACTION": "Atrisināt",
-      "REOPEN_ACTION": "Atkārtoti atvērt",
-      "OPEN_ACTION": "Atvērt",
-      "OPEN": "Papildu",
-      "CLOSE": "Aizvērt",
-      "DETAILS": "detalizēta informācija",
-      "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei"
-    },
-    "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Atzīmēt kā neapstiprinātu",
-      "SNOOZE": {
-        "TITLE": "Atlikt līdz",
-        "NEXT_REPLY": "Nākamā atbilde",
-        "TOMORROW": "Rītdiena",
-        "NEXT_WEEK": "Nākamā nedēļa"
-      }
+      "HIDE_LABELS": "Slēpt etiķetes",
+      "SHOW_LABELS": "Rādīt etiķetes"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Atzīmēt kā neapstiprinātu",
-      "RESOLVED": "Atzīmēt kā atrisinātu",
-      "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
-      "REOPEN": "Atkārtoti atvērt sarunu",
-      "SNOOZE": {
-        "TITLE": "Atlikt",
-        "NEXT_REPLY": "Līdz nākamajai atbildei",
-        "TOMORROW": "Līdz rītdienai",
-        "NEXT_WEEK": "Līdz nākamajai nedēļai"
+      "AGENTS_LOADING": "Notiek aģentu ielāde...",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "FAILED": "Nevarēja piešķirt aģentu. Lūdzu, mēģiniet vēlreiz.",
+          "SUCCESFUL": "Sarunas ID %{conversationId} piešķirts \"%{agentName}\""
+        },
+        "LABEL_ASSIGNMENT": {
+          "FAILED": "Nevarēja piešķirt etiķeti. Lūdzu, mēģiniet vēlreiz.",
+          "SUCCESFUL": "Sarunai ar ID %{conversationId} tika piešķirta etiķete #%{labelName}"
+        },
+        "TEAM_ASSIGNMENT": {
+          "FAILED": "Nevarēja piešķirt komandu. Lūdzu, mēģiniet vēlreiz.",
+          "SUCCESFUL": "Sarunai ar ID %{conversationId} tika piešķirta komanda \"%{team}\""
+        }
       },
       "ASSIGN_AGENT": "Piešķirt aģentu",
       "ASSIGN_LABEL": "Piešķirt etiķeti",
-      "AGENTS_LOADING": "Notiek aģentu ielāde...",
       "ASSIGN_TEAM": "Piešķirt komandu",
-      "API": {
-        "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunas ID %{conversationId} piešķirts \"%{agentName}\"",
-          "FAILED": "Nevarēja piešķirt aģentu. Lūdzu, mēģiniet vēlreiz."
-        },
-        "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunai ar ID %{conversationId} tika piešķirta etiķete #%{labelName}",
-          "FAILED": "Nevarēja piešķirt etiķeti. Lūdzu, mēģiniet vēlreiz."
-        },
-        "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunai ar ID %{conversationId} tika piešķirta komanda \"%{team}\"",
-          "FAILED": "Nevarēja piešķirt komandu. Lūdzu, mēģiniet vēlreiz."
-        }
+      "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
+      "PENDING": "Atzīmēt kā neapstiprinātu",
+      "REOPEN": "Atkārtoti atvērt sarunu",
+      "RESOLVED": "Atzīmēt kā atrisinātu",
+      "SNOOZE": {
+        "NEXT_REPLY": "Līdz nākamajai atbildei",
+        "NEXT_WEEK": "Līdz nākamajai nedēļai",
+        "TITLE": "Atlikt",
+        "TOMORROW": "Līdz rītdienai"
       }
     },
-    "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Ziņojuma paraksts",
-      "ENABLE_SIGN_TOOLTIP": "Iespējot parakstu",
-      "DISABLE_SIGN_TOOLTIP": "Atspējot parakstu",
-      "MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Sāciet ar '/' lai izvēlētos sagatavotu atbildi.",
-      "PRIVATE_MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Ziņojums būs redzams tikai Aģentiem",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
-      "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu"
-    },
-    "REPLYBOX": {
-      "REPLY": "Atbildēt",
-      "PRIVATE_NOTE": "Privāta Piezīme",
-      "SEND": "Nosūtīt",
-      "CREATE": "Pievienot Piezīmi",
-      "TWEET": "Tvīts",
-      "TIP_FORMAT_ICON": "Rādīt bagātinātā teksta redaktoru",
-      "TIP_EMOJI_ICON": "Rādīt emocijzīmju atlasītāju",
-      "TIP_ATTACH_ICON": "Pievienot failus",
-      "TIP_AUDIORECORDER_ICON": "Ierakstīt audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Atļaut piekļuvi pie audio",
-      "TIP_AUDIORECORDER_ERROR": "Nevarēja atvērt audio",
-      "DRAG_DROP": "Velciet un nometiet šeit, lai pievienotu",
-      "START_AUDIO_RECORDING": "Sākt audio ierakstīšanu",
-      "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
-      "": "",
-      "EMAIL_HEAD": {
-        "ADD_BCC": "Pievienot bcc",
-        "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem",
-          "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses"
-        },
-        "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem",
-          "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses"
-        }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Nedefinēti mainīgie",
-        "MESSAGE": "Jūsu ziņojumā: {undefinedVariables} ir {undefinedVariablesCount} nedefinēti mainīgie. Vai tomēr vēlaties nosūtīt ziņojumu?",
-        "CONFIRM": {
-          "YES": "Nosūtīt",
-          "CANCEL": "Atcelt"
-        }
-      }
-    },
-    "VISIBLE_TO_AGENTS": "Privāta Piezīme: Redzama tikai Jums un Jūsu komandai",
-    "CHANGE_STATUS": "Sarunas statuss ir mainīts",
-    "CHANGE_STATUS_FAILED": "Sarunas statusa maiņa neizdevās",
     "CHANGE_AGENT": "Mainīts sarunas Pilnvarotais",
     "CHANGE_AGENT_FAILED": "Pilnvarotā maiņa neizdevās",
-    "ASSIGN_LABEL_SUCCESFUL": "Etiķete ir veiksmīgi piešķirta",
-    "ASSIGN_LABEL_FAILED": "Etiķetes piešķiršana neizdevās",
+    "CHANGE_STATUS": "Sarunas statuss ir mainīts",
+    "CHANGE_STATUS_FAILED": "Sarunas statusa maiņa neizdevās",
     "CHANGE_TEAM": "Sarunu komanda mainīta",
-    "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB pielikuma ierobežojumu",
-    "MESSAGE_ERROR": "Nevar nosūtīt šo ziņojumu. Lūdzu, vēlāk mēģiniet vēlreiz",
-    "SENT_BY": "Sūtīja:",
-    "BOT": "Bot",
-    "SEND_FAILED": "Nevarēja nosūtīt ziņojumu! Mēģiniet vēlreiz",
-    "TRY_AGAIN": "mēģināt vēlreiz",
-    "ASSIGNMENT": {
-      "SELECT_AGENT": "Izvēlieties Aģentu",
-      "REMOVE": "Noņemt",
-      "ASSIGN": "Piešķirt"
-    },
+    "CLICK_HERE": "Noklikšķiniet šeit",
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
-      "DELETE": "Dzēst",
-      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm"
-    }
-  },
-  "EMAIL_TRANSCRIPT": {
-    "TITLE": "Nosūtīt sarunas transkriptu",
-    "DESC": "Nosūtīt sarunas transkripta kopiju uz norādīto e-pasta adresi",
-    "SUBMIT": "Iesniegt",
-    "CANCEL": "Atcelt",
-    "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
-    "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
-    "FORM": {
-      "SEND_TO_CONTACT": "Nosūtīt transkriptu klientam",
-      "SEND_TO_AGENT": "Nosūtīt transkriptu piešķirtajam aģentam",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Nosūtīt transkriptu uz citu e-pasta adresi",
-      "EMAIL": {
-        "PLACEHOLDER": "Ievadiet e-pasta adresi",
-        "ERROR": "Lūdzu ievadiet derīgu e-pasta adresi"
+      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm",
+      "DELETE": "Dzēst"
+    },
+    "CSAT_REPLY_MESSAGE": "Lūdzu, novērtējiet sarunu",
+    "DASHBOARD_APP_TAB_MESSAGES": "Ziņojumi",
+    "DOWNLOAD": "Lejupielādēt",
+    "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
+    "FEEDBACK_TITLE": "Atsauksmes",
+    "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB pielikuma ierobežojumu",
+    "FOOTER": {
+      "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu",
+      "DISABLE_SIGN_TOOLTIP": "Atspējot parakstu",
+      "ENABLE_SIGN_TOOLTIP": "Iespējot parakstu",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
+      "MESSAGE_SIGN_TOOLTIP": "Ziņojuma paraksts",
+      "MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Sāciet ar '/' lai izvēlētos sagatavotu atbildi.",
+      "PRIVATE_MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Ziņojums būs redzams tikai Aģentiem"
+    },
+    "HEADER": {
+      "CLOSE": "Aizvērt",
+      "DETAILS": "detalizēta informācija",
+      "OPEN": "Papildu",
+      "OPEN_ACTION": "Atvērt",
+      "REOPEN_ACTION": "Atkārtoti atvērt",
+      "RESOLVE_ACTION": "Atrisināt",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
+      "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai"
+    },
+    "LOADING_CONVERSATIONS": "Notiek sarunu ielāde",
+    "LOADING_INBOXES": "Notiek iesūtņu ielāde",
+    "MESSAGE_ERROR": "Nevar nosūtīt šo ziņojumu. Lūdzu, vēlāk mēģiniet vēlreiz",
+    "NOT_ASSIGNED_TO_YOU": "Šī saruna nav Jums piešķirta. Vai vēlaties piešķirt šo sarunu sev?",
+    "NO_INBOX_1": "Hola! Izskatās, ka jūs vēl neesat pievienojis nevienu iesūtni.",
+    "NO_INBOX_2": " lai sāktu",
+    "NO_INBOX_AGENT": "Ak, vai! Izskatās, ka Jūs neesat nevienas iesūtnes dalībnieks. Lūdzu, sazinieties ar savu administratoru",
+    "NO_MESSAGE_1": "Ak, vai! Izskatās, ka Jūsu iesūtnē nav ziņojumu no klientiem.",
+    "NO_MESSAGE_2": " lai nosūtītu ziņojumu uz savu lapu!",
+    "NO_RESPONSE": "Nav atbildes",
+    "RATING_TITLE": "Vērtējums",
+    "REMOVE_SELECTION": "Noņemt Izvēli",
+    "REPLYBOX": {
+      "": "",
+      "CREATE": "Pievienot Piezīmi",
+      "DRAG_DROP": "Velciet un nometiet šeit, lai pievienotu",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Pievienot bcc",
+        "BCC": {
+          "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses",
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem"
+        },
+        "CC": {
+          "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses",
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem"
+        }
+      },
+      "PRIVATE_NOTE": "Privāta Piezīme",
+      "REPLY": "Atbildēt",
+      "SEND": "Nosūtīt",
+      "START_AUDIO_RECORDING": "Sākt audio ierakstīšanu",
+      "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
+      "TIP_ATTACH_ICON": "Pievienot failus",
+      "TIP_AUDIORECORDER_ERROR": "Nevarēja atvērt audio",
+      "TIP_AUDIORECORDER_ICON": "Ierakstīt audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Atļaut piekļuvi pie audio",
+      "TIP_EMOJI_ICON": "Rādīt emocijzīmju atlasītāju",
+      "TIP_FORMAT_ICON": "Rādīt bagātinātā teksta redaktoru",
+      "TWEET": "Tvīts",
+      "UNDEFINED_VARIABLES": {
+        "CONFIRM": {
+          "CANCEL": "Atcelt",
+          "YES": "Nosūtīt"
+        },
+        "MESSAGE": "Jūsu ziņojumā: {undefinedVariables} ir {undefinedVariablesCount} nedefinēti mainīgie. Vai tomēr vēlaties nosūtīt ziņojumu?",
+        "TITLE": "Nedefinēti mainīgie"
       }
-    }
+    },
+    "REPLYING_TO": "Jūs atbildat uz:",
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Atzīmēt kā neapstiprinātu",
+      "SNOOZE": {
+        "NEXT_REPLY": "Nākamā atbilde",
+        "NEXT_WEEK": "Nākamā nedēļa",
+        "TITLE": "Atlikt līdz",
+        "TOMORROW": "Rītdiena"
+      }
+    },
+    "SAVE_CONTACT": "Saglabāt",
+    "SEARCH": {
+      "LOADING_MESSAGE": "Tiek apkopoti dati...",
+      "NO_MATCHING_RESULTS": "Nav atrasts.",
+      "PLACEHOLDER": "Ievadiet jebkuru tekstu, lai meklētu ziņojumus",
+      "RESULT_TITLE": "Meklēšanas Rezultāti",
+      "TITLE": "Meklēt ziņojumus"
+    },
+    "SEARCH_MESSAGES": "Meklēt ziņojumus sarunās",
+    "SELECT_A_CONVERSATION": "Lūdzu, izvēlieties sarunu kreisajā rūtī",
+    "SELECT_A_TWEET_TO_REPLY": "Lūdzu, izvēlieties tvītu, uz kuru atbildēt.",
+    "SEND_FAILED": "Nevarēja nosūtīt ziņojumu! Mēģiniet vēlreiz",
+    "SENT_BY": "Sūtīja:",
+    "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
+    "SWITCH_VIEW_LAYOUT": "Pārslēgt izkārtojumu",
+    "TRY_AGAIN": "mēģināt vēlreiz",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Jūs varat atbildēt uz šo sarunu, tikai izmantojot veidnes ziņojumu, jo",
+    "UNKNOWN_FILE_TYPE": "Nezināms Fails",
+    "UNREAD_MESSAGE": "Nelasīts ziņojums",
+    "UNREAD_MESSAGES": "Nelasītie ziņojumi",
+    "UNVERIFIED_SESSION": "Šā lietotāja identitāte nav pārbaudīta",
+    "UPLOADING_ATTACHMENTS": "Notiek pielikumu augšupielāde...",
+    "VISIBLE_TO_AGENTS": "Privāta Piezīme: Redzama tikai Jums un Jūsu komandai"
   },
-  "ONBOARDING": {
-    "TITLE": "Sveicināti 👋, Laipni lūdzam %{installationName}!",
-    "DESCRIPTION": "Paldies, ka reģistrējāties. Mēs vēlamies, lai Jūs gūtu maksimālu labumu no %{installationName}. Šeit ir dažas lietas, ko varat darīt %{installationName} lai Jūsu pieredze būtu patīkamāka.",
-    "READ_LATEST_UPDATES": "Izlasīt mūsu aktuālākos jaunumus",
-    "ALL_CONVERSATION": {
-      "TITLE": "Visas Jūsu sarunas vienuviet",
-      "DESCRIPTION": "Skatīt visas sarunas ar klientiem vienā informācijas panelī. Jūs varat filtrēt sarunas pēc ienākošā kanāla, etiķetes un statusa."
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD": {
+      "ERROR": "Nevar pievienot īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz",
+      "SUCCESS": "Īpašība ir veiksmīgi pievienota",
+      "TITLE": "Pievienot"
     },
-    "TEAM_MEMBERS": {
-      "TITLE": "Uzaicināt savas komandas biedrus",
-      "DESCRIPTION": "Tā kā Jūs gatavojaties runāt ar savu klientu, piesaistiet savus komandas biedrus, lai viņi Jums palīdzētu. Jūs varat uzaicināt savus komandas biedrus, pievienojot viņu e-pasta adreses aģentu sarakstam.",
-      "NEW_LINK": "Noklikšķiniet šeit, lai uzaicinātu komandas biedru"
+    "ADD_BUTTON_TEXT": "Izveidot Īpašību",
+    "ATTRIBUTE_SELECT": {
+      "NO_RESULT": "Īpašības nav atrastas",
+      "PLACEHOLDER": "Meklēt īpašības",
+      "TITLE": "Pievienot īpašības"
     },
-    "INBOXES": {
-      "TITLE": "Pievienot Iesūtnes",
-      "DESCRIPTION": "Pievienot dažādus kanālus, caur kuriem Jūsu klienti ar Jums runās. Tie var būt tīmekļa vietņu tiešraides tērzētavas, Jūsu Facebook vai Twitter lapa, vai pat jūsu WhatsApp numurs.",
-      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu iesūtni"
+    "DELETE": {
+      "ERROR": "Nevar izdzēst īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz",
+      "SUCCESS": "Īpašība ir veiksmīgi izdzēsta"
     },
-    "LABELS": {
-      "TITLE": "Organizēt sarunas ar etiķetēm",
-      "DESCRIPTION": "Etiķetes nodrošina vienkāršāku veidu, kā klasificēt sarunu. Izveidojiet dažas etiķetes, piemēram, #atbalsta-pieprasījums, #norēķinu-jautājums utt., lai vēlāk varētu tās izmantot sarunas laikā.",
-      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu atzīmes"
+    "UPDATE": {
+      "ERROR": "Nevar atjaunināt īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz",
+      "SUCCESS": "Īpašība ir veiksmīgi atjaunināta"
     }
   },
   "CONVERSATION_SIDEBAR": {
+    "ACCORDION": {
+      "CONTACT_ATTRIBUTES": "Kontaktpersonas Īpašības",
+      "CONTACT_DETAILS": "Kontaktpersonas Informācija",
+      "CONVERSATION_ACTIONS": "Sarunas Darbības",
+      "CONVERSATION_INFO": "Sarunas Informācija",
+      "CONVERSATION_LABELS": "Sarunu Etiķetes",
+      "MACROS": "Macros",
+      "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas"
+    },
     "ASSIGNEE_LABEL": "Piešķirts Aģentam",
-    "SELF_ASSIGN": "Piešķirts man",
-    "TEAM_LABEL": "Piešķirtā Komanda",
     "SELECT": {
       "PLACEHOLDER": "Nav"
     },
-    "ACCORDION": {
-      "CONTACT_DETAILS": "Kontaktpersonas Informācija",
-      "CONVERSATION_ACTIONS": "Sarunas Darbības",
-      "CONVERSATION_LABELS": "Sarunu Etiķetes",
-      "CONVERSATION_INFO": "Sarunas Informācija",
-      "CONTACT_ATTRIBUTES": "Kontaktpersonas Īpašības",
-      "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas",
-      "MACROS": "Macros"
-    }
-  },
-  "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Izveidot Īpašību",
-    "UPDATE": {
-      "SUCCESS": "Īpašība ir veiksmīgi atjaunināta",
-      "ERROR": "Nevar atjaunināt īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
-    },
-    "ADD": {
-      "TITLE": "Pievienot",
-      "SUCCESS": "Īpašība ir veiksmīgi pievienota",
-      "ERROR": "Nevar pievienot īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
-    },
-    "DELETE": {
-      "SUCCESS": "Īpašība ir veiksmīgi izdzēsta",
-      "ERROR": "Nevar izdzēst īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
-    },
-    "ATTRIBUTE_SELECT": {
-      "TITLE": "Pievienot īpašības",
-      "PLACEHOLDER": "Meklēt īpašības",
-      "NO_RESULT": "Īpašības nav atrastas"
-    }
+    "SELF_ASSIGN": "Piešķirts man",
+    "TEAM_LABEL": "Piešķirtā Komanda"
   },
   "EMAIL_HEADER": {
-    "FROM": "No",
-    "TO": "Kam",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Tēma"
+    "FROM": "No",
+    "SUBJECT": "Tēma",
+    "TO": "Kam"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "CANCEL": "Atcelt",
+    "DESC": "Nosūtīt sarunas transkripta kopiju uz norādīto e-pasta adresi",
+    "FORM": {
+      "EMAIL": {
+        "ERROR": "Lūdzu ievadiet derīgu e-pasta adresi",
+        "PLACEHOLDER": "Ievadiet e-pasta adresi"
+      },
+      "SEND_TO_AGENT": "Nosūtīt transkriptu piešķirtajam aģentam",
+      "SEND_TO_CONTACT": "Nosūtīt transkriptu klientam",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Nosūtīt transkriptu uz citu e-pasta adresi"
+    },
+    "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
+    "SUBMIT": "Iesniegt",
+    "TITLE": "Nosūtīt sarunas transkriptu"
+  },
+  "ONBOARDING": {
+    "ALL_CONVERSATION": {
+      "DESCRIPTION": "Skatīt visas sarunas ar klientiem vienā informācijas panelī. Jūs varat filtrēt sarunas pēc ienākošā kanāla, etiķetes un statusa.",
+      "TITLE": "Visas Jūsu sarunas vienuviet"
+    },
+    "DESCRIPTION": "Paldies, ka reģistrējāties. Mēs vēlamies, lai Jūs gūtu maksimālu labumu no %{installationName}. Šeit ir dažas lietas, ko varat darīt %{installationName} lai Jūsu pieredze būtu patīkamāka.",
+    "INBOXES": {
+      "DESCRIPTION": "Pievienot dažādus kanālus, caur kuriem Jūsu klienti ar Jums runās. Tie var būt tīmekļa vietņu tiešraides tērzētavas, Jūsu Facebook vai Twitter lapa, vai pat jūsu WhatsApp numurs.",
+      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu iesūtni",
+      "TITLE": "Pievienot Iesūtnes"
+    },
+    "LABELS": {
+      "DESCRIPTION": "Etiķetes nodrošina vienkāršāku veidu, kā klasificēt sarunu. Izveidojiet dažas etiķetes, piemēram, #atbalsta-pieprasījums, #norēķinu-jautājums utt., lai vēlāk varētu tās izmantot sarunas laikā.",
+      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu atzīmes",
+      "TITLE": "Organizēt sarunas ar etiķetēm"
+    },
+    "READ_LATEST_UPDATES": "Izlasīt mūsu aktuālākos jaunumus",
+    "TEAM_MEMBERS": {
+      "DESCRIPTION": "Tā kā Jūs gatavojaties runāt ar savu klientu, piesaistiet savus komandas biedrus, lai viņi Jums palīdzētu. Jūs varat uzaicināt savus komandas biedrus, pievienojot viņu e-pasta adreses aģentu sarakstam.",
+      "NEW_LINK": "Noklikšķiniet šeit, lai uzaicinātu komandas biedru",
+      "TITLE": "Uzaicināt savas komandas biedrus"
+    },
+    "TITLE": "Sveicināti 👋, Laipni lūdzam %{installationName}!"
   }
 }

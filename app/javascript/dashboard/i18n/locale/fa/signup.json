@@ -1,41 +1,41 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "ایجاد حساب کاربری",
-    "TITLE": "ثبت نام",
-    "TESTIMONIAL_HEADER": "تنها چیزی که لازم است یک قدم برای حرکت به جلو است",
-    "TESTIMONIAL_CONTENT": "شما یک قدم تا جذب مشتریان خود، حفظ آنها و یافتن مشتریان جدید فاصله دارید.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "API": {
+      "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید",
+      "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد"
+    },
     "COMPANY_NAME": {
+      "ERROR": "نام شرکت خیلی کوتاه است",
       "LABEL": "نام شرکت",
-      "PLACEHOLDER": "نام شرکت خود را وارد کنید. به عنوان مثال: شرکت وین",
-      "ERROR": "نام شرکت خیلی کوتاه است"
-    },
-    "FULL_NAME": {
-      "LABEL": "نام کامل",
-      "PLACEHOLDER": "نام کامل خود را وارد کنید به عنوان مثال: گودرز جعفری",
-      "ERROR": "نام کامل خیلی کوتاه است"
-    },
-    "EMAIL": {
-      "LABEL": "ایمیل کاری",
-      "PLACEHOLDER": "ایمیل کاری خود را وارد کنید به عنوان مثال: jafari@wayne.enterprises",
-      "ERROR": "لطفا یک آدرس ایمیل کاری معتبر وارد کنید"
-    },
-    "PASSWORD": {
-      "LABEL": "رمز عبور",
-      "PLACEHOLDER": "رمز عبور",
-      "ERROR": "رمز عبور خیلی کوتاه است",
-      "IS_INVALID_PASSWORD": "رمز عبور باید شامل حداقل ۱ حرف بزرگ، ۱ حرف کوچک، ۱ عدد و ۱ کاراکتر خاص باشد"
+      "PLACEHOLDER": "نام شرکت خود را وارد کنید. به عنوان مثال: شرکت وین"
     },
     "CONFIRM_PASSWORD": {
+      "ERROR": "رمز عبور و تکرار رمز عبور یکسان نیستند",
       "LABEL": "تکرار رمز عبور",
-      "PLACEHOLDER": "تکرار رمز عبور",
-      "ERROR": "رمز عبور و تکرار رمز عبور یکسان نیستند"
+      "PLACEHOLDER": "تکرار رمز عبور"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد",
-      "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
+    "EMAIL": {
+      "ERROR": "لطفا یک آدرس ایمیل کاری معتبر وارد کنید",
+      "LABEL": "ایمیل کاری",
+      "PLACEHOLDER": "ایمیل کاری خود را وارد کنید به عنوان مثال: jafari@wayne.enterprises"
+    },
+    "FULL_NAME": {
+      "ERROR": "نام کامل خیلی کوتاه است",
+      "LABEL": "نام کامل",
+      "PLACEHOLDER": "نام کامل خود را وارد کنید به عنوان مثال: گودرز جعفری"
+    },
+    "HAVE_AN_ACCOUNT": "از قبل حساب‌کاربری دارید؟",
+    "PASSWORD": {
+      "ERROR": "رمز عبور خیلی کوتاه است",
+      "IS_INVALID_PASSWORD": "رمز عبور باید شامل حداقل ۱ حرف بزرگ، ۱ حرف کوچک، ۱ عدد و ۱ کاراکتر خاص باشد",
+      "LABEL": "رمز عبور",
+      "PLACEHOLDER": "رمز عبور"
     },
     "SUBMIT": "ایجاد حساب کاربری",
-    "HAVE_AN_ACCOUNT": "از قبل حساب‌کاربری دارید؟"
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_CONTENT": "شما یک قدم تا جذب مشتریان خود، حفظ آنها و یافتن مشتریان جدید فاصله دارید.",
+    "TESTIMONIAL_HEADER": "تنها چیزی که لازم است یک قدم برای حرکت به جلو است",
+    "TITLE": "ثبت نام",
+    "TRY_WOOT": "ایجاد حساب کاربری"
   }
 }

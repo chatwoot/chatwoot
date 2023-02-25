@@ -1,50 +1,50 @@
 {
-    "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Ajouter un filtre",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
-        "SUBMIT_BUTTON_LABEL": "Envoyer",
-        "CANCEL_BUTTON_LABEL": "Annuler",
-        "CLEAR_BUTTON_LABEL": "Effacer les filtres",
-        "EMPTY_VALUE_ERROR": "La valeur est requise",
-        "TOOLTIP_LABEL": "Filter contacts",
-        "QUERY_DROPDOWN_LABELS": {
-            "AND": "ET",
-            "OR": "OU"
-        },
-        "OPERATOR_LABELS": {
-            "equal_to": "Égal à",
-            "not_equal_to": "Pas égal à",
-            "contains": "Contient",
-            "does_not_contain": "Ne contient pas",
-            "is_present": "Est présent",
-            "is_not_present": "N'est pas présent",
-            "is_greater_than": "Est plus grand que",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Est x jours avant"
-        },
-        "ATTRIBUTES": {
-            "NAME": "Nom",
-            "EMAIL": "Courriel",
-            "PHONE_NUMBER": "Numéro de téléphone",
-            "IDENTIFIER": "Identifier",
-            "CITY": "Ville",
-            "COUNTRY": "Pays",
-            "CUSTOM_ATTRIBUTE_LIST": "Liste",
-            "CUSTOM_ATTRIBUTE_TEXT": "Texte",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Nombre",
-            "CUSTOM_ATTRIBUTE_LINK": "Lien",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Case à cocher",
-            "CREATED_AT": "Créé le",
-            "LAST_ACTIVITY": "Dernière activité",
-            "REFERER_LINK": "Referrer link"
-        },
-        "GROUPS": {
-            "STANDARD_FILTERS": "Filtres standards",
-            "ADDITIONAL_FILTERS": "Filtres supplémentaires",
-            "CUSTOM_ATTRIBUTES": "Attributs personnalisés"
-        }
-    }
+  "CONTACTS_FILTER": {
+    "ADD_NEW_FILTER": "Ajouter un filtre",
+    "ATTRIBUTES": {
+      "CITY": "Ville",
+      "COUNTRY": "Pays",
+      "CREATED_AT": "Créé le",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Case à cocher",
+      "CUSTOM_ATTRIBUTE_LINK": "Lien",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nombre",
+      "CUSTOM_ATTRIBUTE_TEXT": "Texte",
+      "EMAIL": "Courriel",
+      "IDENTIFIER": "Identifier",
+      "LAST_ACTIVITY": "Dernière activité",
+      "NAME": "Nom",
+      "PHONE_NUMBER": "Numéro de téléphone",
+      "REFERER_LINK": "Referrer link"
+    },
+    "CANCEL_BUTTON_LABEL": "Annuler",
+    "CLEAR_ALL_FILTERS": "Clear All Filters",
+    "CLEAR_BUTTON_LABEL": "Effacer les filtres",
+    "EMPTY_VALUE_ERROR": "La valeur est requise",
+    "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Filtres supplémentaires",
+      "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
+      "STANDARD_FILTERS": "Filtres standards"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Contient",
+      "days_before": "Est x jours avant",
+      "does_not_contain": "Ne contient pas",
+      "equal_to": "Égal à",
+      "is_greater_than": "Est plus grand que",
+      "is_lesser_than": "Is lesser than",
+      "is_not_present": "N'est pas présent",
+      "is_present": "Est présent",
+      "not_equal_to": "Pas égal à"
+    },
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ET",
+      "OR": "OU"
+    },
+    "SUBMIT_BUTTON_LABEL": "Envoyer",
+    "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+    "TITLE": "Filter Contacts",
+    "TOOLTIP_LABEL": "Filter contacts"
+  }
 }

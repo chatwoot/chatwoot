@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Chat met ons"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ongeldig veld"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Typ uw bericht",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Downloaden",
@@ -8,89 +17,80 @@
       "SUBMIT": "Bevestigen"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Bericht opnieuw verzenden",
-      "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw"
+      "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw",
+      "RETRY": "Bericht opnieuw verzenden"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "We zijn online",
-    "OFFLINE": "We zijn momenteel afwezig"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
-    "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
-    "IN_A_DAY": "Reageert meestal binnen een dag"
-  },
-  "START_CONVERSATION": "Start Chat",
-  "END_CONVERSATION": "Gesprek beëindigen",
   "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
-  "START_NEW_CONVERSATION": "Een nieuw gesprek starten",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
-    "CLOSE_MESSAGES_BUTTON": "Sluiten",
-    "COMPANY_FROM": "van",
-    "BOT": "Robot"
+  "CSAT": {
+    "PLACEHOLDER": "Vertel ons meer...",
+    "SUBMITTED_TITLE": "Bedankt voor het indienen van een beoordeling",
+    "TITLE": "Beoordeel uw gesprek"
   },
-  "BUBBLE": {
-    "LABEL": "Chat met ons"
+  "EMAIL_PLACEHOLDER": "Voer uw e-mailadres in",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Verzoek een conversatie-transcript",
+    "SEND_EMAIL_ERROR": "Er is een fout opgetreden, probeer het opnieuw",
+    "SEND_EMAIL_SUCCESS": "Het gesprekstranscript is succesvol verzonden"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden",
+    "PLACEHOLDER": "Zoek emojis"
+  },
+  "END_CONVERSATION": "Gesprek beëindigen",
+  "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Mogelijk gemaakt door Chatwoot",
-  "EMAIL_PLACEHOLDER": "Voer uw e-mailadres in",
-  "CHAT_PLACEHOLDER": "Typ uw bericht",
-  "TODAY": "Vandaag",
-  "YESTERDAY": "Gisteren",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Volledige Naam",
-        "PLACEHOLDER": "Voer uw volledige naam in",
-        "REQUIRED_ERROR": "Volledige naam is vereist"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Uw e-mailadres",
         "PLACEHOLDER": "Voer uw e-mailadres in",
         "REQUIRED_ERROR": "E-mailadres is vereist",
         "VALID_ERROR": "Voer een geldig e-mailadres in"
       },
+      "FULL_NAME": {
+        "LABEL": "Volledige Naam",
+        "PLACEHOLDER": "Voer uw volledige naam in",
+        "REQUIRED_ERROR": "Volledige naam is vereist"
+      },
+      "MESSAGE": {
+        "ERROR": "Bericht te kort",
+        "LABEL": "Bericht",
+        "PLACEHOLDER": "Voer uw bericht in"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Telefoonnummer",
         "PLACEHOLDER": "Vul je telefoonnummer in",
         "REQUIRED_ERROR": "Telefoon nummer is vereist",
         "VALID_ERROR": "Telefoonnummer moet van E.164-formaat zijn: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Bericht",
-        "PLACEHOLDER": "Voer uw bericht in",
-        "ERROR": "Bericht te kort"
       }
     },
-    "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint",
     "IS_REQUIRED": "is vereist"
   },
-  "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Ongeldig veld"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Reageert meestal binnen een dag",
+    "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
+    "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Zoek emojis",
-    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden"
+  "START_CONVERSATION": "Start Chat",
+  "START_NEW_CONVERSATION": "Een nieuw gesprek starten",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "We zijn momenteel afwezig",
+    "ONLINE": "We zijn online"
   },
-  "CSAT": {
-    "TITLE": "Beoordeel uw gesprek",
-    "SUBMITTED_TITLE": "Bedankt voor het indienen van een beoordeling",
-    "PLACEHOLDER": "Vertel ons meer..."
+  "TODAY": "Vandaag",
+  "UNREAD_VIEW": {
+    "BOT": "Robot",
+    "CLOSE_MESSAGES_BUTTON": "Sluiten",
+    "COMPANY_FROM": "van",
+    "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Verzoek een conversatie-transcript",
-    "SEND_EMAIL_SUCCESS": "Het gesprekstranscript is succesvol verzonden",
-    "SEND_EMAIL_ERROR": "Er is een fout opgetreden, probeer het opnieuw"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Gisteren"
 }

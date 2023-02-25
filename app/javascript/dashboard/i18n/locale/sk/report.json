@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Rozhovory",
-    "LOADING_CHART": "Načítanie grafu...",
-    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
-    "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Rozhovory",
-        "DESC": "( Spolu )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Prichádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet vyriešených problémov",
-        "DESC": "( Spolu )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Vlastný rozsah dátumov"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
+    "FILTER_DROPDOWN_LABEL": "Vybrat agenta",
+    "HEADER": "Prehľad agentov",
+    "LOADING_CHART": "Načítanie grafu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Spolu )",
+        "NAME": "Rozhovory"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Prichádzajúce správy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Odchádzajúce správy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Spolu )",
+        "NAME": "Počet vyriešených problémov"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas do riešenia",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "HEADER": "CSAT Reports",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      }
+    },
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Contact",
+        "FEEDBACK_TEXT": "Feedback comment",
+        "RATING": "Hodnotenia"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Použiť",
       "PLACEHOLDER": "Vybrať rozsah dátumov"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledných 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledných 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Posledné 3 mesiace"
+      },
+      {
+        "id": 3,
+        "name": "Posledných 6 mesiacov"
+      },
+      {
+        "id": 4,
+        "name": "Posledný rok"
+      },
+      {
+        "id": 5,
+        "name": "Vlastný rozsah dátumov"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Načítanie grafu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Spolu )",
+        "NAME": "Rozhovory"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Prichádzajúce správy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Odchádzajúce správy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Spolu )",
+        "NAME": "Počet vyriešených problémov"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas do riešenia",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledných 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledných 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Posledné 3 mesiace"
+      },
+      {
+        "id": 3,
+        "name": "Posledných 6 mesiacov"
+      },
+      {
+        "id": 4,
+        "name": "Posledný rok"
+      },
+      {
+        "id": 5,
+        "name": "Vlastný rozsah dátumov"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Načítanie grafu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Spolu )",
+        "NAME": "Rozhovory"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Prichádzajúce správy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Odchádzajúce správy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Spolu )",
+        "NAME": "Počet vyriešených problémov"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas do riešenia",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Otvoriť",
+      "UNASSIGNED": "Nepriradené",
+      "UNATTENDED": "Unattended"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "STATUS": "Status",
+        "UNATTENDED": "Unattended"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Zaneprázdnený",
+      "HEADER": "Agent status",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Prehľad",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Otváracie hodiny",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledných 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledných 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Posledné 3 mesiace"
+      },
+      {
+        "id": 3,
+        "name": "Posledných 6 mesiacov"
+      },
+      {
+        "id": 4,
+        "name": "Posledný rok"
+      },
+      {
+        "id": 5,
+        "name": "Vlastný rozsah dátumov"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Day"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      },
-      {
-        "id": 2,
-        "groupBy": "Week"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Year"
       }
     ],
-    "BUSINESS_HOURS": "Otváracie hodiny"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Prehľad agentov",
+    "HEADER": "Rozhovory",
     "LOADING_CHART": "Načítanie grafu...",
-    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
-    "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
-    "FILTER_DROPDOWN_LABEL": "Vybrat agenta",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Rozhovory",
-        "DESC": "( Spolu )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Prichádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchádzajúce správy",
-        "DESC": "( Spolu )"
+        "DESC": "( Spolu )",
+        "NAME": "Rozhovory"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
         "NAME": "First Response Time",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet vyriešených problémov",
-        "DESC": "( Spolu )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Posledných 7 dní"
-      },
-      {
-        "id": 1,
-        "name": "Posledných 30 dní"
-      },
-      {
-        "id": 2,
-        "name": "Posledné 3 mesiace"
-      },
-      {
-        "id": 3,
-        "name": "Posledných 6 mesiacov"
-      },
-      {
-        "id": 4,
-        "name": "Posledný rok"
-      },
-      {
-        "id": 5,
-        "name": "Vlastný rozsah dátumov"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použiť",
-      "PLACEHOLDER": "Vybrať rozsah dátumov"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "Načítanie grafu...",
-    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Rozhovory",
-        "DESC": "( Spolu )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Prichádzajúce správy",
-        "DESC": "( Spolu )"
+        "DESC": "( Spolu )",
+        "NAME": "Prichádzajúce správy"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Odchádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Spolu )",
+        "NAME": "Odchádzajúce správy"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Počet vyriešených problémov",
-        "DESC": "( Spolu )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Posledných 7 dní"
-      },
-      {
-        "id": 1,
-        "name": "Posledných 30 dní"
-      },
-      {
-        "id": 2,
-        "name": "Posledné 3 mesiace"
-      },
-      {
-        "id": 3,
-        "name": "Posledných 6 mesiacov"
-      },
-      {
-        "id": 4,
-        "name": "Posledný rok"
-      },
-      {
-        "id": 5,
-        "name": "Vlastný rozsah dátumov"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použiť",
-      "PLACEHOLDER": "Vybrať rozsah dátumov"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Načítanie grafu...",
-    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Rozhovory",
-        "DESC": "( Spolu )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Prichádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Spolu )",
+        "NAME": "Počet vyriešených problémov"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Čas do riešenia",
         "DESC": "( Priemer )",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas do riešenia",
         "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet vyriešených problémov",
-        "DESC": "( Spolu )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Posledných 7 dní"
-      },
-      {
-        "id": 1,
-        "name": "Posledných 30 dní"
-      },
-      {
-        "id": 2,
-        "name": "Posledné 3 mesiace"
-      },
-      {
-        "id": 3,
-        "name": "Posledných 6 mesiacov"
-      },
-      {
-        "id": 4,
-        "name": "Posledný rok"
-      },
-      {
-        "id": 5,
-        "name": "Vlastný rozsah dátumov"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použiť",
-      "PLACEHOLDER": "Vybrať rozsah dátumov"
-    }
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Načítanie grafu...",
-    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Rozhovory",
-        "DESC": "( Spolu )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Prichádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Odchádzajúce správy",
-        "DESC": "( Spolu )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Počet vyriešených problémov",
-        "DESC": "( Spolu )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Vlastný rozsah dátumov"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Použiť",
-      "PLACEHOLDER": "Vybrať rozsah dátumov"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Hodnotenia",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Načítanie grafu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Spolu )",
+        "NAME": "Rozhovory"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Prehľad",
-    "LIVE": "Live",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Otvoriť",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Nepriradené"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
-      "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Prichádzajúce správy"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Spolu )",
+        "NAME": "Odchádzajúce správy"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Spolu )",
+        "NAME": "Počet vyriešených problémov"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Čas do riešenia",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Zaneprázdnený",
-      "OFFLINE": "Offline"
-    }
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr."
   }
 }

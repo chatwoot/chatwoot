@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Gespräche abrufen",
-    "LOAD_MORE_CONVERSATIONS": "Laden Sie weitere Gespräche",
-    "EOF": "Alle Gespräche geladen 🎉",
-    "LIST": {
-      "404": "In dieser Gruppe existieren keine aktiven Gespräche."
-    },
-    "TAB_HEADING": "Gespräche",
-    "MENTION_HEADING": "Erwähnungen",
-    "UNATTENDED_HEADING": "Unbeaufsichtigt",
-    "SEARCH": {
-      "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
-    },
-    "FILTER_ALL": "Alle",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Alle",
       "me": "Meine",
-      "unassigned": "Nicht zugewiesen",
-      "all": "Alle"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Öffnen"
-      },
-      "resolved": {
-        "TEXT": "Gelöst"
-      },
-      "pending": {
-        "TEXT": "Ausstehend"
-      },
-      "snoozed": {
-        "TEXT": "Erinnern"
-      },
-      "all": {
-        "TEXT": "Alle"
-      }
+      "unassigned": "Nicht zugewiesen"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Bildnachricht"
-      },
       "audio": {
         "CONTENT": "Audio-Nachricht"
       },
-      "video": {
-        "CONTENT": "Videonachricht"
+      "fallback": {
+        "CONTENT": "hat eine URL geteilt"
       },
       "file": {
         "CONTENT": "Dateianhang"
       },
+      "image": {
+        "CONTENT": "Bildnachricht"
+      },
       "location": {
         "CONTENT": "Ort"
       },
-      "fallback": {
-        "CONTENT": "hat eine URL geteilt"
+      "video": {
+        "CONTENT": "Videonachricht"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Per E-Mail empfangen",
-    "VIEW_TWEET_IN_TWITTER": "Tweet auf Twitter anzeigen",
-    "REPLY_TO_TWEET": "Auf diesen Tweet antworten",
-    "LINK_TO_STORY": "Zur Instagram-Geschichte",
-    "SENT": "Erfolgreich gesendet",
-    "READ": "Erfolgreich gelesen",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Alle"
+      },
+      "open": {
+        "TEXT": "Öffnen"
+      },
+      "pending": {
+        "TEXT": "Ausstehend"
+      },
+      "resolved": {
+        "TEXT": "Gelöst"
+      },
+      "snoozed": {
+        "TEXT": "Erinnern"
+      }
+    },
     "DELIVERED": "Erfolgreich versendet",
-    "NO_MESSAGES": "Keine Nachrichten",
-    "NO_CONTENT": "Kein Inhalt verfügbar",
+    "EOF": "Alle Gespräche geladen 🎉",
+    "FILTER_ALL": "Alle",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
+    "LINK_TO_STORY": "Zur Instagram-Geschichte",
+    "LIST": {
+      "404": "In dieser Gruppe existieren keine aktiven Gespräche."
+    },
+    "LOADING": "Gespräche abrufen",
+    "LOAD_MORE_CONVERSATIONS": "Laden Sie weitere Gespräche",
+    "MENTION_HEADING": "Erwähnungen",
+    "MESSAGE_READ": "Lesen",
+    "NO_CONTENT": "Kein Inhalt verfügbar",
+    "NO_MESSAGES": "Keine Nachrichten",
+    "READ": "Erfolgreich gelesen",
+    "RECEIVED_VIA_EMAIL": "Per E-Mail empfangen",
+    "REPLY_TO_TWEET": "Auf diesen Tweet antworten",
+    "SEARCH": {
+      "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
+    },
+    "SENT": "Erfolgreich gesendet",
     "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
-    "MESSAGE_READ": "Lesen"
+    "TAB_HEADING": "Gespräche",
+    "UNATTENDED_HEADING": "Unbeaufsichtigt",
+    "VIEW_TWEET_IN_TWITTER": "Tweet auf Twitter anzeigen"
   }
 }

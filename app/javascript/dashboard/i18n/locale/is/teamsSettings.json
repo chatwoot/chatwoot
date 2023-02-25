@@ -1,21 +1,32 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teymi</b></p> <p>Teymi leyfa þér að skipuleggja þjónustufulltrúa þína í hópa út frá ábyrgð þeirra. <br /> Þjónustufulltrúi getur verið hluti af mörgum teymum. Þú getur úthlutað samtölum á teymi þegar þú ert að vinna í samvinnu. </p>",
-    "LIST": {
-      "404": "Það eru engin teymi til á þessum reikningi.",
-      "EDIT_TEAM": "Edit team"
+    "ADD": {
+      "AGENT_VALIDATION_ERROR": "Select at least one agent.",
+      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
+      "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
+      "SELECT": "select",
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
+      "SELECT_ALL": "select all agents",
+      "TITLE": "Add agents to team - %{teamName}"
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Adding Agents to your Team...",
+      "AGENT": "AGENT",
+      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
+      "EMAIL": "NETFANG",
+      "SELECT": "select",
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
+      "SELECT_ALL": "select all agents"
     },
     "CREATE_FLOW": {
-      "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Bættu titli og lýsingu við nýja teymið þitt."
-      },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
+        "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
+        "TITLE": "Add agents to team - %{teamName}"
+      },
+      "CREATE": {
+        "DESC": "Bættu titli og lýsingu við nýja teymið þitt.",
+        "TITLE": "Create a new team"
       },
       "WIZARD": [
         {
@@ -35,16 +46,30 @@
         }
       ]
     },
-    "EDIT_FLOW": {
-      "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Couldn't delete the team. Try again.",
+        "SUCCESS_MESSAGE": "Team deleted successfully."
       },
+      "BUTTON_TEXT": "Eyða",
+      "CONFIRM": {
+        "MESSAGE": "Ef teyminu er eytt verður liðsúthlutunin fjarlægð úr samtölunum sem þessu teymi hefur verið úthlutað.",
+        "NO": "Hætta við",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "TITLE": "Are you sure want to delete - %{teamName}",
+        "YES": "Delete "
+      }
+    },
+    "EDIT_FLOW": {
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
+        "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi.",
+        "TITLE": "Add agents to team - %{teamName}"
+      },
+      "CREATE": {
+        "BUTTON_TEXT": "Update team",
+        "DESC": "Edit title and description to your team.",
+        "TITLE": "Edit your team details"
       },
       "WIZARD": [
         {
@@ -64,62 +89,37 @@
         }
       ]
     },
-    "TEAM_FORM": {
-      "ERROR_MESSAGE": "Ekki tókst að vista teymisupplýsingarnar. Reyndu aftur."
-    },
-    "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "NETFANG",
-      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir."
-    },
-    "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
-      "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
-    },
     "FINISH": {
-      "TITLE": "Your team is ready!",
+      "BUTTON_TEXT": "Finish",
       "MESSAGE": "Þú getur nú unnið sem teymi í samtölum. Gangi þér vel að þjónusta",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Your team is ready!"
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Eyða",
-      "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
-      },
-      "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Ef teyminu er eytt verður liðsúthlutunin fjarlægð úr samtölunum sem þessu teymi hefur verið úthlutað.",
-        "YES": "Delete ",
-        "NO": "Hætta við"
-      }
-    },
-    "SETTINGS": "Stillingar",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
-      "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
       },
+      "CREATE": "Create team",
       "DESCRIPTION": {
         "LABEL": "Team Description",
         "PLACEHOLDER": "Short description about this team."
       },
-      "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Create team",
+      "UPDATE": "Update team"
+    },
+    "HEADER": "Teams",
+    "LIST": {
+      "404": "Það eru engin teymi til á þessum reikningi.",
+      "EDIT_TEAM": "Edit team"
+    },
+    "NEW_TEAM": "Create new team",
+    "SETTINGS": "Stillingar",
+    "SIDEBAR_TXT": "<p><b>Teymi</b></p> <p>Teymi leyfa þér að skipuleggja þjónustufulltrúa þína í hópa út frá ábyrgð þeirra. <br /> Þjónustufulltrúi getur verið hluti af mörgum teymum. Þú getur úthlutað samtölum á teymi þegar þú ert að vinna í samvinnu. </p>",
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Ekki tókst að vista teymisupplýsingarnar. Reyndu aftur."
     }
   }
 }

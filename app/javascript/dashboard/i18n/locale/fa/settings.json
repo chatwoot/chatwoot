@@ -1,278 +1,58 @@
 {
-  "PROFILE_SETTINGS": {
-    "LINK": "تنظیمات پروفایل",
-    "TITLE": "تنظیمات پروفایل",
-    "BTN_TEXT": "تغییر دادن پروفایل",
-    "DELETE_AVATAR": "حذف آواتار",
-    "AVATAR_DELETE_SUCCESS": "آواتار با موفقیت حذف شد",
-    "AVATAR_DELETE_FAILED": "هنگام حذف آواتار خطایی رخ داده، لطفا دوباره امتحان کنید",
-    "UPDATE_SUCCESS": "پروفایل شما با موفقیت به روز شد",
-    "PASSWORD_UPDATE_SUCCESS": "رمز عبورتان عوض شد",
-    "AFTER_EMAIL_CHANGED": "پروفایلتان با موفقیت تغییر یافت، اطلاعات ورود به سیستم تغییر کرده لذا لطفا مجددا به سیستم وارد شوید",
-    "FORM": {
-      "AVATAR": "عکس پروفایل",
-      "ERROR": "لطفا ایرادات ذکر شده را برطرف کنید",
-      "REMOVE_IMAGE": "حذف",
-      "UPLOAD_IMAGE": "آپلود عکس",
-      "UPDATE_IMAGE": "تغییر عکس",
-      "PROFILE_SECTION": {
-        "TITLE": "پروفایل",
-        "NOTE": "آدرس ایمیل شما هویت شماست و برای ورود به سیستم استفاده می شود."
-      },
-      "SEND_MESSAGE": {
-        "TITLE": "کلید میانبر برای ارسال پیام",
-        "NOTE": "شما می‌توانید یک کلید میانبر (Enter یا Cmd/Ctrl+Enter) را بر اساس راحت بودن در نوشتن انتخاب کنید.",
-        "UPDATE_SUCCESS": "تنظیمات شما با موفقیت به‌روزرسانی شد",
-        "CARD": {
-          "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "به جای کلیک بر روی دکمه ارسال، با فشردن کلید Enter پیام ارسال کنید."
-          },
-          "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "به جای کلیک کردن بر روی دکمه ارسال، با فشردن کلید Cmd/Ctrl + enter پیام ارسال کنید."
-          }
-        }
-      },
-      "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "امضای پیام شخصی",
-        "NOTE": "یک امضای پیام شخصی ایجاد کنید که به همه پیام‌هایی که از صندوق ورودی ایمیل ارسال می‌کنید اضافه شود. از ویرایشگر محتوای غنی برای ایجاد یک امضای بسیار شخصی استفاده کنید.",
-        "BTN_TEXT": "ذخیره امضای پیام",
-        "API_ERROR": "امضا ذخیره نشد! دوباره امتحان کنید",
-        "API_SUCCESS": "امضا با موفقیت ذخیره شد"
-      },
-      "MESSAGE_SIGNATURE": {
-        "LABEL": "امضای پیام",
-        "ERROR": "امضای پیام نمی تواند خالی باشد",
-        "PLACEHOLDER": "امضای پیام شخصی خود را در اینجا وارد کنید."
-      },
-      "PASSWORD_SECTION": {
-        "TITLE": "رمز عبور",
-        "NOTE": "تغییر دادن رمز عبور باعث می‌شود مجبور شوید دوباره به سیستم وارد شوید",
-        "BTN_TEXT": "تغییر رمز عبور"
-      },
-      "ACCESS_TOKEN": {
-        "TITLE": "توکن دسترسی",
-        "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود"
-      },
-      "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "اعلان های صوتی",
-        "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
-        "ALERT_TYPE": {
-          "TITLE": "رویدادهای هشدار:",
-          "NONE": "هیچکدام",
-          "ASSIGNED": "مکالمات اختصاص داده شده",
-          "ALL_CONVERSATIONS": "همه گفتگوها"
-        },
-        "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
-        },
-        "CONDITIONS": {
-          "TITLE": "شرط‌های هشدار:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
-      },
-      "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "اعلامیه‌ به ایمیل",
-        "NOTE": "اینجا می‌توانید تنظیمات اعلامیه‌هایی که به ایمیل ارسال می‌شود تغییر دهید",
-        "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد،‌ ایمیل بفرست",
-        "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من ایمیل بفرست",
-        "CONVERSATION_MENTION": "هنگامی که از شما در گفتگو نام برده می‌شود، از طریق ایمیل آگاه‌سازی ارسال کن",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "با ایجاد پیام جدید در مکالمه اختصاصی ، اعلان های ایمیل را ارسال کنید"
-      },
-      "API": {
-        "UPDATE_SUCCESS": "تغییرات تنظیمات اعلامیه‌ها با موفقیت ثبت شد",
-        "UPDATE_ERROR": "در ثبت تغییرات اعلامیه‌ها اشکالی پیش آمد، لطفا دوباره امتحان کنید"
-      },
-      "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "پوش نوتیفیکیشن",
-        "NOTE": "اینجا می‌توانید تنظیمات پوش نوتیفیکیشن را تغییر دهید",
-        "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد، برای من پوش نوتیفیکیشن بفرست",
-        "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من پوش نوتیفیکیشن بفرست",
-        "CONVERSATION_MENTION": "هنگامی که از شما در مکالمه نام برده می شود پوش نوتیفیکیشن ارسال کنید",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "وقتی پیام جدیدی در مکالمه اختصاص داده شده ایجاد می شود ، پوش نوتیفیکیشن را ارسال کنید",
-        "HAS_ENABLED_PUSH": "در این مرورگر پوش نوتیفیکیشن را فعال کرده‌اید",
-        "REQUEST_PUSH": "فعال کردن پوش نوتیفیکیشن"
-      },
-      "PROFILE_IMAGE": {
-        "LABEL": "عکس پروفایل"
-      },
-      "NAME": {
-        "LABEL": "نام کامل شما",
-        "ERROR": "لطفا نام کامل معتبر وارد کنید",
-        "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید"
-      },
-      "DISPLAY_NAME": {
-        "LABEL": "نام نمایشی",
-        "ERROR": "لطفا یک نام نمایشی معتبر وارد کنید",
-        "PLACEHOLDER": "لطفا یک نام نمایشی وارد کنید، این نام در گفتگوها نمایش داده می‌شود"
-      },
-      "AVAILABILITY": {
-        "LABEL": "در دسترس",
-        "STATUSES_LIST": [
-          "آنلاین",
-          "مشغول",
-          "آفلاین"
-        ],
-        "SET_AVAILABILITY_SUCCESS": "در دسترس بودن با موفقیت تنظیم شد",
-        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید"
-      },
-      "EMAIL": {
-        "LABEL": "ایمیل شما",
-        "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید",
-        "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید، این ایمیل در گفتگوها دیده می‌شود"
-      },
-      "CURRENT_PASSWORD": {
-        "LABEL": "رمز عبور فعلی",
-        "ERROR": "لطفاً رمز عبور فعلی را وارد کنید",
-        "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
-      },
-      "PASSWORD": {
-        "LABEL": "رمز عبور جدید",
-        "ERROR": "رمز عبور می‌بایست ۶ کاراکتر یا بیشتر باشد",
-        "PLACEHOLDER": "لطفا رمز عبور جدیدی وارد کنید"
-      },
-      "PASSWORD_CONFIRMATION": {
-        "LABEL": "تکرار رمز عبور",
-        "ERROR": "تکرار رمز عبور می‌بایست با رمز عبور یکسان باشد",
-        "PLACEHOLDER": "لطفا رمز عبور جدید را مجددا وارد کنید"
-      }
-    }
-  },
-  "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "تغییر",
-    "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
-    "CONTACT_SUPPORT": "با پشتیبانی تماس بگیرید",
-    "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
-    "PROFILE_SETTINGS": "تنظیمات پروفایل",
-    "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
-    "SUPER_ADMIN_CONSOLE": "کنسول سوپر مدیر",
-    "LOGOUT": "خروج از حساب‌کاربری"
-  },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
-    "TRAIL_BUTTON": "الان بخرید",
-    "DELETED_USER": "کاربر حذف شده",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "حساب‌کاربری معلق شده است",
-      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید."
-    }
+      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید.",
+      "TITLE": "حساب‌کاربری معلق شده است"
+    },
+    "DELETED_USER": "کاربر حذف شده",
+    "TRAIL_BUTTON": "الان بخرید",
+    "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است."
+  },
+  "BILLING_SETTINGS": {
+    "CHAT_WITH_US": {
+      "BUTTON_TXT": "با ما گفتگو کنید",
+      "DESCRIPTION": "آیا در صورتحساب با مشکلی مواجه هستید؟ ما اینجاییم تا کمک کنیم.",
+      "TITLE": "به کمک احتياج داری؟"
+    },
+    "CURRENT_PLAN": {
+      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **%{plan}** با مجوز **%{quantity}** هستید",
+      "TITLE": "طرح فعلی"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "BUTTON_TXT": "برو به پورتال صورتحساب",
+      "DESCRIPTION": "فاکتورهای قبلی خود را مشاهده کنید، جزئیات صورتحساب خود را ویرایش کنید یا اشتراک خود را لغو کنید.",
+      "TITLE": "اشتراک خود را مدیریت کنید"
+    },
+    "NO_BILLING_USER": "صورتحساب حساب شما در حال پیکربندی است. لطفا صفحه را مجددا بارگزاری کرده و دوباره تلاش کنید.",
+    "TITLE": "صورتحساب"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "کپی",
       "COPY_SUCCESSFUL": "کد به حافظه کپی شد"
     },
-    "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "نمایش بیشتر",
-      "SHOW_LESS": "نمایش کمتر"
-    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "دانلود",
-      "UPLOADING": "در حال آپلود...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "این داستان دیگر در دسترس نیست."
+      "INSTAGRAM_STORY_UNAVAILABLE": "این داستان دیگر در دسترس نیست.",
+      "UPLOADING": "در حال آپلود..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "ثبت"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "مشاهده‌ بر روی نقشه"
     },
-    "FORM_BUBBLE": {
-      "SUBMIT": "ثبت"
+    "SHOW_MORE_BLOCK": {
+      "SHOW_LESS": "نمایش کمتر",
+      "SHOW_MORE": "نمایش بیشتر"
     }
   },
   "CONFIRM_EMAIL": "در حال تایید...",
-  "SETTINGS": {
-    "INBOXES": {
-      "NEW_INBOX": "اضافه کردن صندوق ورودی"
-    }
-  },
-  "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "در حال مشاهده:",
-    "SWITCH": "تعویض",
-    "CONVERSATIONS": "گفتگوها",
-    "ALL_CONVERSATIONS": "همه گفتگوها",
-    "MENTIONED_CONVERSATIONS": "اشاره",
-    "UNATTENDED_CONVERSATIONS": "بی سرپرست",
-    "REPORTS": "گزارشات",
-    "SETTINGS": "تنظیمات",
-    "CONTACTS": "مخاطبین",
-    "HOME": "صفحه اصلی",
-    "AGENTS": "ایجنت ها",
-    "AGENT_BOTS": "ربات‌ها",
-    "INBOXES": "صندوق‌های ورودی",
-    "NOTIFICATIONS": "اعلان ها",
-    "CANNED_RESPONSES": "پاسخ‌های آماده",
-    "INTEGRATIONS": "برنامه‌های تلفیق شده",
-    "PROFILE_SETTINGS": "تنظیمات پروفایل",
-    "ACCOUNT_SETTINGS": "تنظیمات حساب",
-    "APPLICATIONS": "برنامه های کاربردی",
-    "LABELS": "برچسب‌ها",
-    "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
-    "AUTOMATION": "خودکارسازی",
-    "MACROS": "ماکروها",
-    "TEAMS": "تیم‌ها",
-    "BILLING": "صورتحساب",
-    "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
-    "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
-    "ALL_CONTACTS": "تمام مخاطبین",
-    "TAGGED_WITH": "برچسب گذاری شده با",
-    "NEW_LABEL": "برچسب جدید",
-    "NEW_TEAM": "تیم جدید",
-    "NEW_INBOX": "صندوق ورودی جدید",
-    "REPORTS_CONVERSATION": "گفتگوها",
-    "CSAT": "رضایت مشتری",
-    "CAMPAIGNS": "کمپین ها",
-    "ONGOING": "درحال انجام",
-    "ONE_OFF": "یکبار مصرف",
-    "REPORTS_AGENT": "ایجنت ها",
-    "REPORTS_LABEL": "برچسب‌ها",
-    "REPORTS_INBOX": "صندوق ورودی",
-    "REPORTS_TEAM": "تیم‌",
-    "SET_AVAILABILITY_TITLE": "خود را به عنوان",
-    "BETA": "آزمایشی",
-    "REPORTS_OVERVIEW": "بررسی اجمالی",
-    "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
-    "HELP_CENTER": {
-      "TITLE": "مرکز راهنمایی (آزمایشی)",
-      "ALL_ARTICLES": "همه مقالات",
-      "MY_ARTICLES": "مقالات من",
-      "DRAFT": "پیش‌نویس",
-      "ARCHIVED": "بایگانی شد",
-      "CATEGORY": "دسته‌بندی",
-      "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
-    },
-    "SET_AUTO_OFFLINE": {
-      "TEXT": "علامت گذاری خودکار به صورت آفلاین",
-      "INFO_TEXT": "هنگامی که از برنامه یا پیشخوان استفاده نمی‌کنید، به سیستم اجازه دهید به طور خودکار شما را به صورت آفلاین علامت گذاری کند."
-    },
-    "DOCS": "اسناد را بخوانید"
-  },
-  "BILLING_SETTINGS": {
-    "TITLE": "صورتحساب",
-    "CURRENT_PLAN": {
-      "TITLE": "طرح فعلی",
-      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **%{plan}** با مجوز **%{quantity}** هستید"
-    },
-    "MANAGE_SUBSCRIPTION": {
-      "TITLE": "اشتراک خود را مدیریت کنید",
-      "DESCRIPTION": "فاکتورهای قبلی خود را مشاهده کنید، جزئیات صورتحساب خود را ویرایش کنید یا اشتراک خود را لغو کنید.",
-      "BUTTON_TXT": "برو به پورتال صورتحساب"
-    },
-    "CHAT_WITH_US": {
-      "TITLE": "به کمک احتياج داری؟",
-      "DESCRIPTION": "آیا در صورتحساب با مشکلی مواجه هستید؟ ما اینجاییم تا کمک کنیم.",
-      "BUTTON_TXT": "با ما گفتگو کنید"
-    },
-    "NO_BILLING_USER": "صورتحساب حساب شما در حال پیکربندی است. لطفا صفحه را مجددا بارگزاری کرده و دوباره تلاش کنید."
-  },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
-    "NEW_ACCOUNT": "حساب‌کاربری جدید",
-    "SELECTOR_SUBTITLE": "ایجاد حساب‌کاربری جدید",
     "API": {
-      "SUCCESS_MESSAGE": "حساب‌کاربری با موفقیت ایجاد شد",
+      "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا مجددا امتحان کنید",
       "EXIST_MESSAGE": "این حساب‌کاربری از قبل وجود دارد",
-      "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا مجددا امتحان کنید"
+      "SUCCESS_MESSAGE": "حساب‌کاربری با موفقیت ایجاد شد"
     },
     "FORM": {
       "NAME": {
@@ -280,31 +60,251 @@
         "PLACEHOLDER": "شرکت ایران ناسیونال"
       },
       "SUBMIT": "ثبت"
-    }
+    },
+    "NEW_ACCOUNT": "حساب‌کاربری جدید",
+    "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
+    "SELECTOR_SUBTITLE": "ایجاد حساب‌کاربری جدید"
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "مشاهده همه کلیدهای میانبر",
+    "KEYS": {
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘"
+    },
     "TITLE": {
-      "OPEN_CONVERSATION": "باز کردن گفتگو",
-      "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
-      "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
-      "RESOLVE_CONVERSATION": "حل مکالمه",
-      "GO_TO_CONVERSATION_DASHBOARD": "به پیشخوان گفتگو بروید",
       "ADD_ATTACHMENT": "افزودن پیوست",
       "GO_TO_CONTACTS_DASHBOARD": "به پیشخوان مخاطبین بروید",
-      "TOGGLE_SIDEBAR": "نوار کناری",
+      "GO_TO_CONVERSATION_DASHBOARD": "به پیشخوان گفتگو بروید",
       "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
-      "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
       "GO_TO_SETTINGS": "برو به تنظیمات",
+      "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
+      "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
+      "OPEN_CONVERSATION": "باز کردن گفتگو",
+      "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
+      "RESOLVE_CONVERSATION": "حل مکالمه",
       "SWITCH_CONVERSATION_STATUS": "به وضعیت مکالمه بعدی بروید",
       "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
       "SWITCH_TO_REPLY": "رفتن به پاسخ",
+      "TOGGLE_SIDEBAR": "نوار کناری",
       "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"
     },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+    "TOGGLE_MODAL": "مشاهده همه کلیدهای میانبر"
+  },
+  "PROFILE_SETTINGS": {
+    "AFTER_EMAIL_CHANGED": "پروفایلتان با موفقیت تغییر یافت، اطلاعات ورود به سیستم تغییر کرده لذا لطفا مجددا به سیستم وارد شوید",
+    "AVATAR_DELETE_FAILED": "هنگام حذف آواتار خطایی رخ داده، لطفا دوباره امتحان کنید",
+    "AVATAR_DELETE_SUCCESS": "آواتار با موفقیت حذف شد",
+    "BTN_TEXT": "تغییر دادن پروفایل",
+    "DELETE_AVATAR": "حذف آواتار",
+    "FORM": {
+      "ACCESS_TOKEN": {
+        "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود",
+        "TITLE": "توکن دسترسی"
+      },
+      "API": {
+        "UPDATE_ERROR": "در ثبت تغییرات اعلامیه‌ها اشکالی پیش آمد، لطفا دوباره امتحان کنید",
+        "UPDATE_SUCCESS": "تغییرات تنظیمات اعلامیه‌ها با موفقیت ثبت شد"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "ALERT_TYPE": {
+          "ALL_CONVERSATIONS": "همه گفتگوها",
+          "ASSIGNED": "مکالمات اختصاص داده شده",
+          "NONE": "هیچکدام",
+          "TITLE": "رویدادهای هشدار:"
+        },
+        "CONDITIONS": {
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read",
+          "TITLE": "شرط‌های هشدار:"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
+        "TITLE": "اعلان های صوتی"
+      },
+      "AVAILABILITY": {
+        "LABEL": "در دسترس",
+        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید",
+        "SET_AVAILABILITY_SUCCESS": "در دسترس بودن با موفقیت تنظیم شد",
+        "STATUSES_LIST": [
+          "آنلاین",
+          "مشغول",
+          "آفلاین"
+        ]
+      },
+      "AVATAR": "عکس پروفایل",
+      "CURRENT_PASSWORD": {
+        "ERROR": "لطفاً رمز عبور فعلی را وارد کنید",
+        "LABEL": "رمز عبور فعلی",
+        "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
+      },
+      "DISPLAY_NAME": {
+        "ERROR": "لطفا یک نام نمایشی معتبر وارد کنید",
+        "LABEL": "نام نمایشی",
+        "PLACEHOLDER": "لطفا یک نام نمایشی وارد کنید، این نام در گفتگوها نمایش داده می‌شود"
+      },
+      "EMAIL": {
+        "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید",
+        "LABEL": "ایمیل شما",
+        "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید، این ایمیل در گفتگوها دیده می‌شود"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "با ایجاد پیام جدید در مکالمه اختصاصی ، اعلان های ایمیل را ارسال کنید",
+        "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد،‌ ایمیل بفرست",
+        "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من ایمیل بفرست",
+        "CONVERSATION_MENTION": "هنگامی که از شما در گفتگو نام برده می‌شود، از طریق ایمیل آگاه‌سازی ارسال کن",
+        "NOTE": "اینجا می‌توانید تنظیمات اعلامیه‌هایی که به ایمیل ارسال می‌شود تغییر دهید",
+        "TITLE": "اعلامیه‌ به ایمیل"
+      },
+      "ERROR": "لطفا ایرادات ذکر شده را برطرف کنید",
+      "MESSAGE_SIGNATURE": {
+        "ERROR": "امضای پیام نمی تواند خالی باشد",
+        "LABEL": "امضای پیام",
+        "PLACEHOLDER": "امضای پیام شخصی خود را در اینجا وارد کنید."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "API_ERROR": "امضا ذخیره نشد! دوباره امتحان کنید",
+        "API_SUCCESS": "امضا با موفقیت ذخیره شد",
+        "BTN_TEXT": "ذخیره امضای پیام",
+        "NOTE": "یک امضای پیام شخصی ایجاد کنید که به همه پیام‌هایی که از صندوق ورودی ایمیل ارسال می‌کنید اضافه شود. از ویرایشگر محتوای غنی برای ایجاد یک امضای بسیار شخصی استفاده کنید.",
+        "TITLE": "امضای پیام شخصی"
+      },
+      "NAME": {
+        "ERROR": "لطفا نام کامل معتبر وارد کنید",
+        "LABEL": "نام کامل شما",
+        "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید"
+      },
+      "PASSWORD": {
+        "ERROR": "رمز عبور می‌بایست ۶ کاراکتر یا بیشتر باشد",
+        "LABEL": "رمز عبور جدید",
+        "PLACEHOLDER": "لطفا رمز عبور جدیدی وارد کنید"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "ERROR": "تکرار رمز عبور می‌بایست با رمز عبور یکسان باشد",
+        "LABEL": "تکرار رمز عبور",
+        "PLACEHOLDER": "لطفا رمز عبور جدید را مجددا وارد کنید"
+      },
+      "PASSWORD_SECTION": {
+        "BTN_TEXT": "تغییر رمز عبور",
+        "NOTE": "تغییر دادن رمز عبور باعث می‌شود مجبور شوید دوباره به سیستم وارد شوید",
+        "TITLE": "رمز عبور"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "عکس پروفایل"
+      },
+      "PROFILE_SECTION": {
+        "NOTE": "آدرس ایمیل شما هویت شماست و برای ورود به سیستم استفاده می شود.",
+        "TITLE": "پروفایل"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "وقتی پیام جدیدی در مکالمه اختصاص داده شده ایجاد می شود ، پوش نوتیفیکیشن را ارسال کنید",
+        "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد، برای من پوش نوتیفیکیشن بفرست",
+        "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من پوش نوتیفیکیشن بفرست",
+        "CONVERSATION_MENTION": "هنگامی که از شما در مکالمه نام برده می شود پوش نوتیفیکیشن ارسال کنید",
+        "HAS_ENABLED_PUSH": "در این مرورگر پوش نوتیفیکیشن را فعال کرده‌اید",
+        "NOTE": "اینجا می‌توانید تنظیمات پوش نوتیفیکیشن را تغییر دهید",
+        "REQUEST_PUSH": "فعال کردن پوش نوتیفیکیشن",
+        "TITLE": "پوش نوتیفیکیشن"
+      },
+      "REMOVE_IMAGE": "حذف",
+      "SEND_MESSAGE": {
+        "CARD": {
+          "CMD_ENTER_KEY": {
+            "CONTENT": "به جای کلیک کردن بر روی دکمه ارسال، با فشردن کلید Cmd/Ctrl + enter پیام ارسال کنید.",
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)"
+          },
+          "ENTER_KEY": {
+            "CONTENT": "به جای کلیک بر روی دکمه ارسال، با فشردن کلید Enter پیام ارسال کنید.",
+            "HEADING": "Enter (↵)"
+          }
+        },
+        "NOTE": "شما می‌توانید یک کلید میانبر (Enter یا Cmd/Ctrl+Enter) را بر اساس راحت بودن در نوشتن انتخاب کنید.",
+        "TITLE": "کلید میانبر برای ارسال پیام",
+        "UPDATE_SUCCESS": "تنظیمات شما با موفقیت به‌روزرسانی شد"
+      },
+      "UPDATE_IMAGE": "تغییر عکس",
+      "UPLOAD_IMAGE": "آپلود عکس"
+    },
+    "LINK": "تنظیمات پروفایل",
+    "PASSWORD_UPDATE_SUCCESS": "رمز عبورتان عوض شد",
+    "TITLE": "تنظیمات پروفایل",
+    "UPDATE_SUCCESS": "پروفایل شما با موفقیت به روز شد"
+  },
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "اضافه کردن صندوق ورودی"
     }
+  },
+  "SIDEBAR": {
+    "ACCOUNT_SETTINGS": "تنظیمات حساب",
+    "AGENTS": "ایجنت ها",
+    "AGENT_BOTS": "ربات‌ها",
+    "ALL_CONTACTS": "تمام مخاطبین",
+    "ALL_CONVERSATIONS": "همه گفتگوها",
+    "APPLICATIONS": "برنامه های کاربردی",
+    "AUTOMATION": "خودکارسازی",
+    "BETA": "آزمایشی",
+    "BILLING": "صورتحساب",
+    "CAMPAIGNS": "کمپین ها",
+    "CANNED_RESPONSES": "پاسخ‌های آماده",
+    "CONTACTS": "مخاطبین",
+    "CONVERSATIONS": "گفتگوها",
+    "CSAT": "رضایت مشتری",
+    "CURRENTLY_VIEWING_ACCOUNT": "در حال مشاهده:",
+    "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
+    "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
+    "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
+    "DOCS": "اسناد را بخوانید",
+    "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "همه مقالات",
+      "ARCHIVED": "بایگانی شد",
+      "CATEGORY": "دسته‌بندی",
+      "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد",
+      "DRAFT": "پیش‌نویس",
+      "MY_ARTICLES": "مقالات من",
+      "TITLE": "مرکز راهنمایی (آزمایشی)"
+    },
+    "HOME": "صفحه اصلی",
+    "INBOXES": "صندوق‌های ورودی",
+    "INTEGRATIONS": "برنامه‌های تلفیق شده",
+    "LABELS": "برچسب‌ها",
+    "MACROS": "ماکروها",
+    "MENTIONED_CONVERSATIONS": "اشاره",
+    "NEW_INBOX": "صندوق ورودی جدید",
+    "NEW_LABEL": "برچسب جدید",
+    "NEW_TEAM": "تیم جدید",
+    "NOTIFICATIONS": "اعلان ها",
+    "ONE_OFF": "یکبار مصرف",
+    "ONGOING": "درحال انجام",
+    "PROFILE_SETTINGS": "تنظیمات پروفایل",
+    "REPORTS": "گزارشات",
+    "REPORTS_AGENT": "ایجنت ها",
+    "REPORTS_CONVERSATION": "گفتگوها",
+    "REPORTS_INBOX": "صندوق ورودی",
+    "REPORTS_LABEL": "برچسب‌ها",
+    "REPORTS_OVERVIEW": "بررسی اجمالی",
+    "REPORTS_TEAM": "تیم‌",
+    "SETTINGS": "تنظیمات",
+    "SET_AUTO_OFFLINE": {
+      "INFO_TEXT": "هنگامی که از برنامه یا پیشخوان استفاده نمی‌کنید، به سیستم اجازه دهید به طور خودکار شما را به صورت آفلاین علامت گذاری کند.",
+      "TEXT": "علامت گذاری خودکار به صورت آفلاین"
+    },
+    "SET_AVAILABILITY_TITLE": "خود را به عنوان",
+    "SWITCH": "تعویض",
+    "TAGGED_WITH": "برچسب گذاری شده با",
+    "TEAMS": "تیم‌ها",
+    "UNATTENDED_CONVERSATIONS": "بی سرپرست"
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
+    "CHANGE_AVAILABILITY_STATUS": "تغییر",
+    "CONTACT_SUPPORT": "با پشتیبانی تماس بگیرید",
+    "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
+    "LOGOUT": "خروج از حساب‌کاربری",
+    "PROFILE_SETTINGS": "تنظیمات پروفایل",
+    "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
+    "SUPER_ADMIN_CONSOLE": "کنسول سوپر مدیر"
   }
 }

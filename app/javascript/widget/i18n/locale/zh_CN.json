@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "联系我们"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "无效字段"
+    }
+  },
+  "CHAT_PLACEHOLDER": "输入您的消息",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
@@ -8,89 +17,80 @@
       "SUBMIT": "提交"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "重新发送消息",
-      "ERROR_MESSAGE": "无法发送，请重试"
+      "ERROR_MESSAGE": "无法发送，请重试",
+      "RETRY": "重新发送消息"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "在线",
-    "OFFLINE": "当前已离线"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
-    "IN_A_FEW_HOURS": "通常在几小时内回复您",
-    "IN_A_DAY": "通常在一天之内回复您"
-  },
-  "START_CONVERSATION": "开始会话",
-  "END_CONVERSATION": "结束对话",
   "CONTINUE_CONVERSATION": "继续对话",
-  "START_NEW_CONVERSATION": "开始新的对话",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "查看新消息",
-    "CLOSE_MESSAGES_BUTTON": "关闭",
-    "COMPANY_FROM": "发自",
-    "BOT": "机器人"
+  "CSAT": {
+    "PLACEHOLDER": "请告诉我们更多...",
+    "SUBMITTED_TITLE": "感谢您提交评分",
+    "TITLE": "评价您的对话"
   },
-  "BUBBLE": {
-    "LABEL": "联系我们"
+  "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "请求会话抄本",
+    "SEND_EMAIL_ERROR": "出现错误，请重试",
+    "SEND_EMAIL_SUCCESS": "已成功发送聊天记录"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "结束对话",
+  "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "由 Chatwoot 支持",
-  "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
-  "CHAT_PLACEHOLDER": "输入您的消息",
-  "TODAY": "今天",
-  "YESTERDAY": "昨天",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "名字",
-        "PLACEHOLDER": "请输入您的姓名",
-        "REQUIRED_ERROR": "必须填写姓名"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "电子邮件地址",
         "PLACEHOLDER": "请输入您的邮箱地址",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "请输入一个有效的电子邮件"
       },
+      "FULL_NAME": {
+        "LABEL": "名字",
+        "PLACEHOLDER": "请输入您的姓名",
+        "REQUIRED_ERROR": "必须填写姓名"
+      },
+      "MESSAGE": {
+        "ERROR": "消息太短了",
+        "LABEL": "消息",
+        "PLACEHOLDER": "请输入您的消息"
+      },
       "PHONE_NUMBER": {
         "LABEL": "电话号码",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "消息",
-        "PLACEHOLDER": "请输入您的消息",
-        "ERROR": "消息太短了"
       }
     },
-    "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "无效字段"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "通常在一天之内回复您",
+    "IN_A_FEW_HOURS": "通常在几小时内回复您",
+    "IN_A_FEW_MINUTES": "通常在几分钟内回复您"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "开始会话",
+  "START_NEW_CONVERSATION": "开始新的对话",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "当前已离线",
+    "ONLINE": "在线"
   },
-  "CSAT": {
-    "TITLE": "评价您的对话",
-    "SUBMITTED_TITLE": "感谢您提交评分",
-    "PLACEHOLDER": "请告诉我们更多..."
+  "TODAY": "今天",
+  "UNREAD_VIEW": {
+    "BOT": "机器人",
+    "CLOSE_MESSAGES_BUTTON": "关闭",
+    "COMPANY_FROM": "发自",
+    "VIEW_MESSAGES_BUTTON": "查看新消息"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "请求会话抄本",
-    "SEND_EMAIL_SUCCESS": "已成功发送聊天记录",
-    "SEND_EMAIL_ERROR": "出现错误，请重试"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "昨天"
 }

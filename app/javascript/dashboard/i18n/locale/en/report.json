@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
     },
     "DATE_RANGE": [
       {
@@ -60,339 +30,215 @@
         "name": "Custom date range"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
-    "GROUP_BY_DAY_OPTIONS": [{ "id": 1, "groupBy": "Day" }],
-    "GROUP_BY_WEEK_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
-      { "id": 2, "groupBy": "Week" }
-    ],
-    "GROUP_BY_MONTH_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
-      { "id": 2, "groupBy": "Week" },
-      { "id": 3, "groupBy": "Month" }
-    ],
-    "GROUP_BY_YEAR_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
-      { "id": 2, "groupBy": "Week" },
-      { "id": 3, "groupBy": "Month" },
-      { "id": 4, "groupBy": "Year" }
-    ],
-    "BUSINESS_HOURS": "Business Hours"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "FILTER_DROPDOWN_LABEL": "Select Agent",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Last 7 days"
-      },
-      {
-        "id": 1,
-        "name": "Last 30 days"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Agents Overview",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "NAME": "Conversations"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
         "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Last 7 days"
-      },
-      {
-        "id": 1,
-        "name": "Last 30 days"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "NAME": "Incoming Messages"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Total )",
+        "NAME": "Outgoing Messages"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Last 7 days"
-      },
-      {
-        "id": 1,
-        "name": "Last 30 days"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Total )",
+        "NAME": "Resolution Count"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Resolution Time",
         "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Last 7 days"
-      },
-      {
-        "id": 1,
-        "name": "Last 30 days"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later."
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
     "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"
       }
     },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
-    },
+    "HEADER": "CSAT Reports",
     "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       },
       "SATISFACTION_SCORE": {
         "LABEL": "Satisfaction score",
         "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      }
+    },
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Contact",
+        "FEEDBACK_TEXT": "Feedback comment",
+        "RATING": "Rating"
       }
     }
   },
+  "INBOX_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Loading chart data...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Conversations"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Incoming Messages"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Outgoing Messages"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Resolution Count"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Resolution Time",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Loading chart data...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Conversations"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Incoming Messages"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Outgoing Messages"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Resolution Count"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Resolution Time",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later."
+  },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN" : "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned"
+      "OPEN": "Open",
+      "UNASSIGNED": "Unassigned",
+      "UNATTENDED": "Unattended"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
@@ -401,15 +247,201 @@
       "TABLE_HEADER": {
         "AGENT": "Agent",
         "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "STATUS": "Status",
+        "UNATTENDED": "Unattended"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
       "BUSY": "Busy",
-      "OFFLINE": "Offline"
-    }
+      "HEADER": "Agent status",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Overview",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Business Hours",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      }
+    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      },
+      {
+        "id": 4,
+        "groupBy": "Year"
+      }
+    ],
+    "HEADER": "Conversations",
+    "LOADING_CHART": "Loading chart data...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Conversations"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Incoming Messages"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Outgoing Messages"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Resolution Count"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Resolution Time",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later."
+  },
+  "TEAM_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Loading chart data...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Conversations"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Incoming Messages"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Outgoing Messages"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Resolution Count"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Resolution Time",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later."
   }
 }

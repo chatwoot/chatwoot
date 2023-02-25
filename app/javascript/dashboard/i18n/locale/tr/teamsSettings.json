@@ -1,21 +1,32 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Yeni ekip oluştur",
-    "HEADER": "Ekipler",
-    "SIDEBAR_TXT": "<p><b>Ekipler</b></p> <p>Ekipler, temsilcilerinizi sorumluluklarına göre gruplayabilmenizi sağlar. <br />Bir temsilci birden çok ekibe dahil olabilir. Ekip olarak çalışıyorsanız, görüşmeleri tüm ekibe atayabilirsiniz. </p>",
-    "LIST": {
-      "404": "Bu hesap üzerine oluşturulmuş ekip bulunmamaktadır.",
-      "EDIT_TEAM": "Ekibi düzenle"
+    "ADD": {
+      "AGENT_VALIDATION_ERROR": "En az bir temsilci seçin.",
+      "BUTTON_TEXT": "Kullanıcı Ekle",
+      "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar.",
+      "SELECT": "seçiniz",
+      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi.",
+      "SELECT_ALL": "tüm temsicileri seçin",
+      "TITLE": "Ekibe temsilciler ekleyin - %{teamName}"
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Ekibinize Temsiciler Ekleniyor...",
+      "AGENT": "TEMSİLCİ",
+      "BUTTON_TEXT": "Kullanıcı Ekle",
+      "EMAIL": "E-Posta",
+      "SELECT": "seçiniz",
+      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi.",
+      "SELECT_ALL": "tüm temsicileri seçin"
     },
     "CREATE_FLOW": {
-      "CREATE": {
-        "TITLE": "Yeni bir ekip oluştur",
-        "DESC": "Ekibinize bir isim ve açıklama ekleyin."
-      },
       "AGENTS": {
         "BUTTON_TEXT": "Ekibinize temsilciler ekleyin",
-        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
-        "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar."
+        "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar.",
+        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}"
+      },
+      "CREATE": {
+        "DESC": "Ekibinize bir isim ve açıklama ekleyin.",
+        "TITLE": "Yeni bir ekip oluştur"
       },
       "WIZARD": [
         {
@@ -35,16 +46,30 @@
         }
       ]
     },
-    "EDIT_FLOW": {
-      "CREATE": {
-        "TITLE": "Ekibinizin detaylarını düzenleyin",
-        "DESC": "Ekibinizin ismini ve açıklamasını düzenleyin.",
-        "BUTTON_TEXT": "Ekibi güncelle"
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Ekip silinemiyor. Tekrar deneyin.",
+        "SUCCESS_MESSAGE": "Ekip başarıyla silindi."
       },
+      "BUTTON_TEXT": "Sil",
+      "CONFIRM": {
+        "MESSAGE": "Ekibi silmek aynı zamanda görüşmelere atanmış ekipleri de temizler.",
+        "NO": "İptal Et",
+        "PLACE_HOLDER": "Onaylamak için lütfen {teamName} yazınız",
+        "TITLE": "Silmek istediğinize emin misiniz - %{teamName}",
+        "YES": "Sil "
+      }
+    },
+    "EDIT_FLOW": {
       "AGENTS": {
         "BUTTON_TEXT": "Ekipteki temsilcileri güncelleyin",
-        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
-        "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bir görüşme bu ekibe atandığında tüm temsilcilere bildirim gider."
+        "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bir görüşme bu ekibe atandığında tüm temsilcilere bildirim gider.",
+        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}"
+      },
+      "CREATE": {
+        "BUTTON_TEXT": "Ekibi güncelle",
+        "DESC": "Ekibinizin ismini ve açıklamasını düzenleyin.",
+        "TITLE": "Ekibinizin detaylarını düzenleyin"
       },
       "WIZARD": [
         {
@@ -64,62 +89,37 @@
         }
       ]
     },
-    "TEAM_FORM": {
-      "ERROR_MESSAGE": "Ekip detayları kaydedilemedi. Tekrar deneyin."
-    },
-    "AGENTS": {
-      "AGENT": "TEMSİLCİ",
-      "EMAIL": "E-Posta",
-      "BUTTON_TEXT": "Kullanıcı Ekle",
-      "ADD_AGENTS": "Ekibinize Temsiciler Ekleniyor...",
-      "SELECT": "seçiniz",
-      "SELECT_ALL": "tüm temsicileri seçin",
-      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi."
-    },
-    "ADD": {
-      "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
-      "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar.",
-      "SELECT": "seçiniz",
-      "SELECT_ALL": "tüm temsicileri seçin",
-      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi.",
-      "BUTTON_TEXT": "Kullanıcı Ekle",
-      "AGENT_VALIDATION_ERROR": "En az bir temsilci seçin."
-    },
     "FINISH": {
-      "TITLE": "Ekibiniz hazır!",
+      "BUTTON_TEXT": "Son",
       "MESSAGE": "Artık görüşmelere takım olarak dahil olabilirsiniz. Mutlu görüşmeler ",
-      "BUTTON_TEXT": "Son"
+      "TITLE": "Ekibiniz hazır!"
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Sil",
-      "API": {
-        "SUCCESS_MESSAGE": "Ekip başarıyla silindi.",
-        "ERROR_MESSAGE": "Ekip silinemiyor. Tekrar deneyin."
-      },
-      "CONFIRM": {
-        "TITLE": "Silmek istediğinize emin misiniz - %{teamName}",
-        "PLACE_HOLDER": "Onaylamak için lütfen {teamName} yazınız",
-        "MESSAGE": "Ekibi silmek aynı zamanda görüşmelere atanmış ekipleri de temizler.",
-        "YES": "Sil ",
-        "NO": "İptal Et"
-      }
-    },
-    "SETTINGS": "Ayarlar",
     "FORM": {
-      "UPDATE": "Ekibi güncelle",
-      "CREATE": "Ekip oluştur",
-      "NAME": {
-        "LABEL": "Ekip İsmi",
-        "PLACEHOLDER": "Örneğin: Satış, Müşteri Hizmetleri"
+      "AUTO_ASSIGN": {
+        "LABEL": "Bu ekip için otomatik atamayı etkinleştir."
       },
+      "CREATE": "Ekip oluştur",
       "DESCRIPTION": {
         "LABEL": "Ekip Açıklaması",
         "PLACEHOLDER": "Ekip hakkında kısa açıklama."
       },
-      "AUTO_ASSIGN": {
-        "LABEL": "Bu ekip için otomatik atamayı etkinleştir."
+      "NAME": {
+        "LABEL": "Ekip İsmi",
+        "PLACEHOLDER": "Örneğin: Satış, Müşteri Hizmetleri"
       },
-      "SUBMIT_CREATE": "Ekip oluştur"
+      "SUBMIT_CREATE": "Ekip oluştur",
+      "UPDATE": "Ekibi güncelle"
+    },
+    "HEADER": "Ekipler",
+    "LIST": {
+      "404": "Bu hesap üzerine oluşturulmuş ekip bulunmamaktadır.",
+      "EDIT_TEAM": "Ekibi düzenle"
+    },
+    "NEW_TEAM": "Yeni ekip oluştur",
+    "SETTINGS": "Ayarlar",
+    "SIDEBAR_TXT": "<p><b>Ekipler</b></p> <p>Ekipler, temsilcilerinizi sorumluluklarına göre gruplayabilmenizi sağlar. <br />Bir temsilci birden çok ekibe dahil olabilir. Ekip olarak çalışıyorsanız, görüşmeleri tüm ekibe atayabilirsiniz. </p>",
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Ekip detayları kaydedilemedi. Tekrar deneyin."
     }
   }
 }

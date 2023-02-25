@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Gesprekken",
-    "LOADING_CHART": "Kaartgegevens laden...",
-    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw.",
-    "DOWNLOAD_AGENT_REPORTS": "Medewerkerrapporten downloaden",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Gesprekken",
-        "DESC": "( Totaal )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Inkomende berichten",
-        "DESC": "( Totaal )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Uitgaande berichten",
-        "DESC": "( Totaal )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Eerste reactietijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolutie Tijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Aantal Resoluties",
-        "DESC": "( Totaal )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Custom date range"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Medewerkerrapporten downloaden",
+    "FILTER_DROPDOWN_LABEL": "Selecteer medewerker",
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "Kaartgegevens laden...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Totaal )",
+        "NAME": "Gesprekken"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Eerste reactietijd",
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Inkomende berichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Uitgaande berichten"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Totaal )",
+        "NAME": "Aantal Resoluties"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Resolutie Tijd",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "HEADER": "CSAT Reports",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      }
+    },
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Contact",
+        "FEEDBACK_TEXT": "Feedback comment",
+        "RATING": "Rating"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Afgelopen 7 dagen"
+      },
+      {
+        "id": 1,
+        "name": "Laatste 30 dagen"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Kaartgegevens laden...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Totaal )",
+        "NAME": "Gesprekken"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Eerste reactietijd",
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Inkomende berichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Uitgaande berichten"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Totaal )",
+        "NAME": "Aantal Resoluties"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Resolutie Tijd",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Afgelopen 7 dagen"
+      },
+      {
+        "id": 1,
+        "name": "Laatste 30 dagen"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Kaartgegevens laden...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Totaal )",
+        "NAME": "Gesprekken"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Eerste reactietijd",
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Inkomende berichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Uitgaande berichten"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Totaal )",
+        "NAME": "Aantal Resoluties"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Resolutie Tijd",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Open",
+      "UNASSIGNED": "Niet toegewezen",
+      "UNATTENDED": "Unattended"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Medewerker",
+        "OPEN": "OPEN",
+        "STATUS": "Status",
+        "UNATTENDED": "Unattended"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Bezig",
+      "HEADER": "Agent status",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Overview",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Business Hours",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Afgelopen 7 dagen"
+      },
+      {
+        "id": 1,
+        "name": "Laatste 30 dagen"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Medewerkerrapporten downloaden",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Day"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      },
-      {
-        "id": 2,
-        "groupBy": "Week"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Year"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Gesprekken",
     "LOADING_CHART": "Kaartgegevens laden...",
-    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw.",
-    "DOWNLOAD_AGENT_REPORTS": "Medewerkerrapporten downloaden",
-    "FILTER_DROPDOWN_LABEL": "Selecteer medewerker",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gesprekken",
-        "DESC": "( Totaal )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Inkomende berichten",
-        "DESC": "( Totaal )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Uitgaande berichten",
-        "DESC": "( Totaal )"
+        "DESC": "( Totaal )",
+        "NAME": "Gesprekken"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
         "NAME": "Eerste reactietijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
         "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolutie Tijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Aantal Resoluties",
-        "DESC": "( Totaal )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Afgelopen 7 dagen"
-      },
-      {
-        "id": 1,
-        "name": "Laatste 30 dagen"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "Kaartgegevens laden...",
-    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Gesprekken",
-        "DESC": "( Totaal )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Inkomende berichten",
-        "DESC": "( Totaal )"
+        "DESC": "( Totaal )",
+        "NAME": "Inkomende berichten"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Uitgaande berichten",
-        "DESC": "( Totaal )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Eerste reactietijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolutie Tijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Totaal )",
+        "NAME": "Uitgaande berichten"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Aantal Resoluties",
-        "DESC": "( Totaal )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Afgelopen 7 dagen"
-      },
-      {
-        "id": 1,
-        "name": "Laatste 30 dagen"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Kaartgegevens laden...",
-    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Gesprekken",
-        "DESC": "( Totaal )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Inkomende berichten",
-        "DESC": "( Totaal )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Uitgaande berichten",
-        "DESC": "( Totaal )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Eerste reactietijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+        "DESC": "( Totaal )",
+        "NAME": "Aantal Resoluties"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolutie Tijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Resolutie Tijd",
         "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Aantal Resoluties",
-        "DESC": "( Totaal )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Afgelopen 7 dagen"
-      },
-      {
-        "id": 1,
-        "name": "Laatste 30 dagen"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
+    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Kaartgegevens laden...",
-    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Gesprekken",
-        "DESC": "( Totaal )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Inkomende berichten",
-        "DESC": "( Totaal )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Uitgaande berichten",
-        "DESC": "( Totaal )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Eerste reactietijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Resolutie Tijd",
-        "DESC": "(Gem. )",
-        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Aantal Resoluties",
-        "DESC": "( Totaal )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Custom date range"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Kaartgegevens laden...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Totaal )",
+        "NAME": "Gesprekken"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Eerste reactietijd",
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Niet toegewezen"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
-      "TABLE_HEADER": {
-        "AGENT": "Medewerker",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Inkomende berichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Totaal )",
+        "NAME": "Uitgaande berichten"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Totaal )",
+        "NAME": "Aantal Resoluties"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(Gem. )",
+        "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
+        "NAME": "Resolutie Tijd",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Bezig",
-      "OFFLINE": "Offline"
-    }
+    "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw."
   }
 }

@@ -1,257 +1,257 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Ole hyvä ja valitse keskustelu vasemmasta paneelista",
-    "CSAT_REPLY_MESSAGE": "Voisitko antaa palautetta saamastasi palvelusta?",
     "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Voi voi! Näyttää siltä, että postilaatikossasi ei ole viestejä.",
-    "NO_MESSAGE_2": " jotta voit lähettää viestin sivullesi!",
-    "NO_INBOX_1": "Hola! Näyttää siltä, että et ole vielä lisännyt yhtään saapuneet-kansiota.",
-    "NO_INBOX_2": " päästäksesi alkuun",
-    "NO_INBOX_AGENT": "Voi ei! Näyttää siltä, että et kuulu mihinkään saapuneet-kansioon. Ota yhteyttä työnantajaasi",
-    "SEARCH_MESSAGES": "Etsi viestejä keskusteluissa",
-    "SEARCH": {
-      "TITLE": "Etsi viestejä",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Rouskutetaan dataa...",
-      "PLACEHOLDER": "Kirjoita mikä tahansa teksti etsiäksesi viestejä",
-      "NO_MATCHING_RESULTS": "No results found."
-    },
-    "UNREAD_MESSAGES": "Lukemattomat viestit",
-    "UNREAD_MESSAGE": "Lukematon viesti",
-    "CLICK_HERE": "Klikkaa tästä",
-    "LOADING_INBOXES": "Ladataan saapuneet-kansioita",
-    "LOADING_CONVERSATIONS": "Ladataan keskusteluita",
-    "CANNOT_REPLY": "Et voi vastata, sillä",
     "24_HOURS_WINDOW": "24h vastausikkuna",
-    "NOT_ASSIGNED_TO_YOU": "Tätä keskustelua ei ole määritetty sinulle. Haluatko siirtää tämän keskustelun itsellesi?",
+    "ASSIGNMENT": {
+      "ASSIGN": "Delegoi",
+      "REMOVE": "Poista",
+      "SELECT_AGENT": "Valitse edustaja"
+    },
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_TO_ME": "Siirrä minulle",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24h vastausikkuna",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "Olet vastaamassa:",
-    "REMOVE_SELECTION": "Poista valinnat",
-    "DOWNLOAD": "Lataa",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
-    "UPLOADING_ATTACHMENTS": "Ladataan liitteitä...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Arvio",
-    "FEEDBACK_TITLE": "Palaute",
+    "BOT": "Botti",
+    "CANNOT_REPLY": "Et voi vastata, sillä",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
-    },
-    "HEADER": {
-      "RESOLVE_ACTION": "Ratkaise",
-      "REOPEN_ACTION": "Uudelleenavaa",
-      "OPEN_ACTION": "Avaa",
-      "OPEN": "Näytä",
-      "CLOSE": "Sulje",
-      "DETAILS": "tiedot",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
-    },
-    "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
-      "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
-      }
+      "HIDE_LABELS": "Hide labels",
+      "SHOW_LABELS": "Show labels"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
-      "REOPEN": "Avaa keskustelu uudelleen",
-      "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+      "AGENTS_LOADING": "Loading agents...",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "FAILED": "Couldn't assign agent. Please try again.",
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\""
+        },
+        "LABEL_ASSIGNMENT": {
+          "FAILED": "Couldn't assign label. Please try again.",
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}"
+        },
+        "TEAM_ASSIGNMENT": {
+          "FAILED": "Couldn't assign team. Please try again.",
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}"
+        }
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
-      "API": {
-        "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
-        },
-        "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
-        },
-        "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
-        }
+      "MARK_AS_UNREAD": "Mark as unread",
+      "PENDING": "Mark as pending",
+      "REOPEN": "Avaa keskustelu uudelleen",
+      "RESOLVED": "Mark as resolved",
+      "SNOOZE": {
+        "NEXT_REPLY": "Until next reply",
+        "NEXT_WEEK": "Until next week",
+        "TITLE": "Snooze",
+        "TOMORROW": "Until tomorrow"
       }
     },
-    "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Aloita '/' valitaksesi tallennettu vastaus.",
-      "PRIVATE_MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Tämä näkyy vain edustajille",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
-    },
-    "REPLYBOX": {
-      "REPLY": "Vastaa",
-      "PRIVATE_NOTE": "Sisäinen merkintä",
-      "SEND": "Lähetä",
-      "CREATE": "Lisää muistiinpano",
-      "TWEET": "Twiittaa",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "": "",
-      "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
-        "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
-        },
-        "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
-        }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
-        "CONFIRM": {
-          "YES": "Lähetä",
-          "CANCEL": "Peruuta"
-        }
-      }
-    },
-    "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi",
-    "CHANGE_STATUS": "Keskustelun tila muutettu",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Keskustelun vastaanottaja vaihdettu",
     "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_STATUS": "Keskustelun tila muutettu",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Lähettäjä:",
-    "BOT": "Botti",
-    "SEND_FAILED": "Viestiä ei voitu lähettää! Yritä uudelleen",
-    "TRY_AGAIN": "retry",
-    "ASSIGNMENT": {
-      "SELECT_AGENT": "Valitse edustaja",
-      "REMOVE": "Poista",
-      "ASSIGN": "Delegoi"
-    },
+    "CLICK_HERE": "Klikkaa tästä",
     "CONTEXT_MENU": {
       "COPY": "Kopioi",
-      "DELETE": "Poista",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
-    }
-  },
-  "EMAIL_TRANSCRIPT": {
-    "TITLE": "Lähetä keskustelu",
-    "DESC": "Lähetä kopio keskustelu määritettyyn sähköpostiosoitteeseen",
-    "SUBMIT": "Lähetä",
-    "CANCEL": "Peruuta",
-    "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
-    "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen",
-    "FORM": {
-      "SEND_TO_CONTACT": "Lähetä keskustelu asiakkaalle",
-      "SEND_TO_AGENT": "Lähetä keskustelu edustajalle",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Lähetä keskustelu muuhun sähköpostiin",
-      "EMAIL": {
-        "PLACEHOLDER": "Anna sähköpostiosoite",
-        "ERROR": "Ole hyvä ja syötä validi sähköposti"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "DELETE": "Poista"
+    },
+    "CSAT_REPLY_MESSAGE": "Voisitko antaa palautetta saamastasi palvelusta?",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "DOWNLOAD": "Lataa",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "FEEDBACK_TITLE": "Palaute",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FOOTER": {
+      "CLICK_HERE": "Click here to update",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Aloita '/' valitaksesi tallennettu vastaus.",
+      "PRIVATE_MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Tämä näkyy vain edustajille"
+    },
+    "HEADER": {
+      "CLOSE": "Sulje",
+      "DETAILS": "tiedot",
+      "OPEN": "Näytä",
+      "OPEN_ACTION": "Avaa",
+      "REOPEN_ACTION": "Uudelleenavaa",
+      "RESOLVE_ACTION": "Ratkaise",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow"
+    },
+    "LOADING_CONVERSATIONS": "Ladataan keskusteluita",
+    "LOADING_INBOXES": "Ladataan saapuneet-kansioita",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "NOT_ASSIGNED_TO_YOU": "Tätä keskustelua ei ole määritetty sinulle. Haluatko siirtää tämän keskustelun itsellesi?",
+    "NO_INBOX_1": "Hola! Näyttää siltä, että et ole vielä lisännyt yhtään saapuneet-kansiota.",
+    "NO_INBOX_2": " päästäksesi alkuun",
+    "NO_INBOX_AGENT": "Voi ei! Näyttää siltä, että et kuulu mihinkään saapuneet-kansioon. Ota yhteyttä työnantajaasi",
+    "NO_MESSAGE_1": "Voi voi! Näyttää siltä, että postilaatikossasi ei ole viestejä.",
+    "NO_MESSAGE_2": " jotta voit lähettää viestin sivullesi!",
+    "NO_RESPONSE": "No response",
+    "RATING_TITLE": "Arvio",
+    "REMOVE_SELECTION": "Poista valinnat",
+    "REPLYBOX": {
+      "": "",
+      "CREATE": "Lisää muistiinpano",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "BCC": {
+          "ERROR": "Please enter valid email addresses",
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas"
+        },
+        "CC": {
+          "ERROR": "Please enter valid email addresses",
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas"
+        }
+      },
+      "PRIVATE_NOTE": "Sisäinen merkintä",
+      "REPLY": "Vastaa",
+      "SEND": "Lähetä",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TWEET": "Twiittaa",
+      "UNDEFINED_VARIABLES": {
+        "CONFIRM": {
+          "CANCEL": "Peruuta",
+          "YES": "Lähetä"
+        },
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Undefined variables"
       }
-    }
+    },
+    "REPLYING_TO": "Olet vastaamassa:",
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "NEXT_REPLY": "Next reply",
+        "NEXT_WEEK": "Next week",
+        "TITLE": "Snooze until",
+        "TOMORROW": "Tomorrow"
+      }
+    },
+    "SAVE_CONTACT": "Save",
+    "SEARCH": {
+      "LOADING_MESSAGE": "Rouskutetaan dataa...",
+      "NO_MATCHING_RESULTS": "No results found.",
+      "PLACEHOLDER": "Kirjoita mikä tahansa teksti etsiäksesi viestejä",
+      "RESULT_TITLE": "Search Results",
+      "TITLE": "Etsi viestejä"
+    },
+    "SEARCH_MESSAGES": "Etsi viestejä keskusteluissa",
+    "SELECT_A_CONVERSATION": "Ole hyvä ja valitse keskustelu vasemmasta paneelista",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SEND_FAILED": "Viestiä ei voitu lähettää! Yritä uudelleen",
+    "SENT_BY": "Lähettäjä:",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "TRY_AGAIN": "retry",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24h vastausikkuna",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNREAD_MESSAGE": "Lukematon viesti",
+    "UNREAD_MESSAGES": "Lukemattomat viestit",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UPLOADING_ATTACHMENTS": "Ladataan liitteitä...",
+    "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi"
   },
-  "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
-    "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD": {
+      "ERROR": "Unable to add attribute. Please try again later",
+      "SUCCESS": "Attribute added successfully",
+      "TITLE": "Add"
     },
-    "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "ATTRIBUTE_SELECT": {
+      "NO_RESULT": "Määritteitä ei löytynyt",
+      "PLACEHOLDER": "Etsi määritteitä",
+      "TITLE": "Lisää määritteitä"
     },
-    "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+    "DELETE": {
+      "ERROR": "Unable to delete attribute. Please try again later",
+      "SUCCESS": "Attribute deleted successfully"
     },
-    "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+    "UPDATE": {
+      "ERROR": "Unable to update attribute. Please try again later",
+      "SUCCESS": "Attribute updated successfully"
     }
   },
   "CONVERSATION_SIDEBAR": {
+    "ACCORDION": {
+      "CONTACT_ATTRIBUTES": "Yhteystiedon määritteet",
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Keskustelutoiminnot",
+      "CONVERSATION_INFO": "Keskustelun Tiedot",
+      "CONVERSATION_LABELS": "Keskustelutunnisteet",
+      "MACROS": "Macros",
+      "PREVIOUS_CONVERSATION": "Edelliset keskustelut"
+    },
     "ASSIGNEE_LABEL": "Osoitettu Edustajalle",
-    "SELF_ASSIGN": "Siirrä minulle",
-    "TEAM_LABEL": "Osoitettu Tiimille",
     "SELECT": {
       "PLACEHOLDER": "None"
     },
-    "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Keskustelutoiminnot",
-      "CONVERSATION_LABELS": "Keskustelutunnisteet",
-      "CONVERSATION_INFO": "Keskustelun Tiedot",
-      "CONTACT_ATTRIBUTES": "Yhteystiedon määritteet",
-      "PREVIOUS_CONVERSATION": "Edelliset keskustelut",
-      "MACROS": "Macros"
-    }
-  },
-  "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
-    "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
-    },
-    "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
-    },
-    "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
-    },
-    "ATTRIBUTE_SELECT": {
-      "TITLE": "Lisää määritteitä",
-      "PLACEHOLDER": "Etsi määritteitä",
-      "NO_RESULT": "Määritteitä ei löytynyt"
-    }
+    "SELF_ASSIGN": "Siirrä minulle",
+    "TEAM_LABEL": "Osoitettu Tiimille"
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "FROM": "From",
+    "SUBJECT": "Subject",
+    "TO": "To"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "CANCEL": "Peruuta",
+    "DESC": "Lähetä kopio keskustelu määritettyyn sähköpostiosoitteeseen",
+    "FORM": {
+      "EMAIL": {
+        "ERROR": "Ole hyvä ja syötä validi sähköposti",
+        "PLACEHOLDER": "Anna sähköpostiosoite"
+      },
+      "SEND_TO_AGENT": "Lähetä keskustelu edustajalle",
+      "SEND_TO_CONTACT": "Lähetä keskustelu asiakkaalle",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Lähetä keskustelu muuhun sähköpostiin"
+    },
+    "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen",
+    "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
+    "SUBMIT": "Lähetä",
+    "TITLE": "Lähetä keskustelu"
+  },
+  "ONBOARDING": {
+    "ALL_CONVERSATION": {
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
+      "TITLE": "All your conversations in one place"
+    },
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "INBOXES": {
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox",
+      "TITLE": "Connect Inboxes"
+    },
+    "LABELS": {
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags",
+      "TITLE": "Organize conversations with labels"
+    },
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TEAM_MEMBERS": {
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "NEW_LINK": "Click here to invite a team member",
+      "TITLE": "Invite your team members"
+    },
+    "TITLE": "Hey 👋, Welcome to %{installationName}!"
   }
 }

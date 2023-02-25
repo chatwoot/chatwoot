@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Filtrar Conversaciones",
-    "SUBTITLE": "Añada filtros a continuación y pulse 'Enviar' para filtrar conversaciones.",
     "ADD_NEW_FILTER": "Añadir Filtro",
-    "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
-    "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Nombre Asignado",
+      "BROWSER_LANGUAGE": "Idioma del navegador",
+      "CAMPAIGN_NAME": "Nombre de Campaña",
+      "CONVERSATION_IDENTIFIER": "Identificador de conversacion",
+      "COUNTRY_NAME": "Nombre del país",
+      "CREATED_AT": "Creado el",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
+      "CUSTOM_ATTRIBUTE_LINK": "Enlace",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_TEXT": "Texto",
+      "INBOX_NAME": "Nombre de la bandeja de entrada",
+      "LABELS": "Etiquetas",
+      "LAST_ACTIVITY": "Última actividad",
+      "REFERER_LINK": "Enlace de referencia",
+      "STATUS": "Estado",
+      "TEAM_NAME": "Nombre del equipo"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "Falso",
+      "TRUE": "Verdadero"
+    },
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpiar filtros",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Error al crear la carpeta",
+          "SUCCESS_MESSAGE": "Carpeta creada con éxito"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Error al crear segmento",
+          "SUCCESS_MESSAGE": "Segmento creado con éxito"
+        },
+        "CANCEL_BUTTON": "Cancelar",
+        "ERROR_MESSAGE": "El nombre es requerido",
+        "LABEL": "Nombre de este filtro",
+        "PLACEHOLDER": "Introduzca un nombre para este filtro",
+        "SAVE_BUTTON": "Guardar filtro",
+        "TITLE": "¿Desea guardar este filtro?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Error al eliminar carpeta",
+          "SUCCESS_MESSAGE": "Carpeta eliminada con éxito"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Error al eliminar segmento",
+          "SUCCESS_MESSAGE": "Segmento eliminado con éxito"
+        },
+        "DELETE_BUTTON": "Eliminar filtro",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "¿Está seguro de que desea eliminar el filtro ",
+            "NO": "No, mantenerlo",
+            "TITLE": "Confirmar eliminación",
+            "YES": "Sí, eliminar"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "El valor es requerido",
-    "TOOLTIP_LABEL": "Filtrar conversaciones",
+    "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Filtros adicionales",
+      "CUSTOM_ATTRIBUTES": "Atributos personalizados",
+      "STANDARD_FILTERS": "Filtros estándar"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Contiene",
+      "days_before": "Es X días antes",
+      "does_not_contain": "No contiene",
+      "equal_to": "Igual a",
+      "is_greater_than": "Es mayor que",
+      "is_less_than": "Es menor que",
+      "is_not_present": "No está presente",
+      "is_present": "Está presente",
+      "not_equal_to": "No igual a"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "Y",
       "OR": "O"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "Igual a",
-      "not_equal_to": "No igual a",
-      "contains": "Contiene",
-      "does_not_contain": "No contiene",
-      "is_present": "Está presente",
-      "is_not_present": "No está presente",
-      "is_greater_than": "Es mayor que",
-      "is_less_than": "Es menor que",
-      "days_before": "Es X días antes"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "Verdadero",
-      "FALSE": "Falso"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "Estado",
-      "ASSIGNEE_NAME": "Nombre Asignado",
-      "INBOX_NAME": "Nombre de la bandeja de entrada",
-      "TEAM_NAME": "Nombre del equipo",
-      "CONVERSATION_IDENTIFIER": "Identificador de conversacion",
-      "CAMPAIGN_NAME": "Nombre de Campaña",
-      "LABELS": "Etiquetas",
-      "BROWSER_LANGUAGE": "Idioma del navegador",
-      "COUNTRY_NAME": "Nombre del país",
-      "REFERER_LINK": "Enlace de referencia",
-      "CUSTOM_ATTRIBUTE_LIST": "Lista",
-      "CUSTOM_ATTRIBUTE_TEXT": "Texto",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
-      "CUSTOM_ATTRIBUTE_LINK": "Enlace",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
-      "CREATED_AT": "Creado el",
-      "LAST_ACTIVITY": "Última actividad"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "Filtros estándar",
-      "ADDITIONAL_FILTERS": "Filtros adicionales",
-      "CUSTOM_ATTRIBUTES": "Atributos personalizados"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "¿Desea guardar este filtro?",
-        "LABEL": "Nombre de este filtro",
-        "PLACEHOLDER": "Introduzca un nombre para este filtro",
-        "ERROR_MESSAGE": "El nombre es requerido",
-        "SAVE_BUTTON": "Guardar filtro",
-        "CANCEL_BUTTON": "Cancelar",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Carpeta creada con éxito",
-          "ERROR_MESSAGE": "Error al crear la carpeta"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento creado con éxito",
-          "ERROR_MESSAGE": "Error al crear segmento"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "Eliminar filtro",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "Confirmar eliminación",
-            "MESSAGE": "¿Está seguro de que desea eliminar el filtro ",
-            "YES": "Sí, eliminar",
-            "NO": "No, mantenerlo"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Carpeta eliminada con éxito",
-          "ERROR_MESSAGE": "Error al eliminar carpeta"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento eliminado con éxito",
-          "ERROR_MESSAGE": "Error al eliminar segmento"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "SUBTITLE": "Añada filtros a continuación y pulse 'Enviar' para filtrar conversaciones.",
+    "TITLE": "Filtrar Conversaciones",
+    "TOOLTIP_LABEL": "Filtrar conversaciones"
   }
 }

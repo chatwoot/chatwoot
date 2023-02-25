@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Keskustele kanssamme"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Kirjoita viestisi",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Lataa",
@@ -8,89 +17,80 @@
       "SUBMIT": "Lähetä"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "ERROR_MESSAGE": "Couldn't send, try again",
+      "RETRY": "Send message again"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Olemme online-tilassa",
-    "OFFLINE": "Olemme tällä hetkellä poissa"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
-    "IN_A_FEW_HOURS": "Tyypillisesti vastaa muutaman tunnin kuluessa",
-    "IN_A_DAY": "Vastaa tyypillisesti päivässä"
-  },
-  "START_CONVERSATION": "Aloita keskustelu",
-  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Näytä uudet viestit",
-    "CLOSE_MESSAGES_BUTTON": "Sulje",
-    "COMPANY_FROM": "from",
-    "BOT": "Botti"
+  "CSAT": {
+    "PLACEHOLDER": "Tell us more...",
+    "SUBMITTED_TITLE": "Kiitos, että lähetit arvion",
+    "TITLE": "Anna arvio palvelusta"
   },
-  "BUBBLE": {
-    "LABEL": "Keskustele kanssamme"
+  "EMAIL_PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen",
+    "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "End Conversation",
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Palvelun tarjoaa Chatwoot",
-  "EMAIL_PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
-  "CHAT_PLACEHOLDER": "Kirjoita viestisi",
-  "TODAY": "Tänään",
-  "YESTERDAY": "Eilen",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Koko nimi",
-        "PLACEHOLDER": "Syötä koko nimesi",
-        "REQUIRED_ERROR": "Full Name is required"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Sähköpostiosoite",
         "PLACEHOLDER": "Please enter your email address",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "Ole hyvä ja syötä validi sähköposti"
       },
+      "FULL_NAME": {
+        "LABEL": "Koko nimi",
+        "PLACEHOLDER": "Syötä koko nimesi",
+        "REQUIRED_ERROR": "Full Name is required"
+      },
+      "MESSAGE": {
+        "ERROR": "Message too short",
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Puhelinnumero",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Invalid field"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Vastaa tyypillisesti päivässä",
+    "IN_A_FEW_HOURS": "Tyypillisesti vastaa muutaman tunnin kuluessa",
+    "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "Aloita keskustelu",
+  "START_NEW_CONVERSATION": "Start a new conversation",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Olemme tällä hetkellä poissa",
+    "ONLINE": "Olemme online-tilassa"
   },
-  "CSAT": {
-    "TITLE": "Anna arvio palvelusta",
-    "SUBMITTED_TITLE": "Kiitos, että lähetit arvion",
-    "PLACEHOLDER": "Tell us more..."
+  "TODAY": "Tänään",
+  "UNREAD_VIEW": {
+    "BOT": "Botti",
+    "CLOSE_MESSAGES_BUTTON": "Sulje",
+    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "Näytä uudet viestit"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
-    "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Eilen"
 }

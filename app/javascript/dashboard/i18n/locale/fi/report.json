@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Keskustelut",
-    "LOADING_CHART": "Ladataan kaaviotietoja...",
-    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
-    "DOWNLOAD_AGENT_REPORTS": "Lataa edustajaraportit",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Keskustelut",
-        "DESC": "(yhteensä)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Saapuvat viestit",
-        "DESC": "(yhteensä)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Lähtevät viestit",
-        "DESC": "(yhteensä)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Selviytymisen kesto",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Selvitysmäärä",
-        "DESC": "(yhteensä)"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Custom date range"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Lataa edustajaraportit",
+    "FILTER_DROPDOWN_LABEL": "Valitse edustaja",
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "(yhteensä)",
+        "NAME": "Keskustelut"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Saapuvat viestit"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Lähtevät viestit"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "(yhteensä)",
+        "NAME": "Selvitysmäärä"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Selviytymisen kesto",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "HEADER": "CSAT Reports",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      }
+    },
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Osoitettu edustajalle",
+        "CONTACT_NAME": "Contact",
+        "FEEDBACK_TEXT": "Palautteen kommentti",
+        "RATING": "Arvio"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Viimeiset 7 päivää"
+      },
+      {
+        "id": 1,
+        "name": "Viimeiset 30 päivää"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "(yhteensä)",
+        "NAME": "Keskustelut"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Saapuvat viestit"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Lähtevät viestit"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "(yhteensä)",
+        "NAME": "Selvitysmäärä"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Selviytymisen kesto",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Viimeiset 7 päivää"
+      },
+      {
+        "id": 1,
+        "name": "Viimeiset 30 päivää"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "(yhteensä)",
+        "NAME": "Keskustelut"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Saapuvat viestit"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Lähtevät viestit"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "(yhteensä)",
+        "NAME": "Selvitysmäärä"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Selviytymisen kesto",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Avaa",
+      "UNASSIGNED": "Osoittamaton",
+      "UNATTENDED": "Unattended"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Edustajat",
+        "OPEN": "OPEN",
+        "STATUS": "Tila",
+        "UNATTENDED": "Unattended"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Kiireinen",
+      "HEADER": "Agent status",
+      "OFFLINE": "Poissa",
+      "ONLINE": "Paikalla"
+    },
+    "HEADER": "Overview",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Business Hours",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Viimeiset 7 päivää"
+      },
+      {
+        "id": 1,
+        "name": "Viimeiset 30 päivää"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Lataa edustajaraportit",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Day"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      },
-      {
-        "id": 2,
-        "groupBy": "Week"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Year"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Keskustelut",
     "LOADING_CHART": "Ladataan kaaviotietoja...",
-    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
-    "DOWNLOAD_AGENT_REPORTS": "Lataa edustajaraportit",
-    "FILTER_DROPDOWN_LABEL": "Valitse edustaja",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Keskustelut",
-        "DESC": "(yhteensä)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Saapuvat viestit",
-        "DESC": "(yhteensä)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Lähtevät viestit",
-        "DESC": "(yhteensä)"
+        "DESC": "(yhteensä)",
+        "NAME": "Keskustelut"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
         "NAME": "First Response Time",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Selviytymisen kesto",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Selvitysmäärä",
-        "DESC": "(yhteensä)"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Viimeiset 7 päivää"
-      },
-      {
-        "id": 1,
-        "name": "Viimeiset 30 päivää"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "Ladataan kaaviotietoja...",
-    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Keskustelut",
-        "DESC": "(yhteensä)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Saapuvat viestit",
-        "DESC": "(yhteensä)"
+        "DESC": "(yhteensä)",
+        "NAME": "Saapuvat viestit"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Lähtevät viestit",
-        "DESC": "(yhteensä)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Selviytymisen kesto",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "(yhteensä)",
+        "NAME": "Lähtevät viestit"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Selvitysmäärä",
-        "DESC": "(yhteensä)"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Viimeiset 7 päivää"
-      },
-      {
-        "id": 1,
-        "name": "Viimeiset 30 päivää"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Ladataan kaaviotietoja...",
-    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Keskustelut",
-        "DESC": "(yhteensä)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Saapuvat viestit",
-        "DESC": "(yhteensä)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Lähtevät viestit",
-        "DESC": "(yhteensä)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "(yhteensä)",
+        "NAME": "Selvitysmäärä"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Selviytymisen kesto",
         "DESC": "(keskiarvo)",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Selviytymisen kesto",
         "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Selvitysmäärä",
-        "DESC": "(yhteensä)"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Viimeiset 7 päivää"
-      },
-      {
-        "id": 1,
-        "name": "Viimeiset 30 päivää"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Ladataan kaaviotietoja...",
-    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Keskustelut",
-        "DESC": "(yhteensä)"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Saapuvat viestit",
-        "DESC": "(yhteensä)"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Lähtevät viestit",
-        "DESC": "(yhteensä)"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Selviytymisen kesto",
-        "DESC": "(keskiarvo)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Selvitysmäärä",
-        "DESC": "(yhteensä)"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Custom date range"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Osoitettu edustajalle",
-        "RATING": "Arvio",
-        "FEEDBACK_TEXT": "Palautteen kommentti"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "(yhteensä)",
+        "NAME": "Keskustelut"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Avaa",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Osoittamaton"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
-      "TABLE_HEADER": {
-        "AGENT": "Edustajat",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Tila"
+      "INCOMING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Saapuvat viestit"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "(yhteensä)",
+        "NAME": "Lähtevät viestit"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "(yhteensä)",
+        "NAME": "Selvitysmäärä"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(keskiarvo)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Selviytymisen kesto",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Paikalla",
-      "BUSY": "Kiireinen",
-      "OFFLINE": "Poissa"
-    }
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen."
   }
 }

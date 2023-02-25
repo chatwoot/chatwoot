@@ -1,257 +1,257 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Vælg venligst en samtale fra venstre rude",
-    "CSAT_REPLY_MESSAGE": "Bedøm venligst samtalen",
     "404": "Beklager, vi kan ikke finde samtalen. Prøv igen",
-    "SWITCH_VIEW_LAYOUT": "Skift layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Beskeder",
-    "UNVERIFIED_SESSION": "Identiteten af denne bruger er ikke bekræftet",
-    "NO_MESSAGE_1": "Åh oh! Det ser ud til, at der ikke er nogen beskeder fra kunder i din indbakke.",
-    "NO_MESSAGE_2": " for at sende en besked til din side!",
-    "NO_INBOX_1": "Hola! Det ser ud til, at du endnu ikke har tilføjet indbakker.",
-    "NO_INBOX_2": " for at komme i gang",
-    "NO_INBOX_AGENT": "Åh Åh! Det ser ud til, at du ikke er en del af en indbakke. Kontakt venligst din administrator",
-    "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
-    "SEARCH": {
-      "TITLE": "Søg efter beskeder",
-      "RESULT_TITLE": "Søgeresultater",
-      "LOADING_MESSAGE": "Behandler data...",
-      "PLACEHOLDER": "Skriv tekst for at søge i beskeder",
-      "NO_MATCHING_RESULTS": "Ingen resultater fundet."
-    },
-    "UNREAD_MESSAGES": "Ulæste Beskeder",
-    "UNREAD_MESSAGE": "Ulæst Besked",
-    "CLICK_HERE": "Klik her",
-    "LOADING_INBOXES": "Indlæser indbakker",
-    "LOADING_CONVERSATIONS": "Indlæser Samtaler",
-    "CANNOT_REPLY": "Du kan ikke svare på grund af",
     "24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
-    "NOT_ASSIGNED_TO_YOU": "Denne samtale er ikke tildelt dig. Vil du tildele denne samtale til dig selv?",
+    "ASSIGNMENT": {
+      "ASSIGN": "Tildel",
+      "REMOVE": "Fjern",
+      "SELECT_AGENT": "Vælg Agent"
+    },
+    "ASSIGN_LABEL_FAILED": "Tildeling af etiket mislykkedes",
+    "ASSIGN_LABEL_SUCCESFUL": "Label tildelt",
     "ASSIGN_TO_ME": "Tildel til mig",
-    "TWILIO_WHATSAPP_CAN_REPLY": "Du kan kun svare på denne samtale ved hjælp af en skabelon besked på grund af",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
-    "SELECT_A_TWEET_TO_REPLY": "Vælg venligst et tweet at svare på.",
-    "REPLYING_TO": "Du svarer til:",
-    "REMOVE_SELECTION": "Fjern Markering",
-    "DOWNLOAD": "Download",
-    "UNKNOWN_FILE_TYPE": "Ukendt Fil",
-    "SAVE_CONTACT": "Save",
-    "UPLOADING_ATTACHMENTS": "Uploader vedhæftede filer...",
-    "SUCCESS_DELETE_MESSAGE": "Besked slettet",
-    "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
-    "NO_RESPONSE": "Intet svar",
-    "RATING_TITLE": "Bedømmelse",
-    "FEEDBACK_TITLE": "Tilbagemelding",
+    "BOT": "Bot",
+    "CANNOT_REPLY": "Du kan ikke svare på grund af",
     "CARD": {
-      "SHOW_LABELS": "Vis etiketter",
-      "HIDE_LABELS": "Skjul etiketter"
-    },
-    "HEADER": {
-      "RESOLVE_ACTION": "Løs",
-      "REOPEN_ACTION": "Genåben",
-      "OPEN_ACTION": "Åbn",
-      "OPEN": "Mere",
-      "CLOSE": "Luk",
-      "DETAILS": "detaljer",
-      "SNOOZED_UNTIL_TOMORROW": "Udsat til i morgen",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Udsat indtil næste uge",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Udsat indtil næste svar"
-    },
-    "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Markér som afventende",
-      "SNOOZE": {
-        "TITLE": "Udsæt til",
-        "NEXT_REPLY": "Næste svar",
-        "TOMORROW": "I Morgen",
-        "NEXT_WEEK": "Næste uge"
-      }
+      "HIDE_LABELS": "Skjul etiketter",
+      "SHOW_LABELS": "Vis etiketter"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Markér som afventende",
-      "RESOLVED": "Marker som løst",
-      "MARK_AS_UNREAD": "Marker som ulæst",
-      "REOPEN": "Genåbn samtale",
-      "SNOOZE": {
-        "TITLE": "Udsæt",
-        "NEXT_REPLY": "Indtil næste svar",
-        "TOMORROW": "Indtil i morgen",
-        "NEXT_WEEK": "Indtil næste uge"
+      "AGENTS_LOADING": "Indlæser agenter...",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "FAILED": "Kunne ikke tildele agent. Prøv venligst igen.",
+          "SUCCESFUL": "Samtale id %{conversationId} tildelt \"%{agentName}\""
+        },
+        "LABEL_ASSIGNMENT": {
+          "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen.",
+          "SUCCESFUL": "Tildelt etiket #%{labelName} til samtale-id %{conversationId}"
+        },
+        "TEAM_ASSIGNMENT": {
+          "FAILED": "Kunne ikke tildele team. Prøv venligst igen.",
+          "SUCCESFUL": "Tildelt team \"%{team}\" til samtale-id %{conversationId}"
+        }
       },
       "ASSIGN_AGENT": "Tildel agent",
       "ASSIGN_LABEL": "Tildel etiket",
-      "AGENTS_LOADING": "Indlæser agenter...",
       "ASSIGN_TEAM": "Tildel team",
-      "API": {
-        "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Samtale id %{conversationId} tildelt \"%{agentName}\"",
-          "FAILED": "Kunne ikke tildele agent. Prøv venligst igen."
-        },
-        "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt etiket #%{labelName} til samtale-id %{conversationId}",
-          "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
-        },
-        "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt team \"%{team}\" til samtale-id %{conversationId}",
-          "FAILED": "Kunne ikke tildele team. Prøv venligst igen."
-        }
+      "MARK_AS_UNREAD": "Marker som ulæst",
+      "PENDING": "Markér som afventende",
+      "REOPEN": "Genåbn samtale",
+      "RESOLVED": "Marker som løst",
+      "SNOOZE": {
+        "NEXT_REPLY": "Indtil næste svar",
+        "NEXT_WEEK": "Indtil næste uge",
+        "TITLE": "Udsæt",
+        "TOMORROW": "Indtil i morgen"
       }
     },
-    "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Besked signatur",
-      "ENABLE_SIGN_TOOLTIP": "Aktiver signatur",
-      "DISABLE_SIGN_TOOLTIP": "Deaktivér signatur",
-      "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for ny linje. Dette vil kun være synligt for Agenter",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Beskedsignatur er ikke konfigureret, konfigurer den i profilindstillinger.",
-      "CLICK_HERE": "Klik her for at opdatere"
-    },
-    "REPLYBOX": {
-      "REPLY": "Svar",
-      "PRIVATE_NOTE": "Privat Note",
-      "SEND": "Send",
-      "CREATE": "Tilføj Note",
-      "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Vis rig teksteditor",
-      "TIP_EMOJI_ICON": "Vis emoji-vælger",
-      "TIP_ATTACH_ICON": "Vedhæft filer",
-      "TIP_AUDIORECORDER_ICON": "Optag lyd",
-      "TIP_AUDIORECORDER_PERMISSION": "Tillad adgang til lyd",
-      "TIP_AUDIORECORDER_ERROR": "Kunne ikke åbne lyden",
-      "DRAG_DROP": "Træk og slip her for at vedhæfte",
-      "START_AUDIO_RECORDING": "Start lydoptagelse",
-      "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
-      "": "",
-      "EMAIL_HEAD": {
-        "ADD_BCC": "Tilføj bcc",
-        "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "E-mails adskilt af kommaer",
-          "ERROR": "Indtast venligst gyldige e-mailadresser"
-        },
-        "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "E-mails adskilt af kommaer",
-          "ERROR": "Indtast venligst gyldige e-mailadresser"
-        }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
-        "CONFIRM": {
-          "YES": "Send",
-          "CANCEL": "Annuller"
-        }
-      }
-    },
-    "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
-    "CHANGE_STATUS": "Samtalestatus ændret",
-    "CHANGE_STATUS_FAILED": "Ændring af samtale status mislykkedes",
     "CHANGE_AGENT": "Samtaleansvarlig ændret",
     "CHANGE_AGENT_FAILED": "Ændring af ansvarlig mislykkedes",
-    "ASSIGN_LABEL_SUCCESFUL": "Label tildelt",
-    "ASSIGN_LABEL_FAILED": "Tildeling af etiket mislykkedes",
+    "CHANGE_STATUS": "Samtalestatus ændret",
+    "CHANGE_STATUS_FAILED": "Ændring af samtale status mislykkedes",
     "CHANGE_TEAM": "Samtaleholdet er ændret",
-    "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} for vedhæftede filer",
-    "MESSAGE_ERROR": "Kunne ikke sende denne besked, prøv igen senere",
-    "SENT_BY": "Sendt af:",
-    "BOT": "Bot",
-    "SEND_FAILED": "Kunne ikke sende besked! Prøv igen",
-    "TRY_AGAIN": "prøv igen",
-    "ASSIGNMENT": {
-      "SELECT_AGENT": "Vælg Agent",
-      "REMOVE": "Fjern",
-      "ASSIGN": "Tildel"
-    },
+    "CLICK_HERE": "Klik her",
     "CONTEXT_MENU": {
       "COPY": "Kopiér",
-      "DELETE": "Slet",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
-    }
-  },
-  "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send samtaleudskrift",
-    "DESC": "Send en kopi af samtaleudskriften til den angivne e-mailadresse",
-    "SUBMIT": "Send",
-    "CANCEL": "Annuller",
-    "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
-    "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen",
-    "FORM": {
-      "SEND_TO_CONTACT": "Send udskrift til kunden",
-      "SEND_TO_AGENT": "Send udskrift til den tildelte agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send udskriften til en anden e-mailadresse",
-      "EMAIL": {
-        "PLACEHOLDER": "Indtast en e-mail adresse",
-        "ERROR": "Indtast venligst en gyldig e-mailadresse"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "DELETE": "Slet"
+    },
+    "CSAT_REPLY_MESSAGE": "Bedøm venligst samtalen",
+    "DASHBOARD_APP_TAB_MESSAGES": "Beskeder",
+    "DOWNLOAD": "Download",
+    "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
+    "FEEDBACK_TITLE": "Tilbagemelding",
+    "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} for vedhæftede filer",
+    "FOOTER": {
+      "CLICK_HERE": "Klik her for at opdatere",
+      "DISABLE_SIGN_TOOLTIP": "Deaktivér signatur",
+      "ENABLE_SIGN_TOOLTIP": "Aktiver signatur",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Beskedsignatur er ikke konfigureret, konfigurer den i profilindstillinger.",
+      "MESSAGE_SIGN_TOOLTIP": "Besked signatur",
+      "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
+      "PRIVATE_MSG_INPUT": "Shift + enter for ny linje. Dette vil kun være synligt for Agenter"
+    },
+    "HEADER": {
+      "CLOSE": "Luk",
+      "DETAILS": "detaljer",
+      "OPEN": "Mere",
+      "OPEN_ACTION": "Åbn",
+      "REOPEN_ACTION": "Genåben",
+      "RESOLVE_ACTION": "Løs",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Udsat indtil næste svar",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Udsat indtil næste uge",
+      "SNOOZED_UNTIL_TOMORROW": "Udsat til i morgen"
+    },
+    "LOADING_CONVERSATIONS": "Indlæser Samtaler",
+    "LOADING_INBOXES": "Indlæser indbakker",
+    "MESSAGE_ERROR": "Kunne ikke sende denne besked, prøv igen senere",
+    "NOT_ASSIGNED_TO_YOU": "Denne samtale er ikke tildelt dig. Vil du tildele denne samtale til dig selv?",
+    "NO_INBOX_1": "Hola! Det ser ud til, at du endnu ikke har tilføjet indbakker.",
+    "NO_INBOX_2": " for at komme i gang",
+    "NO_INBOX_AGENT": "Åh Åh! Det ser ud til, at du ikke er en del af en indbakke. Kontakt venligst din administrator",
+    "NO_MESSAGE_1": "Åh oh! Det ser ud til, at der ikke er nogen beskeder fra kunder i din indbakke.",
+    "NO_MESSAGE_2": " for at sende en besked til din side!",
+    "NO_RESPONSE": "Intet svar",
+    "RATING_TITLE": "Bedømmelse",
+    "REMOVE_SELECTION": "Fjern Markering",
+    "REPLYBOX": {
+      "": "",
+      "CREATE": "Tilføj Note",
+      "DRAG_DROP": "Træk og slip her for at vedhæfte",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Tilføj bcc",
+        "BCC": {
+          "ERROR": "Indtast venligst gyldige e-mailadresser",
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-mails adskilt af kommaer"
+        },
+        "CC": {
+          "ERROR": "Indtast venligst gyldige e-mailadresser",
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-mails adskilt af kommaer"
+        }
+      },
+      "PRIVATE_NOTE": "Privat Note",
+      "REPLY": "Svar",
+      "SEND": "Send",
+      "START_AUDIO_RECORDING": "Start lydoptagelse",
+      "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
+      "TIP_ATTACH_ICON": "Vedhæft filer",
+      "TIP_AUDIORECORDER_ERROR": "Kunne ikke åbne lyden",
+      "TIP_AUDIORECORDER_ICON": "Optag lyd",
+      "TIP_AUDIORECORDER_PERMISSION": "Tillad adgang til lyd",
+      "TIP_EMOJI_ICON": "Vis emoji-vælger",
+      "TIP_FORMAT_ICON": "Vis rig teksteditor",
+      "TWEET": "Tweet",
+      "UNDEFINED_VARIABLES": {
+        "CONFIRM": {
+          "CANCEL": "Annuller",
+          "YES": "Send"
+        },
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Undefined variables"
       }
-    }
+    },
+    "REPLYING_TO": "Du svarer til:",
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Markér som afventende",
+      "SNOOZE": {
+        "NEXT_REPLY": "Næste svar",
+        "NEXT_WEEK": "Næste uge",
+        "TITLE": "Udsæt til",
+        "TOMORROW": "I Morgen"
+      }
+    },
+    "SAVE_CONTACT": "Save",
+    "SEARCH": {
+      "LOADING_MESSAGE": "Behandler data...",
+      "NO_MATCHING_RESULTS": "Ingen resultater fundet.",
+      "PLACEHOLDER": "Skriv tekst for at søge i beskeder",
+      "RESULT_TITLE": "Søgeresultater",
+      "TITLE": "Søg efter beskeder"
+    },
+    "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
+    "SELECT_A_CONVERSATION": "Vælg venligst en samtale fra venstre rude",
+    "SELECT_A_TWEET_TO_REPLY": "Vælg venligst et tweet at svare på.",
+    "SEND_FAILED": "Kunne ikke sende besked! Prøv igen",
+    "SENT_BY": "Sendt af:",
+    "SUCCESS_DELETE_MESSAGE": "Besked slettet",
+    "SWITCH_VIEW_LAYOUT": "Skift layout",
+    "TRY_AGAIN": "prøv igen",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Du kan kun svare på denne samtale ved hjælp af en skabelon besked på grund af",
+    "UNKNOWN_FILE_TYPE": "Ukendt Fil",
+    "UNREAD_MESSAGE": "Ulæst Besked",
+    "UNREAD_MESSAGES": "Ulæste Beskeder",
+    "UNVERIFIED_SESSION": "Identiteten af denne bruger er ikke bekræftet",
+    "UPLOADING_ATTACHMENTS": "Uploader vedhæftede filer...",
+    "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team"
   },
-  "ONBOARDING": {
-    "TITLE": "Hej 👋, Velkommen til %{installationName}!",
-    "DESCRIPTION": "Tak for din tilmelding. Vi vil have dig til at få mest muligt ud af %{installationName}. Her er et par ting, du kan gøre i %{installationName} for at gøre oplevelsen dejlig.",
-    "READ_LATEST_UPDATES": "Læs vores seneste opdateringer",
-    "ALL_CONVERSATION": {
-      "TITLE": "Alle dine samtaler på ét sted",
-      "DESCRIPTION": "Se alle samtaler fra dine kunder på et enkelt betjeningspanel. Du kan filtrere samtaler efter indgående kanal, etiket og status."
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD": {
+      "ERROR": "Kan ikke tilføje attribut. Prøv igen senere",
+      "SUCCESS": "Egenskab tilføjet",
+      "TITLE": "Tilføj"
     },
-    "TEAM_MEMBERS": {
-      "TITLE": "Inviter dine teammedlemmer",
-      "DESCRIPTION": "Da du er ved at blive klar til at tale med din kunde, skal du medbringe dine holdkammerater for at hjælpe dig. Du kan invitere dine holdkammerater ved at tilføje deres e-mailadresser til agentlisten.",
-      "NEW_LINK": "Klik her for at invitere et teammedlem"
+    "ADD_BUTTON_TEXT": "Opret ny egenskab",
+    "ATTRIBUTE_SELECT": {
+      "NO_RESULT": "Ingen attributter fundet",
+      "PLACEHOLDER": "Søg attributter",
+      "TITLE": "Tilføj attributter"
     },
-    "INBOXES": {
-      "TITLE": "Forbind Indbakker",
-      "DESCRIPTION": "Tilslut forskellige kanaler, hvorigennem dine kunder ville tale med dig. Det kan være en hjemmeside live-chat, din Facebook eller Twitter side eller endda dit WhatsApp nummer.",
-      "NEW_LINK": "Klik her for at oprette en indbakke"
+    "DELETE": {
+      "ERROR": "Kan ikke slette attributten. Prøv igen senere",
+      "SUCCESS": "Attributten blev slettet"
     },
-    "LABELS": {
-      "TITLE": "Organiser samtaler med etiketter",
-      "DESCRIPTION": "Etiketter giver en lettere måde at kategorisere din samtale. Opret nogle etiketter som #support-forespørgsel, #billing-spørgsmål osv., så du kan bruge dem i en samtale senere.",
-      "NEW_LINK": "Klik her for at oprette tags"
+    "UPDATE": {
+      "ERROR": "Kan ikke opdatere attributten. Prøv igen senere",
+      "SUCCESS": "Attributten er opdateret"
     }
   },
   "CONVERSATION_SIDEBAR": {
+    "ACCORDION": {
+      "CONTACT_ATTRIBUTES": "Kontakt Attributter",
+      "CONTACT_DETAILS": "Kontaktoplysninger",
+      "CONVERSATION_ACTIONS": "Samtale Handlinger",
+      "CONVERSATION_INFO": "Samtale Information",
+      "CONVERSATION_LABELS": "Samtale Etiketter",
+      "MACROS": "Macros",
+      "PREVIOUS_CONVERSATION": "Tidligere Samtaler"
+    },
     "ASSIGNEE_LABEL": "Tildelt Agent",
-    "SELF_ASSIGN": "Tildel til mig",
-    "TEAM_LABEL": "Tildelt Team",
     "SELECT": {
       "PLACEHOLDER": "Ingen"
     },
-    "ACCORDION": {
-      "CONTACT_DETAILS": "Kontaktoplysninger",
-      "CONVERSATION_ACTIONS": "Samtale Handlinger",
-      "CONVERSATION_LABELS": "Samtale Etiketter",
-      "CONVERSATION_INFO": "Samtale Information",
-      "CONTACT_ATTRIBUTES": "Kontakt Attributter",
-      "PREVIOUS_CONVERSATION": "Tidligere Samtaler",
-      "MACROS": "Macros"
-    }
-  },
-  "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Opret ny egenskab",
-    "UPDATE": {
-      "SUCCESS": "Attributten er opdateret",
-      "ERROR": "Kan ikke opdatere attributten. Prøv igen senere"
-    },
-    "ADD": {
-      "TITLE": "Tilføj",
-      "SUCCESS": "Egenskab tilføjet",
-      "ERROR": "Kan ikke tilføje attribut. Prøv igen senere"
-    },
-    "DELETE": {
-      "SUCCESS": "Attributten blev slettet",
-      "ERROR": "Kan ikke slette attributten. Prøv igen senere"
-    },
-    "ATTRIBUTE_SELECT": {
-      "TITLE": "Tilføj attributter",
-      "PLACEHOLDER": "Søg attributter",
-      "NO_RESULT": "Ingen attributter fundet"
-    }
+    "SELF_ASSIGN": "Tildel til mig",
+    "TEAM_LABEL": "Tildelt Team"
   },
   "EMAIL_HEADER": {
-    "FROM": "Fra",
-    "TO": "Til",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Emne"
+    "FROM": "Fra",
+    "SUBJECT": "Emne",
+    "TO": "Til"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "CANCEL": "Annuller",
+    "DESC": "Send en kopi af samtaleudskriften til den angivne e-mailadresse",
+    "FORM": {
+      "EMAIL": {
+        "ERROR": "Indtast venligst en gyldig e-mailadresse",
+        "PLACEHOLDER": "Indtast en e-mail adresse"
+      },
+      "SEND_TO_AGENT": "Send udskrift til den tildelte agent",
+      "SEND_TO_CONTACT": "Send udskrift til kunden",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send udskriften til en anden e-mailadresse"
+    },
+    "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen",
+    "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
+    "SUBMIT": "Send",
+    "TITLE": "Send samtaleudskrift"
+  },
+  "ONBOARDING": {
+    "ALL_CONVERSATION": {
+      "DESCRIPTION": "Se alle samtaler fra dine kunder på et enkelt betjeningspanel. Du kan filtrere samtaler efter indgående kanal, etiket og status.",
+      "TITLE": "Alle dine samtaler på ét sted"
+    },
+    "DESCRIPTION": "Tak for din tilmelding. Vi vil have dig til at få mest muligt ud af %{installationName}. Her er et par ting, du kan gøre i %{installationName} for at gøre oplevelsen dejlig.",
+    "INBOXES": {
+      "DESCRIPTION": "Tilslut forskellige kanaler, hvorigennem dine kunder ville tale med dig. Det kan være en hjemmeside live-chat, din Facebook eller Twitter side eller endda dit WhatsApp nummer.",
+      "NEW_LINK": "Klik her for at oprette en indbakke",
+      "TITLE": "Forbind Indbakker"
+    },
+    "LABELS": {
+      "DESCRIPTION": "Etiketter giver en lettere måde at kategorisere din samtale. Opret nogle etiketter som #support-forespørgsel, #billing-spørgsmål osv., så du kan bruge dem i en samtale senere.",
+      "NEW_LINK": "Klik her for at oprette tags",
+      "TITLE": "Organiser samtaler med etiketter"
+    },
+    "READ_LATEST_UPDATES": "Læs vores seneste opdateringer",
+    "TEAM_MEMBERS": {
+      "DESCRIPTION": "Da du er ved at blive klar til at tale med din kunde, skal du medbringe dine holdkammerater for at hjælpe dig. Du kan invitere dine holdkammerater ved at tilføje deres e-mailadresser til agentlisten.",
+      "NEW_LINK": "Klik her for at invitere et teammedlem",
+      "TITLE": "Inviter dine teammedlemmer"
+    },
+    "TITLE": "Hej 👋, Velkommen til %{installationName}!"
   }
 }

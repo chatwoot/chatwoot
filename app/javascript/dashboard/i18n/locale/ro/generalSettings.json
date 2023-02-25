@@ -1,76 +1,125 @@
 {
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
+      "ASSIGN_AN_AGENT": "Atribuirea unui agent",
+      "ASSIGN_A_TEAM": "Atribuirea unei echipe",
+      "GO_TO_AGENT_REPORTS": "Accesați povestea Instagram",
+      "GO_TO_CONTACTS_DASHBOARD": "Accesați Tabloul de bord persoane de contact",
+      "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
+      "GO_TO_CONVERSATION_REPORTS": "Accesați Rapoartele conversațiilor",
+      "GO_TO_INBOX_REPORTS": "Accesați Rapoarte Inbox",
+      "GO_TO_LABEL_REPORTS": "Accesați Etichetarea rapoartelor",
+      "GO_TO_NOTIFICATIONS": "Accesați Notificări",
+      "GO_TO_REPORTS_OVERVIEW": "Accesați Prezentare generală a rapoartelor",
+      "GO_TO_SETTINGS_ACCOUNT": "Accesați Setări cont",
+      "GO_TO_SETTINGS_AGENTS": "Accesați Setări agent",
+      "GO_TO_SETTINGS_APPLICATIONS": "Accesați Setări aplicație",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Accesați Setări răspuns conservat",
+      "GO_TO_SETTINGS_INBOXES": "Accesați Setări Inbox",
+      "GO_TO_SETTINGS_LABELS": "Accesați Setări etichetă",
+      "GO_TO_SETTINGS_PROFILE": "Accesați Setări profil",
+      "GO_TO_SETTINGS_TEAMS": "Accesați Setările echipei",
+      "GO_TO_TEAM_REPORTS": "Accesați Rapoarte de echipă",
+      "MUTE_CONVERSATION": "Silențios conversația",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Eliminarea etichetei din conversație",
+      "REOPEN_CONVERSATION": "Redeschiderea conversației",
+      "RESOLVE_CONVERSATION": "Rezolvarea conversației",
+      "SEND_TRANSCRIPT": "Trimiterea unei transcrieri a e-mailului",
+      "SNOOZE_CONVERSATION": "Snooze conversație",
+      "UNMUTE_CONVERSATION": "Sunet conversația",
+      "UNTIL_NEXT_REPLY": "Până la următorul răspuns",
+      "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
+      "UNTIL_TOMORROW": "Până mâine"
+    },
+    "SEARCH_PLACEHOLDER": "Căutarea sau saltul la",
+    "SECTIONS": {
+      "ADD_LABEL": "Adăugarea etichetei la conversație",
+      "CHANGE_ASSIGNEE": "Modificarea cesionarului",
+      "CHANGE_TEAM": "Schimbarea echipei",
+      "CONVERSATION": "Conversație",
+      "GENERAL": "General",
+      "REMOVE_LABEL": "Eliminarea etichetei din conversație",
+      "REPORTS": "Rapoarte",
+      "SETTINGS": "Setări"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Se încarcă aplicația Dashboard..."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_REMOVE": "Introduceți numele complet al persoanei de contact",
+      "ENTER_TO_SELECT": "Apăsați enter pentru a selecta",
+      "SELECT": "Selectați",
+      "SELECT_ONE": "Alege una"
+    }
+  },
   "GENERAL_SETTINGS": {
-    "TITLE": "Setări cont",
-    "SUBMIT": "Actualizați setările",
     "BACK": "Înapoi",
+    "FORM": {
+      "ACCOUNT_ID": {
+        "NOTE": "Acest ID este necesar dacă construiți o integrare bazată pe API",
+        "TITLE": "ID cont"
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "ERROR": "Vă rugăm să introduceți o durată validă de rezolvare automată (minim 1 zi și maximum 999 de zile)",
+        "LABEL": "Numărul de zile de pe bilet ar trebui să se rezolve automat dacă nu există activitate",
+        "PLACEHOLDER": "30"
+      },
+      "DOMAIN": {
+        "ERROR": "",
+        "LABEL": "Domeniu e-mail de intrare",
+        "PLACEHOLDER": "Domeniul în care veți primi e-mailurile"
+      },
+      "ERROR": "Vă rugăm să remediați erorile din formular",
+      "FEATURES": {
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puteți primi e-mailuri în domeniul dvs. personalizat acum.",
+        "INBOUND_EMAIL_ENABLED": "Continuitatea conversației cu e-mailurile este activată pentru contul dvs."
+      },
+      "GENERAL_SECTION": {
+        "NOTE": "",
+        "TITLE": "Setări generale"
+      },
+      "LANGUAGE": {
+        "ERROR": "",
+        "LABEL": "Site language",
+        "PLACEHOLDER": "Numele contului tău"
+      },
+      "NAME": {
+        "ERROR": "Te rugăm să introduci un nume de cont valid",
+        "LABEL": "Nume cont",
+        "PLACEHOLDER": "Numele contului tău"
+      },
+      "SUPPORT_EMAIL": {
+        "ERROR": "",
+        "LABEL": "E-mail de suport",
+        "PLACEHOLDER": "E-mailul de asistență al companiei dumneavoastră"
+      }
+    },
+    "LEARN_MORE": "Află mai mult",
+    "SUBMIT": "Actualizați setările",
+    "TITLE": "Setări cont",
     "UPDATE": {
       "ERROR": "Nu s-au putut actualiza setările, încercați din nou!",
       "SUCCESS": "Setările contului actualizate cu succes"
     },
-    "FORM": {
-      "ERROR": "Vă rugăm să remediați erorile din formular",
-      "GENERAL_SECTION": {
-        "TITLE": "Setări generale",
-        "NOTE": ""
-      },
-      "ACCOUNT_ID": {
-        "TITLE": "ID cont",
-        "NOTE": "Acest ID este necesar dacă construiți o integrare bazată pe API"
-      },
-      "NAME": {
-        "LABEL": "Nume cont",
-        "PLACEHOLDER": "Numele contului tău",
-        "ERROR": "Te rugăm să introduci un nume de cont valid"
-      },
-      "LANGUAGE": {
-        "LABEL": "Site language",
-        "PLACEHOLDER": "Numele contului tău",
-        "ERROR": ""
-      },
-      "DOMAIN": {
-        "LABEL": "Domeniu e-mail de intrare",
-        "PLACEHOLDER": "Domeniul în care veți primi e-mailurile",
-        "ERROR": ""
-      },
-      "SUPPORT_EMAIL": {
-        "LABEL": "E-mail de suport",
-        "PLACEHOLDER": "E-mailul de asistență al companiei dumneavoastră",
-        "ERROR": ""
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Numărul de zile de pe bilet ar trebui să se rezolve automat dacă nu există activitate",
-        "PLACEHOLDER": "30",
-        "ERROR": "Vă rugăm să introduceți o durată validă de rezolvare automată (minim 1 zi și maximum 999 de zile)"
-      },
-      "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Continuitatea conversației cu e-mailurile este activată pentru contul dvs.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puteți primi e-mailuri în domeniul dvs. personalizat acum."
-      }
-    },
-    "UPDATE_CHATWOOT": "Este disponibilă o actualizare %{latestChatwootVersion} pentru Chatwoot. Vă rugăm să actualizați instanța.",
-    "LEARN_MORE": "Află mai mult"
+    "UPDATE_CHATWOOT": "Este disponibilă o actualizare %{latestChatwootVersion} pentru Chatwoot. Vă rugăm să actualizați instanța."
   },
-  "FORMS": {
-    "MULTISELECT": {
-      "ENTER_TO_SELECT": "Apăsați enter pentru a selecta",
-      "ENTER_TO_REMOVE": "Introduceți numele complet al persoanei de contact",
-      "SELECT_ONE": "Alege una",
-      "SELECT": "Selectați"
+  "NETWORK": {
+    "BUTTON": {
+      "REFRESH": "Reîmprospătare"
+    },
+    "NOTIFICATION": {
+      "TEXT": "Oferit de Chatwoot"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificări",
-    "MARK_ALL_DONE": "Marcați toate gata",
     "DELETE_TITLE": "șterse",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Notificări necitite",
-      "ALL_NOTIFICATIONS": "Vizualizarea tuturor notificărilor",
-      "LOADING_UNREAD_MESSAGE": "Încărcarea notificărilor necitite...",
-      "EMPTY_MESSAGE": "Nu aveți notificări necitite"
-    },
+    "HEADER": "Notificări",
     "LIST": {
-      "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Notificări prin e-mail",
+      "LOADING_MESSAGE": "Se încarcă contactele...",
       "TABLE_HEADER": [
         "Nume",
         "Număr de telefon",
@@ -78,67 +127,18 @@
         "Ultimul contactat"
       ]
     },
+    "MARK_ALL_DONE": "Marcați toate gata",
     "TYPE_LABEL": {
-      "conversation_creation": "Conversație nouă",
-      "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
+      "conversation_assignment": "Conversație atribuită",
+      "conversation_creation": "Conversație nouă",
       "conversation_mention": "a menţiona"
-    }
-  },
-  "NETWORK": {
-    "NOTIFICATION": {
-      "TEXT": "Oferit de Chatwoot"
     },
-    "BUTTON": {
-      "REFRESH": "Reîmprospătare"
+    "UNREAD_NOTIFICATION": {
+      "ALL_NOTIFICATIONS": "Vizualizarea tuturor notificărilor",
+      "EMPTY_MESSAGE": "Nu aveți notificări necitite",
+      "LOADING_UNREAD_MESSAGE": "Încărcarea notificărilor necitite...",
+      "TITLE": "Notificări necitite"
     }
-  },
-  "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Căutarea sau saltul la",
-    "SECTIONS": {
-      "GENERAL": "General",
-      "REPORTS": "Rapoarte",
-      "CONVERSATION": "Conversație",
-      "CHANGE_ASSIGNEE": "Modificarea cesionarului",
-      "CHANGE_TEAM": "Schimbarea echipei",
-      "ADD_LABEL": "Adăugarea etichetei la conversație",
-      "REMOVE_LABEL": "Eliminarea etichetei din conversație",
-      "SETTINGS": "Setări"
-    },
-    "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
-      "GO_TO_CONTACTS_DASHBOARD": "Accesați Tabloul de bord persoane de contact",
-      "GO_TO_REPORTS_OVERVIEW": "Accesați Prezentare generală a rapoartelor",
-      "GO_TO_CONVERSATION_REPORTS": "Accesați Rapoartele conversațiilor",
-      "GO_TO_AGENT_REPORTS": "Accesați povestea Instagram",
-      "GO_TO_LABEL_REPORTS": "Accesați Etichetarea rapoartelor",
-      "GO_TO_INBOX_REPORTS": "Accesați Rapoarte Inbox",
-      "GO_TO_TEAM_REPORTS": "Accesați Rapoarte de echipă",
-      "GO_TO_SETTINGS_AGENTS": "Accesați Setări agent",
-      "GO_TO_SETTINGS_TEAMS": "Accesați Setările echipei",
-      "GO_TO_SETTINGS_INBOXES": "Accesați Setări Inbox",
-      "GO_TO_SETTINGS_LABELS": "Accesați Setări etichetă",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Accesați Setări răspuns conservat",
-      "GO_TO_SETTINGS_APPLICATIONS": "Accesați Setări aplicație",
-      "GO_TO_SETTINGS_ACCOUNT": "Accesați Setări cont",
-      "GO_TO_SETTINGS_PROFILE": "Accesați Setări profil",
-      "GO_TO_NOTIFICATIONS": "Accesați Notificări",
-      "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
-      "ASSIGN_AN_AGENT": "Atribuirea unui agent",
-      "ASSIGN_A_TEAM": "Atribuirea unei echipe",
-      "MUTE_CONVERSATION": "Silențios conversația",
-      "UNMUTE_CONVERSATION": "Sunet conversația",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Eliminarea etichetei din conversație",
-      "REOPEN_CONVERSATION": "Redeschiderea conversației",
-      "RESOLVE_CONVERSATION": "Rezolvarea conversației",
-      "SEND_TRANSCRIPT": "Trimiterea unei transcrieri a e-mailului",
-      "SNOOZE_CONVERSATION": "Snooze conversație",
-      "UNTIL_NEXT_REPLY": "Până la următorul răspuns",
-      "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
-      "UNTIL_TOMORROW": "Până mâine"
-    }
-  },
-  "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Se încarcă aplicația Dashboard..."
   }
 }

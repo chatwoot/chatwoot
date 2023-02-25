@@ -1,70 +1,70 @@
 {
   "LABEL_MGMT": {
+    "ADD": {
+      "API": {
+        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen",
+        "SUCCESS_MESSAGE": "Etikett lagt til"
+      },
+      "DESC": "Etiketter lar deg gruppere samtaler sammen.",
+      "TITLE": "Legg til etikett"
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen",
+        "SUCCESS_MESSAGE": "Etiketten ble slettet"
+      },
+      "BUTTON_TEXT": "Slett",
+      "CONFIRM": {
+        "MESSAGE": "Er du sikker på at du vil slette ",
+        "NO": "Nei, behold ",
+        "TITLE": "Bekreft sletting",
+        "YES": "Ja, slett "
+      }
+    },
+    "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen",
+        "SUCCESS_MESSAGE": "Etiketten ble oppdatert"
+      },
+      "TITLE": "Rediger etikett"
+    },
+    "FORM": {
+      "CANCEL": "Avbryt",
+      "COLOR": {
+        "LABEL": "Farge"
+      },
+      "CREATE": "Opprett",
+      "DELETE": "Slett",
+      "DESCRIPTION": {
+        "LABEL": "Beskrivelse",
+        "PLACEHOLDER": "Etikettbeskrivelse"
+      },
+      "EDIT": "Rediger",
+      "NAME": {
+        "LABEL": "Etikettens navn",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "PLACEHOLDER": "Etikettens navn",
+        "REQUIRED_ERROR": "Label name is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Vis etikett i sidepanelet"
+      }
+    },
     "HEADER": "Etiketter",
     "HEADER_BTN_TXT": "Legg til etikett",
-    "LOADING": "Henter etiketter",
-    "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
-    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>hjelper deg med å kategorisere samtaler og prioritere dem. Du kan tilordne etiketter til en samtale fra sidepanelet. <br /><br />Etiketter er knyttet til kontoen og kan brukes til å opprette egendefinerte arbeidsstrømmer i din organisasjon. Du kan tilordne egendefinert farge til en etikett- det gjør det enklere å identifisere etiketten. Du vil kunne vise etiketten på sidepanelet for å enkelt filtrere samtalene.</p>",
     "LIST": {
       "404": "Det er ingen etiketter tilgjengelig i denne kontoen.",
-      "TITLE": "Administrer etiketter",
       "DESC": "Etiketter lar deg gruppere samtaler sammen.",
       "TABLE_HEADER": [
         "Navn",
         "Beskrivelse",
         "Farge"
-      ]
+      ],
+      "TITLE": "Administrer etiketter"
     },
-    "FORM": {
-      "NAME": {
-        "LABEL": "Etikettens navn",
-        "PLACEHOLDER": "Etikettens navn",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
-      },
-      "DESCRIPTION": {
-        "LABEL": "Beskrivelse",
-        "PLACEHOLDER": "Etikettbeskrivelse"
-      },
-      "COLOR": {
-        "LABEL": "Farge"
-      },
-      "SHOW_ON_SIDEBAR": {
-        "LABEL": "Vis etikett i sidepanelet"
-      },
-      "EDIT": "Rediger",
-      "CREATE": "Opprett",
-      "DELETE": "Slett",
-      "CANCEL": "Avbryt"
-    },
-    "ADD": {
-      "TITLE": "Legg til etikett",
-      "DESC": "Etiketter lar deg gruppere samtaler sammen.",
-      "API": {
-        "SUCCESS_MESSAGE": "Etikett lagt til",
-        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
-      }
-    },
-    "EDIT": {
-      "TITLE": "Rediger etikett",
-      "API": {
-        "SUCCESS_MESSAGE": "Etiketten ble oppdatert",
-        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
-      }
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Slett",
-      "API": {
-        "SUCCESS_MESSAGE": "Etiketten ble slettet",
-        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
-      },
-      "CONFIRM": {
-        "TITLE": "Bekreft sletting",
-        "MESSAGE": "Er du sikker på at du vil slette ",
-        "YES": "Ja, slett ",
-        "NO": "Nei, behold "
-      }
-    }
+    "LOADING": "Henter etiketter",
+    "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
+    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>hjelper deg med å kategorisere samtaler og prioritere dem. Du kan tilordne etiketter til en samtale fra sidepanelet. <br /><br />Etiketter er knyttet til kontoen og kan brukes til å opprette egendefinerte arbeidsstrømmer i din organisasjon. Du kan tilordne egendefinert farge til en etikett- det gjør det enklere å identifisere etiketten. Du vil kunne vise etiketten på sidepanelet for å enkelt filtrere samtalene.</p>"
   }
 }

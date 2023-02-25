@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "உரையாடல்கள்",
-    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
-    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "உரையாடல்கள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "உள்வரும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "வெளிச்செல்லும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "தீர்மான எண்ணிக்கை",
-        "DESC": "( மொத்தம் )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Custom date range"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உரையாடல்கள்"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உள்வரும் செய்திகள்"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "வெளிச்செல்லும் செய்திகள்"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "தீர்மான எண்ணிக்கை"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "HEADER": "CSAT Reports",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      }
+    },
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Contact",
+        "FEEDBACK_TEXT": "Feedback comment",
+        "RATING": "Rating"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "கடந்த 7 நாட்கள்"
+      },
+      {
+        "id": 1,
+        "name": "கடந்த 30 நாட்கள்"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உரையாடல்கள்"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உள்வரும் செய்திகள்"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "வெளிச்செல்லும் செய்திகள்"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "தீர்மான எண்ணிக்கை"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "கடந்த 7 நாட்கள்"
+      },
+      {
+        "id": 1,
+        "name": "கடந்த 30 நாட்கள்"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உரையாடல்கள்"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உள்வரும் செய்திகள்"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "வெளிச்செல்லும் செய்திகள்"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "தீர்மான எண்ணிக்கை"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "திற",
+      "UNASSIGNED": "ஒதுக்கப்படாதது",
+      "UNATTENDED": "Unattended"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "ஏஜென்ட்",
+        "OPEN": "OPEN",
+        "STATUS": "நிலை",
+        "UNATTENDED": "Unattended"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Busy",
+      "HEADER": "Agent status",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Overview",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Business Hours",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "கடந்த 7 நாட்கள்"
+      },
+      {
+        "id": 1,
+        "name": "கடந்த 30 நாட்கள்"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Day"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      },
-      {
-        "id": 2,
-        "groupBy": "Week"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Year"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "உரையாடல்கள்",
     "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
-    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "உரையாடல்கள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "உள்வரும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "வெளிச்செல்லும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
+        "DESC": "( மொத்தம் )",
+        "NAME": "உரையாடல்கள்"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
         "NAME": "First Response Time",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "தீர்மான எண்ணிக்கை",
-        "DESC": "( மொத்தம் )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "கடந்த 7 நாட்கள்"
-      },
-      {
-        "id": 1,
-        "name": "கடந்த 30 நாட்கள்"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
-    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "உரையாடல்கள்",
-        "DESC": "( மொத்தம் )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "உள்வரும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
+        "DESC": "( மொத்தம் )",
+        "NAME": "உள்வரும் செய்திகள்"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "வெளிச்செல்லும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( மொத்தம் )",
+        "NAME": "வெளிச்செல்லும் செய்திகள்"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "தீர்மான எண்ணிக்கை",
-        "DESC": "( மொத்தம் )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "கடந்த 7 நாட்கள்"
-      },
-      {
-        "id": 1,
-        "name": "கடந்த 30 நாட்கள்"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
-    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "உரையாடல்கள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "உள்வரும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "வெளிச்செல்லும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( மொத்தம் )",
+        "NAME": "தீர்மான எண்ணிக்கை"
       },
       "RESOLUTION_TIME": {
-        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
         "DESC": "(சராசரி)",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
         "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "தீர்மான எண்ணிக்கை",
-        "DESC": "( மொத்தம் )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "கடந்த 7 நாட்கள்"
-      },
-      {
-        "id": 1,
-        "name": "கடந்த 30 நாட்கள்"
-      },
-      {
-        "id": 2,
-        "name": "Last 3 months"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
-    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "உரையாடல்கள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "உள்வரும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "வெளிச்செல்லும் செய்திகள்",
-        "DESC": "( மொத்தம் )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "தீர்மான எண்ணிக்கை",
-        "DESC": "( மொத்தம் )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Custom date range"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உரையாடல்கள்"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "திற",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "ஒதுக்கப்படாதது"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
-      "TABLE_HEADER": {
-        "AGENT": "ஏஜென்ட்",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "நிலை"
+      "INCOMING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "உள்வரும் செய்திகள்"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "வெளிச்செல்லும் செய்திகள்"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( மொத்தம் )",
+        "NAME": "தீர்மான எண்ணிக்கை"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
-      "OFFLINE": "Offline"
-    }
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
   }
 }

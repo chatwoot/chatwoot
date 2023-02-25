@@ -1,144 +1,144 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "خيارات الربط",
-    "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
+    "CONNECT": {
+      "BUTTON_TEXT": "ربط الاتصال"
+    },
+    "DASHBOARD_APPS": {
+      "CREATE": {
+        "API_ERROR": "لم نتمكن من إنشاء تطبيق. الرجاء المحاولة مرة أخرى لاحقاً",
+        "API_SUCCESS": "تم تكوين تطبيق لوحة التحكم بنجاح",
+        "FORM_CANCEL": "إلغاء",
+        "FORM_SUBMIT": "إرسال",
+        "HEADER": "إضافة تطبيق جديد للوحة التحكم"
+      },
+      "DELETE": {
+        "API_ERROR": "لم نتمكن من حذف التطبيق. الرجاء المحاولة مرة أخرى لاحقاً",
+        "API_SUCCESS": "تم حذف تطبيق لوحة التحكم بنجاح",
+        "CONFIRM_NO": "لا، احتفظ به",
+        "CONFIRM_YES": "نعم، احذف",
+        "MESSAGE": "هل أنت متأكد من حذف التطبيق - %{appName}؟",
+        "TITLE": "تأكيد الحذف"
+      },
+      "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
       "FORM": {
+        "TITLE_ERROR": "مطلوب اسم لتطبيق لوحة التحكم",
+        "TITLE_LABEL": "الاسم",
+        "TITLE_PLACEHOLDER": "أدخل اسم لتطبيق لوحة التحكم الخاصة بك",
+        "URL_ERROR": "رابط صحيح مطلوب",
+        "URL_LABEL": "نقطة الوصول",
+        "URL_PLACEHOLDER": "أدخل عنوان URL لنقطة النهاية حيث يتم استضافة التطبيق الخاص بك"
+      },
+      "HEADER_BTN_TXT": "إضافة تطبيق جديد للوحة التحكم",
+      "LIST": {
+        "404": "لا توجد تطبيقات لوحة التحكم التي تم تكوينها على هذا الحساب حتى الآن",
+        "DELETE_TOOLTIP": "حذف التطبيق",
+        "EDIT_TOOLTIP": "تعديل التطبيق",
+        "LOADING": "جلب تطبيقات لوحة التحكم...",
+        "TABLE_HEADER": [
+          "الاسم",
+          "نقطة الوصول"
+        ]
+      },
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "TITLE": "تطبيقات لوحة التحكم",
+      "UPDATE": {
+        "API_ERROR": "لم نتمكن من تحديث التطبيق. الرجاء المحاولة مرة أخرى لاحقاً",
+        "API_SUCCESS": "تم تحديث تطبيق لوحة التحكم بنجاح",
+        "FORM_CANCEL": "إلغاء",
+        "FORM_SUBMIT": "تحديث",
+        "HEADER": "تعديل تطبيق لوحة التحكم"
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف التكامل بنجاح"
+      },
+      "BUTTON_TEXT": "حذف"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer"
+    },
+    "HEADER": "خيارات الربط",
+    "SLACK": {
+      "HELP_TEXT": {
+        "BODY": "<br/><p>ستتم الآن مزامنة جميع المحادثات الواردة إلى <b><i>محادثة الزبائن</i></b> داخل مكان العمل الخاص بك.</p><p>الرد على موضوع محادثة في <b><i>محادثة العملاء</i></b> قناة الركود سوف تقوم بإنشاء رد على العميل من خلال المحادثة.</p><p>ابدأ الردود ب <b><i>ملاحظة:</i></b> لإنشاء ملاحظات خاصة بدلاً من الردود.</p><p>إذا كان للرد على slack ملف تعريف الوكيل في الدردشة تحت نفس البريد الإلكتروني، فسيتم ربط الردود وفقا لذلك.</p><p>عندما لا يكون للرد ملف شخصي للوكيل المرتبط، ستتم الردود من ملف بوت الشخصي.</p>",
+        "TITLE": "استخدام تكامل Slack"
+      }
+    },
+    "WEBHOOK": {
+      "ADD": {
+        "API": {
+          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً",
+          "SUCCESS_MESSAGE": "تم إضافة إعدادات Webhook بنجاح"
+        },
+        "CANCEL": "إلغاء",
+        "TITLE": "إضافة webhook جديد"
+      },
+      "CONFIGURE": "تهيئة",
+      "DELETE": {
+        "API": {
+          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً",
+          "SUCCESS_MESSAGE": "تم حذف Webhook بنجاح"
+        },
+        "BUTTON_TEXT": "حذف",
+        "CONFIRM": {
+          "MESSAGE": "هل أنت متأكد من حذف webhook؟ (%{webhookURL})",
+          "NO": "لا، احتفظ به",
+          "TITLE": "تأكيد الحذف",
+          "YES": "نعم، احذف "
+        }
+      },
+      "EDIT": {
+        "API": {
+          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً",
+          "SUCCESS_MESSAGE": "تم تحديث تكوين ويبهوك بنجاح"
+        },
+        "BUTTON_TEXT": "تعديل",
+        "TITLE": "تعديل webhook"
+      },
+      "FORM": {
+        "ADD_SUBMIT": "إنشاء webhook",
         "CANCEL": "إلغاء",
         "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
+        "EDIT_SUBMIT": "تحديث الويبهوك",
+        "END_POINT": {
+          "ERROR": "الرجاء إدخال عنوان URL صالح",
+          "LABEL": "رابط Webhook",
+          "PLACEHOLDER": "مثال: https://example/api/webhook"
+        },
         "SUBSCRIPTIONS": {
-          "LABEL": "الأحداث",
           "EVENTS": {
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_CREATED": "تم إنشاء المحادثة",
             "CONVERSATION_STATUS_CHANGED": "تم تغيير حالة المحادثة",
             "CONVERSATION_UPDATED": "تم تحديث المحادثة",
             "MESSAGE_CREATED": "تم إنشاء رسالة",
             "MESSAGE_UPDATED": "تم تحديث الرسالة",
-            "WEBWIDGET_TRIGGERED": "أداة الدردشة المباشرة مفتوحة من قبل المستخدم",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
-          }
-        },
-        "END_POINT": {
-          "LABEL": "رابط Webhook",
-          "PLACEHOLDER": "مثال: https://example/api/webhook",
-          "ERROR": "الرجاء إدخال عنوان URL صالح"
-        },
-        "EDIT_SUBMIT": "تحديث الويبهوك",
-        "ADD_SUBMIT": "إنشاء webhook"
+            "WEBWIDGET_TRIGGERED": "أداة الدردشة المباشرة مفتوحة من قبل المستخدم"
+          },
+          "LABEL": "الأحداث"
+        }
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "تهيئة",
       "HEADER": "إعدادات الـ Webhook",
       "HEADER_BTN_TXT": "إضافة webhook جديد",
-      "LOADING": "جار جلب الـ Webhooks",
-      "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks هي إعادات HTTP callbacks التي يمكن تعريفها لكل حساب. يتم تشغيلها بأحداث مثل إنشاء الرسائل في Chatwoot. يمكنك إنشاء أكثر من Webhook واحد لهذا الحساب. <br /><br /> لإنشاء <b>webhook</b>، انقر فوق <b>إضافة Webhooks جديد</b>. يمكنك أيضا إزالة أي رابط ويب موجود بالنقر على زر الحذف.</p>",
       "LIST": {
         "404": "لا توجد webhooks مكونة لهذا الحساب.",
-        "TITLE": "إدارة الـ webhooks",
         "TABLE_HEADER": [
           "Webhook endpoint",
           "الإجراءات"
-        ]
-      },
-      "EDIT": {
-        "BUTTON_TEXT": "تعديل",
-        "TITLE": "تعديل webhook",
-        "API": {
-          "SUCCESS_MESSAGE": "تم تحديث تكوين ويبهوك بنجاح",
-          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
-        }
-      },
-      "ADD": {
-        "CANCEL": "إلغاء",
-        "TITLE": "إضافة webhook جديد",
-        "API": {
-          "SUCCESS_MESSAGE": "تم إضافة إعدادات Webhook بنجاح",
-          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
-        }
-      },
-      "DELETE": {
-        "BUTTON_TEXT": "حذف",
-        "API": {
-          "SUCCESS_MESSAGE": "تم حذف Webhook بنجاح",
-          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
-        },
-        "CONFIRM": {
-          "TITLE": "تأكيد الحذف",
-          "MESSAGE": "هل أنت متأكد من حذف webhook؟ (%{webhookURL})",
-          "YES": "نعم، احذف ",
-          "NO": "لا، احتفظ به"
-        }
-      }
-    },
-    "SLACK": {
-      "HELP_TEXT": {
-        "TITLE": "استخدام تكامل Slack",
-        "BODY": "<br/><p>ستتم الآن مزامنة جميع المحادثات الواردة إلى <b><i>محادثة الزبائن</i></b> داخل مكان العمل الخاص بك.</p><p>الرد على موضوع محادثة في <b><i>محادثة العملاء</i></b> قناة الركود سوف تقوم بإنشاء رد على العميل من خلال المحادثة.</p><p>ابدأ الردود ب <b><i>ملاحظة:</i></b> لإنشاء ملاحظات خاصة بدلاً من الردود.</p><p>إذا كان للرد على slack ملف تعريف الوكيل في الدردشة تحت نفس البريد الإلكتروني، فسيتم ربط الردود وفقا لذلك.</p><p>عندما لا يكون للرد ملف شخصي للوكيل المرتبط، ستتم الردود من ملف بوت الشخصي.</p>"
-      }
-    },
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "حذف",
-      "API": {
-        "SUCCESS_MESSAGE": "تم حذف التكامل بنجاح"
-      }
-    },
-    "CONNECT": {
-      "BUTTON_TEXT": "ربط الاتصال"
-    },
-    "DASHBOARD_APPS": {
-      "TITLE": "تطبيقات لوحة التحكم",
-      "HEADER_BTN_TXT": "إضافة تطبيق جديد للوحة التحكم",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
-      "LIST": {
-        "404": "لا توجد تطبيقات لوحة التحكم التي تم تكوينها على هذا الحساب حتى الآن",
-        "LOADING": "جلب تطبيقات لوحة التحكم...",
-        "TABLE_HEADER": [
-          "الاسم",
-          "نقطة الوصول"
         ],
-        "EDIT_TOOLTIP": "تعديل التطبيق",
-        "DELETE_TOOLTIP": "حذف التطبيق"
+        "TITLE": "إدارة الـ webhooks"
       },
-      "FORM": {
-        "TITLE_LABEL": "الاسم",
-        "TITLE_PLACEHOLDER": "أدخل اسم لتطبيق لوحة التحكم الخاصة بك",
-        "TITLE_ERROR": "مطلوب اسم لتطبيق لوحة التحكم",
-        "URL_LABEL": "نقطة الوصول",
-        "URL_PLACEHOLDER": "أدخل عنوان URL لنقطة النهاية حيث يتم استضافة التطبيق الخاص بك",
-        "URL_ERROR": "رابط صحيح مطلوب"
-      },
-      "CREATE": {
-        "HEADER": "إضافة تطبيق جديد للوحة التحكم",
-        "FORM_SUBMIT": "إرسال",
-        "FORM_CANCEL": "إلغاء",
-        "API_SUCCESS": "تم تكوين تطبيق لوحة التحكم بنجاح",
-        "API_ERROR": "لم نتمكن من إنشاء تطبيق. الرجاء المحاولة مرة أخرى لاحقاً"
-      },
-      "UPDATE": {
-        "HEADER": "تعديل تطبيق لوحة التحكم",
-        "FORM_SUBMIT": "تحديث",
-        "FORM_CANCEL": "إلغاء",
-        "API_SUCCESS": "تم تحديث تطبيق لوحة التحكم بنجاح",
-        "API_ERROR": "لم نتمكن من تحديث التطبيق. الرجاء المحاولة مرة أخرى لاحقاً"
-      },
-      "DELETE": {
-        "CONFIRM_YES": "نعم، احذف",
-        "CONFIRM_NO": "لا، احتفظ به",
-        "TITLE": "تأكيد الحذف",
-        "MESSAGE": "هل أنت متأكد من حذف التطبيق - %{appName}؟",
-        "API_SUCCESS": "تم حذف تطبيق لوحة التحكم بنجاح",
-        "API_ERROR": "لم نتمكن من حذف التطبيق. الرجاء المحاولة مرة أخرى لاحقاً"
-      }
+      "LOADING": "جار جلب الـ Webhooks",
+      "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks هي إعادات HTTP callbacks التي يمكن تعريفها لكل حساب. يتم تشغيلها بأحداث مثل إنشاء الرسائل في Chatwoot. يمكنك إنشاء أكثر من Webhook واحد لهذا الحساب. <br /><br /> لإنشاء <b>webhook</b>، انقر فوق <b>إضافة Webhooks جديد</b>. يمكنك أيضا إزالة أي رابط ويب موجود بالنقر على زر الحذف.</p>",
+      "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
+      "TITLE": "Webhook"
     }
   }
 }

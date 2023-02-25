@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Почніть розмову з нами"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Невірно заповнене поле"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Введіть Ваше повідомлення",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
@@ -8,89 +17,80 @@
       "SUBMIT": "Додати"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Надіслати ще раз",
-      "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз"
+      "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз",
+      "RETRY": "Надіслати ще раз"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Ми онлайн",
-    "OFFLINE": "Нас наразі немає"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
-    "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
-    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
-  },
-  "START_CONVERSATION": "Розпочати розмову",
-  "END_CONVERSATION": "Закінчити спілкування",
   "CONTINUE_CONVERSATION": "Продовжити спілкування",
-  "START_NEW_CONVERSATION": "Розпочати нову розмову",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
-    "CLOSE_MESSAGES_BUTTON": "Закрити",
-    "COMPANY_FROM": "від",
-    "BOT": "Бот"
+  "CSAT": {
+    "PLACEHOLDER": "Розкажіть докладніше...",
+    "SUBMITTED_TITLE": "Дякуємо за оцінку",
+    "TITLE": "Оцініть вашу бесіду"
   },
-  "BUBBLE": {
-    "LABEL": "Почніть розмову з нами"
+  "EMAIL_PLACEHOLDER": "Введіть адресу електронної пошти",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Запит на текст розмови",
+    "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз",
+    "SEND_EMAIL_SUCCESS": "Текст розмови надісланий"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту",
+    "PLACEHOLDER": "Пошук емодзі"
+  },
+  "END_CONVERSATION": "Закінчити спілкування",
+  "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Працює на Chatwoot",
-  "EMAIL_PLACEHOLDER": "Введіть адресу електронної пошти",
-  "CHAT_PLACEHOLDER": "Введіть Ваше повідомлення",
-  "TODAY": "Сьогодні",
-  "YESTERDAY": "Вчора",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Повне ім`я",
-        "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я",
-        "REQUIRED_ERROR": "Потрібне повне ім'я"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Адреса електронної пошти",
         "PLACEHOLDER": "Будь ласка, введіть адресу вашої електронної пошти",
         "REQUIRED_ERROR": "Необхідно вказати адресу електронної пошти",
         "VALID_ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
       },
+      "FULL_NAME": {
+        "LABEL": "Повне ім`я",
+        "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я",
+        "REQUIRED_ERROR": "Потрібне повне ім'я"
+      },
+      "MESSAGE": {
+        "ERROR": "Занадто коротке повідомлення",
+        "LABEL": "Текст повідомлення",
+        "PLACEHOLDER": "Будь ласка, введіть ваше повідомлення"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Номер телефону",
         "PLACEHOLDER": "Будь ласка, введіть номер телефону",
         "REQUIRED_ERROR": "Номер телефону є обов'язковим",
         "VALID_ERROR": "Номер телефону має бути в форматі E.164; наприклад: + 1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Текст повідомлення",
-        "PLACEHOLDER": "Будь ласка, введіть ваше повідомлення",
-        "ERROR": "Занадто коротке повідомлення"
       }
     },
-    "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
     "IS_REQUIRED": "обов'язково"
   },
-  "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Невірно заповнене поле"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби",
+    "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
+    "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Пошук емодзі",
-    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту"
+  "START_CONVERSATION": "Розпочати розмову",
+  "START_NEW_CONVERSATION": "Розпочати нову розмову",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Нас наразі немає",
+    "ONLINE": "Ми онлайн"
   },
-  "CSAT": {
-    "TITLE": "Оцініть вашу бесіду",
-    "SUBMITTED_TITLE": "Дякуємо за оцінку",
-    "PLACEHOLDER": "Розкажіть докладніше..."
+  "TODAY": "Сьогодні",
+  "UNREAD_VIEW": {
+    "BOT": "Бот",
+    "CLOSE_MESSAGES_BUTTON": "Закрити",
+    "COMPANY_FROM": "від",
+    "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Запит на текст розмови",
-    "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
-    "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Вчора"
 }

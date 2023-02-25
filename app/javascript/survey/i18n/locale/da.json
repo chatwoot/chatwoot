@@ -1,19 +1,19 @@
 {
+  "POWERED_BY": "Drevet af Chatwoot",
   "SURVEY": {
+    "API": {
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
+      "SUCCESS_MESSAGE": "Undersøgelse opdateret"
+    },
     "DESCRIPTION": "Kære kunde 👋, tag et øjeblik på at dele feedback om den samtale, du havde med %{inboxName}.",
+    "FEEDBACK": {
+      "BUTTON_TEXT": "Indsend feedback",
+      "LABEL": "Har du nogen tanker, du gerne vil dele?",
+      "PLACEHOLDER": "Din feedback (valgfri)"
+    },
     "RATING": {
       "LABEL": "Bedøm din samtale",
       "SUCCESS_MESSAGE": "Tak for din bedømmelse"
-    },
-    "FEEDBACK": {
-      "LABEL": "Har du nogen tanker, du gerne vil dele?",
-      "PLACEHOLDER": "Din feedback (valgfri)",
-      "BUTTON_TEXT": "Indsend feedback"
-    },
-    "API": {
-      "SUCCESS_MESSAGE": "Undersøgelse opdateret",
-      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     }
-  },
-  "POWERED_BY": "Drevet af Chatwoot"
+  }
 }

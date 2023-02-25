@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Accedi a Chatwoot",
+    "API": {
+      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi",
+      "SUCCESS_MESSAGE": "Accesso riuscito",
+      "UNAUTH": "Nome utente / Password errati. Riprova"
+    },
+    "CREATE_NEW_ACCOUNT": "Crea un nuovo account",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "Email es.: qualcuno@esempio.com"
     },
+    "FORGOT_PASSWORD": "Password dimenticata?",
     "PASSWORD": {
       "LABEL": "Password",
       "PLACEHOLDER": "Password"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Accesso riuscito",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi",
-      "UNAUTH": "Nome utente / Password errati. Riprova"
-    },
-    "FORGOT_PASSWORD": "Password dimenticata?",
-    "CREATE_NEW_ACCOUNT": "Crea un nuovo account",
-    "SUBMIT": "Accedi"
+    "SUBMIT": "Accedi",
+    "TITLE": "Accedi a Chatwoot"
   }
 }

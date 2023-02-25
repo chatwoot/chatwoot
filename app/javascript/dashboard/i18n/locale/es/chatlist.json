@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Obteniendo conversaciones",
-    "LOAD_MORE_CONVERSATIONS": "Cargar más conversaciones",
-    "EOF": "Todas las conversaciones cargadas 🎉",
-    "LIST": {
-      "404": "No hay conversaciones activas en este grupo."
-    },
-    "TAB_HEADING": "Conversaciones",
-    "MENTION_HEADING": "Menciones",
-    "UNATTENDED_HEADING": "Desatendido",
-    "SEARCH": {
-      "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
-    },
-    "FILTER_ALL": "Todos",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Todos",
       "me": "Mías",
-      "unassigned": "Sin asignar",
-      "all": "Todos"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Abrir"
-      },
-      "resolved": {
-        "TEXT": "Resueltas"
-      },
-      "pending": {
-        "TEXT": "Pendientes"
-      },
-      "snoozed": {
-        "TEXT": "Postpuestas"
-      },
-      "all": {
-        "TEXT": "Todos"
-      }
+      "unassigned": "Sin asignar"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Mensaje de imagen"
-      },
       "audio": {
         "CONTENT": "Mensaje de audio"
       },
-      "video": {
-        "CONTENT": "Mensaje de vídeo"
+      "fallback": {
+        "CONTENT": "ha compartido una url"
       },
       "file": {
         "CONTENT": "Archivo adjunto"
       },
+      "image": {
+        "CONTENT": "Mensaje de imagen"
+      },
       "location": {
         "CONTENT": "Ubicación"
       },
-      "fallback": {
-        "CONTENT": "ha compartido una url"
+      "video": {
+        "CONTENT": "Mensaje de vídeo"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
-    "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
-    "REPLY_TO_TWEET": "Responder a éste trino",
-    "LINK_TO_STORY": "Ir a la historia de Instagram",
-    "SENT": "Enviado con éxito",
-    "READ": "Leido correctamente",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Todos"
+      },
+      "open": {
+        "TEXT": "Abrir"
+      },
+      "pending": {
+        "TEXT": "Pendientes"
+      },
+      "resolved": {
+        "TEXT": "Resueltas"
+      },
+      "snoozed": {
+        "TEXT": "Postpuestas"
+      }
+    },
     "DELIVERED": "Entregado con éxito",
-    "NO_MESSAGES": "No hay mensajes",
-    "NO_CONTENT": "No hay contenido disponible",
+    "EOF": "Todas las conversaciones cargadas 🎉",
+    "FILTER_ALL": "Todos",
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
+    "LINK_TO_STORY": "Ir a la historia de Instagram",
+    "LIST": {
+      "404": "No hay conversaciones activas en este grupo."
+    },
+    "LOADING": "Obteniendo conversaciones",
+    "LOAD_MORE_CONVERSATIONS": "Cargar más conversaciones",
+    "MENTION_HEADING": "Menciones",
+    "MESSAGE_READ": "Leído",
+    "NO_CONTENT": "No hay contenido disponible",
+    "NO_MESSAGES": "No hay mensajes",
+    "READ": "Leido correctamente",
+    "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
+    "REPLY_TO_TWEET": "Responder a éste trino",
+    "SEARCH": {
+      "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
+    },
+    "SENT": "Enviado con éxito",
     "SHOW_QUOTED_TEXT": "Mostrar texto citado",
-    "MESSAGE_READ": "Leído"
+    "TAB_HEADING": "Conversaciones",
+    "UNATTENDED_HEADING": "Desatendido",
+    "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter"
   }
 }

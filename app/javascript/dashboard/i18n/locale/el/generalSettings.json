@@ -1,76 +1,125 @@
 {
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "ADD_LABELS_TO_CONVERSATION": "Προσθήκη ετικέτας στη συνομιλία",
+      "ASSIGN_AN_AGENT": "Εκχώρηση πράκτορα",
+      "ASSIGN_A_TEAM": "Εκχώρηση ομάδας",
+      "GO_TO_AGENT_REPORTS": "Μεταβείτε στις Αναφορές Πράκτορα",
+      "GO_TO_CONTACTS_DASHBOARD": "Μετάβαση στον Πίνακα Επαφών",
+      "GO_TO_CONVERSATION_DASHBOARD": "Μεταβείτε στον Πίνακα Συνομιλίων",
+      "GO_TO_CONVERSATION_REPORTS": "Μετάβαση στις Αναφορές Συνομιλίας",
+      "GO_TO_INBOX_REPORTS": "Μεταβείτε στις Αναφορές Εισερχομένων",
+      "GO_TO_LABEL_REPORTS": "Μεταβείτε στις Αναφορές Ετικετών",
+      "GO_TO_NOTIFICATIONS": "Μετάβαση στις ειδοποιήσεις",
+      "GO_TO_REPORTS_OVERVIEW": "Μετάβαση στις Αναφορές",
+      "GO_TO_SETTINGS_ACCOUNT": "Μεταβείτε στις ρυθμίσεις λογαριασμού",
+      "GO_TO_SETTINGS_AGENTS": "Μεταβείτε στις Ρυθμίσεις Πράκτορα",
+      "GO_TO_SETTINGS_APPLICATIONS": "Μετάβαση στις ρυθμίσεις εφαρμογής",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Μεταβείτε στις ρυθμίσεις τυποποιημένων απαντήσεων",
+      "GO_TO_SETTINGS_INBOXES": "Μετάβαση στις Ρυθμίσεις Εισερχομένων",
+      "GO_TO_SETTINGS_LABELS": "Μεταβείτε στις Ρυθμίσεις Ετικετών",
+      "GO_TO_SETTINGS_PROFILE": "Μετάβαση στις ρυθμίσεις προφίλ",
+      "GO_TO_SETTINGS_TEAMS": "Μεταβείτε στις ρυθμίσεις ομάδας",
+      "GO_TO_TEAM_REPORTS": "Μεταβείτε Αναφορές Ομάδας",
+      "MUTE_CONVERSATION": "Σίγαση Συνομιλίας",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Αφαίρεση ετικέτας από την συνομιλία",
+      "REOPEN_CONVERSATION": "Άνοιγμα συνομιλίας",
+      "RESOLVE_CONVERSATION": "Επίλυση Συνομιλίας",
+      "SEND_TRANSCRIPT": "Στείλτε μεταγραφή της συνομιλίας",
+      "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
+      "UNMUTE_CONVERSATION": "Επαναφορά Συνομιλίας",
+      "UNTIL_NEXT_REPLY": "Μέχρι την επόμενη απάντηση",
+      "UNTIL_NEXT_WEEK": "Έως την επόμενη εβδομάδα",
+      "UNTIL_TOMORROW": "Μέχρι αύριο"
+    },
+    "SEARCH_PLACEHOLDER": "Αναζήτηση ή μετάβαση σε",
+    "SECTIONS": {
+      "ADD_LABEL": "Προσθήκη ετικέτας στη συνομιλία",
+      "CHANGE_ASSIGNEE": "Αλλαγή Αναδόχου",
+      "CHANGE_TEAM": "Αλλαγή Ομάδας",
+      "CONVERSATION": "Συνομιλία",
+      "GENERAL": "Γενικά",
+      "REMOVE_LABEL": "Αφαίρεση ετικέτας από την συνομιλία",
+      "REPORTS": "Αναφορές",
+      "SETTINGS": "Ρυθμίσεις"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Φόρτωση Εφαρμογής Dashboard..."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
+      "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
+      "SELECT": "Επιλογή",
+      "SELECT_ONE": "Επιλέξτε ένα"
+    }
+  },
   "GENERAL_SETTINGS": {
-    "TITLE": "Ρυθμίσεις",
-    "SUBMIT": "Ενημέρωση Ρυθμίσεων",
     "BACK": "Πίσω",
+    "FORM": {
+      "ACCOUNT_ID": {
+        "NOTE": "Αυτό το ID απαιτείται αν δημιουργείτε μια ενσωμάτωση βασισμένη στο API",
+        "TITLE": "ID Λογαριασμού"
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διάρκεια αυτόματης επίλυσης (ελάχιστο 1 ημέρα και μέγιστο 999 ημέρες)",
+        "LABEL": "Αριθμός ημερών μετά τις οποίες η συνομιλία θα επιλύεται αυτόματα, αν δεν υπάρχει δραστηριότητα",
+        "PLACEHOLDER": "30"
+      },
+      "DOMAIN": {
+        "ERROR": "",
+        "LABEL": "Τομέας (domain) του εισερχόμενου email",
+        "PLACEHOLDER": "Ο τομέας στον οποίο θα λαμβάνετε τα emails"
+      },
+      "ERROR": "Παρακαλώ διορθώστε τα λάθη της Φόρμας",
+      "FEATURES": {
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Τώρα μπορείτε να λαμβάνετε emails στον τομέα (domain) σας.",
+        "INBOUND_EMAIL_ENABLED": "Η συνέχεια της συνομιλίας με emails έχει ενεργοποιηθεί για τον λογαριασμό."
+      },
+      "GENERAL_SECTION": {
+        "NOTE": "",
+        "TITLE": "Γενικές Ρυθμίσεις"
+      },
+      "LANGUAGE": {
+        "ERROR": "",
+        "LABEL": "Γλώσσα ιστοσελίδας",
+        "PLACEHOLDER": "Το όνομα του Λογαριασμού"
+      },
+      "NAME": {
+        "ERROR": "Παρακαλώ συμπληρώστε ένα έγκυρο όνομα λογαριασμού",
+        "LABEL": "Ονομασία Λογαριασμού",
+        "PLACEHOLDER": "Η ονομασία του Λογαριασμού σας"
+      },
+      "SUPPORT_EMAIL": {
+        "ERROR": "",
+        "LABEL": "Email Υποστήριξης",
+        "PLACEHOLDER": "To email υποστήριξης της εταιρίας σας"
+      }
+    },
+    "LEARN_MORE": "Μάθετε περισσότερα",
+    "SUBMIT": "Ενημέρωση Ρυθμίσεων",
+    "TITLE": "Ρυθμίσεις",
     "UPDATE": {
       "ERROR": "Δεν μπορεί να ενημερωθεί η ρύθμιση προσπαθήστε ξανά!",
       "SUCCESS": "Επιτυχής Ενημέρωση Ρυθμίσεων"
     },
-    "FORM": {
-      "ERROR": "Παρακαλώ διορθώστε τα λάθη της Φόρμας",
-      "GENERAL_SECTION": {
-        "TITLE": "Γενικές Ρυθμίσεις",
-        "NOTE": ""
-      },
-      "ACCOUNT_ID": {
-        "TITLE": "ID Λογαριασμού",
-        "NOTE": "Αυτό το ID απαιτείται αν δημιουργείτε μια ενσωμάτωση βασισμένη στο API"
-      },
-      "NAME": {
-        "LABEL": "Ονομασία Λογαριασμού",
-        "PLACEHOLDER": "Η ονομασία του Λογαριασμού σας",
-        "ERROR": "Παρακαλώ συμπληρώστε ένα έγκυρο όνομα λογαριασμού"
-      },
-      "LANGUAGE": {
-        "LABEL": "Γλώσσα ιστοσελίδας",
-        "PLACEHOLDER": "Το όνομα του Λογαριασμού",
-        "ERROR": ""
-      },
-      "DOMAIN": {
-        "LABEL": "Τομέας (domain) του εισερχόμενου email",
-        "PLACEHOLDER": "Ο τομέας στον οποίο θα λαμβάνετε τα emails",
-        "ERROR": ""
-      },
-      "SUPPORT_EMAIL": {
-        "LABEL": "Email Υποστήριξης",
-        "PLACEHOLDER": "To email υποστήριξης της εταιρίας σας",
-        "ERROR": ""
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Αριθμός ημερών μετά τις οποίες η συνομιλία θα επιλύεται αυτόματα, αν δεν υπάρχει δραστηριότητα",
-        "PLACEHOLDER": "30",
-        "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διάρκεια αυτόματης επίλυσης (ελάχιστο 1 ημέρα και μέγιστο 999 ημέρες)"
-      },
-      "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Η συνέχεια της συνομιλίας με emails έχει ενεργοποιηθεί για τον λογαριασμό.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Τώρα μπορείτε να λαμβάνετε emails στον τομέα (domain) σας."
-      }
-    },
-    "UPDATE_CHATWOOT": "Μια ενημέρωση %{latestChatwootVersion} για το Chatwoot είναι διαθέσιμη. Ενημερώστε την εφαρμογή σας.",
-    "LEARN_MORE": "Μάθετε περισσότερα"
+    "UPDATE_CHATWOOT": "Μια ενημέρωση %{latestChatwootVersion} για το Chatwoot είναι διαθέσιμη. Ενημερώστε την εφαρμογή σας."
   },
-  "FORMS": {
-    "MULTISELECT": {
-      "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
-      "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
-      "SELECT_ONE": "Επιλέξτε ένα",
-      "SELECT": "Επιλογή"
+  "NETWORK": {
+    "BUTTON": {
+      "REFRESH": "Ανανέωση"
+    },
+    "NOTIFICATION": {
+      "TEXT": "Αποσυνδέθηκε από το Chatwood"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Ειδοποιήσεις",
-    "MARK_ALL_DONE": "Όλες ολοκληρωμένες",
     "DELETE_TITLE": "διαγράφηκε",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Μη Αναγνωσμένες Ειδοποιήσεις",
-      "ALL_NOTIFICATIONS": "Προβολή όλων των ειδοποιήσεων",
-      "LOADING_UNREAD_MESSAGE": "Φόρτωση μη αναγνωσμένων ειδοποιήσεων...",
-      "EMPTY_MESSAGE": "Δεν έχετε μη αναγνωσμένες ειδοποιήσεις"
-    },
+    "HEADER": "Ειδοποιήσεις",
     "LIST": {
-      "LOADING_MESSAGE": "Φόρτωση ειδοποιήσεων...",
       "404": "Καμία Ειδοποίηση",
+      "LOADING_MESSAGE": "Φόρτωση ειδοποιήσεων...",
       "TABLE_HEADER": [
         "Όνομα",
         "Αριθμός Τηλεφώνου",
@@ -78,67 +127,18 @@
         "Τελευταία επικοινωνία"
       ]
     },
+    "MARK_ALL_DONE": "Όλες ολοκληρωμένες",
     "TYPE_LABEL": {
-      "conversation_creation": "Νέα συνομιλία",
-      "conversation_assignment": "Η Συνομιλία Ανατέθηκε",
       "assigned_conversation_new_message": "Νέο Μήνυμα",
+      "conversation_assignment": "Η Συνομιλία Ανατέθηκε",
+      "conversation_creation": "Νέα συνομιλία",
       "conversation_mention": "Αναφορά"
-    }
-  },
-  "NETWORK": {
-    "NOTIFICATION": {
-      "TEXT": "Αποσυνδέθηκε από το Chatwood"
     },
-    "BUTTON": {
-      "REFRESH": "Ανανέωση"
+    "UNREAD_NOTIFICATION": {
+      "ALL_NOTIFICATIONS": "Προβολή όλων των ειδοποιήσεων",
+      "EMPTY_MESSAGE": "Δεν έχετε μη αναγνωσμένες ειδοποιήσεις",
+      "LOADING_UNREAD_MESSAGE": "Φόρτωση μη αναγνωσμένων ειδοποιήσεων...",
+      "TITLE": "Μη Αναγνωσμένες Ειδοποιήσεις"
     }
-  },
-  "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Αναζήτηση ή μετάβαση σε",
-    "SECTIONS": {
-      "GENERAL": "Γενικά",
-      "REPORTS": "Αναφορές",
-      "CONVERSATION": "Συνομιλία",
-      "CHANGE_ASSIGNEE": "Αλλαγή Αναδόχου",
-      "CHANGE_TEAM": "Αλλαγή Ομάδας",
-      "ADD_LABEL": "Προσθήκη ετικέτας στη συνομιλία",
-      "REMOVE_LABEL": "Αφαίρεση ετικέτας από την συνομιλία",
-      "SETTINGS": "Ρυθμίσεις"
-    },
-    "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Μεταβείτε στον Πίνακα Συνομιλίων",
-      "GO_TO_CONTACTS_DASHBOARD": "Μετάβαση στον Πίνακα Επαφών",
-      "GO_TO_REPORTS_OVERVIEW": "Μετάβαση στις Αναφορές",
-      "GO_TO_CONVERSATION_REPORTS": "Μετάβαση στις Αναφορές Συνομιλίας",
-      "GO_TO_AGENT_REPORTS": "Μεταβείτε στις Αναφορές Πράκτορα",
-      "GO_TO_LABEL_REPORTS": "Μεταβείτε στις Αναφορές Ετικετών",
-      "GO_TO_INBOX_REPORTS": "Μεταβείτε στις Αναφορές Εισερχομένων",
-      "GO_TO_TEAM_REPORTS": "Μεταβείτε Αναφορές Ομάδας",
-      "GO_TO_SETTINGS_AGENTS": "Μεταβείτε στις Ρυθμίσεις Πράκτορα",
-      "GO_TO_SETTINGS_TEAMS": "Μεταβείτε στις ρυθμίσεις ομάδας",
-      "GO_TO_SETTINGS_INBOXES": "Μετάβαση στις Ρυθμίσεις Εισερχομένων",
-      "GO_TO_SETTINGS_LABELS": "Μεταβείτε στις Ρυθμίσεις Ετικετών",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Μεταβείτε στις ρυθμίσεις τυποποιημένων απαντήσεων",
-      "GO_TO_SETTINGS_APPLICATIONS": "Μετάβαση στις ρυθμίσεις εφαρμογής",
-      "GO_TO_SETTINGS_ACCOUNT": "Μεταβείτε στις ρυθμίσεις λογαριασμού",
-      "GO_TO_SETTINGS_PROFILE": "Μετάβαση στις ρυθμίσεις προφίλ",
-      "GO_TO_NOTIFICATIONS": "Μετάβαση στις ειδοποιήσεις",
-      "ADD_LABELS_TO_CONVERSATION": "Προσθήκη ετικέτας στη συνομιλία",
-      "ASSIGN_AN_AGENT": "Εκχώρηση πράκτορα",
-      "ASSIGN_A_TEAM": "Εκχώρηση ομάδας",
-      "MUTE_CONVERSATION": "Σίγαση Συνομιλίας",
-      "UNMUTE_CONVERSATION": "Επαναφορά Συνομιλίας",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Αφαίρεση ετικέτας από την συνομιλία",
-      "REOPEN_CONVERSATION": "Άνοιγμα συνομιλίας",
-      "RESOLVE_CONVERSATION": "Επίλυση Συνομιλίας",
-      "SEND_TRANSCRIPT": "Στείλτε μεταγραφή της συνομιλίας",
-      "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
-      "UNTIL_NEXT_REPLY": "Μέχρι την επόμενη απάντηση",
-      "UNTIL_NEXT_WEEK": "Έως την επόμενη εβδομάδα",
-      "UNTIL_TOMORROW": "Μέχρι αύριο"
-    }
-  },
-  "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Φόρτωση Εφαρμογής Dashboard..."
   }
 }

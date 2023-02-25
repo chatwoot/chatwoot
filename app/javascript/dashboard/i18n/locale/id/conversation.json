@@ -1,257 +1,257 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Pilih percakapan dari panel kiri",
-    "CSAT_REPLY_MESSAGE": "Silakan beri peringkat percakapan ini",
     "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Aduh! Sepertinya tidak ada pesan dari pelanggan di kotak masuk Anda.",
-    "NO_MESSAGE_2": " untuk mengirim pesan ke halaman Anda!",
-    "NO_INBOX_1": "Halo! Sepertinya Anda belum menambahkan kotak masuk apa pun.",
-    "NO_INBOX_2": " untuk memulai",
-    "NO_INBOX_AGENT": "Aduh! Sepertinya Anda bukan bagian dari kotak masuk mana pun. Silakan hubungi administrator Anda",
-    "SEARCH_MESSAGES": "Mencari pesan didalam percakapan",
-    "SEARCH": {
-      "TITLE": "Mencari pesan",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Mengolah data...",
-      "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
-      "NO_MATCHING_RESULTS": "Tidak ada hasil ditemukan."
-    },
-    "UNREAD_MESSAGES": "Pesan Belum Terbaca",
-    "UNREAD_MESSAGE": "Pesan Belum Terbaca",
-    "CLICK_HERE": "Klik disini",
-    "LOADING_INBOXES": "Memuat kotak masuk",
-    "LOADING_CONVERSATIONS": "Memuat Percakapan",
-    "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGNMENT": {
+      "ASSIGN": "Tugaskan",
+      "REMOVE": "Hapus",
+      "SELECT_AGENT": "Pilih Agen"
+    },
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_TO_ME": "Assign to me",
-    "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "Anda membalas:",
-    "REMOVE_SELECTION": "Hapus Pilihan",
-    "DOWNLOAD": "Unduh",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
-    "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "Tidak ada respon",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "BOT": "Bot",
+    "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
-    },
-    "HEADER": {
-      "RESOLVE_ACTION": "Menyelesaikan",
-      "REOPEN_ACTION": "Buka Kembali",
-      "OPEN_ACTION": "Terbuka",
-      "OPEN": "Selebihnya",
-      "CLOSE": "Tutup",
-      "DETAILS": "detail",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
-    },
-    "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
-      "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
-      }
+      "HIDE_LABELS": "Hide labels",
+      "SHOW_LABELS": "Show labels"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
-      "REOPEN": "Reopen conversation",
-      "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+      "AGENTS_LOADING": "Loading agents...",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "FAILED": "Couldn't assign agent. Please try again.",
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\""
+        },
+        "LABEL_ASSIGNMENT": {
+          "FAILED": "Couldn't assign label. Please try again.",
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}"
+        },
+        "TEAM_ASSIGNMENT": {
+          "FAILED": "Couldn't assign team. Please try again.",
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}"
+        }
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
-      "API": {
-        "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
-        },
-        "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
-        },
-        "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
-        }
+      "MARK_AS_UNREAD": "Mark as unread",
+      "PENDING": "Mark as pending",
+      "REOPEN": "Reopen conversation",
+      "RESOLVED": "Mark as resolved",
+      "SNOOZE": {
+        "NEXT_REPLY": "Until next reply",
+        "NEXT_WEEK": "Until next week",
+        "TITLE": "Snooze",
+        "TOMORROW": "Until tomorrow"
       }
     },
-    "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
-    },
-    "REPLYBOX": {
-      "REPLY": "Balas",
-      "PRIVATE_NOTE": "Catatan Pribadi",
-      "SEND": "Kirim",
-      "CREATE": "Tambahkan Catatan",
-      "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Tampilkan editor teks",
-      "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
-      "TIP_ATTACH_ICON": "Lampirkan file",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "": "",
-      "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
-        "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
-        },
-        "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
-        }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
-        "CONFIRM": {
-          "YES": "Kirim",
-          "CANCEL": "Batalkan"
-        }
-      }
-    },
-    "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
-    "CHANGE_STATUS": "Status percakapan berubah",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Petugas Percakapan berubah",
     "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_STATUS": "Status percakapan berubah",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_TEAM": "Tim percakapan berubah",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Dikirim oleh:",
-    "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
-    "ASSIGNMENT": {
-      "SELECT_AGENT": "Pilih Agen",
-      "REMOVE": "Hapus",
-      "ASSIGN": "Tugaskan"
-    },
+    "CLICK_HERE": "Klik disini",
     "CONTEXT_MENU": {
       "COPY": "Salin",
-      "DELETE": "Hapus",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
-    }
-  },
-  "EMAIL_TRANSCRIPT": {
-    "TITLE": "Kirim transkrip percakapan",
-    "DESC": "Kirim salinan transkrip percakapan ke alamat email yang ditentukan",
-    "SUBMIT": "Kirim",
-    "CANCEL": "Batalkan",
-    "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
-    "SEND_EMAIL_ERROR": "Terjadi kesalahan, mohon coba lagi",
-    "FORM": {
-      "SEND_TO_CONTACT": "Kirim transkrip ke pelanggan",
-      "SEND_TO_AGENT": "Kirim transkrip dari agen yang ditugaskan",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Kirim transkrip ke alamat email yang lain",
-      "EMAIL": {
-        "PLACEHOLDER": "Masukkan alamat email",
-        "ERROR": "Mohon masukkan alamat email yang valid"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "DELETE": "Hapus"
+    },
+    "CSAT_REPLY_MESSAGE": "Silakan beri peringkat percakapan ini",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "DOWNLOAD": "Unduh",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "FEEDBACK_TITLE": "Feedback",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FOOTER": {
+      "CLICK_HERE": "Click here to update",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
+      "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen"
+    },
+    "HEADER": {
+      "CLOSE": "Tutup",
+      "DETAILS": "detail",
+      "OPEN": "Selebihnya",
+      "OPEN_ACTION": "Terbuka",
+      "REOPEN_ACTION": "Buka Kembali",
+      "RESOLVE_ACTION": "Menyelesaikan",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow"
+    },
+    "LOADING_CONVERSATIONS": "Memuat Percakapan",
+    "LOADING_INBOXES": "Memuat kotak masuk",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NO_INBOX_1": "Halo! Sepertinya Anda belum menambahkan kotak masuk apa pun.",
+    "NO_INBOX_2": " untuk memulai",
+    "NO_INBOX_AGENT": "Aduh! Sepertinya Anda bukan bagian dari kotak masuk mana pun. Silakan hubungi administrator Anda",
+    "NO_MESSAGE_1": "Aduh! Sepertinya tidak ada pesan dari pelanggan di kotak masuk Anda.",
+    "NO_MESSAGE_2": " untuk mengirim pesan ke halaman Anda!",
+    "NO_RESPONSE": "Tidak ada respon",
+    "RATING_TITLE": "Rating",
+    "REMOVE_SELECTION": "Hapus Pilihan",
+    "REPLYBOX": {
+      "": "",
+      "CREATE": "Tambahkan Catatan",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "BCC": {
+          "ERROR": "Please enter valid email addresses",
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas"
+        },
+        "CC": {
+          "ERROR": "Please enter valid email addresses",
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas"
+        }
+      },
+      "PRIVATE_NOTE": "Catatan Pribadi",
+      "REPLY": "Balas",
+      "SEND": "Kirim",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "TIP_ATTACH_ICON": "Lampirkan file",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
+      "TIP_FORMAT_ICON": "Tampilkan editor teks",
+      "TWEET": "Tweet",
+      "UNDEFINED_VARIABLES": {
+        "CONFIRM": {
+          "CANCEL": "Batalkan",
+          "YES": "Kirim"
+        },
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Undefined variables"
       }
-    }
+    },
+    "REPLYING_TO": "Anda membalas:",
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "NEXT_REPLY": "Next reply",
+        "NEXT_WEEK": "Next week",
+        "TITLE": "Snooze until",
+        "TOMORROW": "Tomorrow"
+      }
+    },
+    "SAVE_CONTACT": "Save",
+    "SEARCH": {
+      "LOADING_MESSAGE": "Mengolah data...",
+      "NO_MATCHING_RESULTS": "Tidak ada hasil ditemukan.",
+      "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
+      "RESULT_TITLE": "Search Results",
+      "TITLE": "Mencari pesan"
+    },
+    "SEARCH_MESSAGES": "Mencari pesan didalam percakapan",
+    "SELECT_A_CONVERSATION": "Pilih percakapan dari panel kiri",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "SENT_BY": "Dikirim oleh:",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "TRY_AGAIN": "retry",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNREAD_MESSAGE": "Pesan Belum Terbaca",
+    "UNREAD_MESSAGES": "Pesan Belum Terbaca",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
+    "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda"
   },
-  "ONBOARDING": {
-    "TITLE": "Hai 👋, Selamat datang di %{installationName}!",
-    "DESCRIPTION": "Terima kasih telah mendaftar. Kami ingin Anda mendapatkan hasil maksimal dari %{installationName}. Berikut beberapa hal yang dapat Anda lakukan di %{installationName} untuk membuat pengalaman menyenangkan.",
-    "READ_LATEST_UPDATES": "Baca pembaruan terbaru kami",
-    "ALL_CONVERSATION": {
-      "TITLE": "Semua percakapan Anda di satu tempat",
-      "DESCRIPTION": "Lihat semua percakapan dari pelanggan Anda dalam satu dasbor. Anda dapat memfilter percakapan berdasarkan saluran masuk, label, dan status."
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD": {
+      "ERROR": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti",
+      "SUCCESS": "Atribut berhasil ditambahkan",
+      "TITLE": "Tambah"
     },
-    "TEAM_MEMBERS": {
-      "TITLE": "Undang anggota tim Anda",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Klik di sini untuk mengundang anggota tim"
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "ATTRIBUTE_SELECT": {
+      "NO_RESULT": "Tidak ditemukan atribut",
+      "PLACEHOLDER": "Cari atribut",
+      "TITLE": "Tambahkan atribut"
     },
-    "INBOXES": {
-      "TITLE": "Hubungkan Kotak Masuk",
-      "DESCRIPTION": "Hubungkan berbagai saluran yang akan digunakan pelanggan untuk berbicara dengan Anda. Ini bisa berupa obrolan langsung situs web, halaman Facebook atau Twitter Anda atau bahkan nomor WhatsApp Anda.",
-      "NEW_LINK": "Klik di sini untuk membuat kotak masuk"
+    "DELETE": {
+      "ERROR": "Tidak dapat menghapus atribut. Silakan coba lagi nanti",
+      "SUCCESS": "Atribut berhasil dihapus"
     },
-    "LABELS": {
-      "TITLE": "Atur percakapan dengan label",
-      "DESCRIPTION": "Label memberikan cara yang lebih mudah untuk mengkategorikan percakapan Anda. Buat beberapa label seperti #support-inquiry, #billing-question, dll., Sehingga Anda dapat menggunakannya dalam percakapan nanti.",
-      "NEW_LINK": "Klik di sini untuk membuat tag"
+    "UPDATE": {
+      "ERROR": "Tidak dapat memperbaharui sebuah atribut, Silakan coba lagi nanti",
+      "SUCCESS": "Atribut berhasil diperbarui"
     }
   },
   "CONVERSATION_SIDEBAR": {
+    "ACCORDION": {
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONVERSATION_LABELS": "Label Percakapan",
+      "MACROS": "Macros",
+      "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya"
+    },
     "ASSIGNEE_LABEL": "Agen Ditugaskan",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Tim Ditugaskan",
     "SELECT": {
       "PLACEHOLDER": "Tidak ada"
     },
-    "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Label Percakapan",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
-      "MACROS": "Macros"
-    }
-  },
-  "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
-    "UPDATE": {
-      "SUCCESS": "Atribut berhasil diperbarui",
-      "ERROR": "Tidak dapat memperbaharui sebuah atribut, Silakan coba lagi nanti"
-    },
-    "ADD": {
-      "TITLE": "Tambah",
-      "SUCCESS": "Atribut berhasil ditambahkan",
-      "ERROR": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti"
-    },
-    "DELETE": {
-      "SUCCESS": "Atribut berhasil dihapus",
-      "ERROR": "Tidak dapat menghapus atribut. Silakan coba lagi nanti"
-    },
-    "ATTRIBUTE_SELECT": {
-      "TITLE": "Tambahkan atribut",
-      "PLACEHOLDER": "Cari atribut",
-      "NO_RESULT": "Tidak ditemukan atribut"
-    }
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Tim Ditugaskan"
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "Ke",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "FROM": "From",
+    "SUBJECT": "Subject",
+    "TO": "Ke"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "CANCEL": "Batalkan",
+    "DESC": "Kirim salinan transkrip percakapan ke alamat email yang ditentukan",
+    "FORM": {
+      "EMAIL": {
+        "ERROR": "Mohon masukkan alamat email yang valid",
+        "PLACEHOLDER": "Masukkan alamat email"
+      },
+      "SEND_TO_AGENT": "Kirim transkrip dari agen yang ditugaskan",
+      "SEND_TO_CONTACT": "Kirim transkrip ke pelanggan",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Kirim transkrip ke alamat email yang lain"
+    },
+    "SEND_EMAIL_ERROR": "Terjadi kesalahan, mohon coba lagi",
+    "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
+    "SUBMIT": "Kirim",
+    "TITLE": "Kirim transkrip percakapan"
+  },
+  "ONBOARDING": {
+    "ALL_CONVERSATION": {
+      "DESCRIPTION": "Lihat semua percakapan dari pelanggan Anda dalam satu dasbor. Anda dapat memfilter percakapan berdasarkan saluran masuk, label, dan status.",
+      "TITLE": "Semua percakapan Anda di satu tempat"
+    },
+    "DESCRIPTION": "Terima kasih telah mendaftar. Kami ingin Anda mendapatkan hasil maksimal dari %{installationName}. Berikut beberapa hal yang dapat Anda lakukan di %{installationName} untuk membuat pengalaman menyenangkan.",
+    "INBOXES": {
+      "DESCRIPTION": "Hubungkan berbagai saluran yang akan digunakan pelanggan untuk berbicara dengan Anda. Ini bisa berupa obrolan langsung situs web, halaman Facebook atau Twitter Anda atau bahkan nomor WhatsApp Anda.",
+      "NEW_LINK": "Klik di sini untuk membuat kotak masuk",
+      "TITLE": "Hubungkan Kotak Masuk"
+    },
+    "LABELS": {
+      "DESCRIPTION": "Label memberikan cara yang lebih mudah untuk mengkategorikan percakapan Anda. Buat beberapa label seperti #support-inquiry, #billing-question, dll., Sehingga Anda dapat menggunakannya dalam percakapan nanti.",
+      "NEW_LINK": "Klik di sini untuk membuat tag",
+      "TITLE": "Atur percakapan dengan label"
+    },
+    "READ_LATEST_UPDATES": "Baca pembaruan terbaru kami",
+    "TEAM_MEMBERS": {
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "NEW_LINK": "Klik di sini untuk mengundang anggota tim",
+      "TITLE": "Undang anggota tim Anda"
+    },
+    "TITLE": "Hai 👋, Selamat datang di %{installationName}!"
   }
 }

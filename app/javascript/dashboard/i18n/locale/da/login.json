@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Log ind på Chatwoot",
+    "API": {
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
+      "SUCCESS_MESSAGE": "Login Lykkedes",
+      "UNAUTH": "Brugernavn / adgangskode forkert. Prøv igen"
+    },
+    "CREATE_NEW_ACCOUNT": "Opret ny konto",
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "E-mail, fx: navn@eksempel.dk"
     },
+    "FORGOT_PASSWORD": "Glemt din adgangskode?",
     "PASSWORD": {
       "LABEL": "Adgangskode",
       "PLACEHOLDER": "Adgangskode"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Login Lykkedes",
-      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
-      "UNAUTH": "Brugernavn / adgangskode forkert. Prøv igen"
-    },
-    "FORGOT_PASSWORD": "Glemt din adgangskode?",
-    "CREATE_NEW_ACCOUNT": "Opret ny konto",
-    "SUBMIT": "Log Ind"
+    "SUBMIT": "Log Ind",
+    "TITLE": "Log ind på Chatwoot"
   }
 }

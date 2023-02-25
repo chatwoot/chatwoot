@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Mengambil percakapan",
-    "LOAD_MORE_CONVERSATIONS": "Muat lebih banyak percakapan",
-    "EOF": "Semua percakapan dimuat 🎉",
-    "LIST": {
-      "404": "Tidak ada percakapan aktif di grup ini."
-    },
-    "TAB_HEADING": "Percakapan",
-    "MENTION_HEADING": "Sebutkan",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
-    },
-    "FILTER_ALL": "Semua",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Semua",
       "me": "Milikku",
-      "unassigned": "Belum ditugaskan",
-      "all": "Semua"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Terbuka"
-      },
-      "resolved": {
-        "TEXT": "Terselesaikan"
-      },
-      "pending": {
-        "TEXT": "Ditunda"
-      },
-      "snoozed": {
-        "TEXT": "Ditunda Sebentar"
-      },
-      "all": {
-        "TEXT": "Semua"
-      }
+      "unassigned": "Belum ditugaskan"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Pesan gambar"
-      },
       "audio": {
         "CONTENT": "Pesan audio"
       },
-      "video": {
-        "CONTENT": "Pesan video"
+      "fallback": {
+        "CONTENT": "telah membagikan url"
       },
       "file": {
         "CONTENT": "Lampiran File"
       },
+      "image": {
+        "CONTENT": "Pesan gambar"
+      },
       "location": {
         "CONTENT": "Lokasi"
       },
-      "fallback": {
-        "CONTENT": "telah membagikan url"
+      "video": {
+        "CONTENT": "Pesan video"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Diterima melalui email",
-    "VIEW_TWEET_IN_TWITTER": "Lihat tweet di Twitter",
-    "REPLY_TO_TWEET": "Balas tweet ini",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Berhasil terkirim",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Semua"
+      },
+      "open": {
+        "TEXT": "Terbuka"
+      },
+      "pending": {
+        "TEXT": "Ditunda"
+      },
+      "resolved": {
+        "TEXT": "Terselesaikan"
+      },
+      "snoozed": {
+        "TEXT": "Ditunda Sebentar"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Tidak Ada Pesan",
-    "NO_CONTENT": "Tidak ada konten yang tersedia",
+    "EOF": "Semua percakapan dimuat 🎉",
+    "FILTER_ALL": "Semua",
     "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",
+    "LINK_TO_STORY": "Go to instagram story",
+    "LIST": {
+      "404": "Tidak ada percakapan aktif di grup ini."
+    },
+    "LOADING": "Mengambil percakapan",
+    "LOAD_MORE_CONVERSATIONS": "Muat lebih banyak percakapan",
+    "MENTION_HEADING": "Sebutkan",
+    "MESSAGE_READ": "Read",
+    "NO_CONTENT": "Tidak ada konten yang tersedia",
+    "NO_MESSAGES": "Tidak Ada Pesan",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "Diterima melalui email",
+    "REPLY_TO_TWEET": "Balas tweet ini",
+    "SEARCH": {
+      "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
+    },
+    "SENT": "Berhasil terkirim",
     "SHOW_QUOTED_TEXT": "Tampilkan Tex yang Dikutip",
-    "MESSAGE_READ": "Read"
+    "TAB_HEADING": "Percakapan",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "Lihat tweet di Twitter"
   }
 }

@@ -1,38 +1,270 @@
 {
-  "REPORT": {
-    "HEADER": "Gespräche",
-    "LOADING_CHART": "Diagrammdaten laden ...",
-    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Letzte 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Letzte 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Letzte 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
+      },
+      {
+        "id": 5,
+        "name": "Benutzerdefinierter Zeitraum"
+      }
+    ],
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
+    "FILTER_DROPDOWN_LABEL": "Agent auswählen",
+    "HEADER": "Agenten-Übersicht",
+    "LOADING_CHART": "Diagrammdaten laden ...",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Konversationen",
-        "DESC": "( Gesamt )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Eingehende Nachrichten",
-        "DESC": "( Gesamt )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Ausgehende Nachrichten",
-        "DESC": "( Gesamt )"
+        "DESC": "( Gesamt )",
+        "NAME": "Konversationen"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Erste Antwortzeit",
         "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
-      "RESOLUTION_TIME": {
-        "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Eingehende Nachrichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Ausgehende Nachrichten"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
-        "DESC": "( Gesamt )"
+        "DESC": "( Gesamt )",
+        "NAME": "Lösungsanzahl"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Lösungszeit",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       }
+    },
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "CSAT-Berichte herunterladen",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Agenten wählen"
+      }
+    },
+    "HEADER": "CSAT-Berichte",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Antwortrate",
+        "TOOLTIP": "Anzahl aller Antworten / Anzahl der gesendeten CSAT-Umfrage * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Zufriedenheitswert",
+        "TOOLTIP": "Anzahl der positiven Antworten / Anzahl aller Antworten * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Antworten gesamt",
+        "TOOLTIP": "Anzahl aller gesammelten Antworten"
+      }
+    },
+    "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Zugewiesener Agent",
+        "CONTACT_NAME": "Kontakt",
+        "FEEDBACK_TEXT": "Feedback-Kommentar",
+        "RATING": "Bewertung"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Letzte 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Letzte 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Letzte 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
+      },
+      {
+        "id": 5,
+        "name": "Benutzerdefinierter Zeitraum"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Agenten-Berichte herunterladen",
+    "FILTER_DROPDOWN_LABEL": "Eingang auswählen",
+    "HEADER": "Posteingangsübersicht",
+    "LOADING_CHART": "Diagrammdaten laden ...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Gesamt )",
+        "NAME": "Konversationen"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Erste Antwortzeit",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Eingehende Nachrichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Ausgehende Nachrichten"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Gesamt )",
+        "NAME": "Lösungsanzahl"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Lösungszeit",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Letzte 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Letzte 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Letzte 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
+      },
+      {
+        "id": 5,
+        "name": "Benutzerdefinierter Zeitraum"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Label-Berichte herunterladen",
+    "FILTER_DROPDOWN_LABEL": "Label auswählen",
+    "HEADER": "Label-Übersicht",
+    "LOADING_CHART": "Diagrammdaten laden...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Gesamt )",
+        "NAME": "Konversationen"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Erste Antwortzeit",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Eingehende Nachrichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Ausgehende Nachrichten"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Gesamt )",
+        "NAME": "Lösungsanzahl"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Lösungszeit",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Offene Konversationen",
+      "LOADING_MESSAGE": "Konversationsdaten werden geladen...",
+      "OPEN": "Öffnen",
+      "UNASSIGNED": "Nicht zugewiesen",
+      "UNATTENDED": "Unbeaufsichtigt"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Konversationen von Agenten",
+      "LOADING_MESSAGE": "Agent-Daten werden geladen...",
+      "NO_AGENTS": "Es existieren keine Konversationen von Agenten",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OFFEN",
+        "STATUS": "Status",
+        "UNATTENDED": "Unbeaufsichtigt"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Beschäftigt",
+      "HEADER": "Agentenstatus",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Übersicht",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Öffnungszeiten",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +292,7 @@
         "name": "Benutzerdefinierter Zeitraum"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Übernehmen",
-      "PLACEHOLDER": "Zeitraum auswählen"
-    },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppieren nach",
+    "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
     "DURATION_FILTER_LABEL": "Dauer",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Tag"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Tag"
-      },
-      {
-        "id": 2,
-        "groupBy": "Woche"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppieren nach",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Monat"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Tag"
+      },
+      {
+        "id": 2,
+        "groupBy": "Woche"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Jahr"
       }
     ],
-    "BUSINESS_HOURS": "Öffnungszeiten"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Agenten-Übersicht",
+    "HEADER": "Gespräche",
     "LOADING_CHART": "Diagrammdaten laden ...",
-    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
-    "FILTER_DROPDOWN_LABEL": "Agent auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Konversationen",
-        "DESC": "( Gesamt )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Eingehende Nachrichten",
-        "DESC": "( Gesamt )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Ausgehende Nachrichten",
-        "DESC": "( Gesamt )"
+        "DESC": "( Gesamt )",
+        "NAME": "Konversationen"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
         "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
         "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Lösungsanzahl",
-        "DESC": "( Gesamt )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Letzte 7 Tage"
-      },
-      {
-        "id": 1,
-        "name": "Letzte 30 Tage"
-      },
-      {
-        "id": 2,
-        "name": "Letzte 3 Monate"
-      },
-      {
-        "id": 3,
-        "name": "Letzte 6 Monate"
-      },
-      {
-        "id": 4,
-        "name": "Letztes Jahr"
-      },
-      {
-        "id": 5,
-        "name": "Benutzerdefinierter Zeitraum"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Übernehmen",
-      "PLACEHOLDER": "Zeitraum auswählen"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Label-Übersicht",
-    "LOADING_CHART": "Diagrammdaten laden...",
-    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_LABEL_REPORTS": "Label-Berichte herunterladen",
-    "FILTER_DROPDOWN_LABEL": "Label auswählen",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Konversationen",
-        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Eingehende Nachrichten",
-        "DESC": "( Gesamt )"
+        "DESC": "( Gesamt )",
+        "NAME": "Eingehende Nachrichten"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Ausgehende Nachrichten",
-        "DESC": "( Gesamt )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "DESC": "( Gesamt )",
+        "NAME": "Ausgehende Nachrichten"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Lösungsanzahl",
-        "DESC": "( Gesamt )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Letzte 7 Tage"
-      },
-      {
-        "id": 1,
-        "name": "Letzte 30 Tage"
-      },
-      {
-        "id": 2,
-        "name": "Letzte 3 Monate"
-      },
-      {
-        "id": 3,
-        "name": "Letzte 6 Monate"
-      },
-      {
-        "id": 4,
-        "name": "Letztes Jahr"
-      },
-      {
-        "id": 5,
-        "name": "Benutzerdefinierter Zeitraum"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Übernehmen",
-      "PLACEHOLDER": "Zeitraum auswählen"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Posteingangsübersicht",
-    "LOADING_CHART": "Diagrammdaten laden ...",
-    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_INBOX_REPORTS": "Agenten-Berichte herunterladen",
-    "FILTER_DROPDOWN_LABEL": "Eingang auswählen",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Konversationen",
-        "DESC": "( Gesamt )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Eingehende Nachrichten",
-        "DESC": "( Gesamt )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Ausgehende Nachrichten",
-        "DESC": "( Gesamt )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "DESC": "( Gesamt )",
+        "NAME": "Auflösungsanzahl"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Lösungszeit",
         "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Lösungsanzahl",
-        "DESC": "( Gesamt )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Letzte 7 Tage"
-      },
-      {
-        "id": 1,
-        "name": "Letzte 30 Tage"
-      },
-      {
-        "id": 2,
-        "name": "Letzte 3 Monate"
-      },
-      {
-        "id": 3,
-        "name": "Letzte 6 Monate"
-      },
-      {
-        "id": 4,
-        "name": "Letztes Jahr"
-      },
-      {
-        "id": 5,
-        "name": "Benutzerdefinierter Zeitraum"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Übernehmen",
-      "PLACEHOLDER": "Zeitraum auswählen"
-    }
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team-Übersicht",
-    "LOADING_CHART": "Diagrammdaten laden ...",
-    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_TEAM_REPORTS": "Team-Berichte herunterladen",
-    "FILTER_DROPDOWN_LABEL": "Team auswählen",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Konversationen",
-        "DESC": "( Gesamt )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Eingehende Nachrichten",
-        "DESC": "( Gesamt )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Ausgehende Nachrichten",
-        "DESC": "( Gesamt )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Lösungsanzahl",
-        "DESC": "( Gesamt )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Benutzerdefinierter Zeitraum"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Übernehmen",
-      "PLACEHOLDER": "Zeitraum auswählen"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT-Berichte",
-    "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
-    "DOWNLOAD": "CSAT-Berichte herunterladen",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Agenten wählen"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Kontakt",
-        "AGENT_NAME": "Zugewiesener Agent",
-        "RATING": "Bewertung",
-        "FEEDBACK_TEXT": "Feedback-Kommentar"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Antworten gesamt",
-        "TOOLTIP": "Anzahl aller gesammelten Antworten"
+    "DOWNLOAD_TEAM_REPORTS": "Team-Berichte herunterladen",
+    "FILTER_DROPDOWN_LABEL": "Team auswählen",
+    "HEADER": "Team-Übersicht",
+    "LOADING_CHART": "Diagrammdaten laden ...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Gesamt )",
+        "NAME": "Konversationen"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Zufriedenheitswert",
-        "TOOLTIP": "Anzahl der positiven Antworten / Anzahl aller Antworten * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Erste Antwortzeit",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Antwortrate",
-        "TOOLTIP": "Anzahl aller Antworten / Anzahl der gesendeten CSAT-Umfrage * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Übersicht",
-    "LIVE": "Live",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Offene Konversationen",
-      "LOADING_MESSAGE": "Konversationsdaten werden geladen...",
-      "OPEN": "Öffnen",
-      "UNATTENDED": "Unbeaufsichtigt",
-      "UNASSIGNED": "Nicht zugewiesen"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Konversationen von Agenten",
-      "LOADING_MESSAGE": "Agent-Daten werden geladen...",
-      "NO_AGENTS": "Es existieren keine Konversationen von Agenten",
-      "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "OFFEN",
-        "UNATTENDED": "Unbeaufsichtigt",
-        "STATUS": "Status"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Eingehende Nachrichten"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Gesamt )",
+        "NAME": "Ausgehende Nachrichten"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Gesamt )",
+        "NAME": "Lösungsanzahl"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "NAME": "Lösungszeit",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agentenstatus",
-      "ONLINE": "Online",
-      "BUSY": "Beschäftigt",
-      "OFFLINE": "Offline"
-    }
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut."
   }
 }

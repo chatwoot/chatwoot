@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Inloggen bij Chatwoot",
+    "API": {
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw",
+      "SUCCESS_MESSAGE": "Inloggen geslaagd",
+      "UNAUTH": "Gebruikersnaam/wachtwoord onjuist. Probeer het opnieuw\n"
+    },
+    "CREATE_NEW_ACCOUNT": "Nieuw account aanmaken",
     "EMAIL": {
       "LABEL": "E-mailadres",
       "PLACEHOLDER": "E-mail bijvoorbeeld: iemone@voorbeeld.com"
     },
+    "FORGOT_PASSWORD": "Wachtwoord vergeten?",
     "PASSWORD": {
       "LABEL": "Wachtwoord",
       "PLACEHOLDER": "Wachtwoord"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Inloggen geslaagd",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw",
-      "UNAUTH": "Gebruikersnaam/wachtwoord onjuist. Probeer het opnieuw\n"
-    },
-    "FORGOT_PASSWORD": "Wachtwoord vergeten?",
-    "CREATE_NEW_ACCOUNT": "Nieuw account aanmaken",
-    "SUBMIT": "Inloggen"
+    "SUBMIT": "Inloggen",
+    "TITLE": "Inloggen bij Chatwoot"
   }
 }

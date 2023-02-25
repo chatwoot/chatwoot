@@ -1,278 +1,58 @@
 {
-  "PROFILE_SETTINGS": {
-    "LINK": "Nastavení profilu",
-    "TITLE": "Nastavení profilu",
-    "BTN_TEXT": "Aktualizovat profil",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Váš profil byl úspěšně aktualizován, přihlaste se prosím znovu, protože se vaše přihlašovací údaje změnily",
-    "FORM": {
-      "AVATAR": "Profilový obrázek",
-      "ERROR": "Opravte chyby formuláře",
-      "REMOVE_IMAGE": "Odebrat",
-      "UPLOAD_IMAGE": "Nahrát obrázek",
-      "UPDATE_IMAGE": "Aktualizovat obrázek",
-      "PROFILE_SECTION": {
-        "TITLE": "Profil",
-        "NOTE": "Vaše e-mailová adresa je Vaše identita a používá se k přihlášení."
-      },
-      "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
-        "CARD": {
-          "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
-          },
-          "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
-          }
-        }
-      },
-      "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
-      },
-      "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
-      },
-      "PASSWORD_SECTION": {
-        "TITLE": "Heslo",
-        "NOTE": "Aktualizace hesla by obnovila vaše přihlašovací údaje na více zařízeních.",
-        "BTN_TEXT": "Change password"
-      },
-      "ACCESS_TOKEN": {
-        "TITLE": "Přístupový token",
-        "NOTE": "Tento token může být použit při vytváření integrace založené na API"
-      },
-      "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "ALERT_TYPE": {
-          "TITLE": "Alert events:",
-          "NONE": "Nic",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
-        },
-        "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
-        },
-        "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
-      },
-      "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "E-mailová oznámení",
-        "NOTE": "Zde aktualizujte nastavení e-mailových oznámení",
-        "CONVERSATION_ASSIGNMENT": "Odeslat e-mailová oznámení, když je mi přiřazena konverzace",
-        "CONVERSATION_CREATION": "Odeslat oznámení e-mailem při vytváření nové konverzace",
-        "CONVERSATION_MENTION": "Odeslat oznámení e-mailem, pokud jste zmíněni v konverzaci",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odeslat oznámení e-mailem, když je nová zpráva vytvořena v přiřazené konverzaci"
-      },
-      "API": {
-        "UPDATE_SUCCESS": "Vaše předvolby oznámení byly úspěšně aktualizovány",
-        "UPDATE_ERROR": "Při aktualizaci nastavení došlo k chybě, zkuste to prosím znovu"
-      },
-      "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push oznámení",
-        "NOTE": "Zde aktualizujte předvolby push oznámení",
-        "CONVERSATION_ASSIGNMENT": "Odeslat push oznámení, když je mi přiřazena konverzace",
-        "CONVERSATION_CREATION": "Odeslat push oznámení při vytváření nové konverzace",
-        "CONVERSATION_MENTION": "Poslat push oznámení, když jste zmíněni v konverzaci",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odeslat push oznámení, když je nová zpráva vytvořena v přiřazené konverzaci",
-        "HAS_ENABLED_PUSH": "Povolili jste push pro tento prohlížeč.",
-        "REQUEST_PUSH": "Povolit push oznámení"
-      },
-      "PROFILE_IMAGE": {
-        "LABEL": "Profil obrázek"
-      },
-      "NAME": {
-        "LABEL": "Vaše celé jméno",
-        "ERROR": "Zadejte prosím platné celé jméno",
-        "PLACEHOLDER": "Zadejte své celé jméno"
-      },
-      "DISPLAY_NAME": {
-        "LABEL": "Zobrazované jméno",
-        "ERROR": "Zadejte prosím platné zobrazované jméno",
-        "PLACEHOLDER": "Zadejte prosím zobrazované jméno, bude zobrazeno v konverzacích"
-      },
-      "AVAILABILITY": {
-        "LABEL": "Dostupnost",
-        "STATUSES_LIST": [
-          "Online",
-          "Zaneprázdněn",
-          "Offline"
-        ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
-      },
-      "EMAIL": {
-        "LABEL": "Vaše e-mailová adresa",
-        "ERROR": "Zadejte prosím platnou e-mailovou adresu",
-        "PLACEHOLDER": "Prosím, zadejte vaši e-mailovou adresu, bude zobrazena v konverzacích"
-      },
-      "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
-      },
-      "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Zadejte prosím heslo o délce 6 nebo více",
-        "PLACEHOLDER": "Zadejte prosím nové heslo"
-      },
-      "PASSWORD_CONFIRMATION": {
-        "LABEL": "Potvrdit nové heslo",
-        "ERROR": "Potvrzení hesla by mělo odpovídat heslu",
-        "PLACEHOLDER": "Please re-enter your new password"
-      }
-    }
-  },
-  "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Změnit",
-    "CHANGE_ACCOUNTS": "Přepnout účet",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Vyberte účet z následujícího seznamu",
-    "PROFILE_SETTINGS": "Nastavení profilu",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Odhlásit se"
-  },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "dní zbývá zkušební verze.",
-    "TRAIL_BUTTON": "Koupit nyní",
-    "DELETED_USER": "Deleted User",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
-    }
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information.",
+      "TITLE": "Account Suspended"
+    },
+    "DELETED_USER": "Deleted User",
+    "TRAIL_BUTTON": "Koupit nyní",
+    "TRIAL_MESSAGE": "dní zbývá zkušební verze."
+  },
+  "BILLING_SETTINGS": {
+    "CHAT_WITH_US": {
+      "BUTTON_TXT": "Napiště nám",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Need help?"
+    },
+    "CURRENT_PLAN": {
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses",
+      "TITLE": "Current Plan"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "BUTTON_TXT": "Go to the billing portal",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "TITLE": "Manage your subscription"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "TITLE": "Billing"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopírovat",
       "COPY_SUCCESSFUL": "Kód byl úspěšně zkopírován do schránky"
     },
-    "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
-    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Stáhnout",
-      "UPLOADING": "Nahrávání...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available.",
+      "UPLOADING": "Nahrávání..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Odeslat"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
     },
-    "FORM_BUBBLE": {
-      "SUBMIT": "Odeslat"
+    "SHOW_MORE_BLOCK": {
+      "SHOW_LESS": "Show Less",
+      "SHOW_MORE": "Show More"
     }
   },
   "CONFIRM_EMAIL": "Ověřování...",
-  "SETTINGS": {
-    "INBOXES": {
-      "NEW_INBOX": "Přidat schránku"
-    }
-  },
-  "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "CONVERSATIONS": "Konverzace",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Zmínky",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Zprávy",
-    "SETTINGS": "Nastavení",
-    "CONTACTS": "Kontakty",
-    "HOME": "Domů",
-    "AGENTS": "Agenti",
-    "AGENT_BOTS": "Bots",
-    "INBOXES": "Schránky",
-    "NOTIFICATIONS": "Oznámení",
-    "CANNED_RESPONSES": "Konzervované odpovědi",
-    "INTEGRATIONS": "Integrace",
-    "PROFILE_SETTINGS": "Nastavení profilu",
-    "ACCOUNT_SETTINGS": "Nastavení účtu",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Štítky",
-    "CUSTOM_ATTRIBUTES": "Vlastní atributy",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Týmy",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Konverzace",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Kampaně",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agenti",
-    "REPORTS_LABEL": "Štítky",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-    "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
-    },
-    "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
-    },
-    "DOCS": "Read docs"
-  },
-  "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
-    },
-    "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
-    },
-    "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Napiště nám"
-    },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
-  },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "Nový účet",
-    "SELECTOR_SUBTITLE": "Vytvořit nový účet",
     "API": {
-      "SUCCESS_MESSAGE": "Účet byl úspěšně vytvořen",
+      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později",
       "EXIST_MESSAGE": "Účet již existuje",
-      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      "SUCCESS_MESSAGE": "Účet byl úspěšně vytvořen"
     },
     "FORM": {
       "NAME": {
@@ -280,31 +60,251 @@
         "PLACEHOLDER": "Wayne podniky"
       },
       "SUBMIT": "Odeslat"
-    }
+    },
+    "NEW_ACCOUNT": "Nový účet",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "SELECTOR_SUBTITLE": "Vytvořit nový účet"
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "KEYS": {
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘"
+    },
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
       "ADD_ATTACHMENT": "Add Attachment",
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
       "GO_TO_SETTINGS": "Go to Settings",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
       "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+    "TOGGLE_MODAL": "View all shortcuts"
+  },
+  "PROFILE_SETTINGS": {
+    "AFTER_EMAIL_CHANGED": "Váš profil byl úspěšně aktualizován, přihlaste se prosím znovu, protože se vaše přihlašovací údaje změnily",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "BTN_TEXT": "Aktualizovat profil",
+    "DELETE_AVATAR": "Delete Avatar",
+    "FORM": {
+      "ACCESS_TOKEN": {
+        "NOTE": "Tento token může být použit při vytváření integrace založené na API",
+        "TITLE": "Přístupový token"
+      },
+      "API": {
+        "UPDATE_ERROR": "Při aktualizaci nastavení došlo k chybě, zkuste to prosím znovu",
+        "UPDATE_SUCCESS": "Vaše předvolby oznámení byly úspěšně aktualizovány"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "ALERT_TYPE": {
+          "ALL_CONVERSATIONS": "All Conversations",
+          "ASSIGNED": "Assigned Conversations",
+          "NONE": "Nic",
+          "TITLE": "Alert events:"
+        },
+        "CONDITIONS": {
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read",
+          "TITLE": "Alert conditions:"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "Audio Notifications"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Dostupnost",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "STATUSES_LIST": [
+          "Online",
+          "Zaneprázdněn",
+          "Offline"
+        ]
+      },
+      "AVATAR": "Profilový obrázek",
+      "CURRENT_PASSWORD": {
+        "ERROR": "Please enter the current password",
+        "LABEL": "Current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
+      "DISPLAY_NAME": {
+        "ERROR": "Zadejte prosím platné zobrazované jméno",
+        "LABEL": "Zobrazované jméno",
+        "PLACEHOLDER": "Zadejte prosím zobrazované jméno, bude zobrazeno v konverzacích"
+      },
+      "EMAIL": {
+        "ERROR": "Zadejte prosím platnou e-mailovou adresu",
+        "LABEL": "Vaše e-mailová adresa",
+        "PLACEHOLDER": "Prosím, zadejte vaši e-mailovou adresu, bude zobrazena v konverzacích"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odeslat oznámení e-mailem, když je nová zpráva vytvořena v přiřazené konverzaci",
+        "CONVERSATION_ASSIGNMENT": "Odeslat e-mailová oznámení, když je mi přiřazena konverzace",
+        "CONVERSATION_CREATION": "Odeslat oznámení e-mailem při vytváření nové konverzace",
+        "CONVERSATION_MENTION": "Odeslat oznámení e-mailem, pokud jste zmíněni v konverzaci",
+        "NOTE": "Zde aktualizujte nastavení e-mailových oznámení",
+        "TITLE": "E-mailová oznámení"
+      },
+      "ERROR": "Opravte chyby formuláře",
+      "MESSAGE_SIGNATURE": {
+        "ERROR": "Message Signature cannot be empty",
+        "LABEL": "Message Signature",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully",
+        "BTN_TEXT": "Save message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "TITLE": "Personal message signature"
+      },
+      "NAME": {
+        "ERROR": "Zadejte prosím platné celé jméno",
+        "LABEL": "Vaše celé jméno",
+        "PLACEHOLDER": "Zadejte své celé jméno"
+      },
+      "PASSWORD": {
+        "ERROR": "Zadejte prosím heslo o délce 6 nebo více",
+        "LABEL": "New password",
+        "PLACEHOLDER": "Zadejte prosím nové heslo"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "ERROR": "Potvrzení hesla by mělo odpovídat heslu",
+        "LABEL": "Potvrdit nové heslo",
+        "PLACEHOLDER": "Please re-enter your new password"
+      },
+      "PASSWORD_SECTION": {
+        "BTN_TEXT": "Change password",
+        "NOTE": "Aktualizace hesla by obnovila vaše přihlašovací údaje na více zařízeních.",
+        "TITLE": "Heslo"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profil obrázek"
+      },
+      "PROFILE_SECTION": {
+        "NOTE": "Vaše e-mailová adresa je Vaše identita a používá se k přihlášení.",
+        "TITLE": "Profil"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odeslat push oznámení, když je nová zpráva vytvořena v přiřazené konverzaci",
+        "CONVERSATION_ASSIGNMENT": "Odeslat push oznámení, když je mi přiřazena konverzace",
+        "CONVERSATION_CREATION": "Odeslat push oznámení při vytváření nové konverzace",
+        "CONVERSATION_MENTION": "Poslat push oznámení, když jste zmíněni v konverzaci",
+        "HAS_ENABLED_PUSH": "Povolili jste push pro tento prohlížeč.",
+        "NOTE": "Zde aktualizujte předvolby push oznámení",
+        "REQUEST_PUSH": "Povolit push oznámení",
+        "TITLE": "Push oznámení"
+      },
+      "REMOVE_IMAGE": "Odebrat",
+      "SEND_MESSAGE": {
+        "CARD": {
+          "CMD_ENTER_KEY": {
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button.",
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)"
+          },
+          "ENTER_KEY": {
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button.",
+            "HEADING": "Enter (↵)"
+          }
+        },
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "TITLE": "Hotkey to send messages",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully"
+      },
+      "UPDATE_IMAGE": "Aktualizovat obrázek",
+      "UPLOAD_IMAGE": "Nahrát obrázek"
+    },
+    "LINK": "Nastavení profilu",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "TITLE": "Nastavení profilu",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully"
+  },
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Přidat schránku"
     }
+  },
+  "SIDEBAR": {
+    "ACCOUNT_SETTINGS": "Nastavení účtu",
+    "AGENTS": "Agenti",
+    "AGENT_BOTS": "Bots",
+    "ALL_CONTACTS": "All Contacts",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "APPLICATIONS": "Applications",
+    "AUTOMATION": "Automation",
+    "BETA": "Beta",
+    "BILLING": "Billing",
+    "CAMPAIGNS": "Kampaně",
+    "CANNED_RESPONSES": "Konzervované odpovědi",
+    "CONTACTS": "Kontakty",
+    "CONVERSATIONS": "Konverzace",
+    "CSAT": "CSAT",
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "CUSTOM_ATTRIBUTES": "Vlastní atributy",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "DOCS": "Read docs",
+    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found",
+      "DRAFT": "Draft",
+      "MY_ARTICLES": "My Articles",
+      "TITLE": "Help Center (Beta)"
+    },
+    "HOME": "Domů",
+    "INBOXES": "Schránky",
+    "INTEGRATIONS": "Integrace",
+    "LABELS": "Štítky",
+    "MACROS": "Macros",
+    "MENTIONED_CONVERSATIONS": "Zmínky",
+    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NOTIFICATIONS": "Oznámení",
+    "ONE_OFF": "One off",
+    "ONGOING": "Ongoing",
+    "PROFILE_SETTINGS": "Nastavení profilu",
+    "REPORTS": "Zprávy",
+    "REPORTS_AGENT": "Agenti",
+    "REPORTS_CONVERSATION": "Konverzace",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_LABEL": "Štítky",
+    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_TEAM": "Team",
+    "SETTINGS": "Nastavení",
+    "SET_AUTO_OFFLINE": {
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "TEXT": "Mark offline automatically"
+    },
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SWITCH": "Switch",
+    "TAGGED_WITH": "Tagged with",
+    "TEAMS": "Týmy",
+    "UNATTENDED_CONVERSATIONS": "Unattended"
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Přepnout účet",
+    "CHANGE_AVAILABILITY_STATUS": "Změnit",
+    "CONTACT_SUPPORT": "Contact Support",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "LOGOUT": "Odhlásit se",
+    "PROFILE_SETTINGS": "Nastavení profilu",
+    "SELECTOR_SUBTITLE": "Vyberte účet z následujícího seznamu",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console"
   }
 }

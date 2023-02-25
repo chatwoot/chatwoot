@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "API": {
+      "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi",
+      "SUCCESS_MESSAGE": "Login Successful",
+      "UNAUTH": "Username / Password Incorrect. Please try again"
+    },
+    "CREATE_NEW_ACCOUNT": "Create new account",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "Email eg: someone@example.com"
     },
+    "FORGOT_PASSWORD": "Forgot your password?",
     "PASSWORD": {
       "LABEL": "Password",
       "PLACEHOLDER": "Password"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
-    },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "SUBMIT": "Login",
+    "TITLE": "Login to Chatwoot"
   }
 }

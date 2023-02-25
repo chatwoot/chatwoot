@@ -1,50 +1,50 @@
 {
-    "CONTACTS_FILTER": {
-        "TITLE": "Фильтровать контакты",
-        "SUBTITLE": "Добавьте фильтры и нажмите 'Отправить' для фильтрации контактов.",
-        "ADD_NEW_FILTER": "Добавить фильтр",
-        "CLEAR_ALL_FILTERS": "Очистить фильтры",
-        "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
-        "SUBMIT_BUTTON_LABEL": "Отправить",
-        "CANCEL_BUTTON_LABEL": "Отменить",
-        "CLEAR_BUTTON_LABEL": "Очистить фильтры",
-        "EMPTY_VALUE_ERROR": "Необходимо указать значение",
-        "TOOLTIP_LABEL": "Фильтровать контакты",
-        "QUERY_DROPDOWN_LABELS": {
-            "AND": "И",
-            "OR": "ИЛИ"
-        },
-        "OPERATOR_LABELS": {
-            "equal_to": "Равно",
-            "not_equal_to": "Не равно",
-            "contains": "Содержит",
-            "does_not_contain": "Не содержит",
-            "is_present": "Присутствует",
-            "is_not_present": "Отсутствует",
-            "is_greater_than": "Больше чем",
-            "is_lesser_than": "Меньше чем",
-            "days_before": "x дней до"
-        },
-        "ATTRIBUTES": {
-            "NAME": "Имя",
-            "EMAIL": "Email",
-            "PHONE_NUMBER": "Номер телефона",
-            "IDENTIFIER": "Идентификатор",
-            "CITY": "Город",
-            "COUNTRY": "Страна",
-            "CUSTOM_ATTRIBUTE_LIST": "Список",
-            "CUSTOM_ATTRIBUTE_TEXT": "Текст",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Число",
-            "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
-            "CREATED_AT": "Дата создания",
-            "LAST_ACTIVITY": "Последние действия",
-            "REFERER_LINK": "Реферальная ссылка"
-        },
-        "GROUPS": {
-            "STANDARD_FILTERS": "Стандартные фильтры",
-            "ADDITIONAL_FILTERS": "Дополнительные фильтры",
-            "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
-        }
-    }
+  "CONTACTS_FILTER": {
+    "ADD_NEW_FILTER": "Добавить фильтр",
+    "ATTRIBUTES": {
+      "CITY": "Город",
+      "COUNTRY": "Страна",
+      "CREATED_AT": "Дата создания",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
+      "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
+      "CUSTOM_ATTRIBUTE_LIST": "Список",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Число",
+      "CUSTOM_ATTRIBUTE_TEXT": "Текст",
+      "EMAIL": "Email",
+      "IDENTIFIER": "Идентификатор",
+      "LAST_ACTIVITY": "Последние действия",
+      "NAME": "Имя",
+      "PHONE_NUMBER": "Номер телефона",
+      "REFERER_LINK": "Реферальная ссылка"
+    },
+    "CANCEL_BUTTON_LABEL": "Отменить",
+    "CLEAR_ALL_FILTERS": "Очистить фильтры",
+    "CLEAR_BUTTON_LABEL": "Очистить фильтры",
+    "EMPTY_VALUE_ERROR": "Необходимо указать значение",
+    "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Дополнительные фильтры",
+      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
+      "STANDARD_FILTERS": "Стандартные фильтры"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Содержит",
+      "days_before": "x дней до",
+      "does_not_contain": "Не содержит",
+      "equal_to": "Равно",
+      "is_greater_than": "Больше чем",
+      "is_lesser_than": "Меньше чем",
+      "is_not_present": "Отсутствует",
+      "is_present": "Присутствует",
+      "not_equal_to": "Не равно"
+    },
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "И",
+      "OR": "ИЛИ"
+    },
+    "SUBMIT_BUTTON_LABEL": "Отправить",
+    "SUBTITLE": "Добавьте фильтры и нажмите 'Отправить' для фильтрации контактов.",
+    "TITLE": "Фильтровать контакты",
+    "TOOLTIP_LABEL": "Фильтровать контакты"
+  }
 }

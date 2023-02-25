@@ -1,99 +1,99 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributi personalizzati",
-    "HEADER_BTN_TXT": "Aggiungi attributo personalizzato",
-    "LOADING": "Recupero degli attributi personalizzati",
-    "SIDEBAR_TXT": "<p><b>Attributi personalizzati</b> <p>Un attributo personalizzato tiene traccia dei dati relativi ai tuoi contatti/conversazioni — come il piano di abbonamento, o quando hanno ordinato il primo oggetto, ecc. <br /><br />Per creare un attributo personalizzato, basta cliccare sul pulsante <b>Aggiungi attributo personalizzato.</b> Puoi anche modificare o eliminare un attributo personalizzato esistente facendo clic sul pulsante Modifica o Elimina.</p>",
     "ADD": {
-      "TITLE": "Aggiungi attributo personalizzato",
-      "SUBMIT": "Crea",
+      "API": {
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later.",
+        "SUCCESS_MESSAGE": "Attributo personalizzato aggiunto con successo!"
+      },
       "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
-        "NAME": {
-          "LABEL": "Nome visualizzato",
-          "PLACEHOLDER": "Inserisci il nome di visualizzazione dell'attributo personalizzato",
-          "ERROR": "Il nome è obbligatorio"
-        },
         "DESC": {
+          "ERROR": "La descrizione è obbligatoria",
           "LABEL": "Descrizione",
-          "PLACEHOLDER": "Inserisci una descrizione dell'attributo personalizzato",
-          "ERROR": "La descrizione è obbligatoria"
-        },
-        "MODEL": {
-          "LABEL": "Si applica a",
-          "PLACEHOLDER": "Si prega di selezionarne uno",
-          "ERROR": "Il modello è obbligatorio"
-        },
-        "TYPE": {
-          "LABEL": "Tipo",
-          "PLACEHOLDER": "Seleziona un tipo",
-          "ERROR": "Il tipo è obbligatorio",
-          "LIST": {
-            "LABEL": "Elenco valori",
-            "PLACEHOLDER": "Inserisci il valore e premi il tasto Invio",
-            "ERROR": "Deve avere almeno un valore"
-          }
+          "PLACEHOLDER": "Inserisci una descrizione dell'attributo personalizzato"
         },
         "KEY": {
-          "LABEL": "Chiave",
-          "PLACEHOLDER": "Inserisci la chiave dell'attributo personalizzato",
           "ERROR": "La chiave è obbligatoria",
-          "IN_VALID": "Chiave non valida"
+          "IN_VALID": "Chiave non valida",
+          "LABEL": "Chiave",
+          "PLACEHOLDER": "Inserisci la chiave dell'attributo personalizzato"
+        },
+        "MODEL": {
+          "ERROR": "Il modello è obbligatorio",
+          "LABEL": "Si applica a",
+          "PLACEHOLDER": "Si prega di selezionarne uno"
+        },
+        "NAME": {
+          "ERROR": "Il nome è obbligatorio",
+          "LABEL": "Nome visualizzato",
+          "PLACEHOLDER": "Inserisci il nome di visualizzazione dell'attributo personalizzato"
+        },
+        "TYPE": {
+          "ERROR": "Il tipo è obbligatorio",
+          "LABEL": "Tipo",
+          "LIST": {
+            "ERROR": "Deve avere almeno un valore",
+            "LABEL": "Elenco valori",
+            "PLACEHOLDER": "Inserisci il valore e premi il tasto Invio"
+          },
+          "PLACEHOLDER": "Seleziona un tipo"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Attributo personalizzato aggiunto con successo!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
-      }
+      "SUBMIT": "Crea",
+      "TITLE": "Aggiungi attributo personalizzato"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Attributo personalizzato eliminato con successo.",
-        "ERROR_MESSAGE": "Impossibile eliminare l'attributo personalizzato. Riprova."
+        "ERROR_MESSAGE": "Impossibile eliminare l'attributo personalizzato. Riprova.",
+        "SUCCESS_MESSAGE": "Attributo personalizzato eliminato con successo."
       },
+      "BUTTON_TEXT": "Elimina",
       "CONFIRM": {
-        "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
-        "PLACE_HOLDER": "Digita {attributeName} per confermare",
         "MESSAGE": "L'eliminazione rimuoverà l'attributo personalizzato",
-        "YES": "Elimina ",
-        "NO": "Annulla"
+        "NO": "Annulla",
+        "PLACE_HOLDER": "Digita {attributeName} per confermare",
+        "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
+        "YES": "Elimina "
       }
     },
     "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "Si è verificato un errore durante l'aggiornamento dell'attributo personalizzato, si prega di riprovare",
+        "SUCCESS_MESSAGE": "Attributo personalizzato aggiornato con successo"
+      },
       "TITLE": "Modifica attributo personalizzato",
-      "UPDATE_BUTTON_TEXT": "Aggiorna",
       "TYPE": {
         "LIST": {
           "LABEL": "Elenco valori",
           "PLACEHOLDER": "Inserire i valori e premere il tasto Invio"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Attributo personalizzato aggiornato con successo",
-        "ERROR_MESSAGE": "Si è verificato un errore durante l'aggiornamento dell'attributo personalizzato, si prega di riprovare"
-      }
+      "UPDATE_BUTTON_TEXT": "Aggiorna"
     },
-    "TABS": {
-      "HEADER": "Attributi personalizzati",
-      "CONVERSATION": "Conversazioni",
-      "CONTACT": "Contatto"
-    },
+    "HEADER": "Attributi personalizzati",
+    "HEADER_BTN_TXT": "Aggiungi attributo personalizzato",
     "LIST": {
+      "BUTTONS": {
+        "DELETE": "Elimina",
+        "EDIT": "Modifica"
+      },
+      "EMPTY_RESULT": {
+        "404": "Non ci sono attributi personalizzati creati",
+        "NOT_FOUND": "Non ci sono attributi personalizzati configurati"
+      },
       "TABLE_HEADER": [
         "Nome",
         "Descrizione",
         "Tipo",
         "Chiave"
-      ],
-      "BUTTONS": {
-        "EDIT": "Modifica",
-        "DELETE": "Elimina"
-      },
-      "EMPTY_RESULT": {
-        "404": "Non ci sono attributi personalizzati creati",
-        "NOT_FOUND": "Non ci sono attributi personalizzati configurati"
-      }
+      ]
+    },
+    "LOADING": "Recupero degli attributi personalizzati",
+    "SIDEBAR_TXT": "<p><b>Attributi personalizzati</b> <p>Un attributo personalizzato tiene traccia dei dati relativi ai tuoi contatti/conversazioni — come il piano di abbonamento, o quando hanno ordinato il primo oggetto, ecc. <br /><br />Per creare un attributo personalizzato, basta cliccare sul pulsante <b>Aggiungi attributo personalizzato.</b> Puoi anche modificare o eliminare un attributo personalizzato esistente facendo clic sul pulsante Modifica o Elimina.</p>",
+    "TABS": {
+      "CONTACT": "Contatto",
+      "CONVERSATION": "Conversazioni",
+      "HEADER": "Attributi personalizzati"
     }
   }
 }

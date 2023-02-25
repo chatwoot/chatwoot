@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Фильтр диалогов",
-    "SUBTITLE": "Добавьте фильтры и нажмите «Применить фильтры» для фильтрации диалогов.",
     "ADD_NEW_FILTER": "Добавить фильтр",
-    "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
-    "SUBMIT_BUTTON_LABEL": "Применить фильтры",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Имя назначенного",
+      "BROWSER_LANGUAGE": "Язык браузера",
+      "CAMPAIGN_NAME": "Название Кампании",
+      "CONVERSATION_IDENTIFIER": "Идентификатор беседы",
+      "COUNTRY_NAME": "Страна",
+      "CREATED_AT": "Дата создания",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
+      "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
+      "CUSTOM_ATTRIBUTE_LIST": "Список",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Число",
+      "CUSTOM_ATTRIBUTE_TEXT": "Текст",
+      "INBOX_NAME": "Имя источника",
+      "LABELS": "Категории",
+      "LAST_ACTIVITY": "Последние действия",
+      "REFERER_LINK": "Ссылка реферера",
+      "STATUS": "Статус",
+      "TEAM_NAME": "Имя команды"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "Ложь",
+      "TRUE": "Истина"
+    },
     "CANCEL_BUTTON_LABEL": "Отменить",
     "CLEAR_BUTTON_LABEL": "Очистить фильтры",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Ошибка при создании папки",
+          "SUCCESS_MESSAGE": "Папка успешно создана"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Ошибка при создании сегмента",
+          "SUCCESS_MESSAGE": "Сегмент успешно создан"
+        },
+        "CANCEL_BUTTON": "Отменить",
+        "ERROR_MESSAGE": "Необходимо указать имя",
+        "LABEL": "Название фильтра",
+        "PLACEHOLDER": "Введите имя для этого фильтра",
+        "SAVE_BUTTON": "Сохранить фильтр",
+        "TITLE": "Вы хотите сохранить этот фильтр?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "При удалении папки произошла ошибка",
+          "SUCCESS_MESSAGE": "Папка успешно удалена"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "При удалении сегмента произошла ошибка",
+          "SUCCESS_MESSAGE": "Сегмент успешно удален"
+        },
+        "DELETE_BUTTON": "Удалить фильтр",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "Вы уверены, что хотите удалить фильтр ",
+            "NO": "Нет, не удалять",
+            "TITLE": "Подтвердите удаление",
+            "YES": "Да, удалить"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "Необходимо указать значение",
-    "TOOLTIP_LABEL": "Фильтровать беседы",
+    "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Дополнительные фильтры",
+      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
+      "STANDARD_FILTERS": "Стандартные фильтры"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Содержит",
+      "days_before": "x дней до",
+      "does_not_contain": "Не содержит",
+      "equal_to": "Равно",
+      "is_greater_than": "Больше чем",
+      "is_less_than": "Меньше чем",
+      "is_not_present": "Отсутствует",
+      "is_present": "Присутствует",
+      "not_equal_to": "Не равно"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "И",
       "OR": "ИЛИ"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "Равно",
-      "not_equal_to": "Не равно",
-      "contains": "Содержит",
-      "does_not_contain": "Не содержит",
-      "is_present": "Присутствует",
-      "is_not_present": "Отсутствует",
-      "is_greater_than": "Больше чем",
-      "is_less_than": "Меньше чем",
-      "days_before": "x дней до"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "Истина",
-      "FALSE": "Ложь"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "Статус",
-      "ASSIGNEE_NAME": "Имя назначенного",
-      "INBOX_NAME": "Имя источника",
-      "TEAM_NAME": "Имя команды",
-      "CONVERSATION_IDENTIFIER": "Идентификатор беседы",
-      "CAMPAIGN_NAME": "Название Кампании",
-      "LABELS": "Категории",
-      "BROWSER_LANGUAGE": "Язык браузера",
-      "COUNTRY_NAME": "Страна",
-      "REFERER_LINK": "Ссылка реферера",
-      "CUSTOM_ATTRIBUTE_LIST": "Список",
-      "CUSTOM_ATTRIBUTE_TEXT": "Текст",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Число",
-      "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
-      "CREATED_AT": "Дата создания",
-      "LAST_ACTIVITY": "Последние действия"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "Стандартные фильтры",
-      "ADDITIONAL_FILTERS": "Дополнительные фильтры",
-      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "Вы хотите сохранить этот фильтр?",
-        "LABEL": "Название фильтра",
-        "PLACEHOLDER": "Введите имя для этого фильтра",
-        "ERROR_MESSAGE": "Необходимо указать имя",
-        "SAVE_BUTTON": "Сохранить фильтр",
-        "CANCEL_BUTTON": "Отменить",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Папка успешно создана",
-          "ERROR_MESSAGE": "Ошибка при создании папки"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Сегмент успешно создан",
-          "ERROR_MESSAGE": "Ошибка при создании сегмента"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "Удалить фильтр",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "Подтвердите удаление",
-            "MESSAGE": "Вы уверены, что хотите удалить фильтр ",
-            "YES": "Да, удалить",
-            "NO": "Нет, не удалять"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Папка успешно удалена",
-          "ERROR_MESSAGE": "При удалении папки произошла ошибка"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Сегмент успешно удален",
-          "ERROR_MESSAGE": "При удалении сегмента произошла ошибка"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "Применить фильтры",
+    "SUBTITLE": "Добавьте фильтры и нажмите «Применить фильтры» для фильтрации диалогов.",
+    "TITLE": "Фильтр диалогов",
+    "TOOLTIP_LABEL": "Фильтровать беседы"
   }
 }

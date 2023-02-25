@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "تحدث الينا"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "حقل غير صالح"
+    }
+  },
+  "CHAT_PLACEHOLDER": "أكتب رسالتك",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "تحميل",
@@ -8,89 +17,80 @@
       "SUBMIT": "إرسال"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "إرسال الرسالة مرة أخرى",
-      "ERROR_MESSAGE": "تعذر الإرسال! حاول مرة أخرى"
+      "ERROR_MESSAGE": "تعذر الإرسال! حاول مرة أخرى",
+      "RETRY": "إرسال الرسالة مرة أخرى"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "متواجدون لخدمتك",
-    "OFFLINE": "نحن بعيدون في الوقت الحالي"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
-    "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
-    "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد"
-  },
-  "START_CONVERSATION": "ابدأ المحادثة",
-  "END_CONVERSATION": "إنهاء المحادثة",
   "CONTINUE_CONVERSATION": "متابعة المحادثة",
-  "START_NEW_CONVERSATION": "ابدأ محادثة جديدة",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
-    "CLOSE_MESSAGES_BUTTON": "أغلق",
-    "COMPANY_FROM": "من",
-    "BOT": "رد آلي"
+  "CSAT": {
+    "PLACEHOLDER": "أخبرنا المزيد...",
+    "SUBMITTED_TITLE": "شكرا لك على تقييم المحادثة",
+    "TITLE": "قيم محادثتك"
   },
-  "BUBBLE": {
-    "LABEL": "تحدث الينا"
+  "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "طلب نسخة محادثة النص",
+    "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى",
+    "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك",
+    "PLACEHOLDER": "ابحث في الايموجي"
+  },
+  "END_CONVERSATION": "إنهاء المحادثة",
+  "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "مدعوم بواسطة Chatwoot",
-  "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
-  "CHAT_PLACEHOLDER": "أكتب رسالتك",
-  "TODAY": "اليوم",
-  "YESTERDAY": "الأمس",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "الاسم الكامل",
-        "PLACEHOLDER": "الرجاء إدخال اسمك الكامل",
-        "REQUIRED_ERROR": "الاسم الكامل مطلوب"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "عنوان البريد الإلكتروني",
         "PLACEHOLDER": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
         "REQUIRED_ERROR": "عنوان البريد الإلكتروني مطلوب",
         "VALID_ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
       },
+      "FULL_NAME": {
+        "LABEL": "الاسم الكامل",
+        "PLACEHOLDER": "الرجاء إدخال اسمك الكامل",
+        "REQUIRED_ERROR": "الاسم الكامل مطلوب"
+      },
+      "MESSAGE": {
+        "ERROR": "رسالة قصيرة جداً",
+        "LABEL": "رسالة",
+        "PLACEHOLDER": "يرجى إدخال رسالتك"
+      },
       "PHONE_NUMBER": {
         "LABEL": "رقم الهاتف",
         "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
         "REQUIRED_ERROR": "رقم الهاتف مطلوب",
         "VALID_ERROR": "يجب أن يكون رقم الهاتف من E.164 مثال: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "رسالة",
-        "PLACEHOLDER": "يرجى إدخال رسالتك",
-        "ERROR": "رسالة قصيرة جداً"
       }
     },
-    "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
     "IS_REQUIRED": "مطلوب"
   },
-  "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "حقل غير صالح"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد",
+    "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
+    "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "ابحث في الايموجي",
-    "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك"
+  "START_CONVERSATION": "ابدأ المحادثة",
+  "START_NEW_CONVERSATION": "ابدأ محادثة جديدة",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "نحن بعيدون في الوقت الحالي",
+    "ONLINE": "متواجدون لخدمتك"
   },
-  "CSAT": {
-    "TITLE": "قيم محادثتك",
-    "SUBMITTED_TITLE": "شكرا لك على تقييم المحادثة",
-    "PLACEHOLDER": "أخبرنا المزيد..."
+  "TODAY": "اليوم",
+  "UNREAD_VIEW": {
+    "BOT": "رد آلي",
+    "CLOSE_MESSAGES_BUTTON": "أغلق",
+    "COMPANY_FROM": "من",
+    "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "طلب نسخة محادثة النص",
-    "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
-    "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "الأمس"
 }

@@ -1,62 +1,62 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Notiek Integrāciju Iegūšana",
-    "NO_HOOK_CONFIGURED": "Šajā kontā nav nokonfigurēta neviena %{integrationId} integrācija.",
-    "HEADER": "Lietojumprogrammas",
-    "STATUS": {
-      "ENABLED": "Iespējots",
-      "DISABLED": "Atspējots"
-    },
-    "CONFIGURE": "Konfigurēt",
-    "ADD_BUTTON": "Pievienojiet jaunu hook",
-    "DELETE": {
-      "TITLE": {
-        "INBOX": "Apstiprināt dzēšanu",
-        "ACCOUNT": "Atvienot"
-      },
-      "MESSAGE": {
-        "INBOX": "Vai tiešām vēlaties izdzēst?",
-        "ACCOUNT": "Vai tiešām vēlaties atvienot?"
-      },
-      "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Jā, Dzēst",
-        "ACCOUNT": "Jā, Atvienot"
-      },
-      "CANCEL_BUTTON_TEXT": "Atcelt",
-      "API": {
-        "SUCCESS_MESSAGE": "Hook ir veiksmīgi izdzēsts",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
-      }
-    },
-    "LIST": {
-      "FETCHING": "Notiek integrāciju hook iegūšana",
-      "INBOX": "Iesūtne",
-      "DELETE": {
-        "BUTTON_TEXT": "Dzēst"
-      }
-    },
     "ADD": {
+      "API": {
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz",
+        "SUCCESS_MESSAGE": "Integrācijas hook ir veiksmīgi pievienots"
+      },
       "FORM": {
+        "CANCEL": "Atcelt",
         "INBOX": {
           "LABEL": "Izvēlieties Iesūtni",
           "PLACEHOLDER": "Izvēlieties Iesūtni"
         },
-        "SUBMIT": "Izveidot",
-        "CANCEL": "Atcelt"
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Integrācijas hook ir veiksmīgi pievienots",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "SUBMIT": "Izveidot"
       }
     },
+    "ADD_BUTTON": "Pievienojiet jaunu hook",
+    "CONFIGURE": "Konfigurēt",
     "CONNECT": {
       "BUTTON_TEXT": "Savienoties"
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz",
+        "SUCCESS_MESSAGE": "Hook ir veiksmīgi izdzēsts"
+      },
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "CONFIRM_BUTTON_TEXT": {
+        "ACCOUNT": "Jā, Atvienot",
+        "INBOX": "Jā, Dzēst"
+      },
+      "MESSAGE": {
+        "ACCOUNT": "Vai tiešām vēlaties atvienot?",
+        "INBOX": "Vai tiešām vēlaties izdzēst?"
+      },
+      "TITLE": {
+        "ACCOUNT": "Atvienot",
+        "INBOX": "Apstiprināt dzēšanu"
+      }
     },
     "DISCONNECT": {
       "BUTTON_TEXT": "Atvienot"
     },
+    "FETCHING": "Notiek Integrāciju Iegūšana",
+    "HEADER": "Lietojumprogrammas",
+    "LIST": {
+      "DELETE": {
+        "BUTTON_TEXT": "Dzēst"
+      },
+      "FETCHING": "Notiek integrāciju hook iegūšana",
+      "INBOX": "Iesūtne"
+    },
+    "NO_HOOK_CONFIGURED": "Šajā kontā nav nokonfigurēta neviena %{integrationId} integrācija.",
     "SIDEBAR_DESCRIPTION": {
       "DIALOGFLOW": "Dialogflow ir dabiskas valodas izpratnes platforma, kas ļauj viegli izveidot un integrēt sarunvalodas lietotāja interfeisu jūsu mobilajā lietotnē, tīmekļa lietojumprogrammā, ierīcē, robotprogrammā, interaktīvā balss atbildes sistēmā utt. <br /> <br /> Dialogflow integrācija ar %{installationName} ļauj piesaistīt Dialogflow robotam Jūsu Iesūtnes, kas savukārt ļauj robotam sākotnēji apstrādāt vaicājumus un nepieciešamības gadījumā nodot tos aģentam. Dialogflow var izmantot lai kvalificētu izpildāmos darbus un tādā veidā samazinātu aģentu darba slodzi, sniedzot atbildes uz bieži uzdotajiem jautājumiem utt. <br /> <br /> Lai pievienotu Dialogflow, Jums ir jāizveido servisa konts savā Google projekta konsolē un jākopīgo akreditācijas dati. Lai iegūtu papildu informāciju, lūdzu, skatiet Dialogflow dokumentāciju."
+    },
+    "STATUS": {
+      "DISABLED": "Atspējots",
+      "ENABLED": "Iespējots"
     }
   }
 }

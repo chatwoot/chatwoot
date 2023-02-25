@@ -1,257 +1,257 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
-    "CSAT_REPLY_MESSAGE": "Bitte bewerte die Unterhaltung",
     "404": "Wir können die Konversation leider nicht finden. Bitte versuche es erneut",
-    "SWITCH_VIEW_LAYOUT": "Layout wechseln",
-    "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
-    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers ist nicht verifiziert",
-    "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
-    "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
-    "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
-    "NO_INBOX_2": " um loszulegen",
-    "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
-    "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
-    "SEARCH": {
-      "TITLE": "Nachrichten durchsuchen",
-      "RESULT_TITLE": "Suchergebnisse",
-      "LOADING_MESSAGE": "Daten werden geladen...",
-      "PLACEHOLDER": "Geben Sie einen Text ein, um danach zu suchen",
-      "NO_MATCHING_RESULTS": "Keine Ergebnisse gefunden."
-    },
-    "UNREAD_MESSAGES": "Ungelesene Nachrichten",
-    "UNREAD_MESSAGE": "Ungelesene Nachricht",
-    "CLICK_HERE": "Hier klicken",
-    "LOADING_INBOXES": "Posteingänge laden",
-    "LOADING_CONVERSATIONS": "Gespräche laden",
-    "CANNOT_REPLY": "Sie können nicht antworten, weil",
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
-    "NOT_ASSIGNED_TO_YOU": "Diese Konversation ist Ihnen nicht zugeordnet. Möchten Sie dieses Gespräch sich selbst zuordnen?",
+    "ASSIGNMENT": {
+      "ASSIGN": "Zuordnen",
+      "REMOVE": "Entfernen",
+      "SELECT_AGENT": "Agent auswählen"
+    },
+    "ASSIGN_LABEL_FAILED": "Labelzuweisung fehlgeschlagen",
+    "ASSIGN_LABEL_SUCCESFUL": "Label erfolgreich zugewiesen",
     "ASSIGN_TO_ME": "Mir zuweisen",
-    "TWILIO_WHATSAPP_CAN_REPLY": "Sie können auf diese Konversation nur mit einer Nachrichtenvorlage antworten wegen",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
-    "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf welchen Sie antworten möchten.",
-    "REPLYING_TO": "Sie antworten auf:",
-    "REMOVE_SELECTION": "Auswahl entfernen",
-    "DOWNLOAD": "Herunterladen",
-    "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
-    "SAVE_CONTACT": "Save",
-    "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
-    "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
-    "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
-    "NO_RESPONSE": "Keine Antwort",
-    "RATING_TITLE": "Bewertung",
-    "FEEDBACK_TITLE": "Feedback",
+    "BOT": "Bot",
+    "CANNOT_REPLY": "Sie können nicht antworten, weil",
     "CARD": {
-      "SHOW_LABELS": "Label anzeigen",
-      "HIDE_LABELS": "Labels ausblenden"
-    },
-    "HEADER": {
-      "RESOLVE_ACTION": "Fall schließen",
-      "REOPEN_ACTION": "Wieder öffnen",
-      "OPEN_ACTION": "Öffnen",
-      "OPEN": "Mehr",
-      "CLOSE": "Schließen",
-      "DETAILS": "Einzelheiten",
-      "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort"
-    },
-    "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Als ausstehend markieren",
-      "SNOOZE": {
-        "TITLE": "Schlummern bis",
-        "NEXT_REPLY": "Bei Antwort",
-        "TOMORROW": "Morgen",
-        "NEXT_WEEK": "Nächste Woche"
-      }
+      "HIDE_LABELS": "Labels ausblenden",
+      "SHOW_LABELS": "Label anzeigen"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Als ausstehend markieren",
-      "RESOLVED": "Als gelöst markieren",
-      "MARK_AS_UNREAD": "Als ungelesen markieren",
-      "REOPEN": "Konversation wieder öffnen",
-      "SNOOZE": {
-        "TITLE": "Erinnern",
-        "NEXT_REPLY": "Bis zur nächsten Antwort",
-        "TOMORROW": "Bis morgen",
-        "NEXT_WEEK": "Bis nächste Woche"
+      "AGENTS_LOADING": "Agenten werden geladen...",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut.",
+          "SUCCESFUL": "Konversations-ID %{conversationId} zugewiesen zu \"%{agentName}\""
+        },
+        "LABEL_ASSIGNMENT": {
+          "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut.",
+          "SUCCESFUL": "Das Label #%{labelName} wurde der Konversations-ID %{conversationId} zugewiesen"
+        },
+        "TEAM_ASSIGNMENT": {
+          "FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut.",
+          "SUCCESFUL": "Das Team\"%{team}\" wurde der Konversations-ID %{conversationId} zugewiesen"
+        }
       },
       "ASSIGN_AGENT": "Agent zuweisen",
       "ASSIGN_LABEL": "Label zuweisen",
-      "AGENTS_LOADING": "Agenten werden geladen...",
       "ASSIGN_TEAM": "Team zuweisen",
-      "API": {
-        "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Konversations-ID %{conversationId} zugewiesen zu \"%{agentName}\"",
-          "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut."
-        },
-        "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Das Label #%{labelName} wurde der Konversations-ID %{conversationId} zugewiesen",
-          "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
-        },
-        "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Das Team\"%{team}\" wurde der Konversations-ID %{conversationId} zugewiesen",
-          "FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut."
-        }
+      "MARK_AS_UNREAD": "Als ungelesen markieren",
+      "PENDING": "Als ausstehend markieren",
+      "REOPEN": "Konversation wieder öffnen",
+      "RESOLVED": "Als gelöst markieren",
+      "SNOOZE": {
+        "NEXT_REPLY": "Bis zur nächsten Antwort",
+        "NEXT_WEEK": "Bis nächste Woche",
+        "TITLE": "Erinnern",
+        "TOMORROW": "Bis morgen"
       }
     },
-    "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Nachrichten-Signatur",
-      "ENABLE_SIGN_TOOLTIP": "Signatur aktivieren",
-      "DISABLE_SIGN_TOOLTIP": "Signatur deaktivieren",
-      "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
-      "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
-      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren"
-    },
-    "REPLYBOX": {
-      "REPLY": "Antworten",
-      "PRIVATE_NOTE": "Private Notiz",
-      "SEND": "Senden",
-      "CREATE": "Notiz hinzufügen",
-      "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
-      "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
-      "TIP_ATTACH_ICON": "Dateien anhängen",
-      "TIP_AUDIORECORDER_ICON": "Audio aufzeichnen",
-      "TIP_AUDIORECORDER_PERMISSION": "Zugriff auf Audio zulassen",
-      "TIP_AUDIORECORDER_ERROR": "Audio konnte nicht geöffnet werden",
-      "DRAG_DROP": "Zum Anhängen hierher ziehen und ablegen",
-      "START_AUDIO_RECORDING": "Audioaufzeichnung starten",
-      "STOP_AUDIO_RECORDING": "Audioaufzeichnung stoppen",
-      "": "",
-      "EMAIL_HEAD": {
-        "ADD_BCC": "BCC hinzufügen",
-        "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
-          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
-        },
-        "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
-          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
-        }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
-        "CONFIRM": {
-          "YES": "Senden",
-          "CANCEL": "Stornieren"
-        }
-      }
-    },
-    "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
-    "CHANGE_STATUS": "Gesprächsstatus geändert",
-    "CHANGE_STATUS_FAILED": "Änderung des Konversationsstatus fehlgeschlagen",
     "CHANGE_AGENT": "Konversationsempfänger geändert",
     "CHANGE_AGENT_FAILED": "Zuweisungswechsel fehlgeschlagen",
-    "ASSIGN_LABEL_SUCCESFUL": "Label erfolgreich zugewiesen",
-    "ASSIGN_LABEL_FAILED": "Labelzuweisung fehlgeschlagen",
+    "CHANGE_STATUS": "Gesprächsstatus geändert",
+    "CHANGE_STATUS_FAILED": "Änderung des Konversationsstatus fehlgeschlagen",
     "CHANGE_TEAM": "Das Konversationsteam hat sich geändert",
-    "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
-    "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
-    "SENT_BY": "Gesendet von:",
-    "BOT": "Bot",
-    "SEND_FAILED": "Nachricht konnte nicht gesendet werden! Versuchen Sie es noch einmal",
-    "TRY_AGAIN": "neu versuchen",
-    "ASSIGNMENT": {
-      "SELECT_AGENT": "Agent auswählen",
-      "REMOVE": "Entfernen",
-      "ASSIGN": "Zuordnen"
-    },
+    "CLICK_HERE": "Hier klicken",
     "CONTEXT_MENU": {
       "COPY": "Kopieren",
-      "DELETE": "Löschen",
-      "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen"
-    }
-  },
-  "EMAIL_TRANSCRIPT": {
-    "TITLE": "Konversations-Transkript senden",
-    "DESC": "Kopie des Konversationsprotokolls an die angegebene E-Mail-Adresse senden",
-    "SUBMIT": "Speichern",
-    "CANCEL": "Abbrechen",
-    "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
-    "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
-    "FORM": {
-      "SEND_TO_CONTACT": "Das Transkript an den Kunden senden",
-      "SEND_TO_AGENT": "Transkript an den zugewiesenen Agenten senden",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Transkript an eine andere E-Mail-Adresse senden",
-      "EMAIL": {
-        "PLACEHOLDER": "E-Mail-Adresse eingeben",
-        "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+      "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen",
+      "DELETE": "Löschen"
+    },
+    "CSAT_REPLY_MESSAGE": "Bitte bewerte die Unterhaltung",
+    "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
+    "DOWNLOAD": "Herunterladen",
+    "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
+    "FEEDBACK_TITLE": "Feedback",
+    "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FOOTER": {
+      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren",
+      "DISABLE_SIGN_TOOLTIP": "Signatur deaktivieren",
+      "ENABLE_SIGN_TOOLTIP": "Signatur aktivieren",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
+      "MESSAGE_SIGN_TOOLTIP": "Nachrichten-Signatur",
+      "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
+      "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar"
+    },
+    "HEADER": {
+      "CLOSE": "Schließen",
+      "DETAILS": "Einzelheiten",
+      "OPEN": "Mehr",
+      "OPEN_ACTION": "Öffnen",
+      "REOPEN_ACTION": "Wieder öffnen",
+      "RESOLVE_ACTION": "Fall schließen",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
+      "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen"
+    },
+    "LOADING_CONVERSATIONS": "Gespräche laden",
+    "LOADING_INBOXES": "Posteingänge laden",
+    "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
+    "NOT_ASSIGNED_TO_YOU": "Diese Konversation ist Ihnen nicht zugeordnet. Möchten Sie dieses Gespräch sich selbst zuordnen?",
+    "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
+    "NO_INBOX_2": " um loszulegen",
+    "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
+    "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
+    "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
+    "NO_RESPONSE": "Keine Antwort",
+    "RATING_TITLE": "Bewertung",
+    "REMOVE_SELECTION": "Auswahl entfernen",
+    "REPLYBOX": {
+      "": "",
+      "CREATE": "Notiz hinzufügen",
+      "DRAG_DROP": "Zum Anhängen hierher ziehen und ablegen",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "BCC hinzufügen",
+        "BCC": {
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt"
+        },
+        "CC": {
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt"
+        }
+      },
+      "PRIVATE_NOTE": "Private Notiz",
+      "REPLY": "Antworten",
+      "SEND": "Senden",
+      "START_AUDIO_RECORDING": "Audioaufzeichnung starten",
+      "STOP_AUDIO_RECORDING": "Audioaufzeichnung stoppen",
+      "TIP_ATTACH_ICON": "Dateien anhängen",
+      "TIP_AUDIORECORDER_ERROR": "Audio konnte nicht geöffnet werden",
+      "TIP_AUDIORECORDER_ICON": "Audio aufzeichnen",
+      "TIP_AUDIORECORDER_PERMISSION": "Zugriff auf Audio zulassen",
+      "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
+      "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
+      "TWEET": "Tweet",
+      "UNDEFINED_VARIABLES": {
+        "CONFIRM": {
+          "CANCEL": "Stornieren",
+          "YES": "Senden"
+        },
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Undefined variables"
       }
-    }
+    },
+    "REPLYING_TO": "Sie antworten auf:",
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Als ausstehend markieren",
+      "SNOOZE": {
+        "NEXT_REPLY": "Bei Antwort",
+        "NEXT_WEEK": "Nächste Woche",
+        "TITLE": "Schlummern bis",
+        "TOMORROW": "Morgen"
+      }
+    },
+    "SAVE_CONTACT": "Save",
+    "SEARCH": {
+      "LOADING_MESSAGE": "Daten werden geladen...",
+      "NO_MATCHING_RESULTS": "Keine Ergebnisse gefunden.",
+      "PLACEHOLDER": "Geben Sie einen Text ein, um danach zu suchen",
+      "RESULT_TITLE": "Suchergebnisse",
+      "TITLE": "Nachrichten durchsuchen"
+    },
+    "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
+    "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
+    "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf welchen Sie antworten möchten.",
+    "SEND_FAILED": "Nachricht konnte nicht gesendet werden! Versuchen Sie es noch einmal",
+    "SENT_BY": "Gesendet von:",
+    "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
+    "SWITCH_VIEW_LAYOUT": "Layout wechseln",
+    "TRY_AGAIN": "neu versuchen",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Sie können auf diese Konversation nur mit einer Nachrichtenvorlage antworten wegen",
+    "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
+    "UNREAD_MESSAGE": "Ungelesene Nachricht",
+    "UNREAD_MESSAGES": "Ungelesene Nachrichten",
+    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers ist nicht verifiziert",
+    "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
+    "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar"
   },
-  "ONBOARDING": {
-    "TITLE": "Hallo 👋, Willkommen bei %{installationName}!",
-    "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie %{installationName} optimal nutzen. Hier sind ein paar Dinge, die Sie in %{installationName} tun können, um das Erlebnis angenehm zu gestalten.",
-    "READ_LATEST_UPDATES": "Lesen Sie unsere neuesten Updates",
-    "ALL_CONVERSATION": {
-      "TITLE": "All Ihre Konversationen an einem Ort",
-      "DESCRIPTION": "Zeigen Sie alle Konversationen Ihrer Kunden in einem einzigen Dashboard an. Sie können die Konversationen nach eingehendem Kanal, Bezeichnung und Status filtern."
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD": {
+      "ERROR": "Attribut kann nicht hinzugefügt werden. Bitte versuchen Sie es später noch einmal",
+      "SUCCESS": "Attribut erfolgreich hinzugefügt",
+      "TITLE": "Hinzufügen"
     },
-    "TEAM_MEMBERS": {
-      "TITLE": "Laden Sie Ihre Teammitglieder ein",
-      "DESCRIPTION": "Da Sie sich darauf vorbereiten, mit Ihrem Kunden zu sprechen, ziehen Sie Ihre Teamkollegen hinzu, um Ihnen zu helfen. Sie können Ihre Teamkollegen einladen, indem Sie deren E-Mail-Adressen zur Agentenliste hinzufügen.",
-      "NEW_LINK": "Klicken Sie hier, um ein Teammitglied einzuladen"
+    "ADD_BUTTON_TEXT": "Attribut erstellen",
+    "ATTRIBUTE_SELECT": {
+      "NO_RESULT": "Keine Attribute gefunden",
+      "PLACEHOLDER": "Attribut suchen",
+      "TITLE": "Attribute hinzufügen"
     },
-    "INBOXES": {
-      "TITLE": "Posteingänge verbinden",
-      "DESCRIPTION": "Verbinden Sie verschiedene Kanäle, über die Ihre Kunden mit Ihnen sprechen würden. Das kann ein Website-Live-Chat, Ihre Facebook- oder Twitter-Seite oder sogar Ihre WhatsApp-Nummer sein.",
-      "NEW_LINK": "Hier klicken, um einen Posteingang zu erstellen"
+    "DELETE": {
+      "ERROR": "Attribut kann nicht gelöscht werden. Bitte versuchen Sie es später noch einmal",
+      "SUCCESS": "Attribut erfolgreich gelöscht"
     },
-    "LABELS": {
-      "TITLE": "Organisieren Sie Konversationen mit Labels",
-      "DESCRIPTION": "Labels bieten eine einfachere Möglichkeit, Ihre Konversation zu kategorisieren. Erstellen Sie einige Labels wie #support-enquiry, #billing-quest etc., damit Sie sie später in einem Gespräch verwenden können.",
-      "NEW_LINK": "Hier klicken, um Tags zu erstellen"
+    "UPDATE": {
+      "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal",
+      "SUCCESS": "Attribut erfolgreich aktualisiert"
     }
   },
   "CONVERSATION_SIDEBAR": {
+    "ACCORDION": {
+      "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
+      "CONTACT_DETAILS": "Kontakt-Details",
+      "CONVERSATION_ACTIONS": "Konversationsaktionen",
+      "CONVERSATION_INFO": "Konversationsinformationen",
+      "CONVERSATION_LABELS": "Konversationslabels",
+      "MACROS": "Makros",
+      "PREVIOUS_CONVERSATION": "Vorherige Konversationen"
+    },
     "ASSIGNEE_LABEL": "Zugewiesener Agent",
-    "SELF_ASSIGN": "Mir zuweisen",
-    "TEAM_LABEL": "Zugewiesenes Team",
     "SELECT": {
       "PLACEHOLDER": "Keine"
     },
-    "ACCORDION": {
-      "CONTACT_DETAILS": "Kontakt-Details",
-      "CONVERSATION_ACTIONS": "Konversationsaktionen",
-      "CONVERSATION_LABELS": "Konversationslabels",
-      "CONVERSATION_INFO": "Konversationsinformationen",
-      "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
-      "PREVIOUS_CONVERSATION": "Vorherige Konversationen",
-      "MACROS": "Makros"
-    }
-  },
-  "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Attribut erstellen",
-    "UPDATE": {
-      "SUCCESS": "Attribut erfolgreich aktualisiert",
-      "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal"
-    },
-    "ADD": {
-      "TITLE": "Hinzufügen",
-      "SUCCESS": "Attribut erfolgreich hinzugefügt",
-      "ERROR": "Attribut kann nicht hinzugefügt werden. Bitte versuchen Sie es später noch einmal"
-    },
-    "DELETE": {
-      "SUCCESS": "Attribut erfolgreich gelöscht",
-      "ERROR": "Attribut kann nicht gelöscht werden. Bitte versuchen Sie es später noch einmal"
-    },
-    "ATTRIBUTE_SELECT": {
-      "TITLE": "Attribute hinzufügen",
-      "PLACEHOLDER": "Attribut suchen",
-      "NO_RESULT": "Keine Attribute gefunden"
-    }
+    "SELF_ASSIGN": "Mir zuweisen",
+    "TEAM_LABEL": "Zugewiesenes Team"
   },
   "EMAIL_HEADER": {
-    "FROM": "Von",
-    "TO": "An",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Betreff"
+    "FROM": "Von",
+    "SUBJECT": "Betreff",
+    "TO": "An"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "CANCEL": "Abbrechen",
+    "DESC": "Kopie des Konversationsprotokolls an die angegebene E-Mail-Adresse senden",
+    "FORM": {
+      "EMAIL": {
+        "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+        "PLACEHOLDER": "E-Mail-Adresse eingeben"
+      },
+      "SEND_TO_AGENT": "Transkript an den zugewiesenen Agenten senden",
+      "SEND_TO_CONTACT": "Das Transkript an den Kunden senden",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Transkript an eine andere E-Mail-Adresse senden"
+    },
+    "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
+    "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
+    "SUBMIT": "Speichern",
+    "TITLE": "Konversations-Transkript senden"
+  },
+  "ONBOARDING": {
+    "ALL_CONVERSATION": {
+      "DESCRIPTION": "Zeigen Sie alle Konversationen Ihrer Kunden in einem einzigen Dashboard an. Sie können die Konversationen nach eingehendem Kanal, Bezeichnung und Status filtern.",
+      "TITLE": "All Ihre Konversationen an einem Ort"
+    },
+    "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie %{installationName} optimal nutzen. Hier sind ein paar Dinge, die Sie in %{installationName} tun können, um das Erlebnis angenehm zu gestalten.",
+    "INBOXES": {
+      "DESCRIPTION": "Verbinden Sie verschiedene Kanäle, über die Ihre Kunden mit Ihnen sprechen würden. Das kann ein Website-Live-Chat, Ihre Facebook- oder Twitter-Seite oder sogar Ihre WhatsApp-Nummer sein.",
+      "NEW_LINK": "Hier klicken, um einen Posteingang zu erstellen",
+      "TITLE": "Posteingänge verbinden"
+    },
+    "LABELS": {
+      "DESCRIPTION": "Labels bieten eine einfachere Möglichkeit, Ihre Konversation zu kategorisieren. Erstellen Sie einige Labels wie #support-enquiry, #billing-quest etc., damit Sie sie später in einem Gespräch verwenden können.",
+      "NEW_LINK": "Hier klicken, um Tags zu erstellen",
+      "TITLE": "Organisieren Sie Konversationen mit Labels"
+    },
+    "READ_LATEST_UPDATES": "Lesen Sie unsere neuesten Updates",
+    "TEAM_MEMBERS": {
+      "DESCRIPTION": "Da Sie sich darauf vorbereiten, mit Ihrem Kunden zu sprechen, ziehen Sie Ihre Teamkollegen hinzu, um Ihnen zu helfen. Sie können Ihre Teamkollegen einladen, indem Sie deren E-Mail-Adressen zur Agentenliste hinzufügen.",
+      "NEW_LINK": "Klicken Sie hier, um ein Teammitglied einzuladen",
+      "TITLE": "Laden Sie Ihre Teammitglieder ein"
+    },
+    "TITLE": "Hallo 👋, Willkommen bei %{installationName}!"
   }
 }

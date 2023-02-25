@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "فیلتر گفتگو‌ها",
-    "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای فیلتر کردن مکالمات روی «اعمال فیلترها» ضربه بزنید.",
     "ADD_NEW_FILTER": "افزودن فیلتر",
-    "FILTER_DELETE_ERROR": "شما باید حداقل یک فیلتر برای ذخیره داشته باشید",
-    "SUBMIT_BUTTON_LABEL": "اعمال فیلترها",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "نام مسئول",
+      "BROWSER_LANGUAGE": "مرور زبان",
+      "CAMPAIGN_NAME": "نام کمپین",
+      "CONVERSATION_IDENTIFIER": "شناسه گفتگو",
+      "COUNTRY_NAME": "نام کشور",
+      "CREATED_AT": "ایجاد شده در",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
+      "CUSTOM_ATTRIBUTE_LINK": "پیوند",
+      "CUSTOM_ATTRIBUTE_LIST": "فهرست",
+      "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
+      "CUSTOM_ATTRIBUTE_TEXT": "متن",
+      "INBOX_NAME": "عنوان صندوق ورودی",
+      "LABELS": "برچسب‌ها",
+      "LAST_ACTIVITY": "آخرین فعالیت",
+      "REFERER_LINK": "پیوند ارجاع‌دهنده",
+      "STATUS": "وضعیت",
+      "TEAM_NAME": "نام تیم"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "نادرست",
+      "TRUE": "درست"
+    },
     "CANCEL_BUTTON_LABEL": "انصراف",
     "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "در هنگام ایجاد پوشه خطایی رخ داد",
+          "SUCCESS_MESSAGE": "پوشه با موفقیت ایجاد شد"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "خطا هنگام ایجاد بخش",
+          "SUCCESS_MESSAGE": "بخش با موفقیت ایجاد شد"
+        },
+        "CANCEL_BUTTON": "انصراف",
+        "ERROR_MESSAGE": "نام الزامی است",
+        "LABEL": "نام این فیلتر",
+        "PLACEHOLDER": "یک نام برای این فیلتر وارد کنید",
+        "SAVE_BUTTON": "ذخیره فیلتر",
+        "TITLE": "آیا می‌خواهید این فیلتر را ذخیره کنید؟"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "در هنگام حذف پوشه خطایی رخ داد",
+          "SUCCESS_MESSAGE": "پوشه با موفقیت حذف شد"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "خطا هنگام حذف بخش",
+          "SUCCESS_MESSAGE": "بخش با موفقیت حذف شد"
+        },
+        "DELETE_BUTTON": "حذف فیلتر",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "آیا مطمئن هستید که فیلتر را حذف می‌کنید ",
+            "NO": "خیر، بماند",
+            "TITLE": "تاییدیه حذف",
+            "YES": "بله، حذف شود"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "مقدار الزامی است",
-    "TOOLTIP_LABEL": "فیلتر گفتگو‌ها",
+    "FILTER_DELETE_ERROR": "شما باید حداقل یک فیلتر برای ذخیره داشته باشید",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+      "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
+      "STANDARD_FILTERS": "فیلترهای استاندارد"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "شامل",
+      "days_before": "x روز قبل است",
+      "does_not_contain": "شامل نمی‌شود",
+      "equal_to": "مساوی با",
+      "is_greater_than": "بزرگتر از",
+      "is_less_than": "کوچکتر از",
+      "is_not_present": "در حال حاضر وجود ندارد",
+      "is_present": "در حال حاضر وجود دارد",
+      "not_equal_to": "مساوی نیست با"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "و",
       "OR": "یا"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "مساوی با",
-      "not_equal_to": "مساوی نیست با",
-      "contains": "شامل",
-      "does_not_contain": "شامل نمی‌شود",
-      "is_present": "در حال حاضر وجود دارد",
-      "is_not_present": "در حال حاضر وجود ندارد",
-      "is_greater_than": "بزرگتر از",
-      "is_less_than": "کوچکتر از",
-      "days_before": "x روز قبل است"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "درست",
-      "FALSE": "نادرست"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "وضعیت",
-      "ASSIGNEE_NAME": "نام مسئول",
-      "INBOX_NAME": "عنوان صندوق ورودی",
-      "TEAM_NAME": "نام تیم",
-      "CONVERSATION_IDENTIFIER": "شناسه گفتگو",
-      "CAMPAIGN_NAME": "نام کمپین",
-      "LABELS": "برچسب‌ها",
-      "BROWSER_LANGUAGE": "مرور زبان",
-      "COUNTRY_NAME": "نام کشور",
-      "REFERER_LINK": "پیوند ارجاع‌دهنده",
-      "CUSTOM_ATTRIBUTE_LIST": "فهرست",
-      "CUSTOM_ATTRIBUTE_TEXT": "متن",
-      "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
-      "CUSTOM_ATTRIBUTE_LINK": "پیوند",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
-      "CREATED_AT": "ایجاد شده در",
-      "LAST_ACTIVITY": "آخرین فعالیت"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "فیلترهای استاندارد",
-      "ADDITIONAL_FILTERS": "فیلترهای اضافی",
-      "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "آیا می‌خواهید این فیلتر را ذخیره کنید؟",
-        "LABEL": "نام این فیلتر",
-        "PLACEHOLDER": "یک نام برای این فیلتر وارد کنید",
-        "ERROR_MESSAGE": "نام الزامی است",
-        "SAVE_BUTTON": "ذخیره فیلتر",
-        "CANCEL_BUTTON": "انصراف",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "پوشه با موفقیت ایجاد شد",
-          "ERROR_MESSAGE": "در هنگام ایجاد پوشه خطایی رخ داد"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "بخش با موفقیت ایجاد شد",
-          "ERROR_MESSAGE": "خطا هنگام ایجاد بخش"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "حذف فیلتر",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "تاییدیه حذف",
-            "MESSAGE": "آیا مطمئن هستید که فیلتر را حذف می‌کنید ",
-            "YES": "بله، حذف شود",
-            "NO": "خیر، بماند"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "پوشه با موفقیت حذف شد",
-          "ERROR_MESSAGE": "در هنگام حذف پوشه خطایی رخ داد"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "بخش با موفقیت حذف شد",
-          "ERROR_MESSAGE": "خطا هنگام حذف بخش"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "اعمال فیلترها",
+    "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای فیلتر کردن مکالمات روی «اعمال فیلترها» ضربه بزنید.",
+    "TITLE": "فیلتر گفتگو‌ها",
+    "TOOLTIP_LABEL": "فیلتر گفتگو‌ها"
   }
 }

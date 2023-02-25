@@ -1,40 +1,40 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} бесед выбрано",
-    "AGENT_SELECT_LABEL": "Выбрать Агента",
-    "ASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите назначить %{conversationCount} %{conversationLabel}",
-    "UNASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение %{conversationCount} %{conversationLabel}?",
-    "GO_BACK_LABEL": "Вернуться",
-    "ASSIGN_LABEL": "Назначить",
-    "YES": "Да",
-    "ASSIGN_AGENT_TOOLTIP": "Назначенный оператор",
-    "ASSIGN_TEAM_TOOLTIP": "Назначить команду",
-    "ASSIGN_SUCCESFUL": "Беседы успешно назначены",
-    "ASSIGN_FAILED": "Не удалось назначить беседы, попробуйте еще раз",
-    "RESOLVE_SUCCESFUL": "Беседы успешно завершены",
-    "RESOLVE_FAILED": "Не удалось завершить беседы, попробуйте еще раз",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Беседы, видимые на этой странице, выбраны.",
     "AGENT_LIST_LOADING": "Загрузка Операторов",
+    "AGENT_SELECT_LABEL": "Выбрать Агента",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Беседы, видимые на этой странице, выбраны.",
+    "ASSIGN_AGENT_TOOLTIP": "Назначенный оператор",
+    "ASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите назначить %{conversationCount} %{conversationLabel}",
+    "ASSIGN_FAILED": "Не удалось назначить беседы, попробуйте еще раз",
+    "ASSIGN_LABEL": "Назначить",
+    "ASSIGN_SUCCESFUL": "Беседы успешно назначены",
+    "ASSIGN_TEAM_TOOLTIP": "Назначить команду",
+    "CONVERSATIONS_SELECTED": "%{conversationCount} бесед выбрано",
+    "GO_BACK_LABEL": "Вернуться",
+    "LABELS": {
+      "ASSIGN_FAILED": "Не удалось присвоить метки, пожалуйста, попробуйте снова",
+      "ASSIGN_LABELS": "Назначить метки",
+      "ASSIGN_SELECTED_LABELS": "Назначить выбранные метки",
+      "ASSIGN_SUCCESFUL": "Метки успешно назначены",
+      "NO_LABELS_FOUND": "Нет меток для"
+    },
+    "RESOLVE_FAILED": "Не удалось завершить беседы, попробуйте еще раз",
+    "RESOLVE_SUCCESFUL": "Беседы успешно завершены",
+    "TEAMS": {
+      "ASSIGN_FAILED": "Не удалось назначить команду, попробуйте еще раз",
+      "ASSIGN_SELECTED_TEAMS": "Назначить выбранную команду",
+      "ASSIGN_SUCCESFUL": "Команды, назначенные успешно",
+      "NONE": "Ничего",
+      "NO_TEAMS_AVAILABLE": "Нет команд, добавленных в этот аккаунт.",
+      "TEAM_SELECT_LABEL": "Выберите команду"
+    },
+    "UNASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение %{conversationCount} %{conversationLabel}?",
     "UPDATE": {
       "CHANGE_STATUS": "Изменить статус",
       "SNOOZE_UNTIL_NEXT_REPLY": "Отложить до следующего ответа",
-      "UPDATE_SUCCESFUL": "Статус беседы успешно обновлен.",
-      "UPDATE_FAILED": "Не удалось обновить беседы, попробуйте еще раз"
+      "UPDATE_FAILED": "Не удалось обновить беседы, попробуйте еще раз",
+      "UPDATE_SUCCESFUL": "Статус беседы успешно обновлен."
     },
-    "LABELS": {
-      "ASSIGN_LABELS": "Назначить метки",
-      "NO_LABELS_FOUND": "Нет меток для",
-      "ASSIGN_SELECTED_LABELS": "Назначить выбранные метки",
-      "ASSIGN_SUCCESFUL": "Метки успешно назначены",
-      "ASSIGN_FAILED": "Не удалось присвоить метки, пожалуйста, попробуйте снова"
-    },
-    "TEAMS": {
-      "TEAM_SELECT_LABEL": "Выберите команду",
-      "NONE": "Ничего",
-      "NO_TEAMS_AVAILABLE": "Нет команд, добавленных в этот аккаунт.",
-      "ASSIGN_SELECTED_TEAMS": "Назначить выбранную команду",
-      "ASSIGN_SUCCESFUL": "Команды, назначенные успешно",
-      "ASSIGN_FAILED": "Не удалось назначить команду, попробуйте еще раз"
-    }
+    "YES": "Да"
   }
 }

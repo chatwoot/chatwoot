@@ -1,21 +1,32 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Créer une nouvelle équipe",
-    "HEADER": "Équipes",
-    "SIDEBAR_TXT": "<p><b>Équipes</b></p> <p>Les équipes vous permettent d'organiser vos agents en groupes en fonction de leurs responsabilités. <br /> Un utilisateur peut faire partie de plusieurs équipes. Vous pouvez assigner des conversations à une équipe lorsque vous travaillez en collaboration. </p>",
-    "LIST": {
-      "404": "Il n'y a aucune équipe créée sur ce compte.",
-      "EDIT_TEAM": "Modifier l'équipe"
+    "ADD": {
+      "AGENT_VALIDATION_ERROR": "Sélectionnez au moins un agent.",
+      "BUTTON_TEXT": "Ajouter des agents",
+      "DESC": "Ajouter des agents à votre équipe nouvellement créée. Cela vous permet de collaborer en équipe sur les conversations, d'être informé des nouveaux événements dans la même conversation.",
+      "SELECT": "sélectionner",
+      "SELECTED_COUNT": "%{selected} agents sur %{total} sélectionnés.",
+      "SELECT_ALL": "sélectionner tous les agents",
+      "TITLE": "Ajouter des agents à l'équipe - %{teamName}"
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Ajout d'agents à votre équipe...",
+      "AGENT": "AGENT",
+      "BUTTON_TEXT": "Ajouter des agents",
+      "EMAIL": "COURRIEL",
+      "SELECT": "sélectionner",
+      "SELECTED_COUNT": "%{selected} agents sur %{total} sélectionnés.",
+      "SELECT_ALL": "sélectionner tous les agents"
     },
     "CREATE_FLOW": {
-      "CREATE": {
-        "TITLE": "Créer une nouvelle équipe",
-        "DESC": "Ajoutez un titre et une description à votre nouvelle équipe."
-      },
       "AGENTS": {
         "BUTTON_TEXT": "Ajouter un agent à votre équipe",
-        "TITLE": "Ajouter des agents à l'équipe - %{teamName}",
-        "DESC": "Ajouter des agents à votre équipe nouvellement créée. Cela vous permet de collaborer en équipe sur les conversations, d'être informé des nouveaux événements dans la même conversation."
+        "DESC": "Ajouter des agents à votre équipe nouvellement créée. Cela vous permet de collaborer en équipe sur les conversations, d'être informé des nouveaux événements dans la même conversation.",
+        "TITLE": "Ajouter des agents à l'équipe - %{teamName}"
+      },
+      "CREATE": {
+        "DESC": "Ajoutez un titre et une description à votre nouvelle équipe.",
+        "TITLE": "Créer une nouvelle équipe"
       },
       "WIZARD": [
         {
@@ -35,16 +46,30 @@
         }
       ]
     },
-    "EDIT_FLOW": {
-      "CREATE": {
-        "TITLE": "Modifier les détails de votre équipe",
-        "DESC": "Modifier le titre et la description de votre équipe.",
-        "BUTTON_TEXT": "Mettre à jour l'équipe"
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Impossible de supprimer l'équipe. Veuillez réessayer.",
+        "SUCCESS_MESSAGE": "Équipe supprimée avec succès."
       },
+      "BUTTON_TEXT": "Supprimer",
+      "CONFIRM": {
+        "MESSAGE": "La suppression de l'équipe supprimera les affectations liées aux conversations de cette équipe.",
+        "NO": "Annuler",
+        "PLACE_HOLDER": "Veuillez entrer {teamName} pour confirmer",
+        "TITLE": "Voulez-vous vraiment supprimer - %{teamName}",
+        "YES": "Supprimer "
+      }
+    },
+    "EDIT_FLOW": {
       "AGENTS": {
         "BUTTON_TEXT": "Mettre à jour les agents dans l'équipe",
-        "TITLE": "Ajouter des agents à l'équipe - %{teamName}",
-        "DESC": "Ajouter des agents à votre équipe nouvellement créée. Tous les agents ajoutés seront notifiés lorsqu'une conversation est assignée à cette équipe."
+        "DESC": "Ajouter des agents à votre équipe nouvellement créée. Tous les agents ajoutés seront notifiés lorsqu'une conversation est assignée à cette équipe.",
+        "TITLE": "Ajouter des agents à l'équipe - %{teamName}"
+      },
+      "CREATE": {
+        "BUTTON_TEXT": "Mettre à jour l'équipe",
+        "DESC": "Modifier le titre et la description de votre équipe.",
+        "TITLE": "Modifier les détails de votre équipe"
       },
       "WIZARD": [
         {
@@ -64,62 +89,37 @@
         }
       ]
     },
-    "TEAM_FORM": {
-      "ERROR_MESSAGE": "Impossible d'enregistrer les détails de l'équipe. Veuillez réessayer."
-    },
-    "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "COURRIEL",
-      "BUTTON_TEXT": "Ajouter des agents",
-      "ADD_AGENTS": "Ajout d'agents à votre équipe...",
-      "SELECT": "sélectionner",
-      "SELECT_ALL": "sélectionner tous les agents",
-      "SELECTED_COUNT": "%{selected} agents sur %{total} sélectionnés."
-    },
-    "ADD": {
-      "TITLE": "Ajouter des agents à l'équipe - %{teamName}",
-      "DESC": "Ajouter des agents à votre équipe nouvellement créée. Cela vous permet de collaborer en équipe sur les conversations, d'être informé des nouveaux événements dans la même conversation.",
-      "SELECT": "sélectionner",
-      "SELECT_ALL": "sélectionner tous les agents",
-      "SELECTED_COUNT": "%{selected} agents sur %{total} sélectionnés.",
-      "BUTTON_TEXT": "Ajouter des agents",
-      "AGENT_VALIDATION_ERROR": "Sélectionnez au moins un agent."
-    },
     "FINISH": {
-      "TITLE": "Votre équipe est prête !",
+      "BUTTON_TEXT": "Terminer",
       "MESSAGE": "Vous pouvez maintenant collaborer en tant qu'équipe dans les conversations. Bonne assistance ",
-      "BUTTON_TEXT": "Terminer"
+      "TITLE": "Votre équipe est prête !"
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Supprimer",
-      "API": {
-        "SUCCESS_MESSAGE": "Équipe supprimée avec succès.",
-        "ERROR_MESSAGE": "Impossible de supprimer l'équipe. Veuillez réessayer."
-      },
-      "CONFIRM": {
-        "TITLE": "Voulez-vous vraiment supprimer - %{teamName}",
-        "PLACE_HOLDER": "Veuillez entrer {teamName} pour confirmer",
-        "MESSAGE": "La suppression de l'équipe supprimera les affectations liées aux conversations de cette équipe.",
-        "YES": "Supprimer ",
-        "NO": "Annuler"
-      }
-    },
-    "SETTINGS": "Paramètres",
     "FORM": {
-      "UPDATE": "Mettre à jour l'équipe",
-      "CREATE": "Créer une équipe",
-      "NAME": {
-        "LABEL": "Nom de l'équipe",
-        "PLACEHOLDER": "Exemple : Ventes, Support Client"
+      "AUTO_ASSIGN": {
+        "LABEL": "Autoriser l'affectation automatique pour cette équipe."
       },
+      "CREATE": "Créer une équipe",
       "DESCRIPTION": {
         "LABEL": "Description de l'équipe",
         "PLACEHOLDER": "Brève description de cette équipe."
       },
-      "AUTO_ASSIGN": {
-        "LABEL": "Autoriser l'affectation automatique pour cette équipe."
+      "NAME": {
+        "LABEL": "Nom de l'équipe",
+        "PLACEHOLDER": "Exemple : Ventes, Support Client"
       },
-      "SUBMIT_CREATE": "Créer une équipe"
+      "SUBMIT_CREATE": "Créer une équipe",
+      "UPDATE": "Mettre à jour l'équipe"
+    },
+    "HEADER": "Équipes",
+    "LIST": {
+      "404": "Il n'y a aucune équipe créée sur ce compte.",
+      "EDIT_TEAM": "Modifier l'équipe"
+    },
+    "NEW_TEAM": "Créer une nouvelle équipe",
+    "SETTINGS": "Paramètres",
+    "SIDEBAR_TXT": "<p><b>Équipes</b></p> <p>Les équipes vous permettent d'organiser vos agents en groupes en fonction de leurs responsabilités. <br /> Un utilisateur peut faire partie de plusieurs équipes. Vous pouvez assigner des conversations à une équipe lorsque vous travaillez en collaboration. </p>",
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Impossible d'enregistrer les détails de l'équipe. Veuillez réessayer."
     }
   }
 }

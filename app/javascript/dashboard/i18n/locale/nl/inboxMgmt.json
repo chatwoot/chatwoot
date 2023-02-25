@@ -1,9 +1,362 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxen",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
-    "LIST": {
-      "404": "Er zijn geen inboxen aan dit account gekoppeld."
+    "ADD": {
+      "AGENTS": {
+        "DESC": "Hier kunt u agenten toevoegen om uw nieuw gecreëerde inbox te beheren. Alleen deze agenten hebben toegang tot uw inbox. Agents die geen deel uitmaken van dit postvak in zullen niet in staat zijn om berichten in dit postvak te zien of te reageren wanneer ze inloggen. <br> <b>PS:</b> Als beheerder als u toegang wilt krijgen tot alle inboxen, voeg jezelf toe als agent aan alle inboxen die je maakt.",
+        "PICK_AGENTS": "Pick agents for the inbox",
+        "TITLE": "Agenten",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox"
+      },
+      "API_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Kanaal naam",
+          "PLACEHOLDER": "Voer een kanaal naam in"
+        },
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "SUBMIT_BUTTON": "Create API Channel",
+        "TITLE": "API Channel",
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Webhook URL",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events."
+        }
+      },
+      "AUTH": {
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "TITLE": "Choose a channel"
+      },
+      "CHANNEL_NAME": {
+        "ERROR": "Please enter a valid inbox name",
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "DETAILS": {
+        "DESC": "Selecteer de Facebook-pagina die je wilt verbinden met Chatwood uit de dropdown hieronder. U kunt ook een aangepaste naam geven aan uw inbox voor een betere identificatie.",
+        "TITLE": "Details inbox"
+      },
+      "EMAIL_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Kanaal naam",
+          "PLACEHOLDER": "Voer een kanaal naam in"
+        },
+        "DESC": "Integrate you email inbox.",
+        "EMAIL": {
+          "LABEL": "E-mailadres",
+          "PLACEHOLDER": "E-mailadres",
+          "SUBTITLE": "Email where your customers sends you support tickets"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "TITLE": "Email Channel"
+      },
+      "EMAIL_PROVIDER": {
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials.",
+        "TITLE": "Select your email provider"
+      },
+      "FB": {
+        "ADD_NAME": "Add a name for your inbox",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten.",
+        "INBOX_NAME": "Inbox Name",
+        "PICK_A_VALUE": "Pick a value",
+        "PICK_NAME": "Pick A Name Your Inbox"
+      },
+      "FINISH": {
+        "DESC": "U heeft de integratie van uw Facebook-pagina met Chatwood succesvol voltooid. Volgende keer dat een klant uw pagina bericht, zal het gesprek automatisch in uw inbox verschijnen.<br>We bieden u ook een widget script aan, dat u eenvoudig aan uw website kunt toevoegen. Zodra dit live is op je website klanten kunnen vanaf uw website een bericht sturen zonder de hulp van een externe tool en het gesprek verschijnt hier op Chatwoot.<br>Koel, toch? Wel, proberen we zeker om te zijn :)",
+        "TITLE": "Geïnstalleerd het!"
+      },
+      "LINE_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here.",
+          "TITLE": "Callback URL"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Kanaal naam",
+          "PLACEHOLDER": "Voer een kanaal naam in"
+        },
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "TITLE": "LINE Channel"
+      },
+      "MICROSOFT": {
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "TITLE": "Microsoft Email"
+      },
+      "SMS": {
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "ERROR": "Dit veld is verplicht",
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID"
+          },
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here.",
+            "TITLE": "Callback URL"
+          },
+          "API_KEY": {
+            "ERROR": "Dit veld is verplicht",
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key"
+          },
+          "API_SECRET": {
+            "ERROR": "Dit veld is verplicht",
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret"
+          },
+          "APPLICATION_ID": {
+            "ERROR": "Dit veld is verplicht",
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID"
+          },
+          "INBOX_NAME": {
+            "ERROR": "Dit veld is verplicht",
+            "LABEL": "Inbox Name",
+            "PLACEHOLDER": "Please enter a inbox name"
+          },
+          "PHONE_NUMBER": {
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces.",
+            "LABEL": "Telefoon nummer",
+            "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel"
+        },
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "BANDWIDTH": "Bandwidth",
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio"
+        },
+        "TITLE": "SMS Channel"
+      },
+      "TELEGRAM_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        },
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "PLACEHOLDER": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather."
+        },
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "TITLE": "Telegram Channel"
+      },
+      "TWILIO": {
+        "ACCOUNT_SID": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Klant SID",
+          "PLACEHOLDER": "Voer uw Twilio Account-ID in"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Het is niet gelukt om Twilio referenties te verifiëren, probeer het opnieuw"
+        },
+        "API_CALLBACK": {
+          "SUBTITLE": "U moet de callback URL voor berichten configureren in Twilio met de URL die hier wordt vermeld.",
+          "TITLE": "Callback URL"
+        },
+        "AUTH_TOKEN": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Authenticatie Token",
+          "PLACEHOLDER": "Voer je Twilio Auth Token in"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Please enter a inbox name"
+        },
+        "CHANNEL_TYPE": {
+          "ERROR": "Selecteer uw kanaaltype",
+          "LABEL": "Kanaaltype"
+        },
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "MESSAGING_SERVICE_SID": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
+        "PHONE_NUMBER": {
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces.",
+          "LABEL": "Telefoon nummer",
+          "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden."
+        },
+        "SUBMIT_BUTTON": "Twilio-kanaal aanmaken",
+        "TITLE": "Twilio SMS/WhatsApp Channel"
+      },
+      "TWITTER": {
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "Om uw Twitterprofiel als kanaal toe te voegen moet u uw Twitterprofiel verifiëren door te klikken op 'Meld je aan met Twitter' ",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        },
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Website domein",
+          "PLACEHOLDER": "Voer uw website domein in (bv. acme.com)"
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc reageert meestal binnen een paar uur."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "DISABLED": "Uitgeschakeld",
+          "ENABLED": "Ingeschakeld",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "LABEL": "Enable channel greeting"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "ERROR": "Voer een geldige URL in",
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welkom Tagline",
+          "PLACEHOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welkom op titel",
+          "PLACEHOLDER": "Hallo daar!"
+        },
+        "DESC": "Maak een kanaal voor uw website en begin met het ondersteunen van uw klanten via onze website widget.",
+        "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
+        "REPLY_TIME": {
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget",
+          "IN_A_DAY": "In a day",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "TITLE": "Set Reply time"
+        },
+        "SUBMIT_BUTTON": "Postvak in maken",
+        "TITLE": "Website kanaal",
+        "WIDGET_COLOR": {
+          "LABEL": "Kleur van widget",
+          "PLACEHOLDER": "Update de widget kleur gebruikt in widget"
+        }
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website naam",
+        "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
+      },
+      "WHATSAPP": {
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        },
+        "API_CALLBACK": {
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "TITLE": "Callback URL",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+        },
+        "API_KEY": {
+          "ERROR": "Please enter a valid value.",
+          "LABEL": "API key",
+          "PLACEHOLDER": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "ERROR": "Please enter a valid value.",
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard."
+        },
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "INBOX_NAME": {
+          "ERROR": "Dit veld is verplicht",
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Please enter an inbox name"
+        },
+        "PHONE_NUMBER": {
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces.",
+          "LABEL": "Telefoon nummer",
+          "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden."
+        },
+        "PHONE_NUMBER_ID": {
+          "ERROR": "Please enter a valid value.",
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard."
+        },
+        "PROVIDERS": {
+          "360_DIALOG": "360Dialog",
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud"
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "TITLE": "WhatsApp Channel",
+        "WEBHOOK_VERIFY_TOKEN": {
+          "ERROR": "Please enter a valid value.",
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks."
+        }
+      }
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Agents toevoegen aan uw Postvak IN...",
+      "BUTTON_TEXT": "Voeg agenten toe"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+    },
+    "BUSINESS_HOURS": {
+      "ALL_DAY": "All-Day",
+      "DAY": {
+        "CHOOSE": "Choose",
+        "ENABLE": "Enable availability for this day",
+        "HOURS": "hours",
+        "UNAVAILABLE": "Unavailable",
+        "VALIDATION_ERROR": "Starting time should be before closing time."
+      },
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "TIMEZONE_LABEL": "Select timezone",
+      "TITLE": "Set your availability",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "UPDATE": "Update business hours settings",
+      "WEEKLY_TITLE": "Set your weekly hours"
     },
     "CREATE_FLOW": [
       {
@@ -27,484 +380,128 @@
         "body": "Je bent helemaal klaar om te beginnen!"
       }
     ],
-    "ADD": {
-      "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+    "DELETE": {
+      "API": {
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "ERROR_MESSAGE": "Postvak verwijderen mislukt. Probeer het later opnieuw.",
+        "SUCCESS_MESSAGE": "Inbox succesvol verwijderd"
       },
-      "WEBSITE_NAME": {
-        "LABEL": "Website naam",
-        "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
-      },
-      "FB": {
-        "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
-      },
-      "TWITTER": {
-        "HELP": "Om uw Twitterprofiel als kanaal toe te voegen moet u uw Twitterprofiel verifiëren door te klikken op 'Meld je aan met Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
-        "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
-        }
-      },
-      "WEBSITE_CHANNEL": {
-        "TITLE": "Website kanaal",
-        "DESC": "Maak een kanaal voor uw website en begin met het ondersteunen van uw klanten via onze website widget.",
-        "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
-        "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
-        },
-        "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Voer een geldige URL in"
-        },
-        "CHANNEL_DOMAIN": {
-          "LABEL": "Website domein",
-          "PLACEHOLDER": "Voer uw website domein in (bv. acme.com)"
-        },
-        "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welkom op titel",
-          "PLACEHOLDER": "Hallo daar!"
-        },
-        "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welkom Tagline",
-          "PLACEHOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
-        },
-        "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc reageert meestal binnen een paar uur."
-        },
-        "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Ingeschakeld",
-          "DISABLED": "Uitgeschakeld"
-        },
-        "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
-        },
-        "WIDGET_COLOR": {
-          "LABEL": "Kleur van widget",
-          "PLACEHOLDER": "Update de widget kleur gebruikt in widget"
-        },
-        "SUBMIT_BUTTON": "Postvak in maken",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
-        }
-      },
-      "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
-        "ACCOUNT_SID": {
-          "LABEL": "Klant SID",
-          "PLACEHOLDER": "Voer uw Twilio Account-ID in",
-          "ERROR": "Dit veld is verplicht"
-        },
-        "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "Dit veld is verplicht",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
-        },
-        "CHANNEL_TYPE": {
-          "LABEL": "Kanaaltype",
-          "ERROR": "Selecteer uw kanaaltype"
-        },
-        "AUTH_TOKEN": {
-          "LABEL": "Authenticatie Token",
-          "PLACEHOLDER": "Voer je Twilio Auth Token in",
-          "ERROR": "Dit veld is verplicht"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "Dit veld is verplicht"
-        },
-        "PHONE_NUMBER": {
-          "LABEL": "Telefoon nummer",
-          "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "U moet de callback URL voor berichten configureren in Twilio met de URL die hier wordt vermeld."
-        },
-        "SUBMIT_BUTTON": "Twilio-kanaal aanmaken",
-        "API": {
-          "ERROR_MESSAGE": "Het is niet gelukt om Twilio referenties te verifiëren, probeer het opnieuw"
-        }
-      },
-      "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
-        "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
-        },
-        "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
-        },
-        "BANDWIDTH": {
-          "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "Dit veld is verplicht"
-          },
-          "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
-            "ERROR": "Dit veld is verplicht"
-          },
-          "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
-            "ERROR": "Dit veld is verplicht"
-          },
-          "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "Dit veld is verplicht"
-          },
-          "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "Dit veld is verplicht"
-          },
-          "PHONE_NUMBER": {
-            "LABEL": "Telefoon nummer",
-            "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-          },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
-          "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
-          },
-          "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
-          }
-        }
-      },
-      "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
-        "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
-        },
-        "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "Dit veld is verplicht"
-        },
-        "PHONE_NUMBER": {
-          "LABEL": "Telefoon nummer",
-          "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-        },
-        "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
-        },
-        "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
-        },
-        "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "Please enter a valid value."
-        },
-        "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
-        },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
-        }
-      },
-      "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
-        "CHANNEL_NAME": {
-          "LABEL": "Kanaal naam",
-          "PLACEHOLDER": "Voer een kanaal naam in",
-          "ERROR": "Dit veld is verplicht"
-        },
-        "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
-        },
-        "SUBMIT_BUTTON": "Create API Channel",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
-        }
-      },
-      "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
-        "CHANNEL_NAME": {
-          "LABEL": "Kanaal naam",
-          "PLACEHOLDER": "Voer een kanaal naam in",
-          "ERROR": "Dit veld is verplicht"
-        },
-        "EMAIL": {
-          "LABEL": "E-mailadres",
-          "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "E-mailadres"
-        },
-        "SUBMIT_BUTTON": "Create Email Channel",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
-        },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
-      },
-      "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
-        "CHANNEL_NAME": {
-          "LABEL": "Kanaal naam",
-          "PLACEHOLDER": "Voer een kanaal naam in",
-          "ERROR": "Dit veld is verplicht"
-        },
-        "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
-        },
-        "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
-        },
-        "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
-        },
-        "SUBMIT_BUTTON": "Create LINE Channel",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
-        }
-      },
-      "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
-        "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
-        },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
-        }
-      },
-      "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
-      },
-      "AGENTS": {
-        "TITLE": "Agenten",
-        "DESC": "Hier kunt u agenten toevoegen om uw nieuw gecreëerde inbox te beheren. Alleen deze agenten hebben toegang tot uw inbox. Agents die geen deel uitmaken van dit postvak in zullen niet in staat zijn om berichten in dit postvak te zien of te reageren wanneer ze inloggen. <br> <b>PS:</b> Als beheerder als u toegang wilt krijgen tot alle inboxen, voeg jezelf toe als agent aan alle inboxen die je maakt.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
-      },
-      "DETAILS": {
-        "TITLE": "Details inbox",
-        "DESC": "Selecteer de Facebook-pagina die je wilt verbinden met Chatwood uit de dropdown hieronder. U kunt ook een aangepaste naam geven aan uw inbox voor een betere identificatie."
-      },
-      "FINISH": {
-        "TITLE": "Geïnstalleerd het!",
-        "DESC": "U heeft de integratie van uw Facebook-pagina met Chatwood succesvol voltooid. Volgende keer dat een klant uw pagina bericht, zal het gesprek automatisch in uw inbox verschijnen.<br>We bieden u ook een widget script aan, dat u eenvoudig aan uw website kunt toevoegen. Zodra dit live is op je website klanten kunnen vanaf uw website een bericht sturen zonder de hulp van een externe tool en het gesprek verschijnt hier op Chatwoot.<br>Koel, toch? Wel, proberen we zeker om te zijn :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "Verwijderen",
+      "CONFIRM": {
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "NO": "Nee, Behouden ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "TITLE": "Verwijdering bevestigen",
+        "YES": "Ja, verwijderen "
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Verifiëren met Facebook...",
-      "ERROR_FB_AUTH": "Er ging iets mis, gelieve pagina te vernieuwen...",
       "CREATING_CHANNEL": "Uw postvak wordt gemaakt...",
-      "TITLE": "Configureer Postvak in details",
-      "DESC": ""
+      "DESC": "",
+      "ERROR_FB_AUTH": "Er ging iets mis, gelieve pagina te vernieuwen...",
+      "LOADING_FB": "Verifiëren met Facebook...",
+      "TITLE": "Configureer Postvak in details"
     },
-    "AGENTS": {
-      "BUTTON_TEXT": "Voeg agenten toe",
-      "ADD_AGENTS": "Agents toevoegen aan uw Postvak IN..."
-    },
-    "FINISH": {
-      "TITLE": "Uw postvak is klaar!",
-      "MESSAGE": "Je kunt nu contact opnemen met je klanten via het nieuwe Kanaal. Gelukkige ondersteuning",
-      "BUTTON_TEXT": "Breng me ernaar toe",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "Het aanmaken van een website kanaal is gelukt. Kopieer de code hieronder weergegeven en plak deze op uw website. De volgende keer dat een klant de live chat gebruikt, verschijnt het gesprek automatisch op uw inbox."
-    },
-    "REAUTH": "Autoriseer",
-    "VIEW": "Bekijken",
     "EDIT": {
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "DISABLED": "Uitgeschakeld",
+        "ENABLED": "Ingeschakeld"
+      },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox instellingen succesvol bijgewerkt",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische toewijzing succesvol bijgewerkt",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later.",
+        "SUCCESS_MESSAGE": "Inbox instellingen succesvol bijgewerkt"
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Ingeschakeld",
-        "DISABLED": "Uitgeschakeld"
-      },
-      "ENABLE_CSAT": {
-        "ENABLED": "Ingeschakeld",
-        "DISABLED": "Uitgeschakeld"
-      },
-      "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Ingeschakeld",
-        "DISABLED": "Uitgeschakeld"
+        "DISABLED": "Uitgeschakeld",
+        "ENABLED": "Ingeschakeld"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Ingeschakeld",
-        "DISABLED": "Uitgeschakeld"
+        "DISABLED": "Uitgeschakeld",
+        "ENABLED": "Ingeschakeld"
       },
-      "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Ingeschakeld",
-        "DISABLED": "Uitgeschakeld"
+      "ENABLE_CSAT": {
+        "DISABLED": "Uitgeschakeld",
+        "ENABLED": "Ingeschakeld"
       },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
-      }
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Verwijderen",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
-      "CONFIRM": {
-        "TITLE": "Verwijdering bevestigen",
-        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Ja, verwijderen ",
-        "NO": "Nee, Behouden "
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Inbox succesvol verwijderd",
-        "ERROR_MESSAGE": "Postvak verwijderen mislukt. Probeer het later opnieuw.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "DISABLED": "Uitgeschakeld",
+        "ENABLED": "Ingeschakeld"
       }
     },
-    "TABS": {
-      "SETTINGS": "Instellingen",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
-    },
-    "SETTINGS": "Instellingen",
-    "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
-    },
-    "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Plaats deze knop in je lichaam tag",
-      "INBOX_AGENTS": "Agenten",
-      "INBOX_AGENTS_SUB_TEXT": "Voeg agenten toe of verwijder ze uit deze inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Vernieuwen",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Automatische toewijzing inschakelen",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
-      "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Vernieuwen"
-    },
-    "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Autoriseer",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_ERROR": "Er is een fout opgetreden, probeer het opnieuw",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "Er is een fout opgetreden, probeer het opnieuw"
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "TITLE": "Autoriseer"
     },
+    "FEATURES": {
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "LABEL": "Features"
+    },
+    "FINISH": {
+      "BUTTON_TEXT": "Breng me ernaar toe",
+      "MESSAGE": "Je kunt nu contact opnemen met je klanten via het nieuwe Kanaal. Gelukkige ondersteuning",
+      "MORE_SETTINGS": "More settings",
+      "TITLE": "Uw postvak is klaar!",
+      "WEBSITE_SUCCESS": "Het aanmaken van een website kanaal is gelukt. Kopieer de code hieronder weergegeven en plak deze op uw website. De volgende keer dat een klant de live chat gebruikt, verschijnt het gesprek automatisch op uw inbox."
+    },
+    "HEADER": "Inboxen",
+    "IMAP": {
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "EDIT": {
+        "ERROR_MESSAGE": "Unable to update IMAP settings",
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully"
+      },
+      "ENABLE_SSL": "Enable SSL",
+      "LOGIN": {
+        "LABEL": "Inloggen",
+        "PLACE_HOLDER": "Inloggen"
+      },
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "PASSWORD": {
+        "LABEL": "Wachtwoord",
+        "PLACE_HOLDER": "Wachtwoord"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "SUBTITLE": "Set your IMAP details",
+      "TITLE": "IMAP",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "UPDATE": "Update IMAP settings"
+    },
+    "LIST": {
+      "404": "Er zijn geen inboxen aan dit account gekoppeld."
+    },
+    "MICROSOFT": {
+      "SUBTITLE": "Reauthorize your MICROSOFT account",
+      "TITLE": "Microsoft"
+    },
+    "NOTE": "Note: ",
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
-      },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "DISABLED": "No",
+          "ENABLED": "Yes"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -513,112 +510,151 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Visitors should provide their name and email address before starting the chat"
+      },
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "KEY": "Key",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "REQUIRED": "Required",
+        "TYPE": "Type"
       }
     },
-    "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
-      "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
-      },
-      "ALL_DAY": "All-Day"
+    "REAUTH": "Autoriseer",
+    "SETTINGS": "Instellingen",
+    "SETTINGS_POPUP": {
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "AUTO_ASSIGNMENT": "Automatische toewijzing inschakelen",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd.",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "INBOX_AGENTS": "Agenten",
+      "INBOX_AGENTS_SUB_TEXT": "Voeg agenten toe of verwijder ze uit deze inbox",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
+      "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Plaats deze knop in je lichaam tag",
+      "UPDATE": "Vernieuwen",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Vernieuwen",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key"
     },
-    "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
-      "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
-      },
-      "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
-      },
-      "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
-      },
-      "LOGIN": {
-        "LABEL": "Inloggen",
-        "PLACE_HOLDER": "Inloggen"
-      },
-      "PASSWORD": {
-        "LABEL": "Wachtwoord",
-        "PLACE_HOLDER": "Wachtwoord"
-      },
-      "ENABLE_SSL": "Enable SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
-    },
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
-      "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
-      },
       "ADDRESS": {
         "LABEL": "Address",
         "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
       },
-      "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
-      },
-      "LOGIN": {
-        "LABEL": "Inloggen",
-        "PLACE_HOLDER": "Inloggen"
-      },
-      "PASSWORD": {
-        "LABEL": "Wachtwoord",
-        "PLACE_HOLDER": "Wachtwoord"
-      },
+      "AUTH_MECHANISM": "Authentication",
       "DOMAIN": {
         "LABEL": "Domeinnaam",
         "PLACE_HOLDER": "Domeinnaam"
       },
+      "EDIT": {
+        "ERROR_MESSAGE": "Unable to update SMTP settings",
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully"
+      },
       "ENCRYPTION": "Encryption",
+      "LOGIN": {
+        "LABEL": "Inloggen",
+        "PLACE_HOLDER": "Inloggen"
+      },
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "PASSWORD": {
+        "LABEL": "Wachtwoord",
+        "PLACE_HOLDER": "Wachtwoord"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "SUBTITLE": "Set your SMTP details",
+      "TITLE": "SMTP",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "UPDATE": "Update SMTP settings"
     },
-    "NOTE": "Note: ",
+    "TABS": {
+      "BOT_CONFIGURATION": "Bot Configuration",
+      "BUSINESS_HOURS": "Business Hours",
+      "CAMPAIGN": "Campaigns",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "SETTINGS": "Instellingen",
+      "WIDGET_BUILDER": "Widget Builder"
+    },
+    "VIEW": "Bekijken",
     "WIDGET_BUILDER": {
+      "BODY": {
+        "AGENT_MESSAGE": "Hello",
+        "TEAM_AVAILABILITY": {
+          "OFFLINE": "We zijn momenteel afwezig",
+          "ONLINE": "We are Online"
+        },
+        "USER_MESSAGE": "Hi"
+      },
+      "BRANDING_TEXT": "Mogelijk gemaakt door Chatwoot",
+      "FOOTER": {
+        "CHAT_INPUT_PLACEHOLDER": "Typ uw bericht",
+        "START_CONVERSATION_BUTTON_TEXT": "Start Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_DAY": "Reageert meestal binnen een dag",
+        "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
+        "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten"
+      },
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};",
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+              "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw",
+              "SUCCESS_MESSAGE": "Avatar deleted successfully"
             }
-          }
+          },
+          "LABEL": "Website Avatar"
+        },
+        "REPLY_TIME": {
+          "IN_A_DAY": "In a day",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "LABEL": "Reply Time"
+        },
+        "UPDATE": {
+          "API": {
+            "ERROR_MESSAGE": "Unable to update widget settings",
+            "SUCCESS_MESSAGE": "Widget settings updated successfully"
+          },
+          "BUTTON_TEXT": "Update Widget Settings"
         },
         "WEBSITE_NAME": {
+          "ERROR": "Please enter a valid website name",
           "LABEL": "Website naam",
-          "PLACE_HOLDER": "Voer de naam van je website in (bv. Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "PLACE_HOLDER": "Voer de naam van je website in (bv. Acme Inc)"
         },
         "WELCOME_HEADING": {
           "LABEL": "Welkom op titel",
@@ -628,67 +664,31 @@
           "LABEL": "Welkom Tagline",
           "PLACE_HOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
         },
-        "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
-        },
-        "WIDGET_COLOR_LABEL": "Kleur van widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Chat met ons",
           "LABEL": "Widget Bubble Launcher Title",
           "PLACE_HOLDER": "Chat met ons"
         },
-        "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
-          "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
-          }
-        },
-        "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
-        },
         "WIDGET_BUBBLE_POSITION": {
           "LEFT": "Left",
           "RIGHT": "Right"
         },
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "EXPANDED_BUBBLE": "Expanded Bubble",
+          "STANDARD": "Standard"
+        },
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "Kleur van widget",
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
-      },
-      "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
-        "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
-        "IN_A_DAY": "Reageert meestal binnen een dag"
-      },
-      "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Chat",
-        "CHAT_INPUT_PLACEHOLDER": "Typ uw bericht"
-      },
-      "BODY": {
-        "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We zijn momenteel afwezig"
-        },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
-      },
-      "BRANDING_TEXT": "Mogelijk gemaakt door Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
+        "CHAT": "Chat",
+        "DEFAULT": "Default"
+      }
     }
   }
 }

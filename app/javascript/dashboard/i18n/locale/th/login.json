@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "API": {
+      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง",
+      "SUCCESS_MESSAGE": "เข้าสู่ระบบสำเร็จ",
+      "UNAUTH": "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง โปรดลองใหม่อีกครั้ง"
+    },
+    "CREATE_NEW_ACCOUNT": "สร้างบัญชีใหม่",
     "EMAIL": {
       "LABEL": "อีเมล์",
       "PLACEHOLDER": "อีเมล เช่น someone@example.com"
     },
+    "FORGOT_PASSWORD": "ลืมรหัสผ่าน?",
     "PASSWORD": {
       "LABEL": "หรัสผ่าน",
       "PLACEHOLDER": "หรัสผ่าน"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "เข้าสู่ระบบสำเร็จ",
-      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง",
-      "UNAUTH": "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง โปรดลองใหม่อีกครั้ง"
-    },
-    "FORGOT_PASSWORD": "ลืมรหัสผ่าน?",
-    "CREATE_NEW_ACCOUNT": "สร้างบัญชีใหม่",
-    "SUBMIT": "เข้าสู่ระบบ"
+    "SUBMIT": "เข้าสู่ระบบ",
+    "TITLE": "Login to Chatwoot"
   }
 }

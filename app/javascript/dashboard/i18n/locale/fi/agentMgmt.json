@@ -1,103 +1,95 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Edustajat",
-    "HEADER_BTN_TXT": "Lisää edustaja",
-    "LOADING": "Haetaan Edustajalistaa",
-    "SIDEBAR_TXT": "<p><b>Edustajat</b></p> <p> An <b>Edustaja</b> on jäsenenä asiakastukitiimissäsi. </p><p> Edustajat voivat katsella ja vastata viesteihin asiakkailtasi. Luettelo näyttää kaikki edustajat, jotka ovat tällä hetkellä tililläsi. </p><p> Klikkaa <b>Lisää edustaja</b> lisätäksesi uuden edustajan. Edustaja, jonka lisäät, saa sähköpostiviestin, jossa on vahvistuslinkki tilin aktivointiin, jonka jälkeen he voivat käyttää Chatwoot -sovellusta ja vastata viesteihin. </p><p> Pääsy Chatwoot'n ominaisuuksiin perustuu seuraaviin rooleihin. </p><p> <b>Edustaja</b> - Tällä roolilla toimivat edustajat voivat käyttää vain saapuneita, raportteja ja keskusteluja. He voivat määrittää keskusteluja muille edustajille tai itse ratkaista keskusteluja.</p><p> <b>Ylläpitäjä</b> - Ylläpitäjällä on pääsy kaikkiin Chatwoot ominaisuuksiin, jotka ovat käytössä tililläsi, mukaan lukien asetukset sekä kaikki normaalien asiamiesten oikeudet.</p>",
+    "ADD": {
+      "API": {
+        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
+        "EXIST_MESSAGE": "Edustajan sähköposti on jo käytössä, kokeile toista sähköpostiosoitetta",
+        "SUCCESS_MESSAGE": "Edustaja lisätty onnistuneesti"
+      },
+      "CANCEL_BUTTON_TEXT": "Peruuta",
+      "DESC": "Voit lisätä ihmisiä, jotka voivat vastata viesteihin saapuneet-kansiossa.",
+      "FORM": {
+        "AGENT_TYPE": {
+          "ERROR": "Agent type is required",
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type"
+        },
+        "EMAIL": {
+          "LABEL": "Sähköpostiosoite",
+          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan sähköpostiosoite"
+        },
+        "NAME": {
+          "LABEL": "Edustajan nimi",
+          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
+        },
+        "SUBMIT": "Lisää edustaja"
+      },
+      "TITLE": "Lisää edustaja tiimiisi"
+    },
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Ylläpitäjä",
       "AGENT": "Edustajat"
     },
-    "LIST": {
-      "404": "Tälle tilille ei ole liitetty edustajia",
-      "TITLE": "Hallitse edustajia tiimissäsi",
-      "DESC": "Voit lisätä tai poistaa edustajia tiimissäsi.",
-      "NAME": "Nimi",
-      "EMAIL": "Sähköposti",
-      "STATUS": "Tila",
-      "ACTIONS": "Toiminnot",
-      "VERIFIED": "Vahvistettu",
-      "VERIFICATION_PENDING": "Vahvistus odottaa"
-    },
-    "ADD": {
-      "TITLE": "Lisää edustaja tiimiisi",
-      "DESC": "Voit lisätä ihmisiä, jotka voivat vastata viesteihin saapuneet-kansiossa.",
-      "CANCEL_BUTTON_TEXT": "Peruuta",
-      "FORM": {
-        "NAME": {
-          "LABEL": "Edustajan nimi",
-          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
-        },
-        "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
-        },
-        "EMAIL": {
-          "LABEL": "Sähköpostiosoite",
-          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan sähköpostiosoite"
-        },
-        "SUBMIT": "Lisää edustaja"
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Edustaja lisätty onnistuneesti",
-        "EXIST_MESSAGE": "Edustajan sähköposti on jo käytössä, kokeile toista sähköpostiosoitetta",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
-      }
-    },
     "DELETE": {
-      "BUTTON_TEXT": "Poista",
       "API": {
-        "SUCCESS_MESSAGE": "Edustaja poistettu onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
+        "SUCCESS_MESSAGE": "Edustaja poistettu onnistuneesti"
       },
+      "BUTTON_TEXT": "Poista",
       "CONFIRM": {
-        "TITLE": "Vahvista poistaminen",
         "MESSAGE": "Oletko varma että haluat poistaa ",
-        "YES": "Kyllä, poista ",
-        "NO": "Ei, säilytä "
+        "NO": "Ei, säilytä ",
+        "TITLE": "Vahvista poistaminen",
+        "YES": "Kyllä, poista "
       }
     },
     "EDIT": {
-      "TITLE": "Muokkaa edustajaa",
+      "API": {
+        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
+        "SUCCESS_MESSAGE": "Edustajaa muokattu onnistuneesti"
+      },
+      "BUTTON_TEXT": "Muokkaa",
+      "CANCEL_BUTTON_TEXT": "Peruuta",
       "FORM": {
-        "NAME": {
-          "LABEL": "Edustajan nimi",
-          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
-        },
         "AGENT_TYPE": {
+          "ERROR": "Agent type is required",
           "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "PLACEHOLDER": "Please select a type"
         },
         "EMAIL": {
           "LABEL": "Sähköpostiosoite",
           "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan sähköpostiosoite"
         },
+        "NAME": {
+          "LABEL": "Edustajan nimi",
+          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
+        },
         "SUBMIT": "Muokkaa edustajaa"
-      },
-      "BUTTON_TEXT": "Muokkaa",
-      "CANCEL_BUTTON_TEXT": "Peruuta",
-      "API": {
-        "SUCCESS_MESSAGE": "Edustajaa muokattu onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Nollaa Salasana",
         "ADMIN_SUCCESS_MESSAGE": "Edustajalle on lähetetty sähköposti, jossa on salasanan palautusohjeet",
-        "SUCCESS_MESSAGE": "Edustajan salasanan nollaus onnistui",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
-      }
+        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
+        "SUCCESS_MESSAGE": "Edustajan salasanan nollaus onnistui"
+      },
+      "TITLE": "Muokkaa edustajaa"
     },
-    "SEARCH": {
-      "NO_RESULTS": "No results found."
+    "HEADER": "Edustajat",
+    "HEADER_BTN_TXT": "Lisää edustaja",
+    "LIST": {
+      "404": "Tälle tilille ei ole liitetty edustajia",
+      "ACTIONS": "Toiminnot",
+      "DESC": "Voit lisätä tai poistaa edustajia tiimissäsi.",
+      "EMAIL": "Sähköposti",
+      "NAME": "Nimi",
+      "STATUS": "Tila",
+      "TITLE": "Hallitse edustajia tiimissäsi",
+      "VERIFICATION_PENDING": "Vahvistus odottaa",
+      "VERIFIED": "Vahvistettu"
     },
+    "LOADING": "Haetaan Edustajalistaa",
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "None",
-      "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
-      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Edustajia ei löytynyt",
@@ -107,7 +99,15 @@
           "AGENT": "Search agents",
           "TEAM": "Search teams"
         }
+      },
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
       }
-    }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "No results found."
+    },
+    "SIDEBAR_TXT": "<p><b>Edustajat</b></p> <p> An <b>Edustaja</b> on jäsenenä asiakastukitiimissäsi. </p><p> Edustajat voivat katsella ja vastata viesteihin asiakkailtasi. Luettelo näyttää kaikki edustajat, jotka ovat tällä hetkellä tililläsi. </p><p> Klikkaa <b>Lisää edustaja</b> lisätäksesi uuden edustajan. Edustaja, jonka lisäät, saa sähköpostiviestin, jossa on vahvistuslinkki tilin aktivointiin, jonka jälkeen he voivat käyttää Chatwoot -sovellusta ja vastata viesteihin. </p><p> Pääsy Chatwoot'n ominaisuuksiin perustuu seuraaviin rooleihin. </p><p> <b>Edustaja</b> - Tällä roolilla toimivat edustajat voivat käyttää vain saapuneita, raportteja ja keskusteluja. He voivat määrittää keskusteluja muille edustajille tai itse ratkaista keskusteluja.</p><p> <b>Ylläpitäjä</b> - Ylläpitäjällä on pääsy kaikkiin Chatwoot ominaisuuksiin, jotka ovat käytössä tililläsi, mukaan lukien asetukset sekä kaikki normaalien asiamiesten oikeudet.</p>"
   }
 }

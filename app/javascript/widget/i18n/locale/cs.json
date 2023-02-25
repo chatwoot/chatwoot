@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Napiště nám"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Neplatné pole"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Zde začněte psát",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Stáhnout",
@@ -8,89 +17,80 @@
       "SUBMIT": "Odeslat"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Odeslat zprávu znovu",
-      "ERROR_MESSAGE": "Odeslání se nezdařilo, zkuste to znovu"
+      "ERROR_MESSAGE": "Odeslání se nezdařilo, zkuste to znovu",
+      "RETRY": "Odeslat zprávu znovu"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Jsme online",
-    "OFFLINE": "V současné době jsme pryč"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut",
-    "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
-    "IN_A_DAY": "Obvykle odpoví za den"
-  },
-  "START_CONVERSATION": "Zahájit konverzaci",
-  "END_CONVERSATION": "Ukončit konverzaci",
   "CONTINUE_CONVERSATION": "Pokračovat v konverzaci",
-  "START_NEW_CONVERSATION": "Zahájit novou konverzaci",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy",
-    "CLOSE_MESSAGES_BUTTON": "Zavřít",
-    "COMPANY_FROM": "od",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Řekněte nám více...",
+    "SUBMITTED_TITLE": "Děkujeme Vám za odeslání hodnocení",
+    "TITLE": "Ohodnoťte svou konverzaci"
   },
-  "BUBBLE": {
-    "LABEL": "Napiště nám"
+  "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Požádat o přepis konverzace",
+    "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu",
+    "SEND_EMAIL_SUCCESS": "Přepis chatu byl úspěšně odeslán"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "Ukončit konverzaci",
+  "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
-  "CHAT_PLACEHOLDER": "Zde začněte psát",
-  "TODAY": "Dnes",
-  "YESTERDAY": "Včera",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Zadejte své jméno a e-mail před zahájením konverzace",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Celé jméno",
-        "PLACEHOLDER": "Zadejte své celé jméno",
-        "REQUIRED_ERROR": "Je vyžadováno celé jméno"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "E-mailová adresa",
         "PLACEHOLDER": "Zadejte prosím Váš e-mail",
         "REQUIRED_ERROR": "E-mailová adresa je vyžadována",
         "VALID_ERROR": "Zadejte prosím platnou e-mailovou adresu"
       },
+      "FULL_NAME": {
+        "LABEL": "Celé jméno",
+        "PLACEHOLDER": "Zadejte své celé jméno",
+        "REQUIRED_ERROR": "Je vyžadováno celé jméno"
+      },
+      "MESSAGE": {
+        "ERROR": "Zpráva je příliš krátká",
+        "LABEL": "Zpráva",
+        "PLACEHOLDER": "Zadejte prosím Vaši zprávu"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Telefonní číslo",
         "PLACEHOLDER": "Zadejte prosím Vaše telefonní číslo",
         "REQUIRED_ERROR": "Telefonní číslo je vyžadováno",
         "VALID_ERROR": "Telefonní číslo by mělo být ve formátu E.164, např.: +141555555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Zpráva",
-        "PLACEHOLDER": "Zadejte prosím Vaši zprávu",
-        "ERROR": "Zpráva je příliš krátká"
       }
     },
-    "CAMPAIGN_HEADER": "Zadejte své jméno a e-mail před zahájením konverzace",
     "IS_REQUIRED": "je vyžadováno"
   },
-  "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Neplatné pole"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Obvykle odpoví za den",
+    "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
+    "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "Zahájit konverzaci",
+  "START_NEW_CONVERSATION": "Zahájit novou konverzaci",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "V současné době jsme pryč",
+    "ONLINE": "Jsme online"
   },
-  "CSAT": {
-    "TITLE": "Ohodnoťte svou konverzaci",
-    "SUBMITTED_TITLE": "Děkujeme Vám za odeslání hodnocení",
-    "PLACEHOLDER": "Řekněte nám více..."
+  "TODAY": "Dnes",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Zavřít",
+    "COMPANY_FROM": "od",
+    "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Požádat o přepis konverzace",
-    "SEND_EMAIL_SUCCESS": "Přepis chatu byl úspěšně odeslán",
-    "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "Včera"
 }

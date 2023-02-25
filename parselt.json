@@ -1,0 +1,57 @@
+{
+  "instances": [
+    {
+      "name": "main-frontend",
+      "rootDirectoryPath": "./app/javascript/dashboard/i18n/locale",
+      "indentation": 2,
+      "fileType": "json",
+      "isMultiDirectory": true,
+      "mainDirectoryName": "en"
+    },
+    {
+      "name": "survey",
+      "rootDirectoryPath": "./app/javascript/survey/i18n/locale",
+      "indentation": 2,
+      "fileType": "json",
+      "isMultiDirectory": false,
+      "mainFileName": "en.json"
+    },
+    {
+      "name": "widget",
+      "rootDirectoryPath": "./app/javascript/widget/i18n/locale",
+      "indentation": 2,
+      "fileType": "json",
+      "isMultiDirectory": false,
+      "mainFileName": "en.json"
+    },
+    {
+      "name": "main-backend",
+      "rootDirectoryPath": "./config/locales",
+      "indentation": 2,
+      "fileType": "yaml",
+      "isMultiDirectory": false,
+      "mainFileName": "en.yml",
+      "shouldCheckFirstKey": false
+    },
+    {
+      "name": "devise",
+      "rootDirectoryPath": "./config/locales",
+      "indentation": 2,
+      "fileType": "yaml",
+      "isMultiDirectory": false,
+      "mainFileName": "devise.en.yml",
+      "shouldCheckFirstKey": false,
+      "filePrefix": "devise"
+    },
+    {
+      "name": "secure_password",
+      "rootDirectoryPath": "./config/locales",
+      "indentation": 2,
+      "fileType": "yaml",
+      "isMultiDirectory": false,
+      "mainFileName": "secure_password.en.yml",
+      "shouldCheckFirstKey": false,
+      "filePrefix": "secure_password"
+    }
+  ]
+}

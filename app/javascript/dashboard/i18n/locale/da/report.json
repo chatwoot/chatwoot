@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Samtaler",
-    "LOADING_CHART": "Indlæser diagramdata...",
-    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agentrapporter",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Samtaler",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Indkommende Beskeder",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Udgående beskeder",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Første Respons Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Løsnings Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Antal Afsluttede",
-        "DESC": "( Total )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Anvend",
+      "PLACEHOLDER": "Vælg datointerval"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Tilpasset datointerval"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Download agentrapporter",
+    "FILTER_DROPDOWN_LABEL": "Vælg Agent",
+    "HEADER": "Agenter Oversigt",
+    "LOADING_CHART": "Indlæser diagramdata...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Samtaler"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Første Respons Tid",
+        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Indkommende Beskeder"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Udgående beskeder"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Antal Afsluttede"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Løsnings Tid",
+        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Download CSAT Rapporter",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Vælg Agenter"
+      }
+    },
+    "HEADER": "CSAT Rapporter",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Respons rate",
+        "TOOLTIP": "Samlet antal svar / Samlet antal CSAT undersøgelsesmeddelelser sendt * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Tilfredshed score",
+        "TOOLTIP": "Samlet antal positive respons / Samlet antal respons * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Svar i alt",
+        "TOOLTIP": "Samlet antal indsamlede svar"
+      }
+    },
+    "NO_RECORDS": "Der er ingen CSAT undersøgelse svar til rådighed.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Tildelt agent",
+        "CONTACT_NAME": "Kontakt",
+        "FEEDBACK_TEXT": "Kommentar til feedback",
+        "RATING": "Bedømmelse"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Anvend",
       "PLACEHOLDER": "Vælg datointerval"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppér Efter",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Seneste 7 dage"
+      },
+      {
+        "id": 1,
+        "name": "Seneste 30 dage"
+      },
+      {
+        "id": 2,
+        "name": "Seneste 3 måneder"
+      },
+      {
+        "id": 3,
+        "name": "Seneste 6 måneder"
+      },
+      {
+        "id": 4,
+        "name": "Sidste år"
+      },
+      {
+        "id": 5,
+        "name": "Tilpasset datointerval"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Download indbakke rapporter",
+    "FILTER_DROPDOWN_LABEL": "Vælg Indbakke",
+    "HEADER": "Oversigt Over Indbakke",
+    "LOADING_CHART": "Indlæser diagramdata...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Samtaler"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Første Respons Tid",
+        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Indkommende Beskeder"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Udgående beskeder"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Antal Afsluttede"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Løsnings Tid",
+        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Anvend",
+      "PLACEHOLDER": "Vælg datointerval"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Seneste 7 dage"
+      },
+      {
+        "id": 1,
+        "name": "Seneste 30 dage"
+      },
+      {
+        "id": 2,
+        "name": "Seneste 3 måneder"
+      },
+      {
+        "id": 3,
+        "name": "Seneste 6 måneder"
+      },
+      {
+        "id": 4,
+        "name": "Sidste år"
+      },
+      {
+        "id": 5,
+        "name": "Tilpasset datointerval"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Download etiketrapporter",
+    "FILTER_DROPDOWN_LABEL": "Vælg Etiket",
+    "HEADER": "Oversigt Over Etiketter",
+    "LOADING_CHART": "Indlæser diagramdata...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Samtaler"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Første Respons Tid",
+        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Indkommende Beskeder"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Udgående beskeder"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Antal Afsluttede"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Løsnings Tid",
+        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Åbn Samtaler",
+      "LOADING_MESSAGE": "Indlæser samtalemetrik...",
+      "OPEN": "Åbn",
+      "UNASSIGNED": "Ikke Tildelt",
+      "UNATTENDED": "Unattet"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Samtaler af agenter",
+      "LOADING_MESSAGE": "Indlæser agent målinger...",
+      "NO_AGENTS": "Der er ingen samtaler af agenter",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "ÅBN",
+        "STATUS": "Status",
+        "UNATTENDED": "Unattet"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Optaget",
+      "HEADER": "Agentens status",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Oversigt",
+    "LIVE": "Levende"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Forretningstider",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Anvend",
+      "PLACEHOLDER": "Vælg datointerval"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Seneste 7 dage"
+      },
+      {
+        "id": 1,
+        "name": "Seneste 30 dage"
+      },
+      {
+        "id": 2,
+        "name": "Seneste 3 måneder"
+      },
+      {
+        "id": 3,
+        "name": "Seneste 6 måneder"
+      },
+      {
+        "id": 4,
+        "name": "Sidste år"
+      },
+      {
+        "id": 5,
+        "name": "Tilpasset datointerval"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Download agentrapporter",
     "DURATION_FILTER_LABEL": "Varighed",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Dag"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Dag"
-      },
-      {
-        "id": 2,
-        "groupBy": "Uge"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppér Efter",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Måned"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dag"
+      },
+      {
+        "id": 2,
+        "groupBy": "Uge"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "År"
       }
     ],
-    "BUSINESS_HOURS": "Forretningstider"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Agenter Oversigt",
+    "HEADER": "Samtaler",
     "LOADING_CHART": "Indlæser diagramdata...",
-    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agentrapporter",
-    "FILTER_DROPDOWN_LABEL": "Vælg Agent",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Samtaler",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Indkommende Beskeder",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Udgående beskeder",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "NAME": "Samtaler"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
         "NAME": "Første Respons Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
         "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Løsnings Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Antal Afsluttede",
-        "DESC": "( Total )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Seneste 7 dage"
-      },
-      {
-        "id": 1,
-        "name": "Seneste 30 dage"
-      },
-      {
-        "id": 2,
-        "name": "Seneste 3 måneder"
-      },
-      {
-        "id": 3,
-        "name": "Seneste 6 måneder"
-      },
-      {
-        "id": 4,
-        "name": "Sidste år"
-      },
-      {
-        "id": 5,
-        "name": "Tilpasset datointerval"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Anvend",
-      "PLACEHOLDER": "Vælg datointerval"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Oversigt Over Etiketter",
-    "LOADING_CHART": "Indlæser diagramdata...",
-    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
-    "DOWNLOAD_LABEL_REPORTS": "Download etiketrapporter",
-    "FILTER_DROPDOWN_LABEL": "Vælg Etiket",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Samtaler",
-        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Indkommende Beskeder",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "NAME": "Indkommende Beskeder"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Udgående beskeder",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Første Respons Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Løsnings Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "DESC": "( Total )",
+        "NAME": "Udgående beskeder"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Antal Afsluttede",
-        "DESC": "( Total )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Seneste 7 dage"
-      },
-      {
-        "id": 1,
-        "name": "Seneste 30 dage"
-      },
-      {
-        "id": 2,
-        "name": "Seneste 3 måneder"
-      },
-      {
-        "id": 3,
-        "name": "Seneste 6 måneder"
-      },
-      {
-        "id": 4,
-        "name": "Sidste år"
-      },
-      {
-        "id": 5,
-        "name": "Tilpasset datointerval"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Anvend",
-      "PLACEHOLDER": "Vælg datointerval"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Oversigt Over Indbakke",
-    "LOADING_CHART": "Indlæser diagramdata...",
-    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
-    "DOWNLOAD_INBOX_REPORTS": "Download indbakke rapporter",
-    "FILTER_DROPDOWN_LABEL": "Vælg Indbakke",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Samtaler",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Indkommende Beskeder",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Udgående beskeder",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Første Respons Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "DESC": "( Total )",
+        "NAME": "Antal Afsluttede"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Løsnings Tid",
         "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Antal Afsluttede",
-        "DESC": "( Total )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Seneste 7 dage"
-      },
-      {
-        "id": 1,
-        "name": "Seneste 30 dage"
-      },
-      {
-        "id": 2,
-        "name": "Seneste 3 måneder"
-      },
-      {
-        "id": 3,
-        "name": "Seneste 6 måneder"
-      },
-      {
-        "id": 4,
-        "name": "Sidste år"
-      },
-      {
-        "id": 5,
-        "name": "Tilpasset datointerval"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Anvend",
-      "PLACEHOLDER": "Vælg datointerval"
-    }
+    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Oversigt",
-    "LOADING_CHART": "Indlæser diagramdata...",
-    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
-    "DOWNLOAD_TEAM_REPORTS": "Download teamrapporter",
-    "FILTER_DROPDOWN_LABEL": "Vælg Team",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Samtaler",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Indkommende Beskeder",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Udgående beskeder",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Første Respons Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Løsnings Tid",
-        "DESC": "( Gns. )",
-        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Antal Afsluttede",
-        "DESC": "( Total )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Anvend",
+      "PLACEHOLDER": "Vælg datointerval"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Tilpasset datointerval"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Anvend",
-      "PLACEHOLDER": "Vælg datointerval"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "CSAT Rapporter",
-    "NO_RECORDS": "Der er ingen CSAT undersøgelse svar til rådighed.",
-    "DOWNLOAD": "Download CSAT Rapporter",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Vælg Agenter"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Kontakt",
-        "AGENT_NAME": "Tildelt agent",
-        "RATING": "Bedømmelse",
-        "FEEDBACK_TEXT": "Kommentar til feedback"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Svar i alt",
-        "TOOLTIP": "Samlet antal indsamlede svar"
+    "DOWNLOAD_TEAM_REPORTS": "Download teamrapporter",
+    "FILTER_DROPDOWN_LABEL": "Vælg Team",
+    "HEADER": "Team Oversigt",
+    "LOADING_CHART": "Indlæser diagramdata...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Samtaler"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Tilfredshed score",
-        "TOOLTIP": "Samlet antal positive respons / Samlet antal respons * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Første Respons Tid",
+        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Respons rate",
-        "TOOLTIP": "Samlet antal svar / Samlet antal CSAT undersøgelsesmeddelelser sendt * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Oversigt",
-    "LIVE": "Levende",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Åbn Samtaler",
-      "LOADING_MESSAGE": "Indlæser samtalemetrik...",
-      "OPEN": "Åbn",
-      "UNATTENDED": "Unattet",
-      "UNASSIGNED": "Ikke Tildelt"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Samtaler af agenter",
-      "LOADING_MESSAGE": "Indlæser agent målinger...",
-      "NO_AGENTS": "Der er ingen samtaler af agenter",
-      "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "ÅBN",
-        "UNATTENDED": "Unattet",
-        "STATUS": "Status"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Indkommende Beskeder"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Udgående beskeder"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Antal Afsluttede"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Gns. )",
+        "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
+        "NAME": "Løsnings Tid",
+        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agentens status",
-      "ONLINE": "Online",
-      "BUSY": "Optaget",
-      "OFFLINE": "Offline"
-    }
+    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere."
   }
 }

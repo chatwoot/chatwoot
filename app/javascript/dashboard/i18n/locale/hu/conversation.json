@@ -1,257 +1,257 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Kérjük válassz egy beszélgetést a bal sávból",
-    "CSAT_REPLY_MESSAGE": "Kérlek értékeld a beszélgetést",
     "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Jajj ne! Úgy tűnik, hogy nincs több ügyfélbeszélgetés az inboxodban.",
-    "NO_MESSAGE_2": "egy üzenet küldéséhez az oldaladra!",
-    "NO_INBOX_1": "Hola! Úgy tűnik, hogy még nem adtál hozzá fiókokat.",
-    "NO_INBOX_2": " Első lépések",
-    "NO_INBOX_AGENT": "O-Ó! Úgy tűnik, hogy egyetlen fióknak sem vagy tagja. Kérjük lépj kapcsolatba az adminisztrátoroddal",
-    "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
-    "SEARCH": {
-      "TITLE": "Üzenetekben keresés",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Adatelemzés...",
-      "PLACEHOLDER": "Írj be szöveget hogy keress az üzenetek közt",
-      "NO_MATCHING_RESULTS": "Nincs találat."
-    },
-    "UNREAD_MESSAGES": "Olvasatlan üzenetek",
-    "UNREAD_MESSAGE": "Olvasatlan üzenet",
-    "CLICK_HERE": "Kattints ide",
-    "LOADING_INBOXES": "Postaládák betöltése",
-    "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
-    "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGNMENT": {
+      "ASSIGN": "Hozzárendelés",
+      "REMOVE": "Eltávolítás",
+      "SELECT_AGENT": "Ügynök kiválasztása"
+    },
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_TO_ME": "Assign to me",
-    "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "Neki válaszolsz:",
-    "REMOVE_SELECTION": "Kijelölés törlése",
-    "DOWNLOAD": "Letöltés",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
-    "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "Nincs válasz",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "BOT": "Bot",
+    "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
-    },
-    "HEADER": {
-      "RESOLVE_ACTION": "Megoldva",
-      "REOPEN_ACTION": "Újranyitás",
-      "OPEN_ACTION": "Megnyitás",
-      "OPEN": "Tovább",
-      "CLOSE": "Bezárás",
-      "DETAILS": "részletek",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
-    },
-    "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
-      "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
-      }
+      "HIDE_LABELS": "Hide labels",
+      "SHOW_LABELS": "Show labels"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
-      "REOPEN": "Beszélgetés újranyitása",
-      "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+      "AGENTS_LOADING": "Loading agents...",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "FAILED": "Couldn't assign agent. Please try again.",
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\""
+        },
+        "LABEL_ASSIGNMENT": {
+          "FAILED": "Couldn't assign label. Please try again.",
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}"
+        },
+        "TEAM_ASSIGNMENT": {
+          "FAILED": "Couldn't assign team. Please try again.",
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}"
+        }
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
-      "API": {
-        "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
-        },
-        "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
-        },
-        "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
-        }
+      "MARK_AS_UNREAD": "Mark as unread",
+      "PENDING": "Mark as pending",
+      "REOPEN": "Beszélgetés újranyitása",
+      "RESOLVED": "Mark as resolved",
+      "SNOOZE": {
+        "NEXT_REPLY": "Until next reply",
+        "NEXT_WEEK": "Until next week",
+        "TITLE": "Snooze",
+        "TOMORROW": "Until tomorrow"
       }
     },
-    "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
-      "PRIVATE_MSG_INPUT": "Shift + enter új sorért. Ezt csak ügynökök láthatják",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
-    },
-    "REPLYBOX": {
-      "REPLY": "Válasz",
-      "PRIVATE_NOTE": "Privát üzenet",
-      "SEND": "Elküldés",
-      "CREATE": "Megjegyzés hozzáadása",
-      "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
-      "TIP_EMOJI_ICON": "Emoji választó mutatása",
-      "TIP_ATTACH_ICON": "Fileok csatolása",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "": "",
-      "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
-        "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
-        },
-        "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
-        }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
-        "CONFIRM": {
-          "YES": "Elküldés",
-          "CANCEL": "Mégse"
-        }
-      }
-    },
-    "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
-    "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Hozzárendelt ügynök megváltoztatva",
     "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Küldő:",
-    "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
-    "ASSIGNMENT": {
-      "SELECT_AGENT": "Ügynök kiválasztása",
-      "REMOVE": "Eltávolítás",
-      "ASSIGN": "Hozzárendelés"
-    },
+    "CLICK_HERE": "Kattints ide",
     "CONTEXT_MENU": {
       "COPY": "Másolás",
-      "DELETE": "Törlés",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
-    }
-  },
-  "EMAIL_TRANSCRIPT": {
-    "TITLE": "Beszélgetés kivonat elküldése",
-    "DESC": "A beszélgetés másolatának elküldése egy megadott e-mailcímre",
-    "SUBMIT": "Elküldés",
-    "CANCEL": "Mégse",
-    "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
-    "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra",
-    "FORM": {
-      "SEND_TO_CONTACT": "A beszélgetés jegyzet elküldése az ügyfélnek",
-      "SEND_TO_AGENT": "A beszélgetés jegyzet elküldése a hozzárendelt ügynöknek",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Küldj jegyzetet egy másik e-mailcímre",
-      "EMAIL": {
-        "PLACEHOLDER": "E-mailcím megadása",
-        "ERROR": "Kérjük helyes e-mailcímet adj meg"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "DELETE": "Törlés"
+    },
+    "CSAT_REPLY_MESSAGE": "Kérlek értékeld a beszélgetést",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "DOWNLOAD": "Letöltés",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "FEEDBACK_TITLE": "Feedback",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FOOTER": {
+      "CLICK_HERE": "Click here to update",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
+      "PRIVATE_MSG_INPUT": "Shift + enter új sorért. Ezt csak ügynökök láthatják"
+    },
+    "HEADER": {
+      "CLOSE": "Bezárás",
+      "DETAILS": "részletek",
+      "OPEN": "Tovább",
+      "OPEN_ACTION": "Megnyitás",
+      "REOPEN_ACTION": "Újranyitás",
+      "RESOLVE_ACTION": "Megoldva",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow"
+    },
+    "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
+    "LOADING_INBOXES": "Postaládák betöltése",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NO_INBOX_1": "Hola! Úgy tűnik, hogy még nem adtál hozzá fiókokat.",
+    "NO_INBOX_2": " Első lépések",
+    "NO_INBOX_AGENT": "O-Ó! Úgy tűnik, hogy egyetlen fióknak sem vagy tagja. Kérjük lépj kapcsolatba az adminisztrátoroddal",
+    "NO_MESSAGE_1": "Jajj ne! Úgy tűnik, hogy nincs több ügyfélbeszélgetés az inboxodban.",
+    "NO_MESSAGE_2": "egy üzenet küldéséhez az oldaladra!",
+    "NO_RESPONSE": "Nincs válasz",
+    "RATING_TITLE": "Rating",
+    "REMOVE_SELECTION": "Kijelölés törlése",
+    "REPLYBOX": {
+      "": "",
+      "CREATE": "Megjegyzés hozzáadása",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "BCC": {
+          "ERROR": "Please enter valid email addresses",
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas"
+        },
+        "CC": {
+          "ERROR": "Please enter valid email addresses",
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas"
+        }
+      },
+      "PRIVATE_NOTE": "Privát üzenet",
+      "REPLY": "Válasz",
+      "SEND": "Elküldés",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "TIP_ATTACH_ICON": "Fileok csatolása",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_EMOJI_ICON": "Emoji választó mutatása",
+      "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
+      "TWEET": "Tweet",
+      "UNDEFINED_VARIABLES": {
+        "CONFIRM": {
+          "CANCEL": "Mégse",
+          "YES": "Elküldés"
+        },
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Undefined variables"
       }
-    }
+    },
+    "REPLYING_TO": "Neki válaszolsz:",
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "NEXT_REPLY": "Next reply",
+        "NEXT_WEEK": "Next week",
+        "TITLE": "Snooze until",
+        "TOMORROW": "Tomorrow"
+      }
+    },
+    "SAVE_CONTACT": "Save",
+    "SEARCH": {
+      "LOADING_MESSAGE": "Adatelemzés...",
+      "NO_MATCHING_RESULTS": "Nincs találat.",
+      "PLACEHOLDER": "Írj be szöveget hogy keress az üzenetek közt",
+      "RESULT_TITLE": "Search Results",
+      "TITLE": "Üzenetekben keresés"
+    },
+    "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
+    "SELECT_A_CONVERSATION": "Kérjük válassz egy beszélgetést a bal sávból",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "SENT_BY": "Küldő:",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "TRY_AGAIN": "retry",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNREAD_MESSAGE": "Olvasatlan üzenet",
+    "UNREAD_MESSAGES": "Olvasatlan üzenetek",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
+    "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható"
   },
-  "ONBOARDING": {
-    "TITLE": "Hello 👋, köszöntünk a %{installationName}!",
-    "DESCRIPTION": "Köszönjük, hogy feliratkoztál. Segíteni akarunk, hogy a legtöbbet hozd ki a %{installationName}. Itt találsz egy pár dolgot, amit a %{installationName} lehetővé tesz.",
-    "READ_LATEST_UPDATES": "Olvasd el legfrissebbeket",
-    "ALL_CONVERSATION": {
-      "TITLE": "Minden beszélgetésed egy helyen",
-      "DESCRIPTION": "Kövesd az összes ügyfélbeszélgetésedet egy felületről. Szűrheted a beszélgetéseket csatorna, cimke vagy státusz alapján."
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD": {
+      "ERROR": "Unable to add attribute. Please try again later",
+      "SUCCESS": "Attribute added successfully",
+      "TITLE": "Hozzáadás"
     },
-    "TEAM_MEMBERS": {
-      "TITLE": "Hívd meg csapattagjaidat",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Kattints ide csapattag meghívásához"
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "ATTRIBUTE_SELECT": {
+      "NO_RESULT": "No attributes found",
+      "PLACEHOLDER": "Search attributes",
+      "TITLE": "Add attributes"
     },
-    "INBOXES": {
-      "TITLE": "Inboxok összekötése",
-      "DESCRIPTION": "Különböző csatornákat használva kapcsolódj az ügyfeleidhez. Weboldal chateden, a Facebook vagy Twitter fiókodon, vagy akár WhatsApp számodon keresztül.",
-      "NEW_LINK": "Kattints ide postaláda létrehozásához"
+    "DELETE": {
+      "ERROR": "Unable to delete attribute. Please try again later",
+      "SUCCESS": "Attribute deleted successfully"
     },
-    "LABELS": {
-      "TITLE": "Rendezd a beszélgetéseket cimkékkel",
-      "DESCRIPTION": "A cimkék egyszerű módot biztosítanak hogy kategorizáld a beszélgetést. Hozz létre cimkéket, mint például a #támogatás vagy a #számlázás, stb... későbbi használatra.",
-      "NEW_LINK": "Kattints ide cimkék létrehozásához"
+    "UPDATE": {
+      "ERROR": "Unable to update attribute. Please try again later",
+      "SUCCESS": "Attribute updated successfully"
     }
   },
   "CONVERSATION_SIDEBAR": {
+    "ACCORDION": {
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONVERSATION_LABELS": "Beszélgetés cimkék",
+      "MACROS": "Macros",
+      "PREVIOUS_CONVERSATION": "Korábbi beszélgetések"
+    },
     "ASSIGNEE_LABEL": "Hozzárendelt ügynök",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Hozzárendelt csapat",
     "SELECT": {
       "PLACEHOLDER": "Nincs"
     },
-    "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Beszélgetés cimkék",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Korábbi beszélgetések",
-      "MACROS": "Macros"
-    }
-  },
-  "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
-    "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
-    },
-    "ADD": {
-      "TITLE": "Hozzáadás",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
-    },
-    "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
-    },
-    "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
-    }
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Hozzárendelt csapat"
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "Ide",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "FROM": "From",
+    "SUBJECT": "Subject",
+    "TO": "Ide"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "CANCEL": "Mégse",
+    "DESC": "A beszélgetés másolatának elküldése egy megadott e-mailcímre",
+    "FORM": {
+      "EMAIL": {
+        "ERROR": "Kérjük helyes e-mailcímet adj meg",
+        "PLACEHOLDER": "E-mailcím megadása"
+      },
+      "SEND_TO_AGENT": "A beszélgetés jegyzet elküldése a hozzárendelt ügynöknek",
+      "SEND_TO_CONTACT": "A beszélgetés jegyzet elküldése az ügyfélnek",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Küldj jegyzetet egy másik e-mailcímre"
+    },
+    "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra",
+    "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
+    "SUBMIT": "Elküldés",
+    "TITLE": "Beszélgetés kivonat elküldése"
+  },
+  "ONBOARDING": {
+    "ALL_CONVERSATION": {
+      "DESCRIPTION": "Kövesd az összes ügyfélbeszélgetésedet egy felületről. Szűrheted a beszélgetéseket csatorna, cimke vagy státusz alapján.",
+      "TITLE": "Minden beszélgetésed egy helyen"
+    },
+    "DESCRIPTION": "Köszönjük, hogy feliratkoztál. Segíteni akarunk, hogy a legtöbbet hozd ki a %{installationName}. Itt találsz egy pár dolgot, amit a %{installationName} lehetővé tesz.",
+    "INBOXES": {
+      "DESCRIPTION": "Különböző csatornákat használva kapcsolódj az ügyfeleidhez. Weboldal chateden, a Facebook vagy Twitter fiókodon, vagy akár WhatsApp számodon keresztül.",
+      "NEW_LINK": "Kattints ide postaláda létrehozásához",
+      "TITLE": "Inboxok összekötése"
+    },
+    "LABELS": {
+      "DESCRIPTION": "A cimkék egyszerű módot biztosítanak hogy kategorizáld a beszélgetést. Hozz létre cimkéket, mint például a #támogatás vagy a #számlázás, stb... későbbi használatra.",
+      "NEW_LINK": "Kattints ide cimkék létrehozásához",
+      "TITLE": "Rendezd a beszélgetéseket cimkékkel"
+    },
+    "READ_LATEST_UPDATES": "Olvasd el legfrissebbeket",
+    "TEAM_MEMBERS": {
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "NEW_LINK": "Kattints ide csapattag meghívásához",
+      "TITLE": "Hívd meg csapattagjaidat"
+    },
+    "TITLE": "Hello 👋, köszöntünk a %{installationName}!"
   }
 }

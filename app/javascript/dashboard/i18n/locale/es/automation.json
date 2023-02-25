@@ -1,118 +1,118 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizaciones",
-    "HEADER_BTN_TXT": "Añadir regla de automatización",
-    "LOADING": "Obteniendo reglas de automatización",
-    "SIDEBAR_TXT": "<p><b>Reglas de automatización</b> <p>Automatización puede reemplazar y automatizar procesos existentes que requieren esfuerzo manual. Puedes hacer muchas cosas con la automatización, incluyendo añadir etiquetas y asignar la conversación al mejor agente. Así que el equipo se centra en lo que hacen mejor y gasta más poco tiempo en tareas manuales.</p>",
+    "ACTION": {
+      "DELETE_MESSAGE": "Necesitas tener al menos una acción para guardar",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí"
+    },
     "ADD": {
-      "TITLE": "Añadir regla de automatización",
-      "SUBMIT": "Crear",
+      "ACTION_BUTTON_LABEL": "Añadir Acción",
+      "API": {
+        "ERROR_MESSAGE": "No se pudo crear una regla de automatización, por favor inténtalo de nuevo más tarde",
+        "SUCCESS_MESSAGE": "Regla de automatización añadida correctamente"
+      },
       "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CONDITION_BUTTON_LABEL": "Añadir condición",
       "FORM": {
-        "NAME": {
-          "LABEL": "Nombre de regla",
-          "PLACEHOLDER": "Introduzca el nombre de regla",
-          "ERROR": "El nombre es requerido"
-        },
-        "DESC": {
-          "LABEL": "Descripción",
-          "PLACEHOLDER": "Introduce la descripción de la regla",
-          "ERROR": "Descripción requerida"
-        },
-        "EVENT": {
-          "LABEL": "Evento",
-          "PLACEHOLDER": "Por favor, seleccione uno",
-          "ERROR": "El evento es requerido"
+        "ACTIONS": {
+          "LABEL": "Acciones"
         },
         "CONDITIONS": {
           "LABEL": "Condiciones"
         },
-        "ACTIONS": {
-          "LABEL": "Acciones"
+        "DESC": {
+          "ERROR": "Descripción requerida",
+          "LABEL": "Descripción",
+          "PLACEHOLDER": "Introduce la descripción de la regla"
+        },
+        "EVENT": {
+          "ERROR": "El evento es requerido",
+          "LABEL": "Evento",
+          "PLACEHOLDER": "Por favor, seleccione uno"
+        },
+        "NAME": {
+          "ERROR": "El nombre es requerido",
+          "LABEL": "Nombre de regla",
+          "PLACEHOLDER": "Introduzca el nombre de regla"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Añadir condición",
-      "ACTION_BUTTON_LABEL": "Añadir Acción",
-      "API": {
-        "SUCCESS_MESSAGE": "Regla de automatización añadida correctamente",
-        "ERROR_MESSAGE": "No se pudo crear una regla de automatización, por favor inténtalo de nuevo más tarde"
-      }
+      "SUBMIT": "Crear",
+      "TITLE": "Añadir regla de automatización"
     },
+    "ATTACHMENT": {
+      "LABEL_IDLE": "Subir archivo adjunto",
+      "LABEL_UPLOADED": "Subido correctamente",
+      "LABEL_UPLOADING": "Subiendo...",
+      "LABEL_UPLOAD_FAILED": "Error al subir",
+      "UPLOAD_ERROR": "No se pudo subir el archivo adjunto, por favor inténtelo de nuevo"
+    },
+    "CLONE": {
+      "API": {
+        "ERROR_MESSAGE": "No se pudo clonar la regla de automatización, por favor inténtalo más tarde",
+        "SUCCESS_MESSAGE": "Automatización clonada con éxito"
+      },
+      "TOOLTIP": "Clonar"
+    },
+    "CONDITION": {
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atributos personalizados del contacto",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados de la conversación",
+      "DELETE_MESSAGE": "Necesitas tener al menos una condición para guardar"
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "No se pudo eliminar una regla de automatización, por favor inténtalo más tarde",
+        "SUCCESS_MESSAGE": "Regla de automatización eliminada correctamente"
+      },
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CONFIRM": {
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "NO": "No, mantenerlo ",
+        "TITLE": "Confirmar eliminación",
+        "YES": "Sí, eliminar "
+      },
+      "SUBMIT": "Eliminar",
+      "TITLE": "Eliminar regla de automatización"
+    },
+    "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "No se pudo actualizar la regla de automatización, por favor inténtalo más tarde",
+        "SUCCESS_MESSAGE": "Regla de automatización actualizada correctamente"
+      },
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "SUBMIT": "Actualizar",
+      "TITLE": "Editar regla de automatización"
+    },
+    "FORM": {
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear",
+      "DELETE": "Eliminar",
+      "EDIT": "Editar",
+      "RESET_MESSAGE": "El cambio de tipo de evento restablecerá las condiciones y eventos que has añadido abajo"
+    },
+    "HEADER": "Automatizaciones",
+    "HEADER_BTN_TXT": "Añadir regla de automatización",
     "LIST": {
+      "404": "No se encontraron reglas de automatización",
       "TABLE_HEADER": [
         "Nombre",
         "Descripción",
         "Activo",
         "Creado el"
-      ],
-      "404": "No se encontraron reglas de automatización"
+      ]
     },
-    "DELETE": {
-      "TITLE": "Eliminar regla de automatización",
-      "SUBMIT": "Eliminar",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
-      "CONFIRM": {
-        "TITLE": "Confirmar eliminación",
-        "MESSAGE": "¿Está seguro de eliminar ",
-        "YES": "Sí, eliminar ",
-        "NO": "No, mantenerlo "
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Regla de automatización eliminada correctamente",
-        "ERROR_MESSAGE": "No se pudo eliminar una regla de automatización, por favor inténtalo más tarde"
-      }
-    },
-    "EDIT": {
-      "TITLE": "Editar regla de automatización",
-      "SUBMIT": "Actualizar",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
-      "API": {
-        "SUCCESS_MESSAGE": "Regla de automatización actualizada correctamente",
-        "ERROR_MESSAGE": "No se pudo actualizar la regla de automatización, por favor inténtalo más tarde"
-      }
-    },
-    "CLONE": {
-      "TOOLTIP": "Clonar",
-      "API": {
-        "SUCCESS_MESSAGE": "Automatización clonada con éxito",
-        "ERROR_MESSAGE": "No se pudo clonar la regla de automatización, por favor inténtalo más tarde"
-      }
-    },
-    "FORM": {
-      "EDIT": "Editar",
-      "CREATE": "Crear",
-      "DELETE": "Eliminar",
-      "CANCEL": "Cancelar",
-      "RESET_MESSAGE": "El cambio de tipo de evento restablecerá las condiciones y eventos que has añadido abajo"
-    },
-    "CONDITION": {
-      "DELETE_MESSAGE": "Necesitas tener al menos una condición para guardar",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Atributos personalizados del contacto",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados de la conversación"
-    },
-    "ACTION": {
-      "DELETE_MESSAGE": "Necesitas tener al menos una acción para guardar",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos"
-    },
+    "LOADING": "Obteniendo reglas de automatización",
+    "SIDEBAR_TXT": "<p><b>Reglas de automatización</b> <p>Automatización puede reemplazar y automatizar procesos existentes que requieren esfuerzo manual. Puedes hacer muchas cosas con la automatización, incluyendo añadir etiquetas y asignar la conversación al mejor agente. Así que el equipo se centra en lo que hacen mejor y gasta más poco tiempo en tareas manuales.</p>",
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activar regla de automatización",
-      "DEACTIVATION_TITLE": "Desactivar regla de automatización",
       "ACTIVATION_DESCRIPTION": "Esta acción activará la regla de automatización '{automationName}'. ¿Seguro que desea continuar?",
-      "DEACTIVATION_DESCRIPTION": "Esta acción desactivará la regla de automatización '{automationName}'. ¿Está seguro que desea continuar?",
-      "ACTIVATION_SUCCESFUL": "Regla de automatización activada con éxito",
-      "DEACTIVATION_SUCCESFUL": "Regla de automatización desactivada con éxito",
       "ACTIVATION_ERROR": "No se pudo activar la automatización, por favor inténtelo de nuevo más tarde",
-      "DEACTIVATION_ERROR": "No se pudo desactivar la automatización, por favor inténtelo de nuevo más tarde",
+      "ACTIVATION_SUCCESFUL": "Regla de automatización activada con éxito",
+      "ACTIVATION_TITLE": "Activar regla de automatización",
+      "CANCEL_LABEL": "No",
       "CONFIRMATION_LABEL": "Si",
-      "CANCEL_LABEL": "No"
-    },
-    "ATTACHMENT": {
-      "UPLOAD_ERROR": "No se pudo subir el archivo adjunto, por favor inténtelo de nuevo",
-      "LABEL_IDLE": "Subir archivo adjunto",
-      "LABEL_UPLOADING": "Subiendo...",
-      "LABEL_UPLOADED": "Subido correctamente",
-      "LABEL_UPLOAD_FAILED": "Error al subir"
+      "DEACTIVATION_DESCRIPTION": "Esta acción desactivará la regla de automatización '{automationName}'. ¿Está seguro que desea continuar?",
+      "DEACTIVATION_ERROR": "No se pudo desactivar la automatización, por favor inténtelo de nuevo más tarde",
+      "DEACTIVATION_SUCCESFUL": "Regla de automatización desactivada con éxito",
+      "DEACTIVATION_TITLE": "Desactivar regla de automatización"
     }
   }
 }

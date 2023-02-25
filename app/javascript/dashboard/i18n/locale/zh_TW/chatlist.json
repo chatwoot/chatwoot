@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "正在取得對話",
-    "LOAD_MORE_CONVERSATIONS": "載入更多對話",
-    "EOF": "所有對話已載入 🎉",
-    "LIST": {
-      "404": "這個群組中無有效對話"
-    },
-    "TAB_HEADING": "對話",
-    "MENTION_HEADING": "Mentions",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "搜尋人、聊天室、保存回覆"
-    },
-    "FILTER_ALL": "所有的",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "所有的",
       "me": "我的",
-      "unassigned": "未指派的",
-      "all": "所有的"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "打開"
-      },
-      "resolved": {
-        "TEXT": "已解決"
-      },
-      "pending": {
-        "TEXT": "待處理"
-      },
-      "snoozed": {
-        "TEXT": "Snoozed"
-      },
-      "all": {
-        "TEXT": "所有的"
-      }
+      "unassigned": "未指派的"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "圖片訊息"
-      },
       "audio": {
         "CONTENT": "聲音訊息"
       },
-      "video": {
-        "CONTENT": "影片訊息"
+      "fallback": {
+        "CONTENT": "分享了一個網址"
       },
       "file": {
         "CONTENT": "附件"
       },
+      "image": {
+        "CONTENT": "圖片訊息"
+      },
       "location": {
         "CONTENT": "位置"
       },
-      "fallback": {
-        "CONTENT": "分享了一個網址"
+      "video": {
+        "CONTENT": "影片訊息"
       }
     },
-    "RECEIVED_VIA_EMAIL": "使用電子郵件接收",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "傳送成功",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "所有的"
+      },
+      "open": {
+        "TEXT": "打開"
+      },
+      "pending": {
+        "TEXT": "待處理"
+      },
+      "resolved": {
+        "TEXT": "已解決"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "沒有訊息",
-    "NO_CONTENT": "沒有可用內容",
+    "EOF": "所有對話已載入 🎉",
+    "FILTER_ALL": "所有的",
     "HIDE_QUOTED_TEXT": "隱藏引用文字",
+    "LINK_TO_STORY": "Go to instagram story",
+    "LIST": {
+      "404": "這個群組中無有效對話"
+    },
+    "LOADING": "正在取得對話",
+    "LOAD_MORE_CONVERSATIONS": "載入更多對話",
+    "MENTION_HEADING": "Mentions",
+    "MESSAGE_READ": "Read",
+    "NO_CONTENT": "沒有可用內容",
+    "NO_MESSAGES": "沒有訊息",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "使用電子郵件接收",
+    "REPLY_TO_TWEET": "Reply to this tweet",
+    "SEARCH": {
+      "INPUT": "搜尋人、聊天室、保存回覆"
+    },
+    "SENT": "傳送成功",
     "SHOW_QUOTED_TEXT": "顯示引用文字",
-    "MESSAGE_READ": "Read"
+    "TAB_HEADING": "對話",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter"
   }
 }

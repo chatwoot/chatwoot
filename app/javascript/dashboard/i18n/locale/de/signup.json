@@ -1,41 +1,41 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Konto erstellen",
-    "TITLE": "Registrieren",
-    "TESTIMONIAL_HEADER": "Alles, was er braucht, ist ein Schritt, um vorwärtszugehen",
-    "TESTIMONIAL_CONTENT": "Sie sind nur noch einen Schritt davon entfernt, Ihre Kunden zu gewinnen, zu binden und neue zu finden.",
-    "TERMS_ACCEPT": "Durch die Erstellung eines Kontos stimmen Sie unseren <a href=\"https://www.chatwoot.com/terms-of-service\">Allgemeinn Geschäftsbedingungen</a> und unserer <a href=\"https://www.chatwoot.com/privacy-policy\">Datenschutzrichtlinie</a> zu",
+    "API": {
+      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut",
+      "SUCCESS_MESSAGE": "Registrierung erfolgreich"
+    },
     "COMPANY_NAME": {
+      "ERROR": "Firmenname ist zu kurz",
       "LABEL": "Firmenname",
-      "PLACEHOLDER": "Geben Sie Ihren Firmennamen ein, z. B.: Wayne Enterprises",
-      "ERROR": "Firmenname ist zu kurz"
-    },
-    "FULL_NAME": {
-      "LABEL": "Vollständiger Name",
-      "PLACEHOLDER": "Geben Sie Ihren vollständigen Namen ein, z. B.: Bruce Wayne",
-      "ERROR": "Vollständiger Name ist zu kurz"
-    },
-    "EMAIL": {
-      "LABEL": "Geschäftliche E-Mail-Adresse",
-      "PLACEHOLDER": "Geben Sie Ihre geschäftliche E-Mail-Adresse ein, z. B.: bruce@wayne.enterprises",
-      "ERROR": "Bitte geben Sie eine gültige Arbeits-E-Mail-Adresse ein"
-    },
-    "PASSWORD": {
-      "LABEL": "Passwort",
-      "PLACEHOLDER": "Passwort",
-      "ERROR": "Das Passwort ist zu kurz",
-      "IS_INVALID_PASSWORD": "Das Passwort sollte mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Ziffer und 1 Sonderzeichen enthalten"
+      "PLACEHOLDER": "Geben Sie Ihren Firmennamen ein, z. B.: Wayne Enterprises"
     },
     "CONFIRM_PASSWORD": {
+      "ERROR": "Passwort stimmt nicht überein",
       "LABEL": "Bestätige das Passwort",
-      "PLACEHOLDER": "Bestätige das Passwort",
-      "ERROR": "Passwort stimmt nicht überein"
+      "PLACEHOLDER": "Bestätige das Passwort"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Registrierung erfolgreich",
-      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+    "EMAIL": {
+      "ERROR": "Bitte geben Sie eine gültige Arbeits-E-Mail-Adresse ein",
+      "LABEL": "Geschäftliche E-Mail-Adresse",
+      "PLACEHOLDER": "Geben Sie Ihre geschäftliche E-Mail-Adresse ein, z. B.: bruce@wayne.enterprises"
+    },
+    "FULL_NAME": {
+      "ERROR": "Vollständiger Name ist zu kurz",
+      "LABEL": "Vollständiger Name",
+      "PLACEHOLDER": "Geben Sie Ihren vollständigen Namen ein, z. B.: Bruce Wayne"
+    },
+    "HAVE_AN_ACCOUNT": "Haben Sie bereits ein Konto?",
+    "PASSWORD": {
+      "ERROR": "Das Passwort ist zu kurz",
+      "IS_INVALID_PASSWORD": "Das Passwort sollte mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Ziffer und 1 Sonderzeichen enthalten",
+      "LABEL": "Passwort",
+      "PLACEHOLDER": "Passwort"
     },
     "SUBMIT": "Konto erstellen",
-    "HAVE_AN_ACCOUNT": "Haben Sie bereits ein Konto?"
+    "TERMS_ACCEPT": "Durch die Erstellung eines Kontos stimmen Sie unseren <a href=\"https://www.chatwoot.com/terms-of-service\">Allgemeinn Geschäftsbedingungen</a> und unserer <a href=\"https://www.chatwoot.com/privacy-policy\">Datenschutzrichtlinie</a> zu",
+    "TESTIMONIAL_CONTENT": "Sie sind nur noch einen Schritt davon entfernt, Ihre Kunden zu gewinnen, zu binden und neue zu finden.",
+    "TESTIMONIAL_HEADER": "Alles, was er braucht, ist ein Schritt, um vorwärtszugehen",
+    "TITLE": "Registrieren",
+    "TRY_WOOT": "Konto erstellen"
   }
 }

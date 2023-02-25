@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Chatwoot'ta oturum açın",
+    "API": {
+      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin",
+      "SUCCESS_MESSAGE": "Giriş başarılı",
+      "UNAUTH": "Kullanıcı Adı / Parola Yanlış. Lütfen tekrar deneyin"
+    },
+    "CREATE_NEW_ACCOUNT": "Yeni hesap oluştur",
     "EMAIL": {
       "LABEL": "E-Posta",
       "PLACEHOLDER": "E-posta, örneğin: birisi@örnek.com"
     },
+    "FORGOT_PASSWORD": "Parolanızı mı unuttunuz?",
     "PASSWORD": {
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Giriş başarılı",
-      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin",
-      "UNAUTH": "Kullanıcı Adı / Parola Yanlış. Lütfen tekrar deneyin"
-    },
-    "FORGOT_PASSWORD": "Parolanızı mı unuttunuz?",
-    "CREATE_NEW_ACCOUNT": "Yeni hesap oluştur",
-    "SUBMIT": "Oturum aç"
+    "SUBMIT": "Oturum aç",
+    "TITLE": "Chatwoot'ta oturum açın"
   }
 }

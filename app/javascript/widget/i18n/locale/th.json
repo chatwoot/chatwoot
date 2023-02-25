@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "คุยกับเรา"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CHAT_PLACEHOLDER": "พิมพ์ข้อความ",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "ดาวโหลด",
@@ -8,89 +17,80 @@
       "SUBMIT": "ส่ง"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "ส่งข้อความอีกครั้ง",
-      "ERROR_MESSAGE": "ไม่สามารถส่งได้ ลองอีกครั้ง"
+      "ERROR_MESSAGE": "ไม่สามารถส่งได้ ลองอีกครั้ง",
+      "RETRY": "ส่งข้อความอีกครั้ง"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "เรากำลังออนไลน์",
-    "OFFLINE": "เราไม่อยู่"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "ปกติจะตอบกลับภายในไม่กี่นาที",
-    "IN_A_FEW_HOURS": "ปกติจะตอบกลับในไม่กี่ชั่วโมง",
-    "IN_A_DAY": "ปกติจะตอบกลับภายใน 1 วัน"
-  },
-  "START_CONVERSATION": "เริ่มการสนทนา",
-  "END_CONVERSATION": "จบการสนทนา",
   "CONTINUE_CONVERSATION": "สนทนาต่อ",
-  "START_NEW_CONVERSATION": "เริ่มการสนทนาใหม่",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "ดูข้อความใหม่",
-    "CLOSE_MESSAGES_BUTTON": "ปิด",
-    "COMPANY_FROM": "จาก",
-    "BOT": "บอท"
+  "CSAT": {
+    "PLACEHOLDER": "บอกเราเพิ่มเติม...",
+    "SUBMITTED_TITLE": "ขอบคุณที่ร่วมมือให้คะแนนการสนทนากับเรา",
+    "TITLE": "ให้คะแนนการสนทนาครั้งนี้"
   },
-  "BUBBLE": {
-    "LABEL": "คุยกับเรา"
+  "EMAIL_PLACEHOLDER": "กรุณากรอกอีเมล์ของคุณ",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "ต้องการให้ส่งบทสนทนานี้ทางอีเมล์",
+    "SEND_EMAIL_ERROR": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง",
+    "SEND_EMAIL_SUCCESS": "บันทึกการสนทนาได้ถูกส่งเเล้ว"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "No emoji match your search",
+    "PLACEHOLDER": "Search emojis"
+  },
+  "END_CONVERSATION": "จบการสนทนา",
+  "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   },
   "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "กรุณากรอกอีเมล์ของคุณ",
-  "CHAT_PLACEHOLDER": "พิมพ์ข้อความ",
-  "TODAY": "วันนี้",
-  "YESTERDAY": "เมื่อวาน",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "ชื่อเต็ม",
-        "PLACEHOLDER": "โปรดใส่ชื่อเต็มของคุณ",
-        "REQUIRED_ERROR": "จำเป็นต้องใส่ชื่อเต็ม"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "ที่อยู่อีเมล์",
         "PLACEHOLDER": "โปรดใส่อีเมล์ของคุณ",
         "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "กรุณากรอกที่อยู่อีเมล์ให้ถูกต้อง"
       },
+      "FULL_NAME": {
+        "LABEL": "ชื่อเต็ม",
+        "PLACEHOLDER": "โปรดใส่ชื่อเต็มของคุณ",
+        "REQUIRED_ERROR": "จำเป็นต้องใส่ชื่อเต็ม"
+      },
+      "MESSAGE": {
+        "ERROR": "ข้อความสั้นเกินไป",
+        "LABEL": "ข้อความ",
+        "PLACEHOLDER": "โปรดพิมพ์ข้อความ"
+      },
       "PHONE_NUMBER": {
         "LABEL": "หมายเลขโทรศัพท์",
         "PLACEHOLDER": "Please enter your phone number",
         "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "ข้อความ",
-        "PLACEHOLDER": "โปรดพิมพ์ข้อความ",
-        "ERROR": "ข้อความสั้นเกินไป"
       }
     },
-    "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
     "IS_REQUIRED": "is required"
   },
-  "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Invalid field"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "ปกติจะตอบกลับภายใน 1 วัน",
+    "IN_A_FEW_HOURS": "ปกติจะตอบกลับในไม่กี่ชั่วโมง",
+    "IN_A_FEW_MINUTES": "ปกติจะตอบกลับภายในไม่กี่นาที"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+  "START_CONVERSATION": "เริ่มการสนทนา",
+  "START_NEW_CONVERSATION": "เริ่มการสนทนาใหม่",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "เราไม่อยู่",
+    "ONLINE": "เรากำลังออนไลน์"
   },
-  "CSAT": {
-    "TITLE": "ให้คะแนนการสนทนาครั้งนี้",
-    "SUBMITTED_TITLE": "ขอบคุณที่ร่วมมือให้คะแนนการสนทนากับเรา",
-    "PLACEHOLDER": "บอกเราเพิ่มเติม..."
+  "TODAY": "วันนี้",
+  "UNREAD_VIEW": {
+    "BOT": "บอท",
+    "CLOSE_MESSAGES_BUTTON": "ปิด",
+    "COMPANY_FROM": "จาก",
+    "VIEW_MESSAGES_BUTTON": "ดูข้อความใหม่"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "ต้องการให้ส่งบทสนทนานี้ทางอีเมล์",
-    "SEND_EMAIL_SUCCESS": "บันทึกการสนทนาได้ถูกส่งเเล้ว",
-    "SEND_EMAIL_ERROR": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
-    }
-  }
+  "YESTERDAY": "เมื่อวาน"
 }

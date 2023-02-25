@@ -1,4 +1,13 @@
 {
+  "BUBBLE": {
+    "LABEL": "Συνομιλήστε μαζί μας"
+  },
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Μη έγκυρο πεδίο"
+    }
+  },
+  "CHAT_PLACEHOLDER": "Πληκτρολογήστε το μήνυμά σας",
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Κατέβασμα",
@@ -8,89 +17,80 @@
       "SUBMIT": "Καταχώρηση"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Επαναποστολή μηνύματος",
-      "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά"
+      "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά",
+      "RETRY": "Επαναποστολή μηνύματος"
     }
   },
-  "TEAM_AVAILABILITY": {
-    "ONLINE": "Είμαστε online",
-    "OFFLINE": "Προς το παρόν, είμαστε εκτός"
-  },
-  "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Τυπικά έχετε απάντηση σε μερικά λεπτά",
-    "IN_A_FEW_HOURS": "Τυπικά έχετε απάντηση σε μερικές σε μερικές ώρες",
-    "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα"
-  },
-  "START_CONVERSATION": "Έναρξη Συνομιλίας",
-  "END_CONVERSATION": "Τέλος Συνομιλίας",
   "CONTINUE_CONVERSATION": "Συνέχιση συνομιλίας",
-  "START_NEW_CONVERSATION": "Έναρξη νέας συνομιλίας",
-  "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα",
-    "CLOSE_MESSAGES_BUTTON": "Κλείσιμο",
-    "COMPANY_FROM": "από",
-    "BOT": "Bot"
+  "CSAT": {
+    "PLACEHOLDER": "Πείτε μας περισσότερα...",
+    "SUBMITTED_TITLE": "Ευχαριστούμε για την υποβολή της αξιολόγησης",
+    "TITLE": "Αξιολογήστε τη συνομιλία σας"
   },
-  "BUBBLE": {
-    "LABEL": "Συνομιλήστε μαζί μας"
+  "EMAIL_PLACEHOLDER": "Παρακαλώ εισάγετε το email σας",
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Αίτηση μεταγραφής συνομιλίας",
+    "SEND_EMAIL_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά",
+    "SEND_EMAIL_SUCCESS": "Η μεταγραφή της συνομιλίας έχει αποσταλεί επιτυχώς"
+  },
+  "EMOJI": {
+    "NOT_FOUND": "Κανένα emoji δεν ταιριάζει με την αναζήτησή σας",
+    "PLACEHOLDER": "Αναζήτηση emojis"
+  },
+  "END_CONVERSATION": "Τέλος Συνομιλίας",
+  "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Κάντε κλικ εδώ για να συμμετάσχετε",
+      "LEAVE_THE_ROOM": "Έξοδος από την κλήση"
+    }
   },
   "POWERED_BY": "με την δύναμη του Chatwoot",
-  "EMAIL_PLACEHOLDER": "Παρακαλώ εισάγετε το email σας",
-  "CHAT_PLACEHOLDER": "Πληκτρολογήστε το μήνυμά σας",
-  "TODAY": "Σήμερα",
-  "YESTERDAY": "Χτες",
   "PRE_CHAT_FORM": {
+    "CAMPAIGN_HEADER": "Παρακαλώ δώστε το όνομα και το email σας πριν ξεκινήσετε την συνομιλία",
     "FIELDS": {
-      "FULL_NAME": {
-        "LABEL": "Πλήρες Όνομα",
-        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το πλήρες όνομα σας",
-        "REQUIRED_ERROR": "Απαιτείται πλήρες όνομα"
-      },
       "EMAIL_ADDRESS": {
         "LABEL": "Διεύθυνση Email",
         "PLACEHOLDER": "Παρακαλούμε εισάγετε τη διεύθυνση email σας",
         "REQUIRED_ERROR": "Απαιτείται διεύθυνση email",
         "VALID_ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
       },
+      "FULL_NAME": {
+        "LABEL": "Πλήρες Όνομα",
+        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το πλήρες όνομα σας",
+        "REQUIRED_ERROR": "Απαιτείται πλήρες όνομα"
+      },
+      "MESSAGE": {
+        "ERROR": "Πολύ σύντομο μήνυμα",
+        "LABEL": "Μήνυμα",
+        "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμά σας"
+      },
       "PHONE_NUMBER": {
         "LABEL": "Αριθμός Τηλεφώνου",
         "PLACEHOLDER": "Παρακαλώ εισάγετε τον αριθμό του τηλεφώνου σας",
         "REQUIRED_ERROR": "Απαιτείται ο αριθμός τηλεφώνου",
         "VALID_ERROR": "Ο αριθμός τηλεφώνου πρέπει να έχει μορφή E.164 π.χ.: +1415555555"
-      },
-      "MESSAGE": {
-        "LABEL": "Μήνυμα",
-        "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμά σας",
-        "ERROR": "Πολύ σύντομο μήνυμα"
       }
     },
-    "CAMPAIGN_HEADER": "Παρακαλώ δώστε το όνομα και το email σας πριν ξεκινήσετε την συνομιλία",
     "IS_REQUIRED": "είναι απαραίτητο"
   },
-  "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
-  "CHAT_FORM": {
-    "INVALID": {
-      "FIELD": "Μη έγκυρο πεδίο"
-    }
+  "REPLY_TIME": {
+    "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα",
+    "IN_A_FEW_HOURS": "Τυπικά έχετε απάντηση σε μερικές σε μερικές ώρες",
+    "IN_A_FEW_MINUTES": "Τυπικά έχετε απάντηση σε μερικά λεπτά"
   },
-  "EMOJI": {
-    "PLACEHOLDER": "Αναζήτηση emojis",
-    "NOT_FOUND": "Κανένα emoji δεν ταιριάζει με την αναζήτησή σας"
+  "START_CONVERSATION": "Έναρξη Συνομιλίας",
+  "START_NEW_CONVERSATION": "Έναρξη νέας συνομιλίας",
+  "TEAM_AVAILABILITY": {
+    "OFFLINE": "Προς το παρόν, είμαστε εκτός",
+    "ONLINE": "Είμαστε online"
   },
-  "CSAT": {
-    "TITLE": "Αξιολογήστε τη συνομιλία σας",
-    "SUBMITTED_TITLE": "Ευχαριστούμε για την υποβολή της αξιολόγησης",
-    "PLACEHOLDER": "Πείτε μας περισσότερα..."
+  "TODAY": "Σήμερα",
+  "UNREAD_VIEW": {
+    "BOT": "Bot",
+    "CLOSE_MESSAGES_BUTTON": "Κλείσιμο",
+    "COMPANY_FROM": "από",
+    "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα"
   },
-  "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Αίτηση μεταγραφής συνομιλίας",
-    "SEND_EMAIL_SUCCESS": "Η μεταγραφή της συνομιλίας έχει αποσταλεί επιτυχώς",
-    "SEND_EMAIL_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Κάντε κλικ εδώ για να συμμετάσχετε",
-      "LEAVE_THE_ROOM": "Έξοδος από την κλήση"
-    }
-  }
+  "YESTERDAY": "Χτες"
 }

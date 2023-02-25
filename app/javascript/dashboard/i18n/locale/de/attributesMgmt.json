@@ -1,99 +1,99 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Benutzerdefinierte Attribute",
-    "HEADER_BTN_TXT": "Benutzerdefiniertes Attribut hinzufügen",
-    "LOADING": "Benutzerdefinierte Attribute abrufen",
-    "SIDEBAR_TXT": "<p><b>Benutzerdefinierte Attribute</b> <p>Ein benutzerdefiniertes Attribut verfolgt Fakten über Ihre Kontakte/Konversationen – wie den Abonnementplan oder wann sie den ersten Artikel bestellt haben usw. <br/><br/> Um ein benutzerdefiniertes Attribut zu erstellen, klicken Sie einfach auf <b>Benutzerdefiniertes Attribut hinzufügen.</b> Sie können auch ein vorhandenes benutzerdefiniertes Attribut bearbeiten oder löschen, indem Sie auf die Schaltfläche „Bearbeiten“ oder „Löschen“ klicken.</p>",
     "ADD": {
-      "TITLE": "Benutzerdefiniertes Attribut hinzufügen",
-      "SUBMIT": "Erstellen",
+      "API": {
+        "ERROR_MESSAGE": "Konnte kein benutzerdefiniertes Attribut erstellen, bitte versuchen Sie es später erneut.",
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich hinzugefügt!"
+      },
       "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
-        "NAME": {
-          "LABEL": "Anzeigename",
-          "PLACEHOLDER": "Geben Sie den Anzeigenamen des benutzerdefinierten Attributs ein",
-          "ERROR": "Name wird benötigt"
-        },
         "DESC": {
+          "ERROR": "Beschreibung wird benötigt",
           "LABEL": "Beschreibung",
-          "PLACEHOLDER": "Geben Sie eine benutzerdefinierte Attributbeschreibung ein",
-          "ERROR": "Beschreibung wird benötigt"
-        },
-        "MODEL": {
-          "LABEL": "Gilt für",
-          "PLACEHOLDER": "Bitte auswählen",
-          "ERROR": "Modell wird benötigt"
-        },
-        "TYPE": {
-          "LABEL": "Typ",
-          "PLACEHOLDER": "Bitte Typ wählen",
-          "ERROR": "Typ wird benötigt",
-          "LIST": {
-            "LABEL": "Listenwerte",
-            "PLACEHOLDER": "Bitte Wert eingeben und Eingabetaste drücken",
-            "ERROR": "Muss mindestens einen Wert haben"
-          }
+          "PLACEHOLDER": "Geben Sie eine benutzerdefinierte Attributbeschreibung ein"
         },
         "KEY": {
-          "LABEL": "Schlüssel",
-          "PLACEHOLDER": "Benutzerdefinierten Attributschlüssel eingeben",
           "ERROR": "Schlüssel ist erforderlich",
-          "IN_VALID": "Ungültiger Schlüssel"
+          "IN_VALID": "Ungültiger Schlüssel",
+          "LABEL": "Schlüssel",
+          "PLACEHOLDER": "Benutzerdefinierten Attributschlüssel eingeben"
+        },
+        "MODEL": {
+          "ERROR": "Modell wird benötigt",
+          "LABEL": "Gilt für",
+          "PLACEHOLDER": "Bitte auswählen"
+        },
+        "NAME": {
+          "ERROR": "Name wird benötigt",
+          "LABEL": "Anzeigename",
+          "PLACEHOLDER": "Geben Sie den Anzeigenamen des benutzerdefinierten Attributs ein"
+        },
+        "TYPE": {
+          "ERROR": "Typ wird benötigt",
+          "LABEL": "Typ",
+          "LIST": {
+            "ERROR": "Muss mindestens einen Wert haben",
+            "LABEL": "Listenwerte",
+            "PLACEHOLDER": "Bitte Wert eingeben und Eingabetaste drücken"
+          },
+          "PLACEHOLDER": "Bitte Typ wählen"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich hinzugefügt!",
-        "ERROR_MESSAGE": "Konnte kein benutzerdefiniertes Attribut erstellen, bitte versuchen Sie es später erneut."
-      }
+      "SUBMIT": "Erstellen",
+      "TITLE": "Benutzerdefiniertes Attribut hinzufügen"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Löschen",
       "API": {
-        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich gelöscht.",
-        "ERROR_MESSAGE": "Das benutzerdefinierte Attribut konnte nicht gelöscht werden. Versuchen Sie es noch einmal."
+        "ERROR_MESSAGE": "Das benutzerdefinierte Attribut konnte nicht gelöscht werden. Versuchen Sie es noch einmal.",
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich gelöscht."
       },
+      "BUTTON_TEXT": "Löschen",
       "CONFIRM": {
-        "TITLE": "Sind Sie sicher, dass Sie %{attributeName} löschen möchten",
-        "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
         "MESSAGE": "Beim Löschen wird das benutzerdefinierte Attribut entfernt",
-        "YES": "Löschen ",
-        "NO": "Abbrechen"
+        "NO": "Abbrechen",
+        "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
+        "TITLE": "Sind Sie sicher, dass Sie %{attributeName} löschen möchten",
+        "YES": "Löschen "
       }
     },
     "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "Beim Aktualisieren des benutzerdefinierten Attributs ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich aktualisiert"
+      },
       "TITLE": "Benutzerdefiniertes Attribut bearbeiten",
-      "UPDATE_BUTTON_TEXT": "Aktualisieren",
       "TYPE": {
         "LIST": {
           "LABEL": "Listenwerte",
           "PLACEHOLDER": "Bitte Werte eingeben und Enter-Taste drücken"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Beim Aktualisieren des benutzerdefinierten Attributs ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
-      }
+      "UPDATE_BUTTON_TEXT": "Aktualisieren"
     },
-    "TABS": {
-      "HEADER": "Benutzerdefinierte Attribute",
-      "CONVERSATION": "Konversation",
-      "CONTACT": "Kontakt"
-    },
+    "HEADER": "Benutzerdefinierte Attribute",
+    "HEADER_BTN_TXT": "Benutzerdefiniertes Attribut hinzufügen",
     "LIST": {
+      "BUTTONS": {
+        "DELETE": "Löschen",
+        "EDIT": "Bearbeiten"
+      },
+      "EMPTY_RESULT": {
+        "404": "Es wurden keine benutzerdefinierten Attribute erstellt",
+        "NOT_FOUND": "Es sind keine benutzerdefinierten Attribute konfiguriert"
+      },
       "TABLE_HEADER": [
         "Name",
         "Beschreibung",
         "Typ",
         "Schlüssel"
-      ],
-      "BUTTONS": {
-        "EDIT": "Bearbeiten",
-        "DELETE": "Löschen"
-      },
-      "EMPTY_RESULT": {
-        "404": "Es wurden keine benutzerdefinierten Attribute erstellt",
-        "NOT_FOUND": "Es sind keine benutzerdefinierten Attribute konfiguriert"
-      }
+      ]
+    },
+    "LOADING": "Benutzerdefinierte Attribute abrufen",
+    "SIDEBAR_TXT": "<p><b>Benutzerdefinierte Attribute</b> <p>Ein benutzerdefiniertes Attribut verfolgt Fakten über Ihre Kontakte/Konversationen – wie den Abonnementplan oder wann sie den ersten Artikel bestellt haben usw. <br/><br/> Um ein benutzerdefiniertes Attribut zu erstellen, klicken Sie einfach auf <b>Benutzerdefiniertes Attribut hinzufügen.</b> Sie können auch ein vorhandenes benutzerdefiniertes Attribut bearbeiten oder löschen, indem Sie auf die Schaltfläche „Bearbeiten“ oder „Löschen“ klicken.</p>",
+    "TABS": {
+      "CONTACT": "Kontakt",
+      "CONVERSATION": "Konversation",
+      "HEADER": "Benutzerdefinierte Attribute"
     }
   }
 }

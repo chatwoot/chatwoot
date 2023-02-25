@@ -1,76 +1,125 @@
 {
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "ADD_LABELS_TO_CONVERSATION": "Pievienot sarunai etiķeti",
+      "ASSIGN_AN_AGENT": "Piešķirt aģentu",
+      "ASSIGN_A_TEAM": "Piešķirt komandu",
+      "GO_TO_AGENT_REPORTS": "Doties uz Aģentu Pārskatiem",
+      "GO_TO_CONTACTS_DASHBOARD": "Doties uz Kontaktpersonu Informācijas Paneli",
+      "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
+      "GO_TO_CONVERSATION_REPORTS": "Doties uz Sarunu Pārskatiem",
+      "GO_TO_INBOX_REPORTS": "Doties uz Iesūtnes Pārskatiem",
+      "GO_TO_LABEL_REPORTS": "Doties uz Etiķešu Pārskatiem",
+      "GO_TO_NOTIFICATIONS": "Doties uz Paziņojumiem",
+      "GO_TO_REPORTS_OVERVIEW": "Doties uz Pārskatu Kopsavilkumu",
+      "GO_TO_SETTINGS_ACCOUNT": "Doties uz Konta Iestatījumiem",
+      "GO_TO_SETTINGS_AGENTS": "Doties uz Aģentu Iestatījumiem",
+      "GO_TO_SETTINGS_APPLICATIONS": "Doties uz Lietojumprogrammas Iestatījumiem",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Doties uz Sagatavoto Atbilžu Iestatījumiem",
+      "GO_TO_SETTINGS_INBOXES": "Doties uz Iesūtnes Iestatījumiem",
+      "GO_TO_SETTINGS_LABELS": "Doties uz Etiķešu Iestatījumiem",
+      "GO_TO_SETTINGS_PROFILE": "Doties uz Profila Iestatījumiem",
+      "GO_TO_SETTINGS_TEAMS": "Doties uz Komandas Iestatījumiem",
+      "GO_TO_TEAM_REPORTS": "Doties uz Komandas Pārskatiem",
+      "MUTE_CONVERSATION": "Izslēgt sarunu",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Noņemt etiķeti no sarunas",
+      "REOPEN_CONVERSATION": "Atkārtoti atvērt sarunu",
+      "RESOLVE_CONVERSATION": "Atrisināt sarunu",
+      "SEND_TRANSCRIPT": "Nosūtīt uz e-pastu transkriptu",
+      "SNOOZE_CONVERSATION": "Atlikt Sarunu",
+      "UNMUTE_CONVERSATION": "Ieslēgt sarunu",
+      "UNTIL_NEXT_REPLY": "Līdz nākamajai atbildei",
+      "UNTIL_NEXT_WEEK": "Līdz nākamajai nedēļai",
+      "UNTIL_TOMORROW": "Līdz rītdienai"
+    },
+    "SEARCH_PLACEHOLDER": "Meklēt vai pāriet uz",
+    "SECTIONS": {
+      "ADD_LABEL": "Pievienot sarunai etiķeti",
+      "CHANGE_ASSIGNEE": "Mainīt Pilnvaroto",
+      "CHANGE_TEAM": "Mainīt Komandu",
+      "CONVERSATION": "Saruna",
+      "GENERAL": "Vispārēji",
+      "REMOVE_LABEL": "Noņemt etiķeti no sarunas",
+      "REPORTS": "Pārskati",
+      "SETTINGS": "Iestatījumi"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Notiek informācijas paneļa lietotnes ielāde..."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_REMOVE": "Nospiediet enter, lai noņemtu",
+      "ENTER_TO_SELECT": "Nospiediet enter, lai izvēlētos",
+      "SELECT": "Izvēlieties",
+      "SELECT_ONE": "Izvēlieties vienu"
+    }
+  },
   "GENERAL_SETTINGS": {
-    "TITLE": "Konta iestatījumi",
-    "SUBMIT": "Atjaunināt iestatījumus",
     "BACK": "Atpakaļ",
+    "FORM": {
+      "ACCOUNT_ID": {
+        "NOTE": "Šis ID ir nepieciešams, ja veidojat uz API balstītu integrāciju",
+        "TITLE": "Konta ID"
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "ERROR": "Lūdzu, ievadiet derīgu automātiskās atrisināšanas ilgumu (vismaz 1 diena un ne vairāk kā 999 dienas)",
+        "LABEL": "Dienu skaits pēc kā biļetei ir automātiski jāatrisinās, ja nenotiek nekādas darbības",
+        "PLACEHOLDER": "30"
+      },
+      "DOMAIN": {
+        "ERROR": "",
+        "LABEL": "Ienākošā e-pasta domēns",
+        "PLACEHOLDER": "Domēns, kurā saņemsiet e-pastus"
+      },
+      "ERROR": "Lūdzu, izlabojiet veidlapas kļūdas",
+      "FEATURES": {
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Tagad Jūs varat saņemt e-pasta ziņojumus savā pielāgotajā domēnā.",
+        "INBOUND_EMAIL_ENABLED": "Jūsu kontam ir iespējota sarunu nepārtrauktība ar e-pastiem."
+      },
+      "GENERAL_SECTION": {
+        "NOTE": "",
+        "TITLE": "Vispārīgie iestatījumi"
+      },
+      "LANGUAGE": {
+        "ERROR": "",
+        "LABEL": "Vietnes valoda",
+        "PLACEHOLDER": "Jūsu konta nosaukums"
+      },
+      "NAME": {
+        "ERROR": "Lūdzu, ievadiet derīgu konta nosaukumu",
+        "LABEL": "Konta nosaukums",
+        "PLACEHOLDER": "Jūsu konta nosaukums"
+      },
+      "SUPPORT_EMAIL": {
+        "ERROR": "",
+        "LABEL": "Atbalsta e-pasts",
+        "PLACEHOLDER": "Jūsu uzņēmuma atbalsta e-pasts"
+      }
+    },
+    "LEARN_MORE": "Uzzināt vairāk",
+    "SUBMIT": "Atjaunināt iestatījumus",
+    "TITLE": "Konta iestatījumi",
     "UPDATE": {
       "ERROR": "Nevarēja atjaunināt iestatījumus, mēģiniet vēlreiz!",
       "SUCCESS": "Konta iestatījumi ir veiksmīgi atjaunināti"
     },
-    "FORM": {
-      "ERROR": "Lūdzu, izlabojiet veidlapas kļūdas",
-      "GENERAL_SECTION": {
-        "TITLE": "Vispārīgie iestatījumi",
-        "NOTE": ""
-      },
-      "ACCOUNT_ID": {
-        "TITLE": "Konta ID",
-        "NOTE": "Šis ID ir nepieciešams, ja veidojat uz API balstītu integrāciju"
-      },
-      "NAME": {
-        "LABEL": "Konta nosaukums",
-        "PLACEHOLDER": "Jūsu konta nosaukums",
-        "ERROR": "Lūdzu, ievadiet derīgu konta nosaukumu"
-      },
-      "LANGUAGE": {
-        "LABEL": "Vietnes valoda",
-        "PLACEHOLDER": "Jūsu konta nosaukums",
-        "ERROR": ""
-      },
-      "DOMAIN": {
-        "LABEL": "Ienākošā e-pasta domēns",
-        "PLACEHOLDER": "Domēns, kurā saņemsiet e-pastus",
-        "ERROR": ""
-      },
-      "SUPPORT_EMAIL": {
-        "LABEL": "Atbalsta e-pasts",
-        "PLACEHOLDER": "Jūsu uzņēmuma atbalsta e-pasts",
-        "ERROR": ""
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Dienu skaits pēc kā biļetei ir automātiski jāatrisinās, ja nenotiek nekādas darbības",
-        "PLACEHOLDER": "30",
-        "ERROR": "Lūdzu, ievadiet derīgu automātiskās atrisināšanas ilgumu (vismaz 1 diena un ne vairāk kā 999 dienas)"
-      },
-      "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Jūsu kontam ir iespējota sarunu nepārtrauktība ar e-pastiem.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Tagad Jūs varat saņemt e-pasta ziņojumus savā pielāgotajā domēnā."
-      }
-    },
-    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
-    "LEARN_MORE": "Uzzināt vairāk"
+    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru."
   },
-  "FORMS": {
-    "MULTISELECT": {
-      "ENTER_TO_SELECT": "Nospiediet enter, lai izvēlētos",
-      "ENTER_TO_REMOVE": "Nospiediet enter, lai noņemtu",
-      "SELECT_ONE": "Izvēlieties vienu",
-      "SELECT": "Izvēlieties"
+  "NETWORK": {
+    "BUTTON": {
+      "REFRESH": "Atjaunot"
+    },
+    "NOTIFICATION": {
+      "TEXT": "Atvienots no Chatwoot"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Paziņojumi",
-    "MARK_ALL_DONE": "Atzīmēt visu kā pabeigtu",
     "DELETE_TITLE": "dzēsts",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Nelasīti paziņojumi",
-      "ALL_NOTIFICATIONS": "Skatīt visus paziņojumus",
-      "LOADING_UNREAD_MESSAGE": "Notiek nelasītu paziņojumu ielāde...",
-      "EMPTY_MESSAGE": "Jums nav nelasītu paziņojumu"
-    },
+    "HEADER": "Paziņojumi",
     "LIST": {
-      "LOADING_MESSAGE": "Notiek paziņojumu ielāde...",
       "404": "Nav paziņojumu",
+      "LOADING_MESSAGE": "Notiek paziņojumu ielāde...",
       "TABLE_HEADER": [
         "Nosaukums",
         "Telefona numurs",
@@ -78,67 +127,18 @@
         "Pēdējā Sazināšanās"
       ]
     },
+    "MARK_ALL_DONE": "Atzīmēt visu kā pabeigtu",
     "TYPE_LABEL": {
-      "conversation_creation": "Jauna saruna",
-      "conversation_assignment": "Saruna Piešķirta",
       "assigned_conversation_new_message": "Jauns ziņojums",
+      "conversation_assignment": "Saruna Piešķirta",
+      "conversation_creation": "Jauna saruna",
       "conversation_mention": "Pieminēt"
-    }
-  },
-  "NETWORK": {
-    "NOTIFICATION": {
-      "TEXT": "Atvienots no Chatwoot"
     },
-    "BUTTON": {
-      "REFRESH": "Atjaunot"
+    "UNREAD_NOTIFICATION": {
+      "ALL_NOTIFICATIONS": "Skatīt visus paziņojumus",
+      "EMPTY_MESSAGE": "Jums nav nelasītu paziņojumu",
+      "LOADING_UNREAD_MESSAGE": "Notiek nelasītu paziņojumu ielāde...",
+      "TITLE": "Nelasīti paziņojumi"
     }
-  },
-  "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Meklēt vai pāriet uz",
-    "SECTIONS": {
-      "GENERAL": "Vispārēji",
-      "REPORTS": "Pārskati",
-      "CONVERSATION": "Saruna",
-      "CHANGE_ASSIGNEE": "Mainīt Pilnvaroto",
-      "CHANGE_TEAM": "Mainīt Komandu",
-      "ADD_LABEL": "Pievienot sarunai etiķeti",
-      "REMOVE_LABEL": "Noņemt etiķeti no sarunas",
-      "SETTINGS": "Iestatījumi"
-    },
-    "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
-      "GO_TO_CONTACTS_DASHBOARD": "Doties uz Kontaktpersonu Informācijas Paneli",
-      "GO_TO_REPORTS_OVERVIEW": "Doties uz Pārskatu Kopsavilkumu",
-      "GO_TO_CONVERSATION_REPORTS": "Doties uz Sarunu Pārskatiem",
-      "GO_TO_AGENT_REPORTS": "Doties uz Aģentu Pārskatiem",
-      "GO_TO_LABEL_REPORTS": "Doties uz Etiķešu Pārskatiem",
-      "GO_TO_INBOX_REPORTS": "Doties uz Iesūtnes Pārskatiem",
-      "GO_TO_TEAM_REPORTS": "Doties uz Komandas Pārskatiem",
-      "GO_TO_SETTINGS_AGENTS": "Doties uz Aģentu Iestatījumiem",
-      "GO_TO_SETTINGS_TEAMS": "Doties uz Komandas Iestatījumiem",
-      "GO_TO_SETTINGS_INBOXES": "Doties uz Iesūtnes Iestatījumiem",
-      "GO_TO_SETTINGS_LABELS": "Doties uz Etiķešu Iestatījumiem",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Doties uz Sagatavoto Atbilžu Iestatījumiem",
-      "GO_TO_SETTINGS_APPLICATIONS": "Doties uz Lietojumprogrammas Iestatījumiem",
-      "GO_TO_SETTINGS_ACCOUNT": "Doties uz Konta Iestatījumiem",
-      "GO_TO_SETTINGS_PROFILE": "Doties uz Profila Iestatījumiem",
-      "GO_TO_NOTIFICATIONS": "Doties uz Paziņojumiem",
-      "ADD_LABELS_TO_CONVERSATION": "Pievienot sarunai etiķeti",
-      "ASSIGN_AN_AGENT": "Piešķirt aģentu",
-      "ASSIGN_A_TEAM": "Piešķirt komandu",
-      "MUTE_CONVERSATION": "Izslēgt sarunu",
-      "UNMUTE_CONVERSATION": "Ieslēgt sarunu",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Noņemt etiķeti no sarunas",
-      "REOPEN_CONVERSATION": "Atkārtoti atvērt sarunu",
-      "RESOLVE_CONVERSATION": "Atrisināt sarunu",
-      "SEND_TRANSCRIPT": "Nosūtīt uz e-pastu transkriptu",
-      "SNOOZE_CONVERSATION": "Atlikt Sarunu",
-      "UNTIL_NEXT_REPLY": "Līdz nākamajai atbildei",
-      "UNTIL_NEXT_WEEK": "Līdz nākamajai nedēļai",
-      "UNTIL_TOMORROW": "Līdz rītdienai"
-    }
-  },
-  "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Notiek informācijas paneļa lietotnes ielāde..."
   }
 }

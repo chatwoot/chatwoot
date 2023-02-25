@@ -1,144 +1,144 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "集成方式",
-    "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+    "CONNECT": {
+      "BUTTON_TEXT": "连接"
+    },
+    "DASHBOARD_APPS": {
+      "CREATE": {
+        "API_ERROR": "We couldn't create an app. Please try again later",
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "FORM_CANCEL": "取消",
+        "FORM_SUBMIT": "提交",
+        "HEADER": "Add a new dashboard app"
+      },
+      "DELETE": {
+        "API_ERROR": "We couldn't delete the app. Please try again later",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Yes, delete it",
+        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "TITLE": "Confirm deletion"
+      },
+      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "FORM": {
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_LABEL": "姓名：",
+        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
+        "URL_ERROR": "A valid URL is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted"
+      },
+      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "LIST": {
+        "404": "There are no dashboard apps configured on this account yet",
+        "DELETE_TOOLTIP": "Delete app",
+        "EDIT_TOOLTIP": "Edit app",
+        "LOADING": "Fetching dashboard apps...",
+        "TABLE_HEADER": [
+          "姓名：",
+          "Endpoint"
+        ]
+      },
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "TITLE": "Dashboard Apps",
+      "UPDATE": {
+        "API_ERROR": "We couldn't update the app. Please try again later",
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "FORM_CANCEL": "取消",
+        "FORM_SUBMIT": "更新",
+        "HEADER": "Edit dashboard app"
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "集成已成功删除"
+      },
+      "BUTTON_TEXT": "删除"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "LEAVE_THE_ROOM": "Leave the room",
+      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer"
+    },
+    "HEADER": "集成方式",
+    "SLACK": {
+      "HELP_TEXT": {
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "TITLE": "Using Slack Integration"
+      }
+    },
+    "WEBHOOK": {
+      "ADD": {
+        "API": {
+          "ERROR_MESSAGE": "无法连接服务器，请稍后再试",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully"
+        },
+        "CANCEL": "取消操作",
+        "TITLE": "添加新的 webhook"
+      },
+      "CONFIGURE": "配置",
+      "DELETE": {
+        "API": {
+          "ERROR_MESSAGE": "无法连接服务器，请稍后再试",
+          "SUCCESS_MESSAGE": "Webhook 删除成功"
+        },
+        "BUTTON_TEXT": "删除",
+        "CONFIRM": {
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "NO": "否，保留它",
+          "TITLE": "确认删除",
+          "YES": "是，删除 "
+        }
+      },
+      "EDIT": {
+        "API": {
+          "ERROR_MESSAGE": "无法连接服务器，请稍后再试",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully"
+        },
+        "BUTTON_TEXT": "编辑",
+        "TITLE": "Edit webhook"
+      },
+      "FORM": {
+        "ADD_SUBMIT": "创建 webhook",
         "CANCEL": "取消",
         "DESC": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。请输入一个有效的URL来配置回调。",
+        "EDIT_SUBMIT": "Update webhook",
+        "END_POINT": {
+          "ERROR": "请输入一个有效的 URL",
+          "LABEL": "Webhook 网址",
+          "PLACEHOLDER": "例如：https://example/api/webhook"
+        },
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
           "EVENTS": {
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_CREATED": "Conversation Created",
             "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
             "CONVERSATION_UPDATED": "Conversation Updated",
             "MESSAGE_CREATED": "Message created",
             "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
-          }
-        },
-        "END_POINT": {
-          "LABEL": "Webhook 网址",
-          "PLACEHOLDER": "例如：https://example/api/webhook",
-          "ERROR": "请输入一个有效的 URL"
-        },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "创建 webhook"
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          },
+          "LABEL": "Events"
+        }
       },
-      "TITLE": "回调接口地址",
-      "CONFIGURE": "配置",
       "HEADER": "Webhook设置",
       "HEADER_BTN_TXT": "添加新的 webhook",
-      "LOADING": "正在获取已添加的 webhooks",
-      "SEARCH_404": "没有任何项目符合此查询",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回调，可以为每个账户定义的。 他们是由诸如在Chatwoot 中创建消息等事件所触发的。您可以为此帐户创建多个web钩子。 <br /><br /> 创建一个 <b>webhook</b>, 点击 <b>添加新的 webhook</b> 按钮。 您也可以通过点击删除按钮删除任何现有的网络钩子。</p>",
       "LIST": {
         "404": "此帐户没有配置Webhooks。",
-        "TITLE": "管理 webhooks",
         "TABLE_HEADER": [
           "Webhook 端点",
           "操作"
-        ]
-      },
-      "EDIT": {
-        "BUTTON_TEXT": "编辑",
-        "TITLE": "Edit webhook",
-        "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
-        }
-      },
-      "ADD": {
-        "CANCEL": "取消操作",
-        "TITLE": "添加新的 webhook",
-        "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
-        }
-      },
-      "DELETE": {
-        "BUTTON_TEXT": "删除",
-        "API": {
-          "SUCCESS_MESSAGE": "Webhook 删除成功",
-          "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
-        },
-        "CONFIRM": {
-          "TITLE": "确认删除",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
-          "YES": "是，删除 ",
-          "NO": "否，保留它"
-        }
-      }
-    },
-    "SLACK": {
-      "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
-      }
-    },
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "删除",
-      "API": {
-        "SUCCESS_MESSAGE": "集成已成功删除"
-      }
-    },
-    "CONNECT": {
-      "BUTTON_TEXT": "连接"
-    },
-    "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "姓名：",
-          "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "TITLE": "管理 webhooks"
       },
-      "FORM": {
-        "TITLE_LABEL": "姓名：",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
-      },
-      "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "提交",
-        "FORM_CANCEL": "取消",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
-      },
-      "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "更新",
-        "FORM_CANCEL": "取消",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
-      },
-      "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
-      }
+      "LOADING": "正在获取已添加的 webhooks",
+      "SEARCH_404": "没有任何项目符合此查询",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回调，可以为每个账户定义的。 他们是由诸如在Chatwoot 中创建消息等事件所触发的。您可以为此帐户创建多个web钩子。 <br /><br /> 创建一个 <b>webhook</b>, 点击 <b>添加新的 webhook</b> 按钮。 您也可以通过点击删除按钮删除任何现有的网络钩子。</p>",
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "TITLE": "回调接口地址"
     }
   }
 }

@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "S'estan obtenint converses",
-    "LOAD_MORE_CONVERSATIONS": "Carrega més converses",
-    "EOF": "Totes les converses carregades 🎉",
-    "LIST": {
-      "404": "No hi ha converses actives en aquest grup."
-    },
-    "TAB_HEADING": "Converses",
-    "MENTION_HEADING": "Mencions",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "Cerca persones, xats, respostes desades .."
-    },
-    "FILTER_ALL": "Totes",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Totes",
       "me": "Meves",
-      "unassigned": "Sense assignar",
-      "all": "Totes"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Obrir"
-      },
-      "resolved": {
-        "TEXT": "Resoltes"
-      },
-      "pending": {
-        "TEXT": "Pendent"
-      },
-      "snoozed": {
-        "TEXT": "Posposat"
-      },
-      "all": {
-        "TEXT": "Totes"
-      }
+      "unassigned": "Sense assignar"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Missatge d'imatge"
-      },
       "audio": {
         "CONTENT": "Missatge d'àudio"
       },
-      "video": {
-        "CONTENT": "Missatge de vídeo"
+      "fallback": {
+        "CONTENT": "ha compartit una URL"
       },
       "file": {
         "CONTENT": "Fitxer adjunt"
       },
+      "image": {
+        "CONTENT": "Missatge d'imatge"
+      },
       "location": {
         "CONTENT": "Ubicació"
       },
-      "fallback": {
-        "CONTENT": "ha compartit una URL"
+      "video": {
+        "CONTENT": "Missatge de vídeo"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
-    "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
-    "REPLY_TO_TWEET": "Respon a aquest tuit",
-    "LINK_TO_STORY": "Ves a la història d'instagram",
-    "SENT": "Enviat correctament",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Totes"
+      },
+      "open": {
+        "TEXT": "Obrir"
+      },
+      "pending": {
+        "TEXT": "Pendent"
+      },
+      "resolved": {
+        "TEXT": "Resoltes"
+      },
+      "snoozed": {
+        "TEXT": "Posposat"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Cap Missatge",
-    "NO_CONTENT": "No hi ha contingut disponible",
+    "EOF": "Totes les converses carregades 🎉",
+    "FILTER_ALL": "Totes",
     "HIDE_QUOTED_TEXT": "Amaga text entre cometes",
+    "LINK_TO_STORY": "Ves a la història d'instagram",
+    "LIST": {
+      "404": "No hi ha converses actives en aquest grup."
+    },
+    "LOADING": "S'estan obtenint converses",
+    "LOAD_MORE_CONVERSATIONS": "Carrega més converses",
+    "MENTION_HEADING": "Mencions",
+    "MESSAGE_READ": "Llegir",
+    "NO_CONTENT": "No hi ha contingut disponible",
+    "NO_MESSAGES": "Cap Missatge",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
+    "REPLY_TO_TWEET": "Respon a aquest tuit",
+    "SEARCH": {
+      "INPUT": "Cerca persones, xats, respostes desades .."
+    },
+    "SENT": "Enviat correctament",
     "SHOW_QUOTED_TEXT": "Mostra text entre cometes",
-    "MESSAGE_READ": "Llegir"
+    "TAB_HEADING": "Converses",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter"
   }
 }

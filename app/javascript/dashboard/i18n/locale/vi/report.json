@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Các cuộc hội thoại",
-    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
-    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo tổng đài viên",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Các cuộc trò chuyện",
-        "DESC": "( Tổng cộng )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Tin nhắn nhận được",
-        "DESC": "( Tổng cộng )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Tin nhắn gửi đi",
-        "DESC": "( Tổng cộng )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Thời gian phản hồi đầu tiên",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Thời gian giải quyết",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Số lượng giải quyết",
-        "DESC": "( Tổng cộng )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Áp dụng",
+      "PLACEHOLDER": "Chọn phạm vi ngày"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Phạm vi ngày tùy chỉnh"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
+    "FILTER_DROPDOWN_LABEL": "Chọn đại lý",
+    "HEADER": "Tổng quan đại lý",
+    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Các cuộc hội thoại"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian phản hồi đầu tiên",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn nhận được"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn gửi đi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Số lượng giải quyết"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian giải quyết",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Tải về các báo cáo CSAT",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Chọn tổng đài viên"
+      }
+    },
+    "HEADER": "Báo cáo CSAT",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Tỷ lệ phản hồi",
+        "TOOLTIP": "Tổng số phản hồi / Tổng số tin nhắn khảo sát CSAT đã gửi * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Mức độ hài lòng",
+        "TOOLTIP": "Tổng số phản hồi tích cực / Tổng số phản hồi * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Tổng số phản hồi",
+        "TOOLTIP": "Tổng số phản hồi thu thập được"
+      }
+    },
+    "NO_RECORDS": "Không có phản hồi báo cáo CSAT có sẵn.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Đại lý được phân công",
+        "CONTACT_NAME": "Liên hệ",
+        "FEEDBACK_TEXT": "Bình luận phản hồi",
+        "RATING": "Đánh giá"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Áp dụng",
       "PLACEHOLDER": "Chọn phạm vi ngày"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nhóm theo",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 ngày cuối"
+      },
+      {
+        "id": 1,
+        "name": "30 ngày cuối"
+      },
+      {
+        "id": 2,
+        "name": "3 tháng vừa qua"
+      },
+      {
+        "id": 3,
+        "name": "6 tháng vừa qua"
+      },
+      {
+        "id": 4,
+        "name": "Năm ngoái"
+      },
+      {
+        "id": 5,
+        "name": "Phạm vi ngày tùy chỉnh"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Tải xuống báo cáo hộp thư đến",
+    "FILTER_DROPDOWN_LABEL": "Chọn Hộp thư đến",
+    "HEADER": "Tổng quan hộp thư đến",
+    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Các cuộc hội thoại"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian phản hồi đầu tiên",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn nhận được"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn gửi đi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Số lượng giải quyết"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian giải quyết",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Áp dụng",
+      "PLACEHOLDER": "Chọn phạm vi ngày"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 ngày cuối"
+      },
+      {
+        "id": 1,
+        "name": "30 ngày cuối"
+      },
+      {
+        "id": 2,
+        "name": "3 tháng vừa qua"
+      },
+      {
+        "id": 3,
+        "name": "6 tháng vừa qua"
+      },
+      {
+        "id": 4,
+        "name": "Năm ngoái"
+      },
+      {
+        "id": 5,
+        "name": "Phạm vi ngày tùy chỉnh"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Tải xuống báo cáo nhãn",
+    "FILTER_DROPDOWN_LABEL": "Chọn Nhãn",
+    "HEADER": "Tổng quan nhãn",
+    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Các cuộc hội thoại"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian phản hồi đầu tiên",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn nhận được"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn gửi đi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Số lượng giải quyết"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian giải quyết",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Mở cuộc hội thoại",
+      "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
+      "OPEN": "Mở",
+      "UNASSIGNED": "Chưa được phân công",
+      "UNATTENDED": "Không giám sát"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Cuộc hội thoại của các tổng đài viên",
+      "LOADING_MESSAGE": "Đang tải chỉ số tổng đài viên...",
+      "NO_AGENTS": "Không có cuộc hội thoại nào của các tổng đài viên",
+      "TABLE_HEADER": {
+        "AGENT": "Nhà cung cấp",
+        "OPEN": "MỞ",
+        "STATUS": "Trạng thái",
+        "UNATTENDED": "Không giám sát"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Bận",
+      "HEADER": "Trạng thái tổng đài viên",
+      "OFFLINE": "Không Trực Tuyến",
+      "ONLINE": "Trực Tuyến"
+    },
+    "HEADER": "Tổng quan",
+    "LIVE": "Trực tuyến"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Giờ làm việc",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Áp dụng",
+      "PLACEHOLDER": "Chọn phạm vi ngày"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 ngày cuối"
+      },
+      {
+        "id": 1,
+        "name": "30 ngày cuối"
+      },
+      {
+        "id": 2,
+        "name": "3 tháng vừa qua"
+      },
+      {
+        "id": 3,
+        "name": "6 tháng vừa qua"
+      },
+      {
+        "id": 4,
+        "name": "Năm ngoái"
+      },
+      {
+        "id": 5,
+        "name": "Phạm vi ngày tùy chỉnh"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo tổng đài viên",
     "DURATION_FILTER_LABEL": "Thời lượng",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Ngày"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Ngày"
-      },
-      {
-        "id": 2,
-        "groupBy": "Tuần"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nhóm theo",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Tháng"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ngày"
+      },
+      {
+        "id": 2,
+        "groupBy": "Tuần"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Năm"
       }
     ],
-    "BUSINESS_HOURS": "Giờ làm việc"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Tổng quan đại lý",
+    "HEADER": "Các cuộc hội thoại",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
-    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
-    "FILTER_DROPDOWN_LABEL": "Chọn đại lý",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Các cuộc hội thoại",
-        "DESC": "( Tổng cộng )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Tin nhắn nhận được",
-        "DESC": "( Tổng cộng )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Tin nhắn gửi đi",
-        "DESC": "( Tổng cộng )"
+        "DESC": "( Tổng cộng )",
+        "NAME": "Các cuộc trò chuyện"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
         "NAME": "Thời gian phản hồi đầu tiên",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
         "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Thời gian giải quyết",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Số lượng giải quyết",
-        "DESC": "( Tổng cộng )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 ngày cuối"
-      },
-      {
-        "id": 1,
-        "name": "30 ngày cuối"
-      },
-      {
-        "id": 2,
-        "name": "3 tháng vừa qua"
-      },
-      {
-        "id": 3,
-        "name": "6 tháng vừa qua"
-      },
-      {
-        "id": 4,
-        "name": "Năm ngoái"
-      },
-      {
-        "id": 5,
-        "name": "Phạm vi ngày tùy chỉnh"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Áp dụng",
-      "PLACEHOLDER": "Chọn phạm vi ngày"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Tổng quan nhãn",
-    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
-    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_LABEL_REPORTS": "Tải xuống báo cáo nhãn",
-    "FILTER_DROPDOWN_LABEL": "Chọn Nhãn",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Các cuộc hội thoại",
-        "DESC": "( Tổng cộng )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Tin nhắn nhận được",
-        "DESC": "( Tổng cộng )"
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn nhận được"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Tin nhắn gửi đi",
-        "DESC": "( Tổng cộng )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Thời gian phản hồi đầu tiên",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Thời gian giải quyết",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn gửi đi"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Số lượng giải quyết",
-        "DESC": "( Tổng cộng )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 ngày cuối"
-      },
-      {
-        "id": 1,
-        "name": "30 ngày cuối"
-      },
-      {
-        "id": 2,
-        "name": "3 tháng vừa qua"
-      },
-      {
-        "id": 3,
-        "name": "6 tháng vừa qua"
-      },
-      {
-        "id": 4,
-        "name": "Năm ngoái"
-      },
-      {
-        "id": 5,
-        "name": "Phạm vi ngày tùy chỉnh"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Áp dụng",
-      "PLACEHOLDER": "Chọn phạm vi ngày"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Tổng quan hộp thư đến",
-    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
-    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_INBOX_REPORTS": "Tải xuống báo cáo hộp thư đến",
-    "FILTER_DROPDOWN_LABEL": "Chọn Hộp thư đến",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Các cuộc hội thoại",
-        "DESC": "( Tổng cộng )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Tin nhắn nhận được",
-        "DESC": "( Tổng cộng )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Tin nhắn gửi đi",
-        "DESC": "( Tổng cộng )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Thời gian phản hồi đầu tiên",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+        "DESC": "( Tổng cộng )",
+        "NAME": "Số lượng giải quyết"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian giải quyết",
         "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Số lượng giải quyết",
-        "DESC": "( Tổng cộng )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 ngày cuối"
-      },
-      {
-        "id": 1,
-        "name": "30 ngày cuối"
-      },
-      {
-        "id": 2,
-        "name": "3 tháng vừa qua"
-      },
-      {
-        "id": 3,
-        "name": "6 tháng vừa qua"
-      },
-      {
-        "id": 4,
-        "name": "Năm ngoái"
-      },
-      {
-        "id": 5,
-        "name": "Phạm vi ngày tùy chỉnh"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Áp dụng",
-      "PLACEHOLDER": "Chọn phạm vi ngày"
-    }
+    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Tổng quan nhóm",
-    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
-    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_TEAM_REPORTS": "Tải xuống báo cáo nhóm",
-    "FILTER_DROPDOWN_LABEL": "Chọn nhóm",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Các cuộc hội thoại",
-        "DESC": "( Tổng cộng )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Tin nhắn nhận được",
-        "DESC": "( Tổng cộng )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Tin nhắn gửi đi",
-        "DESC": "( Tổng cộng )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "Thời gian phản hồi đầu tiên",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Thời gian giải quyết",
-        "DESC": "( Trung bình )",
-        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Số lượng giải quyết",
-        "DESC": "( Tổng cộng )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Áp dụng",
+      "PLACEHOLDER": "Chọn phạm vi ngày"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Phạm vi ngày tùy chỉnh"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Áp dụng",
-      "PLACEHOLDER": "Chọn phạm vi ngày"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "Báo cáo CSAT",
-    "NO_RECORDS": "Không có phản hồi báo cáo CSAT có sẵn.",
-    "DOWNLOAD": "Tải về các báo cáo CSAT",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Chọn tổng đài viên"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Liên hệ",
-        "AGENT_NAME": "Đại lý được phân công",
-        "RATING": "Đánh giá",
-        "FEEDBACK_TEXT": "Bình luận phản hồi"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Tổng số phản hồi",
-        "TOOLTIP": "Tổng số phản hồi thu thập được"
+    "DOWNLOAD_TEAM_REPORTS": "Tải xuống báo cáo nhóm",
+    "FILTER_DROPDOWN_LABEL": "Chọn nhóm",
+    "HEADER": "Tổng quan nhóm",
+    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Các cuộc hội thoại"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Mức độ hài lòng",
-        "TOOLTIP": "Tổng số phản hồi tích cực / Tổng số phản hồi * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian phản hồi đầu tiên",
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Tỷ lệ phản hồi",
-        "TOOLTIP": "Tổng số phản hồi / Tổng số tin nhắn khảo sát CSAT đã gửi * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Tổng quan",
-    "LIVE": "Trực tuyến",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Mở cuộc hội thoại",
-      "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
-      "OPEN": "Mở",
-      "UNATTENDED": "Không giám sát",
-      "UNASSIGNED": "Chưa được phân công"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Cuộc hội thoại của các tổng đài viên",
-      "LOADING_MESSAGE": "Đang tải chỉ số tổng đài viên...",
-      "NO_AGENTS": "Không có cuộc hội thoại nào của các tổng đài viên",
-      "TABLE_HEADER": {
-        "AGENT": "Nhà cung cấp",
-        "OPEN": "MỞ",
-        "UNATTENDED": "Không giám sát",
-        "STATUS": "Trạng thái"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn nhận được"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Tin nhắn gửi đi"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Tổng cộng )",
+        "NAME": "Số lượng giải quyết"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Trung bình )",
+        "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
+        "NAME": "Thời gian giải quyết",
+        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Trạng thái tổng đài viên",
-      "ONLINE": "Trực Tuyến",
-      "BUSY": "Bận",
-      "OFFLINE": "Không Trực Tuyến"
-    }
+    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau."
   }
 }

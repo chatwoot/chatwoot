@@ -1,38 +1,8 @@
 {
-  "REPORT": {
-    "HEADER": "Percakapan",
-    "LOADING_CHART": "Memuat data grafik...",
-    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Percakapan",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Pesan Masuk",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Pesan Keluar",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Jumlah Terselesaikan",
-        "DESC": "( Total )"
-      }
+  "AGENT_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
     },
     "DATE_RANGE": [
       {
@@ -60,11 +30,269 @@
         "name": "Rentang tanggal kustom"
       }
     ],
+    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
+    "FILTER_DROPDOWN_LABEL": "Pilih Agen",
+    "HEADER": "Gambaran Agen",
+    "LOADING_CHART": "Memuat data grafik...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Percakapan"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Masuk"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Keluar"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Jumlah Terselesaikan"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Waktu Penyelesaian",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti."
+  },
+  "CSAT_REPORTS": {
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "HEADER": "Laporan CSAT",
+    "METRIC": {
+      "RESPONSE_RATE": {
+        "LABEL": "Peringkat respons",
+        "TOOLTIP": "Total jumlah respons / Total jumlah pesan survey CSAT yang terkirim * 100"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Nilai kepuasan",
+        "TOOLTIP": "Total jumlah respons positif / Total jumlah respons * 100"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total respons",
+        "TOOLTIP": "Total jumlah respons yang terkumpul"
+      }
+    },
+    "NO_RECORDS": "Tidak ada respons survey CSAT yang tersedia.",
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Agen yang ditugaskan",
+        "CONTACT_NAME": "Kontak",
+        "FEEDBACK_TEXT": "Komentar umpan balik",
+        "RATING": "Peringkat"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Terapkan",
       "PLACEHOLDER": "Pilih rentang tanggal"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      },
+      {
+        "id": 2,
+        "name": "3 bulan terakhir"
+      },
+      {
+        "id": 3,
+        "name": "6 bulan terakhir"
+      },
+      {
+        "id": 4,
+        "name": "Tahun terakhir"
+      },
+      {
+        "id": 5,
+        "name": "Rentang tanggal kustom"
+      }
+    ],
+    "DOWNLOAD_INBOX_REPORTS": "Unduh laporan kotak masuk",
+    "FILTER_DROPDOWN_LABEL": "Pilih kotak masuk",
+    "HEADER": "Gambaran kontak masuk",
+    "LOADING_CHART": "Memuat data grafik...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Percakapan"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Masuk"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Keluar"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Jumlah Terselesaikan"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Waktu Penyelesaian",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti."
+  },
+  "LABEL_REPORTS": {
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      },
+      {
+        "id": 2,
+        "name": "3 bulan terakhir"
+      },
+      {
+        "id": 3,
+        "name": "6 bulan terakhir"
+      },
+      {
+        "id": 4,
+        "name": "Tahun terakhir"
+      },
+      {
+        "id": 5,
+        "name": "Rentang tanggal kustom"
+      }
+    ],
+    "DOWNLOAD_LABEL_REPORTS": "Unduh laporan label",
+    "FILTER_DROPDOWN_LABEL": "Pilih label",
+    "HEADER": "Gambaran Label",
+    "LOADING_CHART": "Memuat data grafik...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Percakapan"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Masuk"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Keluar"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Jumlah Terselesaikan"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Waktu Penyelesaian",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+      }
+    },
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti."
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Terbuka",
+      "UNASSIGNED": "Belum ditugaskan",
+      "UNATTENDED": "Unattended"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agen",
+        "OPEN": "OPEN",
+        "STATUS": "Status",
+        "UNATTENDED": "Unattended"
+      }
+    },
+    "AGENT_STATUS": {
+      "BUSY": "Sibuk",
+      "HEADER": "Agent status",
+      "OFFLINE": "Offline",
+      "ONLINE": "Online"
+    },
+    "HEADER": "Gambaran",
+    "LIVE": "Live"
+  },
+  "REPORT": {
+    "BUSINESS_HOURS": "Jam Kerja",
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      },
+      {
+        "id": 2,
+        "name": "3 bulan terakhir"
+      },
+      {
+        "id": 3,
+        "name": "6 bulan terakhir"
+      },
+      {
+        "id": 4,
+        "name": "Tahun terakhir"
+      },
+      {
+        "id": 5,
+        "name": "Rentang tanggal kustom"
+      }
+    ],
+    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -72,16 +300,7 @@
         "groupBy": "Day"
       }
     ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      },
-      {
-        "id": 2,
-        "groupBy": "Week"
-      }
-    ],
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
@@ -94,6 +313,16 @@
       {
         "id": 3,
         "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -114,244 +343,44 @@
         "groupBy": "Year"
       }
     ],
-    "BUSINESS_HOURS": "Jam Kerja"
-  },
-  "AGENT_REPORTS": {
-    "HEADER": "Gambaran Agen",
+    "HEADER": "Percakapan",
     "LOADING_CHART": "Memuat data grafik...",
-    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
-    "FILTER_DROPDOWN_LABEL": "Pilih Agen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Percakapan",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Pesan Masuk",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Pesan Keluar",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "NAME": "Percakapan"
       },
       "FIRST_RESPONSE_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
         "NAME": "First Response Time",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Jumlah Terselesaikan",
-        "DESC": "( Total )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 hari terakhir"
-      },
-      {
-        "id": 1,
-        "name": "30 hari terakhir"
-      },
-      {
-        "id": 2,
-        "name": "3 bulan terakhir"
-      },
-      {
-        "id": 3,
-        "name": "6 bulan terakhir"
-      },
-      {
-        "id": 4,
-        "name": "Tahun terakhir"
-      },
-      {
-        "id": 5,
-        "name": "Rentang tanggal kustom"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Terapkan",
-      "PLACEHOLDER": "Pilih rentang tanggal"
-    }
-  },
-  "LABEL_REPORTS": {
-    "HEADER": "Gambaran Label",
-    "LOADING_CHART": "Memuat data grafik...",
-    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_LABEL_REPORTS": "Unduh laporan label",
-    "FILTER_DROPDOWN_LABEL": "Pilih label",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Percakapan",
-        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Pesan Masuk",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "NAME": "Pesan Masuk"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Pesan Keluar",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Total )",
+        "NAME": "Pesan Keluar"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Jumlah Terselesaikan",
-        "DESC": "( Total )"
-      }
-    },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 hari terakhir"
-      },
-      {
-        "id": 1,
-        "name": "30 hari terakhir"
-      },
-      {
-        "id": 2,
-        "name": "3 bulan terakhir"
-      },
-      {
-        "id": 3,
-        "name": "6 bulan terakhir"
-      },
-      {
-        "id": 4,
-        "name": "Tahun terakhir"
-      },
-      {
-        "id": 5,
-        "name": "Rentang tanggal kustom"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Terapkan",
-      "PLACEHOLDER": "Pilih rentang tanggal"
-    }
-  },
-  "INBOX_REPORTS": {
-    "HEADER": "Gambaran kontak masuk",
-    "LOADING_CHART": "Memuat data grafik...",
-    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_INBOX_REPORTS": "Unduh laporan kotak masuk",
-    "FILTER_DROPDOWN_LABEL": "Pilih kotak masuk",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Percakapan",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Pesan Masuk",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Pesan Keluar",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "DESC": "( Total )",
+        "NAME": "Jumlah Terselesaikan"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Waktu Penyelesaian",
         "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Jumlah Terselesaikan",
-        "DESC": "( Total )"
       }
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 hari terakhir"
-      },
-      {
-        "id": 1,
-        "name": "30 hari terakhir"
-      },
-      {
-        "id": 2,
-        "name": "3 bulan terakhir"
-      },
-      {
-        "id": 3,
-        "name": "6 bulan terakhir"
-      },
-      {
-        "id": 4,
-        "name": "Tahun terakhir"
-      },
-      {
-        "id": 5,
-        "name": "Rentang tanggal kustom"
-      }
-    ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Terapkan",
-      "PLACEHOLDER": "Pilih rentang tanggal"
-    }
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti."
   },
   "TEAM_REPORTS": {
-    "HEADER": "Gambaran Tim",
-    "LOADING_CHART": "Memuat data grafik...",
-    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_TEAM_REPORTS": "Unduh laporan tim",
-    "FILTER_DROPDOWN_LABEL": "Pilih Tim",
-    "METRICS": {
-      "CONVERSATIONS": {
-        "NAME": "Percakapan",
-        "DESC": "( Total )"
-      },
-      "INCOMING_MESSAGES": {
-        "NAME": "Pesan Masuk",
-        "DESC": "( Total )"
-      },
-      "OUTGOING_MESSAGES": {
-        "NAME": "Pesan Keluar",
-        "DESC": "( Total )"
-      },
-      "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_TIME": {
-        "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
-      },
-      "RESOLUTION_COUNT": {
-        "NAME": "Jumlah Terselesaikan",
-        "DESC": "( Total )"
-      }
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
     },
     "DATE_RANGE": [
       {
@@ -379,69 +408,40 @@
         "name": "Rentang tanggal kustom"
       }
     ],
-    "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Terapkan",
-      "PLACEHOLDER": "Pilih rentang tanggal"
-    }
-  },
-  "CSAT_REPORTS": {
-    "HEADER": "Laporan CSAT",
-    "NO_RECORDS": "Tidak ada respons survey CSAT yang tersedia.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "FILTERS": {
-      "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "CONTACT_NAME": "Kontak",
-        "AGENT_NAME": "Agen yang ditugaskan",
-        "RATING": "Peringkat",
-        "FEEDBACK_TEXT": "Komentar umpan balik"
-      }
-    },
-    "METRIC": {
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total respons",
-        "TOOLTIP": "Total jumlah respons yang terkumpul"
+    "DOWNLOAD_TEAM_REPORTS": "Unduh laporan tim",
+    "FILTER_DROPDOWN_LABEL": "Pilih Tim",
+    "HEADER": "Gambaran Tim",
+    "LOADING_CHART": "Memuat data grafik...",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "DESC": "( Total )",
+        "NAME": "Percakapan"
       },
-      "SATISFACTION_SCORE": {
-        "LABEL": "Nilai kepuasan",
-        "TOOLTIP": "Total jumlah respons positif / Total jumlah respons * 100"
+      "FIRST_RESPONSE_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "First Response Time",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
-      "RESPONSE_RATE": {
-        "LABEL": "Peringkat respons",
-        "TOOLTIP": "Total jumlah respons / Total jumlah pesan survey CSAT yang terkirim * 100"
-      }
-    }
-  },
-  "OVERVIEW_REPORTS": {
-    "HEADER": "Gambaran",
-    "LIVE": "Live",
-    "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Terbuka",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Belum ditugaskan"
-    },
-    "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
-      "TABLE_HEADER": {
-        "AGENT": "Agen",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Masuk"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )",
+        "NAME": "Pesan Keluar"
+      },
+      "RESOLUTION_COUNT": {
+        "DESC": "( Total )",
+        "NAME": "Jumlah Terselesaikan"
+      },
+      "RESOLUTION_TIME": {
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Waktu Penyelesaian",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
-    "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Sibuk",
-      "OFFLINE": "Offline"
-    }
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti."
   }
 }

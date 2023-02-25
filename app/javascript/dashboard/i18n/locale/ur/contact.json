@@ -1,225 +1,340 @@
 {
+  "CONTACTS_PAGE": {
+    "FIELDS": "کانٹیکٹ فیلڈز",
+    "FILTER_CONTACTS": "فلٹر",
+    "FILTER_CONTACTS_DELETE": "فلٹر کو حذف کریں۔",
+    "FILTER_CONTACTS_SAVE": "فلٹر محفوظ کریں۔",
+    "HEADER": "کانٹیکٹس",
+    "LIST": {
+      "404": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
+      "LOADING_MESSAGE": "کانٹیکٹس لوڈ ہو رہے ہیں...",
+      "NO_CONTACTS": "کوئی کانٹیکٹ دستیاب نہیں ہے۔",
+      "TABLE_HEADER": {
+        "CITY": "شہر",
+        "COMPANY": "کمپنی",
+        "CONVERSATIONS": "مکالمات",
+        "COUNTRY": "ملک",
+        "CREATED_AT": "Created At",
+        "EMAIL_ADDRESS": "ای میل اڈریس",
+        "LAST_ACTIVITY": "آخری سرگرمی",
+        "NAME": "نام",
+        "PHONE_NUMBER": "فون نمبر",
+        "SOCIAL_PROFILES": "سوشل پروفائلز"
+      },
+      "VIEW_DETAILS": "تفصیلات دیکھیں"
+    },
+    "SEARCH_BUTTON": "تلاش کریں۔",
+    "SEARCH_INPUT_PLACEHOLDER": "کانٹیکٹ تلاش کریں"
+  },
+  "CONTACT_FORM": {
+    "DELETE_AVATAR": {
+      "API": {
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later.",
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully"
+      }
+    },
+    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔",
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "کانٹیکٹ اوتار"
+      },
+      "BIO": {
+        "LABEL": "معلومات",
+        "PLACEHOLDER": "کانٹیکٹ کے بارے میں معلومات درج کریں"
+      },
+      "CANCEL": "منسوخ کریں۔",
+      "COMPANY_NAME": {
+        "LABEL": "کمپنی کا نام",
+        "PLACEHOLDER": "کمپنی کا نام درج کریں۔"
+      },
+      "EMAIL_ADDRESS": {
+        "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
+        "ERROR": "Please enter a valid email address.",
+        "LABEL": "ای میل اڈریس",
+        "PLACEHOLDER": "کانٹیکٹ کا ای میل درج کریں۔"
+      },
+      "LOCATION": {
+        "LABEL": "مقام",
+        "PLACEHOLDER": "کانٹیکٹ کا مقام درج کریں۔"
+      },
+      "NAME": {
+        "LABEL": "پورا نام",
+        "PLACEHOLDER": "کانٹیکٹ کا پورا نام درج کریں۔"
+      },
+      "PHONE_NUMBER": {
+        "DUPLICATE": "یہ فون نمبر دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
+        "ERROR": "فون نمبر یا تو خالی یا E.164 فارمیٹ کا ہونا چاہیے۔",
+        "HELP": "فون نمبر E.164 فارمیٹ کا ہونا چاہیے جیسے: +1415555555 [+][ملک کا کوڈ][علاقہ کا کوڈ][مقامی فون نمبر]",
+        "LABEL": "فون نمبر",
+        "PLACEHOLDER": "کانٹیکٹ کا فون نمبر درج کریں۔"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "LABEL": "فیس بک",
+          "PLACEHOLDER": "فیس بک صارف کا مخصوص نام درج کریں"
+        },
+        "GITHUB": {
+          "LABEL": "گٹ حب",
+          "PLACEHOLDER": "گٹ حب صارف کا خصوصی نام درج کریں۔"
+        },
+        "LINKEDIN": {
+          "LABEL": "لنک ڈن",
+          "PLACEHOLDER": "لنک ڈن صارف کا خصوصی نام درج کریں۔"
+        },
+        "TWITTER": {
+          "LABEL": "ٹویٹر",
+          "PLACEHOLDER": "ٹویٹر صارف کا مخصوص نام درج کریں۔"
+        }
+      },
+      "SUBMIT": "جمع کرائیں"
+    },
+    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔"
+  },
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "دستیاب نہیں ہے",
-    "EMAIL_ADDRESS": "ای میل اڈریس",
-    "PHONE_NUMBER": "فون نمبر",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
-    "COMPANY": "کمپنی",
-    "LOCATION": "مقام",
-    "BROWSER_LANGUAGE": "Browser Language",
-    "CONVERSATION_TITLE": "گفتگو کی تفصیلات",
-    "VIEW_PROFILE": "پروفائل کا مشاھدہ کریں",
     "BROWSER": "براؤزر",
-    "OS": "آپریٹنگ سسٹم",
-    "INITIATED_FROM": "سے شروع کیا گیا۔",
-    "INITIATED_AT": "پر شروع کیا گیا۔",
-    "IP_ADDRESS": "آئی پی ایڈریس",
-    "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "نیا پیغام",
+    "BROWSER_LANGUAGE": "Browser Language",
+    "COMPANY": "کمپنی",
+    "CONTACT_ACTIONS": "کانٹیکٹ ایکشنز",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "اس کانٹیکٹ سے وابستہ کوئی پچھلی بات چیت موجود نہیں ہے۔.",
       "TITLE": "پچھلی بات چیت"
     },
+    "CONVERSATION_TITLE": "گفتگو کی تفصیلات",
+    "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
+    "CREATED_AT_LABEL": "Created",
+    "EDIT_LABEL": "ترمیم",
+    "EMAIL_ADDRESS": "ای میل اڈریس",
+    "IDENTIFIER": "Identifier",
+    "INITIATED_AT": "پر شروع کیا گیا۔",
+    "INITIATED_FROM": "سے شروع کیا گیا۔",
+    "IP_ADDRESS": "آئی پی ایڈریس",
     "LABELS": {
       "CONTACT": {
-        "TITLE": "کانٹیکٹ لیبلز",
-        "ERROR": "لیبلز کو اپ ڈیٹ نہیں کیا جا سکا"
+        "ERROR": "لیبلز کو اپ ڈیٹ نہیں کیا جا سکا",
+        "TITLE": "کانٹیکٹ لیبلز"
       },
       "CONVERSATION": {
-        "TITLE": "گفتگو کے لیبلز",
-        "ADD_BUTTON": "لیبلز شامل کریں۔"
+        "ADD_BUTTON": "لیبلز شامل کریں۔",
+        "TITLE": "گفتگو کے لیبلز"
       },
       "LABEL_SELECT": {
-        "TITLE": "لیبلز شامل کریں۔",
+        "NO_RESULT": "کوئی لیبل نہیں ملے",
         "PLACEHOLDER": "لیبل تلاش کریں۔",
-        "NO_RESULT": "کوئی لیبل نہیں ملے"
+        "TITLE": "لیبلز شامل کریں۔"
       }
     },
+    "LOCATION": "مقام",
     "MERGE_CONTACT": "کانٹیکٹ ضم کریں۔",
-    "CONTACT_ACTIONS": "کانٹیکٹ ایکشنز",
-    "MUTE_CONTACT": "خاموش گفتگو",
-    "UNMUTE_CONTACT": "گفتگو کو چالو کریں۔",
     "MUTED_SUCCESS": "یہ گفتگو 6 گھنٹے کے لیے خاموش ہے۔",
-    "UNMUTED_SUCCESS": "یہ گفتگو غیر خاموش ہے۔",
+    "MUTE_CONTACT": "خاموش گفتگو",
+    "NEW_MESSAGE": "نیا پیغام",
+    "NOT_AVAILABLE": "دستیاب نہیں ہے",
+    "OS": "آپریٹنگ سسٹم",
+    "PHONE_NUMBER": "فون نمبر",
     "SEND_TRANSCRIPT": "ٹرانسکرپٹ بھیجیں۔",
-    "EDIT_LABEL": "ترمیم",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "حسب ضرورت اوصاف",
       "CONTACT_LABELS": "کانٹیکٹ لیبلز",
+      "CUSTOM_ATTRIBUTES": "حسب ضرورت اوصاف",
       "PREVIOUS_CONVERSATIONS": "پچھلی بات چیت"
-    }
-  },
-  "EDIT_CONTACT": {
-    "BUTTON_LABEL": "کانٹیکٹ میں ترمیم کریں۔",
-    "TITLE": "کانٹیکٹ میں ترمیم کریں۔",
-    "DESC": "کانٹیکٹ کی تفصیلات میں ترمیم کریں۔"
-  },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "نیا کانٹیکٹ",
-    "TITLE": "نیا کانٹیکٹ بنائیں",
-    "DESC": "کانٹیکٹ کے بارے میں بنیادی معلومات کی تفصیلات شامل کریں۔."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "درآمد کریں۔",
-    "TITLE": "کانٹیکٹ درآمد کریں۔",
-    "DESC": "سی ایس وی فائل کے ذریعے کانٹیکٹ درآمد کریں۔.",
-    "DOWNLOAD_LABEL": "ایک نمونہ سی ایس وی ڈاؤن لوڈ کریں۔.",
-    "FORM": {
-      "LABEL": "سی ایس وی فائل",
-      "SUBMIT": "درآمد کریں۔",
-      "CANCEL": "منسوخ کریں۔"
     },
-    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
-    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "حذف کرنے کی تصدیق کریں۔",
-      "MESSAGE": "کیا آپ یقینی طور پر اس نوٹ کو حذف کرنا چاہتے ہیں⸮",
-      "YES": "ہاں، حذف کریں۔",
-      "NO": "نہیں ، رہنے دیں"
-    }
-  },
-  "DELETE_CONTACT": {
-    "BUTTON_LABEL": "کانٹیکٹ حذف کریں۔",
-    "TITLE": "کانٹیکٹ حذف کریں۔",
-    "DESC": "کانٹیکٹ کی تفصیلات حذف کریں۔",
-    "CONFIRM": {
-      "TITLE": "حذف کرنے کی تصدیق کریں۔",
-      "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
-      "YES": "ہاں، حذف کریں۔ ",
-      "NO": "نہیں ، رہنے دیں"
-    },
-    "API": {
-      "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے حذف ہو گیا۔",
-      "ERROR_MESSAGE": "کانٹیکٹ حذف نہیں کیا جا سکا۔ براہ کرم کچھ دیر بعد کوشش کریں."
-    }
-  },
-  "CONTACT_FORM": {
-    "FORM": {
-      "SUBMIT": "جمع کرائیں",
-      "CANCEL": "منسوخ کریں۔",
-      "AVATAR": {
-        "LABEL": "کانٹیکٹ اوتار"
-      },
-      "NAME": {
-        "PLACEHOLDER": "کانٹیکٹ کا پورا نام درج کریں۔",
-        "LABEL": "پورا نام"
-      },
-      "BIO": {
-        "PLACEHOLDER": "کانٹیکٹ کے بارے میں معلومات درج کریں",
-        "LABEL": "معلومات"
-      },
-      "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "کانٹیکٹ کا ای میل درج کریں۔",
-        "LABEL": "ای میل اڈریس",
-        "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
-        "ERROR": "Please enter a valid email address."
-      },
-      "PHONE_NUMBER": {
-        "PLACEHOLDER": "کانٹیکٹ کا فون نمبر درج کریں۔",
-        "LABEL": "فون نمبر",
-        "HELP": "فون نمبر E.164 فارمیٹ کا ہونا چاہیے جیسے: +1415555555 [+][ملک کا کوڈ][علاقہ کا کوڈ][مقامی فون نمبر]",
-        "ERROR": "فون نمبر یا تو خالی یا E.164 فارمیٹ کا ہونا چاہیے۔",
-        "DUPLICATE": "یہ فون نمبر دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
-      },
-      "LOCATION": {
-        "PLACEHOLDER": "کانٹیکٹ کا مقام درج کریں۔",
-        "LABEL": "مقام"
-      },
-      "COMPANY_NAME": {
-        "PLACEHOLDER": "کمپنی کا نام درج کریں۔",
-        "LABEL": "کمپنی کا نام"
-      },
-      "SOCIAL_PROFILES": {
-        "FACEBOOK": {
-          "PLACEHOLDER": "فیس بک صارف کا مخصوص نام درج کریں",
-          "LABEL": "فیس بک"
-        },
-        "TWITTER": {
-          "PLACEHOLDER": "ٹویٹر صارف کا مخصوص نام درج کریں۔",
-          "LABEL": "ٹویٹر"
-        },
-        "LINKEDIN": {
-          "PLACEHOLDER": "لنک ڈن صارف کا خصوصی نام درج کریں۔",
-          "LABEL": "لنک ڈن"
-        },
-        "GITHUB": {
-          "PLACEHOLDER": "گٹ حب صارف کا خصوصی نام درج کریں۔",
-          "LABEL": "گٹ حب"
-        }
-      }
-    },
-    "DELETE_AVATAR": {
-      "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
-      }
-    },
-    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
-    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
-  },
-  "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "گفتگو شروع کریں",
-    "TITLE": "نئی گفتگو",
-    "DESC": "ایک نیا پیغام بھیج کر ایک نئی گفتگو شروع کریں۔.",
-    "NO_INBOX": "اس رابطے کے ساتھ نئی بات چیت شروع کرنے کے لیے ان باکس نہیں مل سکا۔.",
-    "FORM": {
-      "TO": {
-        "LABEL": "کو"
-      },
-      "INBOX": {
-        "LABEL": "ان باکس",
-        "ERROR": "ایک ان باکس منتخب کریں۔"
-      },
-      "SUBJECT": {
-        "LABEL": "مضمون",
-        "PLACEHOLDER": "مضمون",
-        "ERROR": "موضوع خالی نہیں ہو سکتا"
-      },
-      "MESSAGE": {
-        "LABEL": "پیغام",
-        "PLACEHOLDER": "اپنا پیغام یہاں لکھیں۔",
-        "ERROR": "پیغام خالی نہیں ہو سکتا"
-      },
-      "SUBMIT": "پیغام بھیجیں",
-      "CANCEL": "منسوخ کریں۔",
-      "SUCCESS_MESSAGE": "پیغام چلا گیا!",
-      "GO_TO_CONVERSATION": "دیکھیں",
-      "ERROR_MESSAGE": "نہیں بھیج سکا! دوبارہ کوشش کریں"
-    }
-  },
-  "CONTACTS_PAGE": {
-    "HEADER": "کانٹیکٹس",
-    "FIELDS": "کانٹیکٹ فیلڈز",
-    "SEARCH_BUTTON": "تلاش کریں۔",
-    "SEARCH_INPUT_PLACEHOLDER": "کانٹیکٹ تلاش کریں",
-    "FILTER_CONTACTS": "فلٹر",
-    "FILTER_CONTACTS_SAVE": "فلٹر محفوظ کریں۔",
-    "FILTER_CONTACTS_DELETE": "فلٹر کو حذف کریں۔",
-    "LIST": {
-      "LOADING_MESSAGE": "کانٹیکٹس لوڈ ہو رہے ہیں...",
-      "404": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
-      "NO_CONTACTS": "کوئی کانٹیکٹ دستیاب نہیں ہے۔",
-      "TABLE_HEADER": {
-        "NAME": "نام",
-        "PHONE_NUMBER": "فون نمبر",
-        "CONVERSATIONS": "مکالمات",
-        "LAST_ACTIVITY": "آخری سرگرمی",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "ملک",
-        "CITY": "شہر",
-        "SOCIAL_PROFILES": "سوشل پروفائلز",
-        "COMPANY": "کمپنی",
-        "EMAIL_ADDRESS": "ای میل اڈریس"
-      },
-      "VIEW_DETAILS": "تفصیلات دیکھیں"
-    }
+    "UNMUTED_SUCCESS": "یہ گفتگو غیر خاموش ہے۔",
+    "UNMUTE_CONTACT": "گفتگو کو چالو کریں۔",
+    "VIEW_PROFILE": "پروفائل کا مشاھدہ کریں"
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "کانٹیکٹس",
     "LOADING": "کانٹیکٹ پروفائل لوڈ ہورہی ہے..."
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "نیا کانٹیکٹ",
+    "DESC": "کانٹیکٹ کے بارے میں بنیادی معلومات کی تفصیلات شامل کریں۔.",
+    "TITLE": "نیا کانٹیکٹ بنائیں"
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "ACTIONS": {
+      "COPY": "صفات کاپی کریں۔",
+      "DELETE": "صفات کو حذف کریں۔",
+      "EDIT": "صفات میں ترمیم کریں۔"
+    },
+    "ADD": {
+      "DESC": "اس کانٹیکٹ میں حسب ضرورت معلومات شامل کریں۔.",
+      "TITLE": "حسب ضرورت صفات بنائیں"
+    },
+    "ADD_BUTTON_TEXT": "صفات شامل کریں۔",
+    "BUTTON": "حسب ضرورت صفات شامل کریں۔",
+    "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
+    "FORM": {
+      "ADD": {
+        "ERROR": "Unable to add attribute. Please try again later",
+        "SUCCESS": "Attribute added successfully",
+        "TITLE": "Create new attribute "
+      },
+      "ATTRIBUTE_SELECT": {
+        "NO_RESULT": "No attributes found",
+        "PLACEHOLDER": "Search attributes",
+        "TITLE": "صفات شامل کریں۔"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "NO_RESULT": "No result found",
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value"
+        }
+      },
+      "CANCEL": "منسوخ کریں۔",
+      "CREATE": "صفات شامل کریں۔",
+      "DELETE": {
+        "ERROR": "Unable to delete attribute. Please try again later",
+        "SUCCESS": "Attribute deleted successfully"
+      },
+      "NAME": {
+        "ERROR": "Invalid custom attribute name",
+        "LABEL": "حسب ضرورت صفات کا نام",
+        "PLACEHOLDER": "Eg: shopify id"
+      },
+      "UPDATE": {
+        "ERROR": "Unable to update attribute. Please try again later",
+        "SUCCESS": "Attribute updated successfully"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
+    },
+    "NOT_AVAILABLE": "اس رابطے کے لیے کوئی حسب ضرورت صفات دستیاب نہیں ہیں۔.",
+    "VALIDATIONS": {
+      "INVALID_URL": "Invalid URL",
+      "REQUIRED": "Valid value is required"
+    }
+  },
+  "DELETE_CONTACT": {
+    "API": {
+      "ERROR_MESSAGE": "کانٹیکٹ حذف نہیں کیا جا سکا۔ براہ کرم کچھ دیر بعد کوشش کریں.",
+      "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے حذف ہو گیا۔"
+    },
+    "BUTTON_LABEL": "کانٹیکٹ حذف کریں۔",
+    "CONFIRM": {
+      "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
+      "NO": "نہیں ، رہنے دیں",
+      "TITLE": "حذف کرنے کی تصدیق کریں۔",
+      "YES": "ہاں، حذف کریں۔ "
+    },
+    "DESC": "کانٹیکٹ کی تفصیلات حذف کریں۔",
+    "TITLE": "کانٹیکٹ حذف کریں۔"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "MESSAGE": "کیا آپ یقینی طور پر اس نوٹ کو حذف کرنا چاہتے ہیں⸮",
+      "NO": "نہیں ، رہنے دیں",
+      "TITLE": "حذف کرنے کی تصدیق کریں۔",
+      "YES": "ہاں، حذف کریں۔"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "کانٹیکٹ میں ترمیم کریں۔",
+    "DESC": "کانٹیکٹ کی تفصیلات میں ترمیم کریں۔",
+    "TITLE": "کانٹیکٹ میں ترمیم کریں۔"
+  },
+  "EVENTS": {
+    "BUTTON": {
+      "PILL_BUTTON_CONVO": "مکالمات",
+      "PILL_BUTTON_EVENTS": "تقریبات",
+      "PILL_BUTTON_NOTES": "نوٹ"
+    },
+    "HEADER": {
+      "TITLE": "سرگرمیاں"
+    }
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "درآمد کریں۔",
+    "DESC": "سی ایس وی فائل کے ذریعے کانٹیکٹ درآمد کریں۔.",
+    "DOWNLOAD_LABEL": "ایک نمونہ سی ایس وی ڈاؤن لوڈ کریں۔.",
+    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔",
+    "FORM": {
+      "CANCEL": "منسوخ کریں۔",
+      "LABEL": "سی ایس وی فائل",
+      "SUBMIT": "درآمد کریں۔"
+    },
+    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
+    "TITLE": "کانٹیکٹ درآمد کریں۔"
+  },
+  "MERGE_CONTACTS": {
+    "CHILD": {
+      "HELP_LABEL": "حذف کیا جائے۔",
+      "PLACEHOLDER": "کانٹیکٹ تلاش کریں",
+      "TITLE": "کانٹیکٹ کو زم کریں"
+    },
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "FORM": {
+      "CANCEL": "منسوخ کریں۔",
+      "CHILD_CONTACT": {
+        "ERROR": "ضم کرنے کے لیے چائلڈ کانٹیکٹ منتخب کریں۔"
+      },
+      "ERROR_MESSAGE": "کانٹیکٹ کو ضم نہیں کیا جا سکا، دوبارہ کوشش کریں!",
+      "SUBMIT": " کانٹیکٹ ضم کریں۔",
+      "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے ضم ہو گیا۔"
+    },
+    "PRIMARY": {
+      "HELP_LABEL": "رکھا جائے ۔",
+      "TITLE": "بنیادی رابطہ"
+    },
+    "SEARCH": {
+      "ERROR": "خامی کا پیغام"
+    },
+    "SUMMARY": {
+      "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{primaryContactName}</strong> پر کاپی کی جائیں گی۔.",
+      "DELETE_WARNING": "<strong>%{childContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
+      "TITLE": "خلاصہ"
+    },
+    "TITLE": "Merge contacts"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "گفتگو شروع کریں",
+    "DESC": "ایک نیا پیغام بھیج کر ایک نئی گفتگو شروع کریں۔.",
+    "FORM": {
+      "CANCEL": "منسوخ کریں۔",
+      "ERROR_MESSAGE": "نہیں بھیج سکا! دوبارہ کوشش کریں",
+      "GO_TO_CONVERSATION": "دیکھیں",
+      "INBOX": {
+        "ERROR": "ایک ان باکس منتخب کریں۔",
+        "LABEL": "ان باکس"
+      },
+      "MESSAGE": {
+        "ERROR": "پیغام خالی نہیں ہو سکتا",
+        "LABEL": "پیغام",
+        "PLACEHOLDER": "اپنا پیغام یہاں لکھیں۔"
+      },
+      "SUBJECT": {
+        "ERROR": "موضوع خالی نہیں ہو سکتا",
+        "LABEL": "مضمون",
+        "PLACEHOLDER": "مضمون"
+      },
+      "SUBMIT": "پیغام بھیجیں",
+      "SUCCESS_MESSAGE": "پیغام چلا گیا!",
+      "TO": {
+        "LABEL": "کو"
+      }
+    },
+    "NO_INBOX": "اس رابطے کے ساتھ نئی بات چیت شروع کرنے کے لیے ان باکس نہیں مل سکا۔.",
+    "TITLE": "نئی گفتگو"
+  },
+  "NOTES": {
+    "ADD": {
+      "BUTTON": "شامل کریں۔",
+      "PLACEHOLDER": "ایک نوٹ شامل کیا",
+      "TITLE": "نوٹ بنانے کے لیے Shift + Enter دبائیں"
+    },
+    "CONTENT_HEADER": {
+      "DELETE": "نوٹ حذف کریں۔"
+    },
+    "FETCHING_NOTES": "نوٹس فیچ ہورہے ہیں...",
+    "HEADER": {
+      "TITLE": "نوٹس"
+    },
+    "LIST": {
+      "LABEL": "ایک نوٹ شامل کیا"
+    },
+    "NOT_AVAILABLE": "اس کانٹیکٹ کے لیے کوئی نوٹس نہیں بنائے گئے ہیں۔"
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -229,121 +344,6 @@
     "FOOTER": {
       "DUE_DATE": "اخری تاریخ",
       "LABEL_TITLE": "قسم سیٹ کریں۔"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "نوٹس فیچ ہورہے ہیں...",
-    "NOT_AVAILABLE": "اس کانٹیکٹ کے لیے کوئی نوٹس نہیں بنائے گئے ہیں۔",
-    "HEADER": {
-      "TITLE": "نوٹس"
-    },
-    "LIST": {
-      "LABEL": "ایک نوٹ شامل کیا"
-    },
-    "ADD": {
-      "BUTTON": "شامل کریں۔",
-      "PLACEHOLDER": "ایک نوٹ شامل کیا",
-      "TITLE": "نوٹ بنانے کے لیے Shift + Enter دبائیں"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "نوٹ حذف کریں۔"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "سرگرمیاں"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "نوٹ",
-      "PILL_BUTTON_EVENTS": "تقریبات",
-      "PILL_BUTTON_CONVO": "مکالمات"
-    }
-  },
-  "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "صفات شامل کریں۔",
-    "BUTTON": "حسب ضرورت صفات شامل کریں۔",
-    "NOT_AVAILABLE": "اس رابطے کے لیے کوئی حسب ضرورت صفات دستیاب نہیں ہیں۔.",
-    "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
-    "ACTIONS": {
-      "COPY": "صفات کاپی کریں۔",
-      "DELETE": "صفات کو حذف کریں۔",
-      "EDIT": "صفات میں ترمیم کریں۔"
-    },
-    "ADD": {
-      "TITLE": "حسب ضرورت صفات بنائیں",
-      "DESC": "اس کانٹیکٹ میں حسب ضرورت معلومات شامل کریں۔."
-    },
-    "FORM": {
-      "CREATE": "صفات شامل کریں۔",
-      "CANCEL": "منسوخ کریں۔",
-      "NAME": {
-        "LABEL": "حسب ضرورت صفات کا نام",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
-      },
-      "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
-      },
-      "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
-      },
-      "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
-      },
-      "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
-      },
-      "ATTRIBUTE_SELECT": {
-        "TITLE": "صفات شامل کریں۔",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
-      },
-      "ATTRIBUTE_TYPE": {
-        "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
-        }
-      }
-    },
-    "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
-    }
-  },
-  "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
-    "PRIMARY": {
-      "TITLE": "بنیادی رابطہ",
-      "HELP_LABEL": "رکھا جائے ۔"
-    },
-    "CHILD": {
-      "TITLE": "کانٹیکٹ کو زم کریں",
-      "PLACEHOLDER": "کانٹیکٹ تلاش کریں",
-      "HELP_LABEL": "حذف کیا جائے۔"
-    },
-    "SUMMARY": {
-      "TITLE": "خلاصہ",
-      "DELETE_WARNING": "<strong>%{childContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
-      "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{primaryContactName}</strong> پر کاپی کی جائیں گی۔."
-    },
-    "SEARCH": {
-      "ERROR": "خامی کا پیغام"
-    },
-    "FORM": {
-      "SUBMIT": " کانٹیکٹ ضم کریں۔",
-      "CANCEL": "منسوخ کریں۔",
-      "CHILD_CONTACT": {
-        "ERROR": "ضم کرنے کے لیے چائلڈ کانٹیکٹ منتخب کریں۔"
-      },
-      "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے ضم ہو گیا۔",
-      "ERROR_MESSAGE": "کانٹیکٹ کو ضم نہیں کیا جا سکا، دوبارہ کوشش کریں!"
     }
   }
 }

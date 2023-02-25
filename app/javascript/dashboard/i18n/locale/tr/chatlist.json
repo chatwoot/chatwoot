@@ -1,71 +1,71 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Görüşmeler getiriliyor",
-    "LOAD_MORE_CONVERSATIONS": "Daha fazla konuşma yükleyin",
-    "EOF": "Tüm görüşmeler yüklendi 🎉",
-    "LIST": {
-      "404": "Bu grupta aktif görüşme yok."
-    },
-    "TAB_HEADING": "Konuşmalar",
-    "MENTION_HEADING": "Bahsedilmeler",
-    "UNATTENDED_HEADING": "Unattended",
-    "SEARCH": {
-      "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
-    },
-    "FILTER_ALL": "Hepsi",
     "ASSIGNEE_TYPE_TABS": {
+      "all": "Hepsi",
       "me": "Benim",
-      "unassigned": "Atanmamış",
-      "all": "Hepsi"
-    },
-    "CHAT_STATUS_FILTER_ITEMS": {
-      "open": {
-        "TEXT": "Açık"
-      },
-      "resolved": {
-        "TEXT": "Çözüldü"
-      },
-      "pending": {
-        "TEXT": "Bekliyor"
-      },
-      "snoozed": {
-        "TEXT": "Susturuldu"
-      },
-      "all": {
-        "TEXT": "Hepsi"
-      }
+      "unassigned": "Atanmamış"
     },
     "ATTACHMENTS": {
-      "image": {
-        "CONTENT": "Görsel mesaj"
-      },
       "audio": {
         "CONTENT": "Sesli mesaj"
       },
-      "video": {
-        "CONTENT": "Video mesajı"
+      "fallback": {
+        "CONTENT": "bir url paylaştı"
       },
       "file": {
         "CONTENT": "Dosya eklentisi"
       },
+      "image": {
+        "CONTENT": "Görsel mesaj"
+      },
       "location": {
         "CONTENT": "Yer"
       },
-      "fallback": {
-        "CONTENT": "bir url paylaştı"
+      "video": {
+        "CONTENT": "Video mesajı"
       }
     },
-    "RECEIVED_VIA_EMAIL": "E-posta ile alındı",
-    "VIEW_TWEET_IN_TWITTER": "Twitter'da tweet'i görüntüleyin",
-    "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
-    "LINK_TO_STORY": "Instagram hikayesine git",
-    "SENT": "Başarıyla gönderildi",
-    "READ": "Read successfully",
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "Hepsi"
+      },
+      "open": {
+        "TEXT": "Açık"
+      },
+      "pending": {
+        "TEXT": "Bekliyor"
+      },
+      "resolved": {
+        "TEXT": "Çözüldü"
+      },
+      "snoozed": {
+        "TEXT": "Susturuldu"
+      }
+    },
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "Mesaj yok",
-    "NO_CONTENT": "Kullanılabilir içerik yok",
+    "EOF": "Tüm görüşmeler yüklendi 🎉",
+    "FILTER_ALL": "Hepsi",
     "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
+    "LINK_TO_STORY": "Instagram hikayesine git",
+    "LIST": {
+      "404": "Bu grupta aktif görüşme yok."
+    },
+    "LOADING": "Görüşmeler getiriliyor",
+    "LOAD_MORE_CONVERSATIONS": "Daha fazla konuşma yükleyin",
+    "MENTION_HEADING": "Bahsedilmeler",
+    "MESSAGE_READ": "Oku",
+    "NO_CONTENT": "Kullanılabilir içerik yok",
+    "NO_MESSAGES": "Mesaj yok",
+    "READ": "Read successfully",
+    "RECEIVED_VIA_EMAIL": "E-posta ile alındı",
+    "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
+    "SEARCH": {
+      "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
+    },
+    "SENT": "Başarıyla gönderildi",
     "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster",
-    "MESSAGE_READ": "Oku"
+    "TAB_HEADING": "Konuşmalar",
+    "UNATTENDED_HEADING": "Unattended",
+    "VIEW_TWEET_IN_TWITTER": "Twitter'da tweet'i görüntüleyin"
   }
 }

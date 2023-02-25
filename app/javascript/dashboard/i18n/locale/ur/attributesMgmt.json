@@ -1,99 +1,99 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Custom Attributes",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
-      "SUBMIT": "Create",
+      "API": {
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later.",
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!"
+      },
       "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
       "FORM": {
-        "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
-        },
         "DESC": {
+          "ERROR": "Description is required",
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
-        },
-        "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
-        },
-        "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
-          "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
-          }
+          "PLACEHOLDER": "Enter custom attribute description"
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
           "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "IN_VALID": "Invalid key",
+          "LABEL": "Key",
+          "PLACEHOLDER": "Enter custom attribute key"
+        },
+        "MODEL": {
+          "ERROR": "Model is required",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one"
+        },
+        "NAME": {
+          "ERROR": "Name is required",
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter custom attribute display name"
+        },
+        "TYPE": {
+          "ERROR": "Type is required",
+          "LABEL": "Type",
+          "LIST": {
+            "ERROR": "Must have at least one value",
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key"
+          },
+          "PLACEHOLDER": "Please select a type"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
-      }
+      "SUBMIT": "Create",
+      "TITLE": "Add Custom Attribute"
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف کریں۔",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again.",
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully."
       },
+      "BUTTON_TEXT": "حذف کریں۔",
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "Delete ",
-        "NO": "منسوخ کریں۔"
+        "NO": "منسوخ کریں۔",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "YES": "Delete "
       }
     },
     "EDIT": {
+      "API": {
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again",
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully"
+      },
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "Update",
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",
           "PLACEHOLDER": "Please enter values and press enter key"
         }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
-      }
+      "UPDATE_BUTTON_TEXT": "Update"
     },
-    "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
-    },
+    "HEADER": "Custom Attributes",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
     "LIST": {
+      "BUTTONS": {
+        "DELETE": "حذف کریں۔",
+        "EDIT": "ترمیم"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
+      },
       "TABLE_HEADER": [
         "نام",
         "Description",
         "Type",
         "Key"
-      ],
-      "BUTTONS": {
-        "EDIT": "ترمیم",
-        "DELETE": "حذف کریں۔"
-      },
-      "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
-      }
+      ]
+    },
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "TABS": {
+      "CONTACT": "Contact",
+      "CONVERSATION": "Conversation",
+      "HEADER": "Custom Attributes"
     }
   }
 }

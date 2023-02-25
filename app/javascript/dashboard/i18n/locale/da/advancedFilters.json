@@ -1,93 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Filtrer Samtaler",
-    "SUBTITLE": "Tilføj filtre nedenfor og tryk på 'Anvend filtre' for at filtrere samtaler.",
     "ADD_NEW_FILTER": "Tilføj Filter",
-    "FILTER_DELETE_ERROR": "Du skal have mindst et filter at gemme",
-    "SUBMIT_BUTTON_LABEL": "Anvend filtre",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Ansvarlig Navn",
+      "BROWSER_LANGUAGE": "Browser Sprog",
+      "CAMPAIGN_NAME": "Kampagne Navn",
+      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
+      "COUNTRY_NAME": "Land Navn",
+      "CREATED_AT": "Oprettet Den",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Afkrydsningsfelt",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "INBOX_NAME": "Indbakke Navn",
+      "LABELS": "Etiketter",
+      "LAST_ACTIVITY": "Sidste Aktivitet",
+      "REFERER_LINK": "Refererer link",
+      "STATUS": "Status",
+      "TEAM_NAME": "Hold Navn"
+    },
+    "ATTRIBUTE_LABELS": {
+      "FALSE": "Falsk",
+      "TRUE": "Sandt"
+    },
     "CANCEL_BUTTON_LABEL": "Annuller",
     "CLEAR_BUTTON_LABEL": "Ryd Filtre",
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Fejl under oprettelse af mappe",
+          "SUCCESS_MESSAGE": "Mappe oprettet"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Fejl under oprettelse af segment",
+          "SUCCESS_MESSAGE": "Segmentet er oprettet"
+        },
+        "CANCEL_BUTTON": "Annuller",
+        "ERROR_MESSAGE": "Navn er påkrævet",
+        "LABEL": "Navngiv dette filter",
+        "PLACEHOLDER": "Angiv et navn for dette filter",
+        "SAVE_BUTTON": "Gem filter",
+        "TITLE": "Vil du gemme dette filter?"
+      },
+      "DELETE": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Fejl under sletning af mappe",
+          "SUCCESS_MESSAGE": "Mappen blev slettet"
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Fejl under sletning af segment",
+          "SUCCESS_MESSAGE": "Segmentet blev slettet"
+        },
+        "DELETE_BUTTON": "Slet filter",
+        "MODAL": {
+          "CONFIRM": {
+            "MESSAGE": "Er du sikker på du vil slette filteret ",
+            "NO": "Nej, behold det",
+            "TITLE": "Bekræft Sletning",
+            "YES": "Ja, Slet"
+          }
+        }
+      }
+    },
     "EMPTY_VALUE_ERROR": "Værdi er påkrævet",
-    "TOOLTIP_LABEL": "Filtrer samtaler",
+    "FILTER_DELETE_ERROR": "Du skal have mindst et filter at gemme",
+    "GROUPS": {
+      "ADDITIONAL_FILTERS": "Yderligere Filtre",
+      "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
+      "STANDARD_FILTERS": "Standard Filtre"
+    },
+    "OPERATOR_LABELS": {
+      "contains": "Indeholder",
+      "days_before": "Er x dage før",
+      "does_not_contain": "Indeholder ikke",
+      "equal_to": "Lig med",
+      "is_greater_than": "Er større end",
+      "is_less_than": "Er mindre end",
+      "is_not_present": "Er ikke til stede",
+      "is_present": "Er til stede",
+      "not_equal_to": "Ikke lig med"
+    },
     "QUERY_DROPDOWN_LABELS": {
       "AND": "OG",
       "OR": "ELLER"
     },
-    "OPERATOR_LABELS": {
-      "equal_to": "Lig med",
-      "not_equal_to": "Ikke lig med",
-      "contains": "Indeholder",
-      "does_not_contain": "Indeholder ikke",
-      "is_present": "Er til stede",
-      "is_not_present": "Er ikke til stede",
-      "is_greater_than": "Er større end",
-      "is_less_than": "Er mindre end",
-      "days_before": "Er x dage før"
-    },
-    "ATTRIBUTE_LABELS": {
-      "TRUE": "Sandt",
-      "FALSE": "Falsk"
-    },
-    "ATTRIBUTES": {
-      "STATUS": "Status",
-      "ASSIGNEE_NAME": "Ansvarlig Navn",
-      "INBOX_NAME": "Indbakke Navn",
-      "TEAM_NAME": "Hold Navn",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Kampagne Navn",
-      "LABELS": "Etiketter",
-      "BROWSER_LANGUAGE": "Browser Sprog",
-      "COUNTRY_NAME": "Land Navn",
-      "REFERER_LINK": "Refererer link",
-      "CUSTOM_ATTRIBUTE_LIST": "Liste",
-      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Afkrydsningsfelt",
-      "CREATED_AT": "Oprettet Den",
-      "LAST_ACTIVITY": "Sidste Aktivitet"
-    },
-    "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filtre",
-      "ADDITIONAL_FILTERS": "Yderligere Filtre",
-      "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber"
-    },
-    "CUSTOM_VIEWS": {
-      "ADD": {
-        "TITLE": "Vil du gemme dette filter?",
-        "LABEL": "Navngiv dette filter",
-        "PLACEHOLDER": "Angiv et navn for dette filter",
-        "ERROR_MESSAGE": "Navn er påkrævet",
-        "SAVE_BUTTON": "Gem filter",
-        "CANCEL_BUTTON": "Annuller",
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mappe oprettet",
-          "ERROR_MESSAGE": "Fejl under oprettelse af mappe"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmentet er oprettet",
-          "ERROR_MESSAGE": "Fejl under oprettelse af segment"
-        }
-      },
-      "DELETE": {
-        "DELETE_BUTTON": "Slet filter",
-        "MODAL": {
-          "CONFIRM": {
-            "TITLE": "Bekræft Sletning",
-            "MESSAGE": "Er du sikker på du vil slette filteret ",
-            "YES": "Ja, Slet",
-            "NO": "Nej, behold det"
-          }
-        },
-        "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Mappen blev slettet",
-          "ERROR_MESSAGE": "Fejl under sletning af mappe"
-        },
-        "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmentet blev slettet",
-          "ERROR_MESSAGE": "Fejl under sletning af segment"
-        }
-      }
-    }
+    "SUBMIT_BUTTON_LABEL": "Anvend filtre",
+    "SUBTITLE": "Tilføj filtre nedenfor og tryk på 'Anvend filtre' for at filtrere samtaler.",
+    "TITLE": "Filtrer Samtaler",
+    "TOOLTIP_LABEL": "Filtrer samtaler"
   }
 }

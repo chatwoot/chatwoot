@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Logga in till Chatwoot",
+    "API": {
+      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare",
+      "SUCCESS_MESSAGE": "Inloggning lyckades",
+      "UNAUTH": "Användarnamn / lösenord felaktigt. Försök igen"
+    },
+    "CREATE_NEW_ACCOUNT": "Skapa nytt konto",
     "EMAIL": {
       "LABEL": "E-post",
       "PLACEHOLDER": "E-post t.ex.: someone@example.com"
     },
+    "FORGOT_PASSWORD": "Glömt ditt lösenord?",
     "PASSWORD": {
       "LABEL": "Lösenord",
       "PLACEHOLDER": "Lösenord"
     },
-    "API": {
-      "SUCCESS_MESSAGE": "Inloggning lyckades",
-      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare",
-      "UNAUTH": "Användarnamn / lösenord felaktigt. Försök igen"
-    },
-    "FORGOT_PASSWORD": "Glömt ditt lösenord?",
-    "CREATE_NEW_ACCOUNT": "Skapa nytt konto",
-    "SUBMIT": "Logga in"
+    "SUBMIT": "Logga in",
+    "TITLE": "Logga in till Chatwoot"
   }
 }

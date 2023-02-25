@@ -1,9 +1,362 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Indbakker",
-    "SIDEBAR_TXT": "<p><b>Indbakke</b></p> <p> Når du forbinder en hjemmeside eller en facebook side til Chatwoot, det kaldes en <b>Indbakke</b>. Du kan have ubegrænset indbakker på din Chatwoot-konto. </p><p> Klik på <b>Tilføj indbakke</b> for at forbinde en hjemmeside eller en Facebook-side. </p><p> I betjeningspanelet du kan se alle samtalerne fra alle dine indbakker på et enkelt sted og svare på dem under fanen 'Samtaler'. </p><p> Du kan også se samtaler, der er specifikke for en indbakke, ved at klikke på indbakkens navn i dashboardets venstre rude. </p>",
-    "LIST": {
-      "404": "Der er ingen indbakker tilknyttet denne konto."
+    "ADD": {
+      "AGENTS": {
+        "DESC": "Her kan du tilføje agenter til at håndtere din nyoprettede indbakke. Kun disse valgte agenter vil have adgang til din indbakke. Agenter som ikke er en del af denne indbakke, vil ikke kunne se eller reagere på beskeder i denne indbakke, når de logger ind. <br> <b>PS:</b> Som administrator, hvis du har brug for adgang til alle indbakker, bør du tilføje dig selv som agent til alle indbakker, du opretter.",
+        "PICK_AGENTS": "Vælg agenter for indbakken",
+        "TITLE": "Agenter",
+        "VALIDATION_ERROR": "Tilføj mindst én agent til din nye indbakke"
+      },
+      "API_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "Vi var ikke i stand til at gemme api kanalen"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Indtast et kanalnavn"
+        },
+        "DESC": "Integrer med API-kanal og begynd at supportere dine kunder.",
+        "SUBMIT_BUTTON": "Opret API-kanal",
+        "TITLE": "API Kanal",
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Webhook URL",
+          "SUBTITLE": "Indstil URL'en hvor du vil modtage callbacks på begivenheder."
+        }
+      },
+      "AUTH": {
+        "DESC": "Chatwoot understøtter live-chat-widgets, Facebook Messenger, Twitter-profiler, WhatsApp, E-mails, osv., som kanaler. Hvis du ønsker at bygge en brugerdefineret kanal, kan du oprette den ved hjælp af API-kanalen. For at komme i gang, vælg en af kanalerne nedenfor.",
+        "TITLE": "Vælg en kanal"
+      },
+      "CHANNEL_NAME": {
+        "ERROR": "Angiv et gyldigt indbakke navn",
+        "LABEL": "Indbakke Navn",
+        "PLACEHOLDER": "Indtast dit indbakke navn (f. eks. Acme Inc)"
+      },
+      "DETAILS": {
+        "DESC": "Vælg den Facebook-side, du vil forbinde til Chatwoot, fra dropdown listen nedenfor. Du kan også give et brugerdefineret navn til din indbakke for bedre identifikation.",
+        "TITLE": "Indbakke Detaljer"
+      },
+      "EMAIL_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "Vi kunne ikke gemme e-mailkanalen"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Indtast et kanalnavn"
+        },
+        "DESC": "Integrer din e-mail indbakke.",
+        "EMAIL": {
+          "LABEL": "E-mail",
+          "PLACEHOLDER": "E-mail",
+          "SUBTITLE": "E-mail hvor dine kunder sender dig support tickets"
+        },
+        "FINISH_MESSAGE": "Begynd at videresende dine e-mails til følgende e-mailadresse.",
+        "SUBMIT_BUTTON": "Opret E-Mail Kanal",
+        "TITLE": "E-mail Kanal"
+      },
+      "EMAIL_PROVIDER": {
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials.",
+        "TITLE": "Select your email provider"
+      },
+      "FB": {
+        "ADD_NAME": "Tilføj et navn til din indbakke",
+        "CHOOSE_PAGE": "Vælg Side",
+        "CHOOSE_PLACEHOLDER": "Vælg en side fra listen",
+        "HELP": "PS: Ved at logge ind får vi kun adgang til din sides beskeder. Dine private beskeder kan aldrig tilgås af Chatwoot.",
+        "INBOX_NAME": "Indbakke Navn",
+        "PICK_A_VALUE": "Vælg en værdi",
+        "PICK_NAME": "Vælg et navn til din indbakke"
+      },
+      "FINISH": {
+        "DESC": "Du er færdig med at integrere din Facebook-side med Chatwoot. Næste gang en kunde sender en meddelelse til din side, vil samtalen automatisk dukke op i din indbakke.<br>Vi giver dig også et widget script, som du nemt kan tilføje til din hjemmeside. Når dette er live på din hjemmeside, kan kunder sende dig en besked direkte fra din hjemmeside uden hjælp fra et eksternt værktøj, og samtalen vises lige her, på Chatwoot.<br>Cool, var? Nå ikke, vi forsøge at være :)",
+        "TITLE": "Du klarede det!"
+      },
+      "LINE_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "Vi var ikke i stand til at gemme LINE kanalen"
+        },
+        "API_CALLBACK": {
+          "SUBTITLE": "Du skal indstille webhook URL i LINE programmet med URL-adressen nævnt her.",
+          "TITLE": "Callback URL"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Indtast et kanalnavn"
+        },
+        "DESC": "Integrér med LINE-kanalen og begynd at støtte dine kunder.",
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Kanal ID",
+          "PLACEHOLDER": "LINE Kanal ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Kanal Hemmelighed",
+          "PLACEHOLDER": "LINE Kanal Hemmelighed"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Kanal Token",
+          "PLACEHOLDER": "LINE Kanal Token"
+        },
+        "SUBMIT_BUTTON": "Opret LINE Kanal",
+        "TITLE": "LINE Kanal"
+      },
+      "MICROSOFT": {
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "TITLE": "Microsoft Email"
+      },
+      "SMS": {
+        "API": {
+          "ERROR_MESSAGE": "Vi kunne ikke gemme SMS-kanalen"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "ERROR": "Dette felt er påkrævet",
+            "LABEL": "Konto SID",
+            "PLACEHOLDER": "Indtast venligst dit Båndbredde Konto ID"
+          },
+          "API": {
+            "ERROR_MESSAGE": "Vi var ikke i stand til at godkende Twilio legitimationsoplysninger, prøv igen"
+          },
+          "API_CALLBACK": {
+            "SUBTITLE": "Du skal konfigurere beskedtilbagekalds-URL'en i Båndbredde med den URL, der er nævnt her.",
+            "TITLE": "Callback URL"
+          },
+          "API_KEY": {
+            "ERROR": "Dette felt er påkrævet",
+            "LABEL": "API Nøgle",
+            "PLACEHOLDER": "Indtast venligst dit Båndbredde Konto ID"
+          },
+          "API_SECRET": {
+            "ERROR": "Dette felt er påkrævet",
+            "LABEL": "API Hemmelighed",
+            "PLACEHOLDER": "Indtast venligst dit Bandwith API Secret"
+          },
+          "APPLICATION_ID": {
+            "ERROR": "Dette felt er påkrævet",
+            "LABEL": "Applikations ID",
+            "PLACEHOLDER": "Indtast venligst dit Båndbredde-program-id"
+          },
+          "INBOX_NAME": {
+            "ERROR": "Dette felt er påkrævet",
+            "LABEL": "Indbakke Navn",
+            "PLACEHOLDER": "Indtast venligst et indbakke navn"
+          },
+          "PHONE_NUMBER": {
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces.",
+            "LABEL": "Telefonnummer",
+            "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt."
+          },
+          "SUBMIT_BUTTON": "Opret Båndbredde Kanal"
+        },
+        "DESC": "Begynd at støtte dine kunder via SMS.",
+        "PROVIDERS": {
+          "BANDWIDTH": "Båndbredde",
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio"
+        },
+        "TITLE": "SMS Kanal"
+      },
+      "TELEGRAM_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "Vi var ikke i stand til at gemme telegram kanal"
+        },
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "PLACEHOLDER": "Bot Token",
+          "SUBTITLE": "Konfigurer den bot token du har fået fra Telegram BotFather."
+        },
+        "DESC": "Integrér med Telegram-kanalen og begynd at støtte dine kunder.",
+        "SUBMIT_BUTTON": "Opret Telegram Kanal",
+        "TITLE": "Telegram Kanal"
+      },
+      "TWILIO": {
+        "ACCOUNT_SID": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "Konto SID",
+          "PLACEHOLDER": "Indtast venligst din Twilio konto SID"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Vi var ikke i stand til at godkende Twilio legitimationsoplysninger, prøv igen"
+        },
+        "API_CALLBACK": {
+          "SUBTITLE": "Du er nødt til at konfigurere besked callback URL i Twilio med den URL, der er nævnt her.",
+          "TITLE": "Callback URL"
+        },
+        "AUTH_TOKEN": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Indtast venligst din Twilio Auth Token"
+        },
+        "CHANNEL_NAME": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "Indbakke Navn",
+          "PLACEHOLDER": "Indtast venligst et indbakke navn"
+        },
+        "CHANNEL_TYPE": {
+          "ERROR": "Vælg venligst din kanaltype",
+          "LABEL": "Kanaltype"
+        },
+        "DESC": "Integrer Twilio og start med at supportere dine kunder via SMS eller Whatsapp.",
+        "MESSAGING_SERVICE_SID": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "SID For Beskedtjeneste",
+          "PLACEHOLDER": "Indtast venligst din Twilio Messaging Service SID",
+          "USE_MESSAGING_SERVICE": "Brug en Twilio-meddelelsestjeneste"
+        },
+        "PHONE_NUMBER": {
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces.",
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt."
+        },
+        "SUBMIT_BUTTON": "Opret Twilio Kanal",
+        "TITLE": "Twilio SMS/Whatsapp Kanal"
+      },
+      "TWITTER": {
+        "ERROR_MESSAGE": "Der opstod en fejl under forbindelsen til Twitter. Prøv igen",
+        "HELP": "For at tilføje din Twitter-profil som en kanal, skal du godkende din Twitter-profil ved at klikke på 'Log ind med Twitter' ",
+        "TWEETS": {
+          "ENABLE": "Opret samtaler fra nævnte Tweets"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "API": {
+          "ERROR_MESSAGE": "Vi var ikke i stand til at oprette en hjemmeside kanal, prøv igen"
+        },
+        "CHANNEL_AVATAR": {
+          "LABEL": "Kanal Avatar"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Hjemmeside Domæne",
+          "PLACEHOLDER": "Indtast dit website domæne (fx: ditfirma.dk)"
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Kanal start hilsen besked",
+          "PLACEHOLDER": "Dit firma ApS svarer typisk på et par timer."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "DISABLED": "Deaktiveret",
+          "ENABLED": "Aktiveret",
+          "HELP_TEXT": "Send automatisk en hilsen når en ny samtale er oprettet.",
+          "LABEL": "Aktivér kanal start hilsen"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "ERROR": "Angiv en gyldig URL",
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Indtast din Webhook URL"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Velkomst Tagline",
+          "PLACEHOLDER": "Vi gør det nemt at komme i kontakt med os. Spørg os om noget, eller del din feedback."
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Velkomstoverskrift",
+          "PLACEHOLDER": "Hejsa!"
+        },
+        "DESC": "Opret en kanal til din hjemmeside og begynde at supporte dine kunder via vores hjemmeside widget.",
+        "LOADING_MESSAGE": "Opretter Website Support Kanal",
+        "REPLY_TIME": {
+          "HELP_TEXT": "Denne svartid vil blive vist på live chat widget",
+          "IN_A_DAY": "På en dag",
+          "IN_A_FEW_HOURS": "Om et par timer",
+          "IN_A_FEW_MINUTES": "På nogle få minutter",
+          "TITLE": "Angiv svartid"
+        },
+        "SUBMIT_BUTTON": "Opret indbakke",
+        "TITLE": "Hjemmesidekanal",
+        "WIDGET_COLOR": {
+          "LABEL": "Widget Farve",
+          "PLACEHOLDER": "Opdater widget farve der bruges i widget"
+        }
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Websted Navn",
+        "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
+      },
+      "WHATSAPP": {
+        "API": {
+          "ERROR_MESSAGE": "Vi kunne ikke gemme WhatsApp-kanalen"
+        },
+        "API_CALLBACK": {
+          "SUBTITLE": "Du skal konfigurere dit webhook URL og verifikations token, i Facebook Developer portal med værdierne vist nedenfor.",
+          "TITLE": "Callback URL",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook verifikations token"
+        },
+        "API_KEY": {
+          "ERROR": "Angiv en gyldig værdi.",
+          "LABEL": "API Nøgle",
+          "PLACEHOLDER": "API Nøgle",
+          "SUBTITLE": "Konfigurer WhatsApp API-nøglen."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "ERROR": "Angiv en gyldig værdi.",
+          "LABEL": "Business Konto ID",
+          "PLACEHOLDER": "Indtast venligst Business Account ID opnået fra Facebook udvikler dashboard."
+        },
+        "DESC": "Begynd at støtte dine kunder via WhatsApp.",
+        "INBOX_NAME": {
+          "ERROR": "Dette felt er påkrævet",
+          "LABEL": "Indbakke Navn",
+          "PLACEHOLDER": "Indtast venligst et indbakkens navn"
+        },
+        "PHONE_NUMBER": {
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces.",
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt."
+        },
+        "PHONE_NUMBER_ID": {
+          "ERROR": "Angiv en gyldig værdi.",
+          "LABEL": "Telefonnummer ID",
+          "PLACEHOLDER": "Indtast venligst telefonnummer ID indhentet fra Facebook udviklerdashboard."
+        },
+        "PROVIDERS": {
+          "360_DIALOG": "360Dialog",
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Sky"
+        },
+        "SUBMIT_BUTTON": "Opret WhatsApp Kanal",
+        "TITLE": "WhatsApp Kanal",
+        "WEBHOOK_VERIFY_TOKEN": {
+          "ERROR": "Angiv en gyldig værdi.",
+          "LABEL": "Webhook Verificér Token",
+          "PLACEHOLDER": "Indtast en verificeringstoken, som du vil konfigurere for facebook webhooks."
+        }
+      }
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Tilføjer agenter til din indbakke...",
+      "BUTTON_TEXT": "Tilføj agenter"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Grænse for automatisk tildeling",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Indtast en værdi større end 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Begræns det maksimale antal samtaler fra denne indbakke, der kan være auto tildelt en agent"
+    },
+    "BUSINESS_HOURS": {
+      "ALL_DAY": "All-Day",
+      "DAY": {
+        "CHOOSE": "Vælg",
+        "ENABLE": "Aktiver tilgængelighed for denne dag",
+        "HOURS": "timer",
+        "UNAVAILABLE": "Unavailable",
+        "VALIDATION_ERROR": "Starttidspunkt bør være før lukketid."
+      },
+      "SUBTITLE": "Indstil din tilgængelighed på din livechat widget",
+      "TIMEZONE_LABEL": "Vælg tidszone",
+      "TITLE": "Indstil din tilgængelighed",
+      "TOGGLE_AVAILABILITY": "Aktiver forretningstilgængelighed for denne indbakke",
+      "TOGGLE_HELP": "Aktivering af forretningstilgængelighed vil vise de tilgængelige timer på live chat widget, selvom alle agenter er offline. Udenfor tilgængelige timer kan livreddere advares med en besked og en pre-chat formular.",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Vi er ikke tilgængelige i øjeblikket. Skriv en besked og vi svarer, når vi er tilbage.",
+      "UNAVAILABLE_MESSAGE_LABEL": "Utilgængelig besked til besøgende",
+      "UPDATE": "Opdater indstillinger for åbningstider",
+      "WEEKLY_TITLE": "Indstil dine ugentlige timer"
     },
     "CREATE_FLOW": [
       {
@@ -27,484 +380,128 @@
         "body": "Så er alt klart!"
       }
     ],
-    "ADD": {
-      "CHANNEL_NAME": {
-        "LABEL": "Indbakke Navn",
-        "PLACEHOLDER": "Indtast dit indbakke navn (f. eks. Acme Inc)",
-        "ERROR": "Angiv et gyldigt indbakke navn"
+    "DELETE": {
+      "API": {
+        "AVATAR_ERROR_MESSAGE": "Kunne ikke slette indbakken avatar. Prøv igen senere.",
+        "AVATAR_SUCCESS_MESSAGE": "Indbakke avatar slettet",
+        "ERROR_MESSAGE": "Kunne ikke slette indbakken. Prøv igen senere.",
+        "SUCCESS_MESSAGE": "Indbakken blev slettet"
       },
-      "WEBSITE_NAME": {
-        "LABEL": "Websted Navn",
-        "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
-      },
-      "FB": {
-        "HELP": "PS: Ved at logge ind får vi kun adgang til din sides beskeder. Dine private beskeder kan aldrig tilgås af Chatwoot.",
-        "CHOOSE_PAGE": "Vælg Side",
-        "CHOOSE_PLACEHOLDER": "Vælg en side fra listen",
-        "INBOX_NAME": "Indbakke Navn",
-        "ADD_NAME": "Tilføj et navn til din indbakke",
-        "PICK_NAME": "Vælg et navn til din indbakke",
-        "PICK_A_VALUE": "Vælg en værdi"
-      },
-      "TWITTER": {
-        "HELP": "For at tilføje din Twitter-profil som en kanal, skal du godkende din Twitter-profil ved at klikke på 'Log ind med Twitter' ",
-        "ERROR_MESSAGE": "Der opstod en fejl under forbindelsen til Twitter. Prøv igen",
-        "TWEETS": {
-          "ENABLE": "Opret samtaler fra nævnte Tweets"
-        }
-      },
-      "WEBSITE_CHANNEL": {
-        "TITLE": "Hjemmesidekanal",
-        "DESC": "Opret en kanal til din hjemmeside og begynde at supporte dine kunder via vores hjemmeside widget.",
-        "LOADING_MESSAGE": "Opretter Website Support Kanal",
-        "CHANNEL_AVATAR": {
-          "LABEL": "Kanal Avatar"
-        },
-        "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Indtast din Webhook URL",
-          "ERROR": "Angiv en gyldig URL"
-        },
-        "CHANNEL_DOMAIN": {
-          "LABEL": "Hjemmeside Domæne",
-          "PLACEHOLDER": "Indtast dit website domæne (fx: ditfirma.dk)"
-        },
-        "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Velkomstoverskrift",
-          "PLACEHOLDER": "Hejsa!"
-        },
-        "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Velkomst Tagline",
-          "PLACEHOLDER": "Vi gør det nemt at komme i kontakt med os. Spørg os om noget, eller del din feedback."
-        },
-        "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Kanal start hilsen besked",
-          "PLACEHOLDER": "Dit firma ApS svarer typisk på et par timer."
-        },
-        "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Aktivér kanal start hilsen",
-          "HELP_TEXT": "Send automatisk en hilsen når en ny samtale er oprettet.",
-          "ENABLED": "Aktiveret",
-          "DISABLED": "Deaktiveret"
-        },
-        "REPLY_TIME": {
-          "TITLE": "Angiv svartid",
-          "IN_A_FEW_MINUTES": "På nogle få minutter",
-          "IN_A_FEW_HOURS": "Om et par timer",
-          "IN_A_DAY": "På en dag",
-          "HELP_TEXT": "Denne svartid vil blive vist på live chat widget"
-        },
-        "WIDGET_COLOR": {
-          "LABEL": "Widget Farve",
-          "PLACEHOLDER": "Opdater widget farve der bruges i widget"
-        },
-        "SUBMIT_BUTTON": "Opret indbakke",
-        "API": {
-          "ERROR_MESSAGE": "Vi var ikke i stand til at oprette en hjemmeside kanal, prøv igen"
-        }
-      },
-      "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Kanal",
-        "DESC": "Integrer Twilio og start med at supportere dine kunder via SMS eller Whatsapp.",
-        "ACCOUNT_SID": {
-          "LABEL": "Konto SID",
-          "PLACEHOLDER": "Indtast venligst din Twilio konto SID",
-          "ERROR": "Dette felt er påkrævet"
-        },
-        "MESSAGING_SERVICE_SID": {
-          "LABEL": "SID For Beskedtjeneste",
-          "PLACEHOLDER": "Indtast venligst din Twilio Messaging Service SID",
-          "ERROR": "Dette felt er påkrævet",
-          "USE_MESSAGING_SERVICE": "Brug en Twilio-meddelelsestjeneste"
-        },
-        "CHANNEL_TYPE": {
-          "LABEL": "Kanaltype",
-          "ERROR": "Vælg venligst din kanaltype"
-        },
-        "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Indtast venligst din Twilio Auth Token",
-          "ERROR": "Dette felt er påkrævet"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Indbakke Navn",
-          "PLACEHOLDER": "Indtast venligst et indbakke navn",
-          "ERROR": "Dette felt er påkrævet"
-        },
-        "PHONE_NUMBER": {
-          "LABEL": "Telefonnummer",
-          "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "Du er nødt til at konfigurere besked callback URL i Twilio med den URL, der er nævnt her."
-        },
-        "SUBMIT_BUTTON": "Opret Twilio Kanal",
-        "API": {
-          "ERROR_MESSAGE": "Vi var ikke i stand til at godkende Twilio legitimationsoplysninger, prøv igen"
-        }
-      },
-      "SMS": {
-        "TITLE": "SMS Kanal",
-        "DESC": "Begynd at støtte dine kunder via SMS.",
-        "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Båndbredde"
-        },
-        "API": {
-          "ERROR_MESSAGE": "Vi kunne ikke gemme SMS-kanalen"
-        },
-        "BANDWIDTH": {
-          "ACCOUNT_ID": {
-            "LABEL": "Konto SID",
-            "PLACEHOLDER": "Indtast venligst dit Båndbredde Konto ID",
-            "ERROR": "Dette felt er påkrævet"
-          },
-          "API_KEY": {
-            "LABEL": "API Nøgle",
-            "PLACEHOLDER": "Indtast venligst dit Båndbredde Konto ID",
-            "ERROR": "Dette felt er påkrævet"
-          },
-          "API_SECRET": {
-            "LABEL": "API Hemmelighed",
-            "PLACEHOLDER": "Indtast venligst dit Bandwith API Secret",
-            "ERROR": "Dette felt er påkrævet"
-          },
-          "APPLICATION_ID": {
-            "LABEL": "Applikations ID",
-            "PLACEHOLDER": "Indtast venligst dit Båndbredde-program-id",
-            "ERROR": "Dette felt er påkrævet"
-          },
-          "INBOX_NAME": {
-            "LABEL": "Indbakke Navn",
-            "PLACEHOLDER": "Indtast venligst et indbakke navn",
-            "ERROR": "Dette felt er påkrævet"
-          },
-          "PHONE_NUMBER": {
-            "LABEL": "Telefonnummer",
-            "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-          },
-          "SUBMIT_BUTTON": "Opret Båndbredde Kanal",
-          "API": {
-            "ERROR_MESSAGE": "Vi var ikke i stand til at godkende Twilio legitimationsoplysninger, prøv igen"
-          },
-          "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "Du skal konfigurere beskedtilbagekalds-URL'en i Båndbredde med den URL, der er nævnt her."
-          }
-        }
-      },
-      "WHATSAPP": {
-        "TITLE": "WhatsApp Kanal",
-        "DESC": "Begynd at støtte dine kunder via WhatsApp.",
-        "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Sky",
-          "360_DIALOG": "360Dialog"
-        },
-        "INBOX_NAME": {
-          "LABEL": "Indbakke Navn",
-          "PLACEHOLDER": "Indtast venligst et indbakkens navn",
-          "ERROR": "Dette felt er påkrævet"
-        },
-        "PHONE_NUMBER": {
-          "LABEL": "Telefonnummer",
-          "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-        },
-        "PHONE_NUMBER_ID": {
-          "LABEL": "Telefonnummer ID",
-          "PLACEHOLDER": "Indtast venligst telefonnummer ID indhentet fra Facebook udviklerdashboard.",
-          "ERROR": "Angiv en gyldig værdi."
-        },
-        "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Konto ID",
-          "PLACEHOLDER": "Indtast venligst Business Account ID opnået fra Facebook udvikler dashboard.",
-          "ERROR": "Angiv en gyldig værdi."
-        },
-        "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verificér Token",
-          "PLACEHOLDER": "Indtast en verificeringstoken, som du vil konfigurere for facebook webhooks.",
-          "ERROR": "Angiv en gyldig værdi."
-        },
-        "API_KEY": {
-          "LABEL": "API Nøgle",
-          "SUBTITLE": "Konfigurer WhatsApp API-nøglen.",
-          "PLACEHOLDER": "API Nøgle",
-          "ERROR": "Angiv en gyldig værdi."
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "Du skal konfigurere dit webhook URL og verifikations token, i Facebook Developer portal med værdierne vist nedenfor.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook verifikations token"
-        },
-        "SUBMIT_BUTTON": "Opret WhatsApp Kanal",
-        "API": {
-          "ERROR_MESSAGE": "Vi kunne ikke gemme WhatsApp-kanalen"
-        }
-      },
-      "API_CHANNEL": {
-        "TITLE": "API Kanal",
-        "DESC": "Integrer med API-kanal og begynd at supportere dine kunder.",
-        "CHANNEL_NAME": {
-          "LABEL": "Kanalnavn",
-          "PLACEHOLDER": "Indtast et kanalnavn",
-          "ERROR": "Dette felt er påkrævet"
-        },
-        "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Indstil URL'en hvor du vil modtage callbacks på begivenheder.",
-          "PLACEHOLDER": "Webhook URL"
-        },
-        "SUBMIT_BUTTON": "Opret API-kanal",
-        "API": {
-          "ERROR_MESSAGE": "Vi var ikke i stand til at gemme api kanalen"
-        }
-      },
-      "EMAIL_CHANNEL": {
-        "TITLE": "E-mail Kanal",
-        "DESC": "Integrer din e-mail indbakke.",
-        "CHANNEL_NAME": {
-          "LABEL": "Kanalnavn",
-          "PLACEHOLDER": "Indtast et kanalnavn",
-          "ERROR": "Dette felt er påkrævet"
-        },
-        "EMAIL": {
-          "LABEL": "E-mail",
-          "SUBTITLE": "E-mail hvor dine kunder sender dig support tickets",
-          "PLACEHOLDER": "E-mail"
-        },
-        "SUBMIT_BUTTON": "Opret E-Mail Kanal",
-        "API": {
-          "ERROR_MESSAGE": "Vi kunne ikke gemme e-mailkanalen"
-        },
-        "FINISH_MESSAGE": "Begynd at videresende dine e-mails til følgende e-mailadresse."
-      },
-      "LINE_CHANNEL": {
-        "TITLE": "LINE Kanal",
-        "DESC": "Integrér med LINE-kanalen og begynd at støtte dine kunder.",
-        "CHANNEL_NAME": {
-          "LABEL": "Kanalnavn",
-          "PLACEHOLDER": "Indtast et kanalnavn",
-          "ERROR": "Dette felt er påkrævet"
-        },
-        "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Kanal ID",
-          "PLACEHOLDER": "LINE Kanal ID"
-        },
-        "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Kanal Hemmelighed",
-          "PLACEHOLDER": "LINE Kanal Hemmelighed"
-        },
-        "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Kanal Token",
-          "PLACEHOLDER": "LINE Kanal Token"
-        },
-        "SUBMIT_BUTTON": "Opret LINE Kanal",
-        "API": {
-          "ERROR_MESSAGE": "Vi var ikke i stand til at gemme LINE kanalen"
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "Du skal indstille webhook URL i LINE programmet med URL-adressen nævnt her."
-        }
-      },
-      "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Kanal",
-        "DESC": "Integrér med Telegram-kanalen og begynd at støtte dine kunder.",
-        "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Konfigurer den bot token du har fået fra Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
-        },
-        "SUBMIT_BUTTON": "Opret Telegram Kanal",
-        "API": {
-          "ERROR_MESSAGE": "Vi var ikke i stand til at gemme telegram kanal"
-        }
-      },
-      "AUTH": {
-        "TITLE": "Vælg en kanal",
-        "DESC": "Chatwoot understøtter live-chat-widgets, Facebook Messenger, Twitter-profiler, WhatsApp, E-mails, osv., som kanaler. Hvis du ønsker at bygge en brugerdefineret kanal, kan du oprette den ved hjælp af API-kanalen. For at komme i gang, vælg en af kanalerne nedenfor."
-      },
-      "AGENTS": {
-        "TITLE": "Agenter",
-        "DESC": "Her kan du tilføje agenter til at håndtere din nyoprettede indbakke. Kun disse valgte agenter vil have adgang til din indbakke. Agenter som ikke er en del af denne indbakke, vil ikke kunne se eller reagere på beskeder i denne indbakke, når de logger ind. <br> <b>PS:</b> Som administrator, hvis du har brug for adgang til alle indbakker, bør du tilføje dig selv som agent til alle indbakker, du opretter.",
-        "VALIDATION_ERROR": "Tilføj mindst én agent til din nye indbakke",
-        "PICK_AGENTS": "Vælg agenter for indbakken"
-      },
-      "DETAILS": {
-        "TITLE": "Indbakke Detaljer",
-        "DESC": "Vælg den Facebook-side, du vil forbinde til Chatwoot, fra dropdown listen nedenfor. Du kan også give et brugerdefineret navn til din indbakke for bedre identifikation."
-      },
-      "FINISH": {
-        "TITLE": "Du klarede det!",
-        "DESC": "Du er færdig med at integrere din Facebook-side med Chatwoot. Næste gang en kunde sender en meddelelse til din side, vil samtalen automatisk dukke op i din indbakke.<br>Vi giver dig også et widget script, som du nemt kan tilføje til din hjemmeside. Når dette er live på din hjemmeside, kan kunder sende dig en besked direkte fra din hjemmeside uden hjælp fra et eksternt værktøj, og samtalen vises lige her, på Chatwoot.<br>Cool, var? Nå ikke, vi forsøge at være :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      "AVATAR_DELETE_BUTTON_TEXT": "Slet Avatar",
+      "BUTTON_TEXT": "Slet",
+      "CONFIRM": {
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "NO": "Nej, Behold ",
+        "PLACE_HOLDER": "Skriv venligst {inboxName} for at bekræfte",
+        "TITLE": "Bekræft Sletning",
+        "YES": "Ja, Slet "
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Autentificerer dig med Facebook...",
-      "ERROR_FB_AUTH": "Noget gik galt, Opdatér siden...",
       "CREATING_CHANNEL": "Opretter din indbakke...",
-      "TITLE": "Indstil Indbakkedetaljer",
-      "DESC": ""
+      "DESC": "",
+      "ERROR_FB_AUTH": "Noget gik galt, Opdatér siden...",
+      "LOADING_FB": "Autentificerer dig med Facebook...",
+      "TITLE": "Indstil Indbakkedetaljer"
     },
-    "AGENTS": {
-      "BUTTON_TEXT": "Tilføj agenter",
-      "ADD_AGENTS": "Tilføjer agenter til din indbakke..."
-    },
-    "FINISH": {
-      "TITLE": "Din indbakke er klar!",
-      "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering",
-      "BUTTON_TEXT": "Tag mig med dertil",
-      "MORE_SETTINGS": "Flere indstillinger",
-      "WEBSITE_SUCCESS": "Du er færdig med at oprette en hjemmeside kanal. Kopier koden vist nedenfor og indsæt den på din hjemmeside. Næste gang en kunde bruger live chat, vil samtalen automatisk vises i din indbakke."
-    },
-    "REAUTH": "Genautorisér",
-    "VIEW": "Vis",
     "EDIT": {
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "DISABLED": "Deaktiveret",
+        "ENABLED": "Aktiveret"
+      },
       "API": {
-        "SUCCESS_MESSAGE": "Indbakkeindstillinger opdateret",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tildeling opdateret",
-        "ERROR_MESSAGE": "Indbakkeindstillingerne kunne ikke opdateres. Prøv igen senere."
+        "ERROR_MESSAGE": "Indbakkeindstillingerne kunne ikke opdateres. Prøv igen senere.",
+        "SUCCESS_MESSAGE": "Indbakkeindstillinger opdateret"
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Aktiveret",
-        "DISABLED": "Deaktiveret"
-      },
-      "ENABLE_CSAT": {
-        "ENABLED": "Aktiveret",
-        "DISABLED": "Deaktiveret"
-      },
-      "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Aktiveret",
-        "DISABLED": "Deaktiveret"
+        "DISABLED": "Deaktiveret",
+        "ENABLED": "Aktiveret"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Aktiveret",
-        "DISABLED": "Deaktiveret"
+        "DISABLED": "Deaktiveret",
+        "ENABLED": "Aktiveret"
       },
-      "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Aktiveret",
-        "DISABLED": "Deaktiveret"
+      "ENABLE_CSAT": {
+        "DISABLED": "Deaktiveret",
+        "ENABLED": "Aktiveret"
       },
       "ENABLE_HMAC": {
         "LABEL": "Aktiver"
-      }
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Slet",
-      "AVATAR_DELETE_BUTTON_TEXT": "Slet Avatar",
-      "CONFIRM": {
-        "TITLE": "Bekræft Sletning",
-        "MESSAGE": "Er du sikker på du vil slette ",
-        "PLACE_HOLDER": "Skriv venligst {inboxName} for at bekræfte",
-        "YES": "Ja, Slet ",
-        "NO": "Nej, Behold "
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Indbakken blev slettet",
-        "ERROR_MESSAGE": "Kunne ikke slette indbakken. Prøv igen senere.",
-        "AVATAR_SUCCESS_MESSAGE": "Indbakke avatar slettet",
-        "AVATAR_ERROR_MESSAGE": "Kunne ikke slette indbakken avatar. Prøv igen senere."
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "DISABLED": "Deaktiveret",
+        "ENABLED": "Aktiveret"
       }
     },
-    "TABS": {
-      "SETTINGS": "Indstillinger",
-      "COLLABORATORS": "Samarbejdspartnere",
-      "CONFIGURATION": "Konfiguration",
-      "CAMPAIGN": "Kampagner",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Forretningstider",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot konfiguration"
-    },
-    "SETTINGS": "Indstillinger",
-    "FEATURES": {
-      "LABEL": "Funktioner",
-      "DISPLAY_FILE_PICKER": "Vis filvælger på widget'en",
-      "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en",
-      "ALLOW_END_CONVERSATION": "Tillad brugere at afslutte samtale fra widget"
-    },
-    "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger- Script",
-      "MESSENGER_SUB_HEAD": "Placer denne knap inde i din body tag",
-      "INBOX_AGENTS": "Agenter",
-      "INBOX_AGENTS_SUB_TEXT": "Tilføj eller fjern agenter fra denne indbakke",
-      "AGENT_ASSIGNMENT": "Samtale Tildeling",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Opdater indstillinger for samtale",
-      "UPDATE": "Opdater",
-      "ENABLE_EMAIL_COLLECT_BOX": "Aktiver boks til indsamling af e-mail",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiver eller deaktivér opsamlingsboks for e-mail ved ny samtale",
-      "AUTO_ASSIGNMENT": "Aktiver automatisk tildeling",
-      "ENABLE_CSAT": "Aktiver CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Aktiver/deaktivér CSAT(Customer satisfaction) undersøgelse efter at have løst en samtale",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Aktivér konversationskontinuitet via e-mail",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtaler vil fortsætte via e-mail, hvis kontaktpersonens e-mailadresse er tilgængelig.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
-      "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke.",
-      "HMAC_VERIFICATION": "Bruger Identitetsvalidering",
-      "HMAC_DESCRIPTION": "For at validere brugerens identitet, kan du passere en `identifier_hash` for hver bruger. Du kan generere en HMAC sha256 hash ved hjælp af 'identifier' med nøglen vist her.",
-      "HMAC_MANDATORY_VERIFICATION": "Gennemtving Validering Af Bruger Identitet",
-      "HMAC_MANDATORY_DESCRIPTION": "Hvis aktiveret, vil forespørgsler der mangler 'identifier_hash' blive afvist.",
-      "INBOX_IDENTIFIER": "Identifikator For Indbakke",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Brug den `inbox_identifier` token vist her til godkendelse dine API-klienter.",
-      "FORWARD_EMAIL_TITLE": "Videresend til e-mail",
-      "FORWARD_EMAIL_SUB_TEXT": "Begynd at videresende dine e-mails til følgende e-mailadresse.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Tillad beskeder efter samtalen løst",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Tillad slutbrugere at sende beskeder, selv efter samtalen er løst.",
-      "WHATSAPP_SECTION_SUBHEADER": "Denne API-nøgle bruges til integration med WhatsApp API'erne.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Nøgle",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Opdater"
-    },
-    "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Grænse for automatisk tildeling",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Indtast en værdi større end 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Begræns det maksimale antal samtaler fra denne indbakke, der kan være auto tildelt en agent"
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Genautorisér",
-      "SUBTITLE": "Din Facebook-forbindelse er udløbet, tilslut venligst din Facebook-side igen for at fortsætte tjenesterne",
+      "MESSAGE_ERROR": "Der opstod en fejl, prøv igen",
       "MESSAGE_SUCCESS": "Genoprettelse lykkedes",
-      "MESSAGE_ERROR": "Der opstod en fejl, prøv igen"
+      "SUBTITLE": "Din Facebook-forbindelse er udløbet, tilslut venligst din Facebook-side igen for at fortsætte tjenesterne",
+      "TITLE": "Genautorisér"
     },
+    "FEATURES": {
+      "ALLOW_END_CONVERSATION": "Tillad brugere at afslutte samtale fra widget",
+      "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en",
+      "DISPLAY_FILE_PICKER": "Vis filvælger på widget'en",
+      "LABEL": "Funktioner"
+    },
+    "FINISH": {
+      "BUTTON_TEXT": "Tag mig med dertil",
+      "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering",
+      "MORE_SETTINGS": "Flere indstillinger",
+      "TITLE": "Din indbakke er klar!",
+      "WEBSITE_SUCCESS": "Du er færdig med at oprette en hjemmeside kanal. Kopier koden vist nedenfor og indsæt den på din hjemmeside. Næste gang en kunde bruger live chat, vil samtalen automatisk vises i din indbakke."
+    },
+    "HEADER": "Indbakker",
+    "IMAP": {
+      "ADDRESS": {
+        "LABEL": "Ip Adresse",
+        "PLACE_HOLDER": "Adresse (f.eks.: imap.gmail.com)"
+      },
+      "EDIT": {
+        "ERROR_MESSAGE": "Kunne ikke opdatere IMAP-indstillinger",
+        "SUCCESS_MESSAGE": "Indbakkeindstillinger opdateret"
+      },
+      "ENABLE_SSL": "Aktiver SSL",
+      "LOGIN": {
+        "LABEL": "Log Ind",
+        "PLACE_HOLDER": "Log Ind"
+      },
+      "NOTE_TEXT": "For at aktivere SMTP skal du konfigurere IMAP.",
+      "PASSWORD": {
+        "LABEL": "Adgangskode",
+        "PLACE_HOLDER": "Adgangskode"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "SUBTITLE": "Indstil dine IMAP-oplysninger",
+      "TITLE": "IMAP",
+      "TOGGLE_AVAILABILITY": "Aktiver IMAP- konfiguration for denne indbakke",
+      "TOGGLE_HELP": "Aktivering af IMAP, vil hjælpe brugeren med at modtage e-mail",
+      "UPDATE": "Opdater indstillinger"
+    },
+    "LIST": {
+      "404": "Der er ingen indbakker tilknyttet denne konto."
+    },
+    "MICROSOFT": {
+      "SUBTITLE": "Reauthorize your MICROSOFT account",
+      "TITLE": "Microsoft"
+    },
+    "NOTE": "Bemærk: ",
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Forud chat formularer gør det muligt for dig at fange brugeroplysninger, før de starter samtale med dig.",
-      "SET_FIELDS": "Tidligere chatformularfelter",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Felter",
-        "LABEL": "Etiketter",
-        "PLACE_HOLDER": "Pladsholder",
-        "KEY": "Nøgle",
-        "TYPE": "Type",
-        "REQUIRED": "Påkrævet"
-      },
       "ENABLE": {
         "LABEL": "Aktiver præ-chat formular",
         "OPTIONS": {
-          "ENABLED": "Ja",
-          "DISABLED": "Nej"
+          "DISABLED": "Nej",
+          "ENABLED": "Ja"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -513,112 +510,151 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Besøgende skal angive deres navn og e-mailadresse, før du starter chatten"
+      },
+      "SET_FIELDS": "Tidligere chatformularfelter",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Felter",
+        "KEY": "Nøgle",
+        "LABEL": "Etiketter",
+        "PLACE_HOLDER": "Pladsholder",
+        "REQUIRED": "Påkrævet",
+        "TYPE": "Type"
       }
     },
-    "BUSINESS_HOURS": {
-      "TITLE": "Indstil din tilgængelighed",
-      "SUBTITLE": "Indstil din tilgængelighed på din livechat widget",
-      "WEEKLY_TITLE": "Indstil dine ugentlige timer",
-      "TIMEZONE_LABEL": "Vælg tidszone",
-      "UPDATE": "Opdater indstillinger for åbningstider",
-      "TOGGLE_AVAILABILITY": "Aktiver forretningstilgængelighed for denne indbakke",
-      "UNAVAILABLE_MESSAGE_LABEL": "Utilgængelig besked til besøgende",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Vi er ikke tilgængelige i øjeblikket. Skriv en besked og vi svarer, når vi er tilbage.",
-      "TOGGLE_HELP": "Aktivering af forretningstilgængelighed vil vise de tilgængelige timer på live chat widget, selvom alle agenter er offline. Udenfor tilgængelige timer kan livreddere advares med en besked og en pre-chat formular.",
-      "DAY": {
-        "ENABLE": "Aktiver tilgængelighed for denne dag",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "timer",
-        "VALIDATION_ERROR": "Starttidspunkt bør være før lukketid.",
-        "CHOOSE": "Vælg"
-      },
-      "ALL_DAY": "All-Day"
+    "REAUTH": "Genautorisér",
+    "SETTINGS": "Indstillinger",
+    "SETTINGS_POPUP": {
+      "AGENT_ASSIGNMENT": "Samtale Tildeling",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Opdater indstillinger for samtale",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Tillad beskeder efter samtalen løst",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Tillad slutbrugere at sende beskeder, selv efter samtalen er løst.",
+      "AUTO_ASSIGNMENT": "Aktiver automatisk tildeling",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke.",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Aktivér konversationskontinuitet via e-mail",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtaler vil fortsætte via e-mail, hvis kontaktpersonens e-mailadresse er tilgængelig.",
+      "ENABLE_CSAT": "Aktiver CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Aktiver/deaktivér CSAT(Customer satisfaction) undersøgelse efter at have løst en samtale",
+      "ENABLE_EMAIL_COLLECT_BOX": "Aktiver boks til indsamling af e-mail",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiver eller deaktivér opsamlingsboks for e-mail ved ny samtale",
+      "FORWARD_EMAIL_SUB_TEXT": "Begynd at videresende dine e-mails til følgende e-mailadresse.",
+      "FORWARD_EMAIL_TITLE": "Videresend til e-mail",
+      "HMAC_DESCRIPTION": "For at validere brugerens identitet, kan du passere en `identifier_hash` for hver bruger. Du kan generere en HMAC sha256 hash ved hjælp af 'identifier' med nøglen vist her.",
+      "HMAC_MANDATORY_DESCRIPTION": "Hvis aktiveret, vil forespørgsler der mangler 'identifier_hash' blive afvist.",
+      "HMAC_MANDATORY_VERIFICATION": "Gennemtving Validering Af Bruger Identitet",
+      "HMAC_VERIFICATION": "Bruger Identitetsvalidering",
+      "INBOX_AGENTS": "Agenter",
+      "INBOX_AGENTS_SUB_TEXT": "Tilføj eller fjern agenter fra denne indbakke",
+      "INBOX_IDENTIFIER": "Identifikator For Indbakke",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Brug den `inbox_identifier` token vist her til godkendelse dine API-klienter.",
+      "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",
+      "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "MESSENGER_HEADING": "Messenger- Script",
+      "MESSENGER_SUB_HEAD": "Placer denne knap inde i din body tag",
+      "UPDATE": "Opdater",
+      "WHATSAPP_SECTION_SUBHEADER": "Denne API-nøgle bruges til integration med WhatsApp API'erne.",
+      "WHATSAPP_SECTION_TITLE": "API Nøgle",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Opdater",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key"
     },
-    "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Indstil dine IMAP-oplysninger",
-      "NOTE_TEXT": "For at aktivere SMTP skal du konfigurere IMAP.",
-      "UPDATE": "Opdater indstillinger",
-      "TOGGLE_AVAILABILITY": "Aktiver IMAP- konfiguration for denne indbakke",
-      "TOGGLE_HELP": "Aktivering af IMAP, vil hjælpe brugeren med at modtage e-mail",
-      "EDIT": {
-        "SUCCESS_MESSAGE": "Indbakkeindstillinger opdateret",
-        "ERROR_MESSAGE": "Kunne ikke opdatere IMAP-indstillinger"
-      },
-      "ADDRESS": {
-        "LABEL": "Ip Adresse",
-        "PLACE_HOLDER": "Adresse (f.eks.: imap.gmail.com)"
-      },
-      "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
-      },
-      "LOGIN": {
-        "LABEL": "Log Ind",
-        "PLACE_HOLDER": "Log Ind"
-      },
-      "PASSWORD": {
-        "LABEL": "Adgangskode",
-        "PLACE_HOLDER": "Adgangskode"
-      },
-      "ENABLE_SSL": "Aktiver SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
-    },
+    "SIDEBAR_TXT": "<p><b>Indbakke</b></p> <p> Når du forbinder en hjemmeside eller en facebook side til Chatwoot, det kaldes en <b>Indbakke</b>. Du kan have ubegrænset indbakker på din Chatwoot-konto. </p><p> Klik på <b>Tilføj indbakke</b> for at forbinde en hjemmeside eller en Facebook-side. </p><p> I betjeningspanelet du kan se alle samtalerne fra alle dine indbakker på et enkelt sted og svare på dem under fanen 'Samtaler'. </p><p> Du kan også se samtaler, der er specifikke for en indbakke, ved at klikke på indbakkens navn i dashboardets venstre rude. </p>",
     "SMTP": {
-      "TITLE": "Smtp",
-      "SUBTITLE": "Indstil dine IMAP-oplysninger",
-      "UPDATE": "Opdater SMTP indstillinger",
-      "TOGGLE_AVAILABILITY": "Aktiver SMTP konfiguration for denne indbakke",
-      "TOGGLE_HELP": "Aktivering af SMTP vil hjælpe brugeren med at sende e-mail",
-      "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP indstillinger opdateret",
-        "ERROR_MESSAGE": "Kan ikke opdatere SMTP indstillinger"
-      },
       "ADDRESS": {
         "LABEL": "Ip Adresse",
         "PLACE_HOLDER": "Adresse (f.eks.: smtp.gmail.com)"
       },
-      "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
-      },
-      "LOGIN": {
-        "LABEL": "Log Ind",
-        "PLACE_HOLDER": "Log Ind"
-      },
-      "PASSWORD": {
-        "LABEL": "Adgangskode",
-        "PLACE_HOLDER": "Adgangskode"
-      },
+      "AUTH_MECHANISM": "Godkendelse",
       "DOMAIN": {
         "LABEL": "Domæne",
         "PLACE_HOLDER": "Domæne"
       },
+      "EDIT": {
+        "ERROR_MESSAGE": "Kan ikke opdatere SMTP indstillinger",
+        "SUCCESS_MESSAGE": "SMTP indstillinger opdateret"
+      },
       "ENCRYPTION": "Kryptering",
+      "LOGIN": {
+        "LABEL": "Log Ind",
+        "PLACE_HOLDER": "Log Ind"
+      },
+      "OPEN_SSL_VERIFY_MODE": "Åbn SSL-bekræftelsestilstand",
+      "PASSWORD": {
+        "LABEL": "Adgangskode",
+        "PLACE_HOLDER": "Adgangskode"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Åbn SSL-bekræftelsestilstand",
-      "AUTH_MECHANISM": "Godkendelse"
+      "SUBTITLE": "Indstil dine IMAP-oplysninger",
+      "TITLE": "Smtp",
+      "TOGGLE_AVAILABILITY": "Aktiver SMTP konfiguration for denne indbakke",
+      "TOGGLE_HELP": "Aktivering af SMTP vil hjælpe brugeren med at sende e-mail",
+      "UPDATE": "Opdater SMTP indstillinger"
     },
-    "NOTE": "Bemærk: ",
+    "TABS": {
+      "BOT_CONFIGURATION": "Bot konfiguration",
+      "BUSINESS_HOURS": "Forretningstider",
+      "CAMPAIGN": "Kampagner",
+      "COLLABORATORS": "Samarbejdspartnere",
+      "CONFIGURATION": "Konfiguration",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "SETTINGS": "Indstillinger",
+      "WIDGET_BUILDER": "Widget Builder"
+    },
+    "VIEW": "Vis",
     "WIDGET_BUILDER": {
+      "BODY": {
+        "AGENT_MESSAGE": "Hej",
+        "TEAM_AVAILABILITY": {
+          "OFFLINE": "Vi er ikke tilgængelige i øjeblikket",
+          "ONLINE": "Vi er online"
+        },
+        "USER_MESSAGE": "Hi"
+      },
+      "BRANDING_TEXT": "Drevet af Chatwoot",
+      "FOOTER": {
+        "CHAT_INPUT_PLACEHOLDER": "Skriv din besked",
+        "START_CONVERSATION_BUTTON_TEXT": "Start Samtale"
+      },
+      "REPLY_TIME": {
+        "IN_A_DAY": "Svarer typisk på en dag",
+        "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
+        "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter"
+      },
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};",
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Websted Avatar",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar slettet",
-              "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+              "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen",
+              "SUCCESS_MESSAGE": "Avatar slettet"
             }
-          }
+          },
+          "LABEL": "Websted Avatar"
+        },
+        "REPLY_TIME": {
+          "IN_A_DAY": "På en dag",
+          "IN_A_FEW_HOURS": "Om et par timer",
+          "IN_A_FEW_MINUTES": "På nogle få minutter",
+          "LABEL": "Svar Tid"
+        },
+        "UPDATE": {
+          "API": {
+            "ERROR_MESSAGE": "Kan ikke opdatere widget-indstillinger",
+            "SUCCESS_MESSAGE": "Widget-indstillinger opdateret"
+          },
+          "BUTTON_TEXT": "Opdater Widget Indstillinger"
         },
         "WEBSITE_NAME": {
+          "ERROR": "Please enter a valid website name",
           "LABEL": "Websted Navn",
-          "PLACE_HOLDER": "Indtast dit websted navn (fx: Firma ApS)",
-          "ERROR": "Please enter a valid website name"
+          "PLACE_HOLDER": "Indtast dit websted navn (fx: Firma ApS)"
         },
         "WELCOME_HEADING": {
           "LABEL": "Velkomstoverskrift",
@@ -628,67 +664,31 @@
           "LABEL": "Velkomst Tagline",
           "PLACE_HOLDER": "Vi gør det nemt at komme i kontakt med os. Spørg os om noget, eller del din feedback."
         },
-        "REPLY_TIME": {
-          "LABEL": "Svar Tid",
-          "IN_A_FEW_MINUTES": "På nogle få minutter",
-          "IN_A_FEW_HOURS": "Om et par timer",
-          "IN_A_DAY": "På en dag"
-        },
-        "WIDGET_COLOR_LABEL": "Widget Farve",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Chat med os",
           "LABEL": "Widget Bubble Launcher Titel",
           "PLACE_HOLDER": "Chat med os"
         },
-        "UPDATE": {
-          "BUTTON_TEXT": "Opdater Widget Indstillinger",
-          "API": {
-            "SUCCESS_MESSAGE": "Widget-indstillinger opdateret",
-            "ERROR_MESSAGE": "Kan ikke opdatere widget-indstillinger"
-          }
-        },
-        "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Eksempelvisning",
-          "SCRIPT": "Script"
-        },
         "WIDGET_BUBBLE_POSITION": {
           "LEFT": "Venstre",
           "RIGHT": "Højre"
         },
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Udvidet Boble"
+          "EXPANDED_BUBBLE": "Udvidet Boble",
+          "STANDARD": "Standard"
+        },
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "Widget Farve",
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Eksempelvisning",
+          "SCRIPT": "Script"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Standard",
-        "CHAT": "Chat"
-      },
-      "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
-        "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
-        "IN_A_DAY": "Svarer typisk på en dag"
-      },
-      "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Samtale",
-        "CHAT_INPUT_PLACEHOLDER": "Skriv din besked"
-      },
-      "BODY": {
-        "TEAM_AVAILABILITY": {
-          "ONLINE": "Vi er online",
-          "OFFLINE": "Vi er ikke tilgængelige i øjeblikket"
-        },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hej"
-      },
-      "BRANDING_TEXT": "Drevet af Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
+        "CHAT": "Chat",
+        "DEFAULT": "Standard"
+      }
     }
   }
 }
