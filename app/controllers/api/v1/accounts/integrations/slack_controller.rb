@@ -32,7 +32,7 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
   end
 
   def create_chatwoot_slack_channel
-    channel = params[:channel] || 'customer-conversations'
+    channel = params[:channel] || 'biz_お問い合わせ'
     builder = Integrations::Slack::ChannelBuilder.new(
       hook: @hook, channel: channel
     )
