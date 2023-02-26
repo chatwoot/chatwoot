@@ -2,7 +2,7 @@
   <section class="notification--table-wrap">
     <woot-submit-button
       v-if="notificationMetadata.unreadCount"
-      class="button nice success button--fixed-right-top"
+      class="button nice success button--fixed-top"
       :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
       :loading="isUpdating"
       @click="onMarkAllDoneClick"

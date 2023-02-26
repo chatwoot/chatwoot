@@ -69,7 +69,8 @@ class Message < ApplicationRecord
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at, :story_sender, :story_id, :external_error], coder: JSON
+                                         :external_created_at, :story_sender, :story_id, :external_error,
+                                         :translations], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -191,10 +192,15 @@ class Message < ApplicationRecord
     sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
+  def first_human_response?
+    conversation.messages.outgoing
+                .where.not(sender_type: 'AgentBot')
+                .where("(additional_attributes->'campaign_id') is null").count == 1
+  end
+
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-
-    if outgoing? && conversation.messages.outgoing.where("(additional_attributes->'campaign_id') is null").count == 1
+    if outgoing? && first_human_response?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end

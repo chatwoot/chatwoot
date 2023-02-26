@@ -29,7 +29,7 @@
         </div>
         <woot-button
           v-if="hasActiveSegments"
-          class="margin-right-small clear"
+          class="margin-right-1 clear"
           color-scheme="alert"
           icon="delete"
           @click="onToggleDeleteSegmentsModal"
@@ -39,7 +39,7 @@
         <div v-if="!hasActiveSegments" class="filters__button-wrap">
           <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
           <woot-button
-            class="margin-right-small clear"
+            class="margin-right-1 clear"
             color-scheme="secondary"
             data-testid="create-new-contact"
             icon="filter"
@@ -51,7 +51,7 @@
 
         <woot-button
           v-if="hasAppliedFilters && !hasActiveSegments"
-          class="margin-right-small clear"
+          class="margin-right-1 clear"
           color-scheme="alert"
           variant="clear"
           icon="save"
@@ -60,7 +60,7 @@
           {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
         </woot-button>
         <woot-button
-          class="margin-right-small clear"
+          class="margin-right-1 clear"
           color-scheme="success"
           icon="person-add"
           data-testid="create-new-contact"

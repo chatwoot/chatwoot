@@ -5,6 +5,7 @@
       :header-title="inboxName"
     >
       <woot-tabs
+        class="settings--tabs"
         :index="selectedTabIndex"
         :border="false"
         @change="onTabChange"
@@ -668,6 +669,12 @@ export default {
 
 .settings {
   background: $color-white;
+
+  .settings--tabs {
+    ::v-deep .tabs {
+      padding: 0;
+    }
+  }
 
   .settings--content {
     div:last-child {

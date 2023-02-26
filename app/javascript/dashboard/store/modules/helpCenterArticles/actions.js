@@ -123,4 +123,19 @@ export const actions = {
       });
     }
   },
+
+  attachImage: async (_, { portalSlug, file }) => {
+    try {
+      const {
+        data: { file_url: fileUrl },
+      } = await articlesAPI.uploadImage({
+        portalSlug,
+        file,
+      });
+      return fileUrl;
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+    return '';
+  },
 };

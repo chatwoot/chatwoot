@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Downloaden",
-      "UPLOADING": "Uploaden..."
+      "UPLOADING": "Uploaden...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Dit verhaal is niet meer beschikbaar."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"

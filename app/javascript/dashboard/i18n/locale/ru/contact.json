@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Начат из",
     "INITIATED_AT": "Начат в",
     "IP_ADDRESS": "IP адрес",
+    "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
@@ -60,13 +61,13 @@
     "DESC": "Добавить основную информацию о контакте."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Импорт",
+    "BUTTON_LABEL": "Импортировать",
     "TITLE": "Импорт контактов",
     "DESC": "Импорт контактов из CSV-файла.",
     "DOWNLOAD_LABEL": "Скачать образец csv-файла.",
     "FORM": {
       "LABEL": "CSV файл",
-      "SUBMIT": "Импорт",
+      "SUBMIT": "Импортировать",
       "CANCEL": "Отменить"
     },
     "SUCCESS_MESSAGE": "Контакты успешно сохранены",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Номер телефона",
         "CONVERSATIONS": "Диалоги",
         "LAST_ACTIVITY": "Последние действия",
+        "CREATED_AT": "Дата создания",
         "COUNTRY": "Страна",
         "CITY": "Город",
         "SOCIAL_PROFILES": "Профили в соц. сетях",

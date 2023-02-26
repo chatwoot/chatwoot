@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Uzsākts no",
     "INITIATED_AT": "Uzsākts plkst",
     "IP_ADDRESS": "IP adrese",
+    "CREATED_AT_LABEL": "Izveidots",
     "NEW_MESSAGE": "Jauns ziņojums",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Ar šo kontaktpersonu nav saistītas iepriekšējās sarunas.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefona Numurs",
         "CONVERSATIONS": "Sarunas",
         "LAST_ACTIVITY": "Pēdējās Darbības",
+        "CREATED_AT": "Izveidots",
         "COUNTRY": "Valsts",
         "CITY": "Pilsēta",
         "SOCIAL_PROFILES": "Sociālie Profili",

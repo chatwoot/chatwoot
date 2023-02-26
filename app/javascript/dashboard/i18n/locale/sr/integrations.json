@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Razgovor je izmenjen",
             "MESSAGE_CREATED": "Poruka je napravljena",
             "MESSAGE_UPDATED": "Poruka je izmenjena",
-            "WEBWIDGET_TRIGGERED": "Vidžet za ćaskanje je otvoren od strane korisnika"
+            "WEBWIDGET_TRIGGERED": "Vidžet za ćaskanje je otvoren od strane korisnika",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {

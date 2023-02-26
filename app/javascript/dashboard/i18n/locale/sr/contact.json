@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Započeto sa",
     "INITIATED_AT": "Započeto u",
     "IP_ADDRESS": "IP adresa",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nova poruka",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nema ranijih razgovora povezanih sa ovim kontaktom.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Broj telefona",
         "CONVERSATIONS": "Razgovori",
         "LAST_ACTIVITY": "Poslednja aktivnost",
+        "CREATED_AT": "Kreirano",
         "COUNTRY": "Država",
         "CITY": "Grad",
         "SOCIAL_PROFILES": "Socijalne mreže",

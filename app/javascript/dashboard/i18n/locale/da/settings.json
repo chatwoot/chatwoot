@@ -170,7 +170,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
-      "UPLOADING": "Uploader..."
+      "UPLOADING": "Uploader...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Denne historie er ikke længere tilgængelig."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Se på kort"
