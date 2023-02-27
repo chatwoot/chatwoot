@@ -50,22 +50,22 @@ $default-button-height: 4.0rem;
 
     &.secondary {
       border-color: var(--s-200);
-      color: var(--s-700)
+      color: var(--s-700);
     }
 
     &.success {
       border-color: var(--s-200);
-      color: var(--g-700)
+      color: var(--g-700);
     }
 
     &.alert {
       border-color: var(--s-200);
-      color: var(--r-700)
+      color: var(--r-700);
     }
 
     &.warning {
       border-color: var(--s-200);
-      color: var(--y-700)
+      color: var(--y-700);
     }
 
     &:hover {
@@ -116,19 +116,19 @@ $default-button-height: 4.0rem;
     color: var(--w-700);
 
     &.secondary {
-      color: var(--s-700)
+      color: var(--s-700);
     }
 
     &.success {
-      color: var(--g-700)
+      color: var(--g-700);
     }
 
     &.alert {
-      color: var(--r-700)
+      color: var(--r-700);
     }
 
     &.warning {
-      color: var(--y-700)
+      color: var(--y-700);
     }
 
     &:hover {
@@ -204,12 +204,4 @@ $default-button-height: 4.0rem;
     }
   }
 
-}
-
-
-// @TDOD move to utility file
-.button--fixed-right-top {
-  position: fixed;
-  right: $space-small;
-  top: $space-small;
 }

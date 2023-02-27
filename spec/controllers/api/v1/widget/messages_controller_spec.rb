@@ -138,6 +138,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         message.reload
         expect(message.submitted_email).to eq(email)
         expect(message.conversation.contact.email).to eq(email)
+        expect(message.conversation.contact.name).to eq(email.split('@')[0])
       end
     end
 
