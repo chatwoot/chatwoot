@@ -1,5 +1,11 @@
 import { fromUnixTime, startOfDay } from 'date-fns';
 
+/**
+ * Returns a key-value pair of timestamp and value for heatmap data
+ *
+ * @param {Array} data - An array of objects containing timestamp and value
+ * @returns {Object} - An object with timestamp as keys and corresponding values as values
+ */
 export const flattenHeatmapData = data => {
   return data.reduce((acc, curr) => {
     acc[curr.timestamp] = curr.value;
@@ -7,20 +13,30 @@ export const flattenHeatmapData = data => {
   }, {});
 };
 
+/**
+ * Reconciles new data with existing heatmap data based on timestamps
+ *
+ * @param {Array} data - An array of objects containing timestamp and value
+ * @param {Array} heatmapData - An array of objects containing timestamp, value and other properties
+ * @returns {Array} - An array of objects with updated values
+ */
 export const reconcileHeatmapData = (data, heatmapData) => {
-  // data = [{timestamp: 123, value: 10}, {timestamp: 124, value: 20}]
-  // convert this data to key-value pair of timestamp and value
   const parsedData = flattenHeatmapData(data);
 
   return heatmapData.map(dataItem => {
     if (parsedData[dataItem.timestamp]) {
       dataItem.value = parsedData[dataItem.timestamp];
     }
-
     return dataItem;
   });
 };
 
+/**
+ * Groups heatmap data by day
+ *
+ * @param {Array} heatmapData - An array of objects containing timestamp, value and other properties
+ * @returns {Map} - A Map object with dates as keys and corresponding data objects as values
+ */
 export const groupHeatmapByDay = heatmapData => {
   return heatmapData.reduce((acc, data) => {
     const date = fromUnixTime(data.timestamp);
