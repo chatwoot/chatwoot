@@ -60,7 +60,6 @@ const getters = {
 export const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
-    console.log(reportObj);
     Report.getReports(
       reportObj.metric,
       reportObj.from,
