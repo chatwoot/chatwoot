@@ -68,3 +68,5 @@ class AutomationRule < ApplicationRecord
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
   end
 end
+
+AutomationRule.include_mod_with('Audit::Inbox')

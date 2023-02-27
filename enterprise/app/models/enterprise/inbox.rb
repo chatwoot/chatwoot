@@ -1,5 +1,4 @@
 module Enterprise::Inbox
-  audited associated_with: :account
   def member_ids_with_assignment_capacity
     max_assignment_limit = auto_assignment_config['max_assignment_limit']
     overloaded_agent_ids = max_assignment_limit.present? ? get_agent_ids_over_assignment_limit(max_assignment_limit) : []

@@ -37,3 +37,5 @@ class Webhook < ApplicationRecord
     errors.add(:subscriptions, I18n.t('errors.webhook.invalid')) if invalid_subscriptions
   end
 end
+
+Webhook.include_mod_with('Audit::Inbox')
