@@ -22,7 +22,18 @@ export const flattenHeatmapData = data => {
  * @returns {Array} - An array of objects containing timestamp and value
  */
 export const clampDataBetweenTimeline = (data, from, to) => {
-  return data.filter(el => to - el.timestamp > 0 && el.timestamp - from >= 0);
+  if (from === undefined && to === undefined) {
+    return data;
+  }
+
+  return data.filter(el => {
+    const { timestamp } = el;
+
+    const isWithinFrom = from === undefined || timestamp - from >= 0;
+    const isWithinTo = to === undefined || to - timestamp > 0;
+
+    return isWithinFrom && isWithinTo;
+  });
 };
 
 /**

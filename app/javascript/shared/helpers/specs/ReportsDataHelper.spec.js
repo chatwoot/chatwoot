@@ -2,6 +2,7 @@ import {
   groupHeatmapByDay,
   reconcileHeatmapData,
   flattenHeatmapData,
+  clampDataBetweenTimeline,
 } from '../ReportsDataHelper';
 
 describe('flattenHeatmapData', () => {
@@ -161,5 +162,44 @@ describe('groupHeatmapByDay', () => {
         ],
       }
     `);
+  });
+});
+
+describe('clampDataBetweenTimeline', () => {
+  const data = [
+    { timestamp: 1646054400, value: 'A' },
+    { timestamp: 1646054500, value: 'B' },
+    { timestamp: 1646054600, value: 'C' },
+    { timestamp: 1646054700, value: 'D' },
+    { timestamp: 1646054800, value: 'E' },
+  ];
+
+  it('should return empty array if data is empty', () => {
+    expect(clampDataBetweenTimeline([], 1646054500, 1646054700)).toEqual([]);
+  });
+
+  it('should return empty array if no data is within the timeline', () => {
+    expect(clampDataBetweenTimeline(data, 1646054900, 1646055000)).toEqual([]);
+  });
+
+  it('should return the data as is no time limits are provider', () => {
+    expect(clampDataBetweenTimeline(data)).toEqual(data);
+  });
+
+  it('should return all data if all data is within the timeline', () => {
+    expect(clampDataBetweenTimeline(data, 1646054300, 1646054900)).toEqual(
+      data
+    );
+  });
+
+  it('should return only data within the timeline', () => {
+    expect(clampDataBetweenTimeline(data, 1646054500, 1646054700)).toEqual([
+      { timestamp: 1646054500, value: 'B' },
+      { timestamp: 1646054600, value: 'C' },
+    ]);
+  });
+
+  it('should return empty array if from and to are the same', () => {
+    expect(clampDataBetweenTimeline(data, 1646054500, 1646054500)).toEqual([]);
   });
 });
