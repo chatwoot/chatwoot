@@ -128,6 +128,9 @@ export default {
 .conversation-wrap {
   flex: 1;
   padding: $space-large $space-small $space-small $space-small;
+  max-width: $break-point-tablet;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .message--loader {

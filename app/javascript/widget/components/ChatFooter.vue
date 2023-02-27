@@ -1,7 +1,7 @@
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="shadow-sm bg-white mb-1 z-50 relative"
+    class="footer-chat shadow-sm bg-white mb-1 z-50 relative w-full"
     :class="{ 'rounded-lg': !isWidgetStyleFlat }"
   >
     <chat-input-wrap
@@ -132,6 +132,11 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+
+.footer-chat {
+  max-width: $break-point-tablet;
+  margin: 0 auto;
+}
 
 .branding {
   align-items: center;

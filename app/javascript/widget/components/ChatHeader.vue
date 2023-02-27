@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex justify-between p-5 w-full"
+    class="header-wrap flex justify-between p-5 w-full"
     :class="$dm('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex items-center">
@@ -106,3 +106,12 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import 'widget/assets/scss/variables';
+
+.header-wrap {
+  max-width: $break-point-tablet;
+  margin: 0 auto;
+}
+</style>

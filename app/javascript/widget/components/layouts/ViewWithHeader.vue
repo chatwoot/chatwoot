@@ -5,7 +5,7 @@
     @keydown.esc="closeWindow"
   >
     <div
-      class="header-wrap"
+      class="header-wrap bg-white"
       :class="{
         expanded: !isHeaderCollapsed,
         collapsed: isHeaderCollapsed,
