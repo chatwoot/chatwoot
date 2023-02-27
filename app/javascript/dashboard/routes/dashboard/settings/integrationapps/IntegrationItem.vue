@@ -3,11 +3,11 @@
     <div class="integration--image">
       <img :src="'/dashboard/images/integrations/' + integrationLogo" />
     </div>
-    <div class="column">
+    <div class="integration--type column">
       <h3 class="integration--title">
         {{ integrationName }}
       </h3>
-      <p class="integration--description">
+      <p>
         {{
           useInstallationName(
             integrationDescription,
