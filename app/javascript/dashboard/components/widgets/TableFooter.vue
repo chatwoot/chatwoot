@@ -24,7 +24,7 @@
           <fluent-icon
             icon="chevron-left"
             size="18"
-            class="margin-left-minus-slab"
+            :class="pageFooterIconClass"
           />
         </woot-button>
         <woot-button
@@ -65,7 +65,7 @@
           <fluent-icon
             icon="chevron-right"
             size="18"
-            class="margin-left-minus-slab"
+            :class="pageFooterIconClass"
           />
         </woot-button>
       </div>
@@ -74,8 +74,11 @@
 </template>
 
 <script>
+import rtlMixin from 'shared/mixins/rtlMixin';
+
 export default {
   components: {},
+  mixins: [rtlMixin],
   props: {
     currentPage: {
       type: Number,
@@ -91,6 +94,11 @@ export default {
     },
   },
   computed: {
+    pageFooterIconClass() {
+      return this.isRTLView
+        ? 'margin-right-minus-slab'
+        : 'margin-left-minus-slab';
+    },
     isFooterVisible() {
       return this.totalCount && !(this.firstIndex > this.totalCount);
     },
