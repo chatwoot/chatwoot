@@ -105,15 +105,25 @@ export default {
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/variables';
 
-$heatmap-level-1: #daf0ff;
-$heatmap-level-2: #90d7ff;
-$heatmap-level-3: #5cbffe;
-$heatmap-level-4: #36a1fb;
-$heatmap-level-5: #186cdd;
-$heatmap-level-6: #1b4c8d;
+$heatmap-colors: (
+  level-1: #daf0ff,
+  level-2: #90d7ff,
+  level-3: #5cbffe,
+  level-4: #36a1fb,
+  level-5: #186cdd,
+  level-6: #1b4c8d,
+);
 
 $tile-height: 3rem;
 $tile-gap: 0.4rem;
+
+@mixin heatmap-level($level) {
+  $color: map-get($heatmap-colors, 'level-#{$level}');
+  background-color: $color;
+  &:hover {
+    border: 1px solid lighten($color, 10%);
+  }
+}
 
 .heatmap-container {
   display: grid;
@@ -214,49 +224,22 @@ $tile-gap: 0.4rem;
     }
 
     &.l1 {
-      background-color: $heatmap-level-1;
-      &:hover {
-        border: 1px solid lighten($heatmap-level-1, 2%);
-      }
+      @include heatmap-level(1);
     }
-
     &.l2 {
-      background-color: $heatmap-level-2;
-      &:hover {
-        border: 1px solid lighten($heatmap-level-2, 10%);
-      }
+      @include heatmap-level(2);
     }
-
     &.l3 {
-      background-color: $heatmap-level-3;
-      &:hover {
-        border: 1px solid lighten($heatmap-level-3, 10%);
-      }
+      @include heatmap-level(3);
     }
-
     &.l4 {
-      background-color: $heatmap-level-4;
-      &:hover {
-        border: 1px solid lighten($heatmap-level-4, 10%);
-      }
+      @include heatmap-level(4);
     }
-
     &.l5 {
-      background-color: $heatmap-level-5;
-      &:hover {
-        border: 1px solid lighten($heatmap-level-5, 10%);
-      }
+      @include heatmap-level(5);
     }
-
     &.l6 {
-      background-color: $heatmap-level-6;
-      &:hover {
-        border: 1px solid lighten($heatmap-level-6, 10%);
-      }
-    }
-
-    .heatmap-tile__label {
-      visibility: hidden;
+      @include heatmap-level(6);
     }
   }
 }
