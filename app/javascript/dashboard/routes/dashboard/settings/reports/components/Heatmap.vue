@@ -1,5 +1,5 @@
 <template>
-  <div class="heatmap-wrapper">
+  <div class="heatmap-container">
     <div class="heatmap-labels">
       <div
         v-for="dateKey in processedData.keys()"
@@ -10,11 +10,11 @@
         <time>{{ formatDate(dateKey) }}</time>
       </div>
     </div>
-    <div class="heatmap-container">
+    <div class="heatmap-grid">
       <div
         v-for="dateKey in processedData.keys()"
         :key="dateKey"
-        class="heatmap-container-row"
+        class="heatmap-grid-row"
       >
         <div
           v-for="data in processedData.get(dateKey)"
@@ -112,9 +112,10 @@ $heatmap-level-4: #36a1fb;
 $heatmap-level-5: #186cdd;
 $heatmap-level-6: #1b4c8d;
 
-$tile-height: 30px;
+$tile-height: 3rem;
+$tile-gap: 0.4rem;
 
-.heatmap-wrapper {
+.heatmap-container {
   display: grid;
   position: relative;
   width: 100%;
@@ -140,7 +141,7 @@ $tile-height: 30px;
   .heatmap-markers {
     display: grid;
     grid-template-columns: repeat(24, 1fr);
-    gap: 0.4rem;
+    gap: $tile-gap;
     width: 100%;
     font-size: 0.8rem;
     font-weight: 600;
@@ -157,7 +158,7 @@ $tile-height: 30px;
 .heatmap-labels {
   display: grid;
   grid-template-rows: 1fr;
-  gap: 0.4rem;
+  gap: $tile-gap;
 
   .heatmap-axis-label {
     height: $tile-height;
@@ -176,15 +177,15 @@ $tile-height: 30px;
   }
 }
 
-.heatmap-container {
+.heatmap-grid {
   display: grid;
   grid-template-rows: 1fr;
-  gap: 0.4rem;
+  gap: $tile-gap;
   width: 100%;
 
-  .heatmap-container-row {
+  .heatmap-grid-row {
     display: grid;
-    gap: 0.4rem;
+    gap: $tile-gap;
     grid-template-columns: repeat(24, 1fr);
   }
 
