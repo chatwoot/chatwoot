@@ -131,44 +131,13 @@ $tile-gap: 0.4rem;
   width: 100%;
   gap: 2rem;
   grid-template-columns: 80px 1fr;
-
-  .heatamp-labels {
-    flex-shrink: 0;
-  }
-  .hover-tile {
-    position: absolute;
-  }
-
-  .heatamp-container {
-    flex-shrink: 0;
-    flex-grow: 1;
-  }
-
-  .heatmap-timeline {
-    visibility: invisible;
-  }
-
-  .heatmap-markers {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: $tile-gap;
-    width: 100%;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: $color-light-gray;
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
 }
 
 .heatmap-labels {
   display: grid;
   grid-template-rows: 1fr;
   gap: $tile-gap;
+  flex-shrink: 0;
 
   .heatmap-axis-label {
     height: $tile-height;
@@ -241,6 +210,22 @@ $tile-gap: 0.4rem;
     &.l6 {
       @include heatmap-level(6);
     }
+  }
+}
+
+.heatmap-markers {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: $tile-gap;
+  width: 100%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-light-gray;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>
