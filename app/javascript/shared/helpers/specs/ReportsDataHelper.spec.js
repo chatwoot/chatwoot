@@ -2,7 +2,7 @@ import {
   groupHeatmapByDay,
   reconcileHeatmapData,
   flattenHeatmapData,
-} from '../HeatmapHelper';
+} from '../ReportsDataHelper';
 
 describe('flattenHeatmapData', () => {
   it('should flatten heatmap data to key-value pairs', () => {

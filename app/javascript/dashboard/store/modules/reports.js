@@ -4,7 +4,7 @@ import Report from '../../api/reports';
 import { downloadCsvFile } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
-import { reconcileHeatmapData } from 'helpers/HeatmapHelper';
+import { reconcileHeatmapData } from 'helpers/ReportsDataHelper';
 
 const state = {
   fetchingStatus: false,
