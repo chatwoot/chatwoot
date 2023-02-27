@@ -7,6 +7,10 @@
   }
 }
 
+select {
+  height: 4.0rem;
+}
+
 .card {
   margin-bottom: var(--space-small);
   padding: var(--space-normal);
@@ -63,8 +67,4 @@ code {
 
 .padding-right-small {
   padding-right: var(--space-one);
-}
-
-.margin-right-small {
-  margin-right: var(--space-small);
 }

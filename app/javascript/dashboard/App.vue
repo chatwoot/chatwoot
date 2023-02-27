@@ -1,5 +1,10 @@
 <template>
-  <div v-if="!authUIFlags.isFetching" id="app" class="app-wrapper app-root">
+  <div
+    v-if="!authUIFlags.isFetching"
+    id="app"
+    class="app-wrapper app-root"
+    :class="{ 'app-rtl--wrapper': isRTLView }"
+  >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <transition name="fade" mode="out-in">
       <router-view />
@@ -22,6 +27,7 @@ import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
+import rtlMixin from 'shared/mixins/rtlMixin';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -37,6 +43,8 @@ export default {
     UpdateBanner,
     WootSnackbarBox,
   },
+
+  mixins: [rtlMixin],
 
   data() {
     return {
@@ -96,6 +104,7 @@ export default {
       } = this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
+      this.updateRTLDirectionView(locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(pubsubToken);
     },

@@ -26,6 +26,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import timeMixin from 'dashboard/mixins/time';
+import rtlMixin from 'shared/mixins/rtlMixin';
 import InboxName from 'dashboard/components/widgets/InboxName';
 
 export default {
@@ -35,7 +36,13 @@ export default {
     VeTable,
   },
 
-  mixins: [clickaway, timeMixin, campaignMixin, messageFormatterMixin],
+  mixins: [
+    clickaway,
+    timeMixin,
+    campaignMixin,
+    messageFormatterMixin,
+    rtlMixin,
+  ],
 
   props: {
     campaigns: {
@@ -98,7 +105,7 @@ export default {
           key: 'title',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TITLE'),
           fixed: 'left',
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: ({ row }) => (
             <div class="row--title-block">
               <h6 class="sub-block-title title text-truncate">{row.title}</h6>
@@ -110,7 +117,7 @@ export default {
           field: 'message',
           key: 'message',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.MESSAGE'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           width: 350,
           renderBodyCell: ({ row }) => {
             if (row.message) {
@@ -129,7 +136,7 @@ export default {
           field: 'inbox',
           key: 'inbox',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.INBOX'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: ({ row }) => {
             return <InboxName inbox={row.inbox} />;
           },
@@ -142,7 +149,7 @@ export default {
             field: 'enabled',
             key: 'enabled',
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
-            align: 'left',
+            align: this.isRTLView ? 'right' : 'left',
             renderBodyCell: ({ row }) => {
               const labelText = row.enabled
                 ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
@@ -155,7 +162,7 @@ export default {
             field: 'sender',
             key: 'sender',
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
-            align: 'left',
+            align: this.isRTLView ? 'right' : 'left',
             renderBodyCell: ({ row }) => {
               if (row.sender) return <UserAvatarWithName user={row.sender} />;
               return this.$t('CAMPAIGN.LIST.SENDER.BOT');
@@ -165,7 +172,7 @@ export default {
             field: 'url',
             key: 'url',
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
-            align: 'left',
+            align: this.isRTLView ? 'right' : 'left',
             renderBodyCell: ({ row }) => (
               <div class="text-truncate">
                 <a
@@ -183,14 +190,14 @@ export default {
             field: 'timeOnPage',
             key: 'timeOnPage',
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TIME_ON_PAGE'),
-            align: 'left',
+            align: this.isRTLView ? 'right' : 'left',
           },
 
           {
             field: 'buttons',
             key: 'buttons',
             title: '',
-            align: 'left',
+            align: this.isRTLView ? 'right' : 'left',
             renderBodyCell: row => (
               <div class="button-wrapper">
                 <WootButton
@@ -221,7 +228,7 @@ export default {
           field: 'campaign_status',
           key: 'campaign_status',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: ({ row }) => {
             const labelText =
               row.campaign_status === 'completed'
@@ -236,13 +243,13 @@ export default {
           field: 'scheduledAt',
           key: 'scheduledAt',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SCHEDULED_AT'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'buttons',
           key: 'buttons',
           title: '',
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: row => (
             <div class="button-wrapper">
               <WootButton
@@ -272,6 +279,10 @@ export default {
     }
     tbody.ve-table-body .ve-table-body-tr .ve-table-body-td {
       padding: var(--space-slab) var(--space-two);
+
+      .inbox--name {
+        margin: 0;
+      }
     }
   }
 
