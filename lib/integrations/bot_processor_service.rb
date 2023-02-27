@@ -55,7 +55,7 @@ class Integrations::BotProcessorService
   def process_action(message, action)
     case action
     when 'handoff'
-      message.conversation.open!
+      message.conversation.bot_handoff!
     when 'resolve'
       message.conversation.resolved!
     end
