@@ -60,15 +60,7 @@ const getters = {
 export const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
-    Report.getReports(
-      reportObj.metric,
-      reportObj.from,
-      reportObj.to,
-      reportObj.type,
-      reportObj.id,
-      reportObj.groupBy,
-      reportObj.businessHours
-    ).then(accountReport => {
+    Report.getReports(reportObj).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
         el =>
@@ -81,15 +73,7 @@ export const actions = {
   fetchAccountConversationHeatmap({ commit }, params) {
     const { reportObj, _options } = params;
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
-    Report.getReports(
-      reportObj.metric,
-      reportObj.from,
-      reportObj.to,
-      reportObj.type,
-      reportObj.id,
-      reportObj.groupBy,
-      reportObj.businessHours
-    ).then(heatmapData => {
+    Report.getReports(reportObj).then(heatmapData => {
       let { data } = heatmapData;
       data = data.filter(
         el =>
