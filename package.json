@@ -20,7 +20,7 @@
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
     "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git",
-    "@chatwoot/utils": "^0.0.11",
+    "@chatwoot/utils": "^0.0.12",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
     "@rails/actioncable": "6.1.3",
