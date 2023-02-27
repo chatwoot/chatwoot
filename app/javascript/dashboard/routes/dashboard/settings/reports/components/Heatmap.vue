@@ -56,7 +56,7 @@ export default {
   },
   mounted() {
     this.processData();
-    this.getDataLimits();
+    this.calculateDataLimits();
   },
   methods: {
     formatDate(dateString) {
@@ -75,7 +75,7 @@ export default {
       ];
       return days[dayIndex];
     },
-    getDataLimits() {
+    calculateDataLimits() {
       const flattendedData = this.heatData.map(data => data.value);
       this.quantileRange = getQuantileIntervals(flattendedData, [
         0.2,
