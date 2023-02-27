@@ -1,12 +1,16 @@
 import { fromUnixTime, startOfDay } from 'date-fns';
 
-export const reconcileHeatmapData = (data, heatmapData) => {
-  // data = [{timestamp: 123, value: 10}, {timestamp: 124, value: 20}]
-  // convert this data to key-value pair of timestamp and value
-  const parsedData = data.reduce((acc, curr) => {
+export const flattenHeatmapData = data => {
+  return data.reduce((acc, curr) => {
     acc[curr.timestamp] = curr.value;
     return acc;
   }, {});
+};
+
+export const reconcileHeatmapData = (data, heatmapData) => {
+  // data = [{timestamp: 123, value: 10}, {timestamp: 124, value: 20}]
+  // convert this data to key-value pair of timestamp and value
+  const parsedData = flattenHeatmapData(data);
 
   return heatmapData.map(dataItem => {
     if (parsedData[dataItem.timestamp]) {
