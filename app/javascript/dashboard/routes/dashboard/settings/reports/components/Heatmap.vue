@@ -23,11 +23,13 @@
           class="heatmap-tile"
           :class="getHeatmapLevelClass(data.value)"
         >
-          <div class="heatmap-tile__label">
-            0
-          </div>
+          <div class="heatmap-tile__label" />
         </div>
       </div>
+    </div>
+    <div class="heatmap-timeline" />
+    <div class="heatmap-markers">
+      <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
     </div>
   </div>
 </template>
@@ -113,17 +115,42 @@ $heatmap-level-6: #1b4c8d;
 $tile-height: 30px;
 
 .heatmap-wrapper {
-  display: flex;
+  display: grid;
+  position: relative;
   width: 100%;
   gap: 2rem;
+  grid-template-columns: 80px 1fr;
 
   .heatamp-labels {
     flex-shrink: 0;
+  }
+  .hover-tile {
+    position: absolute;
   }
 
   .heatamp-container {
     flex-shrink: 0;
     flex-grow: 1;
+  }
+
+  .heatmap-timeline {
+    visibility: invisible;
+  }
+
+  .heatmap-markers {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    gap: 0.4rem;
+    width: 100%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $color-light-gray;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
