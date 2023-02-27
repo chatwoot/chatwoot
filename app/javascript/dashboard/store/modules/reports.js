@@ -4,7 +4,10 @@ import Report from '../../api/reports';
 import { downloadCsvFile } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
-import { reconcileHeatmapData } from 'helpers/ReportsDataHelper';
+import {
+  reconcileHeatmapData,
+  clampDataBetweenTimeline,
+} from 'helpers/ReportsDataHelper';
 
 const state = {
   fetchingStatus: false,
@@ -62,10 +65,7 @@ export const actions = {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
     Report.getReports(reportObj).then(accountReport => {
       let { data } = accountReport;
-      data = data.filter(
-        el =>
-          reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
-      );
+      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
       commit(types.default.SET_ACCOUNT_REPORTS, data);
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
     });
@@ -75,10 +75,7 @@ export const actions = {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
     Report.getReports(reportObj).then(heatmapData => {
       let { data } = heatmapData;
-      data = data.filter(
-        el =>
-          reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
-      );
+      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
 
       if (_options && _options.reconcile) {
         data = reconcileHeatmapData(

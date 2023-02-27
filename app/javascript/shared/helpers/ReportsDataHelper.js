@@ -14,6 +14,18 @@ export const flattenHeatmapData = data => {
 };
 
 /**
+ * Filter the given array to remove data outside the timeline
+ *
+ * @param {Array} data - An array of objects containing timestamp and value
+ * @param {number} from - Unix timestamp
+ * @param {number} to - Unix timestamp
+ * @returns {Array} - An array of objects containing timestamp and value
+ */
+export const clampDataBetweenTimeline = (data, from, to) => {
+  return data.filter(el => to - el.timestamp > 0 && el.timestamp - from >= 0);
+};
+
+/**
  * Reconciles new data with existing heatmap data based on timestamps
  *
  * @param {Array} data - An array of objects containing timestamp and value
