@@ -8,15 +8,15 @@ class ReportsAPI extends ApiClient {
     super('reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getReports(
+  getReports({
     metric,
     since,
     until,
     type = 'account',
     id,
     group_by,
-    business_hours
-  ) {
+    business_hours,
+  }) {
     return axios.get(`${this.url}`, {
       params: {
         metric,
