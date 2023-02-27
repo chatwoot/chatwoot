@@ -816,4 +816,51 @@ describe AutomationRuleListener do
       expect(new_conversation.messages.last.content_attributes).to eq({ 'automation_rule_id' => new_automation_rule.id })
     end
   end
+
+  describe '#conversation_created for email inbox' do
+    let!(:new_account) { create(:account) }
+
+    before do
+      smtp_email_channel = create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_login: 'smtp@gmail.com',
+                                                  smtp_password: 'password', smtp_domain: 'smtp.gmail.com', account: new_account)
+      email_inbox = smtp_email_channel.inbox
+      email_conversation = create(:conversation, inbox: email_inbox, account: new_account,
+                                                 additional_attributes: { 'source' => 'email', 'mail_subject' => 'New conversation test email' })
+      new_automation_rule = create(:automation_rule, account: new_account, name: 'Test Automation Rule - 1')
+
+      create(:message, account: new_account, conversation: email_conversation, message_type: 'incoming')
+
+      new_automation_rule.update!(
+        event_name: 'conversation_created',
+        conditions: [{ attribute_key: 'mail_subject', filter_operator: 'contains', values: ['test'], query_operator: nil }.with_indifferent_access],
+        actions: [{ 'action_name' => 'send_message', 'action_params' => ['Send this message. - 1'] }]
+      )
+    end
+
+    context 'when mail_subject condition matches' do
+      it 'triggers automation and send message' do
+        email_conversation = new_account.conversations.last
+        event = Events::Base.new('conversation_created', Time.zone.now, { conversation: email_conversation })
+
+        listener.conversation_created(event)
+
+        expect(email_conversation.messages.count).to eq(2)
+        expect(email_conversation.messages.last.content).to eq('Send this message. - 1')
+      end
+    end
+
+    context 'when mail_subject condition does not match' do
+      it 'does not triggers automation' do
+        email_conversation = new_account.conversations.last
+        email_conversation.update!(additional_attributes: { 'source' => 'email', 'mail_subject' => 'New conversation email' })
+        event = Events::Base.new('conversation_created', Time.zone.now, { conversation: email_conversation.reload })
+
+        listener.conversation_created(event)
+
+        expect(email_conversation.messages.count).to eq(1)
+        expect(email_conversation.messages.last.content).not_to eq('Send this message. - 1')
+        expect(email_conversation.messages.last.content).to eq('Incoming Message')
+      end
+    end
+  end
 end
