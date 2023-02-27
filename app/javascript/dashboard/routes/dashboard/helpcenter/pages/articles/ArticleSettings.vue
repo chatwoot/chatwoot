@@ -87,6 +87,7 @@
             track-by="name"
             :multiple="true"
             :taggable="true"
+            :preserve-search="true"
             @tag="addTagValue"
           />
         </label>
@@ -184,10 +185,10 @@ export default {
       }));
     },
     addTagValue(tagValue) {
-      const tag = {
-        name: tagValue,
-      };
-      this.metaTags.push(tag);
+      const tags = tagValue.split(',').map(value => ({
+        name: value.trim(),
+      }));
+      this.metaTags.push(...tags);
       this.$refs.tagInput.$el.focus();
       this.saveArticle();
     },
