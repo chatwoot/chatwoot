@@ -38,11 +38,7 @@ export default {
   text-align: left;
 
   .user-name {
-    margin: 0;
-    text-transform: capitalize;
-  }
-  .user-thumbnail-box {
-    margin-right: var(--space-small);
+    margin: 0 var(--space-small);
   }
 }
 </style>

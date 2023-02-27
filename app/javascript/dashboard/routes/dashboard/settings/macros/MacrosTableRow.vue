@@ -4,13 +4,13 @@
     <td>
       <div class="avatar-container">
         <thumbnail :username="macro.created_by.name" size="24px" />
-        <span class="ml-2">{{ macro.created_by.name }}</span>
+        <span>{{ macro.created_by.name }}</span>
       </div>
     </td>
     <td>
       <div class="avatar-container">
         <thumbnail :username="macro.updated_by.name" size="24px" />
-        <span class="ml-2">{{ macro.updated_by.name }}</span>
+        <span>{{ macro.updated_by.name }}</span>
       </div>
     </td>
     <td>{{ visibilityLabel }}</td>
@@ -68,7 +68,8 @@ export default {
   align-items: center;
 
   span {
-    margin-left: var(--space-one);
+    margin-left: var(--space-small);
+    margin-right: var(--space-small);
   }
 }
 </style>
