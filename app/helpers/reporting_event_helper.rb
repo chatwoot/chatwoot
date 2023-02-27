@@ -17,6 +17,15 @@ module ReportingEventHelper
     from_in_inbox_timezone.working_time_until(to_in_inbox_timezone)
   end
 
+  def last_non_human_activity(conversation)
+    # check if a handoff event already exists
+    handoff_event = ReportingEvent.where(conversation_id: conversation.id, name: 'conversation_bot_handoff').last
+
+    # if a handoff exists, last non human activity is when the handoff ended,
+    # otherwise it's when the conversation was created
+    handoff_event&.event_end_time || conversation.created_at
+  end
+
   private
 
   def configure_working_hours(working_hours)
