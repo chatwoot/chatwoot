@@ -4,9 +4,6 @@
       <fluent-icon icon="document" size="28" />
     </div>
     <div class="meta">
-      <div class="title" :class="titleColor" :style="{ color: textColor }">
-        {{ title }}
-      </div>
       <div class="link-wrap mb-1">
         <a
           class="download"
@@ -15,6 +12,9 @@
           :style="{ color: textColor }"
           :href="url"
         >
+          <div class="title" :class="titleColor" :style="{ color: textColor }">
+            {{ title }}
+          </div>
           {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
         </a>
       </div>
@@ -96,15 +96,15 @@ export default {
   }
 
   .title {
+    text-decoration: underline;
     font-weight: $font-weight-medium;
     font-size: $font-size-default;
-    margin: 0;
+    margin: 0 0 4px 0;
   }
 
   .download {
     color: $color-woot;
     font-weight: $font-weight-medium;
-    padding: 0;
     margin: 0;
     font-size: $font-size-small;
     text-decoration: none;
