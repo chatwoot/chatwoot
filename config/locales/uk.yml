@@ -170,3 +170,14 @@ uk:
       results_title: Результати пошуку
     hero:
       sub_title: Шукайте тут або перегляньте категорії нижче.
+    common:
+      home: Головна
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: статті
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site
