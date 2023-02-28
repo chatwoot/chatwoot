@@ -165,7 +165,7 @@ export default {
   .header-title {
     display: flex;
     align-items: center;
-    margin: 0 var(--space-smaller);
+    margin: 0 var(--space-small);
     .page-title {
       margin-bottom: 0;
     }
