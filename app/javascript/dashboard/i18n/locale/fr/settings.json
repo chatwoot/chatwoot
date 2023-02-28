@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
         "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications par courriel lorsque vous êtes mentionné dans une conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications push lorsque vous êtes mentionné dans une conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications push lorsqu'un nouveau message est créé dans une conversation assignée",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
         "REQUEST_PUSH": "Activer les notifications push"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Télécharger",
-      "UPLOADING": "Téléversement..."
+      "UPLOADING": "Téléversement...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Cette Story n'est plus disponible."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Afficher sur la carte"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "Toutes les conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Sans suivi",
     "REPORTS": "Rapports",
     "SETTINGS": "Paramètres",
@@ -232,37 +236,38 @@
     "REPORTS_OVERVIEW": "Vue d'ensemble",
     "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "Centre d'aide (Beta)",
+      "ALL_ARTICLES": "Tous les articles",
+      "MY_ARTICLES": "Mes articles",
+      "DRAFT": "Brouillon",
+      "ARCHIVED": "Archivé",
+      "CATEGORY": "Catégorie",
+      "SETTINGS": "Paramètres",
+      "CATEGORY_EMPTY_MESSAGE": "Aucune catégorie trouvée"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Passer hors-ligne automatiquement",
+      "INFO_TEXT": "Laissez le système vous passer automatiquement hors ligne lorsque vous n'utilisez pas l'application ou le tableau de bord."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Lire la documentation"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Facturation",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Abonnement actuel",
+      "PLAN_NOTE": "Vous êtes actuellement abonné à l'offre **%{plan}** avec **%{quantity}** licences"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Gérer votre abonnement",
+      "DESCRIPTION": "Visualisez vos factures précédentes, modifiez vos coordonnées de facturation ou annulez votre abonnement.",
+      "BUTTON_TXT": "Accéder au portail de facturation"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Besoin d'aide ?",
+      "DESCRIPTION": "Vous avez des problèmes de facturation? Nous sommes là pour vous aider.",
       "BUTTON_TXT": "Discutez avec nous"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Votre compte de facturation est en cours de configuration. Veuillez actualiser la page et réessayer."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
@@ -282,7 +287,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Voir tous les raccourcis",
     "TITLE": {
       "OPEN_CONVERSATION": "Ouvrir la conversation",
       "RESOLVE_AND_NEXT": "Résoudre et passer à la suivante",

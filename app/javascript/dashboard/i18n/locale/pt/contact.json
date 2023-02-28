@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Iniciado de",
     "INITIATED_AT": "Iniciado em",
     "IP_ADDRESS": "Endereço IP",
+    "CREATED_AT_LABEL": "Criado",
     "NEW_MESSAGE": "Nova mensagem",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
@@ -75,8 +76,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirmar Exclusão",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "Tem certeza que deseja excluir esta nota?",
+      "YES": "Sim, excluir",
       "NO": "Não, mantenha isso"
     }
   },
@@ -152,8 +153,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Avatar de contato removido com sucesso",
+        "ERROR_MESSAGE": "Não foi possível remover o avatar do contato. Por favor, tente novamente mais tarde."
       }
     },
     "SUCCESS_MESSAGE": "Contato guardado com sucesso",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Número de telefone",
         "CONVERSATIONS": "Conversas",
         "LAST_ACTIVITY": "Última atividade",
+        "CREATED_AT": "Criado Em",
         "COUNTRY": "País",
         "CITY": "Cidade",
         "SOCIAL_PROFILES": "Perfis Redes Sociais",

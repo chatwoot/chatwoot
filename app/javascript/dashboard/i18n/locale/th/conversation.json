@@ -1,10 +1,10 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "กรุณาเลือกการสนทนาจากด้านซ้าย",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "CSAT_REPLY_MESSAGE": "กรุณาให้คะแนนการสนทนาในครั้งนี้",
+    "404": "ขออภัย ไม่พบข้อมูลการสนทนาของท่าน โปรดลองใหม่อีกครั้ง",
+    "SWITCH_VIEW_LAYOUT": "สลับมุมมอง",
+    "DASHBOARD_APP_TAB_MESSAGES": "ข้อความทั้งหมด",
     "UNVERIFIED_SESSION": "ข้อมูลระบุตัวตนของผู้ใช้รายนี้ยังไม่ได้รับการยืนยัน",
     "NO_MESSAGE_1": "โอ้ว ไม่นะเหมือนจะไม่มีข้อความจากลูกค้าของคุณในกล่องข้อความ",
     "NO_MESSAGE_2": " เพื่อส่งข้อความไปยังเพจของคุณ!",
@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "ลบตัวเลือก",
     "DOWNLOAD": "ดาวโหลด",
     "UNKNOWN_FILE_TYPE": "Unknown File",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "กำลังอัปโหลดไฟล์แนบ",
     "SUCCESS_DELETE_MESSAGE": "ลบข้อความสำเร็จเเล้ว",
     "FAIL_DELETE_MESSSAGE": "ไม่สามารถลบข้อความได้ โปรดลองใหม่อีกครั้ง",
@@ -42,8 +43,8 @@
     "RATING_TITLE": "การประเมิน",
     "FEEDBACK_TITLE": "ผลตอบรับ",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "แสดงป้ายกำกับ",
+      "HIDE_LABELS": "ซ่อนป้ายกำกับ"
     },
     "HEADER": {
       "RESOLVE_ACTION": "เสร็จสิ้น",
@@ -76,13 +77,13 @@
         "TOMORROW": "จนกว่าพรุ่งนี้",
         "NEXT_WEEK": "จนกว่าสัปดาห์หน้า"
       },
-      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_AGENT": "มอบหมายให้กับ",
       "ASSIGN_LABEL": "Assign label",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "รหัสการสนทนา %{conversationId} ถูกมอบหมายให้กับ %{agentName}",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
@@ -90,8 +91,8 @@
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "มอบหมายให้ทีม %{team} มาดูแลการสนทนารหัส %{conversationId}",
+          "FAILED": "ไม่สามารถมอบหมายให้กับทีมได้ โปรดลองใหม่อีกครั้ง"
         }
       }
     },
@@ -132,17 +133,25 @@
           "PLACEHOLDER": "แยกอีเมลโดยใช้เครื่องหมายคอมม่า",
           "ERROR": "โปรดกรอกอีเมลที่ถูกต้อง"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "ส่ง",
+          "CANCEL": "ยกเลิก"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "โน้ตส่วนตัว: มีเพียงคุณและทีมเท่านั้นที่มองเห็นได้",
     "CHANGE_STATUS": "สถานะการสนทนามีการเปลี่ยนเเปลง",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "เปลี่ยนสถานะของบทสนทนาไม่สำเร็จ",
     "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง",
     "CHANGE_AGENT_FAILED": "Assignee change failed",
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "ไฟล์ของคุณมีขนาดเกิน {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
     "BOT": "บอท",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
       "DELETE": "ลบ",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "เพิ่มไปยังชุดคำตอบสำเร็จรูป",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -214,7 +224,7 @@
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
-      "MACROS": "Macros"
+      "MACROS": "คีย์ลัด"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -244,5 +254,29 @@
     "BCC": "สำเนาลับ",
     "CC": "สำเนา",
     "SUBJECT": "หัวเรื่อง"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "No results found",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

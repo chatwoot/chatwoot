@@ -56,7 +56,7 @@
       <multiselect-dropdown-items
         v-if="showSearchDropdown"
         :options="options"
-        :selected-item="selectedItem"
+        :selected-items="[selectedItem]"
         :has-thumbnail="hasThumbnail"
         :input-placeholder="inputPlaceholder"
         :no-search-result="noSearchResult"
@@ -140,7 +140,6 @@ export default {
 .selector-wrap {
   position: relative;
   width: 100%;
-  margin-right: var(--space-one);
   margin-bottom: var(--space-small);
 
   .selector-button {

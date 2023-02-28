@@ -17,7 +17,17 @@ describe('#actions', () => {
       API.patch.mockResolvedValue({
         data: { contact: { pubsub_token: '8npuMUfDgizrwVoqcK1t7FMY' } },
       });
-      await actions.update({ commit }, user);
+      await actions.update(
+        {
+          commit,
+          getters: {
+            getUIFlags: {
+              isUpdating: false,
+            },
+          },
+        },
+        user
+      );
       expect(commit.mock.calls).toEqual([
         ['toggleUpdateStatus', true],
         [
@@ -33,6 +43,22 @@ describe('#actions', () => {
         ],
         ['toggleUpdateStatus', false],
       ]);
+    });
+
+    it('blocks all new action calls when isUpdating', async () => {
+      await actions.update(
+        {
+          commit,
+          getters: {
+            getUIFlags: {
+              isUpdating: true,
+            },
+          },
+        },
+        {}
+      );
+
+      expect(commit.mock.calls).toEqual([]);
     });
   });
 });

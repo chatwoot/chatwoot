@@ -53,4 +53,9 @@ window.addEventListener('chatwoot:ready', function() {
 window.addEventListener('chatwoot:error', function(e) {
   console.log('chatwoot:error', e.detail)
 })
+
+
+window.addEventListener('chatwoot:on-message', function(e) {
+  console.log('chatwoot:on-message', e.detail)
+})
 </script>

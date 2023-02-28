@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Καταχωρήστε ένα λογαριασμό",
+    "TRY_WOOT": "Create an account",
     "TITLE": "Καταχώρηση",
     "TESTIMONIAL_HEADER": "Το μόνο που χρειάζεται είναι ένα βήμα για να προχωρήσουμε",
     "TESTIMONIAL_CONTENT": "Είστε ένα βήμα μακριά από την εμπλοκή των πελατών σας, και την εύρεση νέων.",
-    "TERMS_ACCEPT": "Με την καταχώρηση, έχετε συμφωνήσει με τους όρους μας <a href=\"https://www.chatwoot.com/terms\">T & C</a> και <a href=\"https://www.chatwoot.com/privacy-policy\">την πολιτική ιδιωτικών δεδομένων</a>",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Επωνυμία εταιρείας",
       "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας σας. π. χ.: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Επιτυχής καταχώρηση",
       "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     },
-    "SUBMIT": "Καταχώρηση",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Έχετε ήδη ένα λογαριασμό?"
   }
 }

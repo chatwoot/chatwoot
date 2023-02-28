@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "当对话分配给我时发送电子邮件通知",
         "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送电子邮件通知"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送电子邮件通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知设置已成功更新",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "创建新对话时发送推送通知",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送推送通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
         "REQUEST_PUSH": "启用推送通知"
       },
@@ -162,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "复制",
-      "COPY_SUCCESSFUL": "代码复制到剪贴板成功"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
-      "UPLOADING": "上传中..."
+      "UPLOADING": "上传中...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "会话",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "提及",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "报告",
     "SETTINGS": "设置",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "类别",
+      "SETTINGS": "设置",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

@@ -2,7 +2,7 @@
   <div class="row content-box full-height">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="add-circle"
       @click="openCreatePopup"
     >

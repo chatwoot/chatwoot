@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Skicka e-postmeddelanden när en konversation är tilldelad till mig",
         "CONVERSATION_CREATION": "Skicka e-postmeddelanden när en ny konversation skapas",
         "CONVERSATION_MENTION": "Skicka e-postaviseringar när du nämns i en konversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka e-postaviseringar när ett nytt meddelande skapas i en tilldelad konversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka e-postaviseringar när ett nytt meddelande skapas i en tilldelad konversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Dina aviseringsinställningar har uppdaterats",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Skicka push-notiser när en ny konversation skapas",
         "CONVERSATION_MENTION": "Skicka push-meddelanden när du nämns i en konversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka push-meddelanden när ett nytt meddelande skapas i en tilldelad konversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Du har aktiverat push-funktionen för denna webbläsare.",
         "REQUEST_PUSH": "Aktivera push-meddelanden"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Hämta",
-      "UPLOADING": "Laddar upp..."
+      "UPLOADING": "Laddar upp...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Konversationer",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapporter",
     "SETTINGS": "Inställningar",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Inställningar",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

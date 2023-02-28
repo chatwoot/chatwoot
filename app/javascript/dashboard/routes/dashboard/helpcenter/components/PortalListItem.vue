@@ -389,7 +389,7 @@ export default {
         display: flex;
         align-items: center;
         .status {
-          margin: 0 0 0 var(--space-small);
+          margin: 0 var(--space-small);
         }
       }
       .portal-title {

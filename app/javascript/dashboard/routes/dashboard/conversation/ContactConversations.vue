@@ -74,4 +74,11 @@ export default {
   margin-bottom: var(--space-normal);
   color: var(--b-500);
 }
+
+::v-deep .conversation {
+  padding-right: 0;
+  .conversation--details {
+    padding-left: var(--space-small);
+  }
+}
 </style>

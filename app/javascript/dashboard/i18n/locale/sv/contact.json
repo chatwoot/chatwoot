@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Initierad från",
     "INITIATED_AT": "Initierad den",
     "IP_ADDRESS": "IP-adress",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nytt meddelande",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det finns inga tidigare konversationer kopplade till denna kontakt.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Konversationer",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

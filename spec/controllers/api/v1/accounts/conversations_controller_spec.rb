@@ -207,7 +207,7 @@ RSpec.describe 'Conversations API', type: :request do
   describe 'POST /api/v1/accounts/{account.id}/conversations' do
     let(:contact) { create(:contact, account: account) }
     let(:inbox) { create(:inbox, account: account) }
-    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+    let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -249,6 +249,16 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response).to have_http_status(:success)
           response_data = JSON.parse(response.body, symbolize_names: true)
           expect(response_data[:additional_attributes]).to eq(additional_attributes)
+        end
+
+        it 'does not create a new conversation if source_id is not unique' do
+          new_contact = create(:contact, account: account)
+
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id, inbox_id: inbox.id, contact_id: new_contact.id },
+               as: :json
+          expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it 'creates a conversation in specificed status' do

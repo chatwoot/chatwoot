@@ -82,6 +82,7 @@
       "conversation_creation": "Новий діалог",
       "conversation_assignment": "Діалог призначений",
       "assigned_conversation_new_message": "Нове повідомлення",
+      "participating_conversation_new_message": "Нове повідомлення",
       "conversation_mention": "Відмітка"
     }
   },

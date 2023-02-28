@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
     "UNKNOWN_FILE_TYPE": "ملف غير معروف",
+    "SAVE_CONTACT": "حفظ",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
@@ -42,8 +43,8 @@
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "إظهار السمات",
+      "HIDE_LABELS": "إخفاء السمات"
     },
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
@@ -68,7 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "تحديد كمعلق",
       "RESOLVED": "تحديد كمحلولة",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "وضع علامة كغير مقروء",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
         "TITLE": "غفوة",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
           "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "متغيرات غير معرفة",
+        "MESSAGE": "لديك {undefinedVariablesCount} متغيرات غير محددة في رسالتك: {undefinedVariables}. هل ترغب في إرسال الرسالة على أي حال؟",
+        "CONFIRM": {
+          "YES": "إرسال",
+          "CANCEL": "إلغاء"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "نسخ",
       "DELETE": "حذف",
-      "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود السريعة"
+      "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود السريعة",
+      "TRANSLATE": "ترجم"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "الموضوع"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "شارك",
+    "SIDEBAR_TITLE": "المشاركون في المحادثة",
+    "NO_RECORDS_FOUND": "لم يتم العثور على النتائج",
+    "ADD_PARTICIPANTS": "اختر المشاركين",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} أخرى",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} أخرى",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} شخص مشارك.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} شخص مشارك.",
+    "NO_PARTICIPANTS_TEXT": "لا أحد يشارك !.",
+    "WATCH_CONVERSATION": "الانضمام إلى المحادثة",
+    "YOU_ARE_WATCHING": "أنت مشترك",
+    "API": {
+      "ERROR_MESSAGE": "تعذر التحديث، حاول مرة أخرى!",
+      "SUCCESS_MESSAGE": "تم تحديث المشاركين!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "عرض المحتوى المترجم",
+    "DESC": "يمكنك عرض المحتوى المترجم في كل لغة.",
+    "ORIGINAL_CONTENT": "المحتوى الأصلي",
+    "TRANSLATED_CONTENT": "المحتوى المترجم",
+    "NO_TRANSLATIONS_AVAILABLE": "لا توجد ترجمات لهذا المحتوى"
   }
 }

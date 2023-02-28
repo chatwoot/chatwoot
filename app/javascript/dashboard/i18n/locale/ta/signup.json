@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "சமர்ப்பிக்கவும்",
+    "TRY_WOOT": "Create an account",
     "TITLE": "பதியவும்",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "பதிவுபெறுவதன் மூலம், எங்கள் <a href=\"https://www.chatwoot.com/terms\"> விதிமுறைகள் மற்றும் நிபந்தனைகள், மற்றும் <a href=\"https://www.chatwoot.com/privacy-policy\"> தனியுரிமைக் கொள்கையை ஒப்புக்கொள்கிறீர்கள்",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "வெற்றிகரமாக பதிவு செய்துவிட்டிர்கள்",
       "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
     },
-    "SUBMIT": "சமர்பிக்கவும்",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

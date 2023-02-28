@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registrera ett konto",
+    "TRY_WOOT": "Create an account",
     "TITLE": "Registrera",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "Genom att registrera dig godkänner du våra <a href=\"https://www.chatwoot.com/terms\">användarvillkor</a> och vår <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registreringen lyckades",
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     },
-    "SUBMIT": "Skicka",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Har du redan ett konto?"
   }
 }

@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "گفتگو به روز شد",
             "MESSAGE_CREATED": "پیام ایجاد شد",
             "MESSAGE_UPDATED": "پیام به روز شد",
-            "WEBWIDGET_TRIGGERED": "ابزارک گفتگو زنده توسط کاربر باز شده است"
+            "WEBWIDGET_TRIGGERED": "ابزارک گفتگو زنده توسط کاربر باز شده است",
+            "CONTACT_CREATED": "مخاطب ایجاد شد",
+            "CONTACT_UPDATED": "مخاطب به‌روزرسانی شد"
           }
         },
         "END_POINT": {
@@ -78,10 +80,10 @@
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "LEAVE_THE_ROOM": "اتاق را ترک کن",
+      "START_VIDEO_CALL_HELP_TEXT": "یک تماس ویدیویی جدید با مشتری شروع کنید",
+      "JOIN_ERROR": "هنگام پیوستن به تماس خطایی روی داد، لطفاً دوباره امتحان کنید",
+      "CREATE_ERROR": "در ایجاد پیوند جلسه خطایی روی داد، لطفاً دوباره امتحان کنید"
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",

@@ -53,10 +53,6 @@
           "ENABLE": "ایجاد گفتگوهایی که از توییت‌های اشاره شده هستند"
         }
       },
-      "MICROSOFT": {
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
-      },
       "WEBSITE_CHANNEL": {
         "TITLE": "کانال وب‌سایت",
         "DESC": "یک کانال به وب سایت خود بسازید تا مشتریان بتوانند از طریق ویجت سایت با شما گفتگو کنند.",
@@ -348,6 +344,17 @@
       "FINISH": {
         "TITLE": "ماشالله!",
         "DESC": "چت ووت با موفقیت به فیس بوک متصل شد. از به بعد هر مشتری که پیامی در این صفحه بنویسید، آن پیام در صندوق ورودی چت ووت ظاهر می‌شود و گفتگویی ایجاد می‌شود..<br>فراموش نکنید که ما یک ویجت برای سایت‌ها هم داریم که با قرار دادن آن در سایت، مشتری می‌تواند به صورت آنلاین با شما گفتگو کند و پیام‌ها در صندوق ورودی آن ظاهر می‌شود<br>باحال نیست؟ ما همیشه باحالیم! :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "ارائه دهنده ایمیل خود را انتخاب کنید",
+        "DESCRIPTION": "یک ارائه دهنده ایمیل از لیست زیر انتخاب کنید. اگر ارائه دهنده ایمیل خود را در لیست نمی بینید، می توانید گزینه ارائه دهنده دیگر را انتخاب کنید و اعتبارنامه IMAP و SMTP را ارائه دهید."
+      },
+      "MICROSOFT": {
+        "TITLE": "ایمیل مایکروسافت",
+        "DESCRIPTION": "برای شروع روی دکمه Sign in with Microsoft کلیک کنید. شما به صفحه ورود به ایمیل هدایت خواهید شد. هنگامی که مجوزهای درخواستی را پذیرفتید، به مرحله ایجاد صندوق ورودی هدایت می شوید.",
+        "EMAIL_PLACEHOLDER": "آدرس ایمیل را وارد کنید",
+        "HELP": "برای افزودن حساب مایکروسافت خود به عنوان کانال، باید با کلیک بر روی \"ورود به سیستم با مایکروسافت\" اکانت مایکروسافت خود را احراز هویت کنید.",
+        "ERROR_MESSAGE": "هنگام اتصال به مایکروسافت خطایی روی داد، لطفاً دوباره امتحان کنید"
       }
     },
     "DETAILS": {
@@ -465,7 +472,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
       "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
-      "WHATSAPP_SECTION_TITLE": "API key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "کلید به روز شده را وارد کنید تا از آن برای ادغام با واتساپ API استفاده شود.",
+      "WHATSAPP_SECTION_TITLE": "API key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "کلید API را به روز کنید",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "کلید API جدید را در اینجا وارد کنید",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",
@@ -553,8 +564,8 @@
       "ENABLE_SSL": "فعال کردن SSL"
     },
     "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "TITLE": "مایکروسافت",
+      "SUBTITLE": "حساب مایکروسافت خود را مجدداً تأیید کنید"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -674,6 +685,10 @@
       },
       "BRANDING_TEXT": "قدرت گرفته از چت ووت",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "مایکروسافت",
+      "OTHER_PROVIDERS": "سایر ارائه دهندگان"
     }
   }
 }

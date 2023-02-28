@@ -53,11 +53,10 @@
         <woot-button
           v-else
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           icon="filter"
-          size="small"
-          class="btn-filter"
+          size="tiny"
           @click="onToggleAdvanceFiltersModal"
         />
       </div>
@@ -376,6 +375,9 @@ export default {
       }
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
+      }
+      if (this.conversationType === 'participating') {
+        return this.$t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
       }
       if (this.conversationType === 'unattended') {
         return this.$t('CHAT_LIST.UNATTENDED_HEADING');
@@ -835,10 +837,6 @@ export default {
   align-items: center;
 }
 
-.btn-filter {
-  margin: 0 var(--space-smaller);
-}
-
 .filter__applied {
   padding: 0 0 var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
@@ -846,5 +844,15 @@ export default {
 
 .delete-custom-view__button {
   margin-right: var(--space-normal);
+}
+
+.tab--chat-type {
+  padding: 0 var(--space-normal);
+
+  ::v-deep {
+    .tabs {
+      padding: 0;
+    }
+  }
 }
 </style>

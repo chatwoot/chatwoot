@@ -73,6 +73,10 @@ shared_examples_for 'assignment_handler' do
     end
     let(:assignment_mailer) { instance_double(AgentNotifications::ConversationNotificationsMailer, deliver: true) }
 
+    before do
+      create(:inbox_member, user: agent, inbox: conversation.inbox)
+    end
+
     it 'assigns the agent to conversation' do
       expect(update_assignee).to be(true)
       expect(conversation.reload.assignee).to eq(agent)
@@ -83,6 +87,10 @@ shared_examples_for 'assignment_handler' do
       # expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once).with('assignee.changed', anything, anything, anything, anything))
       expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once))
       expect(update_assignee).to be(true)
+    end
+
+    it 'adds assignee to conversation participants' do
+      expect { update_assignee }.to change { conversation.conversation_participants.count }.by(1)
     end
 
     context 'when agent is current user' do

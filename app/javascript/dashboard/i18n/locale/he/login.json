@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר",
       "UNAUTH": "שם משתמש / סיסמה שגויים. נסה שוב"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "שכחת את הסיסמה?",
     "CREATE_NEW_ACCOUNT": "צור חשבון",
     "SUBMIT": "התחבר"

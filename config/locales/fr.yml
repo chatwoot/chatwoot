@@ -45,7 +45,7 @@ fr:
       locale:
         unique: Doit être unique dans la catégorie et le portail
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Type de message invalide. Action non autorisée"
     inboxes:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
@@ -88,7 +88,7 @@ fr:
         agent_name: Nom de l'agent
         rating: Note
         feedback: Commentaire
-        recorded_at: Recorded date
+        recorded_at: Date d'enregistrement
   notifications:
     notification_title:
       conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
@@ -97,7 +97,7 @@ fr:
       conversation_mention: "Vous avez été mentionné dans la conversation [ID - %{display_id}] par %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} vous a mentionné dans l'histoire: "
+      instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
     activity:
@@ -131,6 +131,10 @@ fr:
         header:
           from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} from <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "Nouveaux messages dans cette conversation"
       transcript_subject: "Transcription de conversation"
     survey:
@@ -141,8 +145,8 @@ fr:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte est un outil qui vous aide à ajouter de l'audio et de la vidéo en direct à votre application avec seulement quelques lignes de code. Cette intégration vous permet de donner une option à vos agents de passer un appel vidéo ou vocal avec vos clients sans quitter Chatwoot."
+      meeting_name: "%{agent_name} a démarré une réunion"
     slack:
       name: "Slack"
       description: "Slack est un outil de chat qui regroupe toutes vos communications en un seul endroit. En intégrant Slack, vous pouvez être notifié de toutes les nouvelles conversations de votre compte directement dans votre Slack."
@@ -155,6 +159,9 @@ fr:
     fullcontact:
       name: "Fullcontact"
       description: "L'intégration FullContact permet d'enrichir les profils de visiteurs. Identifiez les utilisateurs dès qu'ils partagent leur adresse de courriel et offrez-leur un service client sur mesure. Connectez FullContact à votre compte en partageant la clé API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Rechercher un article par titre ou contenu...
@@ -163,3 +170,14 @@ fr:
       results_title: Résultats de recherche
     hero:
       sub_title: Recherchez les articles ici ou parcourez les catégories ci-dessous.
+    common:
+      home: Page d'accueil
+      last_updated_on: Dernière mise à jour le %{last_updated_on}
+      view_all_articles: Voir tous les articles
+      article: article
+      articles: articles
+      no_articles: Il n'y a pas d'articles ici
+    footer:
+      made_with: Réalisé avec
+    header:
+      go_to_homepage: Aller à la page d'accueil

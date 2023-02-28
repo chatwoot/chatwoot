@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Conversa Atualizada",
             "MESSAGE_CREATED": "Mensagem criada",
             "MESSAGE_UPDATED": "Mensagem atualizada",
-            "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário"
+            "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário",
+            "CONTACT_CREATED": "Contato criado",
+            "CONTACT_UPDATED": "Contato atualizado"
           }
         },
         "END_POINT": {
