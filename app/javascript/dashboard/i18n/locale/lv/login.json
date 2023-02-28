@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz",
       "UNAUTH": "Nepareizs lietotājvārds/parole. Lūdzu mēģiniet vēlreiz"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Pieslēgties, izmantojot Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Lai pieslēgtos, lūdzu, izmantojiet sava uzņēmuma e-pasta adresi",
+      "NO_ACCOUNT_FOUND": "Mēs nevarējām atrast Jūsu e-pasta adreses kontu."
+    },
     "FORGOT_PASSWORD": "Aizmirsāt savu paroli?",
     "CREATE_NEW_ACCOUNT": "Izveidot jaunu kontu",
     "SUBMIT": "Pierakstīties"
