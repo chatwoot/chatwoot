@@ -170,3 +170,14 @@ lv:
       results_title: Meklēšanas rezultāti
     hero:
       sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
+    common:
+      home: Sākums
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: raksti
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site
