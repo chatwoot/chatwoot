@@ -170,3 +170,14 @@ pt_BR:
       results_title: Resultados de pesquisa
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
+    common:
+      home: Principal
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: artigos
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site
