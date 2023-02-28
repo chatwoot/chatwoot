@@ -4,20 +4,20 @@ class InstallAudited < ActiveRecord::Migration[6.1]
   # rubocop:disable RMetrics/MethodLength
   def self.up
     create_table :audits, :force => true do |t|
-      t.column :auditable_id, :integer
-      t.column :auditable_type, :string
-      t.column :associated_id, :integer
-      t.column :associated_type, :string
-      t.column :user_id, :integer
-      t.column :user_type, :string
-      t.column :username, :string
-      t.column :action, :string
-      t.column :audited_changes, :jsonb
-      t.column :version, :integer, :default => 0
-      t.column :comment, :string
-      t.column :remote_address, :string
-      t.column :request_uuid, :string
-      t.datetime :created_at, :datetime
+      t.bigint :auditable_id
+      t.string :auditable_type
+      t.bigint :associated_id
+      t.string :associated_type
+      t.bigint :user_id
+      t.string :user_type
+      t.string :username
+      t.string :action
+      t.jsonb :audited_changes
+      t.integer :version, :integer, :default => 0
+      t.string :comment
+      t.string :remote_address
+      t.string :request_uuid
+      t.datetime :created_at
     end
     # rubocop:enable RMetrics/MethodLength
 
