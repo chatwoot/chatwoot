@@ -203,7 +203,6 @@ end
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
 
-
 gem 'audited', '~> 5.2'
 
 # need for google auth
