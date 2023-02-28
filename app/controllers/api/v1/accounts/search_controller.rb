@@ -4,7 +4,7 @@ class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
   end
 
   def conversations
-    @result = search('Coversation')
+    @result = search('Conversation')
   end
 
   def contacts
