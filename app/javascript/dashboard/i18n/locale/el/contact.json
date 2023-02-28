@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Αρχικοποίηση από",
     "INITIATED_AT": "Αρχικοποίηση τις",
     "IP_ADDRESS": "Διεύθυνση IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Νέο Μήνυμα",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Αριθμός Τηλεφώνου",
         "CONVERSATIONS": "Συζητήσεις",
         "LAST_ACTIVITY": "Τελευταία Δραστηριότητα",
+        "CREATED_AT": "Δημιουργήθηκε στις",
         "COUNTRY": "Χώρα",
         "CITY": "Πόλη",
         "SOCIAL_PROFILES": "Social Profiles",

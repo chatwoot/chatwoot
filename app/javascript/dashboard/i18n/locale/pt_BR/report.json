@@ -420,7 +420,7 @@
     "HEADER": "Visão geral",
     "LIVE": "Disponível",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Abrir Conversas",
+      "HEADER": "Conversas Abertas",
       "LOADING_MESSAGE": "Carregando métricas de conversa...",
       "OPEN": "Abertas",
       "UNATTENDED": "Não atendidas",

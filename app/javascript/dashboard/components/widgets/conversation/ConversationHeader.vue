@@ -24,16 +24,13 @@
             <inbox-name
               v-if="hasMultipleInboxes"
               :inbox="inbox"
-              class="margin-right-small"
+              class="margin-right-1"
             />
-            <span
-              v-if="isSnoozed"
-              class="snoozed--display-text margin-right-small"
-            >
+            <span v-if="isSnoozed" class="snoozed--display-text margin-right-1">
               {{ snoozedDisplayText }}
             </span>
             <woot-button
-              class="user--profile__button margin-right-small"
+              class="user--profile__button margin-right-1"
               size="small"
               variant="link"
               @click="$emit('contact-panel-toggle')"

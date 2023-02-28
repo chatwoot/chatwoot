@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Sækja",
     "UNKNOWN_FILE_TYPE": "Óþekkt skrá",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Hleður upp viðhengi...",
     "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
     "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "Netföng aðskilin með kommum",
           "ERROR": "Vinsamlegast sláðu inn gilt netfang"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Send",
+          "CANCEL": "Hætta við"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Einkaglósa: Aðeins sýnilegt þér og teymi þínu",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Afrita",
       "DELETE": "Eyða",
-      "CREATE_A_CANNED_RESPONSE": "Bæta við stöðluðu svari"
+      "CREATE_A_CANNED_RESPONSE": "Bæta við stöðluðu svari",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Engar niðurstöður fundust",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

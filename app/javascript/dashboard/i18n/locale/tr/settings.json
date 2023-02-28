@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında e-posta bildirimleri gönder",
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda e-posta bildirimleri gönderin",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir görüşmede yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönderin"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir görüşmede yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönderin",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda anlık bildirimler gönderin",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanan bir görüşmede yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
         "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "İndir",
-      "UPLOADING": "Yükleniyor ..."
+      "UPLOADING": "Yükleniyor ...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Konuşmalar",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Ayarlar",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "계정 생성",
+    "TRY_WOOT": "Create an account",
     "TITLE": "회원가입",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "회원가입 시, 당신은 우리의 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 및<a href=\"https://www.chatwoot.com/privacy-policy\">개인 정보 보호 정책</a>에 동의하게 됩니다.",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "등록 성공",
       "ERROR_MESSAGE": "Woot Server에 연결할 수 없음. 나중에 다시 시도하십시오."
     },
-    "SUBMIT": "보내기",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "이미 계정이 있습니까?"
   }
 }

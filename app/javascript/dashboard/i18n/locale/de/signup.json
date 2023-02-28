@@ -1,14 +1,17 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Einen Account registrieren",
+    "TRY_WOOT": "Konto erstellen",
     "TITLE": "Registrieren",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "Mit Ihrer Anmeldung stimmen Sie unseren <a href=\"https://www.chatwoot.com/terms\"> AGB </a> und <a href=\"https://www.chatwoot.com/privacy-policy\"> Datenschutzrichtlinie </a>",
+    "TESTIMONIAL_HEADER": "Alles, was er braucht, ist ein Schritt, um vorwärtszugehen",
+    "TESTIMONIAL_CONTENT": "Sie sind nur noch einen Schritt davon entfernt, Ihre Kunden zu gewinnen, zu binden und neue zu finden.",
+    "TERMS_ACCEPT": "Durch die Erstellung eines Kontos stimmen Sie unseren <a href=\"https://www.chatwoot.com/terms-of-service\">Allgemeinn Geschäftsbedingungen</a> und unserer <a href=\"https://www.chatwoot.com/privacy-policy\">Datenschutzrichtlinie</a> zu",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "Firmenname",
+      "PLACEHOLDER": "Geben Sie Ihren Firmennamen ein, z. B.: Wayne Enterprises",
+      "ERROR": "Firmenname ist zu kurz"
     },
     "FULL_NAME": {
       "LABEL": "Vollständiger Name",
@@ -18,7 +21,7 @@
     "EMAIL": {
       "LABEL": "Geschäftliche E-Mail-Adresse",
       "PLACEHOLDER": "Geben Sie Ihre geschäftliche E-Mail-Adresse ein, z. B.: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "ERROR": "Bitte geben Sie eine gültige Arbeits-E-Mail-Adresse ein"
     },
     "PASSWORD": {
       "LABEL": "Passwort",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registrierung erfolgreich",
       "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
     },
-    "SUBMIT": "Einreichen",
+    "SUBMIT": "Konto erstellen",
     "HAVE_AN_ACCOUNT": "Haben Sie bereits ein Konto?"
   }
 }

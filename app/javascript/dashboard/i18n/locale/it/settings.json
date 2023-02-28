@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Invia notifiche email quando viene assegnata una conversazione a me",
         "CONVERSATION_CREATION": "Invia notifiche email quando viene creata una nuova conversazione",
         "CONVERSATION_MENTION": "Invia notifiche email quando sei menzionato in una conversazione",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche email quando viene creato un nuovo messaggio in una conversazione assegnata"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche email quando viene creato un nuovo messaggio in una conversazione assegnata",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Le preferenze per le notifiche sono state aggiornate con successo",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Invia notifiche push quando una conversazione mi viene assegnata",
         "CONVERSATION_MENTION": "Invia notifiche push quando sei menzionato in una conversazione",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche push quando viene creato un nuovo messaggio in una conversazione assegnata",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Hai abilitato notifiche push per questo browser.",
         "REQUEST_PUSH": "Abilita notifiche push"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Scarica",
-      "UPLOADING": "Caricamento..."
+      "UPLOADING": "Caricamento...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Questa storia non è più disponibile."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Conversazioni",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
     "MENTIONED_CONVERSATIONS": "Menzioni",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Non partecipate",
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
@@ -238,6 +242,7 @@
       "DRAFT": "Bozza",
       "ARCHIVED": "Archiviato",
       "CATEGORY": "Categoria",
+      "SETTINGS": "Impostazioni",
       "CATEGORY_EMPTY_MESSAGE": "Nessuna categoria trovata"
     },
     "SET_AUTO_OFFLINE": {

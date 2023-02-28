@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
         "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知",
         "CONVERSATION_MENTION": "當你在對話中被提及時以 Email 通知",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以 Email 通知"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以 Email 通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知設定已成功更新",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "建立新對話時發送推送通知",
         "CONVERSATION_MENTION": "當你在對話中被提及時以推播通知",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以推播通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
         "REQUEST_PUSH": "啟用推送通知"
       },
@@ -162,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "複製",
-      "COPY_SUCCESSFUL": "代碼複製到剪貼簿成功"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下載",
-      "UPLOADING": "上傳中..."
+      "UPLOADING": "上傳中...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "會話",
     "ALL_CONVERSATIONS": "所有對話",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "報表",
     "SETTINGS": "設定",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "設定",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

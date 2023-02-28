@@ -27,7 +27,7 @@
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
-        :class="emojiDialogClassOnExpanedLayout"
+        :class="emojiDialogClassOnExpandedLayoutAndRTLView"
         :on-click="emojiOnClick"
       />
       <reply-email-head
@@ -179,6 +179,7 @@ import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -202,6 +203,7 @@ export default {
     uiSettingsMixin,
     alertMixin,
     messageFormatterMixin,
+    rtlMixin,
   ],
   props: {
     selectedTweet: {
@@ -422,10 +424,14 @@ export default {
       } = this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
-    emojiDialogClassOnExpanedLayout() {
-      return this.isOnExpandedLayout || this.popoutReplyBox
-        ? 'emoji-dialog--expanded'
-        : '';
+    emojiDialogClassOnExpandedLayoutAndRTLView() {
+      if (this.isOnExpandedLayout || this.popoutReplyBox) {
+        return 'emoji-dialog--expanded';
+      }
+      if (this.isRTLView) {
+        return 'emoji-dialog--rtl';
+      }
+      return '';
     },
     replyToUserLength() {
       const selectedTweet = this.selectedTweet || {};
@@ -701,17 +707,32 @@ export default {
         if (this.isSignatureEnabledForInbox && this.messageSignature) {
           newMessage += '\n\n' + this.messageSignature;
         }
-        const messagePayload = this.getMessagePayload(newMessage);
 
-        this.clearMessage();
+        const isOnWhatsApp =
+          this.isATwilioWhatsAppChannel ||
+          this.isAWhatsAppCloudChannel ||
+          this.is360DialogWhatsAppChannel;
+        if (isOnWhatsApp && !this.isPrivate) {
+          this.sendMessageAsMultipleMessages(newMessage);
+        } else {
+          const messagePayload = this.getMessagePayload(newMessage);
+          this.sendMessage(messagePayload);
+        }
+
         if (!this.isPrivate) {
           this.clearEmailField();
         }
-        this.sendMessage(messagePayload);
+
         this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
+    },
+    sendMessageAsMultipleMessages(message) {
+      const messages = this.getMessagePayloadForWhatsapp(message);
+      messages.forEach(messagePayload => {
+        this.sendMessage(messagePayload);
+      });
     },
     async onSendReply() {
       const undefinedVariables = getUndefinedVariablesInMessage({
@@ -951,6 +972,35 @@ export default {
         (item, index) => itemIndex !== index
       );
     },
+    getMessagePayloadForWhatsapp(message) {
+      const multipleMessagePayload = [];
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        let caption = message;
+        this.attachedFiles.forEach(attachment => {
+          const attachedFile = this.globalConfig.directUploadsEnabled
+            ? attachment.blobSignedId
+            : attachment.resource.file;
+          const attachmentPayload = {
+            conversationId: this.currentChat.id,
+            files: [attachedFile],
+            private: false,
+            message: caption,
+          };
+          multipleMessagePayload.push(attachmentPayload);
+          caption = '';
+        });
+      } else {
+        const messagePayload = {
+          conversationId: this.currentChat.id,
+          message,
+          private: false,
+        };
+        multipleMessagePayload.push(messagePayload);
+      }
+
+      return multipleMessagePayload;
+    },
     getMessagePayload(message) {
       const messagePayload = {
         conversationId: this.currentChat.id,
@@ -1054,7 +1104,7 @@ export default {
 
 .emoji-dialog {
   top: unset;
-  bottom: var(--space-normal);
+  bottom: -40px;
   left: -320px;
   right: unset;
 
@@ -1065,6 +1115,19 @@ export default {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
+
+.emoji-dialog--rtl {
+  left: unset;
+  right: -320px;
+  &::before {
+    left: var(--space-minus-normal);
+    transform: rotate(90deg);
+    right: 0;
+    bottom: var(--space-small);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
+}
+
 .emoji-dialog--expanded {
   left: unset;
   bottom: var(--space-jumbo);

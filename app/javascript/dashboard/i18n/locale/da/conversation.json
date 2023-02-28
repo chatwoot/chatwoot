@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Fjern Markering",
     "DOWNLOAD": "Download",
     "UNKNOWN_FILE_TYPE": "Ukendt Fil",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Uploader vedhæftede filer...",
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "E-mails adskilt af kommaer",
           "ERROR": "Indtast venligst gyldige e-mailadresser"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Send",
+          "CANCEL": "Annuller"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Kopiér",
       "DELETE": "Slet",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Emne"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Ingen resultater fundet",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

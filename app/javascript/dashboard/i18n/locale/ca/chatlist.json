@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Posposat"
+      },
+      "all": {
+        "TEXT": "Totes"
       }
     },
     "ATTACHMENTS": {

@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc trò chuyện được chỉ định cho tôi",
         "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo",
         "CONVERSATION_MENTION": "Gửi thông báo email khi bạn được nhắc đến trong 1 cuộc trò chuyện",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Tùy chọn thông báo của bạn đã được cập nhật thành công",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
         "CONVERSATION_MENTION": "Gửi thông báo đẩy khi bạn được nhắc đến trong 1 cuộc trò chuyện",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo đẩy khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
         "REQUEST_PUSH": "Bật thông báo"
       },
@@ -162,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Sao Chép",
-      "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Xem thêm",
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
-      "UPLOADING": "Đang tải lên..."
+      "UPLOADING": "Đang tải lên...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Hội thoại này không còn nữa."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Xem trên bản đồ"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Cuộc trò chuyện",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Không giám sát",
     "REPORTS": "Báo cáo",
     "SETTINGS": "Cài Đặt",
@@ -238,6 +242,7 @@
       "DRAFT": "Nháp",
       "ARCHIVED": "Lưu trữ",
       "CATEGORY": "Loại",
+      "SETTINGS": "Cài đặt",
       "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
     },
     "SET_AUTO_OFFLINE": {

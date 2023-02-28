@@ -82,6 +82,7 @@
       "conversation_creation": "Yeni görüşme",
       "conversation_assignment": "Atanan görüşme",
       "assigned_conversation_new_message": "Yeni Mesaj",
+      "participating_conversation_new_message": "Yeni Mesaj",
       "conversation_mention": "Bahset"
     }
   },

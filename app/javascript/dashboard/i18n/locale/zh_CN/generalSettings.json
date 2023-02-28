@@ -82,6 +82,7 @@
       "conversation_creation": "新建对话",
       "conversation_assignment": "对话已分配",
       "assigned_conversation_new_message": "新消息",
+      "participating_conversation_new_message": "新消息",
       "conversation_mention": "提及"
     }
   },

@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
     "UNKNOWN_FILE_TYPE": "Unknown File",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "使用半型逗號分隔 Email",
           "ERROR": "請輸入有效的電子信箱"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "發送",
+          "CANCEL": "取消"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "複製",
       "DELETE": "刪除",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "密件副本",
     "CC": "副本",
     "SUBJECT": "主旨"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "No results found",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

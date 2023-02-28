@@ -82,6 +82,7 @@
       "conversation_creation": "Hội thoại mới mới",
       "conversation_assignment": "Hội thoại đã được phân công",
       "assigned_conversation_new_message": "Tin nhắn mới",
+      "participating_conversation_new_message": "Tin nhắn mới",
       "conversation_mention": "Nhắc đến"
     }
   },

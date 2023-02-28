@@ -9,7 +9,6 @@
     .integration--image {
       display: flex;
       height: 10rem;
-      margin-right: $space-normal;
       width: 10rem;
 
       img {
@@ -18,12 +17,15 @@
       }
     }
 
-    .integration--title {
-      font-size: $font-size-large;
+    .integration--type {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 var(--space-normal);
     }
 
-    .integration--description {
-      padding-right: $space-medium;
+    .integration--title {
+      font-size: var(--font-size-large);
     }
 
     .button-wrap {

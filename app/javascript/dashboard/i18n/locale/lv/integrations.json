@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Saruna Atjaunināta",
             "MESSAGE_CREATED": "Ziņojums izveidots",
             "MESSAGE_UPDATED": "Ziņojums atjaunināts",
-            "WEBWIDGET_TRIGGERED": "Lietotājs atvēra tiešsaistes tērzēšanas logrīku"
+            "WEBWIDGET_TRIGGERED": "Lietotājs atvēra tiešsaistes tērzēšanas logrīku",
+            "CONTACT_CREATED": "Kontaktpersona izveidota",
+            "CONTACT_UPDATED": "Kontaktpersona atjaunināta"
           }
         },
         "END_POINT": {

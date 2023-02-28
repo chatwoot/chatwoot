@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Wysyłaj powiadomienia e-mail, gdy konwersacja jest przypisana do mnie",
         "CONVERSATION_CREATION": "Wysyłaj powiadomienia e-mail po utworzeniu nowej rozmowy",
         "CONVERSATION_MENTION": "Wysyłaj powiadomienia e-mail, gdy zostaniesz wymieniony w rozmowie",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy nowa wiadomość zostanie utworzona w przypisanej konwersacji"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy nowa wiadomość zostanie utworzona w przypisanej konwersacji",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Twoje preferencje powiadomień zostały pomyślnie zaktualizowane",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Wysyłaj powiadomienia push po utworzeniu nowej rozmowy",
         "CONVERSATION_MENTION": "Wyślij powiadomienia, gdy jesteś wymieniony w konwersacji",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia push, gdy nowa wiadomość zostanie utworzona w przypisanej konwersacji",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Włączyłeś opcję push dla tej przeglądarki.",
         "REQUEST_PUSH": "Włącz powiadomienia push"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Pobierz",
-      "UPLOADING": "Przesyłanie..."
+      "UPLOADING": "Przesyłanie...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Rozmowy",
     "ALL_CONVERSATIONS": "Rozmowy",
     "MENTIONED_CONVERSATIONS": "Wzmianki",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Raporty",
     "SETTINGS": "Ustawienia",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Ustawienia",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

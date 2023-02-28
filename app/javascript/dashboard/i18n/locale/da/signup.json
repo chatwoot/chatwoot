@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registrer en konto",
+    "TRY_WOOT": "Create an account",
     "TITLE": "Registrer",
     "TESTIMONIAL_HEADER": "Alt, hvad der skal til, er blot et skridt for at komme videre",
     "TESTIMONIAL_CONTENT": "Du er et skridt fra at engagere dine kunder, fastholde dem og finde nye kunder.",
-    "TERMS_ACCEPT": "Ved at tilmelde dig, accepterer du vores <a href=\"https://www.chatwoot.com/terms\">T & C</a> og <a href=\"https://www.chatwoot.com/privacy-policy\">Privatlivspolitik</a>",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Firmanavn",
       "PLACEHOLDER": "Indtast dit firmanavn, fx: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registrering Succesfuld",
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     },
-    "SUBMIT": "Send",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Har du allerede en konto?"
   }
 }

@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "ثبت‌نام حساب‌کاربری",
+    "TRY_WOOT": "ایجاد حساب کاربری",
     "TITLE": "ثبت نام",
     "TESTIMONIAL_HEADER": "تنها چیزی که لازم است یک قدم برای حرکت به جلو است",
     "TESTIMONIAL_CONTENT": "شما یک قدم تا جذب مشتریان خود، حفظ آنها و یافتن مشتریان جدید فاصله دارید.",
-    "TERMS_ACCEPT": "با ثبت نام، اعلام می‌دارید که <a href=\"https://www.chatwoot.com/terms\">قوانین</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">شرایط استفاده</a> از این نرم افزار را تایید کرده و می‌پذیرید",
+    "TERMS_ACCEPT": "با ایجاد یک حساب کاربری، با <a href=\"https://www.chatwoot.com/terms\">T & C</a> و <a href=\"https://www.chatwoot.com/ ما موافقت می کنید privacy-policy\">خط مشی رازداری</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "با گوگل ثبت نام کنید"
+    },
     "COMPANY_NAME": {
       "LABEL": "نام شرکت",
       "PLACEHOLDER": "نام شرکت خود را وارد کنید. به عنوان مثال: شرکت وین",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد",
       "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
     },
-    "SUBMIT": "ثبت",
+    "SUBMIT": "ایجاد حساب کاربری",
     "HAVE_AN_ACCOUNT": "از قبل حساب‌کاربری دارید؟"
   }
 }

@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "E-mailberichten verzenden wanneer een gesprek aan mij is toegewezen",
         "CONVERSATION_CREATION": "E-mailberichten verzenden wanneer een nieuw gesprek is gemaakt",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Uw notificatie-instellingen zijn succesvol bijgewerkt",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Stuur pushberichten wanneer een nieuw gesprek is aangemaakt",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Je hebt pushberichten voor deze browser ingeschakeld.",
         "REQUEST_PUSH": "Pushberichten inschakelen"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Downloaden",
-      "UPLOADING": "Uploaden..."
+      "UPLOADING": "Uploaden...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Dit verhaal is niet meer beschikbaar."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Gesprekken",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Vermeldingen",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapporten",
     "SETTINGS": "Instellingen",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Categorie",
+      "SETTINGS": "Instellingen",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

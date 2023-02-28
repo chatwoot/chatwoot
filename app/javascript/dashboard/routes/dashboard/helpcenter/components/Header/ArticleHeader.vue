@@ -2,8 +2,10 @@
   <div class="header--wrap">
     <div class="header-left--wrap">
       <woot-sidemenu-icon />
-      <h3 class="page-title">{{ headerTitle }}</h3>
-      <span class="text-block-title count-view">{{ `(${count})` }}</span>
+      <div class="header-title">
+        <h3 class="page-title">{{ headerTitle }}</h3>
+        <span class="text-block-title count-view">{{ `(${count})` }}</span>
+      </div>
     </div>
     <div class="header-right--wrap">
       <woot-button
@@ -160,8 +162,13 @@ export default {
   display: flex;
   align-items: center;
 
-  .page-title {
-    margin-bottom: 0;
+  .header-title {
+    display: flex;
+    align-items: center;
+    margin: 0 var(--space-small);
+    .page-title {
+      margin-bottom: 0;
+    }
   }
 }
 .header-right--wrap {
@@ -169,7 +176,7 @@ export default {
   align-items: center;
 }
 .count-view {
-  margin-left: var(--space-smaller);
+  margin: 0 var(--space-smaller);
 }
 .dropdown-pane--open {
   top: var(--space-larger);

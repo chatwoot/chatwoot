@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
+    "TRY_WOOT": "Create an account",
     "TITLE": "Register",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registration Successfull",
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
-    "SUBMIT": "बुझाउनुहोस्",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

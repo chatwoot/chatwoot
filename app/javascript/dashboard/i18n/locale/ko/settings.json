@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "대화가 할당될 때 이메일 알림 보내기",
         "CONVERSATION_CREATION": "새 대화가 생성될 때 이메일 알림 보내기",
         "CONVERSATION_MENTION": "대화에서 멘션될 때 이메일 알림 보내기",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 이메일 알림 보내기"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 이메일 알림 보내기",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "알림 기본 설정이 성공적으로 업데이트됨",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "새 대화가 만들어질 때 푸시 알림 보내기",
         "CONVERSATION_MENTION": "대화에서 멘션될 때 푸시 알림 보내기",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 푸시 알림 보내기",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "이 브라우저에 대한 푸시를 사용 가능으로 설정하셨습니다.",
         "REQUEST_PUSH": "푸시 알림 사용"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "다운로드",
-      "UPLOADING": "업로드 중..."
+      "UPLOADING": "업로드 중...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "대화",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "멘션",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "보고서",
     "SETTINGS": "설정",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "설정",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

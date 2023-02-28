@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Lähetä sähköposti-ilmoitus, kun keskustelu on määritetty minulle",
         "CONVERSATION_CREATION": "Lähetä sähköposti-ilmoitus, kun keskustelu on määritetty minulle",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Lähetä sähköposti-ilmoitus, kun uusi viesti saapuu minulle osoitettuun keskusteluun"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Lähetä sähköposti-ilmoitus, kun uusi viesti saapuu minulle osoitettuun keskusteluun",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Ilmoitusasetuksesi päivitetään onnistuneesti",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Lähetä push-ilmoitus, kun keskustelu on määritetty minulle",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Lähetä push-ilmoitus, kun uusi viesti saapuu minulle osoitettuun keskusteluun",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Tämän selaimen push-ilmoitukset on otettu käyttöön.",
         "REQUEST_PUSH": "Ota push-ilmoitukset käyttöön"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Lataa",
-      "UPLOADING": "Lähetetään..."
+      "UPLOADING": "Lähetetään...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Keskustelut",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Raportit",
     "SETTINGS": "Asetukset",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Asetukset",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

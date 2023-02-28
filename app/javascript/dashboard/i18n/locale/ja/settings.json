@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにメールで通知を送信する",
         "CONVERSATION_CREATION": "新しい会話が作成されたときにメールで通知を送信する",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにメールで通知を送信します"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにメールで通知を送信します",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "通知設定が正常に更新されました",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "新しい会話が作成されたときにプッシュ通知を送信する",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにプッシュ通知を送信する",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "このブラウザーでプッシュ通知を有効にしました。",
         "REQUEST_PUSH": "プッシュ通知を有効にする"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ダウンロード",
-      "UPLOADING": "アップロード中..."
+      "UPLOADING": "アップロード中...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "会話データ",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "レポート",
     "SETTINGS": "設定",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "設定",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {
