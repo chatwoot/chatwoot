@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw",
       "UNAUTH": "Gebruikersnaam/wachtwoord onjuist. Probeer het opnieuw\n"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Wachtwoord vergeten?",
     "CREATE_NEW_ACCOUNT": "Nieuw account aanmaken",
     "SUBMIT": "Inloggen"

@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。",
       "UNAUTH": "ユーザー名/パスワードが正しくありません。もう一度やり直してください"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "パスワードをお忘れですか?",
     "CREATE_NEW_ACCOUNT": "新しいアカウントを作成",
     "SUBMIT": "ログイン"

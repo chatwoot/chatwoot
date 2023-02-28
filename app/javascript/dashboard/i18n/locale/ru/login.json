@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже",
       "UNAUTH": "Неверное имя пользователя / пароль. Пожалуйста, попробуйте еще раз"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Забыли пароль?",
     "CREATE_NEW_ACCOUNT": "Создать новый аккаунт",
     "SUBMIT": "Вход"

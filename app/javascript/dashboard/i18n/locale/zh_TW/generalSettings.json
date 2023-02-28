@@ -82,6 +82,7 @@
       "conversation_creation": "新對話",
       "conversation_assignment": "對話已被指派",
       "assigned_conversation_new_message": "新訊息",
+      "participating_conversation_new_message": "新訊息",
       "conversation_mention": "被提及"
     }
   },
