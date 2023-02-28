@@ -6,7 +6,7 @@
 				class="text-slate-800 hover:underline leading-8"
         href="/hc/<%= @portal.slug %>/<%= @category.present? ? @category.slug : '' %>"
 			>
-				<%= @portal.name %> Home
+				<%= @portal.name %> <%= I18n.t('public_portal.common.home') %>
 			</a>
 		<span>/</span>
 		<span>/</span>

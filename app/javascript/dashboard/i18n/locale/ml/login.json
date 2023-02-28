@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റു ചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക",
       "UNAUTH": "ഉപയോക്തൃനാമം / പാസ്‌വേഡ് തെറ്റാണ്. ദയവായി വീണ്ടും ശ്രമിക്കുക"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "നിങ്ങളുടെ പാസ്‌വേഡ് മറന്നോ?",
     "CREATE_NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട് സൃഷ്ടിക്കുക",
     "SUBMIT": "സൈൻ ഇൻ"

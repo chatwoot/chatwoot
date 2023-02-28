@@ -82,6 +82,7 @@
       "conversation_creation": "새 대화",
       "conversation_assignment": "대화 할당됨",
       "assigned_conversation_new_message": "새 메시지",
+      "participating_conversation_new_message": "새 메시지",
       "conversation_mention": "멘션"
     }
   },

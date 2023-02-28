@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்",
       "UNAUTH": "பயனர்பெயர் / பாஸ்வேர்டு தவறானது. தயவு செய்து மீண்டும் முயற்சிக்கவும்"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "உங்கள் பாஸ்வேர்ட்டை மறந்துவிட்டதா?",
     "CREATE_NEW_ACCOUNT": "புதிய கணக்கை உருவாக்க",
     "SUBMIT": "உள்நுழையவும்"

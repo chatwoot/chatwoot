@@ -82,6 +82,7 @@
       "conversation_creation": "Новая беседа",
       "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
+      "participating_conversation_new_message": "Новое сообщение",
       "conversation_mention": "Упоминание"
     }
   },

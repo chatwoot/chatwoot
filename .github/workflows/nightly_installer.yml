@@ -44,3 +44,9 @@ jobs:
         #        sudo systemctl restart chatwoot.target
         #        curl http://localhost:3000/api
 
+    - name: Upload chatwoot setup log file as an artifact
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: chatwoot-setup-log-file
+        path: /var/log/chatwoot-setup.log

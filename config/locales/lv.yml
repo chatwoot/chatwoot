@@ -131,6 +131,10 @@ lv:
         header:
           from_with_name: '%{assignee_name} no %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} no %{inbox_name} <reply+%{reply_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} no <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "Jauni ziņojumi šajā sarunā"
       transcript_subject: "Sarunas Transkripts"
     survey:
@@ -155,6 +159,9 @@ lv:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."
+    google_translate:
+      name: "Google Tulkotājs"
+      description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
@@ -163,3 +170,14 @@ lv:
       results_title: Meklēšanas rezultāti
     hero:
       sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
+    common:
+      home: Sākums
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: raksti
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site
