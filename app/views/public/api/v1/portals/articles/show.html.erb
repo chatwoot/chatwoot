@@ -18,7 +18,7 @@
         class="text-slate-700 hover:underline leading-8 text-sm font-medium"
         href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
       >
-        Home
+        <%= I18n.t('public_portal.common.home') %>
       </a>
       <span class="text-xs text-slate-600 px-1">/</span>
       <a
@@ -39,7 +39,7 @@
         <div class="pl-1">
           <h5 class="text-base font-medium text-slate-900 mb-2"><%= @article.author.available_name %></h5>
           <p class="text-sm font-normal text-slate-700">
-            Last updated on <%= @article.updated_at.strftime("%b %d, %Y") %></p>
+          <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: @article.updated_at.strftime("%b %d, %Y")) %>
         </div>
       </div>
     </div>
