@@ -28,6 +28,17 @@
       "SAVING": "Notiek saglabāšana...",
       "SAVED": "Saglabāts"
     },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Augšupielādēt attēlu",
+        "UPLOADING": "Notiek Augšupielāde...",
+        "SUCCESS": "Attēls ir veiksmīgi augšupielādēts",
+        "ERROR": "Augšupielādējot attēlu, radās kļūda",
+        "ERROR_FILE_SIZE": "Attēla izmēram ir jābūt mazākam par {size}MB",
+        "ERROR_FILE_FORMAT": "Attēla formātam ir jābūt jpg, jpeg vai png",
+        "ERROR_FILE_DIMENSIONS": "Attēla izmēram ir jābūt mazākam par 2000 x 2000"
+      }
+    },
     "ARTICLE_SETTINGS": {
       "TITLE": "Raksta iestatījumi",
       "FORM": {

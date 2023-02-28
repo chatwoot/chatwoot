@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오.",
       "UNAUTH": "사용자 이름/암호가 잘못됨. 다시 시도하십시오."
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "암호를 잊으셨나요?",
     "CREATE_NEW_ACCOUNT": "계정 생성",
     "SUBMIT": "로그인"
