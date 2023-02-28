@@ -8,7 +8,7 @@
       <% if @portal.homepage_link %>
       <div class="ml-8 border-l-1 border-slate-50 hidden md:block">
         <div class="flex-grow flex-shrink-0">
-          <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center text-sm font-medium text-slate-700 hover:text-slate-800 hover:underline"> Go to main site
+          <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center text-sm font-medium text-slate-700 hover:text-slate-800 hover:underline"> <%= I18n.t('public_portal.header.go_to_homepage') %>
             <span class="ml-2">
               <svg class="w-4 h-4 fill-current text-slate-600" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.267 4.209a.75.75 0 0 0-1.034 1.086l6.251 5.955H3.75a.75.75 0 0 0 0 1.5h14.734l-6.251 5.954a.75.75 0 0 0 1.034 1.087l7.42-7.067a.996.996 0 0 0 .3-.58.758.758 0 0 0-.001-.29.995.995 0 0 0-.3-.578l-7.419-7.067Z" /></svg>
             </span>

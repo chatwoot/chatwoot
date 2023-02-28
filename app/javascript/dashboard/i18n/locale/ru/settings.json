@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять уведомления при упоминании в разговоре",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"
       },
@@ -192,6 +194,7 @@
     "CONVERSATIONS": "Диалоги",
     "ALL_CONVERSATIONS": "Диалоги",
     "MENTIONED_CONVERSATIONS": "Упоминания",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Несвязанные",
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
@@ -239,6 +242,7 @@
       "DRAFT": "Черновик",
       "ARCHIVED": "Архив",
       "CATEGORY": "Категория",
+      "SETTINGS": "Настройки",
       "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
     },
     "SET_AUTO_OFFLINE": {

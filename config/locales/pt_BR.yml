@@ -131,6 +131,10 @@ pt_BR:
         header:
           from_with_name: '%{assignee_name} de %{inbox_name} <reply+%{from_email}>'
           reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} do <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
     survey:
@@ -155,6 +159,9 @@ pt_BR:
     fullcontact:
       name: "Contato completo"
       description: "A integração de contatos completos ajuda a enriquecer perfis de visitantes. Identifique os usuários assim que eles compartilham seu endereço de e-mail e ofereça um atendimento ao cliente personalizado. Conecte seu FullContact à sua conta compartilhando a chave de API de Contato Fullcot."
+    google_translate:
+      name: "Tradutor do Google"
+      description: "Torne isso mais fácil para agentes traduzirem mensagens adicionando uma integração com o Tradutor do Google. O Tradutor do Google ajuda a identificar automaticamente o idioma e convertê-lo para o idioma escolhido pelo administrador de conta/agente."
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
@@ -163,3 +170,14 @@ pt_BR:
       results_title: Resultados de pesquisa
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
+    common:
+      home: Principal
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: artigos
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

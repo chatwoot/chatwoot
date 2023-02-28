@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu",
       "UNAUTH": "Nume utilizator / parolă incorectă. Vă rugăm să încercaţi din nou"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Ai uitat parola?",
     "CREATE_NEW_ACCOUNT": "Creează un cont nou",
     "SUBMIT": "Conectează-te"
