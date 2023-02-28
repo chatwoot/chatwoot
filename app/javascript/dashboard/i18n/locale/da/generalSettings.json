@@ -82,6 +82,7 @@
       "conversation_creation": "Ny samtale",
       "conversation_assignment": "Samtale Tildelt",
       "assigned_conversation_new_message": "Ny Besked",
+      "participating_conversation_new_message": "Ny Besked",
       "conversation_mention": "Omtale"
     }
   },

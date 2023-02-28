@@ -82,6 +82,7 @@
       "conversation_creation": "Nýtt samtal",
       "conversation_assignment": "Samtali úthlutað",
       "assigned_conversation_new_message": "Nýtt skilaboð",
+      "participating_conversation_new_message": "Nýtt skilaboð",
       "conversation_mention": "Nefna"
     }
   },

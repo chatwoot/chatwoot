@@ -82,6 +82,7 @@
       "conversation_creation": "Ny konversation",
       "conversation_assignment": "Konversationen tilldelad",
       "assigned_conversation_new_message": "Nytt meddelande",
+      "participating_conversation_new_message": "Nytt meddelande",
       "conversation_mention": "Omnämning"
     }
   },

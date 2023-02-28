@@ -165,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
       "DELETE": "Dzēst",
-      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm"
+      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm",
+      "TRANSLATE": "Tulkot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -253,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Tēma"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Piedalās",
+    "SIDEBAR_TITLE": "Sarunas dalībnieki",
+    "NO_RECORDS_FOUND": "Nav atrasts",
+    "ADD_PARTICIPANTS": "Izvēlieties dalībniekus",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} citi",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} cits",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} cilvēki piedalās.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} persona piedalās.",
+    "NO_PARTICIPANTS_TEXT": "Neviens nepiedalās!",
+    "WATCH_CONVERSATION": "Pievienoties sarunai",
+    "YOU_ARE_WATCHING": "Jūs piedalāties",
+    "API": {
+      "ERROR_MESSAGE": "Nevarēja atjaunināt, mēģiniet vēlreiz!",
+      "SUCCESS_MESSAGE": "Dalībnieki atjaunināti!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "Skatīt tulkoto saturu",
+    "DESC": "Jūs varat skatīt tulkoto saturu katrā valodā.",
+    "ORIGINAL_CONTENT": "Oriģinālais Saturs",
+    "TRANSLATED_CONTENT": "Tulkotais Saturs",
+    "NO_TRANSLATIONS_AVAILABLE": "Šim saturam nav pieejami tulkojumi"
   }
 }
