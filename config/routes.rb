@@ -96,6 +96,14 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :search, only: [:index] do
+            collection do
+              get :conversations
+              get :messages
+              get :contacts
+            end
+          end
+
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
