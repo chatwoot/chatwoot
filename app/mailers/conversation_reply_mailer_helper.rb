@@ -72,7 +72,7 @@ module ConversationReplyMailerHelper
   end
 
   def email_from
-    email_microsoft_auth_enabled || email_smtp_enabled ? @channel.email : from_email_with_name
+    email_microsoft_auth_enabled || email_smtp_enabled ? channel_email_with_name : from_email_with_name
   end
 
   def email_reply_to

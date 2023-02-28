@@ -5,6 +5,9 @@
     "TESTIMONIAL_HEADER": "Il suffit d'une étape pour avancer",
     "TESTIMONIAL_CONTENT": "Vous n'êtes plus qu'à un pas d'engager vos clients, de les fidéliser et d'en trouver de nouveaux.",
     "TERMS_ACCEPT": "En créant un compte, vous acceptez nos <a href=\"https://www.chatwoot.com/terms\">CGU</a> et notre <a href=\"https://www.chatwoot.com/privacy-policy\">Politique de confidentialité</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Nom de la société",
       "PLACEHOLDER": "Entrez le nom de votre entreprise. Ex : Wayne Enterprises",

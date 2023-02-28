@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később",
       "UNAUTH": "A felhasználó / jelszó helytelen. Kérjük próbálja újra"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Elfelejtetted a jelszavad?",
     "CREATE_NEW_ACCOUNT": "Új fiók létrehozása",
     "SUBMIT": "Bejelentkezés"

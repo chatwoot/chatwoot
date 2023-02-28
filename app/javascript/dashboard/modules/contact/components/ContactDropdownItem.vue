@@ -70,6 +70,7 @@ export default {
   flex-direction: column;
   flex-grow: 1;
   margin-left: var(--space-small);
+  margin-right: var(--space-small);
 }
 .option__body,
 .option__title {
@@ -91,10 +92,6 @@ export default {
 .option__body {
   font-size: var(--font-size-mini);
   color: var(--s-700);
-}
-
-.email-icon-wrap {
-  margin-right: var(--space-normal);
 }
 
 .option__user-data .option__body {
