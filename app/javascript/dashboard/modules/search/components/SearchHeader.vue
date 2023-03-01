@@ -25,18 +25,18 @@ export default {
   },
   mounted() {
     this.$refs.searchInput.focus();
-    this.handler = e => {
-      if (e.key === '/') {
-        e.preventDefault();
-        this.$refs.searchInput.focus();
-      }
-    };
     document.addEventListener('keydown', this.handler);
   },
   beforeDestroy() {
     window.removeEventListener('keydown', this.handler);
   },
   methods: {
+    handler(e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        this.$refs.searchInput.focus();
+      }
+    },
     debounceSearch(e) {
       this.searchQuery = e.target.value;
       clearTimeout(this.debounce);
