@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="navigateTo" class="contact-item">
+  <router-link :to="navigateTo" class="conversation-item">
     <div class="icon-wrap">
       <fluent-icon icon="chat-multiple" :size="14" />
     </div>
@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     navigateTo() {
-      return frontendURL(`accounts/${this.accountId}/contacts/${this.id}`);
+      return frontendURL(`accounts/${this.accountId}/conversations/${this.id}`);
     },
     createdAtTime() {
       return this.dynamicTime(this.createdAt);
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.contact-item {
+.conversation-item {
   cursor: pointer;
   display: flex;
   padding: var(--space-small);
