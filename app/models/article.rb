@@ -59,6 +59,7 @@ class Article < ApplicationRecord
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
   scope :search_by_author, ->(author_id) { where(author_id: author_id) if author_id.present? }
   scope :search_by_status, ->(status) { where(status: status) if status.present? }
+  scope :order_by_updated_at, -> { reorder(updated_at: :desc) }
 
   # TODO: if text search slows down https://www.postgresql.org/docs/current/textsearch-features.html#TEXTSEARCH-UPDATE-TRIGGERS
   pg_search_scope(
@@ -103,6 +104,12 @@ class Article < ApplicationRecord
 
   def draft!
     update(status: :draft)
+  end
+
+  def increment_view_count
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:views, views? ? views + 1 : 1)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   private

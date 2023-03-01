@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Trimite notificări prin e-mail atunci când o conversație îmi este atribuită",
         "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
         "CONVERSATION_MENTION": "Trimiterea notificărilor prin e-mail atunci când sunteți menționat într-o conversație",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor prin e-mail atunci când se creează un mesaj nou într-o conversație atribuită"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor prin e-mail atunci când se creează un mesaj nou într-o conversație atribuită",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Trimite notificări push atunci când o conversație nouă este creată",
         "CONVERSATION_MENTION": "Trimiterea notificărilor push atunci când sunteți menționat într-o conversație",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor push atunci când se creează un mesaj nou într-o conversație atribuită",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Ați activat apăsarea pentru acest browser.",
         "REQUEST_PUSH": "Activează notificările push"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descărcare",
-      "UPLOADING": "Încărcare..."
+      "UPLOADING": "Încărcare...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Această poveste nu mai este disponibilă."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Conversații",
     "ALL_CONVERSATIONS": "Toate conversațiile",
     "MENTIONED_CONVERSATIONS": "Menţionări",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Setări",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

@@ -1,41 +1,41 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "אוטומציות",
+    "HEADER_BTN_TXT": "הוספת אוטומציה",
+    "LOADING": "חיבור אוטומציות",
+    "SIDEBAR_TXT": "<p><b>אוטומציות</b> <p>האוטומציות יכולות להחליף פעולות שאתם עושים בדרך כלל בצורה ידנית. ניתן לעשות שלל דברים עם אוטומציה לדוגמא הוספת תויית ושיוך שיחה לסוכן בהתאם לחוקים מוגדרים מראש. זה יאפשר לצוות שלכם להתמקד בדברים החשובים באמת ולתת למערכת לעשות פעולות אוטומיות.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "הוספת אוטומציה",
       "SUBMIT": "צור",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "שם",
+          "PLACEHOLDER": "הכנס שם לאוטומציה",
           "ERROR": "שם שדה חובה"
         },
         "DESC": {
           "LABEL": "תיאור",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "הכנס תיאור",
           "ERROR": "נדרש תיאור"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "אירוע",
           "PLACEHOLDER": "בבקשה תבחר אחד",
-          "ERROR": "Event is required"
+          "ERROR": "אירוע נדרש"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "תנאים"
         },
         "ACTIONS": {
           "LABEL": "פעולות"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "הוסף תנאי",
+      "ACTION_BUTTON_LABEL": "הוסף פעולה",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "אוטומציה התווספה בהצלחה",
+        "ERROR_MESSAGE": "הוספת אוטומציה נכשלה, נסה שנית מאוחר יותר"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "שם",
         "תיאור",
         "פעיל",
-        "Created on"
+        "נוצר ב"
       ],
-      "404": "No automation rules found"
+      "404": "לא נמצאו אוטומציות"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "מחק אוטומציה",
       "SUBMIT": "מחק",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "לא, השאר "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "אוטומציה נמחקה בהצלחה",
+        "ERROR_MESSAGE": "מחיקת האוטומציה נכשלה, נסה שנית מאוחר יותר"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "ערוך אוטומציה",
       "SUBMIT": "עדכן",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "אוטומציה התעדכנה בהצלחה",
+        "ERROR_MESSAGE": "עדכון אוטומציה נכשל, נסה שנית מאוחר יותר"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "שכפל",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "אוטומציה שוכפלה בהצלחה",
+        "ERROR_MESSAGE": "שכפול אוטומציה נכשל, נסה שנית מאוחר יותר"
       }
     },
     "FORM": {
@@ -83,36 +83,36 @@
       "CREATE": "צור",
       "DELETE": "מחק",
       "CANCEL": "ביטול",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "שינוי סוג אירוע יאפס את התנאים והפעולות שהוגדרו"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "DELETE_MESSAGE": "נדרש לפחות תנאי אחד",
+      "CONTACT_CUSTOM_ATTR_LABEL": "שדה מותאם של איש קשר",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "שדה מותאם של שיחה"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "נדרשת פעולה אחת לפחות",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס כאן את ההודעה",
+      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "הפעל אוטומציה",
+      "DEACTIVATION_TITLE": "השהה אוטומציה",
+      "ACTIVATION_DESCRIPTION": "פעולה זו תפעיל את האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "DEACTIVATION_DESCRIPTION": "פעולה זו תשהה את האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "ACTIVATION_SUCCESFUL": "אוטומציה הופעלה בהצלחה",
+      "DEACTIVATION_SUCCESFUL": "אוטומציה הושהתה בהצלחה",
+      "ACTIVATION_ERROR": "הפעלת אוטומציה נכשלה, נסה שנית מאוחר יותר",
+      "DEACTIVATION_ERROR": "השהיית אוטומציה נכשלה, נסה שנית מאוחר יותר",
       "CONFIRMATION_LABEL": "כן",
       "CANCEL_LABEL": "לא"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "העלאת קובץ נכשלה, נסה שנית",
+      "LABEL_IDLE": "העלה קובץ",
       "LABEL_UPLOADING": "מעלה...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "קובץ הועלה בהצלחה",
+      "LABEL_UPLOAD_FAILED": "העלאה נכשלה"
     }
   }
 }

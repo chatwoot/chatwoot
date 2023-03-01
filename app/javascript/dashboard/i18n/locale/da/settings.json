@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Send e-mail notifikationer når en samtale er tildelt mig",
         "CONVERSATION_CREATION": "Send e-mail notifikationer når en ny samtale er oprettet",
         "CONVERSATION_MENTION": "Send e-mail notifikationer, når du er nævnt i en samtale",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-mail notifikationer når en ny besked er oprettet i en tildelt samtale"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-mail notifikationer når en ny besked er oprettet i en tildelt samtale",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Dine notifikationsindstillinger er opdateret",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Send push-notifikationer, når en ny samtale er oprettet",
         "CONVERSATION_MENTION": "Send push-notifikationer, når du er nævnt i en samtale",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-notifikationer, når en ny besked oprettes i en tildelt samtale",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Du har aktiveret push for denne browser.",
         "REQUEST_PUSH": "Aktivér push-notifikationer"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
-      "UPLOADING": "Uploader..."
+      "UPLOADING": "Uploader...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Denne historie er ikke længere tilgængelig."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Se på kort"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Samtaler",
     "ALL_CONVERSATIONS": "Alle Samtaler",
     "MENTIONED_CONVERSATIONS": "Omtaler",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattet",
     "REPORTS": "Rapporter",
     "SETTINGS": "Indstillinger",
@@ -238,6 +242,7 @@
       "DRAFT": "Kladde",
       "ARCHIVED": "Arkiveret",
       "CATEGORY": "Kategori",
+      "SETTINGS": "Indstillinger",
       "CATEGORY_EMPTY_MESSAGE": "Ingen kategorier fundet"
     },
     "SET_AUTO_OFFLINE": {

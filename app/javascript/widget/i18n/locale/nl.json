@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint",
-    "IS_REQUIRED": "is vereist"
+    "IS_REQUIRED": "is vereist",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

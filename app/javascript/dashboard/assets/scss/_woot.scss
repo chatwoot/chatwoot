@@ -37,11 +37,11 @@
 @include foundation-prototype-sizing;
 @include foundation-prototype-spacing;
 
-
 @import 'typography';
 @import 'layout';
 @import 'animations';
 @import 'foundation-custom';
+@import 'rtl';
 
 @import 'widgets/buttons';
 @import 'widgets/conv-header';
@@ -61,7 +61,6 @@
 @import 'widgets/woot-tables';
 
 @import 'views/settings/inbox';
-@import 'views/settings/channel';
 @import 'views/settings/integrations';
 
 @import 'plugins/multiselect';

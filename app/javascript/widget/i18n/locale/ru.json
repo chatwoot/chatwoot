@@ -64,8 +64,9 @@
         "ERROR": "Сообщение слишком короткое"
       }
     },
-    "CAMPAIGN_HEADER": "Пожалуйста, укажите ваше имя и адрес электронной почты перед началом беседы",
-    "IS_REQUIRED": "обязательно"
+    "CAMPAIGN_HEADER": "Пожалуйста, укажите Ваше имя и адрес электронной почты перед началом диалога",
+    "IS_REQUIRED": "обязательно",
+    "REQUIRED": "Обязательно"
   },
   "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -74,8 +75,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Искать эмодзи",
+    "NOT_FOUND": "По Вашему запросу не было найдено эмодзи"
   },
   "CSAT": {
     "TITLE": "Оцените разговор",
@@ -89,8 +90,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Нажмите, чтобы присоединиться",
+      "LEAVE_THE_ROOM": "Закончить разговор"
     }
   }
 }

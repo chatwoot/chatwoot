@@ -35,6 +35,8 @@
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
+        googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
+        googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
         fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
@@ -47,9 +49,9 @@
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {
         browser_name: '<%= browser.name %>',
-        is_safari: '<%= browser.safari? %>'
       }
       window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '')%>'
+      window.logRocketProjectId = '<%= ENV.fetch('LOG_ROCKET_PROJECT_ID', '')%>'
     </script>
     <% if @global_config['ANALYTICS_TOKEN'].present? %>
     <script>

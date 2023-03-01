@@ -14,7 +14,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Estem en línia",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Estem fora en aquest moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {

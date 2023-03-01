@@ -3,7 +3,7 @@
     "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
     "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените разговор",
     "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
-    "SWITCH_VIEW_LAYOUT": "Изменить раскладку",
+    "SWITCH_VIEW_LAYOUT": "Переключить вид",
     "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
     "UNVERIFIED_SESSION": "Подлинность этого пользователя не подтверждена",
     "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
     "UNKNOWN_FILE_TYPE": "Неизвестный файл",
+    "SAVE_CONTACT": "Сохранить",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "Письма, разделенные запятыми",
           "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Отправить",
+          "CANCEL": "Отменить"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Копировать",
       "DELETE": "Удалить",
-      "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы"
+      "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Тема"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Результаты не найдены",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

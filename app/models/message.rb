@@ -23,7 +23,9 @@
 # Indexes
 #
 #  index_messages_on_account_id                         (account_id)
+#  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
+#  index_messages_on_content                            (content) USING gin
 #  index_messages_on_conversation_id                    (conversation_id)
 #  index_messages_on_inbox_id                           (inbox_id)
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
@@ -69,7 +71,8 @@ class Message < ApplicationRecord
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at, :story_sender, :story_id, :external_error], coder: JSON
+                                         :external_created_at, :story_sender, :story_id, :external_error,
+                                         :translations], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -112,7 +115,6 @@ class Message < ApplicationRecord
       }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
-    validate_instagram_story if instagram_story_mention?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
   end
@@ -188,10 +190,15 @@ class Message < ApplicationRecord
     sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
+  def first_human_response?
+    conversation.messages.outgoing
+                .where.not(sender_type: 'AgentBot')
+                .where("(additional_attributes->'campaign_id') is null").count == 1
+  end
+
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-
-    if outgoing? && conversation.messages.outgoing.where("(additional_attributes->'campaign_id') is null").count == 1
+    if outgoing? && first_human_response?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end

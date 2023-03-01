@@ -34,6 +34,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
+import rtlMixin from 'shared/mixins/rtlMixin';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 export default {
@@ -42,7 +43,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway, timeMixin],
+  mixins: [clickaway, timeMixin, rtlMixin],
   props: {
     contacts: {
       type: Array,
@@ -92,6 +93,7 @@ export default {
         // as it simplier the sort attribute calculation
         const additional = item.additional_attributes || {};
         const { last_activity_at: lastActivityAt } = item;
+        const { created_at: createdAt } = item;
         return {
           ...item,
           phone_number: item.phone_number || '---',
@@ -104,6 +106,7 @@ export default {
           last_activity_at: lastActivityAt
             ? this.dynamicTime(lastActivityAt)
             : '---',
+          created_at: createdAt ? this.dynamicTime(createdAt) : '---',
         };
       });
     },
@@ -114,7 +117,7 @@ export default {
           key: 'name',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           sortBy: this.sortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
@@ -150,7 +153,7 @@ export default {
           field: 'email',
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           sortBy: this.sortConfig.email || '',
           width: 240,
           renderBodyCell: ({ row }) => {
@@ -174,27 +177,27 @@ export default {
           key: 'phone_number',
           sortBy: this.sortConfig.phone_number || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'company',
           key: 'company',
           sortBy: this.sortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'city',
           key: 'city',
           sortBy: this.sortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'country',
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           sortBy: this.sortConfig.country || '',
           renderBodyCell: ({ row }) => {
             if (row.country) {
@@ -211,7 +214,7 @@ export default {
           field: 'profiles',
           key: 'profiles',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
           renderBodyCell: ({ row }) => {
             const { profiles } = row;
 
@@ -242,14 +245,21 @@ export default {
           key: 'last_activity_at',
           sortBy: this.sortConfig.last_activity_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
+        },
+        {
+          field: 'created_at',
+          key: 'created_at',
+          sortBy: this.sortConfig.created_at || '',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
+          align: this.isRTLView ? 'right' : 'left',
         },
         {
           field: 'conversationsCount',
           key: 'conversationsCount',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
           width: 150,
-          align: 'left',
+          align: this.isRTLView ? 'right' : 'left',
         },
       ];
     },
@@ -292,11 +302,10 @@ export default {
     text-align: left;
 
     .user-block {
-      min-width: 0;
-    }
-
-    .user-thumbnail-box {
-      margin-right: var(--space-small);
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      margin: 0 var(--space-small);
     }
 
     .user-name {

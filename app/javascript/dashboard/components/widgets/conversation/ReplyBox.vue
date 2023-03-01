@@ -20,13 +20,14 @@
       <canned-response
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
+        class="normal-editor__canned-box"
         :search-key="mentionSearchKey"
         @click="replaceText"
       />
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
-        :class="emojiDialogClassOnExpanedLayout"
+        :class="emojiDialogClassOnExpandedLayoutAndRTLView"
         :on-click="emojiOnClick"
       />
       <reply-email-head
@@ -63,12 +64,15 @@
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
+        :enable-variables="true"
+        :variables="messageVariables"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
+        @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
       />
     </div>
@@ -126,6 +130,12 @@
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
+
+    <woot-confirm-modal
+      ref="confirmDialog"
+      :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
+      :description="undefinedVariableMessage"
+    />
   </div>
 </template>
 
@@ -152,7 +162,11 @@ import {
   AUDIO_FORMATS,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
+import {
+  getMessageVariables,
+  getUndefinedVariablesInMessage,
+} from 'dashboard/helper/messageHelper';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -164,9 +178,8 @@ import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import AnalyticsHelper, {
-  ANALYTICS_EVENTS,
-} from '../../../helper/AnalyticsHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -190,6 +203,7 @@ export default {
     uiSettingsMixin,
     alertMixin,
     messageFormatterMixin,
+    rtlMixin,
   ],
   props: {
     selectedTweet: {
@@ -210,7 +224,6 @@ export default {
       message: '',
       isFocused: false,
       showEmojiPicker: false,
-      showMentions: false,
       attachedFiles: [],
       isRecordingAudio: false,
       recordingAudioState: '',
@@ -218,13 +231,17 @@ export default {
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
-      hasUserMention: false,
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
+      undefinedVariableMessage: '',
+      showMentions: false,
+      showUserMentions: false,
+      showCannedMenu: false,
+      showVariablesMenu: false,
     };
   },
   computed: {
@@ -407,10 +424,14 @@ export default {
       } = this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
-    emojiDialogClassOnExpanedLayout() {
-      return this.isOnExpandedLayout || this.popoutReplyBox
-        ? 'emoji-dialog--expanded'
-        : '';
+    emojiDialogClassOnExpandedLayoutAndRTLView() {
+      if (this.isOnExpandedLayout || this.popoutReplyBox) {
+        return 'emoji-dialog--expanded';
+      }
+      if (this.isRTLView) {
+        return 'emoji-dialog--rtl';
+      }
+      return '';
     },
     replyToUserLength() {
       const selectedTweet = this.selectedTweet || {};
@@ -470,6 +491,12 @@ export default {
         return AUDIO_FORMATS.WEBM;
       }
       return AUDIO_FORMATS.OGG;
+    },
+    messageVariables() {
+      const variables = getMessageVariables({
+        conversation: this.currentChat,
+      });
+      return variables;
     },
   },
   watch: {
@@ -612,8 +639,10 @@ export default {
     },
     isAValidEvent(selectedKey) {
       return (
-        !this.hasUserMention &&
+        !this.showUserMentions &&
+        !this.showMentions &&
         !this.showCannedMenu &&
+        !this.showVariablesMenu &&
         this.isFocused &&
         isEditorHotKeyEnabled(this.uiSettings, selectedKey)
       );
@@ -632,10 +661,13 @@ export default {
       });
     },
     toggleUserMention(currentMentionState) {
-      this.hasUserMention = currentMentionState;
+      this.showUserMentions = currentMentionState;
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
+    },
+    toggleVariablesMenu(value) {
+      this.showVariablesMenu = value;
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;
@@ -666,7 +698,7 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
-    async onSendReply() {
+    confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
       }
@@ -675,16 +707,55 @@ export default {
         if (this.isSignatureEnabledForInbox && this.messageSignature) {
           newMessage += '\n\n' + this.messageSignature;
         }
-        const messagePayload = this.getMessagePayload(newMessage);
 
-        this.clearMessage();
+        const isOnWhatsApp =
+          this.isATwilioWhatsAppChannel ||
+          this.isAWhatsAppCloudChannel ||
+          this.is360DialogWhatsAppChannel;
+        if (isOnWhatsApp && !this.isPrivate) {
+          this.sendMessageAsMultipleMessages(newMessage);
+        } else {
+          const messagePayload = this.getMessagePayload(newMessage);
+          this.sendMessage(messagePayload);
+        }
+
         if (!this.isPrivate) {
           this.clearEmailField();
         }
-        this.sendMessage(messagePayload);
+
         this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
+      }
+    },
+    sendMessageAsMultipleMessages(message) {
+      const messages = this.getMessagePayloadForWhatsapp(message);
+      messages.forEach(messagePayload => {
+        this.sendMessage(messagePayload);
+      });
+    },
+    async onSendReply() {
+      const undefinedVariables = getUndefinedVariablesInMessage({
+        message: this.message,
+        variables: this.messageVariables,
+      });
+      if (undefinedVariables.length > 0) {
+        const undefinedVariablesCount =
+          undefinedVariables.length > 1 ? undefinedVariables.length : 1;
+        this.undefinedVariableMessage = this.$t(
+          'CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.MESSAGE',
+          {
+            undefinedVariablesCount,
+            undefinedVariables: undefinedVariables.join(', '),
+          }
+        );
+
+        const ok = await this.$refs.confirmDialog.showConfirmation();
+        if (ok) {
+          this.confirmOnSendReply();
+        }
+      } else {
+        this.confirmOnSendReply();
       }
     },
     async sendMessage(messagePayload) {
@@ -709,9 +780,13 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
+      const updatedMessage = replaceVariablesInMessage({
+        message,
+        variables: this.messageVariables,
+      });
       setTimeout(() => {
-        AnalyticsHelper.track(ANALYTICS_EVENTS.INSERTED_A_CANNED_RESPONSE);
-        this.message = message;
+        this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+        this.message = updatedMessage;
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
@@ -897,6 +972,35 @@ export default {
         (item, index) => itemIndex !== index
       );
     },
+    getMessagePayloadForWhatsapp(message) {
+      const multipleMessagePayload = [];
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        let caption = message;
+        this.attachedFiles.forEach(attachment => {
+          const attachedFile = this.globalConfig.directUploadsEnabled
+            ? attachment.blobSignedId
+            : attachment.resource.file;
+          const attachmentPayload = {
+            conversationId: this.currentChat.id,
+            files: [attachedFile],
+            private: false,
+            message: caption,
+          };
+          multipleMessagePayload.push(attachmentPayload);
+          caption = '';
+        });
+      } else {
+        const messagePayload = {
+          conversationId: this.currentChat.id,
+          message,
+          private: false,
+        };
+        multipleMessagePayload.push(messagePayload);
+      }
+
+      return multipleMessagePayload;
+    },
     getMessagePayload(message) {
       const messagePayload = {
         conversationId: this.currentChat.id,
@@ -992,6 +1096,7 @@ export default {
 }
 
 .reply-box__top {
+  position: relative;
   padding: 0 var(--space-normal);
   border-top: 1px solid var(--color-border);
   margin-top: -1px;
@@ -999,7 +1104,7 @@ export default {
 
 .emoji-dialog {
   top: unset;
-  bottom: var(--space-normal);
+  bottom: -40px;
   left: -320px;
   right: unset;
 
@@ -1010,6 +1115,19 @@ export default {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
+
+.emoji-dialog--rtl {
+  left: unset;
+  right: -320px;
+  &::before {
+    left: var(--space-minus-normal);
+    transform: rotate(90deg);
+    right: 0;
+    bottom: var(--space-small);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
+}
+
 .emoji-dialog--expanded {
   left: unset;
   bottom: var(--space-jumbo);
@@ -1028,5 +1146,10 @@ export default {
   ::v-deep p:last-child {
     margin-bottom: 0;
   }
+}
+
+.normal-editor__canned-box {
+  width: calc(100% - 2 * var(--space-normal));
+  left: var(--space-normal);
 }
 </style>

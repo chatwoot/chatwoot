@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Создать аккаунт",
+    "TRY_WOOT": "Создать новый аккаунт",
     "TITLE": "Регистрация",
     "TESTIMONIAL_HEADER": "Все, что нужно сделать, это один шаг для продвижения вперед",
     "TESTIMONIAL_CONTENT": "Вы находитесь на расстоянии всего одного шага от привлечения своих клиентов, удержав их и находя новые.",
-    "TERMS_ACCEPT": "Зарегистрировавшись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">правилами пользования</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Название компании",
       "PLACEHOLDER": "Введите имя вашей компании, например: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Успешная регистрация",
       "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
     },
-    "SUBMIT": "Отправить",
+    "SUBMIT": "Создать новый аккаунт",
     "HAVE_AN_ACCOUNT": "Уже есть аккаунт?"
   }
 }

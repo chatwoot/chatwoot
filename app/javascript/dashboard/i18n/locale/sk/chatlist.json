@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Odložené"
+      },
+      "all": {
+        "TEXT": "Všetko"
       }
     },
     "ATTACHMENTS": {

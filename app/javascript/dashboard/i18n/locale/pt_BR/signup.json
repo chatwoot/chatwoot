@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registre uma conta",
+    "TRY_WOOT": "Criar uma conta",
     "TITLE": "Registrar",
     "TESTIMONIAL_HEADER": "Tudo o que ele leva é um passo para avançar",
     "TESTIMONIAL_CONTENT": "Você está a um passo de engajar seus clientes, mantê-los e encontrar novos.",
-    "TERMS_ACCEPT": "Ao se inscrever, você concorda com nossa <a href=\"https://www.chatwoot.com/terms\">T & C</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
+    "TERMS_ACCEPT": "Ao criar uma conta, você concorda com nosso <a href=\"https://www.chatwoot.com/terms\">T & C</a> e nossa <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Cadastre-se com o Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Nome Empresa",
       "PLACEHOLDER": "Digite seu nome da empresa. por exemplo: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registro realizado com Sucesso",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     },
-    "SUBMIT": "Enviar",
+    "SUBMIT": "Criar conta",
     "HAVE_AN_ACCOUNT": "Já possui uma conta?"
   }
 }

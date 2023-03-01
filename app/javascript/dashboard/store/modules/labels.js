@@ -1,6 +1,8 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import LabelsAPI from '../../api/labels';
+import AnalyticsHelper from '../../helper/AnalyticsHelper';
+import { LABEL_EVENTS } from '../../helper/AnalyticsHelper/events';
 
 export const state = {
   records: [],
@@ -43,6 +45,7 @@ export const actions = {
     commit(types.SET_LABEL_UI_FLAG, { isCreating: true });
     try {
       const response = await LabelsAPI.create(cannedObj);
+      AnalyticsHelper.track(LABEL_EVENTS.CREATE);
       commit(types.ADD_LABEL, response.data);
     } catch (error) {
       const errorMessage = error?.response?.data?.message;
@@ -56,6 +59,7 @@ export const actions = {
     commit(types.SET_LABEL_UI_FLAG, { isUpdating: true });
     try {
       const response = await LabelsAPI.update(id, updateObj);
+      AnalyticsHelper.track(LABEL_EVENTS.UPDATE);
       commit(types.EDIT_LABEL, response.data);
     } catch (error) {
       throw new Error(error);
@@ -68,6 +72,7 @@ export const actions = {
     commit(types.SET_LABEL_UI_FLAG, { isDeleting: true });
     try {
       await LabelsAPI.delete(id);
+      AnalyticsHelper.track(LABEL_EVENTS.DELETED);
       commit(types.DELETE_LABEL, id);
     } catch (error) {
       throw new Error(error);

@@ -79,6 +79,7 @@
                   v-model="message"
                   class="message-editor"
                   :class="{ editor_warning: $v.message.$error }"
+                  :enable-variables="true"
                   :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
                   @toggle-canned-menu="toggleCannedMenu"
                   @blur="$v.message.$touch"
@@ -322,11 +323,7 @@ export default {
 }
 
 .canned-response {
-  ::v-deep .mention--box {
-    border-left: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
-    top: var(--space-jumbo) !important;
-  }
+  position: relative;
 }
 
 .input-group-label {
@@ -338,7 +335,6 @@ export default {
   align-items: center;
   height: 3.9rem;
   background: var(--color-background-light);
-
   border: 1px solid var(--color-border);
   padding: var(--space-smaller) var(--space-small);
   border-radius: var(--border-radius-small);
@@ -346,6 +342,7 @@ export default {
   .contact-name {
     margin: 0;
     margin-left: var(--space-small);
+    margin-right: var(--space-small);
   }
 }
 
@@ -353,21 +350,15 @@ export default {
   min-height: 8rem;
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
 .row.gutter-small {
   gap: var(--space-small);
 }
 
 ::v-deep .mention--box {
-  border-left: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
   left: 0;
   margin: auto;
   right: 0;
-  top: 18rem !important;
-  width: 90%;
+  top: unset;
+  height: fit-content;
 }
 </style>

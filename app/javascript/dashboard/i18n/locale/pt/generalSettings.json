@@ -15,7 +15,7 @@
       },
       "ACCOUNT_ID": {
         "TITLE": "Conta ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "NOTE": "Este ID é necessário se você está construindo uma integração baseada em API"
       },
       "NAME": {
         "LABEL": "Nome da Conta",
@@ -23,7 +23,7 @@
         "ERROR": "Por favor, insira um nome de conta válido"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Idioma do site",
         "PLACEHOLDER": "Nome da sua conta",
         "ERROR": ""
       },
@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Número de dias sem nenhuma atividade, após os quais, o ticket se auto-resolve",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "Por favor, informe um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",
@@ -55,18 +55,18 @@
       "ENTER_TO_SELECT": "Pressione Enter para escolher",
       "ENTER_TO_REMOVE": "Pressione Enter para eliminar",
       "SELECT_ONE": "Selecionar um",
-      "SELECT": "Select"
+      "SELECT": "Selecionar"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificaçoes",
     "MARK_ALL_DONE": "Marcar todos como Resolvidos",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "excluído",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "Notificações Não Lidas",
+      "ALL_NOTIFICATIONS": "Ver todas as notificações",
+      "LOADING_UNREAD_MESSAGE": "Carregando notificações não lidas...",
+      "EMPTY_MESSAGE": "Você não tem notificações não lidas"
     },
     "LIST": {
       "LOADING_MESSAGE": "A carregar notificações...",
@@ -82,6 +82,7 @@
       "conversation_creation": "Nova conversa",
       "conversation_assignment": "Conversa atribuída",
       "assigned_conversation_new_message": "Nova mensagem",
+      "participating_conversation_new_message": "Nova mensagem",
       "conversation_mention": "Mencionar"
     }
   },
@@ -109,7 +110,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
       "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
       "GO_TO_REPORTS_OVERVIEW": "Ir para Visão Geral de Relatórios",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_CONVERSATION_REPORTS": "Ir para Relatórios de Conversa",
       "GO_TO_AGENT_REPORTS": "Ir para Relatórios de Agentes",
       "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
       "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
@@ -132,13 +133,13 @@
       "REOPEN_CONVERSATION": "Reabrir conversa",
       "RESOLVE_CONVERSATION": "Resolver conversa",
       "SEND_TRANSCRIPT": "Enviar transcrição por e-mail",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "SNOOZE_CONVERSATION": "Adiar Conversa",
       "UNTIL_NEXT_REPLY": "Até à próxima resposta",
       "UNTIL_NEXT_WEEK": "Até à próxima semana",
       "UNTIL_TOMORROW": "Até amanhã"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Carregando App da Dashboard..."
   }
 }

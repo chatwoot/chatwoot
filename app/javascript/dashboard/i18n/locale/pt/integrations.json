@@ -2,19 +2,21 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "FORM": {
         "CANCEL": "cancelar",
         "DESC": "Eventos Webhook fornecem informações em tempo real sobre o que está acontecendo em sua conta Chatwoot. Por favor, insira uma URL válida para configurar uma callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Eventos",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+            "CONVERSATION_CREATED": "Conversa Criada",
+            "CONVERSATION_STATUS_CHANGED": "Status da Conversa Alterado",
+            "CONVERSATION_UPDATED": "Conversa Atualizada",
+            "MESSAGE_CREATED": "Mensagem criada",
+            "MESSAGE_UPDATED": "Mensagem atualizada",
+            "WEBWIDGET_TRIGGERED": "Widget de bate-papo aberto pelo usuário",
+            "CONTACT_CREATED": "Contacto criado",
+            "CONTACT_UPDATED": "Contato atualizado"
           }
         },
         "END_POINT": {
@@ -22,7 +24,7 @@
           "PLACEHOLDER": "Exemplo: https://example/api/webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Atualizar webhook",
         "ADD_SUBMIT": "Criar webhook"
       },
       "TITLE": "Webhook",
@@ -44,7 +46,7 @@
         "BUTTON_TEXT": "Alterar",
         "TITLE": "Editar Webhooks",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Configuração de webhook atualizada com sucesso",
           "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
         }
       },
@@ -52,7 +54,7 @@
         "CANCEL": "cancelar",
         "TITLE": "Adicionar novo webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Configuração de webhook adicionada com sucesso",
           "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
         }
       },
@@ -64,7 +66,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar Exclusão",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Tem certeza que deseja excluir o webhoook? (%{webhookURL})",
           "YES": "Sim, excluir ",
           "NO": "Não, mantenha isso"
         }
@@ -77,10 +79,10 @@
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CLICK_HERE_TO_JOIN": "Clique aqui para participar",
+      "LEAVE_THE_ROOM": "Deixar a sala",
+      "START_VIDEO_CALL_HELP_TEXT": "Iniciar uma nova chamada de vídeo com o cliente",
+      "JOIN_ERROR": "Houve um erro ao ingressar na chamada! Por favor, tente novamente",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "DELETE": {

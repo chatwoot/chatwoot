@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
+    "SAVE_CONTACT": "Salvar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
@@ -48,7 +49,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
-      "OPEN_ACTION": "Abertas",
+      "OPEN_ACTION": "Abrir",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "E-mails separados por vírgulas",
           "ERROR": "Por favor, insira endereços de e-mail válidos"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Variáveis não definidas",
+        "MESSAGE": "Você tem {undefinedVariablesCount} variáveis não definidas em sua mensagem: {undefinedVariables}. Gostaria de enviar a mensagem mesmo assim?",
+        "CONFIRM": {
+          "YES": "Enviar",
+          "CANCEL": "Cancelar"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "DELETE": "Excluir",
-      "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas"
+      "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
+      "TRANSLATE": "Traduzir"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "CCO",
     "CC": "Cc",
     "SUBJECT": "Assunto"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participantes",
+    "SIDEBAR_TITLE": "Participantes da conversa",
+    "NO_RECORDS_FOUND": "Nenhum resultado encontrado",
+    "ADD_PARTICIPANTS": "Selecionar participantes",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} participantes",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} participante",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} pessoas estão participando.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} pessoa está participando.",
+    "NO_PARTICIPANTS_TEXT": "Ninguém está participando!",
+    "WATCH_CONVERSATION": "Participar da conversa",
+    "YOU_ARE_WATCHING": "Você está participando",
+    "API": {
+      "ERROR_MESSAGE": "Não foi possível atualizar, tente novamente!",
+      "SUCCESS_MESSAGE": "Participantes atualizados!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "Ver conteúdo traduzido",
+    "DESC": "Você pode visualizar o conteúdo traduzido em cada idioma.",
+    "ORIGINAL_CONTENT": "Conteúdo original",
+    "TRANSLATED_CONTENT": "Conteúdo Traduzido",
+    "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
   }
 }

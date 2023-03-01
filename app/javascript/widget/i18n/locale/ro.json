@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Adresa Email",
         "PLACEHOLDER": "Te rugăm să-ți introduci adresa de email",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "Adresa de e-mail este obligatorie",
         "VALID_ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
       },
       "PHONE_NUMBER": {
         "LABEL": "Număr de telefon",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Te rugăm să introduci numărul de telefon",
+        "REQUIRED_ERROR": "Numărul de telefon este obligatoriu",
+        "VALID_ERROR": "Numărul de telefon trebuie să aibă formatul E.164, ex. +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Vă rugăm să furnizați numele și e-mailul înainte de a începe conversația",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "este obligatoriu",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
   "CHAT_FORM": {
@@ -74,8 +75,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Caută emoji-uri",
+    "NOT_FOUND": "Niciun emoji nu corespunde căutării tale"
   },
   "CSAT": {
     "TITLE": "Evaluează conversația ta",
@@ -89,8 +90,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Apasă aici pentru a te alătura",
+      "LEAVE_THE_ROOM": "Părăsiți apelul"
     }
   }
 }

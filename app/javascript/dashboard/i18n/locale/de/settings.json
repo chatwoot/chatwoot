@@ -59,18 +59,18 @@
         "TITLE": "Audio-Benachrichtigungen",
         "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Alarmereignisse:",
           "NONE": "Keine",
           "ASSIGNED": "Zugewiesene Unterhaltungen",
           "ALL_CONVERSATIONS": "Alle Konversationen"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Alarmton:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Alarmbedingungen:",
+          "CONDITION_ONE": "Audio-Alarm nur dann senden, wenn das Browserfenster nicht aktiv ist",
+          "CONDITION_TWO": "Sende Benachrichtigungen alle 30 Sekunden, bis alle zugewiesenen Unterhaltungen gelesen werden"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
         "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
         "CONVERSATION_MENTION": "Senden Sie E-Mail-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
         "CONVERSATION_MENTION": "Senden Sie Push-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
       },
@@ -115,8 +117,8 @@
           "Beschäftigt",
           "Offline"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "Verfügbarkeit wurde erfolgreich gesetzt",
+        "SET_AVAILABILITY_ERROR": "Verfügbarkeit konnte nicht gesetzt werden, bitte versuchen Sie es erneut"
       },
       "EMAIL": {
         "LABEL": "Deine Emailadresse",
@@ -147,7 +149,7 @@
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
     "KEYBOARD_SHORTCUTS": "Tastenkombinationen",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "SUPER_ADMIN_CONSOLE": "Super-Admin Konsole",
     "LOGOUT": "Ausloggen"
   },
   "APP_GLOBAL": {
@@ -170,10 +172,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
-      "UPLOADING": "Wird hochgeladen..."
+      "UPLOADING": "Wird hochgeladen...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Diese Geschichte ist nicht mehr verfügbar."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Auf Karte ansehen"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Abschicken"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Gespräche",
     "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unbeaufsichtigt",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
@@ -238,11 +242,12 @@
       "DRAFT": "Entwürfe",
       "ARCHIVED": "Archiviert",
       "CATEGORY": "Kategorie",
+      "SETTINGS": "Einstellungen",
       "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Automatisch offline markieren",
+      "INFO_TEXT": "Lassen Sie sich vom System automatisch als offline markieren, wenn Sie die App oder das Dashboard nicht verwenden."
     },
     "DOCS": "Dokumente lesen"
   },
@@ -282,7 +287,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Alle Verknüpfungen anzeigen",
     "TITLE": {
       "OPEN_CONVERSATION": "Unterhaltung öffnen",
       "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",

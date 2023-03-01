@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   # AUTH STARTS
-  match 'auth/:provider/callback', to: 'home#callback', via: [:get, :post]
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',
     sessions: 'devise_overrides/sessions',
-    token_validations: 'devise_overrides/token_validations'
+    token_validations: 'devise_overrides/token_validations',
+    omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
   ## renders the frontend paths only if its not an api only server
@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     get '/app', to: 'dashboard#index'
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_microsoft_inbox_agents'
 
     resource :widget, only: [:show]
     namespace :survey do
@@ -39,11 +41,11 @@ Rails.application.routes.draw do
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
-
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
           resources :assignable_agents, only: [:index]
+          resource :audit_logs, only: [:show]
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
@@ -73,9 +75,14 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
-              resources :messages, only: [:index, :create, :destroy]
+              resources :messages, only: [:index, :create, :destroy] do
+                member do
+                  post :translate
+                end
+              end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
             end
             member do
@@ -87,6 +94,14 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+            end
+          end
+
+          resources :search, only: [:index] do
+            collection do
+              get :conversations
+              get :messages
+              get :contacts
             end
           end
 
@@ -153,6 +168,10 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :microsoft do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
@@ -172,8 +191,11 @@ Rails.application.routes.draw do
               patch :archive
               put :add_members
             end
+            post :attach_file, on: :collection
             resources :categories
-            resources :articles
+            resources :articles do
+              post :attach_file, on: :collection
+            end
           end
         end
       end
@@ -339,10 +361,13 @@ Rails.application.routes.draw do
     resources :callback, only: [:create]
   end
 
+  get 'microsoft/callback', to: 'microsoft/callbacks#show'
+
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get 'apple-app-site-association' => 'apple_app#site_association'
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
+  get '.well-known/microsoft-identity-association.json' => 'microsoft#identity_association'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
@@ -366,6 +391,7 @@ Rails.application.routes.draw do
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
+      resource :instance_status, only: [:show]
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]

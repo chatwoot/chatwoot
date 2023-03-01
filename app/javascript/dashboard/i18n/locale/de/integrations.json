@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Konversation aktualisiert",
             "MESSAGE_CREATED": "Nachricht erstellt",
             "MESSAGE_UPDATED": "Nachricht aktualisiert",
-            "WEBWIDGET_TRIGGERED": "Vom Benutzer geöffnetes Live-Chat-Widget"
+            "WEBWIDGET_TRIGGERED": "Vom Benutzer geöffnetes Live-Chat-Widget",
+            "CONTACT_CREATED": "Contact created",
+            "CONTACT_UPDATED": "Contact updated"
           }
         },
         "END_POINT": {
@@ -77,11 +79,11 @@
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Klicke hier, um beizutreten",
+      "LEAVE_THE_ROOM": "Raum verlassen",
+      "START_VIDEO_CALL_HELP_TEXT": "Einen neuen Videoanruf mit dem Kunden starten",
+      "JOIN_ERROR": "Beim Verbinden des Anrufs ist ein Fehler aufgetreten, bitte versuche es erneut",
+      "CREATE_ERROR": "Beim Erstellen eines Meeting-Links ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",

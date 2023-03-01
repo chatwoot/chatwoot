@@ -18,7 +18,7 @@
         class="text-slate-700 hover:underline leading-8 text-sm font-medium"
         href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
       >
-        Home
+        <%= I18n.t('public_portal.common.home') %>
       </a>
       <span class="text-xs text-slate-600 px-1">/</span>
       <a
@@ -39,7 +39,7 @@
         <div class="pl-1">
           <h5 class="text-base font-medium text-slate-900 mb-2"><%= @article.author.available_name %></h5>
           <p class="text-sm font-normal text-slate-700">
-            Last updated on <%= @article.updated_at.strftime("%b %d, %Y") %></p>
+          <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: @article.updated_at.strftime("%b %d, %Y")) %>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
 </div>
 <div class="max-w-5xl flex-grow w-full px-6 py-8 mx-auto space-y-12">
   <article class="space-y-8 ">
-    <div class="text-slate-800 leading-8 text-lg subpixel-antialiased max-w-3xl prose">
+    <div class="text-slate-800 leading-8 text-lg subpixel-antialiased max-w-3xl prose break-words">
       <p><%= @parsed_content %></p>
     </div>
   </article>

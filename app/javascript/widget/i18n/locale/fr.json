@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
-    "IS_REQUIRED": "est requis"
+    "IS_REQUIRED": "est requis",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {
@@ -89,8 +90,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Cliquez ici pour rejoindre",
+      "LEAVE_THE_ROOM": "Quitter l'appel"
     }
   }
 }

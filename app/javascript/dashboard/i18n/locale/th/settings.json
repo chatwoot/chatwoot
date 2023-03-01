@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "ส่งอีเมลแจ้งเตือนเมื่อมีบทสนทนาที่ฉันได้รับมอบหมาย",
         "CONVERSATION_CREATION": "ส่งอีเมลแจ้งเตือนเมื่อมีการสร้างบทสนทนาใหม่",
         "CONVERSATION_MENTION": "ส่งอีเมลแจ้งเตือนเมื่อฉันถูกกล่าวถึงในการสนทนา",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "ส่งอีเมลแจ้งเตือนเมื่อมีข้อความใหม่ในการสนทนาที่ฉันได้รับมอบหมาย"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "ส่งอีเมลแจ้งเตือนเมื่อมีข้อความใหม่ในการสนทนาที่ฉันได้รับมอบหมาย",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "ปรับแต่งการแจ้งเตือนสำเร็จแล้ว",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "ส่งการแจ้งเตือนแบบพุชเมื่อมีการสนทนาใหม่",
         "CONVERSATION_MENTION": "ส่งการแจ้งเตือนแบบพุชเมื่อฉันถูกกล่าวถึงในการสนทนา",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "ส่งการแจ้งเตือนแบบพุชเมื่อมีข้อความใหม่ในการสนทนาที่ฉันได้รับมอบหมาย",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "คุณได้เปิดการแจ้งเตือนแบบพุชสำหรับเบราว์เซอร์นี้",
         "REQUEST_PUSH": "เปิดการแจ้งเตือนแบบพุช"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ดาวโหลด",
-      "UPLOADING": "กำลังอัปโหลด"
+      "UPLOADING": "กำลังอัปโหลด",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,13 +194,14 @@
     "CONVERSATIONS": "การสนทนา",
     "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
     "MENTIONED_CONVERSATIONS": "การกล่าวถึง",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "ไม่ได้เข้าร่วม",
     "REPORTS": "รายงาน",
     "SETTINGS": "ตั้งค่า",
     "CONTACTS": "ผู้ติดต่อ",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "บอท",
     "INBOXES": "กล่องข้อความ",
     "NOTIFICATIONS": "การแจ้งเตือน",
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "ตั้งค่า",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

@@ -6,11 +6,10 @@
   >
     <div
       v-if="shouldShowHeaderMessage"
-      class="mb-4 text-sm leading-5"
+      v-dompurify-html="formatMessage(headerMessage, false)"
+      class="mb-4 text-sm leading-5 pre-chat-header-message"
       :class="$dm('text-black-800', 'dark:text-slate-50')"
-    >
-      {{ headerMessage }}
-    </div>
+    />
     <FormulateInput
       v-for="item in enabledPreChatFields"
       :key="item.name"
@@ -25,7 +24,7 @@
       :validation-messages="{
         isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-        required: getRequiredErrorMessage(item),
+        required: $t('PRE_CHAT_FORM.REQUIRED'),
       }"
     />
     <FormulateInput
@@ -60,7 +59,7 @@ import CustomButton from 'shared/components/Button';
 import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
@@ -69,7 +68,7 @@ export default {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin],
+  mixins: [routerMixin, darkModeMixin, messageFormatterMixin],
   props: {
     options: {
       type: Object,
@@ -224,10 +223,6 @@ export default {
       }
       return this.formValues[name] || null;
     },
-
-    getRequiredErrorMessage({ label }) {
-      return `${label} ${this.$t('PRE_CHAT_FORM.IS_REQUIRED')}`;
-    },
     getValidation({ type, name }) {
       if (!this.isContactFieldRequired(name)) {
         return '';
@@ -290,6 +285,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~widget/assets/scss/variables.scss';
 ::v-deep {
   .wrapper[data-type='checkbox'] {
     .formulate-input-wrapper {
@@ -316,6 +312,12 @@ export default {
       textarea {
         min-height: 8rem;
       }
+    }
+  }
+  .pre-chat-header-message {
+    .link {
+      color: $color-woot;
+      text-decoration: underline;
     }
   }
 }

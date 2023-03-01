@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registrujte nalog",
+    "TRY_WOOT": "Create an account",
     "TITLE": "Registruj",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "Registracijom prihvatate naše <a href=\"https://www.chatwoot.com/terms\">uslove korišćenja</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">politiku privatnosti</a>",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registracija je uspešna",
       "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
     },
-    "SUBMIT": "Pošalji",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Već imate nalog?"
   }
 }

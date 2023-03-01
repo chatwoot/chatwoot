@@ -13,6 +13,8 @@ json.categories do
   end
 end
 
+json.logo portal.file_base_data if portal.logo.present?
+
 json.meta do
   json.articles_count portal.articles.published.size
   json.categories_count portal.categories.size

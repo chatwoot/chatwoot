@@ -7,9 +7,6 @@
     >
       {{ value['TEXT'] }}
     </option>
-    <option value="all">
-      {{ $t('CHAT_LIST.FILTER_ALL') }}
-    </option>
   </select>
 </template>
 
@@ -47,3 +44,14 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.status--filter {
+  background-color: var(--color-background-light);
+  border: 1px solid var(--color-border);
+  font-size: var(--font-size-mini);
+  height: var(--space-medium);
+  margin: 0 var(--space-smaller);
+  padding: 0 var(--space-medium) 0 var(--space-small);
+  width: auto;
+}
+</style>

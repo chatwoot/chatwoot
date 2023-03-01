@@ -168,6 +168,33 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
       end
+
+      it 'renders assignee name in the from address' do
+        mail = described_class.email_reply(message)
+        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from <#{smtp_email_channel.email}>"
+      end
+
+      it 'renders inbox name in the from address' do
+        conversation.update(assignee: nil)
+        mail = described_class.email_reply(message)
+        expect(mail['from'].value).to eq "#{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+      end
+    end
+
+    context 'when smtp enabled for microsoft email channel' do
+      let(:ms_smtp_email_channel) do
+        create(:channel_email, imap_login: 'smtp@outlook.com',
+                               imap_enabled: true, account: account, provider: 'microsoft', provider_config: { access_token: 'access_token' })
+      end
+      let(:conversation) { create(:conversation, assignee: agent, inbox: ms_smtp_email_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+
+      it 'use smtp mail server' do
+        mail = described_class.email_reply(message)
+        expect(mail.delivery_method.settings.empty?).to be false
+        expect(mail.delivery_method.settings[:address]).to eq 'smtp.office365.com'
+        expect(mail.delivery_method.settings[:port]).to eq 587
+      end
     end
 
     context 'when smtp disabled for email channel', :test do

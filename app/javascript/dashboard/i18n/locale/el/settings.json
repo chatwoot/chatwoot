@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Να στέλνεται ειδοποίηση email όταν μια συνομιλία αντιστοιχίζεται σε μένα",
         "CONVERSATION_CREATION": "Να στέλνεται ειδοποίηση όταν δημιουργείται μια νέα συνομιλία",
         "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων email όταν αναφέρεστε σε μια συνομιλία",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Οι προτιμήσεις σας για τις ειδοποιήσεις ενημερώθηκαν",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Να ειδοποιούμαι με push όταν δημιουργείται μια νέα συνομιλία",
         "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων push όταν αναφέρεστε σε μια συνομιλία",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης push όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Έχετε ενεργοποιήσει τις ειδοποιήσεις push για αυτόν τον browser.",
         "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Κατέβασμα",
-      "UPLOADING": "Ανέβασμα ..."
+      "UPLOADING": "Ανέβασμα ...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Η ιστορία δεν είναι πλέον διαθέσιμη."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Δείτε στον χάρτη"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Συζητήσεις",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
     "MENTIONED_CONVERSATIONS": "Αναφορές",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Χωρίς Παρακολούθηση",
     "REPORTS": "Αναφορές",
     "SETTINGS": "Ρυθμίσεις",
@@ -238,6 +242,7 @@
       "DRAFT": "Πρόχειρο",
       "ARCHIVED": "Αρχειοθετημένο",
       "CATEGORY": "Κατηγορία",
+      "SETTINGS": "Ρυθμίσεις",
       "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
     },
     "SET_AUTO_OFFLINE": {

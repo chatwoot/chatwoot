@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Надсилати сповіщення коли бесіду призначають мені",
         "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
         "CONVERSATION_MENTION": "Надсилати сповіщення електронною поштою, коли вас згадують в розмові",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Надсилати push-повідомлення, коли створюється нова розмова",
         "CONVERSATION_MENTION": "Надсилати push-повідомлення, коли вас згадують в розмові",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Ви увімкнули push для цього браузера.",
         "REQUEST_PUSH": "Увімкнути push-сповіщення"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
-      "UPLOADING": "Завантажується..."
+      "UPLOADING": "Завантажується...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ця історія більше не доступна."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Не зв'язаний",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
@@ -238,6 +242,7 @@
       "DRAFT": "Чернетка",
       "ARCHIVED": "Архівовано",
       "CATEGORY": "Категорія",
+      "SETTINGS": "Налаштування",
       "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
     },
     "SET_AUTO_OFFLINE": {

@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "ഒരു സംഭാഷണം എനിക്ക് നിയോഗിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്‌ക്കുക",
         "CONVERSATION_CREATION": "ഒരു പുതിയ സംഭാഷണം സൃഷ്ടിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്ക്കുക",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ഡൗൺലോഡ്",
-      "UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു..."
+      "UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "പരാമർശിക്കുന്നു",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "റിപ്പോർട്ടുകൾ",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "ക്രമീകരണങ്ങൾ",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

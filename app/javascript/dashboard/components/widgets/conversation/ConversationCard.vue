@@ -87,7 +87,10 @@
       </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          <time-ago :timestamp="chat.timestamp" />
+          <time-ago
+            :last-activity-timestamp="chat.timestamp"
+            :created-at-timestamp="chat.created_at"
+          />
         </span>
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
@@ -416,7 +419,6 @@ export default {
 .conversation--metadata {
   display: flex;
   justify-content: space-between;
-  padding-right: var(--space-normal);
 
   .label {
     background: none;

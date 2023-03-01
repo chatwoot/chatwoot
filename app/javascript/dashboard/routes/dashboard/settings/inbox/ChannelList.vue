@@ -9,7 +9,7 @@
         )
       "
     />
-    <div class="row channels">
+    <div class="row channel-list">
       <channel-item
         v-for="channel in channelList"
         :key="channel.key"
@@ -87,5 +87,9 @@ export default {
 <style scoped>
 .height-auto {
   height: auto;
+}
+
+.channel-list {
+  margin-top: var(--space-medium);
 }
 </style>

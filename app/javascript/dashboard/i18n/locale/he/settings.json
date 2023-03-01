@@ -1,112 +1,114 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
+    "LINK": "הגדרות פרופיל",
+    "TITLE": "הגדרות פרופיל",
+    "BTN_TEXT": "עדכון פרופיל",
     "DELETE_AVATAR": "מחק אווטר",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "AVATAR_DELETE_SUCCESS": "תמונת פרופיל נמחקה בהצלחה",
+    "AVATAR_DELETE_FAILED": "אירעה שגיאה במחיקת תמונת הפרופיל, נסה שנית",
+    "UPDATE_SUCCESS": "הפרופיל עודכן בהצלחה",
+    "PASSWORD_UPDATE_SUCCESS": "הסיסמא שונתה בהצלחה",
+    "AFTER_EMAIL_CHANGED": "הפרופיל עודכן בהצלחה, יש להתחבר מחדש",
     "FORM": {
-      "AVATAR": "Profile Image",
+      "AVATAR": "תמונת פרופיל",
       "ERROR": "אנא תקן שגיאות בטופס",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "REMOVE_IMAGE": "הסר",
+      "UPLOAD_IMAGE": "העלה תמונה",
+      "UPDATE_IMAGE": "עדכן תמונה",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "פרופיל",
+        "NOTE": "כתובת המייל שלך משמשת להתחברות."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "מקשים חמים לשליחת הודעות",
+        "NOTE": "תוכל לבחור מקש חם (באמצעות Enter או Cmd/Ctrl+Enter) בהתאם להעדפות הכתיבה שלך.",
+        "UPDATE_SUCCESS": "ההגדרות עודכנו בהצלחה",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "אישור (↵)",
+            "CONTENT": "שלח הודעות באמצעות הקשת Enter במקום ללחוץ על כפתור השליחה."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "שלח הודעות באמצעות הקשת Cmd/Ctrl + Enter במקום ללחוץ על כפתור השליחה."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "חתימת הודעה אישית",
+        "NOTE": "ניתן לרשום חתימה לכל ההודעות שתרשום ללקוחות שלך.",
+        "BTN_TEXT": "שמירה",
+        "API_ERROR": "לא ניתן לשמור את החתימה! אנא נסה שנית",
+        "API_SUCCESS": "החתימה נשמרה בהצלחה"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "חתימת הודעה",
+        "ERROR": "חתימת הודעה לא יכולה להיות ריקה",
+        "PLACEHOLDER": "הכנס כאן את חתימת ההודעה האישית שלך."
       },
       "PASSWORD_SECTION": {
         "TITLE": "סיסמה",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "NOTE": "עדכון הסיסמה שלך יאפס את הכניסות שלך במספר מכשירים.",
+        "BTN_TEXT": "שנה סיסמא"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "Token",
+        "NOTE": "משמש לחיבורי API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "התראות קוליות",
+        "NOTE": "אפשר התראות קוליות להודעות ושיחות חדשות.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "סוגי התראות:",
           "NONE": "כלום",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "שיחות משוייכות",
+          "ALL_CONVERSATIONS": "כל השיחות"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "צליל התראה:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "העדפות התראה:",
+          "CONDITION_ONE": "שלח התראות קוליות רק במידה והדפדפן לא פעיל",
+          "CONDITION_TWO": "שלח התראות כל 30 שניות עד שכל ההודעות המשוייכות נקראו"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
+        "TITLE": "התראות דוא\"ל",
+        "NOTE": "עדכן כאן את העדפות קבלת ההתראות בדוא''ל",
         "CONVERSATION_ASSIGNMENT": "שלח התראה באימייל כאשר שיחה מוקצית עבורי",
         "CONVERSATION_CREATION": "שלח התראה באימייל כאשר נפתחת שיחה חדשה",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראה באימייל כאשר יש הודעה חדשה בשיחה המוקצית עבורי"
+        "CONVERSATION_MENTION": "שלח הודעות דחיפה כאשר אתה מוזכר בשיחה",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראה באימייל כאשר יש הודעה חדשה בשיחה המוקצית עבורי",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "העדפות ההתראות עודכנו בהצלחה",
+        "UPDATE_ERROR": "אירעה שגיאה בעדכון ההעדפות, אנא נסה שנית"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
+        "TITLE": "הודעות דחיפה (Push)",
+        "NOTE": "עדכן כאן את העדפות קבלת הודעות הדחיפה שלך",
         "CONVERSATION_ASSIGNMENT": "שלח התראת פוש כאשר שיחה מוקצית עבורי",
         "CONVERSATION_CREATION": "שלח התראת פוש כאשר נפתחת שיחה חדשה",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "שלח הודעות דחיפה כאשר אתה מוזכר בשיחה",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראת פוש כאשר יש הודעה חדשה בשיחה המוקצית עבורי",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי",
+        "HAS_ENABLED_PUSH": "הודעות דחיפה בדפדפן זה הופעלו.",
+        "REQUEST_PUSH": "אפשר הודעות דחיפה"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "תמונת פרופיל"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
+        "LABEL": "שמך המלא",
+        "ERROR": "נא הכנס שם תקני",
         "PLACEHOLDER": "הכנס שם מלא בבקשה"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "שם תצוגה",
+        "ERROR": "נא הכנס שם תצוגה תקני",
+        "PLACEHOLDER": "נא הכנס שם תצוגה, שם זה יוצג בשיחות"
       },
       "AVAILABILITY": {
         "LABEL": "זמינות",
@@ -115,16 +117,16 @@
           "עסוק",
           "לא מחובר"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "זמינות הוגדרה בהצלחה",
+        "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "כתובת הדוא\"ל שלך",
+        "ERROR": "נא הכנס כתובת דוא\"ל תקינה",
+        "PLACEHOLDER": "נא הכנס את כתובת הדוא\"ל שלך, כתובת זו תוצג בשיחות"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
+        "LABEL": "סיסמא נוכחית",
         "ERROR": "Please enter the current password",
         "PLACEHOLDER": "Please enter the current password"
       },
@@ -145,7 +147,7 @@
     "CHANGE_ACCOUNTS": "החלף חשבון",
     "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "PROFILE_SETTINGS": "הגדרות פרופיל",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "התנתק"
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "הורד",
-      "UPLOADING": "מעלה..."
+      "UPLOADING": "מעלה...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -189,8 +192,9 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "שיחות",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "כל השיחות",
     "MENTIONED_CONVERSATIONS": "אִזְכּוּרים",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "הגדרות",
@@ -202,7 +206,7 @@
     "NOTIFICATIONS": "התראות",
     "CANNED_RESPONSES": "תגובות מוכנות",
     "INTEGRATIONS": "אינטגרציות",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "PROFILE_SETTINGS": "הגדרות פרופיל",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "יישומים",
     "LABELS": "Labels",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "הגדרות",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

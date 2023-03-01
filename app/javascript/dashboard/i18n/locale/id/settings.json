@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan email saat percakapan ditugaskan kepada saya",
         "CONVERSATION_CREATION": "Kirim pemberitahuan email ketika percakapan baru dibuat",
         "CONVERSATION_MENTION": "Kirim pemberitahuan email saat Anda disebut dalam percakapan",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim pemberitahuan email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim pemberitahuan email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferensi pemberitahuan Anda berhasil diperbarui",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Kirim push notification ketika percakapan baru dibuat",
         "CONVERSATION_MENTION": "Kirim push notification ketika Anda disebut dalam percakapan",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim push notification ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Anda telah mengaktifkan push notification untuk browser ini.",
         "REQUEST_PUSH": "Aktifkan push notifications"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Unduh",
-      "UPLOADING": "Mengunggah..."
+      "UPLOADING": "Mengunggah...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Sebutkan",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Pengaturan",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

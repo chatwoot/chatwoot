@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Send e-postvarsler når en samtale er tildelt meg",
         "CONVERSATION_CREATION": "Send e-postvarsler når en ny samtale opprettes",
         "CONVERSATION_MENTION": "Send varsel på e-post når du er nevnt i en samtale",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-postvarsler når en ny melding opprettes i en tilordnet samtale"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-postvarsler når en ny melding opprettes i en tilordnet samtale",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Dine varslingsinnstillinger er oppdatert",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Send push-varsler når en ny samtale opprettes",
         "CONVERSATION_MENTION": "Send pushvarslinger når du er nevnt i en samtale",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-varsler når en ny melding opprettes i en tilordnet samtale",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Du har aktivert push-varsler for denne nettleseren.",
         "REQUEST_PUSH": "Aktiver push-varsler"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Last ned",
-      "UPLOADING": "Laster opp..."
+      "UPLOADING": "Laster opp...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Samtaler",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapporter",
     "SETTINGS": "Innstillinger",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Innstillinger",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

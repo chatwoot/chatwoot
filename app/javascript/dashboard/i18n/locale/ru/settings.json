@@ -59,18 +59,18 @@
         "TITLE": "Звуковые уведомления",
         "NOTE": "Включить звуковые уведомления в панели управления для новых сообщений и разговоров.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Уведомлять о:",
           "NONE": "Нет",
           "ASSIGNED": "Назначенные беседы",
           "ALL_CONVERSATIONS": "Диалоги"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Звук уведомления:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
+          "TITLE": "Условия уведомления:",
           "CONDITION_ONE": "Отправлять звуковые оповещения только в том случае, если окно браузера не активно",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "CONDITION_TWO": "Отправлять уведомления каждые 30 сек., пока все назначенные диалоги не будут прочитаны"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять уведомления при упоминании в разговоре",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Скачать",
-      "UPLOADING": "Загружаем..."
+      "UPLOADING": "Загружаем...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Эта история больше недоступна."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Просмотреть на карте"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Диалоги",
     "ALL_CONVERSATIONS": "Диалоги",
     "MENTIONED_CONVERSATIONS": "Упоминания",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Несвязанные",
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
@@ -221,7 +225,7 @@
     "REPORTS_CONVERSATION": "Диалоги",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Кампании",
-    "ONGOING": "В настоящее время",
+    "ONGOING": "Активные",
     "ONE_OFF": "Один выключен",
     "REPORTS_AGENT": "Операторы",
     "REPORTS_LABEL": "Категории",
@@ -238,13 +242,14 @@
       "DRAFT": "Черновик",
       "ARCHIVED": "Архив",
       "CATEGORY": "Категория",
+      "SETTINGS": "Настройки",
       "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
     },
     "SET_AUTO_OFFLINE": {
       "TEXT": "Отметить автоматически",
       "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель."
     },
-    "DOCS": "Чтение документов"
+    "DOCS": "Открыть документацию"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Платёж",

@@ -53,11 +53,10 @@
         <woot-button
           v-else
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           icon="filter"
-          size="small"
-          class="btn-filter"
+          size="tiny"
           @click="onToggleAdvanceFiltersModal"
         />
       </div>
@@ -151,13 +150,14 @@
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
-      :on-close="onToggleAdvanceFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
-        :on-close="onToggleAdvanceFiltersModal"
+        :initial-applied-filters="appliedFilter"
+        :on-close="closeAdvanceFiltersModal"
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
@@ -181,6 +181,7 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import filterMixin from 'shared/mixins/filterMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -202,7 +203,13 @@ export default {
     DeleteCustomViews,
     ConversationBulkActions,
   },
-  mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
+  mixins: [
+    timeMixin,
+    conversationMixin,
+    eventListenerMixins,
+    alertMixin,
+    filterMixin,
+  ],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -248,11 +255,13 @@ export default {
       selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
+      appliedFilter: [],
     };
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -287,6 +296,13 @@ export default {
         this.hasCurrentPageEndReached &&
         !this.chatListLoading
       );
+    },
+    currentUserDetails() {
+      const { id, name } = this.currentUser;
+      return {
+        id,
+        name,
+      };
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
@@ -359,6 +375,9 @@ export default {
       }
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
+      }
+      if (this.conversationType === 'participating') {
+        return this.$t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
       }
       if (this.conversationType === 'unattended') {
         return this.$t('CHAT_LIST.UNATTENDED_HEADING');
@@ -461,7 +480,14 @@ export default {
       this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
-      this.showAdvancedFilters = !this.showAdvancedFilters;
+      if (!this.hasAppliedFilters) {
+        this.initializeExistingFilterToModal();
+      }
+      this.showAdvancedFilters = true;
+    },
+    closeAdvanceFiltersModal() {
+      this.showAdvancedFilters = false;
+      this.appliedFilter = [];
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
@@ -520,6 +546,7 @@ export default {
         return;
       }
       this.fetchConversations();
+      this.appliedFilter = [];
     },
     fetchConversations() {
       this.$store
@@ -810,10 +837,6 @@ export default {
   align-items: center;
 }
 
-.btn-filter {
-  margin: 0 var(--space-smaller);
-}
-
 .filter__applied {
   padding: 0 0 var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
@@ -821,5 +844,15 @@ export default {
 
 .delete-custom-view__button {
   margin-right: var(--space-normal);
+}
+
+.tab--chat-type {
+  padding: 0 var(--space-normal);
+
+  ::v-deep {
+    .tabs {
+      padding: 0;
+    }
+  }
 }
 </style>

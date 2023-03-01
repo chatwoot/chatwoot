@@ -1,49 +1,60 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "กรองด้วย",
+      "SORT": "เรียงด้วย",
       "SETTINGS_BUTTON": "ตั้งค่า",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "สร้างบทความ",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
-        "DRAFT": "Draft",
+        "DRAFT": "โครงร่าง",
         "ARCHIVED": "Archived"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
+        "ALL_ARTICLES": "บทความทั้งหมด",
+        "MINE": "บทความของฉัน",
+        "DRAFT": "บทความที่ร่างไว้",
         "ARCHIVED": "Archived Articles"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
+      "ALL_ARTICLES": "บทความทั้งหมด",
       "PUBLISH_BUTTON": "Publish",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
+      "ADD_TRANSLATION": "เพิ่มการแปลภาษา",
       "OPEN_SIDEBAR": "Open sidebar",
       "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "SAVING": "กำลังบันทึก...",
+      "SAVED": "บันทึกแล้ว"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "อัปโหลดรูปภาพ",
+        "UPLOADING": "กำลังอัพโหลด",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "ตั้งค่าบทความ",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "หมวดหมู่",
+          "TITLE": "เลือกหมวดหมู่",
+          "PLACEHOLDER": "เลือกหมวดหมู่",
+          "NO_RESULT": "ไม่พบหมวดหมู่",
+          "SEARCH_PLACEHOLDER": "ค้นหาหมวดหมู่"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "ผู้เขียน",
+          "TITLE": "เลือกผู้เขียน",
+          "PLACEHOLDER": "เลือกผู้เขียน",
+          "NO_RESULT": "ไม่พบผู้เขียน",
+          "SEARCH_PLACEHOLDER": "ค้นหาผู้แต่ง"
         },
         "META_TITLE": {
           "LABEL": "Meta title",
@@ -60,17 +71,17 @@
       },
       "BUTTONS": {
         "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "DELETE": "ลบบทความ"
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
+      "HEADER": "ศูนย์รวม",
       "DEFAULT": "Default",
       "NEW_BUTTON": "New Portal",
       "ACTIVE_BADGE": "ใช้งานอยู่",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
       "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
+      "ARTICLES_LABEL": "บทความ",
       "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "Add a new locale",
       "POPOVER": {
@@ -83,7 +94,7 @@
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
+            "COUNT_LABEL": "บทความ",
             "ADD": "Add locale",
             "VISIT": "Visit site",
             "SETTINGS": "ตั้งค่า",

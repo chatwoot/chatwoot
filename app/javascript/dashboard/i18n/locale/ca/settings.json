@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Envieu notificacions per correu electrònic quan se m’assigni una conversa",
         "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa",
         "CONVERSATION_MENTION": "Enviar notificacions per mail quan siguis esmentat en una conversació",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es creï un missatge nou en una conversa assignada"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es creï un missatge nou en una conversa assignada",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Les teves preferències de notificació s’han actualitzat correctament",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Envia notificacions automàtiques quan es creï una conversa nova",
         "CONVERSATION_MENTION": "Enviar notificacions push quan siguis esmentat en una conversació",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions automàtiques quan es creï un missatge nou en una conversa assignada",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Heu activat les notificacions per a aquest navegador.",
         "REQUEST_PUSH": "Activa les notificacions"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
-      "UPLOADING": "S'està carregant..."
+      "UPLOADING": "S'està carregant...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Converses",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mencions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Informes",
     "SETTINGS": "Configuracions",
@@ -238,6 +242,7 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Configuracions",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

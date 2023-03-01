@@ -1,10 +1,13 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Bir hesap oluştur",
+    "TRY_WOOT": "Create an account",
     "TITLE": "Kayıt ol",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "Kaydolarak, <a href=\"https://www.chatwoot.com/terms\">Şartlar & Koşullar</a>'ımızı ve <a href=\"https://www.chatwoot.com/privacy-policy\">Gizlilik politikamız</a>ı kabul etmiş olursunuz",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
@@ -35,7 +38,7 @@
       "SUCCESS_MESSAGE": "Kayıt başarılı",
       "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
-    "SUBMIT": "Yolla",
+    "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Hesabın var mı?"
   }
 }

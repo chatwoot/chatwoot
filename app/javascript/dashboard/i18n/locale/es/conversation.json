@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UNKNOWN_FILE_TYPE": "Archivo desconocido",
+    "SAVE_CONTACT": "Guardar",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "Correos separados por comas",
           "ERROR": "Por favor, introduzca correo válido"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Variables indefinidas",
+        "MESSAGE": "Tienes {undefinedVariablesCount} variables no definidas en tu mensaje: {undefinedVariables}. ¿Quieres enviar el mensaje de todos modos?",
+        "CONFIRM": {
+          "YES": "Enviar",
+          "CANCEL": "Cancelar"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "DELETE": "Eliminar",
-      "CREATE_A_CANNED_RESPONSE": "Añadir a respuestas predefinidas"
+      "CREATE_A_CANNED_RESPONSE": "Añadir a respuestas predefinidas",
+      "TRANSLATE": "Traducir"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Asunto"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participar",
+    "SIDEBAR_TITLE": "Participantes de la conversación",
+    "NO_RECORDS_FOUND": "No se encontraron resultados",
+    "ADD_PARTICIPANTS": "Seleccionar participantes",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} más",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} más",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} personas están participando.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} personas están participando.",
+    "NO_PARTICIPANTS_TEXT": "Nadie está participando!.",
+    "WATCH_CONVERSATION": "Abrir conversación",
+    "YOU_ARE_WATCHING": "Estás participando",
+    "API": {
+      "ERROR_MESSAGE": "No se pudo actualizar, ¡inténtelo de nuevo!",
+      "SUCCESS_MESSAGE": "¡Participantes actualizados!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "Ver contenido traducido",
+    "DESC": "Puedes ver el contenido traducido en cada lenguaje.",
+    "ORIGINAL_CONTENT": "Contenido original",
+    "TRANSLATED_CONTENT": "Contenido traducido",
+    "NO_TRANSLATIONS_AVAILABLE": "No hay traducciones disponibles para este contenido"
   }
 }

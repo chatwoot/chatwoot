@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Nosūtīt e -pasta paziņojumus, kad man tiek piešķirta saruna",
         "CONVERSATION_CREATION": "Nosūtīt e -pasta paziņojumus, kad tiek izveidota jauna saruna",
         "CONVERSATION_MENTION": "Nosūtīt e -pasta paziņojumus, kad tiekat pieminēts sarunā",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt e -pasta paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt e -pasta paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt e-pasta paziņojumus, kad sarunā tiek izveidots jauns ziņojums"
       },
       "API": {
         "UPDATE_SUCCESS": "Jūsu paziņojumu preferences ir veiksmīgi atjauninātas",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Nosūtīt push paziņojumus, kad tiek izveidota jauna saruna",
         "CONVERSATION_MENTION": "Nosūtīt push paziņojumus, kad tiekat pieminēts sarunā",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt push paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt push paziņojumus, kad sarunā tiek izveidots jauns ziņojums",
         "HAS_ENABLED_PUSH": "Jūs esat iespējojis push šajā pārlūkprogrammā.",
         "REQUEST_PUSH": "Iespējot push paziņojumus"
       },
@@ -162,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopēt",
-      "COPY_SUCCESSFUL": "Kods ir veiksmīgi nokopēts uz clipboard"
+      "COPY_SUCCESSFUL": "Kopēts starpliktuvē"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Parādīt Vairāk",
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Lejupielādēt",
-      "UPLOADING": "Notiek augšupielāde..."
+      "UPLOADING": "Notiek augšupielāde...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Šis stāsts vairs nav pieejams."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Skatīt kartē"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Sarunas",
     "ALL_CONVERSATIONS": "Visas Sarunas",
     "MENTIONED_CONVERSATIONS": "Pieminēšanas",
+    "PARTICIPATING_CONVERSATIONS": "Piedalās",
     "UNATTENDED_CONVERSATIONS": "Bez uzraudzības",
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
@@ -238,6 +242,7 @@
       "DRAFT": "Melnraksts",
       "ARCHIVED": "Arhivēts",
       "CATEGORY": "Kategorija",
+      "SETTINGS": "Iestatījumi",
       "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
     },
     "SET_AUTO_OFFLINE": {

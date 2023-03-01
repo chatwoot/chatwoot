@@ -82,6 +82,7 @@
       "conversation_creation": "Uusi keskustelu",
       "conversation_assignment": "Conversation Assigned",
       "assigned_conversation_new_message": "New Message",
+      "participating_conversation_new_message": "New Message",
       "conversation_mention": "Mention"
     }
   },

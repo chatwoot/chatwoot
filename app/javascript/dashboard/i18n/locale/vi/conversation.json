@@ -35,6 +35,7 @@
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
     "UNKNOWN_FILE_TYPE": "Tập tin chưa xác định",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Đang tải file đính kèm...",
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
@@ -132,6 +133,14 @@
           "PLACEHOLDER": "Các e\u001dmail phân biệt bởi dấu phẩy",
           "ERROR": "Vui lòng điền địa chỉ email hợp lệ"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Gửi",
+          "CANCEL": "Huỷ"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
@@ -156,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
       "DELETE": "Xoá",
-      "CREATE_A_CANNED_RESPONSE": "Thêm vào câu trả lời soạn sẵn"
+      "CREATE_A_CANNED_RESPONSE": "Thêm vào câu trả lời soạn sẵn",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -244,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Chủ đề"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Không tìm thấy kết quả",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

@@ -51,13 +51,9 @@ export default {
   border-radius: var(--border-radius-small);
   overflow: hidden;
   .menu-label {
-    margin: 0;
+    margin: 0 var(--space-small);
     font-size: var(--font-size-mini);
     flex-shrink: 0;
-  }
-
-  .menu-icon {
-    margin-right: var(--space-small);
   }
 
   &:hover {
@@ -68,7 +64,6 @@ export default {
 
 .agent-thumbnail {
   margin-top: 0 !important;
-  margin-right: var(--space-small);
 }
 
 .label-pill {
@@ -77,6 +72,5 @@ export default {
   border-radius: var(--border-radius-rounded);
   border: 1px solid var(--s-50);
   flex-shrink: 0;
-  margin-right: var(--space-small);
 }
 </style>

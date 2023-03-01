@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Pošalji obaveštenje putem e-poruke kada je razgovor dodeljen meni",
         "CONVERSATION_CREATION": "Pošalji obaveštenje putem e-poruke kada je napravljen novi razgovor",
         "CONVERSATION_MENTION": "Pošalji obaveštenje putem e-poruke kada ste pomenuti u razgovoru",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošalji obaveštenje putem e-poruke kada je napravljena nova poruka u dodeljenom razgovoru"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošalji obaveštenje putem e-poruke kada je napravljena nova poruka u dodeljenom razgovoru",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Vaša podešavanja obaveštenja su uspešno izmenjena",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Pošalji mobilno obaveštenje kada je napravljen novi razgovor",
         "CONVERSATION_MENTION": "Pošalji mobilno obaveštenje kada ste pomenuti u razgovoru",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošalji mobilno obaveštenje kada je napravljena nova poruka u dodeljenom razgovoru",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Omogućili ste obaveštenje za ovaj pregledač.",
         "REQUEST_PUSH": "Omogućite mobilna obaveštenja"
       },
@@ -170,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Preuzmi",
-      "UPLOADING": "Dodavanje..."
+      "UPLOADING": "Dodavanje...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ova priča više nije dostupna."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -191,6 +194,7 @@
     "CONVERSATIONS": "Razgovori",
     "ALL_CONVERSATIONS": "Svi razgovori",
     "MENTIONED_CONVERSATIONS": "Spominjanja",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Nedodeljeni",
     "REPORTS": "Izveštaji",
     "SETTINGS": "Podešavanja",
@@ -238,6 +242,7 @@
       "DRAFT": "Nacrt",
       "ARCHIVED": "Arhivirano",
       "CATEGORY": "Kategorija",
+      "SETTINGS": "Podešavanja",
       "CATEGORY_EMPTY_MESSAGE": "Nije pronađena nijedna kategorija"
     },
     "SET_AUTO_OFFLINE": {
