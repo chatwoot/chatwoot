@@ -1,4 +1,4 @@
-class Enterprise::CustomAudit < Audited::Audit
+class Enterprise::AuditLog < Audited::Audit
   after_save :log_additional_information
 
   private
