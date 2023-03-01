@@ -39,10 +39,10 @@ RSpec.describe 'Enterprise Audit API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['auditable_type']).to eql('Inbox')
-        expect(json_response['action']).to eql('create')
-        expect(json_response['associated_id']).to eql(account.id)
-        expect(json_response['username']).to eql(user.email)
+        expect(json_response[0]['auditable_type']).to eql('Inbox')
+        expect(json_response[0]['action']).to eql('create')
+        expect(json_response[0]['associated_id']).to eql(account.id)
+        expect(json_response[0]['username']).to eql(user.email)
       end
     end
   end
