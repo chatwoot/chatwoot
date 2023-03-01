@@ -154,7 +154,7 @@ export default {
       this.$store.dispatch('conversationSearch/fullSearch', { q });
     },
     onBack() {
-      this.$router.push({ name: 'dashboard' });
+      this.$router.push({ name: 'home' });
     },
   },
 };

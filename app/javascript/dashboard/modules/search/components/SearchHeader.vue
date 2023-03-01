@@ -28,7 +28,7 @@ export default {
     document.addEventListener('keydown', this.handler);
   },
   beforeDestroy() {
-    window.removeEventListener('keydown', this.handler);
+    document.removeEventListener('keydown', this.handler);
   },
   methods: {
     handler(e) {
