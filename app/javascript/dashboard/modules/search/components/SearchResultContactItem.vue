@@ -5,7 +5,7 @@
       <h5 class="text-block-title name">{{ name }}</h5>
       <p class="details-meta">
         <span v-if="email" class="email">{{ email }}</span>
-        <span v-if="phone" class="separator">·</span>
+        <span v-if="phone" class="separator">•</span>
         <span v-if="phone" class="phone">
           {{ phone }}
         </span>
@@ -75,5 +75,9 @@ export default {
   font-size: var(--font-size-small);
   display: flex;
   align-items: center;
+
+  span {
+    margin-right: var(--space-smaller);
+  }
 }
 </style>
