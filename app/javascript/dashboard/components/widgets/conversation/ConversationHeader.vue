@@ -10,7 +10,11 @@
           :status="currentContact.availability_status"
         />
         <div class="user--profile__meta">
-          <h3 class="user--name text-truncate">
+          <woot-button
+            variant="clear"
+            class="user--name text-truncate"
+            @click.prevent="$emit('contact-panel-toggle')"
+          >
             <span class="margin-right-smaller">{{ currentContact.name }}</span>
             <fluent-icon
               v-if="!isHMACVerified"
@@ -19,7 +23,7 @@
               class="hmac-warning__icon"
               icon="warning"
             />
-          </h3>
+          </woot-button>
           <div class="conversation--header--actions text-truncate">
             <inbox-name
               v-if="hasMultipleInboxes"
@@ -202,10 +206,12 @@ export default {
 .user--name {
   display: inline-block;
   font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-medium);
   line-height: 1.3;
-  margin: 0;
   text-transform: capitalize;
-  width: 100%;
+  color: var(--color-heading) !important;
+  height: auto;
+  padding: 0;
 }
 
 .conversation--header--actions {
