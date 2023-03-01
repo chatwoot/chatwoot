@@ -5,7 +5,7 @@
     </div>
     <slot />
     <div v-if="empty" class="empty">
-      <fluent-icon icon="info" size="24px" class="icon" />
+      <fluent-icon icon="info" size="16px" class="icon" />
       <p class="empty-state__text">
         {{ $t('SEARCH.EMPTY_STATE', { item: titleCase, query }) }}
       </p>
@@ -51,23 +51,20 @@ export default {
   background: var(--white);
 }
 
-.text-block-title {
-  color: var(--s-600);
-}
 .empty {
-  padding: var(--space-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-medium) var(--space-normal);
   background: var(--s-25);
   border-radius: var(--border-radius-medium);
   .icon {
-    font-size: var(--space-two);
     color: var(--s-500);
-    margin: 0 auto;
-    display: block;
   }
   .empty-state__text {
     text-align: center;
-    margin-top: var(--space-small);
     color: var(--s-500);
+    margin: 0 var(--space-small);
   }
 }
 </style>
