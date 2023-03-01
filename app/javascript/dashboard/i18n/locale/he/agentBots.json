@@ -1,73 +1,73 @@
 {
   "AGENT_BOTS": {
     "HEADER": "בוטים",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "LOADING_EDITOR": "טוען את העורך...",
+    "HEADER_BTN_TXT": "הוסף הגדרת בוט",
+    "SIDEBAR_TXT": "<p><b>סוכן בוט</b> <p>סוכני בוט מאפשרים לך לבצע אוטומציה של השיחה</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "LABEL": "שם הבוט",
+        "PLACEHOLDER": "תן שם לבוט שלך",
+        "ERROR": "חובה לתת שם לבוט"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "תיאור הבוט",
+        "PLACEHOLDER": "מה הבוט הזה עושה?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "נא הכנס את הגדרות ה-CSML עבור הבוט שלך",
+        "API_ERROR": "הגדרות ה-CSML אינם תקינים, נא לתקן ולנסות שוב."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "אמת ושמור"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "בחר סוכן בוט",
+      "DESC": "תוכל להגדיר את סוכן הבוט מתוך הרשימה עבור תיבת דואר זו. הבוט יכול לנהל את השיחה ולהעביר אותה לנציג אנושי כשיידרש.",
       "SUBMIT": "עדכן",
-      "DISCONNECT": "Disconnect Bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "DISCONNECT": "נתק בוט",
+      "SUCCESS_MESSAGE": "סוכן הבוט עודכן בהצלחה",
+      "DISCONNECTED_SUCCESS_MESSAGE": "סוכן הבוט נותק בהצלחה",
+      "ERROR_MESSAGE": "עדכון סוכן הבוט נכשל, אנא נסה מאוחר יותר",
+      "DISCONNECTED_ERROR_MESSAGE": "ניתוק סוכן הבוט נכשל, אנא נסה מאוחר יותר",
+      "SELECT_PLACEHOLDER": "בחר בוט"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "הגדר בוט חדש",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "הבוט התווסף בהצלחה",
+        "ERROR_MESSAGE": "הוספת הבוט נכשלה, אנא נסה מאוחר יותר"
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
-      "TYPE": "Bot Type"
+      "404": "לא נמצאו בוטים, תוכל ליצור אחד בתפריט \"הגדר בוט חדש\" ↗",
+      "LOADING": "מבצע משיכת בוטים...",
+      "TYPE": "סוג הבוט"
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
-      "TITLE": "Delete Bot",
+      "TITLE": "מחק בוט",
       "SUBMIT": "מחק",
       "CANCEL_BUTTON_TEXT": "ביטול",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "DESCRIPTION": "האם אתה בטוח שברצונך למחוק בוט זה? פעולה זו לא ניתנת לשחזור",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "הבוט נמחק בהצלחה",
+        "ERROR_MESSAGE": "מחיקת הבוט נכשלה, אנא נסה מאוחר יותר"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "ערוך",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
+      "LOADING": "מבצע משיכת בוטים...",
+      "TITLE": "ערוך בוט",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "הבוט עודכן בהצלחה",
+        "ERROR_MESSAGE": "עדכון הבוט נכשל, אנא נסה מאוחר יותר"
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook בוט",
+      "CSML": "CSML בוט"
     }
   }
 }

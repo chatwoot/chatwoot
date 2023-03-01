@@ -264,19 +264,19 @@
     "REMANING_PARTICIPANT_TEXT": "+%{count} outro",
     "TOTAL_PARTICIPANTS_TEXT": "%{count} pessoas estão participando.",
     "TOTAL_PARTICIPANT_TEXT": "%{count} pessoa está participando.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "NO_PARTICIPANTS_TEXT": "Ninguém está participando!",
+    "WATCH_CONVERSATION": "Junte-se a conversa",
+    "YOU_ARE_WATCHING": "Você está participando",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "Não foi possível atualizar, tente novamente!",
+      "SUCCESS_MESSAGE": "Participantes atualizados!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Ver conteúdo traduzido",
+    "DESC": "Você pode visualizar o conteúdo traduzido em cada idioma.",
+    "ORIGINAL_CONTENT": "Conteúdo Original",
+    "TRANSLATED_CONTENT": "Conteúdo Traduzido",
+    "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
   }
 }
