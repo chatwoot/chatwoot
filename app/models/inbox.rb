@@ -158,3 +158,4 @@ class Inbox < ApplicationRecord
 end
 
 Inbox.prepend_mod_with('Inbox')
+Inbox.include_mod_with('Audit::Inbox')

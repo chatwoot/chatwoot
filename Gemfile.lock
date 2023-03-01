@@ -90,6 +90,8 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.2)
     attr_extras (6.2.5)
+    audited (5.2.0)
+      activerecord (>= 5.0, < 7.1)
     aws-eventstream (1.2.0)
     aws-partitions (1.605.0)
     aws-sdk-core (3.131.2)
@@ -763,6 +765,7 @@ DEPENDENCIES
   administrate
   annotate
   attr_extras
+  audited (~> 5.2)
   aws-sdk-s3
   azure-storage-blob
   barnes
