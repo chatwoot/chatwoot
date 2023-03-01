@@ -172,12 +172,12 @@ pt:
       sub_title: Search for the articles here or browse the categories below.
     common:
       home: Principal
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
-      articles: articles
-      no_articles: There are no articles here
+      last_updated_on: Última atualização em %{last_updated_on}
+      view_all_articles: Ver todos os artigos
+      article: artigo
+      articles: artigos
+      no_articles: Não há artigos aqui
     footer:
-      made_with: Made with
+      made_with: Feito com
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Ir para o site principal

@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu hội thoại",
-    "IS_REQUIRED": "được yêu cầu"
+    "IS_REQUIRED": "được yêu cầu",
+    "REQUIRED": "Bắt buộc"
   },
   "FILE_SIZE_LIMIT": "Tệp vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

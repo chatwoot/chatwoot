@@ -476,7 +476,8 @@
       "WHATSAPP_SECTION_TITLE": "API key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "کلید API را به روز کنید",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "کلید API جدید را در اینجا وارد کنید",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود"
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "به‌روزرسانی تنظیمات فرم قبل از گفتگو"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",

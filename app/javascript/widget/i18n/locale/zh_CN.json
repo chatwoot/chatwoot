@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {
