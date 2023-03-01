@@ -52,6 +52,7 @@ import SearchResultContactsList from './SearchResultContactsList.vue';
 import { isEmptyObject } from 'dashboard/helper/commons.js';
 
 import { mapGetters } from 'vuex';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     SearchHeader,
@@ -149,6 +150,7 @@ export default {
   methods: {
     search(q) {
       this.query = q;
+      this.$track(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
       this.$store.dispatch('conversationSearch/fullSearch', { q });
     },
     onBack() {

@@ -53,7 +53,7 @@ export default {
       default: '',
     },
     accountId: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     createdAt: {
