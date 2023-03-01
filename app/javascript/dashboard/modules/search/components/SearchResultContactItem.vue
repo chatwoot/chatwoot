@@ -76,9 +76,4 @@ export default {
   display: flex;
   align-items: center;
 }
-
-.details-meta > :not([hidden]) ~ :not([hidden]) {
-  margin-right: calc(1rem * 0);
-  margin-left: calc(1rem * calc(1 - 0));
-}
 </style>
