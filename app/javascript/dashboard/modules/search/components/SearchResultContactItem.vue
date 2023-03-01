@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { frontendURL } from 'dashboard/helper/URLHelper.js';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 export default {
   props: {
     id: {
