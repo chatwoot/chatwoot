@@ -8,7 +8,6 @@
       <li v-for="message in messages" :key="message.id">
         <search-result-conversation-item
           :id="message.conversation_id"
-          :name="getName(message)"
           :account-id="accountId"
           :inbox="message.inbox"
           :created-at="message.created_at"

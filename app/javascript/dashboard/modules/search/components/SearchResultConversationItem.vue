@@ -20,7 +20,7 @@
           <span class="created-at">{{ createdAtTime }}</span>
         </div>
       </div>
-      <h5 class="text-block-title name">
+      <h5 v-if="name" class="text-block-title name">
         <span class="pre-text">from:</span>
         {{ name }}
       </h5>
