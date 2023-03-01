@@ -172,12 +172,12 @@ lv:
       sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
     common:
       home: Sākums
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
+      last_updated_on: Pēdējo reizi atjaunināts %{last_updated_on}
+      view_all_articles: Skatīt visus rakstus
+      article: raksts
       articles: raksti
-      no_articles: There are no articles here
+      no_articles: Šeit nav neviena raksta
     footer:
-      made_with: Made with
+      made_with: Veidots ar
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Doties uz galveno vietni
