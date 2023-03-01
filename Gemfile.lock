@@ -844,9 +844,9 @@ DEPENDENCIES
   rubocop-rspec
   scout_apm
   seed_dump
-  sentry-rails (~> 5.3, >= 5.3.1)
-  sentry-ruby (~> 5.3)
-  sentry-sidekiq (~> 5.3, >= 5.3.1)
+  sentry-rails
+  sentry-ruby
+  sentry-sidekiq
   shoulda-matchers
   sidekiq (~> 6.4.2)
   sidekiq-cron (~> 1.6, >= 1.6.0)

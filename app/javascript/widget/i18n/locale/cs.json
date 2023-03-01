@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Zadejte své jméno a e-mail před zahájením konverzace",
-    "IS_REQUIRED": "je vyžadováno"
+    "IS_REQUIRED": "je vyžadováno",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
   "CHAT_FORM": {
