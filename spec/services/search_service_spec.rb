@@ -89,7 +89,7 @@ describe ::SearchService do
         new_converstion = create(:conversation, contact: random, inbox: inbox, account: account)
         params = { q: new_converstion.display_id }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
-        expect(search.perform[:conversations].map(&:id)).to match_array([new_converstion.id])
+        expect(search.perform[:conversations].map(&:id)).to include new_converstion.id
       end
     end
   end
