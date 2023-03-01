@@ -1,25 +1,31 @@
 type: object
 properties:
-  email:
-    type: string
-    description: Email address of the contact
-  name:
-    type: string
-    description: The name of the contact
-  phone_number:
-    type: string
-    description: Phone number of the contact
-  thumbnail:
-    type: string
-    description: Avatar URL of the contact
-  additional_attributes:
+  payload:
     type: object
-    description: The object containing additional attributes related to the contact
-  custom_attributes:
-    type: object
-    description: The object to save custom attributes for contact, accepts custom attributes key and value
-    example: { attribute_key: attribute_value, signed_up_at: dd/mm/yyyy }
-  contact_inboxes:
-    type: array
-    items:
-      $ref: '#/definitions/contact_inboxes'
+    properties:
+      contact:
+        type: object
+        properties:
+          email:
+            type: string
+            description: Email address of the contact
+          name:
+            type: string
+            description: The name of the contact
+          phone_number:
+            type: string
+            description: Phone number of the contact
+          thumbnail:
+            type: string
+            description: Avatar URL of the contact
+          additional_attributes:
+            type: object
+            description: The object containing additional attributes related to the contact
+          custom_attributes:
+            type: object
+            description: The object to save custom attributes for contact, accepts custom attributes key and value
+            example: { attribute_key: attribute_value, signed_up_at: dd/mm/yyyy }
+          contact_inboxes:
+            type: array
+            items:
+              $ref: '#/definitions/contact_inboxes'
