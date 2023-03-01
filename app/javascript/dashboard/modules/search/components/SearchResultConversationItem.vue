@@ -17,7 +17,7 @@
           </div>
         </div>
         <div>
-          <span>{{ createdAtTime }}</span>
+          <span class="created-at">{{ createdAtTime }}</span>
         </div>
       </div>
       <h5 class="text-block-title name">
@@ -41,22 +41,14 @@ export default {
   mixins: [timeMixin],
   props: {
     id: {
-      type: String,
-      default: '',
-    },
-    email: {
-      type: String,
-      default: '',
+      type: Number,
+      default: 0,
     },
     inbox: {
       type: Object,
       default: () => ({}),
     },
     name: {
-      type: String,
-      default: '',
-    },
-    thumbnail: {
       type: String,
       default: '',
     },
@@ -127,7 +119,7 @@ export default {
 .name {
   margin: 0;
 }
-
+.created-at,
 .pre-text {
   color: var(--s-600);
   font-size: var(--font-size-mini);
