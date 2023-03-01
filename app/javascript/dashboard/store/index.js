@@ -42,6 +42,25 @@ import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 
+import LogRocket from 'logrocket';
+import createPlugin from 'logrocket-vuex';
+
+const plugins = [];
+
+if (window.logRocketProjectId) {
+  LogRocket.init(window.logRocketProjectId);
+  const logRocketPlugin = createPlugin(LogRocket, function(mutation) {
+    const eventsToIgnore = ['SET_CURRENT_USER', 'AUTHENTICATE', 'CLEAR_USER'];
+    if (eventsToIgnore.includes(mutation.type)) {
+      return null;
+    }
+
+    return mutation;
+  });
+
+  plugins.push(logRocketPlugin);
+}
+
 Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
@@ -86,4 +105,5 @@ export default new Vuex.Store({
     userNotificationSettings,
     webhooks,
   },
+  plugins,
 });

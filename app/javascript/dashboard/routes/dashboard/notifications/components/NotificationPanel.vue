@@ -62,7 +62,7 @@
             <fluent-icon
               icon="chevron-left"
               size="16"
-              class="margin-left-minus-slab"
+              :class="notificationPanelFooterIconClass"
             />
           </woot-button>
           <woot-button
@@ -96,7 +96,7 @@
             <fluent-icon
               icon="chevron-right"
               size="16"
-              class="margin-left-minus-slab"
+              :class="notificationPanelFooterIconClass"
             />
           </woot-button>
         </div>
@@ -109,6 +109,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 import NotificationPanelList from './NotificationPanelList';
 
@@ -116,7 +117,7 @@ export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, rtlMixin],
   data() {
     return {
       pageSize: 15,
@@ -129,6 +130,11 @@ export default {
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
+    notificationPanelFooterIconClass() {
+      return this.isRTLView
+        ? 'margin-right-minus-slab'
+        : 'margin-left-minus-slab';
+    },
     totalUnreadNotifications() {
       return this.meta.unreadCount;
     },
@@ -249,6 +255,7 @@ export default {
   left: var(--space-jumbo);
   margin: var(--space-small);
 }
+
 .header-wrap {
   flex-direction: row;
   align-items: center;
@@ -272,6 +279,7 @@ export default {
     font-size: var(--font-size-micro);
     font-weight: var(--font-weight-bold);
     margin-left: var(--space-smaller);
+    margin-right: var(--space-smaller);
   }
 
   .action-button {

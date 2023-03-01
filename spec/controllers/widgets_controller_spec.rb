@@ -33,5 +33,13 @@ describe '/widget', type: :request do
       expect(response).to have_http_status(:unauthorized)
       expect(response.body).to include('Account is suspended')
     end
+
+    it 'returns 404 if the webwidget is deleted' do
+      web_widget.delete
+
+      get widget_url(website_token: web_widget.website_token)
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).to include('web widget does not exist')
+    end
   end
 end

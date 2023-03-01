@@ -82,6 +82,7 @@
       "conversation_creation": "שיחה חדשה",
       "conversation_assignment": "שיחה הוקצתה",
       "assigned_conversation_new_message": "הודעה חדשה",
+      "participating_conversation_new_message": "הודעה חדשה",
       "conversation_mention": "אִזְכּוּר"
     }
   },

@@ -82,6 +82,7 @@
       "conversation_creation": "Conversație nouă",
       "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
+      "participating_conversation_new_message": "Trimite mesaj nou",
       "conversation_mention": "a menţiona"
     }
   },
