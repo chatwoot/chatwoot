@@ -172,12 +172,12 @@ ru:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:
       home: Главная
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
+      last_updated_on: Обновлено %{last_updated_on}
+      view_all_articles: Показать все статьи
+      article: статья
       articles: статьи
-      no_articles: There are no articles here
+      no_articles: Здесь нет статей
     footer:
-      made_with: Made with
+      made_with: Сделано с
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Перейти на основной сайт

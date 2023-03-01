@@ -9,7 +9,7 @@
       "GOOGLE_SIGNUP": "Sign up with Google"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
+      "LABEL": "Nome da empresa",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
       "ERROR": "Company name is too short"
     },

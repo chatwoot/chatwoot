@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
-    "IS_REQUIRED": "обов'язково"
+    "IS_REQUIRED": "обов'язково",
+    "REQUIRED": "Обов'язково"
   },
   "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
