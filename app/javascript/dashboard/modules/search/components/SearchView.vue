@@ -32,6 +32,12 @@
             :query="query"
           />
         </div>
+        <div v-else-if="showEmptySearchResults" class="empty">
+          <fluent-icon icon="info" size="16px" class="icon" />
+          <p class="empty-state__text">
+            {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -43,6 +49,8 @@ import SearchTabs from './SearchTabs.vue';
 import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
+import { isEmptyObject } from 'dashboard/helper/commons.js';
+
 import { mapGetters } from 'vuex';
 export default {
   components: {
@@ -131,6 +139,12 @@ export default {
         },
       ];
     },
+    showEmptySearchResults() {
+      return (
+        this.totalSearchResultsCount === 0 &&
+        !isEmptyObject(this.fullSearchRecords)
+      );
+    },
   },
   methods: {
     search(q) {
@@ -165,5 +179,22 @@ export default {
   position: fixed;
   right: var(--space-small);
   top: var(--space-small);
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-medium) var(--space-normal);
+  background: var(--s-25);
+  border-radius: var(--border-radius-medium);
+  .icon {
+    color: var(--s-500);
+  }
+  .empty-state__text {
+    text-align: center;
+    color: var(--s-500);
+    margin: 0 var(--space-small);
+  }
 }
 </style>

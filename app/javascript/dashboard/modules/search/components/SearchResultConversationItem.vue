@@ -93,6 +93,7 @@ export default {
 .icon-wrap {
   width: var(--space-medium);
   height: var(--space-medium);
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
