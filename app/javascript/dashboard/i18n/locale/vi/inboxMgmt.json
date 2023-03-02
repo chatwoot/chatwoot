@@ -476,7 +476,8 @@
       "WHATSAPP_SECTION_TITLE": "Khoá API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Cập nhật"
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Cập nhật",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Giới hạn tự động phân công tối đa",

@@ -76,3 +76,5 @@ class AutomationRule < ApplicationRecord
     errors.add(:conditions, 'Automation conditions should have query operator.') if operators.length > 1
   end
 end
+
+AutomationRule.include_mod_with('Audit::Inbox')
