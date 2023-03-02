@@ -116,7 +116,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def channel_email_with_name
     if @conversation.assignee.present?
-      I18n.t('conversations.reply.channel_email.header.reply_with_name', assignee_name: assignee_name, from_email: @channel.email)
+      I18n.t('conversations.reply.channel_email.header.reply_with_name', assignee_name: assignee_name, inbox_name: @inbox.name)
     else
       I18n.t('conversations.reply.channel_email.header.reply_with_inbox_name', inbox_name: @inbox.name, from_email: @channel.email)
     end
