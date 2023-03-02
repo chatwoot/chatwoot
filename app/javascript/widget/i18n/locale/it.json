@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Per favore inserisci il tuo nome ed email prima di iniziare la conversazione",
-    "IS_REQUIRED": "è obbligatorio"
+    "IS_REQUIRED": "è obbligatorio",
+    "REQUIRED": "Obbligatorio"
   },
   "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
   "CHAT_FORM": {

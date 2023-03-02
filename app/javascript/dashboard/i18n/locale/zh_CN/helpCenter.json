@@ -28,6 +28,17 @@
       "SAVING": "保存中...",
       "SAVED": "保存成功"
     },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "上传头像",
+        "UPLOADING": "上传中...",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
+    },
     "ARTICLE_SETTINGS": {
       "TITLE": "文章设置",
       "FORM": {
