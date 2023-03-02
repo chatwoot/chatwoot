@@ -431,6 +431,7 @@ export default {
 
   .assignee-label {
     display: inline-flex;
+    margin-left: var(--space-one);
     max-width: 50%;
   }
 }

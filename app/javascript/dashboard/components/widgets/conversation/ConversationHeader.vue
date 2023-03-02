@@ -11,7 +11,7 @@
         />
         <div class="user--profile__meta">
           <h3 class="user--name text-truncate">
-            <span class="margin-right-smaller">{{ currentContact.name }}</span>
+            <span>{{ currentContact.name }}</span>
             <fluent-icon
               v-if="!isHMACVerified"
               v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
@@ -21,16 +21,16 @@
             />
           </h3>
           <div class="conversation--header--actions text-truncate">
-            <inbox-name
-              v-if="hasMultipleInboxes"
-              :inbox="inbox"
-              class="margin-right-1"
-            />
-            <span v-if="isSnoozed" class="snoozed--display-text margin-right-1">
+            <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
+            <span
+              v-if="isSnoozed"
+              class="snoozed--display-text"
+              :class="isRTLView ? 'margin-right-1' : 'margin-left-1'"
+            >
               {{ snoozedDisplayText }}
             </span>
             <woot-button
-              class="user--profile__button margin-right-1"
+              class="user--profile__button margin-right-1 margin-left-1"
               size="small"
               variant="link"
               @click="$emit('contact-panel-toggle')"
@@ -57,6 +57,7 @@ import BackButton from '../BackButton';
 import differenceInHours from 'date-fns/differenceInHours';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import rtlMixin from 'shared/mixins/rtlMixin';
 import InboxName from '../InboxName';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
@@ -69,7 +70,7 @@ export default {
     MoreActions,
     Thumbnail,
   },
-  mixins: [inboxMixin, agentMixin, eventListenerMixins],
+  mixins: [inboxMixin, agentMixin, eventListenerMixins, rtlMixin],
   props: {
     chat: {
       type: Object,
@@ -213,6 +214,10 @@ export default {
   display: flex;
   font-size: var(--font-size-mini);
 
+  ::v-deep .inbox--name {
+    margin: 0;
+  }
+
   .user--profile__button {
     padding: 0;
   }
@@ -225,5 +230,6 @@ export default {
 
 .hmac-warning__icon {
   color: var(--y-600);
+  margin: 0 var(--space-micro);
 }
 </style>
