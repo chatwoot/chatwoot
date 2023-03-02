@@ -2,7 +2,7 @@
 class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
   include ReportingEventHelper
 
-  queue_as :scheduled_jobs
+  queue_as :async_database_migration
 
   def perform(account)
     get_conversations_with_bot_handoffs(account)
