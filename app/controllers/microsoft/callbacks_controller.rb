@@ -47,8 +47,6 @@ class Microsoft::CallbacksController < ApplicationController
 
   # Fallback name, for when name field is missing from users_data
   def fallback_name
-    return 'New Inbox' if users_data['email'].blank?
-
     users_data['email'].split('@').first.parameterize.titleize
   end
 
