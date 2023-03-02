@@ -7,7 +7,7 @@
       {{ $t('SEARCH.WROTE') }}
     </p>
     <read-more :shrink="isOverflowing" @expand="isOverflowing = false">
-      <div v-dompurify-html="messageContent" class="message-content" />
+      <div v-dompurify-html="prepareContent(content)" class="message-content" />
     </read-more>
   </blockquote>
 </template>
@@ -48,6 +48,20 @@ export default {
       this.isOverflowing = message.offsetHeight > 150;
     });
   },
+  methods: {
+    prepareContent(content = '') {
+      const plainTextContent = this.getPlainText(content);
+      const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
+      return plainTextContent.replace(
+        new RegExp(`(${escapedSearchTerm})`, 'ig'),
+        '<span class="searchkey--highlight">$1</span>'
+      );
+    },
+    // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+    escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+  },
 };
 </script>
 
@@ -69,5 +83,15 @@ export default {
 .header {
   color: var(--s-500);
   margin-bottom: var(--space-smaller);
+}
+
+.message-content {
+  overflow-wrap: break-word;
+}
+
+.message-content::v-deep .searchkey--highlight {
+  color: var(--w-600);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
 }
 </style>
