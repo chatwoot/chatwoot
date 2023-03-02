@@ -87,7 +87,8 @@
             track-by="name"
             :multiple="true"
             :taggable="true"
-            :preserve-search="true"
+            :close-on-select="false"
+            @close="onBlur"
             @tag="addTagValue"
           />
         </label>
@@ -189,8 +190,13 @@ export default {
         name: value.trim(),
       }));
       this.metaTags.push(...tags);
-      this.$refs.tagInput.$el.focus();
       this.saveArticle();
+    },
+    onBlur() {
+      const currentSearch = this.$refs.tagInput.$refs.search.value;
+      if (currentSearch) {
+        this.addTagValue(currentSearch);
+      }
     },
     onClickSelectCategory({ id }) {
       this.$emit('save-article', { category_id: id });
