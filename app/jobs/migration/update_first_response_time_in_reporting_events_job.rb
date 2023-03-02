@@ -9,9 +9,8 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
     account.reporting_events.where(name: 'first_response').each do |event|
       conversation = event.conversation
 
-      # if the conversation has a bot handoff event, we don't need to update the event_start_time
-      next if @conversations_with_handoffs.include?(conversation.id)
-      next if conversation.nil?
+      # if the conversation has a bot handoff event, we don't need to update the response_time
+      next if conversation.nil? || @conversations_with_handoffs.include?(conversation.id)
 
       update_event_data(event, conversation)
     end
