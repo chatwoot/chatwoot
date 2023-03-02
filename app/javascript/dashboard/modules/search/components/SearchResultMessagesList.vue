@@ -15,6 +15,7 @@
           <message-content
             :author="getName(message)"
             :content="message.content"
+            :search-term="query"
           />
         </search-result-conversation-item>
       </li>

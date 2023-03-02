@@ -30,6 +30,10 @@ export default {
       type: String,
       default: '',
     },
+    searchTerm: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
