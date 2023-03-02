@@ -12,7 +12,7 @@
     <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
     <button
       v-if="showClose"
-      class="label-close--button "
+      class="label-close--button"
       :style="{ color: textColor }"
       @click="onClick"
     >
@@ -108,6 +108,7 @@ export default {
   display: inline-flex;
   align-items: center;
   font-weight: var(--font-weight-medium);
+  gap: var(--space-smaller);
   margin-right: var(--space-smaller);
   margin-bottom: var(--space-smaller);
   padding: var(--space-smaller);
@@ -125,9 +126,6 @@ export default {
 
   .label--icon {
     cursor: pointer;
-  }
-  .label-color-dot {
-    margin-right: var(--space-smaller);
   }
 
   &.small .label--icon,
@@ -209,7 +207,6 @@ export default {
 .label-close--button {
   color: var(--s-800);
   margin-bottom: var(--space-minus-micro);
-  margin-left: var(--space-smaller);
   border-radius: var(--border-radius-small);
   cursor: pointer;
 
@@ -232,7 +229,6 @@ export default {
   width: var(--space-slab);
   height: var(--space-slab);
   border-radius: var(--border-radius-small);
-  margin-right: var(--space-smaller);
   box-shadow: var(--shadow-small);
 }
 .label.small .label-color-dot {
