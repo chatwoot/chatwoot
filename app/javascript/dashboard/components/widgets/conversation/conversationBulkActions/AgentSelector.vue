@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="onClose" class="bulk-action__agents">
+  <div v-on-clickaway="onCloseAgentList" class="bulk-action__agents">
     <div class="triangle" :style="cssVars">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
@@ -126,6 +126,7 @@ export default {
     return {
       query: '',
       selectedAgent: null,
+      goBackToAgentList: false,
     };
   },
   computed: {
@@ -169,6 +170,7 @@ export default {
       this.$emit('select', this.selectedAgent);
     },
     goBack() {
+      this.goBackToAgentList = true;
       this.selectedAgent = null;
     },
     assignAgent(agent) {
@@ -176,6 +178,12 @@ export default {
     },
     onClose() {
       this.$emit('close');
+    },
+    onCloseAgentList() {
+      if (this.selectedAgent === null && !this.goBackToAgentList) {
+        this.onClose();
+      }
+      this.goBackToAgentList = false;
     },
   },
 };

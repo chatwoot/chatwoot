@@ -10,6 +10,13 @@ RSpec.describe Account do
 
     let!(:account) { create(:account) }
 
+    describe 'audit logs' do
+      it 'returns audit logs' do
+        # checking whether associated_audits method is present
+        expect(account.associated_audits.present?).to be false
+      end
+    end
+
     it 'returns max limits from global config when enterprise version' do
       expect(account.usage_limits).to eq(
         {

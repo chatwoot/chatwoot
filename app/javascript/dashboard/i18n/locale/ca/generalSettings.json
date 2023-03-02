@@ -82,6 +82,7 @@
       "conversation_creation": "Nova conversació",
       "conversation_assignment": "Conversació Assignada",
       "assigned_conversation_new_message": "Missatge Nou",
+      "participating_conversation_new_message": "Missatge Nou",
       "conversation_mention": "Menció"
     }
   },

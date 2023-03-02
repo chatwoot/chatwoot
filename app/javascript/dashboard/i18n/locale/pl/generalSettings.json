@@ -82,6 +82,7 @@
       "conversation_creation": "Nowa rozmowa",
       "conversation_assignment": "Rozmowa przypisana",
       "assigned_conversation_new_message": "Nowa wiadomość",
+      "participating_conversation_new_message": "Nowa wiadomość",
       "conversation_mention": "Wzmianka"
     }
   },

@@ -67,6 +67,7 @@
 
 .conversations-list-wrap {
   @include flex;
+  border-right: 1px solid var(--s-50);
   flex-direction: column;
 
   .load-more-conversations {

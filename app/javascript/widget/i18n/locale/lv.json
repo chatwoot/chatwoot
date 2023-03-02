@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Lūdzu, pirms sarunas sākšanas, norādiet savu vārdu un e -pastu",
-    "IS_REQUIRED": "ir nepieciešams"
+    "IS_REQUIRED": "ir nepieciešams",
+    "REQUIRED": "Nepieciešams"
   },
   "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_FILE_UPLOAD_SIZE} pielikuma lieluma ierobežojumu",
   "CHAT_FORM": {
