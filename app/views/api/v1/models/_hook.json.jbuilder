@@ -5,6 +5,4 @@ json.inbox resource.inbox&.slice(:id, :name)
 json.account_id resource.account_id
 json.hook_type resource.hook_type
 
-if Current.account_user&.administrator?
-  json.settings resource.settings
-end
+json.settings resource.settings if Current.account_user&.administrator?
