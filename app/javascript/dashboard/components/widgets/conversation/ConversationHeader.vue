@@ -11,18 +11,23 @@
         />
         <div class="user--profile__meta">
           <woot-button
-            variant="clear"
-            class="user--name text-truncate"
+            variant="link"
+            color-scheme="secondary"
+            class="text-truncate"
             @click.prevent="$emit('contact-panel-toggle')"
           >
-            <span class="margin-right-smaller">{{ currentContact.name }}</span>
-            <fluent-icon
-              v-if="!isHMACVerified"
-              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-              size="14"
-              class="hmac-warning__icon"
-              icon="warning"
-            />
+            <h3 class="sub-block-title user--name text-truncate">
+              <span class="margin-right-smaller">{{
+                currentContact.name
+              }}</span>
+              <fluent-icon
+                v-if="!isHMACVerified"
+                v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+                size="14"
+                class="hmac-warning__icon"
+                icon="warning"
+              />
+            </h3>
           </woot-button>
           <div class="conversation--header--actions text-truncate">
             <inbox-name
@@ -205,12 +210,9 @@ export default {
 
 .user--name {
   display: inline-block;
-  font-size: var(--font-size-medium);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.3;
+  line-height: 1.2;
   text-transform: capitalize;
-  color: var(--color-heading) !important;
-  height: auto;
+  margin: 0;
   padding: 0;
 }
 
