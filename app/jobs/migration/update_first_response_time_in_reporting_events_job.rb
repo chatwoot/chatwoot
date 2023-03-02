@@ -47,7 +47,7 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
                          value: calculate_event_value(last_bot_reply, first_human_reply),
                          value_in_business_hours: calculate_event_value_in_business_hours(inbox, last_bot_reply,
                                                                                           first_human_reply),
-                         user_id: first_human_reply.sender_id)
+                         user_id: event.user_id || first_human_reply.sender_id)
     # rubocop:enable Rails/SkipsModelValidations
   end
 
