@@ -5,8 +5,13 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform(account)
+    conversations_with_handoffs = account.reporting_events.where(name: 'conversation_bot_handoff').pluck(:conversation_id)
+
     account.reporting_events.where(name: 'first_response').each do |event|
       conversation = event.conversation
+
+      # if the conversation has a bot handoff event, we don't need to update the event_start_time
+      next if conversations_with_handoffs.include?(conversation.id)
       next if conversation.nil?
 
       update_event_data(event, conversation)
@@ -14,12 +19,6 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
   end
 
   def update_event_data(event, conversation)
-    bot_handoff_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
-    if bot_handoff_event.present?
-      # if a bot handoff event exists, we don't have to update the event_start_time
-      return
-    end
-
     last_bot_reply = conversation.messages.where(sender_type: 'AgentBot').order(created_at: :asc).last
     first_human_reply = conversation.messages.where(sender_type: 'User').order(created_at: :asc).first
 
