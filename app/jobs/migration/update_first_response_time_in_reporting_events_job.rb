@@ -5,7 +5,7 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform(account)
-    account.reporting_events.where(name: 'first_response', user_id: nil).each do |event|
+    account.reporting_events.where(name: 'first_response').each do |event|
       conversation = event.conversation
       next if conversation.nil?
 
