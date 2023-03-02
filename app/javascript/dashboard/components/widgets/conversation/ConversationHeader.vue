@@ -17,9 +17,7 @@
             @click.prevent="$emit('contact-panel-toggle')"
           >
             <h3 class="sub-block-title user--name text-truncate">
-              <span class="margin-right-smaller">{{
-                currentContact.name
-              }}</span>
+              <span>{{ currentContact.name }}</span>
               <fluent-icon
                 v-if="!isHMACVerified"
                 v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
