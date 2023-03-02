@@ -2,17 +2,19 @@
   <div
     v-dompurify-html="formatMessage(message, false)"
     class="chat-bubble user"
+    :class="$dm('', 'has-dark-mode')"
     :style="{ background: widgetColor, color: textColor }"
   />
 </template>
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   name: 'UserMessageBubble',
-  mixins: [messageFormatterMixin],
+  mixins: [messageFormatterMixin, darkModeMixin],
   props: {
     message: {
       type: String,
@@ -57,10 +59,11 @@ export default {
 
   blockquote {
     border-left: $space-micro solid var(--w-400);
-    color: var(--white);
+    background: var(--s-25);
+    border-color: var(--s-200);
 
     p {
-      color: var(--w-75);
+      color: var(--s-800);
     }
   }
 }
