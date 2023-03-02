@@ -22,15 +22,11 @@
           </h3>
           <div class="conversation--header--actions text-truncate">
             <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
-            <span
-              v-if="isSnoozed"
-              class="snoozed--display-text"
-              :class="isRTLView ? 'margin-right-1' : 'margin-left-1'"
-            >
+            <span v-if="isSnoozed" class="snoozed--display-text">
               {{ snoozedDisplayText }}
             </span>
             <woot-button
-              class="user--profile__button margin-right-1 margin-left-1"
+              class="user--profile__button"
               size="small"
               variant="link"
               @click="$emit('contact-panel-toggle')"
@@ -57,7 +53,6 @@ import BackButton from '../BackButton';
 import differenceInHours from 'date-fns/differenceInHours';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import InboxName from '../InboxName';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
@@ -70,7 +65,7 @@ export default {
     MoreActions,
     Thumbnail,
   },
-  mixins: [inboxMixin, agentMixin, eventListenerMixins, rtlMixin],
+  mixins: [inboxMixin, agentMixin, eventListenerMixins],
   props: {
     chat: {
       type: Object,
@@ -213,6 +208,7 @@ export default {
   align-items: center;
   display: flex;
   font-size: var(--font-size-mini);
+  gap: var(--space-small);
 
   ::v-deep .inbox--name {
     margin: 0;

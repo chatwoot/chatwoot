@@ -266,11 +266,6 @@
       .label {
         margin-left: var(--space-smaller);
         margin-right: 0;
-
-        .label-color-dot {
-          margin-left: var(--space-smaller);
-          margin-right: 0;
-        }
       }
     }
 
@@ -318,19 +313,6 @@
   .card.note-wrap {
     .time-stamp {
       unicode-bidi: plaintext;
-    }
-  }
-
-  // Labels
-  .label-wrap .label {
-    .label-color-dot {
-      margin-left: var(--space-smaller);
-      margin-right: 0;
-    }
-
-    .label-close--button {
-      margin-left: 0;
-      margin-right: var(--space-smaller);
     }
   }
 
