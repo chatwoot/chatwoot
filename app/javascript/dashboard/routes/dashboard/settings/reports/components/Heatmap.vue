@@ -129,6 +129,7 @@ $tile-gap: 0.4rem;
   display: grid;
   position: relative;
   width: 100%;
+  overflow-x: scroll;
   gap: 2rem;
   grid-template-columns: 80px 1fr;
 }
@@ -160,6 +161,7 @@ $tile-gap: 0.4rem;
   display: grid;
   grid-template-rows: 1fr;
   gap: $tile-gap;
+  min-width: 600px;
   width: 100%;
 
   .heatmap-grid-row {
