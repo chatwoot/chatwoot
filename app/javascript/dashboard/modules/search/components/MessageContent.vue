@@ -53,10 +53,17 @@ export default {
     });
   },
   methods: {
+    escapeHtml(html) {
+      var text = document.createTextNode(html);
+      var p = document.createElement('p');
+      p.appendChild(text);
+      return p.innerHTML;
+    },
     prepareContent(content = '') {
       const plainTextContent = this.getPlainText(content);
+      const escapedText = this.escapeHtml(plainTextContent);
       const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
-      return plainTextContent.replace(
+      return escapedText.replace(
         new RegExp(`(${escapedSearchTerm})`, 'ig'),
         '<span class="searchkey--highlight">$1</span>'
       );

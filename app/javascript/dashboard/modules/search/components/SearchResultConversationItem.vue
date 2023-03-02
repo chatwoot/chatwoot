@@ -115,6 +115,7 @@ export default {
 .conversation-details {
   margin-left: var(--space-normal);
   flex-grow: 1;
+  min-width: 0;
 }
 .conversation-id,
 .name {
