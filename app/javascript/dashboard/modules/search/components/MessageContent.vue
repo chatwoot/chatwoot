@@ -57,13 +57,13 @@ export default {
       var text = document.createTextNode(html);
       var p = document.createElement('p');
       p.appendChild(text);
-      return p.innerHTML;
+      return p.innerText;
     },
     prepareContent(content = '') {
-      const plainTextContent = this.getPlainText(content);
-      const escapedText = this.escapeHtml(plainTextContent);
+      const escapedText = this.escapeHtml(content);
+      const plainTextContent = this.getPlainText(escapedText);
       const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
-      return escapedText.replace(
+      return plainTextContent.replace(
         new RegExp(`(${escapedSearchTerm})`, 'ig'),
         '<span class="searchkey--highlight">$1</span>'
       );
