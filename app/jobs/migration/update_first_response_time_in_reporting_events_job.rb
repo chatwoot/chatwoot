@@ -22,7 +22,10 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
 
   def update_event_data(event, conversation)
     last_bot_reply = conversation.messages.where(sender_type: 'AgentBot').order(created_at: :asc).last
+    return if last_bot_reply.blank?
+
     first_human_reply = conversation.messages.where(sender_type: 'User').order(created_at: :asc).first
+    return if first_human_reply.blank?
 
     # accomodate for campaign if required
     # new_value = difference between the first_human_reply and the first_bot_reply if it exists or first_human_reply and created at
@@ -39,8 +42,6 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
     #
     # bot handoff happens at the last_bot_reply created time
     # the response time is the time between last bot reply created and the first human reply created
-
-    return if last_bot_reply.blank? || first_human_reply.blank?
     return if last_bot_reply.created_at.to_i >= first_human_reply.created_at.to_i
 
     # this means a bot replied existed, so we need to update the event_start_time
