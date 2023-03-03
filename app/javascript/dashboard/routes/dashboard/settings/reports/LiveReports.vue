@@ -140,25 +140,18 @@ export default {
       // this will reduce the load on the server doing number crunching
       let to = endOfDay(new Date());
       let from = startOfDay(subDays(to, 6));
-      let reconcile = false;
 
       if (this.accountConversationHeatmap.length) {
         to = endOfDay(new Date());
         from = startOfDay(to);
-        reconcile = true;
       }
 
       this.$store.dispatch('fetchAccountConversationHeatmap', {
-        reportObj: {
-          metric: 'conversations_count',
-          from: getUnixTime(from),
-          to: getUnixTime(to),
-          groupBy: 'hour',
-          businessHours: false,
-        },
-        _options: {
-          reconcile,
-        },
+        metric: 'conversations_count',
+        from: getUnixTime(from),
+        to: getUnixTime(to),
+        groupBy: 'hour',
+        businessHours: false,
       });
     },
     fetchAccountConversationMetric() {

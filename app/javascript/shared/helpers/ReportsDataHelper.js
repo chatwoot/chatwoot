@@ -1,4 +1,10 @@
-import { fromUnixTime, startOfDay } from 'date-fns';
+import {
+  fromUnixTime,
+  startOfDay,
+  endOfDay,
+  getUnixTime,
+  subDays,
+} from 'date-fns';
 
 /**
  * Returns a key-value pair of timestamp and value for heatmap data
@@ -36,6 +42,23 @@ export const clampDataBetweenTimeline = (data, from, to) => {
   });
 };
 
+export const generateEmptyHeatmapData = () => {
+  const data = [];
+  const today = new Date();
+
+  let timeMarker = getUnixTime(startOfDay(subDays(today, 6)));
+  let endOfToday = getUnixTime(endOfDay(today));
+
+  const oneHour = 3600;
+
+  while (timeMarker <= endOfToday) {
+    data.push({ value: 0, timestamp: timeMarker });
+    timeMarker += oneHour;
+  }
+
+  return data;
+};
+
 /**
  * Reconciles new data with existing heatmap data based on timestamps
  *
@@ -43,8 +66,14 @@ export const clampDataBetweenTimeline = (data, from, to) => {
  * @param {Array} heatmapData - An array of objects containing timestamp, value and other properties
  * @returns {Array} - An array of objects with updated values
  */
-export const reconcileHeatmapData = (data, heatmapData) => {
+export const reconcileHeatmapData = (data, dataFromStore) => {
   const parsedData = flattenHeatmapData(data);
+  // make a copy of the data from store
+  let heatmapData = dataFromStore.slice();
+
+  if (heatmapData.length === 0) {
+    heatmapData = generateEmptyHeatmapData();
+  }
 
   return heatmapData.map(dataItem => {
     if (parsedData[dataItem.timestamp]) {

@@ -70,19 +70,16 @@ export const actions = {
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
     });
   },
-  fetchAccountConversationHeatmap({ commit }, params) {
-    const { reportObj, _options } = params;
+  fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
     Report.getReports({ ...reportObj, group_by: 'hour' }).then(heatmapData => {
       let { data } = heatmapData;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
 
-      if (_options && _options.reconcile) {
-        data = reconcileHeatmapData(
-          data,
-          state.overview.accountConversationHeatmap
-        );
-      }
+      data = reconcileHeatmapData(
+        data,
+        state.overview.accountConversationHeatmap
+      );
 
       commit(types.default.SET_HEATMAP_DATA, data);
       commit(types.default.TOGGLE_HEATMAP_LOADING, false);
