@@ -78,10 +78,13 @@ export default {
     padding: $space-small $space-small 0 $space-normal;
   }
 }
-.chat-bubble.agent.has-dark-mode {
-  blockquote {
-    color: var(--s-50);
-    border-color: var(--s-200);
+
+.chat-bubble.agent {
+  &.has-dark-mode {
+    blockquote {
+      border-color: var(--s-200);
+      color: var(--s-50);
+    }
   }
 }
 </style>
