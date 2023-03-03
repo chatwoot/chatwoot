@@ -133,7 +133,7 @@ el:
           reply_with_name: '%{assignee_name} από %{inbox_name} <reply+%{reply_email}>'
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from <%{from_email}>'
+          reply_with_name: '%{assignee_name} από %{inbox_name}'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
       transcript_subject: "Μεταγραφή Συνομιλίας"
