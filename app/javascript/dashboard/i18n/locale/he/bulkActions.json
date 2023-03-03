@@ -2,12 +2,13 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} שיחות נבחרו",
     "AGENT_SELECT_LABEL": "בחר סוכן",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לשייך %{conversationCount} %{conversationLabel} ל-",
+    "UNASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לבטל שיוך %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "חזור",
     "ASSIGN_LABEL": "שייך",
     "YES": "כן",
     "ASSIGN_AGENT_TOOLTIP": "שייך סוכן",
+    "ASSIGN_TEAM_TOOLTIP": "שייך צוות",
     "ASSIGN_SUCCESFUL": "שיוך בוצע בהצלחה",
     "ASSIGN_FAILED": "שיוך נכשל, נסה שנית",
     "RESOLVE_SUCCESFUL": "שיחה טופלה בהצלחה",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "שייך תוויות נבחרות",
       "ASSIGN_SUCCESFUL": "תוויות שוייכו בהצלחה",
       "ASSIGN_FAILED": "שיוך תוויות נכשל, נסה שנית"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "בחר קבוצה",
+      "NONE": "כלום",
+      "NO_TEAMS_AVAILABLE": "לא קיימות קבוצות להוספה.",
+      "ASSIGN_SELECTED_TEAMS": "שייך קבוצה",
+      "ASSIGN_SUCCESFUL": "שיוך קבוצה בוצע בהצלחה",
+      "ASSIGN_FAILED": "שיוך קבוצה נכשל, נסה שנית"
     }
   }
 }

@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "Dodeli",
     "YES": "Da",
     "ASSIGN_AGENT_TOOLTIP": "Dodeli agenta",
+    "ASSIGN_TEAM_TOOLTIP": "Dodeli tim",
     "ASSIGN_SUCCESFUL": "Razgovor je uspešno dodeljen",
     "ASSIGN_FAILED": "Neuspelo je dodeljivanje razgovora, molim vas pokušajte ponovo",
     "RESOLVE_SUCCESFUL": "Razgovor je uspešno rešen",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Dodeli izabrane oznake",
       "ASSIGN_SUCCESFUL": "Oznake su uspešno dodeljene",
       "ASSIGN_FAILED": "Nije uspelo dodeljivanje oznaka, molim vas pokušajte ponovo"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Izaberi tim",
+      "NONE": "Niko",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }

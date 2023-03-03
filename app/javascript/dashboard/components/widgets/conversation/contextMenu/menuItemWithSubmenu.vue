@@ -43,12 +43,8 @@ export default {
     align-items: center;
 
     .menu-label {
-      margin: 0;
+      margin: 0 var(--space-small);
       font-size: var(--font-size-mini);
-    }
-
-    .menu-icon {
-      margin-right: var(--space-small);
     }
   }
 

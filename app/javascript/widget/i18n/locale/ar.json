@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
-    "IS_REQUIRED": "مطلوب"
+    "IS_REQUIRED": "مطلوب",
+    "REQUIRED": "مطلوب"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "حقل غير صالح"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "ابحث في الايموجي",
+    "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك"
   },
   "CSAT": {
     "TITLE": "قيم محادثتك",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "طلب نسخة محادثة النص",
     "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
     "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

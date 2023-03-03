@@ -87,8 +87,8 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "Thuộc tính Liên hệ Tùy chỉnh",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Tùy chỉnh Thuộc tính cuộc hội thoại"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
@@ -111,7 +111,7 @@
       "UPLOAD_ERROR": "Không thể tải tập tin đính kèm, Vui lòng thử lại sau",
       "LABEL_IDLE": "Tải tập tin đính kèm",
       "LABEL_UPLOADING": "Đang tải lên...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOADED": "Đã tải lên thành công",
       "LABEL_UPLOAD_FAILED": "Không tải lên được"
     }
   }

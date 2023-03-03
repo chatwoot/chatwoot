@@ -2,7 +2,7 @@
   <div class="column content-box">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="add-circle"
       @click="openAddPopup()"
     >
@@ -46,7 +46,7 @@
                 {{ cannedItem.short_code }}
               </td>
               <!-- Content -->
-              <td>{{ cannedItem.content }}</td>
+              <td class="wrap-break-words">{{ cannedItem.content }}</td>
               <!-- Action Buttons -->
               <td class="button-wrapper">
                 <woot-button
@@ -208,5 +208,9 @@ export default {
 <style scoped>
 .short-code {
   width: 14rem;
+}
+.wrap-break-words {
+  word-break: break-all;
+  white-space: normal;
 }
 </style>

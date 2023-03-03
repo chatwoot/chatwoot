@@ -23,7 +23,7 @@
         "ERROR": "Παρακαλώ συμπληρώστε ένα έγκυρο όνομα λογαριασμού"
       },
       "LANGUAGE": {
-        "LABEL": "Γλώσσα Ιστοσελίδας (Beta)",
+        "LABEL": "Γλώσσα ιστοσελίδας",
         "PLACEHOLDER": "Το όνομα του Λογαριασμού",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Νέα συνομιλία",
       "conversation_assignment": "Η Συνομιλία Ανατέθηκε",
       "assigned_conversation_new_message": "Νέο Μήνυμα",
+      "participating_conversation_new_message": "Νέο Μήνυμα",
       "conversation_mention": "Αναφορά"
     }
   },

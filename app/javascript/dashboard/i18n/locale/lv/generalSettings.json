@@ -23,7 +23,7 @@
         "ERROR": "Lūdzu, ievadiet derīgu konta nosaukumu"
       },
       "LANGUAGE": {
-        "LABEL": "Vietnes valoda (Beta)",
+        "LABEL": "Vietnes valoda",
         "PLACEHOLDER": "Jūsu konta nosaukums",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Jauna saruna",
       "conversation_assignment": "Saruna Piešķirta",
       "assigned_conversation_new_message": "Jauns ziņojums",
+      "participating_conversation_new_message": "Jauns ziņojums",
       "conversation_mention": "Pieminēt"
     }
   },

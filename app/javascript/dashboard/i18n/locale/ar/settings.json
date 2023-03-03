@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "الإشعارات الصوتية",
         "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
-        "NONE": "لا شيء",
-        "ASSIGNED": "المحادثات المسندة",
-        "ALL_CONVERSATIONS": "كل المحادثات"
+        "ALERT_TYPE": {
+          "TITLE": "أحداث التنبيه:",
+          "NONE": "لا شيء",
+          "ASSIGNED": "المحادثات المسندة",
+          "ALL_CONVERSATIONS": "كل المحادثات"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "نغمة التنبيه:"
+        },
+        "CONDITIONS": {
+          "TITLE": "شروط التنبيه:",
+          "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
+          "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "إشعارات البريد الإلكتروني",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "إرسال إشعارات البريد الإلكتروني عند إسناد محادثة لي",
         "CONVERSATION_CREATION": "إرسال إشعارات للبريد الإلكتروني عند ورود محادثة جديدة",
         "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك في محادثة",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات البريد الإلكتروني عند إنشاء رسالة جديدة في محادثة موكلة"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات البريد الإلكتروني عند إنشاء رسالة جديدة في محادثة موكلة",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة"
       },
       "API": {
         "UPDATE_SUCCESS": "يتم تحديث إعدادات الإشعارات بنجاح",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "إرسال إشعارات المتصفح عند ورود محادثة جديدة",
         "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك او الاشارة اليك في محادثة",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
         "HAS_ENABLED_PUSH": "لقد قمت بتمكين الإشعارات لهذا المتصفح.",
         "REQUEST_PUSH": "تفعيل إشعارات المتصفح"
       },
@@ -103,7 +116,9 @@
           "متصل",
           "مشغول",
           "غير متصل"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
+        "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى"
       },
       "EMAIL": {
         "LABEL": "عنوان البريد الإلكتروني الخاص بك",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
+    "SUPER_ADMIN_CONSOLE": "وحدة تحكم المدير المتميز",
     "LOGOUT": "تسجيل الخروج"
   },
   "APP_GLOBAL": {
@@ -156,10 +172,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "تنزيل",
-      "UPLOADING": "جاري الرفع..."
+      "UPLOADING": "جاري الرفع...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "هذه القصة لم تعد متاحة."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "مشاهدة على الخريطة"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "إرسال"
@@ -177,12 +194,14 @@
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
+    "PARTICIPATING_CONVERSATIONS": "شارك",
+    "UNATTENDED_CONVERSATIONS": "بدون حضور",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
     "HOME": "الرئيسية",
     "AGENTS": "موظف الدعم",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "البوتات",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",
@@ -193,7 +212,7 @@
     "LABELS": "الوسوم",
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
-    "MACROS": "Macros",
+    "MACROS": "ماكروس",
     "TEAMS": "الفرق",
     "BILLING": "الفواتير",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",
@@ -223,7 +242,12 @@
       "DRAFT": "مسودة",
       "ARCHIVED": "مؤرشفة",
       "CATEGORY": "الفئة",
+      "SETTINGS": "الإعدادات",
       "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "وضع علامة غير متصل تلقائيا",
+      "INFO_TEXT": "السماح للنظام بوضع علامة  غير متصل أوتوماتيكياً  عندما لا تستخدم التطبيق أو لوحة التحكم."
     },
     "DOCS": "قراءة المستندات"
   },
@@ -256,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الحساب",
+        "LABEL": "اسم الشركة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
       "SUBMIT": "إرسال"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "عرض جميع الاختصارات",
     "TITLE": {
       "OPEN_CONVERSATION": "فتح المحادثة",
       "RESOLVE_AND_NEXT": "حل وانتقل إلى التالي",

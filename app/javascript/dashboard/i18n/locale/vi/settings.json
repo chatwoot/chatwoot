@@ -20,17 +20,17 @@
         "NOTE": "Địa chỉ email của bạn là danh tính của bạn và được sử dụng để đăng nhập."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Phím nóng để gửi tin nhắn",
+        "NOTE": "Bạn có thể chọn một phím nóng (Enter hoặc Cmd/Ctrl+Enter) dựa trên sở thích viết của bạn.",
+        "UPDATE_SUCCESS": "Cài đặt của bạn đã được cập nhật thành công",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Enter thay vì nhấp vào nút gửi."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Cmd/Ctrl + enter thay vì nhấp vào nút gửi."
           }
         }
       },
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Âm thanh Thông báo",
         "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
-        "NONE": "Không có",
-        "ASSIGNED": "Cuộc trò chuyện được phân công",
-        "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
+        "ALERT_TYPE": {
+          "TITLE": "Sự kiện cảnh báo:",
+          "NONE": "Không có",
+          "ASSIGNED": "Cuộc trò chuyện được phân công",
+          "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Âm báo:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Điều kiện cảnh báo:",
+          "CONDITION_ONE": "Chỉ gửi cảnh báo âm thanh nếu cửa sổ trình duyệt không hoạt động",
+          "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại được chỉ định được đọc"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc trò chuyện được chỉ định cho tôi",
         "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo",
         "CONVERSATION_MENTION": "Gửi thông báo email khi bạn được nhắc đến trong 1 cuộc trò chuyện",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Tùy chọn thông báo của bạn đã được cập nhật thành công",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
         "CONVERSATION_MENTION": "Gửi thông báo đẩy khi bạn được nhắc đến trong 1 cuộc trò chuyện",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo đẩy khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
         "REQUEST_PUSH": "Bật thông báo"
       },
@@ -103,7 +116,9 @@
           "Trực Tuyến",
           "Bận",
           "Không Trực Tuyến"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
+        "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
       },
       "EMAIL": {
         "LABEL": "Địa chỉ email của bạn",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
     "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
     "KEYBOARD_SHORTCUTS": "Phím tắt",
+    "SUPER_ADMIN_CONSOLE": "Bảng điều khiển dành cho quản trị viên cấp cao",
     "LOGOUT": "Đăng xuất"
   },
   "APP_GLOBAL": {
@@ -148,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Sao Chép",
-      "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Xem thêm",
@@ -156,10 +172,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
-      "UPLOADING": "Đang tải lên..."
+      "UPLOADING": "Đang tải lên...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Hội thoại này không còn nữa."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Xem trên bản đồ"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Gửi"
@@ -177,6 +194,8 @@
     "CONVERSATIONS": "Cuộc trò chuyện",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Không giám sát",
     "REPORTS": "Báo cáo",
     "SETTINGS": "Cài Đặt",
     "CONTACTS": "Liên hệ",
@@ -217,13 +236,18 @@
     "REPORTS_OVERVIEW": "Tổng quan",
     "FACEBOOK_REAUTHORIZE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Trung tâm trợ giúp (Thử nghiệm)",
       "ALL_ARTICLES": "Tất cả các bài",
       "MY_ARTICLES": "Các bài của tôi",
       "DRAFT": "Nháp",
       "ARCHIVED": "Lưu trữ",
       "CATEGORY": "Loại",
+      "SETTINGS": "Cài đặt",
       "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Tự động đánh dấu ngoại tuyến",
+      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan."
     },
     "DOCS": "Đọc tài liệu"
   },
@@ -256,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tên tài khoản",
+        "LABEL": "Tên công ty",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Gửi"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Xem tất cả phím tắt",
     "TITLE": {
       "OPEN_CONVERSATION": "Mở cuộc trò chuyện",
       "RESOLVE_AND_NEXT": "Giải quyết và đi đến cái tiếp theo",

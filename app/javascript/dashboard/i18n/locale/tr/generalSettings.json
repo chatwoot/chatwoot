@@ -23,7 +23,7 @@
         "ERROR": "Lütfen geçerli bir hesap adı girin"
       },
       "LANGUAGE": {
-        "LABEL": "Site dili (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Hesap adınız",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Yeni görüşme",
       "conversation_assignment": "Atanan görüşme",
       "assigned_conversation_new_message": "Yeni Mesaj",
+      "participating_conversation_new_message": "Yeni Mesaj",
       "conversation_mention": "Bahset"
     }
   },

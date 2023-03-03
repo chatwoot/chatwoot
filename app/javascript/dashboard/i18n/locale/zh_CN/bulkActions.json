@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "分配",
     "YES": "是",
     "ASSIGN_AGENT_TOOLTIP": "分配客服代表",
+    "ASSIGN_TEAM_TOOLTIP": "Assign team",
     "ASSIGN_SUCCESFUL": "对话分配成功",
     "ASSIGN_FAILED": "无法分配对话，请重新尝试",
     "RESOLVE_SUCCESFUL": "成功将对话标记为已解决",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "分配指定的标签",
       "ASSIGN_SUCCESFUL": "已成功分配标签",
       "ASSIGN_FAILED": "无法分配标签，请重新尝试。"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Select Team",
+      "NONE": "啥都没有",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }

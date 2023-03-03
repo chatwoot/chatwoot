@@ -1,13 +1,14 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} samtöl valin",
-    "AGENT_SELECT_LABEL": "Select Agent",
+    "AGENT_SELECT_LABEL": "Veldu Þjónustufulltrúa",
     "ASSIGN_CONFIRMATION_LABEL": "Ertu viss um að úthluta %{conversationCount} %{conversationLabel} á",
     "UNASSIGN_CONFIRMATION_LABEL": "Ertu viss um að hætta við úthlutun %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Go back",
-    "ASSIGN_LABEL": "Assign",
-    "YES": "Yes",
+    "ASSIGN_LABEL": "Úthluta",
+    "YES": "Já",
     "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
+    "ASSIGN_TEAM_TOOLTIP": "Assign team",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
     "ASSIGN_FAILED": "Ekki tókst að úthluta samtölum, vinsamlegast reyndu aftur",
     "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Assign selected labels",
       "ASSIGN_SUCCESFUL": "Labels assigned successfully",
       "ASSIGN_FAILED": "Failed to assign labels, please try again"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Select Team",
+      "NONE": "Enginn",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }

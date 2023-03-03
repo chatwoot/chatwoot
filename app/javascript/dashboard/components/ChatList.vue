@@ -53,11 +53,10 @@
         <woot-button
           v-else
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           icon="filter"
-          size="small"
-          class="btn-filter"
+          size="tiny"
           @click="onToggleAdvanceFiltersModal"
         />
       </div>
@@ -102,6 +101,7 @@
       @assign-agent="onAssignAgent"
       @update-conversations="onUpdateConversations"
       @assign-labels="onAssignLabels"
+      @assign-team="onAssignTeamsForBulk"
     />
     <div
       ref="activeConversation"
@@ -125,6 +125,7 @@
         @assign-label="onAssignLabels"
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
+        @mark-as-unread="markAsUnread"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -149,13 +150,14 @@
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
-      :on-close="onToggleAdvanceFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
-        :on-close="onToggleAdvanceFiltersModal"
+        :initial-applied-filters="appliedFilter"
+        :on-close="closeAdvanceFiltersModal"
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
@@ -179,11 +181,17 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import filterMixin from 'shared/mixins/filterMixin';
 
 import {
   hasPressedAltAndJKey,
   hasPressedAltAndKKey,
 } from 'shared/helpers/KeyboardHelpers';
+import { conversationListPageURL } from '../helper/URLHelper';
+import {
+  isOnMentionsView,
+  isOnUnattendedView,
+} from '../store/modules/conversations/helpers/actionHelpers';
 
 export default {
   components: {
@@ -195,7 +203,13 @@ export default {
     DeleteCustomViews,
     ConversationBulkActions,
   },
-  mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
+  mixins: [
+    timeMixin,
+    conversationMixin,
+    eventListenerMixins,
+    alertMixin,
+    filterMixin,
+  ],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -241,11 +255,13 @@ export default {
       selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
+      appliedFilter: [],
     };
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -280,6 +296,13 @@ export default {
         this.hasCurrentPageEndReached &&
         !this.chatListLoading
       );
+    },
+    currentUserDetails() {
+      const { id, name } = this.currentUser;
+      return {
+        id,
+        name,
+      };
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
@@ -332,14 +355,15 @@ export default {
         status: this.activeStatus,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
-        teamId: this.teamId ? this.teamId : undefined,
-        conversationType: this.conversationType
-          ? this.conversationType
-          : undefined,
+        teamId: this.teamId || undefined,
+        conversationType: this.conversationType || undefined,
         folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
     },
     pageTitle() {
+      if (this.hasAppliedFilters) {
+        return this.$t('CHAT_LIST.TAB_HEADING');
+      }
       if (this.inbox.name) {
         return this.inbox.name;
       }
@@ -351,6 +375,12 @@ export default {
       }
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
+      }
+      if (this.conversationType === 'participating') {
+        return this.$t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
+      }
+      if (this.conversationType === 'unattended') {
+        return this.$t('CHAT_LIST.UNATTENDED_HEADING');
       }
       if (this.hasActiveFolders) {
         return this.activeFolder.name;
@@ -431,9 +461,6 @@ export default {
   },
   methods: {
     onApplyFilter(payload) {
-      if (this.$route.name !== 'home') {
-        this.$router.push({ name: 'home' });
-      }
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
@@ -453,7 +480,14 @@ export default {
       this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
-      this.showAdvancedFilters = !this.showAdvancedFilters;
+      if (!this.hasAppliedFilters) {
+        this.initializeExistingFilterToModal();
+      }
+      this.showAdvancedFilters = true;
+    },
+    closeAdvanceFiltersModal() {
+      this.showAdvancedFilters = false;
+      this.appliedFilter = [];
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
@@ -512,6 +546,7 @@ export default {
         return;
       }
       this.fetchConversations();
+      this.appliedFilter = [];
     },
     fetchConversations() {
       this.$store
@@ -636,6 +671,35 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
     },
+    async markAsUnread(conversationId) {
+      try {
+        await this.$store.dispatch('markMessagesUnread', {
+          id: conversationId,
+        });
+        const {
+          params: { accountId, inbox_id: inboxId, label, teamId },
+          name,
+        } = this.$route;
+        let conversationType = '';
+        if (isOnMentionsView({ route: { name } })) {
+          conversationType = 'mention';
+        } else if (isOnUnattendedView({ route: { name } })) {
+          conversationType = 'unattended';
+        }
+        this.$router.push(
+          conversationListPageURL({
+            accountId,
+            conversationType: conversationType,
+            customViewId: this.foldersId,
+            inboxId,
+            label,
+            teamId,
+          })
+        );
+      } catch (error) {
+        // Ignore error
+      }
+    },
     async onAssignTeam(team, conversationId = null) {
       try {
         await this.$store.dispatch('assignTeam', {
@@ -683,6 +747,21 @@ export default {
         }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
+      }
+    },
+    async onAssignTeamsForBulk(team) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            team_id: team.id,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
       }
     },
     async onUpdateConversations(status) {
@@ -742,39 +821,20 @@ export default {
 
 .conversations-list-wrap {
   flex-shrink: 0;
-  width: 34rem;
+  flex-basis: clamp(32rem, 4vw + 34rem, 44rem);
   overflow: hidden;
-  @include breakpoint(large up) {
-    width: 36rem;
-  }
-  @include breakpoint(xlarge up) {
-    width: 35rem;
-  }
-  @include breakpoint(xxlarge up) {
-    width: 38rem;
-  }
-  @include breakpoint(xxxlarge up) {
-    flex-basis: 46rem;
-  }
 
   &.hide {
     display: none;
   }
 
   &.list--full-width {
-    width: 100%;
-    @include breakpoint(xxxlarge up) {
-      flex-basis: 100%;
-    }
+    flex-basis: 100%;
   }
 }
 .filter--actions {
   display: flex;
   align-items: center;
-}
-
-.btn-filter {
-  margin: 0 var(--space-smaller);
 }
 
 .filter__applied {
@@ -784,5 +844,15 @@ export default {
 
 .delete-custom-view__button {
   margin-right: var(--space-normal);
+}
+
+.tab--chat-type {
+  padding: 0 var(--space-normal);
+
+  ::v-deep {
+    .tabs {
+      padding: 0;
+    }
+  }
 }
 </style>

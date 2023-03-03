@@ -90,6 +90,10 @@
     </div>
     <imap-settings :inbox="inbox" />
     <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
+    <microsoft-reauthorize
+      v-if="inbox.microsoft_reauthorization"
+      :inbox="inbox"
+    />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="settings--content">
@@ -98,6 +102,31 @@
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')"
       >
         <woot-code :script="inbox.provider_config.api_key" />
+      </settings-section>
+      <settings-section
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
+        :sub-title="
+          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
+        "
+      >
+        <div class="whatsapp-settings--content">
+          <woot-input
+            v-model.trim="whatsAppInboxAPIKey"
+            type="text"
+            class="input"
+            :placeholder="
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
+              )
+            "
+          />
+          <woot-button
+            :disabled="$v.whatsAppInboxAPIKey.$invalid"
+            @click="updateWhatsAppInboxAPIKey"
+          >
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
+          </woot-button>
+        </div>
       </settings-section>
     </div>
   </div>
@@ -109,12 +138,15 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from '../../../../../components/SettingsSection';
 import ImapSettings from '../ImapSettings';
 import SmtpSettings from '../SmtpSettings';
+import MicrosoftReauthorize from '../channels/microsoft/Reauthorize';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   components: {
     SettingsSection,
     ImapSettings,
     SmtpSettings,
+    MicrosoftReauthorize,
   },
   mixins: [inboxMixin, alertMixin],
   props: {
@@ -126,7 +158,11 @@ export default {
   data() {
     return {
       hmacMandatory: false,
+      whatsAppInboxAPIKey: '',
     };
+  },
+  validations: {
+    whatsAppInboxAPIKey: { required },
   },
   watch: {
     inbox() {
@@ -155,9 +191,45 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async updateWhatsAppInboxAPIKey() {
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {},
+        };
+
+        payload.channel.provider_config = {
+          ...this.inbox.provider_config,
+          api_key: this.whatsAppInboxAPIKey,
+        };
+
+        await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+.whatsapp-settings--content {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin-top: var(--space-small);
+
+  .input {
+    flex: 1;
+    margin-right: var(--space-small);
+    ::v-deep input {
+      margin-bottom: 0;
+    }
+  }
+}
+</style>

@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh được thêm thành công",
-        "ERROR_MESSAGE": "Không thể tạo thuộc tính tuỳ chỉnh, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh được thêm thành công!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {

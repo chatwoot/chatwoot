@@ -278,7 +278,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
                                 { 'action_name' => 'snooze_conversation' },
                                 { 'action_name' => 'assign_agent', 'action_params' => [user_1.id] },
                                 { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
-                                { 'action_name' => 'add_private_note', 'action_params': ['We are sending greeting message to customer.'] }
+                                { 'action_name' => 'add_private_note', :action_params => ['We are sending greeting message to customer.'] }
                               ])
     end
 

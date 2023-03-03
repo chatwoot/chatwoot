@@ -23,7 +23,7 @@
         "ERROR": "請輸入有效的帳戶名稱"
       },
       "LANGUAGE": {
-        "LABEL": "網站語言(Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "您的帳戶名稱",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "新對話",
       "conversation_assignment": "對話已被指派",
       "assigned_conversation_new_message": "新訊息",
+      "participating_conversation_new_message": "新訊息",
       "conversation_mention": "被提及"
     }
   },

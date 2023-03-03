@@ -23,7 +23,7 @@
         "ERROR": "Por favor, insira um nome de conta válido"
       },
       "LANGUAGE": {
-        "LABEL": "Idioma do site (Beta)",
+        "LABEL": "Idioma do site",
         "PLACEHOLDER": "Nome da sua conta",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Nova conversa",
       "conversation_assignment": "Conversa Atribuída",
       "assigned_conversation_new_message": "Nova Mensagem",
+      "participating_conversation_new_message": "Nova Mensagem",
       "conversation_mention": "Menção"
     }
   },
@@ -139,6 +140,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Carregando Dashboard App..."
   }
 }

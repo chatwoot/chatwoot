@@ -44,6 +44,8 @@ is:
     categories:
       locale:
         unique: ætti að vera einstakt í flokki og gátt
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Athugaðu nettenginguna, IMAP vistfangið og reyndu aftur.
@@ -129,6 +131,10 @@ is:
         header:
           from_with_name: '%{assignee_name} frá %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} frá %{inbox_name} <reply+%{reply_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} from <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
     survey:
@@ -137,6 +143,10 @@ is:
     online:
       delete: "%{contact_name} er á tengdur, vinsamlegast reyndu aftur síðar"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack er spjallforrit sem sameinar öll samskipti þín á einum stað. Með því að samþætta Slack geturðu fengið tilkynningu um öll nýju samtölin á reikningnum þínum beint inni í Slackinu þínu."
@@ -149,6 +159,9 @@ is:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact samþætting hjálpar til við að auðga gestaprófíla. Þekkja notendur um leið og þeir deila netfangi sínu og bjóða þeim sérsniðna þjónustu. Tengdu FullContact við reikninginn þinn með því að deila FullContact API lykilnum."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -157,3 +170,14 @@ is:
       results_title: Search results
     hero:
       sub_title: Leitaðu að greinunum hér eða skoðaðu flokkana hér að neðan.
+    common:
+      home: Home
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

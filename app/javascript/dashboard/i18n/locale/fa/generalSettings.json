@@ -23,7 +23,7 @@
         "ERROR": "لطفا نام حساب‌کاربری را به درستی وارد نمایید"
       },
       "LANGUAGE": {
-        "LABEL": "زبان سایت (آزمایشی)",
+        "LABEL": "زبان سایت",
         "PLACEHOLDER": "نام حساب‌کاربری شما",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "گفتگوی جدید",
       "conversation_assignment": "مکالمه اختصاص داده شد",
       "assigned_conversation_new_message": "پیام جدید",
+      "participating_conversation_new_message": "پیام جدید",
       "conversation_mention": "اشاره"
     }
   },

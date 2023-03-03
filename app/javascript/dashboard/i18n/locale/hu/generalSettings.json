@@ -23,7 +23,7 @@
         "ERROR": "Kérjük helyes fióknevet adj meg"
       },
       "LANGUAGE": {
-        "LABEL": "Oldal nyelve (Béta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "A fiókneved",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Új beszélgetés",
       "conversation_assignment": "Beszélgetés hozzárendelve",
       "assigned_conversation_new_message": "Új üzenet",
+      "participating_conversation_new_message": "Új üzenet",
       "conversation_mention": "Megemlítés"
     }
   },

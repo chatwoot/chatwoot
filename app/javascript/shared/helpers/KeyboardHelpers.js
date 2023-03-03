@@ -14,6 +14,10 @@ export const hasPressedCommand = e => {
   return e.metaKey;
 };
 
+export const hasPressedEnterAndNotCmdOrShift = e => {
+  return isEnter(e) && !hasPressedCommand(e) && !hasPressedShift(e);
+};
+
 export const hasPressedCommandAndEnter = e => {
   return e.metaKey && e.keyCode === 13;
 };

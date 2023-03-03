@@ -7,6 +7,10 @@
   }
 }
 
+select {
+  height: 4.0rem;
+}
+
 .card {
   margin-bottom: var(--space-small);
   padding: var(--space-normal);
@@ -17,9 +21,10 @@
 }
 
 .tooltip {
+  background-color: var(--black-transparent);
   border-radius: $space-smaller;
   font-size: $font-size-mini;
-  max-width: 15rem;
+  max-width: var(--space-giga);
   padding: $space-smaller $space-small;
   z-index: 999;
 }
@@ -62,8 +67,4 @@ code {
 
 .padding-right-small {
   padding-right: var(--space-one);
-}
-
-.margin-right-small {
-  margin-right: var(--space-small);
 }

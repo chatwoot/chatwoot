@@ -23,7 +23,7 @@
         "ERROR": "Wprowadź prawidłową nazwę konta"
       },
       "LANGUAGE": {
-        "LABEL": "Język witryny (beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Nazwa konta",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Nowa rozmowa",
       "conversation_assignment": "Rozmowa przypisana",
       "assigned_conversation_new_message": "Nowa wiadomość",
+      "participating_conversation_new_message": "Nowa wiadomość",
       "conversation_mention": "Wzmianka"
     }
   },

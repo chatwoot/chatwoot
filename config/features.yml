@@ -39,3 +39,13 @@
   enabled: true
 - name: mobile_v2
   enabled: false
+- name: channel_website
+  enabled: true
+- name: campaigns
+  enabled: true
+- name: reports
+  enabled: true
+- name: crm
+  enabled: true
+- name: auto_resolve_conversations
+  enabled: true

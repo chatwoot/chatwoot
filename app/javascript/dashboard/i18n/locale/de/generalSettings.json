@@ -23,7 +23,7 @@
         "ERROR": "Bitte geben Sie einen gültigen Kontonamen ein"
       },
       "LANGUAGE": {
-        "LABEL": "Site-Sprache (Beta)",
+        "LABEL": "Sprache",
         "PLACEHOLDER": "Ihr Kontoname",
         "ERROR": ""
       },
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "Drücken Sie zur Auswahl die Eingabetaste",
       "ENTER_TO_REMOVE": "Drücken Sie zum Entfernen die Eingabetaste",
       "SELECT_ONE": "Eines wählen",
-      "SELECT": "Select"
+      "SELECT": "Auswählen"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -82,6 +82,7 @@
       "conversation_creation": "Neue Konversation",
       "conversation_assignment": "Konversation zugewiesen",
       "assigned_conversation_new_message": "Neue Nachricht",
+      "participating_conversation_new_message": "Neue Nachricht",
       "conversation_mention": "Erwähnung"
     }
   },
@@ -139,6 +140,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Dashboard-App wird geladen..."
   }
 }

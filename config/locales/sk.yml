@@ -44,6 +44,8 @@ sk:
     categories:
       locale:
         unique: should be unique in the category and portal
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -129,6 +131,10 @@ sk:
         header:
           from_with_name: '%{assignee_name} z %{inbox_name} <reply+%{from_email}>'
           reply_with_name: '%{assignee_name} z %{inbox_name} <reply+%{reply_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} from <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "Nové správy v tejto konverzácii"
       transcript_subject: "Prepis konverzácie"
     survey:
@@ -137,6 +143,10 @@ sk:
     online:
       delete: "%{contact_name} je online, skúste to prosím neskôr"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack je chatovací nástroj, ktorý spája všetku vašu komunikáciu na jednom mieste. Integráciou služby Slack môžete dostávať upozornenia na všetky nové konverzácie vo vašom účte priamo v službe Slack."
@@ -149,6 +159,9 @@ sk:
     fullcontact:
       name: "Fullcontact"
       description: "Integrácia so službou FullContact pomáha obohatiť profily návštevníkov. Identifikujte používateľov hneď, ako zdieľajú svoju e-mailovú adresu, a ponúknite im zákaznícky servis šitý na mieru. Pripojte aplikáciu FullContact k svojmu účtu zdieľaním kľúča API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -157,3 +170,14 @@ sk:
       results_title: Search results
     hero:
       sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Home
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

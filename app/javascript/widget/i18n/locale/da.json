@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Angiv venligst dit navn og e-mail, før du starter samtalen",
-    "IS_REQUIRED": "er påkrævet"
+    "IS_REQUIRED": "er påkrævet",
+    "REQUIRED": "Påkrævet"
   },
   "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Ugyldigt felt"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Søg efter emojis",
+    "NOT_FOUND": "Ingen emoji matcher din søgning"
   },
   "CSAT": {
     "TITLE": "Bedøm din samtale",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Anmod om en samtaleudskrift",
     "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
     "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

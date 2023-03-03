@@ -35,12 +35,17 @@
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
     "RATING_TITLE": "Değerlendirme",
     "FEEDBACK_TITLE": "Geribildirim",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",
@@ -64,12 +69,13 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Beklemede olarak işaretle",
       "RESOLVED": "Çözüldü olarak işaretle",
+      "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
       "REOPEN": "Görüşmeyi yeniden açın",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "Sustur",
+        "NEXT_REPLY": "Sonraki yanıta kadar",
+        "TOMORROW": "Yarına kadar",
+        "NEXT_WEEK": "Gelecek haftaya kadar"
       },
       "ASSIGN_AGENT": "Temsilci ata",
       "ASSIGN_LABEL": "Etiket ata",
@@ -127,6 +133,14 @@
           "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
           "ERROR": "Lütfen geçerli bir e-posta adresi girin"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Gönder",
+          "CANCEL": "İptal Et"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
@@ -142,7 +156,7 @@
     "SENT_BY": "Tarafından gönderildi:",
     "BOT": "Bot",
     "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "TRY_AGAIN": "tekrar dene",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
@@ -151,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Kopyala",
       "DELETE": "Sil",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -192,28 +207,28 @@
     "LABELS": {
       "TITLE": "Organize conversations with labels",
       "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "NEW_LINK": "Tag oluşturmak için tıklayın"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Atanan Temsilci",
+    "SELF_ASSIGN": "Bana ata",
+    "TEAM_LABEL": "Atanan Takım",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Hiç"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Kişi Detayları",
+      "CONVERSATION_ACTIONS": "Görüşme Aksiyonları",
       "CONVERSATION_LABELS": "Konuşma Etiketleri",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Görüşme Bilgisi",
+      "CONTACT_ATTRIBUTES": "Kişi Nitelikleri",
       "PREVIOUS_CONVERSATION": "Önceki Sohbetler",
       "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Nitelik oluştur",
     "UPDATE": {
       "SUCCESS": "Öznitelik başarıyla güncellendi",
       "ERROR": "Nitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"
@@ -234,10 +249,34 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "Kimden",
     "TO": "ya",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Konu"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Sonuç bulunamadı",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

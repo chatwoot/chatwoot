@@ -250,8 +250,8 @@ export default {
       };
     },
     getActionDropdownValues(type) {
-      const { labels, teams } = this;
-      return getActionOptions({ labels, teams, type });
+      const { agents, labels, teams } = this;
+      return getActionOptions({ agents, labels, teams, type });
     },
     manifestCustomAttributes() {
       const conversationCustomAttributesRaw = this.$store.getters[
@@ -282,6 +282,9 @@ export default {
         ...manifestedCustomAttributes
       );
       this.automationTypes.conversation_updated.conditions.push(
+        ...manifestedCustomAttributes
+      );
+      this.automationTypes.conversation_opened.conditions.push(
         ...manifestedCustomAttributes
       );
     },

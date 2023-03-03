@@ -1,7 +1,11 @@
 <template>
   <span>
     {{ textToBeDisplayed }}
-    <button class="show-more--button" @click="toggleShowMore">
+    <button
+      v-if="text.length > limit"
+      class="show-more--button"
+      @click="toggleShowMore"
+    >
       {{ buttonLabel }}
     </button>
   </span>
@@ -25,7 +29,7 @@ export default {
   },
   computed: {
     textToBeDisplayed() {
-      if (this.showMore) {
+      if (this.showMore || this.text.length <= this.limit) {
         return this.text;
       }
 

@@ -23,7 +23,7 @@
         "ERROR": "올바른 계정 이름을 입력하십시오."
       },
       "LANGUAGE": {
-        "LABEL": "사이트 언어 (베타)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "당신의 계정 이름",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "새 대화",
       "conversation_assignment": "대화 할당됨",
       "assigned_conversation_new_message": "새 메시지",
+      "participating_conversation_new_message": "새 메시지",
       "conversation_mention": "멘션"
     }
   },

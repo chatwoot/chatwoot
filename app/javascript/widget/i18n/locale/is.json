@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Vinsamlegast sláðu inn nafn og netfang áður en samtalið hefst",
-    "IS_REQUIRED": "er nauðsynlegt"
+    "IS_REQUIRED": "er nauðsynlegt",
+    "REQUIRED": "Nauðsynlegt"
   },
   "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_FILE_UPLOAD_SIZE})",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Ógildur reitur"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Leita að emoji",
+    "NOT_FOUND": "Enginn emoji fannst"
   },
   "CSAT": {
     "TITLE": "Gefðu samtalinu einkunn",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Biðja um afrit af samtalinu",
     "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
     "SEND_EMAIL_ERROR": "Það kom upp villa, vinsamlegast reyndur aftur"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

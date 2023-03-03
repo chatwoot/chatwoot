@@ -10,7 +10,7 @@ import {
   widgetHolder,
   createBubbleHolder,
   createBubbleIcon,
-  bubbleImg,
+  bubbleSVG,
   chatBubble,
   closeBubble,
   bubbleHolder,
@@ -21,8 +21,13 @@ import {
   addUnreadClass,
   removeUnreadClass,
 } from './bubbleHelpers';
+import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
+import {
+  CHATWOOT_ERROR,
+  CHATWOOT_ON_MESSAGE,
+  CHATWOOT_READY,
+} from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName } from './cookieHelpers';
 import {
@@ -55,7 +60,8 @@ export const IFrameHelper = {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
     iframe.src = widgetUrl;
-
+    iframe.allow =
+      'camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;';
     iframe.id = 'chatwoot_live_chat_widget';
     iframe.style.visibility = 'hidden';
 
@@ -126,7 +132,7 @@ export const IFrameHelper = {
 
   setupAudioListeners: () => {
     const { baseUrl = '' } = window.$chatwoot;
-    getAlertAudio(baseUrl, 'widget').then(() =>
+    getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
@@ -175,7 +181,9 @@ export const IFrameHelper = {
         Cookies.remove(getUserCookieName());
       }
     },
-
+    onMessage({ data }) {
+      dispatchWindowEvent({ eventName: CHATWOOT_ON_MESSAGE, data });
+    },
     setBubbleLabel(message) {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
     },
@@ -277,9 +285,14 @@ export const IFrameHelper = {
       closeBtnClassName += ' woot-widget-bubble--flat';
     }
 
+    if (isWidgetColorLighter(widgetColor)) {
+      className += ' woot-widget-bubble-color--lighter';
+      closeBtnClassName += ' woot-widget-bubble-color--lighter';
+    }
+
     const chatIcon = createBubbleIcon({
       className,
-      src: bubbleImg,
+      path: bubbleSVG,
       target: chatBubble,
     });
 

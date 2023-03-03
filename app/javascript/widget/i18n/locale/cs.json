@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Zadejte své jméno a e-mail před zahájením konverzace",
-    "IS_REQUIRED": "je vyžadováno"
+    "IS_REQUIRED": "je vyžadováno",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Neplatné pole"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Požádat o přepis konverzace",
     "SEND_EMAIL_SUCCESS": "Přepis chatu byl úspěšně odeslán",
     "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

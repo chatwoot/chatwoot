@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie die Konversation beginnen",
-    "IS_REQUIRED": "erforderlich"
+    "IS_REQUIRED": "erforderlich",
+    "REQUIRED": "Benötigt"
   },
   "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Ungültiges Feld"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Emojis durchsuchen",
+    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche"
   },
   "CSAT": {
     "TITLE": "Bewerten Sie Ihre Konversation",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Chat-Protokoll anfordern",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klicke hier, um beizutreten",
+      "LEAVE_THE_ROOM": "Anruf verlassen"
+    }
   }
 }

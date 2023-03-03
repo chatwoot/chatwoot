@@ -23,7 +23,7 @@
         "ERROR": "Harap masukkan nama akun yang valid"
       },
       "LANGUAGE": {
-        "LABEL": "Bahasa Situs (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Nama akun Anda",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Percakapan baru",
       "conversation_assignment": "Percakapan ditugaskan",
       "assigned_conversation_new_message": "Pesan Baru",
+      "participating_conversation_new_message": "Pesan Baru",
       "conversation_mention": "Mention"
     }
   },

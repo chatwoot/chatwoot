@@ -41,4 +41,14 @@ describe('#mutations', () => {
       expect(state.records).toEqual([agentBotRecords[0]]);
     });
   });
+  describe('#SET_AGENT_BOT_INBOX', () => {
+    it('set agent bot in the object', () => {
+      const state = { agentBotInbox: {} };
+      mutations[types.SET_AGENT_BOT_INBOX](state, {
+        agentBotId: 2,
+        inboxId: 3,
+      });
+      expect(state.agentBotInbox).toEqual({ 3: 2 });
+    });
+  });
 });

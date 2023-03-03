@@ -2,7 +2,7 @@
   <button
     type="button"
     class="toggle-button"
-    :class="{ active: value }"
+    :class="{ active: value, small: size === 'small' }"
     role="switch"
     :aria-checked="value.toString()"
     @click="onClick"
@@ -15,6 +15,7 @@
 export default {
   props: {
     value: { type: Boolean, default: false },
+    size: { type: String, default: '' },
   },
   methods: {
     onClick() {
@@ -43,6 +44,20 @@ export default {
 
   &.active {
     background-color: var(--w-500);
+  }
+
+  &.small {
+    width: 22px;
+    height: 14px;
+
+    span {
+      height: var(--space-one);
+      width: var(--space-one);
+
+      &.active {
+        transform: translate(var(--space-small), var(--space-zero));
+      }
+    }
   }
 
   span {

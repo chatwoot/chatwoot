@@ -23,7 +23,7 @@
         "ERROR": "Veuillez entrer un nom de compte valide"
       },
       "LANGUAGE": {
-        "LABEL": "Langue du site (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Votre nom de compte",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Nouvelle conversation",
       "conversation_assignment": "Conversation assignée",
       "assigned_conversation_new_message": "Nouveau message",
+      "participating_conversation_new_message": "Nouveau message",
       "conversation_mention": "Mention"
     }
   },

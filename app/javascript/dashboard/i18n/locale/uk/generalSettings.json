@@ -23,7 +23,7 @@
         "ERROR": "Будь ласка, введіть правильне ім'я облікового запису"
       },
       "LANGUAGE": {
-        "LABEL": "Мова сайту (бета)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Ім'я вашого облікового запису",
         "ERROR": ""
       },
@@ -82,6 +82,7 @@
       "conversation_creation": "Новий діалог",
       "conversation_assignment": "Діалог призначений",
       "assigned_conversation_new_message": "Нове повідомлення",
+      "participating_conversation_new_message": "Нове повідомлення",
       "conversation_mention": "Відмітка"
     }
   },

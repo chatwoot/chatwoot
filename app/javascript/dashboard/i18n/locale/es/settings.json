@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
-        "NONE": "Ninguna",
-        "ASSIGNED": "Conversaciones asignadas",
-        "ALL_CONVERSATIONS": "Todas las conversaciones"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Ninguna",
+          "ASSIGNED": "Conversaciones asignadas",
+          "ALL_CONVERSATIONS": "Todas las conversaciones"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones por email",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones por correo electrónico cuando se me ha asignado una conversación",
         "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación",
         "CONVERSATION_MENTION": "Enviar notificaciones por correo electrónico cuando sea mencionado en una conversación",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Sus preferencias de notificación se actualizaron correctamente",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Enviar notificaciones push cuando se crea una nueva conversación",
         "CONVERSATION_MENTION": "Enviar notificaciones push cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando un nuevo mensaja es creadao en una conversación asignada",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Ha habilitado notificaciones push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificaciones push"
       },
@@ -103,7 +116,9 @@
           "En línea",
           "Ocupado",
           "Fuera de línea"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
+        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
+    "SUPER_ADMIN_CONSOLE": "Consola de Super Admin",
     "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
-      "UPLOADING": "Subiendo..."
+      "UPLOADING": "Subiendo...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Esta historia ya no está disponible."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Ver en el mapa"
@@ -177,6 +194,8 @@
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
+    "PARTICIPATING_CONVERSATIONS": "Participar",
+    "UNATTENDED_CONVERSATIONS": "Desatendido",
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
@@ -223,7 +242,12 @@
       "DRAFT": "Borrador",
       "ARCHIVED": "Archivado",
       "CATEGORY": "Categoría",
+      "SETTINGS": "Ajustes",
       "CATEGORY_EMPTY_MESSAGE": "No se encontraron categorías"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Marcar como desconectado automáticamente",
+      "INFO_TEXT": "Permite que el sistema te marque automáticamente sin conexión cuando no estás usando la aplicación o el tablero."
     },
     "DOCS": "Leer documentos"
   },
@@ -256,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nombre de cuenta",
+        "LABEL": "Empresa",
         "PLACEHOLDER": "Empresas de Wayne"
       },
       "SUBMIT": "Enviar"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversación",
       "RESOLVE_AND_NEXT": "Resolver y pasar al siguiente",

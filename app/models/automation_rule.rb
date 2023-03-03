@@ -25,11 +25,13 @@ class AutomationRule < ApplicationRecord
 
   validate :json_conditions_format
   validate :json_actions_format
+  validate :query_operator_presence
   validates :account_id, presence: true
 
   scope :active, -> { where(active: true) }
 
-  CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id].freeze
+  CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
+                        mail_subject].freeze
   ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation send_attachment
                      change_status resolve_conversation snooze_conversation send_email_transcript].freeze
 
@@ -66,4 +68,13 @@ class AutomationRule < ApplicationRecord
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
   end
+
+  def query_operator_presence
+    return if conditions.blank?
+
+    operators = conditions.select { |obj, _| obj['query_operator'].nil? }
+    errors.add(:conditions, 'Automation conditions should have query operator.') if operators.length > 1
+  end
 end
+
+AutomationRule.include_mod_with('Audit::Inbox')

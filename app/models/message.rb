@@ -23,7 +23,9 @@
 # Indexes
 #
 #  index_messages_on_account_id                         (account_id)
+#  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
+#  index_messages_on_content                            (content) USING gin
 #  index_messages_on_conversation_id                    (conversation_id)
 #  index_messages_on_inbox_id                           (inbox_id)
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
@@ -32,6 +34,7 @@
 
 class Message < ApplicationRecord
   include MessageFilterHelpers
+  include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   before_validation :ensure_content_type
@@ -57,7 +60,8 @@ class Message < ApplicationRecord
     form: 6,
     article: 7,
     incoming_email: 8,
-    input_csat: 9
+    input_csat: 9,
+    integrations: 10
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -65,8 +69,10 @@ class Message < ApplicationRecord
   # [:in_reply_to] : Used to reply to a particular tweet in threads
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
+  # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at, :story_sender, :story_id], coder: JSON
+                                         :external_created_at, :story_sender, :story_id, :external_error,
+                                         :translations], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -103,11 +109,23 @@ class Message < ApplicationRecord
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      conversation: { assignee_id: conversation.assignee_id }
+      conversation: {
+        assignee_id: conversation.assignee_id,
+        unread_count: conversation.unread_incoming_messages.count
+      }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  # TODO: We will be removing this code after instagram_manage_insights is implemented
+  # Better logic is to listen to webhook and remove stories proactively rather than trying
+  # a fetch every time a message is returned
+  def validate_instagram_story
+    inbox.channel.fetch_instagram_story_link(self)
+    # we want to reload the message in case the story has expired and data got removed
+    reload
   end
 
   def merge_sender_attributes(data)
@@ -172,10 +190,15 @@ class Message < ApplicationRecord
     sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
+  def first_human_response?
+    conversation.messages.outgoing
+                .where.not(sender_type: 'AgentBot')
+                .where("(additional_attributes->'campaign_id') is null").count == 1
+  end
+
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-
-    if outgoing? && conversation.messages.outgoing.where("(additional_attributes->'campaign_id') is null").count == 1
+    if outgoing? && first_human_response?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end

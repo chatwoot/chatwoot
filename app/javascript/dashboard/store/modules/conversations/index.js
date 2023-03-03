@@ -13,6 +13,8 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  conversationParticipants: [],
+  conversationLastSeen: null,
 };
 
 // mutations
@@ -108,6 +110,8 @@ export const mutations = {
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
+      const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
+      chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
         window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
@@ -146,13 +150,16 @@ export const mutations = {
     _state.listLoadingStatus = false;
   },
 
-  [types.MARK_MESSAGE_READ](_state, { id, lastSeen }) {
+  [types.UPDATE_MESSAGE_UNREAD_COUNT](
+    _state,
+    { id, lastSeen, unreadCount = 0 }
+  ) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (chat) {
-      chat.agent_last_seen_at = lastSeen;
+      Vue.set(chat, 'agent_last_seen_at', lastSeen);
+      Vue.set(chat, 'unread_count', unreadCount);
     }
   },
-
   [types.CHANGE_CHAT_STATUS_FILTER](_state, data) {
     _state.chatStatusFilter = data;
   },

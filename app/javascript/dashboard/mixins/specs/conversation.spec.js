@@ -4,13 +4,6 @@ import commonHelpers from '../../helper/commons';
 commonHelpers();
 
 describe('#conversationMixin', () => {
-  it('should return unread message count 2 if conversation is passed', () => {
-    expect(
-      conversationMixin.methods.unreadMessagesCount(
-        conversationFixture.conversation
-      )
-    ).toEqual(2);
-  });
   it('should return read messages if conversation is passed', () => {
     expect(
       conversationMixin.methods.readMessages(conversationFixture.conversation)

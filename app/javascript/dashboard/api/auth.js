@@ -144,6 +144,12 @@ export default {
     });
   },
 
+  updateAutoOffline(accountId, autoOffline = false) {
+    return axios.post(endPoints('autoOffline').url, {
+      profile: { account_id: accountId, auto_offline: autoOffline },
+    });
+  },
+
   deleteAvatar() {
     return axios.delete(endPoints('deleteAvatar').url);
   },

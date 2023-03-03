@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Percakapan",
     "MENTION_HEADING": "Sebutkan",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
     },
@@ -29,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Ditunda Sebentar"
+      },
+      "all": {
+        "TEXT": "Semua"
       }
     },
     "ATTACHMENTS": {
@@ -56,6 +60,8 @@
     "REPLY_TO_TWEET": "Balas tweet ini",
     "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Berhasil terkirim",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Tidak Ada Pesan",
     "NO_CONTENT": "Tidak ada konten yang tersedia",
     "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",

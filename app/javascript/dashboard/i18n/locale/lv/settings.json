@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Paziņojumi",
         "NOTE": "Iespējot audio paziņojumus informācijas panelī jauniem ziņojumiem un sarunām.",
-        "NONE": "Nav",
-        "ASSIGNED": "Piešķirtās Sarunas",
-        "ALL_CONVERSATIONS": "Visas Sarunas"
+        "ALERT_TYPE": {
+          "TITLE": "Brīdinājumu notikumi:",
+          "NONE": "Nav",
+          "ASSIGNED": "Piešķirtās Sarunas",
+          "ALL_CONVERSATIONS": "Visas Sarunas"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Brīdinājumu signāls:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Brīdinājumu nosacījumi:",
+          "CONDITION_ONE": "Sūtīt audio brīdinājumus tikai tad, ja pārlūkprogrammas logs nav aktīvs",
+          "CONDITION_TWO": "Sūtīt brīdinājumus ik pēc 30 sekundēm, līdz visas piešķirtās sarunas ir izlasītas"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-pasta Ziņojumi",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Nosūtīt e -pasta paziņojumus, kad man tiek piešķirta saruna",
         "CONVERSATION_CREATION": "Nosūtīt e -pasta paziņojumus, kad tiek izveidota jauna saruna",
         "CONVERSATION_MENTION": "Nosūtīt e -pasta paziņojumus, kad tiekat pieminēts sarunā",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt e -pasta paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt e -pasta paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt e-pasta paziņojumus, kad sarunā tiek izveidots jauns ziņojums"
       },
       "API": {
         "UPDATE_SUCCESS": "Jūsu paziņojumu preferences ir veiksmīgi atjauninātas",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Nosūtīt push paziņojumus, kad tiek izveidota jauna saruna",
         "CONVERSATION_MENTION": "Nosūtīt push paziņojumus, kad tiekat pieminēts sarunā",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt push paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt push paziņojumus, kad sarunā tiek izveidots jauns ziņojums",
         "HAS_ENABLED_PUSH": "Jūs esat iespējojis push šajā pārlūkprogrammā.",
         "REQUEST_PUSH": "Iespējot push paziņojumus"
       },
@@ -103,7 +116,9 @@
           "Tiešsaistē",
           "Aizņemts",
           "Bezsaistē"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Pieejamība ir veiksmīgi iestatīta",
+        "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz"
       },
       "EMAIL": {
         "LABEL": "Jūsu e-pasta adrese",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
     "PROFILE_SETTINGS": "Profila Iestatījumi",
     "KEYBOARD_SHORTCUTS": "Tastatūras Īsinājumtaustiņi",
+    "SUPER_ADMIN_CONSOLE": "Superadministratora Konsole",
     "LOGOUT": "Izrakstīties"
   },
   "APP_GLOBAL": {
@@ -148,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopēt",
-      "COPY_SUCCESSFUL": "Kods ir veiksmīgi nokopēts uz clipboard"
+      "COPY_SUCCESSFUL": "Kopēts starpliktuvē"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Parādīt Vairāk",
@@ -156,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Lejupielādēt",
-      "UPLOADING": "Notiek augšupielāde..."
+      "UPLOADING": "Notiek augšupielāde...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Šis stāsts vairs nav pieejams."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Skatīt kartē"
@@ -177,6 +194,8 @@
     "CONVERSATIONS": "Sarunas",
     "ALL_CONVERSATIONS": "Visas Sarunas",
     "MENTIONED_CONVERSATIONS": "Pieminēšanas",
+    "PARTICIPATING_CONVERSATIONS": "Piedalās",
+    "UNATTENDED_CONVERSATIONS": "Bez uzraudzības",
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
@@ -223,7 +242,12 @@
       "DRAFT": "Melnraksts",
       "ARCHIVED": "Arhivēts",
       "CATEGORY": "Kategorija",
+      "SETTINGS": "Iestatījumi",
       "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Automātiski atzīmēt bezsaistē",
+      "INFO_TEXT": "Ļaut sistēmai, kad neizmantojat lietotni vai informācijas paneli, automātiski atzīmēt Jūs bezsaistē."
     },
     "DOCS": "Lasīt dokumentus"
   },
@@ -256,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Konta Nosaukums",
+        "LABEL": "Uzņēmuma Nosaukums",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Iesniegt"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Skatīt visus īsinājumtaustiņus",
     "TITLE": {
       "OPEN_CONVERSATION": "Atvērt sarunu",
       "RESOLVE_AND_NEXT": "Atrisināt un pāriet uz nākamo",

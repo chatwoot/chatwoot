@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Inițiat de la",
     "INITIATED_AT": "Iniţiat la",
     "IP_ADDRESS": "Adresă IP",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Mesaj nou",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
@@ -152,8 +153,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Avatar de contact șters cu succes",
+        "ERROR_MESSAGE": "Avatarul de contact nu a putut fi șters. Vă rugăm să încercați din nou mai târziu."
       }
     },
     "SUCCESS_MESSAGE": "Contact salvat cu succes",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Număr de telefon",
         "CONVERSATIONS": "Conversații",
         "LAST_ACTIVITY": "Ultima activitate",
+        "CREATED_AT": "Creat la",
         "COUNTRY": "Țară",
         "CITY": "Oraș",
         "SOCIAL_PROFILES": "Social Profil",
