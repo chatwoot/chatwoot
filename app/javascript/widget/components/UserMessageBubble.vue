@@ -8,12 +8,11 @@
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   name: 'UserMessageBubble',
-  mixins: [messageFormatterMixin, darkModeMixin],
+  mixins: [messageFormatterMixin],
   props: {
     message: {
       type: String,
