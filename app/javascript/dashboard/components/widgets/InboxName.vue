@@ -31,7 +31,7 @@ export default {
   line-height: var(--space-slab);
   font-weight: var(--font-weight-medium);
   background: none;
-  color: var(--s-500);
+  color: var(--s-600);
   font-size: var(--font-size-mini);
   margin: 0 var(--space-one);
 }
