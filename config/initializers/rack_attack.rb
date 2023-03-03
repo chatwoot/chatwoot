@@ -96,9 +96,9 @@ class Rack::Attack
   end
 
   ## Prevent Conversation Bombing on Widget APIs ###
-  throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
-    req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
-  end
+  #throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
+  #  req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
+  #end
 
   ## Prevent Contact update Bombing in Widget API ###
   throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
