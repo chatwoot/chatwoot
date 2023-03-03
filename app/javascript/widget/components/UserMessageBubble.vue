@@ -2,7 +2,6 @@
   <div
     v-dompurify-html="formatMessage(message, false)"
     class="chat-bubble user"
-    :class="$dm('', 'has-dark-mode')"
     :style="{ background: widgetColor, color: textColor }"
   />
 </template>
