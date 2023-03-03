@@ -7,7 +7,7 @@ class Integrations::BotProcessorService
 
     process_content(message)
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: hook).capture_exception
+    ChatwootExceptionTracker.new(e, account: hook.account).capture_exception
   end
 
   private
