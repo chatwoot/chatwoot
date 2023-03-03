@@ -25,12 +25,7 @@
       />
     </div>
     <div v-if="isOptions">
-      <chat-options
-        :title="message"
-        :options="messageContentAttributes.items"
-        :hide-fields="!!messageContentAttributes.submitted_values"
-        @click="onOptionSelect"
-      />
+      <chat-options :title="message" />
     </div>
     <chat-form
       v-if="isForm && !messageContentAttributes.submitted_values"
@@ -61,6 +56,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import ChatCard from 'shared/components/ChatCard';
 import ChatForm from 'shared/components/ChatForm';
@@ -118,8 +114,21 @@ export default {
     isIntegrations() {
       return this.contentType === 'integrations';
     },
+    hasResponse() {
+      return Boolean(this.messageContentAttributes.submitted_values);
+    },
+  },
+  mounted() {
+    if (this.isOptions && !this.hasResponse) {
+      this.setOptions(this.messageContentAttributes.items);
+      this.setCallback(this.onOptionSelect);
+    }
   },
   methods: {
+    ...mapMutations({
+      setOptions: 'conversation/setQuickRepliesOptions',
+      setCallback: 'conversation/setQuickRepliesCallback',
+    }),
     onResponse(messageResponse) {
       this.$store.dispatch('message/update', messageResponse);
     },
@@ -128,6 +137,7 @@ export default {
         submittedValues: [selectedOption],
         messageId: this.messageId,
       });
+      this.setOptions([]);
     },
     onFormSubmit(formValues) {
       const formValuesAsArray = Object.keys(formValues).map(key => ({

@@ -51,4 +51,6 @@ export const getters = {
     const maxUnreadCount = Math.min(unreadCount, 3);
     return unreadAgentMessages.splice(-maxUnreadCount);
   },
+  getQuickRepliesOptions: _state => _state.quickReplies.options,
+  getQuickRepliesCallback: _state => _state.quickReplies.callback,
 };
