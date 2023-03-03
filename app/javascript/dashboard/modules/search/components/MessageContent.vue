@@ -63,10 +63,12 @@ export default {
       const escapedText = this.escapeHtml(content);
       const plainTextContent = this.getPlainText(escapedText);
       const escapedSearchTerm = this.escapeRegExp(this.searchTerm);
-      return plainTextContent.replace(
-        new RegExp(`(${escapedSearchTerm})`, 'ig'),
-        '<span class="searchkey--highlight">$1</span>'
-      );
+      return plainTextContent
+        .replace(
+          new RegExp(`(${escapedSearchTerm})`, 'ig'),
+          '<span class="searchkey--highlight">$1</span>'
+        )
+        .replace(/\s{2,}|\n|\r/g, ' ');
     },
     // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
     escapeRegExp(string) {
