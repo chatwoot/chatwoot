@@ -19,7 +19,7 @@
         <div
           v-for="data in processedData.get(dateKey)"
           :key="data.timestamp"
-          v-tooltip.top="`${data.value} conversations`"
+          v-tooltip.top="getCountTooltip(data.value)"
           class="heatmap-tile"
           :class="getHeatmapLevelClass(data.value)"
         >
@@ -59,6 +59,23 @@ export default {
     this.calculateDataLimits();
   },
   methods: {
+    getCountTooltip(value) {
+      if (!value) {
+        return this.$t(
+          'OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS'
+        );
+      }
+
+      if (value === 1) {
+        return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', {
+          count: value,
+        });
+      }
+
+      return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
+        count: value,
+      });
+    },
     formatDate(dateString) {
       return format(new Date(dateString), 'MMM d, yyyy');
     },

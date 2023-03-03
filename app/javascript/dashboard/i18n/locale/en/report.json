@@ -395,7 +395,10 @@
       "UNASSIGNED": "Unassigned"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic"
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "%{count} conversation",
+      "CONVERSATIONS": "%{count} conversations"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
