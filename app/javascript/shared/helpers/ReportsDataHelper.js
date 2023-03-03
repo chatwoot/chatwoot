@@ -42,6 +42,11 @@ export const clampDataBetweenTimeline = (data, from, to) => {
   });
 };
 
+/**
+ * Generates an array of objects with timestamp and value as 0 for the last 7 days
+ *
+ * @returns {Array} - An array of objects containing timestamp and value
+ */
 export const generateEmptyHeatmapData = () => {
   const data = [];
   const today = new Date();
