@@ -17,9 +17,7 @@
             @click.prevent="$emit('contact-panel-toggle')"
           >
             <h3 class="sub-block-title user--name text-truncate">
-              <span class="margin-right-smaller">{{
-                currentContact.name
-              }}</span>
+              <span>{{ currentContact.name }}</span>
               <fluent-icon
                 v-if="!isHMACVerified"
                 v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
@@ -30,16 +28,12 @@
             </h3>
           </woot-button>
           <div class="conversation--header--actions text-truncate">
-            <inbox-name
-              v-if="hasMultipleInboxes"
-              :inbox="inbox"
-              class="margin-right-1"
-            />
-            <span v-if="isSnoozed" class="snoozed--display-text margin-right-1">
+            <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
+            <span v-if="isSnoozed" class="snoozed--display-text">
               {{ snoozedDisplayText }}
             </span>
             <woot-button
-              class="user--profile__button margin-right-1"
+              class="user--profile__button"
               size="small"
               variant="link"
               @click="$emit('contact-panel-toggle')"
@@ -220,6 +214,11 @@ export default {
   align-items: center;
   display: flex;
   font-size: var(--font-size-mini);
+  gap: var(--space-small);
+
+  ::v-deep .inbox--name {
+    margin: 0;
+  }
 
   .user--profile__button {
     padding: 0;
@@ -233,5 +232,6 @@ export default {
 
 .hmac-warning__icon {
   color: var(--y-600);
+  margin: 0 var(--space-micro);
 }
 </style>
