@@ -8,8 +8,8 @@ class HookJob < ApplicationJob
     when 'dialogflow'
       process_dialogflow_integration(hook, event_name, event_data)
     end
-  rescue StandardError => e
-    Rails.logger.error e
+  #rescue StandardError => e
+  #  Rails.logger.error e
   end
 
   private
