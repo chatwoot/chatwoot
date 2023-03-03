@@ -125,11 +125,16 @@ $tile-gap: 0.4rem;
   }
 }
 
+@media screen and (max-width: 768px) {
+  .heatmap-container {
+    overflow-y: scroll;
+  }
+}
+
 .heatmap-container {
   display: grid;
   position: relative;
   width: 100%;
-  overflow-x: scroll;
   gap: 2rem;
   grid-template-columns: 80px 1fr;
 }
