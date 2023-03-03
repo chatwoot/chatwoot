@@ -5,7 +5,7 @@
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-700')"
+      :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"

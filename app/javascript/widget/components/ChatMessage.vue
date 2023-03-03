@@ -80,7 +80,7 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-  .chat-bubble.agent {
+  .chat-bubble.agent.has-dark-mode {
     blockquote {
       border-color: var(--s-200);
       color: var(--s-50);
