@@ -5,7 +5,7 @@
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-700')"
+      :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
@@ -142,14 +142,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-
-.chat-bubble .message-content::v-deep pre {
-  background: $color-primary-light;
-  color: $color-body;
-  overflow-y: auto;
-  padding: $space-smaller;
-}
-</style>
