@@ -70,11 +70,10 @@ describe('reconcileHeatmapData', () => {
     expect(reconcileHeatmapData(data, heatmapData)).toEqual(expected);
   });
 
-  it('should handle empty heatmap data', () => {
+  it('should replace empty heatmap data with a new array', () => {
     const data = [{ timestamp: 1614308400, value: 20 }];
     const heatmapData = [];
-    const expected = [];
-    expect(reconcileHeatmapData(data, heatmapData)).toEqual(expected);
+    expect(reconcileHeatmapData(data, heatmapData).length).toEqual(7 * 24);
   });
 });
 
