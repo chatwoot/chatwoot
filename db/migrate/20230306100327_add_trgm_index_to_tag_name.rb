@@ -1,6 +1,6 @@
 # This migration adds a trigram index to the tags table on the name column.
-# This is used to speed up the search for tags by name, this is a signficant
-# query when genereating reports where labels are involved.
+# This is used to speed up the search for tags by name, this is a heavy
+# sub query when genereating reports where labels are involved.
 #
 # Trigram indexes are used to speed up LIKE queries, they are not used for
 # equality queries. This is because the index is not a btree index, it is a
