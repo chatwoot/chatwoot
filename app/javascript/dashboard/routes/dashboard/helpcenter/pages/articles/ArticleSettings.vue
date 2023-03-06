@@ -88,6 +88,7 @@
             :multiple="true"
             :taggable="true"
             :close-on-select="false"
+            @search-change="handleSearchChange"
             @close="onBlur"
             @tag="addTagValue"
           />
@@ -138,6 +139,7 @@ export default {
       metaDescription: '',
       metaTags: [],
       metaOptions: [],
+      tagInputValue: '',
     };
   },
   computed: {
@@ -186,16 +188,20 @@ export default {
       }));
     },
     addTagValue(tagValue) {
-      const tags = tagValue.split(',').map(value => ({
-        name: value.trim(),
-      }));
-      this.metaTags.push(...tags);
+      const tags = tagValue
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag && !this.allTags.includes(tag));
+
+      this.metaTags.push(...this.formattedTags({ tags: [...new Set(tags)] }));
       this.saveArticle();
     },
+    handleSearchChange(value) {
+      this.tagInputValue = value;
+    },
     onBlur() {
-      const currentSearch = this.$refs.tagInput.$refs.search.value;
-      if (currentSearch) {
-        this.addTagValue(currentSearch);
+      if (this.tagInputValue) {
+        this.addTagValue(this.tagInputValue);
       }
     },
     onClickSelectCategory({ id }) {
