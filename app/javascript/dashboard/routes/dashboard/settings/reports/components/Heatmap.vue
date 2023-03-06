@@ -218,7 +218,7 @@ $marker-height: var(--space-two);
     height: $tile-height;
     min-width: 70px;
     font-size: var(--font-size-micro);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     display: flex;
     flex-direction: column;
     align-items: end;
