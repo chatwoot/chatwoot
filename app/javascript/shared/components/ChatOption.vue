@@ -1,20 +1,23 @@
 <template>
-  <li
+  <div
     class="option"
-    :class="{ 'is-selected': isSelected }"
-    :style="{ borderColor: widgetColor }"
+    :class="optionClass"
+    :style="{ borderColor: widgetColor, color: widgetColor }"
   >
     <button class="option-button button" @click="onClick">
       <span :style="{ color: widgetColor }">{{ action.title }}</span>
     </button>
-  </li>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {},
+  mixins: [darkModeMixin],
   props: {
     action: {
       type: Object,
@@ -29,6 +32,14 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
+    optionClass() {
+      let optionClass = `${this.$dm('bg-white', 'dark:bg-slate-700')}`;
+      if (this.isSelected) optionClass = 'is-selected ' + optionClass;
+      return optionClass;
+    },
   },
   methods: {
     onClick() {
@@ -40,11 +51,12 @@ export default {
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .option {
+  @include light-shadow;
   border-radius: $space-jumbo;
   border: 1px solid $color-woot;
-  float: left;
   margin: $space-smaller;
   max-width: 100%;
 
@@ -62,6 +74,8 @@ export default {
     span {
       display: inline-block;
       vertical-align: middle;
+      font-weight: $font-weight-bold;
+      white-space: nowrap;
     }
 
     > .icon {

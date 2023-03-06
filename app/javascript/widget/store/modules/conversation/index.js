@@ -4,6 +4,10 @@ import { mutations } from './mutations';
 
 const state = {
   conversations: {},
+  quickReplies: {
+    options: [],
+    callback: undefined,
+  },
   meta: {
     userLastSeenAt: undefined,
   },

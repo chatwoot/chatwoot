@@ -3,7 +3,8 @@
     <div class="flex flex-1 overflow-auto">
       <conversation-wrap :grouped-messages="groupedMessages" />
     </div>
-    <div class="px-5 pb-5">
+    <quick-replies :is-visible="hasQuickRepliesOptions" />
+    <div class="px-5 py-5">
       <chat-footer />
     </div>
   </div>
@@ -12,13 +13,18 @@
 import { mapGetters } from 'vuex';
 import ChatFooter from '../components/ChatFooter.vue';
 import ConversationWrap from '../components/ConversationWrap.vue';
+import QuickReplies from '../components/QuickReplies.vue';
 
 export default {
-  components: { ChatFooter, ConversationWrap },
+  components: { ChatFooter, ConversationWrap, QuickReplies },
   computed: {
     ...mapGetters({
       groupedMessages: 'conversation/getGroupedConversation',
+      quickRepliesOptions: 'conversation/getQuickRepliesOptions',
     }),
+    hasQuickRepliesOptions() {
+      return Boolean(this.quickRepliesOptions.length);
+    },
   },
   mounted() {
     this.$store.dispatch('conversation/setUserLastSeen');
