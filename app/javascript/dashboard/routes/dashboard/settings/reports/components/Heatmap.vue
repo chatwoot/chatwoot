@@ -150,10 +150,10 @@ $heatmap-colors: (
 );
 
 $tile-height: 3rem;
-$tile-gap: 0.4rem;
-$container-gap-row: 1rem;
-$container-gap-column: 2rem;
-$marker-height: 2rem;
+$tile-gap: var(--space-smaller);
+$container-gap-row: var(--space-one);
+$container-gap-column: var(--space-two);
+$marker-height: var(--space-two);
 
 @mixin heatmap-level($level) {
   $color: map-get($heatmap-colors, 'level-#{$level}');
@@ -165,7 +165,7 @@ $marker-height: 2rem;
 
 @media screen and (max-width: 768px) {
   .heatmap-container {
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 
@@ -206,7 +206,7 @@ $marker-height: 2rem;
   .heatmap-axis-label {
     height: $tile-height;
     min-width: 70px;
-    font-size: 1rem;
+    font-size: var(--font-size-micro);
     font-weight: 600;
     display: flex;
     flex-direction: column;
@@ -214,8 +214,8 @@ $marker-height: 2rem;
     justify-content: center;
 
     time {
-      font-size: 1rem;
-      font-weight: 400;
+      font-size: var(--font-size-micro);
+      font-weight: var(--font-weight-normal);
     }
   }
 }
@@ -236,7 +236,7 @@ $marker-height: 2rem;
   .heatmap-tile {
     width: auto;
     height: $tile-height;
-    border-radius: 0.4rem;
+    border-radius: var(--border-radius-normal);
 
     &:hover {
       box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -253,7 +253,7 @@ $marker-height: 2rem;
       &:hover {
         transform: translateY(0);
         box-shadow: none;
-        border: 1px solid $color-border-light;
+        border: 1px solid var(--color-border-light);
       }
     }
 
@@ -283,8 +283,8 @@ $marker-height: 2rem;
   grid-template-columns: repeat(24, 1fr);
   gap: $tile-gap;
   width: 100%;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--font-size-nano);
+  font-weight: var(--font-weight-bold);
   height: $marker-height;
   color: $color-light-gray;
 
