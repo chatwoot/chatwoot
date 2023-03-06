@@ -60,6 +60,14 @@ export default {
   margin: $space-smaller;
   max-width: 100%;
 
+  &:hover {
+    @include normal-shadow;
+
+    span {
+      font-weight: $font-weight-bold;
+    }
+  }
+
   .option-button {
     background: transparent;
     border-radius: $space-large;
@@ -74,7 +82,6 @@ export default {
     span {
       display: inline-block;
       vertical-align: middle;
-      font-weight: $font-weight-bold;
       white-space: nowrap;
     }
 

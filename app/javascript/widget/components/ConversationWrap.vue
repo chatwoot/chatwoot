@@ -1,5 +1,9 @@
 <template>
-  <div class="conversation--container" :class="colorSchemeClass">
+  <div
+    id="conversation-container"
+    class="conversation--container"
+    :class="colorSchemeClass"
+  >
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
       <div v-if="isFetchingList" class="message--loader">
         <spinner />

@@ -27,7 +27,7 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -41,7 +41,10 @@ export default {
     return { isUploading: false };
   },
   computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+      quickRepliesOptions: 'conversation/getQuickRepliesOptions',
+    }),
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
     },
@@ -56,6 +59,14 @@ export default {
     document.removeEventListener('paste', this.handleClipboardPaste);
   },
   methods: {
+    ...mapMutations({
+      setQuickRepliesOptions: 'conversation/setQuickRepliesOptions',
+    }),
+    clearQuickRepliesOptions() {
+      if (this.quickRepliesOptions.length) {
+        this.setQuickRepliesOptions([]);
+      }
+    },
     handleClipboardPaste(e) {
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       items.forEach(item => {
@@ -65,6 +76,8 @@ export default {
           this.$refs.upload.add(file);
         }
       });
+      // Clear quick replies options in case the user ignores the quick replies
+      this.clearQuickRepliesOptions();
     },
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
@@ -75,6 +88,8 @@ export default {
       } else {
         await this.onIndirectFileUpload(file);
       }
+      // Clear quick replies options in case the user ignores the quick replies
+      this.clearQuickRepliesOptions();
     },
     async onDirectFileUpload(file) {
       if (!file) {
