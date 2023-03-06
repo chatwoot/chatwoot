@@ -887,6 +887,11 @@ export default {
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
       const isPrivate = this.isPrivate;
+
+      if (!conversationId) {
+        return;
+      }
+
       this.$store.dispatch('conversationTypingStatus/toggleTyping', {
         status,
         conversationId,
