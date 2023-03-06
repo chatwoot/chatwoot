@@ -138,15 +138,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-
 $heatmap-colors: (
-  level-1: #daf0ff,
-  level-2: #90d7ff,
-  level-3: #5cbffe,
-  level-4: #36a1fb,
-  level-5: #186cdd,
-  level-6: #1b4c8d,
+  level-1: var(--w-50),
+  level-2: var(--w-100),
+  level-3: var(--w-300),
+  level-4: var(--w-500),
+  level-5: var(--w-700),
+  level-6: var(--w-900),
+);
+
+$heatmap-hover-border-color: (
+  level-1: var(--w-25),
+  level-2: var(--w-50),
+  level-3: var(--w-100),
+  level-4: var(--w-300),
+  level-5: var(--w-500),
+  level-6: var(--w-700),
 );
 
 $tile-height: 3rem;
@@ -159,7 +166,7 @@ $marker-height: var(--space-two);
   $color: map-get($heatmap-colors, 'level-#{$level}');
   background-color: $color;
   &:hover {
-    border: 1px solid lighten($color, 10%);
+    border: 1px solid map-get($heatmap-hover-border-color, 'level-#{$level}');
   }
 }
 
@@ -170,7 +177,7 @@ $marker-height: var(--space-two);
 }
 
 .loading-cell {
-  background-color: $color-background-light;
+  background-color: var(--color-background-light);
   border: 0px;
 
   animation: loading-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -239,16 +246,15 @@ $marker-height: var(--space-two);
     border-radius: var(--border-radius-normal);
 
     &:hover {
-      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-        0 4px 6px -4px rgb(0 0 0 / 0.1), 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      box-shadow: var(--shadow-large);
 
       transform: translateY(-2px);
       transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
 
     &:not(.l1):not(.l2):not(.l3):not(.l4):not(.l5):not(.l6) {
-      background-color: $color-background-light;
-      border: 1px solid $color-border-light;
+      background-color: var(--color-background-light);
+      border: 1px solid var(--color-border-light);
 
       &:hover {
         transform: translateY(0);
@@ -286,7 +292,7 @@ $marker-height: var(--space-two);
   font-size: var(--font-size-nano);
   font-weight: var(--font-weight-bold);
   height: $marker-height;
-  color: $color-light-gray;
+  color: var(--color-body);
 
   div {
     display: flex;
