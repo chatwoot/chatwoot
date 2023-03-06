@@ -85,8 +85,8 @@ export default {
         0.4,
         0.6,
         0.8,
-        0.95,
-        1,
+        0.9,
+        0.99,
       ]);
     },
   },
@@ -127,11 +127,11 @@ export default {
     getHeatmapLevelClass(value) {
       if (!value) return '';
 
-      const level = this.quantileRange.findIndex(
+      const level = [...this.quantileRange, Infinity].findIndex(
         range => value <= range && value > 0
       );
 
-      return `l${level + 1}`;
+      return `l${level}`;
     },
   },
 };
