@@ -26,6 +26,9 @@ $space-big: 4rem;
 $space-jumbo: 5rem;
 $space-mega: 6.25rem;
 
+$border-radius-small: 0.1875rem;
+$border-radius-normal: 0.3125rem;
+
 // font-weight
 $font-weight-feather: 100;
 $font-weight-light: 300;
@@ -74,8 +77,16 @@ $line-height: 1;
 $footer-height: 11.2rem;
 $header-expanded-height: $space-medium * 10;
 
-$font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
-  Roboto, 'Helvetica Neue', Tahoma, Arial, sans-serif;
+$font-family: 'Inter',
+-apple-system,
+system-ui,
+BlinkMacSystemFont,
+'Segoe UI',
+Roboto,
+'Helvetica Neue',
+Tahoma,
+Arial,
+sans-serif;
 
 // Break points
 $break-point-medium: 667px;
