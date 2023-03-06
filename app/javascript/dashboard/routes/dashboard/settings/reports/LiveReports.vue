@@ -39,9 +39,11 @@
     <div class="row">
       <metric-card
         :header="this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')"
-        :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
       >
-        <report-heatmap :heat-data="accountConversationHeatmap" />
+        <report-heatmap
+          :heat-data="accountConversationHeatmap"
+          :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
+        />
       </metric-card>
     </div>
     <div class="row">

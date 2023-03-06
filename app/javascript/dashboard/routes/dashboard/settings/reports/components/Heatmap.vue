@@ -1,36 +1,58 @@
 <template>
   <div class="heatmap-container">
-    <div class="heatmap-labels">
-      <div
-        v-for="dateKey in processedData.keys()"
-        :key="dateKey"
-        class="heatmap-axis-label"
-      >
-        {{ getDayOfTheWeek(new Date(dateKey)) }}
-        <time>{{ formatDate(dateKey) }}</time>
-      </div>
-    </div>
-    <div class="heatmap-grid">
-      <div
-        v-for="dateKey in processedData.keys()"
-        :key="dateKey"
-        class="heatmap-grid-row"
-      >
+    <template v-if="isLoading">
+      <div class="heatmap-labels">
         <div
-          v-for="data in processedData.get(dateKey)"
-          :key="data.timestamp"
-          v-tooltip.top="getCountTooltip(data.value)"
-          class="heatmap-tile"
-          :class="getHeatmapLevelClass(data.value)"
-        >
-          <div class="heatmap-tile__label" />
+          v-for="ii in 7"
+          :key="ii"
+          class="loading-cell heatmap-axis-label"
+        />
+      </div>
+      <div class="heatmap-grid">
+        <div v-for="ii in 7" :key="ii" class="heatmap-grid-row">
+          <div v-for="jj in 24" :key="jj" class="heatmap-tile loading-cell">
+            <div class="heatmap-tile__label loading-cell" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="heatmap-timeline" />
-    <div class="heatmap-markers">
-      <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
-    </div>
+      <div class="heatmap-timeline" />
+      <div class="heatmap-markers">
+        <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
+      </div>
+    </template>
+    <template v-else>
+      <div class="heatmap-labels">
+        <div
+          v-for="dateKey in processedData.keys()"
+          :key="dateKey"
+          class="heatmap-axis-label"
+        >
+          {{ getDayOfTheWeek(new Date(dateKey)) }}
+          <time>{{ formatDate(dateKey) }}</time>
+        </div>
+      </div>
+      <div class="heatmap-grid">
+        <div
+          v-for="dateKey in processedData.keys()"
+          :key="dateKey"
+          class="heatmap-grid-row"
+        >
+          <div
+            v-for="data in processedData.get(dateKey)"
+            :key="data.timestamp"
+            v-tooltip.top="getCountTooltip(data.value)"
+            class="heatmap-tile"
+            :class="getHeatmapLevelClass(data.value)"
+          >
+            <div class="heatmap-tile__label" />
+          </div>
+        </div>
+      </div>
+      <div class="heatmap-timeline" />
+      <div class="heatmap-markers">
+        <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
+      </div>
+    </template>
   </div>
 </template>
 <script>
@@ -47,16 +69,26 @@ export default {
       type: Array,
       default: () => [],
     },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
   },
-  data() {
-    return {
-      processedData: new Map(),
-      quantileRange: [],
-    };
-  },
-  mounted() {
-    this.processData();
-    this.calculateDataLimits();
+  computed: {
+    processedData() {
+      return groupHeatmapByDay(this.heatData);
+    },
+    quantileRange() {
+      const flattendedData = this.heatData.map(data => data.value);
+      return getQuantileIntervals(flattendedData, [
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        0.95,
+        1,
+      ]);
+    },
   },
   methods: {
     getCountTooltip(value) {
@@ -92,20 +124,6 @@ export default {
       ];
       return days[dayIndex];
     },
-    calculateDataLimits() {
-      const flattendedData = this.heatData.map(data => data.value);
-      this.quantileRange = getQuantileIntervals(flattendedData, [
-        0.2,
-        0.4,
-        0.6,
-        0.8,
-        0.95,
-        1,
-      ]);
-    },
-    processData() {
-      this.processedData = groupHeatmapByDay(this.heatData);
-    },
     getHeatmapLevelClass(value) {
       if (!value) return '';
 
@@ -133,6 +151,9 @@ $heatmap-colors: (
 
 $tile-height: 3rem;
 $tile-gap: 0.4rem;
+$container-gap-row: 1rem;
+$container-gap-column: 2rem;
+$marker-height: 2rem;
 
 @mixin heatmap-level($level) {
   $color: map-get($heatmap-colors, 'level-#{$level}');
@@ -148,12 +169,32 @@ $tile-gap: 0.4rem;
   }
 }
 
+.loading-cell {
+  background-color: $color-background-light;
+  border: 0px;
+
+  animation: loading-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes loading-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 .heatmap-container {
   display: grid;
   position: relative;
   width: 100%;
-  gap: 2rem;
+  gap: $container-gap-row $container-gap-column;
   grid-template-columns: 80px 1fr;
+  min-height: calc(
+    7 * #{$tile-height} + 6 * #{$tile-gap} + #{$container-gap-row} + #{$marker-height}
+  );
 }
 
 .heatmap-labels {
@@ -183,7 +224,7 @@ $tile-gap: 0.4rem;
   display: grid;
   grid-template-rows: 1fr;
   gap: $tile-gap;
-  min-width: 600px;
+  min-width: 700px;
   width: 100%;
 
   .heatmap-grid-row {
@@ -244,6 +285,7 @@ $tile-gap: 0.4rem;
   width: 100%;
   font-size: 0.8rem;
   font-weight: 600;
+  height: $marker-height;
   color: $color-light-gray;
 
   div {
