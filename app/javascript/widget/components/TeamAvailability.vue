@@ -1,5 +1,5 @@
 <template>
-  <div class="px-5 pb-5">
+  <div class="px-5 pb-5 responsive-container">
     <div class="flex items-center justify-between mb-4">
       <div
         class="max-w-xs"
@@ -94,3 +94,13 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '~widget/assets/scss/variables.scss';
+
+.responsive-container {
+  max-width: $break-point-tablet;
+  margin: 0 auto;
+  width: 100%;
+}
+</style>
