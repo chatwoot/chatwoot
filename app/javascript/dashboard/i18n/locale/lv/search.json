@@ -11,12 +11,12 @@
       "CONVERSATIONS": "Sarunas",
       "MESSAGES": "Ziņojumi"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search message content, contact name, email or phone or conversations",
+    "EMPTY_STATE": "Vaicājumam '%{query}' nav atrasts neviens %{item} vienums",
+    "EMPTY_STATE_FULL": "Vaicājumam '%{query}' nav atrasts neviens rezultāts",
+    "PLACEHOLDER_KEYBINDING": "/ fokusēt",
+    "INPUT_PLACEHOLDER": "Meklēt ziņas saturu, kontaktpersonas vārdu, e-pastu vai tālruni vai sarunas",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Lasīt vairāk",
+    "WROTE": "rakstīja:"
   }
 }
