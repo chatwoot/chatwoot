@@ -14,9 +14,7 @@ const state = {
   reportData: [],
   accountReport: {
     isFetching: false,
-    isFetchingHeatmap: false,
     data: [],
-    heatmapData: [],
   },
   accountSummary: {
     avg_first_response_time: 0,
