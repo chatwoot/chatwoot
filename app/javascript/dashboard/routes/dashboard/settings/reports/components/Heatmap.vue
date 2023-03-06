@@ -131,6 +131,10 @@ export default {
         range => value <= range && value > 0
       );
 
+      if (level > 6) {
+        return 'l6';
+      }
+
       return `l${level}`;
     },
   },
