@@ -426,6 +426,12 @@
       "UNATTENDED": "Bez uzraudzības",
       "UNASSIGNED": "Nav piešķirtas"
     },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "%{count} conversation",
+      "CONVERSATIONS": "%{count} conversations"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Aģentu sarunas",
       "LOADING_MESSAGE": "Notiek aģentu metrikas ielāde...",
@@ -443,5 +449,14 @@
       "BUSY": "Aizņemts",
       "OFFLINE": "Bezsaistē"
     }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
   }
 }
