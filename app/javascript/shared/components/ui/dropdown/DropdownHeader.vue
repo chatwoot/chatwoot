@@ -17,6 +17,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-menu--header {
+  display: inline-flex;
   list-style: none;
 
   .title {

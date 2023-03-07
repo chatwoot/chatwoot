@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_09_033203) do
+ActiveRecord::Schema.define(version: 2023_03_02_054408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -150,6 +151,28 @@ ActiveRecord::Schema.define(version: 2023_02_09_033203) do
     t.string "extension"
     t.index ["account_id"], name: "index_attachments_on_account_id"
     t.index ["message_id"], name: "index_attachments_on_message_id"
+  end
+
+  create_table 'audits', force: :cascade do |t|
+    t.bigint 'auditable_id'
+    t.string 'auditable_type'
+    t.bigint 'associated_id'
+    t.string 'associated_type'
+    t.bigint 'user_id'
+    t.string 'user_type'
+    t.string 'username'
+    t.string 'action'
+    t.jsonb 'audited_changes'
+    t.integer 'version', default: 0
+    t.string 'comment'
+    t.string 'remote_address'
+    t.string 'request_uuid'
+    t.datetime 'created_at'
+    t.index %w[associated_type associated_id], name: 'associated_index'
+    t.index %w[auditable_type auditable_id version], name: 'auditable_index'
+    t.index ['created_at'], name: 'index_audits_on_created_at'
+    t.index ['request_uuid'], name: 'index_audits_on_request_uuid'
+    t.index %w[user_id user_type], name: 'user_index'
   end
 
   create_table "automation_rules", force: :cascade do |t|
@@ -385,6 +408,7 @@ ActiveRecord::Schema.define(version: 2023_02_09_033203) do
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
+    t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
   end
 
@@ -631,7 +655,9 @@ ActiveRecord::Schema.define(version: 2023_02_09_033203) do
     t.jsonb "external_source_ids", default: {}
     t.jsonb "additional_attributes", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
+    t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"

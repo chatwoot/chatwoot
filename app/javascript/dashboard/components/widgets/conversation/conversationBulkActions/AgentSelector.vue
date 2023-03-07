@@ -1,5 +1,5 @@
 <template>
-  <div class="bulk-action__agents">
+  <div v-on-clickaway="onCloseAgentList" class="bulk-action__agents">
     <div class="triangle" :style="cssVars">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
@@ -50,7 +50,6 @@
                 :status="agent.availability_status"
                 :username="agent.name"
                 size="22px"
-                class="margin-right-small"
               />
               <span class="reports-option__title">{{ agent.name }}</span>
             </div>
@@ -127,6 +126,7 @@ export default {
     return {
       query: '',
       selectedAgent: null,
+      goBackToAgentList: false,
     };
   },
   computed: {
@@ -170,6 +170,7 @@ export default {
       this.$emit('select', this.selectedAgent);
     },
     goBack() {
+      this.goBackToAgentList = true;
       this.selectedAgent = null;
     },
     assignAgent(agent) {
@@ -177,6 +178,12 @@ export default {
     },
     onClose() {
       this.$emit('close');
+    },
+    onCloseAgentList() {
+      if (this.selectedAgent === null && !this.goBackToAgentList) {
+        this.onClose();
+      }
+      this.goBackToAgentList = false;
     },
   },
 };

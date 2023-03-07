@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Παρακαλώ δώστε το όνομα και το email σας πριν ξεκινήσετε την συνομιλία",
-    "IS_REQUIRED": "είναι απαραίτητο"
+    "IS_REQUIRED": "είναι απαραίτητο",
+    "REQUIRED": "Υποχρεωτικό"
   },
   "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

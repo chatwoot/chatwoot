@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "സംഭാഷണം ആരംഭിക്കുന്നതിന് മുമ്പ് ദയവായി നിങ്ങളുടെ പേരും ഇമെയിലും നൽകുക",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "ഫയൽ {MAXIMUM_FILE_UPLOAD_SIZE} അറ്റാച്ച്‌മെന്റ് പരിധി കവിഞ്ഞു",
   "CHAT_FORM": {

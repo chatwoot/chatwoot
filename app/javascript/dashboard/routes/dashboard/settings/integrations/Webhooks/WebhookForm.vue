@@ -26,7 +26,7 @@
           type="checkbox"
           :value="event"
           name="subscriptions"
-          class="margin-right-small"
+          class="margin-right-1"
         />
         <span class="fs-small">
           {{ `${getEventLabel(event)} (${event})` }}

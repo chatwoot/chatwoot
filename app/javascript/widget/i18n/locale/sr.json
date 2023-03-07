@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Molim vas dostavite vaše ime i e-poštu pre započinjanja razgovora",
-    "IS_REQUIRED": "je obavezno"
+    "IS_REQUIRED": "je obavezno",
+    "REQUIRED": "Obavezno"
   },
   "FILE_SIZE_LIMIT": "Datoteka prevazilazi {MAXIMUM_FILE_UPLOAD_SIZE} ograničenje priloga",
   "CHAT_FORM": {
