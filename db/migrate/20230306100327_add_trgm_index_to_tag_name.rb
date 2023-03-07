@@ -15,9 +15,6 @@ class AddTrgmIndexToTagName < ActiveRecord::Migration[6.1]
   disable_ddl_transaction!
 
   def change
-    enable_extension 'pg_trgm'
-    # resolves to CREATE EXTENSION pg_trgm;
-
     add_index :tags, 'LOWER(name) gin_trgm_ops', using: :gin, name: 'tags_name_trgm_idx', algorithm: :concurrently
     # resolves to CREATE INDEX tags_name_trgm_idx ON public.tags USING gin (lower((name)::text) gin_trgm_ops);
   end
