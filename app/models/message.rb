@@ -196,9 +196,13 @@ class Message < ApplicationRecord
                 .where("(additional_attributes->'campaign_id') is null").count == 1
   end
 
+  def not_created_by_automation?
+    content_attributes['automation_rule_id'].blank?
+  end
+
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-    if outgoing? && first_human_response?
+    if outgoing? && first_human_response? && not_created_by_automation?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end

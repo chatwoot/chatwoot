@@ -380,14 +380,6 @@
     text-decoration: underline;
   }
 
-  blockquote {
-    border-left-color: var(--s-300);
-
-    p {
-      color: var(--s-300);
-    }
-  }
-
   p:last-child {
     margin-bottom: 0;
   }
@@ -408,19 +400,8 @@
     text-decoration: underline;
   }
 
-  blockquote {
-    border-left-color: var(--w-100);
-
-    p {
-      color: var(--w-100);
-    }
-  }
-
-  pre code {
-    background: var(--color-background);
-  }
-
   p:last-child {
     margin-bottom: 0;
   }
 }
+

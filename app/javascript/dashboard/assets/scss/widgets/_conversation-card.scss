@@ -56,7 +56,7 @@
 
   .conversation--user {
     font-size: var(--font-size-small);
-    margin: 0 var(--space-one);
+    margin: 0 var(--space-small);
     text-transform: capitalize;
 
     .label {
@@ -76,7 +76,7 @@
     font-weight: var(--font-weight-normal);
     height: var(--space-medium);
     line-height: var(--space-medium);
-    margin: 0 var(--space-one);
+    margin: 0 var(--space-small);
     max-width: 96%;
     overflow: hidden;
     text-overflow: ellipsis;

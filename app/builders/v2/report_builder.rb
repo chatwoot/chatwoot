@@ -74,7 +74,7 @@ class V2::ReportBuilder
       :created_at,
       default_value: 0,
       range: range,
-      permit: %w[day week month year],
+      permit: %w[day week month year hour],
       time_zone: @timezone
     )
   end

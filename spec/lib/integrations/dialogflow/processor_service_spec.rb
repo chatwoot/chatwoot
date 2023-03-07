@@ -35,6 +35,15 @@ describe Integrations::Dialogflow::ProcessorService do
       end
     end
 
+    context 'when dilogflow raises exception' do
+      it 'tracks hook into exception tracked' do
+        last_message = conversation.reload.messages.last.content
+        allow(dialogflow_service).to receive(:query_result).and_raise(StandardError)
+        processor.perform
+        expect(conversation.reload.messages.last.content).to eql(last_message)
+      end
+    end
+
     context 'when dialogflow returns fullfillment text to be empty' do
       let(:dialogflow_response) do
         ActiveSupport::HashWithIndifferentAccess.new(
