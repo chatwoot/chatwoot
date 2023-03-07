@@ -87,6 +87,9 @@
             track-by="name"
             :multiple="true"
             :taggable="true"
+            :close-on-select="false"
+            @search-change="handleSearchChange"
+            @close="onBlur"
             @tag="addTagValue"
           />
         </label>
@@ -136,6 +139,7 @@ export default {
       metaDescription: '',
       metaTags: [],
       metaOptions: [],
+      tagInputValue: '',
     };
   },
   computed: {
@@ -184,12 +188,21 @@ export default {
       }));
     },
     addTagValue(tagValue) {
-      const tag = {
-        name: tagValue,
-      };
-      this.metaTags.push(tag);
-      this.$refs.tagInput.$el.focus();
+      const tags = tagValue
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag && !this.allTags.includes(tag));
+
+      this.metaTags.push(...this.formattedTags({ tags: [...new Set(tags)] }));
       this.saveArticle();
+    },
+    handleSearchChange(value) {
+      this.tagInputValue = value;
+    },
+    onBlur() {
+      if (this.tagInputValue) {
+        this.addTagValue(this.tagInputValue);
+      }
     },
     onClickSelectCategory({ id }) {
       this.$emit('save-article', { category_id: id });
