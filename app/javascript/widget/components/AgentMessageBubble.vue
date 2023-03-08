@@ -138,6 +138,8 @@ export default {
         messageId: this.messageId,
       });
       this.setOptions([]);
+      const container = document.getElementById('conversation-container');
+      container.scrollTo(0, container.scrollHeight);
     },
     onFormSubmit(formValues) {
       const formValuesAsArray = Object.keys(formValues).map(key => ({

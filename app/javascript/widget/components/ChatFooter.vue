@@ -76,7 +76,7 @@ export default {
     const referral = urlParams.get('referral');
     /* We send an empty message on mount event so the bot is aware that the conversation
     has started and can start the flow. This only happens when the url includes a referral */
-    if (referral) this.handleSendMessage('');
+    if (!this.conversationSize && referral) this.handleSendMessage('');
   },
   methods: {
     ...mapActions('conversation', [

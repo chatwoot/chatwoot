@@ -1,6 +1,6 @@
 <template>
   <header
-    class="header-expanded py-6 px-5 relative box-border w-full"
+    class="header-expanded header-responsive py-6 px-5 relative box-border w-full"
     :class="$dm('bg-white', 'dark:bg-slate-900')"
   >
     <div
@@ -64,3 +64,12 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '~widget/assets/scss/variables.scss';
+
+.header-responsive {
+  max-width: $break-point-tablet;
+  margin: 0 auto;
+}
+</style>
