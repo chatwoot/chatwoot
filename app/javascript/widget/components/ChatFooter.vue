@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
@@ -57,6 +57,7 @@ export default {
       conversationSize: 'conversation/getConversationSize',
       currentUser: 'contacts/getCurrentUser',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
+      quickRepliesOptions: 'conversation/getQuickRepliesOptions',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -87,6 +88,9 @@ export default {
       'getAttributes',
       'clearConversationAttributes',
     ]),
+    ...mapMutations({
+      setQuickRepliesOptions: 'conversation/setQuickRepliesOptions',
+    }),
     async handleSendMessage(content) {
       await this.sendMessage({
         content,
@@ -94,6 +98,10 @@ export default {
       // Update conversation attributes on new conversation
       if (this.conversationSize === 0) {
         this.getAttributes();
+      }
+      // Clear quick replies options in case the user ignores the quick replies
+      if (this.quickRepliesOptions.length) {
+        this.setQuickRepliesOptions([]);
       }
     },
     handleSendAttachment(attachment) {

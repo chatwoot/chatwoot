@@ -94,4 +94,10 @@ export const mutations = {
   setMetaUserLastSeenAt($state, lastSeen) {
     $state.meta.userLastSeenAt = lastSeen;
   },
+  setQuickRepliesOptions($state, options) {
+    $state.quickReplies.options = options;
+  },
+  setQuickRepliesCallback($state, callback) {
+    $state.quickReplies.callback = callback;
+  },
 };
