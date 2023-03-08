@@ -11,8 +11,6 @@ class Whatsapp::IncomingMessageBaseService
 
     if processed_params[:statuses].present?
       process_statuses
-    elsif error_webhook_event?(processed_params[:messages].first)
-      log_error(processed_params[:messages].first)
     elsif processed_params[:messages].present?
       process_messages
     end
@@ -58,6 +56,8 @@ class Whatsapp::IncomingMessageBaseService
     return if unprocessable_message_type?(message_type)
 
     message = @processed_params[:messages].first
+    log_error(message) && return if error_webhook_event?(message)
+
     if message_type == 'contacts'
       create_contact_messages(message)
     else

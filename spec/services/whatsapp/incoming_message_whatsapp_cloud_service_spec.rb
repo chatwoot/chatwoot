@@ -97,7 +97,9 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
       it 'with attachment errors' do
         described_class.new(inbox: whatsapp_channel.inbox, params: error_params).perform
-        expect(whatsapp_channel.inbox.conversations.count).to eq(0)
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end
   end
