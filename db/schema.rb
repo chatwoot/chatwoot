@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_02_054408) do
+ActiveRecord::Schema.define(version: 2023_03_06_100327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -153,26 +153,26 @@ ActiveRecord::Schema.define(version: 2023_03_02_054408) do
     t.index ["message_id"], name: "index_attachments_on_message_id"
   end
 
-  create_table 'audits', force: :cascade do |t|
-    t.bigint 'auditable_id'
-    t.string 'auditable_type'
-    t.bigint 'associated_id'
-    t.string 'associated_type'
-    t.bigint 'user_id'
-    t.string 'user_type'
-    t.string 'username'
-    t.string 'action'
-    t.jsonb 'audited_changes'
-    t.integer 'version', default: 0
-    t.string 'comment'
-    t.string 'remote_address'
-    t.string 'request_uuid'
-    t.datetime 'created_at'
-    t.index %w[associated_type associated_id], name: 'associated_index'
-    t.index %w[auditable_type auditable_id version], name: 'auditable_index'
-    t.index ['created_at'], name: 'index_audits_on_created_at'
-    t.index ['request_uuid'], name: 'index_audits_on_request_uuid'
-    t.index %w[user_id user_type], name: 'user_index'
+  create_table "audits", force: :cascade do |t|
+    t.bigint "auditable_id"
+    t.string "auditable_type"
+    t.bigint "associated_id"
+    t.string "associated_type"
+    t.bigint "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.jsonb "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "automation_rules", force: :cascade do |t|
@@ -816,6 +816,7 @@ ActiveRecord::Schema.define(version: 2023_03_02_054408) do
   create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "taggings_count", default: 0
+    t.index "lower((name)::text) gin_trgm_ops", name: "tags_name_trgm_idx", using: :gin
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
