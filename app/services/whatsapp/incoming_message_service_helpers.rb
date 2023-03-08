@@ -52,6 +52,6 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def log_error(message)
-    Rails.logger.error "Whatsapp Error: #{message['errors'][0]['title']} - contact: #{message['from']}"
+    Rails.logger.warn "Whatsapp Error: #{message['errors'][0]['title']} - contact: #{message['from']}"
   end
 end
