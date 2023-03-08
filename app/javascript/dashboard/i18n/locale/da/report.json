@@ -426,6 +426,12 @@
       "UNATTENDED": "Unattet",
       "UNASSIGNED": "Ikke Tildelt"
     },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "%{count} conversation",
+      "CONVERSATIONS": "%{count} conversations"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Samtaler af agenter",
       "LOADING_MESSAGE": "Indlæser agent målinger...",
@@ -443,5 +449,14 @@
       "BUSY": "Optaget",
       "OFFLINE": "Offline"
     }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
   }
 }
