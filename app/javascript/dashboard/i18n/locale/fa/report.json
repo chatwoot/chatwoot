@@ -426,6 +426,12 @@
       "UNATTENDED": "بی سرپرست",
       "UNASSIGNED": "تخصیص داده نشده"
     },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "ترافیک گفتگو",
+      "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
+      "CONVERSATION": "%{count} گفتگو",
+      "CONVERSATIONS": "%{count} گفتگو"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "گفتگوهای ایجنت ها",
       "LOADING_MESSAGE": "در حال بارگیری معیارهای ایجنت...",
@@ -443,5 +449,14 @@
       "BUSY": "مشغول",
       "OFFLINE": "آفلاین"
     }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "یک‌شنبه",
+    "MONDAY": "دوشنبه",
+    "TUESDAY": "سه‌شنبه",
+    "WEDNESDAY": "چهارشنبه",
+    "THURSDAY": "پنج‌شنبه",
+    "FRIDAY": "جمعه",
+    "SATURDAY": "شنبه"
   }
 }
