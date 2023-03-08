@@ -427,10 +427,10 @@
       "UNASSIGNED": "Nav piešķirtas"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Sarunu Satiksme",
+      "NO_CONVERSATIONS": "Nav sarunu",
+      "CONVERSATION": "%{count} saruna",
+      "CONVERSATIONS": "%{count} sarunas"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Aģentu sarunas",
@@ -451,12 +451,12 @@
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Svētdiena",
+    "MONDAY": "Pirmdiena",
+    "TUESDAY": "Otrdiena",
+    "WEDNESDAY": "Trešdiena",
+    "THURSDAY": "Ceturtdiena",
+    "FRIDAY": "Piektdiena",
+    "SATURDAY": "Sestdiena"
   }
 }
