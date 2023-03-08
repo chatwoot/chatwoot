@@ -78,4 +78,12 @@ module Whatsapp::IncomingMessageServiceHelpers
     end
     waid
   end
+  
+  def error_webhook_event?(message)
+    message.key?('errors')
+  end
+
+  def log_error(message)
+    Rails.logger.warn "Whatsapp Error: #{message['errors'][0]['title']} - contact: #{message['from']}"
+  end
 end
