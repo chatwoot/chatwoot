@@ -427,10 +427,10 @@
       "UNASSIGNED": "تخصیص داده نشده"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "ترافیک گفتگو",
+      "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
+      "CONVERSATION": "%{count} گفتگو",
+      "CONVERSATIONS": "%{count} گفتگو"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "گفتگوهای ایجنت ها",
@@ -451,12 +451,12 @@
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "یک‌شنبه",
+    "MONDAY": "دوشنبه",
+    "TUESDAY": "سه‌شنبه",
+    "WEDNESDAY": "چهارشنبه",
+    "THURSDAY": "پنج‌شنبه",
+    "FRIDAY": "جمعه",
+    "SATURDAY": "شنبه"
   }
 }
