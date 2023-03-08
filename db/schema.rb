@@ -164,7 +164,6 @@ ActiveRecord::Schema.define(version: 2023_03_06_100327) do
     t.string "action"
     t.jsonb "audited_changes"
     t.integer "version", default: 0
-    t.integer "integer", default: 0
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
