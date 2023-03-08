@@ -8,7 +8,7 @@
     "ASSIGN_LABEL": "Atribuir",
     "YES": "Sim",
     "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
-    "ASSIGN_TEAM_TOOLTIP": "Assign team",
+    "ASSIGN_TEAM_TOOLTIP": "Atribuir equipe",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
     "ASSIGN_FAILED": "Failed to assign conversations, please try again",
     "RESOLVE_SUCCESFUL": "Conversations resolved successfully",

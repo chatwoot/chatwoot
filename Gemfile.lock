@@ -90,6 +90,8 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.2)
     attr_extras (6.2.5)
+    audited (5.2.0)
+      activerecord (>= 5.0, < 7.1)
     aws-eventstream (1.2.0)
     aws-partitions (1.605.0)
     aws-sdk-core (3.131.2)
@@ -507,7 +509,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.6.1)
-    rack (2.2.6.2)
+    rack (2.2.6.3)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
@@ -763,6 +765,7 @@ DEPENDENCIES
   administrate
   annotate
   attr_extras
+  audited (~> 5.2)
   aws-sdk-s3
   azure-storage-blob
   barnes
@@ -844,9 +847,9 @@ DEPENDENCIES
   rubocop-rspec
   scout_apm
   seed_dump
-  sentry-rails (~> 5.3, >= 5.3.1)
-  sentry-ruby (~> 5.3)
-  sentry-sidekiq (~> 5.3, >= 5.3.1)
+  sentry-rails
+  sentry-ruby
+  sentry-sidekiq
   shoulda-matchers
   sidekiq (~> 6.4.2)
   sidekiq-cron (~> 1.6, >= 1.6.0)

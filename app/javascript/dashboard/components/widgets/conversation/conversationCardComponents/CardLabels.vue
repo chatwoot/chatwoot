@@ -97,7 +97,7 @@ export default {
 }
 
 .label-container {
-  margin-top: var(--space-micro);
+  margin: var(--space-micro) var(--space-small) 0;
 }
 
 .labels-wrap {

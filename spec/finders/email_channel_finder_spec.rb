@@ -24,6 +24,13 @@ describe ::EmailChannelFinder do
         channel = described_class.new(reply_mail.mail).perform
         expect(channel).to eq(channel_email)
       end
+
+      it 'return channel with to+extension email' do
+        channel_email.update(email: 'test@example.com')
+        reply_mail.mail['to'] = 'test+123@example.com'
+        channel = described_class.new(reply_mail.mail).perform
+        expect(channel).to eq(channel_email)
+      end
     end
   end
 end

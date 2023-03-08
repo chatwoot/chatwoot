@@ -1,0 +1,22 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Visi",
+      "CONTACTS": "Kontaktpersonas",
+      "CONVERSATIONS": "Sarunas",
+      "MESSAGES": "Ziņojumi"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontaktpersonas",
+      "CONVERSATIONS": "Sarunas",
+      "MESSAGES": "Ziņojumi"
+    },
+    "EMPTY_STATE": "Vaicājumam '%{query}' nav atrasts neviens %{item} vienums",
+    "EMPTY_STATE_FULL": "Vaicājumam '%{query}' nav atrasts neviens rezultāts",
+    "PLACEHOLDER_KEYBINDING": "/ fokusēt",
+    "INPUT_PLACEHOLDER": "Meklēt ziņas saturu, kontaktpersonas vārdu, e-pastu vai tālruni vai sarunas",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Lasīt vairāk",
+    "WROTE": "rakstīja:"
+  }
+}

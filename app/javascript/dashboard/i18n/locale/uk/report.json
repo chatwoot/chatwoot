@@ -426,6 +426,12 @@
       "UNATTENDED": "Не зв'язаний",
       "UNASSIGNED": "Непризначені"
     },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "%{count} conversation",
+      "CONVERSATIONS": "%{count} conversations"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Розмови агентів",
       "LOADING_MESSAGE": "Завантаження метрик агента...",
@@ -443,5 +449,14 @@
       "BUSY": "Зайнятий",
       "OFFLINE": "Не в мережі"
     }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
   }
 }

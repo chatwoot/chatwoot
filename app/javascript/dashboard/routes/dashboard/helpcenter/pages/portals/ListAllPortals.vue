@@ -122,7 +122,7 @@ export default {
       display: flex;
       align-items: center;
       .page-title {
-        margin-bottom: 0;
+        margin: 0 var(--space-small) 0;
       }
     }
   }

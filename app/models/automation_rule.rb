@@ -25,6 +25,7 @@ class AutomationRule < ApplicationRecord
 
   validate :json_conditions_format
   validate :json_actions_format
+  validate :query_operator_presence
   validates :account_id, presence: true
 
   scope :active, -> { where(active: true) }
@@ -67,4 +68,13 @@ class AutomationRule < ApplicationRecord
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
   end
+
+  def query_operator_presence
+    return if conditions.blank?
+
+    operators = conditions.select { |obj, _| obj['query_operator'].nil? }
+    errors.add(:conditions, 'Automation conditions should have query operator.') if operators.length > 1
+  end
 end
+
+AutomationRule.include_mod_with('Audit::Inbox')

@@ -82,6 +82,7 @@
       "conversation_creation": "Νέα συνομιλία",
       "conversation_assignment": "Η Συνομιλία Ανατέθηκε",
       "assigned_conversation_new_message": "Νέο Μήνυμα",
+      "participating_conversation_new_message": "Νέο Μήνυμα",
       "conversation_mention": "Αναφορά"
     }
   },

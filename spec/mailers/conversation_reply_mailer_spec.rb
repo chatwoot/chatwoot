@@ -168,6 +168,17 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
       end
+
+      it 'renders assignee name in the from address' do
+        mail = described_class.email_reply(message)
+        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.name}"
+      end
+
+      it 'renders inbox name in the from address' do
+        conversation.update(assignee: nil)
+        mail = described_class.email_reply(message)
+        expect(mail['from'].value).to eq "#{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+      end
     end
 
     context 'when smtp enabled for microsoft email channel' do

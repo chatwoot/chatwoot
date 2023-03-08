@@ -2,13 +2,12 @@
   <div class="column content-box">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="arrow-download"
       @click="downloadAgentReports"
     >
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
-
     <report-filter-selector
       group-by-filter
       :selected-group-by-filter="selectedGroupByFilter"
@@ -70,6 +69,7 @@ const REPORTS_KEYS = {
 };
 
 export default {
+  name: 'ConversationReports',
   components: {
     ReportFilterSelector,
   },
