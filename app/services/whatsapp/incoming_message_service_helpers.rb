@@ -78,7 +78,7 @@ module Whatsapp::IncomingMessageServiceHelpers
     end
     waid
   end
-  
+
   def error_webhook_event?(message)
     message.key?('errors')
   end
