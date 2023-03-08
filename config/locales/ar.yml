@@ -133,7 +133,7 @@ ar:
           reply_with_name: '%{assignee_name} من %{inbox_name} <%{reply_email}>'
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from <%{from_email}>'
+          reply_with_name: '%{assignee_name} من %{inbox_name}'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"
