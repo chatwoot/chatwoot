@@ -133,7 +133,7 @@ sr-Latn:
           reply_with_name: '%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>'
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from <%{from_email}>'
+          reply_with_name: '%{assignee_name} iz %{inbox_name}'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "Nove poruke u ovom razgovoru"
       transcript_subject: "Transkript razgovora"

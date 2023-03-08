@@ -1,0 +1,22 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Todos",
+      "CONTACTS": "Contactos",
+      "CONVERSATIONS": "Conversaciones",
+      "MESSAGES": "Mensajes"
+    },
+    "SECTION": {
+      "CONTACTS": "Contactos",
+      "CONVERSATIONS": "Conversaciones",
+      "MESSAGES": "Mensajes"
+    },
+    "EMPTY_STATE": "No %{item} found for query '%{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ to focus",
+    "INPUT_PLACEHOLDER": "Search message content, contact name, email or phone or conversations",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "WROTE": "wrote:"
+  }
+}
