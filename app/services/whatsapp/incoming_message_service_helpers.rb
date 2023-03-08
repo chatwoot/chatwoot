@@ -46,4 +46,12 @@ module Whatsapp::IncomingMessageServiceHelpers
   def unprocessable_message_type?(message_type)
     %w[reaction ephemeral unsupported].include?(message_type)
   end
+
+  def error_webhook_event?(message)
+    message.key?('errors')
+  end
+
+  def log_error(message)
+    Rails.logger.warn "Whatsapp Error: #{message['errors'][0]['title']} - contact: #{message['from']}"
+  end
 end
