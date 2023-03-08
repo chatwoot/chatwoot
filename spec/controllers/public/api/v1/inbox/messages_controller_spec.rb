@@ -72,7 +72,7 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       create(:csat_survey_response, conversation: conversation, message: message, rating: 4, feedback_message: 'amazing experience')
 
       patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/" \
-                  "#{conversation.display_id}/messages/#{message.id}",
+            "#{conversation.display_id}/messages/#{message.id}",
             params: { submitted_values: { csat_survey_response: { rating: 4, feedback_message: 'amazing experience' } } },
             as: :json
 
@@ -83,12 +83,13 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
     end
 
     it 'returns update error if CSAT message sent more than 14 days' do
-      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content_type: 'input_csat', created_at: 15.days.ago)
+      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content_type: 'input_csat',
+                                 created_at: 15.days.ago)
       # since csat survey is created in async job, we are mocking the creation.
       create(:csat_survey_response, conversation: conversation, message: message, rating: 4, feedback_message: 'amazing experience')
 
       patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/" \
-                  "#{conversation.display_id}/messages/#{message.id}",
+            "#{conversation.display_id}/messages/#{message.id}",
             params: { submitted_values: { csat_survey_response: { rating: 4, feedback_message: 'amazing experience' } } },
             as: :json
 
