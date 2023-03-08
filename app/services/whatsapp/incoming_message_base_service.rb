@@ -11,6 +11,8 @@ class Whatsapp::IncomingMessageBaseService
 
     if processed_params[:statuses].present?
       process_statuses
+    elsif error_webhook_event?(processed_params[:messages].first)
+      log_error(processed_params[:messages].first)
     elsif processed_params[:messages].present?
       process_messages
     end
