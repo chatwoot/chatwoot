@@ -133,4 +133,20 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
     end
   end
+
+  describe 'Ability to configure Base URL' do
+    context 'when environment variable WHATSAPP_CLOUD_BASE_URL is not set' do
+      it 'uses the default base url' do
+        expect(subject.send(:api_base_path)).to eq('https://graph.facebook.com')
+      end
+    end
+
+    context 'when environment variable WHATSAPP_CLOUD_BASE_URL is set' do
+      it 'uses the base url from the environment variable' do
+        with_modified_env WHATSAPP_CLOUD_BASE_URL: 'http://test.com' do
+          expect(subject.send(:api_base_path)).to eq('http://test.com')
+        end
+      end
+    end
+  end
 end
