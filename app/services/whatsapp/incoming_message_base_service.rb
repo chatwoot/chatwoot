@@ -81,24 +81,13 @@ class Whatsapp::IncomingMessageBaseService
   def set_contact
     contact_params = @processed_params[:contacts]&.first
     return if contact_params.blank?
-    waid = contact_params[:wa_id]
-    phone_number = @processed_params[:messages].first[:from]
-    # Verify if o phone number is Brazil
-    if verify_phone_number_brazil(waid)
-      contact = inbox.account.contacts.find_by(phone_number: "+#{phone_number}")
-      if contact.blank?
-        # verify the phone number has 9 or not
-        phone = parse_number_brazil(phone_number)
-        contact = inbox.account.contacts.find_by(phone_number: "+#{phone}")
-        waid = phone if !contact.blank?
-        phone_number = phone if !contact.blank?
-      end
-    end
+
+    waid = processed_waid(contact_params[:wa_id])
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{phone_number}" }
+      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{@processed_params[:messages].first[:from]}" }
     ).perform
 
     @contact_inbox = contact_inbox
@@ -167,17 +156,5 @@ class Whatsapp::IncomingMessageBaseService
         fallback_title: phone[:phone].to_s
       )
     end
-  end
-
-  def verify_phone_number_brazil(number)
-    number.match(/^55/)
-  end
-
-  def parse_number_brazil(phone_number)
-    ddd = phone_number[2, 2]
-    number = phone_number[4, phone_number.length - 4]
-    phone = "55#{ddd}#{number.gsub(/^9/, '')}"
-    phone = "55#{ddd}9#{number}" if phone_number.length != 13
-    phone
   end
 end
