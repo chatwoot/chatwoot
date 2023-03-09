@@ -40,6 +40,16 @@
           :help-text="$t('HELP_CENTER.CATEGORY.EDIT.SLUG.HELP_TEXT')"
           @input="$v.slug.$touch"
         />
+        <woot-input
+          v-model.trim="position"
+          :class="{ error: $v.position.$error }"
+          class="medium-12 columns"
+          :error="positionError"
+          :label="$t('HELP_CENTER.CATEGORY.EDIT.position.LABEL')"
+          :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.position.PLACEHOLDER')"
+          :help-text="$t('HELP_CENTER.CATEGORY.EDIT.position.HELP_TEXT')"
+          @input="$v.position.$touch"
+        />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.EDIT.DESCRIPTION.LABEL') }}
           <textarea
@@ -123,6 +133,12 @@ export default {
     slugError() {
       if (this.$v.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
+      }
+      return '';
+    },
+    positionError() {
+      if (this.$v.slug.$error) {
+        return this.$t('HELP_CENTER.CATEGORY.ADD.POSITION.ERROR');
       }
       return '';
     },
