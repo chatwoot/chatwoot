@@ -13,6 +13,8 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
   end
 
   def get_response(session_id, message)
+    Rails.logger.warn "Account: Hook: #{hook.id} credentials are not present." && return if hook.settings['credentials'].blank?
+
     Google::Cloud::Dialogflow.configure { |config| config.credentials = hook.settings['credentials'] }
     session_client = Google::Cloud::Dialogflow.sessions
     session = session_client.session_path project: hook.settings['project_id'], session: session_id
