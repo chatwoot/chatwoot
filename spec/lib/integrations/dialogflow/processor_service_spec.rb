@@ -44,6 +44,18 @@ describe Integrations::Dialogflow::ProcessorService do
       end
     end
 
+    context 'when dilogflow settings are not present' do
+      it 'will get empty response' do
+        last_count = conversation.reload.messages.count
+        allow(processor).to receive(:get_response).and_return({})
+        hook.settings = { 'project_id' => 'something_invalid', 'credentials' => {} }
+        hook.save!
+        processor.perform
+
+        expect(conversation.reload.messages.count).to eql(last_count)
+      end
+    end
+
     context 'when dialogflow returns fullfillment text to be empty' do
       let(:dialogflow_response) do
         ActiveSupport::HashWithIndifferentAccess.new(
