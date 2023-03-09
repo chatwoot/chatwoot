@@ -10,11 +10,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     send_message_to_facebook fb_attachment_message_params if message.attachments.present?
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
-    if e.message.include?('The session has been invalidated') || e.message.include?('Error validating access token')
-      channel.authorization_error!
-    else
-      ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
-    end
+    handle_facebook_error(e)
   end
 
   def send_message_to_facebook(delivery_params)
@@ -69,5 +65,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def last_incoming_message
     conversation.messages.incoming.last
+  end
+
+  def handle_facebook_error(exception)
+    # Refer: https://github.com/jgorset/facebook-messenger/blob/64fe1f5cef4c1e3fca295b205037f64dfebdbcab/lib/facebook/messenger/error.rb
+    if exception.to_s.include?('The session has been invalidated') || exception.to_s.include?('Error validating access token')
+      channel.authorization_error!
+    else
+      ChatwootExceptionTracker.new(exception, account: message.account, user: message.sender).capture_exception
+    end
   end
 end
