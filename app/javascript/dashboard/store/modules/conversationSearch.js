@@ -55,6 +55,9 @@ export const actions = {
       commit(types.FULL_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
+  async clearSearchResults({ commit }) {
+    commit(types.SEARCH_CONVERSATIONS_SET, {});
+  },
 };
 
 export const mutations = {

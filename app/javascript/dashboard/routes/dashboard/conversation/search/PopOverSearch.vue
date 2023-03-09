@@ -2,12 +2,13 @@
   <div class="search-wrap">
     <div class="search" :class="{ 'is-active': showSearchBox }">
       <woot-sidemenu-icon />
-      <router-link :to="searchUrl" class="search--link" replace>
+      <button class="search--link" @click="onClickSearch">
         <div class="icon">
           <fluent-icon icon="search" class="search--icon" size="16" />
         </div>
         <p class="search--label">{{ $t('CONVERSATION.SEARCH_MESSAGES') }}</p>
-      </router-link>
+      </button>
+      <search-view v-if="showSearchBox" @close="closeSearchBox" />
       <switch-layout
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle="$emit('toggle-conversation-layout')"
@@ -17,15 +18,17 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import SwitchLayout from './SwitchLayout.vue';
+import SearchView from 'dashboard/modules/search/components/SearchView.vue';
+
 import { frontendURL } from 'dashboard/helper/URLHelper';
 export default {
   components: {
     SwitchLayout,
+    SearchView,
   },
   directives: {
     focus: {
@@ -34,7 +37,7 @@ export default {
       },
     },
   },
-  mixins: [timeMixin, messageFormatterMixin, clickaway],
+  mixins: [timeMixin, messageFormatterMixin],
   props: {
     isOnExpandedLayout: {
       type: Boolean,
@@ -55,6 +58,15 @@ export default {
     }),
     searchUrl() {
       return frontendURL(`accounts/${this.accountId}/search`);
+    },
+  },
+
+  methods: {
+    onClickSearch() {
+      this.showSearchBox = true;
+    },
+    closeSearchBox() {
+      this.showSearchBox = false;
     },
   },
 };

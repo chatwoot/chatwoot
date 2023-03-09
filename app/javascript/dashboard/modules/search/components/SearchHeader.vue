@@ -10,9 +10,11 @@
       :value="searchQuery"
       @input="debounceSearch"
     />
-    <div class="key-binding">
-      <span>{{ $t('SEARCH.PLACEHOLDER_KEYBINDING') }}</span>
-    </div>
+    <woot-label
+      :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
+      :show-close="false"
+      small
+    />
   </div>
 </template>
 
@@ -51,48 +53,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import 'app/javascript/dashboard/assets/scss/_mixins.scss';
 .input-container {
   position: relative;
-  border-radius: var(--border-radius-normal);
+  display: flex;
+  align-items: center;
+  padding: var(--space-small) var(--space-normal);
+  border-bottom: 1px solid var(--s-100);
+
   input[type='search'] {
+    @include ghost-input;
     width: 100%;
-    padding-left: calc(var(--space-large) + var(--space-small));
-    margin-bottom: 0;
-    padding-right: var(--space-mega);
-    &:focus {
-      .icon {
-        color: var(--w-500) !important;
-      }
-    }
+    margin: 0;
   }
 }
 .icon-container {
-  padding-left: var(--space-small);
   display: flex;
   align-items: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  position: absolute;
   .icon {
     color: var(--s-400);
-  }
-}
-.key-binding {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  padding: var(--space-small) var(--space-small) 0 var(--space-small);
-  span {
-    color: var(--s-400);
-    font-weight: var(--font-weight-medium);
-    font-size: calc(var(--space-slab) + var(--space-micro));
-    padding: 0 var(--space-small);
-    border: 1px solid var(--s-100);
-    border-radius: var(--border-radius-normal);
-    display: inline-flex;
-    align-items: center;
   }
 }
 </style>

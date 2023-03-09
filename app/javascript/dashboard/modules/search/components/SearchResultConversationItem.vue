@@ -113,7 +113,7 @@ export default {
   margin-left: var(--space-smaller);
 }
 .conversation-details {
-  margin-left: var(--space-normal);
+  margin-left: var(--space-small);
   flex-grow: 1;
   min-width: 0;
 }

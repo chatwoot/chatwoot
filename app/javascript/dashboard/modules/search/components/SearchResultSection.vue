@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="result-section">
     <div class="label-container">
       <h3 class="text-block-title">{{ title }}</h3>
     </div>
@@ -38,6 +38,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.result-section {
+  margin-bottom: var(--space-normal);
+}
 .search-list {
   list-style: none;
   margin: 0;

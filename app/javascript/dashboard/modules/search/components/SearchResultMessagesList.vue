@@ -5,7 +5,7 @@
     :query="query"
   >
     <ul class="search-list">
-      <li v-for="message in messages" :key="message.id">
+      <li v-for="message in messages" :key="message.id" @click="closeSearch">
         <search-result-conversation-item
           :id="message.conversation_id"
           :account-id="accountId"
@@ -55,6 +55,10 @@ export default {
       return message && message.sender && message.sender.name
         ? message.sender.name
         : this.$t('SEARCH.BOT_LABEL');
+    },
+
+    closeSearch() {
+      this.$emit('close-search');
     },
   },
 };
