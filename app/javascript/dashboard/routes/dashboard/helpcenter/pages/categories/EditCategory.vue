@@ -42,13 +42,10 @@
         />
         <woot-input
           v-model.trim="position"
-          :class="{ error: $v.position.$error }"
           class="medium-12 columns"
-          :error="positionError"
-          :label="$t('HELP_CENTER.CATEGORY.EDIT.position.LABEL')"
-          :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.position.PLACEHOLDER')"
-          :help-text="$t('HELP_CENTER.CATEGORY.EDIT.position.HELP_TEXT')"
-          @input="$v.position.$touch"
+          :label="$t('HELP_CENTER.CATEGORY.EDIT.POSITION.LABEL')"
+          :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.POSITION.PLACEHOLDER')"
+          :help-text="$t('HELP_CENTER.CATEGORY.EDIT.POSITION.HELP_TEXT')"
         />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.EDIT.DESCRIPTION.LABEL') }}
@@ -111,6 +108,7 @@ export default {
       id: this.category.id,
       name: '',
       slug: '',
+      position: '',
       description: '',
     };
   },
@@ -137,7 +135,7 @@ export default {
       return '';
     },
     positionError() {
-      if (this.$v.slug.$error) {
+      if (this.$v.position.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.POSITION.ERROR');
       }
       return '';
@@ -151,6 +149,7 @@ export default {
       const { category } = this;
       this.name = category.name;
       this.slug = category.slug;
+      this.position = category.position;
       this.description = category.description;
     },
     onNameChange() {
@@ -163,11 +162,12 @@ export default {
       this.$emit('cancel');
     },
     async editCategory() {
-      const { id, name, slug, description } = this;
+      const { id, name, slug, position, description } = this;
       const data = {
         id,
         name,
         slug,
+        position,
         description,
       };
       this.$v.$touch();

@@ -67,6 +67,12 @@
         "META_TAGS": {
           "LABEL": "Meta tags",
           "PLACEHOLDER": "Add meta tags separated by comma..."
+        },
+        "SEQUENCE": {
+          "LABEL": "Sequence",
+          "PLACEHOLDER": "Article Sequence in category",
+          "HELP_TEXT": "Sequence will be used to order the articles on the categories.",
+          "ERROR": "Sequence is required"
         }
       },
       "BUTTONS": {
@@ -401,6 +407,12 @@
           "PLACEHOLDER": "Category slug for urls",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug is required"
+        },
+        "POSITION": {
+          "LABEL": "Position",
+          "PLACEHOLDER": "Category position for category sequence",
+          "HELP_TEXT": "Position will be used to sequence the categories on the public portal.",
+          "ERROR": "Position is required"
         },
         "DESCRIPTION": {
           "LABEL": "Description",

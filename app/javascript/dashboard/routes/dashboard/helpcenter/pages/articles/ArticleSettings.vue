@@ -12,13 +12,13 @@
             :selected-item="selectedCategory"
             :has-thumbnail="false"
             :multiselector-title="
-              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.TITLE')
+              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.TITLE')
             "
             :multiselector-placeholder="
-              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.PLACEHOLDER')
+              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.PLACEHOLDER')
             "
             :no-search-result="
-              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.NO_RESULT')
+              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.NO_RESULT')
             "
             :input-placeholder="
               $t(
@@ -48,6 +48,17 @@
             @click="onClickAssignAuthor"
           />
         </label>
+        <woot-input
+          v-model.trim="sequence"
+          class="medium-12 columns"
+          :label="$t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.LABEL')"
+          :placeholder="
+            $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.PLACEHOLDER')
+          "
+          :help-text="
+            $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.HELP_TEXT')
+          "
+        />
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TITLE.LABEL') }}
           <textarea
@@ -136,6 +147,7 @@ export default {
   data() {
     return {
       metaTitle: '',
+      sequence: '',
       metaDescription: '',
       metaTags: [],
       metaOptions: [],

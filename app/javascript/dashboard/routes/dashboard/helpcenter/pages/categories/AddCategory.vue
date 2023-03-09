@@ -40,6 +40,13 @@
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
           @input="$v.slug.$touch"
         />
+        <woot-input
+          v-model.trim="position"
+          class="medium-12 columns"
+          :label="$t('HELP_CENTER.CATEGORY.ADD.POSITION.LABEL')"
+          :placeholder="$t('HELP_CENTER.CATEGORY.ADD.POSITION.PLACEHOLDER')"
+          :help-text="$t('HELP_CENTER.CATEGORY.ADD.POSITION.HELP_TEXT')"
+        />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
           <textarea
@@ -96,6 +103,7 @@ export default {
     return {
       name: '',
       slug: '',
+      position: '',
       description: '',
     };
   },
@@ -139,10 +147,11 @@ export default {
     },
 
     async addCategory() {
-      const { name, slug, description, locale } = this;
+      const { name, slug, position, description, locale } = this;
       const data = {
         name,
         slug,
+        position,
         description,
         locale,
       };
