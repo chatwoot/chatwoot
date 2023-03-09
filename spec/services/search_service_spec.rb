@@ -7,7 +7,7 @@ describe ::SearchService do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
-  let!(:harry) { create(:contact, name: 'Harry Potter', account_id: account.id) }
+  let!(:harry) { create(:contact, name: 'Harry Potter', email: 'test@test.com', account_id: account.id) }
   let!(:conversation) { create(:conversation, contact: harry, inbox: inbox, account: account) }
   let!(:message) { create(:message, account: account, inbox: inbox, content: 'Harry Potter is a wizard') }
 
@@ -53,6 +53,9 @@ describe ::SearchService do
       it 'searches across name, email, phone_number and identifier and returns in the order of contact last_activity_at' do
         # random contact
         create(:contact, account_id: account.id)
+        # unresolved contact -> no identifying info
+        # will not appear in search results
+        create(:contact, name: 'Harry Potter', account_id: account.id)
         harry2 = create(:contact, email: 'HarryPotter@test.com', account_id: account.id, last_activity_at: 2.days.ago)
         harry3 = create(:contact, identifier: 'Potter123', account_id: account.id, last_activity_at: 1.day.ago)
         harry4 = create(:contact, identifier: 'Potter1235', account_id: account.id, last_activity_at: 2.minutes.ago)

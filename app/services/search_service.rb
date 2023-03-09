@@ -45,6 +45,6 @@ class SearchService
     @contacts = current_account.contacts.where(
       "name ILIKE :search OR email ILIKE :search OR phone_number
       ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
-    ).order_on_last_activity_at('desc').limit(10)
+    ).resolved_contacts.order_on_last_activity_at('desc').limit(10)
   end
 end
