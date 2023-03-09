@@ -39,5 +39,17 @@ describe  ::Messages::Facebook::MessageBuilder do
 
       expect(facebook_channel.authorization_error_count).to eq(2)
     end
+
+    it 'raises exception for non profile account' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError.new(
+                                                           190,
+                                                           'This Message has been deleted by the user or the business.'
+                                                         ))
+
+      message_builder
+
+      expect(facebook_channel.inbox.contacts.count).to eq(0)
+    end
   end
 end
