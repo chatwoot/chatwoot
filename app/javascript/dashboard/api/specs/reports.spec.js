@@ -22,8 +22,8 @@ describe('#Reports API', () => {
     it('#getAccountReports', () => {
       reportsAPI.getReports({
         metric: 'conversations_count',
-        since: 1621103400,
-        until: 1621621800,
+        from: 1621103400,
+        to: 1621621800,
       });
       expect(context.axiosMock.get).toHaveBeenCalledWith('/api/v2/reports', {
         params: {
