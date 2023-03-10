@@ -5,7 +5,6 @@ json.content article.content
 json.description article.description
 json.status article.status
 json.account_id article.account_id
-json.sequence article.sequence
 json.last_updated_at article.updated_at
 
 if article.portal.present?

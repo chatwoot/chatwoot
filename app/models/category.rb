@@ -62,6 +62,7 @@ class Category < ApplicationRecord
   accepts_nested_attributes_for :related_categories
 
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
+  default_scope { order(position: :asc) }
 
   def self.search(params)
     search_by_locale(params[:locale]).page(current_page(params)).order(position: :asc)
