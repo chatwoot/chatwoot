@@ -25,15 +25,18 @@ RSpec.describe Article, type: :model do
     let!(:category_3) { create(:category, slug: 'category_3', locale: 'es', portal_id: portal_2.id) }
 
     before do
-      create(:article, category_id: category_1.id, content: 'This is the content', description: 'this is the description',
+      create(:article, sequence: 6, category_id: category_1.id, content: 'This is the content',
+                       description: 'this is the description',
                        slug: 'this-is-title', title: 'this is title',
                        portal_id: portal_1.id, author_id: user.id)
-      create(:article, category_id: category_1.id, slug: 'title-1', title: 'title 1', content: 'This is the content', portal_id: portal_1.id,
-                       author_id: user.id)
-      create(:article, category_id: category_2.id, slug: 'title-2', title: 'title 2', portal_id: portal_2.id, author_id: user.id)
-      create(:article, category_id: category_2.id, slug: 'title-3', title: 'title 3', portal_id: portal_1.id, author_id: user.id)
-      create(:article, category_id: category_3.id, slug: 'title-6', title: 'title 6', portal_id: portal_2.id, author_id: user.id, status: :published)
-      create(:article, category_id: category_2.id, slug: 'title-7', title: 'title 7', portal_id: portal_1.id, author_id: user.id, status: :published)
+      create(:article, sequence: 5, category_id: category_1.id, slug: 'title-1', title: 'title 1', content: 'This is the content',
+                       portal_id: portal_1.id, author_id: user.id)
+      create(:article, sequence: 4, category_id: category_2.id, slug: 'title-2', title: 'title 2', portal_id: portal_2.id, author_id: user.id)
+      create(:article, sequence: 1, category_id: category_2.id, slug: 'title-3', title: 'title 3', portal_id: portal_1.id, author_id: user.id)
+      create(:article, sequence: 2, category_id: category_3.id, slug: 'title-6', title: 'title 6', portal_id: portal_2.id, author_id: user.id,
+                       status: :published)
+      create(:article, sequence: 3, category_id: category_2.id, slug: 'title-7', title: 'title 7', portal_id: portal_1.id, author_id: user.id,
+                       status: :published)
     end
 
     context 'when no parameters passed' do
@@ -43,6 +46,12 @@ RSpec.describe Article, type: :model do
 
         records = portal_2.articles.search({})
         expect(records.count).to eq(portal_2.articles.count)
+      end
+
+      it 'returns all articles in order' do
+        records = described_class.search({})
+        expect(records.first.sequence).to eq(1)
+        expect(records.last.sequence).to eq(6)
       end
     end
 

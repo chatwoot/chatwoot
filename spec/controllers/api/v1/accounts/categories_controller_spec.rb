@@ -184,6 +184,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response['payload']['name']).to eql(category.name)
+        expect(json_response['payload']['position']).to eql(category.position)
         expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
         expect(category.reload.related_category_ids).to eq([related_category_1.id])
         expect(related_category_1.reload.related_category_ids).to be_empty
