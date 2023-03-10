@@ -211,3 +211,7 @@ gem 'audited', '~> 5.2'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
+
+# to detect different language
+gem 'detect_language'
+gem 'google-cloud-translate-v2'

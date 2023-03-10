@@ -161,6 +161,7 @@ GEM
       msgpack
     debase-ruby_core_source (0.10.16)
     declarative (0.0.20)
+    detect_language (1.1.2)
     devise (4.8.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -781,6 +782,7 @@ DEPENDENCIES
   cypress-on-rails (~> 1.13, >= 1.13.1)
   database_cleaner
   ddtrace
+  detect_language
   devise
   devise-secure_password (~> 2.0)!
   devise_token_auth
@@ -799,6 +801,7 @@ DEPENDENCIES
   google-cloud-dialogflow
   google-cloud-storage
   google-cloud-translate
+  google-cloud-translate-v2
   groupdate
   haikunator
   hairtrigger
