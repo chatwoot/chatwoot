@@ -129,12 +129,12 @@ fa:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} از %{inbox_name} «%{from_email}»'
-          reply_with_name: '%{assignee_name} از %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
+          reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} از %{inbox_name}'
-          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+          reply_with_name: "%{assignee_name} از %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "پیام‌های جدید در این مکالمه"
       transcript_subject: "متن مکالمه"
     survey:
