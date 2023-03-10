@@ -1,7 +1,7 @@
 <template>
   <div class="file flex flex-row items-center p-3 cursor-pointer">
     <div class="icon-wrap" :style="{ color: textColor }">
-      <fluent-icon icon="document" size="28" />
+      <fluent-icon icon="document" size="28" type="solid" />
     </div>
     <div class="meta">
       <div class="link-wrap mb-1">
@@ -86,7 +86,7 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .file {
-  padding: $space-slab $space-normal !important;  
+  padding: $space-slab $space-normal !important;
   .icon-wrap {
     font-size: $font-size-mega;
     color: $color-woot;
