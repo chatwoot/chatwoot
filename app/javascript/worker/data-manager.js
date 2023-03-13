@@ -3,7 +3,7 @@ import { DATA_VERSION } from './version';
 
 export class DataManager {
   constructor(accountId) {
-    this.modelsToSync = ['inbox', 'label'];
+    this.modelsToSync = ['inbox', 'label', 'team'];
     this.accountId = accountId;
     this.db = null;
   }

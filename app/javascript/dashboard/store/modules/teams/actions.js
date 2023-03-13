@@ -25,7 +25,7 @@ export const actions = {
   get: async ({ commit }) => {
     commit(SET_TEAM_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await TeamsAPI.get();
+      const { data } = await TeamsAPI.get(true);
       commit(CLEAR_TEAMS);
       commit(SET_TEAMS, data);
     } catch (error) {

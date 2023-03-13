@@ -18,7 +18,8 @@ module CacheKeys
   def cache_keys
     {
       label: fetch_value_for_key(Label.name.underscore),
-      inbox: fetch_value_for_key(Inbox.name.underscore)
+      inbox: fetch_value_for_key(Inbox.name.underscore),
+      team: fetch_value_for_key(Team.name.underscore)
     }
   end
 
