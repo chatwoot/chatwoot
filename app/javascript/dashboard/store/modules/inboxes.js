@@ -126,6 +126,17 @@ const sendAnalyticsEvent = channelType => {
 };
 
 export const actions = {
+  revalidate: async ({ commit }, { newKey }) => {
+    try {
+      const isExistingKeyValid = await InboxesAPI.validateCacheKey(newKey);
+      if (!isExistingKeyValid) {
+        const response = await InboxesAPI.refetchAndCommit();
+        commit(types.default.SET_INBOXES, response.data.payload);
+      }
+    } catch (error) {
+      // Ignore error
+    }
+  },
   get: async ({ commit }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: true });
     try {

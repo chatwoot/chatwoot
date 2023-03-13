@@ -26,6 +26,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'first.reply.created': this.onFirstReplyCreated,
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
+      'account.cache_invalidated': this.onCacheInvalidate,
     };
   }
 
@@ -155,6 +156,12 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onFirstReplyCreated = () => {
     bus.$emit('fetch_overview_reports');
+  };
+
+  onCacheInvalidate = data => {
+    const keys = data.cache_keys;
+    this.app.$store.dispatch('labels/revalidate', { newKeys: keys.label });
+    this.app.$store.dispatch('inboxes/revalidate', { newKeys: keys.label });
   };
 }
 

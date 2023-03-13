@@ -22,6 +22,17 @@ export const actions = {
       commit(SET_TEAM_UI_FLAG, { isCreating: false });
     }
   },
+  revalidate: async ({ commit }, { newKey }) => {
+    try {
+      const isExistingKeyValid = await TeamsAPI.validateCacheKey(newKey);
+      if (!isExistingKeyValid) {
+        const response = await TeamsAPI.refetchAndCommit();
+        commit(SET_TEAMS, response.data);
+      }
+    } catch (error) {
+      // Ignore error
+    }
+  },
   get: async ({ commit }) => {
     commit(SET_TEAM_UI_FLAG, { isFetching: true });
     try {
