@@ -27,7 +27,8 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             slug: 'my-title',
             content: 'This is my content.',
             status: :published,
-            author_id: agent.id
+            author_id: agent.id,
+            position: 3
           }
         }
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
@@ -37,6 +38,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['title']).to eql('MyTitle')
         expect(json_response['payload']['status']).to eql('draft')
+        expect(json_response['payload']['position']).to be(3)
       end
 
       it 'associate to the root article' do
@@ -110,7 +112,8 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
           article: {
             title: 'MyTitle2',
             status: 'published',
-            description: 'test_description'
+            description: 'test_description',
+            position: 5
           }
         }
 
@@ -123,6 +126,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
+        expect(json_response['payload']['position']).to eql(article_params[:article][:position])
       end
     end
   end
