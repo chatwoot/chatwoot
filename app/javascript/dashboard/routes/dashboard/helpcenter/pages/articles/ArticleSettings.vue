@@ -12,13 +12,13 @@
             :selected-item="selectedCategory"
             :has-thumbnail="false"
             :multiselector-title="
-              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.TITLE')
+              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.TITLE')
             "
             :multiselector-placeholder="
-              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.PLACEHOLDER')
+              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.PLACEHOLDER')
             "
             :no-search-result="
-              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.NO_RESULT')
+              $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.NO_RESULT')
             "
             :input-placeholder="
               $t(
