@@ -40,6 +40,12 @@ export default {
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
         e.preventDefault();
         this.$refs.searchInput.focus();
+      } else if (
+        e.key === 'Escape' &&
+        document.activeElement.tagName === 'INPUT'
+      ) {
+        e.preventDefault();
+        this.$refs.searchInput.blur();
       }
     },
     debounceSearch(e) {

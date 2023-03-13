@@ -1,6 +1,6 @@
 <template>
   <section class="result-section">
-    <div class="label-container">
+    <div class="header">
       <h3 class="text-block-title">{{ title }}</h3>
     </div>
     <slot />
@@ -46,12 +46,13 @@ export default {
   margin: 0;
   padding: var(--spacing-normal) 0;
 }
-.label-container {
+.header {
   position: sticky;
   top: 0;
   padding: var(--space-small);
   z-index: 50;
   background: var(--white);
+  margin-bottom: var(--space-micro);
 }
 
 .empty {

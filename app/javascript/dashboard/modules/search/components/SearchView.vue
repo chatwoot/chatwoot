@@ -219,7 +219,7 @@ export default {
     height: 100%;
     max-height: 80vh;
     overflow-y: auto;
-    padding: var(--space-small);
+    padding: 0 var(--space-small);
   }
 }
 
