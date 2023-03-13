@@ -5,7 +5,7 @@ class Api::V1::AccountsController < Api::BaseController
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]
   before_action :validate_captcha, only: [:create]
-  before_action :fetch_account, except: [:create]
+  before_action :fetch_account, except: [:create, :cache_keys]
   before_action :check_authorization, except: [:create, :cache_keys]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
@@ -31,8 +31,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def cache_keys
-    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
-    render json: { cache_keys: @account.cache_keys }, status: :ok
+    render json: { cache_keys: get_cache_keys }, status: :ok
   end
 
   def show
@@ -51,6 +50,28 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def get_prefixed_cache_key(key)
+    "idb-cache-key-#{self.class.name.underscore}-#{params[:id]}-#{key}"
+  end
+
+  def get_cache_keys
+    {
+      label: fetch_value_for_key(Label.name.underscore),
+      inbox: fetch_value_for_key(Inbox.name.underscore),
+      team: fetch_value_for_key(Team.name.underscore)
+    }
+  end
+
+  def fetch_value_for_key(key)
+    prefixed_cache_key = get_prefixed_cache_key(key)
+    value_from_cache = Redis::Alfred.get(prefixed_cache_key)
+
+    return value_from_cache if value_from_cache.present?
+
+    # zero epoch time: 1970-01-01 00:00:00 UTC
+    '0000000000'
+  end
 
   def fetch_account
     @account = current_user.accounts.find(params[:id])
