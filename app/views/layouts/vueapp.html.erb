@@ -60,6 +60,11 @@
       }
     </script>
     <% end %>
+    <script>
+      if (window.Worker) {
+        window.dataWorker = new Worker('/packs/js/worker.js');
+      }
+    </script>
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
   </head>
