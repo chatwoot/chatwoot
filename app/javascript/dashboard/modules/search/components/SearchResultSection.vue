@@ -49,7 +49,7 @@ export default {
 .label-container {
   position: sticky;
   top: 0;
-  padding: var(--space-small) 0;
+  padding: var(--space-small);
   z-index: 50;
   background: var(--white);
 }
@@ -59,6 +59,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: var(--space-medium) var(--space-normal);
+  margin: 0 var(--space-small);
   background: var(--s-25);
   border-radius: var(--border-radius-medium);
   .icon {

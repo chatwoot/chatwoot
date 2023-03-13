@@ -13,9 +13,9 @@
     </div>
     <section class="search-root">
       <header>
-        <search-header @search="search" />
+        <search-header @search="onSearch" />
         <search-tabs
-          v-if="!showEmptySearchResults && all.length"
+          v-if="query"
           :tabs="tabs"
           @tab-change="tab => (selectedTab = tab)"
         />
@@ -175,8 +175,12 @@ export default {
     this.$store.dispatch('conversationSearch/clearSearchResults');
   },
   methods: {
-    search(q) {
+    onSearch(q) {
       this.query = q;
+      if (!q) {
+        this.$store.dispatch('conversationSearch/clearSearchResults');
+        return;
+      }
       this.$track(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
       this.$store.dispatch('conversationSearch/fullSearch', { q });
     },
@@ -232,7 +236,7 @@ export default {
   .empty-state__text {
     text-align: center;
     color: var(--s-500);
-    margin: 0 var(--space-small);
+    margin: var(--space-small);
   }
 }
 </style>
