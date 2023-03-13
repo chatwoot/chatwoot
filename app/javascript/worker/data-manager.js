@@ -8,7 +8,7 @@ export class DataManager {
     this.db = null;
   }
 
-  async getDb() {
+  async initDb() {
     if (this.db) return this.db;
     this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
       upgrade(db) {
@@ -28,10 +28,18 @@ export class DataManager {
     }
   }
 
+  async replace({ modelName, data }) {
+    this.validateModel(modelName);
+    const db = await this.getDb();
+
+    db.clear(modelName);
+    return this.push({ modelName, data });
+  }
+
   async push({ modelName, data }) {
     this.validateModel(modelName);
-
     const db = await this.getDb();
+
     if (Array.isArray(data)) {
       const tx = db.transaction(modelName, 'readwrite');
       data.forEach(item => {
@@ -45,13 +53,14 @@ export class DataManager {
 
   async get({ modelName }) {
     this.validateModel(modelName);
-
     const db = await this.getDb();
+
     return db.getAll(modelName);
   }
 
   async setCacheKeys(cacheKeys) {
     const db = await this.getDb();
+
     Object.keys(cacheKeys).forEach(async modelName => {
       db.put('cache-keys', cacheKeys[modelName], modelName);
     });
