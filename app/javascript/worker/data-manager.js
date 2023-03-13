@@ -15,13 +15,14 @@ export class DataManager {
         db.createObjectStore('cache-keys');
         db.createObjectStore('inbox', { keyPath: 'id' });
         db.createObjectStore('label', { keyPath: 'id' });
+        db.createObjectStore('team', { keyPath: 'id' });
       },
     });
 
     return this.db;
   }
 
-  async validateModel(name) {
+  validateModel(name) {
     if (!name) throw new Error('Model name is not defined');
     if (!this.modelsToSync.includes(name)) {
       throw new Error(`Model ${name} is not defined`);
@@ -51,7 +52,6 @@ export class DataManager {
 
   async get({ modelName }) {
     this.validateModel(modelName);
-
     return this.db.getAll(modelName);
   }
 
