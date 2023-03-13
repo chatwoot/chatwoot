@@ -84,8 +84,10 @@ class Whatsapp::IncomingMessageBaseService
     contact_params = @processed_params[:contacts]&.first
     return if contact_params.blank?
 
+    waid = processed_waid(contact_params[:wa_id])
+
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: contact_params[:wa_id],
+      source_id: waid,
       inbox: inbox,
       contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{@processed_params[:messages].first[:from]}" }
     ).perform
