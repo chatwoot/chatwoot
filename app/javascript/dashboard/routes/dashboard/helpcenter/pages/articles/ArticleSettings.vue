@@ -58,6 +58,7 @@
           :help-text="
             $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.SEQUENCE.HELP_TEXT')
           "
+          @input="onChangeSequence"
         />
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TITLE.LABEL') }}
@@ -176,6 +177,7 @@ export default {
       } = this.article;
       this.metaTitle = title;
       this.metaDescription = description;
+      this.sequence = this.article.sequence;
       this.metaTags = this.formattedTags({ tags });
     }
 
@@ -187,6 +189,7 @@ export default {
             description: this.metaDescription,
             tags: this.allTags,
           },
+          sequence: this.sequence,
         });
       },
       1000,
@@ -223,6 +226,9 @@ export default {
       this.$emit('save-article', { author_id: id });
     },
     onChangeMetaInput() {
+      this.saveArticle();
+    },
+    onChangeSequence() {
       this.saveArticle();
     },
     onClickArchiveArticle() {

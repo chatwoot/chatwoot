@@ -40,6 +40,7 @@ class ArticlesAPI extends PortalsAPI {
       title,
       author_id,
       category_id,
+      sequence,
     });
   }
 
