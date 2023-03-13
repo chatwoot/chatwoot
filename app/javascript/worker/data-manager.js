@@ -30,46 +30,40 @@ export class DataManager {
 
   async replace({ modelName, data }) {
     this.validateModel(modelName);
-    const db = await this.getDb();
 
-    db.clear(modelName);
+    this.db.clear(modelName);
     return this.push({ modelName, data });
   }
 
   async push({ modelName, data }) {
     this.validateModel(modelName);
-    const db = await this.getDb();
 
     if (Array.isArray(data)) {
-      const tx = db.transaction(modelName, 'readwrite');
+      const tx = this.db.transaction(modelName, 'readwrite');
       data.forEach(item => {
         tx.store.add(item);
       });
       await tx.done;
     } else {
-      await db.add(modelName, data);
+      await this.db.add(modelName, data);
     }
   }
 
   async get({ modelName }) {
     this.validateModel(modelName);
-    const db = await this.getDb();
 
-    return db.getAll(modelName);
+    return this.db.getAll(modelName);
   }
 
   async setCacheKeys(cacheKeys) {
-    const db = await this.getDb();
-
     Object.keys(cacheKeys).forEach(async modelName => {
-      db.put('cache-keys', cacheKeys[modelName], modelName);
+      this.db.put('cache-keys', cacheKeys[modelName], modelName);
     });
   }
 
   async getCacheKey(modelName) {
     this.validateModel(modelName);
 
-    const db = await this.getDb();
-    return db.get('cache-keys', modelName);
+    return this.db.get('cache-keys', modelName);
   }
 }
