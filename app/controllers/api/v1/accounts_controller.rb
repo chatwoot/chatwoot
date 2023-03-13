@@ -6,7 +6,7 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :check_signup_enabled, only: [:create]
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
-  before_action :check_authorization, except: [:create]
+  before_action :check_authorization, except: [:create, :cache_keys]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
@@ -28,6 +28,11 @@ class Api::V1::AccountsController < Api::BaseController
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
+  end
+
+  def cache_keys
+    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
+    render json: { cache_keys: @account.cache_keys }, status: :ok
   end
 
   def show
