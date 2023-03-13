@@ -21,6 +21,16 @@ class CacheEnabledApiClient extends ApiClient {
     return axios.get(this.url);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  extractDataFromResponse(response) {
+    return response.data.payload;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  marshallData(dataToParse) {
+    return { data: { payload: dataToParse } };
+  }
+
   async getFromCache() {
     await this.dataManager.initDb();
     const cachekey = await this.dataManager.getCacheKey(this.cacheModelName);
@@ -42,7 +52,8 @@ class CacheEnabledApiClient extends ApiClient {
       this.dataManager.setCacheKeys({ [this.cacheModelName]: cacheKeyFromApi });
       return this.refetchAndCommit();
     }
-    return { data: { payload: localData } };
+
+    return this.marshallData(localData);
   }
 
   async refetchAndCommit() {
@@ -50,8 +61,9 @@ class CacheEnabledApiClient extends ApiClient {
     const response = await axios.get(this.url);
     this.dataManager.replace({
       modelName: this.cacheModelName,
-      data: response.data.payload,
+      data: this.extractDataFromResponse(response),
     });
+
     return response;
   }
 }

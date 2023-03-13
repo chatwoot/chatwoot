@@ -9,7 +9,17 @@ export class TeamsAPI extends CacheEnabledApiClient {
 
   // eslint-disable-next-line class-methods-use-this
   get cacheModelName() {
-    return `team`;
+    return 'team';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  extractDataFromResponse(response) {
+    return response.data;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  marshallData(dataToParse) {
+    return { data: dataToParse };
   }
 
   getAgents({ teamId }) {
