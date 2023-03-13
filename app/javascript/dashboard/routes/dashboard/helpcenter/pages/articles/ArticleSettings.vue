@@ -170,17 +170,16 @@ export default {
       return this.metaTags.map(item => item.name);
     },
   },
+  watch: {
+    article: {
+      handler() {
+        this.setArticleSettingsData();
+      },
+      immediate: true,
+    },
+  },
   mounted() {
-    if (!isEmptyObject(this.article.meta || {})) {
-      const {
-        meta: { title = '', description = '', tags = [] },
-      } = this.article;
-      this.metaTitle = title;
-      this.metaDescription = description;
-      this.sequence = this.article.sequence;
-      this.metaTags = this.formattedTags({ tags });
-    }
-
+    this.setArticleSettingsData();
     this.saveArticle = debounce(
       () => {
         this.$emit('save-article', {
@@ -197,6 +196,17 @@ export default {
     );
   },
   methods: {
+    setArticleSettingsData() {
+      if (!isEmptyObject(this.article.meta || {})) {
+        const {
+          meta: { title = '', description = '', tags = [] },
+        } = this.article;
+        this.metaTitle = title;
+        this.metaDescription = description;
+        this.sequence = this.article.sequence;
+        this.metaTags = this.formattedTags({ tags });
+      }
+    },
     formattedTags({ tags }) {
       return tags.map(tag => ({
         name: tag,
