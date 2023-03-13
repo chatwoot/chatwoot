@@ -39,6 +39,6 @@ module CacheKeys
   private
 
   def dispatch_cache_udpate_event
-    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, data: cache_keys, account: self)
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, cache_keys: cache_keys, account: self)
   end
 end
