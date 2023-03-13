@@ -3,7 +3,7 @@ import { DATA_VERSION } from './version';
 
 export class DataManager {
   constructor(accountId) {
-    this.modelsToSync = ['inbox', 'labels'];
+    this.modelsToSync = ['inbox', 'label'];
     this.accountId = accountId;
     this.db = null;
   }
@@ -14,7 +14,7 @@ export class DataManager {
       upgrade(db) {
         db.createObjectStore('cache-keys');
         db.createObjectStore('inbox', { keyPath: 'id' });
-        db.createObjectStore('labels', { keyPath: 'id' });
+        db.createObjectStore('label', { keyPath: 'id' });
       },
     });
 
@@ -50,7 +50,7 @@ export class DataManager {
     return db.getAll(modelName);
   }
 
-  async setCacheKey(cacheKeys) {
+  async setCacheKeys(cacheKeys) {
     const db = await this.getDb();
     Object.keys(cacheKeys).forEach(async modelName => {
       db.put('cache-keys', cacheKeys[modelName], modelName);
