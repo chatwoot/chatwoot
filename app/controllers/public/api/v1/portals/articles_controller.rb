@@ -8,6 +8,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   def index
     @articles = @portal.articles
     @articles = @articles.search(list_params) if list_params.present?
+    @articles.order(position: :asc)
   end
 
   def show; end
