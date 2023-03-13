@@ -1,14 +1,17 @@
 <template>
-  <div class="backdrop">
-    <section v-on-clickaway="closeSearch" class="search-root">
+  <div class="width-100">
+    <div class="page-header">
       <woot-button
-        color-scheme="secondary"
-        size="large"
-        icon="dismiss"
+        icon="chevron-left"
         variant="smooth"
-        class="modal--close"
+        size="small "
+        class="back-button"
         @click="onBack"
-      />
+      >
+        {{ $t('GENERAL_SETTINGS.BACK') }}
+      </woot-button>
+    </div>
+    <section class="search-root">
       <header>
         <search-header @search="search" />
         <search-tabs
@@ -25,13 +28,11 @@
               v-if="filterContacts"
               :contacts="contacts"
               :query="query"
-              @close-search="closeSearch"
             />
             <search-result-messages-list
               v-if="filterMessages"
               :messages="messages"
               :query="query"
-              @close-search="closeSearch"
             />
             <search-result-conversations-list
               v-if="filterConversations"
@@ -170,6 +171,9 @@ export default {
     this.query = '';
     this.$store.dispatch('conversationSearch/clearSearchResults');
   },
+  mounted() {
+    this.$store.dispatch('conversationSearch/clearSearchResults');
+  },
   methods: {
     search(q) {
       this.query = q;
@@ -177,49 +181,42 @@ export default {
       this.$store.dispatch('conversationSearch/fullSearch', { q });
     },
     onBack() {
-      this.$emit('close');
-    },
-    closeSearch() {
-      this.$emit('close');
+      if (window.history.length > 2) {
+        this.$router.go(-1);
+      } else {
+        this.$router.push({ name: 'home' });
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.backdrop {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--white-transparent);
-  z-index: var(--z-index-very-high);
+.page-header {
+  display: flex;
+  padding: var(--space-normal);
 }
 .search-root {
-  max-width: 56rem;
-  min-height: 32rem;
+  margin: 0 auto;
+  max-width: 64rem;
+  min-height: 48rem;
   width: 100%;
   height: fit-content;
-  box-shadow: var(--shadow-larger);
+  box-shadow: var(--shadow);
   display: flex;
   position: relative;
   flex-direction: column;
   background: white;
   border-radius: var(--border-radius-large);
-  margin-top: var(--space-normal);
+  margin-top: var(--space-large);
   border-top: 1px solid var(--s-25);
   .search-results {
     flex-grow: 1;
     height: 100%;
     max-height: 80vh;
     overflow-y: auto;
-    padding: var(--space-small) var(--space-normal);
+    padding: var(--space-small);
   }
-}
-.modal--close {
-  position: fixed;
-  right: var(--space-small);
-  top: var(--space-small);
 }
 
 .empty {

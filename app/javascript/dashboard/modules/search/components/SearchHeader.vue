@@ -1,5 +1,5 @@
 <template>
-  <div class="input-container">
+  <div class="input-container" :class="{ 'is-focused': isInputFocused }">
     <div class="icon-container">
       <fluent-icon icon="search" class="icon" aria-hidden="true" />
     </div>
@@ -8,6 +8,8 @@
       type="search"
       :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
       :value="searchQuery"
+      @focus="onFocus"
+      @blur="onBlur"
       @input="debounceSearch"
     />
     <woot-label
@@ -23,6 +25,7 @@ export default {
   data() {
     return {
       searchQuery: '',
+      isInputFocused: false,
     };
   },
   mounted() {
@@ -48,6 +51,12 @@ export default {
         }
       }, 500);
     },
+    onFocus() {
+      this.isInputFocused = true;
+    },
+    onBlur() {
+      this.isInputFocused = false;
+    },
   },
 };
 </script>
@@ -60,11 +69,20 @@ export default {
   align-items: center;
   padding: var(--space-small) var(--space-normal);
   border-bottom: 1px solid var(--s-100);
+  transition: border-bottom 0.2s ease-in-out;
 
   input[type='search'] {
     @include ghost-input;
     width: 100%;
     margin: 0;
+  }
+
+  &.is-focused {
+    border-bottom: 1px solid var(--w-100);
+
+    .icon {
+      color: var(--w-400);
+    }
   }
 }
 .icon-container {

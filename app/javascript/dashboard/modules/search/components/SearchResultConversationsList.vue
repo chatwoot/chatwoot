@@ -4,7 +4,7 @@
     :empty="!conversations.length"
     :query="query"
   >
-    <ul class="search-list" @click="closeSearch">
+    <ul class="search-list">
       <li v-for="conversation in conversations" :key="conversation.id">
         <search-result-conversation-item
           :id="conversation.id"
@@ -42,11 +42,6 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
-  },
-  methods: {
-    closeSearch() {
-      this.$emit('close-search');
-    },
   },
 };
 </script>

@@ -56,7 +56,7 @@ export const actions = {
     }
   },
   async clearSearchResults({ commit }) {
-    commit(types.SEARCH_CONVERSATIONS_SET, {});
+    commit(types.FULL_SEARCH_SET, {});
   },
 };
 
