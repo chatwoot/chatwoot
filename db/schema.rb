@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_06_100327) do
+ActiveRecord::Schema.define(version: 2023_03_13_113920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 2023_03_06_100327) do
     t.bigint "associated_article_id"
     t.jsonb "meta", default: {}
     t.string "slug", null: false
+    t.integer "position"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true

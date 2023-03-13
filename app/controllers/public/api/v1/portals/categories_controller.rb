@@ -5,7 +5,7 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   layout 'portal'
 
   def index
-    @categories = @portal.categories
+    @categories = @portal.categories.order(position: :asc)
   end
 
   def show; end
