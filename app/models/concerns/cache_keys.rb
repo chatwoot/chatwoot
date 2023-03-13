@@ -3,7 +3,7 @@ module CacheKeys
   include Events::Types
 
   def get_prefixed_cache_key(key)
-    "idb-cache-key-#{self.class.name.underscore}_#{id}_#{key}"
+    "idb-cache-key-#{self.class.name.underscore}-#{id}-#{key}"
   end
 
   def fetch_value_for_key(key)
