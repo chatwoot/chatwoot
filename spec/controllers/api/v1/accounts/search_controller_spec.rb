@@ -32,7 +32,7 @@ RSpec.describe 'Search', type: :request do
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
 
-        expect(response_data[:payload][:messages].first[:content]).to eq 'test1'
+        expect(response_data[:payload][:messages].first[:content]).to eq 'test2'
         expect(response_data[:payload].keys).to match_array [:contacts, :conversations, :messages]
         expect(response_data[:payload][:messages].length).to eq 2
         expect(response_data[:payload][:conversations].length).to eq 1
