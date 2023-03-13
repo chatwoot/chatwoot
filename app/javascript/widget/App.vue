@@ -81,6 +81,7 @@ export default {
   },
   mounted() {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
+    this.setFavicon();
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
     setHeader(window.authToken);
@@ -114,6 +115,12 @@ export default {
       'resetCampaign',
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    setFavicon() {
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.href = '/birdwoot.svg';
+      document.head.appendChild(link);
+    },
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
