@@ -33,30 +33,28 @@ class CacheEnabledApiClient extends ApiClient {
 
   async getFromCache() {
     await this.dataManager.initDb();
-    const cachekey = await this.dataManager.getCacheKey(this.cacheModelName);
+
     const { data } = await axios.get(
       `/api/v1/accounts/${this.accountIdFromRoute}`
     );
-
     const cacheKeyFromApi = data.cache_keys[this.cacheModelName];
+    const isCacheValid = await this.validateCacheKey(cacheKeyFromApi);
 
     let localData = [];
-
-    if (cacheKeyFromApi === cachekey) {
+    if (isCacheValid) {
       localData = await this.dataManager.get({
         modelName: this.cacheModelName,
       });
     }
 
     if (localData.length === 0) {
-      this.dataManager.setCacheKeys({ [this.cacheModelName]: cacheKeyFromApi });
-      return this.refetchAndCommit();
+      return this.refetchAndCommit(cacheKeyFromApi);
     }
 
     return this.marshallData(localData);
   }
 
-  async refetchAndCommit() {
+  async refetchAndCommit(newKey = null) {
     await this.dataManager.initDb();
     const response = await axios.get(this.url);
     this.dataManager.replace({
@@ -64,7 +62,20 @@ class CacheEnabledApiClient extends ApiClient {
       data: this.extractDataFromResponse(response),
     });
 
+    await this.dataManager.setCacheKeys({
+      [this.cacheModelName]: newKey,
+    });
+
     return response;
+  }
+
+  async validateCacheKey(cacheKeyFromApi) {
+    if (!this.dataManager.db) {
+      await this.dataManager.initDb();
+    }
+
+    const cachekey = await this.dataManager.getCacheKey(this.cacheModelName);
+    return cacheKeyFromApi === cachekey;
   }
 }
 
