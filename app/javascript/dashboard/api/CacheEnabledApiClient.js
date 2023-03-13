@@ -35,7 +35,7 @@ class CacheEnabledApiClient extends ApiClient {
     await this.dataManager.initDb();
 
     const { data } = await axios.get(
-      `/api/v1/accounts/${this.accountIdFromRoute}`
+      `/api/v1/accounts/${this.accountIdFromRoute}/cache_keys`
     );
     const cacheKeyFromApi = data.cache_keys[this.cacheModelName];
     const isCacheValid = await this.validateCacheKey(cacheKeyFromApi);
