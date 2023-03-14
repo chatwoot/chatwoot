@@ -2,7 +2,7 @@
   <div class="search-wrap">
     <div class="search" :class="{ 'is-active': showSearchBox }">
       <woot-sidemenu-icon />
-      <router-link :to="searchUrl" class="search--link" replace>
+      <router-link :to="searchUrl" class="search--link">
         <div class="icon">
           <fluent-icon icon="search" class="search--icon" size="16" />
         </div>
