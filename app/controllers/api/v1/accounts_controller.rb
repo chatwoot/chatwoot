@@ -52,7 +52,7 @@ class Api::V1::AccountsController < Api::BaseController
   private
 
   def get_prefixed_cache_key(key)
-    "idb-cache-key-#{self.class.name.underscore}-#{params[:id]}-#{key}"
+    "idb-cache-key-account-#{params[:id]}-#{key}"
   end
 
   def get_cache_keys
