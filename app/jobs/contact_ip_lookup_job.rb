@@ -10,7 +10,7 @@ class ContactIpLookupJob < ApplicationJob
   private
 
   def update_contact_location_from_ip(contact)
-    geocoder_result = IpLookupService.new(sync_lookup: false).perform(get_contact_ip(contact))
+    geocoder_result = IpLookupService.new.perform(get_contact_ip(contact))
     return unless geocoder_result
 
     contact.additional_attributes ||= {}
