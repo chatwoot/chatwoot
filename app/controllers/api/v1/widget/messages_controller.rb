@@ -1,7 +1,7 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
-  after_action :detect_message_lenguage, only: [:create]
+  after_action :detect_message_language, only: [:create]
 
   def index
     @messages = conversation.nil? ? [] : message_finder.perform
@@ -70,7 +70,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @message = @web_widget.inbox.messages.find(permitted_params[:id])
   end
 
-  def detect_message_lenguage
+  def detect_message_language
     Conversations::DetectLanguageJob.perform_later(@message.id)
   end
 end

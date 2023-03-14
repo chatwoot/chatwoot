@@ -2,7 +2,7 @@ class Conversations::DetectLanguageJob < ApplicationJob
   queue_as :default
 
   def perform(message_id)
-    return unless GlobalConfigService.load('ENABLE_LANGUAGE_DETECTION', '')
+    return unless GlobalConfigService.load('ENABLE_LANGUAGE_DETECTION', nil)
 
     @message = Message.find(message_id)
 
