@@ -24,12 +24,10 @@ class IpLookupService
   def ensure_look_up_db
     return true if File.exist?(GeocoderConfiguration::LOOK_UP_DB)
 
-    setup_vendor_db
+    setup_vendor_db if sync_lookup == true
   end
 
   def setup_vendor_db
-    return if sync_lookup == true
-
     base_url = 'https://download.maxmind.com/app/geoip_download'
     source_file = Down.download(
       "#{base_url}?edition_id=GeoLite2-City&suffix=tar.gz&license_key=#{ENV.fetch('IP_LOOKUP_API_KEY', nil)}"
