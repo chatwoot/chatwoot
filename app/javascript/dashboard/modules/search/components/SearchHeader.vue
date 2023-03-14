@@ -1,5 +1,5 @@
 <template>
-  <div class="input-container">
+  <div class="input-container" :class="{ 'is-focused': isInputFocused }">
     <div class="icon-container">
       <fluent-icon icon="search" class="icon" aria-hidden="true" />
     </div>
@@ -8,11 +8,15 @@
       type="search"
       :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
       :value="searchQuery"
+      @focus="onFocus"
+      @blur="onBlur"
       @input="debounceSearch"
     />
-    <div class="key-binding">
-      <span>{{ $t('SEARCH.PLACEHOLDER_KEYBINDING') }}</span>
-    </div>
+    <woot-label
+      :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
+      :show-close="false"
+      small
+    />
   </div>
 </template>
 
@@ -21,6 +25,7 @@ export default {
   data() {
     return {
       searchQuery: '',
+      isInputFocused: false,
     };
   },
   mounted() {
@@ -35,6 +40,12 @@ export default {
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
         e.preventDefault();
         this.$refs.searchInput.focus();
+      } else if (
+        e.key === 'Escape' &&
+        document.activeElement.tagName === 'INPUT'
+      ) {
+        e.preventDefault();
+        this.$refs.searchInput.blur();
       }
     },
     debounceSearch(e) {
@@ -43,56 +54,50 @@ export default {
       this.debounce = setTimeout(async () => {
         if (this.searchQuery.length > 2 || this.searchQuery.match(/^[0-9]+$/)) {
           this.$emit('search', this.searchQuery);
+        } else {
+          this.$emit('search', '');
         }
       }, 500);
+    },
+    onFocus() {
+      this.isInputFocused = true;
+    },
+    onBlur() {
+      this.isInputFocused = false;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import 'app/javascript/dashboard/assets/scss/_mixins.scss';
 .input-container {
   position: relative;
-  border-radius: var(--border-radius-normal);
+  display: flex;
+  align-items: center;
+  padding: var(--space-small) var(--space-normal);
+  border-bottom: 1px solid var(--s-100);
+  transition: border-bottom 0.2s ease-in-out;
+
   input[type='search'] {
+    @include ghost-input;
     width: 100%;
-    padding-left: calc(var(--space-large) + var(--space-small));
-    margin-bottom: 0;
-    padding-right: var(--space-mega);
-    &:focus {
-      .icon {
-        color: var(--w-500) !important;
-      }
+    margin: 0;
+  }
+
+  &.is-focused {
+    border-bottom: 1px solid var(--w-100);
+
+    .icon {
+      color: var(--w-400);
     }
   }
 }
 .icon-container {
-  padding-left: var(--space-small);
   display: flex;
   align-items: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  position: absolute;
   .icon {
     color: var(--s-400);
-  }
-}
-.key-binding {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  padding: var(--space-small) var(--space-small) 0 var(--space-small);
-  span {
-    color: var(--s-400);
-    font-weight: var(--font-weight-medium);
-    font-size: calc(var(--space-slab) + var(--space-micro));
-    padding: 0 var(--space-small);
-    border: 1px solid var(--s-100);
-    border-radius: var(--border-radius-normal);
-    display: inline-flex;
-    align-items: center;
   }
 }
 </style>

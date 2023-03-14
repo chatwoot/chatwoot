@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <div class="label-container">
+  <section class="result-section">
+    <div class="header">
       <h3 class="text-block-title">{{ title }}</h3>
     </div>
     <slot />
@@ -38,17 +38,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.result-section {
+  margin-bottom: var(--space-normal);
+}
 .search-list {
   list-style: none;
   margin: 0;
   padding: var(--spacing-normal) 0;
 }
-.label-container {
+.header {
   position: sticky;
   top: 0;
-  padding: var(--space-small) 0;
+  padding: var(--space-small);
   z-index: 50;
   background: var(--white);
+  margin-bottom: var(--space-micro);
 }
 
 .empty {
@@ -56,6 +60,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: var(--space-medium) var(--space-normal);
+  margin: 0 var(--space-small);
   background: var(--s-25);
   border-radius: var(--border-radius-medium);
   .icon {

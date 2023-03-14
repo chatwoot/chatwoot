@@ -7,7 +7,7 @@
     </a>
     </h3>
     <span class="text-slate-500">
-      <%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.size %>
+      <%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.order(position: :asc).size %>
     </span>
   </div>
   <div class="py-4 w-full mt-2 flex-grow">
@@ -16,7 +16,7 @@
         <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
       </div>
     <% else %>
-      <% category.articles.published.take(5).each do |article| %>
+      <% category.articles.published.order(position: :asc).take(5).each do |article| %>
         <div class="flex justify-between content-center h-8 my-1">
           <a
             class="text-slate-800 hover:underline leading-8"
