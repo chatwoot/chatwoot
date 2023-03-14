@@ -14,6 +14,8 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
     allow(twitter_client).to receive(:access_token).and_return(twitter_response)
     allow(twitter_response).to receive(:raw_response).and_return(raw_response)
     allow(raw_response).to receive(:body).and_return('oauth_token=1&oauth_token_secret=1&user_id=100&screen_name=chatwoot')
+    allow(twitter_client).to receive(:user_show).and_return(raw_response)
+    allow(::Twitter::WebhookSubscribeService).to receive(:new).and_return(webhook_service)
     allow(::Twitter::WebhookSubscribeService).to receive(:new).and_return(webhook_service)
   end
 
@@ -32,6 +34,7 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
       allow(webhook_service).to receive(:perform).and_raise StandardError
       get twitter_callback_url
       account.reload
+      # expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later).with(account.inboxes.last, '')
       expect(response).to redirect_to app_new_twitter_inbox_url(account_id: account.id)
       expect(account.inboxes.count).to be 0
     end
