@@ -2,6 +2,8 @@ class Conversations::DetectLanguageJob < ApplicationJob
   queue_as :default
 
   def perform(message_id)
+    return unless GlobalConfigService.load('ENABLE_LANGUAGE_DETECTION', '')
+
     @message = Message.find(message_id)
 
     return unless @message.content.size < 1500
