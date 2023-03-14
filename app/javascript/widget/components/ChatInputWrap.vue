@@ -1,8 +1,8 @@
 <template>
   <div class="chat-input-container">
     <div
-      class="chat-message--input is-focused bg-white shadow-sm"
-      :class="$dm('bg-white ', 'dark:bg-slate-600')"
+      class="chat-message--input bg-white shadow-sm"
+      :class="containerClass"
       @keydown.esc="hideEmojiPicker"
     >
       <resizable-text-area
@@ -109,6 +109,11 @@ export default {
       return this.showEmojiPicker
         ? `text-woot-500 ${this.$dm('text-black-900', 'dark:text-slate-100')}`
         : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
+    },
+    containerClass() {
+      let containerClass = "$dm('bg-white ', 'dark:bg-slate-600')";
+      if (this.isFocused) containerClass += ' is-focused';
+      return containerClass;
     },
   },
   watch: {
