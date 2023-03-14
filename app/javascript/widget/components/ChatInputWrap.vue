@@ -1,48 +1,50 @@
 <template>
-  <div
-    class="chat-message--input is-focused"
-    :class="$dm('bg-white ', 'dark:bg-slate-600')"
-    @keydown.esc="hideEmojiPicker"
-  >
-    <resizable-text-area
-      id="chat-input"
-      ref="chatInput"
-      v-model="userInput"
-      :aria-label="$t('CHAT_PLACEHOLDER')"
-      :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input is-focused"
-      :class="inputColor"
-      @typing-off="onTypingOff"
-      @typing-on="onTypingOn"
-      @focus="onFocus"
-      @blur="onBlur"
-    />
-    <div class="button-wrap">
-      <chat-attachment-button
-        v-if="showAttachment"
-        :class="$dm('text-black-900', 'dark:text-slate-100')"
-        :on-attach="onSendAttachment"
+  <div class="chat-input-container">
+    <div
+      class="chat-message--input is-focused bg-white shadow-sm"
+      :class="$dm('bg-white ', 'dark:bg-slate-600')"
+      @keydown.esc="hideEmojiPicker"
+    >
+      <resizable-text-area
+        id="chat-input"
+        ref="chatInput"
+        v-model="userInput"
+        :aria-label="$t('CHAT_PLACEHOLDER')"
+        :placeholder="$t('CHAT_PLACEHOLDER')"
+        class="form-input user-message-input is-focused"
+        :class="inputColor"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
+        @focus="onFocus"
+        @blur="onBlur"
       />
-      <button
-        v-if="hasEmojiPickerEnabled"
-        class="icon-button flex justify-center items-center"
-        aria-label="Emoji picker"
-        @click="toggleEmojiPicker"
-      >
-        <fluent-icon icon="emoji" :class="emojiIconColor" />
-      </button>
-      <emoji-input
-        v-if="showEmojiPicker"
-        v-on-clickaway="hideEmojiPicker"
-        :on-click="emojiOnClick"
-        @keydown.esc="hideEmojiPicker"
-      />
-      <chat-send-button
-        v-if="showSendButton"
-        :on-click="handleButtonClick"
-        :color="widgetColor"
-      />
+      <div class="button-wrap">
+        <chat-attachment-button
+          v-if="showAttachment"
+          :class="$dm('text-black-900', 'dark:text-slate-100')"
+          :on-attach="onSendAttachment"
+        />
+        <button
+          v-if="hasEmojiPickerEnabled"
+          class="icon-button flex justify-center items-center"
+          aria-label="Emoji picker"
+          @click="toggleEmojiPicker"
+        >
+          <fluent-icon icon="emoji" :class="emojiIconColor" />
+        </button>
+        <emoji-input
+          v-if="showEmojiPicker"
+          v-on-clickaway="hideEmojiPicker"
+          :on-click="emojiOnClick"
+          @keydown.esc="hideEmojiPicker"
+        />
+      </div>
     </div>
+    <chat-send-button
+      v-if="showSendButton"
+      :on-click="handleButtonClick"
+      :color="widgetColor"
+    />
   </div>
 </template>
 
@@ -178,11 +180,18 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
 
+.chat-input-container {
+  display: flex;
+  align-items: flex-end;
+  gap: $space-small;
+}
+
 .chat-message--input {
-  align-items: center;
+  align-items: flex-end;
   display: flex;
   padding: 0 $space-small 0 $space-slab;
   border-radius: 7px;
+  flex: 1;
 
   &.is-focused {
     box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
@@ -203,6 +212,7 @@ export default {
   display: flex;
   align-items: center;
   padding-left: $space-small;
+  margin: auto 0 $space-small;
 }
 
 .user-message-input {
