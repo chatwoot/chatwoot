@@ -630,6 +630,31 @@ describe AutomationRuleListener do
         expect(conversation.messages.count).to eq(2)
         expect(conversation.messages.last.content).to eq('Send this message.')
       end
+
+      describe '#conversation_updated with first_reply_created event' do
+        let(:reporting_event_listener) { ReportingEventListener.instance }
+        let(:human_message) { create(:message, message_type: 'outgoing', account: account, inbox: inbox, conversation: conversation) }
+        let(:first_reply_event) { Events::Base.new('first.reply.created', Time.zone.now, message: human_message) }
+
+        it 'triggers automation rule only once send message to the contacts' do
+          reporting_event_listener.first_reply_created(first_reply_event)
+          listener.message_created(event)
+          conversation.reload
+
+          first_reply = conversation.messages.outgoing.where.not(sender_type: 'AgentBot').where("(additional_attributes->'campaign_id') is null")
+
+          expect(conversation.messages.count).to eq(3)
+          expect(conversation.messages.last.content).to eq('Send this message.')
+          expect(first_reply.count).to eq(1)
+
+          automation_message = conversation.messages.last
+          first_reply_event = Events::Base.new('first.reply.created', Time.zone.now, message: automation_message)
+          reporting_event_listener.first_reply_created(first_reply_event)
+
+          expect(conversation.messages.count).to eq(3)
+          expect(first_reply.count).to eq(1)
+        end
+      end
     end
 
     context 'when rule does not match' do

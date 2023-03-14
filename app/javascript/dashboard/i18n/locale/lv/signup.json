@@ -1,10 +1,10 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "Izveidot kontu",
     "TITLE": "Reģistrēt",
     "TESTIMONIAL_HEADER": "Viss, kas nepieciešams, ir viens solis, lai virzītos uz priekšu",
     "TESTIMONIAL_CONTENT": "Jūs esat viena soļa attālumā no klientu piesaistīšanas, noturēšanas un jaunu klientu atrašanas.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TERMS_ACCEPT": "Izveidojot kontu, Jūs piekrītat mūsu <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privātuma politikai</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Reģistrēties, izmantojot Google"
     },
@@ -38,7 +38,7 @@
       "SUCCESS_MESSAGE": "Reģistrācija sekmīga",
       "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     },
-    "SUBMIT": "Create account",
+    "SUBMIT": "Izveidot kontu",
     "HAVE_AN_ACCOUNT": "Jau ir konts?"
   }
 }

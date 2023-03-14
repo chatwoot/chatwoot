@@ -10,8 +10,8 @@ class ReportsAPI extends ApiClient {
 
   getReports({
     metric,
-    since,
-    until,
+    from,
+    to,
     type = 'account',
     id,
     group_by,
@@ -20,8 +20,8 @@ class ReportsAPI extends ApiClient {
     return axios.get(`${this.url}`, {
       params: {
         metric,
-        since,
-        until,
+        since: from,
+        until: to,
         type,
         id,
         group_by,
