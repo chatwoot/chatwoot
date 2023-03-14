@@ -71,6 +71,6 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def detect_message_lenguage
-    Conversations::DetectLanguageJob.perform_later(@message.id) if @message.account_id == 1
+    Conversations::DetectLanguageJob.perform_later(@message.id)
   end
 end
