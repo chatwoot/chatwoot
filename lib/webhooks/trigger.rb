@@ -8,6 +8,6 @@ class Webhooks::Trigger
     )
     Rails.logger.info "Performed Request:  Code - #{response.code}"
   rescue StandardError => e
-    Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
+    Rails.logger.warn "Exception: invalid webhook url #{url} : #{e.message}"
   end
 end
