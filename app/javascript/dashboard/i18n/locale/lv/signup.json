@@ -1,12 +1,17 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Reģistrēt kontu",
+    "TRY_WOOT": "Izveidot kontu",
     "TITLE": "Reģistrēt",
-    "TERMS_ACCEPT": "Reģistrējoties Jūs piekrītat mūsu <a href=\"https://www.chatwoot.com/terms\">T & C</a> un <a href=\"https://www.chatwoot.com/privacy-policy\">Konfidencialitātes Politikai</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Konta nosaukums",
-      "PLACEHOLDER": "Ievadiet konta nosaukumu. Piemēram: Wayne Enterprises",
-      "ERROR": "Konta nosaukums ir pārāk īss"
+    "TESTIMONIAL_HEADER": "Viss, kas nepieciešams, ir viens solis, lai virzītos uz priekšu",
+    "TESTIMONIAL_CONTENT": "Jūs esat viena soļa attālumā no klientu piesaistīšanas, noturēšanas un jaunu klientu atrašanas.",
+    "TERMS_ACCEPT": "Izveidojot kontu, Jūs piekrītat mūsu <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privātuma politikai</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Reģistrēties, izmantojot Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Uzņēmuma nosaukums",
+      "PLACEHOLDER": "Ievadiet sava uzņēmuma nosaukumu. Piemēram: Wayne Enterprises",
+      "ERROR": "Uzņēmuma nosaukums ir pārāk īss"
     },
     "FULL_NAME": {
       "LABEL": "Pilnais vārds",
@@ -16,7 +21,7 @@
     "EMAIL": {
       "LABEL": "Darba e-pasts",
       "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram: bruce@wayne.enterprises",
-      "ERROR": "E-pasta adrese nav derīga"
+      "ERROR": "Lūdzu, ievadiet derīgu darba e-pasta adresi"
     },
     "PASSWORD": {
       "LABEL": "Parole",
@@ -33,7 +38,7 @@
       "SUCCESS_MESSAGE": "Reģistrācija sekmīga",
       "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     },
-    "SUBMIT": "Iesniegt",
+    "SUBMIT": "Izveidot kontu",
     "HAVE_AN_ACCOUNT": "Jau ir konts?"
   }
 }

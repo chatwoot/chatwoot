@@ -32,7 +32,7 @@ class AgentBots::ValidateBotService
     response = csml_client.validate(csml_bot_payload)
     response.blank? || response['valid']
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: agent_bot).capture_exception
+    ChatwootExceptionTracker.new(e, account: agent_bot&.account).capture_exception
     false
   end
 end

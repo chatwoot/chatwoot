@@ -7,18 +7,18 @@
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "DRAFT": "Brouillon",
+        "ARCHIVED": "Archivé"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
+        "ALL_ARTICLES": "Tous les articles",
+        "MINE": "Mes articles",
         "DRAFT": "Draft Articles",
         "ARCHIVED": "Archived Articles"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
+      "ALL_ARTICLES": "Tous les articles",
       "PUBLISH_BUTTON": "Publish",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Preview",
@@ -28,11 +28,22 @@
       "SAVING": "Saving...",
       "SAVED": "Saved"
     },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Téléverser une image",
+        "UPLOADING": "Téléversement...",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
+    },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
+          "LABEL": "Catégorie",
           "TITLE": "Select category",
           "PLACEHOLDER": "Select category",
           "NO_RESULT": "No category found",
@@ -152,7 +163,7 @@
               "EDIT": "Edit category",
               "DELETE": "Delete category"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Aucune catégorie trouvée"
           }
         },
         "EDIT_BASIC_INFO": {
@@ -286,7 +297,7 @@
       "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Titre",
-        "CATEGORY": "Category",
+        "CATEGORY": "Catégorie",
         "READ_COUNT": "Read count",
         "STATUS": "État",
         "LAST_EDITED": "Last edited"

@@ -149,7 +149,7 @@ describe ActionCableListener do
     end
 
     it 'broadcast event with label data' do
-      expect(conversation.push_event_data[:labels]).to eq(conversation.label_list)
+      expect(conversation.reload.push_event_data[:labels]).to eq(conversation.labels.pluck(:name))
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token],

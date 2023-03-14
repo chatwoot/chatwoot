@@ -60,3 +60,9 @@ test/cypress/videos/*
 
 /config/master.key
 /config/*.enc
+
+.vscode/settings.json
+
+# yalc for local testing
+.yalc
+yalc.lock

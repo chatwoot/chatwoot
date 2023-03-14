@@ -38,6 +38,16 @@
     </div>
     <div class="row">
       <metric-card
+        :header="this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')"
+      >
+        <report-heatmap
+          :heat-data="accountConversationHeatmap"
+          :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
+        />
+      </metric-card>
+    </div>
+    <div class="row">
+      <metric-card
         :header="this.$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')"
       >
         <agent-table
@@ -56,11 +66,19 @@ import { mapGetters } from 'vuex';
 import AgentTable from './components/overview/AgentTable';
 import MetricCard from './components/overview/MetricCard';
 import { OVERVIEW_METRICS } from './constants';
+import ReportHeatmap from './components/Heatmap';
+
+import endOfDay from 'date-fns/endOfDay';
+import getUnixTime from 'date-fns/getUnixTime';
+import startOfDay from 'date-fns/startOfDay';
+import subDays from 'date-fns/subDays';
+
 export default {
   name: 'LiveReports',
   components: {
     AgentTable,
     MetricCard,
+    ReportHeatmap,
   },
   data() {
     return {
@@ -73,6 +91,7 @@ export default {
       agents: 'agents/getAgents',
       accountConversationMetric: 'getAccountConversationMetric',
       agentConversationMetric: 'getAgentConversationMetric',
+      accountConversationHeatmap: 'getAccountConversationHeatmapData',
       uiFlags: 'getOverviewUIFlags',
     }),
     agentStatusMetrics() {
@@ -108,6 +127,34 @@ export default {
     fetchAllData() {
       this.fetchAccountConversationMetric();
       this.fetchAgentConversationMetric();
+      this.fetchHeatmapData();
+    },
+    fetchHeatmapData() {
+      if (this.uiFlags.isFetchingAccountConversationsHeatmap) {
+        return;
+      }
+
+      // the data for the last 6 days won't ever change,
+      // so there's no need to fetch it again
+      // but we can write some logic to check if the data is already there
+      // if it is there, we can refetch data only for today all over again
+      // and reconcile it with the rest of the data
+      // this will reduce the load on the server doing number crunching
+      let to = endOfDay(new Date());
+      let from = startOfDay(subDays(to, 6));
+
+      if (this.accountConversationHeatmap.length) {
+        to = endOfDay(new Date());
+        from = startOfDay(to);
+      }
+
+      this.$store.dispatch('fetchAccountConversationHeatmap', {
+        metric: 'conversations_count',
+        from: getUnixTime(from),
+        to: getUnixTime(to),
+        groupBy: 'hour',
+        businessHours: false,
+      });
     },
     fetchAccountConversationMetric() {
       this.$store.dispatch('fetchAccountConversationMetric', {

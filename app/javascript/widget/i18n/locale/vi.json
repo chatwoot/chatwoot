@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu hội thoại",
-    "IS_REQUIRED": "được yêu cầu"
+    "IS_REQUIRED": "được yêu cầu",
+    "REQUIRED": "Bắt buộc"
   },
   "FILE_SIZE_LIMIT": "Tệp vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Trường không hợp lệ"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Tìm kiếm biểu tượng cảm xúc",
+    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn"
   },
   "CSAT": {
     "TITLE": "Đánh giá hội thoại",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Yêu cầu bản ghi hội thoại",
     "SEND_EMAIL_SUCCESS": "Bản ghi cuộc trò chuyện đã được gửi thành công",
     "SEND_EMAIL_ERROR": "Đã có lỗi, vui lòng thử lại"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

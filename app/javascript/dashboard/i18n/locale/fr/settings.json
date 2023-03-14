@@ -20,23 +20,23 @@
         "NOTE": "Votre adresse de courriel est votre identité et est utilisée pour vous connecter."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Raccourci clavier pour envoyer des messages",
+        "NOTE": "Vous pouvez sélectionner un raccourci clavier (Entrée ou Cmd/Ctrl+Entrée) en fonction de vos préférences d'écriture.",
+        "UPDATE_SUCCESS": "Votre profil a été mis à jour avec succès",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "Entrer (<unk> )",
+            "CONTENT": "Envoyez des messages en appuyant sur la touche Entrée au lieu de cliquer sur le bouton d'envoi."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "Cmd/Ctrl + Entrée (<unk> + <unk> )",
+            "CONTENT": "Envoyez des messages en appuyant sur la touche Cmd/Ctrl + Entrée (<unk> + <unk>) au lieu de cliquer sur le bouton d'envoi."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Créez une signature de message personnelle qui sera ajoutée à tous les messages que vous envoyez depuis votre boîte aux lettres électronique. Utilisez l'éditeur de contenu riche pour créer une signature personnalisée.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
         "API_SUCCESS": "Signature enregistrée avec succès"
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifications audio",
         "NOTE": "Activer les notifications audio dans le tableau de bord pour les nouveaux messages et conversations.",
-        "NONE": "Aucun",
-        "ASSIGNED": "Conversations assignées",
-        "ALL_CONVERSATIONS": "Toutes les conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Aucun",
+          "ASSIGNED": "Conversations assignées",
+          "ALL_CONVERSATIONS": "Toutes les conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifications par courriel",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
         "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications par courriel lorsque vous êtes mentionné dans une conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications push lorsque vous êtes mentionné dans une conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications push lorsqu'un nouveau message est créé dans une conversation assignée",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
         "REQUEST_PUSH": "Activer les notifications push"
       },
@@ -103,7 +116,9 @@
           "En ligne",
           "Occupé(e)",
           "Hors-ligne"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Votre adresse de courriel",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
     "KEYBOARD_SHORTCUTS": "Raccourcis clavier",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Se déconnecter"
   },
   "APP_GLOBAL": {
@@ -141,8 +157,8 @@
     "TRAIL_BUTTON": "Acheter Maintenant",
     "DELETED_USER": "Utilisateur supprimé",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Compte Suspendu",
+      "MESSAGE": "Votre compte est suspendu. Veuillez contacter le support pour plus d'informations."
     }
   },
   "COMPONENTS": {
@@ -151,12 +167,16 @@
       "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Voir plus",
+      "SHOW_LESS": "Voir moins"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Télécharger",
-      "UPLOADING": "Téléversement..."
+      "UPLOADING": "Téléversement...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Cette Story n'est plus disponible."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Afficher sur la carte"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Envoyer"
@@ -174,6 +194,8 @@
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "Toutes les conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Sans suivi",
     "REPORTS": "Rapports",
     "SETTINGS": "Paramètres",
     "CONTACTS": "Contacts",
@@ -214,33 +236,38 @@
     "REPORTS_OVERVIEW": "Vue d'ensemble",
     "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "Centre d'aide (Beta)",
+      "ALL_ARTICLES": "Tous les articles",
+      "MY_ARTICLES": "Mes articles",
+      "DRAFT": "Brouillon",
+      "ARCHIVED": "Archivé",
+      "CATEGORY": "Catégorie",
+      "SETTINGS": "Paramètres",
+      "CATEGORY_EMPTY_MESSAGE": "Aucune catégorie trouvée"
     },
-    "DOCS": "Read docs"
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Passer hors-ligne automatiquement",
+      "INFO_TEXT": "Laissez le système vous passer automatiquement hors ligne lorsque vous n'utilisez pas l'application ou le tableau de bord."
+    },
+    "DOCS": "Lire la documentation"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Facturation",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Abonnement actuel",
+      "PLAN_NOTE": "Vous êtes actuellement abonné à l'offre **%{plan}** avec **%{quantity}** licences"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Gérer votre abonnement",
+      "DESCRIPTION": "Visualisez vos factures précédentes, modifiez vos coordonnées de facturation ou annulez votre abonnement.",
+      "BUTTON_TXT": "Accéder au portail de facturation"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Besoin d'aide ?",
+      "DESCRIPTION": "Vous avez des problèmes de facturation? Nous sommes là pour vous aider.",
       "BUTTON_TXT": "Discutez avec nous"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Votre compte de facturation est en cours de configuration. Veuillez actualiser la page et réessayer."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
@@ -253,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nom du compte",
+        "LABEL": "Nom de la société",
         "PLACEHOLDER": "Entreprises Wayne"
       },
       "SUBMIT": "Envoyer"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Voir tous les raccourcis",
     "TITLE": {
       "OPEN_CONVERSATION": "Ouvrir la conversation",
       "RESOLVE_AND_NEXT": "Résoudre et passer à la suivante",

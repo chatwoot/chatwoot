@@ -23,7 +23,7 @@
         "ERROR": "נא להזין שם חשבון חוקי"
       },
       "LANGUAGE": {
-        "LABEL": "שפת אתר (ביטא)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "שם החשבון שלך",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
       "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
-      "SELECT_ONE": "תבחר אחד"
+      "SELECT_ONE": "תבחר אחד",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -81,6 +82,7 @@
       "conversation_creation": "שיחה חדשה",
       "conversation_assignment": "שיחה הוקצתה",
       "assigned_conversation_new_message": "הודעה חדשה",
+      "participating_conversation_new_message": "הודעה חדשה",
       "conversation_mention": "אִזְכּוּר"
     }
   },
@@ -136,5 +138,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

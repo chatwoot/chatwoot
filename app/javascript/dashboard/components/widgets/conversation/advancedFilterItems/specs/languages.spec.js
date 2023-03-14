@@ -1,4 +1,4 @@
-import { getLanguageName } from '../languages';
+import { getLanguageName, getLanguageDirection } from '../languages';
 
 describe('#getLanguageName', () => {
   it('Returns correct language name', () => {
@@ -6,5 +6,12 @@ describe('#getLanguageName', () => {
     expect(getLanguageName()).toEqual('');
     expect(getLanguageName('rrr')).toEqual('');
     expect(getLanguageName('')).toEqual('');
+  });
+});
+
+describe('#getLanguageDirection', () => {
+  it('Returns correct language direction', () => {
+    expect(getLanguageDirection('es')).toEqual(false);
+    expect(getLanguageDirection('ar')).toEqual(true);
   });
 });

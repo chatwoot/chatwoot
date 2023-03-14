@@ -22,6 +22,14 @@ export const isOnMentionsView = ({ route: { name: routeName } }) => {
   return MENTION_ROUTES.includes(routeName);
 };
 
+export const isOnUnattendedView = ({ route: { name: routeName } }) => {
+  const UNATTENDED_ROUTES = [
+    'conversation_unattended',
+    'conversation_through_unattended',
+  ];
+  return UNATTENDED_ROUTES.includes(routeName);
+};
+
 export const buildConversationList = (
   context,
   requestPayload,

@@ -20,13 +20,24 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "Tất cả các bài",
       "PUBLISH_BUTTON": "Phát hành",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
+      "MOVE_TO_ARCHIVE_BUTTON": "Di chuyển đến lưu trữ",
       "PREVIEW": "Xem trước",
       "ADD_TRANSLATION": "Thêm bản dịch",
       "OPEN_SIDEBAR": "Mở thanh bên",
       "CLOSE_SIDEBAR": "Đóng thanh bên",
       "SAVING": "Đang lưu...",
       "SAVED": "Đã lưu"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Tải lên hình ảnh",
+        "UPLOADING": "Đang tải lên...",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Cài đặt bài viết",
@@ -114,13 +125,13 @@
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Xóa cổng thông tin",
+          "MESSAGE": "Bạn có chắc chắn muốn xóa cổng thông tin này",
+          "YES": "Có, xóa cổng thông tin",
+          "NO": "Không, giữ cổng thông tin",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Đã xóa cổng thông tin thành công",
+            "DELETE_ERROR": "Lỗi khi xóa cổng thông tin"
           }
         }
       },
@@ -319,18 +330,18 @@
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Xác nhận xoá",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "Bạn có chắc chắn xóa bài viết?",
           "YES": "Có, Xoá",
           "NO": "Không, Giữ"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "Đã xóa bài viết thành công",
+        "ERROR_MESSAGE": "Lỗi khi xóa bài viết"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Vui lòng thêm tiêu đề và nội dung bài viết sau đó mới có thể cập nhật cài đặt"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -370,8 +381,8 @@
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "TITLE": "Chỉnh sửa danh mục",
+        "SUB_TITLE": "Chỉnh sửa danh mục sẽ cập nhật danh mục trong cổng thông tin công khai.",
         "PORTAL": "Cổng",
         "LOCALE": "Ngôn ngữ",
         "NAME": {
@@ -392,7 +403,7 @@
           "ERROR": "Mô tả bắt buộc có"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "Cập nhật danh mục",
           "CANCEL": "Huỷ"
         },
         "API": {

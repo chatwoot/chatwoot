@@ -16,10 +16,11 @@
 #
 # Indexes
 #
-#  index_contacts_on_account_id                   (account_id)
-#  index_contacts_on_phone_number_and_account_id  (phone_number,account_id)
-#  uniq_email_per_account_contact                 (email,account_id) UNIQUE
-#  uniq_identifier_per_account_contact            (identifier,account_id) UNIQUE
+#  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
+#  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
+#  uniq_email_per_account_contact                        (email,account_id) UNIQUE
+#  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
 #
 
 class Contact < ApplicationRecord
@@ -121,18 +122,21 @@ class Contact < ApplicationRecord
 
   def webhook_data
     {
-      id: id,
-      name: name,
+      account: account.webhook_data,
+      additional_attributes: additional_attributes,
       avatar: avatar_url,
-      type: 'contact',
-      account: account.webhook_data
+      custom_attributes: custom_attributes,
+      email: email,
+      id: id,
+      identifier: identifier,
+      name: name,
+      phone_number: phone_number,
+      thumbnail: avatar_url
     }
   end
 
   def self.resolved_contacts
-    where.not(email: [nil, '']).or(
-      Current.account.contacts.where.not(phone_number: [nil, ''])
-    ).or(Current.account.contacts.where.not(identifier: [nil, '']))
+    where("COALESCE(NULLIF(contacts.email,''),NULLIF(contacts.phone_number,''),NULLIF(contacts.identifier,'')) IS NOT NULL")
   end
 
   def discard_invalid_attrs
@@ -180,7 +184,7 @@ class Contact < ApplicationRecord
   end
 
   def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self)
+    Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self, changed_attributes: previous_changes)
   end
 
   def dispatch_destroy_event

@@ -35,12 +35,17 @@
     "REMOVE_SELECTION": "Rimuovi selezione",
     "DOWNLOAD": "Scarica",
     "UNKNOWN_FILE_TYPE": "File sconosciuto",
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Caricamento allegati...",
     "SUCCESS_DELETE_MESSAGE": "Messaggio eliminato con successo",
     "FAIL_DELETE_MESSSAGE": "Impossibile eliminare il messaggio! Riprova",
     "NO_RESPONSE": "Nessuna risposta",
     "RATING_TITLE": "Valutazione",
     "FEEDBACK_TITLE": "Feedback",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Risolvi",
       "REOPEN_ACTION": "Riapri",
@@ -64,6 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Segna come in sospeso",
       "RESOLVED": "Contrassegna come risolto",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Riapri la conversazione",
       "SNOOZE": {
         "TITLE": "Posticipa",
@@ -127,6 +133,14 @@
           "PLACEHOLDER": "Email separate da virgole",
           "ERROR": "Inserisci indirizzi email validi"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Invia",
+          "CANCEL": "annulla"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
@@ -151,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Copia",
       "DELETE": "Elimina",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Translate"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -239,5 +254,29 @@
     "BCC": "CCN",
     "CC": "Cc",
     "SUBJECT": "Oggetto"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Nessun risultato trovato",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

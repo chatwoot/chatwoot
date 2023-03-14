@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Ogiltigt fält"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Betygsätt din konversation",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Skicka konversationstranskribering",
     "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
     "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

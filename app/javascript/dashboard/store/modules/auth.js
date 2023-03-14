@@ -48,6 +48,14 @@ export const getters = {
     return currentAccount.availability;
   },
 
+  getCurrentUserAutoOffline($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount.auto_offline;
+  },
+
   getCurrentAccountId(_, __, rootState) {
     if (rootState.route.params && rootState.route.params.accountId) {
       return Number(rootState.route.params.accountId);
@@ -174,6 +182,15 @@ export const actions = {
     }
   },
 
+  updateAutoOffline: async ({ commit }, { accountId, autoOffline }) => {
+    try {
+      const response = await authAPI.updateAutoOffline(accountId, autoOffline);
+      commit(types.SET_CURRENT_USER, response.data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
   setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
       commit(types.SET_CURRENT_USER_AVAILABILITY, data[$state.currentUser.id]);
@@ -192,7 +209,16 @@ export const actions = {
 // mutations
 export const mutations = {
   [types.SET_CURRENT_USER_AVAILABILITY](_state, availability) {
-    Vue.set(_state.currentUser, 'availability', availability);
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === _state.currentUser.account_id) {
+        return { ...account, availability, availability_status: availability };
+      }
+      return account;
+    });
+    Vue.set(_state, 'currentUser', {
+      ..._state.currentUser,
+      accounts,
+    });
   },
   [types.CLEAR_USER](_state) {
     _state.currentUser = initialState.currentUser;

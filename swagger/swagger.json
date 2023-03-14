@@ -4857,38 +4857,48 @@
     "contact": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string",
-          "description": "Email address of the contact"
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the contact"
-        },
-        "phone_number": {
-          "type": "string",
-          "description": "Phone number of the contact"
-        },
-        "thumbnail": {
-          "type": "string",
-          "description": "Avatar URL of the contact"
-        },
-        "additional_attributes": {
+        "payload": {
           "type": "object",
-          "description": "The object containing additional attributes related to the contact"
-        },
-        "custom_attributes": {
-          "type": "object",
-          "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
-          "example": {
-            "attribute_key": "attribute_value",
-            "signed_up_at": "dd/mm/yyyy"
-          }
-        },
-        "contact_inboxes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/contact_inboxes"
+          "properties": {
+            "contact": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "Email address of the contact"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the contact"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "description": "Phone number of the contact"
+                },
+                "thumbnail": {
+                  "type": "string",
+                  "description": "Avatar URL of the contact"
+                },
+                "additional_attributes": {
+                  "type": "object",
+                  "description": "The object containing additional attributes related to the contact"
+                },
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
+                  "example": {
+                    "attribute_key": "attribute_value",
+                    "signed_up_at": "dd/mm/yyyy"
+                  }
+                },
+                "contact_inboxes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/contact_inboxes"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -5264,6 +5274,8 @@
               "conversation_created",
               "conversation_status_changed",
               "conversation_updated",
+              "contact_created",
+              "contact_updated",
               "message_created",
               "message_updated",
               "webwidget_triggered"
@@ -5686,7 +5698,8 @@
           "description": "phone number of the contact"
         },
         "avatar": {
-          "type": "string <binary>",
+          "type": "string",
+          "format": "binary",
           "description": "Send the form data with the avatar image binary or use the avatar_url"
         },
         "avatar_url": {
@@ -5719,7 +5732,8 @@
           "description": "phone number of the contact"
         },
         "avatar": {
-          "type": "string <binary>",
+          "type": "string",
+          "format": "binary",
           "description": "Send the form data with the avatar image binary or use the avatar_url"
         },
         "avatar_url": {
@@ -6156,9 +6170,6 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/generic_id"
-        },
-        {
           "$ref": "#/definitions/conversation"
         },
         {
@@ -6234,27 +6245,6 @@
           }
         }
       }
-    },
-    "extended_message": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/generic_id"
-        },
-        {
-          "$ref": "#/definitions/message"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "source_id": {
-              "type": "number"
-            },
-            "sender": {
-              "type": "object"
-            }
-          }
-        }
-      ]
     },
     "account_summary": {
       "type": "object",

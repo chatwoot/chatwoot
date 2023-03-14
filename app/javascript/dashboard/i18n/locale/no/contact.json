@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Startet fra",
     "INITIATED_AT": "Started",
     "IP_ADDRESS": "IP Adresse",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det er ingen tidligere samtaler knyttet til denne kontakten.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Samtaler",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

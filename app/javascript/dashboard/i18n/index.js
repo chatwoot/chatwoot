@@ -15,6 +15,7 @@ import id from './locale/id';
 import it from './locale/it';
 import ja from './locale/ja';
 import ko from './locale/ko';
+import lv from './locale/lv';
 import ml from './locale/ml';
 import nl from './locale/nl';
 import no from './locale/no';
@@ -32,6 +33,7 @@ import uk from './locale/uk';
 import vi from './locale/vi';
 import zh_CN from './locale/zh_CN';
 import zh_TW from './locale/zh_TW';
+import is from './locale/is';
 
 export default {
   ar,
@@ -52,6 +54,7 @@ export default {
   ja,
   ko,
   ml,
+  lv,
   nl,
   no,
   pl,
@@ -68,4 +71,5 @@ export default {
   vi,
   zh_CN,
   zh_TW,
+  is,
 };

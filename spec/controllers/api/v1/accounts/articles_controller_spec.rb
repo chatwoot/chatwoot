@@ -27,7 +27,8 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             slug: 'my-title',
             content: 'This is my content.',
             status: :published,
-            author_id: agent.id
+            author_id: agent.id,
+            position: 3
           }
         }
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
@@ -37,6 +38,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['title']).to eql('MyTitle')
         expect(json_response['payload']['status']).to eql('draft')
+        expect(json_response['payload']['position']).to be(3)
       end
 
       it 'associate to the root article' do
@@ -110,7 +112,8 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
           article: {
             title: 'MyTitle2',
             status: 'published',
-            description: 'test_description'
+            description: 'test_description',
+            position: 5
           }
         }
 
@@ -123,6 +126,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
+        expect(json_response['payload']['position']).to eql(article_params[:article][:position])
       end
     end
   end
@@ -230,6 +234,24 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['associated_articles'][0]['id']).to eq(child_article_1.id)
         expect(json_response['payload']['associated_articles'][1]['id']).to eq(child_article_2.id)
         expect(json_response['payload']['id']).to eq(root_article.id)
+      end
+    end
+
+    describe 'Upload an image' do
+      let(:article) { create(:article, account_id: account.id, category_id: category.id, portal_id: portal.id, author_id: agent.id) }
+
+      it 'update the article with an image' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/portals/#{article.portal.slug}/articles/attach_file",
+             headers: agent.create_new_auth_token,
+             params: { background_image: file }
+
+        expect(response).to have_http_status(:success)
+
+        blob = JSON.parse(response.body)
+
+        expect(blob['file_url']).to be_present
       end
     end
   end

@@ -19,6 +19,7 @@ concurrency:
 jobs:
   action:
     runs-on: ubuntu-latest
+    if: ${{ github.repository == 'chatwoot/chatwoot' }}
     steps:
       - uses: dessant/lock-threads@v3
         with: 

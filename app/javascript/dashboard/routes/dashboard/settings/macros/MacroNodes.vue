@@ -1,6 +1,13 @@
 <template>
   <div class="macros__nodes">
-    <macros-pill :label="$t('MACROS.EDITOR.START_FLOW')" class="macro__node" />
+    <div class="macro__node">
+      <div>
+        <woot-label
+          :title="$t('MACROS.EDITOR.START_FLOW')"
+          color-scheme="primary"
+        />
+      </div>
+    </div>
     <draggable
       :list="actionData"
       animation="200"
@@ -28,29 +35,39 @@
         />
       </div>
     </draggable>
-    <macro-action-button
-      icon="add-circle"
-      class="macro__node"
-      :tooltip="$t('MACROS.EDITOR.ADD_BTN_TOOLTIP')"
-      type="add"
-      @click="$emit('addNewNode')"
-    />
-    <macros-pill :label="$t('MACROS.EDITOR.END_FLOW')" class="macro__node" />
+    <div class="macro__node">
+      <div>
+        <woot-button
+          :title="$t('MACROS.EDITOR.ADD_BTN_TOOLTIP')"
+          class="macros__action-button"
+          color-scheme="success"
+          variant="smooth"
+          icon="add-circle"
+          @click="$emit('addNewNode')"
+        >
+          {{ $t('MACROS.EDITOR.ADD_BTN_TOOLTIP') }}
+        </woot-button>
+      </div>
+    </div>
+    <div class="macro__node">
+      <div>
+        <woot-label
+          :title="$t('MACROS.EDITOR.END_FLOW')"
+          color-scheme="primary"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import MacrosPill from './Pill.vue';
 import Draggable from 'vuedraggable';
 import MacroNode from './MacroNode.vue';
-import MacroActionButton from './ActionButton.vue';
 import { getFileName } from './macroHelper';
 export default {
   components: {
     Draggable,
-    MacrosPill,
     MacroNode,
-    MacroActionButton,
   },
   props: {
     value: {
@@ -87,22 +104,27 @@ export default {
 
 .macro__node:not(:last-child) {
   position: relative;
-  padding-bottom: var(--space-three);
+  padding-bottom: var(--space-large);
 }
 
 .macro__node:not(:last-child):not(.sortable-chosen):after,
 .macros__nodes-draggable:after {
   content: '';
   position: absolute;
-  height: var(--space-three);
+  height: var(--space-large);
   width: var(--space-smaller);
   margin-left: var(--space-medium);
-  background-image: url("data:image/svg+xml,%3Csvg width='4' height='30' viewBox='0 0 4 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='1.50098' y1='0.579529' x2='1.50098' y2='30.5795' stroke='%2393afc8' stroke-width='2' stroke-dasharray='5 5'/%3E%3C/svg%3E%0A");
+
+  border-left: 1px dashed var(--s-500);
 }
 
 .macros__nodes-draggable {
   position: relative;
-  padding-bottom: var(--space-three);
+  padding-bottom: var(--space-large);
+}
+
+.macros__action-button {
+  box-shadow: var(--shadow);
 }
 
 .macros__node-action-container {

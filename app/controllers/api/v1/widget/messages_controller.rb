@@ -17,7 +17,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       @message.update!(submitted_email: contact_email)
       ContactIdentifyAction.new(
         contact: @contact,
-        params: { email: contact_email }
+        params: { email: contact_email, name: contact_name }
       ).perform
     else
       @message.update!(message_update_params[:message])

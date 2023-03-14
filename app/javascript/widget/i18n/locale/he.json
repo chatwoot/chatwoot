@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "שדה לא חוקי"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "בקש תמליל שיחה",
     "SEND_EMAIL_SUCCESS": "תמליל הצ'אט נשלח בהצלחה",
     "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

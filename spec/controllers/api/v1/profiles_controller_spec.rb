@@ -196,6 +196,30 @@ RSpec.describe 'Profile API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/profile/auto_offline' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/auto_offline'
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+      it 'updates the auto offline status' do
+        post '/api/v1/profile/auto_offline',
+             params: { profile: { auto_offline: false, account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['accounts'].first['auto_offline']).to be(false)
+      end
+    end
+  end
+
   describe 'PUT /api/v1/profile/set_active_account' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

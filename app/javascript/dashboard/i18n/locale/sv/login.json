@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare",
       "UNAUTH": "Användarnamn / lösenord felaktigt. Försök igen"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Glömt ditt lösenord?",
     "CREATE_NEW_ACCOUNT": "Skapa nytt konto",
     "SUBMIT": "Logga in"

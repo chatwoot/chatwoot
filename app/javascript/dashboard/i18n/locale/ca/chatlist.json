@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Converses",
     "MENTION_HEADING": "Mencions",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
@@ -29,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Posposat"
+      },
+      "all": {
+        "TEXT": "Totes"
       }
     },
     "ATTACHMENTS": {
@@ -56,6 +60,8 @@
     "REPLY_TO_TWEET": "Respon a aquest tuit",
     "LINK_TO_STORY": "Ves a la història d'instagram",
     "SENT": "Enviat correctament",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Cap Missatge",
     "NO_CONTENT": "No hi ha contingut disponible",
     "HIDE_QUOTED_TEXT": "Amaga text entre cometes",

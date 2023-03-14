@@ -18,14 +18,32 @@
       <div v-if="showActionInput" class="filter__answer--wrap">
         <div v-if="inputType">
           <div
-            v-if="inputType === 'multi_select'"
+            v-if="inputType === 'search_select'"
             class="multiselect-wrap--small"
           >
             <multiselect
               v-model="action_params"
               track-by="id"
               label="name"
-              :placeholder="'Select'"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :options="dropdownValues"
+              :allow-empty="false"
+              :option-height="104"
+            />
+          </div>
+          <div
+            v-else-if="inputType === 'multi_select'"
+            class="multiselect-wrap--small"
+          >
+            <multiselect
+              v-model="action_params"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
               :multiple="true"
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
@@ -33,6 +51,7 @@
               :max-height="160"
               :options="dropdownValues"
               :allow-empty="false"
+              :option-height="104"
             />
           </div>
           <input
@@ -69,10 +88,11 @@
       v-model="action_params"
       :teams="dropdownValues"
     />
-    <textarea
+    <woot-message-editor
       v-if="inputType === 'textarea'"
-      v-model="action_params"
+      v-model="castMessageVmodel"
       rows="4"
+      :enable-variables="true"
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />
@@ -88,10 +108,12 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
+    WootMessageEditor,
   },
   props: {
     value: {
@@ -153,6 +175,17 @@ export default {
         'has-error': this.v.action_params.$dirty && this.v.action_params.$error,
         'is-a-macro': this.isMacro,
       };
+    },
+    castMessageVmodel: {
+      get() {
+        if (Array.isArray(this.action_params)) {
+          return this.action_params[0];
+        }
+        return this.action_params;
+      },
+      set(value) {
+        this.action_params = value;
+      },
     },
   },
   methods: {
@@ -260,6 +293,10 @@ export default {
   margin-bottom: var(--space-zero);
 }
 .action-message {
-  margin: var(--space-small) 0 0;
+  margin: var(--space-small) var(--space-zero) var(--space-zero);
+}
+// Prosemirror does not have a native way of hiding the menu bar, hence
+::v-deep .ProseMirror-menubar {
+  display: none;
 }
 </style>

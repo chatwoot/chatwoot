@@ -2,13 +2,12 @@
   <div class="column content-box">
     <woot-button
       color-scheme="success"
-      class-names="button--fixed-right-top"
+      class-names="button--fixed-top"
       icon="arrow-download"
       @click="downloadAgentReports"
     >
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
-
     <report-filter-selector
       group-by-filter
       :selected-group-by-filter="selectedGroupByFilter"
@@ -58,6 +57,7 @@ import ReportFilterSelector from './components/FilterSelector';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import reportMixin from '../../../../mixins/reportMixin';
 import { formatTime } from '@chatwoot/utils';
+import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -69,6 +69,7 @@ const REPORTS_KEYS = {
 };
 
 export default {
+  name: 'ConversationReports',
   components: {
     ReportFilterSelector,
   },
@@ -222,6 +223,13 @@ export default {
       this.fetchChartData();
     },
     onDateRangeChange({ from, to, groupBy }) {
+      // do not track filter change on inital load
+      if (this.from !== 0 && this.to !== 0) {
+        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+          filterType: 'date',
+          reportType: 'conversations',
+        });
+      }
       this.from = from;
       this.to = to;
       this.filterItemsList = this.fetchFilterItems(groupBy);
@@ -239,6 +247,12 @@ export default {
     onFilterChange(payload) {
       this.groupBy = GROUP_BY_FILTER[payload.id];
       this.fetchAllData();
+
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'groupBy',
+        filterValue: this.groupBy?.period,
+        reportType: 'conversations',
+      });
     },
     fetchFilterItems(group_by) {
       switch (group_by) {
@@ -255,6 +269,12 @@ export default {
     onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
+
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'businessHours',
+        filterValue: value,
+        reportType: 'conversations',
+      });
     },
   },
 };

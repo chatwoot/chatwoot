@@ -42,28 +42,29 @@ RSpec.describe 'Platform Accounts API', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eq('Test Account')
         expect(json_response['locale']).to eq('es')
-        expect(json_response['enabled_features']['agent_management']).to be(true)
+        expect(json_response['features']['agent_management']).to be(true)
       end
 
       it 'creates an account with feature flags' do
         InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
                                                                                                     'enabled' => true },
                                                                                                   { 'name' => 'disable_branding',
-                                                                                                    'enabled' => true }])
+                                                                                                    'enabled' => true },
+                                                                                                  { 'name' => 'help_center',
+                                                                                                    'enabled' => false }])
 
         post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
           ip_lookup: true,
           help_center: true,
           disable_branding: false
-
         } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to include('Test Account')
-        expect(json_response['enabled_features']['inbox_management']).to be(true)
-        expect(json_response['enabled_features']['ip_lookup']).to be(true)
-        expect(json_response['enabled_features']['help_center']).to be(true)
-        expect(json_response['enabled_features']['disable_branding']).to be_nil
+        expect(json_response['features']['inbox_management']).to be(true)
+        expect(json_response['features']['ip_lookup']).to be(true)
+        expect(json_response['features']['help_center']).to be(true)
+        expect(json_response['features']['disable_branding']).to be_nil
       end
 
       it 'creates an account with limits settings' do

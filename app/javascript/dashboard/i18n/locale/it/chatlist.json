@@ -8,13 +8,14 @@
     },
     "TAB_HEADING": "Conversazioni",
     "MENTION_HEADING": "Menzioni",
+    "UNATTENDED_HEADING": "Non partecipate",
     "SEARCH": {
       "INPUT": "Cerca persone, Chat, risposte salvate .."
     },
     "FILTER_ALL": "Tutti",
     "ASSIGNEE_TYPE_TABS": {
       "me": "Mie",
-      "unassigned": "Non assegnato",
+      "unassigned": "Non assegnate",
       "all": "Tutti"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -29,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Posticipato"
+      },
+      "all": {
+        "TEXT": "Tutti"
       }
     },
     "ATTACHMENTS": {
@@ -56,6 +60,8 @@
     "REPLY_TO_TWEET": "Rispondi a questo tweet",
     "LINK_TO_STORY": "Vai alla storia di instagram",
     "SENT": "Inviato correttamente",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Nessun messaggio",
     "NO_CONTENT": "Nessun contenuto disponibile",
     "HIDE_QUOTED_TEXT": "Nascondi testo citato",

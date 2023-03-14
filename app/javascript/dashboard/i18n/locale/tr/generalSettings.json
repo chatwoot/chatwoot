@@ -23,7 +23,7 @@
         "ERROR": "Lütfen geçerli bir hesap adı girin"
       },
       "LANGUAGE": {
-        "LABEL": "Site dili (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Hesap adınız",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Seçmek için enter tuşuna basın",
       "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
-      "SELECT_ONE": "Birini seç"
+      "SELECT_ONE": "Birini seç",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -81,6 +82,7 @@
       "conversation_creation": "Yeni görüşme",
       "conversation_assignment": "Atanan görüşme",
       "assigned_conversation_new_message": "Yeni Mesaj",
+      "participating_conversation_new_message": "Yeni Mesaj",
       "conversation_mention": "Bahset"
     }
   },
@@ -136,5 +138,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Promena tipa događaja će resetovati uslove i događaje koje ste dodali ispod"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Morate imati barem jedan uslov da bi ste mogli da sačuvate"
+      "DELETE_MESSAGE": "Morate imati barem jedan uslov da bi ste mogli da sačuvate",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Morate imati barem jednu akciju da bi ste mogli da sačuvate",

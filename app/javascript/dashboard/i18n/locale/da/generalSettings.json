@@ -23,7 +23,7 @@
         "ERROR": "Angiv et gyldigt kontonavn"
       },
       "LANGUAGE": {
-        "LABEL": "Websted sprog (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Dit kontonavn",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Tryk enter for at vælge",
       "ENTER_TO_REMOVE": "Tryk enter for at fjerne",
-      "SELECT_ONE": "Vælg en"
+      "SELECT_ONE": "Vælg en",
+      "SELECT": "Vælg"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -81,6 +82,7 @@
       "conversation_creation": "Ny samtale",
       "conversation_assignment": "Samtale Tildelt",
       "assigned_conversation_new_message": "Ny Besked",
+      "participating_conversation_new_message": "Ny Besked",
       "conversation_mention": "Omtale"
     }
   },
@@ -136,5 +138,8 @@
       "UNTIL_NEXT_WEEK": "Indtil næste uge",
       "UNTIL_TOMORROW": "Indtil i morgen"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Indlæser Dashboard App..."
   }
 }

@@ -1,4 +1,4 @@
-class Public::Api::V1::Portals::ArticlesController < PublicController
+class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
   before_action :set_category, except: [:index]
@@ -8,6 +8,7 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
   def index
     @articles = @portal.articles
     @articles = @articles.search(list_params) if list_params.present?
+    @articles.order(position: :asc)
   end
 
   def show; end
@@ -15,20 +16,30 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
   private
 
   def set_article
-    @article = @category.articles.find(params[:id])
+    @article = @category.articles.find(permitted_params[:id])
+    @article.increment_view_count
     @parsed_content = render_article_content(@article.content)
   end
 
   def set_category
-    @category = @portal.categories.find_by!(slug: params[:category_slug]) if params[:category_slug].present?
+    return if permitted_params[:category_slug].blank?
+
+    @category = @portal.categories.find_by!(
+      slug: permitted_params[:category_slug],
+      locale: permitted_params[:locale]
+    )
   end
 
   def portal
-    @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
+    @portal ||= Portal.find_by!(slug: permitted_params[:slug], archived: false)
   end
 
   def list_params
-    params.permit(:query)
+    params.permit(:query, :locale)
+  end
+
+  def permitted_params
+    params.permit(:slug, :category_slug, :locale, :id)
   end
 
   def render_article_content(content)

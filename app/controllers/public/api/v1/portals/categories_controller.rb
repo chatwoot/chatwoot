@@ -1,11 +1,11 @@
-class Public::Api::V1::Portals::CategoriesController < PublicController
+class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
   before_action :set_category, only: [:show]
   layout 'portal'
 
   def index
-    @categories = @portal.categories
+    @categories = @portal.categories.order(position: :asc)
   end
 
   def show; end

@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Puhelinnumero",
           "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero, josta viesti lähetetään.",
-          "ERROR": "Anna kelvollinen arvo. Puhelinnumeron pitäisi alkaa `+` merkillä."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Puhelinnumero",
             "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero, josta viesti lähetetään.",
-            "ERROR": "Anna kelvollinen arvo. Puhelinnumeron pitäisi alkaa `+` merkillä."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Puhelinnumero",
           "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero, josta viesti lähetetään.",
-          "ERROR": "Anna kelvollinen arvo. Puhelinnumeron pitäisi alkaa `+` merkillä."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Nappiin meni!",
         "DESC": "Olet onnistuneesti suorittanut Facebook-sivusi integroinnin. Seuraavalla kerralla kun asiakas lähettää sivullesi viestin, keskustelu ilmaantuu automaattisesti saapuneet-kansioon.<br>Tarjoamme myös sivustolle lisättävän widget skriptin, jonka voit helposti lisätä sivustosi. Kun tämä on sivustollasi, asiakkaat voivat lähettää sinulle viestin suoraan sivustostasi ilman ulkoisen työkalun apua, ja keskustelu näkyy täällä.<br>Makeeta vai mitä? No, me ainakin yrittämme olla :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -388,6 +399,10 @@
         "ENABLED": "Käytössä",
         "DISABLED": "Pois käytöstä"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Käytössä",
+        "DISABLED": "Pois käytöstä"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -416,7 +431,8 @@
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Asetukset",
     "FEATURES": {
@@ -440,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Postilaatikon tiedot",
       "INBOX_UPDATE_SUB_TEXT": "Päivitä postilaatikon asetukset",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ota käyttöön tai poista käytöstä automaattinen keskusteluiden delegointi edustajille.",
@@ -454,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Päivitä",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -540,6 +563,10 @@
         "PLACE_HOLDER": "Salasana"
       },
       "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -659,6 +686,10 @@
       },
       "BRANDING_TEXT": "Palvelun tarjoaa Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

@@ -5,6 +5,7 @@ class WidgetsController < ActionController::Base
   before_action :set_global_config
   before_action :set_web_widget
   before_action :ensure_account_is_active
+  before_action :ensure_location_is_supported
   before_action :set_token
   before_action :set_contact
   before_action :build_contact
@@ -18,6 +19,9 @@ class WidgetsController < ActionController::Base
 
   def set_web_widget
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error('web widget does not exist')
+    render json: { error: 'web widget does not exist' }, status: :not_found
   end
 
   def set_token
@@ -51,6 +55,8 @@ class WidgetsController < ActionController::Base
     render json: { error: 'Account is suspended' }, status: :unauthorized unless @web_widget.inbox.account.active?
   end
 
+  def ensure_location_is_supported; end
+
   def additional_attributes
     if @web_widget.inbox.account.feature_enabled?('ip_lookup')
       { created_at_ip: request.remote_ip }
@@ -67,3 +73,5 @@ class WidgetsController < ActionController::Base
     response.headers.delete('X-Frame-Options')
   end
 end
+
+WidgetsController.prepend_mod_with('WidgetsController')

@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Номер телефону",
           "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-          "ERROR": "Номер телефону повинен починатися з символу `+'."
+          "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Номер телефону",
             "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-            "ERROR": "Номер телефону повинен починатися з символу `+'."
+            "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
           },
           "SUBMIT_BUTTON": "Створити Bandwidth канал",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Номер телефону",
           "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-          "ERROR": "Номер телефону повинен починатися з символу `+'."
+          "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID номера телефону",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Успіх!",
         "DESC": "Ви успішно закінчили інтеграцію вашої сторінки у Facebook з Chatwoot. Наступного разу, коли з’явиться клієнтська сторінка, розмова автоматично з'явиться у вашій поштовій скриньці.<br>Ми також надаємо вам сценарій роботи віджетів, який можна легко додати на ваш сайт. Як тільки це буде опубліковане на вашому сайті, клієнти можуть надсилати вам повідомлення прямо з вашого сайту без допомоги будь-якого зовнішнього інструменту, і розмова з'явиться тут, на Chatwoot.<br>Круто, так? Ну, ми дійсно намагаємося бути :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -388,6 +399,10 @@
         "ENABLED": "Увімкнено",
         "DISABLED": "Вимкнено"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Увімкнено",
+        "DISABLED": "Вимкнено"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Увімкнено"
       }
@@ -416,7 +431,8 @@
       "CAMPAIGN": "Розсилка",
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
-      "WIDGET_BUILDER": "Конструктор віджетів"
+      "WIDGET_BUILDER": "Конструктор віджетів",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -440,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Увімкнути безперервність розмови через електронну пошту",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Розмови продовжуватимуться через електронну пошту, якщо доступна контактна адреса.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Налаштування каналу",
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
@@ -454,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови.",
       "WHATSAPP_SECTION_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "API ключ"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API ключ",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Оновити",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Ліміт автопризначення",
@@ -540,6 +563,10 @@
         "PLACE_HOLDER": "Пароль"
       },
       "ENABLE_SSL": "Увімкнути SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -659,6 +686,10 @@
       },
       "BRANDING_TEXT": "Працює на Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

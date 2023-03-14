@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Update",
+      "SUBMIT": "Uppfæra",
       "CANCEL_BUTTON_TEXT": "Hætta við",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Að breyta gerð viðburðar mun endurstilla skilyrðin og viðburðina sem þú hefur bætt við hér að neðan"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eitt skilyrði til að vista"
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eitt skilyrði til að vista",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eina aðgerð til að vista",
@@ -102,8 +104,8 @@
       "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
       "ACTIVATION_ERROR": "Gat ekki virkjað sjálfvirkni, vinsamlegast reyndu aftur síðar",
       "DEACTIVATION_ERROR": "Gat ekki slökkt á sjálfvirkni, vinsamlegast reyndu aftur síðar",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "CONFIRMATION_LABEL": "Já",
+      "CANCEL_LABEL": "Nei"
     },
     "ATTACHMENT": {
       "UPLOAD_ERROR": "Gat ekki hlaðið upp viðhengi, vinsamlegast reyndu aftur",

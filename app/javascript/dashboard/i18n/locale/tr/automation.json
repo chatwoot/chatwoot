@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Olay seçimini değiştirmek tüm koşulları ve aşağıda eklenmiş etkinlikleri değiştirecektir"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Kaydetmek için en az bir koşul eklemelisiniz"
+      "DELETE_MESSAGE": "Kaydetmek için en az bir koşul eklemelisiniz",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Kaydetmek için en az bir olay seçmelisiniz",

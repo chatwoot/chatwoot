@@ -37,18 +37,22 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def media_url(media_id)
-    "https://graph.facebook.com/v13.0/#{media_id}"
+    "#{api_base_path}/v13.0/#{media_id}"
   end
 
   private
 
+  def api_base_path
+    ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
+  end
+
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
-    "https://graph.facebook.com/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
-    "https://graph.facebook.com/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def send_text_message(phone_number, message)
@@ -69,16 +73,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    attachment_url = attachment.download_url
     type_content = {
-      'link': attachment_url
+      'link': attachment.download_url
     }
-    type_content['caption'] = message.content if type != 'audio'
+    type_content['caption'] = message.content unless %w[audio sticker].include?(type)
+    type_content['filename'] = attachment.file.filename if type == 'document'
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
       body: {
-        messaging_product: 'whatsapp',
+        :messaging_product => 'whatsapp',
         'to' => phone_number,
         'type' => type,
         type.to_s => type_content

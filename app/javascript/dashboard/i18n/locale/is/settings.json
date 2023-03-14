@@ -3,7 +3,7 @@
     "LINK": "Profile Settings",
     "TITLE": "Profile Settings",
     "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
+    "DELETE_AVATAR": "Eyða mynd",
     "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
     "AVATAR_DELETE_FAILED": "Villa kom upp við að eyða notendamynd, vinsamlegast reyndu aftur",
     "UPDATE_SUCCESS": "Prófíllinn þinn hefur verið uppfærður",
@@ -11,7 +11,7 @@
     "AFTER_EMAIL_CHANGED": "Prófíllinn þinn hefur verið uppfærður, vinsamlegast skráðu þig inn aftur þar sem innskráningarskilríkjum þínum er breytt",
     "FORM": {
       "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
+      "ERROR": "Vinsamlegast lagfærðu villurnar",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
@@ -47,7 +47,7 @@
         "PLACEHOLDER": "Settu inn persónulegu skilaboðaundirskriftina þína hér."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
+        "TITLE": "Lykilorð",
         "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
         "BTN_TEXT": "Change password"
       },
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Virkjaðu hljóðtilkynningar á mælaborðinu fyrir ný skilaboð og samtöl.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Enginn",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Senda tilkynningar í tölvupósti þegar mér er úthlutað samtali",
         "CONVERSATION_CREATION": "Senda tilkynningar í tölvupósti þegar nýtt samtal er stofnað",
         "CONVERSATION_MENTION": "Sendu tilkynningar í tölvupósti þegar minnst er á þig í samtali",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu tilkynningar í tölvupósti þegar ný skilaboð eru búin til í úthlutuðu samtali"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu tilkynningar í tölvupósti þegar ný skilaboð eru búin til í úthlutuðu samtali",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Tilkynningarstillingarnar þínar hafa verið uppfærðar",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Senda þrýstitilkynningar þegar nýtt samtal er stofnað",
         "CONVERSATION_MENTION": "Sendu þrýstitilkynningar þegar minnst er á þig í samtali",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu push tilkynningar þegar ný skilaboð eru búin til í úthlutuðu samtali",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -103,7 +116,9 @@
           "Online",
           "Busy",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Veldu reikning úr eftirfarandi lista",
     "PROFILE_SETTINGS": "Profile Settings",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Logout"
   },
   "APP_GLOBAL": {
@@ -156,10 +172,14 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Sækja",
-      "UPLOADING": "Hleður upp..."
+      "UPLOADING": "Hleður upp...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Senda"
     }
   },
   "CONFIRM_EMAIL": "Verifying...",
@@ -174,14 +194,16 @@
     "CONVERSATIONS": "Samtöl",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
-    "SETTINGS": "Settings",
+    "SETTINGS": "Stillingar",
     "CONTACTS": "Contacts",
     "HOME": "Home",
     "AGENTS": "Þjónustufulltrúar",
     "AGENT_BOTS": "Bots",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
+    "INBOXES": "Innhólf",
+    "NOTIFICATIONS": "Skilaboð",
     "CANNED_RESPONSES": "Stöðluð svör",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
@@ -202,7 +224,7 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "Samtöl",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
+    "CAMPAIGNS": "Herferð",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Þjónustufulltrúar",
@@ -220,7 +242,12 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Stillingar",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -253,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Senda"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

@@ -68,7 +68,6 @@ Naming/AccessorMethodName:
     - 'app/controllers/api/v1/accounts_controller.rb'
     - 'app/controllers/api/v1/callbacks_controller.rb'
     - 'app/controllers/api/v1/conversations_controller.rb'
-    - 'app/controllers/passwords_controller.rb'
 
 # Offense count: 9
 # Configuration parameters: EnforcedStyleForLeadingUnderscores.

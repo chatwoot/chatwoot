@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
         "API_CALLBACK": {
           "TITLE": "Atzvanīšanas URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Tālruņa numurs",
             "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-            "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+            "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
           },
           "SUBMIT_BUTTON": "Izveidot Bandwidth kanālu",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Tālruņa numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
+          "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Tālruņa numura ID",
@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-pasts",
-          "SUBTITLE": "E-pasts, uz kuru Jūsu klienti nosūta atbalsta biļetes",
+          "SUBTITLE": "Norādiet e-pasta adresi, uz kuru Jūsu klienti sūta atbalsta pieprasījumus.",
           "PLACEHOLDER": "E-pasts"
         },
         "SUBMIT_BUTTON": "Izveidot E-pasta Kanālu",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Sanāca!",
         "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar Chatwoot. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē Chatwoot.<br>"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Izvēlieties savu e-pasta pakalpojumu sniedzēju",
+        "DESCRIPTION": "Tālāk esošajā sarakstā izvēlieties e-pasta pakalpojumu sniedzēju. Ja sarakstā neredzat savu e-pasta pakalpojumu sniedzēju, varat izvēlēties citu pakalpojumu sniedzēja opciju un norādīt IMAP un SMTP akreditācijas datus."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
+        "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
+        "HELP": "Lai pievienotu savu Microsoft kontu kā kanālu, Jums ir jāautentificē savs Microsoft konts, noklikšķinot uz \"Pierakstīties ar Microsoft\" ",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "DETAILS": {
@@ -388,6 +399,10 @@
         "ENABLED": "Iespējots",
         "DISABLED": "Atspējots"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Iespējot"
       }
@@ -416,7 +431,8 @@
       "CAMPAIGN": "Kampaņas",
       "PRE_CHAT_FORM": "Pirms-Tērzēšanas Veidlapa",
       "BUSINESS_HOURS": "Darba Laiks",
-      "WIDGET_BUILDER": "Logrīku Veidotājs"
+      "WIDGET_BUILDER": "Logrīku Veidotājs",
+      "BOT_CONFIGURATION": "Robota Konfigurācija"
     },
     "SETTINGS": "Iestatījumi",
     "FEATURES": {
@@ -440,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Pieturēties pie vienas sarunas",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Iespējot vai atspējot vairākas sarunas vienai un tai pašai kontaktpersonai šajā iesūtnē",
       "INBOX_UPDATE_TITLE": "Iesūtnes Iestatījumi",
       "INBOX_UPDATE_SUB_TEXT": "Atjaunināt Jūsu iesūtnes iestatījumus",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Iespējot vai atspējot jaunu sarunu automātisku piešķiršanu šai iesūtnei pievienotajiem aģentiem.",
@@ -454,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
       "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_TITLE": "API atslēga"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet atjaunināto atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_TITLE": "API atslēga",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",
@@ -540,6 +563,10 @@
         "PLACE_HOLDER": "Parole"
       },
       "ENABLE_SSL": "Iespējot SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Atkārtoti autorizēt savu MICROSOFT kontu"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -659,6 +686,10 @@
       },
       "BRANDING_TEXT": "Darbināts ar Chatwoot",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Citi Pakalpojuma Sniedzēji"
     }
   }
 }

@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Initiated from",
     "INITIATED_AT": "Initiated at",
     "IP_ADDRESS": "IP Address",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "Conversations",
         "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Dicipta Pada",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

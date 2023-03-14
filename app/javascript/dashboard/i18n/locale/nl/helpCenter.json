@@ -28,11 +28,22 @@
       "SAVING": "Saving...",
       "SAVED": "Saved"
     },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Afbeelding uploaden",
+        "UPLOADING": "Uploaden...",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
+    },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
+          "LABEL": "Categorie",
           "TITLE": "Select category",
           "PLACEHOLDER": "Select category",
           "NO_RESULT": "No category found",
@@ -286,7 +297,7 @@
       "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Title",
-        "CATEGORY": "Category",
+        "CATEGORY": "Categorie",
         "READ_COUNT": "Read count",
         "STATUS": "Status",
         "LAST_EDITED": "Last edited"

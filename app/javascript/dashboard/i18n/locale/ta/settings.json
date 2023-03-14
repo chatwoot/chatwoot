@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "None",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "ஈமெயில் வழியான அறிவிப்புகள்",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "ஒரு உரையாடல் எனக்கு ஒதுக்கப்பட்டால் ஈமெயிலில் அறிவிப்புகளை அனுப்பவும்",
         "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது ஈ-மெயிலில் அறிவிப்புகளை அனுப்பவும்",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "உங்களின் அறிவிப்பு விருப்பத்தேர்வுகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது புஷ் அறிவிப்புகளை அனுப்பவும்",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "இந்த பிரௌசருக்கான புஷ் அறிவிப்புகளை இயக்கியுள்ளீர்கள்.",
         "REQUEST_PUSH": "புஷ் அறிவிப்புகளை இயக்கு"
       },
@@ -103,7 +116,9 @@
           "Online",
           "Busy",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "உங்கள் ஈ-மெயில் முகவரி",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "பின்வரும் பட்டியலிலிருந்து ஒரு கணக்கைத் தேர்ந்தெடுக்கவும்",
     "PROFILE_SETTINGS": "சுயவிவர அமைப்புகள்",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "வெளியேறு"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "பதிவிறக்கம்",
-      "UPLOADING": "பதிவேறுகிறது..."
+      "UPLOADING": "பதிவேறுகிறது...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "சமர்பிக்கவும்"
@@ -174,6 +194,8 @@
     "CONVERSATIONS": "உரையாடல்கள்",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "அறிக்கைகள்",
     "SETTINGS": "அமைப்புகள்",
     "CONTACTS": "Contacts",
@@ -220,7 +242,12 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "அமைப்புகள்",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -253,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "கணக்கின் பெயர்",
+        "LABEL": "Company Name",
         "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்"
       },
       "SUBMIT": "சமர்பிக்கவும்"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

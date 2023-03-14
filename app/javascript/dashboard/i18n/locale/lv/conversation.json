@@ -35,12 +35,17 @@
     "REMOVE_SELECTION": "Noņemt Izvēli",
     "DOWNLOAD": "Lejupielādēt",
     "UNKNOWN_FILE_TYPE": "Nezināms Fails",
+    "SAVE_CONTACT": "Saglabāt",
     "UPLOADING_ATTACHMENTS": "Notiek pielikumu augšupielāde...",
     "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
     "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
     "NO_RESPONSE": "Nav atbildes",
     "RATING_TITLE": "Vērtējums",
     "FEEDBACK_TITLE": "Atsauksmes",
+    "CARD": {
+      "SHOW_LABELS": "Rādīt etiķetes",
+      "HIDE_LABELS": "Slēpt etiķetes"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Atrisināt",
       "REOPEN_ACTION": "Atkārtoti atvērt",
@@ -64,6 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Atzīmēt kā neapstiprinātu",
       "RESOLVED": "Atzīmēt kā atrisinātu",
+      "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
       "REOPEN": "Atkārtoti atvērt sarunu",
       "SNOOZE": {
         "TITLE": "Atlikt",
@@ -127,6 +133,14 @@
           "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem",
           "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses"
         }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Nedefinēti mainīgie",
+        "MESSAGE": "Jūsu ziņojumā: {undefinedVariables} ir {undefinedVariablesCount} nedefinēti mainīgie. Vai tomēr vēlaties nosūtīt ziņojumu?",
+        "CONFIRM": {
+          "YES": "Nosūtīt",
+          "CANCEL": "Atcelt"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privāta Piezīme: Redzama tikai Jums un Jūsu komandai",
@@ -151,7 +165,8 @@
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
       "DELETE": "Dzēst",
-      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm"
+      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm",
+      "TRANSLATE": "Tulkot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -239,5 +254,29 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Tēma"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Piedalās",
+    "SIDEBAR_TITLE": "Sarunas dalībnieki",
+    "NO_RECORDS_FOUND": "Nav atrasts",
+    "ADD_PARTICIPANTS": "Izvēlieties dalībniekus",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} citi",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} cits",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} cilvēki piedalās.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} persona piedalās.",
+    "NO_PARTICIPANTS_TEXT": "Neviens nepiedalās!",
+    "WATCH_CONVERSATION": "Pievienoties sarunai",
+    "YOU_ARE_WATCHING": "Jūs piedalāties",
+    "API": {
+      "ERROR_MESSAGE": "Nevarēja atjaunināt, mēģiniet vēlreiz!",
+      "SUCCESS_MESSAGE": "Dalībnieki atjaunināti!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "Skatīt tulkoto saturu",
+    "DESC": "Jūs varat skatīt tulkoto saturu katrā valodā.",
+    "ORIGINAL_CONTENT": "Oriģinālais Saturs",
+    "TRANSLATED_CONTENT": "Tulkotais Saturs",
+    "NO_TRANSLATIONS_AVAILABLE": "Šim saturam nav pieejami tulkojumi"
   }
 }

@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Mainot notikuma tipu tiks atiestatīti tālāk pievienotie nosacījumi un notikumi"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Lai saglabātu, Jums ir nepieciešams vismaz viens nosacījums"
+      "DELETE_MESSAGE": "Lai saglabātu, Jums ir nepieciešams vismaz viens nosacījums",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Kontaktpersonu Pielāgotās Īpašības",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Sarunu Pielāgotās Īpašības"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Lai saglabātu, ir nepieciešama vismaz viena darbība",

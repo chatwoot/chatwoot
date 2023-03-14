@@ -16,7 +16,7 @@
             {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL') }}
           </label>
           <div class="logo-container">
-            <thumbnail :username="name" size="56" variant="square" />
+            <thumbnail :username="name" size="56px" variant="square" />
             <woot-button
               v-if="false"
               class="upload-button"
@@ -81,7 +81,8 @@
 </template>
 
 <script>
-import { required, url, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from 'vuelidate/lib/validators';
+import { isDomain } from 'shared/helpers/Validators';
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
@@ -121,7 +122,7 @@ export default {
       required,
     },
     domain: {
-      url,
+      isDomain,
     },
   },
   computed: {

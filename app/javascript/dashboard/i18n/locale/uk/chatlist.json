@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Бесіди",
     "MENTION_HEADING": "Згадування",
+    "UNATTENDED_HEADING": "Не зв'язаний",
     "SEARCH": {
       "INPUT": "Пошук людей, чатів та збережених відповідей.."
     },
@@ -29,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Відкладено"
+      },
+      "all": {
+        "TEXT": "Всі"
       }
     },
     "ATTACHMENTS": {
@@ -56,6 +60,8 @@
     "REPLY_TO_TWEET": "Відповісти на цей твіт",
     "LINK_TO_STORY": "Перейти до історії Instagram",
     "SENT": "Успішно надіслано",
+    "READ": "Успішно прочитано",
+    "DELIVERED": "Успішно доставлено",
     "NO_MESSAGES": "Немає повідомлень",
     "NO_CONTENT": "Немає вмісту",
     "HIDE_QUOTED_TEXT": "Приховати цитований текст",

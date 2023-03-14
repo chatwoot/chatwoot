@@ -25,15 +25,12 @@ class MessageFinder
   end
 
   def current_messages
-    messages_to_display = messages_in_desc_order
-
-    if @params[:before].present?
-      messages_to_display = messages_to_display.where('id < ?', @params[:before].to_i)
-
-      if @params[:after].present? && @params[:after].to_i < @params[:before].to_i - 25
-        messages_to_display = messages_to_display.where('id >= ?', @params[:after].to_i)
-        return messages_to_display.reverse
-      end
+    if @params[:after].present?
+      messages.reorder('created_at asc').where('id >= ?', @params[:after].to_i)
+    elsif @params[:before].present?
+      messages.reorder('created_at desc').where('id < ?', @params[:before].to_i).limit(20).reverse
+    else
+      messages.reorder('created_at desc').limit(20).reverse
     end
 
     messages_to_display.limit(20).reverse

@@ -35,20 +35,18 @@
       <message
         v-for="message in getReadMessages"
         :key="message.id"
-        class="message--read"
+        class="message--read ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
-      <li v-show="getUnreadCount != 0" class="unread--toast">
+      <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span class="text-uppercase">
-          {{ getUnreadCount }}
+          {{ unreadMessageCount }}
           {{
-            getUnreadCount > 1
+            unreadMessageCount > 1
               ? $t('CONVERSATION.UNREAD_MESSAGES')
               : $t('CONVERSATION.UNREAD_MESSAGE')
           }}
@@ -57,13 +55,11 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
-        class="message--unread"
+        class="message--unread ph-no-capture"
         :data="message"
         :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
     </ul>
@@ -137,7 +133,6 @@ export default {
       allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
-      getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
     }),
     inboxId() {
@@ -271,6 +266,9 @@ export default {
       }
       return '';
     },
+    unreadMessageCount() {
+      return this.currentChat.unread_count;
+    },
   },
 
   watch: {
@@ -338,7 +336,7 @@ export default {
     },
     scrollToBottom() {
       let relevantMessages = [];
-      if (this.getUnreadCount > 0) {
+      if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
         relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
@@ -436,12 +434,7 @@ export default {
       position: fixed;
       left: unset;
       position: absolute;
-
-      &::before {
-        transform: rotate(0deg);
-        left: var(--space-smaller);
-        bottom: var(--space-minus-slab);
-      }
+      bottom: var(--space-smaller);
     }
   }
 }

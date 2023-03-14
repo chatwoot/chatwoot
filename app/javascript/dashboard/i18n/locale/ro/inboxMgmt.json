@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Număr de telefon",
             "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-            "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Creați un canal de lățime de bandă",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Corect!",
         "DESC": "Ai reușit să integrezi pagina ta de Facebook cu Chatwoot. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe Chatwoot.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -388,6 +399,10 @@
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat"
       },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Permite"
       }
@@ -416,7 +431,8 @@
       "CAMPAIGN": "Campanii",
       "PRE_CHAT_FORM": "Formular pre chat",
       "BUSINESS_HOURS": "Program de lucru",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Setări",
     "FEATURES": {
@@ -440,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Activați/dezactivați sondajul CSAT (Satisfacția clienților) după rezolvarea unei conversații",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activați continuitatea conversației prin e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversațiile vor continua prin e-mail dacă adresa de e-mail de contact este disponibilă.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Setări Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
@@ -454,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permiteți rezolvarea mesajelor după ce conversația a fost rezolvată",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "Cheie API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Cheie API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizare",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -541,6 +564,10 @@
       },
       "ENABLE_SSL": "Activare SSL"
     },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
+    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Setarea detaliilor SMTP",
@@ -624,7 +651,7 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "Previzualizați",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
@@ -659,6 +686,10 @@
       },
       "BRANDING_TEXT": "Oferit de Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

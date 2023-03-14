@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.10.0",
+  "version": "2.14.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -19,9 +19,10 @@
   },
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#7e8acadd10d7b932c0dc0bd0a18f804434f83517",
-    "@chatwoot/utils": "^0.0.10",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git",
+    "@chatwoot/utils": "^0.0.12",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
+    "@june-so/analytics-next": "^1.36.5",
     "@rails/actioncable": "6.1.3",
     "@rails/ujs": "^7.0.3-1",
     "@rails/webpacker": "5.3.0",
@@ -33,6 +34,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "chart.js": "~2.9.4",
+    "company-email-validator": "^1.0.8",
     "core-js": "3.11.0",
     "date-fns": "2.21.1",
     "date-fns-tz": "^1.3.3",
@@ -41,19 +43,19 @@
     "highlight.js": "~10.4.1",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
-    "marked": "4.0.10",
+    "markdown-it": "^13.0.1",
+    "markdown-it-link-attributes": "^4.0.1",
+    "logrocket": "^3.0.1",
+    "logrocket-vuex": "^0.0.3",
     "md5": "^2.3.0",
     "ninja-keys": "^1.1.9",
     "opus-recorder": "^8.0.5",
-    "posthog-js": "^1.13.7",
-    "prosemirror-markdown": "1.5.1",
-    "prosemirror-state": "1.3.4",
-    "prosemirror-view": "1.18.4",
     "semver": "7.3.5",
     "spinkit": "~1.2.5",
     "tailwindcss": "^1.9.6",
     "turbolinks": "^5.2.0",
     "url-loader": "^2.0.0",
+    "urlpattern-polyfill": "^6.0.2",
     "v-tooltip": "~2.1.3",
     "videojs-record": "^4.5.0",
     "vue": "2.6.12",
@@ -123,7 +125,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
       "pre-push": "sh bin/validate_push"
     }
   },
@@ -137,10 +138,6 @@
   "lint-staged": {
     "app/**/*.{js,vue}": [
       "eslint --fix",
-      "git add"
-    ],
-    "!(*schema).rb": [
-      "bundle exec rubocop -a",
       "git add"
     ],
     "*.scss": [

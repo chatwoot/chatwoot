@@ -15,7 +15,14 @@
         <div class="branding">
           <a class="branding-link">
             <img class="branding-image" :src="globalConfig.logoThumbnail" />
-            <span>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT') }}</span>
+            <span>
+              {{
+                useInstallationName(
+                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT'),
+                  globalConfig.installationName
+                )
+              }}
+            </span>
           </a>
         </div>
       </div>
@@ -45,8 +52,8 @@ import WidgetHead from './WidgetHead';
 import WidgetBody from './WidgetBody';
 import WidgetFooter from './WidgetFooter';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup';
-
-const { LOGO_THUMBNAIL: logoThumbnail } = window.globalConfig || {};
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Widget',
@@ -56,6 +63,7 @@ export default {
     WidgetFooter,
     InputRadioGroup,
   },
+  mixins: [globalConfigMixin],
   props: {
     welcomeHeading: {
       type: String,
@@ -115,12 +123,10 @@ export default {
       ],
       isDefaultScreen: true,
       isWidgetVisible: true,
-      globalConfig: {
-        logoThumbnail,
-      },
     };
   },
   computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
     getWidgetHeadConfig() {
       return {
         welcomeHeading: this.welcomeHeading,
@@ -198,6 +204,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
 .widget-wrapper {
   display: flex;
   flex-direction: column;
@@ -215,13 +222,14 @@ export default {
     justify-content: center;
 
     .branding-link {
-      display: flex;
-      flex-direction: row;
       align-items: center;
       color: var(--b-500);
       cursor: pointer;
+      display: flex;
       filter: grayscale(1);
+      flex-direction: row;
       font-size: var(--font-size-micro);
+      line-height: 1.5;
       opacity: 0.9;
       text-decoration: none;
 
@@ -248,7 +256,7 @@ export default {
   .bubble {
     display: flex;
     align-items: center;
-    border-radius: calc(var(--border-radius-small) * 10);
+    border-radius: calc(var(--border-radius-large) * 10);
     height: calc(var(--space-large) * 2);
     width: calc(var(--space-large) * 2);
     position: relative;
@@ -256,14 +264,21 @@ export default {
     cursor: pointer;
 
     img {
-      height: var(--space-two);
-      width: var(--space-two);
+      height: var(--space-medium);
       margin: var(--space-one) var(--space-one) var(--space-one)
         var(--space-two);
+      width: var(--space-medium);
     }
 
     div {
       padding-right: var(--space-two);
+    }
+
+    .bubble-expanded {
+      img {
+        height: var(--space-large);
+        width: var(--space-large);
+      }
     }
   }
 

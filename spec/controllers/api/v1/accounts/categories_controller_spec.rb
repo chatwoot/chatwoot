@@ -4,12 +4,16 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es] }) }
-  let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug') }
+  let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug', position: 1) }
   let!(:category_to_associate) do
-    create(:category, name: 'associated category', portal: portal, account_id: account.id, slug: 'associated_category_slug')
+    create(:category, name: 'associated category', portal: portal, account_id: account.id, slug: 'associated_category_slug', position: 2)
   end
-  let!(:related_category_1) { create(:category, name: 'related category 1', portal: portal, account_id: account.id, slug: 'category_slug_1') }
-  let!(:related_category_2) { create(:category, name: 'related category 2', portal: portal, account_id: account.id, slug: 'category_slug_2') }
+  let!(:related_category_1) do
+    create(:category, name: 'related category 1', portal: portal, account_id: account.id, slug: 'category_slug_1', position: 3)
+  end
+  let!(:related_category_2) do
+    create(:category, name: 'related category 2', portal: portal, account_id: account.id, slug: 'category_slug_2', position: 4)
+  end
 
   before { create(:portal_member, user: agent, portal: portal) }
 
@@ -27,7 +31,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
           category: {
             name: 'test_category',
             description: 'test_description',
-            position: 1,
+            position: 5,
             locale: 'es',
             slug: 'test_category_1',
             parent_category_id: category.id,
@@ -42,7 +46,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
           category: {
             name: 'test_category_2',
             description: 'test_description_2',
-            position: 1,
+            position: 6,
             locale: 'es',
             slug: 'test_category_2',
             parent_category_id: category.id,
@@ -187,6 +191,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
         expect(category.reload.related_category_ids).to eq([related_category_1.id])
         expect(related_category_1.reload.related_category_ids).to be_empty
+        expect(json_response['payload']['position']).to eql(category.position)
       end
 
       # [category_1, category_2] !== [category_2, category_1]

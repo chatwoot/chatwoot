@@ -214,5 +214,23 @@ describe Telegram::IncomingMessageService do
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('file')
       end
     end
+
+    context 'when valid location message params' do
+      it 'creates appropriate conversations, message and contacts' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'location': {
+              'latitude': 37.7893768,
+              'longitude': -122.3895553
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('location')
+      end
+    end
   end
 end

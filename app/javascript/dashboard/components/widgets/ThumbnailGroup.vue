@@ -3,11 +3,13 @@
     <thumbnail
       v-for="user in usersList"
       :key="user.id"
+      v-tooltip="user.name"
+      :title="user.name"
       :src="user.thumbnail"
       :username="user.name"
       :has-border="true"
       :size="size"
-      class="overlapping-thumbnail"
+      :class="`overlapping-thumbnail gap-${gap}`"
     />
     <span v-if="showMoreThumbnailsCount" class="thumbnail-more-text">
       {{ moreThumbnailsText }}
@@ -38,6 +40,14 @@ export default {
       type: String,
       default: '',
     },
+    gap: {
+      type: String,
+      default: 'normal',
+      validator(value) {
+        // The value must match one of these strings
+        return ['normal', '', 'tight'].includes(value);
+      },
+    },
   },
 };
 </script>
@@ -52,6 +62,10 @@ export default {
   box-shadow: var(--shadow-small);
 
   &:not(:first-child) {
+    margin-left: var(--space-minus-smaller);
+  }
+
+  .gap-tight {
     margin-left: var(--space-minus-small);
   }
 }
