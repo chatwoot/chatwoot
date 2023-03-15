@@ -163,7 +163,7 @@ export default {
         ) {
           return;
         }
-        const { message_id: messageId } = this.$route.query;
+        const { messageId } = this.$route.query;
         this.$store
           .dispatch('setActiveChat', {
             data: selectedConversation,

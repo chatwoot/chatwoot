@@ -155,16 +155,16 @@ export default {
       this.$emit('toggle', !this.isOpen);
     },
     async copyLinkToMessage() {
-      await copyTextToClipboard(
+      const fullConversationURL =
+        window.chatwootConfig.hostURL +
         frontendURL(
           conversationUrl({
             id: this.conversationId,
             accountId: this.currentAccountId,
-          }) +
-            '?messageId=' +
-            this.id
-        )
-      );
+          })
+        );
+
+      await copyTextToClipboard(`${fullConversationURL}?messageId=${this.id}`);
       this.showAlert('Link Copied');
     },
     async handleCopy() {
