@@ -129,12 +129,12 @@ ms:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from %{inbox_name}'
-          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
     survey:

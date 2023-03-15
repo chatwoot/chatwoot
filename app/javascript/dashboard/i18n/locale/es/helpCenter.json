@@ -12,8 +12,8 @@
       },
       "TITLES": {
         "ALL_ARTICLES": "Todos los artículos",
-        "MINE": "Todos los artículos",
-        "DRAFT": "Borrador de artículos",
+        "MINE": "Mis artículos",
+        "DRAFT": "Articulos borradores",
         "ARCHIVED": "Artículos archivados"
       }
     },
@@ -32,11 +32,11 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Subir imagen",
         "UPLOADING": "Subiendo...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Imagen subida con éxito",
+        "ERROR": "Error al subir la imagen",
+        "ERROR_FILE_SIZE": "El tamaño de la imagen debe ser menor que {size}MB",
+        "ERROR_FILE_FORMAT": "El formato de la imagen debe ser jpg, jpeg o png",
+        "ERROR_FILE_DIMENSIONS": "Las dimensiones de la imagen deben ser menores de 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
@@ -77,7 +77,7 @@
     "PORTAL": {
       "HEADER": "Portales",
       "DEFAULT": "Predeterminado",
-      "NEW_BUTTON": "Nuevo Portal",
+      "NEW_BUTTON": "Portal Nuevo",
       "ACTIVE_BADGE": "activo",
       "CHOOSE_LOCALE_LABEL": "Elige un idioma",
       "LOADING_MESSAGE": "Cargando portales...",
