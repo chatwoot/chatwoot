@@ -26,7 +26,8 @@
 #
 # Indexes
 #
-#  index_inboxes_on_account_id  (account_id)
+#  index_inboxes_on_account_id                   (account_id)
+#  index_inboxes_on_channel_id_and_channel_type  (channel_id,channel_type)
 #
 
 class Inbox < ApplicationRecord
