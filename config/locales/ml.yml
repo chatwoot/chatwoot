@@ -129,12 +129,12 @@ ml:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from %{inbox_name}'
-          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "ഈ സംഭാഷണത്തിലെ പുതിയ സന്ദേശങ്ങൾ"
       transcript_subject: "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ്"
     survey:
