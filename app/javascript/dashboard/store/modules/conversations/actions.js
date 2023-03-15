@@ -253,6 +253,22 @@ const actions = {
     }
   },
 
+  updateIfNotOnMentionsView({ dispatch, rootState }, conversation) {
+    if (!isOnMentionsView(rootState)) {
+      dispatch('updateConversation', conversation);
+    }
+  },
+
+  updateConversationAssignee({ commit }, conversation) {
+    commit(types.UPDATE_CONVERSATION_ASSIGNEE, conversation);
+  },
+  updateConversationStatus({ commit }, conversation) {
+    commit(types.UPDATE_CONVERSATION_STATUS, conversation);
+  },
+  updateConversationLastRead({ commit }, conversation) {
+    commit(types.UPDATE_CONVERSATION_LAST_READ, conversation);
+  },
+
   addUnattended({ dispatch, rootState }, conversation) {
     if (isOnUnattendedView(rootState)) {
       dispatch('updateConversation', conversation);

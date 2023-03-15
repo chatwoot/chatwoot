@@ -202,6 +202,39 @@ export const mutations = {
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
   },
+
+  [types.UPDATE_CONVERSATION_STATUS](_state, { id, status }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (chat) {
+      Vue.set(chat, 'status', status);
+    }
+  },
+
+  [types.UPDATE_CONVERSATION_ASSIGNEE](_state, conversation) {
+    const {
+      id,
+      meta: { assignee },
+    } = conversation;
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (chat) {
+      Vue.set(chat.meta, 'assignee', assignee);
+    }
+  },
+
+  [types.UPDATE_CONVERSATION_LAST_READ](_state, conversation) {
+    const {
+      id,
+      agent_last_seen_at: agentLastSeen,
+      contact_last_seen_at: contactLastSeen,
+    } = conversation;
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (chat && agentLastSeen) {
+      Vue.set(chat, 'agent_last_seen_at', agentLastSeen);
+    }
+    if (chat && contactLastSeen) {
+      Vue.set(chat, 'contact_last_seen_at', contactLastSeen);
+    }
+  },
 };
 
 export default {

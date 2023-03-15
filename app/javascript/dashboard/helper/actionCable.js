@@ -57,7 +57,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onAssigneeChanged = payload => {
     const { id } = payload;
     if (id) {
-      this.app.$store.dispatch('updateConversation', payload);
+      this.app.$store.dispatch('updateConversationAssignee', payload);
     }
     this.fetchConversationStats();
   };
@@ -68,7 +68,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationRead = data => {
-    this.app.$store.dispatch('updateConversation', data);
+    this.app.$store.dispatch('updateConversationLastRead', data);
   };
 
   onLogout = () => AuthAPI.logout();
@@ -81,12 +81,12 @@ class ActionCableConnector extends BaseActionCableConnector {
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
-    this.app.$store.dispatch('updateConversation', data);
+    this.app.$store.dispatch('updateConversationStatus', data);
     this.fetchConversationStats();
   };
 
   onConversationUpdated = data => {
-    this.app.$store.dispatch('updateConversation', data);
+    this.app.$store.dispatch('updateIfNotOnMentionsView', data);
     this.fetchConversationStats();
   };
 
