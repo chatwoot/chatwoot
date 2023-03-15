@@ -74,7 +74,7 @@ RSpec.describe 'Agents API', type: :request do
         expect(User.count).to eq(account.reload.users.size)
       end
 
-      it 'deletes only the agent object when user is associated with multiple account' do
+      it 'deletes only the agent object when user is associated with multiple accounts' do
         other_account = create(:account)
         create(:account_user, account_id: other_account.id, user_id: other_agent.id)
 
