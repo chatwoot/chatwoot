@@ -1,5 +1,9 @@
 require 'rails_helper'
+require 'google/cloud/translate/v3'
+
 describe AutomationRuleListener do
+  include ActiveJob::TestHelper
+
   let(:listener) { described_class.instance }
   let!(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -580,6 +584,40 @@ describe AutomationRuleListener do
         conversation.reload
 
         allow(mailer).to receive(:conversation_transcript)
+      end
+    end
+  end
+
+  describe '#message_created to report_spam' do
+    before do
+      automation_rule.update!(
+        event_name: 'message_created',
+        name: 'Call actions message created',
+        description: 'Conversation resolved on message event',
+        conditions: [{ 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }],
+        actions: [{ 'action_name' => 'report_spam' }.with_indifferent_access]
+      )
+    end
+
+    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'muchas muchas gracias') }
+    let!(:event) do
+      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
+    end
+    let(:client) { double }
+
+    context 'when rule matches' do
+      it 'triggers automation rule to report spam and resolves the conversation' do
+        create(:integrations_hook, :google_translate, account_id: account.id)
+        response = Google::Cloud::Translate::V3::DetectLanguageResponse.new({ languages: [{ language_code: 'es', confidence: 0.71875 }] })
+
+        allow(Google::Cloud::Translate).to receive(:translation_service).and_return(client)
+        allow(client).to receive(:detect_language).and_return(response)
+
+        perform_enqueued_jobs do
+          listener.message_created(event)
+        end
+
+        expect(message.conversation.reload.status).to eq('resolved')
       end
     end
   end

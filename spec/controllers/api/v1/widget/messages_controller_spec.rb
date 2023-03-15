@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'google/cloud/translate/v3'
 
 RSpec.describe '/api/v1/widget/messages', type: :request do
   let(:account) { create(:account) }
@@ -120,33 +119,6 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         )
         expect(response).to have_http_status(:success)
         expect(conversation.reload.open?).to be(true)
-      end
-    end
-
-    context 'when detect_language is ON' do
-      context 'when message content is of different language' do
-        let(:client) { double }
-
-        it 'resolves the conversation' do
-          create(:integrations_hook, :google_translate, account_id: account.id)
-          account.enable_language_detection = true
-          account.save!
-          response = Google::Cloud::Translate::V3::DetectLanguageResponse.new({ languages: [{ language_code: 'es', confidence: 0.71875 }] })
-
-          conversation.destroy! # Test all params
-          message_params = { content: 'muchas muchas gracias', timestamp: Time.current }
-
-          allow(Google::Cloud::Translate).to receive(:translation_service).and_return(client)
-          allow(client).to receive(:detect_language).and_return(response)
-          perform_enqueued_jobs do
-            post api_v1_widget_messages_url,
-                 params: { website_token: web_widget.website_token, message: message_params },
-                 headers: { 'X-Auth-Token' => token },
-                 as: :json
-          end
-          message = Message.find_by(content: 'muchas muchas gracias')
-          expect(message.conversation.reload.status).to eq('resolved')
-        end
       end
     end
   end

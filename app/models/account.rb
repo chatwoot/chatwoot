@@ -33,8 +33,7 @@ class Account < ApplicationRecord
   }.freeze
 
   ACCOUNT_SETTINGS_FLAGS = {
-    1 => :custom_email_domain_enabled,
-    2 => :enable_language_detection
+    1 => :custom_email_domain_enabled
   }.freeze
 
   validates :name, presence: true

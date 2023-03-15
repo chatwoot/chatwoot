@@ -22,6 +22,11 @@ class AutomationRules::ActionService < ActionService
 
   private
 
+  def report_spam(_params)
+    message = @conversation.messages.incoming.last
+    Conversations::DetectLanguageJob.perform_later(message.id) if @conversation.open?
+  end
+
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 
