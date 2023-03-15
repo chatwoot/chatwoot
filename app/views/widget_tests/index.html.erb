@@ -1,5 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 
+<button id="reset-and-reload">Reset conversation and reload</button>
 
 <%
   user_id = 1
@@ -11,6 +12,30 @@
 
 %>
 <script>
+
+function deleteAllCookies() {
+  if (window.cookieStore) {
+    cookieStore.getAll().then(cookies => cookies.forEach(cookie => {
+      console.log('Cookie deleted:', cookie);
+      cookieStore.delete(cookie.name);
+    }));
+  } else {
+    // for safari and firefox: https://caniuse.com/cookie-store-api
+    // TODO: Remove this once this is widely supported
+    const cookies = document.cookie.split(";");
+
+    cookies.forEach(cookie => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    });
+  }
+}
+
+document.getElementById('reset-and-reload').addEventListener('click', function() {
+  deleteAllCookies();
+  window.location.reload();
+});
 
 window.chatwootSettings = {
   hideMessageBubble: false,
