@@ -5,7 +5,7 @@
 npx --no-install lint-staged
 
 # lint only staged ruby files
-git diff --name-only --cached | xargs ls -1 2>/dev/null | grep '\.rb$' | xargs bundle exec rubocop -a
+git diff --name-only --cached | xargs ls -1 2>/dev/null | grep '\.rb$' | xargs bundle exec rubocop --force-exclusion -a
 
 # stage rubocop changes to files
 git diff --name-only --cached | xargs git add

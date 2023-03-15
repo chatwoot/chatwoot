@@ -8,6 +8,25 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+## Load the specific APM agent
+# We rely on DOTENV to load the environment variables
+# We need these environment variables to load the specific APM agent
+Dotenv::Railtie.load
+require 'ddtrace' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
+require 'elastic-apm' if ENV.fetch('ELASTIC_APM_SECRET_TOKEN', false).present?
+require 'scout_apm' if ENV.fetch('SCOUT_KEY', false).present?
+
+if ENV.fetch('NEW_RELIC_LICENSE_KEY', false).present?
+  require 'newrelic-sidekiq-metrics'
+  require 'newrelic_rpm'
+end
+
+if ENV.fetch('SENTRY_DSN', false).present?
+  require 'sentry-ruby'
+  require 'sentry-rails'
+  require 'sentry-sidekiq'
+end
+
 module Chatwoot
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

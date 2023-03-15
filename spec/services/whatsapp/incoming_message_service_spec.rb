@@ -7,10 +7,11 @@ describe Whatsapp::IncomingMessageService do
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
+    let(:wa_id) { '2423423243' }
     let!(:params) do
       {
-        'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
-        'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
+        'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => wa_id }],
+        'messages' => [{ 'from' => wa_id, 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
                          'timestamp' => '1633034394', 'type' => 'text' }]
       }.with_indifferent_access
     end
@@ -244,6 +245,67 @@ describe Whatsapp::IncomingMessageService do
         contact_attachments = m2.attachments.first
         expect(m2.content).to eq('Chatwoot')
         expect(contact_attachments.fallback_title).to eq('+1 (415) 341-8386')
+      end
+    end
+
+    # ref: https://github.com/chatwoot/chatwoot/issues/5840
+    describe 'When the incoming waid is a brazilian number in new format with 9 included' do
+      let(:wa_id) { '5541988887777' }
+
+      it 'creates appropriate conversations, message and contacts if contact does not exit' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+        expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
+      end
+
+      it 'appends to existing contact if contact inbox exists' do
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # no new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        # message appended to the last conversation
+        expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+      end
+    end
+
+    describe 'When incoming waid is a brazilian number in old format without the 9 included' do
+      let(:wa_id) { '554188887777' }
+
+      context 'when a contact inbox exists in the old format without 9 included' do
+        it 'appends to existing contact' do
+          contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id)
+          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          # no new conversation should be created
+          expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+          # message appended to the last conversation
+          expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        end
+      end
+
+      context 'when a contact inbox exists in the new format with 9 included' do
+        it 'appends to existing contact' do
+          contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '5541988887777')
+          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          # no new conversation should be created
+          expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+          # message appended to the last conversation
+          expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        end
+      end
+
+      context 'when a contact inbox does not exist in the new format with 9 included' do
+        it 'creates contact inbox with the incoming waid' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+          expect(Contact.all.first.name).to eq('Sojan Jose')
+          expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+          expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
+        end
       end
     end
   end

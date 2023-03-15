@@ -35,7 +35,6 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(message.conversation)
     @message = message
     reply_mail_object = prepare_mail(true)
-
     message.update(source_id: reply_mail_object.message_id)
   end
 
@@ -112,6 +111,14 @@ class ConversationReplyMailer < ApplicationMailer
     else
       I18n.t('conversations.reply.email.header.from_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
                                                                 from_email: parse_email(inbox_from_email_address))
+    end
+  end
+
+  def channel_email_with_name
+    if @conversation.assignee.present?
+      I18n.t('conversations.reply.channel_email.header.reply_with_name', assignee_name: assignee_name, inbox_name: @inbox.name)
+    else
+      I18n.t('conversations.reply.channel_email.header.reply_with_inbox_name', inbox_name: @inbox.name, from_email: @channel.email)
     end
   end
 

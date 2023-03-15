@@ -2,14 +2,14 @@
   <div
     class="message-text__wrap"
     :class="{
-      'show--quoted': showQuotedContent,
-      'hide--quoted': !showQuotedContent,
+      'show--quoted': isQuotedContentPresent,
+      'hide--quoted': !isQuotedContentPresent,
     }"
   >
     <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
     <letter v-else class="text-content" :html="message" />
     <button
-      v-if="displayQuotedButton"
+      v-if="showQuoteToggle"
       class="quoted-text--button"
       @click="toggleQuotedContent"
     >
@@ -48,6 +48,20 @@ export default {
     return {
       showQuotedContent: false,
     };
+  },
+  computed: {
+    isQuotedContentPresent() {
+      if (!this.isEmail) {
+        return this.message.includes('<blockquote');
+      }
+      return this.showQuotedContent;
+    },
+    showQuoteToggle() {
+      if (!this.isEmail) {
+        return false;
+      }
+      return this.displayQuotedButton;
+    },
   },
   methods: {
     toggleQuotedContent() {

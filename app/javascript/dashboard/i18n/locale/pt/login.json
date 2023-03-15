@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde",
       "UNAUTH": "Nome de usuário / senha incorreta. Por favor, tente novamente"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Esqueceu-se da sua senha?",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",
     "SUBMIT": "Iniciar sessão"

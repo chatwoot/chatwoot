@@ -45,7 +45,7 @@ fa:
       locale:
         unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
@@ -129,8 +129,12 @@ fa:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} از %{inbox_name} «%{from_email}»'
-          reply_with_name: '%{assignee_name} از %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
+          reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} از %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "پیام‌های جدید در این مکالمه"
       transcript_subject: "متن مکالمه"
     survey:
@@ -141,8 +145,8 @@ fa:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte ابزاری است که به شما کمک می کند تا صدا و تصویر زنده را تنها با چند خط کد به برنامه خود اضافه کنید. این ادغام به شما امکان می دهد تا گزینه ای را به نمایندگان خود بدهید تا بدون ترک چت با مشتریان خود تماس ویدیویی یا صوتی داشته باشند."
+      meeting_name: "%{agent_name} جلسه ای را آغاز کرده است"
     slack:
       name: "Slack"
       description: "Slack ابزاری برای گفتگو است که تمام ارتباطات شما را در یک مکان جمع می کند. با ادغام Slack ، می توانید از تمام مکالمات جدید در حساب خود در داخل Slack مطلع شوید."
@@ -155,6 +159,9 @@ fa:
     fullcontact:
       name: "تماس کامل"
       description: "ادغام FullContact به غنی سازی پروفایل بازدیدکنندگان کمک می کند. به محض به اشتراک گذاشتن آدرس ایمیل کاربران ، آنها را شناسایی کرده و به آنها خدمات مشتری مناسب ارائه دهید. با به اشتراک گذاشتن کلید APC FullContact ، حساب FullContact خود را به حساب خود وصل کنید."
+    google_translate:
+      name: "مترجم گوگل"
+      description: "با افزودن Google Translate یکپارچه سازی، ترجمه پیام ها را برای نمایندگان آسان تر کنید. Google translate به شناسایی خودکار زبان و تبدیل آن به زبان انتخاب شده توسط نماینده/مدیر حساب کمک می کند."
   public_portal:
     search:
       search_placeholder: جستجوی مقاله براساس عنوان یا متن...
@@ -163,3 +170,14 @@ fa:
       results_title: نتایج جستجو
     hero:
       sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
+    common:
+      home: صفحه اصلی
+      last_updated_on: آخرین به‌روزرسانی در تاریخ %{last_updated_on}
+      view_all_articles: مشاهده همه مقالات
+      article: مقاله
+      articles: مقالات
+      no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
+    footer:
+      made_with: ساخته شده با
+    header:
+      go_to_homepage: به سایت اصلی بروید

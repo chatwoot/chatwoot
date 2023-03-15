@@ -129,8 +129,12 @@ pt:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} de %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
     survey:
@@ -155,6 +159,9 @@ pt:
     fullcontact:
       name: "Fullcontact"
       description: "A integração com o FullContact ajuda a enriquecer os perfis dos seus visitantes. Identifica os utilizadores assim que eles partilham o seu endereço de e-mail e ofereça um atendimento ao cliente mais personalizado. Ligue a sua conta ao FullContact utilizando apenas a sua chave API."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -163,3 +170,14 @@ pt:
       results_title: Search results
     hero:
       sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Principal
+      last_updated_on: Última atualização em %{last_updated_on}
+      view_all_articles: Ver todos os artigos
+      article: artigo
+      articles: artigos
+      no_articles: Não há artigos aqui
+    footer:
+      made_with: Feito com
+    header:
+      go_to_homepage: Ir para o site principal

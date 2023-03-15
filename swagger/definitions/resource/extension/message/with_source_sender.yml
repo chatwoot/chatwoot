@@ -2,5 +2,3 @@ type: object
 properties:
   source_id:
     type: number
-  sender:
-    type: object
