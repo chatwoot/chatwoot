@@ -72,6 +72,3 @@
   value: self-hosted
 - name: CSML_EDITOR_HOST
   value:
-- name: ENABLE_LANGUAGE_DETECTION
-  value: false
-  locked: false
