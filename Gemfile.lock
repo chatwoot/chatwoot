@@ -451,6 +451,9 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     netrc (0.11.0)
+    newrelic-sidekiq-metrics (1.6.1)
+      newrelic_rpm (~> 8)
+      sidekiq
     newrelic_rpm (8.15.0)
     nio4r (2.5.8)
     nokogiri (1.13.10)
@@ -820,6 +823,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
+  newrelic-sidekiq-metrics
   newrelic_rpm
   omniauth
   omniauth-google-oauth2
