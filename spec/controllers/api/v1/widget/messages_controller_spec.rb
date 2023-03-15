@@ -129,8 +129,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         it 'resolves the conversation' do
           create(:integrations_hook, :google_translate, account_id: account.id)
-          account.enable_language_detection = true
-          account.save!
+
           response = Google::Cloud::Translate::V3::DetectLanguageResponse.new({ languages: [{ language_code: 'es', confidence: 0.71875 }] })
 
           conversation.destroy! # Test all params

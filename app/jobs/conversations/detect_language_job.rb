@@ -4,7 +4,7 @@ class Conversations::DetectLanguageJob < ApplicationJob
   def perform(message_id)
     @message = Message.find(message_id)
 
-    return unless @message.account.enable_language_detection?
+    return if hook.blank?
 
     return unless @message.content.size < 1500
 
