@@ -164,7 +164,7 @@ export default {
     conversationId() {
       this.fetchParticipants();
     },
-    watchersFromStore(participants) {
+    watchersFromStore(participants = []) {
       this.selectedWatchers = [...participants];
     },
   },
@@ -224,7 +224,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .watchers-wrap {
   position: relative;
 }

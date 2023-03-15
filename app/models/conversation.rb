@@ -27,6 +27,7 @@
 #
 # Indexes
 #
+#  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
 #  index_conversations_on_account_id                  (account_id)
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
@@ -48,6 +49,7 @@ class Conversation < ApplicationRecord
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
+  include ConversationMuteHelpers
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -142,19 +144,9 @@ class Conversation < ApplicationRecord
     save
   end
 
-  def mute!
-    resolved!
-    Redis::Alfred.setex(mute_key, 1, mute_period)
-    create_muted_message
-  end
-
-  def unmute!
-    Redis::Alfred.delete(mute_key)
-    create_unmuted_message
-  end
-
-  def muted?
-    Redis::Alfred.get(mute_key).present?
+  def bot_handoff!
+    open!
+    dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
   def unread_messages
@@ -267,14 +259,6 @@ class Conversation < ApplicationRecord
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)
-  end
-
-  def mute_key
-    format(Redis::RedisKeys::CONVERSATION_MUTE_KEY, id: id)
-  end
-
-  def mute_period
-    6.hours
   end
 
   def validate_referer_url

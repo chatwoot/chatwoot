@@ -48,7 +48,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: 100%;
+        width: fit-content;
       }
 
       p {
@@ -169,7 +169,7 @@
 }
 
 .multiselect-wrap--small {
-  $multiselect-height: 3.8rem;
+  $multiselect-height: 4.0rem;
 
   .multiselect__tags,
   .multiselect__input {

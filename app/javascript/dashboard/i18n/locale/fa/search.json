@@ -1,0 +1,23 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "همه",
+      "CONTACTS": "مخاطبین",
+      "CONVERSATIONS": "گفتگوها",
+      "MESSAGES": "پیام‌ها"
+    },
+    "SECTION": {
+      "CONTACTS": "مخاطبین",
+      "CONVERSATIONS": "گفتگوها",
+      "MESSAGES": "پیام‌ها"
+    },
+    "EMPTY_STATE": "No %{item} found for query '%{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ to focus",
+    "INPUT_PLACEHOLDER": "جستجوی پیام‌ها، مخاطبین یا گفتگوها",
+    "EMPTY_STATE_DEFAULT": "جستجو بر اساس شناسه گفتگو، ایمیل، شماره تلفن، پیام‌ها برای نتایج جستجوی بهتر.",
+    "BOT_LABEL": "ربات",
+    "READ_MORE": "ادامه مطلب",
+    "WROTE": "wrote:"
+  }
+}

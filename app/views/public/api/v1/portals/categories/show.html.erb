@@ -11,14 +11,16 @@
       class="text-slate-700 text-sm hover:underline leading-8"
       href="/hc/<%= @portal.slug %>/<%= @category.locale %>"
     >
-      Home
+      <%= I18n.t('public_portal.common.home') %>
     </a>
     <span class="text-xs text-slate-600 px-1">/</span>
     <div class="flex justify-start items-center w-full">
       <h1 class="text-3xl font-bold leading-snug md:tracking-normal text-slate-900">
         <%= @category.name %>
       </h1>
-      <div class="text-slate-500 px-8 mt-2"><%= @category.articles.published.size %> articles</div>
+      <div class="text-slate-500 px-8 mt-2">
+        <%= render 'public/api/v1/portals/article_count', article_count: @category.articles.published.size %>
+      </div>
     </div>
   </div>
 </div>
@@ -27,17 +29,19 @@
   <div class="py-4 w-full mt-2 flex-grow">
     <% if @category.articles.published.size == 0 %>
     <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl py-6">
-      <p class="text-sm text-slate-500">No articles here</p>
+      <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
     </div>
     <% else %>
-    <% @category.articles.published.each do |article| %>
+    <% @category.articles.published.order(:position).each do |article| %>
       <a
         class="text-slate-800 flex justify-between content-center mb-4 py-2"
         href="/hc/<%= @portal.slug %>/<%= @category.locale %>/<%= @category.slug %>/<%= article.id %>"
       >
         <div>
           <p class="font-medium mb-2 hover:underline"><%= article.title %></p>
-          <p class="text-sm">Last updated on <%= article.updated_at.strftime("%b %d, %Y") %></p>
+          <p class="text-sm">
+            <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %>
+          </p>
         </div>
 
         <span>

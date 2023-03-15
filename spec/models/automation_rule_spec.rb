@@ -48,5 +48,12 @@ RSpec.describe AutomationRule, type: :model do
       rule = FactoryBot.build(:automation_rule, params)
       expect(rule.valid?).to be true
     end
+
+    it 'returns invalid record' do
+      params[:conditions][0].delete('query_operator')
+      rule = FactoryBot.build(:automation_rule, params)
+      expect(rule.valid?).to be false
+      expect(rule.errors.messages[:conditions]).to eq(['Automation conditions should have query operator.'])
+    end
   end
 end

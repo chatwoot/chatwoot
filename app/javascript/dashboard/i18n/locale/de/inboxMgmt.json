@@ -476,7 +476,8 @@
       "WHATSAPP_SECTION_TITLE": "API-Schlüssel",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Aktualisieren"
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Aktualisieren",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limit für automatische Zuweisung",

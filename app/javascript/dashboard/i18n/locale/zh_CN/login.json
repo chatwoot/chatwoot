@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "无法连接服务器，请稍后再试",
       "UNAUTH": "用户名/密码不正确。请重试"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "忘记密码了？",
     "CREATE_NEW_ACCOUNT": "创建新账户",
     "SUBMIT": "登录"

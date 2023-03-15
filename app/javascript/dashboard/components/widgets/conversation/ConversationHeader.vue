@@ -10,30 +10,30 @@
           :status="currentContact.availability_status"
         />
         <div class="user--profile__meta">
-          <h3 class="user--name text-truncate">
-            <span class="margin-right-smaller">{{ currentContact.name }}</span>
-            <fluent-icon
-              v-if="!isHMACVerified"
-              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-              size="14"
-              class="hmac-warning__icon"
-              icon="warning"
-            />
-          </h3>
+          <woot-button
+            variant="link"
+            color-scheme="secondary"
+            class="text-truncate"
+            @click.prevent="$emit('contact-panel-toggle')"
+          >
+            <h3 class="sub-block-title user--name text-truncate">
+              <span>{{ currentContact.name }}</span>
+              <fluent-icon
+                v-if="!isHMACVerified"
+                v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+                size="14"
+                class="hmac-warning__icon"
+                icon="warning"
+              />
+            </h3>
+          </woot-button>
           <div class="conversation--header--actions text-truncate">
-            <inbox-name
-              v-if="hasMultipleInboxes"
-              :inbox="inbox"
-              class="margin-right-small"
-            />
-            <span
-              v-if="isSnoozed"
-              class="snoozed--display-text margin-right-small"
-            >
+            <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
+            <span v-if="isSnoozed" class="snoozed--display-text">
               {{ snoozedDisplayText }}
             </span>
             <woot-button
-              class="user--profile__button margin-right-small"
+              class="user--profile__button"
               size="small"
               variant="link"
               @click="$emit('contact-panel-toggle')"
@@ -204,17 +204,21 @@ export default {
 
 .user--name {
   display: inline-block;
-  font-size: var(--font-size-medium);
-  line-height: 1.3;
-  margin: 0;
+  line-height: 1.2;
   text-transform: capitalize;
-  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .conversation--header--actions {
   align-items: center;
   display: flex;
   font-size: var(--font-size-mini);
+  gap: var(--space-small);
+
+  ::v-deep .inbox--name {
+    margin: 0;
+  }
 
   .user--profile__button {
     padding: 0;
@@ -228,5 +232,6 @@ export default {
 
 .hmac-warning__icon {
   color: var(--y-600);
+  margin: 0 var(--space-micro);
 }
 </style>
