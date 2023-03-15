@@ -129,8 +129,12 @@ ru:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} от %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} от %{inbox_name} <%{reply_email}>'
+          from_with_name: "%{assignee_name} от %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} от %{inbox_name} <%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} от %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
     survey:
@@ -155,6 +159,9 @@ ru:
     fullcontact:
       name: "Полная карточка контакта"
       description: "Интеграция с FullContact помогает получить всю информацию о профиле посетителей. Определяйте пользователей как только они поделится своим электронным адресом и предложите им индивидуальное обслуживание клиентов. Подключите ваш FullContact к своей учетной записи, поделившись API ключом FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
@@ -163,3 +170,14 @@ ru:
       results_title: Результаты поиска
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
+    common:
+      home: Главная
+      last_updated_on: Обновлено %{last_updated_on}
+      view_all_articles: Показать все статьи
+      article: статья
+      articles: статьи
+      no_articles: Здесь нет статей
+    footer:
+      made_with: Сделано с
+    header:
+      go_to_homepage: Перейти на основной сайт

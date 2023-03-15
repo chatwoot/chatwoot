@@ -28,6 +28,17 @@
       "SAVING": "در حال ذخیره...",
       "SAVED": "ذخیره شد"
     },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "آپلود عکس",
+        "UPLOADING": "در حال آپلود...",
+        "SUCCESS": "تصویر با موفقیت آپلود شد",
+        "ERROR": "خطا هنگام آپلود تصویر",
+        "ERROR_FILE_SIZE": "اندازه تصویر باید کمتر از {size} مگابایت باشد",
+        "ERROR_FILE_FORMAT": "فرمت تصویر باید jpg، jpeg یا png باشد",
+        "ERROR_FILE_DIMENSIONS": "ابعاد تصویر باید کمتر از 2000*2000 باشد"
+      }
+    },
     "ARTICLE_SETTINGS": {
       "TITLE": "تنظیمات مقاله",
       "FORM": {

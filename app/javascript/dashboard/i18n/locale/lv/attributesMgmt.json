@@ -43,7 +43,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Pielāgotā īpašība ir veiksmīgi pievienota!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "ERROR_MESSAGE": "Nevarēja izveidot Pielāgotu Atribūtu. Lūdzu, vēlāk pamēģiniet vēlreiz."
       }
     },
     "DELETE": {

@@ -129,8 +129,12 @@ ca:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"
     survey:
@@ -155,6 +159,9 @@ ca:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -163,3 +170,14 @@ ca:
       results_title: Search results
     hero:
       sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Inici
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

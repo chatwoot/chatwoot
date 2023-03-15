@@ -35,8 +35,7 @@ export default {
 <style lang="scss" scoped>
 .csat--metric-card {
   margin: 0;
-  padding: var(--space-normal) var(--space-small) var(--space-normal)
-    var(--space-two);
+  padding: var(--space-normal);
 
   .heading {
     align-items: center;
@@ -57,6 +56,6 @@ export default {
 
 .csat--icon {
   color: var(--b-400);
-  margin-left: var(--space-micro);
+  margin: 0 var(--space-micro);
 }
 </style>

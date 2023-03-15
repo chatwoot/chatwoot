@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {

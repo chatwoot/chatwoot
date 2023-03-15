@@ -82,6 +82,7 @@
       "conversation_creation": "สร้างการสนทนาใหม่",
       "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
       "assigned_conversation_new_message": "ข้อความใหม่",
+      "participating_conversation_new_message": "ข้อความใหม่",
       "conversation_mention": "กล่าวถึง"
     }
   },

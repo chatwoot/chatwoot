@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง",
       "UNAUTH": "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง โปรดลองใหม่อีกครั้ง"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "ลืมรหัสผ่าน?",
     "CREATE_NEW_ACCOUNT": "สร้างบัญชีใหม่",
     "SUBMIT": "เข้าสู่ระบบ"

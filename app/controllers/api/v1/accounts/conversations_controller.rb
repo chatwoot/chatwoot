@@ -142,6 +142,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # and deprecate the support of passing only source_id as the param
     @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
     authorize @contact_inbox.inbox, :show?
+  rescue ActiveRecord::RecordNotUnique
+    render json: { error: 'source_id should be unique' }, status: :unprocessable_entity
   end
 
   def build_contact_inbox

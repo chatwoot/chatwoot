@@ -3,23 +3,23 @@
 
   cursor: pointer;
   margin: 0;
-  padding: $space-normal $space-small $space-normal $space-two;
+  padding: var(--space-normal);
 
   &.active {
-    @include custom-border-top(3px, $color-woot);
+    @include custom-border-top(3px, var(--color-woot));
     @include background-white;
     .heading,
     .metric {
-      color: $color-woot;
+      color: var(--color-woot);
     }
   }
 
   .heading {
     align-items: center;
-    color: $color-heading;
+    color: var(--color-heading);
     display: flex;
-    font-size: $font-size-small;
-    font-weight: $font-weight-bold;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
     margin: 0;
   }
 
@@ -29,19 +29,19 @@
   }
 
   .metric-wrap {
-    align-items: baseline;
+    align-items: center;
     display: flex;
   }
 
   .metric {
-    font-size: $font-size-big;
-    font-weight: $font-weight-feather;
-    margin-top: $space-smaller;
+    font-size: var(--font-size-big);
+    font-weight: var(--font-weight-feather);
+    margin-top: var(--space-smaller);
   }
 
   .metric-trend {
-    font-size: $font-size-small;
-    margin-left: $space-small;
+    font-size: var(--font-size-small);
+    margin: 0 var(--space-small);
   }
 
   .metric-up {
@@ -53,7 +53,7 @@
   }
 
   .desc {
-    font-size: $font-size-small;
+    font-size: var(--font-size-small);
     margin: 0;
     text-transform: capitalize;
   }
@@ -62,8 +62,8 @@
 .report-bar {
   @include background-white;
   @include border-light;
-  margin: -1px $zero;
-  padding: $space-small $space-medium;
+  margin: var(--space-minus-micro) 0;
+  padding: var(--space-small) var(--space-medium);
 
   .chart-container {
     @include flex;
@@ -76,12 +76,12 @@
 
     .empty-state {
       color: $color-gray;
-      font-size: $font-size-default;
-      margin: $space-jumbo;
+      font-size: var(--font-size-default);
+      margin: var(--space-jumbo);
     }
 
     .business-hours {
-      margin: $space-normal;
+      margin: var(--space-normal);
       text-align: center;
     }
   }

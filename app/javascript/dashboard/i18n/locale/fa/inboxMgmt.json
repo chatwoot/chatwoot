@@ -347,14 +347,14 @@
       },
       "EMAIL_PROVIDER": {
         "TITLE": "ارائه دهنده ایمیل خود را انتخاب کنید",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "DESCRIPTION": "یک ارائه دهنده ایمیل از لیست زیر انتخاب کنید. اگر ارائه دهنده ایمیل خود را در لیست نمی بینید، می توانید گزینه ارائه دهنده دیگر را انتخاب کنید و اعتبارنامه IMAP و SMTP را ارائه دهید."
       },
       "MICROSOFT": {
         "TITLE": "ایمیل مایکروسافت",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "DESCRIPTION": "برای شروع روی دکمه Sign in with Microsoft کلیک کنید. شما به صفحه ورود به ایمیل هدایت خواهید شد. هنگامی که مجوزهای درخواستی را پذیرفتید، به مرحله ایجاد صندوق ورودی هدایت می شوید.",
         "EMAIL_PLACEHOLDER": "آدرس ایمیل را وارد کنید",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "HELP": "برای افزودن حساب مایکروسافت خود به عنوان کانال، باید با کلیک بر روی \"ورود به سیستم با مایکروسافت\" اکانت مایکروسافت خود را احراز هویت کنید.",
+        "ERROR_MESSAGE": "هنگام اتصال به مایکروسافت خطایی روی داد، لطفاً دوباره امتحان کنید"
       }
     },
     "DETAILS": {
@@ -472,11 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
       "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "کلید به روز شده را وارد کنید تا از آن برای ادغام با واتساپ API استفاده شود.",
       "WHATSAPP_SECTION_TITLE": "API key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود"
+      "WHATSAPP_SECTION_UPDATE_TITLE": "کلید API را به روز کنید",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "کلید API جدید را در اینجا وارد کنید",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "به‌روزرسانی تنظیمات فرم قبل از گفتگو"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",
@@ -565,7 +566,7 @@
     },
     "MICROSOFT": {
       "TITLE": "مایکروسافت",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "حساب مایکروسافت خود را مجدداً تأیید کنید"
     },
     "SMTP": {
       "TITLE": "SMTP",

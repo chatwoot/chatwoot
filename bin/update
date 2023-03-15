@@ -21,7 +21,7 @@ chdir APP_ROOT do
   # system('bin/yarn')
 
   puts "\n== Updating database =="
-  system! 'bin/rails db:migrate'
+  system! 'POSTGRES_STATEMENT_TIMEOUT=600s bin/rails db:migrate'
 
   puts "\n== Removing old logs and tempfiles =="
   system! 'bin/rails log:clear tmp:clear'

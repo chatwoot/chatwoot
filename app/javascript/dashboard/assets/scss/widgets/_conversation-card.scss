@@ -13,18 +13,18 @@
   @include flex;
   @include flex-shrink;
   border-bottom: 1px solid transparent;
-  border-left: $space-micro solid transparent;
+  border-left: var(--space-micro) solid transparent;
   border-top: 1px solid transparent;
   cursor: pointer;
-  padding: 0 0 0 $space-normal;
+  padding: 0 var(--space-normal);
   position: relative;
 
   &.active {
     animation: left-shift-animation 0.25s $swift-ease-out-function;
-    background: $color-background;
-    border-bottom-color: $color-border-light;
-    border-left-color: $color-woot;
-    border-top-color: $color-border-light;
+    background: var(--color-background);
+    border-bottom-color: var(--color-border-light);
+    border-left-color: var(--color-woot);
+    border-top-color: var(--color-border-light);
 
     .conversation--details {
       border-top-color: transparent;
@@ -43,7 +43,7 @@
 
   &:last-child {
     .conversation--details {
-      border-bottom-color: $color-border-light;
+      border-bottom-color: var(--color-border-light);
     }
   }
 
@@ -51,33 +51,32 @@
     @include border-light-bottom;
     @include border-light-top;
     border-bottom-color: transparent;
-    margin: 0 0 0 $space-one;
-    padding: $space-slab 0;
+    padding: var(--space-slab) 0;
   }
 
   .conversation--user {
-    font-size: $font-size-small;
-    margin-bottom: 0;
+    font-size: var(--font-size-small);
+    margin: 0 var(--space-small);
     text-transform: capitalize;
 
     .label {
-      left: $space-micro;
-      max-width: $space-jumbo;
+      left: var(--space-one);
+      max-width: var(--space-jumbo);
       overflow: hidden;
       position: relative;
       text-overflow: ellipsis;
-      top: $space-micro;
+      top: var(--space-one);
       white-space: nowrap;
     }
   }
 
   .conversation--message {
-    color: $color-body;
-    font-size: $font-size-small;
-    font-weight: $font-weight-normal;
-    height: $space-medium;
-    line-height: $space-medium;
-    margin: 0;
+    color: var(--color-body);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    height: var(--space-medium);
+    line-height: var(--space-medium);
+    margin: 0 var(--space-small);
     max-width: 96%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -89,32 +88,31 @@
     @include flex;
     flex-direction: column;
     position: absolute;
-    right: $space-normal;
-    top: $space-normal;
+    right: var(--space-normal);
+    top: var(--space-normal);
 
     .unread {
-      $unread-size: $space-normal;
       @include round-corner;
       @include light-shadow;
       background: darken($success-color, 3%);
-      color: $color-white;
+      color: var(--white);
       display: none;
-      font-size: $font-size-micro;
-      font-weight: $font-weight-black;
-      height: $unread-size;
-      line-height: $unread-size;
+      font-size: var(--font-size-micro);
+      font-weight: var(--font-weight-black);
+      height: var(--space-normal);
+      line-height: var(--space-normal);
       margin-left: auto;
-      margin-top: $space-smaller;
-      min-width: $unread-size;
-      padding: 0 $space-smaller;
+      margin-top: var(--space-smaller);
+      min-width: var(--space-normal);
+      padding: 0 var(--space-smaller);
       text-align: center;
     }
 
     .timestamp {
       color: $dark-gray;
-      font-size: $font-size-micro;
-      font-weight: $font-weight-normal;
-      line-height: $space-normal;
+      font-size: var(--font-size-micro);
+      font-weight: var(--font-weight-normal);
+      line-height: var(--space-normal);
       margin-left: auto;
     }
   }
@@ -125,11 +123,11 @@
     }
 
     .conversation--message {
-      font-weight: $font-weight-bold;
+      font-weight: var(--font-weight-bold);
     }
 
     .conversation--user {
-      font-weight: $font-weight-bold;
+      font-weight: var(--font-weight-bold);
     }
   }
 
