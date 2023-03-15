@@ -59,18 +59,18 @@
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Eventos de alerta:",
           "NONE": "Ninguna",
           "ASSIGNED": "Conversaciones asignadas",
           "ALL_CONVERSATIONS": "Todas las conversaciones"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Tono de alerta:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Condiciones de alerta:",
+          "CONDITION_ONE": "Enviar alertas de audio sólo si la ventana del navegador no está activa",
+          "CONDITION_TWO": "Enviar alertas cada 30s hasta que todas las conversaciones asignadas sean leídas"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación",
         "CONVERSATION_MENTION": "Enviar notificaciones por correo electrónico cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones por correo electrónico cuando se crea un nuevo mensaje en una conversación participante"
       },
       "API": {
         "UPDATE_SUCCESS": "Sus preferencias de notificación se actualizaron correctamente",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "Enviar notificaciones push cuando se crea una nueva conversación",
         "CONVERSATION_MENTION": "Enviar notificaciones push cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando un nuevo mensaja es creadao en una conversación asignada",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando se crea un nuevo mensaje en una conversación participante",
         "HAS_ENABLED_PUSH": "Ha habilitado notificaciones push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificaciones push"
       },
@@ -287,7 +287,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Ver todos los accesos rápidos",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversación",
       "RESOLVE_AND_NEXT": "Resolver y pasar al siguiente",
