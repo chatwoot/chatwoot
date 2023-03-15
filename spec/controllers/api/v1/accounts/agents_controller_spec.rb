@@ -62,7 +62,7 @@ RSpec.describe 'Agents API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'deletes an agent associated with one account' do
+      it 'deletes the agent and user object if associated with only one account' do
         perform_enqueued_jobs(only: DeleteObjectJob) do
           delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
                  headers: admin.create_new_auth_token,
@@ -74,7 +74,7 @@ RSpec.describe 'Agents API', type: :request do
         expect(User.count).to eq(account.reload.users.size)
       end
 
-      it 'deletes an agent associated with two account' do
+      it 'deletes only the agent object when user is associated with multiple account' do
         other_account = create(:account)
         create(:account_user, account_id: other_account.id, user_id: other_agent.id)
 
