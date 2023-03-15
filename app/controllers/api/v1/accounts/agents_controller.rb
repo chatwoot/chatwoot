@@ -19,6 +19,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def destroy
     @agent.current_account_user.destroy!
+    delete_user_record(@agent)
     head :ok
   end
 
@@ -73,5 +74,9 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def validate_limit
     render_payment_required('Account limit exceeded. Please purchase more licenses') if agents.count >= Current.account.usage_limits[:agents]
+  end
+
+  def delete_user_record(agent)
+    DeleteObjectJob.perform_later(agent) if agent.reload.account_users.blank?
   end
 end
