@@ -10,12 +10,7 @@
             }}</span>
           </span>
         </div>
-        <div
-          :class="{
-            'only-hover': showControlOnlyOnHover,
-            'card-header--control-area': true,
-          }"
-        >
+        <div class="card-header--control-area">
           <slot name="control" />
         </div>
       </slot>
@@ -42,10 +37,6 @@ export default {
       type: String,
       default: '',
     },
-    showControlOnlyOnHover: {
-      type: Boolean,
-      default: true,
-    },
     isLoading: {
       type: Boolean,
       default: false,
@@ -60,11 +51,23 @@ export default {
 <style lang="scss" scoped>
 .card {
   margin: var(--space-small) !important;
+
+  .card-header--control-area {
+    opacity: 0.2;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover {
+    .card-header--control-area {
+      opacity: 1;
+    }
+  }
 }
 
 .card-header {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(max-content, 50%));
+  gap: var(--space-small) 0px;
   flex-grow: 1;
   width: 100%;
   margin-bottom: var(--space-medium);
@@ -105,15 +108,6 @@ export default {
     align-items: center;
     justify-content: end;
     gap: var(--space-small);
-
-    // &.only-hover {
-    //   opacity: 0;
-    //   transition: opacity 0.2s ease-in-out;
-
-    //   &:hover {
-    //     opacity: 1;
-    //   }
-    // }
   }
 }
 
