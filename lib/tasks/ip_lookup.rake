@@ -4,7 +4,7 @@ namespace :ip_lookup do
   task setup: :environment do
     next if File.exist?(GeocoderConfiguration::LOOK_UP_DB)
 
-    ip_lookup_api_key = ENV.fetch('IP_LOOKUP_API_KEY')
+    ip_lookup_api_key = ENV.fetch('IP_LOOKUP_API_KEY', nil)
     next if ip_lookup_api_key.blank?
 
     puts '[rake ip_lookup:setup] Fetch GeoLite2-City database'
