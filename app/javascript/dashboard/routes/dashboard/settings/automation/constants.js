@@ -86,6 +86,11 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'report_spam',
+        name: 'Repore Spam',
+        attributeI18nKey: 'REPORT_SPAM',
+      },
     ],
   },
   conversation_created: {
@@ -489,5 +494,10 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'send_message',
     label: 'Send a message',
     inputType: 'textarea',
+  },
+  {
+    key: 'report_spam',
+    label: 'Repore Spam',
+    inputType: 'search_select',
   },
 ];

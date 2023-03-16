@@ -1,8 +1,9 @@
 class Conversations::DetectLanguageJob < ApplicationJob
   queue_as :default
 
-  def perform(message_id)
+  def perform(message_id, language_codes)
     @message = Message.find(message_id)
+    @language_codes = language_codes
 
     return if hook.blank?
 
@@ -21,7 +22,7 @@ class Conversations::DetectLanguageJob < ApplicationJob
     conversation = @message.conversation
     current_language = response.languages.first.language_code
     # rubocop:disable Rails/SkipsModelValidations
-    conversation.update_columns(status: :resolved) unless current_language == 'en'
+    conversation.update_columns(status: :resolved) unless @language_codes.include? current_language
     # rubocop:enable Rails/SkipsModelValidations
   end
 

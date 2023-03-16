@@ -595,7 +595,7 @@ describe AutomationRuleListener do
         name: 'Call actions message created',
         description: 'Conversation resolved on message event',
         conditions: [{ 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }],
-        actions: [{ 'action_name' => 'report_spam' }.with_indifferent_access]
+        actions: [{ 'action_name' => 'report_spam', 'action_params' => %w[en hi] }.with_indifferent_access]
       )
     end
 
