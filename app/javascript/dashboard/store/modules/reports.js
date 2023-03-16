@@ -179,6 +179,26 @@ export const actions = {
         console.error(error);
       });
   },
+  downloadAccountConversationHeatmap(_, reportObj) {
+    Report.getConversationTrafficCSV(reportObj)
+      .then(heatmapData => {
+        let { data } = heatmapData;
+        let parsedData = reconcileHeatmapData(
+          clampDataBetweenTimeline(data, reportObj.from, reportObj.to),
+          []
+        );
+
+        downloadCsvFile('Conversation Traffic', parsedData);
+
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'conversation_heatmap',
+          businessHours: false,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
 };
 
 const mutations = {
