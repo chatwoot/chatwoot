@@ -129,8 +129,12 @@ uk:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} з %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} від %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} від %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} від %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Нові повідомлення в цьому діалозі"
       transcript_subject: "Транскрипція діалогу"
     survey:
@@ -155,6 +159,9 @@ uk:
     fullcontact:
       name: "Fullcontact"
       description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Пошук статті за заголовком або змістом...
@@ -163,3 +170,14 @@ uk:
       results_title: Результати пошуку
     hero:
       sub_title: Шукайте тут або перегляньте категорії нижче.
+    common:
+      home: Головна
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: статті
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

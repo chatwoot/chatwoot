@@ -79,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
         "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications par courriel lorsque vous êtes mentionné dans une conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
@@ -92,6 +93,7 @@
         "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
         "CONVERSATION_MENTION": "Envoyer des notifications push lorsque vous êtes mentionné dans une conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications push lorsqu'un nouveau message est créé dans une conversation assignée",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
         "REQUEST_PUSH": "Activer les notifications push"
       },
@@ -192,6 +194,7 @@
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "Toutes les conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Sans suivi",
     "REPORTS": "Rapports",
     "SETTINGS": "Paramètres",
@@ -239,6 +242,7 @@
       "DRAFT": "Brouillon",
       "ARCHIVED": "Archivé",
       "CATEGORY": "Catégorie",
+      "SETTINGS": "Paramètres",
       "CATEGORY_EMPTY_MESSAGE": "Aucune catégorie trouvée"
     },
     "SET_AUTO_OFFLINE": {

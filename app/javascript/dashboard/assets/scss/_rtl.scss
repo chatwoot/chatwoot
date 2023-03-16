@@ -240,6 +240,11 @@
         }
       }
 
+      .assignee-label {
+        margin-left: 0;
+        margin-right: var(--space-one);
+      }
+
       .show-more--button {
         margin: unset;
         transform: rotate(180deg);
@@ -309,11 +314,6 @@
     .time-stamp {
       unicode-bidi: plaintext;
     }
-  }
-
-  // Labels
-  .label {
-    direction: initial;
   }
 
   // Notification panel

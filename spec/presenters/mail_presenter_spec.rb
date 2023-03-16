@@ -17,7 +17,7 @@ RSpec.describe MailPresenter do
 
     it 'give utf8 encoded content' do
       expect(decorated_mail.subject).to eq("Discussion: Let's debate these attachments")
-      expect(decorated_mail.text_content[:full]).to eq("Let's talk about these images:\r\n\r\n")
+      expect(decorated_mail.text_content[:full]).to eq("Let's talk about these images:\n\n")
     end
 
     it 'give decoded blob attachments' do

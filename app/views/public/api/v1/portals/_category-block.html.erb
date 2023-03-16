@@ -6,17 +6,16 @@
       </a>
     </h3>
     <span class="text-slate-500">
-      <%= category.articles.published.size %>
-      <%= category.articles.published.size === 1 ? 'article': 'articles' %>
+      <%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.order(position: :asc).size %>
     </span>
   </div>
   <div class="py-4 w-full mt-2 flex-grow">
     <% if category.articles.published.size == 0 %>
     <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl mb-4">
-      <p class="text-sm text-slate-500">No articles here</p>
+      <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
     </div>
     <% else %>
-      <% category.articles.published.take(5).each do |article| %>
+      <% category.articles.published.order(position: :asc).take(5).each do |article| %>
       <a
         class="text-slate-800 hover:underline leading-8"
         href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>"
@@ -47,7 +46,7 @@
       class="flex flex-row items-center text-base font-medium text-woot-500 hover:underline mt-4"
       style="color: <%= portal.color %>"
     >
-      View all articles
+      <%= I18n.t('public_portal.common.view_all_articles') %>
       <span class="ml-2">
         <svg
           class="w-4 h-4 fill-current text-woot-500"

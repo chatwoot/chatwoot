@@ -14,6 +14,11 @@
       "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije",
       "UNAUTH": "Korisničko ime / lozinka nije ispravna. Molim vas pokušajte ponovo"
     },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
     "FORGOT_PASSWORD": "Da li ste zaboravili lozinku?",
     "CREATE_NEW_ACCOUNT": "Napravite novi nalog",
     "SUBMIT": "Prijava"

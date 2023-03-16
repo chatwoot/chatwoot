@@ -4,31 +4,31 @@
     "HEADER_BTN_TXT": "הוסף תגובה מוכנה",
     "LOADING": "מביא תגובות שמורות",
     "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>תגובות מוכנות</b> </p><p> תגובות מוכנות הן תבניות לתגובה מהירה להודעות בצ'אטים שלך. </p><p> כדי להוסיף תגובה מוכנה, יש ללחוץ על <b> הוספת תגובה מוכנה </b> ניתן גם למחוק או לערוך תגובות קיימות </p><p> תגובות מוכנות עושות שימוש <b>בקוד מקוצר</b>. ניתן להציג את רשימת הקיצורים במהלך שיחה על ידי הקשת המקש <b>'/'</b> והקוד המקוצר לאחר מכן. </p>",
     "LIST": {
       "404": "אין תגובות מוכנות זמינות בחשבון זה.",
       "TITLE": "נהל תגובות מוכנות",
-      "DESC": "תגובות מוכנות הן תבניות תשובה מוגדרות מראש שבהן ניתן להשתמש כדי לשלוח במהירות תשובות לכרטיסים.",
+      "DESC": "תגובות מוכנות הן תבניות תשובה מוגדרות מראש שבהן ניתן להשתמש כדי לשלוח במהירות תשובות לשיחות.",
       "TABLE_HEADER": [
-        "קוד קצר",
+        "קוד מקוצר",
         "תוכן",
         "פעולות"
       ]
     },
     "ADD": {
       "TITLE": "הוסף תגובה מוכנה",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "התגובות המוכנות הם תבניות תשובה מהירה מוגדרות מראש שניתן להשתמש בהם על מנת לענות במהירות לשיחות.",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "קוד קצר",
-          "PLACEHOLDER": "נא להזין קוד קצר",
-          "ERROR": "קוד קצר נדרש"
+          "LABEL": "קוד מקוצר",
+          "PLACEHOLDER": "נא להזין קוד מקוצר",
+          "ERROR": "קוד מקוצר נדרש"
         },
         "CONTENT": {
           "LABEL": "תוכן",
           "PLACEHOLDER": "נא להזין תוכן",
-          "ERROR": "נא להזין תוכן"
+          "ERROR": "חובה להזין תוכן"
         },
         "SUBMIT": "שלח"
       },
@@ -42,27 +42,27 @@
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "קוד קצר",
-          "PLACEHOLDER": "נא להזין קוד קצר",
-          "ERROR": "קוד קצר נדרש"
+          "LABEL": "קוד מקוצר",
+          "PLACEHOLDER": "נא להזין קוד מקוצר",
+          "ERROR": "קוד מקוצר נדרש"
         },
         "CONTENT": {
           "LABEL": "תוכן",
           "PLACEHOLDER": "נא להזין תוכן",
-          "ERROR": "נא להזין תוכן"
+          "ERROR": "חובה להזין תוכן"
         },
         "SUBMIT": "שלח"
       },
       "BUTTON_TEXT": "ערוך",
       "API": {
-        "SUCCESS_MESSAGE": "התגובה המוכנה עודכנה בהצלחה",
+        "SUCCESS_MESSAGE": "תגובה מוכנה עודכנה בהצלחה",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "התגובה המוכנה נמחקה בהצלחה",
+        "SUCCESS_MESSAGE": "תגובה מוכנה נמחקה בהצלחה",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       },
       "CONFIRM": {
