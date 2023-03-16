@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
-import { downloadCsvFile } from '../../helper/downloadHelper';
+import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import {
@@ -181,14 +181,14 @@ export const actions = {
   },
   downloadAccountConversationHeatmap(_, reportObj) {
     Report.getConversationTrafficCSV(reportObj)
-      .then(heatmapData => {
-        let { data } = heatmapData;
-        let parsedData = reconcileHeatmapData(
-          clampDataBetweenTimeline(data, reportObj.from, reportObj.to),
-          []
+      .then(response => {
+        downloadCsvFile(
+          generateFileName({
+            type: 'Conversation traffic',
+            to: reportObj.to,
+          }),
+          response.data
         );
-
-        downloadCsvFile('Conversation Traffic', parsedData);
 
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'conversation_heatmap',
