@@ -35,6 +35,27 @@ describe Integrations::Dialogflow::ProcessorService do
       end
     end
 
+    context 'when dilogflow raises exception' do
+      it 'tracks hook into exception tracked' do
+        last_message = conversation.reload.messages.last.content
+        allow(dialogflow_service).to receive(:query_result).and_raise(StandardError)
+        processor.perform
+        expect(conversation.reload.messages.last.content).to eql(last_message)
+      end
+    end
+
+    context 'when dilogflow settings are not present' do
+      it 'will get empty response' do
+        last_count = conversation.reload.messages.count
+        allow(processor).to receive(:get_response).and_return({})
+        hook.settings = { 'project_id' => 'something_invalid', 'credentials' => {} }
+        hook.save!
+        processor.perform
+
+        expect(conversation.reload.messages.count).to eql(last_count)
+      end
+    end
+
     context 'when dialogflow returns fullfillment text to be empty' do
       let(:dialogflow_response) do
         ActiveSupport::HashWithIndifferentAccess.new(
@@ -115,6 +136,27 @@ describe Integrations::Dialogflow::ProcessorService do
       it 'returns submitted value for message content' do
         expect(processor.send(:message_content, message)).to eql('selected_gas')
       end
+    end
+  end
+
+  describe '#get_response' do
+    let(:google_dialogflow) { Google::Cloud::Dialogflow }
+    let(:session_client) { double }
+    let(:session) { double }
+    let(:query_input) { { text: { text: message, language_code: 'en-US' } } }
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+
+    before do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' })
+      allow(google_dialogflow).to receive(:sessions).and_return(session_client)
+      allow(session_client).to receive(:session_path).and_return(session)
+      allow(session_client).to receive(:detect_intent).and_return({ session: session, query_input: query_input })
+    end
+
+    it 'returns indented response' do
+      response = processor.send(:get_response, conversation.contact_inbox.source_id, message.content)
+      expect(response[:query_input][:text][:text]).to eq(message)
+      expect(response[:query_input][:text][:language_code]).to eq('en-US')
     end
   end
 end

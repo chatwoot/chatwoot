@@ -240,6 +240,11 @@
         }
       }
 
+      .assignee-label {
+        margin-left: 0;
+        margin-right: var(--space-one);
+      }
+
       .show-more--button {
         margin: unset;
         transform: rotate(180deg);
@@ -311,11 +316,6 @@
     }
   }
 
-  // Labels
-  .label {
-    direction: initial;
-  }
-
   // Notification panel
   .notification-wrap {
     left: 0;
@@ -354,12 +354,12 @@
     }
 
     thead th {
-      padding-left: var(--space-one);
+      padding-left: var(--space-small);
       padding-right: 0;
     }
 
     tbody td {
-      padding-left: var(--space-one);
+      padding-left: var(--space-small);
       padding-right: 0;
     }
   }

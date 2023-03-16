@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Angiv venligst dit navn og e-mail, før du starter samtalen",
-    "IS_REQUIRED": "er påkrævet"
+    "IS_REQUIRED": "er påkrævet",
+    "REQUIRED": "Påkrævet"
   },
   "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
   "CHAT_FORM": {

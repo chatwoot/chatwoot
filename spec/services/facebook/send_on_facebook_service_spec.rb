@@ -52,6 +52,14 @@ describe Facebook::SendOnFacebookService do
         expect(bot).to have_received(:deliver)
       end
 
+      it 'raise and exception to validate access token' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        allow(bot).to receive(:deliver).and_raise(Facebook::Messenger::FacebookError.new('message' => 'Error validating access token'))
+        ::Facebook::SendOnFacebookService.new(message: message).perform
+
+        expect(facebook_channel.authorization_error_count).to eq(1)
+      end
+
       it 'if message with attachment is sent from chatwoot and is outgoing' do
         message = build(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)

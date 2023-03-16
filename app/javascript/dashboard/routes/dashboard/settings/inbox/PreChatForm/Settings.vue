@@ -16,17 +16,19 @@
         </select>
       </label>
       <div v-if="preChatFormEnabled">
-        <label class="medium-3 columns">
-          {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
-          <textarea
-            v-model.trim="preChatMessage"
-            type="text"
+        <label class="columns medium-8  large-8">
+          <label>
+            {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
+          </label>
+          <woot-message-editor
+            v-model="preChatMessage"
+            class="message-editor"
             :placeholder="
               $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.PLACEHOLDER')
             "
           />
         </label>
-        <div class="medium-8 columns">
+        <div class="columns medium-8  large-8 pre-chat-fields">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
           <table class="table table-striped w-full">
             <thead class="thead-dark">
@@ -65,7 +67,10 @@
         </div>
       </div>
       <woot-submit-button
-        :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+        class="submit-button"
+        :button-text="
+          $t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')
+        "
         :loading="uiFlags.isUpdating"
       />
     </form>
@@ -76,10 +81,11 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import PreChatFields from './PreChatFields.vue';
 import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
-
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 export default {
   components: {
     PreChatFields,
+    WootMessageEditor,
   },
   mixins: [alertMixin],
   props: {
@@ -170,5 +176,12 @@ export default {
 }
 .pre-chat--title {
   margin: var(--space-medium) 0 var(--space-slab);
+}
+
+.submit-button {
+  margin-top: var(--space-normal);
+}
+.pre-chat-fields {
+  margin-top: var(--space-normal);
 }
 </style>

@@ -12,8 +12,8 @@
       },
       "TITLES": {
         "ALL_ARTICLES": "Todos los artículos",
-        "MINE": "Todos los artículos",
-        "DRAFT": "Borrador de artículos",
+        "MINE": "Mis artículos",
+        "DRAFT": "Articulos borradores",
         "ARCHIVED": "Artículos archivados"
       }
     },
@@ -27,6 +27,17 @@
       "CLOSE_SIDEBAR": "Cerrar barra lateral",
       "SAVING": "Guardando...",
       "SAVED": "Guardado"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Subir imagen",
+        "UPLOADING": "Subiendo...",
+        "SUCCESS": "Imagen subida con éxito",
+        "ERROR": "Error al subir la imagen",
+        "ERROR_FILE_SIZE": "El tamaño de la imagen debe ser menor que {size}MB",
+        "ERROR_FILE_FORMAT": "El formato de la imagen debe ser jpg, jpeg o png",
+        "ERROR_FILE_DIMENSIONS": "Las dimensiones de la imagen deben ser menores de 2000 x 2000"
+      }
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Ajustes del artículo",
@@ -66,7 +77,7 @@
     "PORTAL": {
       "HEADER": "Portales",
       "DEFAULT": "Predeterminado",
-      "NEW_BUTTON": "Nuevo Portal",
+      "NEW_BUTTON": "Portal Nuevo",
       "ACTIVE_BADGE": "activo",
       "CHOOSE_LOCALE_LABEL": "Elige un idioma",
       "LOADING_MESSAGE": "Cargando portales...",

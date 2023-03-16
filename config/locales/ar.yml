@@ -129,8 +129,12 @@ ar:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} من %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} من %{inbox_name} <%{reply_email}>'
+          from_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} من %{inbox_name} <%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} من %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"
     survey:
@@ -155,6 +159,9 @@ ar:
     fullcontact:
       name: "الاتصال الكامل"
       description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -163,3 +170,14 @@ ar:
       results_title: Search results
     hero:
       sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: الرئيسية
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: المقالات
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

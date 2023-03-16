@@ -39,5 +39,24 @@ describe  ::Messages::Facebook::MessageBuilder do
 
       expect(facebook_channel.authorization_error_count).to eq(2)
     end
+
+    it 'raises exception for non profile account' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError.new(400, '',
+                                                                                          {
+                                                                                            'type' => 'OAuthException',
+                                                                                            'message' => '(#100) No profile available for this user.',
+                                                                                            'error_subcode' => 2_018_218,
+                                                                                            'code' => 100
+                                                                                          }))
+      message_builder
+
+      contact = facebook_channel.inbox.contacts.first
+      # Refer: https://github.com/chatwoot/chatwoot/pull/3016 for this check
+      default_name = 'John Doe'
+
+      expect(facebook_channel.inbox.reload.contacts.count).to eq(1)
+      expect(contact.name).to eq(default_name)
+    end
   end
 end

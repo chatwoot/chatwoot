@@ -82,6 +82,7 @@
       "conversation_creation": "Nouvelle conversation",
       "conversation_assignment": "Conversation assignée",
       "assigned_conversation_new_message": "Nouveau message",
+      "participating_conversation_new_message": "Nouveau message",
       "conversation_mention": "Mention"
     }
   },

@@ -65,7 +65,8 @@
       }
     },
     "CAMPAIGN_HEADER": "Преди да започенте разговора, моля, посочете вашето име и имейл адрес",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Файлът надхвърля {MAXIMUM_FILE_UPLOAD_SIZE} лимит",
   "CHAT_FORM": {
