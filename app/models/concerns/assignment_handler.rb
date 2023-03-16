@@ -16,6 +16,10 @@ module AssignmentHandler
     self.assignee ||= find_assignee_from_team
   end
 
+  def assignee_has_access_to_inbox
+    inbox.assignable_agents.include?(assignee_id)
+  end
+
   def validate_current_assignee_team
     self.assignee_id = nil if team&.members&.exclude?(assignee)
   end
@@ -51,8 +55,9 @@ module AssignmentHandler
   end
 
   def process_participant_assignment
-    return unless (saved_change_to_assignee_id? || assignee_id_before_last_save.blank?) && assignee_id.present?
+    return unless saved_change_to_assignee_id? || assignee_id_before_last_save.blank?
+    return unless assignee_has_access_to_inbox
 
-    conversation_participants.find_or_create_by!(user_id: assignee_id)
+    conversation_participants.find_or_create_by!(user_id: assignee_id) if assignee_id.present?
   end
 end
