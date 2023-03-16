@@ -129,8 +129,12 @@ el:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} από %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} από %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} από %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} από %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} από %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
       transcript_subject: "Μεταγραφή Συνομιλίας"
     survey:
@@ -155,6 +159,9 @@ el:
     fullcontact:
       name: "Πλήρης Επαφή"
       description: "Το FullContact Indegration βοηθά στον εμπλουτισμό προφίλ επισκεπτών. Προσδιορίστε τους χρήστες μόλις μοιραστούν τη διεύθυνση ηλεκτρονικού ταχυδρομείου τους και να τους προσφέρουν προσαρμοσμένη εξυπηρέτηση πελατών. Συνδέστε το FullContact με το λογαριασμό σας, κοινοποιώντας το κλειδί API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...
@@ -163,3 +170,14 @@ el:
       results_title: Αποτελέσματα Αναζήτησης
     hero:
       sub_title: Αναζητήστε τα άρθρα εδώ ή περιηγηθείτε στις κατηγορίες παρακάτω.
+    common:
+      home: Αρχική
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: άρθρα
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

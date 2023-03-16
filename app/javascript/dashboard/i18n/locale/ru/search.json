@@ -1,0 +1,23 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Все",
+      "CONTACTS": "Контакты",
+      "CONVERSATIONS": "Диалоги",
+      "MESSAGES": "Сообщения"
+    },
+    "SECTION": {
+      "CONTACTS": "Контакты",
+      "CONVERSATIONS": "Диалоги",
+      "MESSAGES": "Сообщения"
+    },
+    "EMPTY_STATE": "Не найдено %{item} для запроса '%{query}'",
+    "EMPTY_STATE_FULL": "Ничего не найдено по запросу '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ фокусироваться",
+    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "BOT_LABEL": "Бот",
+    "READ_MORE": "Читать далее",
+    "WROTE": "написал:"
+  }
+}

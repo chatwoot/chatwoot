@@ -25,7 +25,7 @@
   // 1025,8025 mailhog
   "forwardPorts": [8025, 3000, 3035],
 
-  "postCreateCommand": ".devcontainer/scripts/setup.sh && bundle exec rake db:chatwoot_prepare && yarn",
+  "postCreateCommand": ".devcontainer/scripts/setup.sh && POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:chatwoot_prepare && yarn",
   "portsAttributes": {
     "3000": {
       "label": "Rails Server"

@@ -82,6 +82,7 @@
       "conversation_creation": "Nová konverzace",
       "conversation_assignment": "Přiřazená konverzace",
       "assigned_conversation_new_message": "Nová zpráva",
+      "participating_conversation_new_message": "Nová zpráva",
       "conversation_mention": "Zmínka"
     }
   },

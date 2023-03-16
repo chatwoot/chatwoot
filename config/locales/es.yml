@@ -45,7 +45,7 @@ es:
       locale:
         unique: debe ser único en la categoría y el portal
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Tipo de mensaje inválido. Acción no permitida"
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
@@ -129,8 +129,12 @@ es:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} de %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nuevos mensajes en esta conversación"
       transcript_subject: "Transcripción de la conversación"
     survey:
@@ -141,8 +145,8 @@ es:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte es una herramienta que te ayuda a agregar audio y vídeo en vivo a tu aplicación con unas pocas líneas de código. Esta integración le permite dar una opción a sus agentes para tener una videollamada o llamada de voz con sus clientes sin salir de Chatwoot."
+      meeting_name: "%{agent_name} ha iniciado una reunión"
     slack:
       name: "Slack"
       description: "Slack es una herramienta de chat que reúne toda su comunicación en un solo lugar. Al integrar Slack, puede ser notificado de todas las nuevas conversaciones en su cuenta directamente dentro de su Slack."
@@ -155,6 +159,9 @@ es:
     fullcontact:
       name: "Nombre completo"
       description: "La integración con FullContact enriquece los perfiles de los visitantes. Identifique a los usuarios tan pronto compartan la dirección de correo electrónico y ofrezca un servicio al cliente personalizado. Conecte su cuenta de FullContact usando al clave de la API."
+    google_translate:
+      name: "Traductor de Google"
+      description: "Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta."
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...
@@ -163,3 +170,14 @@ es:
       results_title: Buscar resultados
     hero:
       sub_title: Busque aquí los artículos o busque las categorías de abajo.
+    common:
+      home: Inicio
+      last_updated_on: Última actualización el %{last_updated_on}
+      view_all_articles: Ver todos los artículos
+      article: artículo
+      articles: artículos
+      no_articles: No hay artículos aquí
+    footer:
+      made_with: Hecho con
+    header:
+      go_to_homepage: Ir al sitio principal

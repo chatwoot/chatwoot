@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "שם תיבת הדואר הנכנס",
         "PLACEHOLDER": "הזן את שם תיבת הדואר הנכנס שלך (למשל: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "נא הכנס שם תקני לתיבת הדואר"
       },
       "WEBSITE_NAME": {
         "LABEL": "שם האתר",
@@ -50,7 +50,7 @@
         "HELP": "כדי להוסיף את פרופיל הטוויטר שלך כערוץ, עליך לאמת את פרופיל הטוויטר שלך על ידי לחיצה על 'היכנס באמצעות טוויטר' ",
         "ERROR_MESSAGE": "אירעה שגיאה בחיבור לטוויטר, אנא נסה שוב",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "צור שיחות מהציוצים המוזכרים"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "אפשר ברכה בערוץ",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "שלח הודעת פתיחה אוטומטית ביצירת שיחה חדשה.",
           "ENABLED": "מופעל",
           "DISABLED": "כבוי"
         },
@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "צור תיבת דואר נכנס",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "יצירת ערוץ אתר אינטרנט נכשלה, אנא נסה שנית"
         }
       },
       "TWILIO": {
@@ -112,10 +112,10 @@
           "ERROR": "שדה חובה"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "ערוץ הודעות SID",
+          "PLACEHOLDER": "נא הכנס מזהה Twilio Messaging Service SID",
           "ERROR": "שדה חובה",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "השתמש ב- Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "סוג ערוץ",
@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "מספר טלפון",
           "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "נא ספק מספר טלפון תקני שמתחיל ב- '+' ולא מכיל רווחים."
         },
         "API_CALLBACK": {
           "TITLE": "כתובת אתר להתקשרות חוזרת",
@@ -146,35 +146,35 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "ערוץ SMS",
+        "DESC": "התחל לתמוך בלקוחותיך באמצעות SMS.",
         "PROVIDERS": {
           "LABEL": "ספק API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "שמירת ערוץ ה-SMS נכשלה"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "מזהה חשבון",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "נא הכנס את מזהה ה- Bandwidth Account ID שלך",
             "ERROR": "שדה חובה"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "API key",
+            "PLACEHOLDER": "נא הכנס את ה- Bandwith API Key שלך",
             "ERROR": "שדה חובה"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "נא הכנס את ה- Bandwith API Secret שלך",
             "ERROR": "שדה חובה"
           },
           "APPLICATION_ID": {
             "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "PLACEHOLDER": "נא הכנס את מזהה ה-Bandwidth Application ID שלך",
             "ERROR": "שדה חובה"
           },
           "INBOX_NAME": {
@@ -185,15 +185,15 @@
           "PHONE_NUMBER": {
             "LABEL": "מספר טלפון",
             "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "נא ספק מספר טלפון תקני שמתחיל ב- '+' ולא מכיל רווחים."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "צור ערוץ Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "לא הצלחנו לאמת את פרטי חשבון ה-Bandwidth שלך, אנא נסה שנית"
           },
           "API_CALLBACK": {
             "TITLE": "כתובת אתר להתקשרות חוזרת",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "עליך להגדיר את ה- message callback URL ב- Bandwidth עם ה-URL שמוצג כאן."
           }
         }
       },
@@ -214,21 +214,21 @@
         "PHONE_NUMBER": {
           "LABEL": "מספר טלפון",
           "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "נא ספק מספר טלפון תקני שמתחיל ב- '+' ולא מכיל רווחים."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "PLACEHOLDER": "נא הכנס את Phone number ID מתוך ממשק ה- Facebook developer.",
           "ERROR": "אנא הכנס ערך תקין."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "PLACEHOLDER": "נא הכנס את Business Account ID מתוך ממשק ה- Facebook developer.",
           "ERROR": "אנא הכנס ערך תקין."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "נא הכנס verify token שברצונך להגדיר עבור facebook webhooks.",
           "ERROR": "אנא הכנס ערך תקין."
         },
         "API_KEY": {
@@ -239,7 +239,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "כתובת אתר להתקשרות חוזרת",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "עליך להגדיר את ה- webhook URL ואת ה- verification token הבאים בממשק ה- Facebook Developer.",
           "WEBHOOK_URL": "Webhook URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "בחר ערוץ",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "אנו תומכים בווידג'ט של צ'אט חי, עמוד פייסבוק, פרופיל טוויטר, WhatsApp, דוא\"ל וכו', כערוצי תקשורת. אם אתה רוצה לבנות ערוץ מותאם אישית, אתה יכול ליצור אותו באמצעות ערוץ ה-API. בחר ערוץ אחד מהאפשרויות מטה כדי להמשיך."
       },
       "AGENTS": {
         "TITLE": "סוכנים",
@@ -346,15 +346,15 @@
         "DESC": "סיימת בהצלחה לשלב את דף הפייסבוק שלך עם Chatwoot. בפעם הבאה שלקוח ישלח הודעה לדף שלך, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך.<br>אנחנו גם מספקים לך סקריפט ווידג'ט שתוכל להוסיף בקלות לאתר שלך. ברגע שזה פעיל באתר שלך, לקוחות יכולים לשלוח לך הודעות ישירות מהאתר שלך ללא עזרה של כל כלי חיצוני והשיחה תופיע ממש כאן, ב-Chatwoot.<br>מגניב, הא? ובכן, אנחנו בטוח מנסים להיות :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "בחר את ספק הדוא\"ל שלך",
+        "DESCRIPTION": "בחר את ספק הדוא\"ל שלך מהרשימה מטה. אם אתה לא מוצא את ספק הדוא\"ל שלך ברשימה, תוכל לבחור את אפשרות \"ספק אחר\" ולספק את הגדרות ה- IMAP ו-SMTP."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESCRIPTION": "לחץ על Sign in with Microsoft בכדי להתחיל. אתה תופנה למסך ההתחברות של Microsoft. ברגע שתאשר את בקשת ההרשאות, תופנה חזרה להגדרות תיבת הדואר.",
+        "EMAIL_PLACEHOLDER": "הכנס כתובת דוא\"ל",
+        "HELP": "בכדי להוסיף חשבון Microsoft כערוץ, עליך להתחבר לחשבונך ע\"י לחיצה על 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "אירעה שגיאה בהתחברות ל- Microsoft, אנא נסה שנית"
       }
     },
     "DETAILS": {
@@ -381,7 +381,7 @@
       "API": {
         "SUCCESS_MESSAGE": "הגדרות תיבת הדואר הנכנס עודכנו בהצלחה",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ההקצאה האוטומטית עודכנה בהצלחה",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "לא הצלחנו לעדכן את הגדרות תיבת הדואר שלך, אנא נסה שנית מאוחר יותר."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "מופעל",
@@ -432,31 +432,31 @@
       "PRE_CHAT_FORM": "טופס צ'אט מקדים",
       "BUSINESS_HOURS": "שעות פעילות",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "הגדרות בוט"
     },
     "SETTINGS": "הגדרות",
     "FEATURES": {
       "LABEL": "מאפיינים",
       "DISPLAY_FILE_PICKER": "הצג את בוחר הקבצים בווידג'ט",
       "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "אפשר למשתמשים לסיים שיחות באמצעות ה- Widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "סקריפט מסנג'ר",
       "MESSENGER_SUB_HEAD": "מקם את הכפתור הזה בתוך תג הגוף שלך",
       "INBOX_AGENTS": "סוכנים",
       "INBOX_AGENTS_SUB_TEXT": "הוסף או הסר נציגים מתיבת הדואר הנכנס הזו",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "שיוך שיחה",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "עדכן הגדרות שיוך שיחה",
       "UPDATE": "עדכן",
       "ENABLE_EMAIL_COLLECT_BOX": "אפשר תיבת איסוף דוא\"ל",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "הפעל או השבת את תיבת איסוף הדוא\"ל בשיחה חדשה",
       "AUTO_ASSIGNMENT": "אפשר הקצאה אוטומטית",
       "ENABLE_CSAT": "אפשר CSAT",
       "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "אפשר המשך שיחה באמצעות הדוא\"ל",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "שיחות ימשיכו באמצעות הדוא\"ל אם לאיש הקשר קיימת כתובת דוא\"ל תקנית.",
+      "LOCK_TO_SINGLE_CONVERSATION": "נעל לשיחה בודדת",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
@@ -473,10 +473,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_TITLE": "API key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "עדכן"
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "עדכן",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
