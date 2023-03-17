@@ -46,7 +46,7 @@
             {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
           </woot-button>
         </woot-dropdown-item>
-        <woot-dropdown-item v-if="showCannedResponseOption">
+        <woot-dropdown-item>
           <woot-button
             variant="clear"
             size="small"
@@ -54,13 +54,12 @@
             color-scheme="secondary"
             @click="copyLinkToMessage"
           >
-            Copy Permalink
+            {{ $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK') }}
           </woot-button>
         </woot-dropdown-item>
 
-        <woot-dropdown-item>
+        <woot-dropdown-item v-if="showCannedResponseOption">
           <woot-button
-            v-if="showCannedResponseOption"
             variant="clear"
             size="small"
             icon="comment-add"

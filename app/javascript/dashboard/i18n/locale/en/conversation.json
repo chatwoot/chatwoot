@@ -166,7 +166,8 @@
       "COPY": "Copy",
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
-      "TRANSLATE": "Translate"
+      "TRANSLATE": "Translate",
+      "COPY_PERMALINK": "Copy Permalink"
     }
   },
   "EMAIL_TRANSCRIPT": {
