@@ -38,13 +38,19 @@ module Api::V2::Accounts::ReportsHelper
       business_hours: false
     }
     data = V2::ReportBuilder.new(Current.account, report_params).build
+
     # data format is { timestamp: 1231242342, value: 3}
     # we need to convert it to { date: "2020-01-01", hour: 12, value: 3}
+    #
+    # since the data from the report builder is already timezone aware,
+    # the conversion to date and hour is done without timezone
+    # rubocop:disable Rails/TimeZone
     data.map do |d|
       date = Time.at(d[:timestamp]).to_date
       hour = Time.at(d[:timestamp]).hour
       [date, hour, d[:value]]
     end
+    # rubocop:enable Rails/TimeZone
   end
 
   def generate_report(report_params)
