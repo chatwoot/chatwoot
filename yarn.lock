@@ -1393,7 +1393,7 @@
 
 "@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#ebbf09d6ebd9138cdf2bb47257bb02ebbf01af53"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#3306cdb220797090ce41ea607174e940330177e1"
   dependencies:
     prosemirror-commands "^1.1.4"
     prosemirror-dropcursor "^1.3.2"
