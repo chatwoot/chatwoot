@@ -93,6 +93,10 @@ en:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      date: Date
+      hour: Hour of the day
+      conversations_count: Conversations count
     default_group_by: day
     csat:
       headers:
