@@ -94,6 +94,7 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              patch :custom_attributes, to: 'conversations#patch_custom_attributes'
             end
           end
 
