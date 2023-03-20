@@ -86,11 +86,6 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
-      {
-        key: 'report_spam',
-        name: 'Repore Spam',
-        attributeI18nKey: 'REPORT_SPAM',
-      },
     ],
   },
   conversation_created: {
@@ -134,6 +129,13 @@ export const AUTOMATIONS = {
         key: 'inbox_id',
         name: 'Inbox',
         attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'current_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
@@ -254,6 +256,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'current_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'VALID_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
     ],
     actions: [
       {
@@ -361,6 +370,13 @@ export const AUTOMATIONS = {
         key: 'inbox_id',
         name: 'Inbox',
         attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'current_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'VALID_LANGUAGE',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
@@ -494,10 +510,5 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'send_message',
     label: 'Send a message',
     inputType: 'textarea',
-  },
-  {
-    key: 'report_spam',
-    label: 'Repore Spam',
-    inputType: 'search_select',
   },
 ];

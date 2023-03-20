@@ -97,17 +97,10 @@ export const generateConditionOptions = (options, key = 'id') => {
   });
 };
 
-export const getActionOptions = ({
-  agents,
-  teams,
-  labels,
-  languages,
-  type,
-}) => {
+export const getActionOptions = ({ agents, teams, labels, type }) => {
   const actionsMap = {
     assign_agent: agents,
     assign_team: teams,
-    report_spam: languages,
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
   };
@@ -143,6 +136,7 @@ export const getConditionOptions = ({
     team_id: teams,
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
+    current_language: languages,
     country_code: countries,
     message_type: MESSAGE_CONDITION_VALUES,
   };

@@ -208,6 +208,7 @@ class Message < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     if outgoing? && first_human_response? && not_created_by_automation?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+      Conversations::DetectLanguageJob.perform_later(message.id)
     end
   end
 
