@@ -130,7 +130,7 @@ export const actions = {
     try {
       const isExistingKeyValid = await InboxesAPI.validateCacheKey(newKey);
       if (!isExistingKeyValid) {
-        const response = await InboxesAPI.refetchAndCommit();
+        const response = await InboxesAPI.refetchAndCommit(newKey);
         commit(types.default.SET_INBOXES, response.data.payload);
       }
     } catch (error) {

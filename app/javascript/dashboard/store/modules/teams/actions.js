@@ -26,7 +26,7 @@ export const actions = {
     try {
       const isExistingKeyValid = await TeamsAPI.validateCacheKey(newKey);
       if (!isExistingKeyValid) {
-        const response = await TeamsAPI.refetchAndCommit();
+        const response = await TeamsAPI.refetchAndCommit(newKey);
         commit(SET_TEAMS, response.data);
       }
     } catch (error) {

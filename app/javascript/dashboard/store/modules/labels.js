@@ -33,7 +33,7 @@ export const actions = {
     try {
       const isExistingKeyValid = await LabelsAPI.validateCacheKey(newKey);
       if (!isExistingKeyValid) {
-        const response = await LabelsAPI.refetchAndCommit();
+        const response = await LabelsAPI.refetchAndCommit(newKey);
         commit(types.SET_LABELS, response.data.payload);
       }
     } catch (error) {
