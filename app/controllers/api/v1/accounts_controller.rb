@@ -1,5 +1,6 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
+  include CacheKeysHelper
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
@@ -51,26 +52,12 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
-  def get_prefixed_cache_key(key)
-    "idb-cache-key-account-#{params[:id]}-#{key}"
-  end
-
   def get_cache_keys
     {
-      label: fetch_value_for_key(Label.name.underscore),
-      inbox: fetch_value_for_key(Inbox.name.underscore),
-      team: fetch_value_for_key(Team.name.underscore)
+      label: fetch_value_for_key(params[:id], Label.name.underscore),
+      inbox: fetch_value_for_key(params[:id], Inbox.name.underscore),
+      team: fetch_value_for_key(params[:id], Team.name.underscore)
     }
-  end
-
-  def fetch_value_for_key(key)
-    prefixed_cache_key = get_prefixed_cache_key(key)
-    value_from_cache = Redis::Alfred.get(prefixed_cache_key)
-
-    return value_from_cache if value_from_cache.present?
-
-    # zero epoch time: 1970-01-01 00:00:00 UTC
-    '0000000000'
   end
 
   def fetch_account

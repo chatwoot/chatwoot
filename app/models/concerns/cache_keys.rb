@@ -1,26 +1,14 @@
 module CacheKeys
   extend ActiveSupport::Concern
+
+  include CacheKeysHelper
   include Events::Types
-
-  def get_prefixed_cache_key(key)
-    "idb-cache-key-#{self.class.name.underscore}-#{id}-#{key}"
-  end
-
-  def fetch_value_for_key(key)
-    prefixed_cache_key = get_prefixed_cache_key(key)
-    value_from_cache = Redis::Alfred.get(prefixed_cache_key)
-
-    return value_from_cache if value_from_cache.present?
-
-    # zero epoch time: 1970-01-01 00:00:00 UTC
-    '0000000000'
-  end
 
   def cache_keys
     {
-      label: fetch_value_for_key(Label.name.underscore),
-      inbox: fetch_value_for_key(Inbox.name.underscore),
-      team: fetch_value_for_key(Team.name.underscore)
+      label: fetch_value_for_key(id, Label.name.underscore),
+      inbox: fetch_value_for_key(id, Inbox.name.underscore),
+      team: fetch_value_for_key(id, Team.name.underscore)
     }
   end
 
