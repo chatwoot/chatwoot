@@ -21,6 +21,7 @@ lv:
   messages:
     reset_password_success: Urā! Paroles atiestatīšanas pieprasījums ir veiksmīgs. Pārbaudiet savu e-pastu, lai iegūtu norādījumus.
     reset_password_failure: Ak, vai! Mēs nevarējām atrast nevienu lietotāju ar norādīto e -pastu.
+    inbox_deletetion_response: Jūsu iesūtnes dzēšanas pieprasījums pēc kāda laika tiks apstrādāts.
   errors:
     validations:
       presence: nedrīkst būt tukšs
@@ -57,6 +58,7 @@ lv:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
+    utc_warning: Izveidotais pārskats atbilst UTC laika joslai
     agent_csv:
       agent_name: Aģenta vārds
       conversations_count: Sarunu skaits
@@ -78,6 +80,9 @@ lv:
       conversations_count: Sarunu skaits
       avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
       avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
+    conversation_traffic_csv:
+      date: Datums un laiks
+      conversations_count: Sarunu skaits
     default_group_by: diena
     csat:
       headers:
