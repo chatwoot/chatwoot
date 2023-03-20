@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Inboxes API', type: :request do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
@@ -250,9 +252,11 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'delete inbox avatar for administrator user' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
-               headers: admin.create_new_auth_token,
-               as: :json
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
 
         expect { inbox.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
@@ -283,12 +287,16 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes inbox' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
-               headers: admin.create_new_auth_token,
-               as: :json
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
+
+        json_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
-        expect { inbox.reload }.to raise_exception(ActiveRecord::RecordNotFound)
+        expect(json_response['message']).to eq('Your inbox deletion request will be processed in some time.')
       end
 
       it 'is unable to delete inbox of another account' do

@@ -47,7 +47,7 @@
             </p>
           </div>
           <div v-else class="empty text-center">
-            <p class="text-center">
+            <p class="text-center margin-bottom-0">
               <fluent-icon icon="search" size="24px" class="icon" />
             </p>
             <p class="empty-state__text">
@@ -202,23 +202,21 @@ export default {
 }
 .search-root {
   margin: 0 auto;
-  max-width: 64rem;
+  max-width: 72rem;
   min-height: 48rem;
   width: 100%;
   height: fit-content;
-  box-shadow: var(--shadow);
+  padding: var(--space-normal);
   display: flex;
   position: relative;
   flex-direction: column;
   background: white;
-  border-radius: var(--border-radius-large);
+  overflow-y: auto;
   margin-top: var(--space-large);
-  border-top: 1px solid var(--s-25);
+
   .search-results {
     flex-grow: 1;
     height: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
     padding: 0 var(--space-small);
   }
 }
@@ -230,6 +228,7 @@ export default {
   justify-content: center;
   padding: var(--space-medium) var(--space-normal);
   border-radius: var(--border-radius-medium);
+  margin-top: var(--space-large);
   .icon {
     color: var(--s-500);
   }
