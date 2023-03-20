@@ -101,9 +101,12 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(
-          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE')
-        );
+        const errorMessage = error?.message;
+        this.alertMessage =
+          errorMessage ||
+          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
       }
     },
   },
