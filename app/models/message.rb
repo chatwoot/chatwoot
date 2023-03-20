@@ -197,6 +197,7 @@ class Message < ApplicationRecord
   def first_human_response?
     conversation.messages.outgoing
                 .where.not(sender_type: 'AgentBot')
+                .where(private: false)
                 .where("(additional_attributes->'campaign_id') is null").count == 1
   end
 
