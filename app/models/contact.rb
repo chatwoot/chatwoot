@@ -136,9 +136,7 @@ class Contact < ApplicationRecord
   end
 
   def self.resolved_contacts
-    where.not(email: [nil, '']).or(
-      Current.account.contacts.where.not(phone_number: [nil, ''])
-    ).or(Current.account.contacts.where.not(identifier: [nil, '']))
+    where("COALESCE(NULLIF(contacts.email,''),NULLIF(contacts.phone_number,''),NULLIF(contacts.identifier,'')) IS NOT NULL")
   end
 
   def discard_invalid_attrs

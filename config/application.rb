@@ -14,8 +14,13 @@ Bundler.require(*Rails.groups)
 Dotenv::Railtie.load
 require 'ddtrace' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
 require 'elastic-apm' if ENV.fetch('ELASTIC_APM_SECRET_TOKEN', false).present?
-require 'newrelic_rpm' if ENV.fetch('NEW_RELIC_LICENSE_KEY', false).present?
 require 'scout_apm' if ENV.fetch('SCOUT_KEY', false).present?
+
+if ENV.fetch('NEW_RELIC_LICENSE_KEY', false).present?
+  require 'newrelic-sidekiq-metrics'
+  require 'newrelic_rpm'
+end
+
 if ENV.fetch('SENTRY_DSN', false).present?
   require 'sentry-ruby'
   require 'sentry-rails'

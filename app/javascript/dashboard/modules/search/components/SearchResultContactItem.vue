@@ -19,8 +19,8 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 export default {
   props: {
     id: {
-      type: String,
-      default: '',
+      type: [String, Number],
+      default: 0,
     },
     email: {
       type: String,
@@ -39,8 +39,8 @@ export default {
       default: '',
     },
     accountId: {
-      type: String,
-      default: '',
+      type: [String, Number],
+      default: 0,
     },
   },
   computed: {
@@ -64,7 +64,7 @@ export default {
   }
 }
 .contact-details {
-  margin-left: var(--space-normal);
+  margin-left: var(--space-small);
 }
 .name {
   margin: 0;

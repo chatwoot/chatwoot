@@ -7,10 +7,7 @@ class Webhooks::Trigger
       timeout: 5
     )
     Rails.logger.info "Performed Request:  Code - #{response.code}"
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, URI::InvalidURIError => e
-    Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
   rescue StandardError => e
-    Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
-    ChatwootExceptionTracker.new(e).capture_exception
+    Rails.logger.warn "Exception: invalid webhook url #{url} : #{e.message}"
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_02_054408) do
+ActiveRecord::Schema.define(version: 2023_03_15_105847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 2023_03_02_054408) do
     t.bigint "associated_article_id"
     t.jsonb "meta", default: {}
     t.string "slug", null: false
+    t.integer "position"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
@@ -153,26 +154,26 @@ ActiveRecord::Schema.define(version: 2023_03_02_054408) do
     t.index ["message_id"], name: "index_attachments_on_message_id"
   end
 
-  create_table 'audits', force: :cascade do |t|
-    t.bigint 'auditable_id'
-    t.string 'auditable_type'
-    t.bigint 'associated_id'
-    t.string 'associated_type'
-    t.bigint 'user_id'
-    t.string 'user_type'
-    t.string 'username'
-    t.string 'action'
-    t.jsonb 'audited_changes'
-    t.integer 'version', default: 0
-    t.string 'comment'
-    t.string 'remote_address'
-    t.string 'request_uuid'
-    t.datetime 'created_at'
-    t.index %w[associated_type associated_id], name: 'associated_index'
-    t.index %w[auditable_type auditable_id version], name: 'auditable_index'
-    t.index ['created_at'], name: 'index_audits_on_created_at'
-    t.index ['request_uuid'], name: 'index_audits_on_request_uuid'
-    t.index %w[user_id user_type], name: 'user_index'
+  create_table "audits", force: :cascade do |t|
+    t.bigint "auditable_id"
+    t.string "auditable_type"
+    t.bigint "associated_id"
+    t.string "associated_type"
+    t.bigint "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.jsonb "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "automation_rules", force: :cascade do |t|
@@ -447,6 +448,7 @@ ActiveRecord::Schema.define(version: 2023_03_02_054408) do
     t.datetime "assignee_last_seen_at"
     t.datetime "first_reply_created_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
+    t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
@@ -575,6 +577,7 @@ ActiveRecord::Schema.define(version: 2023_03_02_054408) do
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
+    t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
   end
 
   create_table "installation_configs", force: :cascade do |t|
@@ -816,6 +819,7 @@ ActiveRecord::Schema.define(version: 2023_03_02_054408) do
   create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "taggings_count", default: 0
+    t.index "lower((name)::text) gin_trgm_ops", name: "tags_name_trgm_idx", using: :gin
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 

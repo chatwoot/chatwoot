@@ -4,7 +4,7 @@ ruby '3.1.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6.1', '>= 6.1.7.1'
+gem 'rails', '~> 6.1', '>= 6.1.7.3'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -101,6 +101,7 @@ gem 'google-cloud-dialogflow'
 gem 'ddtrace', require: false
 gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
+gem 'newrelic-sidekiq-metrics', require: false
 gem 'scout_apm', require: false
 gem 'sentry-rails', require: false
 gem 'sentry-ruby', require: false

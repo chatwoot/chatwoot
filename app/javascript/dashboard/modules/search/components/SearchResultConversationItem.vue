@@ -17,10 +17,10 @@
           </div>
         </div>
         <div>
-          <span>{{ createdAtTime }}</span>
+          <span class="created-at">{{ createdAtTime }}</span>
         </div>
       </div>
-      <h5 class="text-block-title name">
+      <h5 v-if="name" class="text-block-title name">
         <span class="pre-text">from:</span>
         {{ name }}
       </h5>
@@ -41,12 +41,8 @@ export default {
   mixins: [timeMixin],
   props: {
     id: {
-      type: String,
-      default: '',
-    },
-    email: {
-      type: String,
-      default: '',
+      type: Number,
+      default: 0,
     },
     inbox: {
       type: Object,
@@ -56,12 +52,8 @@ export default {
       type: String,
       default: '',
     },
-    thumbnail: {
-      type: String,
-      default: '',
-    },
     accountId: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     createdAt: {
@@ -101,6 +93,7 @@ export default {
 .icon-wrap {
   width: var(--space-medium);
   height: var(--space-medium);
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,14 +113,15 @@ export default {
   margin-left: var(--space-smaller);
 }
 .conversation-details {
-  margin-left: var(--space-normal);
+  margin-left: var(--space-small);
   flex-grow: 1;
+  min-width: 0;
 }
 .conversation-id,
 .name {
   margin: 0;
 }
-
+.created-at,
 .pre-text {
   color: var(--s-600);
   font-size: var(--font-size-mini);

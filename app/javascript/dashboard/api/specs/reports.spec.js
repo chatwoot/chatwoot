@@ -20,7 +20,11 @@ describe('#Reports API', () => {
   });
   describeWithAPIMock('API calls', context => {
     it('#getAccountReports', () => {
-      reportsAPI.getReports('conversations_count', 1621103400, 1621621800);
+      reportsAPI.getReports({
+        metric: 'conversations_count',
+        from: 1621103400,
+        to: 1621621800,
+      });
       expect(context.axiosMock.get).toHaveBeenCalledWith('/api/v2/reports', {
         params: {
           metric: 'conversations_count',
