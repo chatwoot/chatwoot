@@ -13,13 +13,13 @@ module CacheKeys
   end
 
   def invalidate_cache_key_for(key)
-    prefixed_cache_key = get_prefixed_cache_key(key)
+    prefixed_cache_key = get_prefixed_cache_key(id, key)
     Redis::Alfred.del(prefixed_cache_key)
     dispatch_cache_udpate_event
   end
 
   def update_cache_key(key)
-    prefixed_cache_key = get_prefixed_cache_key(key)
+    prefixed_cache_key = get_prefixed_cache_key(id, key)
     Redis::Alfred.set(prefixed_cache_key, Time.now.utc.to_i)
     dispatch_cache_udpate_event
   end
