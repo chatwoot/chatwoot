@@ -25,7 +25,7 @@ class AgentBot < ApplicationRecord
   has_many :inboxes, through: :agent_bot_inboxes
   has_many :messages, as: :sender, dependent: :restrict_with_exception
   belongs_to :account, optional: true
-  enum bot_type: { webhook: 0, csml: 1 }
+  enum bot_type: { webhook: 0, csml: 1, gpt: 2 }
 
   validate :validate_agent_bot_config
 
