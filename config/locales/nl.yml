@@ -21,6 +21,7 @@ nl:
   messages:
     reset_password_success: Woot! Verzoek om wachtwoord te resetten is gelukt. Controleer je e-mail voor instructies.
     reset_password_failure: Oh ho! We konden geen gebruiker vinden met het opgegeven e-mailadres.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: mag niet leeg zijn
@@ -57,6 +58,7 @@ nl:
         name: mag niet beginnen of eindigen met symbolen, en mag geen < > / \ @ karakters hebben.
   reports:
     period: Rapportering van %{since} tot %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent naam
       conversations_count: Aantal gesprekken
@@ -78,6 +80,9 @@ nl:
       conversations_count: Aantal gesprekken
       avg_first_response_time: Gem. eerste reactie (minuten)
       avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: Aantal conversaties
     default_group_by: dag
     csat:
       headers:
