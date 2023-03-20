@@ -64,7 +64,7 @@ export default {
   }
 }
 .contact-details {
-  margin-left: var(--space-normal);
+  margin-left: var(--space-small);
 }
 .name {
   margin: 0;

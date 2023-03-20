@@ -363,4 +363,39 @@ RSpec.describe 'Reports API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/conversation_traffic' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/conversation_traffic.csv"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        super().merge(
+          since: 7.days.ago.to_i.to_s,
+          until: date_timestamp.to_s
+        )
+      end
+
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/conversation_traffic.csv",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns values' do
+        get "/api/v2/accounts/#{account.id}/reports/conversation_traffic.csv",
+            params: params,
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end
