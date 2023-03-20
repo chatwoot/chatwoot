@@ -60,7 +60,7 @@ class ContactInbox < ApplicationRecord
   end
 
   def validate_email_source_id
-    errors.add(:source_id, "invalid source id for Email inbox. valid Regex #{Devise.email_regexp}") unless Devise.email_regexp.match?(source_id)
+    errors.add(:source_id, "invalid source id for Email inbox. valid Regex #{URI::MailTo::EMAIL_REGEXP}") unless Devise.email_regexp.match?(source_id)
   end
 
   def validate_whatsapp_source_id
@@ -71,6 +71,7 @@ class ContactInbox < ApplicationRecord
 
   def valid_source_id_format?
     validate_twilio_source_id if inbox.channel_type == 'Channel::TwilioSms'
+    validate_email_source_id if inbox.channel_type == 'Channel::Email'
     validate_whatsapp_source_id if inbox.channel_type == 'Channel::Whatsapp'
   end
 end
