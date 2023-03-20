@@ -34,6 +34,7 @@ en:
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
   errors:
     validations:

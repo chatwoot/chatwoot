@@ -82,8 +82,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @inbox.destroy!
-    head :ok
+    ::DeleteObjectJob.perform_later(@inbox) if @inbox.present?
+    render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
   end
 
   private
