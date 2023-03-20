@@ -205,9 +205,13 @@ class Message < ApplicationRecord
     content_attributes['automation_rule_id'].blank?
   end
 
+  def valid_first_reply?
+    outgoing? && first_human_response? && not_created_by_automation? && !private?
+  end
+
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-    if outgoing? && first_human_response? && not_created_by_automation? && !private?
+    if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
