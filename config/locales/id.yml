@@ -21,6 +21,7 @@ id:
   messages:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ id:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Periode pelaporan %{since} hingga %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Nama agen
       conversations_count: Jumlah percakapan
@@ -78,6 +80,9 @@ id:
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: day
     csat:
       headers:
