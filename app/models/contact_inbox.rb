@@ -71,7 +71,6 @@ class ContactInbox < ApplicationRecord
 
   def valid_source_id_format?
     validate_twilio_source_id if inbox.channel_type == 'Channel::TwilioSms'
-    validate_email_source_id if inbox.channel_type == 'Channel::Email'
     validate_whatsapp_source_id if inbox.channel_type == 'Channel::Whatsapp'
   end
 end
