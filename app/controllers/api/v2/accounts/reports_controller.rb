@@ -32,6 +32,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     generate_csv('teams_report', 'api/v2/accounts/reports/teams')
   end
 
+  def conversation_traffic
+    @report_data = generate_conversations_heatmap_report
+    generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic')
+  end
+
   def conversations
     return head :unprocessable_entity if params[:type].blank?
 
