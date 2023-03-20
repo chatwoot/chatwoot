@@ -64,6 +64,9 @@ RSpec.describe Message, type: :model do
       conversation = create(:conversation)
       automation_message = create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { automation_rule_id: 1 })
       expect(automation_message.valid_first_reply?).to be false
+
+      second_message = create(:message, message_type: :outgoing, conversation: conversation)
+      expect(second_message.valid_first_reply?).to be true
     end
   end
 
