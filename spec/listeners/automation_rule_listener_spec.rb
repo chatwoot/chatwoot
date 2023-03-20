@@ -588,36 +588,37 @@ describe AutomationRuleListener do
     end
   end
 
-  describe '#message_created to report_spam' do
+  describe '#conversation_updated to to detect current language' do
     before do
       automation_rule.update!(
-        event_name: 'message_created',
-        name: 'Call actions message created',
-        description: 'Conversation resolved on message event',
-        conditions: [{ 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }],
-        actions: [{ 'action_name' => 'report_spam', 'action_params' => %w[en hi] }.with_indifferent_access]
+        event_name: 'conversation_updated',
+        name: 'resolve conversation if the language is not english',
+        description: 'Conversation resolved',
+        conditions: [{ 'values': ['en'], 'attribute_key': 'current_language', 'query_operator': nil, 'filter_operator': 'not_equal_to' }],
+        actions: [{ 'action_name' => 'resolve_conversation' }.with_indifferent_access]
       )
     end
 
-    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'muchas muchas gracias') }
-    let!(:event) do
-      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
-    end
     let(:client) { double }
+    let(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'muchas muchas gracias') }
 
     context 'when rule matches' do
       it 'triggers automation rule to report spam and resolves the conversation' do
-        create(:integrations_hook, :google_translate, account_id: account.id)
-        response = Google::Cloud::Translate::V3::DetectLanguageResponse.new({ languages: [{ language_code: 'es', confidence: 0.71875 }] })
-
-        allow(Google::Cloud::Translate).to receive(:translation_service).and_return(client)
-        allow(client).to receive(:detect_language).and_return(response)
-
         perform_enqueued_jobs do
-          listener.message_created(event)
+          create(:integrations_hook, :google_translate, account_id: account.id)
+          response = Google::Cloud::Translate::V3::DetectLanguageResponse.new({ languages: [{ language_code: 'es', confidence: 0.71875 }] })
+
+          allow(Google::Cloud::Translate).to receive(:translation_service).and_return(client)
+          allow(client).to receive(:detect_language).and_return(response)
+          message
         end
 
+        event = Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation, message: message })
+
+        listener.conversation_updated(event)
+
         expect(message.conversation.reload.status).to eq('resolved')
+        expect(message.conversation.additional_attributes['current_language']).to eq('es')
       end
     end
   end
