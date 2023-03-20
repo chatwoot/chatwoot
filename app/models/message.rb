@@ -173,6 +173,10 @@ class Message < ApplicationRecord
     true
   end
 
+  def valid_first_reply?
+    outgoing? && first_human_response? && not_created_by_automation? && !private?
+  end
+
   private
 
   def ensure_content_type
@@ -203,10 +207,6 @@ class Message < ApplicationRecord
 
   def not_created_by_automation?
     content_attributes['automation_rule_id'].blank?
-  end
-
-  def valid_first_reply?
-    outgoing? && first_human_response? && not_created_by_automation? && !private?
   end
 
   def dispatch_create_events
