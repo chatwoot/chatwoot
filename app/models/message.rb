@@ -206,7 +206,7 @@ class Message < ApplicationRecord
 
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-    if outgoing? && first_human_response? && not_created_by_automation?
+    if outgoing? && first_human_response? && not_created_by_automation? && !private?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
