@@ -167,8 +167,9 @@
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
-      "COPY_PERMALINK": "Copy Permalink"
-    }
+      "COPY_PERMALINK": "Copy link to the message"
+    },
+    "LINK_COPIED": "Message URL copied to the clipboard"
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",

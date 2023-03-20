@@ -164,7 +164,7 @@ export default {
         );
 
       await copyTextToClipboard(`${fullConversationURL}?messageId=${this.id}`);
-      this.showAlert('Link Copied');
+      this.showAlert(this.$t('CONVERSATION.LINK_COPIED'));
     },
     async handleCopy() {
       await copyTextToClipboard(this.plainTextContent);

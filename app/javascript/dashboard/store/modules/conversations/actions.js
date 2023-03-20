@@ -78,7 +78,7 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      if (payload.length < 20) {
+      if (!payload.length) {
         commit(types.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
