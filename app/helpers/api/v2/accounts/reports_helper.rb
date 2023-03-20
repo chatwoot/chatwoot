@@ -34,7 +34,7 @@ module Api::V2::Accounts::ReportsHelper
       since: params[:since],
       until: params[:until],
       metric: 'conversations_count',
-      timezone_offset: '5.5',
+      timezone_offset: params[:timezone_offset],
       business_hours: false
     }
     data = V2::ReportBuilder.new(Current.account, report_params).build
