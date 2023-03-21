@@ -45,7 +45,6 @@
             variant="smooth"
             color-scheme="alert"
             icon="delete"
-            class="delete-custom-view__button"
             @click="onClickOpenDeleteFoldersModal"
           />
         </div>
@@ -835,15 +834,12 @@ export default {
 .filter--actions {
   display: flex;
   align-items: center;
+  gap: var(--space-micro);
 }
 
 .filter__applied {
-  padding: 0 0 var(--space-slab) 0 !important;
+  padding-bottom: var(--space-slab) !important;
   border-bottom: 1px solid var(--color-border);
-}
-
-.delete-custom-view__button {
-  margin-right: var(--space-normal);
 }
 
 .tab--chat-type {
