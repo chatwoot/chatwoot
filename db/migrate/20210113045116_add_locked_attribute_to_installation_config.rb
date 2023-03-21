@@ -1,12 +1,12 @@
 class AddLockedAttributeToInstallationConfig < ActiveRecord::Migration[6.0]
   def up
-    add_column :installation_configs, :locked, :boolean, default: true, null: false
+    add_column :installation_configs, :locked, :boolean, default: true, null: false unless column_exists?(:installation_configs, :locked)
     purge_duplicates
     add_index :installation_configs, :name, unique: true
   end
 
   def down
-    remove_column :installation_configs, :locked
+    remove_column :installation_configs, :locked if column_exists?(:installation_configs, :locked)
     remove_index :installation_configs, :name
   end
 
