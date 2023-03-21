@@ -20,13 +20,28 @@ describe ::V2::ReportBuilder do
           conversation = create(:conversation, account: account,
                                                inbox: inbox, assignee: user,
                                                created_at: Time.zone.today)
-          create_list(:message, 5, message_type: 'outgoing',
-                                   account: account, inbox: inbox,
-                                   conversation: conversation, created_at: Time.zone.today + 2.hours)
-          create_list(:message, 2, message_type: 'incoming',
-                                   account: account, inbox: inbox,
-                                   conversation: conversation,
-                                   created_at: Time.zone.today + 3.hours)
+
+          # Why use 5.times here instead of create_list? Glad you asked
+          # The create list would work in a single transaction, on creation of every message we check
+          # if the conversation is a valid first human message or not
+          # With every message created we check if it's parent conversation has `first_reply_created_at` set or not.
+          # See the `valid_first_reply` and the `human_response` methods in app/models/message.rb
+          #
+          # To check this the `conversation` object has to be reloaded, while creating the list
+          # it is not possible to do it after every creation
+          # In normal uses in production, the messages are not created in bulk, so this problem should not arise
+          5.times do
+            create(:message, message_type: 'outgoing', account: account, inbox: inbox, conversation: conversation,
+                             created_at: Time.zone.today + 2.hours)
+            conversation.reload
+          end
+
+          3.times do
+            create(:message, message_type: 'incoming', account: account, inbox: inbox, conversation: conversation,
+                             created_at: Time.zone.today + 3.hours)
+            conversation.reload
+          end
+
           conversation.update_labels('label_1')
           conversation.label_list
           conversation.save!
@@ -36,14 +51,19 @@ describe ::V2::ReportBuilder do
           conversation = create(:conversation, account: account,
                                                inbox: inbox, assignee: user,
                                                created_at: (Time.zone.today - 2.days))
-          create_list(:message, 3, message_type: 'outgoing',
-                                   account: account, inbox: inbox,
-                                   conversation: conversation,
-                                   created_at: (Time.zone.today - 2.days))
-          create_list(:message, 1, message_type: 'incoming',
-                                   account: account, inbox: inbox,
-                                   conversation: conversation,
-                                   created_at: (Time.zone.today - 2.days))
+
+          5.times do
+            create(:message, message_type: 'outgoing', account: account, inbox: inbox, conversation: conversation,
+                             created_at: Time.zone.today - 2.days)
+            conversation.reload
+          end
+
+          3.times do
+            create(:message, message_type: 'incoming', account: account, inbox: inbox, conversation: conversation,
+                             created_at: Time.zone.today - 2.days)
+            conversation.reload
+          end
+
           conversation.update_labels('label_2')
           conversation.label_list
           conversation.save!
