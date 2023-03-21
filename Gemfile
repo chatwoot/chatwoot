@@ -101,6 +101,7 @@ gem 'google-cloud-dialogflow'
 gem 'ddtrace', require: false
 gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
+gem 'newrelic-sidekiq-metrics', require: false
 gem 'scout_apm', require: false
 gem 'sentry-rails', require: false
 gem 'sentry-ruby', require: false
