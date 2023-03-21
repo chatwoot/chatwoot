@@ -23,9 +23,7 @@ class Instagram::WebhooksBaseService
   def update_instagram_profile_link
     return unless user['username']
 
-    @contact.additional_attributes = @contact.additional_attributes.merge({
-                                                                            social_profiles: { instagram: user['username'] }
-                                                                          })
+    @contact.additional_attributes = @contact.additional_attributes.merge({ 'social_profiles': { 'instagram': user['username'] } })
     @contact.save
   end
 end
