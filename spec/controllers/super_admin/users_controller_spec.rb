@@ -39,6 +39,9 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect(response).to redirect_to("http://www.example.com/super_admin/users/#{User.last.id}")
         expect(SuperAdmin.last.email).to eq('admin@example.com')
+
+        post '/super_admin/users', params: params
+        expect(response).to redirect_to('http://www.example.com/super_admin/users/new')
       end
     end
   end
