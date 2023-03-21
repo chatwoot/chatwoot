@@ -4,7 +4,7 @@ ruby '3.1.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6.1', '>= 6.1.7.1'
+gem 'rails', '~> 7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -36,7 +36,7 @@ gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack'
 # a utility tool for streaming, flexible and safe downloading of remote files
-gem 'down', '~> 5.0'
+gem 'down'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
 # Prevent CSV injection
@@ -48,7 +48,7 @@ gem 'google-cloud-translate'
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
 gem 'google-cloud-storage', require: false
-gem 'image_processing', '~> 1.12.2'
+gem 'image_processing'
 
 ##-- gems for database --#
 gem 'groupdate'
@@ -62,13 +62,13 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker', '~> 5.4', '>= 5.4.3'
+gem 'webpacker'
 # metrics on heroku
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
-gem 'devise-secure_password', '~> 2.0', git: 'https://github.com/chatwoot/devise-secure_password'
+gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'rails-upgrade'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -107,9 +107,9 @@ gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '~> 6.4.2'
+gem 'sidekiq'
 # We want cron jobs
-gem 'sidekiq-cron', '~> 1.6', '>= 1.6.0'
+gem 'sidekiq-cron'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -168,7 +168,7 @@ end
 
 group :test do
   # Cypress in rails.
-  gem 'cypress-on-rails', '~> 1.13', '>= 1.13.1'
+  gem 'cypress-on-rails'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls
@@ -190,7 +190,7 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '~> 5.0.3'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -210,4 +210,4 @@ gem 'audited', '~> 5.2'
 # need for google auth
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection'
