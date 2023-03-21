@@ -15,7 +15,17 @@ class Instagram::WebhooksBaseService
       user['id'], user['name']
     )
 
+    update_instagram_profile_link(user)
     @contact = @contact_inbox.contact
     Avatar::AvatarFromUrlJob.perform_later(@contact, user['profile_pic']) if user['profile_pic']
+  end
+
+  def update_instagram_profile_link
+    return unless user['username']
+
+    @contact.additional_attributes = @contact.additional_attributes.merge({
+                                                                            social_profiles: { instagram: user['username'] }
+                                                                          })
+    @contact.save
   end
 end
