@@ -26,7 +26,7 @@ module ConversationReplyMailerHelper
     return ms_graph_settings if ENV.fetch('AZURE_TENANT_ID', false)
 
     smtp_settings = {
-      address: 'smtp-mail.outlook.com',
+      address: 'smtp.office365.com',
       port: 587,
       user_name: @channel.imap_login,
       password: @channel.provider_config['access_token'],
