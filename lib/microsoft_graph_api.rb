@@ -46,7 +46,7 @@ class MicrosoftGraphApi
   private
 
   def setup_https(host, _port = API_PORT)
-    https = Net::HTTP.new(host, API_PORT)
+    https = Net::HTTP.new(host, _port)
     https.use_ssl = true
     https
   end
