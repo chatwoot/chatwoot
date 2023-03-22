@@ -11,12 +11,13 @@
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Mensagens"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search message content, contact name, email or phone or conversations",
+    "EMPTY_STATE": "Não foi encontrado %{item} para a consulta '%{query}'",
+    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ para focar",
+    "INPUT_PLACEHOLDER": "Pesquisar mensagens, contatos ou conversas",
+    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca.",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Saiba mais",
+    "WROTE": "escreveu:"
   }
 }

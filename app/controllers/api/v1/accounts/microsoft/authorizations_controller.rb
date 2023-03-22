@@ -6,6 +6,7 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
     email = params[:authorization][:email]
     redirect_url = microsoft_client.auth_code.authorize_url(auth_params)
     if redirect_url
+      email = email.downcase
       ::Redis::Alfred.setex(email, Current.account.id, 5.minutes)
       render json: { success: true, url: redirect_url }
     else
@@ -33,7 +34,7 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
   def standard_auth_params
     {
       redirect_uri: "#{base_url}/microsoft/callback",
-      scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid',
+      scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid profile',
       prompt: 'consent'
     }
   end
@@ -41,7 +42,7 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
   def graph_auth_params
     {
       redirect_uri: "#{base_url}/microsoft/callback",
-      scope: 'offline_access https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send openid',
+      scope: 'offline_access https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send openid profile',
       prompt: 'consent'
     }
   end
