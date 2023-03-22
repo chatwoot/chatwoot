@@ -1,4 +1,4 @@
-require 'net/imap'
+require 'net/http'
 
 class Inboxes::FetchMsGraphEmailsJob < ApplicationJob
   queue_as :low
