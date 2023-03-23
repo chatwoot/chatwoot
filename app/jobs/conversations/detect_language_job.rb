@@ -12,6 +12,7 @@ class Conversations::DetectLanguageJob < ApplicationJob
       content: text,
       parent: "projects/#{hook.settings['project_id']}"
     )
+
     update_conversation(response)
   end
 
@@ -19,8 +20,8 @@ class Conversations::DetectLanguageJob < ApplicationJob
 
   def update_conversation(response)
     conversation = @message.conversation
-    current_language = response.languages.first.language_code
-    additional_attributes = conversation.additional_attributes.merge({ current_language: current_language })
+    conversation_language = response.languages.first.language_code
+    additional_attributes = conversation.additional_attributes.merge({ conversation_language: conversation_language })
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(additional_attributes: additional_attributes)
     # rubocop:enable Rails/SkipsModelValidations

@@ -28,6 +28,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'conversation_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
     ],
     actions: [
       {
@@ -133,7 +140,7 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'current_language',
+        key: 'conversation_language',
         name: 'Conversation Language',
         attributeI18nKey: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
@@ -257,9 +264,9 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'current_language',
+        key: 'conversation_language',
         name: 'Conversation Language',
-        attributeI18nKey: 'VALID_LANGUAGE',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
@@ -374,9 +381,9 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'current_language',
+        key: 'conversation_language',
         name: 'Conversation Language',
-        attributeI18nKey: 'VALID_LANGUAGE',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },

@@ -7,7 +7,7 @@ RSpec.describe HookJob, type: :job do
   let(:hook) { create(:integrations_hook, account: account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:event_name) { 'message.created' }
-  let(:event_data) { { message: create(:message, account: account) } }
+  let(:event_data) { { message: create(:message, account: account, content: 'muchas muchas gracias', message_type: :incoming) } }
 
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
@@ -33,6 +33,13 @@ RSpec.describe HookJob, type: :job do
       hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
       allow(Integrations::Dialogflow::ProcessorService).to receive(:new).and_return(process_service)
       expect(Integrations::Dialogflow::ProcessorService).to receive(:new)
+      described_class.perform_now(hook, event_name, event_data)
+    end
+
+    it 'calls Conversations::DetectLanguageJob when its a google_translate intergation' do
+      hook = create(:integrations_hook, :google_translate, account: account)
+      allow(Conversations::DetectLanguageJob).to receive(:new)
+      expect(Conversations::DetectLanguageJob).to receive(:new)
       described_class.perform_now(hook, event_name, event_data)
     end
   end

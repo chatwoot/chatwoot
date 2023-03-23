@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'google/cloud/translate/v3'
 
 describe AutomationRuleListener do
   include ActiveJob::TestHelper
@@ -588,13 +587,13 @@ describe AutomationRuleListener do
     end
   end
 
-  describe '#conversation_updated to to detect current language' do
+  describe '#conversation_updated with conversation_language' do
     before do
       automation_rule.update!(
         event_name: 'conversation_updated',
         name: 'resolve conversation if the language is not english',
         description: 'Conversation resolved',
-        conditions: [{ 'values': ['en'], 'attribute_key': 'current_language', 'query_operator': nil, 'filter_operator': 'not_equal_to' }],
+        conditions: [{ 'values': ['en'], 'attribute_key': 'conversation_language', 'query_operator': nil, 'filter_operator': 'not_equal_to' }],
         actions: [{ 'action_name' => 'resolve_conversation' }.with_indifferent_access]
       )
     end
@@ -603,13 +602,9 @@ describe AutomationRuleListener do
     let(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'muchas muchas gracias') }
 
     context 'when rule matches' do
-      it 'triggers automation rule to report spam and resolves the conversation' do
+      it 'triggers the automation rule to resolves the conversation' do
         perform_enqueued_jobs do
-          create(:integrations_hook, :google_translate, account_id: account.id)
-          response = Google::Cloud::Translate::V3::DetectLanguageResponse.new({ languages: [{ language_code: 'es', confidence: 0.71875 }] })
-
-          allow(Google::Cloud::Translate).to receive(:translation_service).and_return(client)
-          allow(client).to receive(:detect_language).and_return(response)
+          conversation.update(additional_attributes: { conversation_language: 'es' })
           message
         end
 
@@ -618,7 +613,6 @@ describe AutomationRuleListener do
         listener.conversation_updated(event)
 
         expect(message.conversation.reload.status).to eq('resolved')
-        expect(message.conversation.additional_attributes['current_language']).to eq('es')
       end
     end
   end
