@@ -21,7 +21,7 @@ RSpec.describe CacheKeysHelper, type: :helper do
     end
 
     it 'returns a cached value if it exists' do
-      value = 1_678_706_392
+      value = Time.now.to_i
       prefixed_cache_key = helper.get_prefixed_cache_key(account_id, key)
 
       Redis::Alfred.set(prefixed_cache_key, value)
