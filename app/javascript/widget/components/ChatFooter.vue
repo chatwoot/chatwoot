@@ -95,12 +95,7 @@ export default {
     startNewConversation() {
       this.clearConversations();
       this.clearConversationAttributes();
-
-      // To create a new conversation, we are redirecting
-      // the user to pre-chat with contact fields disabled
-      // Pass disableContactFields params to the route
-      // This would disable the contact fields in the pre-chat form
-      this.replaceRoute('prechat-form', { disableContactFields: true });
+      this.replaceRoute('prechat-form');
     },
     async sendTranscript() {
       const { email } = this.currentUser;

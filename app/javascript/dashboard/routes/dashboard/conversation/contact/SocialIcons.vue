@@ -28,6 +28,7 @@ export default {
         { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
         { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
         { key: 'github', icon: 'github', link: 'https://github.com/' },
+        { key: 'instagram', icon: 'instagram', link: 'https://instagram.com/' },
       ],
     };
   },
