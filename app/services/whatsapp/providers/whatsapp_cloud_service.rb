@@ -2,8 +2,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
-    else
+    elsif message.content_type == "text"
       send_text_message(phone_number, message)
+    else
+      send_text_message_interactive(phone_number, message)
     end
   end
 
@@ -64,6 +66,46 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         to: phone_number,
         text: { body: message.content },
         type: 'text'
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
+  def send_text_message_interactive(phone_number, message)
+    botoes_itens = message.content_attributes[:items]
+    botoes = botoes_itens.first
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        to: phone_number,
+        interactive: {
+          "type": "button",
+          "body": {
+            "text": message.content
+          },
+          "action": {
+            "buttons": [
+              {
+                "type": "reply",
+                "reply": {
+                  "id": botoes[:value],
+                  "title": botoes[:title]
+                }
+              },
+              {
+                "type": "reply",
+                "reply": {
+                  "id": "Botao2_teste1",
+                  "title": "Botao2_teste2"
+                }
+              }
+            ]
+          }
+        },
+        type: 'interactive'
       }.to_json
     )
 
