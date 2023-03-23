@@ -1,4 +1,6 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+  require 'json'
+
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
@@ -73,6 +75,60 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_text_message_interactive(phone_number, message)
+    # Cria um array vazio para armazenar os botões
+    botoes = []
+    rows = []
+    pacote = {}
+    sections = []
+
+    if message.content_attributes["items"].length <=3
+      
+      message.content_attributes["items"].each do |item|
+        botao = { "type": "reply", "reply" => { "id" => item["value"], "title" => item["title"] } }
+        botoes << botao
+      end
+      
+      # Cria o hash com os dados para o JSON
+      hash_json = { "buttons" => botoes }
+
+      # Converte o hash em JSON
+      json_resultado = JSON.generate(hash_json)
+
+      pacote = {
+        "type": "button",
+        "body": {
+          "text": message.content
+        },
+        "action": json_resultado
+      }
+
+    else
+      message.content_attributes["items"].each do |item|
+        row = { "id" => item["value"], "title" => item["title"] } 
+        rows << row
+      end
+
+      # Cria uma hash para a primeira seção com base nos dados em rows
+      section1 = { "rows" => rows }
+      sections << section1
+
+      # Cria o hash com os dados para o JSON
+      hash_json = { "button": "Escolha um item", "sections" => sections }
+
+      # Converte o hash em JSON
+      json_resultado = JSON.generate(hash_json)
+
+      pacote = {
+        "type": "list",
+        "body": {
+          "text": message.content
+        },
+        "action": json_resultado
+      }
+    end
+
+
+
     botoes_itens = message.content_attributes[:items]
     botoes = botoes_itens.first
     response = HTTParty.post(
@@ -81,30 +137,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         to: phone_number,
-        interactive: {
-          "type": "button",
-          "body": {
-            "text": message.content
-          },
-          "action": {
-            "buttons": [
-              {
-                "type": "reply",
-                "reply": {
-                  "id": botoes[:value],
-                  "title": botoes[:title]
-                }
-              },
-              {
-                "type": "reply",
-                "reply": {
-                  "id": "Botao2_teste1",
-                  "title": "Botao2_teste2"
-                }
-              }
-            ]
-          }
-        },
+        interactive: pacote,
         type: 'interactive'
       }.to_json
     )
