@@ -114,7 +114,7 @@ export default {
       return this.options.preChatMessage;
     },
     preChatFields() {
-      return this.disableContactFields ? [] : this.options.preChatFields;
+      return this.options?.preChatFields || [];
     },
     filteredPreChatFields() {
       const isUserEmailAvailable = !!this.currentUser.email;
