@@ -1,5 +1,5 @@
 /* global axios */
-import { DataManager } from '../helper/CacheHelper/data-manager';
+import { DataManager } from '../helper/CacheHelper/DataManager';
 import ApiClient from './ApiClient';
 
 class CacheEnabledApiClient extends ApiClient {
