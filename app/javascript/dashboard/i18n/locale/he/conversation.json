@@ -2,7 +2,7 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "אנא בחר שיחה מהחלונית השמאלית",
     "CSAT_REPLY_MESSAGE": "נא דרג שיחה זו",
-    "404": "Sorry, we cannot find the conversation. Please try again",
+    "404": "מצטערים, לא מצאנו את השיחה המבוקשת, נא לנסות שוב",
     "SWITCH_VIEW_LAYOUT": "החלף תצוגה",
     "DASHBOARD_APP_TAB_MESSAGES": "הודעות",
     "UNVERIFIED_SESSION": "זהות המשתמש לא מְאוּמָתת",
@@ -35,7 +35,7 @@
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
     "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "שמור",
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
