@@ -1,4 +1,3 @@
-import 'fake-indexeddb/auto';
 import { DataManager } from '../../CacheHelper/DataManager';
 
 describe('DataManager', () => {
