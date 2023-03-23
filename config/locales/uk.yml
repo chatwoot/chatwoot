@@ -21,6 +21,7 @@ uk:
   messages:
     reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: не повинно бути пустим
@@ -57,6 +58,7 @@ uk:
         name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
   reports:
     period: Період звіту %{since} до %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Ім'я агента
       conversations_count: Кількість бесід
@@ -78,6 +80,9 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: '№ розмов'
     default_group_by: день
     csat:
       headers:

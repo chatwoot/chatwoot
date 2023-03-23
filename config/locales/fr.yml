@@ -21,6 +21,7 @@ fr:
   messages:
     reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
     reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: Ne peut être vide
@@ -57,6 +58,7 @@ fr:
         name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
   reports:
     period: Période de rapport %{since} à %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Nom de l'agent
       conversations_count: Nombre de conversations
@@ -78,6 +80,9 @@ fr:
       conversations_count: Nombre de conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: Nbre de conversations
     default_group_by: jour
     csat:
       headers:
