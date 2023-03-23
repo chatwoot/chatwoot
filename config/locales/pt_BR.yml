@@ -21,6 +21,7 @@ pt_BR:
   messages:
     reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
+    inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
   errors:
     validations:
       presence: não pode ficar em branco
@@ -57,6 +58,7 @@ pt_BR:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
   reports:
     period: Reportando o período %{since} a %{until}
+    utc_warning: O relatório gerado está em fuso horário UTC
     agent_csv:
       agent_name: Nome do Agente
       conversations_count: Contagem de conversas
@@ -78,6 +80,9 @@ pt_BR:
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
+    conversation_traffic_csv:
+      date: Data e hora
+      conversations_count: Nº de Conversas
     default_group_by: dia
     csat:
       headers:
