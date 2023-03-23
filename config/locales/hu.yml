@@ -21,6 +21,7 @@ hu:
   messages:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ hu:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Ügynök neve
       conversations_count: Beszélgetésszám
@@ -78,6 +80,9 @@ hu:
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: day
     csat:
       headers:
