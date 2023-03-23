@@ -21,6 +21,7 @@ fi:
   messages:
     reset_password_success: Woot! Salasanan nollauspyyntö onnistui. Tarkista sähköpostisi saadaksesi ohjeita.
     reset_password_failure: Hö! Emme löytäneet yhtään käyttäjää määritellyllä sähköpostilla.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ fi:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Raportointijakso %{since} – %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
@@ -78,6 +80,9 @@ fi:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: day
     csat:
       headers:

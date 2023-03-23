@@ -21,6 +21,7 @@ fa:
   messages:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
+    inbox_deletetion_response: درخواست حذف صندوق ورودی شما پس از مدتی پردازش خواهد شد.
   errors:
     validations:
       presence: نباید خالی باشد
@@ -57,6 +58,7 @@ fa:
         name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
   reports:
     period: زمان گزارش از %{since} تا %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: اسم ایجنت
       conversations_count: Conversations count
@@ -78,6 +80,9 @@ fa:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: تعداد گفتگوها
     default_group_by: روز
     csat:
       headers:

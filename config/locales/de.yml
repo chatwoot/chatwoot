@@ -21,6 +21,7 @@ de:
   messages:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: darf nicht leer sein
@@ -57,6 +58,7 @@ de:
         name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agentenname
       conversations_count: Anzahl Gespräche
@@ -78,6 +80,9 @@ de:
       conversations_count: Anzahl Gespräche
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: Anzahl der Konversationen
     default_group_by: Tag
     csat:
       headers:

@@ -15,7 +15,8 @@ describe Webhooks::InstagramEventsJob do
     { name: 'Jane',
       id: 'Sender-id-1',
       account_id: instagram_inbox.account_id,
-      profile_pic: 'https://chatwoot-assets.local/sample.png' }
+      profile_pic: 'https://chatwoot-assets.local/sample.png',
+      username: 'some_user_name' }
   end
   let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
@@ -39,6 +40,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
+        expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
       end
