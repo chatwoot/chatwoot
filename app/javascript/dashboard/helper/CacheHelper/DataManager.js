@@ -27,6 +27,7 @@ export class DataManager {
     if (!this.modelsToSync.includes(name)) {
       throw new Error(`Model ${name} is not defined`);
     }
+    return true;
   }
 
   async replace({ modelName, data }) {
