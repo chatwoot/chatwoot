@@ -211,6 +211,7 @@ export default {
         facebook: socialProfiles.facebook || '',
         linkedin: socialProfiles.linkedin || '',
         github: socialProfiles.github || '',
+        instagram: socialProfiles.instagram || '',
       };
     },
     getContactObject() {
