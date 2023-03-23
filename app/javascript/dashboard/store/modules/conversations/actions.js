@@ -217,8 +217,7 @@ const actions = {
     { conversationId, messageId }
   ) {
     try {
-      const response = await MessageApi.delete(conversationId, messageId);
-      const { data } = response;
+      const { data } = await MessageApi.delete(conversationId, messageId);
       // The delete message is actually deleting the content.
       commit(types.ADD_MESSAGE, data);
     } catch (error) {
