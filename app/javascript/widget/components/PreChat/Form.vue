@@ -74,10 +74,6 @@ export default {
       type: Object,
       default: () => {},
     },
-    disableContactFields: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
