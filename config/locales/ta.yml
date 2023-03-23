@@ -21,6 +21,7 @@ ta:
   messages:
     reset_password_success: வூட்! பாஸ்வேர்டை மீட்டமைப்பிற்கான கோரிக்கை வெற்றிகரமாக அனுப்பப்பட்டுள்ளது. வழிமுறைகளுக்கு உங்கள் ஈ-மெயிலைப் பார்க்கவும்.
     reset_password_failure: மன்னிக்கவும்! குறிப்பிட்ட ஈ-மெயிலுடன் எந்த பயனரையும் எங்களால் கண்டுபிடிக்க முடியவில்லை.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ ta:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reporting period %{since} to %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
@@ -78,6 +80,9 @@ ta:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: day
     csat:
       headers:

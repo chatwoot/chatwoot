@@ -21,6 +21,7 @@ vi:
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: không được để trống
@@ -57,6 +58,7 @@ vi:
         name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Tên tổng đài viên
       conversations_count: Số hội thoại
@@ -78,6 +80,9 @@ vi:
       conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: Số hội thoại
     default_group_by: ngày
     csat:
       headers:
