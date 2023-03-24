@@ -1,5 +1,10 @@
 <template>
-  <woot-modal modal-type="right-aligned" show :on-close="onClose">
+  <woot-modal
+    modal-type="right-aligned"
+    class="text-left"
+    show
+    :on-close="onClose"
+  >
     <div class="column content">
       <p>
         <b>{{ $t('TRANSLATE_MODAL.ORIGINAL_CONTENT') }}</b>

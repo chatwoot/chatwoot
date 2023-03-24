@@ -73,6 +73,12 @@
           :created-at="createdAt"
         />
       </div>
+      <translate-modal
+        v-if="showTranslateModal"
+        :content="data.content"
+        :content-attributes="contentAttributes"
+        @close="onCloseTranslateModal"
+      />
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
@@ -105,12 +111,6 @@
         />
       </div>
     </div>
-    <translate-modal
-      v-if="showTranslateModal"
-      :content="data.content"
-      :content-attributes="contentAttributes"
-      @close="onCloseTranslateModal"
-    />
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"

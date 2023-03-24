@@ -76,9 +76,11 @@ class MessageApi extends ApiClient {
   }
 
   getPreviousMessages({ conversationId, after, before }) {
-    return axios.get(`${this.url}/${conversationId}/messages`, {
-      params: { after, before },
-    });
+    const params = { before };
+    if (after && Number(after) !== Number(before)) {
+      params.after = after;
+    }
+    return axios.get(`${this.url}/${conversationId}/messages`, { params });
   }
 
   translateMessage(conversationId, messageId, targetLanguage) {
