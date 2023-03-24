@@ -192,11 +192,6 @@ export default {
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
-
-    shouldLoadMoreChats() {
-      return !this.listLoadingStatus && !this.isLoadingPrevious;
-    },
-
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
@@ -307,6 +302,7 @@ export default {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
           messageElement.scrollIntoView({ behavior: 'smooth' });
+          this.fetchPreviousMessages();
         } else {
           this.scrollToBottom();
         }
@@ -361,31 +357,40 @@ export default {
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
     },
 
-    handleScroll(e) {
+    async fetchPreviousMessages(scrollTop = 0) {
       this.setScrollParams();
 
-      const dataFetchCheck =
-        this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
+      const shouldLoadMoreMessages =
+        this.getMessages.dataFetched === true &&
+        !this.listLoadingStatus &&
+        !this.isLoadingPrevious;
+
       if (
-        e.target.scrollTop < 100 &&
+        scrollTop < 100 &&
         !this.isLoadingPrevious &&
-        dataFetchCheck
+        shouldLoadMoreMessages
       ) {
         this.isLoadingPrevious = true;
-        this.$store
-          .dispatch('fetchPreviousMessages', {
+        try {
+          await this.$store.dispatch('fetchPreviousMessages', {
             conversationId: this.currentChat.id,
             before: this.getMessages.messages[0].id,
-          })
-          .then(() => {
-            const heightDifference =
-              this.conversationPanel.scrollHeight - this.heightBeforeLoad;
-            this.conversationPanel.scrollTop =
-              this.scrollTopBeforeLoad + heightDifference;
-            this.isLoadingPrevious = false;
-            this.setScrollParams();
           });
+          const heightDifference =
+            this.conversationPanel.scrollHeight - this.heightBeforeLoad;
+          this.conversationPanel.scrollTop =
+            this.scrollTopBeforeLoad + heightDifference;
+          this.setScrollParams();
+        } catch (error) {
+          // Ignore Error
+        } finally {
+          this.isLoadingPrevious = false;
+        }
       }
+    },
+
+    handleScroll(e) {
+      this.fetchPreviousMessages(e.target.scrollTop);
     },
 
     makeMessagesRead() {

@@ -20,9 +20,8 @@
 
     <woot-context-menu
       v-if="isOpen && !isCannedResponseModalOpen"
-      ref="menu"
-      :x="contextMenu.x || 400"
-      :y="contextMenu.y || 400"
+      :x="contextMenu.x"
+      :y="contextMenu.y"
       @close="handleClose"
     >
       <div class="menu-container">
