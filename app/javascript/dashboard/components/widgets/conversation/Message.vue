@@ -137,6 +137,7 @@ import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -432,6 +433,9 @@ export default {
         return;
       }
       e.preventDefault();
+      if (e.type === 'contextmenu') {
+        this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+      }
       this.contextMenuPosition = {
         x: e.pageX || e.clientX,
         y: e.pageY || e.clientY,
