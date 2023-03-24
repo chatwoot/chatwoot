@@ -1,6 +1,6 @@
 <template>
   <li v-if="shouldRenderMessage" :class="alignBubble">
-    <div :class="wrapClass">
+    <div :class="wrapClass" @contextmenu="openContextMenu($event)">
       <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
@@ -73,12 +73,6 @@
           :created-at="createdAt"
         />
       </div>
-      <translate-modal
-        v-if="showTranslateModal"
-        :content="data.content"
-        :content-attributes="contentAttributes"
-        @close="onCloseTranslateModal"
-      />
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
@@ -114,15 +108,12 @@
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"
+        :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"
-        :show-copy="hasText"
-        :show-delete="hasText || hasAttachments"
-        :show-canned-response-option="isOutgoing && hasText"
-        :menu-position="contextMenuPosition"
-        :message-content="data.content"
-        @toggle="handleContextMenuClick"
-        @delete="handleDelete"
-        @translate="handleTranslate"
+        :enabled-options="contextMenuEnabledOptions"
+        :message="data"
+        @open="openContextMenu"
+        @close="closeContextMenu"
       />
     </div>
   </li>
@@ -145,8 +136,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
-import { mapGetters } from 'vuex';
-import TranslateModal from './bubble/TranslateModal.vue';
 
 export default {
   components: {
@@ -162,7 +151,6 @@ export default {
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
-    TranslateModal,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -191,14 +179,10 @@ export default {
     return {
       showContextMenu: false,
       hasImageError: false,
-      showTranslateModal: false,
+      contextMenuPosition: {},
     };
   },
   computed: {
-    ...mapGetters({
-      getAccount: 'accounts/getAccount',
-      currentAccountId: 'getCurrentAccountId',
-    }),
     shouldRenderMessage() {
       return (
         this.hasAttachments ||
@@ -255,6 +239,13 @@ export default {
           this.data.private
         ) + botMessageContent
       );
+    },
+    contextMenuEnabledOptions() {
+      return {
+        copy: this.hasText,
+        delete: this.hasText || this.hasAttachments,
+        cannedResponse: this.isOutgoing && this.hasText,
+      };
     },
     contentAttributes() {
       return this.data.content_attributes || {};
@@ -384,10 +375,6 @@ export default {
       if (this.isPending || this.isFailed) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
-    contextMenuPosition() {
-      const { message_type: messageType } = this.data;
-      return messageType ? 'right' : 'left';
-    },
     shouldShowContextMenu() {
       return !(this.isFailed || this.isPending);
     },
@@ -429,37 +416,26 @@ export default {
     handleContextMenuClick() {
       this.showContextMenu = !this.showContextMenu;
     },
-    async handleDelete() {
-      const { conversation_id: conversationId, id: messageId } = this.data;
-      try {
-        await this.$store.dispatch('deleteMessage', {
-          conversationId,
-          messageId,
-        });
-        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
-        this.showContextMenu = false;
-      } catch (error) {
-        this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
-      }
-    },
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
     },
     onImageLoadError() {
       this.hasImageError = true;
     },
-    handleTranslate() {
-      const { locale } = this.getAccount(this.currentAccountId);
-      const { conversation_id: conversationId, id: messageId } = this.data;
-      this.$store.dispatch('translateMessage', {
-        conversationId,
-        messageId,
-        targetLanguage: locale || 'en',
-      });
-      this.showTranslateModal = true;
+    openContextMenu(e) {
+      if (getSelection().toString()) {
+        return;
+      }
+      e.preventDefault();
+      this.contextMenuPosition = {
+        x: e.pageX || e.clientX,
+        y: e.pageY || e.clientY,
+      };
+      this.showContextMenu = true;
     },
-    onCloseTranslateModal() {
-      this.showTranslateModal = false;
+    closeContextMenu() {
+      this.showContextMenu = false;
+      this.contextMenuPosition = { x: null, y: null };
     },
   },
 };
