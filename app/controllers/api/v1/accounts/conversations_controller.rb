@@ -91,7 +91,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def patch_custom_attributes
     custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
-    Current.account.conversations.where(id: @conversation.id).update_all("custom_attributes = custom_attributes || '#{custom_attributes.to_json}'::jsonb")
+    sanitized_json = custom_attributes.to_json.gsub("'", "''")
+    Current.account.conversations.where(id: @conversation.id).update_all("custom_attributes = custom_attributes || '#{sanitized_json}'::jsonb")
   end
 
   private
