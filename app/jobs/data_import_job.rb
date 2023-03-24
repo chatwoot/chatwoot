@@ -6,12 +6,17 @@ class DataImportJob < ApplicationJob
 
   def perform(data_import)
     contacts = []
-    data_import.update!(status: :processing)
-    csv = CSV.parse(data_import.import_file.download, headers: true)
-    csv.each { |row| contacts << build_contact(row.to_h.with_indifferent_access, data_import.account) }
-    result = Contact.import contacts, on_duplicate_key_update: :all, batch_size: 1000
-    data_import.update!(status: :completed, processed_records: csv.length - result.failed_instances.length, total_records: csv.length)
-    save_invalid_records_csv(csv.headers)
+    rejected_contacts = []
+    @data_import = data_import
+    @data_import.update!(status: :processing)
+    csv = CSV.parse(@data_import.import_file.download, headers: true)
+    csv.each { |row| contacts << build_contact(row.to_h.with_indifferent_access, @data_import.account) }
+    contacts.each_slice(1000) do |contact_chunks|
+      rejected_contacts << contact_chunks.reject { |contact| contact.valid? && contact.save! }
+    end
+    rejected_contacts = rejected_contacts.flatten
+    @data_import.update!(status: :completed, processed_records: (csv.length - rejected_contacts.length), total_records: csv.length)
+    save_invalid_records_csv(rejected_contacts)
   end
 
   private
@@ -22,7 +27,7 @@ class DataImportJob < ApplicationJob
 
     contact.name = params[:name] if params[:name].present?
     contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
-    contact.valid? ? contact : invalid_record(contact)
+    contact
   end
 
   # add the phone number check here
@@ -50,22 +55,25 @@ class DataImportJob < ApplicationJob
     contact
   end
 
-  def invalid_records(contact)
-    @invalid_records << contact
-  end
+  def save_invalid_records_csv(rejected_contacts)
+    return if rejected_contacts.blank?
 
-  def save_invalid_records_csv(_headers)
-    return if @invalid_records.blank?
-
-    attributes = %w[name email identifier phone_number ip_address errors]
-
-    CSV.generate(headers: true) do |csv|
-      csv << attributes
-
-      @invalid_records.each do |record|
-        csv << attributes.map { |attr| record.send(attr) } # add attributes hash manually
+    csv_string = CSV.generate do |csv|
+      csv << %w[id name email phone_number identifier errors]
+      rejected_contacts.each do |record|
+        csv << [record['id'], record['name'], record['email'], record['phone_number'], record['identifier'], record.errors.full_messages.join(',')]
       end
     end
+
+    mailer = ActionMailer::Base.new
+    mailer.attachments['erroneous_contact.csv'] = csv_string
+    mailer.mail(
+      from: ENV.fetch('MAILER_SENDER_EMAIL', nil),
+      to: @data_import.account.administrators.pluck(:email),
+      subject: "Contact Import failed on #{Time.zone.today.strftime('%d-%m-%Y')}",
+      body: 'See attachment'
+    )
+    mailer.message.deliver
   end
 
   def init_contact(params, account)
