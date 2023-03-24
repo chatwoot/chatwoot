@@ -73,39 +73,12 @@
           :created-at="createdAt"
         />
       </div>
-      <woot-modal
+      <translate-modal
         v-if="showTranslateModal"
-        modal-type="right-aligned"
-        show
-        :on-close="onCloseTranslateModal"
-      >
-        <div class="column content">
-          <p>
-            <b>{{ $t('TRANSLATE_MODAL.ORIGINAL_CONTENT') }}</b>
-          </p>
-          <p v-dompurify-html="data.content" />
-          <br />
-          <hr />
-          <div v-if="translationsAvailable">
-            <p>
-              <b>{{ $t('TRANSLATE_MODAL.TRANSLATED_CONTENT') }}</b>
-            </p>
-            <div
-              v-for="(translation, language) in translations"
-              :key="language"
-            >
-              <p>
-                <strong>{{ language }}:</strong>
-              </p>
-              <p v-dompurify-html="translation" />
-              <br />
-            </div>
-          </div>
-          <p v-else>
-            {{ $t('TRANSLATE_MODAL.NO_TRANSLATIONS_AVAILABLE') }}
-          </p>
-        </div>
-      </woot-modal>
+        :content="data.content"
+        :content-attributes="contentAttributes"
+        @close="onCloseTranslateModal"
+      />
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
@@ -173,6 +146,7 @@ import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { mapGetters } from 'vuex';
+import TranslateModal from './bubble/TranslateModal.vue';
 
 export default {
   components: {
@@ -188,6 +162,7 @@ export default {
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
+    TranslateModal,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -239,9 +214,6 @@ export default {
       } = this.contentAttributes.email || {};
       return fullHTMLContent || fullTextContent || '';
     },
-    translations() {
-      return this.contentAttributes.translations || {};
-    },
     displayQuotedButton() {
       if (this.emailMessageContent.includes('<blockquote')) {
         return true;
@@ -252,9 +224,6 @@ export default {
       }
 
       return false;
-    },
-    translationsAvailable() {
-      return !!Object.keys(this.translations).length;
     },
     message() {
       // If the message is an email, emailMessageContent would be present
@@ -612,18 +581,10 @@ export default {
   margin-top: var(--space-smaller) var(--space-smaller) 0 0;
 }
 
-.button--delete-message {
-  visibility: hidden;
-}
-
 li.left,
 li.right {
   display: flex;
   align-items: flex-end;
-
-  &:hover .button--delete-message {
-    visibility: visible;
-  }
 }
 
 li.left.has-tweet-menu .context-menu {
@@ -652,9 +613,6 @@ li.right {
 
 .has-context-menu {
   background: var(--color-background);
-  .button--delete-message {
-    visibility: visible;
-  }
 }
 
 .context-menu {
