@@ -355,6 +355,7 @@ export default {
     },
 
     handleScroll(e) {
+      bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.setScrollParams();
 
       const dataFetchCheck =
