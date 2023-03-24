@@ -1,5 +1,6 @@
 <template>
   <div class="context-menu">
+    <!-- Add To Canned Responses -->
     <woot-modal
       v-if="isCannedResponseModalOpen && enabledOptions['cannedResponse']"
       :show.sync="isCannedResponseModalOpen"
@@ -10,11 +11,24 @@
         :on-close="hideCannedResponseModal"
       />
     </woot-modal>
+    <!-- Translate Content -->
     <translate-modal
       v-if="showTranslateModal"
       :content="messageContent"
       :content-attributes="contentAttributes"
       @close="onCloseTranslateModal"
+    />
+    <!-- Confirm Deletion -->
+    <woot-delete-modal
+      v-if="showDeleteModal"
+      class="context-menu--delete-modal"
+      :show.sync="showDeleteModal"
+      :on-close="closeDeleteModal"
+      :on-confirm="confirmDeletion"
+      :title="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.TITLE')"
+      :message="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.MESSAGE')"
+      :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
+      :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
     />
     <woot-button
       icon="more-vertical"
@@ -67,7 +81,7 @@
             label: this.$t('CONVERSATION.CONTEXT_MENU.DELETE'),
           }"
           variant="icon"
-          @click="handleDelete"
+          @click="openDeleteModal"
         />
       </div>
     </woot-context-menu>
@@ -113,6 +127,7 @@ export default {
     return {
       isCannedResponseModalOpen: false,
       showTranslateModal: false,
+      showDeleteModal: false,
     };
   },
   computed: {
@@ -142,19 +157,19 @@ export default {
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
       this.handleClose();
     },
-    hideCannedResponseModal() {
-      this.isCannedResponseModalOpen = false;
-      this.$emit('toggle', false);
-    },
     showCannedResponseModal() {
       this.$track(ACCOUNT_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
     },
-    handleClose(e) {
-      this.$emit('close', e);
+    hideCannedResponseModal() {
+      this.isCannedResponseModalOpen = false;
+      this.handleClose();
     },
     handleOpen(e) {
       this.$emit('open', e);
+    },
+    handleClose(e) {
+      this.$emit('close', e);
     },
     handleTranslate() {
       const { locale } = this.getAccount(this.currentAccountId);
@@ -166,7 +181,15 @@ export default {
       this.handleClose();
       this.showTranslateModal = true;
     },
-    async handleDelete() {
+    onCloseTranslateModal() {
+      this.showTranslateModal = false;
+    },
+
+    openDeleteModal() {
+      this.handleClose();
+      this.showDeleteModal = true;
+    },
+    async confirmDeletion() {
       try {
         await this.$store.dispatch('deleteMessage', {
           conversationId: this.conversationId,
@@ -178,8 +201,8 @@ export default {
         this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
       }
     },
-    onCloseTranslateModal() {
-      this.showTranslateModal = false;
+    closeDeleteModal() {
+      this.showDeleteModal = false;
     },
   },
 };
@@ -194,6 +217,23 @@ export default {
   hr {
     border-bottom: 1px solid var(--color-border-light);
     margin: var(--space-smaller);
+  }
+}
+
+.context-menu--delete-modal {
+  ::v-deep {
+    .modal-container {
+      max-width: 48rem;
+
+      h2 {
+        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-default);
+      }
+    }
+
+    .modal-footer {
+      padding: var(--space-normal) var(--space-large) var(--space-large);
+    }
   }
 }
 </style>
