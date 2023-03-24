@@ -21,6 +21,7 @@ zh_TW:
   messages:
     reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
     reset_password_failure: 我們找不到用戶指定的電子郵件。
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ zh_TW:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reporting period %{since} to %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: 客服名稱
       conversations_count: 對話數量
@@ -78,6 +80,9 @@ zh_TW:
       conversations_count: 對話數量
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: day
     csat:
       headers:

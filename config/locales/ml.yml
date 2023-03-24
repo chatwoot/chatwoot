@@ -21,6 +21,7 @@ ml:
   messages:
     reset_password_success: Woot! പാസ്‌വേഡ് പുനസജ്ജീകരണത്തിനുള്ള അഭ്യർത്ഥന വിജയകരമാണ്. നിർദ്ദേശങ്ങൾക്കായി നിങ്ങളുടെ മെയിൽ പരിശോധിക്കുക.
     reset_password_failure: ക്ഷമിക്കണം! നിർദ്ദിഷ്ട ഇമെയിൽ ഉള്ള ഒരു ഉപയോക്താവിനെയും ഞങ്ങൾക്ക് കണ്ടെത്താൻ കഴിഞ്ഞില്ല.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ ml:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reporting period %{since} to %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
@@ -78,6 +80,9 @@ ml:
       conversations_count: സംഭാഷണങ്ങളുടെ എണ്ണം
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: ദിവസം
     csat:
       headers:

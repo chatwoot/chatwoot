@@ -21,6 +21,7 @@ tr:
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: boş bırakılmamalı
@@ -57,6 +58,7 @@ tr:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Temsilci adı
       conversations_count: Konuşma sayısı
@@ -78,6 +80,9 @@ tr:
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: gün
     csat:
       headers:
