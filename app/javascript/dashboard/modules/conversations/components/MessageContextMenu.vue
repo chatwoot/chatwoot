@@ -15,73 +15,66 @@
       color-scheme="secondary"
       variant="clear"
       size="small"
-      @click="handleContextMenuClick"
+      @click="handleOpen"
     />
-    <div
-      v-if="isOpen && !isCannedResponseModalOpen"
-      v-on-clickaway="handleContextMenuClick"
-      class="dropdown-pane dropdown-pane--open"
-      :class="`dropdown-pane--${menuPosition}`"
-    >
-      <woot-dropdown-menu>
-        <woot-dropdown-item v-if="showDelete">
-          <woot-button
-            variant="clear"
-            color-scheme="alert"
-            size="small"
-            icon="delete"
-            @click="handleDelete"
-          >
-            {{ $t('CONVERSATION.CONTEXT_MENU.DELETE') }}
-          </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item v-if="showCopy">
-          <woot-button
-            variant="clear"
-            size="small"
-            icon="clipboard"
-            color-scheme="secondary"
-            @click="handleCopy"
-          >
-            {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
-          </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
-          <woot-button
-            variant="clear"
-            size="small"
-            icon="link"
-            color-scheme="secondary"
-            @click="copyLinkToMessage"
-          >
-            {{ $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK') }}
-          </woot-button>
-        </woot-dropdown-item>
 
-        <woot-dropdown-item v-if="showCannedResponseOption">
-          <woot-button
-            variant="clear"
-            size="small"
-            icon="comment-add"
-            color-scheme="secondary"
-            @click="showCannedResponseModal"
-          >
-            {{ $t('CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE') }}
-          </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
-          <woot-button
-            variant="clear"
-            size="small"
-            icon="translate"
-            color-scheme="secondary"
-            @click="handleTranslate"
-          >
-            {{ $t('CONVERSATION.CONTEXT_MENU.TRANSLATE') }}
-          </woot-button>
-        </woot-dropdown-item>
-      </woot-dropdown-menu>
-    </div>
+    <woot-context-menu
+      v-if="isOpen && !isCannedResponseModalOpen"
+      ref="menu"
+      :x="contextMenu.x || 400"
+      :y="contextMenu.y || 400"
+      @close="handleClose"
+    >
+      <div class="menu-container">
+        <menu-item
+          :option="{
+            icon: 'clipboard',
+            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY'),
+          }"
+          variant="icon"
+          @click="handleCopy"
+        />
+        <menu-item
+          :option="{
+            icon: 'translate',
+            label: this.$t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
+          }"
+          variant="icon"
+          @click="handleTranslate"
+        />
+        <hr />
+
+        <menu-item
+          :option="{
+            icon: 'link',
+            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
+          }"
+          variant="icon"
+          @click="copyLinkToMessage"
+        />
+        <menu-item
+          :option="{
+            icon: 'comment-add',
+            label: this.$t(
+              'CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE'
+            ),
+          }"
+          variant="icon"
+          @click="showCannedResponseModal"
+        />
+        <hr />
+
+        <menu-item
+          v-if="showDelete"
+          :option="{
+            icon: 'delete',
+            label: this.$t('CONVERSATION.CONTEXT_MENU.DELETE'),
+          }"
+          variant="icon"
+          @click="handleDelete"
+        />
+      </div>
+    </woot-context-menu>
   </div>
 </template>
 <script>
@@ -90,18 +83,16 @@ import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import { mapGetters } from 'vuex';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 
 export default {
   components: {
     AddCannedModal,
-    WootDropdownMenu,
-    WootDropdownItem,
+    MenuItem,
   },
   mixins: [alertMixin, clickaway, messageFormatterMixin],
   props: {
@@ -116,6 +107,10 @@ export default {
     showCopy: {
       type: Boolean,
       default: false,
+    },
+    contextMenu: {
+      type: Object,
+      default: () => ({}),
     },
     showDelete: {
       type: Boolean,
@@ -142,17 +137,12 @@ export default {
     return { isCannedResponseModalOpen: false };
   },
   computed: {
-    ...mapGetters({
-      currentAccountId: 'getCurrentAccountId',
-    }),
+    ...mapGetters({ currentAccountId: 'getCurrentAccountId' }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
     },
   },
   methods: {
-    handleContextMenuClick() {
-      this.$emit('toggle', !this.isOpen);
-    },
     async copyLinkToMessage() {
       const fullConversationURL =
         window.chatwootConfig.hostURL +
@@ -162,42 +152,49 @@ export default {
             accountId: this.currentAccountId,
           })
         );
-
       await copyTextToClipboard(`${fullConversationURL}?messageId=${this.id}`);
       this.showAlert(this.$t('CONVERSATION.LINK_COPIED'));
+      this.handleClose();
     },
     async handleCopy() {
       await copyTextToClipboard(this.plainTextContent);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-      this.$emit('toggle', false);
+      this.handleClose();
     },
     handleDelete() {
       this.$emit('delete');
+      this.handleClose();
     },
     hideCannedResponseModal() {
       this.isCannedResponseModalOpen = false;
-      this.$emit('toggle', false);
     },
     showCannedResponseModal() {
       this.$track(ACCOUNT_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
     },
-
     handleTranslate() {
       this.$emit('translate');
-      this.handleContextMenuClick();
+      this.handleClose();
+    },
+    handleClose(e) {
+      this.$emit('close', e);
+    },
+    handleOpen(e) {
+      this.$emit('open', e);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.dropdown-pane {
-  bottom: var(--space-large);
-}
-.dropdown-pane--left {
-  right: var(--space-minus-small);
-}
-.dropdown-pane--right {
-  left: var(--space-minus-small);
+.menu-container {
+  padding: var(--space-smaller);
+  background-color: var(--white);
+  box-shadow: var(--shadow-context-menu);
+  border-radius: var(--border-radius-normal);
+
+  hr {
+    border-bottom: 1px solid var(--color-border-light);
+    margin: var(--space-smaller);
+  }
 }
 </style>

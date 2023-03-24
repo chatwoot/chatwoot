@@ -1,6 +1,6 @@
 <template>
   <li v-if="shouldRenderMessage" :id="'message' + data.id" :class="alignBubble">
-    <div :class="wrapClass">
+    <div :class="wrapClass" @contextmenu="openContextMenu($event)">
       <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
@@ -73,39 +73,6 @@
           :created-at="createdAt"
         />
       </div>
-      <woot-modal
-        v-if="showTranslateModal"
-        modal-type="right-aligned"
-        show
-        :on-close="onCloseTranslateModal"
-      >
-        <div class="column content">
-          <p>
-            <b>{{ $t('TRANSLATE_MODAL.ORIGINAL_CONTENT') }}</b>
-          </p>
-          <p v-dompurify-html="data.content" />
-          <br />
-          <hr />
-          <div v-if="translationsAvailable">
-            <p>
-              <b>{{ $t('TRANSLATE_MODAL.TRANSLATED_CONTENT') }}</b>
-            </p>
-            <div
-              v-for="(translation, language) in translations"
-              :key="language"
-            >
-              <p>
-                <strong>{{ language }}:</strong>
-              </p>
-              <p v-dompurify-html="translation" />
-              <br />
-            </div>
-          </div>
-          <p v-else>
-            {{ $t('TRANSLATE_MODAL.NO_TRANSLATIONS_AVAILABLE') }}
-          </p>
-        </div>
-      </woot-modal>
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
@@ -138,18 +105,26 @@
         />
       </div>
     </div>
+    <translate-modal
+      v-if="showTranslateModal"
+      :content="data.content"
+      :content-attributes="contentAttributes"
+      @close="onCloseTranslateModal"
+    />
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"
         :id="data.id"
         :is-open="showContextMenu"
+        :context-menu="contextMenu"
         :show-copy="hasText"
         :conversation-id="data.conversation_id"
         :show-canned-response-option="isOutgoing && hasText"
         :show-delete="hasText || hasAttachments"
         :menu-position="contextMenuPosition"
         :message-content="data.content"
-        @toggle="handleContextMenuClick"
+        @open="openContextMenu"
+        @close="closeContextMenu"
         @delete="handleDelete"
         @translate="handleTranslate"
       />
@@ -175,6 +150,7 @@ import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { mapGetters } from 'vuex';
+import TranslateModal from './bubble/TranslateModal.vue';
 
 export default {
   components: {
@@ -190,6 +166,7 @@ export default {
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
+    TranslateModal,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -219,6 +196,7 @@ export default {
       showContextMenu: false,
       hasImageError: false,
       showTranslateModal: false,
+      contextMenu: {},
     };
   },
   computed: {
@@ -241,9 +219,6 @@ export default {
       } = this.contentAttributes.email || {};
       return fullHTMLContent || fullTextContent || '';
     },
-    translations() {
-      return this.contentAttributes.translations || {};
-    },
     displayQuotedButton() {
       if (this.emailMessageContent.includes('<blockquote')) {
         return true;
@@ -254,9 +229,6 @@ export default {
       }
 
       return false;
-    },
-    translationsAvailable() {
-      return !!Object.keys(this.translations).length;
     },
     message() {
       // If the message is an email, emailMessageContent would be present
@@ -459,9 +431,6 @@ export default {
       }
       return false;
     },
-    handleContextMenuClick() {
-      this.showContextMenu = !this.showContextMenu;
-    },
     async handleDelete() {
       const { conversation_id: conversationId, id: messageId } = this.data;
       try {
@@ -480,6 +449,19 @@ export default {
     },
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    openContextMenu(e) {
+      if (getSelection().toString()) {
+        return;
+      }
+      e.preventDefault();
+
+      this.contextMenu = { x: e.pageX || e.clientX, y: e.pageY || e.clientY };
+      this.showContextMenu = true;
+    },
+    closeContextMenu() {
+      this.showContextMenu = false;
+      this.contextMenu = { x: null, y: null };
     },
     handleTranslate() {
       const { locale } = this.getAccount(this.currentAccountId);
@@ -614,18 +596,10 @@ export default {
   margin-top: var(--space-smaller) var(--space-smaller) 0 0;
 }
 
-.button--delete-message {
-  visibility: hidden;
-}
-
 li.left,
 li.right {
   display: flex;
   align-items: flex-end;
-
-  &:hover .button--delete-message {
-    visibility: visible;
-  }
 }
 
 li.left.has-tweet-menu .context-menu {
@@ -654,9 +628,6 @@ li.right {
 
 .has-context-menu {
   background: var(--color-background);
-  .button--delete-message {
-    visibility: visible;
-  }
 }
 
 .context-menu {
