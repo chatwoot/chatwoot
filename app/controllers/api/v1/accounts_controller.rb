@@ -6,8 +6,8 @@ class Api::V1::AccountsController < Api::BaseController
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]
   before_action :validate_captcha, only: [:create]
-  before_action :fetch_account, except: [:create, :cache_keys]
-  before_action :check_authorization, except: [:create, :cache_keys]
+  before_action :fetch_account, except: [:create]
+  before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
