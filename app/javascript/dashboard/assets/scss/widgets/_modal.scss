@@ -86,6 +86,12 @@
       margin-left: var(--space-small);
     }
 
+    &:first-child {
+      .button {
+        margin-left: 0;
+      }
+    }
+
     &.justify-content-end {
       justify-content: end;
     }
