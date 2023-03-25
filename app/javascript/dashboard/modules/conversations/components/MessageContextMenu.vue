@@ -61,7 +61,15 @@
           variant="icon"
           @click="handleTranslate"
         />
-        <hr v-if="enabledOptions['cannedResponse']" />
+        <hr />
+        <menu-item
+          :option="{
+            icon: 'link',
+            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
+          }"
+          variant="icon"
+          @click="copyLinkToMessage"
+        />
         <menu-item
           v-if="enabledOptions['cannedResponse']"
           :option="{
@@ -162,8 +170,10 @@ export default {
             accountId: this.currentAccountId,
           })
         );
-      await copyTextToClipboard(`${fullConversationURL}?messageId=${this.id}`);
-      this.showAlert(this.$t('CONVERSATION.LINK_COPIED'));
+      await copyTextToClipboard(
+        `${fullConversationURL}?messageId=${this.messageId}`
+      );
+      this.showAlert(this.$t('CONVERSATION.CONTEXT_MENU.LINK_COPIED'));
       this.handleClose();
     },
     async handleCopy() {
