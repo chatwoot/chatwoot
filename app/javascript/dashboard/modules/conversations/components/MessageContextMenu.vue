@@ -1,7 +1,8 @@
 <template>
   <div class="context-menu">
+    <!-- Add To Canned Responses -->
     <woot-modal
-      v-if="isCannedResponseModalOpen && showCannedResponseOption"
+      v-if="isCannedResponseModalOpen && enabledOptions['cannedResponse']"
       :show.sync="isCannedResponseModalOpen"
       :on-close="hideCannedResponseModal"
     >
@@ -10,6 +11,25 @@
         :on-close="hideCannedResponseModal"
       />
     </woot-modal>
+    <!-- Translate Content -->
+    <translate-modal
+      v-if="showTranslateModal"
+      :content="messageContent"
+      :content-attributes="contentAttributes"
+      @close="onCloseTranslateModal"
+    />
+    <!-- Confirm Deletion -->
+    <woot-delete-modal
+      v-if="showDeleteModal"
+      class="context-menu--delete-modal"
+      :show.sync="showDeleteModal"
+      :on-close="closeDeleteModal"
+      :on-confirm="confirmDeletion"
+      :title="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.TITLE')"
+      :message="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.MESSAGE')"
+      :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
+      :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
+    />
     <woot-button
       icon="more-vertical"
       color-scheme="secondary"
@@ -17,15 +37,15 @@
       size="small"
       @click="handleOpen"
     />
-
     <woot-context-menu
       v-if="isOpen && !isCannedResponseModalOpen"
-      :x="contextMenu.x"
-      :y="contextMenu.y"
+      :x="contextMenuPosition.x"
+      :y="contextMenuPosition.y"
       @close="handleClose"
     >
       <div class="menu-container">
         <menu-item
+          v-if="enabledOptions['copy']"
           :option="{
             icon: 'clipboard',
             label: this.$t('CONVERSATION.CONTEXT_MENU.COPY'),
@@ -41,17 +61,9 @@
           variant="icon"
           @click="handleTranslate"
         />
-        <hr />
-
+        <hr v-if="enabledOptions['cannedResponse']" />
         <menu-item
-          :option="{
-            icon: 'link',
-            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
-          }"
-          variant="icon"
-          @click="copyLinkToMessage"
-        />
-        <menu-item
+          v-if="enabledOptions['cannedResponse']"
           :option="{
             icon: 'comment-add',
             label: this.$t(
@@ -61,16 +73,15 @@
           variant="icon"
           @click="showCannedResponseModal"
         />
-        <hr />
-
+        <hr v-if="enabledOptions['delete']" />
         <menu-item
-          v-if="showDelete"
+          v-if="enabledOptions['delete']"
           :option="{
             icon: 'delete',
             label: this.$t('CONVERSATION.CONTEXT_MENU.DELETE'),
           }"
           variant="icon"
-          @click="handleDelete"
+          @click="openDeleteModal"
         />
       </div>
     </woot-context-menu>
@@ -78,67 +89,67 @@
 </template>
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
+import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
-import { mapGetters } from 'vuex';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 
 export default {
   components: {
     AddCannedModal,
+    TranslateModal,
     MenuItem,
   },
   mixins: [alertMixin, clickaway, messageFormatterMixin],
   props: {
-    messageContent: {
-      type: String,
-      default: '',
+    message: {
+      type: Object,
+      required: true,
     },
     isOpen: {
       type: Boolean,
       default: false,
     },
-    showCopy: {
-      type: Boolean,
-      default: false,
-    },
-    contextMenu: {
+    enabledOptions: {
       type: Object,
       default: () => ({}),
     },
-    showDelete: {
-      type: Boolean,
-      default: false,
-    },
-    menuPosition: {
-      type: String,
-      default: 'left',
-    },
-    showCannedResponseOption: {
-      type: Boolean,
-      default: true,
-    },
-    conversationId: {
-      type: Number,
-      required: true,
-    },
-    id: {
-      type: Number,
-      required: true,
+    contextMenuPosition: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
-    return { isCannedResponseModalOpen: false };
+    return {
+      isCannedResponseModalOpen: false,
+      showTranslateModal: false,
+      showDeleteModal: false,
+    };
   },
   computed: {
-    ...mapGetters({ currentAccountId: 'getCurrentAccountId' }),
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      currentAccountId: 'getCurrentAccountId',
+    }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
+    },
+    conversationId() {
+      return this.message.conversation_id;
+    },
+    messageId() {
+      return this.message.id;
+    },
+    messageContent() {
+      return this.message.content;
+    },
+    contentAttributes() {
+      return this.message.content_attributes;
     },
   },
   methods: {
@@ -160,26 +171,52 @@ export default {
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
       this.handleClose();
     },
-    handleDelete() {
-      this.$emit('delete');
-      this.handleClose();
-    },
-    hideCannedResponseModal() {
-      this.isCannedResponseModalOpen = false;
-    },
     showCannedResponseModal() {
       this.$track(ACCOUNT_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
     },
-    handleTranslate() {
-      this.$emit('translate');
+    hideCannedResponseModal() {
+      this.isCannedResponseModalOpen = false;
       this.handleClose();
+    },
+    handleOpen(e) {
+      this.$emit('open', e);
     },
     handleClose(e) {
       this.$emit('close', e);
     },
-    handleOpen(e) {
-      this.$emit('open', e);
+    handleTranslate() {
+      const { locale } = this.getAccount(this.currentAccountId);
+      this.$store.dispatch('translateMessage', {
+        conversationId: this.conversationId,
+        messageId: this.messageId,
+        targetLanguage: locale || 'en',
+      });
+      this.handleClose();
+      this.showTranslateModal = true;
+    },
+    onCloseTranslateModal() {
+      this.showTranslateModal = false;
+    },
+
+    openDeleteModal() {
+      this.handleClose();
+      this.showDeleteModal = true;
+    },
+    async confirmDeletion() {
+      try {
+        await this.$store.dispatch('deleteMessage', {
+          conversationId: this.conversationId,
+          messageId: this.messageId,
+        });
+        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
+        this.handleClose();
+      } catch (error) {
+        this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
+      }
+    },
+    closeDeleteModal() {
+      this.showDeleteModal = false;
     },
   },
 };
@@ -194,6 +231,23 @@ export default {
   hr {
     border-bottom: 1px solid var(--color-border-light);
     margin: var(--space-smaller);
+  }
+}
+
+.context-menu--delete-modal {
+  ::v-deep {
+    .modal-container {
+      max-width: 48rem;
+
+      h2 {
+        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-default);
+      }
+    }
+
+    .modal-footer {
+      padding: var(--space-normal) var(--space-large) var(--space-large);
+    }
   }
 }
 </style>

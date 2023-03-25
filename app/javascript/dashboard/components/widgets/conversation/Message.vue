@@ -1,5 +1,5 @@
 <template>
-  <li v-if="shouldRenderMessage" :id="'message' + data.id" :class="alignBubble">
+  <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass" @contextmenu="openContextMenu($event)">
       <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
@@ -73,12 +73,6 @@
           :created-at="createdAt"
         />
       </div>
-      <translate-modal
-        v-if="showTranslateModal"
-        :content="data.content"
-        :content-attributes="contentAttributes"
-        @close="onCloseTranslateModal"
-      />
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
@@ -114,19 +108,12 @@
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"
-        :id="data.id"
+        :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"
-        :context-menu="contextMenu"
-        :show-copy="hasText"
-        :conversation-id="data.conversation_id"
-        :show-canned-response-option="isOutgoing && hasText"
-        :show-delete="hasText || hasAttachments"
-        :menu-position="contextMenuPosition"
-        :message-content="data.content"
+        :enabled-options="contextMenuEnabledOptions"
+        :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
-        @delete="handleDelete"
-        @translate="handleTranslate"
       />
     </div>
   </li>
@@ -149,8 +136,8 @@ import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
-import { mapGetters } from 'vuex';
-import TranslateModal from './bubble/TranslateModal.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -166,7 +153,6 @@ export default {
     ContextMenu,
     Spinner,
     instagramImageErrorPlaceholder,
-    TranslateModal,
   },
   mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -195,15 +181,10 @@ export default {
     return {
       showContextMenu: false,
       hasImageError: false,
-      showTranslateModal: false,
-      contextMenu: {},
+      contextMenuPosition: {},
     };
   },
   computed: {
-    ...mapGetters({
-      getAccount: 'accounts/getAccount',
-      currentAccountId: 'getCurrentAccountId',
-    }),
     shouldRenderMessage() {
       return (
         this.hasAttachments ||
@@ -260,6 +241,13 @@ export default {
           this.data.private
         ) + botMessageContent
       );
+    },
+    contextMenuEnabledOptions() {
+      return {
+        copy: this.hasText,
+        delete: this.hasText || this.hasAttachments,
+        cannedResponse: this.isOutgoing && this.hasText,
+      };
     },
     contentAttributes() {
       return this.data.content_attributes || {};
@@ -389,10 +377,6 @@ export default {
       if (this.isPending || this.isFailed) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
-    contextMenuPosition() {
-      const { message_type: messageType } = this.data;
-      return messageType ? 'right' : 'left';
-    },
     shouldShowContextMenu() {
       return !(this.isFailed || this.isPending);
     },
@@ -421,6 +405,10 @@ export default {
   },
   mounted() {
     this.hasImageError = false;
+    bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+  },
+  beforeDestroy() {
+    bus.$off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
   },
   methods: {
     hasMediaAttachment(type) {
@@ -431,18 +419,8 @@ export default {
       }
       return false;
     },
-    async handleDelete() {
-      const { conversation_id: conversationId, id: messageId } = this.data;
-      try {
-        await this.$store.dispatch('deleteMessage', {
-          conversationId,
-          messageId,
-        });
-        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
-        this.showContextMenu = false;
-      } catch (error) {
-        this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
-      }
+    handleContextMenuClick() {
+      this.showContextMenu = !this.showContextMenu;
     },
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
@@ -455,26 +433,18 @@ export default {
         return;
       }
       e.preventDefault();
-
-      this.contextMenu = { x: e.pageX || e.clientX, y: e.pageY || e.clientY };
+      if (e.type === 'contextmenu') {
+        this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+      }
+      this.contextMenuPosition = {
+        x: e.pageX || e.clientX,
+        y: e.pageY || e.clientY,
+      };
       this.showContextMenu = true;
     },
     closeContextMenu() {
       this.showContextMenu = false;
-      this.contextMenu = { x: null, y: null };
-    },
-    handleTranslate() {
-      const { locale } = this.getAccount(this.currentAccountId);
-      const { conversation_id: conversationId, id: messageId } = this.data;
-      this.$store.dispatch('translateMessage', {
-        conversationId,
-        messageId,
-        targetLanguage: locale || 'en',
-      });
-      this.showTranslateModal = true;
-    },
-    onCloseTranslateModal() {
-      this.showTranslateModal = false;
+      this.contextMenuPosition = { x: null, y: null };
     },
   },
 };

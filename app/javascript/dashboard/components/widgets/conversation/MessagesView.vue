@@ -359,7 +359,6 @@ export default {
 
     async fetchPreviousMessages(scrollTop = 0) {
       this.setScrollParams();
-
       const shouldLoadMoreMessages =
         this.getMessages.dataFetched === true &&
         !this.listLoadingStatus &&
@@ -390,6 +389,7 @@ export default {
     },
 
     handleScroll(e) {
+      bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
