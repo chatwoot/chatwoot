@@ -58,7 +58,7 @@ fa:
         name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
   reports:
     period: زمان گزارش از %{since} تا %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: گزارش تولید شده در منطقه زمانی UTC است
     agent_csv:
       agent_name: اسم ایجنت
       conversations_count: Conversations count
@@ -81,7 +81,7 @@ fa:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     conversation_traffic_csv:
-      date: Date and time
+      date: تاریخ و زمان
       conversations_count: تعداد گفتگوها
     default_group_by: روز
     csat:
