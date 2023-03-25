@@ -83,7 +83,7 @@ export default {
   }
 
   &.disabled {
-    opacity: 50%;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }
