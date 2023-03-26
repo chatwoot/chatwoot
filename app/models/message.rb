@@ -216,6 +216,12 @@ class Message < ApplicationRecord
     # also the purity of this method is intact, and can be relied on this solely
     return false if additional_attributes['campaign_id'].present?
 
+    # adding this condition again to ensure if the first_reply_created_at is not present
+    return false if conversation.messages.outgoing
+                                .where.not(sender_type: 'AgentBot')
+                                .where.not(private: true)
+                                .where("(additional_attributes->'campaign_id') is null").count > 1
+
     true
   end
 
