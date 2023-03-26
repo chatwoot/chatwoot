@@ -78,7 +78,7 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      if (payload.length < 20) {
+      if (!payload.length) {
         commit(types.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
@@ -217,9 +217,7 @@ const actions = {
     { conversationId, messageId }
   ) {
     try {
-      const response = await MessageApi.delete(conversationId, messageId);
-      const { data } = response;
-      // The delete message is actually deleting the content.
+      const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
     } catch (error) {
       throw new Error(error);
