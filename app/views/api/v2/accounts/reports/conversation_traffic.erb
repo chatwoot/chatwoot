@@ -1,12 +1,9 @@
-<% headers = [
-    I18n.t('reports.conversation_traffic_csv.date'),
-    I18n.t('reports.conversation_traffic_csv.conversations_count'),
-  ]
-%>
-<%= CSVSafe.generate_line headers -%>
-<% @report_data.each do |row| %>
+<% @report_data[:timezone].each do |row| %>
 <%= CSVSafe.generate_line row -%>
 <% end %>
 
-<%= CSVSafe.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>
+
+<% @report_data[:utc].each do |row| %>
+<%= CSVSafe.generate_line row -%>
+<% end %>
 <%= CSVSafe.generate_line [I18n.t('reports.utc_warning')] %>
