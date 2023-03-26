@@ -38,32 +38,16 @@ module Api::V2::Accounts::HeatmapHelper
     today = DateTime.now.utc.beginning_of_day
     utc_data_raw = generate_heatmap_data(today, nil)
 
-    utc_data_raw.map do |d|
-      date = Time.zone.at(d[:timestamp])
-      {
-        date: date.to_date.to_s,
-        hour: date.hour,
-        value: d[:value]
-      }
-    end
+    transform_data(utc_data_raw, true)
   end
 
-  def generate_heatmap_data_for_timezone(offset, _report_params)
+  def generate_heatmap_data_for_timezone(offset)
     timezone = ActiveSupport::TimeZone[offset]&.name
     timezone_today = DateTime.now.in_time_zone(timezone).beginning_of_day
 
     timezone_data_raw = generate_heatmap_data(timezone_today, offset)
 
-    # rubocop:disable Rails/TimeZone
-    timezone_data_raw.map do |d|
-      date = Time.at(d[:timestamp])
-      {
-        date: date.to_date.to_s,
-        hour: date.hour,
-        value: d[:value]
-      }
-    end
-    # rubocop:enable Rails/TimeZone
+    transform_data(timezone_data_raw, false)
   end
 
   def generate_heatmap_data(date, offset)
@@ -79,6 +63,19 @@ module Api::V2::Accounts::HeatmapHelper
                                                                  until: until_timestamp(date),
                                                                  timezone_offset: offset
                                                                })).build
+  end
+
+  def transform_data(data, zone_transform)
+    # rubocop:disable Rails/TimeZone
+    data.map do |d|
+      date = zone_transform ? Time.zone.at(d[:timestamp]) : Time.at(d[:timestamp])
+      {
+        date: date.to_date.to_s,
+        hour: date.hour,
+        value: d[:value]
+      }
+    end
+    # rubocop:enable Rails/TimeZone
   end
 
   def since_timestamp(date)
