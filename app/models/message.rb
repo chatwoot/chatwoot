@@ -209,12 +209,10 @@ class Message < ApplicationRecord
     return false unless sender.is_a?(User)
 
     # if automation rule id is present, it's not a human response
-    return false if content_attributes['automation_rule_id'].present?
-
     # if campaign id is present, it's not a human response
     # this check already happens in `not_created_by_automation` but added here for the sake of brevity
     # also the purity of this method is intact, and can be relied on this solely
-    return false if additional_attributes['campaign_id'].present?
+    return false if content_attributes['automation_rule_id'].present? || additional_attributes['campaign_id'].present?
 
     # adding this condition again to ensure if the first_reply_created_at is not present
     return false if conversation.messages.outgoing
