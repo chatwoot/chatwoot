@@ -1,14 +1,10 @@
 module Api::V2::Accounts::HeatmapHelper
   def generate_conversations_heatmap_report
-    report_params = {
-      type: :account,
-      group_by: 'hour',
-      metric: 'conversations_count',
-      business_hours: false
-    }
+    utc_data = generate_heatmap_data_for_utc
+    # we cannot convert the UTC data, because the data has a 60 min granularity
 
-    utc_data = generate_heatmap_data_for_utc(report_params)
-    timezone_data = generate_heatmap_data_for_timezone(params[:timezone_offset], report_params)
+    # while timezones have a 30 min granularity
+    timezone_data = generate_heatmap_data_for_timezone(params[:timezone_offset])
 
     {
       utc: group_traffic_data(utc_data),
@@ -38,13 +34,9 @@ module Api::V2::Accounts::HeatmapHelper
     result_arr
   end
 
-  def generate_heatmap_data_for_utc(report_params)
+  def generate_heatmap_data_for_utc
     today = DateTime.now.utc.beginning_of_day
-
-    utc_data_raw = V2::ReportBuilder.new(Current.account, report_params.merge({
-                                                                                since: (today - 7.days).to_i.to_s,
-                                                                                until: today.to_i.to_s
-                                                                              })).build
+    utc_data_raw = generate_heatmap_data(today, nil)
 
     utc_data_raw.map do |d|
       date = Time.zone.at(d[:timestamp])
@@ -56,21 +48,11 @@ module Api::V2::Accounts::HeatmapHelper
     end
   end
 
-  def generate_heatmap_data_for_timezone(offset, report_params)
+  def generate_heatmap_data_for_timezone(offset, _report_params)
     timezone = ActiveSupport::TimeZone[offset]&.name
     timezone_today = DateTime.now.in_time_zone(timezone).beginning_of_day
 
-    # we need to convert the data to the timezone of the account
-    # so that the report is generated in the timezone of the account
-    # and not in UTC
-    #
-    # we cannot convert the UTC data, because the data has a 60 min granularity
-    # while timezones have a 30 min granularity
-    timezone_data_raw = V2::ReportBuilder.new(Current.account, report_params.merge({
-                                                                                     since: (timezone_today - 7.days).to_i.to_s,
-                                                                                     until: timezone_today.to_i.to_s,
-                                                                                     timezone_offset: offset
-                                                                                   })).build
+    timezone_data_raw = generate_heatmap_data(timezone_today, offset)
 
     # rubocop:disable Rails/TimeZone
     timezone_data_raw.map do |d|
@@ -82,5 +64,28 @@ module Api::V2::Accounts::HeatmapHelper
       }
     end
     # rubocop:enable Rails/TimeZone
+  end
+
+  def generate_heatmap_data(date, offset)
+    report_params = {
+      type: :account,
+      group_by: 'hour',
+      metric: 'conversations_count',
+      business_hours: false
+    }
+
+    V2::ReportBuilder.new(Current.account, report_params.merge({
+                                                                 since: since_timestamp(date),
+                                                                 until: until_timestamp(date),
+                                                                 timezone_offset: offset
+                                                               })).build
+  end
+
+  def since_timestamp(date)
+    (date - 7.days).to_i.to_s
+  end
+
+  def until_timestamp(date)
+    date.to_i.to_s
   end
 end
