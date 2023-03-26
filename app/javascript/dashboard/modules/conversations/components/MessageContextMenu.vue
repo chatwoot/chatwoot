@@ -54,6 +54,7 @@
           @click="handleCopy"
         />
         <menu-item
+          v-if="enabledOptions['copy']"
           :option="{
             icon: 'translate',
             label: this.$t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
@@ -213,6 +214,10 @@ export default {
   background-color: var(--white);
   box-shadow: var(--shadow-context-menu);
   border-radius: var(--border-radius-normal);
+
+  hr:first-child {
+    display: none;
+  }
 
   hr {
     border-bottom: 1px solid var(--color-border-light);
