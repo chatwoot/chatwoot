@@ -1,4 +1,8 @@
 class UserDrop < BaseDrop
+  def name
+    @obj.try(:name).try(:capitalize)
+  end
+
   def available_name
     @obj.try(:available_name)
   end
