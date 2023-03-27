@@ -35,7 +35,7 @@ class HookJob < ApplicationJob
     message = event_data[:message]
     conversation = message.conversation
 
-    return unless message.incoming? && conversation.messages.incoming.count == 1 && message.not_created_by_automation?
+    return unless message.incoming? && conversation.messages.incoming.count == 1
 
     Conversations::DetectLanguageJob.perform_later(message.id)
   end
