@@ -1,4 +1,13 @@
 class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
+  def erroneous_import_records(resource)
+    return unless smtp_config_set_or_development?
+
+    subject = 'Contact report upload failed'
+    @attachment = resource.erroneous_import_file
+    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{resource.account.id}/contacts"
+    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+  end
+
   def slack_disconnect
     return unless smtp_config_set_or_development?
 

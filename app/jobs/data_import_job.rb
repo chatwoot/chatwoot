@@ -58,22 +58,29 @@ class DataImportJob < ApplicationJob
   def save_invalid_records_csv(rejected_contacts)
     return if rejected_contacts.blank?
 
-    csv_string = CSV.generate do |csv|
-      csv << %w[id name email phone_number identifier errors]
+    csv_data = CSV.generate do |csv|
+      csv << %w[id first_name last_name email phone_number identifier gender errors]
       rejected_contacts.each do |record|
-        csv << [record['id'], record['name'], record['email'], record['phone_number'], record['identifier'], record.errors.full_messages.join(',')]
+        csv << [
+          record['id'],
+          record.custom_attributes['first_name'],
+          record.custom_attributes['last_name'],
+          record['email'],
+          record['phone_number'],
+          record['identifier'],
+          record.custom_attributes['gender'],
+          record.errors.full_messages.join(',')
+        ]
       end
     end
 
-    mailer = ActionMailer::Base.new
-    mailer.attachments['erroneous_contact.csv'] = csv_string
-    mailer.mail(
-      from: ENV.fetch('MAILER_SENDER_EMAIL', nil),
-      to: @data_import.account.administrators.pluck(:email),
-      subject: "Contact Import failed on #{Time.zone.today.strftime('%d-%m-%Y')}",
-      body: 'See attachment'
-    )
-    mailer.message.deliver
+    send_erroneous_records_to_admin(csv_data)
+  end
+
+  def send_erroneous_records_to_admin(csv_data)
+    @data_import.erroneous_import_file.attach(io: StringIO.new(csv_data), filename: "#{Time.zone.today.strftime('%Y%m%d')}_contacts.csv",
+                                              content_type: 'text/csv')
+    AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).erroneous_import_records(@data_import).deliver_later
   end
 
   def init_contact(params, account)

@@ -23,6 +23,11 @@ RSpec.describe DataImportJob, type: :job do
   end
 
   it 'imports erroneous data into the account' do
+    notification_instance = AdministratorNotifications::ChannelNotificationsMailer.new
+    admin_mailer = double
+
+    allow(notification_instance).to receive(:mail).and_return(admin_mailer)
+
     csv_length = CSV.parse(invalid_data_import.import_file.download, headers: true).length
     described_class.perform_now(invalid_data_import)
     expect(invalid_data_import.account.contacts.count).to eq(csv_length - 1)

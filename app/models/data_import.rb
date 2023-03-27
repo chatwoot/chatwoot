@@ -22,6 +22,7 @@ class DataImport < ApplicationRecord
   enum status: { pending: 0, processing: 1, completed: 2, failed: 3 }
 
   has_one_attached :import_file
+  has_one_attached :erroneous_import_file
 
   after_create_commit :process_data_import
 
