@@ -10,6 +10,11 @@ describe ::ContactDrop do
       contact.update!(name: 'John Doe')
       expect(subject.first_name).to eq 'John'
     end
+
+    it('return the capitalized name') do
+      contact.update!(name: 'john doe')
+      expect(subject.name).to eq 'John doe'
+    end
   end
 
   context 'when last name' do
