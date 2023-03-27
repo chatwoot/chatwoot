@@ -1,7 +1,11 @@
 <template>
-  <li v-if="shouldRenderMessage" :class="alignBubble">
-    <div :class="wrapClass" @contextmenu="openContextMenu($event)">
-      <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
+  <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
+    <div :class="wrapClass">
+      <div
+        v-tooltip.top-start="messageToolTip"
+        :class="bubbleClass"
+        @contextmenu="openContextMenu($event)"
+      >
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -32,7 +36,11 @@
               :url="attachment.data_url"
               @error="onImageLoadError"
             />
-            <audio v-else-if="attachment.file_type === 'audio'" controls>
+            <audio
+              v-else-if="attachment.file_type === 'audio'"
+              controls
+              class="skip-context-menu"
+            >
               <source :src="attachment.data_url" />
             </audio>
             <bubble-video
@@ -182,6 +190,7 @@ export default {
       showContextMenu: false,
       hasImageError: false,
       contextMenuPosition: {},
+      showBackgroundHighlight: false,
     };
   },
   computed: {
@@ -282,13 +291,13 @@ export default {
       const isRightAligned =
         messageType === MESSAGE_TYPE.OUTGOING ||
         messageType === MESSAGE_TYPE.TEMPLATE;
-
       return {
         center: isCentered,
         left: isLeftAligned,
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
         'has-tweet-menu': this.isATweet,
+        'has-bg': this.showBackgroundHighlight,
       };
     },
     createdAt() {
@@ -406,9 +415,11 @@ export default {
   mounted() {
     this.hasImageError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    this.setupHighlightTimer();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    clearTimeout(this.higlightTimeout);
   },
   methods: {
     hasMediaAttachment(type) {
@@ -429,9 +440,13 @@ export default {
       this.hasImageError = true;
     },
     openContextMenu(e) {
-      if (getSelection().toString()) {
+      const shouldSkipContextMenu = e.target?.classList.contains(
+        'skip-context-menu'
+      );
+      if (shouldSkipContextMenu || getSelection().toString()) {
         return;
       }
+
       e.preventDefault();
       if (e.type === 'contextmenu') {
         this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
@@ -445,6 +460,17 @@ export default {
     closeContextMenu() {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
+    },
+    setupHighlightTimer() {
+      if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
+        return;
+      }
+
+      this.showBackgroundHighlight = true;
+      const HIGHLIGHT_TIMER = 1000;
+      this.higlightTimeout = setTimeout(() => {
+        this.showBackgroundHighlight = false;
+      }, HIGHLIGHT_TIMER);
     },
   },
 };
@@ -479,7 +505,8 @@ export default {
       }
     }
 
-    &.is-image.is-text > .message-text__wrap {
+    &.is-image.is-text > .message-text__wrap,
+    &.is-video.is-text > .message-text__wrap {
       max-width: 32rem;
       padding: var(--space-small) var(--space-normal);
     }
@@ -574,6 +601,10 @@ li.right {
 
 li.left.has-tweet-menu .context-menu {
   margin-bottom: var(--space-medium);
+}
+
+li.has-bg {
+  background: var(--w-75);
 }
 
 li.right .context-menu-wrap {

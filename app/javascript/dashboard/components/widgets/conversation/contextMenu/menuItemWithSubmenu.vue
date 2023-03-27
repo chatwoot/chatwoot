@@ -67,6 +67,7 @@ export default {
 
   &:hover {
     background-color: var(--w-75);
+
     .submenu {
       display: block;
     }

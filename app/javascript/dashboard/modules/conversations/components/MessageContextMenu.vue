@@ -54,6 +54,7 @@
           @click="handleCopy"
         />
         <menu-item
+          v-if="enabledOptions['copy']"
           :option="{
             icon: 'translate',
             label: this.$t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
@@ -61,7 +62,15 @@
           variant="icon"
           @click="handleTranslate"
         />
-        <hr v-if="enabledOptions['cannedResponse']" />
+        <hr />
+        <menu-item
+          :option="{
+            icon: 'link',
+            label: this.$t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
+          }"
+          variant="icon"
+          @click="copyLinkToMessage"
+        />
         <menu-item
           v-if="enabledOptions['cannedResponse']"
           :option="{
@@ -94,6 +103,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
@@ -152,6 +162,21 @@ export default {
     },
   },
   methods: {
+    async copyLinkToMessage() {
+      const fullConversationURL =
+        window.chatwootConfig.hostURL +
+        frontendURL(
+          conversationUrl({
+            id: this.conversationId,
+            accountId: this.currentAccountId,
+          })
+        );
+      await copyTextToClipboard(
+        `${fullConversationURL}?messageId=${this.messageId}`
+      );
+      this.showAlert(this.$t('CONVERSATION.CONTEXT_MENU.LINK_COPIED'));
+      this.handleClose();
+    },
     async handleCopy() {
       await copyTextToClipboard(this.plainTextContent);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
@@ -213,6 +238,10 @@ export default {
   background-color: var(--white);
   box-shadow: var(--shadow-context-menu);
   border-radius: var(--border-radius-normal);
+
+  hr:first-child {
+    display: none;
+  }
 
   hr {
     border-bottom: 1px solid var(--color-border-light);
