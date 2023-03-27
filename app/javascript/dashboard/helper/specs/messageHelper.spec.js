@@ -4,7 +4,7 @@ import {
   getLastName,
   getMessageVariables,
   getUndefinedVariablesInMessage,
-  capitalizeFirstLetter,
+  capitalizeName,
 } from '../messageHelper';
 
 const variables = {
@@ -138,17 +138,17 @@ describe('#getUndefinedVariablesInMessage', () => {
   });
 });
 
-describe('#capitalizeFirstLetter', () => {
+describe('#capitalizeName', () => {
   it('Capitalize name if name is passed', () => {
     const string = 'hello world';
-    expect(capitalizeFirstLetter(string)).toBe('Hello world');
+    expect(capitalizeName(string)).toBe('Hello world');
   });
   it('returns empty string if the string is empty', () => {
     const string = '';
-    expect(capitalizeFirstLetter(string)).toBe('');
+    expect(capitalizeName(string)).toBe('');
   });
   it('Capitalize first name if full name is passed', () => {
     const string = 'john Doe';
-    expect(capitalizeFirstLetter(string)).toBe('John Doe');
+    expect(capitalizeName(string)).toBe('John Doe');
   });
 });
