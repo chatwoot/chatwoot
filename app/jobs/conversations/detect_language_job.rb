@@ -22,9 +22,12 @@ class Conversations::DetectLanguageJob < ApplicationJob
     conversation = @message.conversation
     conversation_language = response.languages.first.language_code
     additional_attributes = conversation.additional_attributes.merge({ conversation_language: conversation_language })
-    # rubocop:disable Rails/SkipsModelValidations
-    conversation.update_columns(additional_attributes: additional_attributes)
-    # rubocop:enable Rails/SkipsModelValidations
+
+    conversation.update!(additional_attributes: additional_attributes)
+
+    event = Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+
+    AutomationRuleListener.instance.conversation_updated(event)
   end
 
   def hook
