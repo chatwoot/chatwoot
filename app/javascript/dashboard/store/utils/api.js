@@ -42,6 +42,13 @@ export const clearLocalStorageOnLogout = () => {
   LocalStorage.remove(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES);
 };
 
+export const deleteIndexedDBOnLogout = async () => {
+  const dbs = await window.indexedDB.databases();
+  dbs.forEach(db => {
+    window.indexedDB.deleteDatabase(db.name);
+  });
+};
+
 export const clearCookiesOnLogout = () => {
   window.bus.$emit(CHATWOOT_RESET);
   window.bus.$emit(ANALYTICS_RESET);
