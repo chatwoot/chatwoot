@@ -167,7 +167,7 @@ group :development do
   gem 'squasher'
 
   # profiling
-  gem 'rack-mini-profiler'
+  gem 'rack-mini-profiler', require: false
   gem 'stackprof'
 end
 
