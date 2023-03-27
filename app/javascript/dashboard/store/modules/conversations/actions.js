@@ -86,15 +86,15 @@ const actions = {
     }
   },
 
-  async setActiveChat({ commit, dispatch }, data) {
+  async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED);
-
     if (data.dataFetched === undefined) {
       try {
         await dispatch('fetchPreviousMessages', {
-          conversationId: data.id,
+          after,
           before: data.messages[0].id,
+          conversationId: data.id,
         });
         Vue.set(data, 'dataFetched', true);
       } catch (error) {

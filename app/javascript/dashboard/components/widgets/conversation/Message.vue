@@ -1,5 +1,5 @@
 <template>
-  <li v-if="shouldRenderMessage" :class="alignBubble">
+  <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
       <div
         v-tooltip.top-start="messageToolTip"
@@ -190,6 +190,7 @@ export default {
       showContextMenu: false,
       hasImageError: false,
       contextMenuPosition: {},
+      showBackgroundHighlight: false,
     };
   },
   computed: {
@@ -290,13 +291,13 @@ export default {
       const isRightAligned =
         messageType === MESSAGE_TYPE.OUTGOING ||
         messageType === MESSAGE_TYPE.TEMPLATE;
-
       return {
         center: isCentered,
         left: isLeftAligned,
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
         'has-tweet-menu': this.isATweet,
+        'has-bg': this.showBackgroundHighlight,
       };
     },
     createdAt() {
@@ -414,9 +415,11 @@ export default {
   mounted() {
     this.hasImageError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    this.setupHighlightTimer();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    clearTimeout(this.higlightTimeout);
   },
   methods: {
     hasMediaAttachment(type) {
@@ -457,6 +460,17 @@ export default {
     closeContextMenu() {
       this.showContextMenu = false;
       this.contextMenuPosition = { x: null, y: null };
+    },
+    setupHighlightTimer() {
+      if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
+        return;
+      }
+
+      this.showBackgroundHighlight = true;
+      const HIGHLIGHT_TIMER = 1000;
+      this.higlightTimeout = setTimeout(() => {
+        this.showBackgroundHighlight = false;
+      }, HIGHLIGHT_TIMER);
     },
   },
 };
@@ -587,6 +601,10 @@ li.right {
 
 li.left.has-tweet-menu .context-menu {
   margin-bottom: var(--space-medium);
+}
+
+li.has-bg {
+  background: var(--w-75);
 }
 
 li.right .context-menu-wrap {
