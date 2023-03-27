@@ -134,7 +134,6 @@ ActiveRecord::Schema.define(version: 2023_03_27_081350) do
     t.jsonb "meta", default: {}
     t.string "slug", null: false
     t.integer "position"
-    t.integer "sequence"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
@@ -166,7 +165,6 @@ ActiveRecord::Schema.define(version: 2023_03_27_081350) do
     t.string "action"
     t.jsonb "audited_changes"
     t.integer "version", default: 0
-    t.integer "integer", default: 0
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
