@@ -166,7 +166,13 @@
       "COPY": "کپی",
       "DELETE": "حذف",
       "CREATE_A_CANNED_RESPONSE": "اضافه کردن به پاسخ‌های آماده",
-      "TRANSLATE": "ترجمه"
+      "TRANSLATE": "ترجمه",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "آیا از حذف این پیام مطمئن هستید؟",
+        "MESSAGE": "شما نمی توانید این عمل را لغو کنید",
+        "DELETE": "حذف",
+        "CANCEL": "انصراف"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {

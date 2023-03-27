@@ -427,10 +427,10 @@
       "UNASSIGNED": "Непризначені"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Бесіди",
+      "NO_CONVERSATIONS": "Немає бесід",
+      "CONVERSATION": "%{count} бесід",
+      "CONVERSATIONS": "%{count} бесід"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Розмови агентів",
@@ -451,12 +451,12 @@
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Неділя",
+    "MONDAY": "Понеділок",
+    "TUESDAY": "Вівторок",
+    "WEDNESDAY": "Середа",
+    "THURSDAY": "Четвер",
+    "FRIDAY": "П'ятниця",
+    "SATURDAY": "Субота"
   }
 }
