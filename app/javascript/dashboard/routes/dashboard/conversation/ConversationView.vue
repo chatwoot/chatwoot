@@ -163,9 +163,15 @@ export default {
         ) {
           return;
         }
-        this.$store.dispatch('setActiveChat', selectedConversation).then(() => {
-          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-        });
+        const { messageId } = this.$route.query;
+        this.$store
+          .dispatch('setActiveChat', {
+            data: selectedConversation,
+            after: messageId,
+          })
+          .then(() => {
+            bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+          });
       } else {
         this.$store.dispatch('clearSelectedState');
       }
