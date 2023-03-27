@@ -1,7 +1,5 @@
 <template>
   <div
-    v-show="show"
-    ref="context"
     class="context-menu-container"
     :style="style"
     tabindex="0"
@@ -39,7 +37,6 @@ export default {
   },
   mounted() {
     this.$nextTick(() => this.$el.focus());
-    this.show = true;
   },
 };
 </script>
