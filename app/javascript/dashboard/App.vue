@@ -72,13 +72,6 @@ export default {
       if (!this.hasAccounts) {
         this.showAddAccountModal = true;
       }
-      verifyServiceWorkerExistence(registration =>
-        registration.pushManager.getSubscription().then(subscription => {
-          if (subscription) {
-            registerSubscription();
-          }
-        })
-      );
     },
     currentAccountId() {
       if (this.currentAccountId) {
@@ -107,6 +100,14 @@ export default {
       this.updateRTLDirectionView(locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(pubsubToken);
+
+      verifyServiceWorkerExistence(registration =>
+        registration.pushManager.getSubscription().then(subscription => {
+          if (subscription) {
+            registerSubscription();
+          }
+        })
+      );
     },
   },
 };
