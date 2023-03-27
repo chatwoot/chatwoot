@@ -26,6 +26,7 @@ class Account < ApplicationRecord
   include FlagShihTzu
   include Reportable
   include Featurable
+  include CacheKeys
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
