@@ -31,9 +31,11 @@ environment.loaders.append('audio', {
   },
 });
 
+const preserveNameFor = ['sdk', 'worker'];
+
 environment.config.merge({ resolve });
 environment.config.set('output.filename', chunkData => {
-  return chunkData.chunk.name === 'sdk'
+  return preserveNameFor.includes(chunkData.chunk.name)
     ? 'js/[name].js'
     : 'js/[name]-[hash].js';
 });
