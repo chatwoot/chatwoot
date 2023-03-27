@@ -32,11 +32,11 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Завантажити зображення",
         "UPLOADING": "Завантажується...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Зображення успішно завантажено",
+        "ERROR": "Помилка при завантаженні зображення",
+        "ERROR_FILE_SIZE": "Зображення має бути менше {size}Мб",
+        "ERROR_FILE_FORMAT": "Формат зображення повинен бути jpg, jpeg або png",
+        "ERROR_FILE_DIMENSIONS": "Розміри зображення повинні бути менші ніж 2000 х 2000"
       }
     },
     "ARTICLE_SETTINGS": {
