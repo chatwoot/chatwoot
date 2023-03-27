@@ -7,6 +7,15 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, NOTIFICATION_CREATED, { notification: notification.push_event_data, unread_count: unread_count, count: count })
   end
 
+  def account_cache_invalidated(event)
+    account = event.data[:account]
+    tokens = user_tokens(account, account.agents)
+
+    broadcast(account, tokens, ACCOUNT_CACHE_INVALIDATED, {
+                cache_keys: event.data[:cache_keys]
+              })
+  end
+
   def message_created(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation
