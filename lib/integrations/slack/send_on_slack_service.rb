@@ -34,12 +34,15 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
-    message_text = message.content.present? ? message.content.gsub(MENTION_REGEX, '\1') : message.content
     if conversation.identifier.present?
       "#{private_indicator}#{message_text}"
     else
       "#{formatted_inbox_name}#{email_subject_line}\n#{message_text}"
     end
+  end
+
+  def message_text
+    message.content.present? ? message.content.gsub(MENTION_REGEX, '\1') : message.content
   end
 
   def formatted_inbox_name
