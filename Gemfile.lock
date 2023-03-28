@@ -520,6 +520,8 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-mini-profiler (3.0.0)
+      rack (>= 1.2.0)
     rack-protection (3.0.5)
       rack
     rack-proxy (0.7.2)
@@ -692,6 +694,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     squasher (0.6.2)
+    stackprof (0.2.24)
     statsd-ruby (1.5.0)
     stripe (6.5.0)
     telephone_number (1.4.16)
@@ -840,6 +843,7 @@ DEPENDENCIES
   pundit
   rack-attack
   rack-cors
+  rack-mini-profiler
   rack-timeout
   rails (~> 6.1, >= 6.1.7.3)
   redis
@@ -865,6 +869,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen
   squasher
+  stackprof
   stripe
   telephone_number
   test-prof
