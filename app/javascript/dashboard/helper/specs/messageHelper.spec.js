@@ -88,11 +88,11 @@ describe('#getMessageVariables', () => {
     const conversation = {
       meta: {
         assignee: {
-          name: 'Samuel Smith',
+          name: 'samuel Smith',
           email: 'samuel@example.com',
         },
         sender: {
-          name: 'John Doe',
+          name: 'john Doe',
           email: 'john.doe@gmail.com',
           phone_number: '1234567890',
         },
@@ -139,16 +139,28 @@ describe('#getUndefinedVariablesInMessage', () => {
 });
 
 describe('#capitalizeName', () => {
-  it('Capitalize name if name is passed', () => {
-    const string = 'hello world';
-    expect(capitalizeName(string)).toBe('Hello world');
+  it('capitalize name if name is passed', () => {
+    const string = 'john peter';
+    expect(capitalizeName(string)).toBe('John Peter');
+  });
+  it('capitalize first name if full name is passed', () => {
+    const string = 'john Doe';
+    expect(capitalizeName(string)).toBe('John Doe');
   });
   it('returns empty string if the string is empty', () => {
     const string = '';
     expect(capitalizeName(string)).toBe('');
   });
-  it('Capitalize first name if full name is passed', () => {
-    const string = 'john Doe';
+  it('capitalize last name if last name is passed', () => {
+    const string = 'john doe';
     expect(capitalizeName(string)).toBe('John Doe');
+  });
+  it('capitalize first name if first name is passed', () => {
+    const string = 'john';
+    expect(capitalizeName(string)).toBe('John');
+  });
+  it('capitalize last name if last name is passed', () => {
+    const string = 'doe';
+    expect(capitalizeName(string)).toBe('Doe');
   });
 });
