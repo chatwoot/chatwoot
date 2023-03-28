@@ -4,11 +4,15 @@ on:
   push:
     branches: 
       - develop
+  workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Build and publish Docker image into AWS ECR for Birdwoot
         uses: ./.github/actions/deployment/push-image-ecr
         with:
