@@ -18,7 +18,7 @@ describe ::ContactDrop do
 
     it('return the capitalized first name') do
       contact.update!(name: 'john doe')
-      expect(subject.last_name).to eq 'John'
+      expect(subject.last_name).to eq 'Doe'
     end
   end
 
