@@ -34,7 +34,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
-    message_text = message.content.gsub(MENTION_REGEX, '\1')
+    message_text = message.content.present? ? message.content.gsub(MENTION_REGEX, '\1') : message.content
     if conversation.identifier.present?
       "#{private_indicator}#{message_text}"
     else
