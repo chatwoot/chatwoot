@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Номер телефону",
           "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-          "ERROR": "Номер телефону повинен починатися з символу `+'."
+          "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Номер телефону",
             "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-            "ERROR": "Номер телефону повинен починатися з символу `+'."
+            "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
           },
           "SUBMIT_BUTTON": "Створити Bandwidth канал",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Номер телефону",
           "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
-          "ERROR": "Номер телефону повинен починатися з символу `+'."
+          "ERROR": "Будь ласка, надайте дійсний номер телефону, який починається зі знаку \"+\", і не містить пробілів."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID номера телефону",
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Ви повинні налаштувати URL вебхука і токен перевірки на порталі розробників Facebook зі значеннями, що вказані нижче.",
           "WEBHOOK_URL": "URL вебхука",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Токен вебхука"
         },
         "SUBMIT_BUTTON": "Створити канал WhatsApp",
         "API": {
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Успіх!",
         "DESC": "Ви успішно закінчили інтеграцію вашої сторінки у Facebook з Chatwoot. Наступного разу, коли з’явиться клієнтська сторінка, розмова автоматично з'явиться у вашій поштовій скриньці.<br>Ми також надаємо вам сценарій роботи віджетів, який можна легко додати на ваш сайт. Як тільки це буде опубліковане на вашому сайті, клієнти можуть надсилати вам повідомлення прямо з вашого сайту без допомоги будь-якого зовнішнього інструменту, і розмова з'явиться тут, на Chatwoot.<br>Круто, так? Ну, ми дійсно намагаємося бути :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Виберіть email провайдера",
+        "DESCRIPTION": "Виберіть зі списку провайдера. Якщо Ви не бачите e-mail провайдера в списку, ви можете обрати іншого постачальника і надати IMAP та SMTP дані."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Натисніть на кнопку входу через Microsoft для початку. Ви будете перенаправлені на сторінку входу в систему. Як тільки ви приймете запитані дозволи, ви будете перенаправлені на сторінку створення вхідних повідомлень.",
+        "EMAIL_PLACEHOLDER": "Некоректна адреса ел. пошти",
+        "HELP": "Щоб додати свій обліковий запис Microsoft у якості каналу, вам потрібно автентифікувати свій обліковий запис Microsoft, натиснувши \"Увійти через Microsoft\" ",
+        "ERROR_MESSAGE": "Сталася помилка підключення до Microsoft, будь ласка, спробуйте ще раз"
       }
     },
     "DETAILS": {
@@ -421,7 +432,7 @@
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
       "WIDGET_BUILDER": "Конструктор віджетів",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Налаштування бота"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -445,8 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Увімкнути безперервність розмови через електронну пошту",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Розмови продовжуватимуться через електронну пошту, якщо доступна контактна адреса.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Заблокувати бесіду",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Увімкнути або вимкнути кілька бесід для одного контакту в цій папці Вхідні",
       "INBOX_UPDATE_TITLE": "Налаштування каналу",
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
@@ -461,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови.",
       "WHATSAPP_SECTION_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "API ключ"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "API ключ",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Оновити ключ API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введіть тут новий ключ API",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Оновити",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Оновити параметри форми чату"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Ліміт автопризначення",
@@ -547,6 +563,10 @@
         "PLACE_HOLDER": "Пароль"
       },
       "ENABLE_SSL": "Увімкнути SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Повторно авторизувати Ваш обліковий запис MICROSOFT"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +686,10 @@
       },
       "BRANDING_TEXT": "Працює на Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Інші постачальники"
     }
   }
 }

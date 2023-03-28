@@ -21,7 +21,16 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  isFeatureEnabledonAccount: $state => (id, featureName) => {
+  isFeatureEnabledonAccount: ($state, _, __, rootGetters) => (
+    id,
+    featureName
+  ) => {
+    // If a user is SuperAdmin and has access to the account, then they would see all the available features
+    const isUserASuperAdmin = rootGetters.getCurrentUser?.type === 'SuperAdmin';
+    if (isUserASuperAdmin) {
+      return true;
+    }
+
     const { features = {} } =
       $state.records.find(record => record.id === Number(id)) || {};
     return features[featureName] || false;

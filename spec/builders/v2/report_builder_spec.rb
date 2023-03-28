@@ -2,15 +2,16 @@ require 'rails_helper'
 
 describe ::V2::ReportBuilder do
   include ActiveJob::TestHelper
-  let!(:account) { create(:account) }
-  let!(:user) { create(:user, account: account) }
-  let!(:inbox) { create(:inbox, account: account) }
-  let(:inbox_member) { create(:inbox_member, user: user, inbox: inbox) }
-  let!(:label_1) { create(:label, title: 'Label_1', account: account) }
-  let!(:label_2) { create(:label, title: 'Label_2', account: account) }
+  let_it_be(:account) { create(:account) }
+  let_it_be(:label_1) { create(:label, title: 'Label_1', account: account) }
+  let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
 
   describe '#timeseries' do
-    before do
+    before_all do
+      user = create(:user, account: account)
+      inbox = create(:inbox, account: account)
+      create(:inbox_member, user: user, inbox: inbox)
+
       gravatar_url = 'https://www.gravatar.com'
       stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
 

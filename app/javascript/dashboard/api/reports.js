@@ -8,20 +8,20 @@ class ReportsAPI extends ApiClient {
     super('reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getReports(
+  getReports({
     metric,
-    since,
-    until,
+    from,
+    to,
     type = 'account',
     id,
     group_by,
-    business_hours
-  ) {
+    business_hours,
+  }) {
     return axios.get(`${this.url}`, {
       params: {
         metric,
-        since,
-        until,
+        since: from,
+        until: to,
         type,
         id,
         group_by,
@@ -56,6 +56,12 @@ class ReportsAPI extends ApiClient {
   getAgentReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/agents`, {
       params: { since, until, business_hours: businessHours },
+    });
+  }
+
+  getConversationTrafficCSV({ from: since, to: until }) {
+    return axios.get(`${this.url}/conversation_traffic`, {
+      params: { since, until },
     });
   }
 

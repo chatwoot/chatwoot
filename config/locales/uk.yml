@@ -21,6 +21,7 @@ uk:
   messages:
     reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
+    inbox_deletetion_response: Ваш запит на видалення буде оброблений протягом деякого часу.
   errors:
     validations:
       presence: не повинно бути пустим
@@ -44,6 +45,8 @@ uk:
     categories:
       locale:
         unique: має бути унікальним на категорії і порталі
+    dyte:
+      invalid_message_type: "Невірний тип повідомлення. Дію не дозволено"
     inboxes:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
@@ -55,6 +58,7 @@ uk:
         name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
   reports:
     period: Період звіту %{since} до %{until}
+    utc_warning: Звіт створено в часовій зоні UTC
     agent_csv:
       agent_name: Ім'я агента
       conversations_count: Кількість бесід
@@ -76,6 +80,9 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
+    conversation_traffic_csv:
+      date: Дата та час
+      conversations_count: '№ розмов'
     default_group_by: день
     csat:
       headers:
@@ -127,8 +134,12 @@ uk:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} з %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} від %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} від %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} від %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Нові повідомлення в цьому діалозі"
       transcript_subject: "Транскрипція діалогу"
     survey:
@@ -137,6 +148,10 @@ uk:
     online:
       delete: "%{contact_name} в онлайні, будь ласка, спробуйте ще раз пізніше"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Сервіс Dyte - це сервіс, що допомагає додавати аудіо та відео в додаток за допомогою кількох рядків коду. Ця інтеграція дозволяє надавати можливість Вашим агентам створювати відео чи голосові дзвінки з клієнтами, не виходячи з Chatwoot."
+      meeting_name: "%{agent_name} розпочав зустріч"
     slack:
       name: "Slack"
       description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
@@ -149,11 +164,25 @@ uk:
     fullcontact:
       name: "Fullcontact"
       description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
+    google_translate:
+      name: "Google Translate"
+      description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає у обрану дміністратором чи агентом мову."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Пошук статті за заголовком або змістом...
       empty_placeholder: Результатів не знайдено.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: Шукаємо...
+      results_title: Результати пошуку
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Шукайте тут або перегляньте категорії нижче.
+    common:
+      home: Головна
+      last_updated_on: Востаннє оновлено %{last_updated_on}
+      view_all_articles: Переглянути всі статті
+      article: статті
+      articles: статті
+      no_articles: Тут немає статей
+    footer:
+      made_with: Зроблено з
+    header:
+      go_to_homepage: Перейти на основний сайт

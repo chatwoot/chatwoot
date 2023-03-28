@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Hangüzenetek",
         "NOTE": "Hangüzenetek engedélyezése a vezérlőpulton új üzenetek és beszélgetések esetén.",
-        "NONE": "Nincs",
-        "ASSIGNED": "Hozzárendelt Beszélgetések",
-        "ALL_CONVERSATIONS": "Beszélgetések"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Nincs",
+          "ASSIGNED": "Hozzárendelt Beszélgetések",
+          "ALL_CONVERSATIONS": "Beszélgetések"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mail értesítések",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Küldj e-mail értesítéseket, amikor a beszélgetést hozzám rendelik",
         "CONVERSATION_CREATION": "Küldj e-mail értesítéseket, amikor egy új beszélgetés létrejön",
         "CONVERSATION_MENTION": "Küldj e-mail értesítéseket, amikor egy beszélgetésben megemlítenek",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj e-mail értesítéseket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj e-mail értesítéseket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Az értesítési beállításaid sikeresen frissítve",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Küldj push üzeneteket, amikor egy új beszélgetés létrejön",
         "CONVERSATION_MENTION": "Küldj push üzeneteket, amikor egy beszélgetésben megemlítenek",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj push üzeneteket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Engedélyezted a push üzeneteket ezen a böngészőn.",
         "REQUEST_PUSH": "Push üznetek engedélyezése"
       },
@@ -103,7 +116,9 @@
           "Online",
           "Foglalt",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Az e-mailcímed",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
     "PROFILE_SETTINGS": "Profilbeállítások",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Kilépés"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Letöltés",
-      "UPLOADING": "Feltöltés..."
+      "UPLOADING": "Feltöltés...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -177,6 +194,7 @@
     "CONVERSATIONS": "Beszélgetések",
     "ALL_CONVERSATIONS": "Beszélgetések",
     "MENTIONED_CONVERSATIONS": "Megemlítések",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Jelentések",
     "SETTINGS": "Beállítások",
@@ -224,7 +242,12 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Beállítások",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -257,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Fióknév",
+        "LABEL": "Cégnév",
         "PLACEHOLDER": "Kovács Kft."
       },
       "SUBMIT": "Elküldés"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

@@ -6,11 +6,10 @@
   >
     <div
       v-if="shouldShowHeaderMessage"
-      class="mb-4 text-sm leading-5"
+      v-dompurify-html="formatMessage(headerMessage, false)"
+      class="mb-4 text-sm leading-5 pre-chat-header-message"
       :class="$dm('text-black-800', 'dark:text-slate-50')"
-    >
-      {{ headerMessage }}
-    </div>
+    />
     <FormulateInput
       v-for="item in enabledPreChatFields"
       :key="item.name"
@@ -25,7 +24,7 @@
       :validation-messages="{
         isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-        required: getRequiredErrorMessage(item),
+        required: $t('PRE_CHAT_FORM.REQUIRED'),
       }"
     />
     <FormulateInput
@@ -37,6 +36,9 @@
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
       validation="required"
+      :validation-messages="{
+        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
+      }"
     />
 
     <custom-button
@@ -57,7 +59,7 @@ import CustomButton from 'shared/components/Button';
 import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
@@ -66,15 +68,11 @@ export default {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin],
+  mixins: [routerMixin, darkModeMixin, messageFormatterMixin],
   props: {
     options: {
       type: Object,
       default: () => {},
-    },
-    disableContactFields: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
@@ -112,7 +110,7 @@ export default {
       return this.options.preChatMessage;
     },
     preChatFields() {
-      return this.disableContactFields ? [] : this.options.preChatFields;
+      return this.options?.preChatFields || [];
     },
     filteredPreChatFields() {
       const isUserEmailAvailable = !!this.currentUser.email;
@@ -208,14 +206,10 @@ export default {
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
-    getLabel({ name, label }) {
-      if (this.labels[name])
-        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.LABEL`);
+    getLabel({ label }) {
       return label;
     },
-    getPlaceHolder({ name, placeholder }) {
-      if (this.labels[name])
-        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.PLACEHOLDER`);
+    getPlaceHolder({ placeholder }) {
       return placeholder;
     },
     getValue({ name, type }) {
@@ -224,14 +218,6 @@ export default {
           .values[this.formValues[name]];
       }
       return this.formValues[name] || null;
-    },
-
-    getRequiredErrorMessage({ name, label }) {
-      if (this.labels[name])
-        return this.$t(
-          `PRE_CHAT_FORM.FIELDS.${this.labels[name]}.REQUIRED_ERROR`
-        );
-      return `${label} ${this.$t('PRE_CHAT_FORM.IS_REQUIRED')}`;
     },
     getValidation({ type, name }) {
       if (!this.isContactFieldRequired(name)) {
@@ -295,6 +281,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~widget/assets/scss/variables.scss';
 ::v-deep {
   .wrapper[data-type='checkbox'] {
     .formulate-input-wrapper {
@@ -321,6 +308,12 @@ export default {
       textarea {
         min-height: 8rem;
       }
+    }
+  }
+  .pre-chat-header-message {
+    .link {
+      color: $color-woot;
+      text-decoration: underline;
     }
   }
 }

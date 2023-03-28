@@ -7,10 +7,10 @@
       "404": "אין שיחות פעילות בקבוצה הזו."
     },
     "TAB_HEADING": "שיחות",
-    "MENTION_HEADING": "אִזְכּוּרים",
-    "UNATTENDED_HEADING": "Unattended",
+    "MENTION_HEADING": "תיוגים",
+    "UNATTENDED_HEADING": "לא מתוכנן",
     "SEARCH": {
-      "INPUT": "חפש אנשים, צ'אטים, תגובות שמורות .."
+      "INPUT": "חפש אנשים, שיחות, תגובות שמורות .."
     },
     "FILTER_ALL": "הכל",
     "ASSIGNEE_TYPE_TABS": {
@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "נימנום"
+      },
+      "all": {
+        "TEXT": "הכל"
       }
     },
     "ATTACHMENTS": {
@@ -57,12 +60,12 @@
     "REPLY_TO_TWEET": "הגב לציוץ זה",
     "LINK_TO_STORY": "מעבר לסטורי באינסטגרם",
     "SENT": "נשלח בהצלחה",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "נקרא בהצלחה",
+    "DELIVERED": "התקבל בהצלחה",
     "NO_MESSAGES": "אין הודעות",
     "NO_CONTENT": "אין תוכן זמין",
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
     "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
-    "MESSAGE_READ": "קרא"
+    "MESSAGE_READ": "נקרא"
   }
 }

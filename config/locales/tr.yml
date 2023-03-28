@@ -21,6 +21,7 @@ tr:
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: boş bırakılmamalı
@@ -44,6 +45,8 @@ tr:
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -55,6 +58,7 @@ tr:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Temsilci adı
       conversations_count: Konuşma sayısı
@@ -76,6 +80,9 @@ tr:
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: gün
     csat:
       headers:
@@ -127,8 +134,12 @@ tr:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
     survey:
@@ -137,6 +148,10 @@ tr:
     online:
       delete: "%{contact_name} is Online, please try again later"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack, tüm iletişiminizi tek bir yerde bir araya getiren bir sohbet aracıdır. Slack'i entegre ederek, hesabınızdaki tüm yeni konuşmalardan Slack'inizin içinde bildirim alabilirsiniz."
@@ -149,6 +164,9 @@ tr:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -157,3 +175,14 @@ tr:
       results_title: Search results
     hero:
       sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Anasayfa
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

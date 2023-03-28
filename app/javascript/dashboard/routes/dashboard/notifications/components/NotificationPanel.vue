@@ -27,6 +27,14 @@
           </woot-button>
           <woot-button
             color-scheme="secondary"
+            variant="smooth"
+            size="tiny"
+            class-names="action-button"
+            icon="settings"
+            @click="openAudioNotificationSettings"
+          />
+          <woot-button
+            color-scheme="secondary"
             variant="link"
             size="tiny"
             icon="dismiss"
@@ -54,7 +62,7 @@
             <fluent-icon
               icon="chevron-left"
               size="16"
-              class="margin-left-minus-slab"
+              :class="notificationPanelFooterIconClass"
             />
           </woot-button>
           <woot-button
@@ -88,7 +96,7 @@
             <fluent-icon
               icon="chevron-right"
               size="16"
-              class="margin-left-minus-slab"
+              :class="notificationPanelFooterIconClass"
             />
           </woot-button>
         </div>
@@ -101,6 +109,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 import NotificationPanelList from './NotificationPanelList';
 
@@ -108,7 +117,7 @@ export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, rtlMixin],
   data() {
     return {
       pageSize: 15,
@@ -121,6 +130,11 @@ export default {
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
+    notificationPanelFooterIconClass() {
+      return this.isRTLView
+        ? 'margin-right-minus-slab'
+        : 'margin-left-minus-slab';
+    },
     totalUnreadNotifications() {
       return this.meta.unreadCount;
     },
@@ -199,6 +213,22 @@ export default {
     onMarkAllDoneClick() {
       this.$store.dispatch('notifications/readAll');
     },
+    openAudioNotificationSettings() {
+      this.$router.push({ name: 'profile_settings_index' });
+      this.closeNotificationPanel();
+      this.$nextTick(() => {
+        const audioSettings = document.getElementById(
+          'profile-settings-notifications'
+        );
+        if (audioSettings) {
+          // TODO [ref](https://github.com/chatwoot/chatwoot/pull/6233#discussion_r1069636890)
+          audioSettings.scrollIntoView(
+            { behavior: 'smooth', block: 'start' },
+            150
+          );
+        }
+      });
+    },
     closeNotificationPanel() {
       this.$emit('close');
     },
@@ -225,6 +255,7 @@ export default {
   left: var(--space-jumbo);
   margin: var(--space-small);
 }
+
 .header-wrap {
   flex-direction: row;
   align-items: center;
@@ -244,13 +275,14 @@ export default {
   .total-count {
     padding: var(--space-smaller) var(--space-small);
     background: var(--b-50);
-    border-radius: var(--border-radius-rounded);
+    border-radius: var(--border-radius-normal);
     font-size: var(--font-size-micro);
     font-weight: var(--font-weight-bold);
+    margin-left: var(--space-smaller);
+    margin-right: var(--space-smaller);
   }
 
   .action-button {
-    padding: var(--space-micro) var(--space-small);
     margin-right: var(--space-small);
   }
 }

@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "无效字段"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "评价您的对话",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "请求会话抄本",
     "SEND_EMAIL_SUCCESS": "已成功发送聊天记录",
     "SEND_EMAIL_ERROR": "出现错误，请重试"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

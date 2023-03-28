@@ -60,15 +60,11 @@ export const getFormattedPreChatFields = ({ preChatFields }) => {
     return {
       ...item,
       label: getLabel({
-        key: standardFieldKeys[item.name]
-          ? standardFieldKeys[item.name].key
-          : item.name,
+        key: item.name,
         label: item.label ? item.label : item.name,
       }),
       placeholder: getPlaceHolder({
-        key: standardFieldKeys[item.name]
-          ? standardFieldKeys[item.name].key
-          : item.name,
+        key: item.name,
         placeholder: item.placeholder ? item.placeholder : item.name,
       }),
     };

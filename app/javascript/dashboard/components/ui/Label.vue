@@ -4,7 +4,7 @@
       <fluent-icon :icon="icon" size="12" class="label--icon" />
     </span>
     <span
-      v-if="variant === 'smooth'"
+      v-if="variant === 'smooth' && title && !icon"
       :style="{ background: color }"
       class="label-color-dot"
     />
@@ -12,7 +12,7 @@
     <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
     <button
       v-if="showClose"
-      class="label-close--button "
+      class="label-close--button"
       :style="{ color: textColor }"
       @click="onClick"
     >
@@ -108,6 +108,7 @@ export default {
   display: inline-flex;
   align-items: center;
   font-weight: var(--font-weight-medium);
+  gap: var(--space-smaller);
   margin-right: var(--space-smaller);
   margin-bottom: var(--space-smaller);
   padding: var(--space-smaller);
@@ -117,15 +118,14 @@ export default {
   height: var(--space-medium);
 
   &.small {
-    font-size: var(--font-size-micro);
+    font-size: var(--font-size-mini);
     padding: var(--space-micro) var(--space-smaller);
     line-height: 1.2;
-    letter-spacing: 0.15px;
+    height: var(--space-two);
   }
 
   .label--icon {
     cursor: pointer;
-    margin-right: var(--space-smaller);
   }
 
   &.small .label--icon,
@@ -199,15 +199,14 @@ export default {
 
   &.smooth {
     background: transparent;
-    border: 1px solid var(--s-75);
-    color: var(--s-800);
+    border: 1px solid var(--s-100);
+    color: var(--s-700);
   }
 }
 
 .label-close--button {
   color: var(--s-800);
   margin-bottom: var(--space-minus-micro);
-  margin-left: var(--space-smaller);
   border-radius: var(--border-radius-small);
   cursor: pointer;
 
@@ -221,14 +220,21 @@ export default {
 }
 
 .label-action--button {
-  margin-bottom: var(--space-minus-micro);
+  display: flex;
+  margin-right: var(--space-smaller);
 }
 
 .label-color-dot {
   display: inline-block;
-  width: var(--space-one);
-  height: var(--space-one);
+  width: var(--space-slab);
+  height: var(--space-slab);
   border-radius: var(--border-radius-small);
-  margin-right: var(--space-smaller);
+  box-shadow: var(--shadow-small);
+}
+.label.small .label-color-dot {
+  width: var(--space-small);
+  height: var(--space-small);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--shadow-small);
 }
 </style>

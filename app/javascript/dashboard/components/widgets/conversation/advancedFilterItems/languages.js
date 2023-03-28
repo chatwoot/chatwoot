@@ -739,4 +739,9 @@ export const getLanguageName = (languageCode = '') => {
   return languageObj.name || '';
 };
 
+export const getLanguageDirection = (languageCode = '') => {
+  const rtlLanguageIds = ['ar', 'as', 'fa', 'he', 'ku', 'ur'];
+  return rtlLanguageIds.includes(languageCode);
+};
+
 export default languages;

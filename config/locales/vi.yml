@@ -21,6 +21,7 @@ vi:
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: không được để trống
@@ -44,6 +45,8 @@ vi:
     categories:
       locale:
         unique: phải là duy nhất trong danh mục và cổng thông tin
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Vui lòng kiểm tra kết nối mạng, địa chỉ IMAP và thử lại.
@@ -55,6 +58,7 @@ vi:
         name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Tên tổng đài viên
       conversations_count: Số hội thoại
@@ -76,6 +80,9 @@ vi:
       conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: Số hội thoại
     default_group_by: ngày
     csat:
       headers:
@@ -127,8 +134,12 @@ vi:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} từ %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} từ %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} từ %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} từ %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} từ %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Tin nhắn mới về cuộc trò chuyện này"
       transcript_subject: "Bản ghi cuộc hội thoại"
     survey:
@@ -137,6 +148,10 @@ vi:
     online:
       delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack là một công cụ trò chuyện giúp mang tất cả các cuộc giao tiếp của bạn lại với nhau ở một nơi. Bằng cách tích hợp Slack, bạn có thể nhận được thông báo về tất cả các cuộc trò chuyện mới trong tài khoản của mình ngay bên trong Slack."
@@ -149,6 +164,9 @@ vi:
     fullcontact:
       name: "Fullcontact"
       description: "Tích hợp FullContact giúp làm phong phú hồ sơ khách truy cập. Xác định người dùng ngay khi họ chia sẻ địa chỉ email và cung cấp cho họ dịch vụ khách hàng phù hợp. Kết nối FullContact với tài khoản của bạn bằng cách chia sẻ Khóa API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Tìm bài viết theo tiêu đề hoặc nội dung...
@@ -157,3 +175,14 @@ vi:
       results_title: Các kết quả tìm kiếm
     hero:
       sub_title: Tìm trong bài viết hoặc xem danh mục dưới đây.
+    common:
+      home: Trang Chủ
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: các bài
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

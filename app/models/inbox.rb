@@ -26,13 +26,15 @@
 #
 # Indexes
 #
-#  index_inboxes_on_account_id  (account_id)
+#  index_inboxes_on_account_id                   (account_id)
+#  index_inboxes_on_channel_id_and_channel_type  (channel_id,channel_type)
 #
 
 class Inbox < ApplicationRecord
   include Reportable
   include Avatarable
   include OutOfOffisable
+  include AccountCacheRevalidator
 
   # Not allowing characters:
   validates :name, presence: true
@@ -106,6 +108,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def assignable_agents
+    (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
+  end
+
   def active_bot?
     agent_bot_inbox&.active? || hooks.pluck(:app_id).include?('dialogflow')
   end
@@ -154,3 +160,4 @@ class Inbox < ApplicationRecord
 end
 
 Inbox.prepend_mod_with('Inbox')
+Inbox.include_mod_with('Audit::Inbox')

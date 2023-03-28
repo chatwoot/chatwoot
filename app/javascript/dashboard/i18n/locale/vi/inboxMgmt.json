@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Số Điện Thoại",
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-          "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
+          "ERROR": "Vui lòng cung cấp số điện thoại hợp lệ bắt đầu bằng dấu `+` và không chứa bất kỳ dấu cách nào."
         },
         "API_CALLBACK": {
           "TITLE": "URL gọi lại",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Số Điện Thoại",
             "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-            "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
+            "ERROR": "Vui lòng cung cấp số điện thoại hợp lệ bắt đầu bằng dấu `+` và không chứa bất kỳ dấu cách nào."
           },
           "SUBMIT_BUTTON": "Tạo kênh Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Số Điện Thoại",
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
-          "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
+          "ERROR": "Vui lòng cung cấp số điện thoại hợp lệ bắt đầu bằng dấu `+` và không chứa bất kỳ dấu cách nào."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID số điện thoại",
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL gọi lại",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Bạn phải định cấu hình URL webhook và mã xác minh trong cổng Nhà phát triển của Facebook với các giá trị được hiển thị bên dưới.",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Mã xác minh Webhook"
         },
         "SUBMIT_BUTTON": "Tạo kênh WhatsApp",
         "API": {
@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Email nơi khách hàng của bạn gửi cho bạn vé hỗ trợ",
+          "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Tạo kênh Email",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Đúng rồi!",
         "DESC": "Bạn đã tích hợp thành công Trang Facebook của mình với Chatwoot. Lần tới khi khách hàng nhắn tin cho Trang của bạn, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn.<br>Chúng tôi cũng đang cung cấp cho bạn tập lệnh widget mà bạn có thể dễ dàng thêm vào trang web của mình. Khi điều này xuất hiện trên trang web của bạn, khách hàng có thể nhắn tin cho bạn ngay từ trang web của bạn mà không cần sự trợ giúp của bất kỳ công cụ bên ngoài nào và cuộc trò chuyện sẽ xuất hiện ngay tại đây, trên Chatwoot.<br>Cool, huh? Well :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -421,7 +432,7 @@
       "PRE_CHAT_FORM": "Biểu mẫu trước khi trò chuyện",
       "BUSINESS_HOURS": "Giờ làm việc",
       "WIDGET_BUILDER": "Trình tạo widget",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Cấu hình Bot"
     },
     "SETTINGS": "Cài đặt",
     "FEATURES": {
@@ -445,8 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc trò chuyện",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Bật tiếp tục cuộc trò chuyện qua email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Cuộc trò chuyện sẽ tiếp tục qua email nếu có địa chỉ email liên lạc.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Khóa cuộc trò chuyện duy nhất",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Bật hoặc tắt nhiều cuộc trò chuyện cho cùng một liên hệ trong hộp thư đến này",
       "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
@@ -461,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Cho phép nhắn tin sau khi cuộc trò chuyện được giải quyết",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc trò chuyện được giải quyết.",
       "WHATSAPP_SECTION_SUBHEADER": "Khóa API này được sử dụng để tích hợp với các API WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Khoá API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Khoá API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Cập nhật",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Giới hạn tự động phân công tối đa",
@@ -547,6 +563,10 @@
         "PLACE_HOLDER": "Mật khẩu"
       },
       "ENABLE_SSL": "Kích hoạt SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "STMP",
@@ -666,6 +686,10 @@
       },
       "BRANDING_TEXT": "CC bởi Chatwoot",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

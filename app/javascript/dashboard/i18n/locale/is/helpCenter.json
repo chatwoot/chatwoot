@@ -3,7 +3,7 @@
     "HEADER": {
       "FILTER": "Filter by",
       "SORT": "Sort by",
-      "SETTINGS_BUTTON": "Settings",
+      "SETTINGS_BUTTON": "Stillingar",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
@@ -27,6 +27,17 @@
       "CLOSE_SIDEBAR": "Close sidebar",
       "SAVING": "Saving...",
       "SAVED": "Saved"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Upload image",
+        "UPLOADING": "Hleður upp...",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
@@ -86,7 +97,7 @@
             "COUNT_LABEL": "articles",
             "ADD": "Add locale",
             "VISIT": "Visit site",
-            "SETTINGS": "Settings",
+            "SETTINGS": "Stillingar",
             "DELETE": "Eyða"
           },
           "PORTAL_CONFIG": {
@@ -181,7 +192,7 @@
           }
         ],
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Til baka",
           "BASIC_SETTINGS_PAGE": {
             "HEADER": "Create Portal",
             "TITLE": "Help center information",

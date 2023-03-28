@@ -2,7 +2,11 @@
 
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
-import { setAuthCredentials, clearCookiesOnLogout } from '../store/utils/api';
+import {
+  setAuthCredentials,
+  clearCookiesOnLogout,
+  deleteIndexedDBOnLogout,
+} from '../store/utils/api';
 
 export default {
   login(creds) {
@@ -50,6 +54,7 @@ export default {
       axios
         .delete(urlData.url)
         .then(response => {
+          deleteIndexedDBOnLogout();
           clearCookiesOnLogout();
           resolve(response);
         })
@@ -141,6 +146,12 @@ export default {
   updateAvailability(availabilityData) {
     return axios.post(endPoints('availabilityUpdate').url, {
       profile: { ...availabilityData },
+    });
+  },
+
+  updateAutoOffline(accountId, autoOffline = false) {
+    return axios.post(endPoints('autoOffline').url, {
+      profile: { account_id: accountId, auto_offline: autoOffline },
     });
   },
 

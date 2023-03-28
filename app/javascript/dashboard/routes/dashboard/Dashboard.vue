@@ -2,14 +2,14 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
-      :sidebar-class-name="sidebarClassName"
+      :show-secondary-sidebar="isSidebarOpen"
       @open-notification-panel="openNotificationPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
     />
-    <section class="app-content columns" :class="contentClassName">
+    <section class="app-content columns">
       <router-view />
       <command-bar />
       <account-selector
@@ -22,7 +22,7 @@
         @close-account-create-modal="closeCreateAccountModal"
       />
       <woot-key-shortcut-modal
-        v-if="showShortcutModal"
+        :show.sync="showShortcutModal"
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
@@ -46,6 +46,8 @@ import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAc
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import wootConstants from 'dashboard/constants';
 
 export default {
   components: {
@@ -57,59 +59,88 @@ export default {
     AddLabelModal,
     NotificationPanel,
   },
+  mixins: [uiSettingsMixin],
   data() {
     return {
-      isSidebarOpen: false,
-      isOnDesktop: true,
       showAccountModal: false,
       showCreateAccountModal: false,
       showAddLabelModal: false,
       showShortcutModal: false,
       isNotificationPanel: false,
+      displayLayoutType: '',
     };
   },
   computed: {
     currentRoute() {
       return ' ';
     },
-    sidebarClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas is-open';
-      }
-      return 'off-canvas is-transition-push is-closed';
+    isSidebarOpen() {
+      const { show_secondary_sidebar: showSecondarySidebar } = this.uiSettings;
+      return showSecondarySidebar;
     },
-    contentClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push';
-      }
-      return 'off-canvas-content has-transition-push';
+    previouslyUsedDisplayType() {
+      const {
+        previously_used_conversation_display_type: conversationDisplayType,
+      } = this.uiSettings;
+      return conversationDisplayType;
+    },
+    previouslyUsedSidebarView() {
+      const {
+        previously_used_sidebar_view: showSecondarySidebar,
+      } = this.uiSettings;
+      return showSecondarySidebar;
+    },
+  },
+  watch: {
+    displayLayoutType() {
+      const { LAYOUT_TYPES } = wootConstants;
+      this.updateUISettings({
+        conversation_display_type:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? LAYOUT_TYPES.EXPANDED
+            : this.previouslyUsedDisplayType,
+        show_secondary_sidebar:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? false
+            : this.previouslyUsedSidebarView,
+      });
     },
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
     this.handleResize();
+    window.addEventListener('resize', this.handleResize);
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
+    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
+
   methods: {
     handleResize() {
-      if (window.innerWidth >= 1200) {
-        this.isOnDesktop = true;
-      } else {
-        this.isOnDesktop = false;
+      const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
+      let throttled = false;
+      const delay = 150;
+
+      if (throttled) {
+        return;
       }
+      throttled = true;
+
+      setTimeout(() => {
+        throttled = false;
+        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
+          this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
+        } else {
+          this.displayLayoutType = LAYOUT_TYPES.CONDENSED;
+        }
+      }, delay);
     },
     toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
+      this.updateUISettings({
+        show_secondary_sidebar: !this.isSidebarOpen,
+        previously_used_sidebar_view: !this.isSidebarOpen,
+      });
     },
     openCreateAccountModal() {
       this.showAccountModal = false;
@@ -142,8 +173,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.off-canvas-content.is-open-left {
-  transform: translateX(20rem);
-}
-</style>

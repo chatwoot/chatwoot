@@ -420,11 +420,17 @@
     "HEADER": "Visão geral",
     "LIVE": "Disponível",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Abrir Conversas",
+      "HEADER": "Conversas Abertas",
       "LOADING_MESSAGE": "Carregando métricas de conversa...",
       "OPEN": "Abertas",
       "UNATTENDED": "Não atendidas",
       "UNASSIGNED": "Não atribuída"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Tráfego de conversa",
+      "NO_CONVERSATIONS": "Não há conversas",
+      "CONVERSATION": "%{count} conversa",
+      "CONVERSATIONS": "%{count} conversas"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversas por agentes",
@@ -443,5 +449,14 @@
       "BUSY": "Ocupado",
       "OFFLINE": "Desconectado"
     }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Domingo",
+    "MONDAY": "Segunda-Feira",
+    "TUESDAY": "Terça-feira",
+    "WEDNESDAY": "Quarta-feira",
+    "THURSDAY": "Quinta-feira",
+    "FRIDAY": "Sexta-feira",
+    "SATURDAY": "Sábado"
   }
 }

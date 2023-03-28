@@ -1,6 +1,6 @@
 class AgentAwayMessageToAutoReply < ActiveRecord::Migration[6.0]
   def change
-    add_column :inboxes, :greeting_enabled, :boolean, default: false # rubocop:disable Rails/BulkChangeTable
+    add_column :inboxes, :greeting_enabled, :boolean, default: false
     add_column :inboxes, :greeting_message, :string
 
     migrate_agent_away_to_greeting

@@ -21,6 +21,7 @@ el:
   messages:
     reset_password_success: Woot! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
     reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: δεν πρέπει να είναι κενό
@@ -44,6 +45,8 @@ el:
     categories:
       locale:
         unique: πρέπει να είναι μοναδικό στην κατηγορία και την πύλη
+    dyte:
+      invalid_message_type: "Μη έγκυρος τύπος μηνύματος. Δεν επιτρέπεται η ενέργεια"
     inboxes:
       imap:
         socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.
@@ -55,6 +58,7 @@ el:
         name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Όνομα Πράκτορα
       conversations_count: Αριθμός συνομιλιών
@@ -76,6 +80,9 @@ el:
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: Αριθμός συνομιλιών
     default_group_by: ημέρα
     csat:
       headers:
@@ -127,8 +134,12 @@ el:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} από %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} από %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} από %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} από %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} από %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
       transcript_subject: "Μεταγραφή Συνομιλίας"
     survey:
@@ -137,6 +148,10 @@ el:
     online:
       delete: "%{contact_name} είναι Online, παρακαλώ προσπαθήστε ξανά αργότερα"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Το Dyte είναι εργαλείο που σας βοηθά να προσθέσετε ζωντανό ήχο & βίντεο στην εφαρμογή σας με λίγες μόνο γραμμές κώδικα. Αυτή η ενσωμάτωση σας επιτρέπει να δώσετε μια επιλογή στους πράκτορές σας να έχουν ένα βίντεο ή μια φωνητική κλήση με τους πελάτες σας χωρίς να φύγετε από το Chatwoot."
+      meeting_name: "Ό πράκτορας %{agent_name} ξεκίνησε μια συνάντηση"
     slack:
       name: "Slack"
       description: "Το Slack είναι ένα εργαλείο συνομιλιών (chat) το οποίο ενώνει σε ένα σημείο όλες τις επικοινωνίες. Ενοποιώντας με το Slack, μπορείτε να λαμβάνετε ειδοποιήσεις για όλες τις συνομιλίες στον λογαριασμό σας από το Slack."
@@ -149,6 +164,9 @@ el:
     fullcontact:
       name: "Πλήρης Επαφή"
       description: "Το FullContact Indegration βοηθά στον εμπλουτισμό προφίλ επισκεπτών. Προσδιορίστε τους χρήστες μόλις μοιραστούν τη διεύθυνση ηλεκτρονικού ταχυδρομείου τους και να τους προσφέρουν προσαρμοσμένη εξυπηρέτηση πελατών. Συνδέστε το FullContact με το λογαριασμό σας, κοινοποιώντας το κλειδί API FullContact."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...
@@ -157,3 +175,14 @@ el:
       results_title: Αποτελέσματα Αναζήτησης
     hero:
       sub_title: Αναζητήστε τα άρθρα εδώ ή περιηγηθείτε στις κατηγορίες παρακάτω.
+    common:
+      home: Αρχική
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: άρθρα
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

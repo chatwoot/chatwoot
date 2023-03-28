@@ -130,11 +130,11 @@ export default {
   height: 100%;
 }
 .macros-canvas {
-  background-image: radial-gradient(var(--s-100) 1.2px, transparent 0);
+  background-image: radial-gradient(var(--s-75) 1.2px, transparent 0);
   background-size: var(--space-normal) var(--space-normal);
   height: 100%;
   max-height: 100%;
-  padding: var(--space-normal) var(--space-three);
+  padding: var(--space-normal) var(--space-larger);
   max-height: 100vh;
   overflow-y: auto;
 }

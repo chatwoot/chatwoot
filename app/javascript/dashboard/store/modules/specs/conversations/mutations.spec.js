@@ -103,6 +103,7 @@ describe('#mutations', () => {
               created_at: 1602256198,
             },
           ],
+          unread_count: 0,
           timestamp: 1602256198,
         },
       ]);
@@ -130,6 +131,7 @@ describe('#mutations', () => {
               created_at: 1602256198,
             },
           ],
+          unread_count: 0,
           timestamp: 1602256198,
         },
       ]);

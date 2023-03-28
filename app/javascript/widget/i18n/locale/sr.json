@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Molim vas dostavite vaše ime i e-poštu pre započinjanja razgovora",
-    "IS_REQUIRED": "je obavezno"
+    "IS_REQUIRED": "je obavezno",
+    "REQUIRED": "Obavezno"
   },
   "FILE_SIZE_LIMIT": "Datoteka prevazilazi {MAXIMUM_FILE_UPLOAD_SIZE} ograničenje priloga",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Neispravno polje"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Ocenite razgovor",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Zatražite kopiju razgovora",
     "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspešno poslat",
     "SEND_EMAIL_ERROR": "Pojavila se greška, molim vas pokušajte ponovo"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

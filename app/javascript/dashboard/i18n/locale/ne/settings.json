@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "None",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -103,7 +116,9 @@
           "Online",
           "Busy",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profile Settings",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Logout"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "डाउनलोड",
-      "UPLOADING": "अपलोड गर्दै..."
+      "UPLOADING": "अपलोड गर्दै...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -177,6 +194,7 @@
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
@@ -224,7 +242,12 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "Settings",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -257,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "बुझाउनुहोस्"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

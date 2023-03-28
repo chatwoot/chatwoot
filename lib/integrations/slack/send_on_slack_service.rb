@@ -1,4 +1,5 @@
 class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
+  include RegexHelper
   pattr_initialize [:message!, :hook!]
 
   def perform
@@ -34,14 +35,32 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
     if conversation.identifier.present?
-      "#{private_indicator}#{message.content}"
+      "#{private_indicator}#{message_text}"
     else
-      "*Inbox: #{message.inbox.name} [#{message.inbox.inbox_type}]* \n\n #{message.content}"
+      "#{formatted_inbox_name}#{email_subject_line}\n#{message_text}"
     end
   end
 
+  def message_text
+    message.content.present? ? message.content.gsub(MENTION_REGEX, '\1') : message.content
+  end
+
+  def formatted_inbox_name
+    "\n*Inbox:* #{message.inbox.name} (#{message.inbox.inbox_type})\n"
+  end
+
+  def email_subject_line
+    return '' unless message.inbox.email?
+
+    email_payload = message.content_attributes['email']
+    return "*Subject:* #{email_payload['subject']}\n\n" if email_payload.present? && email_payload['subject'].present?
+
+    ''
+  end
+
   def avatar_url(sender)
-    sender.try(:avatar_url) || "#{ENV.fetch('FRONTEND_URL', nil)}/admin/avatar_square.png"
+    sender_type = sender.instance_of?(Contact) ? 'contact' : 'user'
+    "#{ENV.fetch('FRONTEND_URL', nil)}/integrations/slack/#{sender_type}.png"
   end
 
   def send_message
@@ -86,7 +105,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def sender_name(sender)
-    sender.try(:name) ? "#{sender_type(sender)}: #{sender.try(:name)}" : sender_type(sender)
+    sender.try(:name) ? "#{sender.try(:name)} (#{sender_type(sender)})" : sender_type(sender)
   end
 
   def sender_type(sender)

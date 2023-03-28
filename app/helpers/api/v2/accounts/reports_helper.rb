@@ -27,6 +27,27 @@ module Api::V2::Accounts::ReportsHelper
     end
   end
 
+  def generate_conversations_heatmap_report
+    report_params = {
+      type: :account,
+      group_by: 'hour',
+      since: params[:since],
+      until: params[:until],
+      metric: 'conversations_count',
+      business_hours: false
+    }
+    data = V2::ReportBuilder.new(Current.account, report_params).build
+
+    # data format is { timestamp: 1231242342, value: 3}
+    # we need to convert it to { date: "2020-01-01", hour: 12, value: 3}
+    #
+    # the generated report is **always** in UTC timezone
+    data.map do |d|
+      date = Time.zone.at(d[:timestamp]).to_s
+      [date, d[:value]]
+    end
+  end
+
   def generate_report(report_params)
     V2::ReportBuilder.new(
       Current.account,

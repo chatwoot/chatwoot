@@ -27,7 +27,15 @@
         class="button clear-button"
         @click="openConversationView"
       >
-        <span class="flex items-center">
+        <span
+          class="flex items-center"
+          :class="{
+            'is-background-light': isBackgroundLighter,
+          }"
+          :style="{
+            color: widgetColor,
+          }"
+        >
           <fluent-icon class="mr-2" size="16" icon="arrow-right" />
           {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
         </span>
@@ -43,6 +51,7 @@ import configMixin from '../mixins/configMixin';
 import { ON_UNREAD_MESSAGE_CLICK } from '../constants/widgetBusEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import UnreadMessage from 'widget/components/UnreadMessage.vue';
+import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 
 export default {
   name: 'Unread',
@@ -58,10 +67,16 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ unreadMessageCount: 'conversation/getUnreadMessageCount' }),
+    ...mapGetters({
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
     sender() {
       const [firstMessage] = this.messages;
       return firstMessage.sender || {};
+    },
+    isBackgroundLighter() {
+      return isWidgetColorLighter(this.widgetColor);
     },
   },
   methods: {
@@ -133,6 +148,9 @@ export default {
     &:hover {
       color: $color-body;
     }
+  }
+  .is-background-light {
+    color: $color-body !important;
   }
 }
 </style>

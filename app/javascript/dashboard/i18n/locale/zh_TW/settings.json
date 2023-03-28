@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "音效通知",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "無",
-        "ASSIGNED": "已指派的對話",
-        "ALL_CONVERSATIONS": "所有對話"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "無",
+          "ASSIGNED": "已指派的對話",
+          "ALL_CONVERSATIONS": "所有對話"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "電子信箱通知",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
         "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知",
         "CONVERSATION_MENTION": "當你在對話中被提及時以 Email 通知",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以 Email 通知"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以 Email 通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知設定已成功更新",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "建立新對話時發送推送通知",
         "CONVERSATION_MENTION": "當你在對話中被提及時以推播通知",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以推播通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
         "REQUEST_PUSH": "啟用推送通知"
       },
@@ -103,7 +116,9 @@
           "線上的",
           "忙碌中",
           "離線的"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "您的電子信箱地址",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
     "PROFILE_SETTINGS": "個人資料設定",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "退出登入"
   },
   "APP_GLOBAL": {
@@ -148,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "複製",
-      "COPY_SUCCESSFUL": "代碼複製到剪貼簿成功"
+      "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
@@ -156,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下載",
-      "UPLOADING": "上傳中..."
+      "UPLOADING": "上傳中...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -177,6 +194,7 @@
     "CONVERSATIONS": "會話",
     "ALL_CONVERSATIONS": "所有對話",
     "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "報表",
     "SETTINGS": "設定",
@@ -224,7 +242,12 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
+      "SETTINGS": "設定",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -257,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "帳戶名稱",
+        "LABEL": "公司名稱",
         "PLACEHOLDER": "Wayne 企業"
       },
       "SUBMIT": "送出"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "開啟對話",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

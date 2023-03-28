@@ -23,7 +23,7 @@
         "ERROR": "กรุณากรอกชื่อบัญชีให้ถูกต้อง"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "ภาษา",
         "PLACEHOLDER": "ชื่อบัญชีของคุณ",
         "ERROR": ""
       },
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "กด enter เพื่อเลือก",
       "ENTER_TO_REMOVE": "กด enter เพื่อลบ",
       "SELECT_ONE": "เลือก",
-      "SELECT": "Select"
+      "SELECT": "เลือก"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -82,6 +82,7 @@
       "conversation_creation": "สร้างการสนทนาใหม่",
       "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
       "assigned_conversation_new_message": "ข้อความใหม่",
+      "participating_conversation_new_message": "ข้อความใหม่",
       "conversation_mention": "กล่าวถึง"
     }
   },

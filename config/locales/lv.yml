@@ -21,6 +21,7 @@ lv:
   messages:
     reset_password_success: Urā! Paroles atiestatīšanas pieprasījums ir veiksmīgs. Pārbaudiet savu e-pastu, lai iegūtu norādījumus.
     reset_password_failure: Ak, vai! Mēs nevarējām atrast nevienu lietotāju ar norādīto e -pastu.
+    inbox_deletetion_response: Jūsu iesūtnes dzēšanas pieprasījums pēc kāda laika tiks apstrādāts.
   errors:
     validations:
       presence: nedrīkst būt tukšs
@@ -44,6 +45,8 @@ lv:
     categories:
       locale:
         unique: vajadzētu būt unikālai, kategorijā un portālā 
+    dyte:
+      invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -55,6 +58,7 @@ lv:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
+    utc_warning: Izveidotais pārskats atbilst UTC laika joslai
     agent_csv:
       agent_name: Aģenta vārds
       conversations_count: Sarunu skaits
@@ -76,6 +80,9 @@ lv:
       conversations_count: Sarunu skaits
       avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
       avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
+    conversation_traffic_csv:
+      date: Datums un laiks
+      conversations_count: Sarunu skaits
     default_group_by: diena
     csat:
       headers:
@@ -127,8 +134,12 @@ lv:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} no %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} no %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} no %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Jauni ziņojumi šajā sarunā"
       transcript_subject: "Sarunas Transkripts"
     survey:
@@ -137,6 +148,10 @@ lv:
     online:
       delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte ir rīks, kas lietojumprogrammai palīdz pievienot audio un video tiešraidi, izmantojot tikai dažas koda rindiņas. Šī integrācija ļauj piedāvāt iespēju Jūsu aģentiem veikt video vai balss zvanu ar klientiem, neizejot no Chatwoot."
+      meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
       name: "Slack"
       description: "Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack."
@@ -149,6 +164,9 @@ lv:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."
+    google_translate:
+      name: "Google Tulkotājs"
+      description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
@@ -157,3 +175,14 @@ lv:
       results_title: Meklēšanas rezultāti
     hero:
       sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
+    common:
+      home: Sākums
+      last_updated_on: Pēdējo reizi atjaunināts %{last_updated_on}
+      view_all_articles: Skatīt visus rakstus
+      article: raksts
+      articles: raksti
+      no_articles: Šeit nav neviena raksta
+    footer:
+      made_with: Veidots ar
+    header:
+      go_to_homepage: Doties uz galveno vietni

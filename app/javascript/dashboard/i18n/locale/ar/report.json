@@ -426,6 +426,12 @@
       "UNATTENDED": "بدون حضور",
       "UNASSIGNED": "غير مسند"
     },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "%{count} conversation",
+      "CONVERSATIONS": "%{count} conversations"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "المحادثات من قبل الوكلاء",
       "LOADING_MESSAGE": "جاري تحميل مقاييس الوكيل...",
@@ -443,5 +449,14 @@
       "BUSY": "مشغول",
       "OFFLINE": "غير متصل"
     }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
   }
 }

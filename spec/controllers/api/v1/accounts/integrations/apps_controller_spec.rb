@@ -12,9 +12,10 @@ RSpec.describe 'Integration Apps API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :administrator) }
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:admin) { create(:user, account: account, role: :administrator) }
 
-      it 'returns all active apps' do
+      it 'returns all active apps without sensitive information if the user is an agent' do
         first_app = Integrations::App.all.find(&:active?)
         get api_v1_account_integrations_apps_url(account),
             headers: agent.create_new_auth_token,
@@ -24,12 +25,26 @@ RSpec.describe 'Integration Apps API', type: :request do
         apps = JSON.parse(response.body)['payload'].first
         expect(apps['id']).to eql(first_app.id)
         expect(apps['name']).to eql(first_app.name)
+        expect(apps['action']).to be_nil
+      end
+
+      it 'returns all active apps with sensitive information if user is an admin' do
+        first_app = Integrations::App.all.find(&:active?)
+        get api_v1_account_integrations_apps_url(account),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        apps = JSON.parse(response.body)['payload'].first
+        expect(apps['id']).to eql(first_app.id)
+        expect(apps['name']).to eql(first_app.name)
+        expect(apps['action']).to eql(first_app.action)
       end
 
       it 'returns slack app with appropriate redirect url when configured' do
         with_modified_env SLACK_CLIENT_ID: 'client_id', SLACK_CLIENT_SECRET: 'client_secret' do
           get api_v1_account_integrations_apps_url(account),
-              headers: agent.create_new_auth_token,
+              headers: admin.create_new_auth_token,
               as: :json
 
           expect(response).to have_http_status(:success)

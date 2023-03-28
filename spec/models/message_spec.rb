@@ -1,12 +1,70 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
 RSpec.describe Message, type: :model do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:inbox_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }
     it { is_expected.to validate_presence_of(:account_id) }
+  end
+
+  describe 'concerns' do
+    it_behaves_like 'liqudable'
+  end
+
+  describe 'Check if message is a valid first reply' do
+    it 'is valid if it is outgoing' do
+      outgoing_message = create(:message, message_type: :outgoing)
+      expect(outgoing_message.valid_first_reply?).to be true
+    end
+
+    it 'is invalid if it is not outgoing' do
+      incoming_message = create(:message, message_type: :incoming)
+      expect(incoming_message.valid_first_reply?).to be false
+
+      activity_message = create(:message, message_type: :activity)
+      expect(activity_message.valid_first_reply?).to be false
+
+      template_message = create(:message, message_type: :template)
+      expect(template_message.valid_first_reply?).to be false
+    end
+
+    it 'is invalid if it is outgoing but private' do
+      conversation = create(:conversation)
+
+      outgoing_message = create(:message, message_type: :outgoing, conversation: conversation, private: true)
+      expect(outgoing_message.valid_first_reply?).to be false
+
+      # next message should be a valid reply
+      next_message = create(:message, message_type: :outgoing, conversation: conversation)
+      expect(next_message.valid_first_reply?).to be true
+    end
+
+    it 'is invalid if it is not the first reply' do
+      conversation = create(:conversation)
+      first_message = create(:message, message_type: :outgoing, conversation: conversation)
+      expect(first_message.valid_first_reply?).to be true
+
+      second_message = create(:message, message_type: :outgoing, conversation: conversation)
+      expect(second_message.valid_first_reply?).to be false
+    end
+
+    it 'is invalid if it is sent as campaign' do
+      conversation = create(:conversation)
+      campaign_message = create(:message, message_type: :outgoing, conversation: conversation, additional_attributes: { campaign_id: 1 })
+      expect(campaign_message.valid_first_reply?).to be false
+
+      second_message = create(:message, message_type: :outgoing, conversation: conversation)
+      expect(second_message.valid_first_reply?).to be true
+    end
+
+    it 'is invalid if it is sent by automation' do
+      conversation = create(:conversation)
+      automation_message = create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { automation_rule_id: 1 })
+      expect(automation_message.valid_first_reply?).to be false
+    end
   end
 
   describe '#reopen_conversation' do
@@ -193,21 +251,21 @@ RSpec.describe Message, type: :model do
       }.to_json, headers: {})
     end
 
-    it 'deletes the attachment for deleted stories' do
+    it 'keeps the attachment for deleted stories' do
       expect(instagram_message.attachments.count).to eq 1
       stub_request(:get, %r{https://graph.facebook.com/.*}).to_return(status: 404)
       instagram_message.push_event_data
-      expect(instagram_message.reload.attachments.count).to eq 0
+      expect(instagram_message.reload.attachments.count).to eq 1
     end
 
-    it 'deletes the attachment for expired stories' do
+    it 'keeps the attachment for expired stories' do
       expect(instagram_message.attachments.count).to eq 1
       # for expired stories, the link will be empty
       stub_request(:get, %r{https://graph.facebook.com/.*}).to_return(status: 200, body: {
         story: { mention: { link: '', id: '17920786367196703' } }
       }.to_json, headers: {})
       instagram_message.push_event_data
-      expect(instagram_message.reload.attachments.count).to eq 0
+      expect(instagram_message.reload.attachments.count).to eq 1
     end
   end
 end

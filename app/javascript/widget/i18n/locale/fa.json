@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید",
-    "IS_REQUIRED": "مورد نیاز است"
+    "IS_REQUIRED": "مورد نیاز است",
+    "REQUIRED": "ضروری"
   },
   "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "فیلد نامتعارف"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "جستجوی ایموجی",
+    "NOT_FOUND": "هیچ ایموجی با جستجوی شما مطابقت ندارد"
   },
   "CSAT": {
     "TITLE": "به گفتگوی خود امتیاز دهید",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "درخواست رونوشت گفتگو",
     "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
+      "LEAVE_THE_ROOM": "تماس را ترک کنید"
+    }
   }
 }

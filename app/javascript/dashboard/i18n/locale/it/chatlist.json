@@ -15,7 +15,7 @@
     "FILTER_ALL": "Tutti",
     "ASSIGNEE_TYPE_TABS": {
       "me": "Mie",
-      "unassigned": "Non assegnato",
+      "unassigned": "Non assegnate",
       "all": "Tutti"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -30,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Posticipato"
+      },
+      "all": {
+        "TEXT": "Tutti"
       }
     },
     "ATTACHMENTS": {

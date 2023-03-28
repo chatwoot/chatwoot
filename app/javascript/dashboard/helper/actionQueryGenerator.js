@@ -17,13 +17,22 @@ const formatArray = params => {
   return params;
 };
 
+const generatePayloadForObject = item => {
+  if (item.action_params.id) {
+    item.action_params = [item.action_params.id];
+  } else {
+    item.action_params = [item.action_params];
+  }
+  return item.action_params;
+};
+
 const generatePayload = data => {
   const actions = JSON.parse(JSON.stringify(data));
   let payload = actions.map(item => {
     if (Array.isArray(item.action_params)) {
       item.action_params = formatArray(item.action_params);
     } else if (typeof item.action_params === 'object') {
-      item.action_params = [item.action_params.id];
+      item.action_params = generatePayloadForObject(item);
     } else if (!item.action_params) {
       item.action_params = [];
     } else {

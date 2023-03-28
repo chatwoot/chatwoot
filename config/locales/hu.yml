@@ -21,6 +21,7 @@ hu:
   messages:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -44,6 +45,8 @@ hu:
     categories:
       locale:
         unique: should be unique in the category and portal
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -55,6 +58,7 @@ hu:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Ügynök neve
       conversations_count: Beszélgetésszám
@@ -76,6 +80,9 @@ hu:
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: No. of conversations
     default_group_by: day
     csat:
       headers:
@@ -127,8 +134,12 @@ hu:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} innen %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} innen %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} innen %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Új üzenet a beszélgetésben"
       transcript_subject: "Beszélgetés kivonat"
     survey:
@@ -137,6 +148,10 @@ hu:
     online:
       delete: "%{contact_name} elérhető, kérjük, próbálja meg később újra"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "A Slack egy chat eszköz mely minden kommunikációdat összehozza. A Slack integrálásával értesítést kaphasz új beszélgetésekről a Slack fiókodban."
@@ -149,6 +164,9 @@ hu:
     fullcontact:
       name: "FullContact"
       description: "A FullContact integráció segít a látogatói profilok egységesítésében. Azonosítsa a felhasználókat, amint megosztják e-mail címüket, és kínáljon nekik személyre szabott ügyfélszolgálatot. Csatlakoztassa a FullContactot fiókjához a FullContact API-kulcs megosztásával."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -157,3 +175,14 @@ hu:
       results_title: Search results
     hero:
       sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Nyitólap
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articles
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

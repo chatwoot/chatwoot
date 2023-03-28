@@ -10,6 +10,9 @@ import {
   isOnUnattendedView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
+import AnalyticsHelper from '../../../helper/AnalyticsHelper';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import messageTranslateActions from './actions/messageTranslateActions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -75,7 +78,7 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      if (payload.length < 20) {
+      if (!payload.length) {
         commit(types.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
@@ -83,15 +86,15 @@ const actions = {
     }
   },
 
-  async setActiveChat({ commit, dispatch }, data) {
+  async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED);
-
     if (data.dataFetched === undefined) {
       try {
         await dispatch('fetchPreviousMessages', {
-          conversationId: data.id,
+          after,
           before: data.messages[0].id,
+          conversationId: data.id,
         });
         Vue.set(data, 'dataFetched', true);
       } catch (error) {
@@ -171,6 +174,11 @@ const actions = {
         status: MESSAGE_STATUS.PROGRESS,
       });
       const response = await MessageApi.create(pendingMessage);
+      AnalyticsHelper.track(
+        pendingMessage.private
+          ? CONVERSATION_EVENTS.SENT_PRIVATE_NOTE
+          : CONVERSATION_EVENTS.SENT_MESSAGE
+      );
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
@@ -209,9 +217,7 @@ const actions = {
     { conversationId, messageId }
   ) {
     try {
-      const response = await MessageApi.delete(conversationId, messageId);
-      const { data } = response;
-      // The delete message is actually deleting the content.
+      const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
     } catch (error) {
       throw new Error(error);
@@ -334,6 +340,7 @@ const actions = {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
   ...messageReadActions,
+  ...messageTranslateActions,
 };
 
 export default actions;

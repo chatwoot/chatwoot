@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt.",
-          "ERROR": "Angiv en gyldig værdi. Telefonnummer skal starte med `+` tegn."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Telefonnummer",
             "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt.",
-            "ERROR": "Angiv en gyldig værdi. Telefonnummer skal starte med `+` tegn."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Opret Båndbredde Kanal",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt.",
-          "ERROR": "Angiv en gyldig værdi. Telefonnummer skal starte med `+` tegn."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefonnummer ID",
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Du skal konfigurere dit webhook URL og verifikations token, i Facebook Developer portal med værdierne vist nedenfor.",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook verifikations token"
         },
         "SUBMIT_BUTTON": "Opret WhatsApp Kanal",
         "API": {
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "Du klarede det!",
         "DESC": "Du er færdig med at integrere din Facebook-side med Chatwoot. Næste gang en kunde sender en meddelelse til din side, vil samtalen automatisk dukke op i din indbakke.<br>Vi giver dig også et widget script, som du nemt kan tilføje til din hjemmeside. Når dette er live på din hjemmeside, kan kunder sende dig en besked direkte fra din hjemmeside uden hjælp fra et eksternt værktøj, og samtalen vises lige her, på Chatwoot.<br>Cool, var? Nå ikke, vi forsøge at være :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -421,7 +432,7 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Forretningstider",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot konfiguration"
     },
     "SETTINGS": "Indstillinger",
     "FEATURES": {
@@ -461,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Tillad beskeder efter samtalen løst",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Tillad slutbrugere at sende beskeder, selv efter samtalen er løst.",
       "WHATSAPP_SECTION_SUBHEADER": "Denne API-nøgle bruges til integration med WhatsApp API'erne.",
-      "WHATSAPP_SECTION_TITLE": "API Nøgle"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Nøgle",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Opdater",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Grænse for automatisk tildeling",
@@ -547,6 +563,10 @@
         "PLACE_HOLDER": "Adgangskode"
       },
       "ENABLE_SSL": "Aktiver SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "Smtp",
@@ -666,6 +686,10 @@
       },
       "BRANDING_TEXT": "Drevet af Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

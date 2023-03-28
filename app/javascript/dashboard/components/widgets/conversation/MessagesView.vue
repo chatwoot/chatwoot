@@ -40,9 +40,6 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
@@ -63,9 +60,6 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :has-instagram-story="hasInstagramStory"
-        :has-user-read-message="
-          hasUserReadMessage(message.created_at, getLastSeenAt)
-        "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
     </ul>
@@ -198,11 +192,6 @@ export default {
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
-
-    shouldLoadMoreChats() {
-      return !this.listLoadingStatus && !this.isLoadingPrevious;
-    },
-
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
@@ -308,8 +297,16 @@ export default {
     setSelectedTweet(tweetId) {
       this.selectedTweetId = tweetId;
     },
-    onScrollToMessage() {
-      this.$nextTick(() => this.scrollToBottom());
+    onScrollToMessage({ messageId = '' } = {}) {
+      this.$nextTick(() => {
+        const messageElement = document.getElementById('message' + messageId);
+        if (messageElement) {
+          messageElement.scrollIntoView({ behavior: 'smooth' });
+          this.fetchPreviousMessages();
+        } else {
+          this.scrollToBottom();
+        }
+      });
       this.makeMessagesRead();
     },
     showPopoutReplyBox() {
@@ -360,31 +357,40 @@ export default {
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
     },
 
-    handleScroll(e) {
+    async fetchPreviousMessages(scrollTop = 0) {
       this.setScrollParams();
+      const shouldLoadMoreMessages =
+        this.getMessages.dataFetched === true &&
+        !this.listLoadingStatus &&
+        !this.isLoadingPrevious;
 
-      const dataFetchCheck =
-        this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
       if (
-        e.target.scrollTop < 100 &&
+        scrollTop < 100 &&
         !this.isLoadingPrevious &&
-        dataFetchCheck
+        shouldLoadMoreMessages
       ) {
         this.isLoadingPrevious = true;
-        this.$store
-          .dispatch('fetchPreviousMessages', {
+        try {
+          await this.$store.dispatch('fetchPreviousMessages', {
             conversationId: this.currentChat.id,
             before: this.getMessages.messages[0].id,
-          })
-          .then(() => {
-            const heightDifference =
-              this.conversationPanel.scrollHeight - this.heightBeforeLoad;
-            this.conversationPanel.scrollTop =
-              this.scrollTopBeforeLoad + heightDifference;
-            this.isLoadingPrevious = false;
-            this.setScrollParams();
           });
+          const heightDifference =
+            this.conversationPanel.scrollHeight - this.heightBeforeLoad;
+          this.conversationPanel.scrollTop =
+            this.scrollTopBeforeLoad + heightDifference;
+          this.setScrollParams();
+        } catch (error) {
+          // Ignore Error
+        } finally {
+          this.isLoadingPrevious = false;
+        }
       }
+    },
+
+    handleScroll(e) {
+      bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      this.fetchPreviousMessages(e.target.scrollTop);
     },
 
     makeMessagesRead() {

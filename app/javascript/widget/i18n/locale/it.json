@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Per favore inserisci il tuo nome ed email prima di iniziare la conversazione",
-    "IS_REQUIRED": "è obbligatorio"
+    "IS_REQUIRED": "è obbligatorio",
+    "REQUIRED": "Obbligatorio"
   },
   "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Campo non valido"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Valuta la conversazione",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Richiedi la trascrizione della conversazione",
     "SEND_EMAIL_SUCCESS": "La trascrizione della chat è stata inviata con successo",
     "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

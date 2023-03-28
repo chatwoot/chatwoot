@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Ήχου",
         "NOTE": "Ενεργοποίηση ηχητικών ειδοποιήσεων για νέα μηνύματα και συνομιλίες.",
-        "NONE": "Κανένα",
-        "ASSIGNED": "Ανατεθειμένες Συνομιλίες",
-        "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες"
+        "ALERT_TYPE": {
+          "TITLE": "Ειδοποίηση συμβάντων:",
+          "NONE": "Κανένα",
+          "ASSIGNED": "Ανατεθειμένες Συνομιλίες",
+          "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Ήχος προειδοποίησης:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Συνθήκες προειδοποίησης:",
+          "CONDITION_ONE": "Αποστολή ειδοποιήσεων ήχου μόνο αν το παράθυρο του προγράμματος περιήγησης δεν είναι ενεργό",
+          "CONDITION_TWO": "Ειδοποίηση κάθε 30s μέχρι να διαβαστούν όλες οι αντιστοιχισμένες συνομιλίες"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Email",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Να στέλνεται ειδοποίηση email όταν μια συνομιλία αντιστοιχίζεται σε μένα",
         "CONVERSATION_CREATION": "Να στέλνεται ειδοποίηση όταν δημιουργείται μια νέα συνομιλία",
         "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων email όταν αναφέρεστε σε μια συνομιλία",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Οι προτιμήσεις σας για τις ειδοποιήσεις ενημερώθηκαν",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Να ειδοποιούμαι με push όταν δημιουργείται μια νέα συνομιλία",
         "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων push όταν αναφέρεστε σε μια συνομιλία",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης push όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Έχετε ενεργοποιήσει τις ειδοποιήσεις push για αυτόν τον browser.",
         "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push"
       },
@@ -103,7 +116,9 @@
           "Στην Γραμμή",
           "Απασχολημένος",
           "Εκτός"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Η διαθεσιμότητα ορίστηκε με επιτυχία",
+        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά"
       },
       "EMAIL": {
         "LABEL": "Η διεύθυνση email",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
     "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
     "KEYBOARD_SHORTCUTS": "Συντομεύσεις Πληκτρολογίου",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Κονσόλα",
     "LOGOUT": "Έξοδος (Logout)"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,8 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Κατέβασμα",
-      "UPLOADING": "Ανέβασμα ..."
+      "UPLOADING": "Ανέβασμα ...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Η ιστορία δεν είναι πλέον διαθέσιμη."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Δείτε στον χάρτη"
@@ -177,6 +194,7 @@
     "CONVERSATIONS": "Συζητήσεις",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
     "MENTIONED_CONVERSATIONS": "Αναφορές",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Χωρίς Παρακολούθηση",
     "REPORTS": "Αναφορές",
     "SETTINGS": "Ρυθμίσεις",
@@ -224,7 +242,12 @@
       "DRAFT": "Πρόχειρο",
       "ARCHIVED": "Αρχειοθετημένο",
       "CATEGORY": "Κατηγορία",
+      "SETTINGS": "Ρυθμίσεις",
       "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Αυτόματη σήμανση εκτός σύνδεσης",
+      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου."
     },
     "DOCS": "Ανάγνωση εγγράφων"
   },
@@ -257,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Ονομασία Λογαριασμού",
+        "LABEL": "Όνομα Εταιρείας",
         "PLACEHOLDER": "Wayne Α. Ε"
       },
       "SUBMIT": "Καταχώρηση"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Εμφάνιση όλων των συντομεύσεων",
     "TITLE": {
       "OPEN_CONVERSATION": "Άνοιγμα συνομιλίας",
       "RESOLVE_AND_NEXT": "Επίλυση και μετακίνηση στην επόμενη",

@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de teléfono",
           "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
-          "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
+          "ERROR": "Por favor, proporcione un número de teléfono válido que comience con un signo `+` y no contenga espacios."
         },
         "API_CALLBACK": {
           "TITLE": "URL de devolución de llamada",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Número de teléfono",
             "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
-            "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
+            "ERROR": "Por favor, proporcione un número de teléfono válido que comience con un signo `+` y no contenga espacios."
           },
           "SUBMIT_BUTTON": "Crear Canal de Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de teléfono",
           "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
-          "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
+          "ERROR": "Por favor, proporcione un número de teléfono válido que comience con un signo `+` y no contenga espacios."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID de número de teléfono",
@@ -344,6 +344,17 @@
       "FINISH": {
         "TITLE": "¡Se ha clavado!",
         "DESC": "Has terminado de integrar correctamente tu página de Facebook con Chatwoot. La próxima vez que un cliente envíe un mensaje a tu Página, la conversación aparecerá automáticamente en tu bandeja de entrada.<br>También le estamos proporcionando un script de widget que puede agregar fácilmente a su sitio web. Una vez que esto está en vivo en tu sitio web, los clientes pueden enviarle mensajes directamente desde su sitio web sin la ayuda de ninguna herramienta externa y la conversación aparecerá aquí, en Chatwoot.<br>¿Genial, eh? Bueno, estamos seguros de que intentaremos ser :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Selecciona tu proveedor de correo",
+        "DESCRIPTION": "Seleccione un proveedor de correo electrónico de la siguiente lista. Si no ve a su proveedor de correo en la lista, puede seleccionar la opción de otro proveedor y proporcionar las credenciales IMAP y SMTP."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Haga clic en el botón Iniciar sesión con Microsoft para empezar. Serás redirigido a la página de inicio de sesión de correo electrónico. Una vez que aceptes los permisos solicitados, serás redirigido al paso de creación de la bandeja de entrada.",
+        "EMAIL_PLACEHOLDER": "Introduzca la dirección de correo",
+        "HELP": "Para añadir su cuenta de Microsoft como un canal, debe autenticar su cuenta de Microsoft haciendo clic en 'Iniciar sesión con Microsoft' ",
+        "ERROR_MESSAGE": "Hubo un error al conectarse a Microsoft, por favor inténtalo de nuevo"
       }
     },
     "DETAILS": {
@@ -421,7 +432,7 @@
       "PRE_CHAT_FORM": "Pre-formulario de chat",
       "BUSINESS_HOURS": "Horarios",
       "WIDGET_BUILDER": "Constructor de Widget",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Configuración del bot"
     },
     "SETTINGS": "Ajustes",
     "FEATURES": {
@@ -445,8 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Habilitar/deshabilitar encuesta CSAT(satisfacción del cliente) después de resolver una conversación",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidad de conversación por correo electrónico",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Las conversaciones continuarán por correo electrónico si la dirección de correo electrónico de contacto está disponible.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Bloquear a una sola conversación",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Activar o desactivar múltiples conversaciones para el mismo contacto en esta bandeja de entrada",
       "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
@@ -461,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensajes después de la conversación resuelta",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir a los usuarios finales enviar mensajes incluso después de que la conversación sea resuelta.",
       "WHATSAPP_SECTION_SUBHEADER": "Esta clave de API se utiliza para la integración con las APIs de WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Clave de API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Introduzca la clave actualizada para la integración con las API de WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "Clave de API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Actualizar Clave API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduzca aquí la nueva Clave API",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizar",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizar configuración de Formulario de Chat"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Límite de asignación automática",
@@ -547,6 +563,10 @@
         "PLACE_HOLDER": "Contraseña"
       },
       "ENABLE_SSL": "Activar SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reautorizar su cuenta MICROSOFT"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -666,6 +686,10 @@
       },
       "BRANDING_TEXT": "Desarrollado por Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Otros proveedores"
     }
   }
 }

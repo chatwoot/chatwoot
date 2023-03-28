@@ -106,18 +106,22 @@ export default {
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      globalConfig: 'globalConfig/get',
     }),
     hasSubMenu() {
       return !!this.menuItem.children;
     },
     isMenuItemVisible() {
-      if (!this.menuItem.featureFlag) {
-        return true;
+      if (this.menuItem.globalConfigFlag) {
+        return !!this.globalConfig[this.menuItem.globalConfigFlag];
       }
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        this.menuItem.featureFlag
-      );
+      if (this.menuItem.featureFlag) {
+        return this.isFeatureEnabledonAccount(
+          this.accountId,
+          this.menuItem.featureFlag
+        );
+      }
+      return true;
     },
     isAllConversations() {
       return (
@@ -327,11 +331,11 @@ export default {
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-smaller) !important;
+  margin: 0 var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
-  line-height: 18px;
+  line-height: 14px;
   border: 1px solid transparent;
   border-radius: 2em;
   color: var(--g-800);
@@ -344,7 +348,7 @@ export default {
   color: var(--s-600);
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-bold);
-  margin-left: var(--space-smaller);
+  margin: 0 var(--space-smaller);
   padding: var(--space-zero) var(--space-smaller);
 }
 

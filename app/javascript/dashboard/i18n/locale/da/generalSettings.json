@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "Tryk enter for at vælge",
       "ENTER_TO_REMOVE": "Tryk enter for at fjerne",
       "SELECT_ONE": "Vælg en",
-      "SELECT": "Select"
+      "SELECT": "Vælg"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -82,6 +82,7 @@
       "conversation_creation": "Ny samtale",
       "conversation_assignment": "Samtale Tildelt",
       "assigned_conversation_new_message": "Ny Besked",
+      "participating_conversation_new_message": "Ny Besked",
       "conversation_mention": "Omtale"
     }
   },
@@ -139,6 +140,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Indlæser Dashboard App..."
   }
 }

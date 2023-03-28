@@ -88,6 +88,38 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateAutoOffline', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          name: 'John',
+          accounts: [
+            {
+              account_id: 1,
+              auto_offline: false,
+            },
+          ],
+        },
+        headers: { expiry: 581842904 },
+      });
+      await actions.updateAutoOffline(
+        { commit, dispatch },
+        { autoOffline: false, accountId: 1 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_CURRENT_USER,
+          {
+            id: 1,
+            name: 'John',
+            accounts: [{ account_id: 1, auto_offline: false }],
+          },
+        ],
+      ]);
+    });
+  });
+
   describe('#updateUISettings', () => {
     it('sends correct actions if API is success', async () => {
       axios.put.mockResolvedValue({

@@ -37,7 +37,7 @@
       "CONFIRM": {
         "MESSAGE": "Ertu viss um að þú viljir eyða",
         "YES": "Yes, Delete",
-        "NO": "No"
+        "NO": "Nei"
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro deleted successfully",

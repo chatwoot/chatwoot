@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve e-posta adresinizi belirtiniz",
-    "IS_REQUIRED": "zorunlu"
+    "IS_REQUIRED": "zorunlu",
+    "REQUIRED": "Zorunlu"
   },
   "FILE_SIZE_LIMIT": "Dosya {MAXIMUM_FILE_UPLOAD_SIZE} sınırını aşıyor",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Geçersiz alan"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Görüşmenizi değerlendirin",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Konuşma transkripti talep et",
     "SEND_EMAIL_SUCCESS": "Sohbet metni başarıyla gönderildi",
     "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

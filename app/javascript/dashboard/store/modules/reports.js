@@ -1,7 +1,13 @@
 /* eslint no-console: 0 */
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
-import { downloadCsvFile } from '../../helper/downloadHelper';
+import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
+import AnalyticsHelper from '../../helper/AnalyticsHelper';
+import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
+import {
+  reconcileHeatmapData,
+  clampDataBetweenTimeline,
+} from 'helpers/ReportsDataHelper';
 
 const state = {
   fetchingStatus: false,
@@ -22,9 +28,11 @@ const state = {
   overview: {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
+      isFetchingAccountConversationsHeatmap: false,
       isFetchingAgentConversationMetric: false,
     },
     accountConversationMetric: {},
+    accountConversationHeatmap: [],
     agentConversationMetric: [],
   },
 };
@@ -39,6 +47,9 @@ const getters = {
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
   },
+  getAccountConversationHeatmapData(_state) {
+    return _state.overview.accountConversationHeatmap;
+  },
   getAgentConversationMetric(_state) {
     return _state.overview.agentConversationMetric;
   },
@@ -50,22 +61,26 @@ const getters = {
 export const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
-    Report.getReports(
-      reportObj.metric,
-      reportObj.from,
-      reportObj.to,
-      reportObj.type,
-      reportObj.id,
-      reportObj.groupBy,
-      reportObj.businessHours
-    ).then(accountReport => {
+    Report.getReports(reportObj).then(accountReport => {
       let { data } = accountReport;
-      data = data.filter(
-        el =>
-          reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
-      );
+      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
       commit(types.default.SET_ACCOUNT_REPORTS, data);
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+    });
+  },
+  fetchAccountConversationHeatmap({ commit }, reportObj) {
+    commit(types.default.TOGGLE_HEATMAP_LOADING, true);
+    Report.getReports({ ...reportObj, group_by: 'hour' }).then(heatmapData => {
+      let { data } = heatmapData;
+      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
+
+      data = reconcileHeatmapData(
+        data,
+        state.overview.accountConversationHeatmap
+      );
+
+      commit(types.default.SET_HEATMAP_DATA, data);
+      commit(types.default.TOGGLE_HEATMAP_LOADING, false);
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
@@ -116,6 +131,10 @@ export const actions = {
     return Report.getAgentReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'agent',
+          businessHours: reportObj?.businessHours,
+        });
       })
       .catch(error => {
         console.error(error);
@@ -125,6 +144,10 @@ export const actions = {
     return Report.getLabelReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'label',
+          businessHours: reportObj?.businessHours,
+        });
       })
       .catch(error => {
         console.error(error);
@@ -134,6 +157,10 @@ export const actions = {
     return Report.getInboxReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'inbox',
+          businessHours: reportObj?.businessHours,
+        });
       })
       .catch(error => {
         console.error(error);
@@ -143,6 +170,30 @@ export const actions = {
     return Report.getTeamReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'team',
+          businessHours: reportObj?.businessHours,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadAccountConversationHeatmap(_, reportObj) {
+    Report.getConversationTrafficCSV(reportObj)
+      .then(response => {
+        downloadCsvFile(
+          generateFileName({
+            type: 'Conversation traffic',
+            to: reportObj.to,
+          }),
+          response.data
+        );
+
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'conversation_heatmap',
+          businessHours: false,
+        });
       })
       .catch(error => {
         console.error(error);
@@ -154,8 +205,14 @@ const mutations = {
   [types.default.SET_ACCOUNT_REPORTS](_state, accountReport) {
     _state.accountReport.data = accountReport;
   },
+  [types.default.SET_HEATMAP_DATA](_state, heatmapData) {
+    _state.overview.accountConversationHeatmap = heatmapData;
+  },
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, flag) {
     _state.accountReport.isFetching = flag;
+  },
+  [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;

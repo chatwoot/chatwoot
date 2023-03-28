@@ -34,9 +34,6 @@ export default {
         lastNonActivityMessageFromAPI
       );
     },
-    hasUserReadMessage(createdAt, contactLastSeen) {
-      return !(contactLastSeen - createdAt < 0);
-    },
     readMessages(m) {
       return m.messages.filter(
         chat => chat.created_at * 1000 <= m.agent_last_seen_at * 1000

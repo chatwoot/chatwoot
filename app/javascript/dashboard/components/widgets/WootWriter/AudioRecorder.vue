@@ -10,11 +10,11 @@ import 'videojs-record/dist/css/videojs.record.css';
 
 import videojs from 'video.js';
 
-import inboxMixin from '../../../../shared/mixins/inboxMixin';
 import alertMixin from '../../../../shared/mixins/alertMixin';
 
 import Recorder from 'opus-recorder';
 import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
+import waveWorker from 'opus-recorder/dist/waveWorker.min';
 
 import WaveSurfer from 'wavesurfer.js';
 import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
@@ -29,14 +29,19 @@ WaveSurfer.microphone = MicrophonePlugin;
 
 export default {
   name: 'WootAudioRecorder',
-  mixins: [inboxMixin, alertMixin],
+  mixins: [alertMixin],
+  props: {
+    audioRecordFormat: {
+      type: String,
+      default: AUDIO_FORMATS.WEBM,
+    },
+  },
   data() {
     return {
       player: false,
       recordingDateStarted: new Date(0),
       initialTimeDuration: '00:00',
       recorderOptions: {
-        debug: true,
         controls: true,
         bigPlayButton: false,
         fluid: false,
@@ -71,6 +76,9 @@ export default {
           record: {
             audio: true,
             video: false,
+            maxLength: 900,
+            timeSlice: 1000,
+            maxFileSize: 15 * 1024 * 1024,
             ...(this.audioRecordFormat === AUDIO_FORMATS.WEBM && {
               monitorGain: 0,
               recordingGain: 1,
@@ -80,11 +88,10 @@ export default {
               streamPages: true,
               maxFramesPerPage: 1,
               encoderFrameSize: 1,
-              encoderPath: 'opus-recorder/dist/waveWorker.min.js',
+              encoderPath: waveWorker,
             }),
             ...(this.audioRecordFormat === AUDIO_FORMATS.OGG && {
               displayMilliseconds: false,
-              maxLength: 300,
               audioEngine: 'opus-recorder',
               audioWorkerURL: encoderWorker,
               audioChannels: 1,
@@ -99,12 +106,6 @@ export default {
   computed: {
     isRecording() {
       return this.player && this.player.record().isRecording();
-    },
-    audioRecordFormat() {
-      if (this.isAWebWidgetInbox) {
-        return AUDIO_FORMATS.WEBM;
-      }
-      return AUDIO_FORMATS.OGG;
     },
   },
   mounted() {
