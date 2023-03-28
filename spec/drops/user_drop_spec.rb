@@ -34,7 +34,7 @@ describe ::UserDrop do
     end
 
     it('return the capitalized last name') do
-      contact.update!(name: 'doe')
+      user.update!(name: 'doe')
       expect(subject.last_name).to eq 'John'
     end
   end
