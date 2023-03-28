@@ -9,17 +9,20 @@ describe Integrations::Slack::SendOnSlackService do
   let!(:message) do
     create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
   end
+
   let(:slack_message) { double }
   let(:file_attachment) { double }
   let(:slack_message_content) { double }
   let(:slack_client) { double }
   let(:builder) { described_class.new(message: message, hook: hook) }
+  let(:conversation_link) { "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}" }
 
   before do
     allow(builder).to receive(:slack_client).and_return(slack_client)
     allow(slack_message).to receive(:[]).with('ts').and_return('12345.6789')
     allow(slack_message).to receive(:[]).with('message').and_return(slack_message_content)
     allow(slack_message_content).to receive(:[]).with('ts').and_return('6789.12345')
+    create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
   end
 
   describe '#perform' do
@@ -75,7 +78,7 @@ describe Integrations::Slack::SendOnSlackService do
       it 'sent message to slack' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: message.content,
+          text: message.content.to_s,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
@@ -89,7 +92,7 @@ describe Integrations::Slack::SendOnSlackService do
       it 'sent attachment on slack' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: message.content,
+          text: message.content.to_s,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
@@ -119,7 +122,7 @@ describe Integrations::Slack::SendOnSlackService do
       it 'disables hook on Slack AccountInactive error' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: message.content,
+          text: message.content.to_s,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
@@ -130,6 +133,25 @@ describe Integrations::Slack::SendOnSlackService do
         builder.perform
         expect(hook).to be_disabled
         expect(hook).to have_received(:authorization_error!)
+      end
+    end
+
+    context 'with first message' do
+      it 'send conversation_link' do
+        Message.last.destroy!
+        inbox = conversation.inbox
+        message.update!(content: "Hi [@#{contact.name}](mention://user/#{contact.id}/#{contact.name}), welcome to Chatwoot!")
+        formatted_message_text = message.content.gsub(RegexHelper::MENTION_REGEX, '\1')
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{formatted_message_text}\n#{conversation_link}",
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: nil,
+          icon_url: anything
+        ).and_return(slack_message)
+
+        builder.perform
       end
     end
 
@@ -157,7 +179,7 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: formatted_message_text,
+          text: formatted_message_text.to_s,
           username: "#{message.sender.name} (Contact)",
           thread_ts: 'random_slack_thread_ts',
           icon_url: anything

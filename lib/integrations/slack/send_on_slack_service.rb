@@ -34,8 +34,6 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
-    message_text = message.content.gsub(MENTION_REGEX, '\1')
-    message_text = "#{message_text}\\n#{link_to_conversation}" if first_message?
     if conversation.identifier.present?
       "#{private_indicator}#{message_text}"
     else
@@ -44,7 +42,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def message_text
-    message.content.present? ? message.content.gsub(MENTION_REGEX, '\1') : message.content
+    if message.content.present?
+      text = message.content.gsub(MENTION_REGEX, '\1')
+      text = "#{text}\n#{link_to_conversation}" if first_message?
+    else
+      text = message.content
+    end
+    text
   end
 
   def formatted_inbox_name
@@ -131,10 +135,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def first_message?
-    conversation.messages.notifiable.count == 1
+    conversation.messages.where(message_type: [:incoming, :outgoing]).count == 1
   end
 
   def link_to_conversation
-    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/conversations/#{conversation.display_id}"
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}"
   end
 end
