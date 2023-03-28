@@ -12,7 +12,7 @@ describe ::UserDrop do
     end
 
     it('return the capitalized first name') do
-      contact.update!(name: 'john doe')
+      user.update!(name: 'john doe')
       expect(subject.first_name).to eq 'John'
     end
   end
