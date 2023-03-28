@@ -45,4 +45,5 @@ runs:
     - name: Build, tag, and push image to Amazon ECR
       shell: bash
       run: |
-        echo "HELLO WORLD FROM  BIRDWOOT"
+        docker build -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
+
