@@ -68,6 +68,7 @@
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
+          :external-error="externalError"
           :story-id="storyId"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -261,6 +262,9 @@ export default {
     contentAttributes() {
       return this.data.content_attributes || {};
     },
+    externalError() {
+      return this.contentAttributes.external_error || null;
+    },
     sender() {
       return this.data.sender || {};
     },
@@ -351,7 +355,7 @@ export default {
         return false;
       }
       if (this.isFailed) {
-        return this.$t(`CONVERSATION.SEND_FAILED`);
+        return this.externalError ? '' : this.$t(`CONVERSATION.SEND_FAILED`);
       }
       return false;
     },
