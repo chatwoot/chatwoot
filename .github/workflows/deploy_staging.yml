@@ -23,6 +23,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
           ECR_REPOSITORY: conversations/birdwoot/staging/birdwootmain
+          DOCKERFILE_PATH: docker/Dockerfile
       
       - name: Build and publish Docker image into AWS ECR for Sidekiq
         uses: ./.github/actions/deployment/push-image-ecr
@@ -32,3 +33,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
           ECR_REPOSITORY: conversations/birdwoot/staging/sidekiq
+          DOCKERFILE_PATH: docker/dockerfiles/sidekiq.Dockerfile
