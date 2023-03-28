@@ -452,7 +452,12 @@ export default {
       return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
     enableMultipleFileUpload() {
-      return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+      return (
+        this.isAnEmailChannel ||
+        this.isAWebWidgetInbox ||
+        this.isAPIInbox ||
+        this.isAWhatsAppChannel
+      );
     },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
