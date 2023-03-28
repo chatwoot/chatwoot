@@ -151,7 +151,7 @@ describe('#capitalizeName', () => {
     const string = '';
     expect(capitalizeName(string)).toBe('');
   });
-  it('capitalize last name if full name is passed', () => {
+  it('capitalize last name if last name is passed', () => {
     const string = 'john doe';
     expect(capitalizeName(string)).toBe('John Doe');
   });

@@ -10,6 +10,11 @@ describe ::UserDrop do
       user.update!(name: 'John Doe')
       expect(subject.first_name).to eq 'John'
     end
+
+    it('return the capitalized first name') do
+      contact.update!(name: 'john doe')
+      expect(subject.last_name).to eq 'John'
+    end
   end
 
   it('return the capitalized name') do
@@ -26,6 +31,11 @@ describe ::UserDrop do
     it 'returns empty when last name not present' do
       user.update!(name: 'John')
       expect(subject.last_name).to be_nil
+    end
+
+    it('return the capitalized last name') do
+      contact.update!(name: 'doe')
+      expect(subject.last_name).to eq 'John'
     end
   end
 end
