@@ -89,4 +89,11 @@ RSpec.describe User do
       expect(user.will_save_change_to_email?).to be true
     end
   end
+
+  context 'when the supplied email is uppercase' do
+    it 'downcases the email on save' do
+      new_user = create(:user, email: 'Test123@test.com')
+      expect(new_user.email).to eq('test123@test.com')
+    end
+  end
 end

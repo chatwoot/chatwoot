@@ -115,6 +115,11 @@ RSpec.describe 'Platform Users API', type: :request do
           )
         )
         expect(platform_app.platform_app_permissibles.first.permissible_id).to eq data['id']
+
+        post '/platform/api/v1/users/', params: { name: 'test', email: 'TesT@test.com', password: 'Password1!' },
+                                        headers: { api_access_token: platform_app.access_token.token }, as: :json
+        data = JSON.parse(response.body)
+        expect(data['message']).to eq('Email has already been taken')
       end
 
       it 'fetch existing user and creates permissible for the user' do
