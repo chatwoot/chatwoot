@@ -7,8 +7,8 @@ export const replaceVariablesInMessage = ({ message, variables }) => {
   });
 };
 
-export const capitalizeName = string => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+export const capitalizeName = name => {
+  return name.replace(/\b(\w)/g, s => s.toUpperCase());
 };
 
 const skipCodeBlocks = str => str.replace(/```(?:.|\n)+?```/g, '');
@@ -20,7 +20,9 @@ export const getFirstName = ({ user }) => {
 
 export const getLastName = ({ user }) => {
   if (user && user.name) {
-    return user.name.split(' ').length > 1 ? user.name.split(' ').pop() : '';
+    const lastName =
+      user.name.split(' ').length > 1 ? user.name.split(' ').pop() : '';
+    return capitalizeName(lastName);
   }
   return '';
 };
@@ -39,7 +41,7 @@ export const getMessageVariables = ({ conversation }) => {
     'contact.phone': sender?.phone_number,
     'contact.id': sender?.id,
     'conversation.id': id,
-    'agent.name': assignee?.name ? assignee?.name : '',
+    'agent.name': capitalizeName(assignee?.name || ''),
     'agent.first_name': getFirstName({ user: assignee }),
     'agent.last_name': getLastName({ user: assignee }),
     'agent.email': assignee?.email ?? '',
