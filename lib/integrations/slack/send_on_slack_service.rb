@@ -34,6 +34,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
+    message_text = message.content.gsub(MENTION_REGEX, '\1')
+    message_text = "#{message_text}\\n#{link_to_conversation}" if first_message?
     if conversation.identifier.present?
       "#{private_indicator}#{message_text}"
     else
@@ -126,5 +128,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def slack_client
     @slack_client ||= Slack::Web::Client.new(token: hook.access_token)
+  end
+
+  def first_message?
+    conversation.messages.notifiable.count == 1
+  end
+
+  def link_to_conversation
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/conversations/#{conversation.display_id}"
   end
 end
