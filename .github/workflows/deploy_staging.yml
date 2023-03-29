@@ -34,3 +34,22 @@ jobs:
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
           ECR_REPOSITORY: conversations/birdwoot/staging/sidekiq
           DOCKERFILE_PATH: docker/dockerfiles/sidekiq.Dockerfile
+
+      # Send status notification
+      - name: Build Slack notification payload
+        id: slack-payload
+        if: ${{ always() }}
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+          JOB_STATUS: ${{ job.status }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: ./scripts/build_slack_deployment_status_notification_payload.sh
+
+      - name: Notify status to slack
+        if: ${{ always() }}
+        uses: slackapi/slack-github-action@v1.14.0
+        with:
+          payload: ${{ steps.slack-payload.outputs.payload }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
