@@ -114,7 +114,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
-    setConversationCustomAttribute(customAttributes = {}) {
+    setConversationCustomAttributes(customAttributes = {}) {
       if (!customAttributes || !Object.keys(customAttributes).length) {
         throw new Error('Custom attributes should have atleast one key');
       } else {
@@ -124,12 +124,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
-    deleteConversationCustomAttribute(customAttributes = {}) {
-      if (!customAttributes || !Object.keys(customAttributes).length) {
+    deleteConversationCustomAttribute(customAttribute = '') {
+      if (!customAttribute) {
         throw new Error('Custom attributes should have atleast one key');
       } else {
-        IFrameHelper.sendMessage('delete-conversation-custom-attributes', {
-          customAttributes,
+        IFrameHelper.sendMessage('delete-conversation-custom-attribute', {
+          customAttribute,
         });
       }
     },

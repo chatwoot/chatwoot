@@ -276,12 +276,12 @@ export default {
           );
         } else if (message.event === 'set-conversation-custom-attributes') {
           this.$store.dispatch(
-            'conversations/setCustomAttributes',
+            'conversation/setCustomAttributes',
             message.customAttributes
           );
         } else if (message.event === 'delete-conversation-custom-attribute') {
           this.$store.dispatch(
-            'conversations/deleteCustomAttribute',
+            'conversation/deleteCustomAttribute',
             message.customAttribute
           );
         } else if (message.event === 'set-locale') {
