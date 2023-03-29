@@ -28,6 +28,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
     ],
     actions: [
       {
@@ -117,6 +124,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'COUNTRY_NAME',
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'referer',
@@ -225,6 +239,13 @@ export const AUTOMATIONS = {
         key: 'referer',
         name: 'Referrer Link',
         attributeI18nKey: 'REFERER_LINK',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
       },
@@ -344,6 +365,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'ASSIGNEE_NAME',
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'team_id',
