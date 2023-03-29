@@ -35,6 +35,7 @@ export default {
 
   data() {
     return {
+      // TODO: Commented out for now as it is causing issues with the testing of action cable reconnect
       // showNotification: !navigator.onLine,
       showNotification: false,
     };

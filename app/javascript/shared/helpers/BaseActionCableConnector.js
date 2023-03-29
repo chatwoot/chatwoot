@@ -6,6 +6,7 @@ class BaseActionCableConnector {
   constructor(app, pubsubToken, websocketHost = '') {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
     this.consumer = createConsumer(websocketURL);
+    // TODO: Move to class variable
     let isDisconnected = false;
     this.subscription = this.consumer.subscriptions.create(
       {
