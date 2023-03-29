@@ -233,7 +233,7 @@ describe Telegram::IncomingMessageService do
       end
     end
 
-    context 'when valid callbac_query params' do
+    context 'when valid callback_query params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {
           'update_id' => 2_342_342_343_242,

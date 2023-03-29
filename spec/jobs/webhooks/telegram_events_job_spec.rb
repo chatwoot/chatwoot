@@ -30,7 +30,21 @@ RSpec.describe Webhooks::TelegramEventsJob, type: :job do
       expect(Telegram::IncomingMessageService).to receive(:new).with(inbox: telegram_channel.inbox,
                                                                      params: params['telegram'].with_indifferent_access)
       expect(process_service).to receive(:perform)
-      described_class.perform_now(params)
+      described_class.perform_now(params.with_indifferent_access)
+    end
+  end
+
+  context 'when update message params' do
+    let!(:params) { { :bot_token => telegram_channel.bot_token, 'telegram' => { edited_message: 'test' } } }
+
+    it 'calls Telegram::UpdateMessageService' do
+      process_service = double
+      allow(Telegram::UpdateMessageService).to receive(:new).and_return(process_service)
+      allow(process_service).to receive(:perform)
+      expect(Telegram::UpdateMessageService).to receive(:new).with(inbox: telegram_channel.inbox,
+                                                                   params: params['telegram'].with_indifferent_access)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(params.with_indifferent_access)
     end
   end
 end
