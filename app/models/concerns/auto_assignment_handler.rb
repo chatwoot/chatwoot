@@ -15,6 +15,7 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+    conversation_participants.find_or_create_by(user_id: assignee_id)
   end
 
   def should_run_auto_assignment?
