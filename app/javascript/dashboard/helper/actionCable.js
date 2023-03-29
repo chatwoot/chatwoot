@@ -27,6 +27,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
+      'refresh.conversation': this.onRefreshConversation,
     };
   }
 

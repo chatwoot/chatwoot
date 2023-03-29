@@ -36,7 +36,7 @@ export default {
 
   data() {
     return {
-      showNotification: !navigator.onLine,
+      showNotification: false,
     };
   },
 
@@ -45,7 +45,6 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('offline', this.updateOnlineStatus);
     window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
       this.updateOnlineStatus({ type: 'offline' });
     });

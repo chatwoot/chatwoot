@@ -17,6 +17,14 @@ class BaseActionCableConnector {
       {
         updatePresence() {
           this.perform('update_presence');
+          if (this.isDisconnected) {
+            console.log(
+              'Are you ready to refresh the conversation?',
+              this.isDisconnected
+            );
+            window.bus.$emit(BUS_EVENTS.REFRESH_CONVERSATION);
+          }
+          this.isDisconnected = false;
         },
         received: this.onReceived,
         disconnected: this.onDisconnected,
@@ -25,6 +33,7 @@ class BaseActionCableConnector {
     this.app = app;
     this.events = {};
     this.isAValidEvent = () => true;
+    this.isDisconnected = false;
 
     setInterval(() => {
       this.subscription.updatePresence();
@@ -37,6 +46,8 @@ class BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onDisconnected() {
+    this.isDisconnected = true;
+    console.log('onDisconnected', this.isDisconnected);
     window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   }
 
