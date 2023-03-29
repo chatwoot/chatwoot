@@ -21,7 +21,7 @@ class BaseActionCableConnector {
         received: this.onReceived,
         disconnected() {
           isDisconnected = true;
-          // console.log('Disconnected from ActionCable', isDisconnected);
+          console.log('Disconnected from ActionCable', isDisconnected);
         },
       }
     );
@@ -32,10 +32,10 @@ class BaseActionCableConnector {
     setInterval(() => {
       this.subscription.updatePresence();
       if (isDisconnected && navigator.onLine) {
-        // console.log(
-        //   'Are you ready to refresh the conversation?',
-        //   isDisconnected
-        // );
+        console.log(
+          'Are you ready to refresh the conversation?',
+          isDisconnected
+        );
         this.refreshConversations();
         isDisconnected = false;
       }

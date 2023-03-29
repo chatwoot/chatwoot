@@ -32,7 +32,8 @@ class ActionCableConnector extends BaseActionCableConnector {
   }
 
   onRefreshConversation = () => {
-    this.app.$store.dispatch('reFetchMessages', { conversationId: 7 });
+    console.log('Started Refreshing conversations');
+    this.app.$store.dispatch('reFetchMessages', { conversationId: 8 });
   };
 
   isAValidEvent = data => {
