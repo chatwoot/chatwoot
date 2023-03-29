@@ -13,13 +13,14 @@ RUN apk add --no-cache build-base \
 # Add Sidekiq and Sidekiq-cron gems to the Gemfile
 RUN echo "gem 'sidekiq', '~> 6.4.2'" >> Gemfile \
     && echo "gem 'sidekiq-cron', '~> 1.6', '>= 1.6.0'" >> Gemfile
+    
+COPY Gemfile Gemfile.lock .
 
 # Install gems
 RUN bundle install --jobs 4 --retry 3
 
 # Copy your Sidekiq application code into the container
 COPY . .
-COPY Gemfile.lock .
 
 # Expose the default Sidekiq port (if necessary)
 EXPOSE 7432
