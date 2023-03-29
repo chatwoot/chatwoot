@@ -55,6 +55,10 @@ Rails.application.configure do
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = [I18n.default_locale]
+  
+   # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
+  
   config.active_job.queue_adapter = :sidekiq
 
   # Send deprecation notices to registered listeners.
