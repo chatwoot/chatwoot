@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasOpenedAtleaseOnce" class="dashboard-app--container">
+  <div v-if="hasOpenedAtleastOnce" class="dashboard-app--container">
     <div
       v-for="(configItem, index) in config"
       :key="index"
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      hasOpenedAtleaseOnce: false,
+      hasOpenedAtleastOnce: false,
       iframeLoading: true,
     };
   },
@@ -65,7 +65,7 @@ export default {
   watch: {
     isVisible() {
       if (this.isVisible) {
-        this.hasOpenedAtleaseOnce = true;
+        this.hasOpenedAtleastOnce = true;
       }
     },
   },
