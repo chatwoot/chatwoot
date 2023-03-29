@@ -27,9 +27,13 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
-      'refresh.conversation': this.onRefreshConversation,
+      'refresh.conversations': this.onRefreshConversation,
     };
   }
+
+  onRefreshConversation = () => {
+    this.app.$store.dispatch('reFetchMessages', { conversationId: 7 });
+  };
 
   isAValidEvent = data => {
     return this.app.$store.getters.getCurrentAccountId === data.account_id;

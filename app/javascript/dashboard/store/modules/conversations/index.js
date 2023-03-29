@@ -54,6 +54,17 @@ export const mutations = {
       chat.messages.unshift(...data);
     }
   },
+  [types.SET_MISSING_MESSAGES](_state, { id, data }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (!chat) return;
+    if (data.length) {
+      chat.messages.push(...data);
+      const sortedMessages = chat.messages.sort((a, b) => {
+        return new Date(a.created_at) - new Date(b.created_at);
+      });
+      Vue.set(chat, 'messages', sortedMessages);
+    }
+  },
 
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {

@@ -86,6 +86,35 @@ const actions = {
     }
   },
 
+  reFetchMessages: async ({ commit, state }, { conversationId }) => {
+    const { allConversations } = state;
+    const selectedChat = allConversations.find(
+      conversation => conversation.id === conversationId
+    );
+    if (!selectedChat) return;
+    try {
+      const { messages } = selectedChat;
+      const {
+        data: { meta, payload },
+      } = await MessageApi.getPreviousMessages({
+        conversationId,
+      });
+      commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
+        id: conversationId,
+        data: meta,
+      });
+      const missingMessages = payload.filter(
+        message => !messages.find(item => item.id === message.id)
+      );
+      commit(types.SET_MISSING_MESSAGES, {
+        id: conversationId,
+        data: missingMessages,
+      });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED);

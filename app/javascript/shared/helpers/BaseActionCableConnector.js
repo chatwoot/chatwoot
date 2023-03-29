@@ -1,5 +1,4 @@
 import { createConsumer } from '@rails/actioncable';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const PRESENCE_INTERVAL = 20000;
 
@@ -7,6 +6,7 @@ class BaseActionCableConnector {
   constructor(app, pubsubToken, websocketHost = '') {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
     this.consumer = createConsumer(websocketURL);
+    let isDisconnected = false;
     this.subscription = this.consumer.subscriptions.create(
       {
         channel: 'RoomChannel',
@@ -17,26 +17,28 @@ class BaseActionCableConnector {
       {
         updatePresence() {
           this.perform('update_presence');
-          if (this.isDisconnected) {
-            console.log(
-              'Are you ready to refresh the conversation?',
-              this.isDisconnected
-            );
-            window.bus.$emit(BUS_EVENTS.REFRESH_CONVERSATION);
-          }
-          this.isDisconnected = false;
         },
         received: this.onReceived,
-        disconnected: this.onDisconnected,
+        disconnected() {
+          isDisconnected = true;
+          // console.log('Disconnected from ActionCable', isDisconnected);
+        },
       }
     );
     this.app = app;
     this.events = {};
     this.isAValidEvent = () => true;
-    this.isDisconnected = false;
 
     setInterval(() => {
       this.subscription.updatePresence();
+      if (isDisconnected && navigator.onLine) {
+        // console.log(
+        //   'Are you ready to refresh the conversation?',
+        //   isDisconnected
+        // );
+        this.refreshConversations();
+        isDisconnected = false;
+      }
     }, PRESENCE_INTERVAL);
   }
 
@@ -44,12 +46,9 @@ class BaseActionCableConnector {
     this.consumer.disconnect();
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  onDisconnected() {
-    this.isDisconnected = true;
-    console.log('onDisconnected', this.isDisconnected);
-    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
-  }
+  refreshConversations = () => {
+    this.events['refresh.conversations']();
+  };
 
   onReceived = ({ event, data } = {}) => {
     if (this.isAValidEvent(data)) {

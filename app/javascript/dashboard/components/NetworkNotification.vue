@@ -29,13 +29,13 @@
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   mixins: [globalConfigMixin],
 
   data() {
     return {
+      // showNotification: !navigator.onLine,
       showNotification: false,
     };
   },
@@ -45,9 +45,8 @@ export default {
   },
 
   mounted() {
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
-      this.updateOnlineStatus({ type: 'offline' });
-    });
+    // TODO: Commented out for now as it is causing issues with the testing of action cable reconnect
+    // window.addEventListener('offline', this.updateOnlineStatus);
   },
 
   beforeDestroy() {
