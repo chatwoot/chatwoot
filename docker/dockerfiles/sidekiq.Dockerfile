@@ -10,6 +10,13 @@ RUN apk add --no-cache build-base \
     && bundle config set without 'development test' \
     && bundle config --global frozen 1
 
+# Add Sidekiq and Sidekiq-cron gems to the Gemfile
+RUN echo "gem 'sidekiq', '~> 6.4.2'" >> Gemfile \
+    && echo "gem 'sidekiq-cron', '~> 1.6', '>= 1.6.0'" >> Gemfile
+
+# Install gems
+RUN bundle install --jobs 4 --retry 3
+
 # Copy your Sidekiq application code into the container
 COPY . .
 
