@@ -126,7 +126,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     deleteConversationCustomAttribute(customAttribute = '') {
       if (!customAttribute) {
-        throw new Error('Custom attributes should have atleast one key');
+        throw new Error('Custom attribute is required');
       } else {
         IFrameHelper.sendMessage('delete-conversation-custom-attribute', {
           customAttribute,
