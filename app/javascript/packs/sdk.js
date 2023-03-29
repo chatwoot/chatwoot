@@ -114,6 +114,26 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
+    setConversationCustomAttribute(customAttributes = {}) {
+      if (!customAttributes || !Object.keys(customAttributes).length) {
+        throw new Error('Custom attributes should have atleast one key');
+      } else {
+        IFrameHelper.sendMessage('set-conversation-custom-attributes', {
+          customAttributes,
+        });
+      }
+    },
+
+    deleteConversationCustomAttribute(customAttributes = {}) {
+      if (!customAttributes || !Object.keys(customAttributes).length) {
+        throw new Error('Custom attributes should have atleast one key');
+      } else {
+        IFrameHelper.sendMessage('delete-conversation-custom-attributes', {
+          customAttributes,
+        });
+      }
+    },
+
     setLabel(label = '') {
       IFrameHelper.sendMessage('set-label', { label });
     },
