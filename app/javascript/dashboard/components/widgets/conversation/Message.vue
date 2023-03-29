@@ -1,6 +1,16 @@
 <template>
   <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
+      <div v-if="isFailed" class="message-failed--alert">
+        <woot-button
+          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
+          size="tiny"
+          color-scheme="alert"
+          variant="clear"
+          icon="arrow-clockwise"
+          @click="retrySendMessage"
+        />
+      </div>
       <div
         v-tooltip.top-start="messageToolTip"
         :class="bubbleClass"
@@ -102,16 +112,6 @@
         >
           {{ sender.name }}
         </a>
-      </div>
-      <div v-if="isFailed" class="message-failed--alert">
-        <woot-button
-          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
-          size="tiny"
-          color-scheme="alert"
-          variant="clear"
-          icon="arrow-clockwise"
-          @click="retrySendMessage"
-        />
       </div>
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
@@ -625,7 +625,6 @@ li.right {
 
   .wrap.is-failed {
     display: flex;
-    flex-direction: row-reverse;
     align-items: flex-end;
     margin-left: auto;
   }
