@@ -218,13 +218,17 @@ export default {
   },
   mounted() {
     this.editedValue = this.formattedValue;
-    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, focusAttributeKey => {
+    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+  },
+  destroyed() {
+    bus.$off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+  },
+  methods: {
+    onFocusAttribute(focusAttributeKey) {
       if (this.attributeKey === focusAttributeKey) {
         this.onEdit();
       }
-    });
-  },
-  methods: {
+    },
     focusInput() {
       if (this.$refs.inputfield) {
         this.$refs.inputfield.focus();
