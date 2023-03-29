@@ -9,6 +9,14 @@
     >
       {{ readableTime }}
     </span>
+    <span v-if="externalError" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="externalError"
+        icon="error-circle"
+        class="action--icon"
+        size="14"
+      />
+    </span>
     <span v-if="showReadIndicator" class="read-indicator-wrap">
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
@@ -95,6 +103,10 @@ export default {
       default: 0,
     },
     storySender: {
+      type: String,
+      default: '',
+    },
+    externalError: {
       type: String,
       default: '',
     },
