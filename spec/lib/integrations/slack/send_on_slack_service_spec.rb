@@ -78,7 +78,7 @@ describe Integrations::Slack::SendOnSlackService do
       it 'sent message to slack' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: message.content.to_s,
+          text: message.content,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
@@ -92,7 +92,7 @@ describe Integrations::Slack::SendOnSlackService do
       it 'sent attachment on slack' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: message.content.to_s,
+          text: message.content,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
@@ -122,7 +122,7 @@ describe Integrations::Slack::SendOnSlackService do
       it 'disables hook on Slack AccountInactive error' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: message.content.to_s,
+          text: message.content,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
           icon_url: anything
@@ -179,7 +179,7 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: formatted_message_text.to_s,
+          text: formatted_message_text,
           username: "#{message.sender.name} (Contact)",
           thread_ts: 'random_slack_thread_ts',
           icon_url: anything
