@@ -19,6 +19,7 @@ RUN bundle install --jobs 4 --retry 3
 
 # Copy your Sidekiq application code into the container
 COPY . .
+COPY Gemfile.lock .
 
 # Expose the default Sidekiq port (if necessary)
 EXPOSE 7432
