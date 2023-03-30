@@ -23,6 +23,13 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_2,
       },
       {
+        key: 'email',
+        name: 'Email',
+        attributeI18nKey: 'EMAIL',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'inbox_id',
         name: 'Inbox',
         attributeI18nKey: 'INBOX',
@@ -137,6 +144,13 @@ export const AUTOMATIONS = {
         key: 'referer',
         name: 'Referrer Link',
         attributeI18nKey: 'REFERER_LINK',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'email',
+        name: 'Email',
+        attributeI18nKey: 'EMAIL',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
       },
@@ -265,6 +279,13 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_3,
       },
       {
+        key: 'email',
+        name: 'Email',
+        attributeI18nKey: 'EMAIL',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'inbox_id',
         name: 'Inbox',
         attributeI18nKey: 'INBOX',
@@ -338,6 +359,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'BROWSER_LANGUAGE',
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'email',
+        name: 'Email',
+        attributeI18nKey: 'EMAIL',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'mail_subject',
