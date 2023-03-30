@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/stale@v5
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.PAT_GITHUB }}
         days-before-issue-close: -1,
         days-before-issue-stale: -1
         days-before-pr-close: -1,
