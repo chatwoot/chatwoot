@@ -22,7 +22,6 @@ describe Integrations::Slack::SendOnSlackService do
     allow(slack_message).to receive(:[]).with('ts').and_return('12345.6789')
     allow(slack_message).to receive(:[]).with('message').and_return(slack_message_content)
     allow(slack_message_content).to receive(:[]).with('ts').and_return('6789.12345')
-    create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
   end
 
   describe '#perform' do
@@ -32,7 +31,7 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{message.content}",
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Conversation:* #{conversation_link}\n\n#{message.content}",
           username: "#{message.sender.name} (Contact)",
           thread_ts: nil,
           icon_url: anything
@@ -57,7 +56,8 @@ describe Integrations::Slack::SendOnSlackService do
 
           expect(slack_client).to receive(:chat_postMessage).with(
             channel: hook.reference_id,
-            text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Subject:* Sample subject line\n\n\n#{message.content}",
+            text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Conversation:* #{conversation_link}\n" \
+                  "*Subject:* Sample subject line\n\n\n#{message.content}",
             username: "#{message.sender.name} (Contact)",
             thread_ts: nil,
             icon_url: anything
@@ -136,25 +136,6 @@ describe Integrations::Slack::SendOnSlackService do
       end
     end
 
-    context 'with first message' do
-      it 'send conversation_link' do
-        Message.last.destroy!
-        inbox = conversation.inbox
-        message.update!(content: "Hi [@#{contact.name}](mention://user/#{contact.id}/#{contact.name}), welcome to Chatwoot!")
-        formatted_message_text = message.content.gsub(RegexHelper::MENTION_REGEX, '\1')
-
-        expect(slack_client).to receive(:chat_postMessage).with(
-          channel: hook.reference_id,
-          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{formatted_message_text}\n#{conversation_link}",
-          username: "#{message.sender.name} (Contact)",
-          thread_ts: nil,
-          icon_url: anything
-        ).and_return(slack_message)
-
-        builder.perform
-      end
-    end
-
     context 'when message contains mentions' do
       it 'sends formatted message to slack along with inbox name when identifier not present' do
         inbox = conversation.inbox
@@ -163,7 +144,7 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{formatted_message_text}",
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Conversation:* #{conversation_link}\n\n#{formatted_message_text}",
           username: "#{message.sender.name} (Contact)",
           thread_ts: nil,
           icon_url: anything

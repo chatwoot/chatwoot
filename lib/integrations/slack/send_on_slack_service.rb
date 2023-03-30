@@ -37,22 +37,24 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     if conversation.identifier.present?
       "#{private_indicator}#{message_text}"
     else
-      "#{formatted_inbox_name}#{email_subject_line}\n#{message_text}"
+      "#{formatted_inbox_name}#{formatted_conversation_link}#{email_subject_line}\n#{message_text}"
     end
   end
 
   def message_text
     if message.content.present?
-      text = message.content.gsub(MENTION_REGEX, '\1')
-      text = "#{text}\n#{link_to_conversation}" if first_message?
+      message.content.gsub(MENTION_REGEX, '\1')
     else
-      text = message.content
+      message.content
     end
-    text
   end
 
   def formatted_inbox_name
     "\n*Inbox:* #{message.inbox.name} (#{message.inbox.inbox_type})\n"
+  end
+
+  def formatted_conversation_link
+    "*Conversation:* #{link_to_conversation}\n"
   end
 
   def email_subject_line
@@ -132,10 +134,6 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def slack_client
     @slack_client ||= Slack::Web::Client.new(token: hook.access_token)
-  end
-
-  def first_message?
-    conversation.messages.where(message_type: [:incoming, :outgoing]).count == 1
   end
 
   def link_to_conversation
