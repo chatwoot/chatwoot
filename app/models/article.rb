@@ -8,7 +8,6 @@
 #  meta                  :jsonb
 #  position              :integer
 #  sequence              :integer
-#  sequence              :integer
 #  slug                  :string           not null
 #  status                :integer
 #  title                 :string

@@ -2,6 +2,7 @@ import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
+  OPERATOR_TYPES_6,
 } from './operators';
 
 export const AUTOMATIONS = {
@@ -33,7 +34,7 @@ export const AUTOMATIONS = {
         name: 'Phone Number',
         attributeI18nKey: 'PHONE_NUMBER',
         inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
+        filterOperators: OPERATOR_TYPES_6,
       },
     ],
     actions: [
@@ -130,7 +131,7 @@ export const AUTOMATIONS = {
         name: 'Phone Number',
         attributeI18nKey: 'PHONE_NUMBER',
         inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
+        filterOperators: OPERATOR_TYPES_6,
       },
       {
         key: 'referer',
@@ -247,7 +248,7 @@ export const AUTOMATIONS = {
         name: 'Phone Number',
         attributeI18nKey: 'PHONE_NUMBER',
         inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
+        filterOperators: OPERATOR_TYPES_6,
       },
       {
         key: 'assignee_id',
@@ -371,7 +372,7 @@ export const AUTOMATIONS = {
         name: 'Phone Number',
         attributeI18nKey: 'PHONE_NUMBER',
         inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
+        filterOperators: OPERATOR_TYPES_6,
       },
       {
         key: 'team_id',
