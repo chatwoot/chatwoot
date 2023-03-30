@@ -156,6 +156,13 @@
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
       "attribute_type": "additional_attributes"
     },
+    "email": {
+      "attribute_name": "Email",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
+    },
     "country_code": {
       "attribute_name": "Country Name",
       "input_type": "textbox",
