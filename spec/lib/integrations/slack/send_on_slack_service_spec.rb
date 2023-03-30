@@ -9,11 +9,13 @@ describe Integrations::Slack::SendOnSlackService do
   let!(:message) do
     create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
   end
+
   let(:slack_message) { double }
   let(:file_attachment) { double }
   let(:slack_message_content) { double }
   let(:slack_client) { double }
   let(:builder) { described_class.new(message: message, hook: hook) }
+  let(:conversation_link) { "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}" }
 
   before do
     allow(builder).to receive(:slack_client).and_return(slack_client)
@@ -29,7 +31,7 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{message.content}",
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Conversation:* #{conversation_link}\n\n#{message.content}",
           username: "#{message.sender.name} (Contact)",
           thread_ts: nil,
           icon_url: anything
@@ -54,7 +56,8 @@ describe Integrations::Slack::SendOnSlackService do
 
           expect(slack_client).to receive(:chat_postMessage).with(
             channel: hook.reference_id,
-            text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Subject:* Sample subject line\n\n\n#{message.content}",
+            text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Conversation:* #{conversation_link}\n" \
+                  "*Subject:* Sample subject line\n\n\n#{message.content}",
             username: "#{message.sender.name} (Contact)",
             thread_ts: nil,
             icon_url: anything
@@ -141,7 +144,7 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{formatted_message_text}",
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Conversation:* #{conversation_link}\n\n#{formatted_message_text}",
           username: "#{message.sender.name} (Contact)",
           thread_ts: nil,
           icon_url: anything
