@@ -1,14 +1,14 @@
 class HookListener < BaseListener
   def message_created(event)
     message = extract_message_and_account(event)[0]
-    return unless message.webhook_sendable?
+    return unless message.slack_hook_sendable?
 
     execute_hooks(event, message)
   end
 
   def message_updated(event)
     message = extract_message_and_account(event)[0]
-    return unless message.webhook_sendable?
+    return unless message.slack_hook_sendable?
 
     execute_hooks(event, message)
   end
