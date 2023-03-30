@@ -54,20 +54,20 @@ export default {
       showEditPopup: false,
       showDeleteConfirmationPopup: false,
       selectedResponse: {},
-      cannedResponseAPI: {
+      auditLogsAPI: {
         message: '',
       },
     };
   },
   computed: {
     ...mapGetters({
-      records: 'getCannedResponses',
+      records: 'getAuditLogs',
       uiFlags: 'getUIFlags',
     }),
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('getCannedResponse');
+    this.$store.dispatch('getAuditLogs');
   },
   methods: {
     showAlert(message) {
@@ -75,7 +75,7 @@ export default {
       this.loading[this.selectedResponse.id] = false;
       this.selectedResponse = {};
       // Show message
-      this.cannedResponseAPI.message = message;
+      this.auditLogsAPI.message = message;
       bus.$emit('newToastMessage', message);
     },
   },
