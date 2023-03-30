@@ -156,7 +156,7 @@ const settings = accountId => ({
       label: 'AUDIT_LOGS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
-      toStateName: 'auditlog_list',
+      toStateName: 'auditlogs_list',
       beta: true,
     },
   ],

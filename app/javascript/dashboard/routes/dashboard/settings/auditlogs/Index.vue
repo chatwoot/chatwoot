@@ -28,13 +28,13 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="cannedItem in records" :key="cannedItem.short_code">
+            <tr v-for="auditLogItem in records" :key="auditLogItem.id">
               <!-- Short Code  -->
               <td class="short-code">
-                {{ cannedItem.short_code }}
+                {{ auditLogItem.remote_address }}
               </td>
               <!-- Content -->
-              <td class="wrap-break-words">{{ cannedItem.content }}</td>
+              <td class="wrap-break-words">{{ auditLogItem.created_at }}</td>
             </tr>
           </tbody>
         </table>
@@ -50,10 +50,6 @@ export default {
   data() {
     return {
       loading: {},
-      showAddPopup: false,
-      showEditPopup: false,
-      showDeleteConfirmationPopup: false,
-      selectedResponse: {},
       auditLogsAPI: {
         message: '',
       },
@@ -67,7 +63,7 @@ export default {
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('getAuditLogs');
+    this.$store.dispatch('getAuditLog');
   },
   methods: {
     showAlert(message) {
