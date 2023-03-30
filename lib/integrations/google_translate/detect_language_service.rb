@@ -1,13 +1,11 @@
-class Conversations::DetectLanguageJob < ApplicationJob
-  queue_as :default
+class Integrations::GoogleTranslate::DetectLanguageService
+  pattr_initialize [:hook!, :message!]
 
-  def perform(message_id)
-    @message = Message.find(message_id)
+  def perform
+    return unless valid_message?
+    return if conversation.additional_attributes['conversation_language'].present?
 
-    return if hook.blank?
-
-    text = @message.content[0...1500]
-
+    text = message.content[0...1500]
     response = client.detect_language(
       content: text,
       parent: "projects/#{hook.settings['project_id']}"
@@ -18,20 +16,20 @@ class Conversations::DetectLanguageJob < ApplicationJob
 
   private
 
-  def update_conversation(response)
-    conversation = @message.conversation
-    conversation_language = response.languages.first.language_code
-    additional_attributes = conversation.additional_attributes.merge({ conversation_language: conversation_language })
-
-    conversation.update!(additional_attributes: additional_attributes)
-
-    event = Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
-
-    AutomationRuleListener.instance.conversation_updated(event)
+  def valid_message?
+    message.incoming? && message.content.present?
   end
 
-  def hook
-    @hook ||= @message.account.hooks.find_by(app_id: 'google_translate')
+  def conversation
+    @conversation ||= message.conversation
+  end
+
+  def update_conversation(response)
+    return if response&.languages.blank?
+
+    conversation_language = response.languages.first.language_code
+    additional_attributes = conversation.additional_attributes.merge({ conversation_language: conversation_language })
+    conversation.update!(additional_attributes: additional_attributes)
   end
 
   def client

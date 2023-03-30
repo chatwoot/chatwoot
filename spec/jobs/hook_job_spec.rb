@@ -25,21 +25,21 @@ RSpec.describe HookJob, type: :job do
     it 'calls Integrations::Slack::SendOnSlackService when its a slack hook' do
       hook = create(:integrations_hook, app_id: 'slack', account: account)
       allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
-      expect(Integrations::Slack::SendOnSlackService).to receive(:new)
+      expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message], hook: hook)
       described_class.perform_now(hook, event_name, event_data)
     end
 
     it 'calls Integrations::Dialogflow::ProcessorService when its a dialogflow intergation' do
       hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
       allow(Integrations::Dialogflow::ProcessorService).to receive(:new).and_return(process_service)
-      expect(Integrations::Dialogflow::ProcessorService).to receive(:new)
+      expect(Integrations::Dialogflow::ProcessorService).to receive(:new).with(event_name: event_name, hook: hook, event_data: event_data)
       described_class.perform_now(hook, event_name, event_data)
     end
 
     it 'calls Conversations::DetectLanguageJob when its a google_translate intergation' do
       hook = create(:integrations_hook, :google_translate, account: account)
-      allow(Conversations::DetectLanguageJob).to receive(:new)
-      expect(Conversations::DetectLanguageJob).to receive(:new)
+      allow(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).and_return(process_service)
+      expect(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).with(hook: hook, message: event_data[:message])
       described_class.perform_now(hook, event_name, event_data)
     end
   end
