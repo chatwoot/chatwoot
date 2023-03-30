@@ -32,8 +32,7 @@ class AutomationRules::ActionService < ActionService
     return if blobs.blank?
 
     params = { content: nil, private: false, attachments: blobs }
-    mb = Messages::MessageBuilder.new(nil, @conversation, params)
-    mb.perform
+    Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
   def send_webhook_event(webhook_url)
@@ -45,8 +44,7 @@ class AutomationRules::ActionService < ActionService
     return if conversation_a_tweet?
 
     params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
-    mb = Messages::MessageBuilder.new(nil, @conversation, params)
-    mb.perform
+    Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
   def send_email_to_team(params)
