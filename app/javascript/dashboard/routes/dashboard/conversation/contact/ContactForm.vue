@@ -54,11 +54,12 @@
       <div class="medium-12 columns">
         <label :class="{ error: $v.phoneNumber.$error }">
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
-          <input
+          <woot-phone-input
             v-model.trim="phoneNumber"
-            type="text"
+            :value="phoneNumber"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
             @input="$v.phoneNumber.$touch"
+            @setCode="setPhoneCode"
           />
           <span v-if="$v.phoneNumber.$error" class="message">
             {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR') }}
@@ -118,6 +119,7 @@ import {
 import { required, email } from 'vuelidate/lib/validators';
 
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import parsePhoneNumber from 'libphonenumber-js';
 
 export default {
   mixins: [alertMixin],
@@ -232,6 +234,22 @@ export default {
         contactObject.isFormData = true;
       }
       return contactObject;
+    },
+    setPhoneCode(code) {
+      const phoneNumber = parsePhoneNumber(this.phoneNumber);
+      if (this.phoneNumber !== '' && phoneNumber) {
+        const dialCode = phoneNumber.countryCallingCode;
+        if (dialCode === code) {
+          return;
+        }
+        const newPhoneNumber = this.phoneNumber.replace(
+          `+${dialCode}`,
+          `${code}`
+        );
+        this.phoneNumber = newPhoneNumber;
+      } else {
+        this.phoneNumber = code;
+      }
     },
     async handleSubmit() {
       this.$v.$touch();
