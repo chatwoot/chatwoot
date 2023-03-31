@@ -30,11 +30,16 @@
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
               <!-- Short Code  -->
-              <td class="short-code">
+              <td class="remote-address">
                 {{ auditLogItem.remote_address }}
               </td>
               <!-- Content -->
+              <!-- <td class="wrap-break-words">{{ dynamicTime(auditLogItem.created_at) }}</td> -->
               <td class="wrap-break-words">{{ auditLogItem.created_at }}</td>
+              <td class="wrap-break-words">
+                {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
+              </td>
+              <td class="wrap-break-words">{{ auditLogItem.username }}</td>
             </tr>
           </tbody>
         </table>
@@ -78,7 +83,7 @@ export default {
 };
 </script>
 <style scoped>
-.short-code {
+.remote-address {
   width: 14rem;
 }
 .wrap-break-words {

@@ -12,7 +12,8 @@
       "TABLE_HEADER": [
         "IP Address",
         "Time",
-        "Action"
+        "Action",
+        "User"
       ]
     }
   }
