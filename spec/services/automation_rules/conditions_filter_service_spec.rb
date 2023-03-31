@@ -26,7 +26,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
-    context 'when conditions based on phone_number' do
+    context 'when conditions based on filter_operator start_with' do
       before do
         contact = conversation.contact
         contact.update(phone_number: '+918484848484')
