@@ -19,17 +19,11 @@ class HookJob < ApplicationJob
 
     message = event_data[:message]
 
-    return unless message.slack_hook_sendable?
-
     Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
   end
 
   def process_dialogflow_integration(hook, event_name, event_data)
     return unless ['message.created', 'message.updated'].include?(event_name)
-
-    message = event_data[:message]
-
-    return unless message.webhook_sendable?
 
     Integrations::Dialogflow::ProcessorService.new(event_name: event_name, hook: hook, event_data: event_data).perform
   end
