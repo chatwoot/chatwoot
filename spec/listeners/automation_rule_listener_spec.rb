@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe AutomationRuleListener do
-  include ActiveJob::TestHelper
-
   let(:listener) { described_class.instance }
   let!(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
