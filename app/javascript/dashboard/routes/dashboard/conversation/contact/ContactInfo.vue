@@ -66,6 +66,7 @@
             icon="call"
             emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
+            show-copy
           />
           <contact-info-row
             v-if="contact.identifier"
