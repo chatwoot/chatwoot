@@ -6,7 +6,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
   let(:rule) { create(:automation_rule, account: account) }
 
   describe '#perform' do
-    context 'when conditions based on status' do
+    context 'when conditions based on filter_operator equal_to' do
       before do
         rule.conditions = [{ 'values': ['open'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }]
         rule.save
