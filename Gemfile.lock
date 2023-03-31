@@ -416,6 +416,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
+    localhost (1.1.10)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -821,6 +822,7 @@ DEPENDENCIES
   line-bot-api
   liquid
   listen
+  localhost
   maxminddb
   mock_redis
   net-imap
