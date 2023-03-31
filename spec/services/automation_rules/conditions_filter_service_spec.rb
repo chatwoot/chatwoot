@@ -5,6 +5,13 @@ RSpec.describe AutomationRules::ConditionsFilterService do
   let(:conversation) { create(:conversation, account: account) }
   let(:rule) { create(:automation_rule, account: account) }
 
+  before do
+    conversation = create(:conversation, account: account)
+    conversation.contact.update(phone_number: '+918484828282', email: 'test@test.com')
+    create(:conversation, account: account)
+    create(:conversation, account: account)
+  end
+
   describe '#perform' do
     context 'when conditions based on filter_operator equal_to' do
       before do
@@ -30,7 +37,10 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       before do
         contact = conversation.contact
         contact.update(phone_number: '+918484848484')
-        rule.conditions = [{ 'values': ['+918484'], 'attribute_key': 'phone_number', 'query_operator': nil, 'filter_operator': 'starts_with' }]
+        rule.conditions = [
+          { 'values': ['+918484'], 'attribute_key': 'phone_number', 'query_operator': 'OR', 'filter_operator': 'starts_with' },
+          { 'values': ['test'], 'attribute_key': 'email', 'query_operator': nil, 'filter_operator': 'contains' }
+        ]
         rule.save
       end
 
@@ -48,6 +58,4 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
   end
-
-  ## TODO: add tests for the other conditions
 end
