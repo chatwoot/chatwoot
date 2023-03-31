@@ -3,14 +3,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   pattr_initialize [:message!, :hook!]
 
   def perform
-    return unless message.slack_hook_sendable?
     # overriding the base class logic since the validations are different in this case.
     # FIXME: for now we will only send messages from widget to slack
     return unless valid_channel_for_slack?
     # we don't want message loop in slack
     return if message.external_source_id_slack.present?
     # we don't want to start slack thread from agent conversation as of now
-    return if message.outgoing? && conversation.identifier.blank?
+    return if invalid_message?
 
     perform_reply
   end
@@ -22,6 +21,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     return false if channel.is_a?(Channel::TwitterProfile) && conversation.additional_attributes['type'] == 'tweet'
 
     true
+  end
+
+  def invalid_message?
+    (message.outgoing? && conversation.identifier.blank?) || !message.slack_hook_sendable?
   end
 
   def perform_reply
