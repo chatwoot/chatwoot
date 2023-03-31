@@ -9,6 +9,9 @@ describe Integrations::Slack::SendOnSlackService do
   let!(:message) do
     create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
   end
+  let!(:template_message) do
+    create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :template)
+  end
 
   let(:slack_message) { double }
   let(:file_attachment) { double }
@@ -117,6 +120,23 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
         expect(message.attachments).to be_any
+      end
+
+      it 'sent a template message on slack' do
+        builder = described_class.new(message: template_message, hook: hook)
+        allow(builder).to receive(:slack_client).and_return(slack_client)
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: template_message.content,
+          username: "#{template_message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything
+        ).and_return(slack_message)
+
+        builder.perform
+
+        expect(template_message.external_source_id_slack).to eq 'cw-origin-6789.12345'
       end
 
       it 'disables hook on Slack AccountInactive error' do
