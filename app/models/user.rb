@@ -106,6 +106,10 @@ class User < ApplicationRecord
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
+  before_validation do
+    self.email = email.try(:downcase)
+  end
+
   def send_devise_notification(notification, *args)
     devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
   end

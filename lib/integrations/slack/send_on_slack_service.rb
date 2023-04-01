@@ -1,4 +1,5 @@
 class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
+  include RegexHelper
   pattr_initialize [:message!, :hook!]
 
   def perform
@@ -8,7 +9,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     # we don't want message loop in slack
     return if message.external_source_id_slack.present?
     # we don't want to start slack thread from agent conversation as of now
-    return if message.outgoing? && conversation.identifier.blank?
+    return if invalid_message?
 
     perform_reply
   end
@@ -20,6 +21,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     return false if channel.is_a?(Channel::TwitterProfile) && conversation.additional_attributes['type'] == 'tweet'
 
     true
+  end
+
+  def invalid_message?
+    (message.outgoing? && conversation.identifier.blank?) || !message.slack_hook_sendable?
   end
 
   def perform_reply
@@ -34,14 +39,26 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
     if conversation.identifier.present?
-      "#{private_indicator}#{message.content}"
+      "#{private_indicator}#{message_text}"
     else
-      "#{formatted_inbox_name}#{email_subject_line}\n#{message.content}"
+      "#{formatted_inbox_name}#{formatted_conversation_link}#{email_subject_line}\n#{message_text}"
+    end
+  end
+
+  def message_text
+    if message.content.present?
+      message.content.gsub(MENTION_REGEX, '\1')
+    else
+      message.content
     end
   end
 
   def formatted_inbox_name
     "\n*Inbox:* #{message.inbox.name} (#{message.inbox.inbox_type})\n"
+  end
+
+  def formatted_conversation_link
+    "*Conversation:* #{link_to_conversation}\n"
   end
 
   def email_subject_line
@@ -121,5 +138,9 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def slack_client
     @slack_client ||= Slack::Web::Client.new(token: hook.access_token)
+  end
+
+  def link_to_conversation
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}"
   end
 end
