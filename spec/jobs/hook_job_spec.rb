@@ -29,6 +29,14 @@ RSpec.describe HookJob, type: :job do
       described_class.perform_now(hook, event_name, event_data)
     end
 
+    it 'calls Integrations::Slack::SendOnSlackService when its a slack hook for template message' do
+      event_data = { message: create(:message, account: account, message_type: :template) }
+      hook = create(:integrations_hook, app_id: 'slack', account: account)
+      allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
+      expect(Integrations::Slack::SendOnSlackService).to receive(:new)
+      described_class.perform_now(hook, event_name, event_data)
+    end
+
     it 'calls Integrations::Dialogflow::ProcessorService when its a dialogflow intergation' do
       hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
       allow(Integrations::Dialogflow::ProcessorService).to receive(:new).and_return(process_service)

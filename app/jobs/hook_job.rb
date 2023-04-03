@@ -20,6 +20,7 @@ class HookJob < ApplicationJob
     return unless ['message.created'].include?(event_name)
 
     message = event_data[:message]
+
     Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
   end
 

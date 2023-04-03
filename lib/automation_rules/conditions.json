@@ -107,6 +107,13 @@
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
       "attribute_type": "standard"
     },
+    "phone_number": {
+      "attribute_name": "Phone Number",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "starts_with" ],
+      "attribute_type": "standard"
+    },
     "contact_id": {
       "attribute_name": "Contact Name",
       "input_type": "plain_text",
@@ -162,6 +169,13 @@
       "data_type": "text",
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
       "attribute_type": "additional_attributes"
+    },
+    "email": {
+      "attribute_name": "Email",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
     },
     "country_code": {
       "attribute_name": "Country Name",
