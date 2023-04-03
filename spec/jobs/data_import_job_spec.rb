@@ -58,4 +58,13 @@ RSpec.describe DataImportJob, type: :job do
     expect(Contact.find_by(phone_number: '+918080808081').email).to eq('mcreegan1@cornell.edu')
     expect(Contact.where(phone_number: '+918080808081').count).to eq(1)
   end
+
+  it 'imports existing email and phone_number records' do
+    phone_contact = Contact.create!(account_id: existing_data_import.account_id, phone_number: '+918080808081')
+    email_contact = Contact.create!(account_id: existing_data_import.account_id, email: 'mcreegan1@cornell.edu')
+
+    described_class.perform_now(existing_data_import)
+    expect(phone_contact.reload.email).to be_nil
+    expect(email_contact.reload.phone_number).to be_nil
+  end
 end
