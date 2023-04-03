@@ -16,7 +16,7 @@ class DataImportJob < ApplicationJob
     end
     rejected_contacts = rejected_contacts.flatten
     @data_import.update!(status: :completed, processed_records: (csv.length - rejected_contacts.length), total_records: csv.length)
-    save_invalid_records_csv(rejected_contacts)
+    save_failed_records_csv(rejected_contacts)
   end
 
   private
@@ -31,23 +31,34 @@ class DataImportJob < ApplicationJob
   end
 
   # add the phone number check here
-  def get_identified_contacts(params, account)
+  def get_exisiting_contacts(params, account)
     identifier_contact = account.contacts.find_by(identifier: params[:identifier]) if params[:identifier]
     email_contact = account.contacts.find_by(email: params[:email]) if params[:email]
     phone_number_contact = account.contacts.find_by(phone_number: params[:phone_number]) if params[:phone_number]
-    contact = merge_identified_contact_attributes(params, [identifier_contact, email_contact, phone_number_contact])
-    # intiating the new contact / contact attributes only by ensuring the identifier, email or phone_number duplication errors won't occur
-    contact ||= merge_contact(email_contact, phone_number_contact)
+    contact = merge_identified_contact(params, [identifier_contact, email_contact, phone_number_contact])
+    contact ||= merge_email_contact(params, [email_contact, phone_number_contact])
+    contact ||= merge_phone_number_contact(params, [email_contact, phone_number_contact])
     contact
   end
 
-  def merge_contact(email_contact, phone_number_contact)
+  # Find contact with email and update it with phone number
+  def merge_email_contact(params, available_contacts)
+    email_contact, phone_number_contact = available_contacts
     contact = email_contact
-    contact ||= phone_number_contact
+    contact&.phone_number = params[:phone_number] if params[:phone_number].present? && phone_number_contact.blank?
     contact
   end
 
-  def merge_identified_contact_attributes(params, available_contacts)
+  # Find contact with phone_number and update it with email
+  def merge_phone_number_contact(params, available_contacts)
+    email_contact, phone_number_contact = available_contacts
+    contact = phone_number_contact
+    contact&.email = params[:email] if params[:email].present? && email_contact.blank?
+    contact
+  end
+
+  # intiating the new contact / contact attributes only by ensuring the identifier, email or phone_number duplication errors won't occur
+  def merge_identified_contact(params, available_contacts)
     identifier_contact, email_contact, phone_number_contact = available_contacts
     contact = identifier_contact
     contact&.email = params[:email] if params[:email].present? && email_contact.blank?
@@ -55,7 +66,7 @@ class DataImportJob < ApplicationJob
     contact
   end
 
-  def save_invalid_records_csv(rejected_contacts)
+  def save_failed_records_csv(rejected_contacts)
     return if rejected_contacts.blank?
 
     csv_data = CSV.generate do |csv|
@@ -84,7 +95,7 @@ class DataImportJob < ApplicationJob
   end
 
   def init_contact(params, account)
-    contact = get_identified_contacts(params, account)
+    contact = get_exisiting_contacts(params, account)
     contact ||= account.contacts.new(params.slice(:email, :identifier, :phone_number))
     contact
   end

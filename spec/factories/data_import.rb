@@ -8,8 +8,8 @@ FactoryBot.define do
       import_file { Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/invalid_contacts.csv'), 'text/csv') }
     end
 
-    trait :exising_data_import do
-      import_file { Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/exising_contacts.csv'), 'text/csv') }
+    trait :existing_data_import do
+      import_file { Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/existing_contacts.csv'), 'text/csv') }
     end
   end
 end
