@@ -166,6 +166,7 @@ export default {
   },
   data() {
     return {
+      countries: countries,
       companyName: '',
       description: '',
       email: '',
@@ -206,12 +207,6 @@ export default {
     },
     bio: {},
   },
-  computed: {
-    countries() {
-      return countries;
-    },
-  },
-
   watch: {
     contact() {
       this.setContactObject();
