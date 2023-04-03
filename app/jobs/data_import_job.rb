@@ -42,7 +42,7 @@ class DataImportJob < ApplicationJob
   end
 
   def merge_contact(email_contact, phone_number_contact)
-    contact ||= email_contact
+    contact = email_contact
     contact ||= phone_number_contact
     contact
   end
@@ -74,13 +74,13 @@ class DataImportJob < ApplicationJob
       end
     end
 
-    send_erroneous_records_to_admin(csv_data)
+    send_failed_records_to_admin(csv_data)
   end
 
-  def send_erroneous_records_to_admin(csv_data)
-    @data_import.erroneous_import_file.attach(io: StringIO.new(csv_data), filename: "#{Time.zone.today.strftime('%Y%m%d')}_contacts.csv",
-                                              content_type: 'text/csv')
-    AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).erroneous_import_records(@data_import).deliver_later
+  def send_failed_records_to_admin(csv_data)
+    @data_import.failed_records.attach(io: StringIO.new(csv_data), filename: "#{Time.zone.today.strftime('%Y%m%d')}_contacts.csv",
+                                       content_type: 'text/csv')
+    AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).failed_records(@data_import).deliver_later
   end
 
   def init_contact(params, account)

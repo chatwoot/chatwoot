@@ -5,6 +5,7 @@ RSpec.describe DataImportJob, type: :job do
 
   let!(:data_import) { create(:data_import) }
   let!(:invalid_data_import) { create(:data_import, :invalid_data_import) }
+  let!(:existing_data_import) { create(:data_import, :existing_data_import) }
 
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
@@ -33,5 +34,9 @@ RSpec.describe DataImportJob, type: :job do
     expect(invalid_data_import.account.contacts.count).to eq(csv_length - 1)
     expect(invalid_data_import.reload.total_records).to eq(csv_length)
     expect(invalid_data_import.reload.processed_records).to eq(csv_length - 1)
+  end
+
+  it 'imports existing records' do
+    csv_length = CSV.parse(data_import.import_file.download, headers: true).length
   end
 end
