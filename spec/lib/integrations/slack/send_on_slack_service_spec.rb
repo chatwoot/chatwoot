@@ -19,7 +19,7 @@ describe Integrations::Slack::SendOnSlackService do
   let(:slack_client) { double }
   let(:builder) { described_class.new(message: message, hook: hook) }
   let(:conversation_link) do
-    "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}|Click here> to view the conversation"
+    "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}|Click here> to view the conversation."
   end
 
   before do

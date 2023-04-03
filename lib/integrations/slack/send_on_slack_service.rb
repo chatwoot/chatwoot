@@ -60,7 +60,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def formatted_conversation_link
-    "#{link_to_conversation} to view the conversation\n"
+    "#{link_to_conversation} to view the conversation.\n"
   end
 
   def email_subject_line
