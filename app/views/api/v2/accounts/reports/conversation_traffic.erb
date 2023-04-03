@@ -1,9 +1,10 @@
+<%= CSVSafe.generate_line [I18n.t('reports.conversation_traffic_csv.timezone'), @timezone] %>
 <% @report_data[:timezone].each do |row| %>
 <%= CSVSafe.generate_line row -%>
 <% end %>
 
 
+<%= CSVSafe.generate_line [I18n.t('reports.conversation_traffic_csv.timezone'), "UTC (GMT+00:00) Edinburgh"] %>
 <% @report_data[:utc].each do |row| %>
 <%= CSVSafe.generate_line row -%>
 <% end %>
-<%= CSVSafe.generate_line [I18n.t('reports.utc_warning')] %>

@@ -36,6 +36,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def conversation_traffic
     @report_data = generate_conversations_heatmap_report
+    timezone_offset = (params[:timezone_offset] || 0).to_f
+    @timezone = ActiveSupport::TimeZone[timezone_offset]
+
     generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic')
   end
 
