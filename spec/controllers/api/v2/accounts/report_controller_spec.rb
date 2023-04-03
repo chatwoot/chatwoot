@@ -8,7 +8,8 @@ RSpec.describe 'Reports API', type: :request do
   let!(:inbox) { create(:inbox, account: account) }
   let(:inbox_member) { create(:inbox_member, user: user, inbox: inbox) }
   let(:default_timezone) { ActiveSupport::TimeZone[0]&.name }
-  let(:date_timestamp) { Time.current.in_time_zone(default_timezone).beginning_of_day.to_i }
+  let(:start_of_today) { Time.current.in_time_zone(default_timezone).beginning_of_day.to_i }
+  let(:end_of_today) { Time.current.in_time_zone(default_timezone).end_of_day.to_i }
   let(:params) { { timezone_offset: Time.zone.utc_offset } }
   let(:new_account) { create(:account) }
 
@@ -31,8 +32,8 @@ RSpec.describe 'Reports API', type: :request do
         super().merge(
           metric: 'conversations_count',
           type: :account,
-          since: date_timestamp.to_s,
-          until: date_timestamp.to_s
+          since: start_of_today.to_s,
+          until: end_of_today.to_s
         )
       end
 
@@ -54,7 +55,7 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
 
-        current_day_metric = json_response.select { |x| x['timestamp'] == date_timestamp }
+        current_day_metric = json_response.select { |x| x['timestamp'] == start_of_today }
         expect(current_day_metric.length).to eq(1)
         expect(current_day_metric[0]['value']).to eq(10)
       end
@@ -162,8 +163,8 @@ RSpec.describe 'Reports API', type: :request do
       let(:params) do
         super().merge(
           type: :account,
-          since: date_timestamp.to_s,
-          until: date_timestamp.to_s
+          since: start_of_today.to_s,
+          until: end_of_today.to_s
         )
       end
 
@@ -203,7 +204,7 @@ RSpec.describe 'Reports API', type: :request do
       let(:params) do
         super().merge(
           since: 30.days.ago.to_i.to_s,
-          until: date_timestamp.to_s
+          until: end_of_today.to_s
         )
       end
 
@@ -232,7 +233,7 @@ RSpec.describe 'Reports API', type: :request do
         super().merge(
           type: :agent,
           since: 30.days.ago.to_i.to_s,
-          until: date_timestamp.to_s
+          until: end_of_today.to_s
         )
       end
 
@@ -272,7 +273,7 @@ RSpec.describe 'Reports API', type: :request do
       let(:params) do
         super().merge(
           since: 30.days.ago.to_i.to_s,
-          until: date_timestamp.to_s
+          until: end_of_today.to_s
         )
       end
 
@@ -307,7 +308,7 @@ RSpec.describe 'Reports API', type: :request do
       let(:params) do
         super().merge(
           since: 30.days.ago.to_i.to_s,
-          until: date_timestamp.to_s
+          until: end_of_today.to_s
         )
       end
 
@@ -342,7 +343,7 @@ RSpec.describe 'Reports API', type: :request do
       let(:params) do
         super().merge(
           since: 30.days.ago.to_i.to_s,
-          until: date_timestamp.to_s
+          until: end_of_today.to_s
         )
       end
 
@@ -377,7 +378,7 @@ RSpec.describe 'Reports API', type: :request do
       let(:params) do
         super().merge(
           since: 7.days.ago.to_i.to_s,
-          until: date_timestamp.to_s
+          until: end_of_today.to_s
         )
       end
 
