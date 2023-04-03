@@ -2,6 +2,7 @@ import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
+  OPERATOR_TYPES_6,
 } from './operators';
 
 export const AUTOMATIONS = {
@@ -34,6 +35,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'INBOX',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_6,
       },
     ],
     actions: [
@@ -124,6 +132,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'COUNTRY_NAME',
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_6,
       },
       {
         key: 'referer',
@@ -241,6 +256,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'REFERER_LINK',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_6,
       },
       {
         key: 'assignee_id',
@@ -372,6 +394,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'ASSIGNEE_NAME',
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'phone_number',
+        name: 'Phone Number',
+        attributeI18nKey: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_6,
       },
       {
         key: 'team_id',

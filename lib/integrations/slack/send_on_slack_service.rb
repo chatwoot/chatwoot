@@ -24,7 +24,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def invalid_message?
-    (message.outgoing? && conversation.identifier.blank?) || !message.slack_hook_sendable?
+    (message.outgoing? || message.template?) && conversation.identifier.blank?
   end
 
   def perform_reply
@@ -38,10 +38,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
+    sanitized_content = ActionView::Base.full_sanitizer.sanitize(message_text)
+
     if conversation.identifier.present?
-      "#{private_indicator}#{message_text}"
+      "#{private_indicator}#{sanitized_content}"
     else
-      "#{formatted_inbox_name}#{formatted_conversation_link}#{email_subject_line}\n#{message_text}"
+      "#{formatted_inbox_name}#{formatted_conversation_link}#{email_subject_line}\n#{sanitized_content}"
     end
   end
 
@@ -58,7 +60,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def formatted_conversation_link
-    "*Conversation:* #{link_to_conversation}\n"
+    "#{link_to_conversation} to view the conversation.\n"
   end
 
   def email_subject_line
@@ -87,10 +89,11 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def post_message
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
-      text: ActionView::Base.full_sanitizer.sanitize(message_content),
+      text: message_content,
       username: sender_name(message.sender),
       thread_ts: conversation.identifier,
-      icon_url: avatar_url(message.sender)
+      icon_url: avatar_url(message.sender),
+      unfurl_links: conversation.identifier.present?
     )
   end
 
@@ -141,6 +144,6 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def link_to_conversation
-    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}"
+    "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}|Click here>"
   end
 end
