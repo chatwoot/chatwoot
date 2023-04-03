@@ -23,7 +23,7 @@
       "is_greater_than": "É maior que",
       "is_less_than": "É menor que",
       "days_before": "É X dias antes",
-      "starts_with": "Starts with"
+      "starts_with": "Começa com"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Verdadeiro",
