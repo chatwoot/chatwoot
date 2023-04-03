@@ -22,7 +22,8 @@
       "is_not_present": "현존하지 않은",
       "is_greater_than": "보다 큰",
       "is_less_than": "보다 작은",
-      "days_before": "x 일 전에"
+      "days_before": "x 일 전에",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "참",

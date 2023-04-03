@@ -22,7 +22,8 @@
       "is_not_present": "Şu an değil",
       "is_greater_than": "Şundan büyük",
       "is_less_than": "Şundan daha az",
-      "days_before": "x gün önce"
+      "days_before": "x gün önce",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Doğru",
