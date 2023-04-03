@@ -17,5 +17,6 @@ RSpec.describe DataImportJob, type: :job do
     expect(data_import.account.contacts.count).to eq(csv_length)
     expect(data_import.reload.total_records).to eq(csv_length)
     expect(data_import.reload.processed_records).to eq(csv_length)
+    expect(Contact.find_by(phone_number: '+918080808080')).to be_present
   end
 end

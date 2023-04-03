@@ -28,7 +28,7 @@ class DataImportJob < ApplicationJob
     identifier_contact = account.contacts.find_by(identifier: params[:identifier]) if params[:identifier]
     email_contact = account.contacts.find_by(email: params[:email]) if params[:email]
     phone_number_contact = account.contacts.find_by(phone_number: params[:phone_number]) if params[:phone_number]
-    contact = merge_identified_contact_attributes([identifier_contact, email_contact, phone_number_contact])
+    contact = merge_identified_contact_attributes(params, [identifier_contact, email_contact, phone_number_contact])
     # intiating the new contact / contact attributes only by ensuring the identifier, email or phone_number duplication errors won't occur
     contact ||= merge_contact(email_contact, phone_number_contact)
     contact
@@ -40,7 +40,7 @@ class DataImportJob < ApplicationJob
     contact
   end
 
-  def merge_identified_contact_attributes(available_contacts)
+  def merge_identified_contact_attributes(params, available_contacts)
     identifier_contact, email_contact, phone_number_contact = available_contacts
 
     contact = identifier_contact
