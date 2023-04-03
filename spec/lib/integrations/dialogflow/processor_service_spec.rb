@@ -6,6 +6,7 @@ describe Integrations::Dialogflow::ProcessorService do
   let(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, status: :pending) }
   let(:message) { create(:message, account: account, conversation: conversation) }
+  let(:template_message) { create(:message, account: account, conversation: conversation, message_type: :template, content: 'Bot message') }
   let(:event_name) { 'message.created' }
   let(:event_data) { { message: message } }
   let(:dialogflow_text_double) { double }
@@ -32,6 +33,15 @@ describe Integrations::Dialogflow::ProcessorService do
       it 'creates the response message' do
         processor.perform
         expect(conversation.reload.messages.last.content).to eql('hello payload')
+      end
+    end
+
+    context 'when invalid message and dialogflow returns empty block' do
+      it 'will not create the response message' do
+        event_data = { message: template_message }
+        processor = described_class.new(event_name: event_name, hook: hook, event_data: event_data)
+        processor.perform
+        expect(conversation.reload.messages.last.content).not_to eql('hello payload')
       end
     end
 
