@@ -28,9 +28,8 @@ RUN apk add --no-cache \
   && mkdir -p /var/app \
   && gem install bundler
 
-WORKDIR /app
-
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./tmp/
+WORKDIR /tmp
 
 # natively compile grpc and protobuf to support alpine musl (dialogflow-docker workflow)
 # https://github.com/googleapis/google-cloud-ruby/issues/13306
@@ -48,11 +47,14 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
 COPY package.json yarn.lock ./
 RUN yarn install
 
-COPY . /app
+ENV app /app
+RUN mkdir $app
+WORKDIR $app
+ADD . $app
 
 # creating a log directory so that image wont fail when RAILS_LOG_TO_STDOUT is false
 # https://github.com/chatwoot/chatwoot/issues/701
-RUN mkdir -p /app/log
+RUN mkdir -p $app/log
 
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \

@@ -152,6 +152,7 @@ gem 'net-smtp', require: false
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
+  gem 'localhost'
 end
 
 group :development do
