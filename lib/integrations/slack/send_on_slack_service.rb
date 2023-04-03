@@ -24,7 +24,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def invalid_message?
-    (message.outgoing? && conversation.identifier.blank?) || !message.slack_hook_sendable?
+    (message.outgoing? || message.template?) && conversation.identifier.blank?
   end
 
   def perform_reply
