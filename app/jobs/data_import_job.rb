@@ -20,24 +20,38 @@ class DataImportJob < ApplicationJob
     contact = init_contact(params, account)
 
     contact.name = params[:name] if params[:name].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name)))
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
     contact
   end
 
   def get_identified_contacts(params, account)
     identifier_contact = account.contacts.find_by(identifier: params[:identifier]) if params[:identifier]
     email_contact = account.contacts.find_by(email: params[:email]) if params[:email]
-    [identifier_contact, email_contact]
+    phone_number_contact = account.contacts.find_by(phone_number: params[:phone_number]) if params[:phone_number]
+    contact = merge_identified_contact_attributes([identifier_contact, email_contact, phone_number_contact])
+    # intiating the new contact / contact attributes only by ensuring the identifier, email or phone_number duplication errors won't occur
+    contact ||= merge_contact(email_contact, phone_number_contact)
+    contact
+  end
+
+  def merge_contact(email_contact, phone_number_contact)
+    contact ||= email_contact
+    contact ||= phone_number_contact
+    contact
+  end
+
+  def merge_identified_contact_attributes(available_contacts)
+    identifier_contact, email_contact, phone_number_contact = available_contacts
+
+    contact = identifier_contact
+    contact&.email = params[:email] if params[:email].present? && email_contact.blank?
+    contact&.phone_number = params[:phone_number] if params[:phone_number].present? && phone_number_contact.blank?
+    contact
   end
 
   def init_contact(params, account)
-    identifier_contact, email_contact = get_identified_contacts(params, account)
-
-    # intiating the new contact / contact attributes only by ensuring the identifier or email duplication errors won't occur
-    contact = identifier_contact
-    contact&.email = params[:email] if params[:email].present? && email_contact.blank?
-    contact ||= email_contact
-    contact ||= account.contacts.new(params.slice(:email, :identifier))
+    contact = get_identified_contacts(params, account)
+    contact ||= account.contacts.new(params.slice(:email, :identifier, :phone_number))
     contact
   end
 end
