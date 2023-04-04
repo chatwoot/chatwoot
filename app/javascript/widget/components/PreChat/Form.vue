@@ -114,7 +114,7 @@ export default {
       return '';
     },
     preChatFields() {
-      return this.options?.preChatFields || [];
+      return this.preChatFormEnabled ? this.options.preChatFields : [];
     },
     filteredPreChatFields() {
       const isUserEmailAvailable = !!this.currentUser.email;
