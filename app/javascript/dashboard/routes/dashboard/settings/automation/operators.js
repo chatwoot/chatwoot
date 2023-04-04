@@ -88,3 +88,26 @@ export const OPERATOR_TYPES_5 = [
     label: 'Is x days before',
   },
 ];
+
+export const OPERATOR_TYPES_6 = [
+  {
+    value: 'equal_to',
+    label: 'Equal to',
+  },
+  {
+    value: 'not_equal_to',
+    label: 'Not equal to',
+  },
+  {
+    value: 'contains',
+    label: 'Contains',
+  },
+  {
+    value: 'does_not_contain',
+    label: 'Does not contain',
+  },
+  {
+    value: 'starts_with',
+    label: 'Starts With',
+  },
+];

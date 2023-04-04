@@ -22,7 +22,8 @@
       "is_not_present": "ไม่แสดงอยู่",
       "is_greater_than": "หลังจาก",
       "is_less_than": "ก่อนหน้า",
-      "days_before": "x วันก่อน"
+      "days_before": "x วันก่อน",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "จริง",
