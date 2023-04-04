@@ -105,7 +105,7 @@ export default {
       return this.hasActiveCampaign || this.preChatFormEnabled;
     },
     headerMessage() {
-      if (this.enabledPreChatFields.length) {
+      if (this.preChatFormEnabled) {
         return this.options.preChatMessage;
       }
       if (this.hasActiveCampaign) {
