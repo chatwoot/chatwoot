@@ -274,6 +274,16 @@ export default {
             'contacts/deleteCustomAttribute',
             message.customAttribute
           );
+        } else if (message.event === 'set-conversation-custom-attributes') {
+          this.$store.dispatch(
+            'conversation/setCustomAttributes',
+            message.customAttributes
+          );
+        } else if (message.event === 'delete-conversation-custom-attribute') {
+          this.$store.dispatch(
+            'conversation/deleteCustomAttribute',
+            message.customAttribute
+          );
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
