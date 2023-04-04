@@ -26,6 +26,8 @@ module ActivityMessageHandler
                 I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
               elsif resolved?
                 I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
+              elsif open?
+                I18n.t('conversations.activity.status.system_auto_open')
               end
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
