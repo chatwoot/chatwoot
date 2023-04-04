@@ -21,7 +21,7 @@
 
   .multiselect--active {
     >.multiselect__tags {
-      border-color: $color-woot;
+      border-color: var(--w-500);
     }
   }
 
@@ -75,16 +75,13 @@
       }
 
       &.multiselect__option--selected {
-        background: var(--w-400);
-        color: var(--white);
+        background: var(--w-75);
 
         &.multiselect__option--highlight:hover {
-          background: var(--w-600);
-          color: var(--white);
+          background: var(--w-75);
 
           &::after {
             background: transparent;
-            color: var(--white);
           }
 
           &::after:hover {
@@ -197,6 +194,7 @@
     font-size: var(--font-size-small);
     margin: 0;
     padding: var(--space-smaller) var(--space-micro);
+    max-height: 3.8rem;
   }
 
   .multiselect__placeholder {

@@ -170,7 +170,8 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Inbox",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {

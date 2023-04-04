@@ -10,19 +10,43 @@
         <div class="columns">
           <label :class="{ error: $v.targetInbox.$error }">
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
-            <select v-model="targetInbox">
-              <option
-                v-for="contactableInbox in inboxes"
-                :key="contactableInbox.inbox.id"
-                :value="contactableInbox"
-              >
-                {{ contactableInbox.inbox.name }}
-              </option>
-            </select>
-            <span v-if="$v.targetInbox.$error" class="message">
-              {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
-            </span>
           </label>
+          <div class="multiselect-wrap--small">
+            <multiselect
+              v-model="targetInbox"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              selected-label=""
+              select-label=""
+              deselect-label=""
+              :max-height="240"
+              :close-on-select="true"
+              :options="inboxes"
+            >
+              <template slot="singleLabel" slot-scope="{ option }">
+                <inbox-dropdown-item
+                  v-if="option.name"
+                  :name="option.name"
+                  :inbox-identifier="computedInboxSource(option)"
+                  :channel-type="option.channel_type"
+                />
+                <span v-else>
+                  {{ $t('NEW_CONVERSATION.FORM.INBOX.PLACEHOLDER') }}
+                </span>
+              </template>
+              <template slot="option" slot-scope="{ option }">
+                <inbox-dropdown-item
+                  :name="option.name"
+                  :inbox-identifier="computedInboxSource(option)"
+                  :channel-type="option.channel_type"
+                />
+              </template>
+            </multiselect>
+          </div>
+          <span v-if="$v.targetInbox.$error" class="message">
+            {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
+          </span>
         </div>
         <div class="columns">
           <label>
@@ -129,10 +153,12 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
+import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
+import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 
 export default {
@@ -142,6 +168,7 @@ export default {
     ReplyEmailHead,
     CannedResponse,
     WhatsappTemplates,
+    InboxDropdownItem,
   },
   mixins: [alertMixin],
   props: {
@@ -161,9 +188,9 @@ export default {
       message: '',
       showCannedResponseMenu: false,
       cannedResponseSearchKey: '',
-      selectedInbox: '',
       bccEmails: '',
       ccEmails: '',
+      targetInbox: {},
       whatsappTemplateSelected: false,
     };
   },
@@ -202,12 +229,15 @@ export default {
       }
       return payload;
     },
-    targetInbox: {
+    selectedInbox: {
       get() {
-        return this.selectedInbox || {};
+        const inboxList = this.contact.contactableInboxes || [];
+        return (
+          inboxList.find(inbox => inbox.inbox.id === this.targetInbox.id) || {}
+        );
       },
       set(value) {
-        this.selectedInbox = value;
+        this.targetInbox = value.inbox;
       },
     },
     showNoInboxAlert() {
@@ -217,7 +247,8 @@ export default {
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
     },
     inboxes() {
-      return this.contact.contactableInboxes || [];
+      const inboxList = this.contact.contactableInboxes || [];
+      return inboxList.map(inbox => inbox.inbox);
     },
     isAnEmailInbox() {
       return (
@@ -313,6 +344,18 @@ export default {
       const payload = this.prepareWhatsAppMessagePayload(messagePayload);
       await this.createConversation(payload);
     },
+    inboxReadableIdentifier(inbox) {
+      return `${inbox.name} (${inbox.channel_type})`;
+    },
+    computedInboxSource(inbox) {
+      if (!inbox.channel_type) return '';
+      const classByType = getInboxSource(
+        inbox.channel_type,
+        inbox.phone_number,
+        inbox
+      );
+      return classByType;
+    },
   },
 };
 </script>
@@ -354,11 +397,23 @@ export default {
   gap: var(--space-small);
 }
 
-::v-deep .mention--box {
-  left: 0;
-  margin: auto;
-  right: 0;
-  top: unset;
-  height: fit-content;
+::v-deep {
+  .mention--box {
+    left: 0;
+    margin: auto;
+    right: 0;
+    top: unset;
+    height: fit-content;
+  }
+
+  /* TODO: Remove when have standardized a component out of multiselect  */
+  .multiselect .multiselect__content .multiselect__option span {
+    display: inline-flex;
+    width: var(--space-medium);
+    color: var(--s-600);
+  }
+  .multiselect .multiselect__content .multiselect__option {
+    padding: var(--space-micro) var(--space-smaller);
+  }
 }
 </style>
