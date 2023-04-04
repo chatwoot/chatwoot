@@ -621,7 +621,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_030719) do
     t.integer "visibility", default: 0
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
-    t.jsonb "actions", default: {}, null: false
+    t.jsonb "actions", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_macros_on_account_id"
@@ -715,6 +715,19 @@ ActiveRecord::Schema.define(version: 2023_04_04_030719) do
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.bigint "conversation_id"
+    t.bigint "account_id"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_pg_search_documents_on_account_id"
+    t.index ["conversation_id"], name: "index_pg_search_documents_on_conversation_id"
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
   end
 
   create_table "platform_app_permissibles", force: :cascade do |t|
