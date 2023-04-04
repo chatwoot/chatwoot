@@ -6,6 +6,8 @@ import {
   toggleTyping,
   setUserLastSeenAt,
   toggleStatus,
+  setCustomAttributes,
+  deleteCustomAttribute,
 } from 'widget/api/conversation';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
@@ -138,5 +140,21 @@ export const actions = {
 
   resolveConversation: async () => {
     await toggleStatus();
+  },
+
+  setCustomAttributes: async (_, customAttributes = {}) => {
+    try {
+      await setCustomAttributes(customAttributes);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
+  deleteCustomAttribute: async (_, customAttribute) => {
+    try {
+      await deleteCustomAttribute(customAttribute);
+    } catch (error) {
+      // IgnoreError
+    }
   },
 };
