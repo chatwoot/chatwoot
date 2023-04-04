@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 describe AutomationRuleListener do
   let(:listener) { described_class.instance }
   let!(:account) { create(:account) }
