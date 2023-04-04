@@ -159,6 +159,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
+import { isEmptyObject } from 'dashboard/helper/commons.js';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 
 export default {
@@ -233,7 +234,9 @@ export default {
       get() {
         const inboxList = this.contact.contactableInboxes || [];
         return (
-          inboxList.find(inbox => inbox.inbox.id === this.targetInbox.id) || {}
+          inboxList.find(inbox => inbox.inbox.id === this.targetInbox.id) || {
+            inbox: {},
+          }
         );
       },
       set(value) {
