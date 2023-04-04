@@ -105,10 +105,13 @@ export default {
       return this.hasActiveCampaign || this.preChatFormEnabled;
     },
     headerMessage() {
+      if (this.preChatFormEnabled) {
+        return this.options.preChatMessage;
+      }
       if (this.hasActiveCampaign) {
         return this.$t('PRE_CHAT_FORM.CAMPAIGN_HEADER');
       }
-      return this.options.preChatMessage;
+      return '';
     },
     preChatFields() {
       return this.preChatFormEnabled ? this.options.preChatFields : [];
