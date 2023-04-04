@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Введіть назву компанії",
         "LABEL": "Назва компанії"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Назва країни",
+        "SELECT_PLACEHOLDER": "Обрати",
+        "REMOVE": "Видалити",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Введіть ім'я користувача Facebook",
