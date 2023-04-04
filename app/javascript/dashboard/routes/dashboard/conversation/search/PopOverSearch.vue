@@ -84,6 +84,10 @@ export default {
   display: inline-flex;
   align-items: center;
   flex: 1;
+  background: var(--s-50);
+  padding: var(--space-smaller);
+  border-radius: var(--border-radius-normal);
+  margin-right: var(--space-smaller);
 }
 
 .search--label {
