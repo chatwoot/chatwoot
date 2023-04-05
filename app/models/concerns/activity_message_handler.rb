@@ -21,7 +21,7 @@ module ActivityMessageHandler
 
   def create_status_change_message(user_name)
     content = if user_name
-                I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+                activity_message_based_on_type(user_name)
               elsif Current.contact.present? && resolved?
                 I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
               elsif resolved?
@@ -31,6 +31,14 @@ module ActivityMessageHandler
               end
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def activity_message_based_on_type(user_name)
+    if incoming? && !private? && open?
+      I18n.t('conversations.activity.status.system_auto_open')
+    else
+      I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+    end
   end
 
   def send_automation_activity
