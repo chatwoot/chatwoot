@@ -15,6 +15,7 @@
       </tr>
       <draggable
         tag="tbody"
+        :disabled="!dragEnabled"
         :list="localArticles"
         ghost-class="article-ghost-class"
         @start="dragging = true"
@@ -75,10 +76,17 @@ export default {
   },
   data() {
     return {
-      dragEnabled: true,
-      dragging: false,
       localArticles: [],
     };
+  },
+  computed: {
+    dragEnabled() {
+      return (
+        this.articles.length > 1 &&
+        !this.isFetching &&
+        this.$route.name === 'show_category'
+      );
+    },
   },
   watch: {
     articles() {
@@ -87,12 +95,18 @@ export default {
   },
   methods: {
     onDragEnd() {
-      this.dragging = false;
-      // const sortedArticlePositions = this.localArticles
-      //   .map(article => article.position)
-      //   .sort();
+      const sortedArticlePositions = this.localArticles
+        .map(article => article.position)
+        .sort();
 
-      // const orderedArticles = this.localArticles.map(article => article.id);
+      const orderedArticles = this.localArticles.map(article => article.id);
+
+      const sortedGroup = orderedArticles.reduce((obj, key, index) => {
+        obj[key] = sortedArticlePositions[index];
+        return obj;
+      }, {});
+
+      this.$emit('sort', sortedGroup);
     },
     onPageChange(page) {
       this.$emit('page-change', page);
