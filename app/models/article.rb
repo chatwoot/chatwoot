@@ -61,6 +61,7 @@ class Article < ApplicationRecord
   scope :search_by_author, ->(author_id) { where(author_id: author_id) if author_id.present? }
   scope :search_by_status, ->(status) { where(status: status) if status.present? }
   scope :order_by_updated_at, -> { reorder(updated_at: :desc) }
+  scope :order_by_position, -> { reorder(position: :asc) }
 
   # TODO: if text search slows down https://www.postgresql.org/docs/current/textsearch-features.html#TEXTSEARCH-UPDATE-TRIGGERS
   pg_search_scope(
