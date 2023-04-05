@@ -55,6 +55,24 @@
         "CONTENT": "has shared a url"
       }
     },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
     "RECEIVED_VIA_EMAIL": "Received via email",
     "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
     "REPLY_TO_TWEET": "Reply to this tweet",

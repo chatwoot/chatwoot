@@ -20,6 +20,15 @@
           v-if="!hasAppliedFiltersOrActiveFolders"
           @statusFilterChange="updateStatusType"
         />
+        <!-- <woot-button
+          variant="smooth"
+          color-scheme="secondary"
+          icon="arrow-sort"
+          size="tiny"
+          :selected-value="activeSortBy"
+          @click="onToggleAdvanceFiltersModal"
+        /> -->
+        <sort-by-filter @changeSortByFilter="updateSortByFilterType" />
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
@@ -51,7 +60,6 @@
 
         <woot-button
           v-else
-          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="smooth"
           color-scheme="secondary"
           icon="filter"
@@ -176,6 +184,7 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import SortByFilter from './widgets/conversation/filters/SortByFilter';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
@@ -201,6 +210,7 @@ export default {
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
+    SortByFilter,
   },
   mixins: [
     timeMixin,
@@ -243,6 +253,7 @@ export default {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      activeSortBy: wootConstants.SORT_BY_TYPE.LATEST,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -582,6 +593,12 @@ export default {
           page,
         })
         .then(() => this.$emit('conversation-load'));
+    },
+    updateSortByFilterType(index) {
+      if (this.activeSortBy !== index) {
+        this.activeSortBy = index;
+        this.resetAndFetchData();
+      }
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
