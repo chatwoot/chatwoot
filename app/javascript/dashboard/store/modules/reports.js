@@ -70,7 +70,7 @@ export const actions = {
   },
   fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
-    Report.getReports({ ...reportObj, group_by: 'hour' }).then(heatmapData => {
+    Report.getReports({ ...reportObj, groupBy: 'hour' }).then(heatmapData => {
       let { data } = heatmapData;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
 
