@@ -4,6 +4,7 @@ module Events::Types
   ### Installation Events ###
   # account events
   ACCOUNT_CREATED = 'account.created'
+  ACCOUNT_CACHE_INVALIDATED = 'account.cache_invalidated'
 
   #### Account Events ###
   # campaign events

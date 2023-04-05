@@ -166,7 +166,15 @@
       "COPY": "Копировать",
       "DELETE": "Удалить",
       "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
-      "TRANSLATE": "Translate"
+      "TRANSLATE": "Translate",
+      "COPY_PERMALINK": "Copy link to the message",
+      "LINK_COPIED": "Message URL copied to the clipboard",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Вы действительно хотите удалить это сообщение?",
+        "MESSAGE": "Вы не можете отменить это действие",
+        "DELETE": "Удалить",
+        "CANCEL": "Отменить"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {

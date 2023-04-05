@@ -165,6 +165,10 @@ group :development do
 
   # When we want to squash migrations
   gem 'squasher'
+
+  # profiling
+  gem 'rack-mini-profiler', require: false
+  gem 'stackprof'
 end
 
 group :test do

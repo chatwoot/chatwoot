@@ -11,13 +11,13 @@
       "CONVERSATIONS": "Бесіди",
       "MESSAGES": "Текст повідомлень"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "EMPTY_STATE": "На запит '%{query} не знайдено %{item}",
+    "EMPTY_STATE_FULL": "Немає результатів за запитом '%{query}",
+    "PLACEHOLDER_KEYBINDING": "/ фокус",
+    "INPUT_PLACEHOLDER": "Пошук повідомлень, контактів або бесід",
+    "EMPTY_STATE_DEFAULT": "Пошук бесід по id, email, тел. номеру, повідомлень для кращого пошуку результатів.",
     "BOT_LABEL": "Бот",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Детальніше",
+    "WROTE": "написав(ла):"
   }
 }
