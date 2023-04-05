@@ -133,15 +133,15 @@
         "LABEL": "Назва компанії"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Введіть назву країни",
         "LABEL": "Назва країни",
         "SELECT_PLACEHOLDER": "Обрати",
         "REMOVE": "Видалити",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Оберіть країну"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Введіть назву міста",
+        "LABEL": "Назва міста"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
