@@ -133,15 +133,15 @@
         "LABEL": "Company Name"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Remove",
-        "SELECT_COUNTRY": "Select Country"
+        "PLACEHOLDER": "Unesi ime zemlje",
+        "LABEL": "Ime zemlje",
+        "SELECT_PLACEHOLDER": "Odaberi",
+        "REMOVE": "Izbaci",
+        "SELECT_COUNTRY": "Odaberi zemlju"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Unesi ime grada",
+        "LABEL": "Ime grada"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
