@@ -108,7 +108,7 @@ gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '~> 6.4.2'
+gem 'sidekiq', '~> 7.0.0'
 # We want cron jobs
 gem 'sidekiq-cron', '~> 1.6', '>= 1.6.0'
 
@@ -215,4 +215,4 @@ gem 'audited', '~> 5.2'
 # need for google auth
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.1'
