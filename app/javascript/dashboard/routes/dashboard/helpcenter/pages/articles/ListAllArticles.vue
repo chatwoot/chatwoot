@@ -11,6 +11,7 @@
       :current-page="Number(meta.currentPage)"
       :total-count="Number(meta.count)"
       @page-change="onPageChange"
+      @sort="onSort"
     />
     <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
@@ -137,6 +138,12 @@ export default {
     },
     onPageChange(pageNumber) {
       this.fetchArticles({ pageNumber });
+    },
+    onSort(sortedGroup) {
+      this.$store.dispatch('articles/reorder', {
+        sortedGroup,
+        category_slug: this.selectedCategorySlug,
+      });
     },
   },
 };
