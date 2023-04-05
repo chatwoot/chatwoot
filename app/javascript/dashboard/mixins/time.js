@@ -11,7 +11,7 @@ export default {
       const unixTime = fromUnixTime(time);
       return format(unixTime, dateFormat);
     },
-    conversationMessageStamp(time, dateFormat = 'MMM d, yyyy') {
+    messageTimestamp(time, dateFormat = 'MMM d, yyyy') {
       const messageTime = fromUnixTime(time);
       const now = new Date();
       const messageDate = format(messageTime, dateFormat);

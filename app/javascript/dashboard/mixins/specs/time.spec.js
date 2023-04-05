@@ -9,15 +9,15 @@ describe('#messageStamp', () => {
   });
 });
 
-describe('#conversationMessageStamp', () => {
+describe('#messageTimestamp', () => {
   it('should return the message date in the specified format if the message was sent in the current year', () => {
     const now = new Date();
-    expect(
-      TimeMixin.methods.conversationMessageStamp(now.getTime() / 1000)
-    ).toEqual('Apr 5, 2023');
+    expect(TimeMixin.methods.messageTimestamp(now.getTime() / 1000)).toEqual(
+      'Apr 5, 2023'
+    );
   });
   it('should return the message date and time in a different format if the message was sent in a different year', () => {
-    expect(TimeMixin.methods.conversationMessageStamp(1612971343)).toEqual(
+    expect(TimeMixin.methods.messageTimestamp(1612971343)).toEqual(
       'Feb 10 2021, 3:35 PM'
     );
   });
