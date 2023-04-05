@@ -24,7 +24,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def sync_templates
     response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    whatsapp_channel.update(message_templates: response['data'], message_templates_last_updated: Time.now.utc) if response.success?
+
+    return unless response.success?
+
+    whatsapp_channel.update(message_templates: response['data'], message_templates_last_updated: Time.now.utc)
+    fetch_next_templates(response)
   end
 
   def validate_provider_config?
@@ -38,6 +42,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def media_url(media_id)
     "#{api_base_path}/v13.0/#{media_id}"
+  end
+
+  def fetch_next_templates(response)
+    loop do
+      break unless response['paging'] && response['paging']['next']
+
+      response = HTTParty.get(response['paging']['next'])
+      whatsapp_channel.update(message_templates: response['data'], message_templates_last_updated: Time.now.utc) if response.success?
+    end
   end
 
   private
