@@ -137,7 +137,7 @@ td {
   padding-left: 0;
 }
 .row--article-block {
-  border-bottom-color: transparent;
+  border-bottom-color: var(--s-50);
   .article-content-wrap {
     align-items: center;
     display: flex;
