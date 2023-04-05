@@ -13,6 +13,7 @@ import messageReadActions from './actions/messageReadActions';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import messageTranslateActions from './actions/messageTranslateActions';
+import messageForwardActions from './actions/messageForwardActions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -341,6 +342,7 @@ const actions = {
   },
   ...messageReadActions,
   ...messageTranslateActions,
+  ...messageForwardActions,
 };
 
 export default actions;

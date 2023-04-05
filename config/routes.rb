@@ -79,6 +79,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy] do
                 member do
                   post :translate
+                  post :forward
                 end
               end
               resources :assignments, only: [:create]
