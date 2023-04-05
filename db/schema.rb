@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(version: 2023_04_05_104405) do
     t.integer "locale", default: 0
     t.string "domain", limit: 100
     t.string "support_email", limit: 100
-    t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
