@@ -13,9 +13,15 @@
       <tr>
         <td colspan="100%" class="horizontal-line" />
       </tr>
-      <tbody>
+      <draggable
+        tag="tbody"
+        :list="localArticles"
+        ghost-class="article-ghost-class"
+        @start="dragging = true"
+        @end="onDragEnd"
+      >
         <ArticleItem
-          v-for="article in articles"
+          v-for="article in localArticles"
           :id="article.id"
           :key="article.id"
           :title="article.title"
@@ -25,8 +31,9 @@
           :status="article.status"
           :updated-at="article.updated_at"
         />
-      </tbody>
+      </draggable>
     </table>
+
     <table-footer
       v-if="articles.length"
       :current-page="currentPage"
@@ -40,10 +47,13 @@
 <script>
 import ArticleItem from './ArticleItem.vue';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
+import draggable from 'vuedraggable';
+
 export default {
   components: {
     ArticleItem,
     TableFooter,
+    draggable,
   },
   props: {
     articles: {
@@ -63,7 +73,27 @@ export default {
       default: 25,
     },
   },
+  data() {
+    return {
+      dragEnabled: true,
+      dragging: false,
+      localArticles: [],
+    };
+  },
+  watch: {
+    articles() {
+      this.localArticles = [...this.articles];
+    },
+  },
   methods: {
+    onDragEnd() {
+      this.dragging = false;
+      // const sortedArticlePositions = this.localArticles
+      //   .map(article => article.position)
+      //   .sort();
+
+      // const orderedArticles = this.localArticles.map(article => article.id);
+    },
     onPageChange(page) {
       this.$emit('page-change', page);
     },
@@ -88,5 +118,10 @@ export default {
     padding: 0;
     border: 0;
   }
+}
+
+.article-ghost-class {
+  opacity: 0.5;
+  background-color: var(--s-50);
 }
 </style>
