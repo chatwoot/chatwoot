@@ -53,6 +53,7 @@ class Article < ApplicationRecord
   validates :author_id, presence: true
   validates :title, presence: true
   validates :content, presence: true
+  before_create :add_position_to_article
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
@@ -114,7 +115,20 @@ class Article < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def add_position_to_article
+    return if position.present?
+
+    max_position = get_max_position_for_category(category_id)
+    # increment by 10, it leaves space in case we want to programatically stuff articles between two articles
+    # while keeping the whole thing nice whole numbers
+    self.position = max_position.present? ? max_position + 10 : 10
+  end
+
   private
+
+  def get_max_position_for_category(category_id)
+    Article.where(category_id: category_id, account_id: account_id).maximum(:position)
+  end
 
   def ensure_account_id
     self.account_id = portal&.account_id
