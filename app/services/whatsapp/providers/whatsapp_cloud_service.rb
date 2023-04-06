@@ -51,6 +51,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       response = HTTParty.get(response['paging']['next'])
       whatsapp_channel.update(message_templates: response['data'], message_templates_last_updated: Time.now.utc) if response.success?
     end
+    true
   end
 
   private
