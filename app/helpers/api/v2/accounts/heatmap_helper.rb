@@ -1,15 +1,8 @@
 module Api::V2::Accounts::HeatmapHelper
   def generate_conversations_heatmap_report
-    utc_data = generate_heatmap_data_for_utc
-    # we cannot convert the UTC data, because the data has a 60 min granularity
-
-    # while timezones have a 30 min granularity
     timezone_data = generate_heatmap_data_for_timezone(params[:timezone_offset])
 
-    {
-      utc: group_traffic_data(utc_data),
-      timezone: group_traffic_data(timezone_data)
-    }
+    group_traffic_data(timezone_data)
   end
 
   private
@@ -61,13 +54,6 @@ module Api::V2::Accounts::HeatmapHelper
     #   [4, 0, 0, 0],
     # ]
     result_arr
-  end
-
-  def generate_heatmap_data_for_utc
-    today = DateTime.now.utc.beginning_of_day
-    utc_data_raw = generate_heatmap_data(today, nil)
-
-    transform_data(utc_data_raw, true)
   end
 
   def generate_heatmap_data_for_timezone(offset)
