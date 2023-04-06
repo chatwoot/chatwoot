@@ -13,6 +13,7 @@ class UpdatePositionForArticles < ActiveRecord::Migration[6.1]
       articles_without_position = articles.where(position: nil).order(:updated_at)
 
       # Set the position for articles with a position set, in multiples of 10
+      # why multiples of 10? because we want to leave room for articles which can be added in between in case we are editing the order from the DB
       position_counter = 0
       articles_with_position.each do |article|
         position_counter += 10
