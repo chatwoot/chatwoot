@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resources :accounts, only: [:create, :show, :update] do
         member do
           post :update_active_at
+          get :cache_keys
         end
 
         scope module: :accounts do
@@ -225,6 +226,8 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :create, :update]
         resources :conversations, only: [:index, :create] do
           collection do
+            post :destroy_custom_attributes
+            post :set_custom_attributes
             post :update_last_seen
             post :toggle_typing
             post :transcript
@@ -259,6 +262,7 @@ Rails.application.routes.draw do
             get :labels
             get :teams
             get :conversations
+            get :conversation_traffic
           end
         end
       end

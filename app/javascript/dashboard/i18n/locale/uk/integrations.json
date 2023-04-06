@@ -15,8 +15,8 @@
             "MESSAGE_CREATED": "Повідомлення створено",
             "MESSAGE_UPDATED": "Повідомлення оновлено",
             "WEBWIDGET_TRIGGERED": "Віджет онлайн чату відкрий користувачем",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONTACT_CREATED": "Контакт створено",
+            "CONTACT_UPDATED": "Контакт оновлено"
           }
         },
         "END_POINT": {
@@ -79,11 +79,11 @@
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
+      "LEAVE_THE_ROOM": "Залишити дзвінок",
+      "START_VIDEO_CALL_HELP_TEXT": "Почати новий відеодзвінок із клієнтом",
+      "JOIN_ERROR": "Помилка при підключенні до дзвінка. Будь ласка, спробуйте ще раз",
+      "CREATE_ERROR": "Помилка при створенні посилання на зустріч, будь ласка, спробуйте знову"
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",

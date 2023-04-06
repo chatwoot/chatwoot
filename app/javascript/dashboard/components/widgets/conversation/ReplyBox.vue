@@ -336,6 +336,12 @@ export default {
         this.message.length > this.maxLength
       );
     },
+    sender() {
+      return {
+        name: this.currentUser.name,
+        thumbnail: this.currentUser.avatar_url,
+      };
+    },
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
@@ -452,7 +458,12 @@ export default {
       return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
     enableMultipleFileUpload() {
-      return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+      return (
+        this.isAnEmailChannel ||
+        this.isAWebWidgetInbox ||
+        this.isAPIInbox ||
+        this.isAWhatsAppChannel
+      );
     },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
@@ -991,6 +1002,7 @@ export default {
             files: [attachedFile],
             private: false,
             message: caption,
+            sender: this.sender,
           };
           multipleMessagePayload.push(attachmentPayload);
           caption = '';
@@ -1000,6 +1012,7 @@ export default {
           conversationId: this.currentChat.id,
           message,
           private: false,
+          sender: this.sender,
         };
         multipleMessagePayload.push(messagePayload);
       }
@@ -1011,6 +1024,7 @@ export default {
         conversationId: this.currentChat.id,
         message,
         private: this.isPrivate,
+        sender: this.sender,
       };
 
       if (this.inReplyTo) {

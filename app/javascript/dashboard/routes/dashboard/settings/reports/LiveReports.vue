@@ -40,6 +40,17 @@
       <metric-card
         :header="this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')"
       >
+        <template #control>
+          <woot-button
+            icon="arrow-download"
+            size="small"
+            variant="smooth"
+            color-scheme="secondary"
+            @click="downloadHeatmapData"
+          >
+            Download Report
+          </woot-button>
+        </template>
         <report-heatmap
           :heat-data="accountConversationHeatmap"
           :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
@@ -128,6 +139,15 @@ export default {
       this.fetchAccountConversationMetric();
       this.fetchAgentConversationMetric();
       this.fetchHeatmapData();
+    },
+    downloadHeatmapData() {
+      let to = endOfDay(new Date());
+      let from = startOfDay(subDays(to, 6));
+
+      this.$store.dispatch('downloadAccountConversationHeatmap', {
+        from: getUnixTime(from),
+        to: getUnixTime(to),
+      });
     },
     fetchHeatmapData() {
       if (this.uiFlags.isFetchingAccountConversationsHeatmap) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="width-100">
+  <div class="search-page">
     <div class="page-header">
       <woot-button
         icon="chevron-left"
@@ -196,6 +196,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .page-header {
   display: flex;
   padding: var(--space-normal);
@@ -203,20 +208,20 @@ export default {
 .search-root {
   margin: 0 auto;
   max-width: 72rem;
-  min-height: 48rem;
+  min-height: 32rem;
   width: 100%;
-  height: fit-content;
+  height: 100%;
   padding: var(--space-normal);
   display: flex;
   position: relative;
   flex-direction: column;
   background: white;
-  overflow-y: auto;
-  margin-top: var(--space-large);
+  margin-top: var(--space-medium);
 
   .search-results {
     flex-grow: 1;
     height: 100%;
+    overflow-y: auto;
     padding: 0 var(--space-small);
   }
 }

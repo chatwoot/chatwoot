@@ -21,6 +21,7 @@ ar:
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: يجب ألا يكون فارغاً
@@ -57,6 +58,7 @@ ar:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
   reports:
     period: فترة التبليغ %{since} إلى %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: اسم الموظف
       conversations_count: عدد المحادثات
@@ -78,6 +80,9 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
       avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: عدد المحادثات
     default_group_by: اليوم
     csat:
       headers:

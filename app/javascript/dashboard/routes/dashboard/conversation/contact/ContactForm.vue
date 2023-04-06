@@ -78,6 +78,34 @@
       :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
     />
+    <div class="row">
+      <div class="medium-12 columns">
+        <label>
+          {{ $t('CONTACT_FORM.FORM.COUNTRY.LABEL') }}
+        </label>
+        <multiselect
+          v-model="country"
+          track-by="id"
+          label="name"
+          :placeholder="$t('CONTACT_FORM.FORM.COUNTRY.PLACEHOLDER')"
+          selected-label
+          :select-label="$t('CONTACT_FORM.FORM.COUNTRY.SELECT_PLACEHOLDER')"
+          :deselect-label="$t('CONTACT_FORM.FORM.COUNTRY.REMOVE')"
+          :custom-label="countryNameWithCode"
+          :max-height="160"
+          :options="countries"
+          :allow-empty="true"
+          :option-height="104"
+        />
+      </div>
+    </div>
+    <woot-input
+      v-model="city"
+      class="columns"
+      :label="$t('CONTACT_FORM.FORM.CITY.LABEL')"
+      :placeholder="$t('CONTACT_FORM.FORM.CITY.PLACEHOLDER')"
+    />
+
     <div class="medium-12 columns">
       <label>
         Social Profiles
@@ -116,6 +144,7 @@ import {
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
 import { required, email } from 'vuelidate/lib/validators';
+import countries from 'shared/constants/countries.js';
 
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 
@@ -137,6 +166,7 @@ export default {
   },
   data() {
     return {
+      countries: countries,
       companyName: '',
       description: '',
       email: '',
@@ -144,6 +174,11 @@ export default {
       phoneNumber: '',
       avatarFile: null,
       avatarUrl: '',
+      country: {
+        id: '',
+        name: '',
+      },
+      city: '',
       socialProfileUserNames: {
         facebook: '',
         twitter: '',
@@ -172,7 +207,6 @@ export default {
     },
     bio: {},
   },
-
   watch: {
     contact() {
       this.setContactObject();
@@ -188,6 +222,11 @@ export default {
     onSuccess() {
       this.$emit('success');
     },
+    countryNameWithCode({ name, id }) {
+      if (!id) return name;
+      if (!name && !id) return '';
+      return `${name} (${id})`;
+    },
     setContactObject() {
       const {
         email: emailAddress,
@@ -200,6 +239,13 @@ export default {
       this.email = emailAddress || '';
       this.phoneNumber = phoneNumber || '';
       this.companyName = additionalAttributes.company_name || '';
+      this.country = {
+        id: additionalAttributes.country_code || '',
+        name:
+          additionalAttributes.country ||
+          this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY'),
+      };
+      this.city = additionalAttributes.city || '';
       this.description = additionalAttributes.description || '';
       this.avatarUrl = this.contact.thumbnail || '';
       const {
@@ -211,9 +257,16 @@ export default {
         facebook: socialProfiles.facebook || '',
         linkedin: socialProfiles.linkedin || '',
         github: socialProfiles.github || '',
+        instagram: socialProfiles.instagram || '',
       };
     },
     getContactObject() {
+      if (this.country === null) {
+        this.country = {
+          id: '',
+          name: '',
+        };
+      }
       const contactObject = {
         id: this.contact.id,
         name: this.name,
@@ -223,6 +276,13 @@ export default {
           ...this.contact.additional_attributes,
           description: this.description,
           company_name: this.companyName,
+          country_code: this.country.id,
+          country:
+            this.country.name ===
+            this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY')
+              ? ''
+              : this.country.name,
+          city: this.city,
           social_profiles: this.socialProfileUserNames,
         },
       };
@@ -295,5 +355,11 @@ export default {
 
 .input-group-label {
   font-size: var(--font-size-small);
+}
+
+::v-deep {
+  .multiselect .multiselect__tags .multiselect__single {
+    padding-left: 0;
+  }
 }
 </style>
