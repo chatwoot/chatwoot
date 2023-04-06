@@ -29,17 +29,14 @@
           </thead>
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <!-- Short Code  -->
-              <td class="remote-address">
-                {{ auditLogItem.remote_address }}
-              </td>
-              <!-- Content -->
-              <!-- <td class="wrap-break-words">{{ dynamicTime(auditLogItem.created_at) }}</td> -->
-              <td class="wrap-break-words">{{ auditLogItem.created_at }}</td>
+              <td class="wrap-break-words">{{ auditLogItem.username }}</td>
               <td class="wrap-break-words">
                 {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
               </td>
-              <td class="wrap-break-words">{{ auditLogItem.username }}</td>
+              <td class="remote-address">
+                {{ auditLogItem.remote_address }}
+              </td>
+              <td class="wrap-break-words">{{ auditLogItem.created_at }}</td>
             </tr>
           </tbody>
         </table>
