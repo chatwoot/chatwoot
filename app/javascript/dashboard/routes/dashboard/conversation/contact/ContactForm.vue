@@ -214,6 +214,9 @@ export default {
     bio: {},
   },
   computed: {
+    parsePhoneNumber() {
+      return parsePhoneNumber(this.phoneNumber);
+    },
     isPhoneNumberNotValid() {
       if (this.phoneNumber !== '') {
         return (
@@ -233,8 +236,7 @@ export default {
       return '';
     },
     setPhoneNumber() {
-      const phoneNumber = parsePhoneNumber(this.phoneNumber);
-      if (phoneNumber && phoneNumber.countryCallingCode) {
+      if (this.parsePhoneNumber && this.parsePhoneNumber.countryCallingCode) {
         return this.phoneNumber;
       }
       if (this.phoneNumber === '' && this.activeDialCode !== '') {
@@ -267,13 +269,12 @@ export default {
       return `${name} (${id})`;
     },
     setDialCode() {
-      const phoneNumber = parsePhoneNumber(this.phoneNumber);
       if (
         this.phoneNumber !== '' &&
-        phoneNumber &&
-        phoneNumber.countryCallingCode
+        this.parsePhoneNumber &&
+        this.parsePhoneNumber.countryCallingCode
       ) {
-        const dialCode = phoneNumber.countryCallingCode;
+        const dialCode = this.parsePhoneNumber.countryCallingCode;
         this.activeDialCode = `+${dialCode}`;
       }
     },
@@ -346,9 +347,8 @@ export default {
       this.activeDialCode = code;
     },
     setPhoneCode(code) {
-      const phoneNumber = parsePhoneNumber(this.phoneNumber);
-      if (this.phoneNumber !== '' && phoneNumber) {
-        const dialCode = phoneNumber.countryCallingCode;
+      if (this.phoneNumber !== '' && this.parsePhoneNumber) {
+        const dialCode = this.parsePhoneNumber.countryCallingCode;
         if (dialCode === code) {
           return;
         }
@@ -401,6 +401,7 @@ export default {
         }
         this.avatarFile = null;
         this.avatarUrl = '';
+        this.activeDialCode = '';
       } catch (error) {
         this.showAlert(
           error.message

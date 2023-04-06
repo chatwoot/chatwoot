@@ -48,6 +48,9 @@
         </span>
         <span class="country-dial-code">{{ country.dial_code }}</span>
       </div>
+      <div v-if="filteredCountriesBySearch.length === 0">
+        <span class="no-results">No results found</span>
+      </div>
     </div>
   </div>
 </template>
@@ -283,6 +286,14 @@ export default {
         color: var(--s-300);
         font-size: var(--font-size-mini);
       }
+    }
+
+    .no-results {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--s-500);
+      margin-top: var(--space-normal);
     }
   }
 }
