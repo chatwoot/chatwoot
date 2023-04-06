@@ -121,11 +121,13 @@ class Article < ApplicationRecord
   private
 
   def category_id_changed_action
+    # We need to update the position of the article in the new category
     update_article_position_in_category
     save!
   end
 
   def add_position_to_article
+    # on creation if a position is already present, ignore it
     return if position.present?
 
     update_article_position_in_category
