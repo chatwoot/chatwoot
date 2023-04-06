@@ -4,7 +4,7 @@
 <script>
 import LoadingState from '../../components/widgets/LoadingState';
 import Auth from '../../api/auth';
-import { DEFAULT_REDIRECT_URL } from '../../constants';
+import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 export default {
   components: {
     LoadingState,
