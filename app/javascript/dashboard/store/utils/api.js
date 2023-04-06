@@ -7,7 +7,7 @@ import {
   CHATWOOT_RESET,
   CHATWOOT_SET_USER,
 } from '../../helper/scriptHelpers';
-import { LOCAL_STORAGE_KEYS } from '../../helper/localStorage';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
 Cookies.defaults = { sameSite: 'Lax' };
