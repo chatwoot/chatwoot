@@ -38,7 +38,6 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
       allow(webhook_service).to receive(:perform).and_raise StandardError
       get twitter_callback_url
       account.reload
-      expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later).with(account.inboxes.last, '')
       expect(response).to redirect_to app_new_twitter_inbox_url(account_id: account.id)
       expect(account.inboxes.count).to be 0
     end
