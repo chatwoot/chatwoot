@@ -11,24 +11,11 @@
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
     >
-      <h1 class="page-title text-truncate" :title="pageTitle">
+      <h1 class="page-sub-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
 
       <div class="filter--actions">
-        <chat-filter
-          v-if="!hasAppliedFiltersOrActiveFolders"
-          @statusFilterChange="updateStatusType"
-        />
-        <!-- <woot-button
-          variant="smooth"
-          color-scheme="secondary"
-          icon="arrow-sort"
-          size="tiny"
-          :selected-value="activeSortBy"
-          @click="onToggleAdvanceFiltersModal"
-        /> -->
-        <sort-by-filter @changeSortByFilter="updateSortByFilterType" />
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
@@ -57,7 +44,6 @@
             @click="onClickOpenDeleteFoldersModal"
           />
         </div>
-
         <woot-button
           v-else
           variant="smooth"
@@ -66,6 +52,7 @@
           size="tiny"
           @click="onToggleAdvanceFiltersModal"
         />
+        <sort-by-filter @changeSortByFilter="updateSortByFilterType" />
       </div>
     </div>
 
@@ -851,7 +838,7 @@ export default {
 .filter--actions {
   display: flex;
   align-items: center;
-  gap: var(--space-micro);
+  gap: var(--space-smaller);
 }
 
 .filter__applied {

@@ -1,8 +1,8 @@
 <template>
   <woot-chat-list-filter
-    :title="activeSortByLabel"
+    title="View"
     :items="sortByItems"
-    :icon="activeSortBy ? 'arrow-sort' : ''"
+    icon="menu-icon"
     :selected-value="activeSortBy"
     @changeFilter="onTabChange"
   />
