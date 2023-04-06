@@ -53,7 +53,10 @@ class Article < ApplicationRecord
   validates :author_id, presence: true
   validates :title, presence: true
   validates :content, presence: true
+
+  # ensuring that the position is always set correctly
   before_create :add_position_to_article
+  after_save :category_id_changed_action, if: :saved_change_to_category_id?
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
@@ -115,19 +118,23 @@ class Article < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  private
+
+  def category_id_changed_action
+    update_article_position_in_category
+    save!
+  end
+
   def add_position_to_article
     return if position.present?
 
-    max_position = get_max_position_for_category(category_id)
-    # increment by 10, it leaves space in case we want to programatically stuff articles between two articles
-    # while keeping the whole thing nice whole numbers
-    self.position = max_position.present? ? max_position + 10 : 10
+    update_article_position_in_category
   end
 
-  private
+  def update_article_position_in_category
+    max_position = Article.where(category_id: category_id, account_id: account_id).maximum(:position)
 
-  def get_max_position_for_category(category_id)
-    Article.where(category_id: category_id, account_id: account_id).maximum(:position)
+    self.position = max_position.present? ? max_position + 10 : 10
   end
 
   def ensure_account_id
