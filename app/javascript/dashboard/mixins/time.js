@@ -1,12 +1,24 @@
-import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import {
+  format,
+  isSameYear,
+  fromUnixTime,
+  formatDistanceToNow,
+} from 'date-fns';
 
 export default {
   methods: {
     messageStamp(time, dateFormat = 'h:mm a') {
       const unixTime = fromUnixTime(time);
       return format(unixTime, dateFormat);
+    },
+    messageTimestamp(time, dateFormat = 'MMM d, yyyy') {
+      const messageTime = fromUnixTime(time);
+      const now = new Date();
+      const messageDate = format(messageTime, dateFormat);
+      if (!isSameYear(messageTime, now)) {
+        return format(messageTime, 'LLL d y, h:mm a');
+      }
+      return messageDate;
     },
     dynamicTime(time) {
       const unixTime = fromUnixTime(time);
