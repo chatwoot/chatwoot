@@ -28,20 +28,20 @@ class MessageFinder
     elsif @params[:after].present?
       messages_after(@params[:after].to_i)
     else
-      messages.reorder('created_at desc').limit(20).reverse
+      messages_latest
     end
   end
 
-  def messages_after
-    messages.reorder('created_at asc').where('id > ?', @params[:after].to_i).limit(100)
+  def messages_after(after_id)
+    messages.reorder('created_at asc').where('id > ?', after_id).limit(100)
   end
 
-  def messages_before
-    messages.reorder('created_at desc').where('id < ?', @params[:before].to_i).limit(20).reverse
+  def messages_before(before_id)
+    messages.reorder('created_at desc').where('id < ?', before_id).limit(20).reverse
   end
 
-  def messages_between
-    messages.reorder('created_at asc').where('id >= ? AND id < ?', @params[:after].to_i, @params[:before].to_i).limit(1000)
+  def messages_between(after_id, before_id)
+    messages.reorder('created_at asc').where('id >= ? AND id < ?', after_id, before_id).limit(1000)
   end
 
   def messages_latest
