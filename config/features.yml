@@ -49,3 +49,7 @@
   enabled: true
 - name: auto_resolve_conversations
   enabled: true
+- name: custom_reply_email
+  enabled: false
+- name: custom_reply_domain
+  enabled: false
