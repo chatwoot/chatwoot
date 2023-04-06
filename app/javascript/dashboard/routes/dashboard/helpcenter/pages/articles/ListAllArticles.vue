@@ -142,7 +142,8 @@ export default {
     onSort(sortedGroup) {
       this.$store.dispatch('articles/reorder', {
         sortedGroup,
-        category_slug: this.selectedCategorySlug,
+        portalSlug: this.$route.params.portalSlug,
+        categorySlug: this.selectedCategorySlug,
       });
     },
   },

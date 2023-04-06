@@ -81,6 +81,7 @@ export default {
   },
   computed: {
     dragEnabled() {
+      // dragging allowed only on category page
       return (
         this.articles.length > 1 &&
         !this.isFetching &&
@@ -95,9 +96,23 @@ export default {
   },
   methods: {
     onDragEnd() {
+      // why reuse the same positons array, instead of creating a new one?
+      // this ensures that the shuffling happens within the same group
+      // itself and does not create any new positions and avoid conflict with existing articles
+      // so if a user sorts on page number 2, and the positions are say [550, 560, 570, 580, 590]
+      // the new sorted items will be in the same position range as well
       const sortedArticlePositions = this.localArticles
         .map(article => article.position)
-        .sort();
+        .sort((a, b) => {
+          // Why sort like this? Glad you asked!
+          // because JavaScript is the doom of my existence, and if a `compareFn` is not supplied,
+          // all non-undefined array elements are sorted by converting them to strings
+          // and comparing strings in UTF-16 code units order.
+          //
+          // so an array [20, 10000, 10, 30, 40] will be sorted as [10, 10000, 20, 30, 40]
+
+          return a - b;
+        });
 
       const orderedArticles = this.localArticles.map(article => article.id);
 
