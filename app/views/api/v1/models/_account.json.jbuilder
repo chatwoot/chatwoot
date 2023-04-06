@@ -6,7 +6,6 @@ if resource.custom_attributes.present?
     json.subscribed_quantity resource.custom_attributes['subscribed_quantity']
   end
 end
-json.custom_email_domain_enabled @account.custom_email_domain_enabled
 json.domain @account.domain
 json.features @account.enabled_features
 json.id @account.id

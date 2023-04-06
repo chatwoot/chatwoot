@@ -39,12 +39,12 @@
           <label v-if="featureInboundEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED') }}
           </label>
-          <label v-if="featureCustomDomainEmailEnabled">
+          <label v-if="featureCustomReplyDomainEnabled">
             {{
               $t('GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED')
             }}
           </label>
-          <label v-if="featureCustomDomainEmailEnabled">
+          <label v-if="featureCustomReplyDomainEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
             <input
               v-model="domain"
@@ -52,7 +52,7 @@
               :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
             />
           </label>
-          <label v-if="featureCustomDomainEmailEnabled">
+          <label v-if="featureCustomReplyEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
             <input
               v-model="supportEmail"
@@ -192,8 +192,16 @@ export default {
       return !!this.features.inbound_emails;
     },
 
-    featureCustomDomainEmailEnabled() {
-      return this.featureInboundEmailEnabled && !!this.customEmailDomainEnabled;
+    featureCustomReplyDomainEnabled() {
+      return (
+        this.featureInboundEmailEnabled && !!this.features.custom_reply_domain
+      );
+    },
+
+    featureCustomReplyEmailEnabled() {
+      return (
+        this.featureInboundEmailEnabled && !!this.features.custom_reply_email
+      );
     },
 
     getAccountId() {
@@ -215,7 +223,6 @@ export default {
           id,
           domain,
           support_email,
-          custom_email_domain_enabled,
           features,
           auto_resolve_duration,
           latest_chatwoot_version: latestChatwootVersion,
@@ -227,7 +234,6 @@ export default {
         this.id = id;
         this.domain = domain;
         this.supportEmail = support_email;
-        this.customEmailDomainEnabled = custom_email_domain_enabled;
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
         this.latestChatwootVersion = latestChatwootVersion;
