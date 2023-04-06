@@ -4,7 +4,13 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
   before_action :fetch_audit
 
   def show
-    render json: @audit_logs
+    @audit_logs = @audit_logs.page(params[:page]).per(params[:per_page])
+    render json: {
+      audit_logs: @audit_logs,
+      current_page: @audit_logs.current_page,
+      per_page: @audit_logs.limit_value,
+      total_entries: @audit_logs.total_count
+    }
   end
 
   private
