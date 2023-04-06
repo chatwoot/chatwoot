@@ -64,7 +64,7 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 5
+        expect(result.count).to be 6
         expect(result.first.id).to be conversation.messages.first.id
         expect(result.last.message_type).to eq 'activity'
       end
