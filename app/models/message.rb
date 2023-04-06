@@ -258,8 +258,13 @@ class Message < ApplicationRecord
     if conversation.inbox.active_bot?
       conversation.pending!
     else
+      Current.executed_by = sender if reopened_by_contact?
       conversation.open!
     end
+  end
+
+  def reopened_by_contact?
+    incoming? && !private? && Current.user.class != sender.class && sender.instance_of?(Contact)
   end
 
   def execute_message_template_hooks
