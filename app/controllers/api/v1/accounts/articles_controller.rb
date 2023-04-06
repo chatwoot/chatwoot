@@ -1,7 +1,7 @@
 class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
   before_action :check_authorization
-  before_action :fetch_article, except: [:index, :create, :attach_file]
+  before_action :fetch_article, except: [:index, :create, :attach_file, :reorder]
   before_action :set_current_page, only: [:index]
 
   def index
@@ -48,6 +48,13 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     render json: { file_url: url_for(file_blob) }
   end
 
+  def reorder
+    positions_hash = params[:sorted_group]
+
+    update_positions(positions_hash)
+    head :ok
+  end
+
   private
 
   def fetch_article
@@ -72,5 +79,13 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def set_current_page
     @current_page = params[:page] || 1
+  end
+
+  def update_positions(positions_hash)
+    positions_hash.each do |article_id, new_position|
+      # Find the article by its ID and update its position
+      article = Article.find(article_id)
+      article.update!(position: new_position)
+    end
   end
 end
