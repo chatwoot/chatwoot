@@ -10,7 +10,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     @articles_count = @all_articles.count
 
     @articles = if list_params[:category_slug].present?
-                  @all_articles.order_by_position.page(@current_page)
+                  @all_articles.order_by_position.page(@current_page).per(50)
                 else
                   @all_articles.order_by_updated_at.page(@current_page)
                 end
