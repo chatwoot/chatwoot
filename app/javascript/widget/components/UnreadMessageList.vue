@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { IFrameHelper } from 'widget/helpers/utils';
 import { mapGetters } from 'vuex';
 import configMixin from '../mixins/configMixin';
 import { ON_UNREAD_MESSAGE_CLICK } from '../constants/widgetBusEvents';
@@ -84,9 +83,7 @@ export default {
       bus.$emit(ON_UNREAD_MESSAGE_CLICK);
     },
     closeFullView() {
-      if (IFrameHelper.isIFrame()) {
-        IFrameHelper.sendMessage({ event: 'toggleBubble' });
-      }
+      this.$emit('close');
     },
     getMessageContent(message) {
       const { attachments, content } = message;

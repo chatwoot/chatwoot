@@ -36,12 +36,21 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 const updateAuthCookie = cookieContent =>
   Cookies.set('cw_conversation', cookieContent, {
     expires: 365,
     sameSite: 'Lax',
   });
+
+const updateCampaignReadStatus = campaignId => {
+  const campaignsRead = LocalStorage.get('campaigns_read_by_id') || {};
+  LocalStorage.set('campaigns_read_by_id', {
+    ...campaignsRead,
+    [campaignId]: Date.now(),
+  });
+};
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -147,6 +156,7 @@ export const IFrameHelper = {
     loaded: message => {
       updateAuthCookie(message.config.authToken);
       window.$chatwoot.hasLoaded = true;
+      const campaignsRead = LocalStorage.get('campaigns_read_by_id') || {};
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
         position: window.$chatwoot.position,
@@ -154,6 +164,7 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
+        campaignsRead: { ...campaignsRead },
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -190,6 +201,10 @@ export const IFrameHelper = {
 
     setAuthCookie({ data: { widgetAuthToken } }) {
       updateAuthCookie(widgetAuthToken);
+    },
+
+    setCampaignReadOn({ data: { campaignId } }) {
+      updateCampaignReadStatus(campaignId);
     },
 
     toggleBubble: state => {

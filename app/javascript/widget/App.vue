@@ -183,7 +183,9 @@ export default {
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
       const isCampaignReadyToExecute =
-        !isEmptyObject(activeCampaign) && !messageCount;
+        !isEmptyObject(activeCampaign) &&
+        !messageCount &&
+        !this.dismissedCampaignIds.includes(`${activeCampaign.id}`);
       if (this.isIFrame && isCampaignReadyToExecute) {
         this.replaceRoute('campaigns').then(() => {
           this.setIframeHeight(true);
@@ -243,6 +245,7 @@ export default {
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
+          this.setCampaignReadData(message.campaignsRead);
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
@@ -319,6 +322,9 @@ export default {
     },
     sendRNWebViewLoadedEvent() {
       RNHelper.sendMessage(loadedEventConfig());
+    },
+    setCampaignReadData(data) {
+      this.dismissedCampaignIds = Object.keys(data).map(id => `${id}`);
     },
   },
 };
