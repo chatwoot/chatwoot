@@ -1,20 +1,25 @@
 <template>
   <div class="phone-input--wrap">
-    <div class="country-emoji--wrap" @click="toggleCountryDropdown">
-      <h5 v-if="activeCountry.emoji">{{ activeCountry.emoji }}</h5>
-      <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
-      <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
+    <div class="phone-input" :class="{ 'has-error': error }">
+      <div class="country-emoji--wrap" @click="toggleCountryDropdown">
+        <h5 v-if="activeCountry.emoji">{{ activeCountry.emoji }}</h5>
+        <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
+        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
+      </div>
+      <span v-if="activeDialCode" class="country-dial--code">
+        {{ activeDialCode }}
+      </span>
+      <input
+        :value="phoneNumber"
+        type="tel"
+        class="phone-input--field"
+        :placeholder="placeholder"
+        :readonly="readonly"
+        :style="styles"
+        @input="onChange"
+        @blur="onBlur"
+      />
     </div>
-    <input
-      :value="value"
-      type="tel"
-      class="phone-input--field"
-      :placeholder="placeholder"
-      :readonly="readonly"
-      :style="styles"
-      @input="onChange"
-      @blur="onBlur"
-    />
     <div
       v-if="showDropdown"
       v-on-clickaway="closeDropdown"
@@ -71,18 +76,30 @@ export default {
       type: Object,
       default: () => {},
     },
+    error: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
+      countries: [
+        {
+          name: 'Select Country',
+          dial_code: '',
+          emoji: '',
+          id: '',
+        },
+        ...countries,
+      ],
       showDropdown: false,
       searchCountry: '',
       activeCountryCode: '',
+      activeDialCode: '',
+      phoneNumber: this.value,
     };
   },
   computed: {
-    countries() {
-      return countries;
-    },
     filteredCountriesBySearch() {
       return this.countries.filter(country => {
         const { name, dial_code, id } = country;
@@ -105,11 +122,14 @@ export default {
   },
   watch: {
     value() {
-      const phoneNumber = parsePhoneNumber(this.value);
-      if (phoneNumber) {
-        this.activeCountryCode = phoneNumber.country;
-      } else {
-        this.activeCountryCode = '';
+      const number = parsePhoneNumber(this.value);
+      if (number) {
+        this.activeCountryCode = number.country;
+        this.activeDialCode = `+${number.countryCallingCode}`;
+        this.phoneNumber = this.value.replace(
+          `+${number.countryCallingCode}`,
+          ''
+        );
       }
     },
   },
@@ -120,7 +140,8 @@ export default {
   },
   methods: {
     onChange(e) {
-      this.$emit('input', e.target.value);
+      this.phoneNumber = e.target.value;
+      this.$emit('input', e.target.value, this.activeDialCode);
     },
     onBlur(e) {
       this.$emit('blur', e.target.value);
@@ -128,14 +149,17 @@ export default {
     onSelectCountry(country) {
       this.activeCountryCode = country.id;
       this.searchCountry = '';
+      this.activeDialCode = country.dial_code;
       this.$emit('setCode', country.dial_code);
+      this.closeDropdown();
     },
     setActiveCountry() {
-      const { value } = this;
-      if (value === '') return;
-      const phoneNumber = parsePhoneNumber(value);
-      if (phoneNumber) {
-        this.activeCountryCode = phoneNumber.country;
+      const { phoneNumber } = this;
+      if (!phoneNumber) return;
+      const number = parsePhoneNumber(phoneNumber);
+      if (number) {
+        this.activeCountryCode = number.country;
+        this.activeDialCode = number.countryCallingCode;
       }
     },
     toggleCountryDropdown() {
@@ -156,17 +180,27 @@ export default {
 .phone-input--wrap {
   position: relative;
 
+  .phone-input {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: var(--space-normal);
+    border: 1px solid var(--s-200);
+    border-radius: var(--border-radius-normal);
+
+    &.has-error {
+      border: 1px solid var(--r-400);
+    }
+  }
+
   .country-emoji--wrap {
-    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-small);
     background: var(--s-25);
-    top: 1px;
-    height: 3.7rem;
+    height: 4rem;
     width: 5.2rem;
-    left: 1px;
     border-radius: var(--border-radius-normal) 0 0 var(--border-radius-normal);
     padding: var(--space-small) var(--space-smaller) var(--space-small)
       var(--space-small);
@@ -176,8 +210,18 @@ export default {
     }
   }
 
+  .country-dial--code {
+    display: flex;
+    color: var(--s-300);
+    font-size: var(--space-normal);
+    font-weight: normal;
+    line-height: 1.5;
+    padding: var(--space-small) 0 var(--space-small) var(--space-small);
+  }
+
   .phone-input--field {
-    padding-left: var(--space-jumbo);
+    margin-bottom: 0;
+    border: 0;
   }
 
   .country-dropdown {
