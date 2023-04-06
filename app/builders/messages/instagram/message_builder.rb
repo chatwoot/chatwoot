@@ -70,15 +70,29 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @messaging[:message][:text]
   end
 
+  def story_attributes
+    story = @messaging[:message][:reply_to][:story] if @messaging[:message][:reply_to].present? && @messaging[:message][:story].present?
+    story
+  end
+
   def build_message
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
 
     @message = conversation.messages.create!(message_params)
+    save_story_id
 
     attachments.each do |attachment|
       process_attachment(attachment)
     end
+  end
+
+  def save_story_id
+    return if story_attributes.blank?
+
+    @message.content_attributes[:story_id] = story_attributes[:id]
+    @message.content_attributes[:url] = story_attributes[:url]
+    @message.save!
   end
 
   def build_conversation
