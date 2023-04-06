@@ -116,12 +116,12 @@ export default {
 
       const orderedArticles = this.localArticles.map(article => article.id);
 
-      const sortedGroup = orderedArticles.reduce((obj, key, index) => {
+      const reorderedGroup = orderedArticles.reduce((obj, key, index) => {
         obj[key] = sortedArticlePositions[index];
         return obj;
       }, {});
 
-      this.$emit('sort', sortedGroup);
+      this.$emit('reorder', reorderedGroup);
     },
     onPageChange(page) {
       this.$emit('page-change', page);

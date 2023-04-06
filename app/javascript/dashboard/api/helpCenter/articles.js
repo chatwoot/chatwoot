@@ -61,9 +61,9 @@ class ArticlesAPI extends PortalsAPI {
     );
   }
 
-  reorderArticles({ portalSlug, sortedGroup, categorySlug }) {
+  reorderArticles({ portalSlug, reorderedGroup, categorySlug }) {
     return axios.post(`${this.url}/${portalSlug}/articles/reorder`, {
-      sorted_group: sortedGroup,
+      positions_hash: reorderedGroup,
       category_slug: categorySlug,
     });
   }

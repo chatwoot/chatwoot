@@ -49,9 +49,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def reorder
-    positions_hash = params[:sorted_group]
-
-    update_positions(positions_hash)
+    update_positions(params[:positions_hash])
     head :ok
   end
 

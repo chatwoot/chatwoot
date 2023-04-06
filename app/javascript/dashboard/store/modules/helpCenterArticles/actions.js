@@ -141,11 +141,11 @@ export const actions = {
     return '';
   },
 
-  reorder: async (_, { portalSlug, categorySlug, sortedGroup }) => {
+  reorder: async (_, { portalSlug, categorySlug, reorderedGroup }) => {
     try {
       await articlesAPI.reorderArticles({
         portalSlug,
-        sortedGroup,
+        reorderedGroup,
         categorySlug,
       });
     } catch (error) {
