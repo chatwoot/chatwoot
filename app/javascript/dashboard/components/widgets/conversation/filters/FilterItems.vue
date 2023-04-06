@@ -38,11 +38,11 @@
     display: flex;
     align-items: center;padding: 8px 16px;"
       >
-        <span style="font-size: 1.2rem;">Created at</span>
+        <span style="font-size: 1.2rem;">Order by</span>
         <sort-filters value="Oldest" />
       </div>
 
-      <div
+      <!-- <div
         style="justify-content: space-between;
     display: flex;
     align-items: center;padding: 8px 16px;"
@@ -58,7 +58,7 @@
       >
         <span style="font-size: 1.2rem;">Last message at</span>
         <sort-filters value="Oldest" />
-      </div>
+      </div> -->
 
       <!-- <woot-dropdown-menu>
         <woot-dropdown-sub-menu :title="dropdownTitle">

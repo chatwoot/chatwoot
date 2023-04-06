@@ -1,7 +1,7 @@
 <template>
   <select v-model="activeStatus" class="status--filter" @change="onTabChange()">
     <option :key="status" :value="status">
-      Oldest
+      Created at
     </option>
   </select>
 </template>
