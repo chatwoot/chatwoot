@@ -132,6 +132,17 @@
         "PLACEHOLDER": "أدخل اسم الشركة",
         "LABEL": "اسم الشركة"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "اسم الدولة",
+        "SELECT_PLACEHOLDER": "اختر",
+        "REMOVE": "حذف",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "أدخل اسم مستخدم فيسبوك",
