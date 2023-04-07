@@ -22,7 +22,12 @@ const preChatFields = [
 global.chatwootWebChannel = {
   avatarUrl: 'https://test.url',
   hasAConnectedAgentBot: 'AgentBot',
-  enabledFeatures: ['emoji_picker', 'attachments', 'end_conversation'],
+  enabledFeatures: [
+    'emoji_picker',
+    'attachments',
+    'end_conversation',
+    'use_inbox_avatar_for_bot',
+  ],
   preChatFormOptions: { pre_chat_fields: preChatFields, pre_chat_message: '' },
   preChatFormEnabled: true,
 };
@@ -47,7 +52,12 @@ describe('configMixin', () => {
     expect(wrapper.vm.channelConfig).toEqual({
       avatarUrl: 'https://test.url',
       hasAConnectedAgentBot: 'AgentBot',
-      enabledFeatures: ['emoji_picker', 'attachments', 'end_conversation'],
+      enabledFeatures: [
+        'emoji_picker',
+        'attachments',
+        'end_conversation',
+        'use_inbox_avatar_for_bot',
+      ],
       preChatFormOptions: {
         pre_chat_message: '',
         pre_chat_fields: preChatFields,
