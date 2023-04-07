@@ -202,7 +202,7 @@ RSpec.describe Inbox do
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
     end
 
-    it 'resets cache key if there is an update' do
+    it 'resets cache key if there is an update in the channel' do
       channel = inbox.channel
       channel.update(widget_color: '#fff')
 
