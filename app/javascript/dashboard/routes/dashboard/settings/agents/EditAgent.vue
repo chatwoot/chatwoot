@@ -41,14 +41,6 @@
                 {{ role.label }}
               </option>
             </select>
-            <div class="callout small warning">
-              This final availability status is based on combination of
-              availability and auto_offline.
-            </div>
-            <!-- <p class="help-text">
-              Choose the availability status of the agent. This status is
-              determined by their online activity and auto-offline settings
-            </p> -->
             <span v-if="$v.agentAvailability.$error" class="message">
               {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
             </span>
