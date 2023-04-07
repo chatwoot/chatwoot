@@ -28,8 +28,14 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
       'refresh.conversations': this.onRefreshConversation,
+      'set.last.message': this.setLastMessage,
     };
   }
+
+  setLastMessage = () => {
+    // this.app.$store.dispatch('setLastMessage');
+    // console.log('this.app.$store', this.app.$store);
+  };
 
   onRefreshConversation = () => {
     // Find the opened conversation and refresh the messages

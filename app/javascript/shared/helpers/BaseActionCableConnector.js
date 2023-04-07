@@ -1,13 +1,13 @@
 import { createConsumer } from '@rails/actioncable';
 
 const PRESENCE_INTERVAL = 20000;
+let isDisconnected = false;
 
 class BaseActionCableConnector {
   constructor(app, pubsubToken, websocketHost = '') {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
     this.consumer = createConsumer(websocketURL);
     // TODO: Move to class variable
-    let isDisconnected = false;
     this.subscription = this.consumer.subscriptions.create(
       {
         channel: 'RoomChannel',
@@ -20,10 +20,7 @@ class BaseActionCableConnector {
           this.perform('update_presence');
         },
         received: this.onReceived,
-        disconnected() {
-          isDisconnected = true;
-          console.log('Disconnected from ActionCable', isDisconnected);
-        },
+        disconnected: this.onDisconnected,
       }
     );
     this.app = app;
@@ -49,6 +46,16 @@ class BaseActionCableConnector {
 
   refreshConversations = () => {
     this.events['refresh.conversations']();
+  };
+
+  setLastMessage = () => {
+    this.events['set.last.message']();
+  };
+
+  onDisconnected = () => {
+    isDisconnected = true;
+    console.log('Disconnected from ActionCable', isDisconnected);
+    this.setLastMessage();
   };
 
   onReceived = ({ event, data } = {}) => {
