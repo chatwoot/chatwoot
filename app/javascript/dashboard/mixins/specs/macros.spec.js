@@ -1,7 +1,7 @@
 import { createWrapper } from '@vue/test-utils';
 import macrosMixin from '../macrosMixin';
 import Vue from 'vue';
-import { teams, labels } from '../../helper/specs/macrosFixtures';
+import { teams, labels, agents } from '../../helper/specs/macrosFixtures';
 describe('webhookMixin', () => {
   describe('#getEventLabel', () => {
     it('returns correct i18n translation:', () => {
@@ -13,6 +13,7 @@ describe('webhookMixin', () => {
           return {
             teams,
             labels,
+            agents,
           };
         },
         methods: {
@@ -35,6 +36,7 @@ describe('webhookMixin', () => {
       expect(wrapper.vm.getDropdownValues('assign_team')).toEqual(teams);
       expect(wrapper.vm.getDropdownValues('send_email_to_team')).toEqual(teams);
       expect(wrapper.vm.getDropdownValues('add_label')).toEqual(resolvedLabels);
+      expect(wrapper.vm.getDropdownValues('assign_agent')).toEqual(agents);
       expect(wrapper.vm.getDropdownValues()).toEqual([]);
     });
   });

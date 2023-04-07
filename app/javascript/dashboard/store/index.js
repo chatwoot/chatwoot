@@ -23,6 +23,7 @@ import conversations from './modules/conversations';
 import conversationSearch from './modules/conversationSearch';
 import conversationStats from './modules/conversationStats';
 import conversationTypingStatus from './modules/conversationTypingStatus';
+import conversationWatchers from './modules/conversationWatchers';
 import csat from './modules/csat';
 import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
@@ -40,6 +41,25 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+
+import LogRocket from 'logrocket';
+import createPlugin from 'logrocket-vuex';
+
+const plugins = [];
+
+if (window.logRocketProjectId) {
+  LogRocket.init(window.logRocketProjectId);
+  const logRocketPlugin = createPlugin(LogRocket, function(mutation) {
+    const eventsToIgnore = ['SET_CURRENT_USER', 'AUTHENTICATE', 'CLEAR_USER'];
+    if (eventsToIgnore.includes(mutation.type)) {
+      return null;
+    }
+
+    return mutation;
+  });
+
+  plugins.push(logRocketPlugin);
+}
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -66,6 +86,7 @@ export default new Vuex.Store({
     conversationSearch,
     conversationStats,
     conversationTypingStatus,
+    conversationWatchers,
     csat,
     customViews,
     dashboardApps,
@@ -84,4 +105,5 @@ export default new Vuex.Store({
     userNotificationSettings,
     webhooks,
   },
+  plugins,
 });

@@ -60,5 +60,56 @@ describe ReportingEventListener do
         expect(account.reporting_events.where(name: 'first_response')[0]['value_in_business_hours']).to be 144_000.0
       end
     end
+
+    # this ensures last_non_human_activity method accurately accounts for handoff events
+    context 'when last handoff event exists' do
+      let(:conversation_updated_at) { 20.seconds.from_now }
+      let(:human_message_created_at) { 62.seconds.from_now }
+      let(:new_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user, updated_at: conversation_updated_at) }
+      let(:new_message) do
+        create(:message, message_type: 'outgoing', created_at: human_message_created_at, account: account, inbox: inbox,
+                         conversation: new_conversation)
+      end
+
+      it 'creates first_response event with handoff value' do
+        # this will create a handoff event
+        event = Events::Base.new('conversation.bot_handoff', conversation_updated_at, conversation: new_conversation)
+        listener.conversation_bot_handoff(event)
+
+        # create the first reply event
+        event = Events::Base.new('first.reply.created', human_message_created_at, message: new_message)
+        listener.first_reply_created(event)
+        expect(account.reporting_events.where(name: 'first_response')[0]['value']).to be 42.0
+      end
+    end
+  end
+
+  describe '#conversation_bot_handoff' do
+    it 'creates conversation_bot_handoff event only once' do
+      expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 0
+      event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation)
+      listener.conversation_bot_handoff(event)
+      expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 1
+
+      # add extra handoff event for the same and ensure it's not created
+      event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation)
+      listener.conversation_bot_handoff(event)
+      expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 1
+    end
+
+    context 'when business hours enabled for inbox' do
+      let(:created_at) { Time.zone.parse('March 20, 2022 00:00') }
+      let(:updated_at) { Time.zone.parse('March 26, 2022 23:59') }
+      let!(:new_inbox) { create(:inbox, working_hours_enabled: true, account: account) }
+      let!(:new_conversation) do
+        create(:conversation, created_at: created_at, updated_at: updated_at, account: account, inbox: new_inbox, assignee: user)
+      end
+
+      it 'creates conversation_bot_handoff event with business hour value' do
+        event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: new_conversation)
+        listener.conversation_bot_handoff(event)
+        expect(account.reporting_events.where(name: 'conversation_bot_handoff')[0]['value_in_business_hours']).to be 144_000.0
+      end
+    end
   end
 end

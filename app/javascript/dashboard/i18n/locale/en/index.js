@@ -10,7 +10,8 @@ import chatlist from './chatlist.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
 import conversation from './conversation.json';
-import csatMgmtMgmt from './csatMgmt.json';
+import csatMgmt from './csatMgmt.json';
+import emoji from './emoji.json';
 import generalSettings from './generalSettings.json';
 import helpCenter from './helpCenter.json';
 import inboxMgmt from './inboxMgmt.json';
@@ -21,6 +22,7 @@ import login from './login.json';
 import macros from './macros.json';
 import report from './report.json';
 import resetPassword from './resetPassword.json';
+import search from './search.json';
 import setNewPassword from './setNewPassword.json';
 import settings from './settings.json';
 import signup from './signup.json';
@@ -40,7 +42,8 @@ export default {
   ...contact,
   ...contactFilters,
   ...conversation,
-  ...csatMgmtMgmt,
+  ...csatMgmt,
+  ...emoji,
   ...generalSettings,
   ...helpCenter,
   ...inboxMgmt,
@@ -51,6 +54,7 @@ export default {
   ...macros,
   ...report,
   ...resetPassword,
+  ...search,
   ...setNewPassword,
   ...settings,
   ...signup,

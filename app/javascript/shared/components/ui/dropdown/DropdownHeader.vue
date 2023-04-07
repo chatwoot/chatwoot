@@ -1,6 +1,7 @@
 <template>
   <li class="dropdown-menu--header" :tabindex="null" :aria-disabled="true">
     <span class="title">{{ title }}</span>
+    <slot />
   </li>
 </template>
 <script>
@@ -16,6 +17,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-menu--header {
+  display: inline-flex;
   list-style: none;
 
   .title {

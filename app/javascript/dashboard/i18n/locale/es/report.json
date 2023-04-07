@@ -426,6 +426,12 @@
       "UNATTENDED": "Desatendido",
       "UNASSIGNED": "Sin asignar"
     },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Tráfico de Conversación",
+      "NO_CONVERSATIONS": "No hay conversaciones",
+      "CONVERSATION": "%{count} conversación",
+      "CONVERSATIONS": "%{count} conversaciones"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversaciones por agentes",
       "LOADING_MESSAGE": "Cargando métricas del agente...",
@@ -443,5 +449,14 @@
       "BUSY": "Ocupado",
       "OFFLINE": "Fuera de línea"
     }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Domingo",
+    "MONDAY": "Lunes",
+    "TUESDAY": "Martes",
+    "WEDNESDAY": "Miércoles",
+    "THURSDAY": "Jueves",
+    "FRIDAY": "Viernes",
+    "SATURDAY": "Sábado"
   }
 }

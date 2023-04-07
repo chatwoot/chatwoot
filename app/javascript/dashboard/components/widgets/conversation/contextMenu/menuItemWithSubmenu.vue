@@ -43,12 +43,8 @@ export default {
     align-items: center;
 
     .menu-label {
-      margin: 0;
+      margin: 0 var(--space-small);
       font-size: var(--font-size-mini);
-    }
-
-    .menu-icon {
-      margin-right: var(--space-small);
     }
   }
 
@@ -71,6 +67,7 @@ export default {
 
   &:hover {
     background-color: var(--w-75);
+
     .submenu {
       display: block;
     }
@@ -87,7 +84,7 @@ export default {
   }
 
   &.disabled {
-    opacity: 50%;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }

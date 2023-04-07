@@ -2,7 +2,7 @@
   <div class="image message-text__wrap">
     <img :src="url" @click="onClick" @error="onImgError()" />
     <woot-modal :full-width="true" :show.sync="show" :on-close="onClose">
-      <img :src="url" class="modal-image" />
+      <img :src="url" class="modal-image skip-context-menu" />
     </woot-modal>
   </div>
 </template>

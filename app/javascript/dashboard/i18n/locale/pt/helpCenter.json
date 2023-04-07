@@ -7,18 +7,18 @@
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "DRAFT": "Rascunho",
+        "ARCHIVED": "Arquivado"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
+        "ALL_ARTICLES": "Todos os Artigos",
+        "MINE": "Meus Artigos",
         "DRAFT": "Draft Articles",
         "ARCHIVED": "Archived Articles"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
+      "ALL_ARTICLES": "Todos os Artigos",
       "PUBLISH_BUTTON": "Publish",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Preview",
@@ -27,6 +27,17 @@
       "CLOSE_SIDEBAR": "Close sidebar",
       "SAVING": "Saving...",
       "SAVED": "Saved"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Upload de imagem",
+        "UPLOADING": "A carregar...",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
@@ -65,7 +76,7 @@
     },
     "PORTAL": {
       "HEADER": "Portals",
-      "DEFAULT": "Default",
+      "DEFAULT": "Padrão",
       "NEW_BUTTON": "New Portal",
       "ACTIVE_BADGE": "ativa",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
@@ -109,7 +120,7 @@
               "CATEGORIES": "No. of categories",
               "SWAP": "Swap",
               "DELETE": "excluir",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Padrão"
             }
           }
         },
@@ -152,7 +163,7 @@
               "EDIT": "Edit category",
               "DELETE": "Delete category"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Nenhuma categoria encontrada"
           }
         },
         "EDIT_BASIC_INFO": {
@@ -217,14 +228,14 @@
         "DOMAIN": {
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
-          "ERROR": "Custom Domain is required"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Home Page Link",
           "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page.",
-          "ERROR": "Home Page Link is required"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Portal theme color",

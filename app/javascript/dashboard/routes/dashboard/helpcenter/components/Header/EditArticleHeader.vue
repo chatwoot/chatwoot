@@ -6,6 +6,7 @@
         variant="clear"
         size="small"
         color-scheme="primary"
+        class="back-button"
         @click="onClickGoBack"
       >
         {{ backButtonLabel }}
@@ -42,7 +43,7 @@
         v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
         icon="pane-open"
-        class-names="article--buttons"
+        class-names="article--buttons sidebar-button"
         variant="hollow"
         size="small"
         color-scheme="secondary"
@@ -107,12 +108,17 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
 import wootConstants from 'dashboard/constants.js';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
 export default {
   mixins: [alertMixin, clickaway],
   props: {
+    isSidebarOpen: {
+      type: Boolean,
+      default: true,
+    },
     backButtonLabel: {
       type: String,
       default: '',
@@ -136,10 +142,9 @@ export default {
   },
   data() {
     return {
-      isSidebarOpen: false,
       showActionsDropdown: false,
       alertMessage: '',
-      ARTICLE_STATUS_TYPES: ARTICLE_STATUS_TYPES,
+      ARTICLE_STATUS_TYPES,
     };
   },
   computed: {
@@ -183,6 +188,11 @@ export default {
         });
         this.statusUpdateSuccessMessage(status);
         this.closeActionsDropdown();
+        if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
+          this.$track(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'header' });
+        } else if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+          this.$track(PORTALS_EVENTS.PUBLISH_ARTICLE);
+        }
       } catch (error) {
         this.alertMessage =
           error?.message || this.statusUpdateErrorMessage(status);
@@ -205,11 +215,9 @@ export default {
       }
     },
     openSidebar() {
-      this.isSidebarOpen = true;
       this.$emit('open');
     },
     closeSidebar() {
-      this.isSidebarOpen = false;
       this.$emit('close');
     },
     openActionsDropdown() {

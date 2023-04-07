@@ -46,7 +46,7 @@ class AccountUser < ApplicationRecord
   end
 
   def remove_user_from_account
-    ::Agents::DestroyService.new(account: account, user: user).perform
+    ::Agents::DestroyJob.perform_later(account, user)
   end
 
   private

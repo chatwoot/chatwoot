@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_17_201914) do
+ActiveRecord::Schema.define(version: 2023_04_04_030719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -49,7 +50,6 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.integer "locale", default: 0
     t.string "domain", limit: 100
     t.string "support_email", limit: 100
-    t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.bigint "associated_article_id"
     t.jsonb "meta", default: {}
     t.string "slug", null: false
+    t.integer "position"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
@@ -150,6 +151,28 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.string "extension"
     t.index ["account_id"], name: "index_attachments_on_account_id"
     t.index ["message_id"], name: "index_attachments_on_message_id"
+  end
+
+  create_table "audits", force: :cascade do |t|
+    t.bigint "auditable_id"
+    t.string "auditable_type"
+    t.bigint "associated_id"
+    t.string "associated_type"
+    t.bigint "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.jsonb "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "automation_rules", force: :cascade do |t|
@@ -252,6 +275,8 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.string "smtp_authentication", default: "login"
     t.string "smtp_openssl_verify_mode", default: "none"
     t.boolean "smtp_enable_ssl_tls", default: false
+    t.jsonb "provider_config", default: {}
+    t.string "provider"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -383,7 +408,20 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
+    t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
+  end
+
+  create_table "conversation_participants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_conversation_participants_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
+    t.index ["user_id", "conversation_id"], name: "index_conversation_participants_on_user_id_and_conversation_id", unique: true
+    t.index ["user_id"], name: "index_conversation_participants_on_user_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -399,7 +437,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -409,6 +447,8 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.datetime "assignee_last_seen_at"
     t.datetime "first_reply_created_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
+    t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
+    t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
@@ -535,7 +575,9 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
     t.jsonb "auto_assignment_config", default: {}
+    t.boolean "lock_to_single_conversation", default: false, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
+    t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
   end
 
   create_table "installation_configs", force: :cascade do |t|
@@ -577,14 +619,12 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.bigint "account_id", null: false
     t.string "name", null: false
     t.integer "visibility", default: 0
-    t.bigint "created_by_id", null: false
-    t.bigint "updated_by_id", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
     t.jsonb "actions", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_macros_on_account_id"
-    t.index ["created_by_id"], name: "index_macros_on_created_by_id"
-    t.index ["updated_by_id"], name: "index_macros_on_updated_by_id"
   end
 
   create_table "mentions", force: :cascade do |t|
@@ -618,7 +658,9 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.jsonb "external_source_ids", default: {}
     t.jsonb "additional_attributes", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
+    t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
@@ -777,6 +819,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
   create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "taggings_count", default: 0
+    t.index "lower((name)::text) gin_trgm_ops", name: "tags_name_trgm_idx", using: :gin
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
@@ -850,7 +893,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "webhook_type", default: 0
-    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "message_created", "message_updated", "webwidget_triggered"]
+    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

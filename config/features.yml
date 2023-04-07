@@ -18,7 +18,7 @@
 - name: agent_bots
   enabled: false
 - name: macros
-  enabled: false
+  enabled: true
 - name: agent_management
   enabled: true
 - name: team_management
@@ -37,3 +37,19 @@
   enabled: true
 - name: voice_recorder
   enabled: true
+- name: mobile_v2
+  enabled: false
+- name: channel_website
+  enabled: true
+- name: campaigns
+  enabled: true
+- name: reports
+  enabled: true
+- name: crm
+  enabled: true
+- name: auto_resolve_conversations
+  enabled: true
+- name: custom_reply_email
+  enabled: false
+- name: custom_reply_domain
+  enabled: false

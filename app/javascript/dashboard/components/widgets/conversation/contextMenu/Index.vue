@@ -1,5 +1,11 @@
 <template>
   <div class="menu-container">
+    <menu-item
+      v-if="!hasUnreadMessages"
+      :option="unreadOption"
+      variant="icon"
+      @click="$emit('mark-as-unread')"
+    />
     <template v-for="option in statusMenuConfig">
       <menu-item
         v-if="show(option.key)"
@@ -79,6 +85,10 @@ export default {
       type: String,
       default: '',
     },
+    hasUnreadMessages: {
+      type: Boolean,
+      default: false,
+    },
     inboxId: {
       type: Number,
       default: null,
@@ -87,6 +97,10 @@ export default {
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      unreadOption: {
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_UNREAD'),
+        icon: 'mail',
+      },
       statusMenuConfig: [
         {
           key: wootConstants.STATUS_TYPE.RESOLVED,

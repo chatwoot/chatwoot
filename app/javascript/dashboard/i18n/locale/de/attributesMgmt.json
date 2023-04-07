@@ -42,8 +42,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "Konnte kein benutzerdefiniertes Attribut erstellen. Bitte versuchen Sie es später erneut"
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich hinzugefügt!",
+        "ERROR_MESSAGE": "Konnte kein benutzerdefiniertes Attribut erstellen, bitte versuchen Sie es später erneut."
       }
     },
     "DELETE": {

@@ -66,7 +66,21 @@ unless Rails.env.production?
   # sample email collect
   Seeders::MessageSeeder.create_sample_email_collect_message conversation
 
-  Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+  Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, sender: contact_inbox.contact,
+                  message_type: :incoming)
+
+  # sample location message
+  #
+  location_message = Message.new(content: 'location', account: account, inbox: inbox, sender: contact_inbox.contact, conversation: conversation,
+                                 message_type: :incoming)
+  location_message.attachments.new(
+    account_id: account.id,
+    file_type: 'location',
+    coordinates_lat: 37.7893768,
+    coordinates_long: -122.3895553,
+    fallback_title: 'Bay Bridge, San Francisco, CA, USA'
+  )
+  location_message.save!
 
   # sample card
   Seeders::MessageSeeder.create_sample_cards_message conversation

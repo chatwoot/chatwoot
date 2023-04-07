@@ -86,7 +86,8 @@ class Campaign < ApplicationRecord
   def validate_url
     return unless trigger_rules['url']
 
-    errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !url_valid?(trigger_rules['url'])
+    use_http_protocol = trigger_rules['url'].starts_with?('http://') || trigger_rules['url'].starts_with?('https://')
+    errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !use_http_protocol
   end
 
   def prevent_completed_campaign_from_update

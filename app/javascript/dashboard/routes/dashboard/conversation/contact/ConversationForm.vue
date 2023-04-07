@@ -66,7 +66,7 @@
               @click="replaceTextWithCannedResponse"
             />
           </div>
-          <div v-if="isAnEmailInbox || isAnWebWidgetInbox">
+          <div v-if="isEmailOrWebWidgetInbox">
             <label>
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
               <reply-email-head
@@ -79,7 +79,9 @@
                   v-model="message"
                   class="message-editor"
                   :class="{ editor_warning: $v.message.$error }"
+                  :enable-variables="true"
                   :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
+                  @toggle-canned-menu="toggleCannedMenu"
                   @blur="$v.message.$touch"
                 />
                 <span v-if="$v.message.$error" class="editor-warning__message">
@@ -229,13 +231,16 @@ export default {
         this.selectedInbox.inbox.channel_type === INBOX_TYPES.WEB
       );
     },
+    isEmailOrWebWidgetInbox() {
+      return this.isAnEmailInbox || this.isAnWebWidgetInbox;
+    },
     hasWhatsappTemplates() {
       return !!this.selectedInbox.inbox?.message_templates;
     },
   },
   watch: {
     message(value) {
-      this.hasSlashCommand = value[0] === '/';
+      this.hasSlashCommand = value[0] === '/' && !this.isEmailOrWebWidgetInbox;
       const hasNextWord = value.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
@@ -255,16 +260,17 @@ export default {
       this.$emit('success');
     },
     replaceTextWithCannedResponse(message) {
-      setTimeout(() => {
-        this.message = message;
-      }, 50);
+      this.message = message;
+    },
+    toggleCannedMenu(value) {
+      this.showCannedMenu = value;
     },
     prepareWhatsAppMessagePayload({ message: content, templateParams }) {
       const payload = {
         inboxId: this.targetInbox.inbox.id,
         sourceId: this.targetInbox.source_id,
         contactId: this.contact.id,
-        message: { content, templateParams },
+        message: { content, template_params: templateParams },
         assigneeId: this.currentUser.id,
       };
       return payload;
@@ -316,12 +322,6 @@ export default {
 
 .canned-response {
   position: relative;
-  top: var(--space-medium);
-
-  ::v-deep .mention--box {
-    border-left: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
-  }
 }
 
 .input-group-label {
@@ -333,7 +333,6 @@ export default {
   align-items: center;
   height: 3.9rem;
   background: var(--color-background-light);
-
   border: 1px solid var(--color-border);
   padding: var(--space-smaller) var(--space-small);
   border-radius: var(--border-radius-small);
@@ -341,6 +340,7 @@ export default {
   .contact-name {
     margin: 0;
     margin-left: var(--space-small);
+    margin-right: var(--space-small);
   }
 }
 
@@ -348,11 +348,15 @@ export default {
   min-height: 8rem;
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
 .row.gutter-small {
   gap: var(--space-small);
+}
+
+::v-deep .mention--box {
+  left: 0;
+  margin: auto;
+  right: 0;
+  top: unset;
+  height: fit-content;
 }
 </style>

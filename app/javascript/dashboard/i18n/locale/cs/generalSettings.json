@@ -23,7 +23,7 @@
         "ERROR": "Zadejte prosím platný název účtu"
       },
       "LANGUAGE": {
-        "LABEL": "Jazyk webu (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Název vašeho účtu",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Stiskněte Enter pro vybrání",
       "ENTER_TO_REMOVE": "Stiskněte Enter pro odebrání",
-      "SELECT_ONE": "Vyberte jeden"
+      "SELECT_ONE": "Vyberte jeden",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -81,6 +82,7 @@
       "conversation_creation": "Nová konverzace",
       "conversation_assignment": "Přiřazená konverzace",
       "assigned_conversation_new_message": "Nová zpráva",
+      "participating_conversation_new_message": "Nová zpráva",
       "conversation_mention": "Zmínka"
     }
   },
@@ -136,5 +138,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

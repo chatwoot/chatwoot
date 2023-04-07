@@ -1,4 +1,5 @@
 class Integrations::BotProcessorService
+  # TODO: In CSML processor service, the argument is agent bot, update initializers accordingly.
   pattr_initialize [:event_name!, :hook!, :event_data!]
 
   def perform
@@ -7,7 +8,7 @@ class Integrations::BotProcessorService
 
     process_content(message)
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: agent_bot).capture_exception
+    ChatwootExceptionTracker.new(e, account: (hook&.account || agent_bot&.account)).capture_exception
   end
 
   private
@@ -55,7 +56,7 @@ class Integrations::BotProcessorService
   def process_action(message, action)
     case action
     when 'handoff'
-      message.conversation.open!
+      message.conversation.bot_handoff!
     when 'resolve'
       message.conversation.resolved!
     end

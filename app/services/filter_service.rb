@@ -3,12 +3,7 @@ require 'json'
 class FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
-    date: 'date',
-    text: 'text',
-    number: 'numeric',
-    link: 'text',
-    list: 'text',
-    checkbox: 'boolean'
+    date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
 
   def initialize(params, user)
@@ -55,6 +50,14 @@ class FilterService
     when 'content'
       string_filter_values(query_hash)
     else
+      case_insensitive_values(query_hash)
+    end
+  end
+
+  def case_insensitive_values(query_hash)
+    if @custom_attribute_type.present? && query_hash['values'][0].is_a?(String)
+      string_filter_values(query_hash)
+    else
       query_hash['values']
     end
   end
@@ -91,22 +94,40 @@ class FilterService
   end
 
   def custom_attribute_query(query_hash, custom_attribute_type, current_index)
-    attribute_key = query_hash[:attribute_key]
-    query_operator = query_hash[:query_operator]
-    attribute_model = custom_attribute_type.presence || self.class::ATTRIBUTE_MODEL
+    @attribute_key = query_hash[:attribute_key]
+    @custom_attribute_type = custom_attribute_type
 
-    attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
-    filter_operator_value = filter_operation(query_hash, current_index)
-    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
+    attribute_data_type
 
     return ' ' if @custom_attribute.blank?
 
-    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
-
-    "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+    build_custom_attr_query(query_hash, current_index)
   end
 
   private
+
+  def attribute_model
+    @attribute_model = @custom_attribute_type.presence || self.class::ATTRIBUTE_MODEL
+  end
+
+  def attribute_data_type
+    attribute_type = custom_attribute(@attribute_key, @account, attribute_model).try(:attribute_display_type)
+    @attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
+  end
+
+  def build_custom_attr_query(query_hash, current_index)
+    filter_operator_value = filter_operation(query_hash, current_index)
+    query_operator = query_hash[:query_operator]
+    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
+
+    query = if attribute_data_type == 'text'
+              "  LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+            else
+              "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+            end
+
+    query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
+  end
 
   def custom_attribute(attribute_key, account, custom_attribute_type)
     current_account = account || Current.account
@@ -116,6 +137,12 @@ class FilterService
     ).find_by(attribute_key: attribute_key)
   end
 
+  def not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
+    return '' unless query_hash[:filter_operator] == 'not_equal_to'
+
+    " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL "
+  end
+
   def equals_to_filter_string(filter_operator, current_index)
     return  "IN (:value_#{current_index})" if filter_operator == 'equal_to'
 
@@ -123,7 +150,7 @@ class FilterService
   end
 
   def like_filter_string(filter_operator, current_index)
-    return "LIKE :value_#{current_index}" if filter_operator == 'contains'
+    return "LIKE :value_#{current_index}" if %w[contains starts_with].include?(filter_operator)
 
     "NOT LIKE :value_#{current_index}"
   end

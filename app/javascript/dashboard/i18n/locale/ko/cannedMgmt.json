@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "미리 준비된 답변 추가",
     "LOADING": "미리 준비된 답변 가져오기",
     "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>미리 준비된 답변</b></p><p>미리 준비된 답변은 신속하게 답변할 수 있는 템플릿입니다.</p>\n<p>미리 준비된 답변을 만들기 위해 <b>[미리 준비된 답변 추가]</b>를 클릭하면 됩니다. 편집 또는 삭제 버튼을 클릭하여 미리 준비된 답변을 편집하거나 삭제할 수 있습니다.</p><p>미리 준비된 답변은 <b>단축 코드</b>의 도움으로 사용됩니다. 에이전트는 '/'를 입력 한 다음 짧은 코드를 입력하여 채팅에서 미리 준비된 답변에 액세스 할 수 있습니다.</p>",
     "LIST": {
       "404": "이 계정에는 미리 준비된 답변이 없습니다.",
       "TITLE": "미리 준비된 답변 관리",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "미리 준비된 답변 추가",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "미리 준비된 답변은 티켓에 대한 답변을 빠르게 보내는 데 사용할 수 있는 템플릿입니다.",
       "CANCEL_BUTTON_TEXT": "취소",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "단축 코드",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "단축 코드를 입력하세요.",
           "ERROR": "단축 코드가 필요함"
         },
         "CONTENT": {

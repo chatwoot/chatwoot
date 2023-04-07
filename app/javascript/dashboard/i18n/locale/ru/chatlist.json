@@ -8,6 +8,7 @@
     },
     "TAB_HEADING": "Диалоги",
     "MENTION_HEADING": "Упоминания",
+    "UNATTENDED_HEADING": "Несвязанные",
     "SEARCH": {
       "INPUT": "Искать людей, чаты, сохраненные ответы .."
     },
@@ -19,7 +20,7 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Открыть"
+        "TEXT": "Открыт"
       },
       "resolved": {
         "TEXT": "Закрыт"
@@ -29,6 +30,9 @@
       },
       "snoozed": {
         "TEXT": "Отложено"
+      },
+      "all": {
+        "TEXT": "Все"
       }
     },
     "ATTACHMENTS": {
@@ -56,6 +60,8 @@
     "REPLY_TO_TWEET": "Ответить на этот твит",
     "LINK_TO_STORY": "Перейти к истории Instagram",
     "SENT": "Успешно отправлено",
+    "READ": "Успешно прочитано",
+    "DELIVERED": "Доставлено успешно",
     "NO_MESSAGES": "Нет сообщений",
     "NO_CONTENT": "Содержимое отсутствует",
     "HIDE_QUOTED_TEXT": "Скрыть цитируемый текст",

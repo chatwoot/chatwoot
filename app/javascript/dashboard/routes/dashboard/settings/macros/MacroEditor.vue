@@ -41,6 +41,7 @@ export default {
     ...mapGetters({
       uiFlags: 'macros/getUIFlags',
       labels: 'labels/getLabels',
+      agents: 'agents/getAgents',
       teams: 'teams/getTeams',
     }),
     macroId() {
@@ -50,6 +51,7 @@ export default {
   watch: {
     $route: {
       handler() {
+        this.fetchDropdownData();
         if (this.$route.params.macroId) {
           this.fetchMacro();
         } else {
@@ -60,11 +62,13 @@ export default {
     },
   },
   methods: {
-    fetchMacro() {
-      this.mode = 'EDIT';
+    fetchDropdownData() {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
+    },
+    fetchMacro() {
+      this.mode = 'EDIT';
       this.manifestMacro();
     },
     async manifestMacro() {
@@ -79,7 +83,7 @@ export default {
           const inputType = this.macroActionTypes.find(
             item => item.key === action.action_name
           ).inputType;
-          if (inputType === 'multi_select') {
+          if (inputType === 'multi_select' || inputType === 'search_select') {
             actionParams = [
               ...this.getDropdownValues(action.action_name, this.$store),
             ].filter(item => [...action.action_params].includes(item.id));

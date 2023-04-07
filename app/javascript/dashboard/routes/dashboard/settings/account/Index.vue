@@ -39,12 +39,12 @@
           <label v-if="featureInboundEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED') }}
           </label>
-          <label v-if="featureCustomDomainEmailEnabled">
+          <label v-if="featureCustomReplyDomainEnabled">
             {{
               $t('GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED')
             }}
           </label>
-          <label v-if="featureCustomDomainEmailEnabled">
+          <label v-if="featureCustomReplyDomainEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
             <input
               v-model="domain"
@@ -52,7 +52,7 @@
               :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
             />
           </label>
-          <label v-if="featureCustomDomainEmailEnabled">
+          <label v-if="featureCustomReplyEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
             <input
               v-model="supportEmail"
@@ -62,7 +62,10 @@
               "
             />
           </label>
-          <label :class="{ error: $v.autoResolveDuration.$error }">
+          <label
+            v-if="showAutoResolutionConfig"
+            :class="{ error: $v.autoResolveDuration.$error }"
+          >
             {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL') }}
             <input
               v-model="autoResolveDuration"
@@ -104,7 +107,7 @@
       </div>
 
       <woot-submit-button
-        class="button nice success button--fixed-right-top"
+        class="button nice success button--fixed-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
         :loading="isUpdating"
       />
@@ -120,10 +123,13 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 const semver = require('semver');
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [accountMixin, alertMixin, configMixin],
+  mixins: [accountMixin, alertMixin, configMixin, uiSettingsMixin],
   data() {
     return {
       id: '',
@@ -153,7 +159,15 @@ export default {
       globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    showAutoResolutionConfig() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
+      );
+    },
     hasAnUpdateAvailable() {
       if (!semver.valid(this.latestChatwootVersion)) {
         return false;
@@ -178,8 +192,16 @@ export default {
       return !!this.features.inbound_emails;
     },
 
-    featureCustomDomainEmailEnabled() {
-      return this.featureInboundEmailEnabled && !!this.customEmailDomainEnabled;
+    featureCustomReplyDomainEnabled() {
+      return (
+        this.featureInboundEmailEnabled && !!this.features.custom_reply_domain
+      );
+    },
+
+    featureCustomReplyEmailEnabled() {
+      return (
+        this.featureInboundEmailEnabled && !!this.features.custom_reply_email
+      );
     },
 
     getAccountId() {
@@ -201,7 +223,6 @@ export default {
           id,
           domain,
           support_email,
-          custom_email_domain_enabled,
           features,
           auto_resolve_duration,
           latest_chatwoot_version: latestChatwootVersion,
@@ -213,7 +234,6 @@ export default {
         this.id = id;
         this.domain = domain;
         this.supportEmail = support_email;
-        this.customEmailDomainEnabled = custom_email_domain_enabled;
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
         this.latestChatwootVersion = latestChatwootVersion;
@@ -237,10 +257,19 @@ export default {
           auto_resolve_duration: this.autoResolveDuration,
         });
         this.$root.$i18n.locale = this.locale;
+        this.getAccount(this.id).locale = this.locale;
+        this.updateDirectionView(this.locale);
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
+    },
+
+    updateDirectionView(locale) {
+      const isRTLSupported = getLanguageDirection(locale);
+      this.updateUISettings({
+        rtl_view: isRTLSupported,
+      });
     },
   },
 };

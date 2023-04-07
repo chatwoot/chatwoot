@@ -23,7 +23,7 @@
         "ERROR": "Vennligst oppgi et gyldig kontonavn"
       },
       "LANGUAGE": {
-        "LABEL": "Nettstedspråk (Beta)",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Ditt kontonavn",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Trykk enter for å velge",
       "ENTER_TO_REMOVE": "Trykk enter for å fjerne",
-      "SELECT_ONE": "Velg en"
+      "SELECT_ONE": "Velg en",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -81,6 +82,7 @@
       "conversation_creation": "Ny samtale",
       "conversation_assignment": "Samtale tildelt",
       "assigned_conversation_new_message": "Ny melding",
+      "participating_conversation_new_message": "Ny melding",
       "conversation_mention": "Omtale"
     }
   },
@@ -136,5 +138,8 @@
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

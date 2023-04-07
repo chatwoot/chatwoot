@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :automation_rule do
     account
+    name { 'Test Automation Rule' }
     event_name { 'conversation_status_changed' }
     conditions { [{ 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }] }
     actions do
@@ -12,7 +13,7 @@ FactoryBot.define do
         },
         { 'action_name' => 'assign_team', 'action_params' => [1] },
         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
-        { 'action_name' => 'assign_best_agent', 'action_params' => [1, 2, 3, 4] }
+        { 'action_name' => 'assign_agent', 'action_params' => [1, 2, 3, 4] }
       ]
     end
   end

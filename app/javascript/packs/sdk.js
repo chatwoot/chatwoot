@@ -18,7 +18,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   }
 
   const chatwootSettings = window.chatwootSettings || {};
-  let locale = chatwootSettings.locale || 'en';
+  let locale = chatwootSettings.locale;
+
   if (chatwootSettings.useBrowserLanguage) {
     locale = window.navigator.language.replace('-', '_');
   }
@@ -108,6 +109,26 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         throw new Error('Custom attribute is required');
       } else {
         IFrameHelper.sendMessage('delete-custom-attribute', {
+          customAttribute,
+        });
+      }
+    },
+
+    setConversationCustomAttributes(customAttributes = {}) {
+      if (!customAttributes || !Object.keys(customAttributes).length) {
+        throw new Error('Custom attributes should have atleast one key');
+      } else {
+        IFrameHelper.sendMessage('set-conversation-custom-attributes', {
+          customAttributes,
+        });
+      }
+    },
+
+    deleteConversationCustomAttribute(customAttribute = '') {
+      if (!customAttribute) {
+        throw new Error('Custom attribute is required');
+      } else {
+        IFrameHelper.sendMessage('delete-conversation-custom-attribute', {
           customAttribute,
         });
       }

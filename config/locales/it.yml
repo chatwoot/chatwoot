@@ -21,6 +21,7 @@ it:
   messages:
     reset_password_success: Woot! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
     reset_password_failure: Uh ho! Non siamo riusciti a trovare alcun utente con l'email specificata.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: non deve essere vuoto
@@ -44,6 +45,8 @@ it:
     categories:
       locale:
         unique: dovrebbe essere unico nella categoria e nel portale
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -55,6 +58,7 @@ it:
         name: non dovrebbe iniziare o terminare con i simboli, e non dovrebbe avere < > / \ @ caratteri.
   reports:
     period: Periodo di segnalazione da %{since} a %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Nome agente
       conversations_count: Numero di conversazioni
@@ -76,6 +80,9 @@ it:
       conversations_count: Numero di conversazioni
       avg_first_response_time: Tempo medio di prima risposta (minuti)
       avg_resolution_time: Tempo medio di risoluzione (minuti)
+    conversation_traffic_csv:
+      date: Date and time
+      conversations_count: Numero di conversazioni
     default_group_by: giorno
     csat:
       headers:
@@ -127,8 +134,12 @@ it:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} da %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} da %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: "%{assignee_name} da %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} da %{inbox_name} <reply+%{reply_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} da %{inbox_name}"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nuovi messaggi in questa conversazione"
       transcript_subject: "Trascrizione della conversazione"
     survey:
@@ -137,6 +148,10 @@ it:
     online:
       delete: "%{contact_name} è online, riprova più tardi"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack è uno strumento di chat che porta tutta la vostra comunicazione insieme in un unico posto. Integrando Slack, puoi ricevere una notifica di tutte le nuove conversazioni nel tuo account direttamente all'interno di Slack."
@@ -149,3 +164,25 @@ it:
     fullcontact:
       name: "Fullcontact"
       description: "L'integrazione di FullContact aiuta ad arricchire i profili dei visitatori. Identifica gli utenti non appena condividono il loro indirizzo email e offri loro un servizio clienti personalizzato. Collega FullContact al tuo account condividendo la chiave API di FullContent."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Nessun risultato trovato.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Home
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: articoli
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

@@ -1,6 +1,8 @@
 export const MESSAGE_STATUS = {
   FAILED: 'failed',
   SENT: 'sent',
+  DELIVERED: 'delivered',
+  READ: 'read',
   PROGRESS: 'progress',
 };
 
@@ -9,6 +11,13 @@ export const MESSAGE_TYPE = {
   OUTGOING: 1,
   ACTIVITY: 2,
   TEMPLATE: 3,
+};
+
+export const CONVERSATION_STATUS = {
+  OPEN: 'open',
+  RESOLVED: 'resolved',
+  PENDING: 'pending',
+  SNOOZED: 'snoozed',
 };
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
@@ -61,5 +70,57 @@ export const CSAT_RATINGS = [
     emoji: '😍',
     value: 5,
     color: '#44CE4B',
+  },
+];
+
+export const AUDIO_FORMATS = {
+  WEBM: 'audio/webm',
+  OGG: 'audio/ogg',
+};
+
+export const MESSAGE_VARIABLES = [
+  {
+    label: 'Conversation Id',
+    key: 'conversation.id',
+  },
+  {
+    label: 'Contact Id',
+    key: 'contact.id',
+  },
+  {
+    label: 'Contact name',
+    key: 'contact.name',
+  },
+  {
+    label: 'Contact first name',
+    key: 'contact.first_name',
+  },
+  {
+    label: 'Contact last name',
+    key: 'contact.last_name',
+  },
+  {
+    label: 'Contact email',
+    key: 'contact.email',
+  },
+  {
+    label: 'Contact phone',
+    key: 'contact.phone',
+  },
+  {
+    label: 'Agent name',
+    key: 'agent.name',
+  },
+  {
+    label: 'Agent first name',
+    key: 'agent.first_name',
+  },
+  {
+    label: 'Agent last name',
+    key: 'agent.last_name',
+  },
+  {
+    label: 'Agent email',
+    key: 'agent.email',
   },
 ];

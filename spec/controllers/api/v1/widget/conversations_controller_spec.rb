@@ -74,8 +74,30 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
+    it 'create a conversation with a name and without an email' do
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'alphy'
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body)
+      expect(json_response['id']).not_to be_nil
+      expect(json_response['contact']['email']).to be_nil
+      expect(json_response['contact']['name']).to eq 'alphy'
+      expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+    end
+
     it 'does not update the name if the contact already exist' do
-      existing_contact = create(:contact, account: account)
+      existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com')
 
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },
@@ -230,6 +252,61 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
             as: :json
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/widget/conversations/set_custom_attributes' do
+    let(:params) { { website_token: web_widget.website_token, custom_attributes: { 'product_name': 'Chatwoot' } } }
+
+    context 'with invalid website token' do
+      it 'returns unauthorized' do
+        post '/api/v1/widget/conversations/set_custom_attributes', params: { website_token: '' }
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'with correct website token' do
+      it 'sets the values when provided' do
+        post '/api/v1/widget/conversations/set_custom_attributes',
+             headers: { 'X-Auth-Token' => token },
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        conversation.reload
+        # conversation custom attributes should have "product_name" key with value "Chatwoot"
+        expect(conversation.custom_attributes).to include('product_name' => 'Chatwoot')
+      end
+    end
+  end
+
+  describe 'POST /api/v1/widget/conversations/destroy_custom_attributes' do
+    let(:params) { { website_token: web_widget.website_token, custom_attribute: ['product_name'] } }
+
+    context 'with invalid website token' do
+      it 'returns unauthorized' do
+        post '/api/v1/widget/conversations/destroy_custom_attributes', params: { website_token: '' }
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'with correct website token' do
+      it 'sets the values when provided' do
+        # ensure conversation has the attribute
+        conversation.custom_attributes = { 'product_name': 'Chatwoot' }
+        conversation.save!
+        expect(conversation.custom_attributes).to include('product_name' => 'Chatwoot')
+
+        post '/api/v1/widget/conversations/destroy_custom_attributes',
+             headers: { 'X-Auth-Token' => token },
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        conversation.reload
+        # conversation custom attributes should not have "product_name" key with value "Chatwoot"
+        expect(conversation.custom_attributes).not_to include('product_name' => 'Chatwoot')
       end
     end
   end

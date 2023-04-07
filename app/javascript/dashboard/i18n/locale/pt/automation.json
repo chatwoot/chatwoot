@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "É necessário ter pelo menos uma condição para salvar"
+      "DELETE_MESSAGE": "É necessário ter pelo menos uma condição para salvar",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "É necessário ter pelo menos uma ação para salvar",
@@ -109,7 +111,7 @@
       "UPLOAD_ERROR": "Não foi possível carregar anexo, por favor tente novamente",
       "LABEL_IDLE": "Carregar anexo",
       "LABEL_UPLOADING": "A carregar...",
-      "LABEL_UPLOADED": "Carregado com sucesso",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }

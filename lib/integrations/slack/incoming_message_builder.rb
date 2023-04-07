@@ -22,11 +22,21 @@ class Integrations::Slack::IncomingMessageBuilder
   private
 
   def valid_event?
-    supported_event_type? && supported_event?
+    supported_event_type? && supported_event? && should_process_event?
   end
 
   def supported_event_type?
     SUPPORTED_EVENT_TYPES.include?(params[:type])
+  end
+
+  # Discard all the subtype of a message event
+  # We are only considering the actual message sent by a Slack user
+  # Any reactions or messages sent by the bot will be ignored.
+  # https://api.slack.com/events/message#subtypes
+  def should_process_event?
+    return true if params[:type] != 'event_callback'
+
+    params[:event][:user].present? && params[:event][:subtype].blank?
   end
 
   def supported_event?

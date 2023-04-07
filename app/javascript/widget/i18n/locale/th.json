@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "โปรดระบุ"
   },
   "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Invalid field"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "ให้คะแนนการสนทนาครั้งนี้",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "ต้องการให้ส่งบทสนทนานี้ทางอีเมล์",
     "SEND_EMAIL_SUCCESS": "บันทึกการสนทนาได้ถูกส่งเเล้ว",
     "SEND_EMAIL_ERROR": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

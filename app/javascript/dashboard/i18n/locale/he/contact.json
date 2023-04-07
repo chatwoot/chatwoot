@@ -9,15 +9,16 @@
     "LOCATION": "מיקום",
     "BROWSER_LANGUAGE": "שפת דפדפן",
     "CONVERSATION_TITLE": "פרטי שיחה",
-    "VIEW_PROFILE": "צפה בפרופיל",
+    "VIEW_PROFILE": "הצג פרופיל",
     "BROWSER": "דפדפן",
     "OS": "מערכת הפעלה",
-    "INITIATED_FROM": "יזום מי",
-    "INITIATED_AT": "יזם ב",
+    "INITIATED_FROM": "נוצר מ",
+    "INITIATED_AT": "נוצר ב",
     "IP_ADDRESS": "כתובת IP",
+    "CREATED_AT_LABEL": "נוצר",
     "NEW_MESSAGE": "הודעה חדשה",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "לא היו שיחות קודמות המשויכות לאיש קשר זה.",
+      "NO_RECORDS_FOUND": "לא קיימות שיחות קודמות המשויכות לאיש קשר זה.",
       "TITLE": "שיחות קודמות"
     },
     "LABELS": {
@@ -38,13 +39,13 @@
     "MERGE_CONTACT": "מזג אנשי קשר",
     "CONTACT_ACTIONS": "פעולות אנשי קשר",
     "MUTE_CONTACT": "השתק שיחה",
-    "UNMUTE_CONTACT": "הסר השתקת שיחה",
+    "UNMUTE_CONTACT": "בטל השתקת שיחה",
     "MUTED_SUCCESS": "שיחה זו מושתקת למשך 6 שעות",
-    "UNMUTED_SUCCESS": "השיחה הזו אינה מושתקת",
+    "UNMUTED_SUCCESS": "השיחה זו אינה מושתקת",
     "SEND_TRANSCRIPT": "שלח תמלול",
     "EDIT_LABEL": "ערוך",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "תכונות מותאמות אישית",
+      "CUSTOM_ATTRIBUTES": "שדות מותאמים אישית",
       "CONTACT_LABELS": "תגיות אנשי קשר",
       "PREVIOUS_CONVERSATIONS": "שיחות קודמות"
     }
@@ -52,21 +53,21 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "ערוך איש קשר",
     "TITLE": "ערוך איש קשר",
-    "DESC": "ערוך את פרטי הקשר"
+    "DESC": "ערוך את פרטי איש הקשר"
   },
   "CREATE_CONTACT": {
     "BUTTON_LABEL": "איש קשר חדש",
     "TITLE": "צור איש קשר חדש",
-    "DESC": "הוסף פרטי מידע בסיסיים על איש הקשר."
+    "DESC": "הוסף מידע בסיסי לאיש הקשר."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "יבא",
+    "BUTTON_LABEL": "ייבוא",
     "TITLE": "ייבא אנשי קשר",
     "DESC": "ייבא אנשי קשר באמצעות קובץ CSV.",
     "DOWNLOAD_LABEL": "הורד קובץ csv לדוגמה.",
     "FORM": {
       "LABEL": "קובץ CSV",
-      "SUBMIT": "יבא",
+      "SUBMIT": "ייבוא",
       "CANCEL": "ביטול"
     },
     "SUCCESS_MESSAGE": "אנשי הקשר נשמרו בהצלחה",
@@ -75,7 +76,7 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "אשר מחיקה",
-      "MESSAGE": "אתה בטוח שתרצה למחוק את ההערה הזו?",
+      "MESSAGE": "אתה בטוח שברצונך למחוק הערה זו?",
       "YES": "כן, מחק",
       "NO": "לא, השאר"
     }
@@ -152,8 +153,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "תמונת פרופיל נמחקה",
+        "ERROR_MESSAGE": "מחיקת התמונה נכשלה. נסה שנית מאוחר יותר."
       }
     },
     "SUCCESS_MESSAGE": "איש הקשר נשמר בהצלחה",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "מספר טלפון",
         "CONVERSATIONS": "שיחות",
         "LAST_ACTIVITY": "פעילות אחרונה",
+        "CREATED_AT": "הוקם ב",
         "COUNTRY": "מדינה",
         "CITY": "עיר",
         "SOCIAL_PROFILES": "פרופילים חברתיים",

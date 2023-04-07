@@ -5,7 +5,7 @@ const testData = [
     attribute_key: 'status',
     filter_operator: 'equal_to',
     values: [
-      { id: 'PENDING', name: 'Pending' },
+      { id: 'pending', name: 'Pending' },
       { id: 'resolved', name: 'Resolved' },
     ],
     query_operator: 'and',
@@ -18,7 +18,7 @@ const testData = [
       account_id: 1,
       auto_offline: true,
       confirmed: true,
-      email: 'fayazara@gmail.com',
+      email: 'fayaz@test.com',
       available_name: 'Fayaz',
       name: 'Fayaz',
       role: 'agent',
@@ -52,7 +52,7 @@ const finalResult = {
     {
       attribute_key: 'id',
       filter_operator: 'equal_to',
-      values: ['this is a test'],
+      values: ['This is a test'],
     },
   ],
 };

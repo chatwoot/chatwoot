@@ -23,7 +23,7 @@
         "ERROR": "Пожалуйста, введите корректное имя аккаунта"
       },
       "LANGUAGE": {
-        "LABEL": "Язык сайта (Beta)",
+        "LABEL": "Язык сайта",
         "PLACEHOLDER": "Имя вашего аккаунта",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Нажмите Enter для выбора",
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
-      "SELECT_ONE": "Выберите один"
+      "SELECT_ONE": "Выберите один",
+      "SELECT": "Выбрать"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -63,7 +64,7 @@
     "DELETE_TITLE": "удалено",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Непрочитанные уведомления",
-      "ALL_NOTIFICATIONS": "Просмотр всех уведомлений",
+      "ALL_NOTIFICATIONS": "Показать все уведомления",
       "LOADING_UNREAD_MESSAGE": "Загрузка непрочитанных уведомлений...",
       "EMPTY_MESSAGE": "У вас нет непрочитанных уведомлений"
     },
@@ -81,6 +82,7 @@
       "conversation_creation": "Новая беседа",
       "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
+      "participating_conversation_new_message": "Новое сообщение",
       "conversation_mention": "Упоминание"
     }
   },
@@ -136,5 +138,8 @@
       "UNTIL_NEXT_WEEK": "До следующей недели",
       "UNTIL_TOMORROW": "До завтра"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Загрузка приложения панели управления..."
   }
 }

@@ -41,16 +41,24 @@
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "FREE"
+      "size": "basic"
     },
     "worker": {
       "quantity": 1,
-      "size": "FREE"
+      "size": "basic"
     }
   },
   "stack": "heroku-20",
   "image": "heroku/ruby",
-  "addons": [ "heroku-redis", "heroku-postgresql"],
+  "addons": [
+    {
+      "plan": "heroku-redis:mini"
+    },
+    {
+      "plan": "heroku-postgresql:mini"
+    }
+  ],
+  "stack": "heroku-20",
   "buildpacks": [
     {
       "url": "heroku/ruby"

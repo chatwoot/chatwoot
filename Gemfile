@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '3.0.4'
+ruby '3.1.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~>6.1'
+gem 'rails', '~> 6.1', '>= 6.1.7.3'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -37,6 +37,12 @@ gem 'json_schemer'
 gem 'rack-attack'
 # a utility tool for streaming, flexible and safe downloading of remote files
 gem 'down', '~> 5.0'
+# authentication type to fetch and send mail over oauth2.0
+gem 'gmail_xoauth'
+# Prevent CSV injection
+gem 'csv-safe'
+# Support message translation
+gem 'google-cloud-translate'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -56,7 +62,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker', '~> 5.x'
+gem 'webpacker', '~> 5.4', '>= 5.4.3'
 # metrics on heroku
 gem 'barnes'
 
@@ -90,22 +96,25 @@ gem 'slack-ruby-client'
 gem 'google-cloud-dialogflow'
 
 ##-- apm and error monitoring ---#
-gem 'ddtrace'
-gem 'elastic-apm'
-gem 'newrelic_rpm'
-gem 'scout_apm'
-gem 'sentry-rails', '~> 5.3'
-gem 'sentry-ruby', '~> 5.3'
-gem 'sentry-sidekiq', '~> 5.3'
+# loaded only when environment variables are set.
+# ref application.rb
+gem 'ddtrace', require: false
+gem 'elastic-apm', require: false
+gem 'newrelic_rpm', require: false
+gem 'newrelic-sidekiq-metrics', require: false
+gem 'scout_apm', require: false
+gem 'sentry-rails', require: false
+gem 'sentry-ruby', require: false
+gem 'sentry-sidekiq', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '~> 6.4.0'
+gem 'sidekiq', '~> 6.4.2'
 # We want cron jobs
-gem 'sidekiq-cron', '~> 1.3'
+gem 'sidekiq-cron', '~> 1.6', '>= 1.6.0'
 
 ##-- Push notification service --##
 gem 'fcm'
-gem 'webpush'
+gem 'web-push'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
@@ -135,7 +144,27 @@ gem 'stripe'
 ## to populate db with sample data
 gem 'faker'
 
-group :production, :staging do
+# Can remove this in rails 7
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
+
+gem 'lograge', '~> 0.12.0'
+
+# worked with microsoft refresh token
+gem 'omniauth-oauth2'
+
+gem 'audited', '~> 5.2'
+
+# need for google auth
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+
+### Gems required only in specific deployment environments ###
+##############################################################
+
+group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
 end
@@ -151,15 +180,21 @@ group :development do
 
   # When we want to squash migrations
   gem 'squasher'
+
+  # profiling
+  gem 'rack-mini-profiler', require: false
+  gem 'stackprof'
 end
 
 group :test do
   # Cypress in rails.
-  gem 'cypress-on-rails', '~> 1.0'
+  gem 'cypress-on-rails', '~> 1.13', '>= 1.13.1'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls
   gem 'webmock'
+  # test profiling
+  gem 'test-prof'
 end
 
 group :development, :test do
@@ -175,7 +210,7 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '~> 5.0.0'
+  gem 'rspec-rails', '~> 5.0.3'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -186,5 +221,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem 'lograge', '~> 0.12.0'

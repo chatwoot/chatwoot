@@ -4,9 +4,10 @@ import {
   resolveLabels,
   resolveTeamIds,
   getFileName,
+  resolveAgents,
 } from '../../routes/dashboard/settings/macros/macroHelper';
 import { MACRO_ACTION_TYPES } from '../../routes/dashboard/settings/macros/constants';
-import { teams, labels, files } from './macrosFixtures';
+import { teams, labels, files, agents } from './macrosFixtures';
 
 describe('#emptyMacro', () => {
   const defaultMacro = {
@@ -49,6 +50,13 @@ describe('#resolveLabels', () => {
   it('resolves labels names from ids and returns a joined string', () => {
     const resolvedLabels = 'sales, billing';
     expect(resolveLabels(labels, ['sales', 'billing'])).toEqual(resolvedLabels);
+  });
+});
+
+describe('#resolveAgents', () => {
+  it('resolves agents names from ids and returns a joined string', () => {
+    const resolvedAgents = 'John Doe';
+    expect(resolveAgents(agents, [1])).toEqual(resolvedAgents);
   });
 });
 

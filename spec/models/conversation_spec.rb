@@ -105,6 +105,8 @@ RSpec.describe Conversation, type: :model do
     let(:label) { create(:label, account: account) }
 
     before do
+      create(:inbox_member, user: old_assignee, inbox: conversation.inbox)
+      create(:inbox_member, user: new_assignee, inbox: conversation.inbox)
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
       Current.user = old_assignee
     end
@@ -120,7 +122,7 @@ RSpec.describe Conversation, type: :model do
           notifiable_assignee_change: false,
           changed_attributes: changed_attributes,
           performed_by: nil
-        )
+        ).exactly(2).times
     end
 
     it 'runs after_update callbacks' do
@@ -154,6 +156,22 @@ RSpec.describe Conversation, type: :model do
 
     it 'will not run conversation_updated event for non whitelisted keys' do
       conversation.update(updated_at: DateTime.now.utc)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+    end
+
+    it 'will run conversation_updated event for conversation_language in additional_attributes' do
+      conversation.additional_attributes[:conversation_language] = 'es'
+      conversation.save!
+      changed_attributes = conversation.previous_changes
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                    changed_attributes: changed_attributes, performed_by: nil)
+    end
+
+    it 'will not run conversation_updated event for bowser_language in additional_attributes' do
+      conversation.additional_attributes[:browser_language] = 'es'
+      conversation.save!
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
@@ -455,8 +473,10 @@ RSpec.describe Conversation, type: :model do
         channel: 'Channel::WebWidget',
         snoozed_until: conversation.snoozed_until,
         custom_attributes: conversation.custom_attributes,
+        first_reply_created_at: nil,
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
+        created_at: conversation.created_at.to_i,
         unread_count: 0
       }
     end

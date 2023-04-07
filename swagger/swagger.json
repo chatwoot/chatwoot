@@ -691,6 +691,38 @@
         }
       }
     },
+    "/public/api/v1/inboxes/{inbox_identifier}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Inbox API"
+        ],
+        "operationId": "get-details-of-a-inbox",
+        "summary": "Inbox details",
+        "description": "Get the details of an inbox",
+        "security": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_inbox"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given inbox does not exist"
+          }
+        }
+      }
+    },
     "/public/api/v1/inboxes/{inbox_identifier}/contacts": {
       "parameters": [
         {
@@ -4825,38 +4857,48 @@
     "contact": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string",
-          "description": "Email address of the contact"
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the contact"
-        },
-        "phone_number": {
-          "type": "string",
-          "description": "Phone number of the contact"
-        },
-        "thumbnail": {
-          "type": "string",
-          "description": "Avatar URL of the contact"
-        },
-        "additional_attributes": {
+        "payload": {
           "type": "object",
-          "description": "The object containing additional attributes related to the contact"
-        },
-        "custom_attributes": {
-          "type": "object",
-          "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
-          "example": {
-            "attribute_key": "attribute_value",
-            "signed_up_at": "dd/mm/yyyy"
-          }
-        },
-        "contact_inboxes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/contact_inboxes"
+          "properties": {
+            "contact": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "Email address of the contact"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the contact"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "description": "Phone number of the contact"
+                },
+                "thumbnail": {
+                  "type": "string",
+                  "description": "Avatar URL of the contact"
+                },
+                "additional_attributes": {
+                  "type": "object",
+                  "description": "The object containing additional attributes related to the contact"
+                },
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
+                  "example": {
+                    "attribute_key": "attribute_value",
+                    "signed_up_at": "dd/mm/yyyy"
+                  }
+                },
+                "contact_inboxes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/contact_inboxes"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -5232,6 +5274,8 @@
               "conversation_created",
               "conversation_status_changed",
               "conversation_updated",
+              "contact_created",
+              "contact_updated",
               "message_created",
               "message_updated",
               "webwidget_triggered"
@@ -5470,6 +5514,76 @@
         }
       }
     },
+    "public_inbox": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "Inbox identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the inbox"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "The timezone defined on the inbox"
+        },
+        "working_hours": {
+          "type": "array",
+          "description": "The working hours defined on the inbox",
+          "items": {
+            "type": "object",
+            "properties": {
+              "day_of_week": {
+                "type": "integer",
+                "description": "Day of the week as a number. Sunday -> 0, Saturday -> 6"
+              },
+              "open_all_day": {
+                "type": "boolean",
+                "description": "Whether or not the business is open the whole day"
+              },
+              "closed_all_day": {
+                "type": "boolean",
+                "description": "Whether or not the business is closed the whole day"
+              },
+              "open_hour": {
+                "type": "integer",
+                "description": "Opening hour. Can be null if closed all day"
+              },
+              "open_minutes": {
+                "type": "integer",
+                "description": "Opening minute. Can be null if closed all day"
+              },
+              "close_hour": {
+                "type": "integer",
+                "description": "Closing hour. Can be null if closed all day"
+              },
+              "close_minutes": {
+                "type": "integer",
+                "description": "Closing minute. Can be null if closed all day"
+              }
+            }
+          }
+        },
+        "working_hours_enabled": {
+          "type": "boolean",
+          "description": "Whether of not the working hours are enabled on the inbox"
+        },
+        "csat_survey_enabled": {
+          "type": "boolean",
+          "description": "Whether of not the Customer Satisfaction survey is enabled on the inbox"
+        },
+        "greeting_enabled": {
+          "type": "boolean",
+          "description": "Whether of not the Greeting Message is enabled on the inbox"
+        },
+        "identity_validation_enabled": {
+          "type": "boolean",
+          "description": "Whether of not the User Identity Validation is enforced on the inbox"
+        }
+      }
+    },
     "account_create_update_payload": {
       "type": "object",
       "properties": {
@@ -5584,7 +5698,8 @@
           "description": "phone number of the contact"
         },
         "avatar": {
-          "type": "string <binary>",
+          "type": "string",
+          "format": "binary",
           "description": "Send the form data with the avatar image binary or use the avatar_url"
         },
         "avatar_url": {
@@ -5617,7 +5732,8 @@
           "description": "phone number of the contact"
         },
         "avatar": {
-          "type": "string <binary>",
+          "type": "string",
+          "format": "binary",
           "description": "Send the form data with the avatar image binary or use the avatar_url"
         },
         "avatar_url": {
@@ -6054,9 +6170,6 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/generic_id"
-        },
-        {
           "$ref": "#/definitions/conversation"
         },
         {
@@ -6132,27 +6245,6 @@
           }
         }
       }
-    },
-    "extended_message": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/generic_id"
-        },
-        {
-          "$ref": "#/definitions/message"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "source_id": {
-              "type": "number"
-            },
-            "sender": {
-              "type": "object"
-            }
-          }
-        }
-      ]
     },
     "account_summary": {
       "type": "object",

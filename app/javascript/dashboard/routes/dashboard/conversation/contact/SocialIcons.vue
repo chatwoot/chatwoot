@@ -28,6 +28,7 @@ export default {
         { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
         { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
         { key: 'github', icon: 'github', link: 'https://github.com/' },
+        { key: 'instagram', icon: 'instagram', link: 'https://instagram.com/' },
       ],
     };
   },
@@ -43,6 +44,8 @@ export default {
 
 <style scoped lang="scss">
 .social--icons {
+  align-items: flex-end;
+  display: flex;
   margin: var(--space-small) 0 var(--space-smaller);
 }
 

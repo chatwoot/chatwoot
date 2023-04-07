@@ -15,6 +15,7 @@
     "INITIATED_FROM": "Başlatıldı",
     "INITIATED_AT": "Başlatıldı",
     "IP_ADDRESS": "IP Adresi",
+    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Yeni Mesaj",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
@@ -160,7 +161,7 @@
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Çatı başla",
+    "BUTTON_LABEL": "Görüşmeyi Başlatın",
     "TITLE": "Yeni görüşme",
     "DESC": "Mesaj göndererek yeni bir görüşme başlatın.",
     "NO_INBOX": "Bu kişiyle yeni bir görüşme başlatılamadı.",
@@ -206,6 +207,7 @@
         "PHONE_NUMBER": "Telefon numarası",
         "CONVERSATIONS": "Konuşmalar",
         "LAST_ACTIVITY": "Son aktivite",
+        "CREATED_AT": "Oluşturma",
         "COUNTRY": "Ülke",
         "CITY": "Şehir",
         "SOCIAL_PROFILES": "Sosyal profiller",

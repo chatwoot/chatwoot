@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Invalid field"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Anna arvio palvelusta",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Request a conversation transcript",
     "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
     "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
   }
 }

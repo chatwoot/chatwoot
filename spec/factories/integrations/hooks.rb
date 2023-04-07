@@ -11,5 +11,15 @@ FactoryBot.define do
       app_id { 'dialogflow' }
       settings { { project_id: 'test', credentials: {} } }
     end
+
+    trait :dyte do
+      app_id { 'dyte' }
+      settings { { api_key: 'api_key', organization_id: 'org_id' } }
+    end
+
+    trait :google_translate do
+      app_id { 'google_translate' }
+      settings { { project_id: 'test', credentials: {} } }
+    end
   end
 end

@@ -1,13 +1,19 @@
 <template>
-  <div class="user-thumbnail-box" :style="{ height: size, width: size }">
+  <div
+    :class="thumbnailBoxClass"
+    :style="{ height: size, width: size }"
+    :title="title"
+  >
+    <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
     <img
-      v-if="!imgError && src"
+      v-show="shouldShowImage"
       :src="src"
       :class="thumbnailClass"
+      @load="onImgLoad"
       @error="onImgError"
     />
     <Avatar
-      v-else
+      v-show="!shouldShowImage"
       :username="userNameWithoutEmoji"
       :class="thumbnailClass"
       :size="avatarSize"
@@ -70,6 +76,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    title: {
+      type: String,
+      default: '',
+    },
     variant: {
       type: String,
       default: 'circle',
@@ -77,6 +87,7 @@ export default {
   },
   data() {
     return {
+      hasImageLoaded: false,
       imgError: false,
     };
   },
@@ -120,6 +131,19 @@ export default {
         this.variant === 'circle' ? 'thumbnail-rounded' : 'thumbnail-square';
       return `user-thumbnail ${classname} ${variant}`;
     },
+    thumbnailBoxClass() {
+      const boxClass = this.variant === 'circle' ? 'is-rounded' : '';
+      return `user-thumbnail-box ${boxClass}`;
+    },
+    shouldShowImage() {
+      if (!this.src) {
+        return false;
+      }
+      if (this.hasImageLoaded) {
+        return !this.imgError;
+      }
+      return false;
+    },
   },
   watch: {
     src(value, oldValue) {
@@ -132,6 +156,9 @@ export default {
     onImgError() {
       this.imgError = true;
     },
+    onImgLoad() {
+      this.hasImageLoaded = true;
+    },
   },
 };
 </script>
@@ -142,6 +169,10 @@ export default {
   max-width: 100%;
   position: relative;
 
+  &.is-rounded {
+    border-radius: 50%;
+  }
+
   .user-thumbnail {
     border-radius: 50%;
     &.thumbnail-square {
@@ -151,6 +182,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     object-fit: cover;
+    vertical-align: initial;
 
     &.border {
       border: 1px solid white;

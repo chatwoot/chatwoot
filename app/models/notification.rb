@@ -34,13 +34,16 @@ class Notification < ApplicationRecord
     conversation_creation: 1,
     conversation_assignment: 2,
     assigned_conversation_new_message: 3,
-    conversation_mention: 4
+    conversation_mention: 4,
+    participating_conversation_new_message: 5
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
 
   after_create_commit :process_notification_delivery, :dispatch_create_event
 
+  # TODO: Get rid of default scope
+  # https://stackoverflow.com/a/1834250/939299
   default_scope { order(id: :desc) }
 
   PRIMARY_ACTORS = ['Conversation'].freeze
@@ -94,7 +97,7 @@ class Notification < ApplicationRecord
       I18n.t('notifications.notification_title.conversation_creation', display_id: primary_actor.display_id, inbox_name: primary_actor.inbox.name)
     when 'conversation_assignment'
       I18n.t('notifications.notification_title.conversation_assignment', display_id: primary_actor.display_id)
-    when 'assigned_conversation_new_message'
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message'
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
         display_id: conversation.display_id,
@@ -109,7 +112,11 @@ class Notification < ApplicationRecord
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def conversation
-    return primary_actor.conversation if %w[assigned_conversation_new_message conversation_mention].include? notification_type
+    return primary_actor.conversation if %w[
+      assigned_conversation_new_message
+      participating_conversation_new_message
+      conversation_mention
+    ].include? notification_type
 
     primary_actor
   end

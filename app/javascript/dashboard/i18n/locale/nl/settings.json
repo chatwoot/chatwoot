@@ -22,11 +22,11 @@
       "SEND_MESSAGE": {
         "TITLE": "Hotkey to send messages",
         "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "UPDATE_SUCCESS": "Uw instellingen zijn met succes bijgewerkt",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Verstuur berichten door op Enter te drukken in plaats van op de verzendknop te klikken."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ALERT_TYPE": {
+          "TITLE": "Alert events:",
+          "NONE": "Geen",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mail notificaties",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "E-mailberichten verzenden wanneer een gesprek aan mij is toegewezen",
         "CONVERSATION_CREATION": "E-mailberichten verzenden wanneer een nieuw gesprek is gemaakt",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Uw notificatie-instellingen zijn succesvol bijgewerkt",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Stuur pushberichten wanneer een nieuw gesprek is aangemaakt",
         "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Je hebt pushberichten voor deze browser ingeschakeld.",
         "REQUEST_PUSH": "Pushberichten inschakelen"
       },
@@ -103,7 +116,9 @@
           "Online",
           "Busy",
           "Offline"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Uw e-mailadres",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profiel instellingen",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Afmelden"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Downloaden",
-      "UPLOADING": "Uploaden..."
+      "UPLOADING": "Uploaden...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Dit verhaal is niet meer beschikbaar."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Bevestigen"
@@ -174,9 +194,11 @@
     "CONVERSATIONS": "Gesprekken",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Vermeldingen",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapporten",
     "SETTINGS": "Instellingen",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Contacten",
     "HOME": "Startpagina",
     "AGENTS": "Medewerkers",
     "AGENT_BOTS": "Bots",
@@ -207,7 +229,7 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Medewerkers",
     "REPORTS_LABEL": "Labelen",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Postvak In",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
@@ -219,8 +241,13 @@
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "CATEGORY": "Categorie",
+      "SETTINGS": "Instellingen",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
@@ -253,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Klant naam",
+        "LABEL": "Bedrijfsnaam",
         "PLACEHOLDER": "Wayne Ondernemingen"
       },
       "SUBMIT": "Bevestigen"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",

@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Звуковые уведомления",
         "NOTE": "Включить звуковые уведомления в панели управления для новых сообщений и разговоров.",
-        "NONE": "Ничего",
-        "ASSIGNED": "Назначенные беседы",
-        "ALL_CONVERSATIONS": "Диалоги"
+        "ALERT_TYPE": {
+          "TITLE": "Уведомлять о:",
+          "NONE": "Нет",
+          "ASSIGNED": "Назначенные беседы",
+          "ALL_CONVERSATIONS": "Диалоги"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Звук уведомления:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Условия уведомления:",
+          "CONDITION_ONE": "Отправлять звуковые оповещения только в том случае, если окно браузера не активно",
+          "CONDITION_TWO": "Отправлять уведомления каждые 30 сек., пока все назначенные диалоги не будут прочитаны"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Уведомления",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять уведомления при упоминании в разговоре",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"
       },
@@ -103,7 +116,9 @@
           "В сети",
           "Занят",
           "Оффлайн"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
+        "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова"
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
     "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
+    "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
     "LOGOUT": "Выйти"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Скачать",
-      "UPLOADING": "Загружаем..."
+      "UPLOADING": "Загружаем...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Эта история больше недоступна."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Просмотреть на карте"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Отправить"
@@ -174,12 +194,14 @@
     "CONVERSATIONS": "Диалоги",
     "ALL_CONVERSATIONS": "Диалоги",
     "MENTIONED_CONVERSATIONS": "Упоминания",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Несвязанные",
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
     "HOME": "Главная",
     "AGENTS": "Операторы",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "Боты",
     "INBOXES": "Источники",
     "NOTIFICATIONS": "Уведомления",
     "CANNED_RESPONSES": "Шаблонные ответы",
@@ -203,7 +225,7 @@
     "REPORTS_CONVERSATION": "Диалоги",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Кампании",
-    "ONGOING": "В настоящее время",
+    "ONGOING": "Активные",
     "ONE_OFF": "Один выключен",
     "REPORTS_AGENT": "Операторы",
     "REPORTS_LABEL": "Категории",
@@ -220,9 +242,14 @@
       "DRAFT": "Черновик",
       "ARCHIVED": "Архив",
       "CATEGORY": "Категория",
+      "SETTINGS": "Настройки",
       "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
     },
-    "DOCS": "Чтение документов"
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Отметить автоматически",
+      "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель."
+    },
+    "DOCS": "Открыть документацию"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Платёж",
@@ -253,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Имя аккаунта",
+        "LABEL": "Название компании",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Отправить"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Открыть беседу",
       "RESOLVE_AND_NEXT": "Решить и перейти к следующему",

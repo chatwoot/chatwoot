@@ -51,6 +51,14 @@ RSpec.describe Notification do
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} "
     end
 
+    it 'returns appropriate title suited for the notification type participating_conversation_new_message' do
+      message = create(:message, sender: create(:user), content: Faker::Lorem.paragraphs(number: 2))
+      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message)
+
+      expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} \
+#{message.content.truncate_words(10)}"
+    end
+
     it 'returns appropriate title suited for the notification type conversation_mention' do
       message = create(:message, sender: create(:user), content: 'Hey [@John](mention://user/1/john), can you check this ticket?')
       notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message, secondary_actor: message.sender)

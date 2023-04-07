@@ -172,7 +172,7 @@ EOF
 function install_dependencies() {
   apt update && apt upgrade -y
   apt install -y curl
-  curl -sL https://deb.nodesource.com/setup_12.x | bash -
+  curl -sL https://deb.nodesource.com/setup_16.x | bash -
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
   apt update
@@ -328,8 +328,8 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.0.4"
-  rvm use 3.0.4 --default
+  rvm install "ruby-3.1.3"
+  rvm use 3.1.3 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
@@ -362,7 +362,7 @@ EOF
 function run_db_migrations(){
   sudo -i -u chatwoot << EOF
   cd chatwoot
-  RAILS_ENV=production bundle exec rails db:chatwoot_prepare
+  RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare
 EOF
 }
 
@@ -574,7 +574,7 @@ The database migrations had not run as Postgres and Redis were not installed
 as part of the installation process. After modifying the environment
 variables (in the .env file) with your external database credentials, run
 the database migrations using the below command.
-'RAILS_ENV=production bundle exec rails db:chatwoot_prepare'.
+'RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare'.
 ***************************************************************************
 
 EOF
@@ -744,7 +744,7 @@ function upgrade() {
   rake assets:precompile RAILS_ENV=production
 
   # Migrate the database schema
-  RAILS_ENV=production bundle exec rake db:migrate
+  RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:migrate
 
 EOF
 

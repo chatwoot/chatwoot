@@ -14,7 +14,9 @@
             "CONVERSATION_UPDATED": "Conversación actualizada",
             "MESSAGE_CREATED": "Mensaje creado",
             "MESSAGE_UPDATED": "Mensaje actualizado",
-            "WEBWIDGET_TRIGGERED": "Widget de Live Chat abierto por el usuario"
+            "WEBWIDGET_TRIGGERED": "Widget de Live Chat abierto por el usuario",
+            "CONTACT_CREATED": "Contacto creado",
+            "CONTACT_UPDATED": "Contacto actualizado"
           }
         },
         "END_POINT": {
@@ -76,6 +78,13 @@
         "BODY": "<br/><p>Chatwoot ahora sincronizará todas las conversaciones entrantes en el canal <b><i>de conversaciones del cliente</i></b> dentro de tu lugar de trabajo slack.</p><p>Respondiendo a un tema de conversación en <b><i>conversaciones de clientes</i></b> canal de slack creará una respuesta al cliente a través de chatwoot.</p><p>Inicie las respuestas con <b><i>nota:</i></b> para crear notas privadas en lugar de respuestas.</p><p>Si el respondente de slack tiene un perfil de agente en el chatwoot bajo el mismo correo electrónico, las respuestas se asociarán en consecuencia.</p><p>Cuando el replicador no tiene un perfil de agente asociado, las respuestas se harán con el perfil del bot.</p>"
       }
     },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Haga clic aquí para unirse",
+      "LEAVE_THE_ROOM": "Abandonar la sala",
+      "START_VIDEO_CALL_HELP_TEXT": "Iniciar una nueva videollamada con el cliente",
+      "JOIN_ERROR": "Hubo un error al unirse a la llamada, por favor intente de nuevo",
+      "CREATE_ERROR": "Hubo un error al crear un enlace de reunión, por favor inténtelo de nuevo"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
       "API": {
@@ -103,32 +112,32 @@
       "FORM": {
         "TITLE_LABEL": "Nombre",
         "TITLE_PLACEHOLDER": "Ingrese un nombre para su aplicación de tablero",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_ERROR": "Se requiere un nombre para el panel de control",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Introduzca la URL del endpoint donde se aloja su aplicación",
+        "URL_ERROR": "Se requiere una URL válida"
       },
       "CREATE": {
         "HEADER": "Añadir una nueva aplicación",
         "FORM_SUBMIT": "Enviar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Panel de control configurado correctamente",
+        "API_ERROR": "No pudimos crear una aplicación. Por favor, inténtalo de nuevo más tarde"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Editar panel de aplicación",
         "FORM_SUBMIT": "Actualizar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Panel de control actualizado correctamente",
+        "API_ERROR": "No pudimos actualizar la aplicación. Por favor, inténtalo de nuevo más tarde"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Sí, eliminarlo",
+        "CONFIRM_NO": "No, mantenerlo",
         "TITLE": "Confirme eliminación",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
+        "API_SUCCESS": "Panel de control eliminado con éxito",
+        "API_ERROR": "No pudimos eliminar la aplicación. Por favor, inténtalo de nuevo más tarde"
       }
     }
   }

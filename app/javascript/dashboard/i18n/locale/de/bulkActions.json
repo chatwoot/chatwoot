@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "Zuordnen",
     "YES": "Ja",
     "ASSIGN_AGENT_TOOLTIP": "Agent zuweisen",
+    "ASSIGN_TEAM_TOOLTIP": "Team zuweisen",
     "ASSIGN_SUCCESFUL": "Konversationen erfolgreich zugewiesen",
     "ASSIGN_FAILED": "Konversationen konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut",
     "RESOLVE_SUCCESFUL": "Konversationen erfolgreich gelöst",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Ausgewählte Labels zuweisen",
       "ASSIGN_SUCCESFUL": "Labels erfolgreich zugewiesen",
       "ASSIGN_FAILED": "Label konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Team auswählen",
+      "NONE": "Keine",
+      "NO_TEAMS_AVAILABLE": "Es wurden noch keine Teams zu diesem Konto hinzugefügt.",
+      "ASSIGN_SELECTED_TEAMS": "Ausgewähltes Team zuweisen",
+      "ASSIGN_SUCCESFUL": "Teams erfolgreich zugewiesen",
+      "ASSIGN_FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut"
     }
   }
 }

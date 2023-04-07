@@ -95,17 +95,17 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "없음",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "에이전트 선택",
+        "TEAM": "팀 선택"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "에이전트를 찾을 수 없음",
-          "TEAM": "No teams found"
+          "TEAM": "팀을 찾을 수 없음"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "에이전트 찾기",
+          "TEAM": "팀 찾기"
         }
       }
     }

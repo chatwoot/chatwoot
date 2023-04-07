@@ -22,7 +22,7 @@
     "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
   },
   "START_CONVERSATION": "Розпочати розмову",
-  "END_CONVERSATION": "Закінчити спілкуванна",
+  "END_CONVERSATION": "Закінчити спілкування",
   "CONTINUE_CONVERSATION": "Продовжити спілкування",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
   "UNREAD_VIEW": {
@@ -65,13 +65,18 @@
       }
     },
     "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
-    "IS_REQUIRED": "обов'язково"
+    "IS_REQUIRED": "обов'язково",
+    "REQUIRED": "Обов'язково"
   },
   "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Невірно заповнене поле"
     }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Пошук емодзі",
+    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту"
   },
   "CSAT": {
     "TITLE": "Оцініть вашу бесіду",
@@ -82,5 +87,11 @@
     "BUTTON_TEXT": "Запит на текст розмови",
     "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
     "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
+      "LEAVE_THE_ROOM": "Залишити дзвінок"
+    }
   }
 }

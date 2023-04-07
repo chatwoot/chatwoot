@@ -1,10 +1,21 @@
 <template>
-  <li
-    v-if="hasAttachments || data.content || isEmailContentType"
-    :class="alignBubble"
-  >
+  <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
-      <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
+      <div v-if="isFailed" class="message-failed--alert">
+        <woot-button
+          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
+          size="tiny"
+          color-scheme="alert"
+          variant="clear"
+          icon="arrow-clockwise"
+          @click="retrySendMessage"
+        />
+      </div>
+      <div
+        v-tooltip.top-start="messageToolTip"
+        :class="bubbleClass"
+        @contextmenu="openContextMenu($event)"
+      >
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -15,8 +26,12 @@
           v-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
-          :readable-time="readableTime"
           :display-quoted-button="displayQuotedButton"
+        />
+        <bubble-integration
+          :message-id="data.id"
+          :content-attributes="contentAttributes"
+          :inbox-id="data.inbox_id"
         />
         <span
           v-if="isPending && hasAttachments"
@@ -29,38 +44,52 @@
             <bubble-image
               v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
-              :readable-time="readableTime"
               @error="onImageLoadError"
             />
-            <audio v-else-if="attachment.file_type === 'audio'" controls>
+            <audio
+              v-else-if="attachment.file_type === 'audio'"
+              controls
+              class="skip-context-menu"
+            >
               <source :src="attachment.data_url" />
             </audio>
             <bubble-video
               v-else-if="attachment.file_type === 'video'"
               :url="attachment.data_url"
-              :readable-time="readableTime"
             />
-            <bubble-file
-              v-else
-              :url="attachment.data_url"
-              :readable-time="readableTime"
+            <bubble-location
+              v-else-if="attachment.file_type === 'location'"
+              :latitude="attachment.coordinates_lat"
+              :longitude="attachment.coordinates_long"
+              :name="attachment.fallback_title"
             />
+            <bubble-contact
+              v-else-if="attachment.file_type === 'contact'"
+              :name="data.content"
+              :phone-number="attachment.fallback_title"
+            />
+            <instagram-image-error-placeholder
+              v-else-if="hasImageError && hasInstagramStory"
+            />
+            <bubble-file v-else :url="attachment.data_url" />
           </div>
         </div>
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
+          :external-error="externalError"
           :story-id="storyId"
           :is-a-tweet="isATweet"
+          :is-a-whatsapp-channel="isAWhatsAppChannel"
           :has-instagram-story="hasInstagramStory"
           :is-email="isEmailContentType"
           :is-private="data.private"
           :message-type="data.message_type"
-          :readable-time="readableTime"
+          :message-status="status"
           :source-id="data.source_id"
           :inbox-id="data.inbox_id"
-          :message-read="showReadTicks"
+          :created-at="createdAt"
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
@@ -84,62 +113,57 @@
           {{ sender.name }}
         </a>
       </div>
-      <div v-if="isFailed" class="message-failed--alert">
-        <woot-button
-          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
-          size="tiny"
-          color-scheme="alert"
-          variant="clear"
-          icon="arrow-clockwise"
-          @click="retrySendMessage"
-        />
-      </div>
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"
+        :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"
-        :show-copy="hasText"
-        :show-canned-response-option="isOutgoing"
-        :menu-position="contextMenuPosition"
-        :message-content="data.content"
-        @toggle="handleContextMenuClick"
-        @delete="handleDelete"
+        :enabled-options="contextMenuEnabledOptions"
+        :message="data"
+        @open="openContextMenu"
+        @close="closeContextMenu"
       />
     </div>
   </li>
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import timeMixin from '../../../mixins/time';
-
+import BubbleActions from './bubble/Actions';
+import BubbleFile from './bubble/File';
+import BubbleImage from './bubble/Image';
+import BubbleIntegration from './bubble/Integration.vue';
+import BubbleLocation from './bubble/Location';
 import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
-import BubbleImage from './bubble/Image';
-import BubbleFile from './bubble/File';
 import BubbleVideo from './bubble/Video.vue';
-import BubbleActions from './bubble/Actions';
-
+import BubbleContact from './bubble/Contact';
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
-
+import instagramImageErrorPlaceholder from './instagramImageErrorPlaceholder.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   components: {
     BubbleActions,
-    BubbleText,
-    BubbleImage,
     BubbleFile,
-    BubbleVideo,
+    BubbleImage,
+    BubbleIntegration,
+    BubbleLocation,
     BubbleMailHead,
+    BubbleText,
+    BubbleVideo,
+    BubbleContact,
     ContextMenu,
     Spinner,
+    instagramImageErrorPlaceholder,
   },
-  mixins: [alertMixin, timeMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
       type: Object,
@@ -149,11 +173,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasInstagramStory: {
+    isAWhatsAppChannel: {
       type: Boolean,
       default: false,
     },
-    hasUserReadMessage: {
+    hasInstagramStory: {
       type: Boolean,
       default: false,
     },
@@ -166,9 +190,19 @@ export default {
     return {
       showContextMenu: false,
       hasImageError: false,
+      contextMenuPosition: {},
+      showBackgroundHighlight: false,
     };
   },
   computed: {
+    shouldRenderMessage() {
+      return (
+        this.hasAttachments ||
+        this.data.content ||
+        this.isEmailContentType ||
+        this.isAnIntegrationMessage
+      );
+    },
     emailMessageContent() {
       const {
         html_content: { full: fullHTMLContent } = {},
@@ -177,21 +211,17 @@ export default {
       return fullHTMLContent || fullTextContent || '';
     },
     displayQuotedButton() {
-      if (!this.isIncoming) {
-        return false;
-      }
-
       if (this.emailMessageContent.includes('<blockquote')) {
         return true;
+      }
+
+      if (!this.isIncoming) {
+        return false;
       }
 
       return false;
     },
     message() {
-      if (this.contentType === 'input_csat') {
-        return this.$t('CONVERSATION.CSAT_REPLY_MESSAGE');
-      }
-
       // If the message is an email, emailMessageContent would be present
       // In that case, we would use letter package to render the email
       if (this.emailMessageContent && this.isIncoming) {
@@ -209,6 +239,11 @@ export default {
           },
         }
       );
+
+      if (this.contentType === 'input_csat') {
+        return this.$t('CONVERSATION.CSAT_REPLY_MESSAGE') + botMessageContent;
+      }
+
       return (
         this.formatMessage(
           this.data.content,
@@ -217,11 +252,24 @@ export default {
         ) + botMessageContent
       );
     },
+    contextMenuEnabledOptions() {
+      return {
+        copy: this.hasText,
+        delete: this.hasText || this.hasAttachments,
+        cannedResponse: this.isOutgoing && this.hasText,
+      };
+    },
     contentAttributes() {
       return this.data.content_attributes || {};
     },
+    externalError() {
+      return this.contentAttributes.external_error || null;
+    },
     sender() {
       return this.data.sender || {};
+    },
+    status() {
+      return this.data.status;
     },
     storySender() {
       return this.contentAttributes.story_sender || null;
@@ -247,20 +295,17 @@ export default {
       const isRightAligned =
         messageType === MESSAGE_TYPE.OUTGOING ||
         messageType === MESSAGE_TYPE.TEMPLATE;
-
       return {
         center: isCentered,
         left: isLeftAligned,
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
         'has-tweet-menu': this.isATweet,
+        'has-bg': this.showBackgroundHighlight,
       };
     },
-    readableTime() {
-      return this.messageStamp(
-        this.contentAttributes.external_created_at || this.data.created_at,
-        'LLL d, h:mm a'
-      );
+    createdAt() {
+      return this.contentAttributes.external_created_at || this.data.created_at;
     },
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
@@ -271,16 +316,11 @@ export default {
     isOutgoing() {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
     },
-    showReadTicks() {
-      return (
-        (this.isOutgoing || this.isTemplate) &&
-        this.hasUserReadMessage &&
-        this.isWebWidgetInbox &&
-        !this.data.private
-      );
-    },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;
+    },
+    isAnIntegrationMessage() {
+      return this.contentType === 'integrations';
     },
     emailHeadAttributes() {
       return {
@@ -315,7 +355,7 @@ export default {
         return false;
       }
       if (this.isFailed) {
-        return this.$t(`CONVERSATION.SEND_FAILED`);
+        return this.externalError ? '' : this.$t(`CONVERSATION.SEND_FAILED`);
       }
       return false;
     },
@@ -350,10 +390,6 @@ export default {
       if (this.isPending || this.isFailed) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
-    contextMenuPosition() {
-      const { message_type: messageType } = this.data;
-      return messageType ? 'right' : 'left';
-    },
     shouldShowContextMenu() {
       return !(this.isFailed || this.isPending);
     },
@@ -382,6 +418,12 @@ export default {
   },
   mounted() {
     this.hasImageError = false;
+    bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    this.setupHighlightTimer();
+  },
+  beforeDestroy() {
+    bus.$off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    clearTimeout(this.higlightTimeout);
   },
   methods: {
     hasMediaAttachment(type) {
@@ -395,24 +437,44 @@ export default {
     handleContextMenuClick() {
       this.showContextMenu = !this.showContextMenu;
     },
-    async handleDelete() {
-      const { conversation_id: conversationId, id: messageId } = this.data;
-      try {
-        await this.$store.dispatch('deleteMessage', {
-          conversationId,
-          messageId,
-        });
-        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
-        this.showContextMenu = false;
-      } catch (error) {
-        this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
-      }
-    },
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
     },
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    openContextMenu(e) {
+      const shouldSkipContextMenu = e.target?.classList.contains(
+        'skip-context-menu'
+      );
+      if (shouldSkipContextMenu || getSelection().toString()) {
+        return;
+      }
+
+      e.preventDefault();
+      if (e.type === 'contextmenu') {
+        this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+      }
+      this.contextMenuPosition = {
+        x: e.pageX || e.clientX,
+        y: e.pageY || e.clientY,
+      };
+      this.showContextMenu = true;
+    },
+    closeContextMenu() {
+      this.showContextMenu = false;
+      this.contextMenuPosition = { x: null, y: null };
+    },
+    setupHighlightTimer() {
+      if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
+        return;
+      }
+
+      this.showBackgroundHighlight = true;
+      const HIGHLIGHT_TIMER = 1000;
+      this.higlightTimeout = setTimeout(() => {
+        this.showBackgroundHighlight = false;
+      }, HIGHLIGHT_TIMER);
     },
   },
 };
@@ -447,7 +509,8 @@ export default {
       }
     }
 
-    &.is-image.is-text > .message-text__wrap {
+    &.is-image.is-text > .message-text__wrap,
+    &.is-video.is-text > .message-text__wrap {
       max-width: 32rem;
       padding: var(--space-small) var(--space-normal);
     }
@@ -534,22 +597,18 @@ export default {
   margin-top: var(--space-smaller) var(--space-smaller) 0 0;
 }
 
-.button--delete-message {
-  visibility: hidden;
-}
-
 li.left,
 li.right {
   display: flex;
   align-items: flex-end;
-
-  &:hover .button--delete-message {
-    visibility: visible;
-  }
 }
 
 li.left.has-tweet-menu .context-menu {
   margin-bottom: var(--space-medium);
+}
+
+li.has-bg {
+  background: var(--w-75);
 }
 
 li.right .context-menu-wrap {
@@ -566,7 +625,6 @@ li.right {
 
   .wrap.is-failed {
     display: flex;
-    flex-direction: row-reverse;
     align-items: flex-end;
     margin-left: auto;
   }
@@ -574,12 +632,76 @@ li.right {
 
 .has-context-menu {
   background: var(--color-background);
-  .button--delete-message {
-    visibility: visible;
-  }
 }
 
 .context-menu {
   position: relative;
+}
+
+/* Markdown styling */
+
+.bubble .text-content {
+  p code {
+    background-color: var(--s-75);
+    display: inline-block;
+    line-height: 1;
+
+    border-radius: var(--border-radius-small);
+    padding: var(--space-smaller);
+  }
+
+  pre {
+    background-color: var(--s-75);
+    border-color: var(--s-75);
+    color: var(--s-800);
+    border-radius: var(--border-radius-normal);
+    padding: var(--space-small);
+    margin-top: var(--space-smaller);
+    margin-bottom: var(--space-small);
+    display: block;
+    line-height: 1.7;
+    white-space: pre-wrap;
+
+    code {
+      background-color: transparent;
+      color: var(--s-800);
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: var(--space-micro) solid var(--s-75);
+    color: var(--s-800);
+    padding: var(--space-smaller) var(--space-small);
+    margin: var(--space-smaller) 0;
+    padding: var(--space-small) var(--space-small) 0 var(--space-normal);
+  }
+}
+
+.right .bubble .text-content {
+  p code {
+    background-color: var(--w-600);
+    color: var(--white);
+  }
+
+  pre {
+    background-color: var(--w-800);
+    border-color: var(--w-700);
+    color: var(--white);
+
+    code {
+      background-color: transparent;
+      color: var(--white);
+    }
+  }
+
+  blockquote {
+    border-left: var(--space-micro) solid var(--w-400);
+    color: var(--white);
+
+    p {
+      color: var(--w-75);
+    }
+  }
 }
 </style>

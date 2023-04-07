@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Inboxes API', type: :request do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
@@ -103,7 +105,62 @@ RSpec.describe 'Inboxes API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
+        data = JSON.parse(response.body, symbolize_names: true)
+        expect(data[:id]).to eq(inbox.id)
+        expect(data[:hmac_token]).to be_nil
+      end
+
+      it 'returns empty imap details in inbox when agent' do
+        email_channel = create(:channel_email, account: account, imap_enabled: true, imap_login: 'test@test.com')
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:inbox_member, user: agent, inbox: email_inbox)
+
+        imap_connection = double
+        allow(Mail).to receive(:connection).and_return(imap_connection)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:imap_enabled]).to be_nil
+        expect(data[:imap_login]).to be_nil
+      end
+
+      it 'returns imap details in inbox when admin' do
+        email_channel = create(:channel_email, account: account, imap_enabled: true, imap_login: 'test@test.com')
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        imap_connection = double
+        allow(Mail).to receive(:connection).and_return(imap_connection)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:imap_enabled]).to be_truthy
+        expect(data[:imap_login]).to eq('test@test.com')
+      end
+
+      it 'fetch API inbox without hmac token when agent' do
+        api_channel = create(:channel_api, account: account)
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+        create(:inbox_member, user: agent, inbox: api_inbox)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:hmac_token]).to be_nil
       end
     end
   end
@@ -195,9 +252,11 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'delete inbox avatar for administrator user' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
-               headers: admin.create_new_auth_token,
-               as: :json
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
 
         expect { inbox.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
@@ -228,12 +287,16 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes inbox' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
-               headers: admin.create_new_auth_token,
-               as: :json
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
+
+        json_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
-        expect { inbox.reload }.to raise_exception(ActiveRecord::RecordNotFound)
+        expect(json_response['message']).to eq('Your inbox deletion request will be processed in some time.')
       end
 
       it 'is unable to delete inbox of another account' do

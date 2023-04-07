@@ -28,6 +28,17 @@
       "SAVING": "Αποθηκεύεται...",
       "SAVED": "Αποθηκεύτηκε"
     },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Ανέβασμα Εικόνας",
+        "UPLOADING": "Ανέβασμα...",
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
+    },
     "ARTICLE_SETTINGS": {
       "TITLE": "Ρυθμίσεις Άρθρου",
       "FORM": {
@@ -217,14 +228,14 @@
         "DOMAIN": {
           "LABEL": "Προσαρμοσμένο Domain",
           "PLACEHOLDER": "Προσαρμοσμένος τομέας πύλης",
-          "HELP_TEXT": "Προσθήκη μόνο Αν θέλετε να χρησιμοποιήσετε ένα προσαρμοσμένο τομέα για τις πύλες σας. (Automatic Translation).",
-          "ERROR": "Ο Προσαρμοσμένος Τομέας απαιτείται"
+          "HELP_TEXT": "Προσθήκη μόνο Αν θέλετε να χρησιμοποιήσετε ένα προσαρμοσμένο τομέα για τις πύλες σας. π.χ: https://example.com",
+          "ERROR": "Εισάγετε ένα έγκυρο URL τομέα"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Σύνδεσμος Αρχικής Σελίδας",
           "PLACEHOLDER": "Σύνδεσμος αρχικής σελίδας πύλης",
-          "HELP_TEXT": "Ο σύνδεσμος που χρησιμοποιείται για την επιστροφή από την πύλη στην αρχική σελίδα.",
-          "ERROR": "Ο σύνδεσμος αρχικής σελίδας απαιτείται"
+          "HELP_TEXT": "Ο σύνδεσμος που χρησιμοποιείται για την επιστροφή από την πύλη στην αρχική σελίδα. π.χ. https://example.com",
+          "ERROR": "Εισάγετε μια έγκυρη διεύθυνση URL της αρχικής σελίδας"
         },
         "THEME_COLOR": {
           "LABEL": "Χρώμα θέματος πύλης",

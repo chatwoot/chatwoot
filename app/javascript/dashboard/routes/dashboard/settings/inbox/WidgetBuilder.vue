@@ -1,6 +1,6 @@
 <template>
   <div class="settings--content">
-    <div class="widget-builder-conatiner">
+    <div class="widget-builder-container">
       <div class="settings-container">
         <div class="settings-content">
           <form @submit.prevent="updateWidget">
@@ -420,7 +420,7 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/woot';
 
-.widget-builder-conatiner {
+.widget-builder-container {
   display: flex;
   flex-direction: row;
   padding: var(--space-one);
@@ -445,8 +445,10 @@ export default {
     }
   }
 }
+
 .widget-container {
   width: 60%;
+
   @include breakpoint(900px down) {
     width: 100%;
   }
@@ -456,7 +458,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    min-height: 64rem;
+    min-height: 65rem;
     margin: var(--space-zero) var(--space-two) var(--space-two) var(--space-two);
     padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
     background: var(--s-50);

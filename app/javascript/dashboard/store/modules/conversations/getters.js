@@ -91,6 +91,12 @@ const getters = {
       value => value.id === Number(conversationId)
     );
   },
+  getConversationParticipants: _state => {
+    return _state.conversationParticipants;
+  },
+  getConversationLastSeen: _state => {
+    return _state.conversationLastSeen;
+  },
 };
 
 export default getters;

@@ -8,7 +8,7 @@
       <woot-input
         v-model.trim="title"
         :class="{ error: $v.title.$error }"
-        class="medium-12 columns"
+        class="medium-12 columns label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="getLabelTitleErrorMessage"
@@ -91,7 +91,7 @@ export default {
         await this.$store.dispatch('labels/create', {
           color: this.color,
           description: this.description,
-          title: this.title,
+          title: this.title.toLowerCase(),
           show_on_sidebar: this.showOnSidebar,
         });
         this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
@@ -105,3 +105,13 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+// Label API supports only lowercase letters
+.label-name--input {
+  ::v-deep {
+    input {
+      text-transform: lowercase;
+    }
+  }
+}
+</style>

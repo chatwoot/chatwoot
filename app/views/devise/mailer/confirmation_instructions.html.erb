@@ -11,9 +11,11 @@
 <p>You can confirm your account email through the link below:</p>
 <% end %>
 
-<% if @resource.confirmed? %>
+<% if @resource.unconfirmed_email.present? %>
+<p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
+<% elsif @resource.confirmed? %>
 <p><%= link_to 'Login to my account', frontend_url('auth/sign_in') %></p>
-<% elsif account_user&.inviter.present? && @resource.unconfirmed_email.blank?  %>
+<% elsif account_user&.inviter.present? %>
 <p><%= link_to 'Confirm my account', frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %></p>
 <% else %>
 <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>

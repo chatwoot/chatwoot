@@ -68,7 +68,7 @@ describe  ::Messages::Instagram::MessageBuilder do
 
       expect(contact.name).to eq('Jane Dae')
       expect(message.content).to eq('This story is no longer available.')
-      expect(message.attachments.count).to eq(1)
+      expect(message.attachments.count).to eq(0)
     end
 
     it 'does not create message for unsupported file type' do

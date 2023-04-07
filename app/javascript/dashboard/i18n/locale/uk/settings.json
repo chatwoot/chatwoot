@@ -20,17 +20,17 @@
         "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Комбінація клавіш для надсилання повідомлень",
+        "NOTE": "Ви можете обрати гарячу клавішу (Enter або Cmd/Ctrl+Enter) на основі ваших вподобань.",
+        "UPDATE_SUCCESS": "Ваші налаштування були успішно оновлені",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Надсилати повідомлення, натиснувши клавішу Enter замість кнопки надсилання."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Надсилати повідомлення, натиснувши комбінацію Cmd/Ctrl + Enter замість кнопки надсилання."
           }
         }
       },
@@ -58,9 +58,20 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Звукові сповіщення",
         "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
-        "NONE": "Нiчого",
-        "ASSIGNED": "Призначені розмови",
-        "ALL_CONVERSATIONS": "Всі розмови"
+        "ALERT_TYPE": {
+          "TITLE": "Події оповіщення:",
+          "NONE": "Нiчого",
+          "ASSIGNED": "Призначені розмови",
+          "ALL_CONVERSATIONS": "Всі розмови"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Тон сигналу:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Умови оповіщення:",
+          "CONDITION_ONE": "Надсилати аудіосповіщення тільки якщо вікно браузера не активне",
+          "CONDITION_TWO": "Надсилати сповіщення кожні 30 секунд, поки всі призначені розмови не будуть переглянуті"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",
@@ -68,7 +79,8 @@
         "CONVERSATION_ASSIGNMENT": "Надсилати сповіщення коли бесіду призначають мені",
         "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
         "CONVERSATION_MENTION": "Надсилати сповіщення електронною поштою, коли вас згадують в розмові",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати поштові листи, коли нове повідомлення створюється в призначеній розмові"
       },
       "API": {
         "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
@@ -81,6 +93,7 @@
         "CONVERSATION_CREATION": "Надсилати push-повідомлення, коли створюється нова розмова",
         "CONVERSATION_MENTION": "Надсилати push-повідомлення, коли вас згадують в розмові",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
         "HAS_ENABLED_PUSH": "Ви увімкнули push для цього браузера.",
         "REQUEST_PUSH": "Увімкнути push-сповіщення"
       },
@@ -103,7 +116,9 @@
           "Онлайн",
           "Зайнятий",
           "Не в мережі"
-        ]
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Доступу успішно встановлено",
+        "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз"
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",
@@ -134,6 +149,7 @@
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
+    "SUPER_ADMIN_CONSOLE": "Консоль адміна",
     "LOGOUT": "Вийти"
   },
   "APP_GLOBAL": {
@@ -156,7 +172,11 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
-      "UPLOADING": "Завантажується..."
+      "UPLOADING": "Завантажується...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ця історія більше не доступна."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Дивитись на карті"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Додати"
@@ -174,12 +194,14 @@
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
+    "PARTICIPATING_CONVERSATIONS": "Підключені агенти",
+    "UNATTENDED_CONVERSATIONS": "Не зв'язаний",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
     "HOME": "Головна",
     "AGENTS": "Агенти",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "Боти",
     "INBOXES": "Вхідні",
     "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
@@ -190,7 +212,7 @@
     "LABELS": "Мітки",
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Автоматизація",
-    "MACROS": "Macros",
+    "MACROS": "Макроси",
     "TEAMS": "Команди",
     "BILLING": "Біллінг",
     "CUSTOM_VIEWS_FOLDER": "Папки",
@@ -214,13 +236,18 @@
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
+      "TITLE": "Довідковий центр (Beta)",
       "ALL_ARTICLES": "Всі статті",
       "MY_ARTICLES": "Мої статті",
       "DRAFT": "Чернетка",
       "ARCHIVED": "Архівовано",
       "CATEGORY": "Категорія",
+      "SETTINGS": "Налаштування",
       "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Позначити не в мережі (auto)",
+      "INFO_TEXT": "Дозволити системі автоматично позначати як не в мережі коли ви не використовуєте програму або панель управління."
     },
     "DOCS": "Читати документи"
   },
@@ -253,13 +280,14 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Назва облікового запису",
+        "LABEL": "Назва компанії",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Додати"
     }
   },
   "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Переглянути всі шорткоди",
     "TITLE": {
       "OPEN_CONVERSATION": "Відкрити розмову",
       "RESOLVE_AND_NEXT": "Вирішити і перейти до наступного",

@@ -33,7 +33,7 @@
     </header>
     <div class="category-list">
       <category-list-item
-        :categories="categoryByLocaleCode"
+        :categories="categoriesByLocaleCode"
         @delete="deleteCategory"
         @edit="openEditCategoryModal"
       />
@@ -64,6 +64,7 @@ import portalMixin from '../../mixins/portalMixin';
 import CategoryListItem from './CategoryListItem';
 import AddCategory from './AddCategory';
 import EditCategory from './EditCategory';
+import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -91,7 +92,7 @@ export default {
     currentPortalSlug() {
       return this.$route.params.portalSlug;
     },
-    categoryByLocaleCode() {
+    categoriesByLocaleCode() {
       return this.$store.getters['categories/categoriesByLocaleCode'](
         this.currentLocaleCode
       );
@@ -131,15 +132,24 @@ export default {
     closeEditCategoryModal() {
       this.showEditCategoryModal = false;
     },
-    async deleteCategory(categoryId) {
+    async fetchCategoriesByPortalSlugAndLocale(localeCode) {
+      await this.$store.dispatch('categories/index', {
+        portalSlug: this.currentPortalSlug,
+        locale: localeCode,
+      });
+    },
+    async deleteCategory(category) {
       try {
         await this.$store.dispatch('categories/delete', {
           portalSlug: this.currentPortalSlug,
-          categoryId: categoryId,
+          categoryId: category.id,
         });
         this.alertMessage = this.$t(
           'HELP_CENTER.CATEGORY.DELETE.API.SUCCESS_MESSAGE'
         );
+        this.$track(PORTALS_EVENTS.DELETE_CATEGORY, {
+          hasArticles: category?.meta?.articles_count !== 0,
+        });
       } catch (error) {
         const errorMessage = error?.message;
         this.alertMessage =
@@ -152,6 +162,7 @@ export default {
     changeCurrentCategory(event) {
       const localeCode = event.target.value;
       this.currentLocaleCode = localeCode;
+      this.fetchCategoriesByPortalSlugAndLocale(localeCode);
     },
   },
 };

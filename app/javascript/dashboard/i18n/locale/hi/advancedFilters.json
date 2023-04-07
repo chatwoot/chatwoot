@@ -1,6 +1,6 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
+    "TITLE": "Hello how are you",
     "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
@@ -22,7 +22,8 @@
       "is_not_present": "Is not present",
       "is_greater_than": "Is greater than",
       "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "days_before": "Is x days before",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",

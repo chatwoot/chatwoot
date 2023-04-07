@@ -10,13 +10,14 @@ describe('Thumbnail.vue', () => {
       },
       data() {
         return {
+          hasImageLoaded: true,
           imgError: false,
         };
       },
     });
     expect(wrapper.find('.user-thumbnail').exists()).toBe(true);
     const avatarComponent = wrapper.findComponent(Avatar);
-    expect(avatarComponent.exists()).toBe(false);
+    expect(avatarComponent.isVisible()).toBe(false);
   });
 
   it('should render the avatar component if invalid image is passed', () => {
@@ -26,13 +27,14 @@ describe('Thumbnail.vue', () => {
       },
       data() {
         return {
+          hasImageLoaded: true,
           imgError: true,
         };
       },
     });
-    expect(wrapper.find('.avatar-container').exists()).toBe(true);
+    expect(wrapper.find('#image').exists()).toBe(false);
     const avatarComponent = wrapper.findComponent(Avatar);
-    expect(avatarComponent.exists()).toBe(true);
+    expect(avatarComponent.isVisible()).toBe(true);
   });
 
   it('should the initial of the name if no image is passed', () => {

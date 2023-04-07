@@ -87,6 +87,10 @@ import {
 } from 'dashboard/helper/inbox';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
+import {
+  isOnMentionsView,
+  isOnUnattendedView,
+} from '../../../store/modules/conversations/helpers/actionHelpers';
 
 export default {
   components: { SecondaryChildNavItem },
@@ -102,23 +106,39 @@ export default {
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      globalConfig: 'globalConfig/get',
     }),
     hasSubMenu() {
       return !!this.menuItem.children;
     },
     isMenuItemVisible() {
-      if (!this.menuItem.featureFlag) {
-        return true;
+      if (this.menuItem.globalConfigFlag) {
+        return !!this.globalConfig[this.menuItem.globalConfigFlag];
       }
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        this.menuItem.featureFlag
-      );
+      if (this.menuItem.featureFlag) {
+        return this.isFeatureEnabledonAccount(
+          this.accountId,
+          this.menuItem.featureFlag
+        );
+      }
+      return true;
     },
-    isInboxConversation() {
+    isAllConversations() {
       return (
         this.$store.state.route.name === 'inbox_conversation' &&
         this.menuItem.toStateName === 'home'
+      );
+    },
+    isMentions() {
+      return (
+        isOnMentionsView({ route: this.$route }) &&
+        this.menuItem.toStateName === 'conversation_mentions'
+      );
+    },
+    isUnattended() {
+      return (
+        isOnUnattendedView({ route: this.$route }) &&
+        this.menuItem.toStateName === 'conversation_unattended'
       );
     },
     isTeamsSettings() {
@@ -127,7 +147,7 @@ export default {
         this.menuItem.toStateName === 'settings_teams_list'
       );
     },
-    isInboxsSettings() {
+    isInboxSettings() {
       return (
         this.$store.state.route.name === 'settings_inbox_show' &&
         this.menuItem.toStateName === 'settings_inbox_list'
@@ -150,24 +170,26 @@ export default {
     },
 
     computedClass() {
-      // If active Inbox is present
-      // donot highlight conversations
+      // If active inbox is present, do not highlight conversations
       if (this.activeInbox) return ' ';
+      if (
+        this.isAllConversations ||
+        this.isMentions ||
+        this.isUnattended ||
+        this.isCurrentRoute
+      ) {
+        return 'is-active';
+      }
       if (this.hasSubMenu) {
         if (
-          this.isInboxConversation ||
           this.isTeamsSettings ||
-          this.isInboxsSettings ||
+          this.isInboxSettings ||
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
           return 'is-active';
         }
         return ' ';
-      }
-
-      if (this.isCurrentRoute) {
-        return 'is-active';
       }
 
       return '';
@@ -309,11 +331,11 @@ export default {
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-smaller) !important;
+  margin: 0 var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
-  line-height: 18px;
+  line-height: 14px;
   border: 1px solid transparent;
   border-radius: 2em;
   color: var(--g-800);
@@ -326,7 +348,7 @@ export default {
   color: var(--s-600);
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-bold);
-  margin-left: var(--space-smaller);
+  margin: 0 var(--space-smaller);
   padding: var(--space-zero) var(--space-smaller);
 }
 

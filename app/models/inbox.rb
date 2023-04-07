@@ -14,6 +14,7 @@
 #  enable_email_collect          :boolean          default(TRUE)
 #  greeting_enabled              :boolean          default(FALSE)
 #  greeting_message              :string
+#  lock_to_single_conversation   :boolean          default(FALSE), not null
 #  name                          :string           not null
 #  out_of_office_message         :string
 #  timezone                      :string           default("UTC")
@@ -25,13 +26,15 @@
 #
 # Indexes
 #
-#  index_inboxes_on_account_id  (account_id)
+#  index_inboxes_on_account_id                   (account_id)
+#  index_inboxes_on_channel_id_and_channel_type  (channel_id,channel_type)
 #
 
 class Inbox < ApplicationRecord
   include Reportable
   include Avatarable
   include OutOfOffisable
+  include AccountCacheRevalidator
 
   # Not allowing characters:
   validates :name, presence: true
@@ -77,6 +80,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::FacebookPage'
   end
 
+  def instagram?
+    facebook? && channel.instagram_id.present?
+  end
+
   def web_widget?
     channel_type == 'Channel::WebWidget'
   end
@@ -99,6 +106,10 @@ class Inbox < ApplicationRecord
 
   def whatsapp?
     channel_type == 'Channel::Whatsapp'
+  end
+
+  def assignable_agents
+    (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
 
   def active_bot?
@@ -149,3 +160,4 @@ class Inbox < ApplicationRecord
 end
 
 Inbox.prepend_mod_with('Inbox')
+Inbox.include_mod_with('Audit::Inbox')

@@ -22,6 +22,16 @@ class Macros::ExecutionService < ActionService
 
   private
 
+  def add_private_note(message)
+    return if conversation_a_tweet?
+
+    params = { content: message[0], private: true }
+
+    # Added reload here to ensure conversation us persistent with the latest updates
+    mb = Messages::MessageBuilder.new(@user, @conversation.reload, params)
+    mb.perform
+  end
+
   def send_message(message)
     return if conversation_a_tweet?
 

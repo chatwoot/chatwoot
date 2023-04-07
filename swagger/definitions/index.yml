@@ -58,6 +58,8 @@ public_conversation:
   $ref: ./resource/public/conversation.yml
 public_message:
   $ref: ./resource/public/message.yml
+public_inbox:
+  $ref: ./resource/public/inbox.yml
 
 
 ##  ---------- REQUEST------------- ##
@@ -155,13 +157,6 @@ conversation_status_toggle:
   $ref: ./resource/extension/conversation/status_toggle.yml
 conversation_labels:
   $ref: ./resource/extension/conversation/labels.yml
-
-## message
-extended_message:
-  allOf:
-    - $ref: '#/definitions/generic_id'
-    - $ref: '#/definitions/message'
-    - $ref: ./resource/extension/message/with_source_sender.yml
 
 
 ## report

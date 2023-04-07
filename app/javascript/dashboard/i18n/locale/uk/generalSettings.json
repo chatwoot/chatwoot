@@ -23,7 +23,7 @@
         "ERROR": "Будь ласка, введіть правильне ім'я облікового запису"
       },
       "LANGUAGE": {
-        "LABEL": "Мова сайту (бета)",
+        "LABEL": "Мова сайту",
         "PLACEHOLDER": "Ім'я вашого облікового запису",
         "ERROR": ""
       },
@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Натисніть Enter, щоб обрати",
       "ENTER_TO_REMOVE": "Натисніть Enter, щоб видалити",
-      "SELECT_ONE": "Виберіть"
+      "SELECT_ONE": "Виберіть",
+      "SELECT": "Обрати"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -81,6 +82,7 @@
       "conversation_creation": "Новий діалог",
       "conversation_assignment": "Діалог призначений",
       "assigned_conversation_new_message": "Нове повідомлення",
+      "participating_conversation_new_message": "Нове повідомлення",
       "conversation_mention": "Відмітка"
     }
   },
@@ -136,5 +138,8 @@
       "UNTIL_NEXT_WEEK": "До наступного тижня",
       "UNTIL_TOMORROW": "До завтра"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Завантаження дашборду..."
   }
 }

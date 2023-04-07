@@ -111,11 +111,11 @@ RSpec.describe 'Reports API', type: :request do
     context 'when an agent1 associated to conversation having first reply from agent2' do
       let(:listener) { ReportingEventListener.instance }
       let(:account) { create(:account) }
-      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:agent2) { create(:user, account: account, role: :agent) }
 
       it 'returns unattended conversation count zero for agent1' do
-        agent1 = create(:user, account: account, role: :agent)
-        agent2 = create(:user, account: account, role: :agent)
+        create(:inbox_member, user: agent, inbox: inbox)
+        create(:inbox_member, user: agent2, inbox: inbox)
         conversation = create(:conversation, account: account,
                                              inbox: inbox, assignee: agent2)
 
@@ -129,7 +129,7 @@ RSpec.describe 'Reports API', type: :request do
         event = Events::Base.new('first.reply.created', Time.zone.now, message: first_reply_message)
         listener.first_reply_created(event)
 
-        conversation.assignee_id = agent1.id
+        conversation.assignee_id = agent.id
         conversation.save!
 
         get "/api/v2/accounts/#{account.id}/reports/conversations",
@@ -140,7 +140,7 @@ RSpec.describe 'Reports API', type: :request do
             as: :json
 
         json_response = JSON.parse(response.body)
-        user_metrics = json_response.find { |item| item['name'] == agent1[:name] }
+        user_metrics = json_response.find { |item| item['name'] == agent[:name] }
         expect(user_metrics.present?).to be true
 
         expect(user_metrics['metric']['open']).to eq(1)
@@ -356,6 +356,41 @@ RSpec.describe 'Reports API', type: :request do
 
       it 'returns summary' do
         get "/api/v2/accounts/#{account.id}/reports/teams.csv",
+            params: params,
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/conversation_traffic' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/conversation_traffic.csv"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        super().merge(
+          since: 7.days.ago.to_i.to_s,
+          until: date_timestamp.to_s
+        )
+      end
+
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/conversation_traffic.csv",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns values' do
+        get "/api/v2/accounts/#{account.id}/reports/conversation_traffic.csv",
             params: params,
             headers: admin.create_new_auth_token
 
