@@ -150,7 +150,7 @@ gem 'net-pop', require: false
 gem 'net-smtp', require: false
 
 # Include logrange conditionally in intializer using env variable
-gem 'lograge', '~> 0.12.0',  require: false
+gem 'lograge', '~> 0.12.0', require: false
 
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
