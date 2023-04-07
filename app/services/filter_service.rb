@@ -150,7 +150,7 @@ class FilterService
   end
 
   def like_filter_string(filter_operator, current_index)
-    return "LIKE :value_#{current_index}" if filter_operator == 'contains'
+    return "LIKE :value_#{current_index}" if %w[contains starts_with].include?(filter_operator)
 
     "NOT LIKE :value_#{current_index}"
   end
