@@ -271,8 +271,12 @@ const actions = {
     dispatch('contacts/setContact', sender);
   },
 
-  setChatFilter({ commit }, data) {
+  setChatStatusFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
+  },
+
+  setChatSortFilter({ commit }, data) {
+    commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },
 
   updateAssignee({ commit }, data) {

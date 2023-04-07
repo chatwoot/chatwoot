@@ -46,13 +46,17 @@
         </div>
         <woot-button
           v-else
+          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="smooth"
           color-scheme="secondary"
           icon="filter"
           size="tiny"
           @click="onToggleAdvanceFiltersModal"
         />
-        <sort-by-filter @changeSortByFilter="updateSortByFilterType" />
+        <conversation-basic-filter
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          @changeFilter="onBasicFilterChange"
+        />
       </div>
     </div>
 
@@ -161,8 +165,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ChatFilter from './widgets/conversation/ChatFilter';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
+import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
@@ -171,7 +175,6 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
-import SortByFilter from './widgets/conversation/filters/SortByFilter';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
@@ -193,11 +196,10 @@ export default {
     AddCustomViews,
     ChatTypeTabs,
     ConversationCard,
-    ChatFilter,
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
-    SortByFilter,
+    ConversationBasicFilter,
   },
   mixins: [
     timeMixin,
@@ -350,6 +352,7 @@ export default {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
+        sortBy: this.activeSortBy,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId || undefined,
@@ -449,7 +452,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('setChatFilter', this.activeStatus);
+    this.$store.dispatch('setChatStatusFilter', this.activeStatus);
+    this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
 
     bus.$on('fetch_conversation_stats', () => {
@@ -581,12 +585,6 @@ export default {
         })
         .then(() => this.$emit('conversation-load'));
     },
-    updateSortByFilterType(index) {
-      if (this.activeSortBy !== index) {
-        this.activeSortBy = index;
-        this.resetAndFetchData();
-      }
-    },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
         this.resetBulkActions();
@@ -601,11 +599,13 @@ export default {
       this.selectedConversations = [];
       this.selectedInboxes = [];
     },
-    updateStatusType(index) {
-      if (this.activeStatus !== index) {
-        this.activeStatus = index;
-        this.resetAndFetchData();
+    onBasicFilterChange(value, type) {
+      if (type === 'status') {
+        this.activeStatus = value;
+      } else {
+        this.activeSortBy = value;
       }
+      this.resetAndFetchData();
     },
     openLastSavedItemInFolder() {
       const lastItemOfFolder = this.folders[this.folders.length - 1];
