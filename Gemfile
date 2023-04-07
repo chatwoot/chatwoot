@@ -149,7 +149,23 @@ gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
 
-group :production, :staging do
+# Include logrange conditionally in intializer using env variable
+gem 'lograge', '~> 0.12.0', require: false
+
+# worked with microsoft refresh token
+gem 'omniauth-oauth2'
+
+gem 'audited', '~> 5.2'
+
+# need for google auth
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+
+### Gems required only in specific deployment environments ###
+##############################################################
+
+group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
 end
@@ -206,13 +222,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-# worked with microsoft refresh token
-gem 'omniauth-oauth2'
-
-gem 'audited', '~> 5.2'
-
-# need for google auth
-gem 'omniauth'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
