@@ -11,11 +11,14 @@ class DataImportJob < ApplicationJob
     @data_import.update!(status: :processing)
     csv = CSV.parse(@data_import.import_file.download, headers: true)
     csv.each { |row| contacts << build_contact(row.to_h.with_indifferent_access, @data_import.account) }
+
     contacts.each_slice(1000) do |contact_chunks|
-      rejected_contacts << contact_chunks.reject { |contact| contact.valid? && contact.save! }
+      rejected_contacts << contact_chunks.reject do |contact|
+        contact.valid? && contact.save!
+      end
     end
+
     rejected_contacts = rejected_contacts.flatten
-    Contact.import(contacts, synchronise: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
 
     @data_import.update!(status: :completed, processed_records: (csv.length - rejected_contacts.length), total_records: csv.length)
     save_failed_records_csv(rejected_contacts)
@@ -69,21 +72,21 @@ class DataImportJob < ApplicationJob
   end
 
   def save_failed_records_csv(rejected_contacts)
-    return if rejected_contacts.blank?
-
-    csv_data = CSV.generate do |csv|
-      csv << %w[id first_name last_name email phone_number identifier gender errors]
-      rejected_contacts.each do |record|
-        csv << [
-          record['id'],
-          record.custom_attributes['first_name'],
-          record.custom_attributes['last_name'],
-          record['email'],
-          record['phone_number'],
-          record['identifier'],
-          record.custom_attributes['gender'],
-          record.errors.full_messages.join(',')
-        ]
+    if rejected_contacts.any?
+      csv_data = CSV.generate do |csv|
+        csv << %w[id first_name last_name email phone_number identifier gender errors]
+        rejected_contacts.each do |record|
+          csv << [
+            record['id'],
+            record.custom_attributes['first_name'],
+            record.custom_attributes['last_name'],
+            record['email'],
+            record['phone_number'],
+            record['identifier'],
+            record.custom_attributes['gender'],
+            record.errors.full_messages.join(',')
+          ]
+        end
       end
     end
 
@@ -91,8 +94,10 @@ class DataImportJob < ApplicationJob
   end
 
   def send_failed_records_to_admin(csv_data)
-    @data_import.failed_records.attach(io: StringIO.new(csv_data), filename: "#{Time.zone.today.strftime('%Y%m%d')}_contacts.csv",
-                                       content_type: 'text/csv')
+    if csv_data.present?
+      @data_import.failed_records.attach(io: StringIO.new(csv_data), filename: "#{Time.zone.today.strftime('%Y%m%d')}_contacts.csv",
+                                         content_type: 'text/csv')
+    end
     AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).failed_records(@data_import).deliver_later
   end
 

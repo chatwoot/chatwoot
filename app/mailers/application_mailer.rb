@@ -56,7 +56,9 @@ class ApplicationMailer < ActionMailer::Base
       global_config: GlobalConfig.get('BRAND_NAME', 'BRAND_URL'),
       action_url: @action_url
     }
-    locals.merge({ attachment_url: Rails.application.routes.url_helpers.rails_blob_url(@attachment) }) if @attachment
+
+    locals.merge({ attachment_url: @attachment_url }) if @attachment_url
+    locals.merge({ failed_contacts: @failed_contacts, imported_contacts: @imported_contacts })
     locals
   end
 
