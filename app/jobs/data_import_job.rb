@@ -15,6 +15,8 @@ class DataImportJob < ApplicationJob
       rejected_contacts << contact_chunks.reject { |contact| contact.valid? && contact.save! }
     end
     rejected_contacts = rejected_contacts.flatten
+    Contact.import(contacts, synchronise: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+
     @data_import.update!(status: :completed, processed_records: (csv.length - rejected_contacts.length), total_records: csv.length)
     save_failed_records_csv(rejected_contacts)
   end
