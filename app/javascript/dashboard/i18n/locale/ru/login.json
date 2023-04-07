@@ -15,7 +15,7 @@
       "UNAUTH": "Неверное имя пользователя / пароль. Пожалуйста, попробуйте еще раз"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
+      "GOOGLE_LOGIN": "Войти с помощью Google",
       "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
