@@ -13,6 +13,7 @@ import messageReadActions from './actions/messageReadActions';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import messageTranslateActions from './actions/messageTranslateActions';
+import { captureSentryException } from '../../../../shared/utils/exceptions';
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -21,7 +22,7 @@ const actions = {
       commit(types.UPDATE_CONVERSATION, response.data);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
-      // Ignore error
+      captureSentryException(error);
     }
   },
 
@@ -38,7 +39,7 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      // Handle error
+      captureSentryException(error);
     }
   },
 
@@ -53,7 +54,7 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
-      // Handle error
+      captureSentryException(error);
     }
   },
 
@@ -82,7 +83,7 @@ const actions = {
         commit(types.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
-      // Handle error
+      captureSentryException(error);
     }
   },
 
@@ -98,7 +99,7 @@ const actions = {
         });
         Vue.set(data, 'dataFetched', true);
       } catch (error) {
-        // Ignore error
+        captureSentryException(error);
       }
     }
   },
@@ -111,7 +112,7 @@ const actions = {
       });
       dispatch('setCurrentChatAssignee', response.data);
     } catch (error) {
-      // Handle error
+      captureSentryException(error);
     }
   },
 
@@ -127,7 +128,7 @@ const actions = {
       });
       dispatch('setCurrentChatTeam', { team: response.data, conversationId });
     } catch (error) {
-      // Handle error
+      captureSentryException(error);
     }
   },
 
@@ -158,7 +159,7 @@ const actions = {
         snoozedUntil: updatedSnoozedUntil,
       });
     } catch (error) {
-      // Handle error
+      captureSentryException(error);
     }
   },
 
@@ -295,7 +296,7 @@ const actions = {
       await ConversationApi.mute(conversationId);
       commit(types.MUTE_CONVERSATION);
     } catch (error) {
-      //
+      captureSentryException(error);
     }
   },
 
@@ -304,7 +305,7 @@ const actions = {
       await ConversationApi.unmute(conversationId);
       commit(types.UNMUTE_CONVERSATION);
     } catch (error) {
-      //
+      captureSentryException(error);
     }
   },
 
@@ -328,7 +329,7 @@ const actions = {
       const { custom_attributes } = response.data;
       commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, custom_attributes);
     } catch (error) {
-      // Handle error
+      captureSentryException(error);
     }
   },
 
