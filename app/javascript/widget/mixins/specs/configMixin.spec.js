@@ -27,10 +27,6 @@ global.chatwootWebChannel = {
   preChatFormEnabled: true,
 };
 
-global.chatwootWidgetDefaults = {
-  useInboxAvatarForBot: true,
-};
-
 describe('configMixin', () => {
   test('returns config', () => {
     const Component = {
