@@ -23,7 +23,7 @@
       "is_greater_than": "Больше чем",
       "is_less_than": "Меньше чем",
       "days_before": "x дней до",
-      "starts_with": "Starts with"
+      "starts_with": "Начинается с"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Истина",

@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Enter the company name",
         "LABEL": "Company Name"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Unesi ime zemlje",
+        "LABEL": "Ime zemlje",
+        "SELECT_PLACEHOLDER": "Odaberi",
+        "REMOVE": "Izbaci",
+        "SELECT_COUNTRY": "Odaberi zemlju"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Unesi ime grada",
+        "LABEL": "Ime grada"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Enter the Facebook username",
