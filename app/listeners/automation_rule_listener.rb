@@ -1,10 +1,10 @@
 class AutomationRuleListener < BaseListener
-  def conversation_updated(event_obj)
-    return if performed_by_automation?(event_obj)
+  def conversation_updated(event)
+    return if performed_by_automation?(event)
 
-    conversation = event_obj.data[:conversation]
+    conversation = event.data[:conversation]
     account = conversation.account
-    changed_attributes = event_obj.data[:changed_attributes]
+    changed_attributes = event.data[:changed_attributes]
 
     return unless rule_present?('conversation_updated', account)
 
@@ -16,12 +16,12 @@ class AutomationRuleListener < BaseListener
     end
   end
 
-  def conversation_created(event_obj)
-    return if performed_by_automation?(event_obj)
+  def conversation_created(event)
+    return if performed_by_automation?(event)
 
-    conversation = event_obj.data[:conversation]
+    conversation = event.data[:conversation]
     account = conversation.account
-    changed_attributes = event_obj.data[:changed_attributes]
+    changed_attributes = event.data[:changed_attributes]
 
     return unless rule_present?('conversation_created', account)
 
@@ -33,12 +33,12 @@ class AutomationRuleListener < BaseListener
     end
   end
 
-  def conversation_opened(event_obj)
-    return if performed_by_automation?(event_obj)
+  def conversation_opened(event)
+    return if performed_by_automation?(event)
 
-    conversation = event_obj.data[:conversation]
+    conversation = event.data[:conversation]
     account = conversation.account
-    changed_attributes = event_obj.data[:changed_attributes]
+    changed_attributes = event.data[:changed_attributes]
 
     return unless rule_present?('conversation_opened', account)
 
@@ -50,13 +50,13 @@ class AutomationRuleListener < BaseListener
     end
   end
 
-  def message_created(event_obj)
-    message = event_obj.data[:message]
+  def message_created(event)
+    message = event.data[:message]
 
-    return if ignore_message_created_event?(event_obj)
+    return if ignore_message_created_event?(event)
 
     account = message.try(:account)
-    changed_attributes = event_obj.data[:changed_attributes]
+    changed_attributes = event.data[:changed_attributes]
 
     return unless rule_present?('message_created', account)
 
@@ -83,12 +83,12 @@ class AutomationRuleListener < BaseListener
     )
   end
 
-  def performed_by_automation?(event_obj)
-    event_obj.data[:performed_by].present? && event_obj.data[:performed_by].instance_of?(AutomationRule)
+  def performed_by_automation?(event)
+    event.data[:performed_by].present? && event.data[:performed_by].instance_of?(AutomationRule)
   end
 
-  def ignore_message_created_event?(event_obj)
-    message = event_obj.data[:message]
-    performed_by_automation?(event_obj) || message.activity?
+  def ignore_message_created_event?(event)
+    message = event.data[:message]
+    performed_by_automation?(event) || message.activity?
   end
 end

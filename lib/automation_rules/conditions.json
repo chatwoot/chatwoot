@@ -63,6 +63,13 @@
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
       "attribute_type": "additional_attributes"
     },
+    "conversation_language": {
+      "attribute_name": "Conversation Language",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to" ],
+      "attribute_type": "additional_attributes"
+    },
     "mail_subject": {
       "attribute_name": "Email Subject",
       "input_type": "textbox",
@@ -98,6 +105,13 @@
       "input_type": "search_box with name tags/plain text",
       "data_type": "text",
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
+      "attribute_type": "standard"
+    },
+    "phone_number": {
+      "attribute_name": "Phone Number",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "starts_with" ],
       "attribute_type": "standard"
     },
     "contact_id": {
@@ -155,6 +169,13 @@
       "data_type": "text",
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
       "attribute_type": "additional_attributes"
+    },
+    "email": {
+      "attribute_name": "Email",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
     },
     "country_code": {
       "attribute_name": "Country Name",

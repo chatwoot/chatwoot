@@ -132,6 +132,17 @@
         "PLACEHOLDER": "نام شرکت را وارد کنید",
         "LABEL": "نام شرکت"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "نام کشور را وارد کنید",
+        "LABEL": "نام کشور",
+        "SELECT_PLACEHOLDER": "انتخاب کنید",
+        "REMOVE": "حذف",
+        "SELECT_COUNTRY": "کشور را انتخاب کنید"
+      },
+      "CITY": {
+        "PLACEHOLDER": "نام شهر را وارد کنید",
+        "LABEL": "نام شهر"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "نام‌کاربری فیس‌بوک را وارد کنید",

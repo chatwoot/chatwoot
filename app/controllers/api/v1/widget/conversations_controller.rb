@@ -65,6 +65,16 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     head :ok
   end
 
+  def set_custom_attributes
+    conversation.update!(custom_attributes: permitted_params[:custom_attributes])
+  end
+
+  def destroy_custom_attributes
+    conversation.custom_attributes = conversation.custom_attributes.excluding(params[:custom_attribute])
+    conversation.save!
+    render json: conversation
+  end
+
   private
 
   def trigger_typing_event(event)
