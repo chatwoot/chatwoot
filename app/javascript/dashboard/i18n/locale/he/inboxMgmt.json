@@ -439,7 +439,8 @@
       "LABEL": "מאפיינים",
       "DISPLAY_FILE_PICKER": "הצג את בוחר הקבצים בווידג'ט",
       "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט",
-      "ALLOW_END_CONVERSATION": "אפשר למשתמשים לסיים שיחות באמצעות ה- Widget"
+      "ALLOW_END_CONVERSATION": "אפשר למשתמשים לסיים שיחות באמצעות ה- Widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "סקריפט מסנג'ר",
