@@ -439,7 +439,8 @@
       "LABEL": "특징",
       "DISPLAY_FILE_PICKER": "위젯에 파일 선택기 표시",
       "DISPLAY_EMOJI_PICKER": "위젯에 이모지 선택기 표시",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "메신저 스크립트",
