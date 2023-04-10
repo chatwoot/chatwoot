@@ -10,13 +10,15 @@ class DataImportJob < ApplicationJob
     @data_import = data_import
     @data_import.update!(status: :processing)
     csv = CSV.parse(@data_import.import_file.download, headers: true)
-    csv.each { |row| contacts << build_contact(row.to_h.with_indifferent_access, @data_import.account) }
 
-    contacts.each_slice(1000) do |contact_chunks|
-      rejected_contacts << contact_chunks.reject do |contact|
-        contact.valid? && contact.save!
-      end
+    csv.each do |row|
+      current_contact = build_contact(row.to_h.with_indifferent_access, @data_import.account)
+      current_contact.valid? ? contacts << current_contact : rejected_contacts << current_contact
     end
+
+    # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
+    Contact.import(contacts, synchronise: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true,
+                             batch_size: 1000)
 
     rejected_contacts = rejected_contacts.flatten
 
@@ -40,34 +42,41 @@ class DataImportJob < ApplicationJob
     identifier_contact = account.contacts.find_by(identifier: params[:identifier]) if params[:identifier]
     email_contact = account.contacts.find_by(email: params[:email]) if params[:email]
     phone_number_contact = account.contacts.find_by(phone_number: params[:phone_number]) if params[:phone_number]
-    contact = merge_identified_contact(params, [identifier_contact, email_contact, phone_number_contact])
-    contact ||= merge_email_contact(params, [email_contact, phone_number_contact])
-    contact ||= merge_phone_number_contact(params, [email_contact, phone_number_contact])
+    contact = merged_contact_record(params, [identifier_contact, email_contact, phone_number_contact])
+
+    # On, already existing records, we merge contact but import! reject those contact so we are saving those merged contacts here
+    contact.save if contact.present? && contact.valid?
+    contact
+  end
+
+  def merged_contact_record(params, available_contacts)
+    identifier_contact, email_contact, phone_number_contact = available_contacts
+    contact = merge_identified_contact(params, [identifier_contact, email_contact])
+    contact ||= merge_email_contact(params, email_contact)
+    contact ||= merge_phone_number_contact(params, phone_number_contact)
     contact
   end
 
   # Find contact with email and update it with phone number
-  def merge_email_contact(params, available_contacts)
-    email_contact, phone_number_contact = available_contacts
+  def merge_email_contact(params, email_contact)
     contact = email_contact
-    contact&.phone_number = params[:phone_number] if params[:phone_number].present? && phone_number_contact.blank?
+    contact&.phone_number = params[:phone_number] if params[:phone_number].present?
     contact
   end
 
   # Find contact with phone_number and update it with email
-  def merge_phone_number_contact(params, available_contacts)
-    email_contact, phone_number_contact = available_contacts
+  def merge_phone_number_contact(params, phone_number_contact)
     contact = phone_number_contact
-    contact&.email = params[:email] if params[:email].present? && email_contact.blank?
+    contact&.email = params[:email] if params[:email].present?
     contact
   end
 
   # intiating the new contact / contact attributes only by ensuring the identifier, email or phone_number duplication errors won't occur
   def merge_identified_contact(params, available_contacts)
-    identifier_contact, email_contact, phone_number_contact = available_contacts
+    identifier_contact, email_contact = available_contacts
     contact = identifier_contact
     contact&.email = params[:email] if params[:email].present? && email_contact.blank?
-    contact&.phone_number = params[:phone_number] if params[:phone_number].present? && phone_number_contact.blank?
+    contact&.phone_number = params[:phone_number] if params[:phone_number].present?
     contact
   end
 

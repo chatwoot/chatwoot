@@ -24,47 +24,56 @@ RSpec.describe DataImportJob, type: :job do
   end
 
   it 'imports erroneous data into the account' do
-    notification_instance = AdministratorNotifications::ChannelNotificationsMailer.new
-    admin_mailer = double
+    csv_data = CSV.parse(invalid_data_import.import_file.download, headers: true)
+    csv_length = csv_data.length
 
-    allow(notification_instance).to receive(:mail).and_return(admin_mailer)
+    expect(csv_data[0]['email']).to eq(csv_data[2]['email'])
 
-    csv_length = CSV.parse(invalid_data_import.import_file.download, headers: true).length
     described_class.perform_now(invalid_data_import)
     expect(invalid_data_import.account.contacts.count).to eq(csv_length - 1)
     expect(invalid_data_import.reload.total_records).to eq(csv_length)
-    expect(invalid_data_import.reload.processed_records).to eq(csv_length - 1)
+    expect(invalid_data_import.reload.processed_records).to eq(csv_length)
   end
 
   it 'imports existing email records' do
-    contact = Contact.create!(email: 'cuzzell0@mozilla.org', account_id: existing_data_import.account_id)
+    csv_data = CSV.parse(existing_data_import.import_file.download, headers: true)
+
+    contact = Contact.create!(email: csv_data[0]['email'], account_id: existing_data_import.account_id)
     expect(contact.reload.phone_number).to be_nil
 
-    csv_length = CSV.parse(existing_data_import.import_file.download, headers: true).length
+    csv_length = csv_data.length
 
     described_class.perform_now(existing_data_import)
     expect(existing_data_import.account.contacts.count).to eq(csv_length)
-    expect(Contact.find_by(email: 'cuzzell0@mozilla.org').phone_number).to eq('+918080808080')
-    expect(Contact.where(email: 'cuzzell0@mozilla.org').count).to eq(1)
+    expect(Contact.find_by(email: csv_data[0]['email']).phone_number).to eq(csv_data[0]['phone_number'])
+    expect(Contact.where(email: csv_data[0]['email']).count).to eq(1)
   end
 
   it 'imports existing phone_number records' do
-    contact = Contact.create!(account_id: existing_data_import.account_id, phone_number: '+918080808081')
+    csv_data = CSV.parse(existing_data_import.import_file.download, headers: true)
+
+    contact = Contact.create!(account_id: existing_data_import.account_id, phone_number: csv_data[1]['phone_number'])
     expect(contact.reload.email).to be_nil
-    csv_length = CSV.parse(existing_data_import.import_file.download, headers: true).length
+    csv_length = csv_data.length
 
     described_class.perform_now(existing_data_import)
     expect(existing_data_import.account.contacts.count).to eq(csv_length)
-    expect(Contact.find_by(phone_number: '+918080808081').email).to eq('mcreegan1@cornell.edu')
-    expect(Contact.where(phone_number: '+918080808081').count).to eq(1)
+
+    expect(Contact.find_by(phone_number: csv_data[1]['phone_number']).email).to eq(csv_data[1]['email'])
+    expect(Contact.where(phone_number: csv_data[1]['phone_number']).count).to eq(1)
   end
 
   it 'imports existing email and phone_number records' do
-    phone_contact = Contact.create!(account_id: existing_data_import.account_id, phone_number: '+918080808081')
-    email_contact = Contact.create!(account_id: existing_data_import.account_id, email: 'mcreegan1@cornell.edu')
+    csv_data = CSV.parse(existing_data_import.import_file.download, headers: true)
+    phone_contact = Contact.create!(account_id: existing_data_import.account_id, phone_number: csv_data[1]['phone_number'])
+    email_contact = Contact.create!(account_id: existing_data_import.account_id, email: csv_data[1]['email'])
+
+    csv_length = csv_data.length
 
     described_class.perform_now(existing_data_import)
     expect(phone_contact.reload.email).to be_nil
     expect(email_contact.reload.phone_number).to be_nil
+    expect(existing_data_import.total_records).to eq(csv_length)
+    expect(existing_data_import.processed_records).to eq(csv_length - 1)
   end
 end
