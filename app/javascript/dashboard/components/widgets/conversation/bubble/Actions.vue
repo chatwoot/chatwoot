@@ -81,6 +81,19 @@
         size="16"
       />
     </a>
+    <a
+      v-if="isIncoming && linkToStory"
+      :href="linkToStory"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
+        icon="open"
+        class="action--icon cursor-pointer"
+        size="16"
+      />
+    </a>
   </div>
 </template>
 
