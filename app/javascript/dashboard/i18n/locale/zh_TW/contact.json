@@ -7,7 +7,7 @@
     "COPY_SUCCESSFUL": "成功複製到剪貼簿",
     "COMPANY": "公司",
     "LOCATION": "位置",
-    "BROWSER_LANGUAGE": "瀏覽器語言",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "對話詳細資訊",
     "VIEW_PROFILE": "查看個人檔案",
     "BROWSER": "瀏覽器",
@@ -15,7 +15,6 @@
     "INITIATED_FROM": "發起自：",
     "INITIATED_AT": "發起於",
     "IP_ADDRESS": "IP 位置",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "新訊息",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此聯絡人没有關聯到以前的對話。",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "請輸入公司名稱",
         "LABEL": "公司名稱"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "國家名稱",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "刪除",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "請輸入 Facebook 使用者名稱",
@@ -207,8 +195,8 @@
     "SEARCH_BUTTON": "搜尋",
     "SEARCH_INPUT_PLACEHOLDER": "搜尋聯絡人",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "儲存篩選條件",
-    "FILTER_CONTACTS_DELETE": "刪除篩選條件",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "聯絡人載入中...",
       "404": "找不到符合條件的聯絡人 🔍",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "聯絡人電話",
         "CONVERSATIONS": "對話",
         "LAST_ACTIVITY": "最後活動",
-        "CREATED_AT": "建立於",
         "COUNTRY": "國家",
         "CITY": "城市",
         "SOCIAL_PROFILES": "社群檔案",

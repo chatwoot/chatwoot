@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Schránky",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to ExiZap, it is called an <b>Inbox</b>. You can have unlimited inboxes in your ExiZap account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
       "404": "K tomuto účtu nejsou připojeny žádné doručené schránky."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Vybrat kanál",
         "route": "settings_inbox_new",
-        "body": "Vyberte si poskytovatele, který chcete integrovat do Chatwoot."
+        "body": "Vyberte si poskytovatele, který chcete integrovat do ExiZap."
       },
       {
         "title": "Vytvořit doručenou poštu",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Přihlášením získáme přístup pouze ke zprávám vaší stránky. Vaše soukromé zprávy nikdy nemohou být přístupné Chatwoot.",
+        "HELP": "PS: Přihlášením získáme přístup pouze ke zprávám vaší stránky. Vaše soukromé zprávy nikdy nemohou být přístupné ExiZap.",
         "CHOOSE_PAGE": "Vybrat stránku",
         "CHOOSE_PLACEHOLDER": "Vyberte stránku ze seznamu",
         "INBOX_NAME": "Název schránky",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenti",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Doručená pošta detaily",
-        "DESC": "Z rozevíracího seznamu níže vyberte Facebook stránku, kterou chcete připojit k Chatwoot. Můžete také zadat vlastní název doručené poště pro lepší identifikaci."
+        "DESC": "Z rozevíracího seznamu níže vyberte Facebook stránku, kterou chcete připojit k ExiZap. Můžete také zadat vlastní název doručené poště pro lepší identifikaci."
       },
       "FINISH": {
         "TITLE": "Nalezeno to!",
-        "DESC": "Úspěšně jste dokončili integraci vaší facebookové stránky s Chatwootem. Až příště přijde zákaznická zpráva, konverzace se automaticky objeví ve vaší schránce.<br>Poskytujeme vám také widget skript, který můžete snadno přidat na vaše webové stránky. Jakmile je toto aktivní na vašich webových stránkách, zákazníci vám mohou posílat zprávy přímo z vašich webových stránek bez pomoci externího nástroje a konverzace se objeví přímo zde, na Chatwoot.<br>Skvěle, co? No, určitě se pokusíme být :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Úspěšně jste dokončili integraci vaší facebookové stránky s ExiZapem. Až příště přijde zákaznická zpráva, konverzace se automaticky objeví ve vaší schránce.<br>Poskytujeme vám také widget skript, který můžete snadno přidat na vaše webové stránky. Jakmile je toto aktivní na vašich webových stránkách, zákazníci vám mohou posílat zprávy přímo z vašich webových stránek bez pomoci externího nástroje a konverzace se objeví přímo zde, na ExiZap.<br>Skvěle, co? No, určitě se pokusíme být :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Aktualizovat",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Heslo"
       },
       "ENABLE_SSL": "Enable SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

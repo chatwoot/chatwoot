@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sie können jetzt E-Mails in Ihrer benutzerdefinierten Domäne empfangen."
       }
     },
-    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
+    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für ExiZap ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
     "LEARN_MORE": "Mehr erfahren"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Neue Konversation",
       "conversation_assignment": "Konversation zugewiesen",
       "assigned_conversation_new_message": "Neue Nachricht",
-      "participating_conversation_new_message": "Neue Nachricht",
       "conversation_mention": "Erwähnung"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Verbindung zu Chatwoot getrennt"
+      "TEXT": "Verbindung zu ExiZap getrennt"
     },
     "BUTTON": {
       "REFRESH": "Neu laden"

@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Indbakker",
-    "SIDEBAR_TXT": "<p><b>Indbakke</b></p> <p> Når du forbinder en hjemmeside eller en facebook side til Chatwoot, det kaldes en <b>Indbakke</b>. Du kan have ubegrænset indbakker på din Chatwoot-konto. </p><p> Klik på <b>Tilføj indbakke</b> for at forbinde en hjemmeside eller en Facebook-side. </p><p> I betjeningspanelet du kan se alle samtalerne fra alle dine indbakker på et enkelt sted og svare på dem under fanen 'Samtaler'. </p><p> Du kan også se samtaler, der er specifikke for en indbakke, ved at klikke på indbakkens navn i dashboardets venstre rude. </p>",
+    "SIDEBAR_TXT": "<p><b>Indbakke</b></p> <p> Når du forbinder en hjemmeside eller en facebook side til ExiZap, det kaldes en <b>Indbakke</b>. Du kan have ubegrænset indbakker på din ExiZap-konto. </p><p> Klik på <b>Tilføj indbakke</b> for at forbinde en hjemmeside eller en Facebook-side. </p><p> I betjeningspanelet du kan se alle samtalerne fra alle dine indbakker på et enkelt sted og svare på dem under fanen 'Samtaler'. </p><p> Du kan også se samtaler, der er specifikke for en indbakke, ved at klikke på indbakkens navn i dashboardets venstre rude. </p>",
     "LIST": {
       "404": "Der er ingen indbakker tilknyttet denne konto."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Vælg Kanal",
         "route": "settings_inbox_new",
-        "body": "Vælg den udbyder, du vil integrere med Chatwoot."
+        "body": "Vælg den udbyder, du vil integrere med ExiZap."
       },
       {
         "title": "Opret Indbakke",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
       },
       "FB": {
-        "HELP": "PS: Ved at logge ind får vi kun adgang til din sides beskeder. Dine private beskeder kan aldrig tilgås af Chatwoot.",
+        "HELP": "PS: Ved at logge ind får vi kun adgang til din sides beskeder. Dine private beskeder kan aldrig tilgås af ExiZap.",
         "CHOOSE_PAGE": "Vælg Side",
         "CHOOSE_PLACEHOLDER": "Vælg en side fra listen",
         "INBOX_NAME": "Indbakke Navn",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Vælg en kanal",
-        "DESC": "Chatwoot understøtter live-chat-widgets, Facebook Messenger, Twitter-profiler, WhatsApp, E-mails, osv., som kanaler. Hvis du ønsker at bygge en brugerdefineret kanal, kan du oprette den ved hjælp af API-kanalen. For at komme i gang, vælg en af kanalerne nedenfor."
+        "DESC": "ExiZap understøtter live-chat-widgets, Facebook Messenger, Twitter-profiler, WhatsApp, E-mails, osv., som kanaler. Hvis du ønsker at bygge en brugerdefineret kanal, kan du oprette den ved hjælp af API-kanalen. For at komme i gang, vælg en af kanalerne nedenfor."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Indbakke Detaljer",
-        "DESC": "Vælg den Facebook-side, du vil forbinde til Chatwoot, fra dropdown listen nedenfor. Du kan også give et brugerdefineret navn til din indbakke for bedre identifikation."
+        "DESC": "Vælg den Facebook-side, du vil forbinde til ExiZap, fra dropdown listen nedenfor. Du kan også give et brugerdefineret navn til din indbakke for bedre identifikation."
       },
       "FINISH": {
         "TITLE": "Du klarede det!",
-        "DESC": "Du er færdig med at integrere din Facebook-side med Chatwoot. Næste gang en kunde sender en meddelelse til din side, vil samtalen automatisk dukke op i din indbakke.<br>Vi giver dig også et widget script, som du nemt kan tilføje til din hjemmeside. Når dette er live på din hjemmeside, kan kunder sende dig en besked direkte fra din hjemmeside uden hjælp fra et eksternt værktøj, og samtalen vises lige her, på Chatwoot.<br>Cool, var? Nå ikke, vi forsøge at være :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Du er færdig med at integrere din Facebook-side med ExiZap. Næste gang en kunde sender en meddelelse til din side, vil samtalen automatisk dukke op i din indbakke.<br>Vi giver dig også et widget script, som du nemt kan tilføje til din hjemmeside. Når dette er live på din hjemmeside, kan kunder sende dig en besked direkte fra din hjemmeside uden hjælp fra et eksternt værktøj, og samtalen vises lige her, på ExiZap.<br>Cool, var? Nå ikke, vi forsøge at være :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Tillad beskeder efter samtalen løst",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Tillad slutbrugere at sende beskeder, selv efter samtalen er løst.",
       "WHATSAPP_SECTION_SUBHEADER": "Denne API-nøgle bruges til integration med WhatsApp API'erne.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Nøgle",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Opdater",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Nøgle"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Grænse for automatisk tildeling",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Adgangskode"
       },
       "ENABLE_SSL": "Aktiver SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "Smtp",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hej"
       },
-      "BRANDING_TEXT": "Drevet af Chatwoot",
+      "BRANDING_TEXT": "Drevet af ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

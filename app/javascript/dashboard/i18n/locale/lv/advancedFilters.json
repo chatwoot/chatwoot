@@ -22,8 +22,7 @@
       "is_not_present": "Neiekļauj sevī",
       "is_greater_than": "Ir lielāks par",
       "is_less_than": "Ir mazāks par",
-      "days_before": "Ir x dienas pirms",
-      "starts_with": "Sākas ar"
+      "days_before": "Ir x dienas pirms"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Patiesi",

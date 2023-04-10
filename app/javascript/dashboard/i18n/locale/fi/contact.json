@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Aloitettu lähteestä",
     "INITIATED_AT": "Aloitettu lähteestä",
     "IP_ADDRESS": "IP-osoite",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Uusi viesti",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tähän yhteystietoon ei liity aikaisempia keskusteluja.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Anna yrityksen nimi",
         "LABEL": "Yrityksen nimi"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Poista",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Syötä Facebookin käyttäjätunnus",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Puhelinnumero",
         "CONVERSATIONS": "Keskustelut",
         "LAST_ACTIVITY": "Last Activity",
-        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

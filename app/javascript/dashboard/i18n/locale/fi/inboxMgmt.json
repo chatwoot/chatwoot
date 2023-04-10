@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Saapuneet-kansiot",
-    "SIDEBAR_TXT": "<p><b>Postilaatikko</b></p> <p> Kun yhdistät sivuston tai facebook-sivun Chatwotiin, sitä kutsutaan <b>postilaatikoksi</b>. Sinulla voi olla rajoittamaton määrä postilaatikoita Chatwoot tililläsi. </p><p> Klikkaa <b>Lisää postilaatikko</b> yhdistääksesi verkkosivuston tai Facebook-sivun. </p><p> Kojelaudalla näet kaikki keskustelut kaikista saapuneet-kansiostasi yhdessä paikassa ja vastaat niihin `Keskustelut`-välilehdessä. </p><p> Voit myös nähdä postilaatikkoon liittyviä keskusteluja klikkaamalla postilaatikon nimeä kojelaudan vasemmassa paneelissa. </p>",
+    "SIDEBAR_TXT": "<p><b>Postilaatikko</b></p> <p> Kun yhdistät sivuston tai facebook-sivun Chatwotiin, sitä kutsutaan <b>postilaatikoksi</b>. Sinulla voi olla rajoittamaton määrä postilaatikoita ExiZap tililläsi. </p><p> Klikkaa <b>Lisää postilaatikko</b> yhdistääksesi verkkosivuston tai Facebook-sivun. </p><p> Kojelaudalla näet kaikki keskustelut kaikista saapuneet-kansiostasi yhdessä paikassa ja vastaat niihin `Keskustelut`-välilehdessä. </p><p> Voit myös nähdä postilaatikkoon liittyviä keskusteluja klikkaamalla postilaatikon nimeä kojelaudan vasemmassa paneelissa. </p>",
     "LIST": {
       "404": "Tähän tiliin ei ole liitetty saapuneet-kansiota."
     },
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
       },
       "FB": {
-        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatwoot ei koskaan näe yksityisviestejäsi.",
+        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. ExiZap ei koskaan näe yksityisviestejäsi.",
         "CHOOSE_PAGE": "Valitse sivu",
         "CHOOSE_PLACEHOLDER": "Valitse sivu listasta",
         "INBOX_NAME": "Kansion nimi",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Edustajat",
@@ -344,17 +344,6 @@
       "FINISH": {
         "TITLE": "Nappiin meni!",
         "DESC": "Olet onnistuneesti suorittanut Facebook-sivusi integroinnin. Seuraavalla kerralla kun asiakas lähettää sivullesi viestin, keskustelu ilmaantuu automaattisesti saapuneet-kansioon.<br>Tarjoamme myös sivustolle lisättävän widget skriptin, jonka voit helposti lisätä sivustosi. Kun tämä on sivustollasi, asiakkaat voivat lähettää sinulle viestin suoraan sivustostasi ilman ulkoisen työkalun apua, ja keskustelu näkyy täällä.<br>Makeeta vai mitä? No, me ainakin yrittämme olla :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Päivitä",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Salasana"
       },
       "ENABLE_SSL": "Enable SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hei",
         "AGENT_MESSAGE": "Moi"
       },
-      "BRANDING_TEXT": "Palvelun tarjoaa Chatwoot",
+      "BRANDING_TEXT": "Palvelun tarjoaa ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

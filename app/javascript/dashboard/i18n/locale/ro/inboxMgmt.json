@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Căsuțe",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Când conectezi un site web sau o pagină de Facebook la Chatwoot, se numește <b>Inbox</b>. Poți avea inbox-uri nelimitate în contul tău din Chatwoot. </p><p> Faceţi clic pe <b>Adăugaţi Inbox</b> pentru a conecta un website sau o pagină Facebook. </p><p> În tabloul de bord, poți vedea toate conversațiile din toate cutiile tale într-un singur loc și să le răspunzi sub fila `Conversations`. </p><p> De asemenea, poți vedea conversații specifice unei căsuțe poștale făcând clic pe numele inbox-ului din panoul stâng al tabloului de bord. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Când conectezi un site web sau o pagină de Facebook la ExiZap, se numește <b>Inbox</b>. Poți avea inbox-uri nelimitate în contul tău din ExiZap. </p><p> Faceţi clic pe <b>Adăugaţi Inbox</b> pentru a conecta un website sau o pagină Facebook. </p><p> În tabloul de bord, poți vedea toate conversațiile din toate cutiile tale într-un singur loc și să le răspunzi sub fila `Conversations`. </p><p> De asemenea, poți vedea conversații specifice unei căsuțe poștale făcând clic pe numele inbox-ului din panoul stâng al tabloului de bord. </p>",
     "LIST": {
       "404": "Nu există căsuțe poștale atașate acestui cont."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Alege canalul",
         "route": "setare_inbox_nou",
-        "body": "Alegeți serviciul pe care doriți să-l integrați cu Chatwoot."
+        "body": "Alegeți serviciul pe care doriți să-l integrați cu ExiZap."
       },
       {
         "title": "Crează căsuța",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de Chatwoot.",
+        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de ExiZap.",
         "CHOOSE_PAGE": "Alege pagina",
         "CHOOSE_PLACEHOLDER": "Selectaţi o pagină din listă",
         "INBOX_NAME": "Nume Inbox",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Alege un canal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenți",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalii inbox",
-        "DESC": "Din meniul derulant de mai jos, selectați pagina Facebook pe care doriți să vă conectați la Chatwoot. Poți de asemenea să dai un nume personalizat inbox-ului pentru o mai bună identificare."
+        "DESC": "Din meniul derulant de mai jos, selectați pagina Facebook pe care doriți să vă conectați la ExiZap. Poți de asemenea să dai un nume personalizat inbox-ului pentru o mai bună identificare."
       },
       "FINISH": {
         "TITLE": "Corect!",
-        "DESC": "Ai reușit să integrezi pagina ta de Facebook cu Chatwoot. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe Chatwoot.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Ai reușit să integrezi pagina ta de Facebook cu ExiZap. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe ExiZap.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permiteți rezolvarea mesajelor după ce conversația a fost rezolvată",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "Cheie API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizare",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "Cheie API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Parola"
       },
       "ENABLE_SSL": "Activare SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Oferit de Chatwoot",
+      "BRANDING_TEXT": "Oferit de ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

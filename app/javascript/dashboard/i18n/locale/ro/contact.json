@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Inițiat de la",
     "INITIATED_AT": "Iniţiat la",
     "IP_ADDRESS": "Adresă IP",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Mesaj nou",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Introduceți numele companiei",
         "LABEL": "Nume companie"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Numele țării",
-        "SELECT_PLACEHOLDER": "Selectați",
-        "REMOVE": "Elimină",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Introdu numele de utilizator Facebook",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Număr de telefon",
         "CONVERSATIONS": "Conversații",
         "LAST_ACTIVITY": "Ultima activitate",
-        "CREATED_AT": "Creat la",
         "COUNTRY": "Țară",
         "CITY": "Oraș",
         "SOCIAL_PROFILES": "Social Profil",

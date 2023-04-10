@@ -22,8 +22,7 @@
       "is_not_present": "در حال حاضر وجود ندارد",
       "is_greater_than": "بزرگتر از",
       "is_less_than": "کوچکتر از",
-      "days_before": "x روز قبل است",
-      "starts_with": "شروع می‌‌شود با"
+      "days_before": "x روز قبل است"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "درست",

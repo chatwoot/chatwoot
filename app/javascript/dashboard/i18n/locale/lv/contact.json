@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Uzsākts no",
     "INITIATED_AT": "Uzsākts plkst",
     "IP_ADDRESS": "IP adrese",
-    "CREATED_AT_LABEL": "Izveidots",
     "NEW_MESSAGE": "Jauns ziņojums",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Ar šo kontaktpersonu nav saistītas iepriekšējās sarunas.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu",
         "LABEL": "Uzņēmuma Nosaukums"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Valsts Nosaukums",
-        "SELECT_PLACEHOLDER": "Izvēlieties",
-        "REMOVE": "Noņemt",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Ievadiet Facebook lietotājvārdu",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Telefona Numurs",
         "CONVERSATIONS": "Sarunas",
         "LAST_ACTIVITY": "Pēdējās Darbības",
-        "CREATED_AT": "Izveidots",
         "COUNTRY": "Valsts",
         "CITY": "Pilsēta",
         "SOCIAL_PROFILES": "Sociālie Profili",

@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Увійти до Chatwoot",
+    "TITLE": "Увійти до ExiZap",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "Email як: someone@example.com"
@@ -13,11 +13,6 @@
       "SUCCESS_MESSAGE": "Вхід успішно здійснено",
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше",
       "UNAUTH": "Неправильне ім'я користувача / пароль. Будь ласка, спробуйте ще раз"
-    },
-    "OAUTH": {
-      "GOOGLE_LOGIN": "Увійти через Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Будь ласка, використовуйте робочу адресу електронної пошти для входу",
-      "NO_ACCOUNT_FOUND": "Ми не змогли знайти аккаунт для вашої адреси електронної пошти."
     },
     "FORGOT_PASSWORD": "Забули пароль?",
     "CREATE_NEW_ACCOUNT": "Створити новий обліковий запис",

@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "تسجيل الدخول إلى Chatwoot",
+    "TITLE": "تسجيل الدخول إلى ExiZap",
     "EMAIL": {
       "LABEL": "البريد الإلكتروني",
       "PLACEHOLDER": "مثال: someone@example.com"
@@ -13,11 +13,6 @@
       "SUCCESS_MESSAGE": "تم تسجيل الدخول بنجاح",
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً",
       "UNAUTH": "اسم المستخدم / كلمة المرور غير صحيحة. الرجاء المحاولة مرة أخرى"
-    },
-    "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
     "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",

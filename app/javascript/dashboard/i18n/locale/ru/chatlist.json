@@ -20,7 +20,7 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Открыт"
+        "TEXT": "Открыть"
       },
       "resolved": {
         "TEXT": "Закрыт"
@@ -30,9 +30,6 @@
       },
       "snoozed": {
         "TEXT": "Отложено"
-      },
-      "all": {
-        "TEXT": "Все"
       }
     },
     "ATTACHMENTS": {

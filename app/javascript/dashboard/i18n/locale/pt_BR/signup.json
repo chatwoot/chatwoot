@@ -1,13 +1,10 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Criar uma conta",
+    "TRY_WOOT": "Registre uma conta",
     "TITLE": "Registrar",
     "TESTIMONIAL_HEADER": "Tudo o que ele leva é um passo para avançar",
     "TESTIMONIAL_CONTENT": "Você está a um passo de engajar seus clientes, mantê-los e encontrar novos.",
-    "TERMS_ACCEPT": "Ao criar uma conta, você concorda com nosso <a href=\"https://www.chatwoot.com/terms\">T & C</a> e nossa <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
-    "OAUTH": {
-      "GOOGLE_SIGNUP": "Cadastre-se com o Google"
-    },
+    "TERMS_ACCEPT": "Ao se inscrever, você concorda com nossa <a href=\"https://www.chatwoot.com/terms\">T & C</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
     "COMPANY_NAME": {
       "LABEL": "Nome Empresa",
       "PLACEHOLDER": "Digite seu nome da empresa. por exemplo: Wayne Enterprises",
@@ -15,12 +12,12 @@
     },
     "FULL_NAME": {
       "LABEL": "Nome Completo",
-      "PLACEHOLDER": "Digite seu nome completo, por exemplo: Bruce Wayne",
+      "PLACEHOLDER": "Digite seu nome completo, por exemplo: Pedro Samuel",
       "ERROR": "Nome completo é muito curto"
     },
     "EMAIL": {
       "LABEL": "E-mail comercial",
-      "PLACEHOLDER": "Digite seu endereço de e-mail de trabalho. por exemplo: bruce@wayne.Business",
+      "PLACEHOLDER": "Digite seu endereço de e-mail de trabalho. por exemplo: seunome@exizap.com.br",
       "ERROR": "Por favor, insira um endereço de e-mail de trabalho válido"
     },
     "PASSWORD": {
@@ -36,9 +33,9 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registro realizado com Sucesso",
-      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Exi, por favor tente novamente mais tarde"
     },
-    "SUBMIT": "Criar conta",
+    "SUBMIT": "Enviar",
     "HAVE_AN_ACCOUNT": "Já possui uma conta?"
   }
 }

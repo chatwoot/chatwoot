@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Geïnitieerd vanuit",
     "INITIATED_AT": "Geïnitieerd op",
     "IP_ADDRESS": "IP-adres",
-    "CREATED_AT_LABEL": "Aangemaakt op",
     "NEW_MESSAGE": "Nieuw bericht",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Er zijn geen eerdere gesprekken gekoppeld aan dit contact.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Voer de bedrijfsnaam in",
         "LABEL": "Bedrijfsnaam"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Land Naam",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Verwijderen",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Voer de Facebook gebruikersnaam in",
@@ -164,7 +152,7 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contactavatar succesvol verwijderd",
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
         "ERROR_MESSAGE": "Contact avatar kon niet verwijderd worden. Probeer het later opnieuw."
       }
     },
@@ -172,56 +160,55 @@
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start gesprek",
-    "TITLE": "Nieuw gesprek",
-    "DESC": "Begin een nieuw gesprek door een nieuw bericht te sturen.",
-    "NO_INBOX": "Kon geen inbox vinden om een nieuw gesprek met dit contact te starten.",
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
         "LABEL": "Aan"
       },
       "INBOX": {
         "LABEL": "Postvak In",
-        "ERROR": "Selecteer een inbox"
+        "ERROR": "Select an inbox"
       },
       "SUBJECT": {
         "LABEL": "Onderwerp",
         "PLACEHOLDER": "Onderwerp",
-        "ERROR": "Onderwerp mag niet leeg zijn"
+        "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
         "LABEL": "Bericht",
-        "PLACEHOLDER": "Schrijf hier je bericht",
-        "ERROR": "Bericht mag niet leeg zijn"
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
       },
-      "SUBMIT": "Verstuur bericht",
+      "SUBMIT": "Send message",
       "CANCEL": "Annuleren",
       "SUCCESS_MESSAGE": "Bericht verzonden!",
       "GO_TO_CONVERSATION": "Bekijken",
-      "ERROR_MESSAGE": "Kon niet worden verzonden! Probeer opnieuw"
+      "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacten",
-    "FIELDS": "Contactvelden",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Zoeken",
     "SEARCH_INPUT_PLACEHOLDER": "Zoeken naar contacten",
     "FILTER_CONTACTS": "Filteren",
     "FILTER_CONTACTS_SAVE": "Filter opslaan",
     "FILTER_CONTACTS_DELETE": "Filter verwijderen",
     "LIST": {
-      "LOADING_MESSAGE": "Contacten laden...",
+      "LOADING_MESSAGE": "Loading contacts...",
       "404": "Er zijn geen contacten die overeenkomen met je zoekopdracht 🔍",
-      "NO_CONTACTS": "Er zijn geen beschikbare contacten",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Naam",
         "PHONE_NUMBER": "Telefoonnummer",
         "CONVERSATIONS": "Gesprekken",
         "LAST_ACTIVITY": "Laatste Activiteit",
-        "CREATED_AT": "Aangemaakt op",
-        "COUNTRY": "Land",
+        "COUNTRY": "Country",
         "CITY": "Woonplaats",
-        "SOCIAL_PROFILES": "Social-profielen",
+        "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Bedrijfsnaam",
         "EMAIL_ADDRESS": "Uw e-mailadres"
       },

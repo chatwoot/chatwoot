@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Caixas de Entrada",
-    "SIDEBAR_TXT": "<p><b>Caixa de entrada</b></p> <p> Ao ligar um site ou uma página do Facebook ao Chatwoot, ela passa a ser chamada de <b>caixa de entrada</b>. Pode ter caixas de entrada ilimitadas na sua conta de Chatwoot. </p><p> Clique em <b>Adicionar caixa de entrada</b> para ligar um site ou uma página do Facebook. </p><p> No Painel, pode ver todas as conversas de todas as suas caixas de entrada num único lugar e responder a elas utilizando o separado `Conversas`. </p><p> Também pode ver conversas específicas de uma determinada caixa de entrada clicando no nome dessa caixa no lado esquerdo do painel lateral. </p>",
+    "SIDEBAR_TXT": "<p><b>Caixa de entrada</b></p> <p> Ao ligar um site ou uma página do Facebook ao ExiZap, ela passa a ser chamada de <b>caixa de entrada</b>. Pode ter caixas de entrada ilimitadas na sua conta de ExiZap. </p><p> Clique em <b>Adicionar caixa de entrada</b> para ligar um site ou uma página do Facebook. </p><p> No Painel, pode ver todas as conversas de todas as suas caixas de entrada num único lugar e responder a elas utilizando o separado `Conversas`. </p><p> Também pode ver conversas específicas de uma determinada caixa de entrada clicando no nome dessa caixa no lado esquerdo do painel lateral. </p>",
     "LIST": {
       "404": "Não há caixas de entrada anexadas a esta conta."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Escolher canal",
         "route": "settings_inbox_new",
-        "body": "Escolha o provedor que você deseja integrar com o Chatwoot."
+        "body": "Escolha o provedor que você deseja integrar com o ExiZap."
       },
       {
         "title": "Criar Caixa de Entrada",
@@ -31,14 +31,14 @@
       "CHANNEL_NAME": {
         "LABEL": "Nome da Caixa de Entrada",
         "PLACEHOLDER": "Digite o nome da caixa de entrada (ex: Informatico. pt)",
-        "ERROR": "Por favor, insira um nome de caixa de entrada válido"
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nome do site",
         "PLACEHOLDER": "Digite o nome do seu site (por exemplo: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: ao fazer login, só teremos acesso às mensagens da sua página. Suas mensagens privadas nunca poderão ser acessadas pelo Chatwoot.",
+        "HELP": "PS: ao fazer login, só teremos acesso às mensagens da sua página. Suas mensagens privadas nunca poderão ser acessadas pelo ExiZap.",
         "CHOOSE_PAGE": "Escolher página",
         "CHOOSE_PLACEHOLDER": "Escolher uma página da lista",
         "INBOX_NAME": "Nome Caixa de Entrada",
@@ -50,7 +50,7 @@
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
         "ERROR_MESSAGE": "Houve um de ligação com o Twitter, por favor, tente novamente",
         "TWEETS": {
-          "ENABLE": "Criar conversas a partir dos Tweets mencionados"
+          "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Ativar mensagem de Boas-vindas do canal",
-          "HELP_TEXT": "Enviar automaticamente uma mensagem de saudação quando uma nova conversa for criada.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Ativado",
           "DISABLED": "Desabilitado"
         },
@@ -100,22 +100,22 @@
         },
         "SUBMIT_BUTTON": "Criar caixa de entrada",
         "API": {
-          "ERROR_MESSAGE": "Não conseguimos criar um canal de website. Por favor, tente novamente."
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
       },
       "TWILIO": {
-        "TITLE": "Canal SMS/WhatsApp da Twilio",
-        "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS ou WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID da Conta",
           "PLACEHOLDER": "Por favor, insira sua Conta Twilio SID",
           "ERROR": "Este campo é obrigatório"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "SID do Serviço de Mensagens",
-          "PLACEHOLDER": "Por favor, insira o seu SID do Serviço de Mensagens da Twilio",
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
           "ERROR": "Este campo é obrigatório",
-          "USE_MESSAGING_SERVICE": "Use um Serviço de Mensagens da Twilio"
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipo de canal",
@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telefone",
           "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
-          "ERROR": "Por favor, forneça um número de telefone válido que começa com o sinal de `+` e que não contenha quaisquer espaços."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Link de retorno de ligação",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Número de telefone",
             "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
-            "ERROR": "Por favor, forneça um número de telefone válido que começa com o sinal de `+` e que não contenha quaisquer espaços."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,20 +214,20 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de telefone",
           "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
-          "ERROR": "Por favor, forneça um número de telefone válido que começa com o sinal de `+` e que não contenha quaisquer espaços."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "ID do número de telefone",
+          "LABEL": "Phone number ID",
           "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "ID da Conta de Empresa",
+          "LABEL": "Business Account ID",
           "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook de Verificação de Token",
+          "LABEL": "Webhook Verify Token",
           "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
           "ERROR": "Por favor, insira um valor válido."
         },
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Escolher um canal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "agentes",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalhes da Caixa de Entrada",
-        "DESC": "No menu abaixo, selecione a Página do Facebook que você deseja se conectar ao Chatwoot. Você também pode dar um nome personalizado para sua caixa de entrada para uma melhor identificação."
+        "DESC": "No menu abaixo, selecione a Página do Facebook que você deseja se conectar ao ExiZap. Você também pode dar um nome personalizado para sua caixa de entrada para uma melhor identificação."
       },
       "FINISH": {
         "TITLE": "Acertado Ele!",
-        "DESC": "Você terminou com sucesso de integrar sua página do Facebook ao Chatwoot. Da próxima vez que um cliente enviar mensagens para sua página, a conversa aparecerá automaticamente na sua caixa de entrada.<br>Também estamos fornecendo a você um script de widget que você pode facilmente adicionar ao seu site. Uma vez que isto estiver ao vivo no seu site, clientes podem enviar mensagens a partir do seu site sem a ajuda de qualquer ferramenta externa e a conversa aparecerá aqui, no Chatwoot.<br>Legal, né? Bem, nós certamente tentamos ser :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Você terminou com sucesso de integrar sua página do Facebook ao ExiZap. Da próxima vez que um cliente enviar mensagens para sua página, a conversa aparecerá automaticamente na sua caixa de entrada.<br>Também estamos fornecendo a você um script de widget que você pode facilmente adicionar ao seu site. Uma vez que isto estiver ao vivo no seu site, clientes podem enviar mensagens a partir do seu site sem a ajuda de qualquer ferramenta externa e a conversa aparecerá aqui, no ExiZap.<br>Legal, né? Bem, nós certamente tentamos ser :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "Chave da API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualização",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
+      "WHATSAPP_SECTION_TITLE": "Chave da API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -543,8 +527,8 @@
       "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Configurações IMAP atualizadas com sucesso",
-        "ERROR_MESSAGE": "Não foi possível atualizar as configurações do IMAP"
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
       },
       "ADDRESS": {
         "LABEL": "Endereço",
@@ -564,10 +548,6 @@
       },
       "ENABLE_SSL": "Habilitar SSL"
     },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Autorizar novamente sua conta MICROSOFT"
-    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Defina os seus dados IMAP",
@@ -576,7 +556,7 @@
       "TOGGLE_HELP": "Habilitar o SMTP irá ajudar o usuário a enviar e-mail",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configurações de SMTP atualizadas com sucesso",
-        "ERROR_MESSAGE": "Não é possível atualizar configurações de SMTP"
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
       },
       "ADDRESS": {
         "LABEL": "Endereço",
@@ -602,16 +582,16 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Abrir Modo de Verificação SSL",
-      "AUTH_MECHANISM": "Autenticação"
+      "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Observação: ",
+    "NOTE": "Note: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Avatar do Website",
+          "LABEL": "Website Avatar",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar removido com sucesso",
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
               "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
             }
           }
@@ -619,52 +599,52 @@
         "WEBSITE_NAME": {
           "LABEL": "Nome do site",
           "PLACE_HOLDER": "Digite o nome do seu site (por exemplo: Acme Inc)",
-          "ERROR": "Por favor, digite um nome de website válido"
+          "ERROR": "Please enter a valid website name"
         },
         "WELCOME_HEADING": {
           "LABEL": "Título de Boas-Vindas",
-          "PLACE_HOLDER": "Olá!"
+          "PLACE_HOLDER": "Hi there!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Bem-vindo Slogan",
           "PLACE_HOLDER": "Nós simplificamos nos conectar com a gente. Pergunte a nós qualquer coisa ou compartilhe seus comentários."
         },
         "REPLY_TIME": {
-          "LABEL": "Tempo de Resposta",
+          "LABEL": "Reply Time",
           "IN_A_FEW_MINUTES": "Em poucos minutos",
           "IN_A_FEW_HOURS": "Em poucas horas",
           "IN_A_DAY": "Dentro de um dia"
         },
         "WIDGET_COLOR_LABEL": "Cor do widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Posição do Balão de Widget",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo de Balão de Widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Fale connosco",
-          "LABEL": "Título do Iniciado do Widget",
+          "LABEL": "Widget Bubble Launcher Title",
           "PLACE_HOLDER": "Fale connosco"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Atualizar Configurações do Widget",
+          "BUTTON_TEXT": "Update Widget Settings",
           "API": {
-            "SUCCESS_MESSAGE": "Configurações do widget atualizadas com sucesso",
-            "ERROR_MESSAGE": "Não é possível atualizar as configurações do widget"
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Pré-visualizar",
+          "PREVIEW": "Preview",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Esquerda",
-          "RIGHT": "Direita"
+          "LEFT": "Left",
+          "RIGHT": "Right"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Padrão",
-          "EXPANDED_BUBBLE": "Balão Expandido"
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Padrão",
+        "DEFAULT": "Default",
         "CHAT": "Chat"
       },
       "REPLY_TIME": {
@@ -678,18 +658,14 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Estamos online",
+          "ONLINE": "We are Online",
           "OFFLINE": "Estamos ausentes"
         },
-        "USER_MESSAGE": "Oi",
-        "AGENT_MESSAGE": "Olá"
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Desenvolvido por Chatwoot",
+      "BRANDING_TEXT": "Desenvolvido por Exi Sistemas - exisistemas.com.br",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Outros Provedores"
     }
   }
 }

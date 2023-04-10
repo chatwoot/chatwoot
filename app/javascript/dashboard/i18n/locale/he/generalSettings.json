@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "אתה יכול לקבל אימיילים בדומיין המותאם אישית שלך עכשיו."
       }
     },
-    "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
+    "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור ExiZap זמין. אנא עדכן את המופע שלך.",
     "LEARN_MORE": "Learn more"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "שיחה חדשה",
       "conversation_assignment": "שיחה הוקצתה",
       "assigned_conversation_new_message": "הודעה חדשה",
-      "participating_conversation_new_message": "הודעה חדשה",
       "conversation_mention": "אִזְכּוּר"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "מנותק מ-Chatwoot"
+      "TEXT": "מנותק מ-ExiZap"
     },
     "BUTTON": {
       "REFRESH": "רענן"

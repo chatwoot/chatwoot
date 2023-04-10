@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "กล่องข้อความ",
-    "SIDEBAR_TXT": "<p><b>กล่องข้อความ</b></p> <p> เมื่อคุณเชื่อมต่อเว็บไซต์หรือหน้า Facebook กับ Chatwoot จะเรียกว่า <b>Inbox</b> คุณสามารถมีกล่องจดหมายได้ไม่ จำกัด ในบัญชี Chatwoot ของคุณ </p> <p> คลิกที่ <b> เพิ่มกล่องจดหมาย </b>เพื่อเชื่อมต่อเว็บไซต์หรือเพจ Facebook </p> <p> ในแดชบอร์ดคุณสามารถดูการสนทนาทั้งหมดจากกล่องจดหมายทั้งหมดของคุณในที่เดียวและตอบกลับได้ในแท็บ \"การสนทนา\" </p> <p> คุณยังสามารถดูการสนทนาเฉพาะสำหรับกล่องจดหมายได้โดยคลิกที่ชื่อกล่องจดหมายในบานหน้าต่างด้านซ้ายของแผงควบคุม </p>",
+    "SIDEBAR_TXT": "<p><b>กล่องข้อความ</b></p> <p> เมื่อคุณเชื่อมต่อเว็บไซต์หรือหน้า Facebook กับ ExiZap จะเรียกว่า <b>Inbox</b> คุณสามารถมีกล่องจดหมายได้ไม่ จำกัด ในบัญชี ExiZap ของคุณ </p> <p> คลิกที่ <b> เพิ่มกล่องจดหมาย </b>เพื่อเชื่อมต่อเว็บไซต์หรือเพจ Facebook </p> <p> ในแดชบอร์ดคุณสามารถดูการสนทนาทั้งหมดจากกล่องจดหมายทั้งหมดของคุณในที่เดียวและตอบกลับได้ในแท็บ \"การสนทนา\" </p> <p> คุณยังสามารถดูการสนทนาเฉพาะสำหรับกล่องจดหมายได้โดยคลิกที่ชื่อกล่องจดหมายในบานหน้าต่างด้านซ้ายของแผงควบคุม </p>",
     "LIST": {
       "404": "ไม่มีกล่องข้อความที่เกี่ยวข้องในบัญชีนี้"
     },
@@ -9,7 +9,7 @@
       {
         "title": "เลือกช่อง",
         "route": "settings_inbox_new",
-        "body": "เลือกผู้ให้บริการที่คุณต้องการจะใช้สำหรับ Chatwoot"
+        "body": "เลือกผู้ให้บริการที่คุณต้องการจะใช้สำหรับ ExiZap"
       },
       {
         "title": "สร้างกล่องข้อความ",
@@ -31,14 +31,14 @@
       "CHANNEL_NAME": {
         "LABEL": "ชื่อกล่องข้อความ",
         "PLACEHOLDER": "กรอกชื่อกล่องข้อความ (เช่น Acme Inc)",
-        "ERROR": "โปรดกรอกชื่อกล่องข้อความให้ถูกต้อง"
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "ชื่อเว็บไซต์",
         "PLACEHOLDER": "กรอกชื่อเว็บไซต์ของคุณ (เช่น SnowBoltz Inc)"
       },
       "FB": {
-        "HELP": "ป. ล. เมื่อลงชื่อเข้าใช้เราจะสามารถเข้าถึงข้อความของเพจของคุณเท่านั้น Chatwoot ไม่สามารถเข้าถึงข้อความส่วนตัวของคุณได้",
+        "HELP": "ป. ล. เมื่อลงชื่อเข้าใช้เราจะสามารถเข้าถึงข้อความของเพจของคุณเท่านั้น ExiZap ไม่สามารถเข้าถึงข้อความส่วนตัวของคุณได้",
         "CHOOSE_PAGE": "เลือกหน้า",
         "CHOOSE_PLACEHOLDER": "เลือกหน้าจากรายชื่อ",
         "INBOX_NAME": "ชื่อกล่องข้อความ",
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "เปิดข้อความต้อนรับ",
-          "HELP_TEXT": "ส่งข้อความทักทายอัตโนมัติหลังจากมีการสร้างการสนทนาใหม่",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "เปิด",
           "DISABLED": "ปิด"
         },
@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "สร้างกล่องข้อความ",
         "API": {
-          "ERROR_MESSAGE": "ไม่สามารถสร้างช่องทางเว็บไซต์ได้ โปรดลองใหม่อีกครั้ง"
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
       },
       "TWILIO": {
@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "หมายเลขโทรศัพท์",
           "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
-          "ERROR": "กรุณากรอกเบอร์โทรศัพท์ที่เริ่มด้วย '+' และไม่มีการเว้นวรรค"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "ลิ้งเรียกกลับ",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "หมายเลขโทรศัพท์",
             "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
-            "ERROR": "กรุณากรอกเบอร์โทรศัพท์ที่เริ่มด้วย '+' และไม่มีการเว้นวรรค"
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "สร้างช่องทาง Bandwidth",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "หมายเลขโทรศัพท์",
           "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
-          "ERROR": "กรุณากรอกเบอร์โทรศัพท์ที่เริ่มด้วย '+' และไม่มีการเว้นวรรค"
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "เลือกช่องทาง",
-        "DESC": "Chatwoot รองรับ live-chat widget, Facebook, Twitter, WhatsApp, Email และช่องทางอื่น ๆ ถ้าคุณต้องการสร้างช่องทางพิเศษ คุณสามารถสร้างได้โดยใช้ API channel เลือกช่องทางด้านล่างนี้เพื่อดำเนินการต่อ"
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "พนักงาน",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "รายละเอียดกล่องข้อความ",
-        "DESC": "คุณสามารถเลือก facebook Page ที่ต้องการเชื่อมต่อกับ Chatwoot จากรายการข้างล่าง คุณยังสามารถตั้งชื่อให้กล่องข้อความของคุณเพื่อการจัดการที่ง่ายขึ้น"
+        "DESC": "คุณสามารถเลือก facebook Page ที่ต้องการเชื่อมต่อกับ ExiZap จากรายการข้างล่าง คุณยังสามารถตั้งชื่อให้กล่องข้อความของคุณเพื่อการจัดการที่ง่ายขึ้น"
       },
       "FINISH": {
         "TITLE": "เรียบร้อย!",
-        "DESC": "เชื่อมต่อ Facebook Page กับ Chatwoot สำเร็จแล้ว เมื่อมีคนส่งข้อความมาที่เพจของคุณ การสนทนาจะแสดงในกล่องข้อความของคุณโดยอัตโนมัติ<br>เรายังได้เตรียมสคริปท์สำหรับสร้าง widget เพื่อให้คุณนำไปติดตั้งที่เว็บไซต์ของคุณได้ง่ายขึ้นอีกด้วย เมื่อคุณติดตั้งสำเร็จแล้ว ลูกค้าสามารถส่งข้อความมาหาคุณได้โดยตรงจากทางเว็บไซต์ของคุณโดยที่ไม่ต้องใช้เครื่องมืออื่นๆ อีก และการสนทนาจะมาปรากฎบน Chatwoot <br>เจ๋งใช่มั้ยล่ะ? นั่นแหละที่พวกเราพยายามจะเป็น :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "เชื่อมต่อ Facebook Page กับ ExiZap สำเร็จแล้ว เมื่อมีคนส่งข้อความมาที่เพจของคุณ การสนทนาจะแสดงในกล่องข้อความของคุณโดยอัตโนมัติ<br>เรายังได้เตรียมสคริปท์สำหรับสร้าง widget เพื่อให้คุณนำไปติดตั้งที่เว็บไซต์ของคุณได้ง่ายขึ้นอีกด้วย เมื่อคุณติดตั้งสำเร็จแล้ว ลูกค้าสามารถส่งข้อความมาหาคุณได้โดยตรงจากทางเว็บไซต์ของคุณโดยที่ไม่ต้องใช้เครื่องมืออื่นๆ อีก และการสนทนาจะมาปรากฎบน ExiZap <br>เจ๋งใช่มั้ยล่ะ? นั่นแหละที่พวกเราพยายามจะเป็น :)"
       }
     },
     "DETAILS": {
@@ -431,7 +420,7 @@
       "CAMPAIGN": "แคมเปญ",
       "PRE_CHAT_FORM": "แบบสอบถามก่อนแชท",
       "BUSINESS_HOURS": "เวลาทำการ",
-      "WIDGET_BUILDER": "เครื่องมือสร้าง Widget",
+      "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "ตั้งค่า",
@@ -472,16 +461,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "อนุญาตให้รับข้อความหลังจากจบการสนทนาแล้ว",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "อนุญาตให้ลูกค้าส่งข้อความหลังจากจบการสนทนาแล้ว",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "อัพเดท",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "กรุณากรอกค่าที่มากกว่า 0",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
     },
     "FACEBOOK_REAUTHORIZE": {
@@ -564,10 +548,6 @@
       },
       "ENABLE_SSL": "เปิดใช้ SSL"
     },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
-    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "ตั้งค่า SMTP",
@@ -623,21 +603,21 @@
         },
         "WELCOME_HEADING": {
           "LABEL": "ข้อความยินดีต้อนรับส่วนหัว",
-          "PLACE_HOLDER": "สวัสดี!"
+          "PLACE_HOLDER": "Hi there!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "ข้อความยินดีต้อนรับส่วนล่าง",
           "PLACE_HOLDER": "เราทำให้การติดต่อกับเราเป็นเรื่องง่าย ถามเราได้ทุกอย่างหรือแบ่งปันความคิดเห็นของคุณ"
         },
         "REPLY_TIME": {
-          "LABEL": "ระยะเวลาในการตอบกลับ",
+          "LABEL": "Reply Time",
           "IN_A_FEW_MINUTES": "ในไม่กี่นาที",
           "IN_A_FEW_HOURS": "ในไม่กี่ชั่วโมง",
           "IN_A_DAY": "ในหนึ่งวัน"
         },
         "WIDGET_COLOR_LABEL": "สีของวิดเจ็ต",
-        "WIDGET_BUBBLE_POSITION_LABEL": "ตำแหน่งของ Widget",
-        "WIDGET_BUBBLE_TYPE_LABEL": "รูปลักษณ์ของ Widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "คุยกับเรา",
           "LABEL": "Widget Bubble Launcher Title",
@@ -655,11 +635,11 @@
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "ซ้าย",
-          "RIGHT": "ขวา"
+          "LEFT": "Left",
+          "RIGHT": "Right"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "มาตรฐาน",
+          "STANDARD": "Standard",
           "EXPANDED_BUBBLE": "Expanded Bubble"
         }
       },
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

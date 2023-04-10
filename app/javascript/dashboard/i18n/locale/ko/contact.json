@@ -15,7 +15,6 @@
     "INITIATED_FROM": "시작 위치",
     "INITIATED_AT": "시작 시간",
     "IP_ADDRESS": "IP 주소",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "새 메시지",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "회사명 입력",
         "LABEL": "회사명"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "국가 이름",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "제거",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "페이스북 사용자 이름 입력",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "전화 번호",
         "CONVERSATIONS": "대화",
         "LAST_ACTIVITY": "지난 활동",
-        "CREATED_AT": "에 만들어짐",
         "COUNTRY": "국가",
         "CITY": "도시",
         "SOCIAL_PROFILES": "소셜 프로필",

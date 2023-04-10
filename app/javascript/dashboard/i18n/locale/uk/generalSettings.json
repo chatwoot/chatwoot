@@ -23,7 +23,7 @@
         "ERROR": "Будь ласка, введіть правильне ім'я облікового запису"
       },
       "LANGUAGE": {
-        "LABEL": "Мова сайту",
+        "LABEL": "Site language",
         "PLACEHOLDER": "Ім'я вашого облікового запису",
         "ERROR": ""
       },
@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Тепер ви можете отримувати електронні листи на власний домен."
       }
     },
-    "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
+    "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatwootVersion} для ExiZap. Будь ласка, оновіть вашу копію.",
     "LEARN_MORE": "Детальніше"
   },
   "FORMS": {
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "Натисніть Enter, щоб обрати",
       "ENTER_TO_REMOVE": "Натисніть Enter, щоб видалити",
       "SELECT_ONE": "Виберіть",
-      "SELECT": "Обрати"
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Новий діалог",
       "conversation_assignment": "Діалог призначений",
       "assigned_conversation_new_message": "Нове повідомлення",
-      "participating_conversation_new_message": "Нове повідомлення",
       "conversation_mention": "Відмітка"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Відключено від Chatwoot"
+      "TEXT": "Відключено від ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Оновити"
@@ -140,6 +139,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Завантаження дашборду..."
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

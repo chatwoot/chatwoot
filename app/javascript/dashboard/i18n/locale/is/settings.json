@@ -79,8 +79,7 @@
         "CONVERSATION_ASSIGNMENT": "Senda tilkynningar í tölvupósti þegar mér er úthlutað samtali",
         "CONVERSATION_CREATION": "Senda tilkynningar í tölvupósti þegar nýtt samtal er stofnað",
         "CONVERSATION_MENTION": "Sendu tilkynningar í tölvupósti þegar minnst er á þig í samtali",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu tilkynningar í tölvupósti þegar ný skilaboð eru búin til í úthlutuðu samtali",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu tilkynningar í tölvupósti þegar ný skilaboð eru búin til í úthlutuðu samtali"
       },
       "API": {
         "UPDATE_SUCCESS": "Tilkynningarstillingarnar þínar hafa verið uppfærðar",
@@ -93,7 +92,6 @@
         "CONVERSATION_CREATION": "Senda þrýstitilkynningar þegar nýtt samtal er stofnað",
         "CONVERSATION_MENTION": "Sendu þrýstitilkynningar þegar minnst er á þig í samtali",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu push tilkynningar þegar ný skilaboð eru búin til í úthlutuðu samtali",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -172,8 +170,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Sækja",
-      "UPLOADING": "Hleður upp...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "UPLOADING": "Hleður upp..."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -194,7 +191,6 @@
     "CONVERSATIONS": "Samtöl",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Stillingar",
@@ -224,7 +220,7 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "Samtöl",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Herferð",
+    "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Þjónustufulltrúar",
@@ -242,7 +238,6 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
-      "SETTINGS": "Stillingar",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

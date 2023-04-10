@@ -30,9 +30,6 @@
       },
       "snoozed": {
         "TEXT": "Adiado"
-      },
-      "all": {
-        "TEXT": "TODOS"
       }
     },
     "ATTACHMENTS": {
@@ -60,12 +57,12 @@
     "REPLY_TO_TWEET": "Responder à mensagem",
     "LINK_TO_STORY": "Ir para story do instagram",
     "SENT": "Enviado com sucesso",
-    "READ": "Lido com sucesso",
-    "DELIVERED": "Entregue com Sucesso",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "Nenhuma mensagem",
     "NO_CONTENT": "Sem conteúdo disponível",
     "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
     "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
-    "MESSAGE_READ": "Lida"
+    "MESSAGE_READ": "Read"
   }
 }

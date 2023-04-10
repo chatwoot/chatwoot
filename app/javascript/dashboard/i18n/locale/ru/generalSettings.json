@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен."
       }
     },
-    "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
+    "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для ExiZap. Пожалуйста, обновите свою версию.",
     "LEARN_MORE": "Узнайте больше"
   },
   "FORMS": {
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "Нажмите Enter для выбора",
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
       "SELECT_ONE": "Выберите один",
-      "SELECT": "Выбрать"
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -64,7 +64,7 @@
     "DELETE_TITLE": "удалено",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Непрочитанные уведомления",
-      "ALL_NOTIFICATIONS": "Показать все уведомления",
+      "ALL_NOTIFICATIONS": "Просмотр всех уведомлений",
       "LOADING_UNREAD_MESSAGE": "Загрузка непрочитанных уведомлений...",
       "EMPTY_MESSAGE": "У вас нет непрочитанных уведомлений"
     },
@@ -82,7 +82,6 @@
       "conversation_creation": "Новая беседа",
       "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
-      "participating_conversation_new_message": "Новое сообщение",
       "conversation_mention": "Упоминание"
     }
   },

@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan nu ta emot e-postmeddelanden i din egna domän."
       }
     },
-    "UPDATE_CHATWOOT": "En uppdatering %{latestChatwootVersion} för Chatwoot är tillgänglig. Vänligen uppdatera din instans.",
+    "UPDATE_CHATWOOT": "En uppdatering %{latestChatwootVersion} för ExiZap är tillgänglig. Vänligen uppdatera din instans.",
     "LEARN_MORE": "Learn more"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Ny konversation",
       "conversation_assignment": "Konversationen tilldelad",
       "assigned_conversation_new_message": "Nytt meddelande",
-      "participating_conversation_new_message": "Nytt meddelande",
       "conversation_mention": "Omnämning"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

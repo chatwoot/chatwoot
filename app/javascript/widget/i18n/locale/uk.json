@@ -65,8 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
-    "IS_REQUIRED": "обов'язково",
-    "REQUIRED": "Обов'язково"
+    "IS_REQUIRED": "обов'язково"
   },
   "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -90,8 +89,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
-      "LEAVE_THE_ROOM": "Залишити дзвінок"
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
     }
   }
 }

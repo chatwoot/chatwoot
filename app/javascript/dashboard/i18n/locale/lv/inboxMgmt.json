@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Iesūtnes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Chatwoot risinājumam pievienoto tīmekļa vietni vai Facebook lapu sauc par <b>Iesūtni</b>. Jūsu Chatwoot kontā var atrasties neierobežots iesūtņu skaits. </p><p> Noklikšķiniet uz <b>Pievienot Iesūtni</b> lai pievienotu tīmekļa vietni vai Facebook lapu. </p><p> Informācijas panelī Jūs varat apskatīt visas sarunas, no visām savām iesūtnēm, un atbildēt uz tām cilnē `Sarunas`. </p><p> Jūs varat arī apskatīt sarunas, kas piesaistītas noteiktai iesūtnei, noklikšķinot uz iesūtnes nosaukuma informācijas paneļa kreisajā rūtī. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> ExiZap risinājumam pievienoto tīmekļa vietni vai Facebook lapu sauc par <b>Iesūtni</b>. Jūsu ExiZap kontā var atrasties neierobežots iesūtņu skaits. </p><p> Noklikšķiniet uz <b>Pievienot Iesūtni</b> lai pievienotu tīmekļa vietni vai Facebook lapu. </p><p> Informācijas panelī Jūs varat apskatīt visas sarunas, no visām savām iesūtnēm, un atbildēt uz tām cilnē `Sarunas`. </p><p> Jūs varat arī apskatīt sarunas, kas piesaistītas noteiktai iesūtnei, noklikšķinot uz iesūtnes nosaukuma informācijas paneļa kreisajā rūtī. </p>",
     "LIST": {
       "404": "Šim kontam nav pievienota neviena Iesūtne."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Izvēlieties Kanālu",
         "route": "settings_inbox_new",
-        "body": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
+        "body": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar ExiZap."
       },
       {
         "title": "Izveidot Iesūtni",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Ievadiet Jūsu tīmekļa vietnes nosaukumu (piemēram: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Pierakstoties mēs iegūstam piekļuvi tikai pie Jūsu lapas ziņojumiem. Chatwoot nekad nevar piekļūt jūsu privātajām ziņām.",
+        "HELP": "PS: Pierakstoties mēs iegūstam piekļuvi tikai pie Jūsu lapas ziņojumiem. ExiZap nekad nevar piekļūt jūsu privātajām ziņām.",
         "CHOOSE_PAGE": "Izvēlieties Lapu",
         "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
         "INBOX_NAME": "Iesūtnes Nosaukums",
@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "E-pasts",
-          "SUBTITLE": "Norādiet e-pasta adresi, uz kuru Jūsu klienti sūta atbalsta pieprasījumus.",
+          "SUBTITLE": "E-pasts, uz kuru Jūsu klienti nosūta atbalsta biļetes",
           "PLACEHOLDER": "E-pasts"
         },
         "SUBMIT_BUTTON": "Izveidot E-pasta Kanālu",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Izvēlieties kanālu",
-        "DESC": "Chatwoot atbalsta tiešraides tērzēšanas logrīkus, Facebook Messenger, Twitter profilus, WhatsApp, e-pastus kā kanālus. Ja vēlaties izveidot pielāgotu kanālu, varat to izveidot, izmantojot API kanālu. Lai sāktu, izvēlieties vienu no tālāk norādītajiem kanāliem."
+        "DESC": "ExiZap atbalsta tiešraides tērzēšanas logrīkus, Facebook Messenger, Twitter profilus, WhatsApp, e-pastus kā kanālus. Ja vēlaties izveidot pielāgotu kanālu, varat to izveidot, izmantojot API kanālu. Lai sāktu, izvēlieties vienu no tālāk norādītajiem kanāliem."
       },
       "AGENTS": {
         "TITLE": "Aģenti",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Informācija par Iesūtni",
-        "DESC": "Tālāk esošajā nolaižamajā izvēlnē izvēlieties Facebook lapu, kuru vēlaties savienot ar Chatwoot. Jūs varat savai iesūtnei, lai to labāk atpazītu, piešķirt pielāgotu nosaukumu."
+        "DESC": "Tālāk esošajā nolaižamajā izvēlnē izvēlieties Facebook lapu, kuru vēlaties savienot ar ExiZap. Jūs varat savai iesūtnei, lai to labāk atpazītu, piešķirt pielāgotu nosaukumu."
       },
       "FINISH": {
         "TITLE": "Sanāca!",
-        "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar Chatwoot. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē Chatwoot.<br>"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Izvēlieties savu e-pasta pakalpojumu sniedzēju",
-        "DESCRIPTION": "Tālāk esošajā sarakstā izvēlieties e-pasta pakalpojumu sniedzēju. Ja sarakstā neredzat savu e-pasta pakalpojumu sniedzēju, varat izvēlēties citu pakalpojumu sniedzēja opciju un norādīt IMAP un SMTP akreditācijas datus."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
-        "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
-        "HELP": "Lai pievienotu savu Microsoft kontu kā kanālu, Jums ir jāautentificē savs Microsoft konts, noklikšķinot uz \"Pierakstīties ar Microsoft\" ",
-        "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+        "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar ExiZap. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē ExiZap.<br>"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
       "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet atjaunināto atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_TITLE": "API atslēga",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
+      "WHATSAPP_SECTION_TITLE": "API atslēga"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Parole"
       },
       "ENABLE_SSL": "Iespējot SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Atkārtoti autorizēt savu MICROSOFT kontu"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Sveicināti",
         "AGENT_MESSAGE": "Labdien"
       },
-      "BRANDING_TEXT": "Darbināts ar Chatwoot",
+      "BRANDING_TEXT": "Darbināts ar ExiZap",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Citi Pakalpojuma Sniedzēji"
     }
   }
 }

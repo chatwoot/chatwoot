@@ -79,8 +79,7 @@
         "CONVERSATION_ASSIGNMENT": "Odosielať e-mailové upozornenia, keď mi je priradená konverzácia",
         "CONVERSATION_CREATION": "Odosielať e-mailové upozornenia pri vytvorení novej konverzácie",
         "CONVERSATION_MENTION": "Odosielať e-mailové upozornenia keď som spomenutý v konverzácii",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať e-mailové oznámenia pri vytvorení novej správy v priradenej konverzácii",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať e-mailové oznámenia pri vytvorení novej správy v priradenej konverzácii"
       },
       "API": {
         "UPDATE_SUCCESS": "Vaše nastavenia oznámení sa úspešne aktualizovali",
@@ -93,7 +92,6 @@
         "CONVERSATION_CREATION": "Odosielať Push upozornenia pri vytvorení novej konverzácie",
         "CONVERSATION_MENTION": "Odosielať Push upozornenia keď som spomenutý v konverzácii",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať Push oznámenia pri vytvorení novej správy v priradenej konverzácii",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Pre tento prehliadač ste povolili oznámenia Push.",
         "REQUEST_PUSH": "Povoliť oznámenia Push"
       },
@@ -172,8 +170,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Stiahnuť",
-      "UPLOADING": "Nahrávanie...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "UPLOADING": "Nahrávanie..."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -194,7 +191,6 @@
     "CONVERSATIONS": "Rozhovory",
     "ALL_CONVERSATIONS": "Všetky konverzácie",
     "MENTIONED_CONVERSATIONS": "Zmienky",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Nastavenia",
@@ -242,7 +238,6 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
-      "SETTINGS": "Nastavenia",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {

@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Иницирано от",
     "INITIATED_AT": "Иницирано в",
     "IP_ADDRESS": "IP адрес",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Ново съобщение",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Няма предишни разговори асоцирани с този контакт.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Въведете име на фирма",
         "LABEL": "Име на фирма"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Име на държавата",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Remove",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Въведете Facebook потребителско име",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Телефон",
         "CONVERSATIONS": "Разговори",
         "LAST_ACTIVITY": "Последна активност",
-        "CREATED_AT": "Created At",
         "COUNTRY": "Държава",
         "CITY": "Град",
         "SOCIAL_PROFILES": "Социални профили",

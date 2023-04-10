@@ -30,9 +30,6 @@
       },
       "snoozed": {
         "TEXT": "일시 중지됨"
-      },
-      "all": {
-        "TEXT": "모두"
       }
     },
     "ATTACHMENTS": {

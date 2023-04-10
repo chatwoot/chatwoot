@@ -28,17 +28,6 @@
       "SAVING": "Збереження...",
       "SAVED": "Збережено"
     },
-    "ARTICLE_EDITOR": {
-      "IMAGE_UPLOAD": {
-        "TITLE": "Завантажити зображення",
-        "UPLOADING": "Завантажується...",
-        "SUCCESS": "Зображення успішно завантажено",
-        "ERROR": "Помилка при завантаженні зображення",
-        "ERROR_FILE_SIZE": "Зображення має бути менше {size}Мб",
-        "ERROR_FILE_FORMAT": "Формат зображення повинен бути jpg, jpeg або png",
-        "ERROR_FILE_DIMENSIONS": "Розміри зображення повинні бути менші ніж 2000 х 2000"
-      }
-    },
     "ARTICLE_SETTINGS": {
       "TITLE": "Налаштування статей",
       "FORM": {
@@ -228,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Домен для користувача",
           "PLACEHOLDER": "Власний домен порталу",
-          "HELP_TEXT": "Додайте лише якщо ви хочете використовувати власний домен для своїх порталів. Наприклад: https://example.com",
-          "ERROR": "Введіть дійсну URL-адресу домену"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Посилання на головну сторінку",
           "PLACEHOLDER": "Посилання на головну сторінку порталу",
-          "HELP_TEXT": "Посилання буде використане для повернення з порталу на домашню сторінку. Наприклад: https://example.com",
-          "ERROR": "Введіть дійсний URL домашньої сторінки"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Колір теми порталу",
@@ -317,7 +306,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Помилка під час публікації статті",
-        "SUCCESS": "Стаття успішно опублікована"
+        "SUCCESS": "Article published successfully"
       }
     },
     "ARCHIVE_ARTICLE": {

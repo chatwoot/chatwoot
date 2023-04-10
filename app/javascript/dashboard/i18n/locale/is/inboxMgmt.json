@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Innhólf",
-    "SIDEBAR_TXT": "<p><b>Innhólf</b></p> <p> Þegar þú tengir vefsíðu eða Facebook-síðu við Chatwoot er það kallað <b>Innhólf</b>. Þú getur haft ótakmörkuð innhólf á Chatwoot reikningnum þínum. </p><p> Smelltu á <b>Bæta við innhólfi</b> til að tengja vefsíðu eða Facebook-síðu. </p><p> Í stjórnborðinu geturðu séð öll samtölin úr öllum innhólfunum þínum á einum stað og svarað þeim undir flipanum 'Samtöl'. </p><p> Þú getur líka séð samtöl sem eru sértæk fyrir innhólf með því að smella á innhólfsnafnið í vinstri glugganum á mælaborðinu. </p>",
+    "SIDEBAR_TXT": "<p><b>Innhólf</b></p> <p> Þegar þú tengir vefsíðu eða Facebook-síðu við ExiZap er það kallað <b>Innhólf</b>. Þú getur haft ótakmörkuð innhólf á ExiZap reikningnum þínum. </p><p> Smelltu á <b>Bæta við innhólfi</b> til að tengja vefsíðu eða Facebook-síðu. </p><p> Í stjórnborðinu geturðu séð öll samtölin úr öllum innhólfunum þínum á einum stað og svarað þeim undir flipanum 'Samtöl'. </p><p> Þú getur líka séð samtöl sem eru sértæk fyrir innhólf með því að smella á innhólfsnafnið í vinstri glugganum á mælaborðinu. </p>",
     "LIST": {
       "404": "Það eru engin innhólf tengd við þennan reikning."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Veldu rás",
         "route": "settings_inbox_new",
-        "body": "Veldu þjónustuveituna sem þú vilt samþætta við Chatwoot."
+        "body": "Veldu þjónustuveituna sem þú vilt samþætta við ExiZap."
       },
       {
         "title": "Nýtt innhólf",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Sláðu inn nafn vefsíðu (Dæmi: Acme ehf)"
       },
       "FB": {
-        "HELP": "PS: Með því að skrá þig inn fáum við aðeins aðgang að skilaboðum síðunnar þinnar. Chatwoot getur aldrei nálgast einkaskilaboðin þín.",
+        "HELP": "PS: Með því að skrá þig inn fáum við aðeins aðgang að skilaboðum síðunnar þinnar. ExiZap getur aldrei nálgast einkaskilaboðin þín.",
         "CHOOSE_PAGE": "Veldu Síðu",
         "CHOOSE_PLACEHOLDER": "Veldu síðu úr listanum",
         "INBOX_NAME": "Nafn Innhólfs",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Veldu rás",
-        "DESC": "Chatwoot styður vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef þú vilt búa til sérsniðna rás geturðu búið hana til með því að nota API rásina. Til að byrja skaltu velja eina af rásunum hér að neðan."
+        "DESC": "ExiZap styður vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef þú vilt búa til sérsniðna rás geturðu búið hana til með því að nota API rásina. Til að byrja skaltu velja eina af rásunum hér að neðan."
       },
       "AGENTS": {
         "TITLE": "Þjónustufulltrúar",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Innhólfs Upplýsingar",
-        "DESC": "Í fellilistanum hér að neðan, veldu Facebook síðuna sem þú vilt tengja við Chatwoot. Þú getur líka gefið innhólfinu sérsniðið nafn til að þekkja það betur."
+        "DESC": "Í fellilistanum hér að neðan, veldu Facebook síðuna sem þú vilt tengja við ExiZap. Þú getur líka gefið innhólfinu sérsniðið nafn til að þekkja það betur."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "Þú hefur lokið við að innleiða Facebook síðuna þína í Chatwoot. Næst þegar viðskiptavinur sendir skilaboð á síðunni þinni birtist samtalið sjálfkrafa í innhólfinu þínu.<br>Við erum líka að útvega þér netspjalls skriftu sem þú getur auðveldlega bætt við vefsíðuna þína. Þegar þetta er komið á vefsvæðið þitt geta viðskiptavinir sent þér skilaboð beint frá vefsíðunni þinni án hjálpar utanaðkomandi tóla og samtalið mun birtast hér, í Chatwoot.<br>Svalt, ha? Jæja, við reynum að vera það :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Þú hefur lokið við að innleiða Facebook síðuna þína í ExiZap. Næst þegar viðskiptavinur sendir skilaboð á síðunni þinni birtist samtalið sjálfkrafa í innhólfinu þínu.<br>Við erum líka að útvega þér netspjalls skriftu sem þú getur auðveldlega bætt við vefsíðuna þína. Þegar þetta er komið á vefsvæðið þitt geta viðskiptavinir sent þér skilaboð beint frá vefsíðunni þinni án hjálpar utanaðkomandi tóla og samtalið mun birtast hér, í ExiZap.<br>Svalt, ha? Jæja, við reynum að vera það :)"
       }
     },
     "DETAILS": {
@@ -428,7 +417,7 @@
       "SETTINGS": "Stillingar",
       "COLLABORATORS": "Samstarfsaðilar",
       "CONFIGURATION": "Stillingar",
-      "CAMPAIGN": "Herferð",
+      "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Leyfa skilaboð eftir að samtal hefur verið leyst",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leyfa endanotendum að senda skilaboð jafnvel eftir að samtalið er leyst.",
       "WHATSAPP_SECTION_SUBHEADER": "Þessi API lykill er notaður fyrir samþættingu við WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Lykill",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Uppfæra",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Lykill"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Lykilorð"
       },
       "ENABLE_SSL": "Virkja SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Keyrt af Chatwoot",
+      "BRANDING_TEXT": "Keyrt af ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

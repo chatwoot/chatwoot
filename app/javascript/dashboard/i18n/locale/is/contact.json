@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Hafið frá",
     "INITIATED_AT": "Hafið",
     "IP_ADDRESS": "IP tala",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Ný skilaboð",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Engin fyrri samtöl eru tengd þessum tengilið.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Enter the company name",
         "LABEL": "Company Name"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Velja",
-        "REMOVE": "Fjarlægja",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Enter the Facebook username",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Símanúmer",
         "CONVERSATIONS": "Samtöl",
         "LAST_ACTIVITY": "Last Activity",
-        "CREATED_AT": "Created At",
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",

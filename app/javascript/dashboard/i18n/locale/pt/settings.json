@@ -59,16 +59,16 @@
         "TITLE": "Notificações de som",
         "NOTE": "Ativar notificações de som no painel quando surgirem novas mensagens e conversas.",
         "ALERT_TYPE": {
-          "TITLE": "Eventos de alerta:",
+          "TITLE": "Alert events:",
           "NONE": "Nenhuma",
           "ASSIGNED": "Conversas atribuídas",
           "ALL_CONVERSATIONS": "Todas as conversas"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Tom do alerta:"
+          "TITLE": "Alert tone:"
         },
         "CONDITIONS": {
-          "TITLE": "Condições de alerta:",
+          "TITLE": "Alert conditions:",
           "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
         }
@@ -79,8 +79,7 @@
         "CONVERSATION_ASSIGNMENT": "Enviar notificações por email quando uma conversa é atribuída a mim",
         "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa é criada",
         "CONVERSATION_MENTION": "Enviar notificações por email quando for mencionado numa conversa",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar mensagem de email quando criada uma mensagem ou atribuída uma conversa",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar mensagem de email quando criada uma mensagem ou atribuída uma conversa"
       },
       "API": {
         "UPDATE_SUCCESS": "As suas preferências de notificação foram atualizadas com sucesso",
@@ -93,7 +92,6 @@
         "CONVERSATION_CREATION": "Enviar uma notificação Push quando uma conversa é criada",
         "CONVERSATION_MENTION": "Enviar uma notificação Push quando for mencionado numa conversa",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar uma notificação Push quando uma mensagem é criada numa conversa atribuída",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Ativou notificações Push neste navegador.",
         "REQUEST_PUSH": "Ativar notificações Push"
       },
@@ -167,16 +165,15 @@
       "COPY_SUCCESSFUL": "Código copiado com sucesso para área de transferência"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Mostrar mais",
-      "SHOW_LESS": "Mostrar menos"
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "BAIXAR",
-      "UPLOADING": "A carregar...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "UPLOADING": "A carregar..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "Veja no mapa"
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "submeter"
@@ -189,12 +186,11 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Atualmente visualizando:",
-    "SWITCH": "Alternar",
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
-    "PARTICIPATING_CONVERSATIONS": "Participando",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "relatórios",
     "SETTINGS": "Confirgurações",
@@ -214,7 +210,7 @@
     "AUTOMATION": "Automatização",
     "MACROS": "Macros",
     "TEAMS": "Equipas",
-    "BILLING": "Cobrança",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os contatos",
@@ -236,23 +232,22 @@
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços",
     "HELP_CENTER": {
-      "TITLE": "Centro de Ajuda (Beta)",
-      "ALL_ARTICLES": "Todos os Artigos",
-      "MY_ARTICLES": "Meus Artigos",
-      "DRAFT": "Rascunho",
-      "ARCHIVED": "Arquivado",
-      "CATEGORY": "Categoria",
-      "SETTINGS": "Confirgurações",
-      "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
+      "TITLE": "Help Center (Beta)",
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Marcar offline automaticamente",
+      "TEXT": "Mark offline automatically",
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Cobrança",
+    "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
@@ -270,7 +265,7 @@
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",
+    "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do ExiZap. Por favor, crie uma nova conta para continuar.",
     "NEW_ACCOUNT": "Nova conta",
     "SELECTOR_SUBTITLE": "Criar uma nova conta",
     "API": {
@@ -287,7 +282,6 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Abrir conversa",
       "RESOLVE_AND_NEXT": "Resolver e passar para a próxima",

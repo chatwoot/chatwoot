@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Entrar no Chatwoot",
+    "TITLE": "Entrar no ExiZap",
     "EMAIL": {
       "LABEL": "e-mail",
       "PLACEHOLDER": "E-mail: alguém@exemplo.com"
@@ -13,11 +13,6 @@
       "SUCCESS_MESSAGE": "Login bem sucedido",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde",
       "UNAUTH": "Nome de usuário / senha incorreta. Por favor, tente novamente"
-    },
-    "OAUTH": {
-      "GOOGLE_LOGIN": "Entrar com o Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Use o endereço de e-mail da empresa para fazer login",
-      "NO_ACCOUNT_FOUND": "Não encontramos uma conta para seu endereço de e-mail."
     },
     "FORGOT_PASSWORD": "Esqueceu-se da sua senha?",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",

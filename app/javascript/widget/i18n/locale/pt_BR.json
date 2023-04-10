@@ -34,7 +34,7 @@
   "BUBBLE": {
     "LABEL": "Fale conosco no chat"
   },
-  "POWERED_BY": "Desenvolvido por Chatwoot",
+  "POWERED_BY": "Desenvolvido por Exi Sistemas",
   "EMAIL_PLACEHOLDER": "Por favor, insira seu e-mail",
   "CHAT_PLACEHOLDER": "Digite sua mensagem",
   "TODAY": "Hoje",
@@ -65,8 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
-    "IS_REQUIRED": "é obrigatório",
-    "REQUIRED": "Obrigatório"
+    "IS_REQUIRED": "é obrigatório"
   },
   "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -87,11 +86,5 @@
     "BUTTON_TEXT": "Solicitar uma transcrição de conversa",
     "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente"
-  },
-  "INTEGRATIONS": {
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Clique aqui para entrar",
-      "LEAVE_THE_ROOM": "Sair da ligação"
-    }
   }
 }

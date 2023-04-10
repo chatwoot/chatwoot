@@ -79,8 +79,7 @@
         "CONVERSATION_ASSIGNMENT": "Odeslat e-mailová oznámení, když je mi přiřazena konverzace",
         "CONVERSATION_CREATION": "Odeslat oznámení e-mailem při vytváření nové konverzace",
         "CONVERSATION_MENTION": "Odeslat oznámení e-mailem, pokud jste zmíněni v konverzaci",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odeslat oznámení e-mailem, když je nová zpráva vytvořena v přiřazené konverzaci",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odeslat oznámení e-mailem, když je nová zpráva vytvořena v přiřazené konverzaci"
       },
       "API": {
         "UPDATE_SUCCESS": "Vaše předvolby oznámení byly úspěšně aktualizovány",
@@ -93,7 +92,6 @@
         "CONVERSATION_CREATION": "Odeslat push oznámení při vytváření nové konverzace",
         "CONVERSATION_MENTION": "Poslat push oznámení, když jste zmíněni v konverzaci",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odeslat push oznámení, když je nová zpráva vytvořena v přiřazené konverzaci",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Povolili jste push pro tento prohlížeč.",
         "REQUEST_PUSH": "Povolit push oznámení"
       },
@@ -172,8 +170,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Stáhnout",
-      "UPLOADING": "Nahrávání...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "UPLOADING": "Nahrávání..."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -194,7 +191,6 @@
     "CONVERSATIONS": "Konverzace",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Zmínky",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Zprávy",
     "SETTINGS": "Nastavení",
@@ -242,7 +238,6 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category",
-      "SETTINGS": "Nastavení",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "SET_AUTO_OFFLINE": {
@@ -270,7 +265,7 @@
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any ExiZap accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Nový účet",
     "SELECTOR_SUBTITLE": "Vytvořit nový účet",
     "API": {

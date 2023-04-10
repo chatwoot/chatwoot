@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Κιβώτια Εισερχομένων",
-    "SIDEBAR_TXT": "<p><b>Κιβώτιο Εισερχομένων</b></p> <p> Όταν συνδέετε μια ιστοσελίδα ή μια σελίδα του Facebook με το Chatwoot αυτό καλείται ως <b>Κιβώτιο Εισερχομένων</b>. Μπορείτε να έχετε απεριόριστα κιβώτια σε ένα λογαριασμό. </p><p> Πατήστε στο <b>Προσθήκη Κιβωτίου</b> για να συνδέετε μια ιστοσελίδα ή μια σελίδα Facebook. </p><p> Στον Πίνακα Ελέγχου (Dashboard), μπορείτε να δείτε όλες τις συνομιλίες από όλα τα κιβώτια σε ένα μέρος και να απαντήσετε στις συζητήσεις από την καρτέλα `Συνομιλίες`. </p><p> Μπορείτε επίσης να δείτε τις συνομιλίες που αφορούν ένα συγκεκριμένο κιβώτιο επιλέγοντάς το από το αριστερό τμήμα του πίνακα ελέγχου (dashboard). </p>",
+    "SIDEBAR_TXT": "<p><b>Κιβώτιο Εισερχομένων</b></p> <p> Όταν συνδέετε μια ιστοσελίδα ή μια σελίδα του Facebook με το ExiZap αυτό καλείται ως <b>Κιβώτιο Εισερχομένων</b>. Μπορείτε να έχετε απεριόριστα κιβώτια σε ένα λογαριασμό. </p><p> Πατήστε στο <b>Προσθήκη Κιβωτίου</b> για να συνδέετε μια ιστοσελίδα ή μια σελίδα Facebook. </p><p> Στον Πίνακα Ελέγχου (Dashboard), μπορείτε να δείτε όλες τις συνομιλίες από όλα τα κιβώτια σε ένα μέρος και να απαντήσετε στις συζητήσεις από την καρτέλα `Συνομιλίες`. </p><p> Μπορείτε επίσης να δείτε τις συνομιλίες που αφορούν ένα συγκεκριμένο κιβώτιο επιλέγοντάς το από το αριστερό τμήμα του πίνακα ελέγχου (dashboard). </p>",
     "LIST": {
       "404": "Δεν υπάρχουν κιβώτια εισερχομένων σε αυτόν τον λογαριασμό."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Επιλογή Καναλιού",
         "route": "settings_inbox_new",
-        "body": "Επίλεξετε το κανάλι που θέλετε να ενσωματώσετε στο Chatwoot."
+        "body": "Επίλεξετε το κανάλι που θέλετε να ενσωματώσετε στο ExiZap."
       },
       {
         "title": "Δημιουργία Κιβωτίου",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Συμπληρώστε την ονομασία της ιστοσελίδας σας (π.χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
       },
       "FB": {
-        "HELP": "ΥΓ: Με την είσοδο, θα έχουμε πρόσβαση μόνο στα μηνύματα της σελίδας σας. Τα ιδιωτικά μηνύματά σας ποτέ δεν προσπελαστούν από το Chatwoot.",
+        "HELP": "ΥΓ: Με την είσοδο, θα έχουμε πρόσβαση μόνο στα μηνύματα της σελίδας σας. Τα ιδιωτικά μηνύματά σας ποτέ δεν προσπελαστούν από το ExiZap.",
         "CHOOSE_PAGE": "Διάλεξε Σελίδα",
         "CHOOSE_PLACEHOLDER": "Επιλέξτε σελίδα από την Λίστα",
         "INBOX_NAME": "Όνομα Κιβωτίου",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Επιλογή Καναλιού",
-        "DESC": "Το Chatwoot υποστηρίζει widget live-chat, σελίδα Facebook, προφίλ Twitter, Whatsapp, Email κλπ., ως κανάλια. Αν θέλετε να δημιουργήσετε ένα προσαρμοσμένο κανάλι, μπορείτε να το δημιουργήσετε χρησιμοποιώντας το κανάλι API. Επιλέξτε ένα κανάλι από τις παρακάτω επιλογές για να συνεχίσετε."
+        "DESC": "Το ExiZap υποστηρίζει widget live-chat, σελίδα Facebook, προφίλ Twitter, Whatsapp, Email κλπ., ως κανάλια. Αν θέλετε να δημιουργήσετε ένα προσαρμοσμένο κανάλι, μπορείτε να το δημιουργήσετε χρησιμοποιώντας το κανάλι API. Επιλέξτε ένα κανάλι από τις παρακάτω επιλογές για να συνεχίσετε."
       },
       "AGENTS": {
         "TITLE": "Πράκτορες",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Λεπτομέρειες Κιβωτίου",
-        "DESC": "Από το αναπτυσσόμενο μενού παρακάτω, επιλέξτε τη σελίδα Facebook που θέλετε να συνδεθείτε στο Chatwoot. Μπορείτε επίσης να δώσετε ένα προσαρμοσμένο όνομα στα εισερχόμενά σας για καλύτερη αναγνώριση."
+        "DESC": "Από το αναπτυσσόμενο μενού παρακάτω, επιλέξτε τη σελίδα Facebook που θέλετε να συνδεθείτε στο ExiZap. Μπορείτε επίσης να δώσετε ένα προσαρμοσμένο όνομα στα εισερχόμενά σας για καλύτερη αναγνώριση."
       },
       "FINISH": {
         "TITLE": "Το καρφώσατε!",
-        "DESC": "Ολοκληρώσατε με επιτυχία την ενσωμάτωση της σελίδας σας στο Facebook με το Chatwoot. Την επόμενη φορά που ένας πελάτης στέλνει μηνύματα στη σελίδα σας, η συνομιλία θα εμφανιστεί αυτόματα στα εισερχόμενά σας. <br> Σας παρέχουμε επίσης ένα σενάριο widget που μπορείτε εύκολα να προσθέσετε στον ιστότοπό σας. Μόλις δημοσιευτεί ζωντανά στον ιστότοπό σας, οι πελάτες μπορούν να σας στείλουν μηνύματα απευθείας από τον ιστότοπό σας χωρίς τη βοήθεια εξωτερικού εργαλείου και η συνομιλία θα εμφανιστεί εδώ, στο Chatwoot. <br> Ωραία, ε; Λοιπόν, σίγουρα προσπαθούμε να είμαστε :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Ολοκληρώσατε με επιτυχία την ενσωμάτωση της σελίδας σας στο Facebook με το ExiZap. Την επόμενη φορά που ένας πελάτης στέλνει μηνύματα στη σελίδα σας, η συνομιλία θα εμφανιστεί αυτόματα στα εισερχόμενά σας. <br> Σας παρέχουμε επίσης ένα σενάριο widget που μπορείτε εύκολα να προσθέσετε στον ιστότοπό σας. Μόλις δημοσιευτεί ζωντανά στον ιστότοπό σας, οι πελάτες μπορούν να σας στείλουν μηνύματα απευθείας από τον ιστότοπό σας χωρίς τη βοήθεια εξωτερικού εργαλείου και η συνομιλία θα εμφανιστεί εδώ, στο ExiZap. <br> Ωραία, ε; Λοιπόν, σίγουρα προσπαθούμε να είμαστε :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Επιτρέψτε τα μηνύματα μετά την επίλυση της συνομιλίας",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Επιτρέψτε στους τελικούς χρήστες να στέλνουν μηνύματα ακόμη και μετά την επίλυση της συζήτησης.",
       "WHATSAPP_SECTION_SUBHEADER": "Αυτό το κλειδί API χρησιμοποιείται για την ενσωμάτωση με τα API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "Κλειδί API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Ενημέρωση",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "Κλειδί API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Αυτόματο όριο ανάθεσης",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Κωδικός"
       },
       "ENABLE_SSL": "Ενεργοποίηση SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Γειά",
         "AGENT_MESSAGE": "Γειά σας"
       },
-      "BRANDING_TEXT": "με την δύναμη του Chatwoot",
+      "BRANDING_TEXT": "με την δύναμη του ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

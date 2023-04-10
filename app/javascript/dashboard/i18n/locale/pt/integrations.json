@@ -2,21 +2,19 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Eventos Inscritos",
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
         "CANCEL": "cancelar",
-        "DESC": "Eventos Webhook fornecem informações em tempo real sobre o que está acontecendo em sua conta Chatwoot. Por favor, insira uma URL válida para configurar uma callback.",
+        "DESC": "Eventos Webhook fornecem informações em tempo real sobre o que está acontecendo em sua conta ExiZap. Por favor, insira uma URL válida para configurar uma callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Eventos",
+          "LABEL": "Events",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversa Criada",
-            "CONVERSATION_STATUS_CHANGED": "Status da Conversa Alterado",
-            "CONVERSATION_UPDATED": "Conversa Atualizada",
-            "MESSAGE_CREATED": "Mensagem criada",
-            "MESSAGE_UPDATED": "Mensagem atualizada",
-            "WEBWIDGET_TRIGGERED": "Widget de bate-papo aberto pelo usuário",
-            "CONTACT_CREATED": "Contacto criado",
-            "CONTACT_UPDATED": "Contato atualizado"
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
           }
         },
         "END_POINT": {
@@ -24,7 +22,7 @@
           "PLACEHOLDER": "Exemplo: https://example/api/webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
-        "EDIT_SUBMIT": "Atualizar webhook",
+        "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Criar webhook"
       },
       "TITLE": "Webhook",
@@ -33,7 +31,7 @@
       "HEADER_BTN_TXT": "Adicionar novo webhook",
       "LOADING": "Buscando webhooks anexados",
       "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks são chamadas HTTP que podem ser definidas para cada conta. Eles são acionados por eventos como criação de mensagens no Chatwoot. Você pode criar mais de um webhook para esta conta. <br /><br /> Para criar um <b>webhook</b>, clique no botão <b>Adicionar novo webhook</b> . Você também pode remover qualquer webhook existente clicando no botão Excluir.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks são chamadas HTTP que podem ser definidas para cada conta. Eles são acionados por eventos como criação de mensagens no ExiZap. Você pode criar mais de um webhook para esta conta. <br /><br /> Para criar um <b>webhook</b>, clique no botão <b>Adicionar novo webhook</b> . Você também pode remover qualquer webhook existente clicando no botão Excluir.</p>",
       "LIST": {
         "404": "Não há webhooks configurados para esta conta.",
         "TITLE": "Gerenciar webhooks",
@@ -46,7 +44,7 @@
         "BUTTON_TEXT": "Alterar",
         "TITLE": "Editar Webhooks",
         "API": {
-          "SUCCESS_MESSAGE": "Configuração de webhook atualizada com sucesso",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
         }
       },
@@ -54,7 +52,7 @@
         "CANCEL": "cancelar",
         "TITLE": "Adicionar novo webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Configuração de webhook adicionada com sucesso",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
         }
       },
@@ -66,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar Exclusão",
-          "MESSAGE": "Tem certeza que deseja excluir o webhoook? (%{webhookURL})",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Sim, excluir ",
           "NO": "Não, mantenha isso"
         }
@@ -75,15 +73,8 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Utilizar a integração Slack",
-        "BODY": "<br/><p>Chatwoot irá agora sincronizar todas as mensagens recebidas através do canal de <b><i>conversas com clientes</i></b> dentro do seu local de trabalho do Slack.</p><p>A resposta a uma mensagem nas <b><i>conversas com o cliente</i></b> no seu canal de slack irá criar uma resposta para o cliente através do Chatwoot.</p><p> Comece as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no Chatwoot com o mesmo e-mail, as respostas serão associadas de acordo com isso.</p><p>Quando a pessoa que responde não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>"
+        "BODY": "<br/><p>ExiZap irá agora sincronizar todas as mensagens recebidas através do canal de <b><i>conversas com clientes</i></b> dentro do seu local de trabalho do Slack.</p><p>A resposta a uma mensagem nas <b><i>conversas com o cliente</i></b> no seu canal de slack irá criar uma resposta para o cliente através do ExiZap.</p><p> Comece as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no ExiZap com o mesmo e-mail, as respostas serão associadas de acordo com isso.</p><p>Quando a pessoa que responde não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>"
       }
-    },
-    "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Clique aqui para participar",
-      "LEAVE_THE_ROOM": "Deixar a sala",
-      "START_VIDEO_CALL_HELP_TEXT": "Iniciar uma nova chamada de vídeo com o cliente",
-      "JOIN_ERROR": "Houve um erro ao ingressar na chamada! Por favor, tente novamente",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
@@ -97,7 +88,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
       "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the ExiZap dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in ExiZap, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",

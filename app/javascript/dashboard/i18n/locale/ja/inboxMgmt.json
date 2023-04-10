@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "受信トレイ",
-    "SIDEBAR_TXT": "<p><b>受信トレイ</b></p> <p>ウェブサイトと接続した場合、またはFacebookページとChatwootを接続した場合、受信トレイが作成されます。1つのChatwootアカウントにつき、受信トレイは無制限で作成することができます。</p><p><b>受信トレイ作成</b>ボタンをクリックすると、ウェブサイトまたはFacebookと接続できるようになります。</p><p> 管理画面では、受信トレイ内にあるすべての会話がひとつの場所で確認でき、会話タブにて返信することができます。</p><p> 管理画面の左パネルから受信トレイの名前をクリックすることでも、特定の会話を見ることができます。</p>",
+    "SIDEBAR_TXT": "<p><b>受信トレイ</b></p> <p>ウェブサイトと接続した場合、またはFacebookページとExiZapを接続した場合、受信トレイが作成されます。1つのExiZapアカウントにつき、受信トレイは無制限で作成することができます。</p><p><b>受信トレイ作成</b>ボタンをクリックすると、ウェブサイトまたはFacebookと接続できるようになります。</p><p> 管理画面では、受信トレイ内にあるすべての会話がひとつの場所で確認でき、会話タブにて返信することができます。</p><p> 管理画面の左パネルから受信トレイの名前をクリックすることでも、特定の会話を見ることができます。</p>",
     "LIST": {
       "404": "このアカウントに紐付けられている受信トレイはありません。"
     },
@@ -9,7 +9,7 @@
       {
         "title": "チャンネルを選択",
         "route": "settings_inbox_new",
-        "body": "Chatwootと統合するプロバイダを選択してください。"
+        "body": "ExiZapと統合するプロバイダを選択してください。"
       },
       {
         "title": "受信トレイを作成",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "ウェブサイト名を入力してください(例：Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: サインインすることで、私たちはあなたのページのメッセージにのみアクセスできます。あなたのプライベートメッセージはChatwootによってアクセスすることはできません。",
+        "HELP": "PS: サインインすることで、私たちはあなたのページのメッセージにのみアクセスできます。あなたのプライベートメッセージはExiZapによってアクセスすることはできません。",
         "CHOOSE_PAGE": "ページを選択",
         "CHOOSE_PLACEHOLDER": "リストからページを選択",
         "INBOX_NAME": "受信トレイ名",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "担当者",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "受信トレイの詳細",
-        "DESC": "下のドロップダウンから、Chatwoot に接続する Facebook ページを選択してください。 わかりやすくするために受信トレイの名前をカスタマイズすることもできます。"
+        "DESC": "下のドロップダウンから、ExiZap に接続する Facebook ページを選択してください。 わかりやすくするために受信トレイの名前をカスタマイズすることもできます。"
       },
       "FINISH": {
         "TITLE": "ばっちりです！",
-        "DESC": "FacebookページとChatwootとの統合が正常に完了しました。次回から、あなたのページに送信された顧客からのメッセージや会話は、自動的に受信トレイに表示されます。<br>また、ウェブサイトに簡単に追加できるウィジェットスクリプトを提供しています。 一度これをあなたのウェブサイトに設定すれば、 顧客は他のツールの助けを借りずにWebサイトから直接メッセージを送信でき、Chatwoot上に会話が表示されます。 <br><br>素敵でしょ？まあ、私たちはきっとそうしますけどね:)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "FacebookページとExiZapとの統合が正常に完了しました。次回から、あなたのページに送信された顧客からのメッセージや会話は、自動的に受信トレイに表示されます。<br>また、ウェブサイトに簡単に追加できるウィジェットスクリプトを提供しています。 一度これをあなたのウェブサイトに設定すれば、 顧客は他のツールの助けを借りずにWebサイトから直接メッセージを送信でき、ExiZap上に会話が表示されます。 <br><br>素敵でしょ？まあ、私たちはきっとそうしますけどね:)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "パスワード"
       },
       "ENABLE_SSL": "Enable SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

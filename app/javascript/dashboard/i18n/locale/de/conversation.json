@@ -35,7 +35,6 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
-    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
@@ -43,8 +42,8 @@
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
     "CARD": {
-      "SHOW_LABELS": "Label anzeigen",
-      "HIDE_LABELS": "Labels ausblenden"
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -69,7 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Als ausstehend markieren",
       "RESOLVED": "Als gelöst markieren",
-      "MARK_AS_UNREAD": "Als ungelesen markieren",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Konversation wieder öffnen",
       "SNOOZE": {
         "TITLE": "Erinnern",
@@ -133,14 +132,6 @@
           "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
           "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
         }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
-        "CONFIRM": {
-          "YES": "Senden",
-          "CANCEL": "Stornieren"
-        }
       }
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
@@ -165,16 +156,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopieren",
       "DELETE": "Löschen",
-      "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen",
-      "TRANSLATE": "Translate",
-      "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
-      "DELETE_CONFIRMATION": {
-        "TITLE": "Are you sure you want to delete this message?",
-        "MESSAGE": "You cannot undo this action",
-        "DELETE": "Löschen",
-        "CANCEL": "Stornieren"
-      }
+      "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -195,8 +177,8 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hallo 👋, Willkommen bei %{installationName}!",
-    "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie %{installationName} optimal nutzen. Hier sind ein paar Dinge, die Sie in %{installationName} tun können, um das Erlebnis angenehm zu gestalten.",
+    "TITLE": "Hallo 👋, Willkommen bei ExiZap!",
+    "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie ExiZap optimal nutzen. Hier sind ein paar Dinge, die Sie in ExiZap tun können, um das Erlebnis angenehm zu gestalten.",
     "READ_LATEST_UPDATES": "Lesen Sie unsere neuesten Updates",
     "ALL_CONVERSATION": {
       "TITLE": "All Ihre Konversationen an einem Ort",
@@ -262,29 +244,5 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Betreff"
-  },
-  "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
-    "NO_RECORDS_FOUND": "Keine Ergebnisse gefunden",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
-    "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
-    }
-  },
-  "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

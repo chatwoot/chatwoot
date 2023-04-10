@@ -65,8 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "โปรดระบุ"
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
   "CHAT_FORM": {

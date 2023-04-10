@@ -59,18 +59,18 @@
         "TITLE": "Звукові сповіщення",
         "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
         "ALERT_TYPE": {
-          "TITLE": "Події оповіщення:",
+          "TITLE": "Alert events:",
           "NONE": "Нiчого",
           "ASSIGNED": "Призначені розмови",
           "ALL_CONVERSATIONS": "Всі розмови"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Тон сигналу:"
+          "TITLE": "Alert tone:"
         },
         "CONDITIONS": {
-          "TITLE": "Умови оповіщення:",
-          "CONDITION_ONE": "Надсилати аудіосповіщення тільки якщо вікно браузера не активне",
-          "CONDITION_TWO": "Надсилати сповіщення кожні 30 секунд, поки всі призначені розмови не будуть переглянуті"
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -79,8 +79,7 @@
         "CONVERSATION_ASSIGNMENT": "Надсилати сповіщення коли бесіду призначають мені",
         "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
         "CONVERSATION_MENTION": "Надсилати сповіщення електронною поштою, коли вас згадують в розмові",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати поштові листи, коли нове повідомлення створюється в призначеній розмові"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові"
       },
       "API": {
         "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
@@ -93,7 +92,6 @@
         "CONVERSATION_CREATION": "Надсилати push-повідомлення, коли створюється нова розмова",
         "CONVERSATION_MENTION": "Надсилати push-повідомлення, коли вас згадують в розмові",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
         "HAS_ENABLED_PUSH": "Ви увімкнули push для цього браузера.",
         "REQUEST_PUSH": "Увімкнути push-сповіщення"
       },
@@ -117,8 +115,8 @@
           "Зайнятий",
           "Не в мережі"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Доступу успішно встановлено",
-        "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз"
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",
@@ -149,7 +147,7 @@
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
-    "SUPER_ADMIN_CONSOLE": "Консоль адміна",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Вийти"
   },
   "APP_GLOBAL": {
@@ -172,11 +170,10 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
-      "UPLOADING": "Завантажується...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "Ця історія більше не доступна."
+      "UPLOADING": "Завантажується..."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "Дивитись на карті"
+      "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Додати"
@@ -194,7 +191,6 @@
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
-    "PARTICIPATING_CONVERSATIONS": "Підключені агенти",
     "UNATTENDED_CONVERSATIONS": "Не зв'язаний",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
@@ -212,7 +208,7 @@
     "LABELS": "Мітки",
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Автоматизація",
-    "MACROS": "Макроси",
+    "MACROS": "Macros",
     "TEAMS": "Команди",
     "BILLING": "Біллінг",
     "CUSTOM_VIEWS_FOLDER": "Папки",
@@ -236,18 +232,17 @@
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
     "HELP_CENTER": {
-      "TITLE": "Довідковий центр (Beta)",
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Всі статті",
       "MY_ARTICLES": "Мої статті",
       "DRAFT": "Чернетка",
       "ARCHIVED": "Архівовано",
       "CATEGORY": "Категорія",
-      "SETTINGS": "Налаштування",
       "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Позначити не в мережі (auto)",
-      "INFO_TEXT": "Дозволити системі автоматично позначати як не в мережі коли ви не використовуєте програму або панель управління."
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
     "DOCS": "Читати документи"
   },
@@ -287,7 +282,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "Переглянути всі шорткоди",
+    "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Відкрити розмову",
       "RESOLVE_AND_NEXT": "Вирішити і перейти до наступного",

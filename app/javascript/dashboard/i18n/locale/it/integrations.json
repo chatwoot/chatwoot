@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Eventi iscritti",
       "FORM": {
         "CANCEL": "annulla",
-        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
+        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account ExiZap. Per favore inserisci un URL valido per configurare un callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Eventi",
           "EVENTS": {
@@ -14,9 +14,7 @@
             "CONVERSATION_UPDATED": "Conversazione aggiornata",
             "MESSAGE_CREATED": "Messaggio creato",
             "MESSAGE_UPDATED": "Messaggio aggiornato",
-            "WEBWIDGET_TRIGGERED": "Widget live chat aperto dall'utente",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "WEBWIDGET_TRIGGERED": "Widget live chat aperto dall'utente"
           }
         },
         "END_POINT": {
@@ -33,7 +31,7 @@
       "HEADER_BTN_TXT": "Aggiungi nuovo webhook",
       "LOADING": "Recupero dei webhooks collegati",
       "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in Chatwoot. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul pulsante <b>Aggiungi nuovo webhook</b>. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in ExiZap. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul pulsante <b>Aggiungi nuovo webhook</b>. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
       "LIST": {
         "404": "Non ci sono webhook configurati per questo account.",
         "TITLE": "Gestisci webhook",
@@ -75,7 +73,7 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Stai utilizzando l'integrazione Slack",
-        "BODY": "<br/><p>Chatwoot ora sincronizzerà tutte le conversazioni in arrivo nel canale <b><i>conversazioni dei clienti</i></b> all'interno del tuo spazio di lavoro Slack.</p><p>Rispondendo a un thread di conversazione nel canale Slack <b><i>conversazioni dei clienti</i></b> verrà creata una risposta al cliente attraverso chatwoot.</p><p>Inizia le risposte con <b><i>nota:</i></b> per creare note private invece che risposte.</p><p>Se il replicante su slack ha un profilo agente in chatwoot sotto la stessa email, le risposte saranno associate di conseguenza.</p><p>Quando il replicante non ha un profilo di agente associato, le risposte saranno fatte dal profilo del bot.</p>"
+        "BODY": "<br/><p>ExiZap ora sincronizzerà tutte le conversazioni in arrivo nel canale <b><i>conversazioni dei clienti</i></b> all'interno del tuo spazio di lavoro Slack.</p><p>Rispondendo a un thread di conversazione nel canale Slack <b><i>conversazioni dei clienti</i></b> verrà creata una risposta al cliente attraverso ExiZap.</p><p>Inizia le risposte con <b><i>nota:</i></b> per creare note private invece che risposte.</p><p>Se il replicante su slack ha un profilo agente in ExiZap sotto la stessa email, le risposte saranno associate di conseguenza.</p><p>Quando il replicante non ha un profilo di agente associato, le risposte saranno fatte dal profilo del bot.</p>"
       }
     },
     "DYTE": {
@@ -97,7 +95,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "App dashboard",
       "HEADER_BTN_TXT": "Aggiungi una nuova app dashboard",
-      "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno del cruscotto Chatwoot per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni all'utente, i loro ordini, o la loro cronologia di pagamento precedente.</p><p>Quando hai incorporato la tua applicazione usando il cruscotto in Chatwoot, la tua applicazione avrà il contesto della conversazione e del contatto come evento finestra. Implementa un ascoltatore per l'evento del messaggio sulla tua pagina per ricevere il contesto.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
+      "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno del cruscotto ExiZap per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni all'utente, i loro ordini, o la loro cronologia di pagamento precedente.</p><p>Quando hai incorporato la tua applicazione usando il cruscotto in ExiZap, la tua applicazione avrà il contesto della conversazione e del contatto come evento finestra. Implementa un ascoltatore per l'evento del messaggio sulla tua pagina per ricevere il contesto.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
       "DESCRIPTION": "Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno della dashboard per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporare che per fornire informazioni sull'utente, i suoi ordini o la loro cronologia di pagamento precedente.",
       "LIST": {
         "404": "Non ci sono ancora app dashboard configurate su questo account",

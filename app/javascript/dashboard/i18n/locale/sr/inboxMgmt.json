@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Prijemni sandučići",
-    "SIDEBAR_TXT": "<p><b>Prijemno sanduče</b></p> <p> Kada povežete veb sajt ili fejsbuk stranicu sa Chatwoot, to se zove <b>prijemno sanduče</b>. Možete imati neograničen broj prijemnih sandučića na vašem Chatwoot nalogu. </p><p> Kliknite na <b>Dodaj prijemno sanduče</b> da bi ste povezali veb sajt ili Fejsbuk stranicu. </p><p> U glavnoj tabli, na jednom mestu možete videti sve razgovore iz svih vaših prijemnih sandučića i odgovarati na njih pod karticom 'Razgovori'. </p><p> Takođe možete videti razgovore u određenom prijemnom sandučetu klikom na ime prijemnog sandučeta u levom panelu glavne table. </p>",
+    "SIDEBAR_TXT": "<p><b>Prijemno sanduče</b></p> <p> Kada povežete veb sajt ili fejsbuk stranicu sa ExiZap, to se zove <b>prijemno sanduče</b>. Možete imati neograničen broj prijemnih sandučića na vašem ExiZap nalogu. </p><p> Kliknite na <b>Dodaj prijemno sanduče</b> da bi ste povezali veb sajt ili Fejsbuk stranicu. </p><p> U glavnoj tabli, na jednom mestu možete videti sve razgovore iz svih vaših prijemnih sandučića i odgovarati na njih pod karticom 'Razgovori'. </p><p> Takođe možete videti razgovore u određenom prijemnom sandučetu klikom na ime prijemnog sandučeta u levom panelu glavne table. </p>",
     "LIST": {
       "404": "Nema prijamnih sandučeta povezanih sa ovim nalogom."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Izaberite kanal",
         "route": "settings_inbox_new",
-        "body": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
+        "body": "Izaberte provajdera kojeg želite da integrišete sa ExiZap-om."
       },
       {
         "title": "Napravi prijemno sanduče",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Unesite naziv vašeg veb sajta (npr.: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. Chatwoot vašim privatnim porukama nikada ne može pristupiti.",
+        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. ExiZap vašim privatnim porukama nikada ne može pristupiti.",
         "CHOOSE_PAGE": "Izaberite stranicu",
         "CHOOSE_PLACEHOLDER": "Izaberite stranicu iz spiska",
         "INBOX_NAME": "Naziv prijemnog sandučeta",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Izaberite kanal",
-        "DESC": "Chatwoot podržava vidžete ćaskanja, Fejbuk Mesindžer, Tviter profile, WhatsApp, E-poštu, itd., kao kanale. Ako želite da izgradite proizvoljan kanal, možete kreirati ga korišćenjem API kanala. Da bi ste počeli, izaberite jedan od kanala ispod."
+        "DESC": "ExiZap podržava vidžete ćaskanja, Fejbuk Mesindžer, Tviter profile, WhatsApp, E-poštu, itd., kao kanale. Ako želite da izgradite proizvoljan kanal, možete kreirati ga korišćenjem API kanala. Da bi ste počeli, izaberite jedan od kanala ispod."
       },
       "AGENTS": {
         "TITLE": "Agenti",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalji prijemnog sandučeta",
-        "DESC": "Iz padajućeg menija ispod, izaberite Fejsbuk stranicu koju želite da povežete sa Chatwoot-om. Takođe možete navesti proizvoljan naziv prijemnog sandučeta za bolju identifikaciju."
+        "DESC": "Iz padajućeg menija ispod, izaberite Fejsbuk stranicu koju želite da povežete sa ExiZap-om. Takođe možete navesti proizvoljan naziv prijemnog sandučeta za bolju identifikaciju."
       },
       "FINISH": {
         "TITLE": "Uspeli ste!",
-        "DESC": "Uspešno ste završili integraciju vaše Fejsbuk stranice sa Chatwoo-om. Kada potrošač sledeći put pošalje poruku na tvojoj stranici, razgovor će se automatski pojaviti u prijemnom sandučetu.<br>Takođe vam pružamo skriptu za vidžet koju možete jednostavno dodati na veb sajt. Onda kada je postavljen na veb sajt, potrošači mogu da vam pošalju poruku direktno sa veb sajta bez pomoći eksternih alata i razgovor će se pojaviti ovde, na Chatwoot-u.<br>Kul, zar ne? Pa, svakako se trudimo da bude :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Uspešno ste završili integraciju vaše Fejsbuk stranice sa Chatwoo-om. Kada potrošač sledeći put pošalje poruku na tvojoj stranici, razgovor će se automatski pojaviti u prijemnom sandučetu.<br>Takođe vam pružamo skriptu za vidžet koju možete jednostavno dodati na veb sajt. Onda kada je postavljen na veb sajt, potrošači mogu da vam pošalju poruku direktno sa veb sajta bez pomoći eksternih alata i razgovor će se pojaviti ovde, na ExiZap-u.<br>Kul, zar ne? Pa, svakako se trudimo da bude :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Dozvoli poruke nakon rešavanja razgovora",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Dozvolite krajnjim korisnicima da šalju poruke čak i kada je razgovor rešen.",
       "WHATSAPP_SECTION_SUBHEADER": "Ovaj API ključ se koristi za integraciju sa WhatsApp API-jima.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API ključ",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Primeni",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API ključ"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Ograničenje automatskog dodeljivanja",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Lozinka"
       },
       "ENABLE_SSL": "Omogući SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Ćao",
         "AGENT_MESSAGE": "Zdravo"
       },
-      "BRANDING_TEXT": "Pokreće Chatwoot",
+      "BRANDING_TEXT": "Pokreće ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings ={options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Đăng nhập Chatwoot",
+    "TITLE": "Đăng nhập ExiZap",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "Email : someone@example.com"
@@ -13,11 +13,6 @@
       "SUCCESS_MESSAGE": "Đăng nhập thành công",
       "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau",
       "UNAUTH": "Tài khoản/Mật khẩu không đúng. Vui lòng thử lại"
-    },
-    "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Quên mật khẩu?",
     "CREATE_NEW_ACCOUNT": "Tạo mới tài khoản",

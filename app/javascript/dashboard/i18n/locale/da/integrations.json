@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Abonnerede Begivenheder",
       "FORM": {
         "CANCEL": "Annuller",
-        "DESC": "Webhook-begivenheder giver dig realtidsoplysninger om, hvad der sker på din Chatwoot-konto. Angiv en gyldig URL for at konfigurere et callback.",
+        "DESC": "Webhook-begivenheder giver dig realtidsoplysninger om, hvad der sker på din ExiZap-konto. Angiv en gyldig URL for at konfigurere et callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Begivenheder",
           "EVENTS": {
@@ -14,9 +14,7 @@
             "CONVERSATION_UPDATED": "Samtale Opdateret",
             "MESSAGE_CREATED": "Besked oprettet",
             "MESSAGE_UPDATED": "Besked opdateret",
-            "WEBWIDGET_TRIGGERED": "Live chat widget åbnet af brugeren",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "WEBWIDGET_TRIGGERED": "Live chat widget åbnet af brugeren"
           }
         },
         "END_POINT": {
@@ -33,7 +31,7 @@
       "HEADER_BTN_TXT": "Tilføj ny webhook",
       "LOADING": "Henter vedhæftede webhooks",
       "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks er HTTP tilbagekald som kan defineres for hver konto. De udløses af begivenheder som oprettelse af beskeder i Chatwoot. Du kan oprette mere end én webhook for denne konto. <br /><br /> For at oprette en <b>webhook</b>, klik på <b>Tilføj ny webhook</b> knappen. Du kan også fjerne enhver eksisterende webhook ved at klikke på Slet knappen.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks er HTTP tilbagekald som kan defineres for hver konto. De udløses af begivenheder som oprettelse af beskeder i ExiZap. Du kan oprette mere end én webhook for denne konto. <br /><br /> For at oprette en <b>webhook</b>, klik på <b>Tilføj ny webhook</b> knappen. Du kan også fjerne enhver eksisterende webhook ved at klikke på Slet knappen.</p>",
       "LIST": {
         "404": "Der er ingen webhooks konfigureret til denne konto.",
         "TITLE": "Administrer webhooks",
@@ -75,7 +73,7 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Brug Slack Integration",
-        "BODY": "<br/><p>Chatwoot vil nu synkronisere alle indgående samtaler ind i <b><i>kundesamtaler</i></b> kanalen i din slack arbejdsplads.</p><p>Svar på en samtaletråd i <b><i>kunde-samtaler</i></b> slack kanal vil skabe et svar tilbage til kunden gennem chatwoot.</p><p>Start svarene med <b><i>note:</i></b> for at oprette private noter i stedet for svar.</p><p>Hvis replikatoren på slack har en agentprofil i chatwoot under samme e-mail, vil svarene blive tilknyttet i overensstemmelse hermed.</p><p>Når replikatoren ikke har en tilknyttet agentprofil, vil svarene blive fremsat fra bot-profilen.</p>"
+        "BODY": "<br/><p>ExiZap vil nu synkronisere alle indgående samtaler ind i <b><i>kundesamtaler</i></b> kanalen i din slack arbejdsplads.</p><p>Svar på en samtaletråd i <b><i>kunde-samtaler</i></b> slack kanal vil skabe et svar tilbage til kunden gennem ExiZap.</p><p>Start svarene med <b><i>note:</i></b> for at oprette private noter i stedet for svar.</p><p>Hvis replikatoren på slack har en agentprofil i ExiZap under samme e-mail, vil svarene blive tilknyttet i overensstemmelse hermed.</p><p>Når replikatoren ikke har en tilknyttet agentprofil, vil svarene blive fremsat fra bot-profilen.</p>"
       }
     },
     "DYTE": {
@@ -97,7 +95,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
       "HEADER_BTN_TXT": "Tilføj en ny dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps tillader organisationer at integrere en applikation i Chatwoot-dashboardet for at give konteksten til kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at inde i instrumentbrættet til at give brugerinformation, deres ordrer eller deres tidligere betalingshistorie.</p><p>Når du indlejrer din applikation ved hjælp af instrumentbrættet i Chatwoot, dit program vil få konteksten af samtalen og kontakt som en vinduesbegivenhed. Gennemfør en lytter til besked begivenheden på din side for at modtage konteksten.</p><p>For at tilføje en ny dashboard app, klik på knappen 'Tilføj en ny dashboard app'.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps tillader organisationer at integrere en applikation i ExiZap-dashboardet for at give konteksten til kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at inde i instrumentbrættet til at give brugerinformation, deres ordrer eller deres tidligere betalingshistorie.</p><p>Når du indlejrer din applikation ved hjælp af instrumentbrættet i ExiZap, dit program vil få konteksten af samtalen og kontakt som en vinduesbegivenhed. Gennemfør en lytter til besked begivenheden på din side for at modtage konteksten.</p><p>For at tilføje en ny dashboard app, klik på knappen 'Tilføj en ny dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps giver organisationer mulighed for at integrere et program i instrumentbrættet for at give konteksten for kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at give brugeroplysninger, deres ordrer, eller deres tidligere betalingshistorik.",
       "LIST": {
         "404": "Der er ingen dashboard apps konfigureret på denne konto endnu",

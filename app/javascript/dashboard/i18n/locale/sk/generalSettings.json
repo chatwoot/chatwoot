@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Teraz môžete prijímať e-maily vo vlastnej doméne."
       }
     },
-    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre Chatwoot. Prosím, aktualizujte svoju inštanciu.",
+    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre ExiZap. Prosím, aktualizujte svoju inštanciu.",
     "LEARN_MORE": "Learn more"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Nová konverzácia",
       "conversation_assignment": "Konverzácia pridelená",
       "assigned_conversation_new_message": "Nová správa",
-      "participating_conversation_new_message": "Nová správa",
       "conversation_mention": "Zmienka"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Chatwoot je odpojený"
+      "TEXT": "ExiZap je odpojený"
     },
     "BUTTON": {
       "REFRESH": "Obnoviť"

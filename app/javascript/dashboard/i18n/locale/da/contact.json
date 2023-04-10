@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Startet fra",
     "INITIATED_AT": "Startet fra",
     "IP_ADDRESS": "Ip Adresse",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Ny besked",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Der er ingen tidligere samtaler tilknyttet denne kontakt.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Indtast virksomhedens navn",
         "LABEL": "Virksomhedens Navn"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Land Navn",
-        "SELECT_PLACEHOLDER": "Vælg",
-        "REMOVE": "Fjern",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Indtast Facebook brugernavn",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Samtaler",
         "LAST_ACTIVITY": "Sidste Aktivitet",
-        "CREATED_AT": "Oprettet Den",
         "COUNTRY": "Land",
         "CITY": "By",
         "SOCIAL_PROFILES": "Social Profiles",

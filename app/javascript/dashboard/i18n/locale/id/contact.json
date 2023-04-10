@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Dimulai dari",
     "INITIATED_AT": "Dimulai pada",
     "IP_ADDRESS": "IP Address",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Pesan baru",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tidak ada percakapan sebelumnya yang terkait dengan kontak ini.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Masukkan nama perusahaan",
         "LABEL": "Nama Perusahaan"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Hapus",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Masukkan nama pengguna facebook",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Nomor Telpon",
         "CONVERSATIONS": "Percakapan",
         "LAST_ACTIVITY": "Aktivitas Terakhir",
-        "CREATED_AT": "Created At",
         "COUNTRY": "Negara",
         "CITY": "Kota",
         "SOCIAL_PROFILES": "Profil Sosial",

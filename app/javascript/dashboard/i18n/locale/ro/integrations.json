@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
         "CANCEL": "Renunță",
-        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
+        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. ExiZap. Introduceți un URL valid pentru a configura un callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Events",
           "EVENTS": {
@@ -14,9 +14,7 @@
             "CONVERSATION_UPDATED": "Conversation Updated",
             "MESSAGE_CREATED": "Message created",
             "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
           }
         },
         "END_POINT": {
@@ -33,7 +31,7 @@
       "HEADER_BTN_TXT": "Adaugă un nou webhook",
       "LOADING": "Preluare webhook-uri atașate",
       "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks sunt request-uri HTTP care pot fi definite pentru fiecare cont. Acestea sunt declanșate de evenimente precum crearea de mesaje în Chatwoot. Poți crea mai mult de un singur webhook pentru acest cont. <br /><br /> Pentru a crea un webhook <b></b>, apasă pe butonul <b>Adaugă un nou webhook</b>. De asemenea, puteți elimina orice webhook existent făcând clic pe butonul Ștergere.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks sunt request-uri HTTP care pot fi definite pentru fiecare cont. Acestea sunt declanșate de evenimente precum crearea de mesaje în ExiZap. Poți crea mai mult de un singur webhook pentru acest cont. <br /><br /> Pentru a crea un webhook <b></b>, apasă pe butonul <b>Adaugă un nou webhook</b>. De asemenea, puteți elimina orice webhook existent făcând clic pe butonul Ștergere.</p>",
       "LIST": {
         "404": "Nu există webhook-uri configurate pentru acest cont.",
         "TITLE": "Gestionează webhook-uri",
@@ -75,7 +73,7 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Utilizarea integrării Slack",
-        "BODY": "<br/><p>Chatwoot va sincroniza acum toate conversațiile primite în canalul <b><i>de conversații cu clienții</i></b> din interiorul locului de muncă slăbit.</p><p>Răspunsul la un fir de conversație în canalul de slăbire <b><i>a conversațiilor clienților</i></b> va crea un răspuns înapoi la client prin chatwoot.</p><p>Începeți răspunsurile cu <b><i>notă:</i></b> pentru a crea note private în loc de răspunsuri.</p><p>În cazul în care replier pe slack are un profil de agent în chatwoot sub același e-mail, răspunsurile vor fi asociate în consecință.</p><p>Atunci când replierul nu are un profil de agent asociat, răspunsurile vor fi făcute din profilul botului.</p>"
+        "BODY": "<br/><p>ExiZap va sincroniza acum toate conversațiile primite în canalul <b><i>de conversații cu clienții</i></b> din interiorul locului de muncă slăbit.</p><p>Răspunsul la un fir de conversație în canalul de slăbire <b><i>a conversațiilor clienților</i></b> va crea un răspuns înapoi la client prin ExiZap.</p><p>Începeți răspunsurile cu <b><i>notă:</i></b> pentru a crea note private în loc de răspunsuri.</p><p>În cazul în care replier pe slack are un profil de agent în ExiZap sub același e-mail, răspunsurile vor fi asociate în consecință.</p><p>Atunci când replierul nu are un profil de agent asociat, răspunsurile vor fi făcute din profilul botului.</p>"
       }
     },
     "DYTE": {
@@ -97,7 +95,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
       "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the ExiZap dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in ExiZap, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",

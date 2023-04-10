@@ -22,8 +22,7 @@
       "is_not_present": "നിലവിലില്ല",
       "is_greater_than": "Is greater than",
       "is_less_than": "Is lesser than",
-      "days_before": "Is x days before",
-      "starts_with": "Starts with"
+      "days_before": "Is x days before"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",

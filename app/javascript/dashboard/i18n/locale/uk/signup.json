@@ -1,17 +1,14 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Створити акаунт",
+    "TRY_WOOT": "Зареєструватися",
     "TITLE": "Реєстрація",
-    "TESTIMONIAL_HEADER": "Один крок і вперед",
-    "TESTIMONIAL_CONTENT": "Ви за один крок від залучення своїх клієнтів, утримання їх та пошуку нових.",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
-    "OAUTH": {
-      "GOOGLE_SIGNUP": "Зареєструватися через Google"
-    },
     "COMPANY_NAME": {
-      "LABEL": "Назва компанії",
-      "PLACEHOLDER": "Введіть назву вашої компанії; наприклад: Уейн Enterprises",
-      "ERROR": "Назва компанії закоротка"
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Повне ім'я",
@@ -21,7 +18,7 @@
     "EMAIL": {
       "LABEL": "Робоча електронна пошта",
       "PLACEHOLDER": "Введіть робочу адресу електронної пошти; наприклад: bruce@wayne.enterprises",
-      "ERROR": "Будь ласка, введіть робочу адресу електронної пошти"
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Пароль",
@@ -38,7 +35,7 @@
       "SUCCESS_MESSAGE": "Реєстрація пройшла успішно",
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
     },
-    "SUBMIT": "Створити акаунт",
+    "SUBMIT": "Додати",
     "HAVE_AN_ACCOUNT": "Вже маєте обліковий запис?"
   }
 }

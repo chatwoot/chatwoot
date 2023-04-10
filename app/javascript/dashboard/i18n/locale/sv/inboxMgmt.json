@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inkorgar",
-    "SIDEBAR_TXT": "<p><b>Inkorg</b></p> <p> När du ansluter en webbplats eller en Facebook-sida till Chatwoot, så kallas det för en <b>Inkorg</b>. Du kan ha obegränsad mängd inkorgar i ditt Chatwoot-konto. </p><p> Klicka på <b>Lägg till inkorg</b> för att ansluta en webbplats eller en Facebook-sida. </p><p> I instrumentpanelen kan du se alla konversationer från alla dina inkorgar på en enda plats och svara på dem under fliken \"Konversationer\". </p><p> Du kan också se konversationer specifika för en inkorg genom att klicka på inkorgnamnet i den vänstra rutan på instrumentbrädan. </p>",
+    "SIDEBAR_TXT": "<p><b>Inkorg</b></p> <p> När du ansluter en webbplats eller en Facebook-sida till ExiZap, så kallas det för en <b>Inkorg</b>. Du kan ha obegränsad mängd inkorgar i ditt ExiZap-konto. </p><p> Klicka på <b>Lägg till inkorg</b> för att ansluta en webbplats eller en Facebook-sida. </p><p> I instrumentpanelen kan du se alla konversationer från alla dina inkorgar på en enda plats och svara på dem under fliken \"Konversationer\". </p><p> Du kan också se konversationer specifika för en inkorg genom att klicka på inkorgnamnet i den vänstra rutan på instrumentbrädan. </p>",
     "LIST": {
       "404": "Det finns inga inkorgar kopplade till detta konto."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Välj kanal",
         "route": "settings_inbox_new",
-        "body": "Välj den leverantör du vill integrera med Chatwoot."
+        "body": "Välj den leverantör du vill integrera med ExiZap."
       },
       {
         "title": "Skapa inkorg",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Ange namnet på din webbplats (t.ex. Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
+        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av ExiZap.",
         "CHOOSE_PAGE": "Välj sida",
         "CHOOSE_PLACEHOLDER": "Välj en sida från listan",
         "INBOX_NAME": "Inkorgsnamn",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Välj en kanal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Inkorgsdetaljer",
-        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till Chatwoot. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
+        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till ExiZap. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
       },
       "FINISH": {
         "TITLE": "Där satt den!",
-        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med Chatwoot. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på Chatwoot.<br>Cool, va? Tja, vi försöker säkert att vara :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med ExiZap. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på ExiZap.<br>Cool, va? Tja, vi försöker säkert att vara :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Uppdatera",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Lösenord"
       },
       "ENABLE_SSL": "Enable SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -684,12 +664,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Drivs av Chatwoot",
+      "BRANDING_TEXT": "Drivs av ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

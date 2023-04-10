@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Başlatıldı",
     "INITIATED_AT": "Başlatıldı",
     "IP_ADDRESS": "IP Adresi",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Yeni Mesaj",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Şirket adını girin",
         "LABEL": "Şirket Adı"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Ülke Adı",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Kaldır",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Facebook kullanıcı adını girin",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Telefon numarası",
         "CONVERSATIONS": "Konuşmalar",
         "LAST_ACTIVITY": "Son aktivite",
-        "CREATED_AT": "Oluşturma",
         "COUNTRY": "Ülke",
         "CITY": "Şehir",
         "SOCIAL_PROFILES": "Sosyal profiller",

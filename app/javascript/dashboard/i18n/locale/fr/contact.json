@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Initié depuis",
     "INITIATED_AT": "Initié à",
     "IP_ADDRESS": "Adresse IP",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nouveau message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Il n'y a aucune conversation précédente associée à ce contact.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Entrez le nom de la société",
         "LABEL": "Nom de la société"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Nom du pays",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Supprimer",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Entrez le nom d'utilisateur Facebook",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Numéro de téléphone",
         "CONVERSATIONS": "Conversations",
         "LAST_ACTIVITY": "Dernière activité",
-        "CREATED_AT": "Créé le",
         "COUNTRY": "Pays",
         "CITY": "Ville",
         "SOCIAL_PROFILES": "Comptes réseaux sociaux",

@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Þú getur fengið tölvupóst á þitt lén núna."
       }
     },
-    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
+    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir ExiZap er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
     "LEARN_MORE": "Læra meira"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Nýtt samtal",
       "conversation_assignment": "Samtali úthlutað",
       "assigned_conversation_new_message": "Nýtt skilaboð",
-      "participating_conversation_new_message": "Nýtt skilaboð",
       "conversation_mention": "Nefna"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Aftengdur Chatwoot"
+      "TEXT": "Aftengdur ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Uppfæra"

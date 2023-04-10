@@ -2,7 +2,7 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "אנא בחר שיחה מהחלונית השמאלית",
     "CSAT_REPLY_MESSAGE": "נא דרג שיחה זו",
-    "404": "מצטערים, לא מצאנו את השיחה המבוקשת, נא לנסות שוב",
+    "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "החלף תצוגה",
     "DASHBOARD_APP_TAB_MESSAGES": "הודעות",
     "UNVERIFIED_SESSION": "זהות המשתמש לא מְאוּמָתת",
@@ -35,7 +35,6 @@
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
     "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
-    "SAVE_CONTACT": "שמור",
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
@@ -43,7 +42,7 @@
     "RATING_TITLE": "דירוג",
     "FEEDBACK_TITLE": "משוב",
     "CARD": {
-      "SHOW_LABELS": "הצג תויות",
+      "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
     },
     "HEADER": {
@@ -69,7 +68,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "סמן כממתין",
       "RESOLVED": "סמן כפתור",
-      "MARK_AS_UNREAD": "סמן כלא נקרא",
+      "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "פתח מחדש את השיחה",
       "SNOOZE": {
         "TITLE": "נודניק",
@@ -83,15 +82,15 @@
       "ASSIGN_TEAM": "שייך צוות",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "מזהה שיחה %{conversationId} קושר ל %{agentName}",
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
           "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "התוית %{labelName} קושרה למזהה שיחה %{conversationId}",
-          "FAILED": "לא ניתן לקשר שורה. אנא נסו שנית"
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "הצוות %{team} קושר לשיחה מספר %{conversationId}",
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
           "FAILED": "השמה לצוות לא הצליחה, בבקשה נסה שנית."
         }
       }
@@ -133,25 +132,17 @@
           "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
           "ERROR": "בבקשה הכנס כתוכת אימייל"
         }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "משתנים בלתי מזוהים",
-        "MESSAGE": "יש לך {undefinedVariablesCount} משתנים בלתי מזוהים בהודעה {undefinedVariables}. תרצה לשלוח את ההודעה בכל זאת?",
-        "CONFIRM": {
-          "YES": "שלח",
-          "CANCEL": "ביטול"
-        }
       }
     },
     "VISIBLE_TO_AGENTS": "פתקים פרטיים: רק אתה והצוות שלך יכולים לראות",
     "CHANGE_STATUS": "סטטוס השיחה השתנה",
     "CHANGE_STATUS_FAILED": "סטטוס השיחה השתנה לנכשלה",
     "CHANGE_AGENT": "שיוך שיחה השתנתה",
-    "CHANGE_AGENT_FAILED": "שינוי קישור נכשל",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
     "ASSIGN_LABEL_SUCCESFUL": "סמן משימה כבוצעה בהצלחה",
     "ASSIGN_LABEL_FAILED": "סמן משימה כנכשלה",
     "CHANGE_TEAM": "שיחת קבוצה השתנתה",
-    "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
     "BOT": "בוט",
@@ -165,16 +156,7 @@
     "CONTEXT_MENU": {
       "COPY": "העתק",
       "DELETE": "מחק",
-      "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות",
-      "TRANSLATE": "תרגום",
-      "COPY_PERMALINK": "העתק קישור להודעה",
-      "LINK_COPIED": "קישור להודעה הועתק ללוח",
-      "DELETE_CONFIRMATION": {
-        "TITLE": "בטוחים שאתם רוצים למחוק את ההודעה הזו?",
-        "MESSAGE": "לא ניתן לבטל פעולה זו",
-        "DELETE": "מחק",
-        "CANCEL": "ביטול"
-      }
+      "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -195,8 +177,8 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "היי 👋, ברוך הבא ל%{installationName}!",
-    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ %{installationName}. הינה כמה דברים שאתה יכול לעשות עם %{installationName} לחוויה טובה.",
+    "TITLE": "היי 👋, ברוך הבא לExiZap!",
+    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ ExiZap. הינה כמה דברים שאתה יכול לעשות עם ExiZap לחוויה טובה.",
     "READ_LATEST_UPDATES": "תקרא את העדכונים אחרונים",
     "ALL_CONVERSATION": {
       "TITLE": "כל השיחות שלך במקום אחד",
@@ -204,33 +186,33 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "הזמן את חברי הצוות שלך",
-      "DESCRIPTION": "מאחר ואתם מוכנים לדבר עם הלקוח, הביאו את חברי הצוות שלכם לעזור לכם. תוכלו להזמין חברי צוות על ידי הוספה של כתובת הדוא\"ל שלהם לרשימת הסוכנים.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "לחץ כאן כדי להזמין חבר צוות"
     },
     "INBOXES": {
       "TITLE": "התחבר לתיבות",
-      "DESCRIPTION": "חבר ערוצים שונים דרכם הלקוחות שלך היו מדברים איתך. זה יכול להיות אתר צ'אט חי, דף הפייסבוק או הטוויטר שלך או אפילו מספר הוואטסאפ שלך.",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
       "NEW_LINK": "לחץ כאן כדי ליצור תיבה"
     },
     "LABELS": {
-      "TITLE": "ארגן שיחות עם תוויות",
-      "DESCRIPTION": "תוויות מספקות דרך קלה יותר לסווג את השיחה שלך. צור כמה תוויות כמו #support-enquiry, #billing-question וכו', כדי שתוכל להשתמש בהן בשיחה מאוחר יותר.",
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
       "NEW_LINK": "לחץ כאן כדי ליצור תגיות"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "סוכן מוקצה",
-    "SELF_ASSIGN": "קשר אלי",
-    "TEAM_LABEL": "צוות משוייך",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Assigned Team",
     "SELECT": {
       "PLACEHOLDER": "כלום"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "פרטי איש קשר",
-      "CONVERSATION_ACTIONS": "פעולות בשיחה",
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "תוויות שיחה",
-      "CONVERSATION_INFO": "מידע על שיחה",
-      "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "שיחות קודמות",
       "MACROS": "Macros"
     }
@@ -262,29 +244,5 @@
     "BCC": "Bcc",
     "CC": "עותק",
     "SUBJECT": "נושא"
-  },
-  "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
-    "NO_RECORDS_FOUND": "לא נמצאו תוצאות",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
-    "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
-    }
-  },
-  "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   }
 }

@@ -30,9 +30,6 @@
       },
       "snoozed": {
         "TEXT": "Reporté"
-      },
-      "all": {
-        "TEXT": "Tous"
       }
     },
     "ATTACHMENTS": {

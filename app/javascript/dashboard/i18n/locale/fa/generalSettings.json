@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "اکنون می‌توانید ایمیل‌ها را در دامنه سفارشی خود دریافت کنید."
       }
     },
-    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید.",
+    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای ExiZap در دسترس است. لطفا نمونه خود را به روز کنید.",
     "LEARN_MORE": "بیشتر بدانید"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "گفتگوی جدید",
       "conversation_assignment": "مکالمه اختصاص داده شد",
       "assigned_conversation_new_message": "پیام جدید",
-      "participating_conversation_new_message": "پیام جدید",
       "conversation_mention": "اشاره"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "قطع کردن Chatwoot"
+      "TEXT": "قطع کردن ExiZap"
     },
     "BUTTON": {
       "REFRESH": "تازه کردن"

@@ -22,8 +22,7 @@
       "is_not_present": "לא נוכח",
       "is_greater_than": "גדול מ",
       "is_less_than": "קטן מ",
-      "days_before": "זה x ימים לפני",
-      "starts_with": "Starts with"
+      "days_before": "זה x ימים לפני"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "נכון",
@@ -86,7 +85,7 @@
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "סגמנט נמחק בהצלחה",
-          "ERROR_MESSAGE": "שגיאה במחיקת הערך"
+          "ERROR_MESSAGE": "Error while deleting segment"
         }
       }
     }

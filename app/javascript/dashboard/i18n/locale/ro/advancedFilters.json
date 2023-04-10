@@ -22,8 +22,7 @@
       "is_not_present": "Nu este prezent",
       "is_greater_than": "Este mai mare decât",
       "is_less_than": "Este mai mică decât",
-      "days_before": "Este x zile înainte",
-      "starts_with": "Starts with"
+      "days_before": "Este x zile înainte"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Adevărat",

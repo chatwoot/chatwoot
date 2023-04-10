@@ -30,9 +30,6 @@
       },
       "snoozed": {
         "TEXT": "Отложен"
-      },
-      "all": {
-        "TEXT": "Всички"
       }
     },
     "ATTACHMENTS": {

@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
       }
     },
-    "UPDATE_CHATWOOT": "%{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
+    "UPDATE_CHATWOOT": "%{latestChatwootVersion} ExiZap sürümü indirilebilir. Lütfen sürümü güncelleyin.",
     "LEARN_MORE": "Daha fazla"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Yeni görüşme",
       "conversation_assignment": "Atanan görüşme",
       "assigned_conversation_new_message": "Yeni Mesaj",
-      "participating_conversation_new_message": "Yeni Mesaj",
       "conversation_mention": "Bahset"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Chatwoot ile bağlantı kesildi"
+      "TEXT": "ExiZap ile bağlantı kesildi"
     },
     "BUTTON": {
       "REFRESH": "Yenile"

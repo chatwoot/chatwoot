@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您現在可以在您的自定義域名的電子信箱中接收消息。"
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for ExiZap is available. Please update your instance.",
     "LEARN_MORE": "Learn more"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "新對話",
       "conversation_assignment": "對話已被指派",
       "assigned_conversation_new_message": "新訊息",
-      "participating_conversation_new_message": "新訊息",
       "conversation_mention": "被提及"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

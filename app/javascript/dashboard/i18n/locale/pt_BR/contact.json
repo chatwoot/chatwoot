@@ -15,7 +15,6 @@
     "INITIATED_FROM": "A partir de",
     "INITIATED_AT": "Iniciado em",
     "IP_ADDRESS": "Endereço IP",
-    "CREATED_AT_LABEL": "Criado",
     "NEW_MESSAGE": "Nova Mensagem",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
@@ -82,7 +81,7 @@
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Excluir Contato",
+    "BUTTON_LABEL": "Excluir contato",
     "TITLE": "Excluir contato",
     "DESC": "Excluir detalhes do contato",
     "CONFIRM": {
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Digite o nome da empresa",
         "LABEL": "Nome da empresa"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Digite o nome do país",
-        "LABEL": "Nome do País",
-        "SELECT_PLACEHOLDER": "Selecionar",
-        "REMOVE": "Excluir",
-        "SELECT_COUNTRY": "Selecione o país"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Digite o nome da cidade",
-        "LABEL": "Nome da cidade"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Digite o nome de usuário do Facebook",
@@ -164,7 +152,7 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Avatar do contato excluído com sucesso",
+        "SUCCESS_MESSAGE": "Avatar de contato excluído com sucesso",
         "ERROR_MESSAGE": "Não foi possível excluir o avatar do contato. Por favor, tente novamente mais tarde."
       }
     },
@@ -207,7 +195,7 @@
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Salvar filtro",
+    "FILTER_CONTACTS_SAVE": "Salvar Filtro",
     "FILTER_CONTACTS_DELETE": "Excluir filtro",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Número de Telefone",
         "CONVERSATIONS": "Conversas",
         "LAST_ACTIVITY": "Última atividade",
-        "CREATED_AT": "Criado em",
         "COUNTRY": "País/região",
         "CITY": "Cidade",
         "SOCIAL_PROFILES": "Social Profiles",
@@ -230,7 +217,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Contato",
-    "LOADING": "Carregando o perfil do contato..."
+    "LOADING": "Carregando perfil de contato..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -249,7 +236,7 @@
       "TITLE": "Observações"
     },
     "LIST": {
-      "LABEL": "adicionou uma anotação"
+      "LABEL": "Adicionando uma anotação"
     },
     "ADD": {
       "BUTTON": "Adicionar",
@@ -257,7 +244,7 @@
       "TITLE": "Shift + Enter para criar uma nota"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Excluir anotação"
+      "DELETE": "Deletar Anotação"
     }
   },
   "EVENTS": {
@@ -271,7 +258,7 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Adicionar atributos",
+    "ADD_BUTTON_TEXT": "Adicionar atributo",
     "BUTTON": "Criar atributo personalizado",
     "NOT_AVAILABLE": "Não há atributos personalizados para este contato.",
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
@@ -310,7 +297,7 @@
         "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Adicionar atributos",
+        "TITLE": "Adicionar atributo",
         "PLACEHOLDER": "Procurar atributos",
         "NO_RESULT": "Nenhum atributo encontrado"
       },

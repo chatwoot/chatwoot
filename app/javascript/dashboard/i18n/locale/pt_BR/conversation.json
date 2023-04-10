@@ -35,7 +35,6 @@
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
-    "SAVE_CONTACT": "Salvar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
@@ -43,13 +42,13 @@
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
     "CARD": {
-      "SHOW_LABELS": "Mostrar rótulos",
-      "HIDE_LABELS": "Ocultar os rótulos"
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
-      "OPEN_ACTION": "Abrir",
+      "OPEN_ACTION": "Abertas",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
@@ -133,14 +132,6 @@
           "PLACEHOLDER": "E-mails separados por vírgulas",
           "ERROR": "Por favor, insira endereços de e-mail válidos"
         }
-      },
-      "UNDEFINED_VARIABLES": {
-        "TITLE": "Variáveis não definidas",
-        "MESSAGE": "Você tem {undefinedVariablesCount} variáveis não definidas em sua mensagem: {undefinedVariables}. Gostaria de enviar a mensagem mesmo assim?",
-        "CONFIRM": {
-          "YES": "Enviar",
-          "CANCEL": "Cancelar"
-        }
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
@@ -165,16 +156,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "DELETE": "Excluir",
-      "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
-      "TRANSLATE": "Traduzir",
-      "COPY_PERMALINK": "Copiar link para a mensagem",
-      "LINK_COPIED": "URL da mensagem copiada para a área de transferência",
-      "DELETE_CONFIRMATION": {
-        "TITLE": "Você tem certeza que deseja excluir esta mensagem?",
-        "MESSAGE": "Você não pode desfazer essa ação",
-        "DELETE": "Excluir",
-        "CANCEL": "Cancelar"
-      }
+      "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -195,8 +177,8 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
-    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de %{installationName}. Aqui estão algumas coisas que você consegue fazer no(a) %{installationName} para que tenha uma experiência agradável.",
+    "TITLE": "Olá, 👋. Bem-vindo ao ExiZap!",
+    "DESCRIPTION": "Obrigado por nos escolher. Queremos que você aproveite o máximo do ExiZap. Aqui estão algumas coisas que você consegue fazer no ExiZap para que tenha uma experiência agradável.",
     "READ_LATEST_UPDATES": "Leia as últimas atualizações",
     "ALL_CONVERSATION": {
       "TITLE": "Todas as suas conversas em um só lugar",
@@ -262,29 +244,5 @@
     "BCC": "CCO",
     "CC": "Cc",
     "SUBJECT": "Assunto"
-  },
-  "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participantes",
-    "SIDEBAR_TITLE": "Participantes da conversa",
-    "NO_RECORDS_FOUND": "Nenhum resultado encontrado",
-    "ADD_PARTICIPANTS": "Selecionar participantes",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} participantes",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} participante",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} pessoas estão participando.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} pessoa está participando.",
-    "NO_PARTICIPANTS_TEXT": "Ninguém está participando!",
-    "WATCH_CONVERSATION": "Participar da conversa",
-    "YOU_ARE_WATCHING": "Você está participando",
-    "API": {
-      "ERROR_MESSAGE": "Não foi possível atualizar, tente novamente!",
-      "SUCCESS_MESSAGE": "Participantes atualizados!"
-    }
-  },
-  "TRANSLATE_MODAL": {
-    "TITLE": "Ver conteúdo traduzido",
-    "DESC": "Você pode visualizar o conteúdo traduzido em cada idioma.",
-    "ORIGINAL_CONTENT": "Conteúdo original",
-    "TRANSLATED_CONTENT": "Conteúdo Traduzido",
-    "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
   }
 }

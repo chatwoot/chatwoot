@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."
       }
     },
-    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
+    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho ExiZap. Vui lòng cập nhật phiên bản của bạn.",
     "LEARN_MORE": "Tìm hiểu thêm"
   },
   "FORMS": {
@@ -82,7 +82,6 @@
       "conversation_creation": "Hội thoại mới mới",
       "conversation_assignment": "Hội thoại đã được phân công",
       "assigned_conversation_new_message": "Tin nhắn mới",
-      "participating_conversation_new_message": "Tin nhắn mới",
       "conversation_mention": "Nhắc đến"
     }
   },

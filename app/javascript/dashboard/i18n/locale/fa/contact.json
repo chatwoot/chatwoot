@@ -15,7 +15,6 @@
     "INITIATED_FROM": "شروع شده از",
     "INITIATED_AT": "شروع شده در",
     "IP_ADDRESS": "آدرس آی‌پی",
-    "CREATED_AT_LABEL": "ایجاد شده",
     "NEW_MESSAGE": "پیام جدید",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "نام شرکت را وارد کنید",
         "LABEL": "نام شرکت"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "نام کشور را وارد کنید",
-        "LABEL": "نام کشور",
-        "SELECT_PLACEHOLDER": "انتخاب کنید",
-        "REMOVE": "حذف",
-        "SELECT_COUNTRY": "کشور را انتخاب کنید"
-      },
-      "CITY": {
-        "PLACEHOLDER": "نام شهر را وارد کنید",
-        "LABEL": "نام شهر"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "نام‌کاربری فیس‌بوک را وارد کنید",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "شماره تلفن",
         "CONVERSATIONS": "گفتگوها",
         "LAST_ACTIVITY": "آخرین فعالیت",
-        "CREATED_AT": "ایجاد شده در",
         "COUNTRY": "کشور",
         "CITY": "شهر",
         "SOCIAL_PROFILES": "پروفایل‌های شبکه‌های اجتماعی",

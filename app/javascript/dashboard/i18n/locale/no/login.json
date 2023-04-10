@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Logg inn i Chatwoot",
+    "TITLE": "Logg inn i ExiZap",
     "EMAIL": {
       "LABEL": "E-post",
       "PLACEHOLDER": "Eksempel: ola@nordmann.no"
@@ -13,11 +13,6 @@
       "SUCCESS_MESSAGE": "Innlogging vellykket",
       "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere",
       "UNAUTH": "Brukernavn eller passord er feil. Prøv igjen"
-    },
-    "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Glemt passord?",
     "CREATE_NEW_ACCOUNT": "Opprett ny konto",

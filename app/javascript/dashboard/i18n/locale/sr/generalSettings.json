@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sada možete da dobijate e-poruke u vaš prilagođeni domen."
       }
     },
-    "UPDATE_CHATWOOT": "Dostupna je nadogradnja %{latestChatwootVersion} za Chatwoot. Molim vas nadogradite vaše izdanje.",
+    "UPDATE_CHATWOOT": "Dostupna je nadogradnja %{latestChatwootVersion} za ExiZap. Molim vas nadogradite vaše izdanje.",
     "LEARN_MORE": "Saznajte više"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Novi razgovor",
       "conversation_assignment": "Dodeljen razgovoru",
       "assigned_conversation_new_message": "Nova poruka",
-      "participating_conversation_new_message": "Nova poruka",
       "conversation_mention": "Pominjanje"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Prekini vezu sa Chatwoot"
+      "TEXT": "Prekini vezu sa ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Osveži"

@@ -22,8 +22,7 @@
       "is_not_present": "Отсутствует",
       "is_greater_than": "Больше чем",
       "is_less_than": "Меньше чем",
-      "days_before": "x дней до",
-      "starts_with": "Начинается с"
+      "days_before": "x дней до"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Истина",

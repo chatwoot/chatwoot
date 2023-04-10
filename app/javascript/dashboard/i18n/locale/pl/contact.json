@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Zainicjowano z",
     "INITIATED_AT": "Zainicjowano w",
     "IP_ADDRESS": "Adres IP",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nowa wiadomość",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Brak poprzednich rozmów powiązanych z tym kontaktem.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Wpisz nazwę firmy",
         "LABEL": "Nazwa firmy"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Nazwa kraju",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Usuń",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Wprowadź nazwę użytkownika Facebook",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Numer telefonu",
         "CONVERSATIONS": "Rozmowy",
         "LAST_ACTIVITY": "Ostatnia aktywność",
-        "CREATED_AT": "Utworzono",
         "COUNTRY": "Kraj",
         "CITY": "Miasto",
         "SOCIAL_PROFILES": "Profile społecznościowe",

@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Tagad Jūs varat saņemt e-pasta ziņojumus savā pielāgotajā domēnā."
       }
     },
-    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
+    "UPDATE_CHATWOOT": "Ir pieejams ExiZap %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
     "LEARN_MORE": "Uzzināt vairāk"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Jauna saruna",
       "conversation_assignment": "Saruna Piešķirta",
       "assigned_conversation_new_message": "Jauns ziņojums",
-      "participating_conversation_new_message": "Jauns ziņojums",
       "conversation_mention": "Pieminēt"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Atvienots no Chatwoot"
+      "TEXT": "Atvienots no ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Atjaunot"

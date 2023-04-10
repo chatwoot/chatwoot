@@ -23,7 +23,7 @@
         "ERROR": "الرجاء إدخال اسم حساب صحيح"
       },
       "LANGUAGE": {
-        "LABEL": "لغة الموقع",
+        "LABEL": "Site language",
         "PLACEHOLDER": "اسم الحساب الخاص بك",
         "ERROR": ""
       },
@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
       }
     },
-    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
+    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ ExiZap. الرجاء التحديث.",
     "LEARN_MORE": "اعرف المزيد"
   },
   "FORMS": {
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "اضغط على زر الإدخال للاختيار",
       "ENTER_TO_REMOVE": "اضغط على زر الإدخال للحذف",
       "SELECT_ONE": "اختر واحدا",
-      "SELECT": "اختر"
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -82,13 +82,12 @@
       "conversation_creation": "محادثة جديدة",
       "conversation_assignment": "تم تعيين المحادثة",
       "assigned_conversation_new_message": "رسالة جديدة",
-      "participating_conversation_new_message": "رسالة جديدة",
       "conversation_mention": "إشارة"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "قطع الاتصال من Chatwoot"
+      "TEXT": "قطع الاتصال من ExiZap"
     },
     "BUTTON": {
       "REFRESH": "تحديث"
@@ -140,6 +139,6 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "تحميل تطبيق لوحة التحكم..."
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

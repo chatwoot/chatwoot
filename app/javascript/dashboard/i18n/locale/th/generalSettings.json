@@ -23,7 +23,7 @@
         "ERROR": "กรุณากรอกชื่อบัญชีให้ถูกต้อง"
       },
       "LANGUAGE": {
-        "LABEL": "ภาษา",
+        "LABEL": "Site language",
         "PLACEHOLDER": "ชื่อบัญชีของคุณ",
         "ERROR": ""
       },
@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "คุณสามารถรับอีเมล์ในโดเมนเเบบกำหนดเองได้เเล้ว"
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot เวอร์ชั่น %{latestChatwootVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
+    "UPDATE_CHATWOOT": "ExiZap เวอร์ชั่น %{latestChatwootVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
     "LEARN_MORE": "เรียนรู้เพิ่มเติม"
   },
   "FORMS": {
@@ -55,7 +55,7 @@
       "ENTER_TO_SELECT": "กด enter เพื่อเลือก",
       "ENTER_TO_REMOVE": "กด enter เพื่อลบ",
       "SELECT_ONE": "เลือก",
-      "SELECT": "เลือก"
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -82,13 +82,12 @@
       "conversation_creation": "สร้างการสนทนาใหม่",
       "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
       "assigned_conversation_new_message": "ข้อความใหม่",
-      "participating_conversation_new_message": "ข้อความใหม่",
       "conversation_mention": "กล่าวถึง"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "ยกเลิกการเชื่อมต่อกับ Chatwoot"
+      "TEXT": "ยกเลิกการเชื่อมต่อกับ ExiZap"
     },
     "BUTTON": {
       "REFRESH": "โหลดใหม่"

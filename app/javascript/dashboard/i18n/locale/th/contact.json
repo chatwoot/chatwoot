@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Initiated from",
     "INITIATED_AT": "Initiated at",
     "IP_ADDRESS": "ที่อยู่ไอพี",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "ข้อความใหม่",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ไม่มีการสนทนาก่อนหน้านี้ที่เชื่อมโยงกับผู้ติดต่อนี้",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "กรอกชื่อบริษัท",
         "LABEL": "ชื่อบริษัท"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "ชื่อประเทศ",
-        "SELECT_PLACEHOLDER": "เลือก",
-        "REMOVE": "ลบรูปภาพ",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "กรอกชื่อเฟสบุ๊ค",
@@ -164,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "ลบรูปของผู้ติดต่อสำเร็จ",
-        "ERROR_MESSAGE": "ไม่สามารถลบรูปของผู้ติดต่อได้ กรุณาลองใหม่ภายหลัง"
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "สร้างการติดต่อเรียบร้อยเเล้ว",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "หมายเลขโทรศัพท์",
         "CONVERSATIONS": "การสนทนา",
         "LAST_ACTIVITY": "ล่าสุดเมื่อ",
-        "CREATED_AT": "สร้างเมื่อ",
         "COUNTRY": "ประเทศ",
         "CITY": "เมือง",
         "SOCIAL_PROFILES": "โปรไฟล์โซเชียล",

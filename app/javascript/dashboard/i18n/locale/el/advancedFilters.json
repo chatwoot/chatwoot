@@ -22,8 +22,7 @@
       "is_not_present": "Δεν υπάρχει",
       "is_greater_than": "Είναι μεγαλύτερο από",
       "is_less_than": "Είναι μικρότερο από",
-      "days_before": "Είναι x ημέρες πριν",
-      "starts_with": "Starts with"
+      "days_before": "Είναι x ημέρες πριν"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",

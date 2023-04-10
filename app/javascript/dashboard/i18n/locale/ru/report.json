@@ -422,15 +422,9 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Открытые диалоги",
       "LOADING_MESSAGE": "Загрузка метрик разговора...",
-      "OPEN": "Открытых",
+      "OPEN": "Открыть",
       "UNATTENDED": "Несвязанные",
       "UNASSIGNED": "Неназначен"
-    },
-    "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Диалоги по операторам",
@@ -438,25 +432,16 @@
       "NO_AGENTS": "Нет диалогов связанных с операторами",
       "TABLE_HEADER": {
         "AGENT": "Оператор",
-        "OPEN": "ОТКРЫТЫХ",
+        "OPEN": "ОТКРЫТЬ",
         "UNATTENDED": "Несвязанные",
         "STATUS": "Статус"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Статус операторов",
+      "HEADER": "Статус Оператора",
       "ONLINE": "В сети",
       "BUSY": "Занят",
       "OFFLINE": "Оффлайн"
     }
-  },
-  "DAYS_OF_WEEK": {
-    "SUNDAY": "Воскресенье",
-    "MONDAY": "Понедельник",
-    "TUESDAY": "Вторник",
-    "WEDNESDAY": "Среда",
-    "THURSDAY": "Четверг",
-    "FRIDAY": "Пятница",
-    "SATURDAY": "Суббота"
   }
 }

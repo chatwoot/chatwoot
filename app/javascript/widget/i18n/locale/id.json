@@ -22,9 +22,9 @@
     "IN_A_DAY": "Biasanya membalas dalam sehari"
   },
   "START_CONVERSATION": "Mulai Percakapan",
-  "END_CONVERSATION": "Akhiri Percakapan",
-  "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",
-  "START_NEW_CONVERSATION": "Mulai Percakapan",
+  "END_CONVERSATION": "End Conversation",
+  "CONTINUE_CONVERSATION": "Continue conversation",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
@@ -49,13 +49,13 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Alamat email",
         "PLACEHOLDER": "Harap masukkan alamat email Anda",
-        "REQUIRED_ERROR": "Alamat Email dibutuhkan",
+        "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "Harap masukkan alamat email yang valid"
       },
       "PHONE_NUMBER": {
         "LABEL": "Nomor Telpon",
-        "PLACEHOLDER": "Masukan Nomor Telepon",
-        "REQUIRED_ERROR": "Nomor Telepon Dibutuhkan",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
@@ -65,8 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required"
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
   "CHAT_FORM": {

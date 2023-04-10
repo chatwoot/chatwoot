@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puteți primi e-mailuri în domeniul dvs. personalizat acum."
       }
     },
-    "UPDATE_CHATWOOT": "Este disponibilă o actualizare %{latestChatwootVersion} pentru Chatwoot. Vă rugăm să actualizați instanța.",
+    "UPDATE_CHATWOOT": "Este disponibilă o actualizare %{latestChatwootVersion} pentru ExiZap. Vă rugăm să actualizați instanța.",
     "LEARN_MORE": "Află mai mult"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Conversație nouă",
       "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
-      "participating_conversation_new_message": "Trimite mesaj nou",
       "conversation_mention": "a menţiona"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Oferit de Chatwoot"
+      "TEXT": "Oferit de ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Reîmprospătare"

@@ -22,8 +22,7 @@
       "is_not_present": "Nie istnieje",
       "is_greater_than": "Jest większe niż",
       "is_less_than": "Jest mniejsze niż",
-      "days_before": "Jest x dni przed",
-      "starts_with": "Starts with"
+      "days_before": "Jest x dni przed"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Prawda",
@@ -44,7 +43,7 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
       "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
       "CUSTOM_ATTRIBUTE_LINK": "Łącze",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole wyboru",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Utworzono",
       "LAST_ACTIVITY": "Ostatnia aktywność"
     },

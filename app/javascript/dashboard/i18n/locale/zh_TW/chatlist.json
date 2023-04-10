@@ -30,9 +30,6 @@
       },
       "snoozed": {
         "TEXT": "Snoozed"
-      },
-      "all": {
-        "TEXT": "所有的"
       }
     },
     "ATTACHMENTS": {

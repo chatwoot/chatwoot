@@ -15,7 +15,6 @@
     "INITIATED_FROM": "启动自：",
     "INITIATED_AT": "发起于",
     "IP_ADDRESS": "IP 地址",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "新消息",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "输入公司名称",
         "LABEL": "公司名称"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "国家",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "删除",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "输入 Facebook 用户名",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "电话号码",
         "CONVERSATIONS": "会话",
         "LAST_ACTIVITY": "最后一次活动",
-        "CREATED_AT": "创建于",
         "COUNTRY": "国家",
         "CITY": "城市",
         "SOCIAL_PROFILES": "社交资料",

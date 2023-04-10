@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Safates d'entrada",
-    "SIDEBAR_TXT": "<p><b>Safata d’entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de Facebook a Chatwoot, s’anomena<b>Safata d’entrada</b>. Podeu tenir bústies d’entrada il·limitades al vostre compte de Chatwoot. </p><p> Fer clic a <b>Add Safata d’entrada</b> per connectar un lloc web o una pàgina de Facebook.</p><p> Al tauler, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-hi a la pestanya `Converses`.</p><p> També pots veure converses específiques d’una safata d’entrada fent clic al nom de la safata d’entrada a l'esquerre del tauler. </p>",
+    "SIDEBAR_TXT": "<p><b>Safata d’entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de Facebook a ExiZap, s’anomena<b>Safata d’entrada</b>. Podeu tenir bústies d’entrada il·limitades al vostre compte de ExiZap. </p><p> Fer clic a <b>Add Safata d’entrada</b> per connectar un lloc web o una pàgina de Facebook.</p><p> Al tauler, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-hi a la pestanya `Converses`.</p><p> També pots veure converses específiques d’una safata d’entrada fent clic al nom de la safata d’entrada a l'esquerre del tauler. </p>",
     "LIST": {
       "404": "No hi ha cap safata d'entrada connectat a aquest compte."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Triar canal",
         "route": "settings_inbox_new",
-        "body": "Trieu el proveïdor que vulgueu integrar amb Chatwoot."
+        "body": "Trieu el proveïdor que vulgueu integrar amb ExiZap."
       },
       {
         "title": "Crear safata d'entrada",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats.",
+        "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. ExiZap mai no podrà accedir als vostres missatges privats.",
         "CHOOSE_PAGE": "Trieu la pàgina",
         "CHOOSE_PLACEHOLDER": "Selecciona una pàgina de la llista",
         "INBOX_NAME": "Nom de la safata d'entrada",
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "ExiZap supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -339,22 +339,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalls de la safata d'entrada",
-        "DESC": "Des del següent menú desplegable, seleccioneu la pàgina de Facebook que voleu connectar a Chatwoot. També podeu donar un nom personalitzat a la safata d'entrada per a una millor identificació."
+        "DESC": "Des del següent menú desplegable, seleccioneu la pàgina de Facebook que voleu connectar a ExiZap. També podeu donar un nom personalitzat a la safata d'entrada per a una millor identificació."
       },
       "FINISH": {
         "TITLE": "L'has clavat!",
-        "DESC": "Heu acabat d'integrar la vostra pàgina de Facebook amb Chatwoot. La propera vegada que un client escrigui un missatge a la vostra pàgina, la conversa apareixerà automàticament a la safata d'entrada. <br>També us proporcionem un script del widget que podeu afegir fàcilment al vostre web. Una vegada que estigui operatiu al vostre web, els clients us podran enviar missatges des del web sense l’ajuda de cap eina externa i la conversa apareixerà aquí mateix, a Chatwoot. <br>Genial, eh? Bé, segur que intentem ser-ho :)"
-      },
-      "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
-      },
-      "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESC": "Heu acabat d'integrar la vostra pàgina de Facebook amb ExiZap. La propera vegada que un client escrigui un missatge a la vostra pàgina, la conversa apareixerà automàticament a la safata d'entrada. <br>També us proporcionem un script del widget que podeu afegir fàcilment al vostre web. Una vegada que estigui operatiu al vostre web, els clients us podran enviar missatges des del web sense l’ajuda de cap eina externa i la conversa apareixerà aquí mateix, a ExiZap. <br>Genial, eh? Bé, segur que intentem ser-ho :)"
       }
     },
     "DETAILS": {
@@ -472,12 +461,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualitza",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -563,10 +547,6 @@
         "PLACE_HOLDER": "Contrasenya"
       },
       "ENABLE_SSL": "Enable SSL"
-    },
-    "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -679,17 +659,13 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "Estem fora en aquest moment"
+          "OFFLINE": "We are away at the moment"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Desenvolupat per Chatwoot",
+      "BRANDING_TEXT": "Desenvolupat per ExiZap",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
-    },
-    "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

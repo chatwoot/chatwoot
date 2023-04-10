@@ -15,7 +15,6 @@
     "INITIATED_FROM": "Iniciované z",
     "INITIATED_AT": "Iniciované o",
     "IP_ADDRESS": "IP adresa",
-    "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nová správa",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "K tomuto kontaktu nie sú priradené žiadne predchádzajúce konverzácie.",
@@ -132,17 +131,6 @@
         "PLACEHOLDER": "Zadajte názov spoločnosti",
         "LABEL": "Názov spoločnosti"
       },
-      "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Remove",
-        "SELECT_COUNTRY": "Select Country"
-      },
-      "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
-      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Zadajte používateľské meno na Facebooku",
@@ -218,7 +206,6 @@
         "PHONE_NUMBER": "Telefónne číslo",
         "CONVERSATIONS": "Konverzácia",
         "LAST_ACTIVITY": "Posledná aktivita",
-        "CREATED_AT": "Created At",
         "COUNTRY": "Krajina",
         "CITY": "Mesto",
         "SOCIAL_PROFILES": "Sociálne profily",

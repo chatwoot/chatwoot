@@ -30,9 +30,6 @@
       },
       "snoozed": {
         "TEXT": "Відкладено"
-      },
-      "all": {
-        "TEXT": "Всі"
       }
     },
     "ATTACHMENTS": {

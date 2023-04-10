@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Most már goadhatsz e-maileket az egyedi domaineden."
       }
     },
-    "UPDATE_CHATWOOT": "Egy frissítés elérhető a Chatwoothoz %{latestChatwootVersion}. Kérjük frissítsd a telepítésed.",
+    "UPDATE_CHATWOOT": "Egy frissítés elérhető a ExiZaphoz %{latestChatwootVersion}. Kérjük frissítsd a telepítésed.",
     "LEARN_MORE": "Learn more"
   },
   "FORMS": {
@@ -82,13 +82,12 @@
       "conversation_creation": "Új beszélgetés",
       "conversation_assignment": "Beszélgetés hozzárendelve",
       "assigned_conversation_new_message": "Új üzenet",
-      "participating_conversation_new_message": "Új üzenet",
       "conversation_mention": "Megemlítés"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from ExiZap"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

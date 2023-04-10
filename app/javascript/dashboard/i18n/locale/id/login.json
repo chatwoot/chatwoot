@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Masuk ke Chatwoot",
+    "TITLE": "Masuk ke ExiZap",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "Email cth: someone@example.com"
@@ -13,11 +13,6 @@
       "SUCCESS_MESSAGE": "Berhasil Masuk",
       "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti",
       "UNAUTH": "Nama Pengguna / Kata Sandi Salah. Silahkan coba lagi"
-    },
-    "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Lupa kata sandi Anda?",
     "CREATE_NEW_ACCOUNT": "Buat akun baru",
