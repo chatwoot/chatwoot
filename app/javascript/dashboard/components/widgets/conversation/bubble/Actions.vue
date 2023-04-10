@@ -88,7 +88,7 @@
       rel="noopener noreferrer nofollow"
     >
       <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
+        v-tooltip.top-start="$t('CHAT_LIST.LINK_TO_STORY')"
         icon="open"
         class="action--icon cursor-pointer"
         size="16"
