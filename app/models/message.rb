@@ -260,6 +260,8 @@ class Message < ApplicationRecord
     elsif conversation.inbox.api?
       Current.executed_by = sender if reopened_by_contact?
       conversation.open!
+    else
+      conversation.open!
     end
   end
 
