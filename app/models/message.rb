@@ -257,7 +257,7 @@ class Message < ApplicationRecord
     # mark resolved bot conversation as pending to be reopened by bot processor service
     if conversation.inbox.active_bot?
       conversation.pending!
-    else
+    elsif conversation.inbox.api?
       Current.executed_by = sender if reopened_by_contact?
       conversation.open!
     end
