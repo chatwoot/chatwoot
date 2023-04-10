@@ -1,0 +1,56 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: 
+      - trunk
+  workflow_dispatch:
+  
+  
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build and publish Docker image into AWS ECR for Birdwoot
+        uses: ./.github/actions/deployment/push-image-ecr
+        with:
+          BRANCH: trunk
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
+          ECR_REGISTRY: 663605677942.dkr.ecr.us-east-1.amazonaws.com
+          ECR_REPOSITORY: conversations/birdwoot/production/birdwootmain
+          DOCKERFILE_PATH: docker/Dockerfile
+          SSM_VUE_APP_VERSION: /conversations/birdwoot/production/taskdefinition/environment/vue-app-version
+      
+      - name: Build and publish Docker image into AWS ECR for Sidekiq
+        uses: ./.github/actions/deployment/push-image-ecr
+        with:
+          BRANCH: trunk
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
+          ECR_REGISTRY: 663605677942.dkr.ecr.us-east-1.amazonaws.com
+          ECR_REPOSITORY: conversations/birdwoot/production/sidekiq
+          DOCKERFILE_PATH: docker/dockerfiles/sidekiq.Dockerfile
+
+      # Send status notification
+      - name: Build Slack notification payload
+        id: slack-payload
+        if: ${{ always() }}
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+          JOB_STATUS: ${{ job.status }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: ./scripts/build_slack_deployment_status_notification_payload.sh
+
+      - name: Notify status to slack
+        if: ${{ always() }}
+        uses: slackapi/slack-github-action@v1.14.0
+        with:
+          payload: ${{ steps.slack-payload.outputs.payload }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -78,6 +78,9 @@ export default {
         const { available_name: availableName, name } = this.sender;
         return availableName || name;
       }
+      if (this.useInboxAvatarForBot) {
+        return this.channelConfig.websiteName;
+      }
       return this.$t('UNREAD_VIEW.BOT');
     },
     availabilityStatus() {

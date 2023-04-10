@@ -132,6 +132,17 @@
         "PLACEHOLDER": "കമ്പനിയുടെ പേര് നൽകുക",
         "LABEL": "കമ്പനിയുടെ പേര്"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "രാജ്യത്തിന്റെ പേര്",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "നീക്കം ചെയ്യുക",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Facebook ഉപയോക്തൃനാമം നൽകുക",

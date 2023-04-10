@@ -25,6 +25,10 @@ inputs:
     description: "Path where the Dockerfile is stored"
     required: true
 
+  SSM_VUE_APP_VERSION:
+    description: "SSM Parameter name for environment variable deploy commit hash"
+    required: false
+
 runs:
   using: 'composite'
   steps:
@@ -37,6 +41,12 @@ runs:
         aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
+
+    - name: Set Vue app version 
+      if: ${{ input.SSM_VUE_APP_VERSION != '' }}
+      shell: bash
+      run: 
+        aws ssm put-parameter --name ${{input.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD)
     
     - name: Login to Amazon ECR
       id: login-ecr

@@ -6,7 +6,10 @@ import {
   toggleTyping,
   setUserLastSeenAt,
   toggleStatus,
+  setCustomAttributes,
+  deleteCustomAttribute,
 } from 'widget/api/conversation';
+import { captureSentryException } from 'shared/utils/exceptions';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 
@@ -20,7 +23,7 @@ export const actions = {
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
-      // Ignore error
+      captureSentryException(error);
     } finally {
       commit('setConversationUIFlag', { isCreating: false });
     }
@@ -38,10 +41,10 @@ export const actions = {
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
       const { data } = await sendMessageAPI(content);
-
       commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
+      captureSentryException(error);
       commit('pushMessageToConversation', { ...message, status: 'failed' });
       commit('updateMessageMeta', {
         id,
@@ -73,6 +76,7 @@ export const actions = {
       });
       commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
+      captureSentryException(error);
       commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
       commit('updateMessageMeta', {
         id: tempMessage.id,
@@ -93,6 +97,7 @@ export const actions = {
       commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
     } catch (error) {
+      captureSentryException(error);
       commit('setConversationListLoading', false);
     }
   },
@@ -118,7 +123,7 @@ export const actions = {
     try {
       await toggleTyping(data);
     } catch (error) {
-      // IgnoreError
+      captureSentryException(error);
     }
   },
 
@@ -138,5 +143,21 @@ export const actions = {
 
   resolveConversation: async () => {
     await toggleStatus();
+  },
+
+  setCustomAttributes: async (_, customAttributes = {}) => {
+    try {
+      await setCustomAttributes(customAttributes);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
+  deleteCustomAttribute: async (_, customAttribute) => {
+    try {
+      await deleteCustomAttribute(customAttribute);
+    } catch (error) {
+      // IgnoreError
+    }
   },
 };
