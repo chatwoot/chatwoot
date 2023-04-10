@@ -166,7 +166,7 @@
 import { mapGetters } from 'vuex';
 
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
-import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
+import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
