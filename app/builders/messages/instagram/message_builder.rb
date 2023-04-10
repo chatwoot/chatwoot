@@ -90,9 +90,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   def save_story_id
     return if story_reply_attributes.blank?
 
-    @message.content_attributes[:story_id] = story_reply_attributes[:id]
     @message.content_attributes[:url] = story_reply_attributes[:url]
-    @message.content_attributes[:story_sender] = story_owner['username']
+    story_info = story_owner
+    @message.content_attributes[:story_sender] = story_info['id']
+    @message.content_attributes[:story_id] = story_info['ig_id']
     @message.save!
   end
 
@@ -101,7 +102,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(instagram_id, fields: %w[username]) || {}
+      result = k.get_object(instagram_id, fields: %w[id username ig_id]) || {}
     rescue Koala::Facebook::AuthenticationError => e
       @inbox.channel.authorization_error!
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
