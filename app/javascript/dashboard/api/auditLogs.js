@@ -7,8 +7,8 @@ class AuditLogs extends ApiClient {
     super('audit_logs', { accountScoped: true });
   }
 
-  get({ searchKey }) {
-    const url = searchKey ? `${this.url}?search=${searchKey}` : this.url;
+  get({ page }) {
+    const url = page ? `${this.url}?page=${page}` : this.url;
     return axios.get(url);
   }
 }

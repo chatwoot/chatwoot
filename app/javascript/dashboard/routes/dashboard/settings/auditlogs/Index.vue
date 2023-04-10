@@ -4,7 +4,7 @@
     <div class="row">
       <div class="small-8 columns with-right-space ">
         <p
-          v-if="!uiFlags.fetchingList && !records.length"
+          v-if="!uiFlags.fetchingList && !records.audit_logs.length"
           class="no-items-error-message"
         >
           {{ $t('AUDIT_LOGS.LIST.404') }}
@@ -15,7 +15,7 @@
         />
 
         <table
-          v-if="!uiFlags.fetchingList && records.length"
+          v-if="!uiFlags.fetchingList && records.audit_logs.length"
           class="woot-table"
         >
           <thead>
@@ -28,7 +28,10 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="auditLogItem in records" :key="auditLogItem.id">
+            <tr
+              v-for="auditLogItem in records.audit_logs"
+              :key="auditLogItem.id"
+            >
               <td class="wrap-break-words">{{ auditLogItem.username }}</td>
               <td class="wrap-break-words">
                 {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
@@ -42,13 +45,22 @@
         </table>
       </div>
     </div>
+    <table-footer
+      :current-page="Number(records.current_page)"
+      :total-count="records.total_entries"
+      :page-size="15"
+      @page-change="onPageChange"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import TableFooter from 'dashboard/components/widgets/TableFooter';
 
 export default {
-  components: {},
+  components: {
+    TableFooter,
+  },
   data() {
     return {
       loading: {},
@@ -65,7 +77,7 @@ export default {
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('getAuditLog');
+    this.$store.dispatch('getAuditLog', { page: 1 });
   },
   methods: {
     showAlert(message) {
@@ -75,6 +87,10 @@ export default {
       // Show message
       this.auditLogsAPI.message = message;
       bus.$emit('newToastMessage', message);
+    },
+    onPageChange(page) {
+      window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
+      this.$store.dispatch('getAuditLog', { page });
     },
   },
 };

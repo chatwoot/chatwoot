@@ -19,10 +19,10 @@ const getters = {
 };
 
 const actions = {
-  getAuditLog: async function getAuditLog({ commit }, { searchKey } = {}) {
+  getAuditLog: async function getAuditLog({ commit }, { page } = {}) {
     commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: true });
     try {
-      const response = await AuditLogsAPI.get({ searchKey });
+      const response = await AuditLogsAPI.get({ page });
       commit(types.default.SET_AUDIT_LOGS, response.data);
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
     } catch (error) {
