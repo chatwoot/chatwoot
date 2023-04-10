@@ -91,18 +91,25 @@ export default {
 </script>
 <style lang="scss" scoped>
 .basic-filter {
-  width: 280px;
+  width: 210px;
   padding: 0;
   margin-top: var(--space-smaller);
   right: 0;
+  padding: var(--space-normal);
+  span {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+  }
   .filter__item {
     justify-content: space-between;
     display: flex;
     align-items: center;
-    padding: var(--space-one) var(--space-slab);
     span {
       font-size: var(--font-size-mini);
     }
+  }
+  div:nth-child(2) {
+    margin-top: var(--space-normal);
   }
 }
 .icon {
