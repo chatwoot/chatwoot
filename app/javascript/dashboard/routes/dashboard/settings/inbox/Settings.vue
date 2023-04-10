@@ -320,6 +320,17 @@
             {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
+        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+          <input
+            v-model="selectedFeatureFlags"
+            type="checkbox"
+            value="use_inbox_avatar_for_bot"
+            @input="handleFeatureFlag"
+          />
+          <label for="emoji_picker">
+            {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
+          </label>
+        </div>
 
         <woot-submit-button
           v-if="isAPIInbox"
