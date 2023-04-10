@@ -70,7 +70,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @messaging[:message][:text]
   end
 
-  def story_attributes
+  def story_reply_attributes
     story = @messaging[:message][:reply_to][:story] if @messaging[:message][:reply_to].present? && @messaging[:message][:story].present?
     story
   end
@@ -88,7 +88,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def save_story_id
-    return if story_attributes.blank?
+    return if story_reply_attributes.blank?
 
     @message.content_attributes[:story_id] = story_reply_attributes[:id]
     @message.content_attributes[:url] = story_reply_attributes[:url]
