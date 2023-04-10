@@ -56,7 +56,16 @@ class DashboardController < ActionController::Base
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       FACEBOOK_API_VERSION: 'v14.0',
       IS_ENTERPRISE: ChatwootApp.enterprise?,
-      AZURE_APP_ID: ENV.fetch('AZURE_APP_ID', '')
+      AZURE_APP_ID: ENV.fetch('AZURE_APP_ID', ''),
+      GIT_SHA: fetch_git_sha
     }
+  end
+
+  def fetch_git_sha
+    if File.exist?('.git-sha')
+      File.read('.git-sha').strip
+    else
+      'unknown'
+    end
   end
 end
