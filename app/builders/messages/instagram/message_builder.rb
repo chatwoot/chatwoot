@@ -71,8 +71,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def story_reply_attributes
-    message = message.with_indifferent_access
-    story = @messaging[:message][:reply_to][:story] if message[:reply_to].present? && message[:reply_to][:story].present?
+    story = message[:reply_to][:story] if message[:reply_to].present? && message[:reply_to][:story].present?
     story
   end
 
