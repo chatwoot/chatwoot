@@ -35,6 +35,11 @@
         "TEXT": "All"
       }
     },
+    "VIEW_FILTER": "View",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
     "CHAT_SORT_FILTER_ITEMS": {
       "last_activity_at": {
         "TEXT": "Last activity"

@@ -8,7 +8,7 @@
       @click="toggleDropdown"
     >
       <fluent-icon icon="menu-icon" class="icon" size="12" />
-      View
+      {{ this.$t('CHAT_LIST.VIEW_FILTER') }}
       <fluent-icon
         :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
         class="icon dropdown-icon"
@@ -21,7 +21,7 @@
       class="dropdown-pane dropdown-pane--open basic-filter"
     >
       <div class="filter__item">
-        <span>Status</span>
+        <span>{{ this.$t('CHAT_LIST.CHAT_SORT.STATUS') }}</span>
         <filter-item
           type="status"
           :selected-value="chatStatus"
@@ -30,7 +30,7 @@
         />
       </div>
       <div class="filter__item">
-        <span>Order by</span>
+        <span>{{ this.$t('CHAT_LIST.CHAT_SORT.ORDER_BY') }}</span>
         <filter-item
           type="sort"
           :selected-value="chatSortFilter"
