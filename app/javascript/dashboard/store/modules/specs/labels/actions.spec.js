@@ -10,7 +10,19 @@ jest.mock('axios');
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: { payload: labelsList } });
+      const mockedGet = jest.fn(url => {
+        if (url === '/api/v1/labels') {
+          return Promise.resolve({ data: { payload: labelsList } });
+        }
+        if (url === '/api/v1/accounts//cache_keys') {
+          return Promise.resolve({ data: { cache_keys: { labels: 0 } } });
+        }
+        // Return default value or throw an error for unexpected requests
+        return Promise.reject(new Error('Unexpected request: ' + url));
+      });
+
+      axios.get = mockedGet;
+
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_LABEL_UI_FLAG, { isFetching: true }],
