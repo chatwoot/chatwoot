@@ -62,7 +62,5 @@ test/cypress/videos/*
 /config/*.enc
 
 .vscode/settings.json
-
 # yalc for local testing
 .yalc
-yalc.lock
