@@ -142,13 +142,15 @@ class Article < ApplicationRecord
   def update_article_position_in_category
     max_position = Article.where(category_id: category_id, account_id: account_id).maximum(:position)
 
+    new_position = max_position.present? ? max_position + 10 : 10
+
     # update column to avoid validations if the article is already persisted
     if persisted?
       # rubocop:disable Rails/SkipsModelValidations
-      update_column(:position, max_position.present? ? max_position + 10 : 10)
+      update_column(:position, new_position)
       # rubocop:enable Rails/SkipsModelValidations
     else
-      self.position = max_position.present? ? max_position + 10 : 10
+      self.position = new_position
     end
   end
 
