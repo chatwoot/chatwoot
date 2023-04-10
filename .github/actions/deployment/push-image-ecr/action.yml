@@ -46,7 +46,7 @@ runs:
       if: ${{ inputs.SSM_VUE_APP_VERSION != '' }}
       shell: bash
       run: 
-        aws ssm put-parameter --name ${{inputs.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD)
+        aws ssm put-parameter --name ${{inputs.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD) --type "SecureString"
     
     - name: Login to Amazon ECR
       id: login-ecr
