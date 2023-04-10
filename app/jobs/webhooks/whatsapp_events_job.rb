@@ -1,10 +1,9 @@
 class Webhooks::WhatsappEventsJob < ApplicationJob
-  queue_as :default
+  queue_as :low
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params) || find_channel(params)
-    return if channel.blank?
-    return if channel.reauthorization_required?
+    return if channel_is_inactive?(channel)
 
     case channel.provider
     when 'whatsapp_cloud'
@@ -15,6 +14,14 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   private
+
+  def channel_is_inactive?(channel)
+    return true if channel.blank?
+    return true if channel.reauthorization_required?
+    return true unless channel.account.active?
+
+    false
+  end
 
   def find_channel(params)
     return unless params[:phone_number]

@@ -194,4 +194,25 @@ RSpec.describe Inbox do
       end
     end
   end
+
+  describe '#update' do
+    let!(:inbox) { FactoryBot.create(:inbox) }
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'resets cache key if there is an update in the channel' do
+      channel = inbox.channel
+      channel.update(widget_color: '#fff')
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(
+          'account.cache_invalidated',
+          kind_of(Time),
+          account: inbox.account,
+          cache_keys: inbox.account.cache_keys
+        )
+    end
+  end
 end
