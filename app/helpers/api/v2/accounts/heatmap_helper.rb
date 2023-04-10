@@ -94,7 +94,7 @@ module Api::V2::Accounts::HeatmapHelper
   end
 
   def since_timestamp(date)
-    (date - 7.days).to_i.to_s
+    (date - 6.days).to_i.to_s
   end
 
   def until_timestamp(date)
