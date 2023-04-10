@@ -120,7 +120,7 @@ export const mutations = {
   },
 
   [types.ADD_CONVERSATION](_state, conversation) {
-    _state.allConversations.push(conversation);
+    _state.allConversations.unshift(conversation);
   },
 
   [types.UPDATE_CONVERSATION](_state, conversation) {
