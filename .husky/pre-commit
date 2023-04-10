@@ -9,3 +9,6 @@ git diff --name-only --cached | xargs ls -1 2>/dev/null | grep '\.rb$' | xargs b
 
 # stage rubocop changes to files
 git diff --name-only --cached | xargs git add
+
+# echo git-sha to file
+git rev-parse HEAD > .git-sha
