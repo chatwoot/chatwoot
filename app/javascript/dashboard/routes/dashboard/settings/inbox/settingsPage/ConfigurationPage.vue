@@ -21,7 +21,12 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
       >
-        <woot-code :script="inbox.web_widget_script" />
+        <woot-code
+          :script="inbox.web_widget_script"
+          lang="html"
+          :codepen-title="`${inbox.name} - Chatwoot Widget Test`"
+          :enable-code-pen="true"
+        />
       </settings-section>
 
       <settings-section
