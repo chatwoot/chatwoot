@@ -82,8 +82,9 @@ import { mapGetters } from 'vuex';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import Auth from '../../../../api/auth';
+import wootConstants from 'dashboard/constants';
 
-const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
+const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
 export default {
   components: {
