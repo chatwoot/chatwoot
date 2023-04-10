@@ -124,11 +124,12 @@ class Article < ApplicationRecord
     # We need to update the position of the article in the new category
     return unless persisted?
 
-    # return if the previous category_id was nil
-    return if saved_change_to_category_id[0].nil? && saved_change_to_category_id[1].present?
+    # this means the article is just created
+    # and the category_id is newly set
+    # and the position is already present
+    return if created_at_before_last_save.nil? && position.present? && category_id_before_last_save.nil?
 
     update_article_position_in_category
-    save!
   end
 
   def add_position_to_article
