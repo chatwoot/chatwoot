@@ -22,7 +22,8 @@
       "is_not_present": "Não está presente",
       "is_greater_than": "É maior que",
       "is_less_than": "É menor que",
-      "days_before": "É X dias antes"
+      "days_before": "É X dias antes",
+      "starts_with": "Começa com"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Verdadeiro",
@@ -55,7 +56,7 @@
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Você quer salvar este filtro?",
-        "LABEL": "Nomear este filtro",
+        "LABEL": "Nomeie este filtro",
         "PLACEHOLDER": "Insira um nome para este filtro",
         "ERROR_MESSAGE": "O nome é obrigatório",
         "SAVE_BUTTON": "Salvar filtro",
@@ -74,7 +75,7 @@
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Confirmar exclusão",
-            "MESSAGE": "Tem certeza que deseja excluir o filtro ? ",
+            "MESSAGE": "Tem certeza que deseja excluir o filtro?",
             "YES": "Sim, excluir",
             "NO": "Não, mantenha"
           }

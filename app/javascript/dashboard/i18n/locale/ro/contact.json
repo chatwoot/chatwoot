@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Introduceți numele companiei",
         "LABEL": "Nume companie"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Numele țării",
+        "SELECT_PLACEHOLDER": "Selectați",
+        "REMOVE": "Elimină",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Introdu numele de utilizator Facebook",
