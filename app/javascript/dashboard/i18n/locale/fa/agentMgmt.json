@@ -74,6 +74,11 @@
           "LABEL": "ایمیل",
           "PLACEHOLDER": "لطفا ایمیل اپراتور را وارد کنید"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "در دسترس",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "تغییر ایجنت"
       },
       "BUTTON_TEXT": "ویرایش",
