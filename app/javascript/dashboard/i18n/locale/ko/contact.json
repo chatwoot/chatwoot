@@ -132,6 +132,17 @@
         "PLACEHOLDER": "회사명 입력",
         "LABEL": "회사명"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "국가 이름",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "제거",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "페이스북 사용자 이름 입력",
