@@ -7,7 +7,7 @@ import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import {
   reconcileHeatmapData,
   clampDataBetweenTimeline,
-} from 'helpers/ReportsDataHelper';
+} from 'shared/helpers/ReportsDataHelper';
 
 const state = {
   fetchingStatus: false,
