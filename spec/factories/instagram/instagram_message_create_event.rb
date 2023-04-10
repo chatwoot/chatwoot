@@ -26,6 +26,39 @@ FactoryBot.define do
     initialize_with { attributes }
   end
 
+  factory :instagram_story_reply_event, class: Hash do
+    entry do
+      [
+        {
+          'id': 'instagram-message-id-123',
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': 'Sender-id-1'
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'message': {
+                'mid': 'message-id-1',
+                'text': 'This is the story reply',
+                'reply_to': {
+                  'story': {
+                    'id': 'chatwoot-app-user-id-1',
+                    'url': 'https://chatwoot-assets.local/sample.png'
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
   factory :instagram_test_text_event, class: Hash do
     entry do
       [
