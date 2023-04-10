@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Unesite ime kompanije",
         "LABEL": "Ime firme"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Naziv zemlje",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Ukloni",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Unesite Fejsbuk korisničko ime",
