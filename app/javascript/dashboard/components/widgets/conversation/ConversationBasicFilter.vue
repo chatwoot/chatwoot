@@ -104,12 +104,14 @@ export default {
     justify-content: space-between;
     display: flex;
     align-items: center;
+
+    &:last-child {
+      margin-top: var(--space-normal);
+    }
+
     span {
       font-size: var(--font-size-mini);
     }
-  }
-  div:nth-child(2) {
-    margin-top: var(--space-normal);
   }
 }
 .icon {
