@@ -122,6 +122,11 @@ class Article < ApplicationRecord
 
   def category_id_changed_action
     # We need to update the position of the article in the new category
+    return unless persisted?
+
+    # return if the previous category_id was nil
+    return if saved_change_to_category_id[0].nil? && saved_change_to_category_id[1].present?
+
     update_article_position_in_category
     save!
   end
@@ -136,7 +141,14 @@ class Article < ApplicationRecord
   def update_article_position_in_category
     max_position = Article.where(category_id: category_id, account_id: account_id).maximum(:position)
 
-    self.position = max_position.present? ? max_position + 10 : 10
+    # update column to avoid validations if the article is already persisted
+    if persisted?
+      # rubocop:disable Rails/SkipsModelValidations
+      update_column(:position, max_position.present? ? max_position + 10 : 10)
+      # rubocop:enable Rails/SkipsModelValidations
+    else
+      self.position = max_position.present? ? max_position + 10 : 10
+    end
   end
 
   def ensure_account_id
