@@ -1,11 +1,11 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "自訂屬性",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
+    "HEADER_BTN_TXT": "新增自訂屬性",
+    "LOADING": "正在取得自訂屬性",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "新增自訂屬性",
       "SUBMIT": "建立",
       "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
@@ -21,7 +21,7 @@
         },
         "MODEL": {
           "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "PLACEHOLDER": "請選擇其中一個",
           "ERROR": "Model is required"
         },
         "TYPE": {
