@@ -2,6 +2,8 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
+    elsif message.content_type == "input_select"
+      send_buttons(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -15,6 +17,21 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
         to: phone_number,
         template: template_body_parameters(template_info),
         type: 'template'
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
+  def send_buttons(phone_number, message)
+    response = HTTParty.post(
+      "#{api_base_path}/messages",
+      headers: api_headers,
+      body: {
+        to: phone_number,
+        interactive: button_body_parameters(message),
+        type: 'interactive',
+        recipient_type: 'individual',
       }.to_json
     )
 
@@ -108,6 +125,27 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
         type: 'body',
         parameters: template_info[:parameters]
       }]
+    }
+  end
+
+  def button_body_parameters(message)
+    {
+      type: 'button',
+      body: {
+        text: message.content,
+      },
+      action: {
+        buttons: (
+            message.content_attributes["items"].first(3).map{|item|
+          {
+          type: 'reply',
+          reply: 
+              {
+                "title":item["title"],
+                "id":item["value"],
+              }
+            }if !message.content_attributes["items"]!=nil
+      })}
     }
   end
 end
