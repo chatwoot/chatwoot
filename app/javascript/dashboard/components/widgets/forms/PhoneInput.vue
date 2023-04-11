@@ -168,13 +168,13 @@ export default {
         )
       );
     },
-    focusItem() {
+    focusedItem() {
       return Array.from(
         this.$refs.dropdown.querySelectorAll('div.country-dropdown div.focus')
       );
     },
-    focusItemIndex() {
-      return Array.from(this.dropdownItem()).indexOf(this.focusItem()[0]);
+    focusedItemIndex() {
+      return Array.from(this.dropdownItem()).indexOf(this.focusedItem()[0]);
     },
     onKeyDownHandler(e) {
       const { showDropdown, filteredCountriesBySearch, onSelectCountry } = this;
@@ -187,11 +187,11 @@ export default {
             selectedIndex + 1,
             filteredCountriesBySearch.length - 1
           );
-          this.$refs.dropdown.scrollTop = this.focusItemIndex() * 28;
+          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28;
         } else if (hasPressedArrowUpKey(e)) {
           e.preventDefault();
           this.selectedIndex = Math.max(selectedIndex - 1, 0);
-          this.$refs.dropdown.scrollTop = this.focusItemIndex() * 28 - 56;
+          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
         } else if (isEnter(e)) {
           e.preventDefault();
           onSelectCountry(filteredCountriesBySearch[selectedIndex]);
