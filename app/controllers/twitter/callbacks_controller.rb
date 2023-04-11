@@ -59,6 +59,7 @@ class Twitter::CallbacksController < Twitter::BaseController
 
   def save_profile_image(inbox)
     response = twitter_client.user_show(screen_name: inbox.name)
+
     return unless response.success?
 
     parsed_user_profile = JSON.parse(response.read_body)

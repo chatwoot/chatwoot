@@ -5,7 +5,11 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
   let(:twitter_response) { instance_double(::Twitty::Response, status: '200', body: { message: 'Valid' }) }
   let(:raw_response) { double }
   let(:user_object_rsponse) do
-    OpenStruct.new(read_body: '{"profile_background_color":"000000","profile_background_image_url":"http:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png"}')
+    OpenStruct.new(
+      read_body: '{"profile_background_color":"000000","profile_background_image_url":"http:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png"}',
+      status: 200,
+      success?: true
+    )
   end
   let(:account) { create(:account) }
   let(:webhook_service) { double }
@@ -20,12 +24,12 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
     allow(twitter_client).to receive(:user_show).and_return(user_object_rsponse)
     allow(JSON).to receive(:parse).and_return(user_object_rsponse)
     allow(::Twitter::WebhookSubscribeService).to receive(:new).and_return(webhook_service)
-    allow(::Twitter::WebhookSubscribeService).to receive(:new).and_return(webhook_service)
   end
 
   describe 'GET /twitter/callback' do
     it 'creates inboxes if subscription is successful' do
       allow(webhook_service).to receive(:perform).and_return true
+      expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).once
       get twitter_callback_url
       account.reload
       expect(response).to redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
