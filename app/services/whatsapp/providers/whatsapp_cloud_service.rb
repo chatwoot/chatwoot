@@ -32,10 +32,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response = HTTParty.get(url)
     return [] unless response.success?
 
-    next_url = response['paging'] ? response['paging']['next'] : ''
+    next_url = next_url(response)
+
     return response['data'] + fetch_wa_templates(next_url) if next_url.present?
 
     response['data']
+  end
+
+  def next_url(response)
+    response['paging'] ? response['paging']['next'] : ''
   end
 
   def validate_provider_config?
