@@ -37,12 +37,30 @@ class Message < ApplicationRecord
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
+  TEMPLATE_PARAMS_SCHEMA = {
+    'template_params' => {
+      required: false,
+      type: 'hash',
+      properties: {
+        'name' => { required: true, type: 'string' },
+        'category' => { required: true, type: 'string' },
+        'language' => { required: true, type: 'string' },
+        'namespace' => { required: true, type: 'string' },
+        'processed_params' => { required: true, type: 'hash' }
+      }
+    }
+  }.freeze
+
   before_validation :ensure_content_type
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
+  validates_with JsonSchemaValidator,
+                 schema: TEMPLATE_PARAMS_SCHEMA,
+                 attribute_resolver: ->(record) { record.additional_attributes }
+
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
 
