@@ -36,6 +36,7 @@
       }
     },
     "VIEW_FILTER": "View",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
     "CHAT_SORT": {
       "STATUS": "Status",
       "ORDER_BY": "Order by"

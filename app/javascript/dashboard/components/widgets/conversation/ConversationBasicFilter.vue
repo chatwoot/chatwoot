@@ -1,14 +1,15 @@
 <template>
   <div style="position: relative;">
     <woot-button
+      v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
       variant="smooth"
       size="tiny"
       color-scheme="secondary"
       class="selector-button"
       @click="toggleDropdown"
     >
-      <fluent-icon icon="menu-icon" class="icon" size="12" />
-      {{ this.$t('CHAT_LIST.VIEW_FILTER') }}
+      <fluent-icon icon="sort-icon" class="icon" size="12" />
+      <!-- {{ this.$t('CHAT_LIST.VIEW_FILTER') }} -->
     </woot-button>
     <div
       v-if="showActionsDropdown"

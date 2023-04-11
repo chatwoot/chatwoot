@@ -16,7 +16,7 @@ const getters = {
       return allConversations.sort((a, b) => b.created_at - a.created_at);
     }
     return allConversations.sort(
-      (a, b) => b.last_activity_at - a.last_activity_at
+      (a, b) => b.messages.last()?.created_at - a.messages.last()?.created_at
     );
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
