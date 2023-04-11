@@ -1,9 +1,15 @@
 class JsonSchemaValidator < ActiveModel::Validator
   def validate(record)
+    # get the attribute resolver function from options or use a default one
     attribute_resolver = options[:attribute_resolver] || ->(rec) { rec.additional_attributes }
+
+    # resolve the JSON data to be validated
     json_data = attribute_resolver.call(record)
+
+    # get the schema to be used for validation
     schema = options[:schema]
 
+    # call the private method to validate the schema
     validate_schema(json_data, schema, 'root', record)
   end
 
@@ -11,13 +17,15 @@ class JsonSchemaValidator < ActiveModel::Validator
 
   def validate_schema(json_data, schema, path, record)
     schema.each do |key, rule|
-      value = json_data[key]
+      value = json_data[key] # get the value for the current key
 
+      # check if the value is required and not present
       if rule[:required] && value.nil?
         record.errors.add(path, "#{key} is required")
-      elsif !value.nil?
-        validate_type(value, rule[:type], "#{path}.#{key}", record)
+      elsif !value.nil? # check if the value is present
+        validate_type(value, rule[:type], "#{path}.#{key}", record) # validate the type of the value
 
+        # validate the nested schema if the value is a Hash
         validate_schema(value, rule[:properties], "#{path}.#{key}", record) if rule[:properties] && value.is_a?(Hash)
       end
     end
