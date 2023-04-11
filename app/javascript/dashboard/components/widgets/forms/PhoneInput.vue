@@ -22,6 +22,7 @@
     </div>
     <div
       v-if="showDropdown"
+      ref="dropdown"
       v-on-clickaway="closeDropdown"
       class="country-dropdown"
     >
@@ -35,10 +36,14 @@
         />
       </div>
       <div
-        v-for="country in filteredCountriesBySearch"
-        :key="country.id"
+        v-for="(country, index) in filteredCountriesBySearch"
+        ref="dropdownItem"
+        :key="index"
         class="country-dropdown--item"
-        :class="{ active: country.id === activeCountryCode }"
+        :class="{
+          active: country.id === activeCountryCode,
+          focus: index === selectedIndex,
+        }"
         @click="onSelectCountry(country)"
       >
         <span class="country-emoji">{{ country.emoji }}</span>
@@ -59,9 +64,15 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import {
+  hasPressedArrowUpKey,
+  hasPressedArrowDownKey,
+  isEnter,
+} from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  mixins: [clickaway],
+  mixins: [clickaway, eventListenerMixins],
   props: {
     value: {
       type: [String, Number],
@@ -95,6 +106,7 @@ export default {
         },
         ...countries,
       ],
+      selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
       activeCountryCode: '',
@@ -149,6 +161,43 @@ export default {
     onBlur(e) {
       this.$emit('blur', e.target.value);
     },
+    dropdownItem() {
+      return Array.from(
+        this.$refs.dropdown.querySelectorAll(
+          'div.country-dropdown div.country-dropdown--item'
+        )
+      );
+    },
+    focusItem() {
+      return Array.from(
+        this.$refs.dropdown.querySelectorAll('div.country-dropdown div.focus')
+      );
+    },
+    focusItemIndex() {
+      return Array.from(this.dropdownItem()).indexOf(this.focusItem()[0]);
+    },
+    onKeyDownHandler(e) {
+      const { showDropdown, filteredCountriesBySearch, onSelectCountry } = this;
+      const { selectedIndex } = this;
+
+      if (showDropdown) {
+        if (hasPressedArrowDownKey(e)) {
+          e.preventDefault();
+          this.selectedIndex = Math.min(
+            selectedIndex + 1,
+            filteredCountriesBySearch.length - 1
+          );
+          this.$refs.dropdown.scrollTop = this.focusItemIndex() * 28;
+        } else if (hasPressedArrowUpKey(e)) {
+          e.preventDefault();
+          this.selectedIndex = Math.max(selectedIndex - 1, 0);
+          this.$refs.dropdown.scrollTop = this.focusItemIndex() * 28 - 56;
+        } else if (isEnter(e)) {
+          e.preventDefault();
+          onSelectCountry(filteredCountriesBySearch[selectedIndex]);
+        }
+      }
+    },
     onSelectCountry(country) {
       this.activeCountryCode = country.id;
       this.searchCountry = '';
@@ -167,6 +216,7 @@ export default {
     },
     toggleCountryDropdown() {
       this.showDropdown = !this.showDropdown;
+      this.selectedIndex = -1;
       if (this.showDropdown) {
         this.$nextTick(() => {
           this.$refs.searchbar.focus();
@@ -174,6 +224,7 @@ export default {
       }
     },
     closeDropdown() {
+      this.selectedIndex = -1;
       this.showDropdown = false;
     },
   },
@@ -197,6 +248,7 @@ export default {
   }
 
   .country-emoji--wrap {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -263,6 +315,10 @@ export default {
 
       &.active {
         background-color: var(--s-50);
+      }
+
+      &.focus {
+        background-color: var(--s-25);
       }
 
       &:hover {
