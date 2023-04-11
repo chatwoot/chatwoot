@@ -49,7 +49,7 @@ import { required, minLength } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
 
 import WootSubmitButton from '../../components/buttons/FormSubmitButton';
-import { DEFAULT_REDIRECT_URL } from '../../constants';
+import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 
 export default {
   components: {
