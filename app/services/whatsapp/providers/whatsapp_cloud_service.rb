@@ -23,18 +23,18 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def sync_templates
-    templates = fetch_wa_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
+    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
 
     whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
   end
 
-  def fetch_wa_templates(url)
+  def fetch_whatsapp_templates(url)
     response = HTTParty.get(url)
     return [] unless response.success?
 
     next_url = next_url(response)
 
-    return response['data'] + fetch_wa_templates(next_url) if next_url.present?
+    return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
 
     response['data']
   end
