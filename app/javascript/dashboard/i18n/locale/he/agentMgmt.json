@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "זמינות",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "אנא בחר סטטוס זמינות",
+          "ERROR": "נדרשת זמינות"
         },
         "SUBMIT": "ערוך סוכן"
       },
