@@ -1,37 +1,37 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "תוויות",
+    "HEADER_BTN_TXT": "הוסף תווית",
+    "LOADING": "מביא תוויות",
     "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>תוויות</b> <p>תוויות עוזרות לך לסווג שיחות ולתעדף אותן. אתה יכול להקצות תווית לשיחה מהלוח הצדדי. <br /><br />תוויות קשורות לחשבון וניתן להשתמש בהן כדי ליצור זרימות עבודה מותאמות אישית בארגון שלך. אתה יכול להקצות צבע מותאם אישית לתווית, זה מקל על זיהוי התווית. תוכל להציג את התווית בסרגל הצד כדי לסנן את השיחות בקלות.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "אין תוויות זמינות בחשבון זה.",
+      "TITLE": "נהל תוויות",
+      "DESC": "תוויות מאפשרות לך לקבץ את השיחות יחד.",
       "TABLE_HEADER": [
         "שם",
-        "Description",
-        "Color"
+        "תיאור",
+        "צֶבַע"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "שם התווית",
+        "PLACEHOLDER": "שם התווית",
+        "REQUIRED_ERROR": "נדרש שם תווית",
+        "MINIMUM_LENGTH_ERROR": "נדרש אורך מינימלי 2",
+        "VALID_ERROR": "רק אלפבית, מספרים, מקף וקו תחתון מותרים"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "תיאור",
+        "PLACEHOLDER": "תיאור תווית"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "צבע"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "הצג תווית בסרגל הצד"
       },
       "EDIT": "ערוך",
       "CREATE": "צור",
@@ -39,24 +39,24 @@
       "CANCEL": "ביטול"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "הוסף תווית",
+      "DESC": "תוויות מאפשרות לך לקבץ את השיחות יחד.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
+        "SUCCESS_MESSAGE": "תווית נוספה בהצלחה",
         "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "ערוך תווית",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
+        "SUCCESS_MESSAGE": "התווית עודכנה בהצלחה",
         "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
+        "SUCCESS_MESSAGE": "התווית נמחקה בהצלחה",
         "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       },
       "CONFIRM": {
