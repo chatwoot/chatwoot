@@ -24,12 +24,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def sync_templates
     response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-
-    return unless response.success?
-
-    @templates = response['data']
-    fetch_next_templates(response)
-    save_templates
+    whatsapp_channel.update(message_templates: response['data'], message_templates_last_updated: Time.now.utc) if response.success?
   end
 
   def validate_provider_config?
@@ -45,24 +40,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
-  def fetch_next_templates(response)
-    loop do
-      break unless response['paging'] && response['paging']['next']
-
-      response = HTTParty.get(response['paging']['next'])
-      push_templates(response)
-    end
-  end
-
   private
-
-  def push_templates(response)
-    @templates << response['data'] if response.success? && response['data'].any?
-  end
-
-  def save_templates
-    whatsapp_channel.update(message_templates: @templates, message_templates_last_updated: Time.now.utc)
-  end
 
   def api_base_path
     ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
