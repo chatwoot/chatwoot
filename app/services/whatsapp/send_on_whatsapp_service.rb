@@ -34,7 +34,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
         template_params['name'],
         template_params['namespace'],
         template_params['language'],
-        template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
+        template_params['processed_params']&.map { |_, value| { type: 'text', text: value } }
       ]
     end
 
