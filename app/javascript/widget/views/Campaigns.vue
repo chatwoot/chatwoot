@@ -28,10 +28,8 @@ export default {
   methods: {
     closeFullView() {
       if (IFrameHelper.isIFrame()) {
-        const { id: campaignId } = this.campaign;
         IFrameHelper.sendMessage({
           event: 'setCampaignReadOn',
-          data: { campaignId },
         });
         IFrameHelper.sendMessage({ event: 'toggleBubble' });
       }

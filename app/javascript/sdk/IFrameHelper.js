@@ -36,7 +36,6 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
-import { LocalStorage } from 'shared/helpers/localStorage';
 
 const updateAuthCookie = cookieContent =>
   Cookies.set('cw_conversation', cookieContent, {
@@ -44,11 +43,12 @@ const updateAuthCookie = cookieContent =>
     sameSite: 'Lax',
   });
 
-const updateCampaignReadStatus = campaignId => {
-  const campaignsRead = LocalStorage.get('campaigns_read_by_id') || {};
-  LocalStorage.set('campaigns_read_by_id', {
-    ...campaignsRead,
-    [campaignId]: Date.now(),
+const updateCampaignReadStatus = () => {
+  const expireBy = new Date();
+  expireBy.setHours(expireBy.getHours() + 1);
+  Cookies.set('cw_snooze_campaigns_till', expireBy, {
+    expires: expireBy,
+    sameSite: 'Lax',
   });
 };
 
@@ -156,7 +156,8 @@ export const IFrameHelper = {
     loaded: message => {
       updateAuthCookie(message.config.authToken);
       window.$chatwoot.hasLoaded = true;
-      const campaignsRead = LocalStorage.get('campaigns_read_by_id') || {};
+      const campaignsSnoozedTill =
+        Cookies.get('cw_snooze_campaigns_till') || undefined;
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
         position: window.$chatwoot.position,
@@ -164,7 +165,7 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
-        campaignsRead: { ...campaignsRead },
+        campaignsSnoozedTill,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -203,8 +204,8 @@ export const IFrameHelper = {
       updateAuthCookie(widgetAuthToken);
     },
 
-    setCampaignReadOn({ data: { campaignId } }) {
-      updateCampaignReadStatus(campaignId);
+    setCampaignReadOn() {
+      updateCampaignReadStatus();
     },
 
     toggleBubble: state => {

@@ -50,6 +50,7 @@ export default {
   data() {
     return {
       isMobile: false,
+      campaignsSnoozedTill: undefined,
     };
   },
   computed: {
@@ -182,10 +183,12 @@ export default {
     },
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
+      const shouldSnoozeCampaign =
+        this.campaignsSnoozedTill && this.campaignsSnoozedTill > Date.now();
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) &&
         !messageCount &&
-        !this.dismissedCampaignIds.includes(`${activeCampaign.id}`);
+        !shouldSnoozeCampaign;
       if (this.isIFrame && isCampaignReadyToExecute) {
         this.replaceRoute('campaigns').then(() => {
           this.setIframeHeight(true);
@@ -245,7 +248,7 @@ export default {
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
-          this.setCampaignReadData(message.campaignsRead);
+          this.setCampaignReadData(message.campaignsSnoozedTill);
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
@@ -323,8 +326,8 @@ export default {
     sendRNWebViewLoadedEvent() {
       RNHelper.sendMessage(loadedEventConfig());
     },
-    setCampaignReadData(data) {
-      this.dismissedCampaignIds = Object.keys(data).map(id => `${id}`);
+    setCampaignReadData(snoozedTill) {
+      this.campaignsSnoozedTill = snoozedTill;
     },
   },
 };
