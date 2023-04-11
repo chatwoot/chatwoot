@@ -81,7 +81,7 @@ ru:
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
     conversation_traffic_csv:
-      date: Date and time
+      date: Дата и время
       conversations_count: No. of conversations
     default_group_by: день
     csat:
@@ -165,7 +165,7 @@ ru:
       name: "Полная карточка контакта"
       description: "Интеграция с FullContact помогает получить всю информацию о профиле посетителей. Определяйте пользователей как только они поделится своим электронным адресом и предложите им индивидуальное обслуживание клиентов. Подключите ваш FullContact к своей учетной записи, поделившись API ключом FullContact."
     google_translate:
-      name: "Google Translate"
+      name: "Google Перевод"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:
