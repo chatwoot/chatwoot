@@ -81,8 +81,7 @@ vi:
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: Số hội thoại
+      timezone: Timezone
     default_group_by: ngày
     csat:
       headers:
@@ -113,6 +112,7 @@ vi:
         pending: "Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}"
         snoozed: "Hội thoại đã được tạm dừng lại bởi %{user_name}"
         auto_resolved: "Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} phân công chính mình vào hội thoại này"
         assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
