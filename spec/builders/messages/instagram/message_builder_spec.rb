@@ -65,6 +65,7 @@ describe  ::Messages::Instagram::MessageBuilder do
       )
       messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
       contact_inbox
+
       described_class.new(messaging, instagram_inbox).perform
 
       message = instagram_channel.inbox.messages.first

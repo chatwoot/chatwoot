@@ -2,14 +2,15 @@
 #
 # Table name: channel_facebook_pages
 #
-#  id                :integer          not null, primary key
-#  page_access_token :string           not null
-#  user_access_token :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :integer          not null
-#  instagram_id      :string
-#  page_id           :string           not null
+#  id                 :integer          not null, primary key
+#  content_attributes :jsonb
+#  page_access_token  :string           not null
+#  user_access_token  :string           not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :integer          not null
+#  instagram_id       :string
+#  page_id            :string           not null
 #
 # Indexes
 #
@@ -34,6 +35,17 @@ class Channel::FacebookPage < ApplicationRecord
 
   def messaging_window_enabled?
     false
+  end
+
+  def story_id
+    content_attributes['story_id']
+  end
+
+  def save_story_info(story_info)
+    self.content_attributes = content_attributes.merge(
+      { story_id: story_info['ig_id'], ig_username: story_info['username'] }
+    )
+    save!
   end
 
   def create_contact_inbox(instagram_id, name)

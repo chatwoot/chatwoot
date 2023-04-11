@@ -71,8 +71,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def story_reply_attributes
-    story = message[:reply_to][:story] if message[:reply_to].present? && message[:reply_to][:story].present?
-    story
+    message[:reply_to][:story] if message[:reply_to].present? && message[:reply_to][:story].present?
   end
 
   def build_message
@@ -90,26 +89,23 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   def save_story_id
     return if story_reply_attributes.blank?
 
-    @message.content_attributes[:url] = story_reply_attributes[:url]
-    story_info = story_owner
-    @message.content_attributes[:story_sender] = story_info['id']
-    @message.content_attributes[:story_id] = story_info['ig_id']
-    @message.save!
+    fetch_story_info
+    @message.save_story_info
   end
 
-  def story_owner
-    instagram_id = @inbox.channel.instagram_id
+  def fetch_story_info
+    return if @inbox.channel.story_id.present?
 
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(instagram_id, fields: %w[id username ig_id]) || {}
+      result = k.get_object(@inbox.channel.instagram_id, fields: %w[id username ig_id]) || {}
+      @inbox.channel.save_story_info(result)
     rescue Koala::Facebook::AuthenticationError => e
       @inbox.channel.authorization_error!
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     rescue StandardError, Koala::Facebook::ClientError => e
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
-    result
   end
 
   def build_conversation

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_07_191457) do
+ActiveRecord::Schema.define(version: 2023_04_11_144323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -289,6 +289,7 @@ ActiveRecord::Schema.define(version: 2023_04_07_191457) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "instagram_id"
+    t.jsonb "content_attributes", default: {}
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end

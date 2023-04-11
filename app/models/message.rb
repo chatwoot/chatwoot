@@ -177,6 +177,15 @@ class Message < ApplicationRecord
     outgoing? && human_response? && not_created_by_automation? && !private?
   end
 
+  def save_story_info
+    story_attributes = inbox.channel.content_attributes
+
+    self.content_attributes = content_attributes.merge(
+      { story_id: story_attributes['story_id'], story_sender: inbox.channel.instagram_id }
+    )
+    save!
+  end
+
   private
 
   def ensure_content_type
