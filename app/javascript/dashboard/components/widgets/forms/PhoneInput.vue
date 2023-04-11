@@ -149,9 +149,7 @@ export default {
     },
   },
   mounted() {
-    setTimeout(() => {
-      this.setActiveCountry();
-    }, 10);
+    this.setActiveCountry();
   },
   methods: {
     onChange(e) {
