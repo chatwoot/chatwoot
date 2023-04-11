@@ -125,7 +125,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
         expect(subject.sync_templates).to be(true)
         expect(whatsapp_channel.reload.message_templates.first).to eq({ id: '123456789', name: 'test_template' }.stringify_keys)
-        expect(whatsapp_channel.reload.message_templates.last).to eq([{ id: '123456789', name: 'next_template' }.stringify_keys])
+        expect(whatsapp_channel.reload.message_templates.last).to eq({ id: '123456789', name: 'next_template' }.stringify_keys)
       end
     end
   end

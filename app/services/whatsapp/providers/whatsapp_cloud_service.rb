@@ -61,7 +61,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def save_templates
-    whatsapp_channel.update(message_templates: @templates, message_templates_last_updated: Time.now.utc)
+    whatsapp_channel.update(message_templates: @templates.flatten, message_templates_last_updated: Time.now.utc)
   end
 
   def api_base_path
