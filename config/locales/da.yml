@@ -81,8 +81,7 @@ da:
       avg_first_response_time: Gns første svartid (minutter)
       avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: Antal samtaler
+      timezone: Timezone
     default_group_by: dag
     csat:
       headers:
@@ -113,6 +112,7 @@ da:
         pending: "Samtalen blev markeret som afventende af %{user_name}"
         snoozed: "Samtalen blev udskudt af %{user_name}"
         auto_resolved: "Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} selv-tildelte denne samtale"
         assigned: "Tildelt %{assignee_name} af %{user_name}"
