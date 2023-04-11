@@ -1,3 +1,30 @@
+# This file defines a custom validator class `JsonSchemaValidator` for validating a JSON object against a schema.
+# To use this validator, define a schema as a Ruby hash and include it in the validation options when validating a model.
+# The schema should define the expected structure and types of the JSON object, as well as any validation rules.
+# Here's an example schema:
+#
+# schema = {
+#   'name' => { required: true, type: 'string' },
+#   'age' => { required: true, type: 'integer' },
+#   'is_active' => { required: false, type: 'boolean' },
+#   'tags' => { required: false, type: 'array' },
+#   'address' => {
+#     required: false,
+#     type: 'hash',
+#     properties: {
+#       'street' => { required: true, type: 'string' },
+#       'city' => { required: true, type: 'string' }
+#     }
+#   }
+# }.freeze
+#
+# To validate a model using this schema, include the `JsonSchemaValidator` in the model's validations and pass the schema
+# as an option:
+#
+# class MyModel < ApplicationRecord
+#   validates_with JsonSchemaValidator, schema: schema
+# end
+
 class JsonSchemaValidator < ActiveModel::Validator
   def validate(record)
     # get the attribute resolver function from options or use a default one
