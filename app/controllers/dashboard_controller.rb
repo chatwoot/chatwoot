@@ -62,7 +62,10 @@ class DashboardController < ActionController::Base
   end
 
   def fetch_git_sha
-    if File.exist?('.git-sha')
+    sha = `git rev-parse HEAD`
+    if sha.present?
+      sha.strip
+    elsif File.exist?('.git-sha')
       File.read('.git-sha').strip
     else
       'unknown'
