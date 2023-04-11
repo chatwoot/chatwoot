@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Anna yrityksen nimi",
         "LABEL": "Yrityksen nimi"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Poista",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Syötä Facebookin käyttäjätunnus",

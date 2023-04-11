@@ -7,7 +7,7 @@ import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import {
   reconcileHeatmapData,
   clampDataBetweenTimeline,
-} from 'helpers/ReportsDataHelper';
+} from 'shared/helpers/ReportsDataHelper';
 
 const state = {
   fetchingStatus: false,
@@ -180,7 +180,7 @@ export const actions = {
       });
   },
   downloadAccountConversationHeatmap(_, reportObj) {
-    Report.getConversationTrafficCSV(reportObj)
+    Report.getConversationTrafficCSV()
       .then(response => {
         downloadCsvFile(
           generateFileName({

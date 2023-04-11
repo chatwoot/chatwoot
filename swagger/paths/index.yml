@@ -360,7 +360,7 @@
 
 
 # Profile
-/profile:
+/api/v1/profile:
   $ref: ./profile/index.yml
 
 
