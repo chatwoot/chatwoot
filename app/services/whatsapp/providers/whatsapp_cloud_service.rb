@@ -23,13 +23,24 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def sync_templates
-    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
+    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
 
-    return unless response.success?
+    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
+  end
 
-    @templates = response['data']
-    fetch_next_templates(response)
-    save_templates
+  def fetch_whatsapp_templates(url)
+    response = HTTParty.get(url)
+    return [] unless response.success?
+
+    next_url = next_url(response)
+
+    return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
+
+    response['data']
+  end
+
+  def next_url(response)
+    response['paging'] ? response['paging']['next'] : ''
   end
 
   def validate_provider_config?
@@ -43,25 +54,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def media_url(media_id)
     "#{api_base_path}/v13.0/#{media_id}"
-  end
-
-  def fetch_next_templates(response)
-    loop do
-      break unless response['paging'] && response['paging']['next']
-
-      response = HTTParty.get(response['paging']['next'])
-      push_templates(response)
-    end
-  end
-
-  private
-
-  def push_templates(response)
-    @templates << response['data'] if response.success? && response['data'].any?
-  end
-
-  def save_templates
-    whatsapp_channel.update(message_templates: @templates, message_templates_last_updated: Time.now.utc)
   end
 
   def api_base_path
