@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex';
-import wootConstants from '../../../constants';
+import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_MUTE_CONVERSATION,
   CMD_REOPEN_CONVERSATION,
