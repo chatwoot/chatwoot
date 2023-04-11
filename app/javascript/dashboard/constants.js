@@ -15,7 +15,6 @@ export default {
   SORT_BY_TYPE: {
     LATEST: 'last_activity_at',
     CREATED_AT: 'created_at',
-    LAST_USER_MESSAGE_AT: 'last_user_message_at',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,

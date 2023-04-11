@@ -1,5 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
+import wootConstants from 'dashboard/constants';
 import { applyPageFilters } from './helpers';
+const { SORT_BY_TYPE } = wootConstants;
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -9,7 +11,14 @@ export const getSelectedChatConversation = ({
 
 // getters
 const getters = {
-  getAllConversations: ({ allConversations }) => allConversations,
+  getAllConversations: ({ allConversations, chatSortFilter }) => {
+    if (chatSortFilter === SORT_BY_TYPE.CREATED_AT) {
+      return allConversations.sort((a, b) => b.created_at - a.created_at);
+    }
+    return allConversations.sort(
+      (a, b) => b.last_activity_at - a.last_activity_at
+    );
+  },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
       conversation => conversation.id === selectedChatId

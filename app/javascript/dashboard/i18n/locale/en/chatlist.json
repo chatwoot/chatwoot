@@ -46,9 +46,6 @@
       },
       "created_at": {
         "TEXT": "Created at"
-      },
-      "last_user_message_at": {
-        "TEXT": "Last user message at"
       }
     },
     "ATTACHMENTS": {

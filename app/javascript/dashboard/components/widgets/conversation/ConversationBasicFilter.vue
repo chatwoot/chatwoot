@@ -9,11 +9,6 @@
     >
       <fluent-icon icon="menu-icon" class="icon" size="12" />
       {{ this.$t('CHAT_LIST.VIEW_FILTER') }}
-      <fluent-icon
-        :icon="showActionsDropdown ? 'chevron-up' : 'chevron-down'"
-        class="icon dropdown-icon"
-        size="12"
-      />
     </woot-button>
     <div
       v-if="showActionsDropdown"
