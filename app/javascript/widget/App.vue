@@ -184,7 +184,7 @@ export default {
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
       const shouldSnoozeCampaign =
-        this.campaignsSnoozedTill && this.campaignsSnoozedTill > Date.now();
+        this.campaignsSnoozedTill && +this.campaignsSnoozedTill > Date.now();
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) &&
         !messageCount &&

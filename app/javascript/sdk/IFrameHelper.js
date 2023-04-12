@@ -46,7 +46,7 @@ const updateAuthCookie = cookieContent =>
 const updateCampaignReadStatus = () => {
   const expireBy = new Date();
   expireBy.setHours(expireBy.getHours() + 1);
-  Cookies.set('cw_snooze_campaigns_till', expireBy, {
+  Cookies.set('cw_snooze_campaigns_till', +expireBy, {
     expires: expireBy,
     sameSite: 'Lax',
   });
