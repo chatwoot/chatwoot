@@ -717,7 +717,7 @@ GEM
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
-    twitty (0.1.4)
+    twitty (0.1.5)
       oauth
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -883,7 +883,7 @@ DEPENDENCIES
   test-prof
   time_diff
   twilio-ruby (~> 5.66)
-  twitty
+  twitty (~> 0.1.5)
   tzinfo-data
   uglifier
   valid_email2
