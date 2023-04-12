@@ -79,6 +79,8 @@ services:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
+      - VUE_APP_VERSION=test_webpack_docker_compose
+      - VUE_APP_SENTRY_DSN_CHAT=https://02b9c03c61e642228cd22016b7ce452d@o59321.ingest.sentry.io/4504889702023168
     entrypoint: docker/entrypoints/webpack.sh
     command: bin/webpack-dev-server
 
