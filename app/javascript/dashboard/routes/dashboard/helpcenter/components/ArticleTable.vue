@@ -1,6 +1,9 @@
 <template>
   <div class="article-container">
-    <div class="article-container--header">
+    <div
+      class="article-container--header"
+      :class="{ draggable: onCategoryPage }"
+    >
       <div class="heading-item heading-title">
         {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
       </div>
@@ -30,6 +33,7 @@
         v-for="article in localArticles"
         :id="article.id"
         :key="article.id"
+        :class="{ draggable: onCategoryPage }"
         :title="article.title"
         :author="article.author"
         :category="article.category"
@@ -87,10 +91,11 @@ export default {
     dragEnabled() {
       // dragging allowed only on category page
       return (
-        this.articles.length > 1 &&
-        !this.isFetching &&
-        this.$route.name === 'show_category'
+        this.articles.length > 1 && !this.isFetching && this.onCategoryPage
       );
+    },
+    onCategoryPage() {
+      return this.$route.name === 'show_category';
     },
   },
   watch: {
@@ -158,6 +163,12 @@ export default {
       grid-template-columns: repeat(6, minmax(0, 1fr));
     }
 
+    &.draggable {
+      div.heading-item.heading-title {
+        padding: var(--space-small) var(--space-snug);
+      }
+    }
+
     div.heading-item {
       font-weight: var(--font-weight-bold);
       text-transform: capitalize;
@@ -169,7 +180,6 @@ export default {
       &.heading-title {
         text-align: left;
         grid-column: span 4 / span 4;
-        padding: var(--space-small) var(--space-snug);
       }
 
       @media (max-width: 1024px) {

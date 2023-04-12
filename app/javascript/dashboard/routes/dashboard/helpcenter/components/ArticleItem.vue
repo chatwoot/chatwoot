@@ -149,6 +149,26 @@ export default {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
+  &.draggable {
+    span.article-column.article-title {
+      margin-left: var(--space-minus-small);
+
+      .icon-grab {
+        display: block;
+        cursor: move;
+        height: var(--space-normal);
+        margin-top: var(--space-smaller);
+        width: var(--space-normal);
+
+        color: var(--s-100);
+
+        &:hover {
+          color: var(--s-300);
+        }
+      }
+    }
+  }
+
   span.article-column {
     color: var(--s-700);
     font-size: var(--font-size-small);
@@ -164,19 +184,9 @@ export default {
       grid-column: span 4 / span 4;
       text-align: left;
       text-align: left;
-      margin-left: var(--space-minus-small);
 
       .icon-grab {
-        cursor: move;
-        height: var(--space-normal);
-        margin-top: var(--space-smaller);
-        width: var(--space-normal);
-
-        color: var(--s-100);
-
-        &:hover {
-          color: var(--s-300);
-        }
+        display: none;
       }
     }
 
