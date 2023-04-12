@@ -11,6 +11,7 @@ import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import router from '../widget/router';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import * as Sentry from '@sentry/vue';
+import '../apm';
 
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({

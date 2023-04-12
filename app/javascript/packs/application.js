@@ -20,6 +20,7 @@ import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from '../dashboard/constants';
 import * as Sentry from '@sentry/vue';
+import '../apm';
 import 'vue-easytable/libs/theme-default/index.css';
 import {
   initializeAnalyticsEvents,
