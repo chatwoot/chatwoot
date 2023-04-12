@@ -136,6 +136,7 @@ export default {
 <style lang="scss" scoped>
 .article-container {
   width: 100%;
+
   & > :not([hidden]) ~ :not([hidden]) {
     border-top-width: 1px;
     border-bottom-width: 0px;
@@ -149,6 +150,14 @@ export default {
     border-bottom: 1px solid var(--s-100);
     grid-template-columns: repeat(8, minmax(0, 1fr));
 
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
     div.heading-item {
       font-weight: var(--font-weight-bold);
       text-transform: capitalize;
@@ -160,10 +169,20 @@ export default {
       &.heading-title {
         text-align: left;
         grid-column: span 4 / span 4;
+        padding: var(--space-small) var(--space-snug);
       }
 
-      &.heading-category {
-        grid-column: span 1 / span 1;
+      @media (max-width: 1024px) {
+        &.heading-read-count {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        &.heading-read-count,
+        &.heading-last-edited {
+          display: none;
+        }
       }
     }
   }
