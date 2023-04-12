@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import wootConstants from '../../../constants';
+import wootConstants from 'dashboard/constants/globals';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { hasPressedAltAndBKey } from 'shared/helpers/KeyboardHelpers';
 

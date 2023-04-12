@@ -1,4 +1,4 @@
-import { DEFAULT_REDIRECT_URL } from '../constants';
+import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 
 export const frontendURL = (path, params) => {
   const stringifiedParams = params ? `?${new URLSearchParams(params)}` : '';
