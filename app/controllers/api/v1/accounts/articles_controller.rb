@@ -49,7 +49,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def reorder
-    update_positions(params[:positions_hash])
+    Article.update_positions(params[:positions_hash])
     head :ok
   end
 
@@ -77,13 +77,5 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def set_current_page
     @current_page = params[:page] || 1
-  end
-
-  def update_positions(positions_hash)
-    positions_hash.each do |article_id, new_position|
-      # Find the article by its ID and update its position
-      article = Article.find(article_id)
-      article.update!(position: new_position)
-    end
   end
 end

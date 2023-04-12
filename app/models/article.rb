@@ -118,6 +118,14 @@ class Article < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def self.update_positions(positions_hash)
+    positions_hash.each do |article_id, new_position|
+      # Find the article by its ID and update its position
+      article = Article.find(article_id)
+      article.update!(position: new_position)
+    end
+  end
+
   private
 
   def category_id_changed_action
