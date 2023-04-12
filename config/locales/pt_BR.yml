@@ -81,8 +81,7 @@ pt_BR:
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
     conversation_traffic_csv:
-      date: Data e hora
-      conversations_count: Nº de Conversas
+      timezone: Timezone
     default_group_by: dia
     csat:
       headers:
@@ -113,6 +112,7 @@ pt_BR:
         pending: "Conversa foi marcada como pendente por %{user_name}"
         snoozed: "Conversa não atribuída por %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
+        system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
