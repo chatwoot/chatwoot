@@ -15,6 +15,13 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
     }
   end
 
+  def index
+    @audit_logs = @audit_logs.page(params[:page]).per(RESULTS_PER_PAGE)
+    @current_page = @audit_logs.current_page
+    @total_entries = @audit_logs.total_count
+    @per_page = RESULTS_PER_PAGE
+  end
+
   private
 
   def fetch_audit

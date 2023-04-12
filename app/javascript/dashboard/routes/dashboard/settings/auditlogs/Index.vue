@@ -39,7 +39,9 @@
               <td class="remote-address">
                 {{ auditLogItem.remote_address }}
               </td>
-              <td class="wrap-break-words">{{ auditLogItem.created_at }}</td>
+              <td class="wrap-break-words">
+                {{ dynamicTime(auditLogItem.created_at) }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -56,11 +58,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
+import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
     TableFooter,
   },
+  mixins: [timeMixin],
   data() {
     return {
       loading: {},
