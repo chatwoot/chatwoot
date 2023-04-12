@@ -180,6 +180,11 @@ export default {
         this.executeCampaign({ campaignId, websiteToken, customAttributes });
         this.replaceRoute('messages');
       });
+      bus.$on('snooze-campaigns', () => {
+        const expireBy = new Date();
+        expireBy.setHours(expireBy.getHours() + 1);
+        this.campaignsSnoozedTill = +expireBy;
+      });
     },
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
