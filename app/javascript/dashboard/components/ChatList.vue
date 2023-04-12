@@ -248,6 +248,7 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
+      chatList: [],
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
@@ -347,17 +348,38 @@ export default {
         this.currentPageFilterKey
       );
     },
+    activeAssigneeTabCount() {
+      const { activeAssigneeTab } = this;
+      const count = this.assigneeTabItems.find(
+        item => item.key === activeAssigneeTab
+      ).count;
+      return count;
+    },
     conversationFilters() {
       return {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
-        page: this.currentPage + 1,
+        page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId || undefined,
         conversationType: this.conversationType || undefined,
         folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
+    },
+    conversationListPagination() {
+      const conversationsPerPage = 25;
+      if (!this.hasAppliedFiltersOrActiveFolders && this.chatList !== []) {
+        if (
+          this.chatList.length < conversationsPerPage &&
+          this.activeAssigneeTabCount < conversationsPerPage &&
+          this.activeAssigneeTabCount > this.chatList.length
+        ) {
+          return 1;
+        }
+        return this.currentPage + 1;
+      }
+      return this.currentPage + 1;
     },
     pageTitle() {
       if (this.hasAppliedFilters) {
@@ -400,7 +422,6 @@ export default {
       } else {
         conversationList = [...this.chatLists];
       }
-
       return conversationList;
     },
     activeFolder() {
@@ -448,6 +469,9 @@ export default {
       if (!this.hasAppliedFilters) {
         this.resetAndFetchData();
       }
+    },
+    chatLists() {
+      this.chatList = this.conversationList;
     },
   },
   mounted() {
