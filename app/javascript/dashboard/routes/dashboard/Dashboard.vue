@@ -47,7 +47,7 @@ import AccountSelector from 'dashboard/components/layout/sidebarComponents/Accou
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {

@@ -49,10 +49,22 @@ class Twitter::CallbacksController < Twitter::BaseController
       twitter_access_token_secret: parsed_body['oauth_token_secret'],
       profile_id: parsed_body['user_id']
     )
-    account.inboxes.create!(
+    inbox = account.inboxes.create!(
       name: parsed_body['screen_name'],
       channel: twitter_profile
     )
+    save_profile_image(inbox)
+    inbox
+  end
+
+  def save_profile_image(inbox)
+    response = twitter_client.user_show(screen_name: inbox.name)
+
+    return unless response.success?
+
+    parsed_user_profile = JSON.parse(response.read_body)
+
+    ::Avatar::AvatarFromUrlJob.perform_later(inbox, parsed_user_profile['profile_image_url_https'])
   end
 
   def permitted_params
