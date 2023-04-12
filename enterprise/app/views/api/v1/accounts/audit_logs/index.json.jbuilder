@@ -17,7 +17,6 @@ json.data do
         json.username audit_log.username
         json.action audit_log.action
         json.audited_changes audit_log.audited_changes
-        # audited_changes is an array
         # json.audited_changes do  
         #   json.array! audit_log.audited_changes do |changes|
         #     json.changes changes
