@@ -86,8 +86,12 @@ const actions = {
     }
   },
 
-  reFetchMessages: async ({ commit, state }, { conversationId }) => {
-    const { allConversations } = state;
+  syncActiveConversationMessages: async (
+    { commit, state },
+    { conversationId }
+  ) => {
+    const { allConversations, syncConversationsMessages } = state;
+    const lastMessageId = syncConversationsMessages[conversationId];
     const selectedChat = allConversations.find(
       conversation => conversation.id === conversationId
     );
@@ -98,6 +102,7 @@ const actions = {
         data: { meta, payload },
       } = await MessageApi.getPreviousMessages({
         conversationId,
+        after: lastMessageId,
       });
       commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
         id: conversationId,
@@ -110,9 +115,30 @@ const actions = {
         id: conversationId,
         data: missingMessages,
       });
+      commit(types.CLEAR_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
+        conversationId,
+      });
     } catch (error) {
       // Handle error
     }
+  },
+
+  setConversationLastMessageId: async (
+    { commit, state },
+    { conversationId }
+  ) => {
+    const { allConversations } = state;
+    const selectedChat = allConversations.find(
+      conversation => conversation.id === conversationId
+    );
+    if (!selectedChat) return;
+    const { messages } = selectedChat;
+    const lastMessage = messages.last();
+    if (!lastMessage) return;
+    commit(types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
+      conversationId,
+      messageId: lastMessage.id,
+    });
   },
 
   async setActiveChat({ commit, dispatch }, { data, after }) {

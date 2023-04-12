@@ -27,23 +27,29 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
-      'refresh.conversations': this.onRefreshConversation,
-      'set.last.message': this.setLastMessage,
+      'sync.active.conversation.messages': this.syncActiveConversationMessages,
+      'set.active.conversation.message': this
+        .setActiveConversationLastMessageId,
     };
   }
 
-  setLastMessage = () => {
-    // this.app.$store.dispatch('setLastMessage');
-    // console.log('this.app.$store', this.app.$store);
-  };
-
-  onRefreshConversation = () => {
-    // Find the opened conversation and refresh the messages
+  setActiveConversationLastMessageId = () => {
     const {
       params: { conversation_id },
     } = this.app.$route;
     if (conversation_id) {
-      this.app.$store.dispatch('reFetchMessages', {
+      this.app.$store.dispatch('setConversationLastMessageId', {
+        conversationId: Number(conversation_id),
+      });
+    }
+  };
+
+  syncActiveConversationMessages = () => {
+    const {
+      params: { conversation_id },
+    } = this.app.$route;
+    if (conversation_id) {
+      this.app.$store.dispatch('syncActiveConversationMessages', {
         conversationId: Number(conversation_id),
       });
     }

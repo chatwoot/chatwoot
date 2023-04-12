@@ -1,13 +1,14 @@
 import { createConsumer } from '@rails/actioncable';
 
-const PRESENCE_INTERVAL = 20000;
-let isDisconnected = false;
+const PRESENCE_INTERVAL = 5000;
 
 class BaseActionCableConnector {
+  static isDisconnected = false;
+
   constructor(app, pubsubToken, websocketHost = '') {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
+
     this.consumer = createConsumer(websocketURL);
-    // TODO: Move to class variable
     this.subscription = this.consumer.subscriptions.create(
       {
         channel: 'RoomChannel',
@@ -29,13 +30,9 @@ class BaseActionCableConnector {
 
     setInterval(() => {
       this.subscription.updatePresence();
-      if (isDisconnected && navigator.onLine) {
-        console.log(
-          'Are you ready to refresh the conversation?',
-          isDisconnected
-        );
-        this.refreshConversations();
-        isDisconnected = false;
+      if (BaseActionCableConnector.isDisconnected && navigator.onLine) {
+        this.refreshActiveConversationMessages();
+        BaseActionCableConnector.isDisconnected = false;
       }
     }, PRESENCE_INTERVAL);
   }
@@ -44,18 +41,17 @@ class BaseActionCableConnector {
     this.consumer.disconnect();
   }
 
-  refreshConversations = () => {
-    this.events['refresh.conversations']();
+  refreshActiveConversationMessages = () => {
+    this.events['sync.active.conversation.messages']();
   };
 
-  setLastMessage = () => {
-    this.events['set.last.message']();
+  setActiveConversationLastMessage = () => {
+    this.events['set.active.conversation.message']();
   };
 
   onDisconnected = () => {
-    isDisconnected = true;
-    console.log('Disconnected from ActionCable', isDisconnected);
-    this.setLastMessage();
+    BaseActionCableConnector.isDisconnected = true;
+    this.setActiveConversationLastMessage();
   };
 
   onReceived = ({ event, data } = {}) => {

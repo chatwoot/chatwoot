@@ -15,6 +15,7 @@ const state = {
   appliedFilters: [],
   conversationParticipants: [],
   conversationLastSeen: null,
+  syncConversationsMessages: {},
 };
 
 // mutations
@@ -212,6 +213,19 @@ export const mutations = {
 
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+  },
+
+  [types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](
+    _state,
+    { conversationId, messageId }
+  ) {
+    _state.syncConversationsMessages[conversationId] = messageId;
+  },
+  [types.CLEAR_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](
+    _state,
+    { conversationId }
+  ) {
+    _state.syncConversationsMessages[conversationId] = null;
   },
 };
 
