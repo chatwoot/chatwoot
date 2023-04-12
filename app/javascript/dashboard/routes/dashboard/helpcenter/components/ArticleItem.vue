@@ -1,6 +1,6 @@
 <template>
-  <tr class="row--article-block">
-    <td>
+  <div class="article-container--row">
+    <span class="article-column article-title">
       <div class="article-content-wrap">
         <div class="article-block">
           <router-link :to="articleUrl(id)">
@@ -14,8 +14,8 @@
           </div>
         </div>
       </div>
-    </td>
-    <td>
+    </span>
+    <span class="article-column">
       <router-link
         class="fs-small button clear link secondary"
         :to="getCategoryRoute(category.slug)"
@@ -27,13 +27,13 @@
           {{ category.name }}
         </span>
       </router-link>
-    </td>
-    <td>
+    </span>
+    <span class="article-column">
       <span class="fs-small" :title="formattedViewCount">
         {{ readableViewCount }}
       </span>
-    </td>
-    <td>
+    </span>
+    <span class="article-column">
       <div>
         <woot-label
           :title="status"
@@ -42,13 +42,13 @@
           :color-scheme="labelColor"
         />
       </div>
-    </td>
-    <td>
+    </span>
+    <span class="article-column">
       <span class="fs-small">
         {{ lastUpdatedAt }}
       </span>
-    </td>
-  </tr>
+    </span>
+  </div>
 </template>
 <script>
 import timeMixin from 'dashboard/mixins/time';
@@ -130,14 +130,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-td {
-  font-weight: var(--font-weight-normal);
-  color: var(--s-700);
-  font-size: var(--font-size-mini);
-  padding-left: 0;
-}
-.row--article-block {
-  border-bottom-color: var(--s-50);
+.article-container--row {
+  margin: 0 var(--space-minus-normal);
+  padding: 0 var(--space-normal);
+  display: grid;
+  gap: var(--space-normal);
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  border-bottom: 1px solid var(--s-50);
+  background: var(--white);
+
+  span.article-column {
+    font-weight: var(--font-weight-bold);
+    text-transform: capitalize;
+    color: var(--s-700);
+    font-size: var(--font-size-small);
+    text-align: right;
+    padding: var(--space-small) 0;
+
+    &.article-title {
+      text-align: left;
+      grid-column: span 4 / span 4;
+    }
+  }
+
   .article-content-wrap {
     align-items: center;
     display: flex;
@@ -170,8 +185,10 @@ td {
   }
 }
 
-.category-link-content {
-  max-width: 16rem;
-  line-height: 1.5;
+span {
+  font-weight: var(--font-weight-normal);
+  color: var(--s-700);
+  font-size: var(--font-size-mini);
+  padding-left: 0;
 }
 </style>

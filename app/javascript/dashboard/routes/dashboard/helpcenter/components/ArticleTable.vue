@@ -1,39 +1,43 @@
 <template>
   <div class="article-container">
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}</th>
-          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}</th>
-          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}</th>
-          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}</th>
-          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}</th>
-        </tr>
-      </thead>
-      <tr>
-        <td colspan="100%" class="horizontal-line" />
-      </tr>
-      <draggable
-        tag="tbody"
-        :disabled="!dragEnabled"
-        :list="localArticles"
-        ghost-class="article-ghost-class"
-        @start="dragging = true"
-        @end="onDragEnd"
-      >
-        <ArticleItem
-          v-for="article in localArticles"
-          :id="article.id"
-          :key="article.id"
-          :title="article.title"
-          :author="article.author"
-          :category="article.category"
-          :views="article.views"
-          :status="article.status"
-          :updated-at="article.updated_at"
-        />
-      </draggable>
-    </table>
+    <div class="article-container--header">
+      <div class="heading-item heading-title">
+        {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
+      </div>
+      <div class="heading-item heading-category">
+        {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
+      </div>
+      <div class="heading-item heading-read-count">
+        {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
+      </div>
+      <div class="heading-item heading-status">
+        {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
+      </div>
+      <div class="heading-item heading-last-edited">
+        {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
+      </div>
+    </div>
+    <draggable
+      tag="div"
+      class="article-container--border"
+      :disabled="!dragEnabled"
+      :list="localArticles"
+      ghost-class="article-ghost-class"
+      @start="dragging = true"
+      @end="onDragEnd"
+    >
+      <ArticleItem
+        v-for="article in localArticles"
+        :id="article.id"
+        :key="article.id"
+        :title="article.title"
+        :author="article.author"
+        :category="article.category"
+        :views="article.views"
+        :status="article.status"
+        :updated-at="article.updated_at"
+      />
+    </draggable>
 
     <table-footer
       v-if="articles.length"
@@ -132,17 +136,38 @@ export default {
 <style lang="scss" scoped>
 .article-container {
   width: 100%;
+  & > :not([hidden]) ~ :not([hidden]) {
+    border-top-width: 1px;
+    border-bottom-width: 0px;
+  }
 
-  table thead th {
-    font-weight: var(--font-weight-bold);
-    text-transform: capitalize;
-    color: var(--s-700);
-    font-size: var(--font-size-small);
-    padding-left: 0;
+  .article-container--header {
+    margin: 0 var(--space-minus-normal);
+    padding: 0 var(--space-normal);
+    display: grid;
+    gap: var(--space-normal);
+    border-bottom: 1px solid var(--s-100);
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+
+    div.heading-item {
+      font-weight: var(--font-weight-bold);
+      text-transform: capitalize;
+      color: var(--s-700);
+      font-size: var(--font-size-small);
+      text-align: right;
+      padding: var(--space-small) 0;
+
+      &.heading-title {
+        text-align: left;
+        grid-column: span 4 / span 4;
+      }
+
+      &.heading-category {
+        grid-column: span 1 / span 1;
+      }
+    }
   }
-  .horizontal-line {
-    border-bottom: 1px solid var(--color-border);
-  }
+
   .footer {
     padding: 0;
     border: 0;
