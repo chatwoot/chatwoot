@@ -1,5 +1,5 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 import { applyPageFilters } from './helpers';
 const { SORT_BY_TYPE } = wootConstants;
 

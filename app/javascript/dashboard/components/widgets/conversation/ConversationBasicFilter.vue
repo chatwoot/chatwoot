@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import FilterItem from './FilterItem';
