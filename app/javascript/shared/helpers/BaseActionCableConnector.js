@@ -33,7 +33,7 @@ class BaseActionCableConnector {
     setInterval(() => {
       this.subscription.updatePresence();
       if (BaseActionCableConnector.isDisconnected && navigator.onLine) {
-        console.log('Refetching messages');
+        console.log('Refetching messages', new Date());
         this.refreshActiveConversationMessages();
         BaseActionCableConnector.isDisconnected = false;
       }
@@ -53,7 +53,7 @@ class BaseActionCableConnector {
   };
 
   onDisconnected = () => {
-    console.log('Websocket disconnected');
+    console.log('Websocket disconnected', new Date());
     BaseActionCableConnector.isDisconnected = true;
     this.setActiveConversationLastMessage();
     // TODO: Remove this after completing the conversation list refetching
