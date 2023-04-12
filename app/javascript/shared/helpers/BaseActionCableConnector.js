@@ -32,6 +32,7 @@ class BaseActionCableConnector {
 
     setInterval(() => {
       this.subscription.updatePresence();
+      console.log('Is internet back', navigator.onLine, new Date());
       if (BaseActionCableConnector.isDisconnected && navigator.onLine) {
         console.log('Refetching messages', new Date());
         this.refreshActiveConversationMessages();
