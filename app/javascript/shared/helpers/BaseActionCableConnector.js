@@ -1,5 +1,7 @@
 import { createConsumer } from '@rails/actioncable';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
+// TODO: Change this value to 20 seconds after the QA
 const PRESENCE_INTERVAL = 5000;
 
 class BaseActionCableConnector {
@@ -52,6 +54,8 @@ class BaseActionCableConnector {
   onDisconnected = () => {
     BaseActionCableConnector.isDisconnected = true;
     this.setActiveConversationLastMessage();
+    // TODO: Remove this after completing the conversation list refetching
+    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   };
 
   onReceived = ({ event, data } = {}) => {

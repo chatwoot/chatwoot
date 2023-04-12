@@ -35,9 +35,7 @@ export default {
 
   data() {
     return {
-      // TODO: Commented out for now as it is causing issues with the testing of action cable reconnect
-      // showNotification: !navigator.onLine,
-      showNotification: false,
+      showNotification: !navigator.onLine,
     };
   },
 
@@ -46,8 +44,7 @@ export default {
   },
 
   mounted() {
-    // TODO: Commented out for now as it is causing issues with the testing of action cable reconnect
-    // window.addEventListener('offline', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
   },
 
   beforeDestroy() {
