@@ -20,12 +20,7 @@
         @blur="onBlur"
       />
     </div>
-    <div
-      v-if="showDropdown"
-      ref="dropdown"
-      v-on-clickaway="closeDropdown"
-      class="country-dropdown"
-    >
+    <div v-if="showDropdown" ref="dropdown" class="country-dropdown">
       <div class="dropdown-search--wrap">
         <input
           ref="searchbar"
@@ -61,7 +56,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
@@ -72,7 +66,7 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  mixins: [clickaway, eventListenerMixins],
+  mixins: [eventListenerMixins],
   props: {
     value: {
       type: [String, Number],
@@ -149,9 +143,22 @@ export default {
     },
   },
   mounted() {
+    window.addEventListener('mouseup', this.onOutsideClick);
     this.setActiveCountry();
   },
+  beforeDestroy() {
+    window.removeEventListener('mouseup', this.onOutsideClick);
+  },
   methods: {
+    onOutsideClick(e) {
+      if (
+        this.showDropdown &&
+        e.target !== this.$refs.dropdown &&
+        !this.$refs.dropdown.contains(e.target)
+      ) {
+        this.closeDropdown();
+      }
+    },
     onChange(e) {
       this.phoneNumber = e.target.value;
       this.$emit('input', e.target.value, this.activeDialCode);
