@@ -115,7 +115,7 @@ export default {
         this.currentDayCloseHour
       );
     },
-    hoursLeftToBackInOnline() {
+    hoursAndMinutesToBack() {
       const hoursAndMinutesLeft = this.hoursAndMinutesBackInOnline;
       const hoursLeft = hoursAndMinutesLeft.hours;
       const minutesLeft = hoursAndMinutesLeft.minutes;
@@ -124,13 +124,15 @@ export default {
         minutesLeft > 0
           ? `${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`
           : 'some time';
-
-      if (this.dayDiff > 1) {
-        return `${this.dayDiff} days`;
-      }
       return hoursLeft > 0
         ? `${hoursLeftString} and ${minutesLeftString}`
         : minutesLeftString;
+    },
+    hoursLeftToBackInOnline() {
+      if (this.dayDiff > 1) {
+        return `${this.dayDiff} days`;
+      }
+      return this.hoursAndMinutesToBack;
     },
   },
   methods: {
