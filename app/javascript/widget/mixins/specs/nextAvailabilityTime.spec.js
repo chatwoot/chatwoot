@@ -153,6 +153,17 @@ describe('mixin', () => {
     );
   });
 
+  it('should return dayDiff', () => {
+    const currentDay = wrapper.vm.currentDay;
+    const nextDay = wrapper.vm.nextDayWorkingHours.day_of_week;
+    const totalDays = 6;
+    const expectedDayDiff =
+      nextDay > currentDay
+        ? nextDay - currentDay
+        : totalDays - currentDay + nextDay;
+    expect(wrapper.vm.dayDiff).toEqual(expectedDayDiff);
+  });
+
   it('should return hoursAndMinutesBackInOnline', () => {
     const currentDayCloseHour =
       chatwootWebChannel.workingHours[wrapper.vm.currentDay].close_hour;

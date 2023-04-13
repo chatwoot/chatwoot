@@ -90,6 +90,17 @@ export default {
         ? this.nextDayWorkingHours.open_minutes
         : null;
     },
+    dayDiff() {
+      if (this.workingHoursEnabled) {
+        const currentDay = this.currentDay;
+        const nextDay = this.nextDayWorkingHours.day_of_week;
+        const totalDays = 6;
+        return nextDay > currentDay
+          ? nextDay - currentDay
+          : totalDays - currentDay + nextDay;
+      }
+      return null;
+    },
     hoursAndMinutesBackInOnline() {
       if (this.presentHour > this.currentDayCloseHour) {
         return this.getHoursAndMinutesUntilNextDayOpen(
@@ -113,6 +124,10 @@ export default {
         minutesLeft > 0
           ? `${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`
           : 'some time';
+
+      if (this.dayDiff > 1) {
+        return `${this.dayDiff} days`;
+      }
       return hoursLeft > 0
         ? `${hoursLeftString} and ${minutesLeftString}`
         : minutesLeftString;
