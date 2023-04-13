@@ -133,11 +133,10 @@ export default {
             this.onClose();
           }, 10);
         })
-        .catch(() => {
+        .catch(error => {
           this.editCanned.showLoading = false;
-          this.editCanned.message = this.$t(
-            'CANNED_MGMT.EDIT.API.ERROR_MESSAGE'
-          );
+          this.editCanned.message =
+            error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE');
           this.showAlert();
         });
     },
