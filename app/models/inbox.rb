@@ -23,11 +23,17 @@
 #  updated_at                    :datetime         not null
 #  account_id                    :integer          not null
 #  channel_id                    :integer          not null
+#  portal_id                     :bigint
 #
 # Indexes
 #
 #  index_inboxes_on_account_id                   (account_id)
 #  index_inboxes_on_channel_id_and_channel_type  (channel_id,channel_type)
+#  index_inboxes_on_portal_id                    (portal_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (portal_id => portals.id)
 #
 
 class Inbox < ApplicationRecord
