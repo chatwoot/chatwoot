@@ -1,6 +1,6 @@
 json.data do
     json.meta do
-      json.per_page @per_page
+    #   json.per_page @per_page
       json.total_entries @total_entries
       json.current_page @current_page
     end
@@ -16,7 +16,7 @@ json.data do
         json.user_type audit_log.user_type
         json.username audit_log.username
         json.action audit_log.action
-        json.audited_changes audit_log.audited_changes
+        #json.audited_changes audit_log.audited_changes
         # json.audited_changes do  
         #   json.array! audit_log.audited_changes do |changes|
         #     json.changes changes
