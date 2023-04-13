@@ -10,10 +10,12 @@
           :message="message.content"
           :status="message.status"
           :widget-color="widgetColor"
+          :class="{ 'blur-layer': isFailed }"
         />
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment user"
+          :class="{ 'blur-layer': isFailed }"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <image-bubble
@@ -43,10 +45,14 @@
             class="inline-flex justify-center items-center ml-2"
             @click="retrySendMessage"
           >
-            <fluent-icon icon="arrow-clockwise" size="14" />
+            <fluent-icon icon="arrow-clockwise" size="20" />
           </button>
+          <fluent-icon v-else icon="error" size="20" type="solid" />
         </div>
       </div>
+      <span v-if="isFailed" class="message-status">{{
+        messageStatusLabel
+      }}</span>
     </div>
   </div>
 </template>
@@ -106,6 +112,14 @@ export default {
       return meta
         ? meta.error
         : this.$t('COMPONENTS.MESSAGE_BUBBLE.ERROR_MESSAGE');
+    },
+    messageStatusLabel() {
+      let status = '';
+      if (this.isFailed) {
+        status = 'Failed to send';
+        if (!this.hasAttachments) status += '. Tap to retry';
+      }
+      return status;
     },
   },
   watch: {

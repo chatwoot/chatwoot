@@ -89,19 +89,24 @@
   .user-message {
     align-items: flex-end;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-end;
     margin: 0 $space-smaller $space-micro auto;
     max-width: 85%;
     text-align: right;
+
+    .message-status {
+      font-size: $font-size-small;
+      color: $color-light-gray;
+      margin: 8px;
+    }
 
     .message-wrap {
       margin-right: $space-small;
       max-width: 100%;
     }
 
-    .in-progress,
-    .is-failed {
+    .in-progress {
       opacity: 0.6;
     }
 
@@ -110,9 +115,8 @@
       display: flex;
       flex-direction: row-reverse;
 
-      .chat-bubble.user {
-        background: $color-error !important;
-        // TODO: Remove the important
+      .blur-layer {
+        opacity: 0.4;
       }
     }
   }
