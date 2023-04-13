@@ -6,6 +6,7 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
 
   RESULTS_PER_PAGE = 15
 
+  # Prepend the view path to the enterprise/app/views won't be available by default
   def prepend_view_paths
     prepend_view_path 'enterprise/app/views/'
   end
@@ -15,7 +16,6 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
     @current_page = @audit_logs.current_page
     @total_entries = @audit_logs.total_count
     @per_page = RESULTS_PER_PAGE
-    # render template: "api/v1/accounts/audit_logs/index"
   end
 
   private

@@ -9,7 +9,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'AUDIT_LOGS.HEADER',
-        icon: 'chat-multiple',
+        icon: 'key',
         showNewButton: false,
       },
       children: [
@@ -21,7 +21,7 @@ export default {
         {
           path: 'list',
           name: 'auditlogs_list',
-          roles: ['administrator', 'agent'],
+          roles: ['administrator'],
           component: AuditLogsHome,
         },
       ],

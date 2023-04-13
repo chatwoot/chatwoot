@@ -152,7 +152,7 @@ const settings = accountId => ({
       showOnlyOnCloud: true,
     },
     {
-      icon: 'credit-card-person',
+      icon: 'key',
       label: 'AUDIT_LOGS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
