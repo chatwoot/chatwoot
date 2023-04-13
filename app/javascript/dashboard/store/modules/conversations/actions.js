@@ -271,6 +271,16 @@ const actions = {
     dispatch('contacts/setContact', sender);
   },
 
+  updateConversationLastActivity(
+    { commit },
+    { conversationId, lastActivityAt }
+  ) {
+    commit(types.UPDATE_CONVERSATION_LAST_ACTIVITY, {
+      lastActivityAt,
+      conversationId,
+    });
+  },
+
   setChatStatusFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
   },

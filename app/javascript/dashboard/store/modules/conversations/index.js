@@ -72,6 +72,14 @@ export const mutations = {
     Vue.set(chat.meta, 'team', team);
   },
 
+  [types.UPDATE_CONVERSATION_LAST_ACTIVITY](
+    _state,
+    { lastActivityAt, conversationId }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    Vue.set(chat, 'last_activity_at', lastActivityAt);
+  },
+
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'custom_attributes', custom_attributes);
