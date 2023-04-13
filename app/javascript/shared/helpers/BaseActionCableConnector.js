@@ -2,7 +2,7 @@ import { createConsumer } from '@rails/actioncable';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 // TODO: Change this value to 20 seconds after the QA
-const PRESENCE_INTERVAL = 5000;
+const PRESENCE_INTERVAL = 10000;
 
 class BaseActionCableConnector {
   static isDisconnected = false;
@@ -32,8 +32,20 @@ class BaseActionCableConnector {
 
     setInterval(() => {
       this.subscription.updatePresence();
-      console.log('Is internet back', navigator.onLine, new Date());
-      if (BaseActionCableConnector.isDisconnected && navigator.onLine) {
+      const isConnectionActive = this.consumer.connection.isOpen();
+      console.log(
+        'PRESENCE_INTERVAL-->',
+        isConnectionActive,
+        navigator.onLine,
+        new Date()
+      );
+      // this.subscription.consumer.connection.subscriptions.consumer.connection;
+      // .disconnected
+      const isAllGood =
+        BaseActionCableConnector.isDisconnected &&
+        navigator.onLine &&
+        isConnectionActive;
+      if (isAllGood) {
         console.log('Refetching messages', new Date());
         this.refreshActiveConversationMessages();
         BaseActionCableConnector.isDisconnected = false;
