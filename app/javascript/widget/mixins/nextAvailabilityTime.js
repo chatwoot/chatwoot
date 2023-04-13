@@ -36,8 +36,18 @@ export default {
     },
     nextDayWorkingHours() {
       if (this.workingHoursEnabled) {
-        const nextDay = this.currentDay === 6 ? 0 : this.currentDay + 1;
-        return this.workingHours.find(slot => slot.day_of_week === nextDay);
+        let nextDay = this.currentDay === 6 ? 0 : this.currentDay + 1;
+        let nextWorkingHour = this.workingHours.find(
+          slot => slot.day_of_week === nextDay
+        );
+        while (nextWorkingHour && nextWorkingHour.closed_all_day) {
+          let nextAvailableDay = nextDay === 6 ? 0 : nextDay + 1;
+          nextWorkingHour = this.workingHours.find(
+            slot => slot.day_of_week === nextAvailableDay
+          );
+          nextDay = nextAvailableDay;
+        }
+        return nextWorkingHour;
       }
       return null;
     },
@@ -83,16 +93,12 @@ export default {
     hoursAndMinutesBackInOnline() {
       if (this.presentHour > this.currentDayCloseHour) {
         return this.getHoursAndMinutesUntilNextDayOpen(
-          this.presentHour,
-          this.presentMinute,
           this.nextDayOpenHour,
           this.nextDayOpenMinute,
           this.currentDayCloseHour
         );
       }
       return this.getHoursAndMinutesUntilNextDayOpen(
-        this.presentHour,
-        this.presentMinute,
         this.currentDayOpenHour,
         this.currentDayOpenMinute,
         this.currentDayCloseHour
@@ -114,12 +120,12 @@ export default {
   },
   methods: {
     getHoursAndMinutesUntilNextDayOpen(
-      presentHour,
-      presentMinute,
       openHour,
       openMinutes,
       currentDayCloseHour
     ) {
+      const presentHour = this.presentHour;
+      const presentMinute = this.presentMinute;
       if (currentDayCloseHour < openHour) {
         openHour += 24;
       }
