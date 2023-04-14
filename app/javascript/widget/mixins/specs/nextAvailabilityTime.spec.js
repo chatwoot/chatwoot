@@ -164,6 +164,12 @@ describe('mixin', () => {
     expect(wrapper.vm.dayDiff).toEqual(expectedDayDiff);
   });
 
+  it('should return dayNameOfNextWorkingDay', () => {
+    const nextDay = wrapper.vm.nextDayWorkingHours.day_of_week;
+    const expectedDayName = wrapper.vm.dayNames[nextDay];
+    expect(wrapper.vm.dayNameOfNextWorkingDay).toEqual(expectedDayName);
+  });
+
   it('should return hoursAndMinutesBackInOnline', () => {
     const currentDayCloseHour =
       chatwootWebChannel.workingHours[wrapper.vm.currentDay].close_hour;
@@ -187,18 +193,19 @@ describe('mixin', () => {
 
   it('should return hoursLeftToBackInOnline', () => {
     const hoursAndMinutesLeft = wrapper.vm.hoursAndMinutesBackInOnline;
-    const hoursLeft = hoursAndMinutesLeft.hours;
     const minutesLeft = hoursAndMinutesLeft.minutes;
+    const hoursLeft =
+      minutesLeft > 0
+        ? hoursAndMinutesLeft.hours + 1
+        : hoursAndMinutesLeft.hours;
     const hoursLeftString = `${hoursLeft} hour${hoursLeft === 1 ? '' : 's'}`;
     const minutesLeftString =
       minutesLeft > 0
         ? `${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`
         : 'some time';
-    const expectedHoursLeft =
-      hoursLeft > 0
-        ? `${hoursLeftString} and ${minutesLeftString}`
-        : minutesLeftString;
-    expect(wrapper.vm.hoursLeftToBackInOnline).toEqual(expectedHoursLeft);
+    const expectedHoursLeftString =
+      hoursLeft > 1 ? `in ${hoursLeftString}` : `in ${minutesLeftString}`;
+    expect(wrapper.vm.hoursLeftToBackInOnline).toEqual(expectedHoursLeftString);
   });
 
   // This spec is falling the expected value is getting updated

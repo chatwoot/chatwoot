@@ -85,7 +85,7 @@ export default {
       if (workingHoursEnabled) {
         return this.isOnline
           ? this.replyTimeStatus
-          : `We will be back in ${this.hoursLeftToBackInOnline}`;
+          : `We will be back online ${this.hoursLeftToBackInOnline}`;
       }
       return '';
     },

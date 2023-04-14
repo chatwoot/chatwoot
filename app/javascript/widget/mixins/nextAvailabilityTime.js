@@ -101,6 +101,12 @@ export default {
       }
       return null;
     },
+    dayNameOfNextWorkingDay() {
+      if (this.workingHoursEnabled) {
+        return this.dayNames[this.nextDayWorkingHours.day_of_week];
+      }
+      return null;
+    },
     hoursAndMinutesBackInOnline() {
       if (this.presentHour > this.currentDayCloseHour) {
         return this.getHoursAndMinutesUntilNextDayOpen(
@@ -117,20 +123,26 @@ export default {
     },
     hoursAndMinutesToBack() {
       const hoursAndMinutesLeft = this.hoursAndMinutesBackInOnline;
-      const hoursLeft = hoursAndMinutesLeft.hours;
       const minutesLeft = hoursAndMinutesLeft.minutes;
+      const hoursLeft =
+        minutesLeft > 0
+          ? hoursAndMinutesLeft.hours + 1
+          : hoursAndMinutesLeft.hours;
       const hoursLeftString = `${hoursLeft} hour${hoursLeft === 1 ? '' : 's'}`;
       const minutesLeftString =
         minutesLeft > 0
           ? `${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`
           : 'some time';
-      return hoursLeft > 0
-        ? `${hoursLeftString} and ${minutesLeftString}`
-        : minutesLeftString;
+      return hoursLeft > 1
+        ? `in ${hoursLeftString}`
+        : `in ${minutesLeftString}`;
     },
     hoursLeftToBackInOnline() {
-      if (this.dayDiff > 1) {
-        return `${this.dayDiff} days`;
+      if (this.dayDiff > 1 && this.currentDayCloseHour < this.presentHour) {
+        return `on ${this.dayNameOfNextWorkingDay}`;
+      }
+      if (this.hoursAndMinutesBackInOnline.hours > 24) {
+        return 'tomorrow';
       }
       return this.hoursAndMinutesToBack;
     },
