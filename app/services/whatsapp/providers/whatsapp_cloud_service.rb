@@ -76,12 +76,20 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         to: phone_number,
-        text: { body: message.content },
+        text: { body: format_content(message) },
         type: 'text'
       }.to_json
     )
 
     process_response(response)
+  end
+
+  def format_content(message)
+    return message.content unless whatsapp_channel.inbox.send_message_signature &&
+                                  message.message_type == 'outgoing' &&
+                                  message&.sender&.message_signature
+
+    "#{message.content} \n\n #{message&.sender&.message_signature}"
   end
 
   def send_attachment_message(phone_number, message)
@@ -90,7 +98,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     type_content = {
       'link': attachment.download_url
     }
-    type_content['caption'] = message.content unless %w[audio sticker].include?(type)
+    type_content['caption'] = format_content(message) unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
     response = HTTParty.post(
       "#{phone_id_path}/messages",

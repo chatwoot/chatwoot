@@ -281,6 +281,21 @@
           </p>
         </label>
 
+        <label v-if="isAWhatsAppChannel" class="medium-9 columns settings-item">
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SEND_SIGNATURE.LABEL') }}
+          <select v-model="sendMessageSignature">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SEND_SIGNATURE.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SEND_SIGNATURE.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SEND_SIGNATURE.HELP_TEXT') }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
@@ -411,6 +426,7 @@ export default {
       avatarUrl: '',
       greetingEnabled: true,
       tweetsEnabled: true,
+      sendMessageSignature: false,
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
@@ -604,6 +620,7 @@ export default {
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
+        this.sendMessageSignature = this.inbox.send_message_signature;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
@@ -620,6 +637,7 @@ export default {
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           lock_to_single_conversation: this.locktoSingleConversation,
+          send_message_signature: this.sendMessageSignature,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,

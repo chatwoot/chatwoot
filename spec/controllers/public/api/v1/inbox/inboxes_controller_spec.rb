@@ -12,6 +12,7 @@ RSpec.describe 'Public Inbox API', type: :request do
 
       expect(data.keys).to include('name', 'timezone', 'working_hours', 'working_hours_enabled')
       expect(data.keys).to include('csat_survey_enabled', 'greeting_enabled', 'identity_validation_enabled')
+      expect(data.keys).to include('send_message_signature')
       expect(data['identifier']).to eq api_channel.identifier
     end
   end

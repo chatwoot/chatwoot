@@ -23,6 +23,7 @@
 #  updated_at                    :datetime         not null
 #  account_id                    :integer          not null
 #  channel_id                    :integer          not null
+#  send_message_signature                :boolean          default(FALSE)
 #
 # Indexes
 #

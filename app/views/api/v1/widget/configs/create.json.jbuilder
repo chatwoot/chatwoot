@@ -13,6 +13,7 @@ json.chatwoot_website_channel do
   json.pre_chat_form_enabled @web_widget.pre_chat_form_enabled
   json.pre_chat_form_options @web_widget.pre_chat_form_options
   json.working_hours_enabled @web_widget.inbox.working_hours_enabled
+  json.send_message_signature @web_widget.inbox.send_message_signature
   json.csat_survey_enabled @web_widget.inbox.csat_survey_enabled
   json.working_hours @web_widget.inbox.working_hours
   json.out_of_office_message @web_widget.inbox.out_of_office_message

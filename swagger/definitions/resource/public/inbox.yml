@@ -39,6 +39,9 @@ properties:
   working_hours_enabled:
     type: boolean
     description: Whether of not the working hours are enabled on the inbox
+  send_message_signature:
+    type: boolean
+    description: Send a signature configured in profile after each message
   csat_survey_enabled:
     type: boolean
     description: Whether of not the Customer Satisfaction survey is enabled on the inbox

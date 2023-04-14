@@ -65,6 +65,12 @@
           "PLACEHOLDER": "Enter your Webhook URL",
           "ERROR": "Please enter a valid URL"
         },
+        "SEND_SIGNATURE": {
+          "LABEL": "Send message signature",
+          "HELP_TEXT": "Send a signature configured in profile after each message.",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
