@@ -4,7 +4,24 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
   subject(:job) { described_class }
 
   let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
-  let(:params)  { { phone_number: channel.phone_number } }
+  let(:params)  do
+    {
+      object: 'whatsapp_business_account',
+      phone_number: channel.phone_number,
+      entry: [{
+        changes: [
+          {
+            value: {
+              metadata: {
+                phone_number_id: channel.provider_config['phone_number_id'],
+                display_phone_number: channel.phone_number.delete('+')
+              }
+            }
+          }
+        ]
+      }]
+    }
+  end
   let(:process_service) { double }
 
   before do
