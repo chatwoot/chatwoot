@@ -14,7 +14,7 @@ class Twitter::CallbacksController < Twitter::BaseController
       redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
   rescue StandardError => e
-    Rails.logger.error e
+    ChatwootExceptionTracker.new(e).capture_exception
     redirect_to twitter_app_redirect_url
   end
 
