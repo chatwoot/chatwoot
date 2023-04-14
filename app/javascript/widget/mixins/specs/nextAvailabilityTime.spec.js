@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
-import mixin from '../nextAvailabilityTime';
+import nextAvailabilityTimeMixin from '../nextAvailabilityTime';
 
-describe('mixin', () => {
+describe('nextAvailabilityTimeMixin', () => {
   let wrapper;
   const chatwootWebChannel = {
     workingHoursEnabled: true,
@@ -60,7 +60,7 @@ describe('mixin', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallowMount({}, { mixins: [mixin] });
+    wrapper = shallowMount({}, { mixins: [nextAvailabilityTimeMixin] });
   });
 
   it('should return day names', () => {

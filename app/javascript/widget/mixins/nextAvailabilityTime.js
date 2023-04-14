@@ -81,9 +81,12 @@ export default {
         : null;
     },
     nextDayOpenHour() {
-      return this.workingHoursEnabled
-        ? this.nextDayWorkingHours.open_hour
-        : null;
+      if (this.workingHoursEnabled) {
+        return this.nextDayWorkingHours.open_all_day
+          ? 0
+          : this.nextDayWorkingHours.open_hour;
+      }
+      return null;
     },
     nextDayOpenMinute() {
       return this.workingHoursEnabled
