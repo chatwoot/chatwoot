@@ -47,4 +47,11 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     Internal::SeedAccountJob.perform_later(requested_resource)
     redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account seeding triggered')
   end
+
+  def destroy
+    account = Account.find(params[:id])
+
+    DeleteObjectJob.perform_later(account) if account.present?
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account deletion is in progress.')
+  end
 end
