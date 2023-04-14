@@ -369,15 +369,15 @@ export default {
     },
     conversationListPagination() {
       const conversationsPerPage = 25;
-      if (!this.hasAppliedFiltersOrActiveFolders && this.chatList !== []) {
-        if (
-          this.chatList.length < conversationsPerPage &&
-          this.activeAssigneeTabCount < conversationsPerPage &&
-          this.activeAssigneeTabCount > this.chatList.length
-        ) {
-          return 1;
-        }
-        return this.currentPage + 1;
+      const isNoFiltersOrFoldersAndChatListNotEmpty =
+        !this.hasAppliedFiltersOrActiveFolders && this.chatList !== [];
+      const isUnderPerPage =
+        this.chatList.length < conversationsPerPage &&
+        this.activeAssigneeTabCount < conversationsPerPage &&
+        this.activeAssigneeTabCount > this.chatList.length;
+
+      if (isNoFiltersOrFoldersAndChatListNotEmpty && isUnderPerPage) {
+        return 1;
       }
       return this.currentPage + 1;
     },
