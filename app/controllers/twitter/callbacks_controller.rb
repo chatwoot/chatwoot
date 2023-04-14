@@ -62,7 +62,7 @@ class Twitter::CallbacksController < Twitter::BaseController
 
     return unless response.status.to_i == 200
 
-    parsed_user_profile = JSON.parse(response.read_body)
+    parsed_user_profile = response.body
 
     ::Avatar::AvatarFromUrlJob.perform_later(inbox, parsed_user_profile['profile_image_url_https'])
   end
