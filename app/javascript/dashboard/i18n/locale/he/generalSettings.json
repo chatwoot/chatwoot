@@ -15,7 +15,7 @@
       },
       "ACCOUNT_ID": {
         "TITLE": "מזהה חשבון",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "NOTE": "מזהה זה נדרש אם אתה בונה אינטגרציה מבוססת API"
       },
       "NAME": {
         "LABEL": "שם החשבון",
@@ -23,7 +23,7 @@
         "ERROR": "נא להזין שם חשבון חוקי"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "שפת האתר",
         "PLACEHOLDER": "שם החשבון שלך",
         "ERROR": ""
       },
@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "מספר הימים לאחר כרטיס אמור להיפתר אוטומטית אם אין פעילות",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "אנא הזן משך פתרון אוטומטי חוקי (מינימום יום אחד ומקסימום 999 ימים)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "רציפות השיחה עם הודעות אימייל מופעלת עבור החשבון שלך.",
@@ -48,14 +48,14 @@
       }
     },
     "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "למד עוד"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
       "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
       "SELECT_ONE": "תבחר אחד",
-      "SELECT": "Select"
+      "SELECT": "בחר"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -100,46 +100,46 @@
       "GENERAL": "כללי",
       "REPORTS": "דוחות",
       "CONVERSATION": "שיחה",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "CHANGE_ASSIGNEE": "שנה מוקצה",
+      "CHANGE_TEAM": "להחליף קבוצה",
+      "ADD_LABEL": "הוסף תווית לשיחה",
+      "REMOVE_LABEL": "הסר תווית מהשיחה",
       "SETTINGS": "הגדרות"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
+      "GO_TO_CONTACTS_DASHBOARD": "עבור ללוח המחוונים של אנשי קשר",
+      "GO_TO_REPORTS_OVERVIEW": "עבור לסקירת דוחות",
+      "GO_TO_CONVERSATION_REPORTS": "עבור לדוחות שיחות",
+      "GO_TO_AGENT_REPORTS": "עבור לדוחות סוכן",
+      "GO_TO_LABEL_REPORTS": "עבור לדוחות תווית",
+      "GO_TO_INBOX_REPORTS": "עבור לדוחות תיבת הדואר הנכנס",
+      "GO_TO_TEAM_REPORTS": "עבור לדוחות צוותים",
+      "GO_TO_SETTINGS_AGENTS": "עבור להגדרות סוכן",
+      "GO_TO_SETTINGS_TEAMS": "עבור להגדרות צוות",
+      "GO_TO_SETTINGS_INBOXES": "עבור להגדרות תיבת הדואר הנכנס",
+      "GO_TO_SETTINGS_LABELS": "עבור להגדרות תווית",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "עבור להגדרות תגובה מוכנות",
+      "GO_TO_SETTINGS_APPLICATIONS": "עבור להגדרות אפליקציה",
+      "GO_TO_SETTINGS_ACCOUNT": "עבור להגדרות חשבון",
+      "GO_TO_SETTINGS_PROFILE": "עבור להגדרות פרופיל",
+      "GO_TO_NOTIFICATIONS": "עבור להודעות",
+      "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
+      "ASSIGN_AN_AGENT": "הקצה סוכן",
+      "ASSIGN_A_TEAM": "הקצה צוות",
+      "MUTE_CONVERSATION": "שיחה אילמת",
       "UNMUTE_CONVERSATION": "בטל השתקת שיחה",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
+      "REMOVE_LABEL_FROM_CONVERSATION": "הסר תווית מהשיחה",
       "REOPEN_CONVERSATION": "פתח מחדש את השיחה",
       "RESOLVE_CONVERSATION": "פתור את השיחה",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "SEND_TRANSCRIPT": "שלח תמליל דוא\"ל",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
+      "UNTIL_NEXT_REPLY": "עד לתשובה הבאה",
+      "UNTIL_NEXT_WEEK": "עד שבוע הבא",
+      "UNTIL_TOMORROW": "עד מחר"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "טוען אפליקציית Dashboard..."
   }
 }
