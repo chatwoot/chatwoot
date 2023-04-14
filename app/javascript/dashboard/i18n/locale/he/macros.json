@@ -1,78 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "מאקרו",
+    "HEADER_BTN_TXT": "הוסף מאקרו חדש",
+    "HEADER_BTN_TXT_SAVE": "שמור מאקרו",
+    "LOADING": "מביא פקודות מאקרו",
+    "SIDEBAR_TXT": "<p><b>פקודות מאקרו</b><p>מאקרו הוא קבוצה של פעולות שמורות המסייעות לסוכני שירות לקוחות לבצע משימות בקלות. הסוכנים יכולים להגדיר קבוצה של פעולות כמו תיוג שיחה עם תווית, שליחת תמלול דוא\"ל, עדכון תכונה מותאמת אישית וכו', והם יכולים להפעיל את הפעולות הללו בלחיצה אחת. כאשר הסוכנים מפעילים את המאקרו, הפעולות יבוצעו ברצף בסדר שהן מוגדרות. מאקרו משפרים את הפרודוקטיביות ומגדילים את העקביות בפעולות. </p><p>מאקרו יכול להועיל בשתי דרכים. </p><p><b>כסוכן מסייע:</b> אם סוכן מבצע קבוצה של פעולות מספר פעמים, הוא יכול לשמור אותה כמאקרו ולבצע את כל הפעולות יחד באמצעות לחיצה אחת.</p> p><p><b>כאפשרות להצטרף לחבר צוות:</b> כל סוכן צריך לבצע בדיקות/פעולות רבות ושונות במהלך כל שיחה. הכניסה לחבר צוות תמיכה חדש תהיה קלה אם פקודות מאקרו מוגדרות מראש זמינות בחשבון. במקום לתאר כל שלב בפירוט, המנהל/ראש הצוות יכול להצביע על פקודות המאקרו המשמשות בתרחישים שונים.</p>",
+    "ERROR": "משהו השתבש. אנא נסה שוב",
+    "ORDER_INFO": "פקודות מאקרו יפעלו לפי הסדר שתוסיף את הפעולות שלך. תוכל לסדר אותם מחדש על ידי גרירתם על ידי הידית לצד כל צומת.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "שם מאקרו",
+          "PLACEHOLDER": "הזן שם עבור המאקרו שלך",
+          "ERROR": "נדרש שם ליצירת מאקרו"
         },
         "ACTIONS": {
           "LABEL": "פעולות"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "המאקרו נוסף בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן ליצור מאקרו, אנא נסה שוב מאוחר יותר"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "שם",
-        "Created by",
-        "Last updated by",
-        "Visibility"
+        "נוצר על ידי",
+        "עודכן לאחרונה על ידי",
+        "רְאוּת"
       ],
-      "404": "No macros found"
+      "404": "לא נמצאו פקודות מאקרו"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "מחק מאקרו",
       "CONFIRM": {
         "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
         "YES": "כן, מחק",
         "NO": "לא"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "המאקרו נמחק בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה במחיקת המאקרו. אנא נסה שוב מאוחר יותר"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "ערוך מאקרו",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "המאקרו עודכן בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן היה לעדכן מאקרו, אנא נסה שוב מאוחר יותר"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "התחל זרימה",
+      "END_FLOW": "סיום זרימה",
+      "LOADING": "מביא מאקרו",
+      "ADD_BTN_TOOLTIP": "הוסף פעולה חדשה",
+      "DELETE_BTN_TOOLTIP": "מחיקת פעולה",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "נראות מאקרו",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "ציבורי",
+          "DESCRIPTION": "מאקרו זה זמין באופן ציבורי עבור כל הסוכנים בחשבון זה."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "פרטי",
+          "DESCRIPTION": "מאקרו זה יהיה פרטי עבורך ולא יהיה זמין לאחרים."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "לבצע",
+      "PREVIEW": "תצוגה מקדימה מאקרו",
+      "EXECUTED_SUCCESSFULLY": "המאקרו הופעל בהצלחה"
     }
   }
 }
