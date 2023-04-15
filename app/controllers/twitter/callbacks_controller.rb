@@ -14,7 +14,7 @@ class Twitter::CallbacksController < Twitter::BaseController
       redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
   rescue StandardError => e
-    Rails.logger.error e
+    ChatwootExceptionTracker.new(e).capture_exception
     redirect_to twitter_app_redirect_url
   end
 
@@ -60,9 +60,9 @@ class Twitter::CallbacksController < Twitter::BaseController
   def save_profile_image(inbox)
     response = twitter_client.user_show(screen_name: inbox.name)
 
-    return unless response.success?
+    return unless response.status.to_i == 200
 
-    parsed_user_profile = JSON.parse(response.read_body)
+    parsed_user_profile = response.body
 
     ::Avatar::AvatarFromUrlJob.perform_later(inbox, parsed_user_profile['profile_image_url_https'])
   end
