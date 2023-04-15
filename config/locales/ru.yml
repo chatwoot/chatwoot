@@ -58,7 +58,7 @@ ru:
         name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
   reports:
     period: Отчётный период с %{since} по %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Отчёт создан в часовом поясе UTC
     agent_csv:
       agent_name: Имя оператора
       conversations_count: Количество бесед
@@ -81,7 +81,7 @@ ru:
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Часовой пояс
     default_group_by: день
     csat:
       headers:
@@ -138,7 +138,7 @@ ru:
           reply_with_name: "%{assignee_name} от %{inbox_name} <%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} от %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} из %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
