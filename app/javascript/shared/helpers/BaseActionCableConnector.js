@@ -33,20 +33,9 @@ class BaseActionCableConnector {
     setInterval(() => {
       this.subscription.updatePresence();
       const isConnectionActive = this.consumer.connection.isOpen();
-      console.log(
-        'PRESENCE_INTERVAL-->',
-        isConnectionActive,
-        navigator.onLine,
-        new Date()
-      );
-      // this.subscription.consumer.connection.subscriptions.consumer.connection;
-      // .disconnected
-      const isAllGood =
-        BaseActionCableConnector.isDisconnected &&
-        navigator.onLine &&
-        isConnectionActive;
-      if (isAllGood) {
-        console.log('Refetching messages', new Date());
+      const shouldRefetch =
+        BaseActionCableConnector.isDisconnected && isConnectionActive;
+      if (shouldRefetch) {
         this.refreshActiveConversationMessages();
         BaseActionCableConnector.isDisconnected = false;
       }

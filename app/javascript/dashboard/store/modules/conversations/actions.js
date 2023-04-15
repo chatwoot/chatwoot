@@ -87,7 +87,7 @@ const actions = {
   },
 
   syncActiveConversationMessages: async (
-    { commit, state },
+    { commit, state, dispatch },
     { conversationId }
   ) => {
     const { allConversations, syncConversationsMessages } = state;
@@ -118,6 +118,7 @@ const actions = {
       commit(types.CLEAR_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
         conversationId,
       });
+      dispatch('markMessagesRead', { id: conversationId }, { root: true });
     } catch (error) {
       // Handle error
     }
