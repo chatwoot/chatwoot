@@ -221,7 +221,7 @@ export const mutations = {
   ) {
     _state.syncConversationsMessages[conversationId] = messageId;
   },
-  [types.CLEAR_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](
+  [types.CLEAR_LAST_MESSAGE_ID_FROM_SYNC_CONVERSATION](
     _state,
     { conversationId }
   ) {

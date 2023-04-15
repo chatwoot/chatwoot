@@ -115,7 +115,7 @@ const actions = {
         id: conversationId,
         data: missingMessages,
       });
-      commit(types.CLEAR_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
+      commit(types.CLEAR_LAST_MESSAGE_ID_FROM_SYNC_CONVERSATION, {
         conversationId,
       });
       dispatch('markMessagesRead', { id: conversationId }, { root: true });
