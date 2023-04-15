@@ -76,7 +76,7 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Доступность",
-          "PLACEHOLDER": "Please select an availability status",
+          "PLACEHOLDER": "Пожалуйста, выберите статус доступности",
           "ERROR": "Availability is required"
         },
         "SUBMIT": "Редактировать оператора"
