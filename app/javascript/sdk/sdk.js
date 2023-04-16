@@ -290,4 +290,24 @@ export const SDK_CSS = `
 .woot-hidden {
   display: none !important;
 }
+
+.woot-widget-bubble {
+    z-index: 1040 !important;
+}
+.woot-widget-bubble.woot-widget--expanded {
+    bottom: 16px;
+    height: 34px !important;
+}
+.woot-widget-bubble.woot-widget--expanded div {
+    font-size: 14px;
+    padding-right: 14px;
+}
+.woot-widget-bubble.woot-widget--expanded svg {
+    height: 14px;
+    margin: 14px 8px 14px 12px;
+    width: 14px;
+}
+.woot-widget-bubble.woot-elements--right {
+    right: 16px;
+}
 `;
