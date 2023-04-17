@@ -7,6 +7,7 @@ import agents from './modules/agents';
 import articles from './modules/helpCenterArticles';
 import attributes from './modules/attributes';
 import auth from './modules/auth';
+import auditlogs from './modules/auditlogs';
 import automations from './modules/automations';
 import bulkActions from './modules/bulkActions';
 import campaigns from './modules/campaigns';
@@ -71,6 +72,7 @@ export default new Vuex.Store({
     attributes,
     auth,
     automations,
+    auditlogs,
     bulkActions,
     campaigns,
     cannedResponse,
