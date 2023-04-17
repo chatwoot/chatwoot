@@ -74,6 +74,11 @@
           "LABEL": "e-pasta Adrese",
           "PLACEHOLDER": "Lūdzu, ievadiet aģenta e-pasta adresi"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Pieejamība",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Rediģēt Aģentu"
       },
       "BUTTON_TEXT": "Rediģēt",

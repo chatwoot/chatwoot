@@ -81,8 +81,7 @@ sr-Latn:
       avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
       avg_resolution_time: Prosečno vreme rešavanja (minuti)
     conversation_traffic_csv:
-      date: Datum i vreme
-      conversations_count: Broj razgovora
+      timezone: Timezone
     default_group_by: dan
     csat:
       headers:
@@ -113,6 +112,7 @@ sr-Latn:
         pending: "Razgovor je označen kao na čekanju od strane %{user_name}"
         snoozed: "Razgovor je odložen od strane %{user_name}"
         auto_resolved: "Razgovor je označen kao rešen od strane sistema zbog %{duration} dana neaktivnosti"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} je samododelio sebe ovom razgovoru"
         assigned: "Dodeljeno %{assignee_name} od strane %{user_name}"
@@ -138,7 +138,7 @@ sr-Latn:
           reply_with_name: "%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} iz %{inbox_name}"
+          reply_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nove poruke u ovom razgovoru"
       transcript_subject: "Transkript razgovora"

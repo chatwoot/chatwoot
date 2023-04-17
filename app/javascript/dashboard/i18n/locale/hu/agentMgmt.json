@@ -74,6 +74,11 @@
           "LABEL": "Email cím",
           "PLACEHOLDER": "Kérjük adja meg az ügynök email címét"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Elérhetőség",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Ügynök szerkesztése"
       },
       "BUTTON_TEXT": "Szerkesztés",
