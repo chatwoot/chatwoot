@@ -69,6 +69,7 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
+
   update: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
       uiFlags: {
@@ -100,6 +101,7 @@ export const actions = {
       });
     }
   },
+
   delete: async ({ commit }, { portalSlug, articleId }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
       uiFlags: {
@@ -136,6 +138,20 @@ export const actions = {
     } catch (error) {
       throwErrorMessage(error);
     }
+    return '';
+  },
+
+  reorder: async (_, { portalSlug, categorySlug, reorderedGroup }) => {
+    try {
+      await articlesAPI.reorderArticles({
+        portalSlug,
+        reorderedGroup,
+        categorySlug,
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+
     return '';
   },
 };

@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "コピー",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "コードが正常にクリップボードにコピーされました"
     },
     "SHOW_MORE_BLOCK": {
