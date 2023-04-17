@@ -74,6 +74,11 @@
           "LABEL": "ای میل اڈریس",
           "PLACEHOLDER": "براہ کرم ایجنٹ کا ای میل ایڈریس درج کریں۔"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "ایجنٹ میں ترمیم کریں۔"
       },
       "BUTTON_TEXT": "ترمیم",
