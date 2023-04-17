@@ -44,7 +44,7 @@
     "FEEDBACK_TITLE": "משוב",
     "CARD": {
       "SHOW_LABELS": "הצג תויות",
-      "HIDE_LABELS": "Hide labels"
+      "HIDE_LABELS": "הסתר תוויות"
     },
     "HEADER": {
       "RESOLVE_ACTION": "פתרון",
@@ -232,11 +232,11 @@
       "CONVERSATION_INFO": "מידע על שיחה",
       "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
       "PREVIOUS_CONVERSATION": "שיחות קודמות",
-      "MACROS": "Macros"
+      "MACROS": "מאקרו"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "צור תכונה",
     "UPDATE": {
       "SUCCESS": "המאפיין עודכן בהצלחה",
       "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
@@ -259,32 +259,32 @@
   "EMAIL_HEADER": {
     "FROM": "מאת",
     "TO": "אל",
-    "BCC": "Bcc",
+    "BCC": "עותק מוסתר",
     "CC": "עותק",
     "SUBJECT": "נושא"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "משתתף",
+    "SIDEBAR_TITLE": "משתתפים בשיחה",
     "NO_RECORDS_FOUND": "לא נמצאו תוצאות",
-    "ADD_PARTICIPANTS": "Select participants",
+    "ADD_PARTICIPANTS": "בחר משתתפים",
     "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
     "REMANING_PARTICIPANT_TEXT": "+%{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "NO_PARTICIPANTS_TEXT": "אף אחד לא משתתף!.",
+    "WATCH_CONVERSATION": "הצטרף לשיחה",
+    "YOU_ARE_WATCHING": "אתה משתתף",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "לא ניתן היה לעדכן, נסה שוב!",
+      "SUCCESS_MESSAGE": "המשתתפים עודכנו!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "הצג תוכן מתורגם",
+    "DESC": "תוכל לראות את התוכן המתורגם בכל שפה.",
+    "ORIGINAL_CONTENT": "תוכן מקורי",
+    "TRANSLATED_CONTENT": "תוכן מתורגם",
+    "NO_TRANSLATIONS_AVAILABLE": "אין תרגומים זמינים לתוכן זה"
   }
 }

@@ -74,6 +74,11 @@
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Raspoloživost",
+          "PLACEHOLDER": "Izaberi status raspoloživosti",
+          "ERROR": "Potrebna je raspoloživost"
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",

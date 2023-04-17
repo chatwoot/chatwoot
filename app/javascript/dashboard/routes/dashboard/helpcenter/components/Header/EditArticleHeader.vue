@@ -107,7 +107,7 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
-import wootConstants from 'dashboard/constants.js';
+import wootConstants from 'dashboard/constants/globals';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
