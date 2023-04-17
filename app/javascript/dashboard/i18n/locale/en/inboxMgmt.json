@@ -485,7 +485,7 @@
     "HELP_CENTER": {
       "LABEL": "Portal",
       "PLACEHOLDER": "Select Portal",
-      "SELECT_PLACEHOLDER": "Select",
+      "SELECT_PLACEHOLDER": "Select Portal",
       "REMOVE": "Remove"
     },
     "AUTO_ASSIGNMENT": {
