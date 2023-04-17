@@ -15,6 +15,10 @@
         "IP Address",
         "Time"
       ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
+      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     }
   }
 }

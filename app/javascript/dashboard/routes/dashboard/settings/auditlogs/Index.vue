@@ -90,8 +90,8 @@ export default {
       try {
         this.$store.dispatch('getAuditLog', { page });
       } catch (error) {
-        const errorMessage = error?.message || '';
-        // error?.message || this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE');
+        const errorMessage =
+          error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
       }
     },
