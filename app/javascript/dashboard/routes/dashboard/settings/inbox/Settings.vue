@@ -259,6 +259,25 @@
           </p>
         </label>
 
+        <div class="medium-9 settings-item settings-item">
+          <label>
+            {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
+          </label>
+          <multiselect
+            v-model="selectedPortal"
+            track-by="id"
+            label="name"
+            :placeholder="$t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER')"
+            selected-label
+            :select-label="$t('INBOX_MGMT.HELP_CENTER.SELECT_PLACEHOLDER')"
+            :deselect-label="$t('INBOX_MGMT.HELP_CENTER.REMOVE')"
+            :max-height="160"
+            :options="portal"
+            :allow-empty="true"
+            :option-height="104"
+          />
+        </div>
+
         <label
           v-if="canLocktoSingleConversation"
           class="medium-9 columns settings-item"
@@ -425,6 +444,8 @@ export default {
       selectedFeatureFlags: [],
       replyTime: '',
       selectedTabIndex: 0,
+      selectedPortal: {},
+      selectedPortalSlug: '',
     };
   },
   computed: {
@@ -568,8 +589,12 @@ export default {
   },
   mounted() {
     this.fetchInboxSettings();
+    this.fetchPortals();
   },
   methods: {
+    fetchPortals() {
+      this.$store.dispatch('portals/index');
+    },
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -609,6 +634,10 @@ export default {
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
+        this.selectedPortal =
+          (this.portal &&
+            this.portal.find(p => p.slug === this.inbox.help_center.slug)) ||
+          null;
       });
     },
     async updateInbox() {
@@ -621,6 +650,7 @@ export default {
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
+          portal_id: this.selectedPortal ? this.selectedPortal.id : null,
           lock_to_single_conversation: this.locktoSingleConversation,
           channel: {
             widget_color: this.inbox.widget_color,

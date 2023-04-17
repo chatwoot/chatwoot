@@ -482,6 +482,12 @@
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
+    "HELP_CENTER": {
+      "LABEL": "Portal",
+      "PLACEHOLDER": "Select Portal",
+      "SELECT_PLACEHOLDER": "Select",
+      "REMOVE": "Remove"
+    },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
