@@ -61,7 +61,7 @@ test/cypress/videos/*
 /config/master.key
 /config/*.enc
 
-.vscode/settings.json
+#ignore files under .vscode directory
 .vscode
 
 # yalc for local testing
