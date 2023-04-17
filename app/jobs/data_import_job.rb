@@ -29,7 +29,12 @@ class DataImportJob < ApplicationJob
 
     csv.each do |row|
       current_contact = build_contact(row.to_h.with_indifferent_access, @data_import.account)
-      current_contact.valid? ? contacts << current_contact : rejected_contacts << current_contact
+      if current_contact.valid?
+        contacts << current_contact
+      else
+        row['errors'] = current_contact.errors.full_messages.join(', ')
+        rejected_contacts << row
+      end
     end
 
     [contacts, rejected_contacts]
@@ -47,6 +52,7 @@ class DataImportJob < ApplicationJob
   def build_contact(params, account)
     contact = find_or_initialize_contact(params, account)
     contact.name = params[:name] if params[:name].present?
+    contact.additional_attributes = { company: params[:company], city: params[:city] }
     contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
     contact
   end
@@ -91,30 +97,28 @@ class DataImportJob < ApplicationJob
   end
 
   def save_failed_records_csv(rejected_contacts)
-    return unless rejected_contacts.any?
-
     csv_data = generate_csv_data(rejected_contacts)
+
+    return if csv_data.blank?
+
     @data_import.failed_records.attach(io: StringIO.new(csv_data), filename: "#{Time.zone.today.strftime('%Y%m%d')}_contacts.csv",
                                        content_type: 'text/csv')
+    send_failed_records_to_admin
   end
 
   def generate_csv_data(rejected_contacts)
-    CSV.generate do |csv|
-      csv << %w[id first_name last_name email phone_number identifier gender errors]
-      rejected_contacts.each do |record|
-        csv << [
-          record['id'],
-          record.custom_attributes['first_name'],
-          record.custom_attributes['last_name'],
-          record['email'],
-          record['phone_number'],
-          record['identifier'],
-          record.custom_attributes['gender'],
-          record.errors.full_messages.join(',')
-        ]
+    headers = CSV.parse(@data_import.import_file.download, headers: true).headers
+    headers << 'errors'
+    if rejected_contacts.any?
+      csv_data = CSV.generate do |csv|
+        csv << headers
+        rejected_contacts.each do |record|
+          csv << record
+        end
       end
     end
   end
+
 
   def send_failed_records_to_admin
     AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).failed_records(@data_import).deliver_later
