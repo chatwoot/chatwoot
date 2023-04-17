@@ -4,7 +4,7 @@
     <div class="row">
       <div class="small-8 columns with-right-space ">
         <p
-          v-if="!uiFlags.fetchingList && !records.audit_logs.length"
+          v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
         >
           {{ $t('AUDIT_LOGS.LIST.404') }}
@@ -15,7 +15,7 @@
         />
 
         <table
-          v-if="!uiFlags.fetchingList && records.audit_logs.length"
+          v-if="!uiFlags.fetchingList && records.length"
           class="woot-table"
         >
           <thead>
@@ -28,10 +28,7 @@
             </th>
           </thead>
           <tbody>
-            <tr
-              v-for="auditLogItem in records.audit_logs"
-              :key="auditLogItem.id"
-            >
+            <tr v-for="auditLogItem in records" :key="auditLogItem.id">
               <td class="wrap-break-words">{{ auditLogItem.username }}</td>
               <td class="wrap-break-words">
                 {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
@@ -48,9 +45,9 @@
       </div>
     </div>
     <table-footer
-      :current-page="Number(records.current_page)"
-      :total-count="records.total_entries"
-      :page-size="15"
+      :current-page="Number(meta.currentPage)"
+      :total-count="meta.totalEntries"
+      :page-size="meta.perPage"
       @page-change="onPageChange"
     />
   </div>
@@ -76,19 +73,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      records: 'getAuditLogs',
-      uiFlags: 'getUIFlags',
+      records: 'auditlogs/getAuditLogs',
+      uiFlags: 'auditlogs/getUIFlags',
+      meta: 'auditlogs/getMeta',
     }),
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('getAuditLog', { page: 1 });
+    this.$store.dispatch('auditlogs/fetch', { page: 1 });
   },
   methods: {
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       try {
-        this.$store.dispatch('getAuditLog', { page });
+        this.$store.dispatch('auditlogs/fetch', { page });
       } catch (error) {
         const errorMessage =
           error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');

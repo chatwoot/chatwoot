@@ -5,6 +5,11 @@ import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 const state = {
   records: [],
+  meta: {
+    currentPage: 1,
+    perPage: 15,
+    totalEntries: 0,
+  },
   uiFlags: {
     fetchingList: false,
   },
@@ -17,16 +22,30 @@ const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
+  getMeta(_state) {
+    return _state.meta;
+  },
 };
 
 const actions = {
-  getAuditLog: async function getAuditLog({ commit }, { page } = {}) {
+  async fetch({ commit }, { page } = {}) {
     commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: true });
     try {
       const response = await AuditLogsAPI.get({ page });
-      commit(types.default.SET_AUDIT_LOGS, response.data);
+      const { audit_logs: logs = [] } = response.data;
+      const {
+        total_entries: totalEntries,
+        per_page: perPage,
+        current_page: currentPage,
+      } = response;
+      commit(types.default.SET_AUDIT_LOGS, logs);
+      commit(types.default.SET_AUDIT_LOGS_META, {
+        totalEntries,
+        perPage,
+        currentPage,
+      });
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
-      return response.data;
+      return logs;
     } catch (error) {
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
       return throwErrorMessage(error);
@@ -43,9 +62,16 @@ const mutations = {
   },
 
   [types.default.SET_AUDIT_LOGS]: MutationHelpers.set,
+  [types.default.SET_AUDIT_LOGS_META](_state, data) {
+    _state.meta = {
+      ..._state.meta,
+      ...data,
+    };
+  },
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,
