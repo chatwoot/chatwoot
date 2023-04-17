@@ -1,5 +1,6 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
+  include CacheKeysHelper
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
@@ -30,6 +31,10 @@ class Api::V1::AccountsController < Api::BaseController
     end
   end
 
+  def cache_keys
+    render json: { cache_keys: get_cache_keys }, status: :ok
+  end
+
   def show
     @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
     render 'api/v1/accounts/show', format: :json
@@ -46,6 +51,14 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def get_cache_keys
+    {
+      label: fetch_value_for_key(params[:id], Label.name.underscore),
+      inbox: fetch_value_for_key(params[:id], Inbox.name.underscore),
+      team: fetch_value_for_key(params[:id], Team.name.underscore)
+    }
+  end
 
   def fetch_account
     @account = current_user.accounts.find(params[:id])

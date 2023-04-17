@@ -74,6 +74,11 @@
           "LABEL": "Emel",
           "PLACEHOLDER": "Sila masukkan emel ejen anda"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Edit ejen"
       },
       "BUTTON_TEXT": "Edit",

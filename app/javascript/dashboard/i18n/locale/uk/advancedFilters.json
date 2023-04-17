@@ -22,7 +22,8 @@
       "is_not_present": "Немає",
       "is_greater_than": "Більше ніж",
       "is_less_than": "Менше ніж",
-      "days_before": "X днів до"
+      "days_before": "X днів до",
+      "starts_with": "Починається з"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Так",

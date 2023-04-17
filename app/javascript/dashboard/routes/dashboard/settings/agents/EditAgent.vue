@@ -28,6 +28,24 @@
             </span>
           </label>
         </div>
+
+        <div class="medium-12 columns">
+          <label :class="{ error: $v.agentAvailability.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
+            <select v-model="agentAvailability">
+              <option
+                v-for="role in availabilityStatuses"
+                :key="role.value"
+                :value="role.value"
+              >
+                {{ role.label }}
+              </option>
+            </select>
+            <span v-if="$v.agentAvailability.$error" class="message">
+              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
+            </span>
+          </label>
+        </div>
         <div class="medium-12 modal-footer">
           <div class="medium-6 columns">
             <woot-submit-button
@@ -64,6 +82,9 @@ import { mapGetters } from 'vuex';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import Auth from '../../../../api/auth';
+import wootConstants from 'dashboard/constants/globals';
+
+const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
 export default {
   components: {
@@ -87,6 +108,10 @@ export default {
       type: String,
       default: '',
     },
+    availability: {
+      type: String,
+      default: '',
+    },
     onClose: {
       type: Function,
       required: true,
@@ -105,6 +130,7 @@ export default {
         },
       ],
       agentName: this.name,
+      agentAvailability: this.availability,
       agentType: this.type,
       agentCredentials: {
         email: this.email,
@@ -120,6 +146,9 @@ export default {
     agentType: {
       required,
     },
+    agentAvailability: {
+      required,
+    },
   },
   computed: {
     pageTitle() {
@@ -128,6 +157,16 @@ export default {
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
     }),
+    availabilityStatuses() {
+      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
+        (statusLabel, index) => ({
+          label: statusLabel,
+          value: AVAILABILITY_STATUS_KEYS[index],
+          disabled:
+            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
+        })
+      );
+    },
   },
   methods: {
     showAlert(message) {
@@ -139,6 +178,7 @@ export default {
           id: this.id,
           name: this.agentName,
           role: this.agentType,
+          availability: this.agentAvailability,
         });
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();

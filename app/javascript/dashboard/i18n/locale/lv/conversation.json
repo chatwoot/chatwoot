@@ -166,7 +166,15 @@
       "COPY": "Kopēt",
       "DELETE": "Dzēst",
       "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm",
-      "TRANSLATE": "Tulkot"
+      "TRANSLATE": "Tulkot",
+      "COPY_PERMALINK": "Kopēt saiti uz ziņojumu",
+      "LINK_COPIED": "Ziņojuma URL ir iekopēts starpliktuvē",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Vai tiešām vēlaties dzēst šo ziņojumu?",
+        "MESSAGE": "Šo darbību nevar atsaukt",
+        "DELETE": "Dzēst",
+        "CANCEL": "Atcelt"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {

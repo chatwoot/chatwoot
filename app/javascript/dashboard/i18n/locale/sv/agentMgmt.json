@@ -74,6 +74,11 @@
           "LABEL": "E-postadress",
           "PLACEHOLDER": "Ange en e-postadress till agenten"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Tillgänglighet",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Redigera agent"
       },
       "BUTTON_TEXT": "Redigera",
