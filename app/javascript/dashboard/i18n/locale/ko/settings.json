@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "복사",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "코드가 클립보드에 복사됨"
     },
     "SHOW_MORE_BLOCK": {

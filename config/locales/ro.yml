@@ -21,6 +21,7 @@ ro:
   messages:
     reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
     reset_password_failure: Nu am putut găsi niciun utilizator cu e-mailul specificat.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: nu trebuie să fie gol
@@ -57,6 +58,7 @@ ro:
         name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
   reports:
     period: Perioada de raportare %{since}-%{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Nume agent
       conversations_count: Conversațiile contează
@@ -78,6 +80,8 @@ ro:
       conversations_count: Conversațiile contează
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: zi
     csat:
       headers:
@@ -108,6 +112,7 @@ ro:
         pending: "Conversația a fost marcată ca fiind în așteptare de către %{user_name}"
         snoozed: "Conversația a fost snoozed de %{user_name}"
         auto_resolved: "Conversația a fost marcată de sistem din cauza %{duration} zile de inactivitate"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} auto-atribuit această conversație"
         assigned: "Atribuit lui %{assignee_name} de %{user_name}"
@@ -133,7 +138,7 @@ ro:
           reply_with_name: "%{assignee_name} din %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} din %{inbox_name}"
+          reply_with_name: "%{assignee_name} din %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Mesaje noi în această conversație"
       transcript_subject: "Trimite Transcriere"

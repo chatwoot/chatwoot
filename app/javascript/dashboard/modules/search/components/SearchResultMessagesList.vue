@@ -11,6 +11,7 @@
           :account-id="accountId"
           :inbox="message.inbox"
           :created-at="message.created_at"
+          :message-id="message.id"
         >
           <message-content
             :author="getName(message)"

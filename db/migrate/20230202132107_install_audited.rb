@@ -13,7 +13,7 @@ class InstallAudited < ActiveRecord::Migration[6.1]
       t.string :username
       t.string :action
       t.jsonb :audited_changes
-      t.integer :version, :integer, :default => 0
+      t.integer :version, :default => 0
       t.string :comment
       t.string :remote_address
       t.string :request_uuid

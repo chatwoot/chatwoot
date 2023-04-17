@@ -16,6 +16,8 @@
 #  index_teams_on_name_and_account_id  (name,account_id) UNIQUE
 #
 class Team < ApplicationRecord
+  include AccountCacheRevalidator
+
   belongs_to :account
   has_many :team_members, dependent: :destroy_async
   has_many :members, through: :team_members, source: :user

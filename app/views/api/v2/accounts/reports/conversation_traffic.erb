@@ -1,0 +1,4 @@
+<%= CSVSafe.generate_line [I18n.t('reports.conversation_traffic_csv.timezone'), @timezone] %>
+<% @report_data.each do |row| %>
+<%= CSVSafe.generate_line row -%>
+<% end %>
