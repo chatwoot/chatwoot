@@ -29,11 +29,14 @@ class BaseActionCableConnector {
     this.app = app;
     this.events = {};
     this.isAValidEvent = () => true;
-
-    setInterval(() => {
-      this.subscription.updatePresence();
-      this.checkConnection();
-    }, PRESENCE_INTERVAL);
+    this.triggerPresenceInterval = () => {
+      setTimeout(() => {
+        this.subscription.updatePresence();
+        this.checkConnection();
+        this.triggerPresenceInterval();
+      }, PRESENCE_INTERVAL);
+    };
+    this.triggerPresenceInterval();
   }
 
   checkConnection() {
