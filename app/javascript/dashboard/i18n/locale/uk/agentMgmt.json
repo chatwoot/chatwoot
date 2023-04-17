@@ -74,6 +74,11 @@
           "LABEL": "Адреса електронної пошти",
           "PLACEHOLDER": "Будь ласка, введіть адресу електронної пошти агента"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Присутність",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Редагувати агента"
       },
       "BUTTON_TEXT": "Редагувати",
