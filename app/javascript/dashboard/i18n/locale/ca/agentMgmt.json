@@ -74,6 +74,11 @@
           "LABEL": "Adreça de correu electrònic",
           "PLACEHOLDER": "Introduïu l'adreça de correu electrònic de l'agent"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Disponibilitat",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Editar l'agent"
       },
       "BUTTON_TEXT": "Edita",

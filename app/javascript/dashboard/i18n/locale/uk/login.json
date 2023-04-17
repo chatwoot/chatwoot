@@ -15,9 +15,9 @@
       "UNAUTH": "Неправильне ім'я користувача / пароль. Будь ласка, спробуйте ще раз"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Увійти через Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Будь ласка, використовуйте робочу адресу електронної пошти для входу",
+      "NO_ACCOUNT_FOUND": "Ми не змогли знайти аккаунт для вашої адреси електронної пошти."
     },
     "FORGOT_PASSWORD": "Забули пароль?",
     "CREATE_NEW_ACCOUNT": "Створити новий обліковий запис",

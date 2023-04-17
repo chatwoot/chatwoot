@@ -137,7 +137,7 @@ GEM
     byebug (11.1.3)
     climate_control (1.1.1)
     coderay (1.1.3)
-    commonmarker (0.23.7)
+    commonmarker (0.23.9)
     concurrent-ruby (1.2.2)
     connection_pool (2.2.5)
     crack (0.4.5)
@@ -416,6 +416,11 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
+    lograge (0.12.0)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -459,14 +464,14 @@ GEM
       sidekiq
     newrelic_rpm (8.15.0)
     nio4r (2.5.8)
-    nokogiri (1.14.2)
+    nokogiri (1.14.3)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
-    nokogiri (1.14.2-arm64-darwin)
+    nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.2-x86_64-darwin)
+    nokogiri (1.14.3-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.2-x86_64-linux)
+    nokogiri (1.14.3-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.10)
     oauth2 (2.0.9)
@@ -520,6 +525,8 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-mini-profiler (3.0.0)
+      rack (>= 1.2.0)
     rack-protection (3.0.5)
       rack
     rack-proxy (0.7.2)
@@ -566,6 +573,8 @@ GEM
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
+    request_store (1.5.1)
+      rack (>= 1.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -692,6 +701,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     squasher (0.6.2)
+    stackprof (0.2.24)
     statsd-ruby (1.5.0)
     stripe (6.5.0)
     telephone_number (1.4.16)
@@ -707,7 +717,7 @@ GEM
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
-    twitty (0.1.4)
+    twitty (0.1.5)
       oauth
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -821,6 +831,7 @@ DEPENDENCIES
   line-bot-api
   liquid
   listen
+  lograge (~> 0.12.0)
   maxminddb
   mock_redis
   net-imap
@@ -840,6 +851,7 @@ DEPENDENCIES
   pundit
   rack-attack
   rack-cors
+  rack-mini-profiler
   rack-timeout
   rails (~> 6.1, >= 6.1.7.3)
   redis
@@ -865,12 +877,13 @@ DEPENDENCIES
   spring
   spring-watcher-listen
   squasher
+  stackprof
   stripe
   telephone_number
   test-prof
   time_diff
   twilio-ruby (~> 5.66)
-  twitty
+  twitty (~> 0.1.5)
   tzinfo-data
   uglifier
   valid_email2

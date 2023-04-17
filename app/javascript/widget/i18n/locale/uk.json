@@ -90,8 +90,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
+      "LEAVE_THE_ROOM": "Залишити дзвінок"
     }
   }
 }

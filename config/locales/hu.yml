@@ -21,6 +21,7 @@ hu:
   messages:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ hu:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Ügynök neve
       conversations_count: Beszélgetésszám
@@ -78,6 +80,8 @@ hu:
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: day
     csat:
       headers:
@@ -108,6 +112,7 @@ hu:
         pending: "A beszélgetést %{user_name} folyamatban lévőnek jelölte"
         snoozed: "A beszélgetést %{user_name} elnémította"
         auto_resolved: "A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} magára osztotta ezt a beszélgetést"
         assigned: "%{user_name} ráosztotta a beszélgetést: %{assignee_name}"
@@ -133,7 +138,7 @@ hu:
           reply_with_name: "%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} innen %{inbox_name}"
+          reply_with_name: "%{assignee_name} innen %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Új üzenet a beszélgetésben"
       transcript_subject: "Beszélgetés kivonat"

@@ -3,6 +3,10 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator? || @account_user.agent?
   end
 
+  def cache_keys?
+    @account_user.administrator? || @account_user.agent?
+  end
+
   def update?
     @account_user.administrator?
   end

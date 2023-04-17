@@ -78,8 +78,22 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message(message)
-    response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content)
+    response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content, reply_markup(message))
     response.parsed_response['result']['message_id'] if response.success?
+  end
+
+  def reply_markup(message)
+    return unless message.content_type == 'input_select'
+
+    {
+      one_time_keyboard: true,
+      inline_keyboard: message.content_attributes['items'].map do |item|
+        [{
+          text: item['title'],
+          callback_data: item['value']
+        }]
+      end
+    }.to_json
   end
 
   def send_attachments(message)
@@ -113,11 +127,12 @@ class Channel::Telegram < ApplicationRecord
                   })
   end
 
-  def message_request(chat_id, text)
+  def message_request(chat_id, text, reply_markup = nil)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: text
+                    text: text,
+                    reply_markup: reply_markup
                   })
   end
 end

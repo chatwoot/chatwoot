@@ -132,6 +132,17 @@
         "PLACEHOLDER": "הזן את שם החברה",
         "LABEL": "שם החברה"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "הזן את שם המדינה",
+        "LABEL": "שם המדינה",
+        "SELECT_PLACEHOLDER": "בחר",
+        "REMOVE": "הסר",
+        "SELECT_COUNTRY": "בחר מדינה"
+      },
+      "CITY": {
+        "PLACEHOLDER": "הזן את שם העיר",
+        "LABEL": "שם העיר"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "הזן את שם המשתמש בפייסבוק",

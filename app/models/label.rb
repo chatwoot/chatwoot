@@ -18,6 +18,8 @@
 #
 class Label < ApplicationRecord
   include RegexHelper
+  include AccountCacheRevalidator
+
   belongs_to :account
 
   validates :title,

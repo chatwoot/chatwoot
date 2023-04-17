@@ -63,7 +63,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
-import wootConstants from '../../../constants';
+import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 export default {
   components: {
