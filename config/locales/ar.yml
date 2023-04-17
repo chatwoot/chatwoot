@@ -81,8 +81,7 @@ ar:
       avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
       avg_resolution_time: متوسط وقت المحادثة (الدقائق)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: عدد المحادثات
+      timezone: Timezone
     default_group_by: اليوم
     csat:
       headers:
@@ -113,6 +112,7 @@ ar:
         pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
         snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
         auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
@@ -138,7 +138,7 @@ ar:
           reply_with_name: "%{assignee_name} من %{inbox_name} <%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} من %{inbox_name}"
+          reply_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"

@@ -74,6 +74,11 @@
           "LABEL": "E-posta adresi",
           "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Uygun",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Temsilciyi düzenle"
       },
       "BUTTON_TEXT": "Düzenle",
