@@ -66,3 +66,4 @@ test/cypress/videos/*
 
 # yalc for local testing
 .yalc
+yalc.lock
