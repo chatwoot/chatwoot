@@ -59,12 +59,13 @@
 import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 import timeMixin from 'dashboard/mixins/time';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     TableFooter,
   },
-  mixins: [timeMixin],
+  mixins: [alertMixin, timeMixin],
   data() {
     return {
       loading: {},
@@ -84,17 +85,15 @@ export default {
     this.$store.dispatch('getAuditLog', { page: 1 });
   },
   methods: {
-    showAlert(message) {
-      // Reset loading, current selected agent
-      this.loading[this.selectedResponse.id] = false;
-      this.selectedResponse = {};
-      // Show message
-      this.auditLogsAPI.message = message;
-      bus.$emit('newToastMessage', message);
-    },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
-      this.$store.dispatch('getAuditLog', { page });
+      try {
+        this.$store.dispatch('getAuditLog', { page });
+      } catch (error) {
+        const errorMessage = error?.message || '';
+        // error?.message || this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      }
     },
   },
 };

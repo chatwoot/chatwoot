@@ -1,6 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AuditLogsAPI from '../../api/auditLogs';
+import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 const state = {
   records: [],
@@ -25,8 +26,10 @@ const actions = {
       const response = await AuditLogsAPI.get({ page });
       commit(types.default.SET_AUDIT_LOGS, response.data);
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
+      return response.data;
     } catch (error) {
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
+      return throwErrorMessage(error);
     }
   },
 };
