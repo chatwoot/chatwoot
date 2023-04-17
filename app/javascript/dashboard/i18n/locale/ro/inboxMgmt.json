@@ -439,7 +439,8 @@
       "LABEL": "Caracteristici",
       "DISPLAY_FILE_PICKER": "Afișarea selectorului de fișiere pe widget",
       "DISPLAY_EMOJI_PICKER": "Afișarea selectorului de emoji pe widget",
-      "ALLOW_END_CONVERSATION": "Permite utilizatorilor să încheie conversația din widget"
+      "ALLOW_END_CONVERSATION": "Permite utilizatorilor să încheie conversația din widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",

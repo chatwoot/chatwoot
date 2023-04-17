@@ -74,6 +74,11 @@
           "LABEL": "כתובת מייל",
           "PLACEHOLDER": "אנא הכנס כתובת מייל של הסוכן"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "זמינות",
+          "PLACEHOLDER": "אנא בחר סטטוס זמינות",
+          "ERROR": "נדרשת זמינות"
+        },
         "SUBMIT": "ערוך סוכן"
       },
       "BUTTON_TEXT": "ערוך",

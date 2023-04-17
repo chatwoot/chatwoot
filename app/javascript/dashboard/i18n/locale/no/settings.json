@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopier",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Koden er kopiert til utklippstavlen"
     },
     "SHOW_MORE_BLOCK": {
