@@ -109,16 +109,15 @@ class DataImportJob < ApplicationJob
   def generate_csv_data(rejected_contacts)
     headers = CSV.parse(@data_import.import_file.download, headers: true).headers
     headers << 'errors'
-    if rejected_contacts.any?
-      csv_data = CSV.generate do |csv|
-        csv << headers
-        rejected_contacts.each do |record|
-          csv << record
-        end
+    return if rejected_contacts.blank?
+
+    CSV.generate do |csv|
+      csv << headers
+      rejected_contacts.each do |record|
+        csv << record
       end
     end
   end
-
 
   def send_failed_records_to_admin
     AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).failed_records(@data_import).deliver_later
