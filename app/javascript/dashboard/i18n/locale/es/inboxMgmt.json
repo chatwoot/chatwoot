@@ -439,7 +439,8 @@
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
-      "ALLOW_END_CONVERSATION": "Permitir a los usuarios finalizar conversaciones desde el widget"
+      "ALLOW_END_CONVERSATION": "Permitir a los usuarios finalizar conversaciones desde el widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
