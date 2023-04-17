@@ -98,6 +98,7 @@ const actions = {
     if (!selectedChat) return;
     try {
       const { messages } = selectedChat;
+      // Fetch all the messages after the last message id
       const {
         data: { meta, payload },
       } = await MessageApi.getPreviousMessages({
@@ -108,15 +109,22 @@ const actions = {
         id: conversationId,
         data: meta,
       });
+      // Find the messages that are not already present in the store
       const missingMessages = payload.filter(
         message => !messages.find(item => item.id === message.id)
       );
+      selectedChat.messages.push(...missingMessages);
+      // Sort the messages by created_at
+      const sortedMessages = selectedChat.messages.sort((a, b) => {
+        return new Date(a.created_at) - new Date(b.created_at);
+      });
       commit(types.SET_MISSING_MESSAGES, {
         id: conversationId,
-        data: missingMessages,
+        data: sortedMessages,
       });
-      commit(types.CLEAR_LAST_MESSAGE_ID_FROM_SYNC_CONVERSATION, {
+      commit(types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
         conversationId,
+        messageId: null,
       });
       dispatch('markMessagesRead', { id: conversationId }, { root: true });
     } catch (error) {

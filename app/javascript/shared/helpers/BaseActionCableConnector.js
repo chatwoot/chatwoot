@@ -32,35 +32,34 @@ class BaseActionCableConnector {
 
     setInterval(() => {
       this.subscription.updatePresence();
-      const isConnectionActive = this.consumer.connection.isOpen();
-      const shouldRefetch =
-        BaseActionCableConnector.isDisconnected && isConnectionActive;
-      if (shouldRefetch) {
-        this.refreshActiveConversationMessages();
-        BaseActionCableConnector.isDisconnected = false;
-      }
+      this.checkConnection();
     }, PRESENCE_INTERVAL);
   }
+
+  checkConnection() {
+    const isConnectionActive = this.consumer.connection.isOpen();
+    const isReconnected =
+      BaseActionCableConnector.isDisconnected && isConnectionActive;
+    if (isReconnected) {
+      this.onReconnect();
+      BaseActionCableConnector.isDisconnected = false;
+    }
+  }
+
+  onReconnect = () => {
+    this.events.reconnect();
+  };
+
+  onDisconnected = () => {
+    BaseActionCableConnector.isDisconnected = true;
+    this.events.disconnected();
+    // TODO: Remove this after completing the conversation list refetching
+    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
+  };
 
   disconnect() {
     this.consumer.disconnect();
   }
-
-  refreshActiveConversationMessages = () => {
-    this.events['sync.active.conversation.messages']();
-  };
-
-  setActiveConversationLastMessage = () => {
-    this.events['set.active.conversation.message']();
-  };
-
-  onDisconnected = () => {
-    console.log('Websocket disconnected', new Date());
-    BaseActionCableConnector.isDisconnected = true;
-    this.setActiveConversationLastMessage();
-    // TODO: Remove this after completing the conversation list refetching
-    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
-  };
 
   onReceived = ({ event, data } = {}) => {
     if (this.isAValidEvent(data)) {

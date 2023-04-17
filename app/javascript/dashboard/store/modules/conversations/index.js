@@ -58,13 +58,7 @@ export const mutations = {
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (!chat) return;
-    if (data.length) {
-      chat.messages.push(...data);
-      const sortedMessages = chat.messages.sort((a, b) => {
-        return new Date(a.created_at) - new Date(b.created_at);
-      });
-      Vue.set(chat, 'messages', sortedMessages);
-    }
+    Vue.set(chat, 'messages', data);
   },
 
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
@@ -220,12 +214,6 @@ export const mutations = {
     { conversationId, messageId }
   ) {
     _state.syncConversationsMessages[conversationId] = messageId;
-  },
-  [types.CLEAR_LAST_MESSAGE_ID_FROM_SYNC_CONVERSATION](
-    _state,
-    { conversationId }
-  ) {
-    _state.syncConversationsMessages[conversationId] = null;
   },
 };
 

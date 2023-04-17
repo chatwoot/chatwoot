@@ -30,8 +30,21 @@ class ActionCableConnector extends BaseActionCableConnector {
       'sync.active.conversation.messages': this.syncActiveConversationMessages,
       'set.active.conversation.message': this
         .setActiveConversationLastMessageId,
+      reconnect: this.onReconnect,
+      disconnected: this.onDisconnected,
     };
   }
+
+  onReconnect = () => {
+    this.syncActiveConversationMessages();
+  };
+
+  onDisconnected = () => {
+    // TODO: Remove this after the QA
+    // eslint-disable-next-line no-console
+    console.log('Websocket disconnected', new Date());
+    this.setActiveConversationLastMessageId();
+  };
 
   setActiveConversationLastMessageId = () => {
     const {
