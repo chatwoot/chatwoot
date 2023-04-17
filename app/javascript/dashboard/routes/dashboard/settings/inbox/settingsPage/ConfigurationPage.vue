@@ -109,6 +109,12 @@
         <woot-code :script="inbox.provider_config.api_key" />
       </settings-section>
       <settings-section
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
+        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"
+      >
+        <woot-code :script="inbox.provider_config.webhook_verify_token" />
+      </settings-section>
+      <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
         :sub-title="
           $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
