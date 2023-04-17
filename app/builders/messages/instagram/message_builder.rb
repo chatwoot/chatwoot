@@ -90,7 +90,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     return if story_reply_attributes.blank?
 
     fetch_story_info
-    @message.save_story_info
+    @message.save_story_info(story_reply_attributes)
   end
 
   def fetch_story_info

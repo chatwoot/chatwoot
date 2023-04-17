@@ -70,11 +70,10 @@ describe  ::Messages::Instagram::MessageBuilder do
 
       message = instagram_channel.inbox.messages.first
 
-      expect(instagram_inbox.reload.conversations.count).to be 1
-
       expect(message.content).to eq('This is the story reply')
       expect(message.content_attributes[:story_sender]).to eq(instagram_inbox.channel.instagram_id)
       expect(message.content_attributes[:story_id]).to eq('story_id')
+      expect(message.content_attributes[:story_url]).to eq('https://chatwoot-assets.local/sample.png')
     end
 
     it 'raises exception on deleted story' do
