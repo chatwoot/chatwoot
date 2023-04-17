@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "പകർത്തുക",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "കോഡ് ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി"
     },
     "SHOW_MORE_BLOCK": {

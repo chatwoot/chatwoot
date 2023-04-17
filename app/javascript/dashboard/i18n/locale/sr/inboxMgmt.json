@@ -439,7 +439,8 @@
       "LABEL": "Mogućnosti",
       "DISPLAY_FILE_PICKER": "Prikaži izbornik datoteke na vidžetu",
       "DISPLAY_EMOJI_PICKER": "Prikaži izbornik emotikona u vidžetu",
-      "ALLOW_END_CONVERSATION": "Dozvoli korisnicima da završe razgovor iz vidžeta"
+      "ALLOW_END_CONVERSATION": "Dozvoli korisnicima da završe razgovor iz vidžeta",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Mesindžer skripta",

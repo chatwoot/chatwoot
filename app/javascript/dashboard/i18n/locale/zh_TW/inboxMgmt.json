@@ -439,7 +439,8 @@
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "在小工具上顯示檔案選擇器",
       "DISPLAY_EMOJI_PICKER": "在小工具上顯示 emoji 選擇器",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
