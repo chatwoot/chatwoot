@@ -37,7 +37,7 @@ const actions = {
         total_entries: totalEntries,
         per_page: perPage,
         current_page: currentPage,
-      } = response;
+      } = response.data;
       commit(types.default.SET_AUDIT_LOGS, logs);
       commit(types.default.SET_AUDIT_LOGS_META, {
         totalEntries,
