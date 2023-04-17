@@ -17,10 +17,6 @@ inputs:
     description: "Secret DSN key for Sentry"
     required: true
 
-  VUE_APP_SENTRY_DSN_CHAT: 
-    description: "Environment variable for latest commit"
-    required: true
-
   ECR_REGISTRY:
     description: "ECR Registry where the image is going to be pushed"
     required: true
