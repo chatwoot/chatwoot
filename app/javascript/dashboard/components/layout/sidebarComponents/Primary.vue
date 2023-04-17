@@ -41,7 +41,7 @@ import PrimaryNavItem from './PrimaryNavItem';
 import OptionsMenu from './OptionsMenu';
 import AgentDetails from './AgentDetails';
 import NotificationBell from './NotificationBell';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
