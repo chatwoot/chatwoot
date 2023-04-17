@@ -21,5 +21,3 @@ json.audit_logs do
     json.remote_address audit_log.remote_address
   end
 end
-
-  
