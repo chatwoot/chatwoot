@@ -52,20 +52,27 @@
     </div>
     <div class="row">
       <div class="medium-12 columns">
-        <label :class="{ error: $v.phoneNumber.$error }">
+        <label
+          :class="{
+            error: isPhoneNumberNotValid,
+          }"
+        >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
-          <input
-            v-model.trim="phoneNumber"
-            type="text"
+          <woot-phone-input
+            v-model="phoneNumber"
+            :value="phoneNumber"
+            :error="isPhoneNumberNotValid"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-            @input="$v.phoneNumber.$touch"
+            @input="onPhoneNumberInputChange"
+            @blur="$v.phoneNumber.$touch"
+            @setCode="setPhoneCode"
           />
-          <span v-if="$v.phoneNumber.$error" class="message">
-            {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR') }}
+          <span v-if="isPhoneNumberNotValid" class="message">
+            {{ phoneNumberError }}
           </span>
         </label>
         <div
-          v-if="$v.phoneNumber.$error || !phoneNumber"
+          v-if="isPhoneNumberNotValid || !phoneNumber"
           class="callout small warning"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
@@ -145,8 +152,8 @@ import {
 } from 'shared/helpers/CustomErrors';
 import { required, email } from 'vuelidate/lib/validators';
 import countries from 'shared/constants/countries.js';
-
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import { isPhoneNumberValid } from 'shared/helpers/Validators';
+import parsePhoneNumber from 'libphonenumber-js';
 
 export default {
   mixins: [alertMixin],
@@ -172,6 +179,7 @@ export default {
       email: '',
       name: '',
       phoneNumber: '',
+      activeDialCode: '',
       avatarFile: null,
       avatarUrl: '',
       country: {
@@ -202,10 +210,42 @@ export default {
       email,
     },
     companyName: {},
-    phoneNumber: {
-      isPhoneE164OrEmpty,
-    },
+    phoneNumber: {},
     bio: {},
+  },
+  computed: {
+    parsePhoneNumber() {
+      return parsePhoneNumber(this.phoneNumber);
+    },
+    isPhoneNumberNotValid() {
+      if (this.phoneNumber !== '') {
+        return (
+          !isPhoneNumberValid(this.phoneNumber, this.activeDialCode) ||
+          (this.phoneNumber !== '' ? this.activeDialCode === '' : false)
+        );
+      }
+      return false;
+    },
+    phoneNumberError() {
+      if (this.activeDialCode === '') {
+        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DIAL_CODE_ERROR');
+      }
+      if (!isPhoneNumberValid(this.phoneNumber, this.activeDialCode)) {
+        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR');
+      }
+      return '';
+    },
+    setPhoneNumber() {
+      if (this.parsePhoneNumber && this.parsePhoneNumber.countryCallingCode) {
+        return this.phoneNumber;
+      }
+      if (this.phoneNumber === '' && this.activeDialCode !== '') {
+        return '';
+      }
+      return this.activeDialCode
+        ? `${this.activeDialCode}${this.phoneNumber}`
+        : '';
+    },
   },
   watch: {
     contact() {
@@ -214,6 +254,7 @@ export default {
   },
   mounted() {
     this.setContactObject();
+    this.setDialCode();
   },
   methods: {
     onCancel() {
@@ -226,6 +267,16 @@ export default {
       if (!id) return name;
       if (!name && !id) return '';
       return `${name} (${id})`;
+    },
+    setDialCode() {
+      if (
+        this.phoneNumber !== '' &&
+        this.parsePhoneNumber &&
+        this.parsePhoneNumber.countryCallingCode
+      ) {
+        const dialCode = this.parsePhoneNumber.countryCallingCode;
+        this.activeDialCode = `+${dialCode}`;
+      }
     },
     setContactObject() {
       const {
@@ -271,7 +322,7 @@ export default {
         id: this.contact.id,
         name: this.name,
         email: this.email,
-        phone_number: this.phoneNumber,
+        phone_number: this.setPhoneNumber,
         additional_attributes: {
           ...this.contact.additional_attributes,
           description: this.description,
@@ -292,10 +343,28 @@ export default {
       }
       return contactObject;
     },
+    onPhoneNumberInputChange(value, code) {
+      this.activeDialCode = code;
+    },
+    setPhoneCode(code) {
+      if (this.phoneNumber !== '' && this.parsePhoneNumber) {
+        const dialCode = this.parsePhoneNumber.countryCallingCode;
+        if (dialCode === code) {
+          return;
+        }
+        this.activeDialCode = `+${dialCode}`;
+        const newPhoneNumber = this.phoneNumber.replace(
+          `+${dialCode}`,
+          `${code}`
+        );
+        this.phoneNumber = newPhoneNumber;
+      } else {
+        this.activeDialCode = code;
+      }
+    },
     async handleSubmit() {
       this.$v.$touch();
-
-      if (this.$v.$invalid) {
+      if (this.$v.$invalid || this.isPhoneNumberNotValid) {
         return;
       }
       try {
@@ -332,6 +401,7 @@ export default {
         }
         this.avatarFile = null;
         this.avatarUrl = '';
+        this.activeDialCode = '';
       } catch (error) {
         this.showAlert(
           error.message
