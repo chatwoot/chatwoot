@@ -2,6 +2,7 @@ import {
   createConversationAPI,
   sendMessageAPI,
   getMessagesAPI,
+  sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
   toggleStatus,
@@ -68,7 +69,12 @@ export const actions = {
     });
     commit('pushMessageToConversation', tempMessage);
     try {
-      throw new Error('Testing Sentry errors in staging gor sendAttachment');
+      const { data } = await sendAttachmentAPI(params);
+      commit('updateAttachmentMessageStatus', {
+        message: data,
+        tempId: tempMessage.id,
+      });
+      commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
       captureSentryException(error);
       commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
