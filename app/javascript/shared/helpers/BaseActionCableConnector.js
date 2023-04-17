@@ -23,7 +23,12 @@ class BaseActionCableConnector {
           this.perform('update_presence');
         },
         received: this.onReceived,
-        disconnected: this.onDisconnected,
+        disconnected: () => {
+          BaseActionCableConnector.isDisconnected = true;
+          this.onDisconnected();
+          // TODO: Remove this after completing the conversation list refetching
+          window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
+        },
       }
     );
     this.app = app;
@@ -49,16 +54,9 @@ class BaseActionCableConnector {
     }
   }
 
-  onReconnect = () => {
-    this.events.reconnect();
-  };
+  onReconnect = () => {};
 
-  onDisconnected = () => {
-    BaseActionCableConnector.isDisconnected = true;
-    this.events.disconnected();
-    // TODO: Remove this after completing the conversation list refetching
-    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
-  };
+  onDisconnected = () => {};
 
   disconnect() {
     this.consumer.disconnect();
