@@ -20,9 +20,9 @@
               selected-label=""
               select-label=""
               deselect-label=""
-              :max-height="240"
+              :max-height="160"
               :close-on-select="true"
-              :options="inboxes"
+              :options="[...inboxes, ...inboxes]"
             >
               <template slot="singleLabel" slot-scope="{ option }">
                 <inbox-dropdown-item
@@ -159,7 +159,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
-import { isEmptyObject } from 'dashboard/helper/commons.js';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 
 export default {
