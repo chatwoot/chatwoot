@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiază",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes"
     },
     "SHOW_MORE_BLOCK": {

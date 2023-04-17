@@ -74,6 +74,11 @@
           "LABEL": "电子邮件地址",
           "PLACEHOLDER": "请输入客服的邮箱地址"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "有效的",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "编辑客服"
       },
       "BUTTON_TEXT": "编辑",

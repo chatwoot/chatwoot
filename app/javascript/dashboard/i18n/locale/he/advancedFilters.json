@@ -23,7 +23,7 @@
       "is_greater_than": "גדול מ",
       "is_less_than": "קטן מ",
       "days_before": "זה x ימים לפני",
-      "starts_with": "Starts with"
+      "starts_with": "מתחיל עם"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "נכון",
