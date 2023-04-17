@@ -11,7 +11,10 @@
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
     >
-      <h1 class="page-sub-title text-truncate" :title="pageTitle">
+      <h1
+        class="page-sub-title text-truncate margin-bottom-0"
+        :title="pageTitle"
+      >
         {{ pageTitle }}
       </h1>
 

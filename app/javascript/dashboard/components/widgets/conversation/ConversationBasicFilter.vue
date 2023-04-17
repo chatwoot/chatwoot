@@ -6,9 +6,9 @@
       size="tiny"
       color-scheme="secondary"
       class="selector-button"
+      icon="sort-icon"
       @click="toggleDropdown"
     >
-      <fluent-icon icon="sort-icon" class="icon" size="12" />
       <!-- {{ this.$t('CHAT_LIST.VIEW_FILTER') }} -->
     </woot-button>
     <div
@@ -88,10 +88,9 @@ export default {
 <style lang="scss" scoped>
 .basic-filter {
   width: 210px;
-  padding: 0;
   margin-top: var(--space-smaller);
   right: 0;
-  padding: var(--space-normal);
+  padding: var(--space-normal) var(--space-small);
   span {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
@@ -115,19 +114,5 @@ export default {
 }
 .dropdown-icon {
   margin-left: var(--space-smaller);
-}
-
-::v-deep {
-  .selector-button {
-    padding: var(--space-smaller) var(--space-smaller) var(--space-smaller)
-      var(--space-small);
-  }
-
-  .button__content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    white-space: nowrap;
-  }
 }
 </style>
