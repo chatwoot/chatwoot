@@ -22,6 +22,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
+import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
@@ -181,15 +182,14 @@ export default {
         this.replaceRoute('messages');
       });
       bus.$on('snooze-campaigns', () => {
-        const expireBy = new Date();
-        expireBy.setHours(expireBy.getHours() + 1);
-        this.campaignsSnoozedTill = +expireBy;
+        const expireBy = addHours(new Date(), 1);
+        this.campaignsSnoozedTill = Number(expireBy);
       });
     },
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
       const shouldSnoozeCampaign =
-        this.campaignsSnoozedTill && +this.campaignsSnoozedTill > Date.now();
+        this.campaignsSnoozedTill && this.campaignsSnoozedTill > Date.now();
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) &&
         !messageCount &&
@@ -332,7 +332,9 @@ export default {
       RNHelper.sendMessage(loadedEventConfig());
     },
     setCampaignReadData(snoozedTill) {
-      this.campaignsSnoozedTill = snoozedTill;
+      if (snoozedTill) {
+        this.campaignsSnoozedTill = Number(snoozedTill);
+      }
     },
   },
 };
