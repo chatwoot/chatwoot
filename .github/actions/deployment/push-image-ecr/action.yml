@@ -17,6 +17,10 @@ inputs:
     description: "Secret DSN key for Sentry"
     required: true
 
+  VUE_APP_VERSION: 
+    description: "Last release commit for Sentry"
+    required: true
+
   ECR_REGISTRY:
     description: "ECR Registry where the image is going to be pushed"
     required: true
@@ -28,10 +32,6 @@ inputs:
   DOCKERFILE_PATH:
     description: "Path where the Dockerfile is stored"
     required: true
-
-  SSM_VUE_APP_VERSION:
-    description: "SSM Parameter name for environment variable deploy commit hash"
-    required: false
 
 runs:
   using: 'composite'
@@ -53,12 +53,6 @@ runs:
           VUE_APP_SENTRY_DSN_CHAT: ${{ inputs.VUE_APP_SENTRY_DSN_CHAT }}
           VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
 
-    - name: Set Vue app version 
-      if: ${{ inputs.SSM_VUE_APP_VERSION != '' }}
-      shell: bash
-      run: 
-        aws ssm put-parameter --name ${{inputs.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD) --type "SecureString" --overwrite
-    
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
