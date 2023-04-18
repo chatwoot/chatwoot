@@ -74,6 +74,11 @@
           "LABEL": "E-mailová adresa",
           "PLACEHOLDER": "Zadajte e-mailovú adresu agenta"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostupnosť",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Upraviť agenta"
       },
       "BUTTON_TEXT": "Upraviť",
