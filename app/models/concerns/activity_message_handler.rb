@@ -6,20 +6,21 @@ module ActivityMessageHandler
   def create_activity
     user_name = Current.user.name if Current.user.present?
     status_change_activity(user_name) if saved_change_to_status?
+    priority_change_activity(user_name) if saved_change_to_priority?
     create_label_change(activity_message_ownner(user_name)) if saved_change_to_label_list?
   end
 
   def status_change_activity(user_name)
     content = if Current.executed_by.present?
-                automation_activity_content
+                automation_status_change_activity_content
               else
-                user_activity_content(user_name)
+                user_status_change_activity_content(user_name)
               end
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
-  def user_activity_content(user_name)
+  def user_status_change_activity_content(user_name)
     if user_name
       I18n.t("conversations.activity.status.#{status}", user_name: user_name)
     elsif Current.contact.present? && resolved?
@@ -29,7 +30,7 @@ module ActivityMessageHandler
     end
   end
 
-  def automation_activity_content
+  def automation_status_change_activity_content
     if Current.executed_by.instance_of?(AutomationRule)
       I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
     elsif Current.executed_by.instance_of?(Contact)
@@ -38,24 +39,47 @@ module ActivityMessageHandler
     end
   end
 
+  def priority_change_activity(user_name)
+    old_priority, new_priority = previous_changes.values_at('priority')
+    return unless old_priority.present? || new_priority.present?
+
+    change_type = get_priority_change_type(old_priority, new_priority)
+
+    user = if Current.executed_by.instance_of?(AutomationRule)
+             'Automation System'
+           else
+             user_name
+           end
+
+    content = I18n.t("conversations.activity.priority.#{change_type}", user_name: user, priority: new_priority, old_priority: old_priority)
+
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def get_priority_change_type(old_priority, new_priority)
+    case [old_priority.present?, new_priority.present?]
+    when [true, true] then 'updated'
+    when [false, true] then 'added'
+    when [true, false] then 'removed'
+    end
+  end
+
   def activity_message_params(content)
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
   def create_label_added(user_name, labels = [])
-    create_label_change('added', user_name, labels)
+    create_label_change_activity('added', user_name, labels)
   end
 
   def create_label_removed(user_name, labels = [])
-    create_label_change('removed', user_name, labels)
+    create_label_change_activity('removed', user_name, labels)
   end
 
-  def create_label_change(change_type, user_name, labels = [])
+  def create_label_change_activity(change_type, user_name, labels = [])
     return unless labels.size.positive?
 
-    params = { user_name: user_name, labels: labels.join(', ') }
-    content = I18n.t("conversations.activity.labels.#{change_type}", **params)
-
+    content = I18n.t("conversations.activity.labels.#{change_type}", { user_name: user_name, labels: labels.join(', ') })
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
@@ -70,9 +94,7 @@ module ActivityMessageHandler
   def create_mute_change_activity(change_type)
     return unless Current.user
 
-    params = { user_name: Current.user.name }
-    content = I18n.t("conversations.activity.#{change_type}", **params)
-
+    content = I18n.t("conversations.activity.#{change_type}", { user_name: Current.user.name })
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
