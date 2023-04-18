@@ -440,7 +440,7 @@
       "DISPLAY_FILE_PICKER": "Показувати вибір файлу на віджеті",
       "DISPLAY_EMOJI_PICKER": "Відображати емодзі на віджеті",
       "ALLOW_END_CONVERSATION": "Дозволити користувачам завершити розмову з віджета",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Вкажіть ім'я та аватар для бота"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт месенджера",
@@ -478,6 +478,8 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Оновити ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введіть тут новий ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Оновити",
+      "WHATSAPP_WEBHOOK_TITLE": "Токен перевірки вебхуків",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Цей токен використовується для перевірки аутентифікації кінцевої точки вебхука.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Оновити параметри форми чату"
     },
     "AUTO_ASSIGNMENT": {
