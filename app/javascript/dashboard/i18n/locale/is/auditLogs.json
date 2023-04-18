@@ -1,0 +1,24 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Aðgerðaskrá",
+    "HEADER_BTN_TXT": "Bæta við Aðgerðaskrá",
+    "LOADING": "Hleð Aðgerðaskrá",
+    "SEARCH_404": "Það eru engin atriði sem passa við þessa fyrirspurn",
+    "SIDEBAR_TXT": "<p><b>Aðgerðaskrá</b> </p><p> Aðgerðaskrá heldur utan um alla atburði og aðgerðir í Chatwoot. </p>",
+    "LIST": {
+      "404": "Það eru engar aðgerðaskrár tiltækar á þessum reikning.",
+      "TITLE": "Stjórna Aðgerðaskrám",
+      "DESC": "Aðgerðaskrár heldur utan um alla atburði og aðgerðir í Chatwoot.",
+      "TABLE_HEADER": [
+        "Notandi",
+        "Aðgerð",
+        "IP tala",
+        "Tími"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Aðgerðaskrá sótt",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+    }
+  }
+}
