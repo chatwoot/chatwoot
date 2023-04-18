@@ -164,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Копіювати",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Відкрити у CodePen",
       "COPY_SUCCESSFUL": "Код скопійований в буфер обміну"
     },
     "SHOW_MORE_BLOCK": {
@@ -203,6 +203,7 @@
     "HOME": "Головна",
     "AGENTS": "Агенти",
     "AGENT_BOTS": "Боти",
+    "AUDIT_LOGS": "Журнал аудиту",
     "INBOXES": "Вхідні",
     "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
