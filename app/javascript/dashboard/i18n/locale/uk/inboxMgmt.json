@@ -439,7 +439,8 @@
       "LABEL": "Особливості",
       "DISPLAY_FILE_PICKER": "Показувати вибір файлу на віджеті",
       "DISPLAY_EMOJI_PICKER": "Відображати емодзі на віджеті",
-      "ALLOW_END_CONVERSATION": "Дозволити користувачам завершити розмову з віджета"
+      "ALLOW_END_CONVERSATION": "Дозволити користувачам завершити розмову з віджета",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт месенджера",

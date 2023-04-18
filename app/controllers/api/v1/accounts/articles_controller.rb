@@ -1,14 +1,19 @@
 class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
   before_action :check_authorization
-  before_action :fetch_article, except: [:index, :create, :attach_file]
+  before_action :fetch_article, except: [:index, :create, :attach_file, :reorder]
   before_action :set_current_page, only: [:index]
 
   def index
     @portal_articles = @portal.articles
     @all_articles = @portal_articles.search(list_params)
     @articles_count = @all_articles.count
-    @articles = @all_articles.order_by_updated_at.page(@current_page)
+
+    @articles = if list_params[:category_slug].present?
+                  @all_articles.order_by_position.page(@current_page).per(50)
+                else
+                  @all_articles.order_by_updated_at.page(@current_page)
+                end
   end
 
   def create
@@ -41,6 +46,11 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     )
     file_blob.save!
     render json: { file_url: url_for(file_blob) }
+  end
+
+  def reorder
+    Article.update_positions(params[:positions_hash])
+    head :ok
   end
 
   private

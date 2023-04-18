@@ -81,8 +81,7 @@ id:
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: No. of conversations
+      timezone: Timezone
     default_group_by: day
     csat:
       headers:
@@ -113,6 +112,7 @@ id:
         pending: "Percakapan telah ditandai sebagai tertunda oleh %{user_name}"
         snoozed: "Percakapan telah ditunda oleh %{user_name}"
         auto_resolved: "Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{duration} hari"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} menetapkan sendiri percakapan ini"
         assigned: "Ditugaskan ke %{assignee_name} oleh %{user_name}"
@@ -138,7 +138,7 @@ id:
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Pesan baru pada percakapan ini"
       transcript_subject: "Transkrip Percakapan"
