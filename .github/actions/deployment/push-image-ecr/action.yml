@@ -40,6 +40,7 @@ runs:
       uses: actions/checkout@v3
     - name: Setup ENV
       run: touch .env
+      shell: bash
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
