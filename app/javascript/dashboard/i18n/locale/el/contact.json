@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Εισάγετε τον αριθμό τηλεφώνου της επαφής",
         "LABEL": "Αριθμός Τηλεφώνου",
-        "HELP": "Ο αριθμός τηλεφώνου πρέπει να έχει μορφή E.164 π.χ.: +14155555 [+][κωδικός χώρας][κωδικός περιοχής][αριθμός τοπικού τηλεφώνου]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Ο αριθμός τηλεφώνου πρέπει να είναι είτε άδειος είτε με μορφή E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται σε άλλη επαφή."
       },
       "LOCATION": {
