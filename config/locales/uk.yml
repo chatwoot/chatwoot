@@ -112,7 +112,7 @@ uk:
         pending: "Бесіда була позначена як очікується %{user_name}"
         snoozed: "Розмова була відкладена %{user_name}"
         auto_resolved: "Діалог був закритий системою через %{duration} днів неактивності"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: Система повторно відкрила розмову через нове вхідне повідомлення.
       assignee:
         self_assigned: "%{user_name} самостійно призначив цей діалог"
         assigned: "Призначено до %{assignee_name} користувачем %{user_name}"
