@@ -67,7 +67,7 @@
       },
       "CONFIRM": {
         "TITLE": "Confirmă ștergerea",
-        "MESSAGE": "Sigur doriți să ștergeți",
+        "MESSAGE": "Sigur doriți să ștergeți ",
         "YES": "Da, șterge ",
         "NO": "Nu, păstreaza "
       }
