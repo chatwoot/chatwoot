@@ -173,7 +173,7 @@ import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
-import wootConstants from '../constants';
+import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';

@@ -136,6 +136,7 @@ export const getConditionOptions = ({
     team_id: teams,
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
+    conversation_language: languages,
     country_code: countries,
     message_type: MESSAGE_CONDITION_VALUES,
   };

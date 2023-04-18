@@ -58,7 +58,7 @@ ru:
         name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
   reports:
     period: Отчётный период с %{since} по %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Отчёт создан в часовом поясе UTC
     agent_csv:
       agent_name: Имя оператора
       conversations_count: Количество бесед
@@ -81,8 +81,7 @@ ru:
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: No. of conversations
+      timezone: Часовой пояс
     default_group_by: день
     csat:
       headers:
@@ -113,6 +112,7 @@ ru:
         pending: "Разговор был помечен как ожидающий %{user_name}"
         snoozed: "Разговор был помечен как отложенный %{user_name}"
         auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} назначил(а) разговор себе"
         assigned: "%{user_name} назначил %{assignee_name} ответственным"
@@ -138,7 +138,7 @@ ru:
           reply_with_name: "%{assignee_name} от %{inbox_name} <%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} от %{inbox_name}"
+          reply_with_name: "%{assignee_name} из %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
@@ -165,7 +165,7 @@ ru:
       name: "Полная карточка контакта"
       description: "Интеграция с FullContact помогает получить всю информацию о профиле посетителей. Определяйте пользователей как только они поделится своим электронным адресом и предложите им индивидуальное обслуживание клиентов. Подключите ваш FullContact к своей учетной записи, поделившись API ключом FullContact."
     google_translate:
-      name: "Google Translate"
+      name: "Google Перевод"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
   public_portal:
     search:

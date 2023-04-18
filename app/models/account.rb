@@ -10,7 +10,6 @@
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
-#  settings_flags        :integer          default(0), not null
 #  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
@@ -31,10 +30,6 @@ class Account < ApplicationRecord
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
     check_for_column: false
-  }.freeze
-
-  ACCOUNT_SETTINGS_FLAGS = {
-    1 => :custom_email_domain_enabled
   }.freeze
 
   validates :name, presence: true
@@ -81,8 +76,6 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
-
-  has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }

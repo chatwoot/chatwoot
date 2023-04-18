@@ -1,126 +1,126 @@
 {
   "REPORT": {
     "HEADER": "שיחות",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "LOADING_CHART": "טוען נתוני תרשים...",
+    "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
+    "DOWNLOAD_AGENT_REPORTS": "הורד דוחות סוכן",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "הודעות נכנסות",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "הודעות יוצאות",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
+        "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "ספירת רזולוציות",
         "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 הימים האחרונים"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 הימים האחרונים"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 החודשים האחרונים"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 החודשים האחרונים"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "שנה שעברה"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "טווח תאריכים מותאם אישית"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "להגיש מועמדות",
+      "PLACEHOLDER": "בחר טווח תאריכים"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "קבוצה לפי",
+    "DURATION_FILTER_LABEL": "משך",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "יום"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "יום"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "שבוע"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "יום"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "שבוע"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "חודש"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "יום"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "שבוע"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "חודש"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "שנה"
       }
     ],
     "BUSINESS_HOURS": "שעות פעילות"
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "HEADER": "סקירה כללית של סוכנים",
+    "LOADING_CHART": "טוען נתוני תרשים...",
+    "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
+    "DOWNLOAD_AGENT_REPORTS": "הורד דוחות סוכן",
     "FILTER_DROPDOWN_LABEL": "בחר סוכן",
     "METRICS": {
       "CONVERSATIONS": {
@@ -128,133 +128,133 @@
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "הודעות נכנסות",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "הודעות יוצאות",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
+        "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "ספירת רזולוציות",
         "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 הימים האחרונים"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 הימים האחרונים"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 החודשים האחרונים"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 החודשים האחרונים"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "שנה שעברה"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "טווח תאריכים מותאם אישית"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "להגיש מועמדות",
+      "PLACEHOLDER": "בחר טווח תאריכים"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "סקירת תוויות",
+    "LOADING_CHART": "טוען נתוני תרשים...",
+    "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
+    "DOWNLOAD_LABEL_REPORTS": "הורד דוחות תווית",
+    "FILTER_DROPDOWN_LABEL": "בחר תווית",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "הודעות נכנסות",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "הודעות יוצאות",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
+        "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "ספירת רזולוציות",
         "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 הימים האחרונים"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 הימים האחרונים"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 החודשים האחרונים"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 החודשים האחרונים"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "שנה שעברה"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "טווח תאריכים מותאם אישית"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "להגיש מועמדות",
+      "PLACEHOLDER": "בחר טווח תאריכים"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "HEADER": "סקירה כללית של תיבת הדואר הנכנס",
+    "LOADING_CHART": "טוען נתוני תרשים...",
+    "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
+    "DOWNLOAD_INBOX_REPORTS": "הורד דוחות תיבת דואר נכנס",
     "FILTER_DROPDOWN_LABEL": "בחר תיבת דואר",
     "METRICS": {
       "CONVERSATIONS": {
@@ -262,201 +262,201 @@
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "הודעות נכנסות",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "הודעות יוצאות",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
+        "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "ספירת רזולוציות",
         "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 הימים האחרונים"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 הימים האחרונים"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 החודשים האחרונים"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 החודשים האחרונים"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "שנה שעברה"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "טווח תאריכים מותאם אישית"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "להגיש מועמדות",
+      "PLACEHOLDER": "בחר טווח תאריכים"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "סקירת צוות",
+    "LOADING_CHART": "טוען נתוני תרשים...",
+    "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
+    "DOWNLOAD_TEAM_REPORTS": "הורד דוחות צוות",
+    "FILTER_DROPDOWN_LABEL": "תבחר קבוצה",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
+        "NAME": "הודעות נכנסות",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
+        "NAME": "הודעות יוצאות",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
+        "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "ספירת רזולוציות",
         "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 הימים האחרונים"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 הימים האחרונים"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 החודשים האחרונים"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 החודשים האחרונים"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "שנה שעברה"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "טווח תאריכים מותאם אישית"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "להגיש מועמדות",
+      "PLACEHOLDER": "בחר טווח תאריכים"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "HEADER": "דוחות CSAT",
+    "NO_RECORDS": "אין תשובות לסקר CSAT זמינות.",
+    "DOWNLOAD": "הורד דוחות CSAT",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "בחר סוכנים"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "איש קשר",
+        "AGENT_NAME": "סוכן מוקצה",
         "RATING": "דירוג",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "הערת משוב"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "סה\"כ תגובות",
+        "TOOLTIP": "מספר כולל של תגובות שנאספו"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "ציון שביעות רצון",
+        "TOOLTIP": "מספר סה\"כ של תגובות חיוביות / סה\"כ מספר תגובות * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "שיעור תגובה",
+        "TOOLTIP": "מספר כולל של תגובות / מספר כולל של הודעות סקר CSAT שנשלחו * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "סקירה כללית",
+    "LIVE": "לחיות",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "שיחות פתוחות",
+      "LOADING_MESSAGE": "טוען מדדי שיחה...",
       "OPEN": "פתח",
-      "UNATTENDED": "Unattended",
+      "UNATTENDED": "ללא השגחה",
       "UNASSIGNED": "לא הוקצתה"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "תנועת שיחות",
+      "NO_CONVERSATIONS": "בלי שיחות",
+      "CONVERSATION": "שיחה %{count}",
+      "CONVERSATIONS": "%{count} שיחות"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "שיחות של סוכנים",
+      "LOADING_MESSAGE": "מדדי סוכן טעינה...",
+      "NO_AGENTS": "אין שיחות של סוכנים",
       "TABLE_HEADER": {
         "AGENT": "סוכן",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
+        "OPEN": "פתוח",
+        "UNATTENDED": "ללא השגחה",
         "STATUS": "מצב"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "סטטוס סוכן",
       "ONLINE": "מחובר",
       "BUSY": "עסוק",
       "OFFLINE": "לא מחובר"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "יום ראשון",
+    "MONDAY": "יום שני",
+    "TUESDAY": "יום שלישי",
+    "WEDNESDAY": "יום רביעי",
+    "THURSDAY": "יום חמישי",
+    "FRIDAY": "שישי",
+    "SATURDAY": "יום שבת"
   }
 }

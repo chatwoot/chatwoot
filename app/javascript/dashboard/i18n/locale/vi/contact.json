@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Nhập tên công ty",
         "LABEL": "Tên công ty"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Tên Nước",
+        "SELECT_PLACEHOLDER": "Chọn",
+        "REMOVE": "Xoá",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Nhập tên người dùng Facebook",

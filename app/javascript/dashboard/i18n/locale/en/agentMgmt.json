@@ -33,6 +33,7 @@
           "PLACEHOLDER": "Please select a role",
           "ERROR": "Role is required"
         },
+
         "EMAIL": {
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
@@ -73,6 +74,11 @@
         "EMAIL": {
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
         },
         "SUBMIT": "Edit Agent"
       },

@@ -32,7 +32,13 @@ module ActivityMessageHandler
   end
 
   def send_automation_activity
-    content = I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
+    content = if Current.executed_by.instance_of?(AutomationRule)
+                I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
+              elsif Current.executed_by.instance_of?(Contact)
+                Current.executed_by = nil
+                I18n.t('conversations.activity.status.system_auto_open')
+              end
+
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 

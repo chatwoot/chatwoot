@@ -9,11 +9,18 @@ describe Integrations::Slack::SendOnSlackService do
   let!(:message) do
     create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
   end
+  let!(:template_message) do
+    create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :template)
+  end
+
   let(:slack_message) { double }
   let(:file_attachment) { double }
   let(:slack_message_content) { double }
   let(:slack_client) { double }
   let(:builder) { described_class.new(message: message, hook: hook) }
+  let(:conversation_link) do
+    "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}|Click here> to view the conversation."
+  end
 
   before do
     allow(builder).to receive(:slack_client).and_return(slack_client)
@@ -29,10 +36,11 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{message.content}",
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n#{conversation_link}\n\n#{message.content}",
           username: "#{message.sender.name} (Contact)",
           thread_ts: nil,
-          icon_url: anything
+          icon_url: anything,
+          unfurl_links: false
         ).and_return(slack_message)
 
         builder.perform
@@ -54,10 +62,12 @@ describe Integrations::Slack::SendOnSlackService do
 
           expect(slack_client).to receive(:chat_postMessage).with(
             channel: hook.reference_id,
-            text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n*Subject:* Sample subject line\n\n\n#{message.content}",
+            text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n#{conversation_link}\n" \
+                  "*Subject:* Sample subject line\n\n\n#{message.content}",
             username: "#{message.sender.name} (Contact)",
             thread_ts: nil,
-            icon_url: anything
+            icon_url: anything,
+            unfurl_links: false
           ).and_return(slack_message)
 
           builder.perform
@@ -78,7 +88,8 @@ describe Integrations::Slack::SendOnSlackService do
           text: message.content,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
-          icon_url: anything
+          icon_url: anything,
+          unfurl_links: true
         ).and_return(slack_message)
 
         builder.perform
@@ -92,7 +103,8 @@ describe Integrations::Slack::SendOnSlackService do
           text: message.content,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
-          icon_url: anything
+          icon_url: anything,
+          unfurl_links: true
         ).and_return(slack_message)
 
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
@@ -116,13 +128,32 @@ describe Integrations::Slack::SendOnSlackService do
         expect(message.attachments).to be_any
       end
 
+      it 'sent a template message on slack' do
+        builder = described_class.new(message: template_message, hook: hook)
+        allow(builder).to receive(:slack_client).and_return(slack_client)
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: template_message.content,
+          username: "#{template_message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        builder.perform
+
+        expect(template_message.external_source_id_slack).to eq 'cw-origin-6789.12345'
+      end
+
       it 'disables hook on Slack AccountInactive error' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
           text: message.content,
           username: "#{message.sender.name} (Contact)",
           thread_ts: conversation.identifier,
-          icon_url: anything
+          icon_url: anything,
+          unfurl_links: true
         ).and_raise(Slack::Web::Api::Errors::AccountInactive.new('Account disconnected'))
 
         allow(hook).to receive(:authorization_error!)
@@ -141,10 +172,11 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
-          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n\n#{formatted_message_text}",
+          text: "\n*Inbox:* #{inbox.name} (#{inbox.inbox_type})\n#{conversation_link}\n\n#{formatted_message_text}",
           username: "#{message.sender.name} (Contact)",
           thread_ts: nil,
-          icon_url: anything
+          icon_url: anything,
+          unfurl_links: false
         ).and_return(slack_message)
 
         builder.perform
@@ -160,7 +192,8 @@ describe Integrations::Slack::SendOnSlackService do
           text: formatted_message_text,
           username: "#{message.sender.name} (Contact)",
           thread_ts: 'random_slack_thread_ts',
-          icon_url: anything
+          icon_url: anything,
+          unfurl_links: true
         ).and_return(slack_message)
 
         builder.perform

@@ -22,7 +22,8 @@
       "is_not_present": "Is not present",
       "is_greater_than": "Is greater than",
       "is_less_than": "Je menší než",
-      "days_before": "Is x days before"
+      "days_before": "Is x days before",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",

@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας",
         "LABEL": "Όνομα Εταιρείας"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Όνομα Χώρας",
+        "SELECT_PLACEHOLDER": "Επιλογή",
+        "REMOVE": "Διαγραφή",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Facebook",

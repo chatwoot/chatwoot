@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Αντιγραφή",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Ο κώδικας αντιγράφτηκε με επιτυχία στο πρόχειρο"
     },
     "SHOW_MORE_BLOCK": {

@@ -18,8 +18,9 @@ json.chatwoot_website_channel do
   json.out_of_office_message @web_widget.inbox.out_of_office_message
   json.utc_off_set ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset
 end
+# Remove the following defaults by June 2023 as it would be covered by the feature flags
 json.chatwoot_widget_defaults do
-  json.use_inbox_avatar_for_bot ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false))
+  json.use_inbox_avatar_for_bot @web_widget.use_inbox_avatar_for_bot
 end
 json.contact do
   json.pubsub_token @contact_inbox.pubsub_token
