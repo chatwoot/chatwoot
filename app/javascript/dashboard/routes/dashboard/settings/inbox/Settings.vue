@@ -258,26 +258,16 @@
             }}
           </p>
         </label>
-
-        <label class="medium-9 settings-item settings-item">
-          {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
-          <select v-model="selectedPortalSlug">
-            <option value="" selected disabled>{{
-              $t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER')
-            }}</option>
-            <option
-              v-for="portal in portals"
-              :key="portal.id"
-              :value="portal.slug"
-            >
-              {{ portal.name }}
+        <div class="medium-9 settings-item settings-item">
+          <label>
+            {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
+          </label>
+          <select v-model="selectedPortal" class="filter__question">
+            <option v-for="p in portal" :key="p.slug" :value="p.slug">
+              {{ p.name }}
             </option>
           </select>
-          <p class="help-text">
-            {{ $t('INBOX_MGMT.HELP_CENTER.DESCRIPTION') }}
-          </p>
-        </label>
-
+        </div>
         <label
           v-if="canLocktoSingleConversation"
           class="medium-9 columns settings-item"
