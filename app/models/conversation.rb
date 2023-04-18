@@ -11,6 +11,7 @@
 #  first_reply_created_at :datetime
 #  identifier             :string
 #  last_activity_at       :datetime         not null
+#  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  uuid                   :uuid             not null
@@ -61,6 +62,7 @@ class Conversation < ApplicationRecord
   validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
+  enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
