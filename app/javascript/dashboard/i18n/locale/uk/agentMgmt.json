@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Присутність",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Будь ласка, оберіть статус доступності",
+          "ERROR": "Потрібно вказати доступність"
         },
         "SUBMIT": "Редагувати агента"
       },
