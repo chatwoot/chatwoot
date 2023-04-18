@@ -19,6 +19,10 @@ class ActionService
     @conversation.update!(status: status[0])
   end
 
+  def change_priority(priority)
+    @conversation.update!(priority: priority[0].to_i)
+  end
+
   def add_label(labels)
     return if labels.empty?
 
