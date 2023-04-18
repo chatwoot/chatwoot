@@ -74,6 +74,11 @@
           "LABEL": "Netfang",
           "PLACEHOLDER": "Vinsamlegast skráið netfang þjónustufulltrúa"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Breyta þjónustufulltrúa"
       },
       "BUTTON_TEXT": "Breyta",

@@ -74,6 +74,11 @@
           "LABEL": "Sähköpostiosoite",
           "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan sähköpostiosoite"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Saatavuus",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Muokkaa edustajaa"
       },
       "BUTTON_TEXT": "Muokkaa",
