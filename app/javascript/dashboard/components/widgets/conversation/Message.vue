@@ -22,6 +22,7 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
+        <bubble-image v-if="hasInstagramStory" :url="storyUrl" />
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -277,6 +278,9 @@ export default {
     storyId() {
       return this.contentAttributes.story_id || null;
     },
+    storyUrl() {
+      return this.contentAttributes.story_url || null;
+    },
     contentType() {
       const {
         data: { content_type: contentType },
@@ -431,6 +435,9 @@ export default {
         const { attachments = [{}] } = this.data;
         const { file_type: fileType } = attachments[0];
         return fileType === type && !this.hasImageError;
+      }
+      if (this.hasInstagramStory) {
+        return true;
       }
       return false;
     },
