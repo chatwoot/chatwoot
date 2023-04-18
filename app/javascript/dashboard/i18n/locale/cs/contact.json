@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Zadejte telefonní číslo kontaktu",
         "LABEL": "Telefonní číslo",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Phone number should be either empty or of E.164 format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
