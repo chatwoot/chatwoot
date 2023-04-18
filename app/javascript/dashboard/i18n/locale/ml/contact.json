@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ ഫോൺ നമ്പർ നൽകുക",
         "LABEL": "ഫോൺ നമ്പർ",
-        "HELP": "ഫോൺ നമ്പർ E.164 ഫോർമാറ്റ് ആയിരിക്കണം ഉദാ: +1415555555 [+][രാജ്യ കോഡ്][ഏരിയ കോഡ്][പ്രാദേശിക ഫോൺ നമ്പർ]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "ഫോൺ നമ്പർ ശൂന്യമോ E.164 ഫോർമാറ്റിലുള്ളതോ ആയിരിക്കണം",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "ഈ ഫോൺ നമ്പർ മറ്റൊരു കോൺടാക്റ്റിനായി ഉപയോഗിക്കുന്നു."
       },
       "LOCATION": {
