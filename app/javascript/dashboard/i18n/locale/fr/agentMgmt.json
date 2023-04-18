@@ -74,6 +74,11 @@
           "LABEL": "Adresse de courriel",
           "PLACEHOLDER": "Veuillez entrer l'adresse de courriel de l'agent"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Disponibilité",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Modifier l'agent"
       },
       "BUTTON_TEXT": "Modifier",

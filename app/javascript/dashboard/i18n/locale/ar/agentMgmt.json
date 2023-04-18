@@ -74,6 +74,11 @@
           "LABEL": "عنوان البريد الإلكتروني",
           "PLACEHOLDER": "الرجاء إدخال عنوان البريد الإلكتروني للموظف"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "التوفر",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "تعديل حساب الموظف"
       },
       "BUTTON_TEXT": "تعديل",
