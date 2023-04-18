@@ -11,5 +11,16 @@ describe ::ActionService do
       expect(conversation.reload.status).to eq('resolved')
     end
   end
+
+  describe '#change_priority' do
+    let(:conversation) { create(:conversation) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'changes the priority of the conversation' do
+      action_service.change_priority(['1'])
+      expect(conversation.reload.priority).to eq('medium')
+    end
+  end
+
   # TODO: Expand this test suite
 end
