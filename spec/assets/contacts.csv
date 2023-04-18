@@ -1,5 +1,5 @@
-id,first_name,last_name,email,gender,ip_address,identifier,phone_number
-1,Clarice,Uzzell,cuzzell0@mozilla.org,Genderfluid,70.61.11.201,bb4e11cd-0f23-49da-a123-dcc1fec6852c,+918080808080
+id,first_name,last_name,email,gender,ip_address,identifier,phone_number,company
+1,Clarice,Uzzell,cuzzell0@mozilla.org,Genderfluid,70.61.11.201,bb4e11cd-0f23-49da-a123-dcc1fec6852c,+918080808080,My Company Name
 2,Marieann,Creegan,mcreegan1@cornell.edu,Genderfluid,168.186.4.241,e60bab4c-9fbb-47eb-8f75-42025b789c47,+918080808081
 3,Nancey,Windibank,nwindibank2@bluehost.com,Agender,73.44.41.59,f793e813-4210-4bf3-a812-711418de25d2,+918080808082
 4,Sibel,Stennine,sstennine3@yellowbook.com,Genderqueer,115.249.27.155,d6e35a2d-d093-4437-a577-7df76316b937,+918080808083
