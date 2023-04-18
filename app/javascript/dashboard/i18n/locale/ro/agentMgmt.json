@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Disponibilitate",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Vă rugăm să selectați o stare de disponibilitate",
+          "ERROR": "Disponibilitatea este necesară"
         },
         "SUBMIT": "Editează agent"
       },
