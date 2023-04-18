@@ -57,7 +57,7 @@ describe ::V2::ReportBuilder do
           metric: 'conversations_count',
           type: :account,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -72,7 +72,7 @@ describe ::V2::ReportBuilder do
           metric: 'incoming_messages_count',
           type: :account,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -87,7 +87,7 @@ describe ::V2::ReportBuilder do
           metric: 'outgoing_messages_count',
           type: :account,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -102,7 +102,7 @@ describe ::V2::ReportBuilder do
           metric: 'resolutions_count',
           type: :account,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         conversations = account.conversations.where('created_at < ?', 1.day.ago)
@@ -119,7 +119,7 @@ describe ::V2::ReportBuilder do
           metric: 'avg_first_response_time',
           type: :account,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -132,7 +132,7 @@ describe ::V2::ReportBuilder do
         params = {
           type: :account,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -149,7 +149,7 @@ describe ::V2::ReportBuilder do
         params = {
           type: :account,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s,
           group_by: 'test'.to_s
         }
 
@@ -165,7 +165,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -231,7 +231,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -244,7 +244,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -262,7 +262,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s,
           group_by: 'week'.to_s
         }
 
@@ -281,7 +281,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.to_time.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s,
           group_by: 'test'.to_s
         }
 
