@@ -10,36 +10,36 @@ module ActivityMessageHandler
   end
 
   def status_change_activity(user_name)
-    return send_automation_activity if Current.executed_by.present?
+    content = if Current.executed_by.present?
+                automation_activity_content
+              else
+                user_activity_content(user_name)
+              end
 
-    create_status_change_message(user_name)
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def user_activity_content(user_name)
+    if user_name
+      I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+    elsif Current.contact.present? && resolved?
+      I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
+    elsif resolved?
+      I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
+    end
+  end
+
+  def automation_activity_content
+    if Current.executed_by.instance_of?(AutomationRule)
+      I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
+    elsif Current.executed_by.instance_of?(Contact)
+      Current.executed_by = nil
+      I18n.t('conversations.activity.status.system_auto_open')
+    end
   end
 
   def activity_message_params(content)
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
-  end
-
-  def create_status_change_message(user_name)
-    content = if user_name
-                I18n.t("conversations.activity.status.#{status}", user_name: user_name)
-              elsif Current.contact.present? && resolved?
-                I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
-              elsif resolved?
-                I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
-              end
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
-  def send_automation_activity
-    content = if Current.executed_by.instance_of?(AutomationRule)
-                I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
-              elsif Current.executed_by.instance_of?(Contact)
-                Current.executed_by = nil
-                I18n.t('conversations.activity.status.system_auto_open')
-              end
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_label_added(user_name, labels = [])
