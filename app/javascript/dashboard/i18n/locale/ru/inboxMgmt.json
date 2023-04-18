@@ -439,7 +439,8 @@
       "LABEL": "Возможности",
       "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
       "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете",
-      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета"
+      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт",

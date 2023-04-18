@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "คัดลอก",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "คัดลอกไปยังคลิปบอร์ดเเล้ว"
     },
     "SHOW_MORE_BLOCK": {

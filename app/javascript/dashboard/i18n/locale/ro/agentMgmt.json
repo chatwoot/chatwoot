@@ -74,6 +74,11 @@
           "LABEL": "Adresa Email",
           "PLACEHOLDER": "Vă rugăm să introduceți o adresă de e-mail a agentului"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Disponibilitate",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Editează agent"
       },
       "BUTTON_TEXT": "Editare",

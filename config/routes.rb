@@ -196,6 +196,7 @@ Rails.application.routes.draw do
             resources :categories
             resources :articles do
               post :attach_file, on: :collection
+              post :reorder, on: :collection
             end
           end
         end

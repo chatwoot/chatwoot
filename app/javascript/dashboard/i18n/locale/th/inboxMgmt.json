@@ -439,7 +439,8 @@
       "LABEL": "ฟีเจอร์",
       "DISPLAY_FILE_PICKER": "แสดงตัวเลือกไฟล์ใน widget",
       "DISPLAY_EMOJI_PICKER": "แสดงตัวเลือกอีโมจิใน widget",
-      "ALLOW_END_CONVERSATION": "อนุญาตให้ลูกค้าปิดการสนทนาจาก widget"
+      "ALLOW_END_CONVERSATION": "อนุญาตให้ลูกค้าปิดการสนทนาจาก widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",

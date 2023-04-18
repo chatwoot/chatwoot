@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Salin",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Kode berhasil disalin ke clipboard"
     },
     "SHOW_MORE_BLOCK": {

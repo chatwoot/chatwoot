@@ -439,7 +439,8 @@
       "LABEL": "Lehetőségek",
       "DISPLAY_FILE_PICKER": "File választó megjelenítése a widgeten",
       "DISPLAY_EMOJI_PICKER": "Emoji választó megjelenítése a widgeten",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger szkript",

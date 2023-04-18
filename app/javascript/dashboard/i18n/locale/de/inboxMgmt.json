@@ -439,7 +439,8 @@
       "LABEL": "Funktionen",
       "DISPLAY_FILE_PICKER": "Dateiauswahl im Widget anzeigen",
       "DISPLAY_EMOJI_PICKER": "Emoji-Auswahl im Widget anzeigen",
-      "ALLOW_END_CONVERSATION": "Benutzern erlauben, die Konversation vom Widget zu beenden"
+      "ALLOW_END_CONVERSATION": "Benutzern erlauben, die Konversation vom Widget zu beenden",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger-Skript",
