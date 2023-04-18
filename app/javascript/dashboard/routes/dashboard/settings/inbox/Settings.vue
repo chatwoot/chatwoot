@@ -259,24 +259,24 @@
           </p>
         </label>
 
-        <div class="medium-9 settings-item settings-item">
-          <label>
-            {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
-          </label>
-          <multiselect
-            v-model="selectedPortal"
-            track-by="id"
-            label="name"
-            :placeholder="$t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER')"
-            selected-label
-            :select-label="$t('INBOX_MGMT.HELP_CENTER.SELECT_PLACEHOLDER')"
-            :deselect-label="$t('INBOX_MGMT.HELP_CENTER.REMOVE')"
-            :max-height="160"
-            :options="portal"
-            :allow-empty="true"
-            :option-height="104"
-          />
-        </div>
+        <label class="medium-9 settings-item settings-item">
+          {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
+          <select v-model="selectedPortalSlug">
+            <option value="" selected disabled>{{
+              $t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER')
+            }}</option>
+            <option
+              v-for="portal in portals"
+              :key="portal.id"
+              :value="portal.slug"
+            >
+              {{ portal.name }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.HELP_CENTER.DESCRIPTION') }}
+          </p>
+        </label>
 
         <label
           v-if="canLocktoSingleConversation"
@@ -444,7 +444,6 @@ export default {
       selectedFeatureFlags: [],
       replyTime: '',
       selectedTabIndex: 0,
-      selectedPortal: {},
       selectedPortalSlug: '',
     };
   },
@@ -453,7 +452,7 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'inboxes/getUIFlags',
-      portal: 'portals/allPortals',
+      portals: 'portals/allPortals',
     }),
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
@@ -634,10 +633,9 @@ export default {
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
-        this.selectedPortal =
-          (this.portal &&
-            this.portal.find(p => p.slug === this.inbox.help_center.slug)) ||
-          null;
+        this.selectedPortalSlug = this.inbox.help_center
+          ? this.inbox.help_center.slug
+          : '';
       });
     },
     async updateInbox() {
@@ -650,7 +648,11 @@ export default {
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
-          portal_id: this.selectedPortal ? this.selectedPortal.id : null,
+          portal_id: this.selectedPortalSlug
+            ? this.portals.find(
+                portal => portal.slug === this.selectedPortalSlug
+              ).id
+            : null,
           lock_to_single_conversation: this.locktoSingleConversation,
           channel: {
             widget_color: this.inbox.widget_color,
