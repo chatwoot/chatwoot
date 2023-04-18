@@ -39,8 +39,8 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Setup ENV
-      run: touch .env
       shell: bash
+      run: touch .env
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -50,9 +50,9 @@ runs:
         aws-region: us-east-1
 
     - name: Sentry SetUp
-        env:
-          VUE_APP_SENTRY_DSN_CHAT: ${{ inputs.VUE_APP_SENTRY_DSN_CHAT }}
-          VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
+      env:
+        VUE_APP_SENTRY_DSN_CHAT: ${{ inputs.VUE_APP_SENTRY_DSN_CHAT }}
+        VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
 
     - name: Login to Amazon ECR
       id: login-ecr
