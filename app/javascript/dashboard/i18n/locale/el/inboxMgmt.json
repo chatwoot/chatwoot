@@ -439,7 +439,8 @@
       "LABEL": "Χαρακτηριστικά",
       "DISPLAY_FILE_PICKER": "Να εμφανίζεται η επιλογή αρχείου στο widget",
       "DISPLAY_EMOJI_PICKER": "Να εμφανίζεται ο επιλογές emoji στο widget",
-      "ALLOW_END_CONVERSATION": "Επιτρέψτε στους χρήστες να τερματίσουν τη συνομιλία από το widget"
+      "ALLOW_END_CONVERSATION": "Επιτρέψτε στους χρήστες να τερματίσουν τη συνομιλία από το widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Κώδικας (Script)",

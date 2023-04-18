@@ -196,6 +196,7 @@ Rails.application.routes.draw do
             resources :categories
             resources :articles do
               post :attach_file, on: :collection
+              post :reorder, on: :collection
             end
           end
         end
@@ -387,7 +388,7 @@ Rails.application.routes.draw do
       resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
-      resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
+      resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy]

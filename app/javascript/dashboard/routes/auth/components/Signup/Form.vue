@@ -82,7 +82,7 @@ import Auth from '../../../../api/auth';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import { DEFAULT_REDIRECT_URL } from '../../../../constants';
+import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import AuthInput from '../AuthInput.vue';
 import AuthSubmitButton from '../AuthSubmitButton.vue';

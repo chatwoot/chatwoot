@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "کپی",
+      "CODEPEN": "در CodePen باز کنید",
       "COPY_SUCCESSFUL": "کد به حافظه کپی شد"
     },
     "SHOW_MORE_BLOCK": {

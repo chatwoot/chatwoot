@@ -69,7 +69,7 @@
 <script>
 import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
-import wootConstants from 'dashboard/constants.js';
+import wootConstants from 'dashboard/constants/globals';
 import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin';
 import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';

@@ -81,8 +81,7 @@ pl:
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: Ilość rozmów
+      timezone: Timezone
     default_group_by: dnia
     csat:
       headers:
@@ -113,6 +112,7 @@ pl:
         pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
         snoozed: "Rozmowa została uśpiona przez %{user_name}"
         auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} przypisał się do tej rozmowy"
         assigned: "Przypisane do %{assignee_name} przez %{user_name}"
@@ -138,7 +138,7 @@ pl:
           reply_with_name: "%{assignee_name} z %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} z %{inbox_name}"
+          reply_with_name: "%{assignee_name} z %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nowe wiadomości w tej dyskusji"
       transcript_subject: "Transkrypcja rozmowy"
