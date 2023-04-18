@@ -478,6 +478,8 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Обновить ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введите сюда новый ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Обновить",
+      "WHATSAPP_WEBHOOK_TITLE": "Вебхук верифицировать токен",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
