@@ -203,6 +203,7 @@
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
     "AGENT_BOTS": "บอท",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "กล่องข้อความ",
     "NOTIFICATIONS": "การแจ้งเตือน",
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
