@@ -64,6 +64,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     assign_conversation if @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.agent?
   end
 
+  def toggle_priority
+    @conversation.toggle_priority(params[:priority])
+  end
+
   def toggle_typing_status
     case params[:typing_status]
     when 'on'
