@@ -43,37 +43,35 @@ module ActivityMessageHandler
   end
 
   def create_label_added(user_name, labels = [])
-    return unless labels.size.positive?
-
-    params = { user_name: user_name, labels: labels.join(', ') }
-    content = I18n.t('conversations.activity.labels.added', **params)
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    create_label_change('added', user_name, labels)
   end
 
   def create_label_removed(user_name, labels = [])
+    create_label_change('removed', user_name, labels)
+  end
+
+  def create_label_change(change_type, user_name, labels = [])
     return unless labels.size.positive?
 
     params = { user_name: user_name, labels: labels.join(', ') }
-    content = I18n.t('conversations.activity.labels.removed', **params)
+    content = I18n.t("conversations.activity.labels.#{change_type}", **params)
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_muted_message
-    return unless Current.user
-
-    params = { user_name: Current.user.name }
-    content = I18n.t('conversations.activity.muted', **params)
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    create_mute_change_activity('muted')
   end
 
   def create_unmuted_message
+    create_mute_change_activity('unmuted')
+  end
+
+  def create_mute_change_activity(change_type)
     return unless Current.user
 
     params = { user_name: Current.user.name }
-    content = I18n.t('conversations.activity.unmuted', **params)
+    content = I18n.t("conversations.activity.#{change_type}", **params)
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
