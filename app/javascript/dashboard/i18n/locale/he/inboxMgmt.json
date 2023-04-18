@@ -478,6 +478,8 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "עדכון מפתח API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "הזן את מפתח ה-API החדש כאן",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "עדכן",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "עדכון הגדרות טופס טרום צ'אט"
     },
     "AUTO_ASSIGNMENT": {
