@@ -16,21 +16,25 @@ const MESSAGE_CONDITION_VALUES = [
   },
 ];
 
-const PRIORITY_CONDITION_VALUES = [
+export const PRIORITY_CONDITION_VALUES = [
   {
-    id: '0',
+    id: 'nil',
+    name: 'None',
+  },
+  {
+    id: 'low',
     name: 'Low',
   },
   {
-    id: '1',
+    id: 'medium',
     name: 'Medium',
   },
   {
-    id: '2',
+    id: 'high',
     name: 'High',
   },
   {
-    id: '3',
+    id: 'urgent',
     name: 'Urgent',
   },
 ];

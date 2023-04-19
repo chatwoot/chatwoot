@@ -20,7 +20,7 @@ class ActionService
   end
 
   def change_priority(priority)
-    @conversation.update!(priority: priority[0].to_i)
+    @conversation.update!(priority: (priority[0] == 'nil' ? nil : priority[0]))
   end
 
   def add_label(labels)
