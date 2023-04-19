@@ -41,7 +41,7 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
       job.perform_now(params)
     end
 
-    it 'will not enqueue message jobs based on phone number URL if the entry payload is not present' do
+    it 'will not enqueue message jobs based on phone number in the URL if the entry payload is not present' do
       params = {
         object: 'whatsapp_business_account',
         phone_number: channel.phone_number,
