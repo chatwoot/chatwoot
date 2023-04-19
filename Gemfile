@@ -129,7 +129,10 @@ gem 'procore-sift'
 
 # parse email
 gem 'email_reply_trimmer'
-gem 'html2text'
+
+# TODO: we might have to fork this gem since 0.3.1 has hard depency on nokogir 1.10.
+# and this gem hasn't been updated for a while.
+gem 'html2text',  git:'https://github.com/happy-co/html2text_ruby', branch: 'bump-nokogiri-version'
 
 # to calculate working hours
 gem 'working_hours'
@@ -143,12 +146,6 @@ gem 'stripe'
 ## - helper gems --##
 ## to populate db with sample data
 gem 'faker'
-
-# Can remove this in rails 7
-gem 'net-imap', require: false
-gem 'net-pop', require: false
-gem 'net-smtp', require: false
-gem 'net-ftp', require: false
 
 # Include logrange conditionally in intializer using env variable
 gem 'lograge', '~> 0.12.0', require: false

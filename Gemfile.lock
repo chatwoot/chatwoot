@@ -7,6 +7,14 @@ GIT
       devise (>= 4.0.0, < 5.0.0)
       railties (>= 5.0.0, < 8.0.0)
 
+GIT
+  remote: https://github.com/happy-co/html2text_ruby
+  revision: d98279ed9e8c3b110fa8b43dc3f1f9042daeb95e
+  branch: bump-nokogiri-version
+  specs:
+    html2text (0.3.1)
+      nokogiri (>= 1.13.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -346,8 +354,6 @@ GEM
     hashdiff (1.0.1)
     hashie (5.0.0)
     hkdf (1.0.0)
-    html2text (0.3.1)
-      nokogiri (~> 1.10.3)
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -445,7 +451,7 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.4.0)
+    mini_portile2 (2.8.1)
     minitest (5.18.0)
     mock_redis (0.36.0)
       ruby2_keywords
@@ -453,9 +459,6 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
-    net-ftp (0.2.0)
-      net-protocol
-      time
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-imap (0.3.4)
@@ -473,8 +476,15 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.5.9)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.14.3)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+    nokogiri (1.14.3-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.14.3-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.14.3-x86_64-linux)
+      racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
       snaky_hash (~> 2.0)
@@ -526,6 +536,7 @@ GEM
     pundit (2.3.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
+    racc (1.6.2)
     rack (2.2.6.4)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
@@ -661,13 +672,13 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.8.0)
+    sentry-rails (5.9.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.8.0)
-    sentry-ruby (5.8.0)
+      sentry-ruby (~> 5.9.0)
+    sentry-ruby (5.9.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.8.0)
-      sentry-ruby (~> 5.8.0)
+    sentry-sidekiq (5.9.0)
+      sentry-ruby (~> 5.9.0)
       sidekiq (>= 3.0)
     sexp_processor (4.16.1)
     shoulda-matchers (5.3.0)
@@ -719,8 +730,6 @@ GEM
     test-prof (1.2.1)
     thor (1.2.1)
     tilt (2.1.0)
-    time (0.2.2)
-      date
     time_diff (0.3.0)
       activesupport
       i18n
@@ -832,7 +841,7 @@ DEPENDENCIES
   haikunator
   hairtrigger
   hashie
-  html2text
+  html2text!
   image_processing
   jbuilder
   json_refs
@@ -847,10 +856,6 @@ DEPENDENCIES
   lograge (~> 0.12.0)
   maxminddb
   mock_redis
-  net-ftp
-  net-imap
-  net-pop
-  net-smtp
   newrelic-sidekiq-metrics
   newrelic_rpm
   omniauth
