@@ -23,7 +23,7 @@
         :show-badge="false"
       />
     </woot-tabs>
-    <div v-if="!activeIndex" class="messages-and-sidebar">
+    <div v-show="!activeIndex" class="messages-and-sidebar">
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
@@ -41,9 +41,11 @@
       </div>
     </div>
     <dashboard-app-frame
-      v-else
-      :key="currentChat.id + '-' + activeIndex"
-      :config="dashboardApps[activeIndex - 1].content"
+      v-for="(dashboardApp, index) in dashboardApps"
+      v-show="activeIndex - 1 === index"
+      :key="currentChat.id + '-' + dashboardApp.id"
+      :is-visible="activeIndex - 1 === index"
+      :config="dashboardApps[index].content"
       :current-chat="currentChat"
     />
   </div>
@@ -112,6 +114,7 @@ export default {
     },
     'currentChat.id'() {
       this.fetchLabels();
+      this.activeIndex = 0;
     },
   },
   mounted() {
