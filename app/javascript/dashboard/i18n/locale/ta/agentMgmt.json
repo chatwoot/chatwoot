@@ -74,6 +74,11 @@
           "LABEL": "ஈ-மெயில் முகவரி",
           "PLACEHOLDER": "ஏஜெண்டின் ஈ-மெயில் முகவரியை உள்ளிடவும்"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "ஏஜெண்டில் திருத்து"
       },
       "BUTTON_TEXT": "திருத்து",

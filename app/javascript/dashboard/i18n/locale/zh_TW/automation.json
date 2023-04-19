@@ -21,7 +21,7 @@
         },
         "EVENT": {
           "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
+          "PLACEHOLDER": "請選擇其中一個",
           "ERROR": "Event is required"
         },
         "CONDITIONS": {

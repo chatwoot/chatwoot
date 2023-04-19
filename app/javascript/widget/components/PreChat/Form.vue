@@ -63,20 +63,17 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
+import configMixin from 'widget/mixins/configMixin';
 export default {
   components: {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin, messageFormatterMixin],
+  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
   props: {
     options: {
       type: Object,
       default: () => {},
-    },
-    disableContactFields: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
@@ -105,16 +102,19 @@ export default {
       return !isEmptyObject(this.activeCampaign);
     },
     shouldShowHeaderMessage() {
-      return this.hasActiveCampaign || this.options.preChatMessage;
+      return this.hasActiveCampaign || this.preChatFormEnabled;
     },
     headerMessage() {
+      if (this.preChatFormEnabled) {
+        return this.options.preChatMessage;
+      }
       if (this.hasActiveCampaign) {
         return this.$t('PRE_CHAT_FORM.CAMPAIGN_HEADER');
       }
-      return this.options.preChatMessage;
+      return '';
     },
     preChatFields() {
-      return this.disableContactFields ? [] : this.options.preChatFields;
+      return this.preChatFormEnabled ? this.options.preChatFields : [];
     },
     filteredPreChatFields() {
       const isUserEmailAvailable = !!this.currentUser.email;

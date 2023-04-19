@@ -2,28 +2,28 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "新增篩選條件",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "你必須有至少一個篩選條件才能儲存",
         "SUBMIT_BUTTON_LABEL": "送出",
         "CANCEL_BUTTON_LABEL": "取消",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "CLEAR_BUTTON_LABEL": "清除篩選條件",
+        "EMPTY_VALUE_ERROR": "此欄位為必填項目",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "且",
+            "OR": "或"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
+            "equal_to": "等於",
+            "not_equal_to": "不等於",
+            "contains": "包含",
+            "does_not_contain": "不包含",
+            "is_present": "存在",
+            "is_not_present": "不存在",
+            "is_greater_than": "大於",
             "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "days_before": "x 天前"
         },
         "ATTRIBUTES": {
             "NAME": "姓名",
@@ -32,18 +32,18 @@
             "IDENTIFIER": "Identifier",
             "CITY": "城市",
             "COUNTRY": "國家",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
+            "CUSTOM_ATTRIBUTE_LIST": "列表",
+            "CUSTOM_ATTRIBUTE_TEXT": "文字",
+            "CUSTOM_ATTRIBUTE_NUMBER": "數字",
+            "CUSTOM_ATTRIBUTE_LINK": "連結",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "勾選框",
+            "CREATED_AT": "建立於",
             "LAST_ACTIVITY": "最後活動",
             "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "一般篩選條件",
+            "ADDITIONAL_FILTERS": "進階篩選條件",
             "CUSTOM_ATTRIBUTES": "自訂屬性"
         }
     }

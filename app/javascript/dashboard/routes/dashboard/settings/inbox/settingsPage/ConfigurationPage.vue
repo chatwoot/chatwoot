@@ -21,7 +21,12 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
       >
-        <woot-code :script="inbox.web_widget_script" />
+        <woot-code
+          :script="inbox.web_widget_script"
+          lang="html"
+          :codepen-title="`${inbox.name} - Chatwoot Widget Test`"
+          :enable-code-pen="true"
+        />
       </settings-section>
 
       <settings-section
@@ -97,6 +102,12 @@
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="settings--content">
+      <settings-section
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
+        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"
+      >
+        <woot-code :script="inbox.provider_config.webhook_verify_token" />
+      </settings-section>
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')"

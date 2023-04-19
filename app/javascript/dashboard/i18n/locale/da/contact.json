@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Indtast virksomhedens navn",
         "LABEL": "Virksomhedens Navn"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Land Navn",
+        "SELECT_PLACEHOLDER": "Vælg",
+        "REMOVE": "Fjern",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Indtast Facebook brugernavn",

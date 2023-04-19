@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "תבניות וואטסאפ",
+            "SUBTITLE": "בחר את תבנית הווטסאפ שברצונך לשלוח",
+            "TEMPLATE_SELECTED_SUBTITLE": "עיבוד %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "חפש תבניות",
+            "NO_TEMPLATES_FOUND": "לא נמצאו תבניות עבור",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "שפה",
+                "TEMPLATE_BODY": "גוף התבנית",
+                "CATEGORY": "קטגוריה"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "משתנים",
+            "VARIABLE_PLACEHOLDER": "הזן ערך %{variable}",
+            "GO_BACK_LABEL": "חזור",
+            "SEND_MESSAGE_LABEL": "לשלוח הודעה",
+            "FORM_ERROR_MESSAGE": "נא למלא את כל המשתנים לפני השליחה"
         }
     }
 }

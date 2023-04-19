@@ -21,6 +21,7 @@ pt_BR:
   messages:
     reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
+    inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
   errors:
     validations:
       presence: não pode ficar em branco
@@ -57,6 +58,7 @@ pt_BR:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
   reports:
     period: Reportando o período %{since} a %{until}
+    utc_warning: O relatório gerado está em fuso horário UTC
     agent_csv:
       agent_name: Nome do Agente
       conversations_count: Contagem de conversas
@@ -78,6 +80,8 @@ pt_BR:
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: dia
     csat:
       headers:
@@ -108,6 +112,7 @@ pt_BR:
         pending: "Conversa foi marcada como pendente por %{user_name}"
         snoozed: "Conversa não atribuída por %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
+        system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
@@ -133,7 +138,7 @@ pt_BR:
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} de %{inbox_name}"
+          reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"

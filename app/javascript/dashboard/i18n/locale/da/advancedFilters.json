@@ -22,7 +22,8 @@
       "is_not_present": "Er ikke til stede",
       "is_greater_than": "Er større end",
       "is_less_than": "Er mindre end",
-      "days_before": "Er x dage før"
+      "days_before": "Er x dage før",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Sandt",

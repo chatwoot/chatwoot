@@ -11,13 +11,13 @@
       "CONVERSATIONS": "שיחות",
       "MESSAGES": "הודעות"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "EMPTY_STATE": "לא נמצא %{item} עבור השאילתה '%{query}'",
+    "EMPTY_STATE_FULL": "לא נמצאו תוצאות עבור השאילתה '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ להתמקד",
+    "INPUT_PLACEHOLDER": "חפש הודעות, אנשי קשר או שיחות",
+    "EMPTY_STATE_DEFAULT": "חפש לפי מזהה שיחה, אימייל, מספר טלפון, הודעות לתוצאות חיפוש טובות יותר.",
     "BOT_LABEL": "בוט",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "קרא עוד",
+    "WROTE": "נכתב:"
   }
 }

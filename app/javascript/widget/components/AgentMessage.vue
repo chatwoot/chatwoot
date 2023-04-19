@@ -119,13 +119,15 @@ export default {
       return type;
     },
     agentName() {
-      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return 'Bot';
-      }
       if (this.message.sender) {
         return this.message.sender.available_name || this.message.sender.name;
       }
-      return 'Bot';
+
+      if (this.useInboxAvatarForBot) {
+        return this.channelConfig.websiteName;
+      }
+
+      return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
       // eslint-disable-next-line

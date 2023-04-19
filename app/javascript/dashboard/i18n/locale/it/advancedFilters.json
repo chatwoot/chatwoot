@@ -22,7 +22,8 @@
       "is_not_present": "Non è presente",
       "is_greater_than": "È maggiore di",
       "is_less_than": "È minore di",
-      "days_before": "È x giorni prima"
+      "days_before": "È x giorni prima",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Vero",

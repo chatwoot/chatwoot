@@ -1,6 +1,18 @@
 class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # Overwrite any of the RESTful controller actions to implement custom behavior
   # For example, you may want to send an email after a foo is updated.
+
+  def create
+    resource = resource_class.new(resource_params)
+    authorize_resource(resource)
+
+    if resource.save
+      redirect_to super_admin_user_path(resource), notice: translate_with_resource('create.success')
+    else
+      notice = resource.errors.full_messages.first
+      redirect_to new_super_admin_user_path, notice: notice
+    end
+  end
   #
   # def update
   #   super

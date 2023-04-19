@@ -63,6 +63,7 @@ export default {
     return {
       channelName: '',
       email: '',
+      alertMessage: '',
     };
   },
   computed: {
@@ -101,9 +102,11 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(
-          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE')
-        );
+        const errorMessage = error?.message;
+        this.alertMessage =
+          errorMessage ||
+          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE');
+        this.showAlert(this.alertMessage);
       }
     },
   },

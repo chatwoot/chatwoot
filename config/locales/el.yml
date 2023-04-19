@@ -21,6 +21,7 @@ el:
   messages:
     reset_password_success: Woot! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
     reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: δεν πρέπει να είναι κενό
@@ -57,6 +58,7 @@ el:
         name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Όνομα Πράκτορα
       conversations_count: Αριθμός συνομιλιών
@@ -78,6 +80,8 @@ el:
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: ημέρα
     csat:
       headers:
@@ -108,6 +112,7 @@ el:
         pending: "Η συνομιλία επισημάνθηκε ως εκκρεμής από τον %{user_name}"
         snoozed: "Η συνομιλία σημάνθηκε ως \"καθυστερημένη\" (snoozed) από τον %{user_name}"
         auto_resolved: "Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{duration} ημερών άνευ δραστηριότητας"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "Ο χρήστης %{user_name} ανέλαβε αυτήν την συνομιλία"
         assigned: "Ανατέθηκε στον %{assignee_name} από τον %{user_name}"
@@ -133,7 +138,7 @@ el:
           reply_with_name: "%{assignee_name} από %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} από %{inbox_name}"
+          reply_with_name: "%{assignee_name} από %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
       transcript_subject: "Μεταγραφή Συνομιλίας"

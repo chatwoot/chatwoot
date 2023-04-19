@@ -32,11 +32,11 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Загрузить изображение",
         "UPLOADING": "Загружаем...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Изображение успешно загружено",
+        "ERROR": "Ошибка при загрузке изображения",
+        "ERROR_FILE_SIZE": "Размер изображения должен быть меньше, чем {size}MB",
+        "ERROR_FILE_FORMAT": "Формат изображения должен быть jpg, jpeg или png",
+        "ERROR_FILE_DIMENSIONS": "Размеры изображения должны быть меньше, чем 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {

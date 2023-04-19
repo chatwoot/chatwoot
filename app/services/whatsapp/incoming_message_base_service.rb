@@ -9,9 +9,9 @@ class Whatsapp::IncomingMessageBaseService
   def perform
     processed_params
 
-    if processed_params[:statuses].present?
+    if processed_params.try(:[], :statuses).present?
       process_statuses
-    elsif processed_params[:messages].present?
+    elsif processed_params.try(:[], :messages).present?
       process_messages
     end
   end

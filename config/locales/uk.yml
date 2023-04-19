@@ -21,6 +21,7 @@ uk:
   messages:
     reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
+    inbox_deletetion_response: Ваш запит на видалення буде оброблений протягом деякого часу.
   errors:
     validations:
       presence: не повинно бути пустим
@@ -45,7 +46,7 @@ uk:
       locale:
         unique: має бути унікальним на категорії і порталі
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Невірний тип повідомлення. Дію не дозволено"
     inboxes:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
@@ -57,6 +58,7 @@ uk:
         name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
   reports:
     period: Період звіту %{since} до %{until}
+    utc_warning: Звіт створено в часовій зоні UTC
     agent_csv:
       agent_name: Ім'я агента
       conversations_count: Кількість бесід
@@ -78,6 +80,8 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: день
     csat:
       headers:
@@ -108,6 +112,7 @@ uk:
         pending: "Бесіда була позначена як очікується %{user_name}"
         snoozed: "Розмова була відкладена %{user_name}"
         auto_resolved: "Діалог був закритий системою через %{duration} днів неактивності"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} самостійно призначив цей діалог"
         assigned: "Призначено до %{assignee_name} користувачем %{user_name}"
@@ -133,7 +138,7 @@ uk:
           reply_with_name: "%{assignee_name} від %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} від %{inbox_name}"
+          reply_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Нові повідомлення в цьому діалозі"
       transcript_subject: "Транскрипція діалогу"
@@ -145,8 +150,8 @@ uk:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Сервіс Dyte - це сервіс, що допомагає додавати аудіо та відео в додаток за допомогою кількох рядків коду. Ця інтеграція дозволяє надавати можливість Вашим агентам створювати відео чи голосові дзвінки з клієнтами, не виходячи з Chatwoot."
+      meeting_name: "%{agent_name} розпочав зустріч"
     slack:
       name: "Slack"
       description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
@@ -161,7 +166,7 @@ uk:
       description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
     google_translate:
       name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає у обрану дміністратором чи агентом мову."
   public_portal:
     search:
       search_placeholder: Пошук статті за заголовком або змістом...
@@ -172,12 +177,12 @@ uk:
       sub_title: Шукайте тут або перегляньте категорії нижче.
     common:
       home: Головна
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
+      last_updated_on: Востаннє оновлено %{last_updated_on}
+      view_all_articles: Переглянути всі статті
+      article: статті
       articles: статті
-      no_articles: There are no articles here
+      no_articles: Тут немає статей
     footer:
-      made_with: Made with
+      made_with: Зроблено з
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Перейти на основний сайт

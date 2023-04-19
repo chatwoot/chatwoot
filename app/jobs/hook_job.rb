@@ -7,6 +7,8 @@ class HookJob < ApplicationJob
       process_slack_integration(hook, event_name, event_data)
     when 'dialogflow'
       process_dialogflow_integration(hook, event_name, event_data)
+    when 'google_translate'
+      google_translate_integration(hook, event_name, event_data)
     end
   rescue StandardError => e
     Rails.logger.error e
@@ -18,6 +20,7 @@ class HookJob < ApplicationJob
     return unless ['message.created'].include?(event_name)
 
     message = event_data[:message]
+
     Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
   end
 
@@ -25,5 +28,12 @@ class HookJob < ApplicationJob
     return unless ['message.created', 'message.updated'].include?(event_name)
 
     Integrations::Dialogflow::ProcessorService.new(event_name: event_name, hook: hook, event_data: event_data).perform
+  end
+
+  def google_translate_integration(hook, event_name, event_data)
+    return unless ['message.created'].include?(event_name)
+
+    message = event_data[:message]
+    Integrations::GoogleTranslate::DetectLanguageService.new(hook: hook, message: message).perform
   end
 end
