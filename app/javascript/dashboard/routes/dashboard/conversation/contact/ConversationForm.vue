@@ -213,8 +213,8 @@ export default {
     }),
     emailMessagePayload() {
       const payload = {
-        inboxId: this.targetInbox.inbox.id,
-        sourceId: this.targetInbox.source_id,
+        inboxId: this.targetInbox.id,
+        sourceId: this.targetInbox.sourceId,
         contactId: this.contact.id,
         message: { content: this.message },
         mailSubject: this.subject,
@@ -250,7 +250,10 @@ export default {
     },
     inboxes() {
       const inboxList = this.contact.contactableInboxes || [];
-      return inboxList.map(inbox => inbox.inbox);
+      return inboxList.map(inbox => ({
+        ...inbox.inbox,
+        sourceId: inbox.source_id,
+      }));
     },
     isAnEmailInbox() {
       return (
