@@ -52,6 +52,8 @@ class ActionService
   end
 
   def send_email_transcript(emails)
+    emails = emails[0].gsub(/\s+/, '').split(',')
+
     emails.each do |email|
       ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
     end
