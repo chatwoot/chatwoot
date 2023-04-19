@@ -1,6 +1,8 @@
 module ActivityMessageHandler
   extend ActiveSupport::Concern
 
+  include PriorityActivityMessageHandler
+
   private
 
   def create_activity
@@ -36,37 +38,6 @@ module ActivityMessageHandler
     elsif Current.executed_by.instance_of?(Contact)
       Current.executed_by = nil
       I18n.t('conversations.activity.status.system_auto_open')
-    end
-  end
-
-  def priority_change_activity(user_name)
-    old_priority, new_priority = previous_changes.values_at('priority')[0]
-    return unless priority_change?(old_priority, new_priority)
-  
-    content = build_priority_change_content(user_name, old_priority, new_priority)
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-  
-  def priority_change?(old_priority, new_priority)
-    old_priority.present? || new_priority.present?
-  end
-  
-  def build_priority_change_content(user_name, old_priority, new_priority)
-    change_type = get_priority_change_type(old_priority, new_priority)
-    user = Current.executed_by.instance_of?(AutomationRule) ? 'Automation System' : user_name
-  
-    I18n.t("conversations.activity.priority.#{change_type}", {
-      user_name: user,
-      new_priority: new_priority,
-      old_priority: old_priority
-    })
-  end
-
-  def get_priority_change_type(old_priority, new_priority)
-    case [old_priority.present?, new_priority.present?]
-    when [true, true] then 'updated'
-    when [false, true] then 'added'
-    when [true, false] then 'removed'
     end
   end
 
