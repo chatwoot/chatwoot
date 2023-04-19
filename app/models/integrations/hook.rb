@@ -45,6 +45,10 @@ class Integrations::Hook < ApplicationRecord
     update(status: 'disabled')
   end
 
+  def process_event(event)
+    Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
+  end
+
   private
 
   def ensure_hook_type
