@@ -262,11 +262,17 @@
           <label>
             {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
           </label>
-          <select v-model="selectedPortal" class="filter__question">
-            <option v-for="p in portal" :key="p.slug" :value="p.slug">
+          <select v-model="selectedPortalSlug" class="filter__question">
+            <option :value="null">
+              None
+            </option>
+            <option v-for="p in portals" :key="p.slug" :value="p.slug">
               {{ p.name }}
             </option>
           </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
+          </p>
         </div>
         <label
           v-if="canLocktoSingleConversation"
