@@ -16,9 +16,14 @@ describe ::ActionService do
     let(:conversation) { create(:conversation) }
     let(:action_service) { described_class.new(conversation) }
 
-    it 'changes the priority of the conversation' do
-      action_service.change_priority(['1'])
+    it 'changes the priority of the conversation to medium' do
+      action_service.change_priority(['medium'])
       expect(conversation.reload.priority).to eq('medium')
+    end
+
+    it 'changes the priority of the conversation to nil' do
+      action_service.change_priority(['nil'])
+      expect(conversation.reload.priority).to be_nil
     end
   end
 
