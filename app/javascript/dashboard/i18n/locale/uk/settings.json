@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Копіювати",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Код скопійований в буфер обміну"
     },
     "SHOW_MORE_BLOCK": {

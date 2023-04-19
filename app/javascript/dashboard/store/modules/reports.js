@@ -180,7 +180,7 @@ export const actions = {
       });
   },
   downloadAccountConversationHeatmap(_, reportObj) {
-    Report.getConversationTrafficCSV(reportObj)
+    Report.getConversationTrafficCSV()
       .then(response => {
         downloadCsvFile(
           generateFileName({

@@ -439,7 +439,8 @@
       "LABEL": "機能",
       "DISPLAY_FILE_PICKER": "ウィジェットにファイルピッカーを表示する",
       "DISPLAY_EMOJI_PICKER": "ウィジェットに絵文字ピッカーを表示する",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messengerスクリプト",

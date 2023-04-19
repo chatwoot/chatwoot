@@ -51,7 +51,7 @@ import ArticleSettings from './ArticleSettings';
 import Spinner from 'shared/components/Spinner';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 

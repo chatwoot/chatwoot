@@ -439,7 +439,8 @@
       "LABEL": "Funktioner",
       "DISPLAY_FILE_PICKER": "Vis filvælger på widget'en",
       "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en",
-      "ALLOW_END_CONVERSATION": "Tillad brugere at afslutte samtale fra widget"
+      "ALLOW_END_CONVERSATION": "Tillad brugere at afslutte samtale fra widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger- Script",
