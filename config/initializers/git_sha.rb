@@ -5,6 +5,9 @@ def fetch_git_sha
     sha.strip
   elsif File.exist?('.git_sha')
     File.read('.git_sha').strip
+  # This is for Heroku. Ensure heroku labs:enable runtime-dyno-metadata is turned on.
+  elsif ENV.fetch('HEROKU_SLUG_COMMIT', nil).present?
+    ENV.fetch('HEROKU_SLUG_COMMIT', nil)
   else
     'unknown'
   end
