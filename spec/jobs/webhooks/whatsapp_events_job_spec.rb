@@ -41,6 +41,20 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
       job.perform_now(params)
     end
 
+    it 'will not enqueue message jobs based on phone number URL if the entry payload is not present' do
+      params = {
+        object: 'whatsapp_business_account',
+        phone_number: channel.phone_number,
+        entry: [{ changes: [{}] }]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      allow(Whatsapp::IncomingMessageService).to receive(:new)
+
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+      job.perform_now(params)
+    end
+
     it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService if channel reauthorization required' do
       channel.prompt_reauthorization!
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
