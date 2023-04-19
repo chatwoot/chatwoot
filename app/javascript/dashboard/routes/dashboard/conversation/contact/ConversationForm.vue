@@ -8,7 +8,7 @@
     <div v-else>
       <div class="row gutter-small">
         <div class="columns">
-          <label :class="{ error: $v.targetInbox.$error }">
+          <label>
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
           </label>
           <div class="multiselect-wrap--small">
@@ -44,9 +44,11 @@
               </template>
             </multiselect>
           </div>
-          <span v-if="$v.targetInbox.$error" class="message">
-            {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
-          </span>
+          <label :class="{ error: $v.targetInbox.$error }">
+            <span v-if="$v.targetInbox.$error" class="message">
+              {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
+            </span>
+          </label>
         </div>
         <div class="columns">
           <label>
@@ -303,8 +305,8 @@ export default {
     },
     prepareWhatsAppMessagePayload({ message: content, templateParams }) {
       const payload = {
-        inboxId: this.targetInbox.inbox.id,
-        sourceId: this.targetInbox.source_id,
+        inboxId: this.targetInbox.id,
+        sourceId: this.targetInbox.sourceId,
         contactId: this.contact.id,
         message: { content, template_params: templateParams },
         assigneeId: this.currentUser.id,
