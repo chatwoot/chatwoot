@@ -1,4 +1,4 @@
-class SidekiqHealthCheckController < ActionController
+class SidekiqHealthCheckController < ActionController::API
   def check
     res = `ps -ef | grep -i sidekiq | wc -l`
     res = res.strip
