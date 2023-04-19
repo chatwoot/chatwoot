@@ -453,6 +453,9 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    net-ftp (0.2.0)
+      net-protocol
+      time
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-imap (0.3.4)
@@ -716,6 +719,8 @@ GEM
     test-prof (1.2.1)
     thor (1.2.1)
     tilt (2.1.0)
+    time (0.2.2)
+      date
     time_diff (0.3.0)
       activesupport
       i18n
@@ -842,6 +847,7 @@ DEPENDENCIES
   lograge (~> 0.12.0)
   maxminddb
   mock_redis
+  net-ftp
   net-imap
   net-pop
   net-smtp

@@ -148,6 +148,7 @@ gem 'faker'
 gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
+gem 'net-ftp', require: false
 
 # Include logrange conditionally in intializer using env variable
 gem 'lograge', '~> 0.12.0', require: false
