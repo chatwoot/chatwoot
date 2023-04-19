@@ -478,8 +478,8 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_TITLE": "Token za verifikaciju Webhook-a",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Ovaj token se koristi za verifikaciju autentičnosti webhook endpoint-a.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
