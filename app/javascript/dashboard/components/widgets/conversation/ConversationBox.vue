@@ -114,6 +114,7 @@ export default {
     },
     'currentChat.id'() {
       this.fetchLabels();
+      this.activeIndex = 0;
     },
   },
   mounted() {
