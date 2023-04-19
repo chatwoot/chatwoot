@@ -304,17 +304,29 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.reload.priority).to be_nil
     end
 
-    it 'sets the priority to low, medium, high or urgent' do
+    it 'sets the priority to low' do
       conversation = create(:conversation, status: 'open')
 
       expect(conversation.toggle_priority('low')).to be(true)
       expect(conversation.reload.priority).to eq('low')
+    end
+
+    it 'sets the priority to medium' do
+      conversation = create(:conversation, status: 'open')
 
       expect(conversation.toggle_priority('medium')).to be(true)
       expect(conversation.reload.priority).to eq('medium')
+    end
+
+    it 'sets the priority to high' do
+      conversation = create(:conversation, status: 'open')
 
       expect(conversation.toggle_priority('high')).to be(true)
       expect(conversation.reload.priority).to eq('high')
+    end
+
+    it 'sets the priority to urgent' do
+      conversation = create(:conversation, status: 'open')
 
       expect(conversation.toggle_priority('urgent')).to be(true)
       expect(conversation.reload.priority).to eq('urgent')
