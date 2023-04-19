@@ -12,10 +12,6 @@ inputs:
   AWS_SECRET_ACCESS_KEY:
     description: "Secret Access Key required to login into AWS"
     required: true
-  
-  VUE_APP_SENTRY_DSN_CHAT: 
-    description: "Secret DSN key for Sentry"
-    required: true
 
   VUE_APP_VERSION: 
     description: "Last release commit for Sentry"
@@ -49,17 +45,14 @@ runs:
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Sentry SetUp
-      env:
-        VUE_APP_SENTRY_DSN_CHAT: ${{ inputs.VUE_APP_SENTRY_DSN_CHAT }}
-        VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
-
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build, tag, and push image to Amazon ECR
       shell: bash
+      env:
+        VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
       run: |
         docker build -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
         docker push ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
