@@ -22,7 +22,7 @@
               deselect-label=""
               :max-height="160"
               :close-on-select="true"
-              :options="[...inboxes, ...inboxes]"
+              :options="[...inboxes]"
             >
               <template slot="singleLabel" slot-scope="{ option }">
                 <inbox-dropdown-item
@@ -155,7 +155,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
+import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
