@@ -132,6 +132,17 @@
         "PLACEHOLDER": "กรอกชื่อบริษัท",
         "LABEL": "ชื่อบริษัท"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "ชื่อประเทศ",
+        "SELECT_PLACEHOLDER": "เลือก",
+        "REMOVE": "ลบรูปภาพ",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "กรอกชื่อเฟสบุ๊ค",

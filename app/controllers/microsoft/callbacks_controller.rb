@@ -8,7 +8,7 @@ class Microsoft::CallbacksController < ApplicationController
     )
 
     inbox = find_or_create_inbox
-    ::Redis::Alfred.delete(users_data['email'])
+    ::Redis::Alfred.delete(users_data['email'].downcase)
     redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
@@ -31,7 +31,7 @@ class Microsoft::CallbacksController < ApplicationController
   end
 
   def account_id
-    ::Redis::Alfred.get(users_data['email'])
+    ::Redis::Alfred.get(users_data['email'].downcase)
   end
 
   def account

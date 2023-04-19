@@ -132,6 +132,17 @@
         "PLACEHOLDER": "企業名を入力",
         "LABEL": "企業名"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "国名",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "削除",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Facebookのユーザー名を入力してください",

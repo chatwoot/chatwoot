@@ -87,8 +87,8 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "Ви повинні мати принаймні одну умову для збереження",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "Атрибути контакту",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Атрибути бесіди"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Ви повинні мати принаймні одну дію для збереження",
@@ -111,7 +111,7 @@
       "UPLOAD_ERROR": "Не вдалося завантажити вкладення, будь ласка, спробуйте ще раз",
       "LABEL_IDLE": "Завантажити вкладення",
       "LABEL_UPLOADING": "Завантажується...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOADED": "Успішно завантажено",
       "LABEL_UPLOAD_FAILED": "Не вдалося завантажити"
     }
   }

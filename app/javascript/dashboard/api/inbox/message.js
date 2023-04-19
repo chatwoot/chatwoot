@@ -75,10 +75,12 @@ class MessageApi extends ApiClient {
     return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
   }
 
-  getPreviousMessages({ conversationId, before }) {
-    return axios.get(`${this.url}/${conversationId}/messages`, {
-      params: { before },
-    });
+  getPreviousMessages({ conversationId, after, before }) {
+    const params = { before };
+    if (after && Number(after) !== Number(before)) {
+      params.after = after;
+    }
+    return axios.get(`${this.url}/${conversationId}/messages`, { params });
   }
 
   translateMessage(conversationId, messageId, targetLanguage) {

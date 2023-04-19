@@ -21,6 +21,7 @@ ko:
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -57,6 +58,7 @@ ko:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: 보고 기간 %{since} - %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
@@ -78,6 +80,8 @@ ko:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: day
     csat:
       headers:
@@ -108,6 +112,7 @@ ko:
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Assigned to %{assignee_name} by %{user_name}"
@@ -133,7 +138,7 @@ ko:
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"

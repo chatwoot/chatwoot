@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Botovi",
+    "LOADING_EDITOR": "Otvaranje Editora...",
+    "HEADER_BTN_TXT": "Dodaj konfiguraciju Bota",
+    "SIDEBAR_TXT": "<p><b>Agentski Botovi</b> <p>Agentski botovi omogućuju automatizaciju razgovora</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Ime Bota",
+        "PLACEHOLDER": "Dodijeli ime Botu",
+        "ERROR": "Potrebno je unijeti ime Bota"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Opis Bota",
+        "PLACEHOLDER": "Što ovaj Bot radi?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Unesi iznad svoju CSML bot konfiguraciju",
+        "API_ERROR": "Unesena CSML konfiguracija nije validna, molimo ispravite i ponovno unesite."
+      },
+      "SUBMIT": "Validacija i pohrana"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Izaberi agentskog bota",
+      "DESC": "Možeš dodijeliti agentskog bota iz liste ovom sandučiću. Bot može inicijalno voditi razgovor i predati ga agentu kad je potrebno.",
+      "SUBMIT": "Ažuriraj",
+      "DISCONNECT": "Isključi Bota",
+      "SUCCESS_MESSAGE": "Uspješno ažuriran agentski bot",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Uspješno isključen agentski bot",
+      "ERROR_MESSAGE": "Nije moguće ažurirati agentskog bota, molimo pokušajte kasnije",
+      "DISCONNECTED_ERROR_MESSAGE": "Nije moguće ažurirati agentskog bota, molimo pokušajte kasnije",
+      "SELECT_PLACEHOLDER": "Izaberi Bota"
+    },
+    "ADD": {
+      "TITLE": "Konfiguriraj novog bota",
+      "CANCEL_BUTTON_TEXT": "Odustani",
+      "API": {
+        "SUCCESS_MESSAGE": "Uspješno dodan Bot",
+        "ERROR_MESSAGE": "Nije moguće dodati bota, molimo pokušajte kasnije"
+      }
+    },
+    "LIST": {
+      "404": "Nije pronađen nijedan Bot, možeš kreirati Bota koristeći gumb 'Konfiguriraj novog bota' ↗",
+      "LOADING": "Dohvat Botova...",
+      "TYPE": "Tip Bota"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "TITLE": "Izbriši Bota",
+      "SUBMIT": "Izbriši",
+      "CANCEL_BUTTON_TEXT": "Odustani",
+      "DESCRIPTION": "Jeste li sigurni da želite izbrisati ovog bota? Akciju nije moguće poništiti",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot uspješno izbrisan",
+        "ERROR_MESSAGE": "Nije moguće izbrisati bota, molimo pokušajte kasnije"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Uredi",
+      "LOADING": "Dohvat Botova...",
+      "TITLE": "Uredi Bota",
+      "CANCEL_BUTTON_TEXT": "Odustani",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot uspješno izbrisan",
+        "ERROR_MESSAGE": "Nije moguće ažurirati bota, molimo pokušajte kasnije"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Bot",
+      "CSML": "CSML Bot"
+    }
+  }
+}

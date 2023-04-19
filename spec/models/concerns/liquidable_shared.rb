@@ -21,7 +21,7 @@ shared_examples_for 'liqudable' do
       it 'set replaces liquid variables in message' do
         message.content = 'hey {{contact.name}} how are you?'
         message.save!
-        expect(message.content).to eq 'hey john how are you?'
+        expect(message.content).to eq 'hey John how are you?'
       end
 
       it 'process liquid operators like default value' do
@@ -45,19 +45,19 @@ shared_examples_for 'liqudable' do
       it 'will not process liquid tags in multiple code blocks' do
         message.content = 'hey {{contact.name}} how are you? ```code: {{contact.name}}``` ``` code: {{contact.name}} ``` test `{{contact.name}}`'
         message.save!
-        expect(message.content).to eq 'hey john how are you? ```code: {{contact.name}}``` ``` code: {{contact.name}} ``` test `{{contact.name}}`'
+        expect(message.content).to eq 'hey John how are you? ```code: {{contact.name}}``` ``` code: {{contact.name}} ``` test `{{contact.name}}`'
       end
 
       it 'will not process liquid tags in single ticks' do
         message.content = 'hey {{contact.name}} how are you? ` code: {{contact.name}} ` ` code: {{contact.name}} ` test'
         message.save!
-        expect(message.content).to eq 'hey john how are you? ` code: {{contact.name}} ` ` code: {{contact.name}} ` test'
+        expect(message.content).to eq 'hey John how are you? ` code: {{contact.name}} ` ` code: {{contact.name}} ` test'
       end
 
       it 'will not throw error for broken quotes' do
         message.content = 'hey {{contact.name}} how are you? ` code: {{contact.name}} ` ` code: {{contact.name}} test'
         message.save!
-        expect(message.content).to eq 'hey john how are you? ` code: {{contact.name}} ` ` code: john test'
+        expect(message.content).to eq 'hey John how are you? ` code: {{contact.name}} ` ` code: John test'
       end
     end
   end

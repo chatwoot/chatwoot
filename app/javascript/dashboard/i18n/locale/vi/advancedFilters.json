@@ -22,7 +22,8 @@
       "is_not_present": "Không có",
       "is_greater_than": "Lớn hơn",
       "is_less_than": "Nhỏ hơn",
-      "days_before": "Khoảng x ngày trước"
+      "days_before": "Khoảng x ngày trước",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Đúng",

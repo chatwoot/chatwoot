@@ -9,6 +9,14 @@
     >
       {{ readableTime }}
     </span>
+    <span v-if="externalError" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="externalError"
+        icon="error-circle"
+        class="action--icon"
+        size="14"
+      />
+    </span>
     <span v-if="showReadIndicator" class="read-indicator-wrap">
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
@@ -98,6 +106,10 @@ export default {
       type: String,
       default: '',
     },
+    externalError: {
+      type: String,
+      default: '',
+    },
     storyId: {
       type: String,
       default: '',
@@ -163,7 +175,7 @@ export default {
       return MESSAGE_STATUS.SENT === this.messageStatus;
     },
     readableTime() {
-      return this.messageStamp(this.createdAt, 'LLL d, h:mm a');
+      return this.messageTimestamp(this.createdAt, 'LLL d, h:mm a');
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =

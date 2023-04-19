@@ -132,6 +132,17 @@
         "PLACEHOLDER": "输入公司名称",
         "LABEL": "公司名称"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "国家",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "删除",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "输入 Facebook 用户名",

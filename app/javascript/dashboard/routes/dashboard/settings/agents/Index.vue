@@ -108,6 +108,7 @@
         :name="currentAgent.name"
         :type="currentAgent.role"
         :email="currentAgent.email"
+        :availability="currentAgent.availability_status"
         :on-close="hideEditPopup"
       />
     </woot-modal>

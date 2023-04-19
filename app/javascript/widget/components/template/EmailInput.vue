@@ -75,7 +75,8 @@ export default {
     },
     inputColor() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}
+        ${this.$dm('border-black-200', 'dark:border-black-500')}`;
     },
     inputHasError() {
       return this.$v.email.$error

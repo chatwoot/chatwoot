@@ -137,6 +137,22 @@ RSpec.describe 'Accounts API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/cache_keys' do
+    let(:account) { create(:account) }
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
+    it 'returns cache_keys as expected' do
+      account.update(auto_resolve_duration: 30)
+
+      get "/api/v1/accounts/#{account.id}/cache_keys",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['cache_keys'].keys).to match_array(%w[label inbox team])
+    end
+  end
+
   describe 'PUT /api/v1/accounts/{account.id}' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }

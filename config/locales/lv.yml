@@ -21,6 +21,7 @@ lv:
   messages:
     reset_password_success: Urā! Paroles atiestatīšanas pieprasījums ir veiksmīgs. Pārbaudiet savu e-pastu, lai iegūtu norādījumus.
     reset_password_failure: Ak, vai! Mēs nevarējām atrast nevienu lietotāju ar norādīto e -pastu.
+    inbox_deletetion_response: Jūsu iesūtnes dzēšanas pieprasījums pēc kāda laika tiks apstrādāts.
   errors:
     validations:
       presence: nedrīkst būt tukšs
@@ -57,6 +58,7 @@ lv:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
+    utc_warning: Izveidotais pārskats atbilst UTC laika joslai
     agent_csv:
       agent_name: Aģenta vārds
       conversations_count: Sarunu skaits
@@ -78,6 +80,8 @@ lv:
       conversations_count: Sarunu skaits
       avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
       avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: diena
     csat:
       headers:
@@ -102,12 +106,13 @@ lv:
       deleted: Šis ziņojums ir izdzēsts
     activity:
       status:
-        resolved: '%{user_name} sarunu atzīmēja kā atrisinātu'
-        contact_resolved: '%{contact_name} atrisināja sarunu'
-        open: '%{user_name} atkārtoti atvēra sarunu'
-        pending: '%{user_name} sarunu atzīmēja kā neapstiprinātu'
-        snoozed: '%{user_name} atlika sarunu'
-        auto_resolved: 'Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ'
+        resolved: "%{user_name} sarunu atzīmēja kā atrisinātu"
+        contact_resolved: "%{contact_name} atrisināja sarunu"
+        open: "%{user_name} atkārtoti atvēra sarunu"
+        pending: "%{user_name} sarunu atzīmēja kā neapstiprinātu"
+        snoozed: "%{user_name} atlika sarunu"
+        auto_resolved: "Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: '%{user_name} sev piešķīra šo sarunu'
         assigned: '%{user_name} piešķīra sarunu %{assignee_name}'
@@ -133,7 +138,7 @@ lv:
           reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} no %{inbox_name}"
+          reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Jauni ziņojumi šajā sarunā"
       transcript_subject: "Sarunas Transkripts"

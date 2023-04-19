@@ -232,5 +232,33 @@ describe Telegram::IncomingMessageService do
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('location')
       end
     end
+
+    context 'when valid callback_query params' do
+      it 'creates appropriate conversations, message and contacts' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 5_171_248,
+              'is_bot' => false,
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan',
+              'language_code' => 'en',
+              'is_premium' => true
+            },
+            'message' => message_params,
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
+      end
+    end
   end
 end

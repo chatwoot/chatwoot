@@ -7,11 +7,12 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
     redirect_url = microsoft_client.auth_code.authorize_url(
       {
         redirect_uri: "#{base_url}/microsoft/callback",
-        scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid',
+        scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid profile',
         prompt: 'consent'
       }
     )
     if redirect_url
+      email = email.downcase
       ::Redis::Alfred.setex(email, Current.account.id, 5.minutes)
       render json: { success: true, url: redirect_url }
     else

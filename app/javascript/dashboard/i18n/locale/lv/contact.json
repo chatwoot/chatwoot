@@ -132,6 +132,17 @@
         "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu",
         "LABEL": "Uzņēmuma Nosaukums"
       },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Valsts Nosaukums",
+        "SELECT_PLACEHOLDER": "Izvēlieties",
+        "REMOVE": "Noņemt",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Ievadiet Facebook lietotājvārdu",

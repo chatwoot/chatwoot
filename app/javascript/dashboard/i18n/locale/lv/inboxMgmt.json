@@ -439,7 +439,8 @@
       "LABEL": "Īpašības",
       "DISPLAY_FILE_PICKER": "Logrīkā parādīt failu atlasītāju",
       "DISPLAY_EMOJI_PICKER": "Logrīkā parādīt emocijzīmju atlasītāju",
-      "ALLOW_END_CONVERSATION": "Atļaut lietotājiem beigt sarunu no logrīka"
+      "ALLOW_END_CONVERSATION": "Atļaut lietotājiem beigt sarunu no logrīka",
+      "USE_INBOX_AVATAR_FOR_BOT": "Izmantot iesūtnes nosaukumu un avataru priekš robota"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Skripts",

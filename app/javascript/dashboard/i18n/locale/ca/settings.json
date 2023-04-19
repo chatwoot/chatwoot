@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copia",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "El codi s'ha copiat al porta-retalls amb èxit"
     },
     "SHOW_MORE_BLOCK": {

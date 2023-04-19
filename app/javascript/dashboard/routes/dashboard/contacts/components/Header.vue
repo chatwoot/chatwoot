@@ -3,7 +3,7 @@
     <div class="table-actions-wrap">
       <div class="left-aligned-wrap">
         <woot-sidemenu-icon />
-        <h1 class="page-title">
+        <h1 class="page-title header-title">
           {{ headerTitle }}
         </h1>
       </div>
@@ -69,7 +69,8 @@
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
 
-        <!-- <woot-button
+       <!-- <woot-button
+          v-if="isAdmin"
           color-scheme="info"
           icon="upload"
           class="clear"
@@ -84,8 +85,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 export default {
+  mixins: [adminMixin],
   props: {
     headerTitle: {
       type: String,
@@ -167,6 +170,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
+  min-width: var(--space-mega);
+
+  .header-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 var(--space-small);
+  }
 }
 
 .right-aligned-wrap {

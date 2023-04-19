@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "நகல்",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "குறியீடு கிளிப்போர்டில் வெற்றிகரமாக காப்பி செய்யப்பட்டது"
     },
     "SHOW_MORE_BLOCK": {

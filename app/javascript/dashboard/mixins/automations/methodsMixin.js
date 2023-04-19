@@ -251,7 +251,7 @@ export default {
     },
     getActionDropdownValues(type) {
       const { agents, labels, teams } = this;
-      return getActionOptions({ agents, labels, teams, type });
+      return getActionOptions({ agents, labels, teams, languages, type });
     },
     manifestCustomAttributes() {
       const conversationCustomAttributesRaw = this.$store.getters[

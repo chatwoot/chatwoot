@@ -1,5 +1,5 @@
 <template>
-  <div class="width-100">
+  <div class="search-page">
     <div class="page-header">
       <woot-button
         icon="chevron-left"
@@ -47,7 +47,7 @@
             </p>
           </div>
           <div v-else class="empty text-center">
-            <p class="text-center">
+            <p class="text-center margin-bottom-0">
               <fluent-icon icon="search" size="24px" class="icon" />
             </p>
             <p class="empty-state__text">
@@ -196,28 +196,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .page-header {
   display: flex;
   padding: var(--space-normal);
 }
 .search-root {
   margin: 0 auto;
-  max-width: 64rem;
-  min-height: 48rem;
+  max-width: 72rem;
+  min-height: 32rem;
   width: 100%;
-  height: fit-content;
-  box-shadow: var(--shadow);
+  height: 100%;
+  padding: var(--space-normal);
   display: flex;
   position: relative;
   flex-direction: column;
   background: white;
-  border-radius: var(--border-radius-large);
-  margin-top: var(--space-large);
-  border-top: 1px solid var(--s-25);
+  margin-top: var(--space-medium);
+
   .search-results {
     flex-grow: 1;
     height: 100%;
-    max-height: 80vh;
     overflow-y: auto;
     padding: 0 var(--space-small);
   }
@@ -230,6 +233,7 @@ export default {
   justify-content: center;
   padding: var(--space-medium) var(--space-normal);
   border-radius: var(--border-radius-medium);
+  margin-top: var(--space-large);
   .icon {
     color: var(--s-500);
   }

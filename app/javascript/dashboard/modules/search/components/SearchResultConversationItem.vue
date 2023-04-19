@@ -60,10 +60,21 @@ export default {
       type: [String, Date, Number],
       default: '',
     },
+    messageId: {
+      type: Number,
+      default: 0,
+    },
   },
   computed: {
     navigateTo() {
-      return frontendURL(`accounts/${this.accountId}/conversations/${this.id}`);
+      const params = {};
+      if (this.messageId) {
+        params.messageId = this.messageId;
+      }
+      return frontendURL(
+        `accounts/${this.accountId}/conversations/${this.id}`,
+        params
+      );
     },
     createdAtTime() {
       return this.dynamicTime(this.createdAt);

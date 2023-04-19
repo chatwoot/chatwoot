@@ -293,9 +293,7 @@ export default {
       this.$emit('success');
     },
     replaceTextWithCannedResponse(message) {
-      setTimeout(() => {
-        this.message = message;
-      }, 50);
+      this.message = message;
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;

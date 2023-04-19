@@ -35,6 +35,6 @@ export default {
 <style lang="scss" scoped>
 .tab-container {
   margin-top: var(--space-smaller);
-  border-bottom: 1px solid var(--s-50);
+  border-bottom: 1px solid var(--s-100);
 }
 </style>

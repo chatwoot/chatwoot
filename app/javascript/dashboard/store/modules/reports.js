@@ -1,13 +1,13 @@
 /* eslint no-console: 0 */
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
-import { downloadCsvFile } from '../../helper/downloadHelper';
+import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import {
   reconcileHeatmapData,
   clampDataBetweenTimeline,
-} from 'helpers/ReportsDataHelper';
+} from 'shared/helpers/ReportsDataHelper';
 
 const state = {
   fetchingStatus: false,
@@ -70,7 +70,7 @@ export const actions = {
   },
   fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
-    Report.getReports({ ...reportObj, group_by: 'hour' }).then(heatmapData => {
+    Report.getReports({ ...reportObj, groupBy: 'hour' }).then(heatmapData => {
       let { data } = heatmapData;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
 
@@ -173,6 +173,26 @@ export const actions = {
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'team',
           businessHours: reportObj?.businessHours,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadAccountConversationHeatmap(_, reportObj) {
+    Report.getConversationTrafficCSV()
+      .then(response => {
+        downloadCsvFile(
+          generateFileName({
+            type: 'Conversation traffic',
+            to: reportObj.to,
+          }),
+          response.data
+        );
+
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'conversation_heatmap',
+          businessHours: false,
         });
       })
       .catch(error => {

@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopyala",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
     },
     "SHOW_MORE_BLOCK": {

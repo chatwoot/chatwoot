@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopírovat",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Kód byl úspěšně zkopírován do schránky"
     },
     "SHOW_MORE_BLOCK": {
