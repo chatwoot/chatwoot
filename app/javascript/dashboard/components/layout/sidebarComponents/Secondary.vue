@@ -258,7 +258,7 @@ export default {
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
-  width: 18rem;
+  width: 20rem;
   flex-shrink: 0;
   overflow-y: hidden;
   position: unset;
