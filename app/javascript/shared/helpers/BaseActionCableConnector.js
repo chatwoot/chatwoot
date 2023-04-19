@@ -1,8 +1,7 @@
 import { createConsumer } from '@rails/actioncable';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
-// TODO: Change this value to 20 seconds after the QA
-const PRESENCE_INTERVAL = 10000;
+const PRESENCE_INTERVAL = 20000;
 
 class BaseActionCableConnector {
   static isDisconnected = false;

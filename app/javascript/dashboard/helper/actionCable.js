@@ -35,9 +35,6 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onDisconnected = () => {
-    // TODO: Remove this after the QA
-    // eslint-disable-next-line no-console
-    console.log('Websocket disconnected', new Date());
     this.setActiveConversationLastMessageId();
   };
 
