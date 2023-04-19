@@ -132,7 +132,7 @@ gem 'email_reply_trimmer'
 
 # TODO: we might have to fork this gem since 0.3.1 has hard depency on nokogir 1.10.
 # and this gem hasn't been updated for a while.
-gem 'html2text',  git:'https://github.com/happy-co/html2text_ruby', branch: 'bump-nokogiri-version'
+gem 'html2text', git: 'https://github.com/happy-co/html2text_ruby', branch: 'bump-nokogiri-version'
 
 # to calculate working hours
 gem 'working_hours'
