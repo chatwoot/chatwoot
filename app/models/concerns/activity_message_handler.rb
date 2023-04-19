@@ -40,7 +40,7 @@ module ActivityMessageHandler
   end
 
   def priority_change_activity(user_name)
-    old_priority, new_priority = previous_changes.values_at('priority')
+    old_priority, new_priority = previous_changes.values_at('priority')[0]
     return unless old_priority.present? || new_priority.present?
 
     change_type = get_priority_change_type(old_priority, new_priority)
@@ -51,7 +51,7 @@ module ActivityMessageHandler
              user_name
            end
 
-    content = I18n.t("conversations.activity.priority.#{change_type}", user_name: user, priority: new_priority, old_priority: old_priority)
+    content = I18n.t("conversations.activity.priority.#{change_type}", user_name: user, new_priority: new_priority, old_priority: old_priority)
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
