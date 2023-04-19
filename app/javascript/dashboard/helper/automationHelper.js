@@ -16,6 +16,29 @@ const MESSAGE_CONDITION_VALUES = [
   },
 ];
 
+export const PRIORITY_CONDITION_VALUES = [
+  {
+    id: 'nil',
+    name: 'None',
+  },
+  {
+    id: 'low',
+    name: 'Low',
+  },
+  {
+    id: 'medium',
+    name: 'Medium',
+  },
+  {
+    id: 'high',
+    name: 'High',
+  },
+  {
+    id: 'urgent',
+    name: 'Urgent',
+  },
+];
+
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
