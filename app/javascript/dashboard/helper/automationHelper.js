@@ -126,6 +126,7 @@ export const getActionOptions = ({ agents, teams, labels, type }) => {
     assign_team: teams,
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
+    change_priority: PRIORITY_CONDITION_VALUES,
   };
   return actionsMap[type];
 };
