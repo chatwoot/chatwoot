@@ -69,7 +69,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_typing_status
-    typing_status_manager = ::Conversations::FilterService.new(@conversation, current_user, params)
+    typing_status_manager = ::Conversations::TypingStatusManager.new(@conversation, current_user, params)
     typing_status_manager.toggle_typing_status
     head :ok
   end
