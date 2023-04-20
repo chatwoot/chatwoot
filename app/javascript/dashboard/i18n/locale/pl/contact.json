@@ -182,7 +182,8 @@
         "LABEL": "Do"
       },
       "INBOX": {
-        "LABEL": "Skrzynka odbiorcza",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Wybierz skrzynkę odbiorczą"
       },
       "SUBJECT": {
