@@ -10,7 +10,7 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Example Enterprises",
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
       "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
