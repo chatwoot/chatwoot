@@ -182,7 +182,8 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Inbox",
+        "LABEL": "Kroz Inbox",
+        "PLACEHOLDER": "Izaberi izvorišni inbox",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
