@@ -182,7 +182,8 @@
         "LABEL": "发送至"
       },
       "INBOX": {
-        "LABEL": "收件箱",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "选择一个收件箱"
       },
       "SUBJECT": {
