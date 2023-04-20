@@ -1,4 +1,6 @@
 class Conversations::TypingStatusManager
+  include Events::Types
+
   attr_reader :conversation, :user, :params
 
   def initialize(conversation, user, params)
