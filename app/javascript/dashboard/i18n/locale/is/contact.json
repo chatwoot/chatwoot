@@ -182,7 +182,8 @@
         "LABEL": "Til"
       },
       "INBOX": {
-        "LABEL": "Innhólf",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Veldu innhólf"
       },
       "SUBJECT": {
