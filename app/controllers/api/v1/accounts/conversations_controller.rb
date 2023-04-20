@@ -66,6 +66,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def toggle_priority
     @conversation.toggle_priority(params[:priority])
+    head :ok
   end
 
   def toggle_typing_status
