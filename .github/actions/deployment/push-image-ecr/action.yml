@@ -1,32 +1,32 @@
-name: "Push Docker Image to AWS ECR"
+name: 'Push Docker Image to AWS ECR'
 
 inputs:
   BRANCH:
-    description: "Specify which branch needs a push to fire the workflow"
+    description: 'Specify which branch needs a push to fire the workflow'
     required: true
 
   AWS_ACCESS_KEY_ID:
-    description: "Access Key required to login into AWS"
+    description: 'Access Key required to login into AWS'
     required: true
 
   AWS_SECRET_ACCESS_KEY:
-    description: "Secret Access Key required to login into AWS"
+    description: 'Secret Access Key required to login into AWS'
     required: true
 
-  VUE_APP_VERSION: 
-    description: "Last release commit for Sentry"
+  VUE_APP_VERSION:
+    description: 'Last release commit for Sentry'
     required: true
 
   ECR_REGISTRY:
-    description: "ECR Registry where the image is going to be pushed"
+    description: 'ECR Registry where the image is going to be pushed'
     required: true
 
   ECR_REPOSITORY:
-    description: "ECR Repository where the image is going to be pushed"
+    description: 'ECR Repository where the image is going to be pushed'
     required: true
 
   DOCKERFILE_PATH:
-    description: "Path where the Dockerfile is stored"
+    description: 'Path where the Dockerfile is stored'
     required: true
 
 runs:
@@ -34,9 +34,6 @@ runs:
   steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Setup ENV
-      shell: bash
-      run: touch .env
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -49,10 +46,15 @@ runs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
     - name: Build, tag, and push image to Amazon ECR
-      shell: bash
-      env:
-        VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
-      run: |
-        docker build -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
-        docker push ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
+        file: ${{ inputs.DOCKERFILE_PATH}}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
