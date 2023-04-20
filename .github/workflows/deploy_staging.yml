@@ -21,6 +21,7 @@ jobs:
           BRANCH: develop
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
+          VUE_APP_SENTRY_DSN_CHAT: ${{ secrets.VUE_APP_SENTRY_DSN_CHAT }}
           VUE_APP_VERSION: $(git rev-parse --short HEAD)
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
           ECR_REPOSITORY: conversations/birdwoot/staging/birdwootmain

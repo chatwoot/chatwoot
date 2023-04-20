@@ -13,8 +13,12 @@ inputs:
     description: 'Secret Access Key required to login into AWS'
     required: true
 
-  VUE_APP_VERSION:
-    description: 'Last release commit for Sentry'
+  VUE_APP_SENTRY_DSN_CHAT: 
+    description: "Add DSN chat from secrets"
+    required: true
+
+  VUE_APP_VERSION: 
+    description: "Last release commit for Sentry"
     required: true
 
   ECR_REGISTRY:
@@ -34,6 +38,11 @@ runs:
   steps:
     - name: Checkout code
       uses: actions/checkout@v3
+    - name: Setup Vue ENV vars
+      shell: bash
+      run: |
+        touch .env
+        echo "VUE_APP_SENTRY_DSN_CHAT=${{ inputs.VUE_APP_SENTRY_DSN_CHAT }}" >> .env
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
