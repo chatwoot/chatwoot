@@ -55,14 +55,6 @@ describe  ::Messages::Instagram::MessageBuilder do
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
-      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
-      allow(fb_object).to receive(:get_object).and_return(
-        {
-          id: 'chatwoot-app-user-id-1',
-          ig_id: 'story_id',
-          username: instagram_inbox.account_id
-        }.with_indifferent_access
-      )
       messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
       contact_inbox
 
@@ -72,7 +64,7 @@ describe  ::Messages::Instagram::MessageBuilder do
 
       expect(message.content).to eq('This is the story reply')
       expect(message.content_attributes[:story_sender]).to eq(instagram_inbox.channel.instagram_id)
-      expect(message.content_attributes[:story_id]).to eq('story_id')
+      expect(message.content_attributes[:story_id]).to eq('chatwoot-app-user-id-1')
       expect(message.content_attributes[:story_url]).to eq('https://chatwoot-assets.local/sample.png')
     end
 

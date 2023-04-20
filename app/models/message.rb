@@ -178,11 +178,9 @@ class Message < ApplicationRecord
   end
 
   def save_story_info(story_info)
-    story_attributes = inbox.channel.content_attributes
-
     self.content_attributes = content_attributes.merge(
       {
-        story_id: story_attributes['story_id'],
+        story_id: story_info['id'],
         story_sender: inbox.channel.instagram_id,
         story_url: story_info['url']
       }

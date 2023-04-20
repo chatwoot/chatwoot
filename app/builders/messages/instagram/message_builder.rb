@@ -89,23 +89,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   def save_story_id
     return if story_reply_attributes.blank?
 
-    fetch_story_info
     @message.save_story_info(story_reply_attributes)
-  end
-
-  def fetch_story_info
-    return if @inbox.channel.story_id.present?
-
-    begin
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(@inbox.channel.instagram_id, fields: %w[id username ig_id]) || {}
-      @inbox.channel.save_story_info(result)
-    rescue Koala::Facebook::AuthenticationError => e
-      @inbox.channel.authorization_error!
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    rescue StandardError, Koala::Facebook::ClientError => e
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    end
   end
 
   def build_conversation

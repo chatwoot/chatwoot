@@ -37,17 +37,6 @@ class Channel::FacebookPage < ApplicationRecord
     false
   end
 
-  def story_id
-    content_attributes['story_id']
-  end
-
-  def save_story_info(story_info)
-    self.content_attributes = content_attributes.merge(
-      { story_id: story_info['ig_id'], ig_username: story_info['username'] }
-    )
-    save!
-  end
-
   def create_contact_inbox(instagram_id, name)
     @contact_inbox = ::ContactInboxWithContactBuilder.new({
                                                             source_id: instagram_id,
