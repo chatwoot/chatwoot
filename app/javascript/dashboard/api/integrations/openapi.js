@@ -2,17 +2,19 @@
 
 import ApiClient from '../ApiClient';
 
-class DyteAPI extends ApiClient {
+class OpenAIAPI extends ApiClient {
   constructor() {
     super('integrations', { accountScoped: true });
   }
 
-  processEvent(type = 'rephrase', content) {
-    return axios.post(`${this.url}/hooks/1/process_event`, {
-      type,
-      content,
+  processEvent({ type = 'rephrase', content, hookId }) {
+    return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
+      event: {
+        type,
+        content,
+      },
     });
   }
 }
 
-export default new DyteAPI();
+export default new OpenAIAPI();

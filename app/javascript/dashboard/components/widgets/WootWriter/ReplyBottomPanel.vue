@@ -91,7 +91,12 @@
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
       />
-      <AIAssistanceButton :conversation-id="conversationId" />
+      <AIAssistanceButton
+        v-if="message"
+        :conversation-id="conversationId"
+        :message="message"
+        @replace-text="replaceText"
+      />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -219,6 +224,10 @@ export default {
       type: Number,
       required: true,
     },
+    message: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     ...mapGetters({
@@ -304,6 +313,9 @@ export default {
       this.updateUISettings({
         send_with_signature: !this.sendWithSignature,
       });
+    },
+    replaceText(text) {
+      this.$emit('replace-text', text);
     },
   },
 };

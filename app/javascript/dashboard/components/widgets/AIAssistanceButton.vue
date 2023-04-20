@@ -1,7 +1,7 @@
 <template>
   <div v-if="isAIIntegrationEnabled" style="position: relative;">
     <woot-button
-      v-tooltip.top-end="'Compose With AI'"
+      v-tooltip.top-end="'Summarize With AI'"
       icon="wand"
       color-scheme="secondary"
       variant="smooth"
@@ -14,15 +14,15 @@
       v-on-clickaway="closeDropdown"
       class="dropdown-pane dropdown-pane--open basic-filter"
     >
-      <h3 class="page-sub-title">
-        Compose with AI
-      </h3>
-      <p>
-        this issue is fixed now . Please check on your end
-      </p>
-      <h4 class="text-block-title">
-        Tone
+      <h4 class="sub-block-title">
+        Summarize with AI
       </h4>
+      <p>
+        {{ message }}
+      </p>
+      <label>
+        Tone
+      </label>
       <div class="filter__item">
         <select v-model="activeValue" class="status--filter">
           <option v-for="item in items" :key="item.status" :value="item.status">
@@ -32,7 +32,7 @@
       </div>
       <div class="medium-12 columns">
         <div class="modal-footer justify-content-end w-full buttons">
-          <woot-button class="button clear" size="tiny">
+          <woot-button class="button clear" size="tiny" @click="closeDropdown">
             Cancel
           </woot-button>
           <woot-button
@@ -40,7 +40,7 @@
             size="tiny"
             @click="processText"
           >
-            Generate
+            {{ buttonText }}
           </woot-button>
         </div>
       </div>
@@ -59,6 +59,10 @@ export default {
     conversationId: {
       type: Number,
       default: 0,
+    },
+    message: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -81,6 +85,14 @@ export default {
         integration => integration.id === 'openai' && !!integration.hooks.length
       );
     },
+    hookId() {
+      return this.appIntegrations.find(
+        integration => integration.id === 'openai' && !!integration.hooks.length
+      ).hooks[0].id;
+    },
+    buttonText() {
+      return this.isGenerating ? 'Generating...' : 'Generate';
+    },
   },
   mounted() {
     if (!this.appIntegrations.length) {
@@ -98,17 +110,19 @@ export default {
       this.isGenerating = true;
       try {
         const result = await OpenAPI.processEvent({
+          hookId: this.hookId,
           type: 'rephrase',
-          content: 'this issue is fixed now . Please check on your end',
+          content: this.message,
         });
-        console.log('result', result);
+        const {
+          data: { message: generatedMessage },
+        } = result;
+        this.$emit('replace-text', generatedMessage || this.message);
+        this.closeDropdown();
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {
-        setTimeout(() => {
-          this.isGenerating = false;
-        }, 1000);
-        // this.isGenerating = false;
+        this.isGenerating = false;
       }
     },
   },
