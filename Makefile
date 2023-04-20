@@ -9,13 +9,13 @@ setup:
 	yarn install
 
 db_create:
-	rails db:create
+	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:create
 
 db_migrate:
-	rails db:migrate RAILS_ENV=$(RAILS_ENV)
+	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:migrate
 
 db_seed:
-	rails db:seed RAILS_ENV=$(RAILS_ENV)
+	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:seed
 
 db_prepare:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:chatwoot_prepare
