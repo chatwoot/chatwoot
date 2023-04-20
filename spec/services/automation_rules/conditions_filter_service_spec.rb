@@ -57,5 +57,25 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
       end
     end
+
+    context 'when conditions based on the priority filter' do
+      before do
+        rule.conditions = [{ 'values': ['urgent'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }]
+        rule.save
+      end
+
+      context 'when conditions in rule matches with object' do
+        it 'will return true' do
+          expect(described_class.new(rule, conversation, { changed_attributes: { priority: [nil, 'urgent'] } }).perform).to be(true)
+        end
+      end
+
+      context 'when conditions in rule does not match with object' do
+        it 'will return false' do
+          conversation.update(priority: 'low')
+          expect(described_class.new(rule, conversation, { changed_attributes: { priority: [nil, 'medium'] } }).perform).to be(false)
+        end
+      end
+    end
   end
 end
