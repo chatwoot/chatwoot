@@ -99,6 +99,7 @@
     "babel-loader": "8.2.2",
     "babel-preset-vue": "^2.0.2",
     "cypress": "4.12.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "^4.0.0",
