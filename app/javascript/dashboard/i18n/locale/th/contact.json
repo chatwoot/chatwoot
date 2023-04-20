@@ -182,7 +182,8 @@
         "LABEL": "ถึง"
       },
       "INBOX": {
-        "LABEL": "กล่องข้อความ",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "เลือกกล่องข้อความ"
       },
       "SUBJECT": {
