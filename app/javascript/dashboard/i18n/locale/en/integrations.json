@@ -82,6 +82,9 @@
       "JOIN_ERROR": "There was an error joining the call, please try again",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
+    "OPEN_AI": {
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {
