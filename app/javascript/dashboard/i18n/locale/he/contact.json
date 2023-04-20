@@ -182,7 +182,8 @@
         "LABEL": "אל"
       },
       "INBOX": {
-        "LABEL": "תיבת הדואר הנכנס",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "בחר תיבת דואר נכנס"
       },
       "SUBJECT": {
