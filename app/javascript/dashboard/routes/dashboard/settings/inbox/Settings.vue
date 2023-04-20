@@ -263,7 +263,7 @@
             {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
           </label>
           <select v-model="selectedPortalSlug" class="filter__question">
-            <option value="" disabled>
+            <option value="">
               {{ $t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER') }}
             </option>
             <option v-for="p in portals" :key="p.slug" :value="p.slug">
