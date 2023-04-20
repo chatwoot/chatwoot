@@ -57,6 +57,7 @@ export const initializeChatwootEvents = () => {
       window.$chatwoot.setCustomAttributes({
         signedUpAt: user.created_at,
         cloudCustomer: 'true',
+        account_id: user.account_id,
       });
     }
 
