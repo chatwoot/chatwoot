@@ -182,7 +182,8 @@
         "LABEL": "Kam"
       },
       "INBOX": {
-        "LABEL": "Iesūtne",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Izvēlieties iesūtni"
       },
       "SUBJECT": {
