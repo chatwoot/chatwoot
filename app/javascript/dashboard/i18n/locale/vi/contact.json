@@ -182,7 +182,8 @@
         "LABEL": "Đến"
       },
       "INBOX": {
-        "LABEL": "Kênh",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Chọn kênh"
       },
       "SUBJECT": {
