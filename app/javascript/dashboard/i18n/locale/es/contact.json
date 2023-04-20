@@ -182,7 +182,8 @@
         "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Bandeja de entrada",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Seleccione una bandeja de entrada"
       },
       "SUBJECT": {
