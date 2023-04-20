@@ -182,7 +182,8 @@
         "LABEL": "إلى"
       },
       "INBOX": {
-        "LABEL": "صندوق الوارد",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "حدد صندوق الوارد"
       },
       "SUBJECT": {
