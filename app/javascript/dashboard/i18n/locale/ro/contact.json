@@ -182,7 +182,8 @@
         "LABEL": "Către"
       },
       "INBOX": {
-        "LABEL": "Inbox",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Selectați un inbox"
       },
       "SUBJECT": {
