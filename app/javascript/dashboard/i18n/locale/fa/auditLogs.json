@@ -10,10 +10,10 @@
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
       "TABLE_HEADER": [
-        "User",
-        "Action",
+        "کاربر",
+        "اقدام",
         "آدرس آی‌پی",
-        "Time"
+        "زمان"
       ]
     },
     "API": {
