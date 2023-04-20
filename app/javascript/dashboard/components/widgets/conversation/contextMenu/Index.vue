@@ -23,6 +23,14 @@
         @click="snoozeConversation(option.snoozedUntil)"
       />
     </menu-item-with-submenu>
+    <menu-item-with-submenu :option="priorityConfig">
+      <menu-item
+        v-for="(option, i) in priorityConfig.options"
+        :key="i"
+        :option="option"
+        @click="changePriority(option.key)"
+      />
+    </menu-item-with-submenu>
     <menu-item-with-submenu
       :option="labelMenuConfig"
       :sub-menu-available="!!labels.length"
@@ -140,6 +148,33 @@ export default {
           },
         ],
       },
+      priorityConfig: {
+        key: 'priority',
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.TITLE'),
+        icon: 'snooze',
+        options: [
+          {
+            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.NONE'),
+            key: null,
+          },
+          {
+            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.URGENT'),
+            key: 'urgent',
+          },
+          {
+            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.HIGH'),
+            key: 'high',
+          },
+          {
+            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.MEDIUM'),
+            key: 'medium',
+          },
+          {
+            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.LOW'),
+            key: 'low',
+          },
+        ],
+      },
       labelMenuConfig: {
         key: 'label',
         icon: 'tag',
@@ -192,6 +227,9 @@ export default {
         this.STATUS_TYPE.SNOOZED,
         this.snoozeTimes[snoozedUntil] || null
       );
+    },
+    changePriority(priority) {
+      this.$emit('change-priority', priority);
     },
     show(key) {
       // If the conversation status is same as the action, then don't display the option

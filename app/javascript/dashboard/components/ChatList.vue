@@ -125,6 +125,7 @@
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
         @mark-as-unread="markAsUnread"
+        @change-priority="changePriority"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -661,13 +662,34 @@ export default {
                 agentName: agent.name,
                 conversationId,
               }
-            )
+             )
           );
         } else {
           this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
         }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async changePriority(priority, conversationId = null) {
+      try {
+        await this.$store.dispatch('togglePriority', {
+          conversationId,
+          priority,
+        });
+        this.showAlert(
+          this.$t(
+            'CONVERSATION.CARD_CONTEXT_MENU.API.CHANGE_PRIORITY.SUCCESSFUL',
+            {
+              priority,
+              conversationId,
+            }
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t('CONVERSATION.CARD_CONTEXT_MENU.API.CHANGE_PRIORITY.FAILED')
+        );
       }
     },
     async markAsUnread(conversationId) {

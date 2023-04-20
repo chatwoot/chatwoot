@@ -131,6 +131,18 @@ const actions = {
     }
   },
 
+  togglePriority: async ({ dispatch }, { conversationId, priority }) => {
+    try {
+      await ConversationApi.togglePriority({
+        conversationId,
+        priority,
+      });
+      // TODO: Update the conversation priority in store
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   setCurrentChatTeam({ commit }, { team, conversationId }) {
     commit(types.ASSIGN_TEAM, { team, conversationId });
   },
