@@ -182,7 +182,8 @@
         "LABEL": "Za"
       },
       "INBOX": {
-        "LABEL": "Prijemno sanduče",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Izaberite prijemno sanduče"
       },
       "SUBJECT": {
