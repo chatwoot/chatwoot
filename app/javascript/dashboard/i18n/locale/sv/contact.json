@@ -182,7 +182,8 @@
         "LABEL": "Till"
       },
       "INBOX": {
-        "LABEL": "Inkorg",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Välj en inkorg"
       },
       "SUBJECT": {
