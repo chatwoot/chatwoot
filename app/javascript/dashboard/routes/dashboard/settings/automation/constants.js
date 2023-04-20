@@ -575,4 +575,9 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'Send a message',
     inputType: 'textarea',
   },
+  {
+    key: 'change_priority',
+    label: 'Change Priority',
+    inputType: 'search_select',
+  },
 ];
