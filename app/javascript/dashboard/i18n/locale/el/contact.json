@@ -182,7 +182,8 @@
         "LABEL": "Προς"
       },
       "INBOX": {
-        "LABEL": "Εισερχόμενα",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Επιλέξτε ένα κιβώτιο εισερχόμενων"
       },
       "SUBJECT": {
