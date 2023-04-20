@@ -182,7 +182,8 @@
         "LABEL": "Кому"
       },
       "INBOX": {
-        "LABEL": "Электронная почта",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Выберите электронную почту"
       },
       "SUBJECT": {
