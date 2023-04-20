@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Добавете телефона на контакта",
         "LABEL": "Телефон",
-        "HELP": "Телефона трябва да е във E.164 формат, например: +35955555555 [+][код на държавата][телефонен номер]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Телефона трябва да е празен или във E.164 формат",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Телефона се използва от друг контакт."
       },
       "LOCATION": {
