@@ -20,11 +20,7 @@ module PriorityActivityMessageHandler
   def build_priority_change_content(user_name, old_priority = nil, new_priority = nil)
     change_type = get_priority_change_type(old_priority, new_priority)
 
-    I18n.t("conversations.activity.priority.#{change_type}", {
-             user_name: user_name,
-             new_priority: new_priority,
-             old_priority: old_priority
-           })
+    I18n.t("conversations.activity.priority.#{change_type}", user_name: user_name, new_priority: new_priority, old_priority: old_priority)
   end
 
   def get_priority_change_type(old_priority, new_priority)
