@@ -27,6 +27,7 @@ class Enterprise::Billing::HandleStripeEventService
         subscribed_quantity: subscription['quantity']
       }
     )
+    enable_plan_features
   end
 
   def process_subscription_deleted
@@ -34,6 +35,27 @@ class Enterprise::Billing::HandleStripeEventService
     return if account.blank?
 
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+  end
+
+  def enable_plan_features
+    return if account.custom_attributes['plan_name'].blank?
+
+    enable_features
+    mark_cloud_customers
+  end
+
+  def enable_features
+    account.enable_features('channel_email', 'help_center')
+    account.save
+  end
+
+  def mark_cloud_customers
+    emails = account.users.pluck(:email)
+    contacts = Contact.where(email: emails)
+    contacts.each do |contact|
+      contact.add_label('cloud_customer')
+      contact.update(custom_attributes: { cloud_customer: true })
+    end
   end
 
   def ensure_event_context(event)
