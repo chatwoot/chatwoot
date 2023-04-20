@@ -22,7 +22,10 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
-        <bubble-image v-if="hasInstagramStory" :url="storyUrl" />
+        <blockquote v-if="hasInstagramStory" class="story-reply-quote">
+          <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
+          <bubble-image :url="storyUrl" />
+        </blockquote>
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -80,7 +83,7 @@
           :sender="data.sender"
           :story-sender="storySender"
           :external-error="externalError"
-          :story-id="storyId"
+          :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
           :has-instagram-story="hasInstagramStory"
@@ -679,7 +682,6 @@ li.right {
   blockquote {
     border-left: var(--space-micro) solid var(--s-75);
     color: var(--s-800);
-    padding: var(--space-smaller) var(--space-small);
     margin: var(--space-smaller) 0;
     padding: var(--space-small) var(--space-small) 0 var(--space-normal);
   }
@@ -710,5 +712,12 @@ li.right {
       color: var(--w-75);
     }
   }
+}
+
+.story-reply-quote {
+  border-left: var(--space-micro) solid var(--s-75);
+  color: var(--s-600);
+  margin: var(--space-smaller) 0 var(--space-small);
+  padding: var(--space-small) var(--space-small) 0 var(--space-normal);
 }
 </style>
