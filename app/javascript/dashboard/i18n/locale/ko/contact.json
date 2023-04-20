@@ -182,7 +182,8 @@
         "LABEL": "~~에게"
       },
       "INBOX": {
-        "LABEL": "받은 메시지함",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "받은 메시지함 선택"
       },
       "SUBJECT": {
