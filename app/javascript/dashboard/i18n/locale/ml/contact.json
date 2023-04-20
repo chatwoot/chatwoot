@@ -182,7 +182,8 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "ഇൻബോക്സ്",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "ഒരു ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക"
       },
       "SUBJECT": {
