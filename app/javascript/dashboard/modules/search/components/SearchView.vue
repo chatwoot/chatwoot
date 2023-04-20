@@ -21,39 +21,41 @@
         />
       </header>
       <div class="search-results">
-        <woot-loading-state v-if="uiFlags.isFetching" :message="'Searching'" />
-        <div v-else>
-          <div v-if="all.length">
-            <search-result-contacts-list
-              v-if="filterContacts"
-              :contacts="contacts"
-              :query="query"
-            />
-            <search-result-messages-list
-              v-if="filterMessages"
-              :messages="messages"
-              :query="query"
-            />
-            <search-result-conversations-list
-              v-if="filterConversations"
-              :conversations="conversations"
-              :query="query"
-            />
-          </div>
-          <div v-else-if="showEmptySearchResults && !all.length" class="empty">
-            <fluent-icon icon="info" size="16px" class="icon" />
-            <p class="empty-state__text">
-              {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
-            </p>
-          </div>
-          <div v-else class="empty text-center">
-            <p class="text-center margin-bottom-0">
-              <fluent-icon icon="search" size="24px" class="icon" />
-            </p>
-            <p class="empty-state__text">
-              {{ $t('SEARCH.EMPTY_STATE_DEFAULT') }}
-            </p>
-          </div>
+        <div v-if="all.length">
+          <search-result-contacts-list
+            v-if="filterContacts"
+            :is-fetching="uiFlags.contact.isFetching"
+            :contacts="contacts"
+            :query="query"
+          />
+
+          <search-result-messages-list
+            v-if="filterMessages"
+            :is-fetching="uiFlags.message.isFetching"
+            :messages="messages"
+            :query="query"
+          />
+
+          <search-result-conversations-list
+            v-if="filterConversations"
+            :is-fetching="uiFlags.conversation.isFetching"
+            :conversations="conversations"
+            :query="query"
+          />
+        </div>
+        <div v-else-if="showEmptySearchResults && !all.length" class="empty">
+          <fluent-icon icon="info" size="16px" class="icon" />
+          <p class="empty-state__text">
+            {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
+          </p>
+        </div>
+        <div v-else class="empty text-center">
+          <p class="text-center margin-bottom-0">
+            <fluent-icon icon="search" size="24px" class="icon" />
+          </p>
+          <p class="empty-state__text">
+            {{ $t('SEARCH.EMPTY_STATE_DEFAULT') }}
+          </p>
         </div>
       </div>
     </section>
@@ -66,7 +68,6 @@ import SearchTabs from './SearchTabs.vue';
 import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
-import { isEmptyObject } from 'dashboard/helper/commons.js';
 
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
@@ -89,35 +90,28 @@ export default {
 
   computed: {
     ...mapGetters({
-      fullSearchRecords: 'conversationSearch/getFullSearchRecords',
+      contactRecords: 'conversationSearch/getContactRecords',
+      conversationRecords: 'conversationSearch/getConversationRecords',
+      messageRecords: 'conversationSearch/getMessageRecords',
       uiFlags: 'conversationSearch/getUIFlags',
     }),
     contacts() {
-      if (this.fullSearchRecords.contacts) {
-        return this.fullSearchRecords.contacts.map(contact => ({
-          ...contact,
-          type: 'contact',
-        }));
-      }
-      return [];
+      return this.contactRecords.map(contact => ({
+        ...contact,
+        type: 'contact',
+      }));
     },
     conversations() {
-      if (this.fullSearchRecords.conversations) {
-        return this.fullSearchRecords.conversations.map(conversation => ({
-          ...conversation,
-          type: 'conversation',
-        }));
-      }
-      return [];
+      return this.conversationRecords.map(conversation => ({
+        ...conversation,
+        type: 'conversation',
+      }));
     },
     messages() {
-      if (this.fullSearchRecords.messages) {
-        return this.fullSearchRecords.messages.map(message => ({
-          ...message,
-          type: 'message',
-        }));
-      }
-      return [];
+      return this.messageRecords.map(message => ({
+        ...message,
+        type: 'message',
+      }));
     },
     all() {
       return [...this.contacts, ...this.conversations, ...this.messages];
@@ -162,8 +156,7 @@ export default {
     },
     showEmptySearchResults() {
       return (
-        this.totalSearchResultsCount === 0 &&
-        !isEmptyObject(this.fullSearchRecords)
+        this.totalSearchResultsCount === 0 && this.uiFlags.isSearchCompleted
       );
     },
   },

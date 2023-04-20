@@ -1,5 +1,7 @@
 <template>
+  <woot-loading-state v-if="isFetching" :message="'Searching'" />
   <search-result-section
+    v-else
     :title="$t('SEARCH.SECTION.CONVERSATIONS')"
     :empty="!conversations.length"
     :query="query"
@@ -36,6 +38,10 @@ export default {
     query: {
       type: String,
       default: '',
+    },
+    isFetching: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
