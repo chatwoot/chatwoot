@@ -40,6 +40,7 @@ class ReportsAPI extends ApiClient {
         id,
         group_by: groupBy,
         business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
       },
     });
   }
