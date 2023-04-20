@@ -182,7 +182,8 @@
         "LABEL": "An"
       },
       "INBOX": {
-        "LABEL": "Posteingang",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Posteingang auswählen"
       },
       "SUBJECT": {
