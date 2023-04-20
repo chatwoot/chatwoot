@@ -182,7 +182,8 @@
         "LABEL": "Ide"
       },
       "INBOX": {
-        "LABEL": "Fiók",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Válassz egy fiókot"
       },
       "SUBJECT": {
