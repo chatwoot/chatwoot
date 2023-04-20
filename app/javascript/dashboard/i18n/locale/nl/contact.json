@@ -182,7 +182,8 @@
         "LABEL": "Aan"
       },
       "INBOX": {
-        "LABEL": "Postvak In",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Selecteer een inbox"
       },
       "SUBJECT": {
