@@ -182,7 +182,8 @@
         "LABEL": "ya"
       },
       "INBOX": {
-        "LABEL": "Gelen kutusu",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Gelen kutusu seç"
       },
       "SUBJECT": {
