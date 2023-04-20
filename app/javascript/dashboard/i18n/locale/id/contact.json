@@ -182,7 +182,8 @@
         "LABEL": "Ke"
       },
       "INBOX": {
-        "LABEL": "Kotak masuk",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Pilih kotak masuk"
       },
       "SUBJECT": {
