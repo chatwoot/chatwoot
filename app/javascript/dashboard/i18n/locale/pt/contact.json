@@ -182,7 +182,8 @@
         "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Caixa de Entrada",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Selecione uma caixa de entrada"
       },
       "SUBJECT": {
