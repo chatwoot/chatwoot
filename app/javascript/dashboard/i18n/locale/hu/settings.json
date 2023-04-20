@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Másolás",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Vágólapra másolva"
     },
     "SHOW_MORE_BLOCK": {

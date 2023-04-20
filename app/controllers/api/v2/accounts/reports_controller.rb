@@ -72,14 +72,16 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def current_summary_params
     common_params.merge({
                           since: range[:current][:since],
-                          until: range[:current][:until]
+                          until: range[:current][:until],
+                          timezone_offset: params[:timezone_offset]
                         })
   end
 
   def previous_summary_params
     common_params.merge({
                           since: range[:previous][:since],
-                          until: range[:previous][:until]
+                          until: range[:previous][:until],
+                          timezone_offset: params[:timezone_offset]
                         })
   end
 

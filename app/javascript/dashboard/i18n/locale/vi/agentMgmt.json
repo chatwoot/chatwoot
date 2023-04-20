@@ -74,6 +74,11 @@
           "LABEL": "Emails",
           "PLACEHOLDER": "Vui lòng nhập email"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Khả dụng",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Chỉnh sửa nhà cung cấp"
       },
       "BUTTON_TEXT": "Chỉnh sửa",

@@ -4,7 +4,24 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
   subject(:job) { described_class }
 
   let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
-  let(:params)  { { phone_number: channel.phone_number } }
+  let(:params)  do
+    {
+      object: 'whatsapp_business_account',
+      phone_number: channel.phone_number,
+      entry: [{
+        changes: [
+          {
+            value: {
+              metadata: {
+                phone_number_id: channel.provider_config['phone_number_id'],
+                display_phone_number: channel.phone_number.delete('+')
+              }
+            }
+          }
+        ]
+      }]
+    }
+  end
   let(:process_service) { double }
 
   before do
@@ -21,6 +38,20 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
     it 'enqueue Whatsapp::IncomingMessageWhatsappCloudService' do
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
       expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      job.perform_now(params)
+    end
+
+    it 'will not enqueue message jobs based on phone number in the URL if the entry payload is not present' do
+      params = {
+        object: 'whatsapp_business_account',
+        phone_number: channel.phone_number,
+        entry: [{ changes: [{}] }]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      allow(Whatsapp::IncomingMessageService).to receive(:new)
+
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
       job.perform_now(params)
     end
 

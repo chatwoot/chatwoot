@@ -81,8 +81,7 @@ lv:
       avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
       avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
     conversation_traffic_csv:
-      date: Datums un laiks
-      conversations_count: Sarunu skaits
+      timezone: Timezone
     default_group_by: diena
     csat:
       headers:
@@ -113,6 +112,7 @@ lv:
         pending: "%{user_name} sarunu atzīmēja kā neapstiprinātu"
         snoozed: "%{user_name} atlika sarunu"
         auto_resolved: "Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} sev piešķīra šo sarunu"
         assigned: "%{user_name} piešķīra sarunu %{assignee_name}"
@@ -138,7 +138,7 @@ lv:
           reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} no %{inbox_name}"
+          reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Jauni ziņojumi šajā sarunā"
       transcript_subject: "Sarunas Transkripts"

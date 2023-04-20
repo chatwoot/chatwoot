@@ -74,6 +74,11 @@
           "LABEL": "Имейл адрес",
           "PLACEHOLDER": "Моля, въведете имейл адрес на агента"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Редактирай агента"
       },
       "BUTTON_TEXT": "Редактирай",
