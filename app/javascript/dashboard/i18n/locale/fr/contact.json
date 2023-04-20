@@ -182,7 +182,8 @@
         "LABEL": "À"
       },
       "INBOX": {
-        "LABEL": "Boîte de réception",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Sélectionner une boîte de réception"
       },
       "SUBJECT": {
