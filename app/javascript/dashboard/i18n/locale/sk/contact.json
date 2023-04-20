@@ -182,7 +182,8 @@
         "LABEL": "Pre"
       },
       "INBOX": {
-        "LABEL": "Schránka",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Vybrať schránku"
       },
       "SUBJECT": {
