@@ -182,7 +182,8 @@
         "LABEL": "До"
       },
       "INBOX": {
-        "LABEL": "Входяща кутия",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Изберете входяща кутия"
       },
       "SUBJECT": {
