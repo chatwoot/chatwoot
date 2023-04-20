@@ -60,6 +60,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'subscribed_quantity' => '10'
                                                      })
       expect(account).to be_feature_enabled('channel_email')
+      expect(account).to be_feature_enabled('help_center')
     end
 
     it 'handles customer.subscription.deleted' do
