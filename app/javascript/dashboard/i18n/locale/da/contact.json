@@ -182,7 +182,8 @@
         "LABEL": "Til"
       },
       "INBOX": {
-        "LABEL": "Indbakke",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Vælg en indbakke"
       },
       "SUBJECT": {
