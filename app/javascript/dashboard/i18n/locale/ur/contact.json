@@ -182,7 +182,8 @@
         "LABEL": "کو"
       },
       "INBOX": {
-        "LABEL": "ان باکس",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "ایک ان باکس منتخب کریں۔"
       },
       "SUBJECT": {
