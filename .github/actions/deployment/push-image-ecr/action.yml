@@ -46,15 +46,11 @@ runs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
     - name: Build, tag, and push image to Amazon ECR
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: true
-        tags: ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
-        file: ${{ inputs.DOCKERFILE_PATH}}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+      shell: bash
+      env:
+        VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
+      run: |
+        docker build -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
+        docker push ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
+
