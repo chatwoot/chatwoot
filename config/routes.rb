@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('SIDEKIQ_HEALTH_CHECK_ONLY_SERVER', false))
+    get '/sidekiq_health_check', to: 'sidekiq_health_check#check'
+    return
+  end
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
