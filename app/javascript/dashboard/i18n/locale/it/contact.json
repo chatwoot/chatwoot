@@ -182,7 +182,8 @@
         "LABEL": "A"
       },
       "INBOX": {
-        "LABEL": "Casella",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Seleziona una casella"
       },
       "SUBJECT": {
