@@ -113,6 +113,10 @@ ro:
         snoozed: "Conversația a fost snoozed de %{user_name}"
         auto_resolved: "Conversația a fost marcată de sistem din cauza %{duration} zile de inactivitate"
         system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} auto-atribuit această conversație"
         assigned: "Atribuit lui %{assignee_name} de %{user_name}"
