@@ -22,7 +22,7 @@
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
-        <blockquote v-if="hasInstagramStory" class="story-reply-quote">
+        <blockquote v-if="storyReply" class="story-reply-quote">
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
           <bubble-image :url="storyUrl" />
         </blockquote>
@@ -284,6 +284,9 @@ export default {
     storyUrl() {
       return this.contentAttributes.story_url || null;
     },
+    storyReply() {
+      return this.storyUrl && this.hasInstagramStory;
+    },
     contentType() {
       const {
         data: { content_type: contentType },
@@ -439,8 +442,8 @@ export default {
         const { file_type: fileType } = attachments[0];
         return fileType === type && !this.hasImageError;
       }
-      if (this.hasInstagramStory) {
-        return !!this.contentAttributes.story_id;
+      if (this.storyReply) {
+        return true;
       }
       return false;
     },
