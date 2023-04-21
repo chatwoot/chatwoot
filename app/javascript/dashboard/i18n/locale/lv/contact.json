@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Ievadiet kontaktpersonas tālruņa numuru",
         "LABEL": "Telefona numurs",
-        "HELP": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Tālruņa numuram ir jābūt tukšam, vai E.164 formātā",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai."
       },
       "LOCATION": {
@@ -181,7 +182,8 @@
         "LABEL": "Kam"
       },
       "INBOX": {
-        "LABEL": "Iesūtne",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Izvēlieties iesūtni"
       },
       "SUBJECT": {
