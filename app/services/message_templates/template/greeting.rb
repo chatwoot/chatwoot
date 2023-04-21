@@ -17,7 +17,7 @@ class MessageTemplates::Template::Greeting
 
   def greeting_message_params
     content = @conversation.inbox&.greeting_message
-    content = string_interpolation_on_content
+    content = string_interpolation_on_content(content)
 
     {
       account_id: @conversation.account_id,
@@ -27,14 +27,18 @@ class MessageTemplates::Template::Greeting
     }
   end
 
-  def string_interpolation_on_content
-    binding.pry
-    content.match?/{{.*?}}/
-    email_text = content.gsub(/\{\{(.*?)\}\}/) { Regexp.last_match(1) }
-    association, attribute = email_text.split('.')
-    record = conversation.send(association)
-    contacts_name = record.try(attribute)
+  def string_interpolation_on_content(content)
+    if content.match?(/.*{{.*}}.*/)
+      email_text = content.match(/\{\{.*?\}\}/)[0]
+      email_text = email_text.gsub(/\{\{/) { Regexp.last_match(1) }
+      email_text = email_text.gsub(/\}\}/) { Regexp.last_match(1) }
+      association, attribute = email_text.split('.')
+      record = conversation.send(association)
+      contacts_name = record.try(attribute)
 
-    content.gsub(/{{.*?}}/, contacts_name)
+      content = content.gsub(/\{\{.*?\}\}/, contacts_name)
+    end
+
+    content
   end
 end
