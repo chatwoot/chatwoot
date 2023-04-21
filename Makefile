@@ -17,7 +17,7 @@ db_migrate:
 db_seed:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:seed
 
-db_prepare:
+db:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:chatwoot_prepare
 
 console:
@@ -35,4 +35,4 @@ run:
 docker: 
 	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
 
-.PHONY: setup db_create db_migrate db_seed db_prepare console server burn docker run
+.PHONY: setup db_create db_migrate db_seed db console server burn docker run
