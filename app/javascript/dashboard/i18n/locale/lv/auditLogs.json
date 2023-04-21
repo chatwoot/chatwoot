@@ -1,0 +1,24 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Audita Žurnāli",
+    "HEADER_BTN_TXT": "Pievienot Audita Žurnālus",
+    "LOADING": "Audita Žurnālu Iegūšana",
+    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
+    "SIDEBAR_TXT": "<p><b>Audita Žurnāls</b> </p><p> Audita Žurnāli ir notikumu un darbību pēdas Chatwoot sistēmā. </p>",
+    "LIST": {
+      "404": "Šajā kontā nav pieejami Audita Žurnāli.",
+      "TITLE": "Pārvaldīt Audita Žurnālus",
+      "DESC": "Audita Žurnāli ir notikumu un darbību pēdas Chatwoot sistēmā.",
+      "TABLE_HEADER": [
+        "Lietotājs",
+        "Darbība",
+        "IP adrese",
+        "Laiks"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "AuditaŽurnāli ir veiksmīgi iegūti",
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+    }
+  }
+}

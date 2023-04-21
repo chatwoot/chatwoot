@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Kişinin telefon numarasını girin",
         "LABEL": "Telefon numarası",
-        "HELP": "Telefon numarası E.164 formatında olmalı örn: +1415555555 [+][country code][area code][local phone number]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Telefon numarası boş ya da E.164 formatında olabilir",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Bu telefon numarası başkası tarafından kullanılıyor."
       },
       "LOCATION": {
@@ -181,7 +182,8 @@
         "LABEL": "ya"
       },
       "INBOX": {
-        "LABEL": "Gelen kutusu",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Gelen kutusu seç"
       },
       "SUBJECT": {
