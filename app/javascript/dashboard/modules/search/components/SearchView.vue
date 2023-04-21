@@ -27,6 +27,7 @@
             :is-fetching="uiFlags.contact.isFetching"
             :contacts="contacts"
             :query="query"
+            :show-title="selectedTab === 'all'"
           />
 
           <search-result-messages-list
@@ -34,6 +35,7 @@
             :is-fetching="uiFlags.message.isFetching"
             :messages="messages"
             :query="query"
+            :show-title="selectedTab === 'all'"
           />
 
           <search-result-conversations-list
@@ -41,6 +43,7 @@
             :is-fetching="uiFlags.conversation.isFetching"
             :conversations="conversations"
             :query="query"
+            :show-title="selectedTab === 'all'"
           />
         </div>
         <div v-else-if="showEmptySearchResults && !all.length" class="empty">

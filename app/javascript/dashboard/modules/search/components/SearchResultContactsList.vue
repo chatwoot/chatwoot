@@ -1,10 +1,10 @@
 <template>
-  <woot-loading-state v-if="isFetching" :message="'Searching'" />
   <search-result-section
-    v-else
     :title="$t('SEARCH.SECTION.CONTACTS')"
     :empty="!contacts.length"
     :query="query"
+    :show-title="showTitle"
+    :is-fetching="isFetching"
   >
     <ul class="search-list">
       <li v-for="contact in contacts" :key="contact.id">
@@ -44,6 +44,10 @@ export default {
     isFetching: {
       type: Boolean,
       default: false,
+    },
+    showTitle: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
