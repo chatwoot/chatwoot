@@ -440,7 +440,7 @@ export default {
         return fileType === type && !this.hasImageError;
       }
       if (this.hasInstagramStory) {
-        return true;
+        return !!this.contentAttributes.story_id;
       }
       return false;
     },
