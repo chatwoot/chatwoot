@@ -7,7 +7,7 @@ class ConversationReplyEmailWorker
     @conversation = Conversation.find(conversation_id)
 
     # send the email
-    if @conversation.messages.incoming&.last&.content_type == 'incoming_email'
+    if @conversation.messages.incoming&.last&.content_type == 'incoming_email' && !@conversation.account.feature_enabled?('always_include_conversation_summaries')
       ConversationReplyMailer.with(account: @conversation.account).reply_without_summary(@conversation, last_queued_id).deliver_later
     else
       ConversationReplyMailer.with(account: @conversation.account).reply_with_summary(@conversation, last_queued_id).deliver_later

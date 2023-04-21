@@ -31,15 +31,31 @@ RSpec.describe ConversationReplyEmailWorker, type: :worker do
     end
 
     context 'with actions performed by the worker' do
+      context 'when always_include_conversation_summaries is enabled' do
+        before do
+          account = conversation.account
+          account.enable_features('always_include_conversation_summaries')
+          account.save!
+        end
+
+        it 'calls ConversationSummaryMailer#reply_with_summary when last incoming message was from email' do
+          message.save!
+          described_class.new.perform(1, message.id)
+          expect(mailer).to have_received(:reply_with_summary)
+        end
+      end
+
+      context 'when always_include_conversation_summaries is disabled' do
+        it 'calls ConversationSummaryMailer#reply_without_summary when last incoming message was from email' do
+          message.save!
+          described_class.new.perform(1, message.id)
+          expect(mailer).to have_received(:reply_without_summary)
+        end
+      end
+
       it 'calls ConversationSummaryMailer#reply_with_summary when last incoming message was not email' do
         described_class.new.perform(1, message.id)
         expect(mailer).to have_received(:reply_with_summary)
-      end
-
-      it 'calls ConversationSummaryMailer#reply_without_summary when last incoming message was from email' do
-        message.save!
-        described_class.new.perform(1, message.id)
-        expect(mailer).to have_received(:reply_without_summary)
       end
     end
   end

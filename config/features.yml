@@ -53,3 +53,5 @@
   enabled: false
 - name: custom_reply_domain
   enabled: false
+- name: always_include_conversation_summaries
+  enabled: false
