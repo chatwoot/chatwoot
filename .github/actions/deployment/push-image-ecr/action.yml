@@ -60,6 +60,6 @@ runs:
       env:
         VUE_APP_VERSION: ${{ inputs.VUE_APP_VERSION }}
       run: |
-        docker build -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
+        docker build --build-arg VUE_APP_SENTRY_DSN_CHAT=${ inputs.VUE_APP_SENTRY_DSN_CHAT } -t ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest -f ${{ inputs.DOCKERFILE_PATH}} .
         docker push ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:latest
 
