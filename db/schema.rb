@@ -289,7 +289,6 @@ ActiveRecord::Schema.define(version: 2023_04_18_100944) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "instagram_id"
-    t.jsonb "content_attributes", default: {}
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
