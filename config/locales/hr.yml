@@ -113,6 +113,10 @@ hr:
         snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
         system_auto_open: Sustav je ponovno otvorio razgovor zbog pristigle nove poruke.
+      priority:
+        added: '%{user_name} je postavio prioritet na %{new_priority}'
+        updated: '%{user_name} je promijenio prioritet s %{old_priority} na %{new_priority}'
+        removed: '%{user_name} je maknuo prioritet'
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Assigned to %{assignee_name} by %{user_name}"
