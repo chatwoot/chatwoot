@@ -31,7 +31,7 @@ RSpec.describe JsonSchemaValidator, type: :validator do
   context 'with valid data' do
     let(:valid_data) do
       {
-        'name' => 'Hricha Shandily',
+        'name' => 'John Doe',
         'age' => 30,
         'tags' => %w[tag1 tag2],
         'is_active' => true,
@@ -52,7 +52,7 @@ RSpec.describe JsonSchemaValidator, type: :validator do
   context 'with missing required attributes' do
     let(:invalid_data) do
       {
-        'name' => 'Hricha Shandily',
+        'name' => 'John Doe',
         'address' => {
           'street' => '123 Main St',
           'city' => 'Iceland'
@@ -70,7 +70,7 @@ RSpec.describe JsonSchemaValidator, type: :validator do
   context 'with incorrect address hash' do
     let(:invalid_data) do
       {
-        'name' => 'Hricha Shandily',
+        'name' => 'John Doe',
         'age' => 30,
         'address' => 'not-a-hash'
       }
@@ -86,7 +86,7 @@ RSpec.describe JsonSchemaValidator, type: :validator do
   context 'with incorrect types' do
     let(:invalid_data) do
       {
-        'name' => 'Hricha Shandily',
+        'name' => 'John Doe',
         'age' => '30',
         'is_active' => 'some-value',
         'tags' => 'not-an-array',
