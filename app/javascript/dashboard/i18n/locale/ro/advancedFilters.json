@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Numele campaniei",
       "LABELS": "Etichete",
       "BROWSER_LANGUAGE": "Limba browserului",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Numele țării",
       "REFERER_LINK": "Link referer",
       "CUSTOM_ATTRIBUTE_LIST": "Listă",
