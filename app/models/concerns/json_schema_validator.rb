@@ -4,19 +4,23 @@
 # Here's an example schema:
 #
 # schema = {
-#   'name' => { required: true, type: 'string' },
-#   'age' => { required: true, type: 'integer' },
-#   'is_active' => { required: false, type: 'boolean' },
-#   'tags' => { required: false, type: 'array' },
-#   'address' => {
-#     required: false,
-#     type: 'hash',
-#     properties: {
-#       'street' => { required: true, type: 'string' },
-#       'city' => { required: true, type: 'string' }
+#   'type' => 'object',
+#   'properties' => {
+#     'name' => { 'type' => 'string' },
+#     'age' => { 'type' => 'integer' },
+#     'is_active' => { 'type' => 'boolean' },
+#     'tags' => { 'type' => 'array' },
+#     'address' => {
+#       'type' => 'object',
+#       'properties' => {
+#         'street' => { 'type' => 'string' },
+#         'city' => { 'type' => 'string' }
+#       },
+#       'required' => ['street', 'city']
 #     }
-#   }
-# }.freeze
+#   },
+#   'required': ['name', 'age']
+# }.to_json.freeze
 #
 # To validate a model using this schema, include the `JsonSchemaValidator` in the model's validations and pass the schema
 # as an option:
@@ -27,71 +31,56 @@
 
 class JsonSchemaValidator < ActiveModel::Validator
   def validate(record)
-    # get the attribute resolver function from options or use a default one
+    # Get the attribute resolver function from options or use a default one
     attribute_resolver = options[:attribute_resolver] || ->(rec) { rec.additional_attributes }
 
-    # resolve the JSON data to be validated
+    # Resolve the JSON data to be validated
     json_data = attribute_resolver.call(record)
 
-    # get the schema to be used for validation
+    # Get the schema to be used for validation
     schema = options[:schema]
 
-    # call the private method to validate the schema
-    validate_schema(json_data, schema, 'root', record)
+    # Create a JSONSchemer instance using the schema
+    schemer = JSONSchemer.schema(schema)
+
+    # Validate the JSON data against the schema
+    validation_errors = schemer.validate(json_data)
+
+    # Add validation errors to the record with a formatted statement
+    validation_errors.each do |error|
+      # byebug
+      format_and_append_error(error, record)
+    end
   end
 
   private
 
-  def validate_schema(json_data, schema, path, record)
-    schema.each do |key, rule|
-      value = json_data[key] # get the value for the current key
+  def format_and_append_error(error, record)
+    handle_required(error, record) if error['type'] == 'required'
 
-      # check if the value is required and not present
-      if rule[:required] && value.nil?
-        record.errors.add(path, "#{key} is required")
-      elsif !value.nil? # check if the value is present
-        validate_type(value, rule[:type], "#{path}.#{key}", record) # validate the type of the value
+    handle_type(error, record, 'hash') if error['type'] == 'object'
+    handle_type(error, record, error['type']) if error['type'] == 'boolean'
+    handle_type(error, record, error['type']) if error['type'] == 'array'
+    handle_type(error, record, error['type']) if error['type'] == 'integer'
+    handle_type(error, record, error['type']) if error['type'] == 'string'
+  end
 
-        # validate the nested schema if the value is a Hash
-        validate_schema(value, rule[:properties], "#{path}.#{key}", record) if rule[:properties] && value.is_a?(Hash)
-      end
+  def handle_required(error, record)
+    missing_values = error['details']['missing_keys']
+    missing_values.each do |missing|
+      record.errors.add(missing, 'is required')
     end
   end
 
-  def validate_type(value, type, path, record)
-    case type
-    when 'string'
-      validate_string(value, path, record)
-    when 'integer'
-      validate_integer(value, path, record)
-    when 'hash'
-      validate_hash(value, path, record)
-    when 'array'
-      validate_array(value, path, record)
-    when 'boolean'
-      validate_boolean(value, path, record)
-    else
-      raise ArgumentError, "Unsupported type: #{type}"
-    end
+  def handle_type(error, record, expected_type)
+    data = get_name_from_data_pointer(error)
+    record.errors.add(data, "must be of type #{expected_type}")
   end
 
-  def validate_string(value, path, record)
-    record.errors.add(path, 'must be a string') unless value.is_a?(String)
-  end
+  def get_name_from_data_pointer(error)
+    data = error['data_pointer']
 
-  def validate_integer(value, path, record)
-    record.errors.add(path, 'must be an integer') unless value.is_a?(Integer)
-  end
-
-  def validate_hash(value, path, record)
-    record.errors.add(path, 'must be a hash') unless value.is_a?(Hash)
-  end
-
-  def validate_array(value, path, record)
-    record.errors.add(path, 'must be an array') unless value.is_a?(Array)
-  end
-
-  def validate_boolean(value, path, record)
-    record.errors.add(path, 'must be a boolean') unless [true, false].include?(value)
+    # if data starts with a "/" remove it
+    data[1..] if data[0] == '/'
   end
 end

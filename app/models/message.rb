@@ -38,18 +38,21 @@ class Message < ApplicationRecord
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   TEMPLATE_PARAMS_SCHEMA = {
-    'template_params' => {
-      required: false,
-      type: 'hash',
-      properties: {
-        'name' => { required: true, type: 'string' },
-        'category' => { required: true, type: 'string' },
-        'language' => { required: true, type: 'string' },
-        'namespace' => { required: true, type: 'string' },
-        'processed_params' => { required: true, type: 'hash' }
+    'type': 'object',
+    'properties': {
+      'template_params': {
+        'type': 'object',
+        'properties': {
+          'name': { 'type': 'string' },
+          'category': { 'type': 'string' },
+          'language': { 'type': 'string' },
+          'namespace': { 'type': 'string' },
+          'processed_params': { 'type': 'object' }
+        },
+        'required': %w[name category language namespace processed_params]
       }
     }
-  }.freeze
+  }.to_json.freeze
 
   before_validation :ensure_content_type
 

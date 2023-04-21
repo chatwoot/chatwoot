@@ -2,19 +2,24 @@ require 'rails_helper'
 
 RSpec.describe JsonSchemaValidator, type: :validator do
   schema = {
-    'name' => { required: true, type: 'string' },
-    'age' => { required: true, type: 'integer' },
-    'is_active' => { required: false, type: 'boolean' },
-    'tags' => { required: false, type: 'array' },
-    'address' => {
-      required: false,
-      type: 'hash',
-      properties: {
-        'street' => { required: true, type: 'string' },
-        'city' => { required: true, type: 'string' }
+    'type' => 'object',
+    'properties' => {
+      'name' => { 'type' => 'string' },
+      'age' => { 'type' => 'integer' },
+      'is_active' => { 'type' => 'boolean' },
+      'tags' => { 'type' => 'array' },
+      'address' => {
+        'type' => 'object',
+        'properties' => {
+          'street' => { 'type' => 'string' },
+          'city' => { 'type' => 'string' }
+        },
+        'required' => %w[street city]
       }
-    }
-  }.freeze
+    },
+    :required => %w[name age]
+  }.to_json.freeze
+
   # Create a simple test model for validation
   before_all do
     # rubocop:disable Lint/ConstantDefinitionInBlock
@@ -63,7 +68,7 @@ RSpec.describe JsonSchemaValidator, type: :validator do
     it 'fails validation' do
       model = TestModelForJSONValidation.new(invalid_data)
       expect(model.valid?).to be false
-      expect(model.errors.messages).to eq({ :root => ['age is required'] })
+      expect(model.errors.messages).to eq({ :age => ['is required'] })
     end
   end
 
@@ -79,7 +84,7 @@ RSpec.describe JsonSchemaValidator, type: :validator do
     it 'fails validation' do
       model = TestModelForJSONValidation.new(invalid_data)
       expect(model.valid?).to be false
-      expect(model.errors.messages).to eq({ :'root.address' => ['must be a hash'] })
+      expect(model.errors.messages).to eq({ :address => ['must be of type hash'] })
     end
   end
 
@@ -100,8 +105,8 @@ RSpec.describe JsonSchemaValidator, type: :validator do
     it 'fails validation' do
       model = TestModelForJSONValidation.new(invalid_data)
       expect(model.valid?).to be false
-      expect(model.errors.messages).to eq({ :'root.age' => ['must be an integer'], :'root.address.street' => ['must be a string'],
-                                            :'root.is_active' => ['must be a boolean'], :'root.tags' => ['must be an array'] })
+      expect(model.errors.messages).to eq({ :age => ['must be of type integer'], :'address/street' => ['must be of type string'],
+                                            :is_active => ['must be of type boolean'], :tags => ['must be of type array'] })
     end
   end
 end
