@@ -56,13 +56,11 @@ class JsonSchemaValidator < ActiveModel::Validator
   private
 
   def format_and_append_error(error, record)
-    handle_required(error, record) if error['type'] == 'required'
+    return handle_required(error, record) if error['type'] == 'required'
 
-    handle_type(error, record, 'hash') if error['type'] == 'object'
-    handle_type(error, record, error['type']) if error['type'] == 'boolean'
-    handle_type(error, record, error['type']) if error['type'] == 'array'
-    handle_type(error, record, error['type']) if error['type'] == 'integer'
-    handle_type(error, record, error['type']) if error['type'] == 'string'
+    type = error['type'] == 'object' ? 'hash' : error['type']
+
+    handle_type(error, record, type)
   end
 
   def handle_required(error, record)
