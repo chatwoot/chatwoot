@@ -272,11 +272,11 @@
     "REMANING_PARTICIPANT_TEXT": "+%{count} altele",
     "TOTAL_PARTICIPANTS_TEXT": "%{count} participă oamenii.",
     "TOTAL_PARTICIPANT_TEXT": "%{count} persoană participă.",
-    "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!",
+    "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!.",
     "WATCH_CONVERSATION": "Începe conversația",
     "YOU_ARE_WATCHING": "Participați",
     "API": {
-      "ERROR_MESSAGE": "Nu a putut actualiza, încercați din nou",
+      "ERROR_MESSAGE": "Nu s-a putut actualiza, încercați din nou!",
       "SUCCESS_MESSAGE": "Participanții au actualizat!"
     }
   },
