@@ -21,7 +21,7 @@ ro:
   messages:
     reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
     reset_password_failure: Nu am putut găsi niciun utilizator cu e-mailul specificat.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Solicitarea de ștergere a inboxului va fi procesată într-un anumit timp.
   errors:
     validations:
       presence: nu trebuie să fie gol
@@ -46,7 +46,7 @@ ro:
       locale:
         unique: ar trebui să fie unic în categorie și portal
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Tip de mesaj nevalid. Acțiune nepermisă"
     inboxes:
       imap:
         socket_error: Verificați conexiunea la rețea, adresa IMAP și încercați din nou.
@@ -58,7 +58,7 @@ ro:
         name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
   reports:
     period: Perioada de raportare %{since}-%{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Raportul generat este în fusul orar UTC
     agent_csv:
       agent_name: Nume agent
       conversations_count: Conversațiile contează
@@ -81,7 +81,7 @@ ro:
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Fus orar
     default_group_by: zi
     csat:
       headers:
@@ -112,7 +112,11 @@ ro:
         pending: "Conversația a fost marcată ca fiind în așteptare de către %{user_name}"
         snoozed: "Conversația a fost snoozed de %{user_name}"
         auto_resolved: "Conversația a fost marcată de sistem din cauza %{duration} zile de inactivitate"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: Sistemul a redeschis conversația din cauza unui nou mesaj de intrare.
+      priority:
+        added: '%{user_name} setați prioritatea pentru a %{new_priority}'
+        updated: '%{user_name} schimbat prioritatea de la %{old_priority} la %{new_priority}'
+        removed: '%{user_name} eliminat prioritatea'
       assignee:
         self_assigned: "%{user_name} auto-atribuit această conversație"
         assigned: "Atribuit lui %{assignee_name} de %{user_name}"
@@ -150,8 +154,8 @@ ro:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte este un instrument care vă ajută să adăugați audio și video live la aplicația dvs., cu doar câteva linii de cod. Această integrare vă permite să oferiți o opțiune agenților dumneavoastră de a efectua un apel video sau vocal cu clienții dvs., fără a părăsi Chatwoot."
+      meeting_name: "%{agent_name} a început o întâlnire"
     slack:
       name: "Slack"
       description: "Slack este un instrument de chat care vă reunește toate comunicările într-un singur loc. Prin integrarea Slack, puteți fi notificat cu privire la toate conversațiile noi din cont chiar în interiorul Slack-ului."
@@ -166,23 +170,23 @@ ro:
       description: "Integrarea FullContact ajută la îmbogățirea profilurilor vizitatorilor. Identificați utilizatorii imediat ce își partajează adresa de e-mail și oferiți-le servicii personalizate pentru clienți. Conectați FullContact la contul dvs., partajând cheia API FullContact."
     google_translate:
       name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Simplificați traducerea mesajelor de către agenți prin adăugarea unei integrări Google Translate. Google translate ajută la identificarea automată a limbii și la conversia acesteia în limba aleasă de agent/administratorul contului."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Căutați articol după titlu sau corp...
       empty_placeholder: Niciun rezultat găsit.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: In căutare...
+      results_title: Rezultate căutare pentru
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Căutați articolele aici sau răsfoiți categoriile de mai jos.
     common:
       home: Acasa
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
+      last_updated_on: Participanții au actualizat!
+      view_all_articles: Vezi toate articolele
+      article: articol
       articles: articole
-      no_articles: There are no articles here
+      no_articles: Nu există articole aici
     footer:
-      made_with: Made with
+      made_with: Realizat cu
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Accesați site-ul principal
