@@ -203,6 +203,7 @@
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Источники",
     "NOTIFICATIONS": "Уведомления",
     "CANNED_RESPONSES": "Шаблонные ответы",
