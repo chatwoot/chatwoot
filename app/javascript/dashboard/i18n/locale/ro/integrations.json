@@ -2,21 +2,21 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrări",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Evenimente subscrise",
       "FORM": {
         "CANCEL": "Renunță",
         "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Evenimente",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONVERSATION_CREATED": "Conversație creată",
+            "CONVERSATION_STATUS_CHANGED": "Stare conversație schimbată",
+            "CONVERSATION_UPDATED": "Conversație actualizată",
+            "MESSAGE_CREATED": "Mesaj creat",
+            "MESSAGE_UPDATED": "Mesaj actualizat",
+            "WEBWIDGET_TRIGGERED": "Widget de chat live deschis de utilizator",
+            "CONTACT_CREATED": "Persoană de contact creată",
+            "CONTACT_UPDATED": "Persoană de contact actualizată"
           }
         },
         "END_POINT": {
@@ -24,7 +24,7 @@
           "PLACEHOLDER": "Exemplu: https://example/api/webhook",
           "ERROR": "Te rog introdu un URL valid"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Actualizați webhook",
         "ADD_SUBMIT": "Creează webhook"
       },
       "TITLE": "Webhook",
@@ -46,7 +46,7 @@
         "BUTTON_TEXT": "Editare",
         "TITLE": "Editare webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Configurația Webhook actualizată cu succes",
           "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
         }
       },
@@ -54,7 +54,7 @@
         "CANCEL": "Renunță",
         "TITLE": "Adaugă un nou webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Configurare Webhook adăugată cu succes",
           "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
         }
       },
@@ -66,7 +66,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmă ștergerea",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Sunteți sigur de a șterge webhook? (%{webhookURL})",
           "YES": "Da, șterge ",
           "NO": "Nu, păstreaza"
         }
@@ -79,11 +79,11 @@
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Click aici pentru a vă alătura",
+      "LEAVE_THE_ROOM": "Părăsiți camera",
+      "START_VIDEO_CALL_HELP_TEXT": "Inițierea unui nou apel video cu clientul",
+      "JOIN_ERROR": "A existat o eroare la aderarea la apel, vă rugăm să încercați din nou",
+      "CREATE_ERROR": "A existat o eroare la crearea unui link de întâlnire, încercați din nou"
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
@@ -95,49 +95,49 @@
       "BUTTON_TEXT": "Conectează-te"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "Aplicații tablou de bord",
+      "HEADER_BTN_TXT": "Adăugarea unei noi aplicații pentru tabloul de bord",
+      "SIDEBAR_TXT": "<p><b>Aplicații tablou de bord</b></p><p>Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în tabloul de bord Chatwoot pentru a oferi contextul pentru agenții de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați în interiorul tabloului de bord pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.</p><p>Când încorporați aplicația utilizând tabloul de bord în Chatwoot, aplicația va primi contextul conversației și al contactului ca eveniment de fereastră. Implementați un ascultător pentru evenimentul mesajului de pe pagina dvs., pentru a primi contextul.</p><p>Pentru a adăuga o nouă aplicație de tablou de bord, faceți clic pe butonul \"Adăugați o nouă aplicație de tablou de bord\".</p>",
+      "DESCRIPTION": "Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în interiorul tabloului de bord pentru a oferi contextul agenților de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Nu există încă aplicații de tablou de bord configurate pe acest cont",
+        "LOADING": "Preluarea aplicațiilor de tablou de bord...",
         "TABLE_HEADER": [
           "Nume",
-          "Endpoint"
+          "Punct final"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Editarea aplicației",
+        "DELETE_TOOLTIP": "Ștergerea aplicației"
       },
       "FORM": {
         "TITLE_LABEL": "Nume",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "Introduceți un nume pentru aplicația tablou de bord",
+        "TITLE_ERROR": "Este necesar un nume pentru aplicația tabloul de bord",
+        "URL_LABEL": "Punct final",
+        "URL_PLACEHOLDER": "Introduceți adresa URL a punctului final în care este găzduită aplicația dvs.",
+        "URL_ERROR": "Este necesară o adresă URL validă"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Adăugarea unei noi aplicații pentru tabloul de bord",
         "FORM_SUBMIT": "Trimite",
         "FORM_CANCEL": "Renunță",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Aplicația Tablou de bord configurată cu succes",
+        "API_ERROR": "Nu am putut crea o aplicație. Încercați din nou mai târziu"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Accesați Tabloul de bord conversație",
         "FORM_SUBMIT": "Actualizare",
         "FORM_CANCEL": "Renunță",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Setările IMAP actualizate cu succes",
+        "API_ERROR": "Nu am putut actualiza aplicația. Încercați din nou mai târziu"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Da, ștergeți acest lucru",
+        "CONFIRM_NO": "Nu, păstreaza",
         "TITLE": "Confirmă ștergerea",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "Sunteți sigur că ștergeți aplicația - %{appName}?",
+        "API_SUCCESS": "Aplicația Tablou de bord ștearsă cu succes",
+        "API_ERROR": "Nu am putut șterge aplicația. Încercați din nou mai târziu"
       }
     }
   }
