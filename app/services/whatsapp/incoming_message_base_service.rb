@@ -18,12 +18,6 @@ class Whatsapp::IncomingMessageBaseService
 
   private
 
-  def find_message_by_source_id(source_id)
-    return unless source_id
-
-    @message = Message.find_by(source_id: source_id)
-  end
-
   def process_messages
     # message allready exists so we don't need to process
     return if find_message_by_source_id(@processed_params[:messages].first[:id])
@@ -58,6 +52,7 @@ class Whatsapp::IncomingMessageBaseService
     message = @processed_params[:messages].first
     log_error(message) && return if error_webhook_event?(message)
 
+    process_in_reply_to(message)
     if message_type == 'contacts'
       create_contact_messages(message)
     else
@@ -143,7 +138,9 @@ class Whatsapp::IncomingMessageBaseService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: message[:id].to_s
+      source_id: message[:id].to_s,
+      in_reply_to_external_id: @in_reply_to_external_id,
+      in_reply_to: @in_reply_to
     )
   end
 
