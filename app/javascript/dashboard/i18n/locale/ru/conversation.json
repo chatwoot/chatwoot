@@ -66,6 +66,23 @@
         "NEXT_WEEK": "На следующей неделе"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Ничего",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Ничего",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Результаты не найдены",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Отметить как ожидающие",
       "RESOLVED": "Пометить как разрешено",
