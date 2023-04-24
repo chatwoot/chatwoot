@@ -1,7 +1,6 @@
 <template>
-  <span class="conversation-priority-mark">
+  <span v-if="priority" class="conversation-priority-mark">
     <svg
-      v-if="priority"
       v-tooltip="tooltipText"
       width="14"
       height="14"
