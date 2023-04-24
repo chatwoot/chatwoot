@@ -192,6 +192,7 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
+import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -679,6 +680,10 @@ export default {
       this.$store
         .dispatch('assignPriority', { conversationId, priority })
         .then(() => {
+          this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+            newValue: priority,
+            from: 'Context menu',
+          });
           this.showAlert(
             this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
               priority,
