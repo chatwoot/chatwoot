@@ -151,7 +151,7 @@ export default {
       priorityConfig: {
         key: 'priority',
         label: this.$t('CONVERSATION.PRIORITY.TITLE'),
-        icon: 'snooze',
+        icon: 'warning',
         options: [
           {
             label: this.$t('CONVERSATION.PRIORITY.NONE'),
