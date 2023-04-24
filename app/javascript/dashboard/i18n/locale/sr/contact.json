@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Unesite broj telefona kontakta",
         "LABEL": "Broj telefona",
-        "HELP": "Broj telefona bi trebao biti u E.164 formatu npr.: +381601234567 [+][broj države][pozivni broj][broj telefona]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Broj telefona bi trebao biti ili prazan ili u E.164 formatu",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Broj telefona je iskorišćen kod drugog kontakta."
       },
       "LOCATION": {
@@ -181,7 +182,8 @@
         "LABEL": "Za"
       },
       "INBOX": {
-        "LABEL": "Prijemno sanduče",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Izaberite prijemno sanduče"
       },
       "SUBJECT": {

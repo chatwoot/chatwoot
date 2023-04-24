@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Conversații",
     "MENTION_HEADING": "Mențiuni",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Neasistat",
     "SEARCH": {
       "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
     },
@@ -60,8 +60,8 @@
     "REPLY_TO_TWEET": "Răspunde la acest tweet",
     "LINK_TO_STORY": "Accesați povestea Instagram",
     "SENT": "Trimis cu succes",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Citit cu succes",
+    "DELIVERED": "Livrat cu succes",
     "NO_MESSAGES": "Niciun mesaj",
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",

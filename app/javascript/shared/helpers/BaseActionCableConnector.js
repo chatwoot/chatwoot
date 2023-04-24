@@ -4,8 +4,11 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 const PRESENCE_INTERVAL = 20000;
 
 class BaseActionCableConnector {
+  static isDisconnected = false;
+
   constructor(app, pubsubToken, websocketHost = '') {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
+
     this.consumer = createConsumer(websocketURL);
     this.subscription = this.consumer.subscriptions.create(
       {
@@ -19,25 +22,43 @@ class BaseActionCableConnector {
           this.perform('update_presence');
         },
         received: this.onReceived,
-        disconnected: this.onDisconnected,
+        disconnected: () => {
+          BaseActionCableConnector.isDisconnected = true;
+          this.onDisconnected();
+          // TODO: Remove this after completing the conversation list refetching
+          window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
+        },
       }
     );
     this.app = app;
     this.events = {};
     this.isAValidEvent = () => true;
-
-    setInterval(() => {
-      this.subscription.updatePresence();
-    }, PRESENCE_INTERVAL);
+    this.triggerPresenceInterval = () => {
+      setTimeout(() => {
+        this.subscription.updatePresence();
+        this.checkConnection();
+        this.triggerPresenceInterval();
+      }, PRESENCE_INTERVAL);
+    };
+    this.triggerPresenceInterval();
   }
+
+  checkConnection() {
+    const isConnectionActive = this.consumer.connection.isOpen();
+    const isReconnected =
+      BaseActionCableConnector.isDisconnected && isConnectionActive;
+    if (isReconnected) {
+      this.onReconnect();
+      BaseActionCableConnector.isDisconnected = false;
+    }
+  }
+
+  onReconnect = () => {};
+
+  onDisconnected = () => {};
 
   disconnect() {
     this.consumer.disconnect();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  onDisconnected() {
-    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   }
 
   onReceived = ({ event, data } = {}) => {
