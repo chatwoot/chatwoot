@@ -111,27 +111,27 @@ export default {
       priorityOptions: [
         {
           id: null,
-          name: 'None',
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
           thumbnail: `/assets/images/dashboard/priority/none.svg`,
         },
         {
           id: CONVERSATION_PRIORITY.URGENT,
-          name: 'Urgent',
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
           thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.URGENT}.svg`,
         },
         {
           id: CONVERSATION_PRIORITY.HIGH,
-          name: 'High',
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
           thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.HIGH}.svg`,
         },
         {
           id: CONVERSATION_PRIORITY.MEDIUM,
-          name: 'Medium',
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
           thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.MEDIUM}.svg`,
         },
         {
           id: CONVERSATION_PRIORITY.LOW,
-          name: 'Low',
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
           thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.LOW}.svg`,
         },
       ],
