@@ -66,6 +66,14 @@
         "NEXT_WEEK": "Next week"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "NONE": "None",
+      "URGENT": "Urgent",
+      "HIGH": "High",
+      "MEDIUM": "Medium",
+      "LOW": "Low"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
