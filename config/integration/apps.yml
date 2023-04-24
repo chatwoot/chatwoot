@@ -151,4 +151,4 @@ openai:
       "validation": "required",
     },
   ]
-  visible_properties: ["organization_id"]
+  visible_properties: ['api_key']
