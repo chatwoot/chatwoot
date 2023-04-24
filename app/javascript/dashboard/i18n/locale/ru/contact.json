@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Введите номер телефона контакта",
         "LABEL": "Номер телефона",
-        "HELP": "Номер телефона должен быть в формате E.164, например: +1415555555 [+] [код страны][код города] [локальный номер телефона]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Номер телефона должен быть пустым или в формате E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Этот номер телефона используется для другого контакта."
       },
       "LOCATION": {
@@ -181,7 +182,8 @@
         "LABEL": "Кому"
       },
       "INBOX": {
-        "LABEL": "Электронная почта",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Выберите электронную почту"
       },
       "SUBJECT": {

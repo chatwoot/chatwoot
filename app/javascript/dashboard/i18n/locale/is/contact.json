@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Hafið frá",
     "INITIATED_AT": "Hafið",
     "IP_ADDRESS": "IP tala",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Skráð",
     "NEW_MESSAGE": "Ný skilaboð",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Engin fyrri samtöl eru tengd þessum tengilið.",
@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Sláðu inn símanúmer tengiliðs",
         "LABEL": "Símanúmer",
-        "HELP": "Símanúmer ætti að vera á E.164 sniði, td: +3541234567 [+][landsnúmer][svæðisnúmer][staðbundið símanúmer]",
+        "HELP": "Símanúmer skal fylgja E.164 sniðmátinu. Dæmi: +3541112222 [+][landsnúmer][svæðisnúmer][símanúmer]. Þú getur valið landsnúmer úr valmyndinni.",
         "ERROR": "Símanúmer ætti að vera annað hvort autt eða á E.164 sniði",
+        "DIAL_CODE_ERROR": "Vinsamlegast veldu landsnúmer úr listanum",
         "DUPLICATE": "Þetta símanúmer er í notkun fyrir annan tengilið."
       },
       "LOCATION": {
@@ -129,47 +130,47 @@
         "LABEL": "Staðsetning"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Sláðu inn nafn fyrirtækis",
+        "LABEL": "Nafn fyrirtækis"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Country Name",
+        "PLACEHOLDER": "Sláðu inn nafn lands",
+        "LABEL": "Nafn lands",
         "SELECT_PLACEHOLDER": "Velja",
         "REMOVE": "Fjarlægja",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Veldu land"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Sláðu inn nafn borgar",
+        "LABEL": "Nafn borgar"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Sláðu inn Facebook notandanafn",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Sláðu inn Twitter notandanafn",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Sláðu inn LinkedIn notandanafn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Sláðu inn Github notandanafn",
           "LABEL": "Github"
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "SUCCESS_MESSAGE": "Notandamynd tengiliðs eytt",
         "ERROR_MESSAGE": "Gat ekki eytt notandamynd tengiliða. Vinsamlegast reyndu aftur síðar."
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "Tengiliðurinn var vistaður",
+    "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndu aftur"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Hefja samtal",
@@ -181,55 +182,56 @@
         "LABEL": "Til"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
+        "ERROR": "Veldu innhólf"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "Viðfangsefni",
+        "PLACEHOLDER": "Viðfangsefni",
+        "ERROR": "Viðfangsefni má ekki vera tómt"
       },
       "MESSAGE": {
         "LABEL": "Skilaboð",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Skrifaðu skilaboðin þín hér",
+        "ERROR": "Skilaboð mega ekki vera tóm"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Senda skilaboð",
       "CANCEL": "Hætta við",
-      "SUCCESS_MESSAGE": "Message sent!",
+      "SUCCESS_MESSAGE": "Skilaboð send!",
       "GO_TO_CONVERSATION": "Skoða",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "ERROR_MESSAGE": "Gat ekki sent! Reyndu aftur"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "HEADER": "Tengiliðir",
+    "FIELDS": "Tengiliðs reitir",
+    "SEARCH_BUTTON": "Leit",
+    "SEARCH_INPUT_PLACEHOLDER": "Leita að tengiliðum",
+    "FILTER_CONTACTS": "Sía",
+    "FILTER_CONTACTS_SAVE": "Vista síu",
+    "FILTER_CONTACTS_DELETE": "Eyða síu",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "LOADING_MESSAGE": "Hleð tengiliðum...",
+      "404": "Engir tengiliðir fundust",
+      "NO_CONTACTS": "Það eru engir tengiliðir til staðar",
       "TABLE_HEADER": {
         "NAME": "Nafn",
         "PHONE_NUMBER": "Símanúmer",
         "CONVERSATIONS": "Samtöl",
-        "LAST_ACTIVITY": "Last Activity",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "LAST_ACTIVITY": "Seinasta virkni",
+        "CREATED_AT": "Skráð",
+        "COUNTRY": "Land",
+        "CITY": "Borg",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Fyrirtæki",
         "EMAIL_ADDRESS": "Netfang"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Sjá smáatriði"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
+    "BACK_BUTTON": "Tengiliðir",
     "LOADING": "Loading contact profile..."
   },
   "REMINDER": {

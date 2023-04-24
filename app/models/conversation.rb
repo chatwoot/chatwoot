@@ -149,6 +149,11 @@ class Conversation < ApplicationRecord
     save
   end
 
+  def toggle_priority(priority = nil)
+    self.priority = priority.presence
+    save
+  end
+
   def bot_handoff!
     open!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
