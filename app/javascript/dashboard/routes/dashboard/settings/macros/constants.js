@@ -59,4 +59,9 @@ export const MACRO_ACTION_TYPES = [
     label: 'Add a private note',
     inputType: 'textarea',
   },
+  {
+    key: 'change_priority',
+    label: 'Change Priority',
+    inputType: 'search_select',
+  },
 ];
