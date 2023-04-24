@@ -150,27 +150,27 @@ export default {
       },
       priorityConfig: {
         key: 'priority',
-        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.TITLE'),
+        label: this.$t('CONVERSATION.PRIORITY.TITLE'),
         icon: 'snooze',
         options: [
           {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.NONE'),
+            label: this.$t('CONVERSATION.PRIORITY.NONE'),
             key: null,
           },
           {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.URGENT'),
+            label: this.$t('CONVERSATION.PRIORITY.URGENT'),
             key: 'urgent',
           },
           {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.HIGH'),
+            label: this.$t('CONVERSATION.PRIORITY.HIGH'),
             key: 'high',
           },
           {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.MEDIUM'),
+            label: this.$t('CONVERSATION.PRIORITY.MEDIUM'),
             key: 'medium',
           },
           {
-            label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PRIORITY.LOW'),
+            label: this.$t('CONVERSATION.PRIORITY.LOW'),
             key: 'low',
           },
         ],
