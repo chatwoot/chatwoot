@@ -1,39 +1,38 @@
 <template>
   <div v-if="isAIIntegrationEnabled" style="position: relative;">
     <woot-button
-      v-tooltip.top-end="'Summarize With AI'"
+      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
       icon="wand"
       color-scheme="secondary"
       variant="smooth"
       size="small"
-      :title="'AI'"
       @click="toggleDropdown"
     />
     <div
-      v-if="showActionsDropdown"
+      v-if="showDropdown"
       v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open basic-filter"
+      class="dropdown-pane dropdown-pane--open ai-modal"
     >
       <h4 class="sub-block-title">
-        Rephrase with AI
+        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TITLE') }}
       </h4>
       <p>
         {{ message }}
       </p>
       <label>
-        Tone
+        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TONE.TITLE') }}
       </label>
-      <div class="filter__item">
-        <select v-model="activeValue" class="status--filter">
-          <option v-for="item in items" :key="item.status" :value="item.status">
-            {{ item.value }}
+      <div class="tone__item">
+        <select v-model="activeTone" class="status--filter">
+          <option v-for="tone in tones" :key="tone.key" :value="tone.key">
+            {{ tone.value }}
           </option>
         </select>
       </div>
       <div class="medium-12 columns">
         <div class="modal-footer justify-content-end w-full buttons">
           <woot-button class="button clear" size="tiny" @click="closeDropdown">
-            Cancel
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
           </woot-button>
           <woot-button
             :is-loading="isGenerating"
@@ -68,18 +67,20 @@ export default {
   data() {
     return {
       isGenerating: false,
-      showActionsDropdown: false,
-      items: [
+      showDropdown: false,
+      activeTone: 'professional',
+      tones: [
         {
-          value: 'Professional',
-          status: 'Professional',
+          key: 'professional',
+          value: this.$t(
+            'INTEGRATION_SETTINGS.OPEN_AI.TONE.OPTIONS.PROFESSIONAL'
+          ),
         },
         {
-          value: 'Friendly',
-          status: 'Friendly',
+          key: 'friendly',
+          value: this.$t('INTEGRATION_SETTINGS.OPEN_AI.TONE.OPTIONS.FRIENDLY'),
         },
       ],
-      activeValue: 'Professional',
     };
   },
   computed: {
@@ -95,7 +96,9 @@ export default {
       ).hooks[0].id;
     },
     buttonText() {
-      return this.isGenerating ? 'Generating...' : 'Generate';
+      return this.isGenerating
+        ? this.$t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.GENERATING')
+        : this.$t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.GENERATE');
     },
   },
   mounted() {
@@ -105,10 +108,10 @@ export default {
   },
   methods: {
     toggleDropdown() {
-      this.showActionsDropdown = !this.showActionsDropdown;
+      this.showDropdown = !this.showDropdown;
     },
     closeDropdown() {
-      this.showActionsDropdown = false;
+      this.showDropdown = false;
     },
     async processText() {
       this.isGenerating = true;
@@ -117,7 +120,7 @@ export default {
           hookId: this.hookId,
           type: 'rephrase',
           content: this.message,
-          tone: this.activeValue,
+          tone: this.activeTone,
         });
         const {
           data: { message: generatedMessage },
@@ -135,7 +138,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.basic-filter {
+.ai-modal {
   width: 400px;
   margin-top: var(--space-smaller);
   right: 0;
@@ -147,39 +150,34 @@ export default {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
   }
-  .filter__item {
+  .tone__item {
     justify-content: space-between;
     display: flex;
     align-items: center;
-
     &:last-child {
       margin-top: var(--space-normal);
     }
-
     span {
       font-size: var(--font-size-mini);
     }
   }
-}
-.icon {
-  margin-right: var(--space-smaller);
-}
-.dropdown-icon {
-  margin-left: var(--space-smaller);
-}
+  .dropdown-icon {
+    margin-left: var(--space-smaller);
+  }
 
-.status--filter {
-  background-color: var(--color-background-light);
-  border: 1px solid var(--color-border);
-  font-size: var(--font-size-mini);
-  height: var(--space-medium);
-  margin: 0 var(--space-smaller);
-  padding: 0 var(--space-medium) 0 var(--space-small);
-}
+  .status--filter {
+    background-color: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-mini);
+    height: var(--space-medium);
+    margin: 0 var(--space-smaller);
+    padding: 0 var(--space-medium) 0 var(--space-small);
+  }
 
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: var(--space-normal);
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--space-normal);
+  }
 }
 </style>
