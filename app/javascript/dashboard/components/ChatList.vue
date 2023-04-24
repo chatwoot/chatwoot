@@ -125,7 +125,7 @@
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
         @mark-as-unread="markAsUnread"
-        @change-priority="changePriority"
+        @assign-priority="assignPriority"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -671,7 +671,7 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
     },
-    async changePriority(priority, conversationId = null) {
+    async assignPriority(priority, conversationId = null) {
       this.$store.dispatch('setCurrentChatPriority', {
         priority,
         conversationId,

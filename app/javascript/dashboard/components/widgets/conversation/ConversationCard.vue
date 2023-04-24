@@ -116,7 +116,7 @@
         @assign-label="onAssignLabel"
         @assign-team="onAssignTeam"
         @mark-as-unread="markAsUnread"
-        @change-priority="changePriority"
+        @assign-priority="assignPriority"
       />
     </woot-context-menu>
   </div>
@@ -377,8 +377,8 @@ export default {
       this.$emit('mark-as-unread', this.chat.id);
       this.closeContextMenu();
     },
-    async changePriority(priority) {
-      this.$emit('change-priority', priority, this.chat.id);
+    async assignPriority(priority) {
+      this.$emit('assign-priority', priority, this.chat.id);
       this.closeContextMenu();
     },
   },

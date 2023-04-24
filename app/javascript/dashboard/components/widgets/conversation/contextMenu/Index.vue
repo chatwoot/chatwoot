@@ -28,7 +28,7 @@
         v-for="(option, i) in priorityConfig.options"
         :key="i"
         :option="option"
-        @click="changePriority(option.key)"
+        @click="assignPriority(option.key)"
       />
     </menu-item-with-submenu>
     <menu-item-with-submenu
@@ -232,8 +232,8 @@ export default {
         this.snoozeTimes[snoozedUntil] || null
       );
     },
-    changePriority(priority) {
-      this.$emit('change-priority', priority);
+    assignPriority(priority) {
+      this.$emit('assign-priority', priority);
     },
     show(key) {
       // If the conversation status is same as the action, then don't display the option
