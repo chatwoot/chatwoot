@@ -94,7 +94,6 @@
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"
       },
-
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
       "AGENTS_LOADING": "Loading agents...",
@@ -111,10 +110,6 @@
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
-        },
-        "CHANGE_PRIORITY": {
-          "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-          "FAILED": "Couldn't change priority. Please try again."
         }
       }
     },
