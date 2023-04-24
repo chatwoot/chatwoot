@@ -17,7 +17,7 @@
         {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TITLE') }}
       </h4>
       <p>
-        {{ message }}
+        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.SUBTITLE') }}
       </p>
       <label>
         {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TONE.TITLE') }}

@@ -25,6 +25,8 @@ class Integrations::Hook < ApplicationRecord
   validate :validate_settings_json_schema
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
+  # TODO: This seems to be only used for slack at the moment
+  # We can add a validator when storing the integration settings and toggle this in future
   enum status: { disabled: 0, enabled: 1 }
 
   belongs_to :account
