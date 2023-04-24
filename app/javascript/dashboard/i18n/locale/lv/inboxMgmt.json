@@ -482,6 +482,13 @@
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
     },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
+    },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Lūdzu, ievadiet vērtību, kas ir lielāka par 0",
