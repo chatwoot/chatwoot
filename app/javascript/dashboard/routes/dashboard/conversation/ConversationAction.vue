@@ -88,6 +88,7 @@ import ConversationLabels from './labels/LabelBox.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -184,7 +185,9 @@ export default {
       },
       set(priorityItem) {
         const conversationId = this.currentChat.id;
+        const oldValue = this.currentChat?.priority;
         const priority = priorityItem ? priorityItem.id : null;
+
         this.$store.dispatch('setCurrentChatPriority', {
           priority,
           conversationId,
@@ -192,6 +195,11 @@ export default {
         this.$store
           .dispatch('assignPriority', { conversationId, priority })
           .then(() => {
+            this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+              oldValue,
+              newValue: priority,
+              from: 'Conversation Sidebar',
+            });
             this.showAlert(
               this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
                 priority: priorityItem.name,
