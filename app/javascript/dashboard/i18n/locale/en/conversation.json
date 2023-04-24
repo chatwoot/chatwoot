@@ -118,14 +118,6 @@
         }
       }
     },
-    "PRIORITY": {
-      "TITLE": "Priority",
-      "NONE": "None",
-      "URGENT": "Urgent",
-      "HIGH": "High",
-      "MEDIUM": "Medium",
-      "LOW": "Low"
-    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",

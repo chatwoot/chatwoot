@@ -662,7 +662,7 @@ export default {
                 agentName: agent.name,
                 conversationId,
               }
-             )
+            )
           );
         } else {
           this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
@@ -672,25 +672,20 @@ export default {
       }
     },
     async changePriority(priority, conversationId = null) {
-      try {
-        await this.$store.dispatch('togglePriority', {
-          conversationId,
-          priority,
-        });
-        this.showAlert(
-          this.$t(
-            'CONVERSATION.CARD_CONTEXT_MENU.API.CHANGE_PRIORITY.SUCCESSFUL',
-            {
+      this.$store.dispatch('setCurrentChatPriority', {
+        priority,
+        conversationId,
+      });
+      this.$store
+        .dispatch('assignPriority', { conversationId, priority })
+        .then(() => {
+          this.showAlert(
+            this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
               priority,
               conversationId,
-            }
-          )
-        );
-      } catch (error) {
-        this.showAlert(
-          this.$t('CONVERSATION.CARD_CONTEXT_MENU.API.CHANGE_PRIORITY.FAILED')
-        );
-      }
+            })
+          );
+        });
     },
     async markAsUnread(conversationId) {
       try {

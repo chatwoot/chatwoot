@@ -109,6 +109,7 @@
       <conversation-context-menu
         :status="chat.status"
         :inbox-id="inbox.id"
+        :priority="chat.priority"
         :has-unread-messages="hasUnread"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"

@@ -101,6 +101,10 @@ export default {
       type: Number,
       default: null,
     },
+    priority: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -154,26 +158,26 @@ export default {
         icon: 'warning',
         options: [
           {
-            label: this.$t('CONVERSATION.PRIORITY.NONE'),
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
             key: null,
           },
           {
-            label: this.$t('CONVERSATION.PRIORITY.URGENT'),
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
             key: 'urgent',
           },
           {
-            label: this.$t('CONVERSATION.PRIORITY.HIGH'),
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
             key: 'high',
           },
           {
-            label: this.$t('CONVERSATION.PRIORITY.MEDIUM'),
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
             key: 'medium',
           },
           {
-            label: this.$t('CONVERSATION.PRIORITY.LOW'),
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
             key: 'low',
           },
-        ],
+        ].filter(item => item.key !== this.priority),
       },
       labelMenuConfig: {
         key: 'label',
