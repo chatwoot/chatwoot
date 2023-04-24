@@ -45,9 +45,30 @@
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
         "
         :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT_PLACEHOLDER')
         "
         @click="onClickAssignTeam"
+      />
+    </div>
+    <div class="multiselect-wrap--small">
+      <contact-details-item
+        compact
+        :title="$t('CONVERSATION.PRIORITY.TITLE')"
+      />
+      <multiselect-dropdown
+        :options="priorityOptions"
+        :selected-item="assignedPriority"
+        :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
+        :multiselector-placeholder="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
+        "
+        :no-search-result="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.NO_RESULTS')
+        "
+        :input-placeholder="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
+        "
+        @click="onClickAssignPriority"
       />
     </div>
     <contact-details-item
@@ -66,6 +87,8 @@ import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
+import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
+import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -83,6 +106,37 @@ export default {
       type: Number,
       default: undefined,
     },
+  },
+  data() {
+    return {
+      priorityOptions: [
+        {
+          id: null,
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
+          thumbnail: `/assets/images/dashboard/priority/none.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.URGENT,
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.URGENT}.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.HIGH,
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.HIGH}.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.MEDIUM,
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.MEDIUM}.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.LOW,
+          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.LOW}.svg`,
+        },
+      ],
+    };
   },
   computed: {
     ...mapGetters({
@@ -118,6 +172,40 @@ export default {
           .dispatch('assignTeam', { conversationId, teamId })
           .then(() => {
             this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
+          });
+      },
+    },
+    assignedPriority: {
+      get() {
+        const selectedOption = this.priorityOptions.find(
+          opt => opt.id === this.currentChat.priority
+        );
+
+        return selectedOption || this.priorityOptions[0];
+      },
+      set(priorityItem) {
+        const conversationId = this.currentChat.id;
+        const oldValue = this.currentChat?.priority;
+        const priority = priorityItem ? priorityItem.id : null;
+
+        this.$store.dispatch('setCurrentChatPriority', {
+          priority,
+          conversationId,
+        });
+        this.$store
+          .dispatch('assignPriority', { conversationId, priority })
+          .then(() => {
+            this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+              oldValue,
+              newValue: priority,
+              from: 'Conversation Sidebar',
+            });
+            this.showAlert(
+              this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
+                priority: priorityItem.name,
+                conversationId,
+              })
+            );
           });
       },
     },
@@ -169,6 +257,14 @@ export default {
       } else {
         this.assignedTeam = selectedItemTeam;
       }
+    },
+
+    onClickAssignPriority(selectedPriorityItem) {
+      const isSamePriority =
+        this.assignedPriority &&
+        this.assignedPriority.id === selectedPriorityItem.id;
+
+      this.assignedPriority = isSamePriority ? null : selectedPriorityItem;
     },
   },
 };
