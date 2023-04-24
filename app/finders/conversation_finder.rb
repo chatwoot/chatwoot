@@ -129,8 +129,8 @@ class ConversationFinder
   end
 
   def filter_by_source
-    @conversations = @conversations.joins(:contact_inbox);
-    @conversations = @conversations.where('contact_inboxes.source_id = :s', s: params[:source]);
+    @conversations = @conversations.joins(:contact_inbox)
+    @conversations = @conversations.where(contact_inboxes: { source_id: params[:source] })
   end
 
   def set_count_for_all_conversations

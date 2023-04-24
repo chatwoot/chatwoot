@@ -138,7 +138,7 @@ describe ::ConversationFinder do
     end
 
     context 'without source' do
-      let(:params) { { } }
+      let(:params) { {} }
 
       it 'returns conversations with any source' do
         result = conversation_finder.perform
