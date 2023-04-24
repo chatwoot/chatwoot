@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAIIntegrationEnabled" style="position: relative;">
+  <div v-if="isAIIntegrationEnabled" class="position-relative">
     <woot-button
       v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
       icon="wand"
@@ -13,7 +13,7 @@
       v-on-clickaway="closeDropdown"
       class="dropdown-pane dropdown-pane--open ai-modal"
     >
-      <h4 class="sub-block-title">
+      <h4 class="sub-block-title margin-top-1">
         {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TITLE') }}
       </h4>
       <p>
@@ -23,25 +23,23 @@
         {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TONE.TITLE') }}
       </label>
       <div class="tone__item">
-        <select v-model="activeTone" class="status--filter">
+        <select v-model="activeTone" class="status--filter small">
           <option v-for="tone in tones" :key="tone.key" :value="tone.key">
             {{ tone.value }}
           </option>
         </select>
       </div>
-      <div class="medium-12 columns">
-        <div class="modal-footer justify-content-end w-full buttons">
-          <woot-button class="button clear" size="small" @click="closeDropdown">
-            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
-          </woot-button>
-          <woot-button
-            :is-loading="isGenerating"
-            size="small"
-            @click="processText"
-          >
-            {{ buttonText }}
-          </woot-button>
-        </div>
+      <div class="modal-footer flex-container align-right">
+        <woot-button variant="clear" size="small" @click="closeDropdown">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
+        </woot-button>
+        <woot-button
+          :is-loading="isGenerating"
+          size="small"
+          @click="processText"
+        >
+          {{ buttonText }}
+        </woot-button>
       </div>
     </div>
   </div>
@@ -153,38 +151,21 @@ export default {
   p {
     color: var(--s-600);
   }
+
   label {
     margin-bottom: var(--space-smaller);
-  }
-  .tone__item {
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-    &:last-child {
-      margin-top: var(--space-normal);
-    }
-    span {
-      font-size: var(--font-size-mini);
-    }
-  }
-  .dropdown-icon {
-    margin-left: var(--space-smaller);
   }
 
   .status--filter {
     background-color: var(--color-background-light);
     border: 1px solid var(--color-border);
     font-size: var(--font-size-small);
-    height: var(--space-medium);
+    height: var(--space-large);
     padding: 0 var(--space-medium) 0 var(--space-small);
   }
 
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-    button:first-child {
-      margin-right: var(--space-smaller);
-    }
+  .modal-footer {
+    gap: var(--space-smaller);
   }
 }
 </style>

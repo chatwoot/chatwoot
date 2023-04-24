@@ -45,7 +45,7 @@
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
         "
         :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT_PLACEHOLDER')
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
         "
         @click="onClickAssignTeam"
       />
