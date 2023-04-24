@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Campaign Name",
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browser Language",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Country Name",
       "REFERER_LINK": "Referer link",
       "CUSTOM_ATTRIBUTE_LIST": "List",
@@ -76,7 +77,7 @@
           "CONFIRM": {
             "TITLE": "Staðfesta eyðingu",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Yes, Delete",
+            "YES": "Já, eyða",
             "NO": "No, Keep it"
           }
         },
