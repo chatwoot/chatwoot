@@ -7,11 +7,12 @@ class OpenAIAPI extends ApiClient {
     super('integrations', { accountScoped: true });
   }
 
-  processEvent({ type = 'rephrase', content, hookId }) {
+  processEvent({ type = 'rephrase', content, tone, hookId }) {
     return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
       event: {
         type,
         content,
+        tone,
       },
     });
   }

@@ -15,7 +15,7 @@
       class="dropdown-pane dropdown-pane--open basic-filter"
     >
       <h4 class="sub-block-title">
-        Summarize with AI
+        Rephrase with AI
       </h4>
       <p>
         {{ message }}
@@ -74,6 +74,10 @@ export default {
           value: 'Professional',
           status: 'Professional',
         },
+        {
+          value: 'Friendly',
+          status: 'Friendly',
+        },
       ],
       activeValue: 'Professional',
     };
@@ -113,6 +117,7 @@ export default {
           hookId: this.hookId,
           type: 'rephrase',
           content: this.message,
+          tone: this.activeValue,
         });
         const {
           data: { message: generatedMessage },

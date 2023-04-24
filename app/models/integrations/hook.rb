@@ -46,7 +46,12 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def process_event(event)
-    Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
+    case app_id
+    when 'openai'
+      Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
+    else
+      'No processor found'
+    end
   end
 
   private

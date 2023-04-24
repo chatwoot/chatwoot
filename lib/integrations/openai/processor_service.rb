@@ -7,18 +7,18 @@ class Integrations::Openai::ProcessorService
 
   private
 
-  def rephrase_body(message)
+  def rephrase_body(tone, message)
     {
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: 'You are a helpful support agent. Please rephrase the following response to a more professional tone.' },
+        { role: 'system', content: "You are a helpful support agent. Please rephrase the following response to a more #{tone} tone." },
         { role: 'user', content: message }
       ]
     }.to_json
   end
 
   def rephrase_message
-    response = make_api_call(rephrase_body(event['content']))
+    response = make_api_call(rephrase_body(event['tone'], event['content']))
     JSON.parse(response)['choices'].first['message']['content']
   end
 
