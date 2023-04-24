@@ -45,7 +45,7 @@
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
         "
         :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT_PLACEHOLDER')
         "
         @click="onClickAssignTeam"
       />
@@ -60,13 +60,13 @@
         :selected-item="assignedPriority"
         :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
         :multiselector-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.PLACEHOLDER')
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
         "
         :no-search-result="
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.NO_RESULTS')
         "
         :input-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.PLACEHOLDER')
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
         @click="onClickAssignPriority"
       />
@@ -109,11 +109,11 @@ export default {
   data() {
     return {
       priorityOptions: [
+        { id: null, name: 'None' },
         { id: CONVERSATION_PRIORITY.URGENT, name: 'Urgent' },
         { id: CONVERSATION_PRIORITY.HIGH, name: 'High' },
         { id: CONVERSATION_PRIORITY.MEDIUM, name: 'Medium' },
         { id: CONVERSATION_PRIORITY.LOW, name: 'Low' },
-        { id: 'null', name: 'None' },
       ],
     };
   },
@@ -236,10 +236,7 @@ export default {
         this.assignedPriority &&
         this.assignedPriority.id === selectedPriorityItem.id;
 
-      const isNewPriorityNull = selectedPriorityItem.id === 'null';
-
-      this.assignedPriority =
-        isNewPriorityNull || isSamePriority ? null : selectedPriorityItem;
+      this.assignedPriority = isSamePriority ? null : selectedPriorityItem;
     },
   },
 };

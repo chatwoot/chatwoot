@@ -76,7 +76,8 @@
         "LOW": "Low"
       },
       "CHANGE_PRIORITY": {
-        "PLACEHOLDER": "Change priority",
+        "SELECT_PLACEHOLDER": "None",
+        "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "No results found",
         "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
         "FAILED": "Couldn't change priority. Please try again."
