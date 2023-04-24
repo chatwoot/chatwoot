@@ -482,6 +482,13 @@
       "WHATSAPP_WEBHOOK_SUBHEADER": "Acest simbol este utilizat pentru a verifica autenticitatea punctului final webhook.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizarea setărilor formularului pre-chat"
     },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
+    },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limita de atribuire automată",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Vă rugăm să introduceți o valoare mai mare de 0",
