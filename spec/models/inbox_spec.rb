@@ -197,9 +197,17 @@ RSpec.describe Inbox do
 
   describe '#update' do
     let!(:inbox) { FactoryBot.create(:inbox) }
+    let!(:portal) { FactoryBot.create(:portal) }
 
     before do
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'set portal id in inbox' do
+      inbox.portal_id = portal.id
+      inbox.save
+
+      expect(inbox.portal).to eq(portal)
     end
 
     it 'resets cache key if there is an update in the channel' do
