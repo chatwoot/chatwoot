@@ -109,11 +109,31 @@ export default {
   data() {
     return {
       priorityOptions: [
-        { id: null, name: 'None' },
-        { id: CONVERSATION_PRIORITY.URGENT, name: 'Urgent' },
-        { id: CONVERSATION_PRIORITY.HIGH, name: 'High' },
-        { id: CONVERSATION_PRIORITY.MEDIUM, name: 'Medium' },
-        { id: CONVERSATION_PRIORITY.LOW, name: 'Low' },
+        {
+          id: null,
+          name: 'None',
+          thumbnail: `/assets/images/dashboard/priority/none.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.URGENT,
+          name: 'Urgent',
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.URGENT}.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.HIGH,
+          name: 'High',
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.HIGH}.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.MEDIUM,
+          name: 'Medium',
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.MEDIUM}.svg`,
+        },
+        {
+          id: CONVERSATION_PRIORITY.LOW,
+          name: 'Low',
+          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.LOW}.svg`,
+        },
       ],
     };
   },
@@ -160,7 +180,7 @@ export default {
           opt => opt.id === this.currentChat.priority
         );
 
-        return selectedOption || { id: 'null', name: 'None' };
+        return selectedOption || this.priorityOptions[0];
       },
       set(priorityItem) {
         const conversationId = this.currentChat.id;
