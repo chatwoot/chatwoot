@@ -28,7 +28,7 @@ class MessageTemplates::Template::Greeting
   end
 
   def string_interpolation_on_content(content)
-    if content.match?(/.*{{.*}}.*/)
+    if content.present? && content.match?(/.*{{.*}}.*/)
       email_text = content.match(/\{\{.*?\}\}/)[0]
       email_text = email_text.gsub(/\{\{/) { Regexp.last_match(1) }
       email_text = email_text.gsub(/\}\}/) { Regexp.last_match(1) }

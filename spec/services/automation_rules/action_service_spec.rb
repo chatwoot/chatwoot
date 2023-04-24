@@ -102,6 +102,16 @@ RSpec.describe AutomationRules::ActionService do
 
         described_class.new(rule, account, conversation).perform
       end
+
+      it 'will send email to transcript to contacts' do
+        rule.actions << { action_name: 'send_email_transcript', action_params: ['contact.email'] }
+
+        mailer = double
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+        allow(mailer).to receive(:conversation_transcript).with(conversation, conversation.contact.email)
+
+        described_class.new(rule, account, conversation).perform
+      end
     end
   end
 end
