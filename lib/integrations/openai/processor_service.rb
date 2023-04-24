@@ -2,7 +2,7 @@ class Integrations::Openai::ProcessorService
   pattr_initialize [:hook!, :event!]
 
   def perform
-    rephrase_message if event['type'] == 'rephrase'
+    rephrase_message if event['name'] == 'rephrase'
   end
 
   private
@@ -18,7 +18,7 @@ class Integrations::Openai::ProcessorService
   end
 
   def rephrase_message
-    response = make_api_call(rephrase_body(event['tone'], event['content']))
+    response = make_api_call(rephrase_body(event['data']['tone'], event['data']['content']))
     JSON.parse(response)['choices'].first['message']['content']
   end
 
