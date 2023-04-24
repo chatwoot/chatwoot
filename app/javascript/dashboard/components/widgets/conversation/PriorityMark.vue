@@ -97,7 +97,9 @@ export default {
   },
   computed: {
     tooltipText() {
-      return this.$t(`CONVERSATION.PRIORITY.${this.priority.toUpperCase()}`);
+      return this.$t(
+        `CONVERSATION.PRIORITY.OPTIONS.${this.priority.toUpperCase()}`
+      );
     },
   },
 };

@@ -68,11 +68,17 @@
     },
     "PRIORITY": {
       "TITLE": "Priority",
-      "NONE": "None",
-      "URGENT": "Urgent",
-      "HIGH": "High",
-      "MEDIUM": "Medium",
-      "LOW": "Low"
+      "OPTIONS": {
+        "NONE": "None",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
