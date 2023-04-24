@@ -203,6 +203,7 @@
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Atalhos",
