@@ -33,13 +33,16 @@
     <div class="conversation--details columns">
       <div class="conversation--metadata">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
-        <span
-          v-if="showAssignee && assignee.name"
-          class="label assignee-label text-truncate"
-        >
-          <fluent-icon icon="person" size="12" />
-          {{ assignee.name }}
-        </span>
+        <div class="conversation-metadata-attributes">
+          <span
+            v-if="showAssignee && assignee.name"
+            class="label assignee-label text-truncate"
+          >
+            <fluent-icon icon="person" size="12" />
+            {{ assignee.name }}
+          </span>
+          <priority-mark :priority="chat.priority" />
+        </div>
       </div>
       <h4 class="conversation--user">
         {{ currentContact.name }}
@@ -131,6 +134,7 @@ import ConversationContextMenu from './contextMenu/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
+import PriorityMark from './PriorityMark.vue';
 const ATTACHMENT_ICONS = {
   image: 'image',
   audio: 'headphones-sound-wave',
@@ -147,6 +151,7 @@ export default {
     Thumbnail,
     ConversationContextMenu,
     TimeAgo,
+    PriorityMark,
   },
 
   mixins: [
@@ -427,6 +432,11 @@ export default {
     font-weight: var(--font-weight-medium);
     line-height: var(--space-slab);
     padding: var(--space-micro) 0 var(--space-micro) 0;
+  }
+
+  .conversation-metadata-attributes {
+    display: flex;
+    gap: var(--space-small);
   }
 
   .assignee-label {

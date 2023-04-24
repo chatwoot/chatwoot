@@ -77,6 +77,11 @@ export const mutations = {
     Vue.set(chat.meta, 'team', team);
   },
 
+  [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    Vue.set(chat, 'priority', priority);
+  },
+
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'custom_attributes', custom_attributes);
