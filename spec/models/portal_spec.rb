@@ -14,6 +14,7 @@ RSpec.describe Portal, type: :model do
     it { is_expected.to have_many(:articles) }
     it { is_expected.to have_many(:portal_members) }
     it { is_expected.to have_many(:members) }
+    it { is_expected.to have_many(:inboxes) }
   end
 
   describe 'validations' do
