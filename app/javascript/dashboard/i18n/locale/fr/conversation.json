@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Semaine prochaine"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Aucun",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Aucun",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Aucun résultat trouvé",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marquer comme en attente",
       "RESOLVED": "Mark as resolved",
