@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Ďalší ťýždeň"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Žiadne",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Žiadne",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Žiadne výsledky neboli nájdené",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označiť ako čakajúce na vybavenie",
       "RESOLVED": "Mark as resolved",
