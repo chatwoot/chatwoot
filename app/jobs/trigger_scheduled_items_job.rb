@@ -3,7 +3,8 @@ class TriggerScheduledItemsJob < ApplicationJob
 
   def perform
     # trigger the scheduled campaign jobs
-    Campaign.where(campaign_type: :one_off, campaign_status: :active).where(scheduled_at: 3.days.ago..Time.current).all.each do |campaign|
+    Campaign.where(campaign_type: :one_off,
+                   campaign_status: :active).where(scheduled_at: 3.days.ago..Time.current).all.find_each(batch_size: 100) do |campaign|
       Campaigns::TriggerOneoffCampaignJob.perform_later(campaign)
     end
 
