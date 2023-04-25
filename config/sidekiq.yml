@@ -4,7 +4,7 @@
 # pick it up automatically.
 ---
 :verbose: false
-:concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 5) %>
+:concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>
 :timeout: 25
 :max_retries: 3
 
@@ -33,4 +33,4 @@
 production:
   :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>
 staging:
-  :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 5) %>
+  :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>

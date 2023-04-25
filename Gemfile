@@ -45,7 +45,7 @@ gem 'csv-safe'
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
-# we wanted updated version of farady which is a dependecy for slack-ruby-client
+# we wanted updated version of faraday which is a dependency for slack-ruby-client
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
 gem 'google-cloud-storage', require: false
 gem 'image_processing'
@@ -94,7 +94,7 @@ gem 'slack-ruby-client', '~> 2.0.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow'
 # Translate integrations
-# 'google-cloud-translate' gem depends on faradau unde 2.0 version
+# 'google-cloud-translate' gem depends on faraday 2.0 version
 # this dependency breaks the slack-ruby-client gem
 gem 'google-cloud-translate-v3'
 
