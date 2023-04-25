@@ -24,7 +24,11 @@
         />
         <blockquote v-if="storyReply" class="story-reply-quote">
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
-          <bubble-image :url="storyUrl" />
+          <bubble-image
+            v-if="!hasStoryError"
+            :url="storyUrl"
+            @error="onStoryLoadError"
+          />
         </blockquote>
         <bubble-text
           v-if="data.content"
@@ -196,6 +200,7 @@ export default {
       hasImageError: false,
       contextMenuPosition: {},
       showBackgroundHighlight: false,
+      hasStoryError: false,
     };
   },
   computed: {
@@ -424,10 +429,12 @@ export default {
   watch: {
     data() {
       this.hasImageError = false;
+      this.hasStoryError = false;
     },
   },
   mounted() {
     this.hasImageError = false;
+    this.hasStoryError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
@@ -455,6 +462,9 @@ export default {
     },
     onImageLoadError() {
       this.hasImageError = true;
+    },
+    onStoryLoadError() {
+      this.hasStoryError = true;
     },
     openContextMenu(e) {
       const shouldSkipContextMenu =
@@ -720,7 +730,7 @@ li.right {
 .story-reply-quote {
   border-left: var(--space-micro) solid var(--s-75);
   color: var(--s-600);
-  margin: var(--space-smaller) 0 var(--space-small);
-  padding: var(--space-small) var(--space-small) 0 var(--space-normal);
+  margin: var(--space-small) var(--space-normal) 0;
+  padding: var(--space-small) var(--space-small) 0 var(--space-small);
 }
 </style>
