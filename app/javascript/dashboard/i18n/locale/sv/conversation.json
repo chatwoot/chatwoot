@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Nästa vecka"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Inget",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Inget",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Inga resultat hittades",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markera som väntande",
       "RESOLVED": "Mark as resolved",
