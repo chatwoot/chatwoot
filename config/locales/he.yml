@@ -21,6 +21,7 @@ he:
   messages:
     reset_password_success: יאס! בקשה לאיפוס ססמה נשלחה בהצלחה. בדוק תיבת מייל להוראות.
     reset_password_failure: אופס! לא מצאנו משתמש עם המייל שצוין.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: must not be blank
@@ -45,7 +46,7 @@ he:
       locale:
         unique: should be unique in the category and portal
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "סוג הודעה לא חוקי. פעולה אסורה"
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -57,6 +58,7 @@ he:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reporting period %{since} to %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
@@ -69,15 +71,17 @@ he:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     label_csv:
-      label_title: Label
+      label_title: תווית
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
-      team_name: Team name
+      team_name: שם קבוצה
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: day
     csat:
       headers:
@@ -102,20 +106,21 @@ he:
       deleted: This message was deleted
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
-        open: "Conversation was reopened by %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        resolved: "השיחה סומנה כפתורה על ידי %{user_name}"
+        contact_resolved: "השיחה נפתרה על ידי %{contact_name}"
+        open: "השיחה נפתחה מחדש על ידי %{user_name}"
+        pending: "השיחה סומנה כממתינה על ידי %{user_name}"
+        snoozed: "השיחה הושהה על ידי %{user_name}"
+        auto_resolved: "השיחה סומנה כפתורה על ידי המערכת עקב חוסר פעילות של %{duration} ימים"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        assigned: "הוקצה ל-%{assignee_name} על ידי %{user_name}"
+        removed: "ביטול הקצאה של שיחה על ידי %{user_name}"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "הוקצה ל-%{team_name} על ידי %{user_name}"
+        assigned_with_assignee: "הוקצה ל-%{assignee_name} דרך %{team_name} על ידי %{user_name}"
+        removed: "לא הוקצה מ-%{team_name} על ידי %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
@@ -123,9 +128,9 @@ he:
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
-      csat_input_message_body: "Please rate the conversation"
+      ways_to_reach_you_message_body: "\"תן לצוות דרך להגיע אליך\"."
+      email_input_box_message_body: "קבל הודעה במייל"
+      csat_input_message_body: "אנא דרג את השיחה"
     reply:
       email:
         header:
@@ -133,35 +138,35 @@ he:
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "הודעות חדשות בשיחה זו"
+      transcript_subject: "תמלול שיחה"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "אנא דרג שיחה זו, %{link}"
   contacts:
     online:
       delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     dyte:
-      name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      name: "דיטה"
+      description: "Dyte הוא כלי שעוזר לך להוסיף אודיו ווידאו חי ליישום שלך עם מספר שורות קוד בלבד. אינטגרציה זו מאפשרת לך לתת אפשרות לסוכנים שלך לנהל שיחת וידאו או קול עם הלקוחות שלך מבלי לעזוב את Chatwoot."
       meeting_name: "%{agent_name} has started a meeting"
     slack:
-      name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      name: "רָפוּי"
+      description: "Slack הוא כלי צ'אט שמפגיש את כל התקשורת שלך במקום אחד. על ידי שילוב Slack, אתה יכול לקבל הודעה על כל השיחות החדשות בחשבון שלך ישירות בתוך ה-Slack שלך."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבונך. אתה יכול להשתמש ב-webhooks כדי להעביר את האירועים לאפליקציות המועדפות עליך כמו Slack או Github. לחץ על הגדר כדי להגדיר את ה-webhooks שלך."
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      name: "זרימת דיאלוג"
+      description: "בנה צ'אטבוטים באמצעות Dialogflow וחבר אותם לתיבת הדואר הנכנס שלך במהירות. תן לבוטים לטפל בשאילתות לפני שיעבירו אותן לסוכן שירות לקוחות."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "מגע מלא"
+      description: "אינטגרציה של FullContact עוזרת להעשיר את פרופילי המבקרים. זהה את המשתמשים ברגע שהם משתפים את כתובת הדוא\"ל שלהם והציע להם שירות לקוחות מותאם. חבר את FullContact לחשבון שלך על ידי שיתוף מפתח ה-API של FullContact."
     google_translate:
-      name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      name: "גוגל תרגום"
+      description: "הקל על סוכנים לתרגם הודעות על ידי הוספת שילוב של Google Translate. Google translate עוזר לזהות את השפה באופן אוטומטי ולהמיר אותה לשפה שנבחרה על ידי הסוכן/מנהל החשבון."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -175,7 +180,7 @@ he:
       last_updated_on: Last updated on %{last_updated_on}
       view_all_articles: View all articles
       article: article
-      articles: articles
+      articles: מאמרים
       no_articles: There are no articles here
     footer:
       made_with: Made with

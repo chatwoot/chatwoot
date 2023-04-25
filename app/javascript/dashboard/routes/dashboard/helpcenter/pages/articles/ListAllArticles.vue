@@ -11,6 +11,7 @@
       :current-page="Number(meta.currentPage)"
       :total-count="Number(meta.count)"
       @page-change="onPageChange"
+      @reorder="onReorder"
     />
     <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
@@ -29,6 +30,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
 import ArticleTable from '../../components/ArticleTable';
+
 export default {
   components: {
     ArticleHeader,
@@ -136,6 +138,12 @@ export default {
     },
     onPageChange(pageNumber) {
       this.fetchArticles({ pageNumber });
+    },
+    onReorder(reorderedGroup) {
+      this.$store.dispatch('articles/reorder', {
+        reorderedGroup,
+        portalSlug: this.$route.params.portalSlug,
+      });
     },
   },
 };

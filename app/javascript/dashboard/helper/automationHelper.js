@@ -16,6 +16,29 @@ const MESSAGE_CONDITION_VALUES = [
   },
 ];
 
+export const PRIORITY_CONDITION_VALUES = [
+  {
+    id: 'nil',
+    name: 'None',
+  },
+  {
+    id: 'low',
+    name: 'Low',
+  },
+  {
+    id: 'medium',
+    name: 'Medium',
+  },
+  {
+    id: 'high',
+    name: 'High',
+  },
+  {
+    id: 'urgent',
+    name: 'Urgent',
+  },
+];
+
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
@@ -103,6 +126,7 @@ export const getActionOptions = ({ agents, teams, labels, type }) => {
     assign_team: teams,
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
+    change_priority: PRIORITY_CONDITION_VALUES,
   };
   return actionsMap[type];
 };
@@ -136,8 +160,10 @@ export const getConditionOptions = ({
     team_id: teams,
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
+    conversation_language: languages,
     country_code: countries,
     message_type: MESSAGE_CONDITION_VALUES,
+    priority: PRIORITY_CONDITION_VALUES,
   };
 
   return conditionFilterMaps[type];

@@ -1,0 +1,71 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Fetching conversations",
+    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
+    "EOF": "All conversations loaded 🎉",
+    "LIST": {
+      "404": "There are no active conversations in this group."
+    },
+    "TAB_HEADING": "Conversations",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "Search for People, Chats, Saved Replies .."
+    },
+    "FILTER_ALL": "All",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Unassigned",
+      "all": "All"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Open"
+      },
+      "resolved": {
+        "TEXT": "Resolved"
+      },
+      "pending": {
+        "TEXT": "Pending"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "All"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Picture message"
+      },
+      "audio": {
+        "CONTENT": "Audio message"
+      },
+      "video": {
+        "CONTENT": "Video message"
+      },
+      "file": {
+        "CONTENT": "File Attachment"
+      },
+      "location": {
+        "CONTENT": "Location"
+      },
+      "fallback": {
+        "CONTENT": "has shared a url"
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Received via email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Sent successfully",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "No Messages",
+    "NO_CONTENT": "No content available",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "Read"
+  }
+}

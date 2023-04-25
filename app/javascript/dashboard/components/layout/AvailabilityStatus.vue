@@ -52,8 +52,9 @@ import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
 import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge';
+import wootConstants from 'dashboard/constants/globals';
 
-const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
+const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
 export default {
   components: {

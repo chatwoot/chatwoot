@@ -350,7 +350,7 @@
         "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
+        "TITLE": "Почта Microsoft",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Введите адрес электронной почты",
         "HELP": "Чтобы добавить учетную запись Microsoft в качестве канала, вам нужно авторизоваться в учетной записи Майкрософт, нажав на кнопку \"Войти с помощью Microsoft\" ",
@@ -439,7 +439,8 @@
       "LABEL": "Возможности",
       "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
       "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете",
-      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета"
+      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт",
@@ -474,9 +475,11 @@
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Ключ API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Обновить ключ API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введите сюда новый ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Обновить",
+      "WHATSAPP_WEBHOOK_TITLE": "Вебхук верифицировать токен",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {

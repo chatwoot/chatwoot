@@ -254,8 +254,8 @@ export default {
         reportType: 'conversations',
       });
     },
-    fetchFilterItems(group_by) {
-      switch (group_by) {
+    fetchFilterItems(groupBy) {
+      switch (groupBy) {
         case GROUP_BY_FILTER[2].period:
           return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
         case GROUP_BY_FILTER[3].period:

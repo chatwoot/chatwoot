@@ -1,8 +1,8 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
+    "HEADER": "机器人",
+    "LOADING_EDITOR": "正在加载编辑器...",
+    "HEADER_BTN_TXT": "添加机器人配置",
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {

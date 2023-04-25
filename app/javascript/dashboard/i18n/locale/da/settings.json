@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopiér",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Kode kopieret til udklipsholder med succes"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Hjem",
     "AGENTS": "Agenter",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Indbakker",
     "NOTIFICATIONS": "Notifikationer",
     "CANNED_RESPONSES": "Standardsvar Svar",

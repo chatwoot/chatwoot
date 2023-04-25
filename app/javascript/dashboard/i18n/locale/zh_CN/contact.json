@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "输入联系人的电话号码",
         "LABEL": "电话号码",
-        "HELP": "电话号码应为E.164格式，例如：+14155555 [+] [国家代码][地区代码][本地电话号码]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "电话号码应为空或E.164格式",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "此电话号码正在用于另一个联系人。"
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "输入公司名称",
         "LABEL": "公司名称"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "国家",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "删除",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -170,7 +182,8 @@
         "LABEL": "发送至"
       },
       "INBOX": {
-        "LABEL": "收件箱",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "选择一个收件箱"
       },
       "SUBJECT": {

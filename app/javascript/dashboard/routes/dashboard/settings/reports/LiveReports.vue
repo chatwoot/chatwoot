@@ -142,10 +142,8 @@ export default {
     },
     downloadHeatmapData() {
       let to = endOfDay(new Date());
-      let from = startOfDay(subDays(to, 6));
 
       this.$store.dispatch('downloadAccountConversationHeatmap', {
-        from: getUnixTime(from),
         to: getUnixTime(to),
       });
     },

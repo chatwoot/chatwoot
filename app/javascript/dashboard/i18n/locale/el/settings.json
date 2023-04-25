@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Αντιγραφή",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Ο κώδικας αντιγράφτηκε με επιτυχία στο πρόχειρο"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Αρχική",
     "AGENTS": "Πράκτορες",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Κιβώτια Εισερχομένων",
     "NOTIFICATIONS": "Ειδοποιήσεις",
     "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",

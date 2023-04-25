@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Inițiat de la",
     "INITIATED_AT": "Iniţiat la",
     "IP_ADDRESS": "Adresă IP",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Creat",
     "NEW_MESSAGE": "Mesaj nou",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
@@ -77,7 +77,7 @@
     "CONFIRM": {
       "TITLE": "Confirmă ștergerea",
       "MESSAGE": "Doriți să ștergeți această notă?",
-      "YES": "Da, șterge ",
+      "YES": "Da, șterge",
       "NO": "Nu, păstreaza"
     }
   },
@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introduceți numărul de telefon al persoanei de contact",
         "LABEL": "Număr de telefon",
-        "HELP": "Numărul de telefon trebuie să aibă formatul E.164, ex. +1415555555 [+][country code][area code][local phone number]",
+        "HELP": "Numărul de telefon ar trebui să fie de format E.164 de exemplu: +1415555555 [+][codul țării][prefixul zonei][numărul de telefon local]. Puteți selecta codul de apelare din lista verticală.",
         "ERROR": "Numărul de telefon trebuie să fie gol sau in format E.164",
+        "DIAL_CODE_ERROR": "Vă rugăm să selectați un cod de apelare din listă",
         "DUPLICATE": "Acest număr de telefon este utilizat pentru o altă persoană de contact."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Introduceți numele companiei",
         "LABEL": "Nume companie"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Introduceți numele țării",
+        "LABEL": "Numele țării",
+        "SELECT_PLACEHOLDER": "Selectați",
+        "REMOVE": "Elimină",
+        "SELECT_COUNTRY": "Selectați Țara"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Introduceți numele orașului",
+        "LABEL": "Oraș"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -170,7 +182,8 @@
         "LABEL": "Către"
       },
       "INBOX": {
-        "LABEL": "Inbox",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Selectați un inbox"
       },
       "SUBJECT": {

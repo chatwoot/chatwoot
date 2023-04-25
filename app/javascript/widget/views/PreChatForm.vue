@@ -1,10 +1,6 @@
 <template>
   <div class="flex flex-1 overflow-auto">
-    <pre-chat-form
-      :options="preChatFormOptions"
-      :disable-contact-fields="disableContactFields"
-      @submit="onSubmit"
-    />
+    <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
   </div>
 </template>
 <script>
@@ -23,10 +19,6 @@ export default {
     ...mapGetters({
       conversationSize: 'conversation/getConversationSize',
     }),
-    disableContactFields() {
-      const { disableContactFields = false } = this.$route.params || {};
-      return disableContactFields;
-    },
   },
   watch: {
     conversationSize(newSize, oldSize) {

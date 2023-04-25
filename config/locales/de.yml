@@ -21,6 +21,7 @@ de:
   messages:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: darf nicht leer sein
@@ -57,6 +58,7 @@ de:
         name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agentenname
       conversations_count: Anzahl Gespräche
@@ -78,6 +80,8 @@ de:
       conversations_count: Anzahl Gespräche
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: Tag
     csat:
       headers:
@@ -108,6 +112,7 @@ de:
         pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
         snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
         auto_resolved: "Das Gespräch wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} hat sich dieses Gespräch selbst zugewiesen"
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
@@ -133,7 +138,7 @@ de:
           reply_with_name: "%{assignee_name} von %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} von %{inbox_name}"
+          reply_with_name: "%{assignee_name} von %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Neue Nachrichten in dieser Unterhaltung"
       transcript_subject: "Gesprächsprotokoll"

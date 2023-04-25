@@ -3369,62 +3369,6 @@
             "description": "Access denied"
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "Inboxes"
-        ],
-        "operationId": "delete-agent-in-inbox",
-        "summary": "Remove an Agent from Inbox",
-        "description": "Remove an Agent from Inbox",
-        "security": [
-          {
-            "userApiKey": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "inbox_id",
-                "user_ids"
-              ],
-              "properties": {
-                "inbox_id": {
-                  "type": "string",
-                  "description": "The ID of the inbox"
-                },
-                "user_ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  },
-                  "description": "IDs of users to be deleted from the inbox"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Inbox not found"
-          },
-          "403": {
-            "description": "Access denied"
-          },
-          "422": {
-            "description": "User must exist"
-          }
-        }
       }
     },
     "/api/v1/accounts/{account_id}/inbox_members": {
@@ -3547,6 +3491,62 @@
                 "$ref": "#/definitions/agent"
               }
             }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inboxes"
+        ],
+        "operationId": "delete-agent-in-inbox",
+        "summary": "Remove an Agent from Inbox",
+        "description": "Remove an Agent from Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox"
+                },
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be deleted from the inbox"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           },
           "404": {
             "description": "Inbox not found"
@@ -3817,7 +3817,7 @@
         }
       }
     },
-    "/profile": {
+    "/api/v1/profile": {
       "get": {
         "tags": [
           "Profile"

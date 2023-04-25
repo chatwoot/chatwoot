@@ -14,8 +14,8 @@ class ReportsAPI extends ApiClient {
     to,
     type = 'account',
     id,
-    group_by,
-    business_hours,
+    groupBy,
+    businessHours,
   }) {
     return axios.get(`${this.url}`, {
       params: {
@@ -24,22 +24,23 @@ class ReportsAPI extends ApiClient {
         until: to,
         type,
         id,
-        group_by,
-        business_hours,
+        group_by: groupBy,
+        business_hours: businessHours,
         timezone_offset: getTimeOffset(),
       },
     });
   }
 
-  getSummary(since, until, type = 'account', id, group_by, business_hours) {
+  getSummary(since, until, type = 'account', id, groupBy, businessHours) {
     return axios.get(`${this.url}/summary`, {
       params: {
         since,
         until,
         type,
         id,
-        group_by,
-        business_hours,
+        group_by: groupBy,
+        business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
       },
     });
   }
@@ -59,9 +60,9 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getConversationTrafficCSV({ from: since, to: until }) {
+  getConversationTrafficCSV() {
     return axios.get(`${this.url}/conversation_traffic`, {
-      params: { since, until },
+      params: { timezone_offset: getTimeOffset() },
     });
   }
 

@@ -7,6 +7,10 @@ class HookPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def process_event?
+    true
+  end
+
   def destroy?
     @account_user.administrator?
   end

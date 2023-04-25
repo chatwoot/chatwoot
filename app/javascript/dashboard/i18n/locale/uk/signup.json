@@ -1,17 +1,17 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "Створити акаунт",
     "TITLE": "Реєстрація",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_HEADER": "Один крок і вперед",
+    "TESTIMONIAL_CONTENT": "Ви за один крок від залучення своїх клієнтів, утримання їх та пошуку нових.",
+    "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "Зареєструватися через Google"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "Назва компанії",
+      "PLACEHOLDER": "Введіть назву вашої компанії; наприклад: Уейн Enterprises",
+      "ERROR": "Назва компанії закоротка"
     },
     "FULL_NAME": {
       "LABEL": "Повне ім'я",
@@ -21,7 +21,7 @@
     "EMAIL": {
       "LABEL": "Робоча електронна пошта",
       "PLACEHOLDER": "Введіть робочу адресу електронної пошти; наприклад: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "ERROR": "Будь ласка, введіть робочу адресу електронної пошти"
     },
     "PASSWORD": {
       "LABEL": "Пароль",
@@ -38,7 +38,7 @@
       "SUCCESS_MESSAGE": "Реєстрація пройшла успішно",
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
     },
-    "SUBMIT": "Create account",
+    "SUBMIT": "Створити акаунт",
     "HAVE_AN_ACCOUNT": "Вже маєте обліковий запис?"
   }
 }
