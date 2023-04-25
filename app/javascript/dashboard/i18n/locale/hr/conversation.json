@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Next week"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Prioritet",
+      "OPTIONS": {
+        "NONE": "Nijedno",
+        "URGENT": "Hitno",
+        "HIGH": "Visoko",
+        "MEDIUM": "Srednje",
+        "LOW": "Nisko"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nijedno",
+        "INPUT_PLACEHOLDER": "Odaberi prioritet",
+        "NO_RESULTS": "Nisu pronađeni rezultati",
+        "SUCCESSFUL": "Prioritet razgovora id %{conversationId} promijenjen na %{priority}",
+        "FAILED": "Nije moguće promijeniti prioritet. Molim, pokušajte kasnije."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
