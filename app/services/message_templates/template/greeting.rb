@@ -29,16 +29,31 @@ class MessageTemplates::Template::Greeting
 
   def string_interpolation_on_content(content)
     if content.present? && content.match?(/.*{{.*}}.*/)
-      email_text = content.match(/\{\{.*?\}\}/)[0]
-      email_text = email_text.gsub(/\{\{/) { Regexp.last_match(1) }
-      email_text = email_text.gsub(/\}\}/) { Regexp.last_match(1) }
-      association, attribute = email_text.split('.')
-      record = conversation.send(association)
-      contacts_name = record.try(attribute)
-
-      content = content.gsub(/\{\{.*?\}\}/, contacts_name)
+      template = Liquid::Template.parse(content)
+      template_values = parse_template_variable(template, content)
+      content = template.render(template_values)
     end
 
     content
+  end
+
+  def parse_template_variable(template, _content)
+    template_values = {}
+    template.root.body.nodelist.each do |node|
+      next if node.try(:name).blank?
+
+      #  liquid node looks like this @name=#<Liquid::VariableLookup:0x0000000116df6be8 @lookups=["name"], @name="contact">,
+      association = node.name.name
+      attribute = node.name.lookups[0]
+      template_values[association] = { attribute => parse_tempalte_variable_values(association, attribute) }
+    end
+    template_values
+  end
+
+  def parse_tempalte_variable_values(association, attribute)
+    return if association.blank? || attribute.blank?
+
+    record = conversation.send(association)
+    record.try(attribute)
   end
 end
