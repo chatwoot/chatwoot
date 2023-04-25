@@ -248,7 +248,9 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
-      chatList: [],
+      // chatsOnView is to store the chats that are currently visible on the screen,
+      // which mirrors the conversationList.
+      chatsOnView: [],
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
@@ -370,11 +372,11 @@ export default {
     conversationListPagination() {
       const conversationsPerPage = 25;
       const isNoFiltersOrFoldersAndChatListNotEmpty =
-        !this.hasAppliedFiltersOrActiveFolders && this.chatList !== [];
+        !this.hasAppliedFiltersOrActiveFolders && this.chatsOnView !== [];
       const isUnderPerPage =
-        this.chatList.length < conversationsPerPage &&
+        this.chatsOnView.length < conversationsPerPage &&
         this.activeAssigneeTabCount < conversationsPerPage &&
-        this.activeAssigneeTabCount > this.chatList.length;
+        this.activeAssigneeTabCount > this.chatsOnView.length;
 
       if (isNoFiltersOrFoldersAndChatListNotEmpty && isUnderPerPage) {
         return 1;
@@ -471,7 +473,7 @@ export default {
       }
     },
     chatLists() {
-      this.chatList = this.conversationList;
+      this.chatsOnView = this.conversationList;
     },
   },
   mounted() {
