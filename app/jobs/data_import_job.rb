@@ -30,7 +30,7 @@ class DataImportJob < ApplicationJob
     csv.each do |row|
       current_contact = build_contact(row.to_h.with_indifferent_access, @data_import.account)
       if current_contact.valid?
-        current_contact.save if current_contact.persisted?
+        current_contact.save
         contacts << current_contact
       else
         row['errors'] = current_contact.errors.full_messages.join(', ')
