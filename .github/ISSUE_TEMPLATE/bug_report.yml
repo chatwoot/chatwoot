@@ -72,7 +72,7 @@ body:
         - `docker version`
         - `docker info`
         - `docker-compose version`
-  - type: markdown
+  - type: textarea
     attributes:
       label: Additional context
       description: Add any other context about the problem here.
