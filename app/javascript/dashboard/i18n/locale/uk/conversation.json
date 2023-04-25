@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Наступного тижня"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Пріоритет",
+      "OPTIONS": {
+        "NONE": "Нiчого",
+        "URGENT": "Терміновий",
+        "HIGH": "Високий",
+        "MEDIUM": "Середній",
+        "LOW": "Низький"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Нiчого",
+        "INPUT_PLACEHOLDER": "Оберіть пріоритет",
+        "NO_RESULTS": "Результатів не знайдено",
+        "SUCCESSFUL": "Змінено пріоритет для бесід з ID %{conversationId} на %{priority}",
+        "FAILED": "Не вдалося змінити пріоритет. Будь ласка, спробуйте ще раз."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Позначити як \"В очікуванні\"",
       "RESOLVED": "Позначити як вирішене",
