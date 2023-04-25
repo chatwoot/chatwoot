@@ -61,7 +61,7 @@ class ActionService
     emails = emails[0].gsub(/\s+/, '').split(',')
 
     emails.each do |email|
-      email = extract_email_string_interpolation(conversation, email)
+      email = extract_email_string_interpolation(@conversation, email)
       ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
     end
   end
