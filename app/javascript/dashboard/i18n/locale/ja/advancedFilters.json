@@ -22,7 +22,8 @@
       "is_not_present": "存在しない",
       "is_greater_than": "より大きい",
       "is_less_than": "より小さい",
-      "days_before": "x日前"
+      "days_before": "x日前",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",

@@ -32,7 +32,7 @@ import ConversationBox from '../../../components/widgets/conversation/Conversati
 import PopOverSearch from './search/PopOverSearch';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -163,9 +163,15 @@ export default {
         ) {
           return;
         }
-        this.$store.dispatch('setActiveChat', selectedConversation).then(() => {
-          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-        });
+        const { messageId } = this.$route.query;
+        this.$store
+          .dispatch('setActiveChat', {
+            data: selectedConversation,
+            after: messageId,
+          })
+          .then(() => {
+            bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+          });
       } else {
         this.$store.dispatch('clearSelectedState');
       }

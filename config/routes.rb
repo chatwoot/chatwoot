@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resources :accounts, only: [:create, :show, :update] do
         member do
           post :update_active_at
+          get :cache_keys
         end
 
         scope module: :accounts do
@@ -90,6 +91,7 @@ Rails.application.routes.draw do
               post :unmute
               post :transcript
               post :toggle_status
+              post :toggle_priority
               post :toggle_typing_status
               post :update_last_seen
               post :unread
@@ -175,7 +177,11 @@ Rails.application.routes.draw do
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resources :hooks, only: [:create, :update, :destroy]
+            resources :hooks, only: [:create, :update, :destroy] do
+              member do
+                post :process_event
+              end
+            end
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
             resource :dyte, controller: 'dyte', only: [] do
               collection do
@@ -195,6 +201,7 @@ Rails.application.routes.draw do
             resources :categories
             resources :articles do
               post :attach_file, on: :collection
+              post :reorder, on: :collection
             end
           end
         end
@@ -225,6 +232,8 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :create, :update]
         resources :conversations, only: [:index, :create] do
           collection do
+            post :destroy_custom_attributes
+            post :set_custom_attributes
             post :update_last_seen
             post :toggle_typing
             post :transcript
@@ -384,7 +393,7 @@ Rails.application.routes.draw do
       resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
-      resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
+      resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy]

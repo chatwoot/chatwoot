@@ -52,10 +52,14 @@ class ApplicationMailer < ActionMailer::Base
 
   def liquid_locals
     # expose variables you want to be exposed in liquid
-    {
+    locals = {
       global_config: GlobalConfig.get('BRAND_NAME', 'BRAND_URL'),
       action_url: @action_url
     }
+
+    locals.merge({ attachment_url: @attachment_url }) if @attachment_url
+    locals.merge({ failed_contacts: @failed_contacts, imported_contacts: @imported_contacts })
+    locals
   end
 
   def locale_from_account(account)

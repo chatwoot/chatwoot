@@ -21,6 +21,7 @@ da:
   messages:
     reset_password_success: Woot! Anmodning om nulstilling af adgangskode er vellykket. Tjek din mail for instruktioner.
     reset_password_failure: Åh nej! Vi kunne ikke finde nogen bruger med den angivne e-mail.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
       presence: må ikke være tomt
@@ -57,6 +58,7 @@ da:
         name: bør ikke starte eller slutte med symboler, og det skal ikke have < > / \ @ tegn.
   reports:
     period: Rapporteringsperiode %{since} til %{until}
+    utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agentens navn
       conversations_count: Samtaler tæller
@@ -78,6 +80,8 @@ da:
       conversations_count: Samtaler tæller
       avg_first_response_time: Gns første svartid (minutter)
       avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
+    conversation_traffic_csv:
+      timezone: Timezone
     default_group_by: dag
     csat:
       headers:
@@ -108,6 +112,7 @@ da:
         pending: "Samtalen blev markeret som afventende af %{user_name}"
         snoozed: "Samtalen blev udskudt af %{user_name}"
         auto_resolved: "Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet"
+        system_auto_open: System reopened the conversation due to a new incoming message.
       assignee:
         self_assigned: "%{user_name} selv-tildelte denne samtale"
         assigned: "Tildelt %{assignee_name} af %{user_name}"
@@ -133,7 +138,7 @@ da:
           reply_with_name: "%{assignee_name} fra %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} fra %{inbox_name}"
+          reply_with_name: "%{assignee_name} fra %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Nye beskeder i denne samtale"
       transcript_subject: "Samtaleudskrift"

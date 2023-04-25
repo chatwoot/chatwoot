@@ -53,9 +53,24 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 6
-        expect(result.first.id).to be conversation.messages.first.id
+        expect(result.count).to be 5
+        expect(result.first.id).to be conversation.messages.second.id
         expect(result.last.message_type).to eq 'outgoing'
+      end
+    end
+
+    context 'with after and before attribute' do
+      let(:params) do
+        {
+          after: conversation.messages.first.id,
+          before: conversation.messages.last.id
+        }
+      end
+
+      it 'filter conversations by status' do
+        result = message_finder.perform
+        expect(result.count).to be 5
+        expect(result.last.id).to be conversation.messages[-2].id
       end
     end
   end

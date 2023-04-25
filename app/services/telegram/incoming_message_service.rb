@@ -3,6 +3,7 @@
 
 class Telegram::IncomingMessageService
   include ::FileTypeHelper
+  include ::Telegram::ParamHelpers
   pattr_initialize [:inbox!, :params!]
 
   def perform
@@ -13,27 +14,23 @@ class Telegram::IncomingMessageService
     update_contact_avatar
     set_conversation
     @message = @conversation.messages.build(
-      content: params[:message][:text].presence || params[:message][:caption],
+      content: telegram_params_message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: (params[:message][:message_id]).to_s
+      source_id: telegram_params_message_id.to_s
     )
-    attach_location
-    attach_files
+
+    process_message_attachments if message_params?
     @message.save!
   end
 
   private
 
-  def private_message?
-    params.dig(:message, :chat, :type) == 'private'
-  end
-
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: params[:message][:from][:id],
+      source_id: telegram_params_from_id,
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform
@@ -42,10 +39,15 @@ class Telegram::IncomingMessageService
     @contact = contact_inbox.contact
   end
 
+  def process_message_attachments
+    attach_location
+    attach_files
+  end
+
   def update_contact_avatar
     return if @contact.avatar.attached?
 
-    avatar_url = inbox.channel.get_telegram_profile_image(params[:message][:from][:id])
+    avatar_url = inbox.channel.get_telegram_profile_image(telegram_params_from_id)
     ::Avatar::AvatarFromUrlJob.perform_later(@contact, avatar_url) if avatar_url
   end
 
@@ -68,21 +70,21 @@ class Telegram::IncomingMessageService
 
   def contact_attributes
     {
-      name: "#{params[:message][:from][:first_name]} #{params[:message][:from][:last_name]}",
+      name: "#{telegram_params_first_name} #{telegram_params_last_name}",
       additional_attributes: additional_attributes
     }
   end
 
   def additional_attributes
     {
-      username: params[:message][:from][:username],
-      language_code: params[:message][:from][:language_code]
+      username: telegram_params_username,
+      language_code: telegram_params_language_code
     }
   end
 
   def conversation_additional_attributes
     {
-      chat_id: params[:message][:chat][:id]
+      chat_id: telegram_params_chat_id
     }
   end
 
@@ -128,7 +130,7 @@ class Telegram::IncomingMessageService
   end
 
   def location
-    @location ||= params[:message][:location].presence
+    @location ||= params.dig(:message, :location).presence
   end
 
   def visual_media_params

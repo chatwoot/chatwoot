@@ -7,12 +7,14 @@ export const CONVERSATION_EVENTS = Object.freeze({
   USED_MENTIONS: 'Used mentions',
   SEARCH_CONVERSATION: 'Searched conversations',
   APPLY_FILTER: 'Applied filters in the conversation list',
+  CHANGE_PRIORITY: 'Assigned priority to a conversation',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
   ADDED_TO_CANNED_RESPONSE: 'Used added to canned response option',
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
+  OPEN_MESSAGE_CONTEXT_MENU: 'Opened message context menu',
 });
 
 export const LABEL_EVENTS = Object.freeze({

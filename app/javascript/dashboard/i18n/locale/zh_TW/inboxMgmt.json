@@ -22,7 +22,7 @@
         "body": "將客服增加到建立的收件匣。"
       },
       {
-        "title": "瞧！",
+        "title": "Voila!",
         "route": "settings_inbox_finish",
         "body": "您已設定狀態為離開"
       }
@@ -30,7 +30,7 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "收件匣名稱",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "PLACEHOLDER": "輸入你的收件匣名稱 (e. g: Acme Inc)",
         "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook 網址",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "輸入你的 Webhook URL",
           "ERROR": "請輸入一個有效的 URL"
         },
         "CHANNEL_DOMAIN": {
@@ -128,7 +128,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "收件匣名稱",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "請輸入收件匣名稱",
           "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
@@ -179,7 +179,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "收件匣名稱",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "請輸入收件匣名稱",
             "ERROR": "此欄位是必填項目"
           },
           "PHONE_NUMBER": {
@@ -439,7 +439,8 @@
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "在小工具上顯示檔案選擇器",
       "DISPLAY_EMOJI_PICKER": "在小工具上顯示 emoji 選擇器",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
@@ -477,6 +478,8 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {

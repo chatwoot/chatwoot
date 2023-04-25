@@ -22,7 +22,8 @@
       "is_not_present": "Is not present",
       "is_greater_than": "Is greater than",
       "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "days_before": "Is x days before",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -45,7 +46,7 @@
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "LAST_ACTIVITY": "Seinasta virkni"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

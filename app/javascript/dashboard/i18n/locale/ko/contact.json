@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "연락처의 전화 번호 입력",
         "LABEL": "전화 번호",
-        "HELP": "전화번호는 E.164 형식이여야 합니다. 예: +1415555555 [+][국가 코드][지역 코드][전화번호]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "전화번호는 비어있거나 E.164 형식이여야 합니다",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "이 전화번호는 다른 연락처에 사용 중입니다."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "회사명 입력",
         "LABEL": "회사명"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "국가 이름",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "제거",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -170,7 +182,8 @@
         "LABEL": "~~에게"
       },
       "INBOX": {
-        "LABEL": "받은 메시지함",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "받은 메시지함 선택"
       },
       "SUBJECT": {

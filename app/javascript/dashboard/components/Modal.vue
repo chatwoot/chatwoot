@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     modalContainerClassName() {
-      let className = 'modal-container';
+      let className = 'modal-container skip-context-menu';
       if (this.fullWidth) {
         return `${className} modal-container--full-width`;
       }
@@ -60,7 +60,9 @@ export default {
         'right-aligned': 'right-aligned',
       };
 
-      return `modal-mask ${modalClassNameMap[this.modalType] || ''}`;
+      return `modal-mask skip-context-menu ${modalClassNameMap[
+        this.modalType
+      ] || ''}`;
     },
   },
   mounted() {

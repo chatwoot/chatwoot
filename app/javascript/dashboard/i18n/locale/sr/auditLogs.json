@@ -1,0 +1,24 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Audit Logs",
+    "HEADER_BTN_TXT": "Add Audit Logs",
+    "LOADING": "Fetching Audit Logs",
+    "SEARCH_404": "Nema stavki koje se poklapaju sa upitom",
+    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "LIST": {
+      "404": "There are no Audit Logs available in this account.",
+      "TITLE": "Manage Audit Logs",
+      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "TABLE_HEADER": [
+        "User",
+        "Action",
+        "IP adresa",
+        "Time"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
+      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+    }
+  }
+}

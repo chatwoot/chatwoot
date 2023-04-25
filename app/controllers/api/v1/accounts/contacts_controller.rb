@@ -119,11 +119,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts_with_conversation_count(contacts)
-    contacts_with_conversation_count = filtrate(contacts).left_outer_joins(:conversations)
-                                                         .select('contacts.*, COUNT(conversations.id) as conversations_count')
-                                                         .group('contacts.id')
-                                                         .includes([{ avatar_attachment: [:blob] }])
-                                                         .page(@current_page).per(RESULTS_PER_PAGE)
+    conversation_count_sub_query = 'SELECT COUNT(*) FROM "conversations" WHERE "conversations"."contact_id" = "contacts"."id"'
+    contacts_with_conversation_count = filtrate(contacts)
+                                       .select("contacts.*, (#{conversation_count_sub_query}) as conversations_count")
+                                       .group('contacts.id')
+                                       .includes([{ avatar_attachment: [:blob] }])
+                                       .page(@current_page).per(RESULTS_PER_PAGE)
 
     return contacts_with_conversation_count.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
 

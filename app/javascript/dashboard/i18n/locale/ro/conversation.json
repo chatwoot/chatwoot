@@ -35,7 +35,7 @@
     "REMOVE_SELECTION": "Elimină selecția",
     "DOWNLOAD": "Descărcare",
     "UNKNOWN_FILE_TYPE": "Fișier necunoscut",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Salvează",
     "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
     "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
@@ -43,8 +43,8 @@
     "RATING_TITLE": "Evaluare",
     "FEEDBACK_TITLE": "Păreri",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Afișare etichete",
+      "HIDE_LABELS": "Ascunderea etichetelor"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Rezolvă",
@@ -69,7 +69,7 @@
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marchează ca în așteptare",
       "RESOLVED": "Marcați ca rezolvat",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "Marcheaza ca necitit",
       "REOPEN": "Redeschiderea conversației",
       "SNOOZE": {
         "TITLE": "Amânați",
@@ -135,8 +135,8 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Variabile nedefinite",
+        "MESSAGE": "Aveți {undefinedVariablesCount} variabile nedefinite în mesajul dvs.: {undefinedVariables}. Doriți să trimiteți mesajul oricum?",
         "CONFIRM": {
           "YES": "Trimite",
           "CANCEL": "Renunță"
@@ -156,7 +156,7 @@
     "SENT_BY": "Trimis de:",
     "BOT": "Bot",
     "SEND_FAILED": "Nu a putut trimite mesaj! Încearcă din nou",
-    "TRY_AGAIN": "Reîncercare",
+    "TRY_AGAIN": "reîncercare",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Selectează agent",
       "REMOVE": "Elimină",
@@ -166,7 +166,15 @@
       "COPY": "Copiază",
       "DELETE": "Şterge",
       "CREATE_A_CANNED_RESPONSE": "Adaugați la răspunsuri predefinite",
-      "TRANSLATE": "Translate"
+      "TRANSLATE": "Traduceți",
+      "COPY_PERMALINK": "Copierea linkului la mesaj",
+      "LINK_COPIED": "URL-ul mesajului copiat în clipboard",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Ești sigur că vrei să ștergi acest mesaj?",
+        "MESSAGE": "Nu puteți anula această acțiune",
+        "DELETE": "Şterge",
+        "CANCEL": "Renunță"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -179,7 +187,7 @@
     "FORM": {
       "SEND_TO_CONTACT": "Trimite transcrierea către client",
       "SEND_TO_AGENT": "Trimite transcrierea către agentul atribuit",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Această adresă de e-mail este folosită pentru un alt contact.",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Această adresă de e-mail este folosită pentru un alt contact",
       "EMAIL": {
         "PLACEHOLDER": "Introduceți o adresă de e-mail",
         "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
@@ -256,27 +264,27 @@
     "SUBJECT": "Subiect"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "Participante",
+    "SIDEBAR_TITLE": "Participanți la conversație",
     "NO_RECORDS_FOUND": "Niciun rezultat găsit",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "ADD_PARTICIPANTS": "Selectarea participanților",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} altele",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} altele",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} participă oamenii.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} persoană participă.",
+    "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!",
+    "WATCH_CONVERSATION": "Începe conversația",
+    "YOU_ARE_WATCHING": "Participați",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "Nu a putut actualiza, încercați din nou",
+      "SUCCESS_MESSAGE": "Participanții au actualizat!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Vizualizarea conținutului tradus",
+    "DESC": "Puteți vizualiza conținutul tradus în fiecare langauge.",
+    "ORIGINAL_CONTENT": "Conținut original",
+    "TRANSLATED_CONTENT": "Conținut tradus",
+    "NO_TRANSLATIONS_AVAILABLE": "Nu sunt disponibile traduceri pentru acest conținut"
   }
 }

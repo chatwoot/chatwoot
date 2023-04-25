@@ -37,12 +37,33 @@ class Message < ApplicationRecord
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
+  TEMPLATE_PARAMS_SCHEMA = {
+    'type': 'object',
+    'properties': {
+      'template_params': {
+        'type': 'object',
+        'properties': {
+          'name': { 'type': 'string' },
+          'category': { 'type': 'string' },
+          'language': { 'type': 'string' },
+          'namespace': { 'type': 'string' },
+          'processed_params': { 'type': 'object' }
+        },
+        'required': %w[name category language namespace processed_params]
+      }
+    }
+  }.to_json.freeze
+
   before_validation :ensure_content_type
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
+  validates_with JsonSchemaValidator,
+                 schema: TEMPLATE_PARAMS_SCHEMA,
+                 attribute_resolver: ->(record) { record.additional_attributes }
+
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
 
@@ -72,7 +93,7 @@ class Message < ApplicationRecord
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations], coder: JSON
+                                         :translations, :in_reply_to_external_id], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -173,6 +194,10 @@ class Message < ApplicationRecord
     true
   end
 
+  def valid_first_reply?
+    outgoing? && human_response? && not_created_by_automation? && !private?
+  end
+
   private
 
   def ensure_content_type
@@ -194,10 +219,29 @@ class Message < ApplicationRecord
     sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
-  def first_human_response?
-    conversation.messages.outgoing
-                .where.not(sender_type: 'AgentBot')
-                .where("(additional_attributes->'campaign_id') is null").count == 1
+  def human_response?
+    # given the checks are already in place, we need not query
+    # the database again to check if the message is created by a human
+    # we can just see if the first_reply is recorded or not
+    # if it is record, we can just return false
+    return false if conversation.first_reply_created_at.present?
+
+    # if the sender is not a user, it's not a human response
+    return false unless sender.is_a?(User)
+
+    # if automation rule id is present, it's not a human response
+    # if campaign id is present, it's not a human response
+    # this check already happens in `not_created_by_automation` but added here for the sake of brevity
+    # also the purity of this method is intact, and can be relied on this solely
+    return false if content_attributes['automation_rule_id'].present? || additional_attributes['campaign_id'].present?
+
+    # adding this condition again to ensure if the first_reply_created_at is not present
+    return false if conversation.messages.outgoing
+                                .where.not(sender_type: 'AgentBot')
+                                .where.not(private: true)
+                                .where("(additional_attributes->'campaign_id') is null").count > 1
+
+    true
   end
 
   def not_created_by_automation?
@@ -206,7 +250,7 @@ class Message < ApplicationRecord
 
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-    if outgoing? && first_human_response? && not_created_by_automation?
+    if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
@@ -234,9 +278,16 @@ class Message < ApplicationRecord
     # mark resolved bot conversation as pending to be reopened by bot processor service
     if conversation.inbox.active_bot?
       conversation.pending!
+    elsif conversation.inbox.api?
+      Current.executed_by = sender if reopened_by_contact?
+      conversation.open!
     else
       conversation.open!
     end
+  end
+
+  def reopened_by_contact?
+    incoming? && !private? && Current.user.class != sender.class && sender.instance_of?(Contact)
   end
 
   def execute_message_template_hooks

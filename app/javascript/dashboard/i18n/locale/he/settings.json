@@ -52,7 +52,7 @@
         "BTN_TEXT": "שנה סיסמא"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Token",
+        "TITLE": "אסימון",
         "NOTE": "משמש לחיבורי API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
@@ -127,186 +127,188 @@
       },
       "CURRENT_PASSWORD": {
         "LABEL": "סיסמא נוכחית",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "ERROR": "אנא הזן את הסיסמה הנוכחית",
+        "PLACEHOLDER": "אנא הזן את הסיסמה הנוכחית"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "סיסמה חדשה",
+        "ERROR": "אנא הזן סיסמה באורך 6 או יותר",
+        "PLACEHOLDER": "אנא הזן סיסמה חדשה"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "תאשר סיסמא חדשה",
+        "ERROR": "אשר את הסיסמה צריכה להתאים לסיסמה",
+        "PLACEHOLDER": "אנא הזן מחדש את הסיסמה החדשה שלך"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
+    "CHANGE_AVAILABILITY_STATUS": "שינוי",
     "CHANGE_ACCOUNTS": "החלף חשבון",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "CONTACT_SUPPORT": "צור קשר עם תמיכה",
+    "SELECTOR_SUBTITLE": "בחר חשבון מהרשימה הבאה",
     "PROFILE_SETTINGS": "הגדרות פרופיל",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "KEYBOARD_SHORTCUTS": "קיצורי דרך במקלדת",
+    "SUPER_ADMIN_CONSOLE": "מסוף סופר אדמין",
     "LOGOUT": "התנתק"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
+    "TRIAL_MESSAGE": "שנותרו ימי ניסיון.",
+    "TRAIL_BUTTON": "קנה עכשיו",
+    "DELETED_USER": "משתמש מחוק",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "חשבון מושעה",
+      "MESSAGE": "החשבון שלך מושעה. אנא פנה לצוות התמיכה לקבלת מידע נוסף."
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "עותק",
+      "CODEPEN": "פתח ב-CodePen",
+      "COPY_SUCCESSFUL": "הקוד הועתק ללוח בהצלחה"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "להראות יותר",
+      "SHOW_LESS": "הראי פחות"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "הורד",
       "UPLOADING": "מעלה...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "הסיפור הזה כבר לא זמין."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "ראה במפה"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "שלח"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "מאמת...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "הוסף תיבת דואר נכנס"
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "צופה כרגע:",
+    "SWITCH": "החלף",
     "CONVERSATIONS": "שיחות",
     "ALL_CONVERSATIONS": "כל השיחות",
     "MENTIONED_CONVERSATIONS": "אִזְכּוּרים",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Reports",
+    "PARTICIPATING_CONVERSATIONS": "משתתף",
+    "UNATTENDED_CONVERSATIONS": "ללא השגחה",
+    "REPORTS": "דיווחים",
     "SETTINGS": "הגדרות",
     "CONTACTS": "איש קשר",
     "HOME": "בית",
     "AGENTS": "סוכנים",
     "AGENT_BOTS": "בוטים",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "תיבות דואר נכנס",
     "NOTIFICATIONS": "התראות",
     "CANNED_RESPONSES": "תגובות מוכנות",
     "INTEGRATIONS": "אינטגרציות",
     "PROFILE_SETTINGS": "הגדרות פרופיל",
-    "ACCOUNT_SETTINGS": "Account Settings",
+    "ACCOUNT_SETTINGS": "הגדרות חשבון",
     "APPLICATIONS": "יישומים",
-    "LABELS": "Labels",
+    "LABELS": "תוויות",
     "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "AUTOMATION": "אוטומציה",
+    "MACROS": "מאקרו",
+    "TEAMS": "צוותים",
+    "BILLING": "חיוב",
+    "CUSTOM_VIEWS_FOLDER": "תיקיות",
+    "CUSTOM_VIEWS_SEGMENTS": "פלחים",
+    "ALL_CONTACTS": "כל אנשי הקשר",
+    "TAGGED_WITH": "מתוייג עם",
+    "NEW_LABEL": "תווית חדשה",
+    "NEW_TEAM": "קבוצה חדשה",
+    "NEW_INBOX": "תיבת דואר נכנס חדשה",
     "REPORTS_CONVERSATION": "שיחות",
     "CSAT": "CSAT",
     "CAMPAIGNS": "קמפיין",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "ONGOING": "מתמשך",
+    "ONE_OFF": "חד פעמי",
     "REPORTS_AGENT": "סוכנים",
-    "REPORTS_LABEL": "Labels",
+    "REPORTS_LABEL": "תוויות",
     "REPORTS_INBOX": "תיבת הדואר הנכנס",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_TEAM": "צוות",
+    "SET_AVAILABILITY_TITLE": "הגדר את עצמך בתור",
+    "BETA": "בטא",
+    "REPORTS_OVERVIEW": "סקירה כללית",
     "FACEBOOK_REAUTHORIZE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "TITLE": "מרכז העזרה (ביטא)",
+      "ALL_ARTICLES": "כל המאמרים",
+      "MY_ARTICLES": "הכתבות שלי",
+      "DRAFT": "טיוטה",
+      "ARCHIVED": "בארכיון",
+      "CATEGORY": "קטגוריה",
       "SETTINGS": "הגדרות",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "לא נמצאו קטגוריות"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "סמן באופן לא מקוון באופן אוטומטי",
+      "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים."
     },
-    "DOCS": "Read docs"
+    "DOCS": "קרא מסמכים"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "חיוב",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "תוכנית נוכחית",
+      "PLAN_NOTE": "אתה רשום כעת לתוכנית **%{plan}** עם רישיונות **%{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "נהל את המנוי שלך",
+      "DESCRIPTION": "הצג את החשבוניות הקודמות שלך, ערוך את פרטי החיוב שלך או בטל את המנוי שלך.",
+      "BUTTON_TXT": "עבור לפורטל החיובים"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "זקוק לעזרה?",
+      "DESCRIPTION": "האם אתה נתקל בבעיות כלשהן בחיוב? אנחנו כאן כדי לעזור.",
       "BUTTON_TXT": "דבר איתנו"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "אה הו! לא הצלחנו למצוא חשבונות Chatwoot. נא ליצור חשבון חדש כדי להמשיך.",
+    "NEW_ACCOUNT": "חשבון חדש",
+    "SELECTOR_SUBTITLE": "צור חשבון חדש",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "החשבון נוצר בהצלחה",
+      "EXIST_MESSAGE": "החשבון כבר קיים",
       "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
     },
     "FORM": {
       "NAME": {
         "LABEL": "שם החברה",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "וויין אנטרפרייז"
       },
       "SUBMIT": "שלח"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "הצג את כל קיצורי הדרך",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "שיחה פתוחה",
+      "RESOLVE_AND_NEXT": "פתור ועבור להבא",
+      "NAVIGATE_DROPDOWN": "נווט בפריטים הנפתחים",
+      "RESOLVE_CONVERSATION": "פתור שיחה",
+      "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
+      "ADD_ATTACHMENT": "הוסף קובץ מצורף",
+      "GO_TO_CONTACTS_DASHBOARD": "עבור ללוח המחוונים של אנשי קשר",
+      "TOGGLE_SIDEBAR": "החלפת סרגל צד",
+      "GO_TO_REPORTS_SIDEBAR": "עבור לסרגל הצד של דוחות",
+      "MOVE_TO_NEXT_TAB": "עבור ללשונית הבאה ברשימת השיחות",
+      "GO_TO_SETTINGS": "לך להגדרות",
+      "SWITCH_CONVERSATION_STATUS": "עבור למצב השיחה הבאה",
+      "SWITCH_TO_PRIVATE_NOTE": "עבור להערה פרטית",
+      "SWITCH_TO_REPLY": "עבור לתשובה",
+      "TOGGLE_SNOOZE_DROPDOWN": "החלפת תפריט נודניק"
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "נצח / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }

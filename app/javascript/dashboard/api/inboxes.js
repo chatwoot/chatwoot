@@ -1,9 +1,14 @@
 /* global axios */
-import ApiClient from './ApiClient';
+import CacheEnabledApiClient from './CacheEnabledApiClient';
 
-class Inboxes extends ApiClient {
+class Inboxes extends CacheEnabledApiClient {
   constructor() {
     super('inboxes', { accountScoped: true });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get cacheModelName() {
+    return 'inbox';
   }
 
   getCampaigns(inboxId) {

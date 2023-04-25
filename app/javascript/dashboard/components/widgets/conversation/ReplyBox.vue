@@ -120,8 +120,10 @@
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
+      :message="message"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
+      @replace-text="replaceText"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -174,9 +176,10 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
-import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
@@ -336,6 +339,12 @@ export default {
         this.message.length > this.maxLength
       );
     },
+    sender() {
+      return {
+        name: this.currentUser.name,
+        thumbnail: this.currentUser.avatar_url,
+      };
+    },
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
@@ -452,7 +461,12 @@ export default {
       return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
     enableMultipleFileUpload() {
-      return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+      return (
+        this.isAnEmailChannel ||
+        this.isAWebWidgetInbox ||
+        this.isAPIInbox ||
+        this.isAWhatsAppChannel
+      );
     },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
@@ -991,6 +1005,7 @@ export default {
             files: [attachedFile],
             private: false,
             message: caption,
+            sender: this.sender,
           };
           multipleMessagePayload.push(attachmentPayload);
           caption = '';
@@ -1000,6 +1015,7 @@ export default {
           conversationId: this.currentChat.id,
           message,
           private: false,
+          sender: this.sender,
         };
         multipleMessagePayload.push(messagePayload);
       }
@@ -1011,6 +1027,7 @@ export default {
         conversationId: this.currentChat.id,
         message,
         private: this.isPrivate,
+        sender: this.sender,
       };
 
       if (this.inReplyTo) {

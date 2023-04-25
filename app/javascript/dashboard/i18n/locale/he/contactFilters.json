@@ -1,15 +1,15 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "TITLE": "סינון אנשי קשר",
+        "SUBTITLE": "הוסיפו פילטרים מתחת ולחצו 'אישור' בכדי לסנן אנשי קשר.",
         "ADD_NEW_FILTER": "הוסף מסנן",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "CLEAR_ALL_FILTERS": "ניקוי כל הפילטרים",
         "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
         "SUBMIT_BUTTON_LABEL": "שלח",
         "CANCEL_BUTTON_LABEL": "ביטול",
         "CLEAR_BUTTON_LABEL": "מחק סננים",
         "EMPTY_VALUE_ERROR": "חובה ערך",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "TOOLTIP_LABEL": "סינון אנשי קשר",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "ו/גם",
             "OR": "או"
@@ -22,14 +22,14 @@
             "is_present": "נוכח",
             "is_not_present": "לא נוכח",
             "is_greater_than": "גדול מ",
-            "is_lesser_than": "Is lesser than",
+            "is_lesser_than": "הוא פחות מ",
             "days_before": "זה x ימים לפני"
         },
         "ATTRIBUTES": {
             "NAME": "שם",
             "EMAIL": "אימייל",
             "PHONE_NUMBER": "מספר טלפון",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "מזהה",
             "CITY": "עיר",
             "COUNTRY": "מדינה",
             "CUSTOM_ATTRIBUTE_LIST": "רשימה",
@@ -39,7 +39,7 @@
             "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
             "CREATED_AT": "הוקם ב",
             "LAST_ACTIVITY": "פעילות אחרונה",
-            "REFERER_LINK": "Referrer link"
+            "REFERER_LINK": "קישור מפנה"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "סננים סטנדרטיים",

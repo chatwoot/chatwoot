@@ -74,6 +74,11 @@
           "LABEL": "E-mailová adresa",
           "PLACEHOLDER": "Zadejte prosím e-mailovou adresu agenta"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostupnost",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Upravit agenta"
       },
       "BUTTON_TEXT": "Upravit",

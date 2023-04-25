@@ -22,7 +22,8 @@
       "is_not_present": "不存在",
       "is_greater_than": "大于",
       "is_less_than": "小于：",
-      "days_before": "是 x 天前"
+      "days_before": "是 x 天前",
+      "starts_with": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "真的",
