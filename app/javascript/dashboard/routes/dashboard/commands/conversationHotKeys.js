@@ -12,6 +12,7 @@ import {
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
+  ICON_ASSIGN_PRIORITY,
   ICON_ASSIGN_TEAM,
   ICON_MUTE_CONVERSATION,
   ICON_REMOVE_LABEL,
@@ -23,6 +24,7 @@ import {
   ICON_SNOOZE_UNTIL_NEXT_WEEK,
   ICON_SNOOZE_UNTIL_TOMORRROW,
   ICON_UNMUTE_CONVERSATION,
+  ICON_PRIORITY_URGENT,
 } from './CommandBarIcons';
 
 const OPEN_CONVERSATION_ACTIONS = [
@@ -145,6 +147,30 @@ export default {
       }
       return this.prepareActions(actions);
     },
+    priorityOptions() {
+      return [
+        {
+          label: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
+          key: null,
+        },
+        {
+          label: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
+          key: 'urgent',
+        },
+        {
+          label: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
+          key: 'high',
+        },
+        {
+          label: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
+          key: 'medium',
+        },
+        {
+          label: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
+          key: 'low',
+        },
+      ].filter(item => item.key !== this.currentChat?.priority);
+    },
     assignAgentActions() {
       const agentOptions = this.agentsList.map(agent => ({
         id: `agent-${agent.id}`,
@@ -164,6 +190,27 @@ export default {
           children: agentOptions.map(option => option.id),
         },
         ...agentOptions,
+      ];
+    },
+    assignPriorityActions() {
+      const options = this.priorityOptions.map(priority => ({
+        id: `priority-${priority.key}`,
+        title: priority.label,
+        parent: 'assign_priority',
+        section: this.$t('COMMAND_BAR.SECTIONS.CHANGE_PRIORITY'),
+        priority: priority,
+        icon: ICON_PRIORITY_URGENT,
+        handler: this.onChangePriority,
+      }));
+      return [
+        {
+          id: 'assign_priority',
+          title: this.$t('COMMAND_BAR.COMMANDS.ASSIGN_PRIORITY'),
+          section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+          icon: ICON_ASSIGN_PRIORITY,
+          children: options.map(option => option.id),
+        },
+        ...options,
       ];
     },
     assignTeamActions() {
@@ -243,6 +290,7 @@ export default {
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
         return [
+          ...this.assignPriorityActions,
           ...this.statusActions,
           ...this.conversationAdditionalActions,
           ...this.assignAgentActions,
@@ -260,6 +308,12 @@ export default {
       this.$store.dispatch('assignAgent', {
         conversationId: this.currentChat.id,
         agentId: action.agentInfo.id,
+      });
+    },
+    onChangePriority(action) {
+      this.$store.dispatch('assignPriority', {
+        conversationId: this.currentChat.id,
+        priority: action.priority.key,
       });
     },
     onChangeTeam(action) {
