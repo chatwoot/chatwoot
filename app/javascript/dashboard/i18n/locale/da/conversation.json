@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Næste uge"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Ingen",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Ingen",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Ingen resultater fundet",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markér som afventende",
       "RESOLVED": "Marker som løst",
