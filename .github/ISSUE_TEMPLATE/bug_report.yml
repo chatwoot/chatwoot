@@ -19,7 +19,6 @@ body:
         4. See error...
     validations:
       required: true
-    render: markdown
   - type: textarea
     attributes:
       label: Expected behavior
