@@ -579,8 +579,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_100944) do
     t.boolean "allow_messages_after_resolved", default: true
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
+    t.bigint "portal_id"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
+    t.index ["portal_id"], name: "index_inboxes_on_portal_id"
   end
 
   create_table "installation_configs", force: :cascade do |t|
@@ -918,6 +920,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_100944) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

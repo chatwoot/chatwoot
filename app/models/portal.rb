@@ -37,6 +37,7 @@ class Portal < ApplicationRecord
            dependent: :nullify,
            source: :user
   has_one_attached :logo
+  has_many :inboxes, dependent: :nullify
 
   before_validation -> { normalize_empty_string_to_nil(%i[custom_domain homepage_link]) }
   validates :account_id, presence: true

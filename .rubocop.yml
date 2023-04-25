@@ -71,6 +71,10 @@ Rails/ApplicationController:
     - 'app/controllers/platform_controller.rb'
     - 'app/controllers/public_controller.rb'
     - 'app/controllers/survey/responses_controller.rb'
+Rails/FindEach:
+  Enabled: true
+  Include: 
+    - 'app/**/*.rb'
 Rails/CompactBlank:
   Enabled: false
 Rails/EnvironmentVariableAccess:
