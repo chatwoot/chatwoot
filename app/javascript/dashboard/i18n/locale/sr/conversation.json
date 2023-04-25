@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Sledeće nedelje"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Niko",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Niko",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Ništa nije pronađeno",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označeno na čekanju",
       "RESOLVED": "Označi kao rešeno",
