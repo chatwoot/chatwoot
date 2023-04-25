@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Tuần sau"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Không có",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Không có",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Không tìm thấy kết quả",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Đánh dấu chưa giải quyết",
       "RESOLVED": "Đánh dấu là đã giải quyết",
