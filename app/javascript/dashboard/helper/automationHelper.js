@@ -163,6 +163,7 @@ export const getConditionOptions = ({
     conversation_language: languages,
     country_code: countries,
     message_type: MESSAGE_CONDITION_VALUES,
+    priority: PRIORITY_CONDITION_VALUES,
   };
 
   return conditionFilterMaps[type];

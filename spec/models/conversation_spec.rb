@@ -292,6 +292,47 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe '#toggle_priority' do
+    it 'defaults priority to nil when created' do
+      conversation = create(:conversation, status: 'open')
+      expect(conversation.priority).to be_nil
+    end
+
+    it 'toggles the priority to nil if nothing is passed' do
+      conversation = create(:conversation, status: 'open', priority: 'high')
+      expect(conversation.toggle_priority).to be(true)
+      expect(conversation.reload.priority).to be_nil
+    end
+
+    it 'sets the priority to low' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('low')).to be(true)
+      expect(conversation.reload.priority).to eq('low')
+    end
+
+    it 'sets the priority to medium' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('medium')).to be(true)
+      expect(conversation.reload.priority).to eq('medium')
+    end
+
+    it 'sets the priority to high' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('high')).to be(true)
+      expect(conversation.reload.priority).to eq('high')
+    end
+
+    it 'sets the priority to urgent' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('urgent')).to be(true)
+      expect(conversation.reload.priority).to eq('urgent')
+    end
+  end
+
   describe '#ensure_snooze_until_reset' do
     it 'resets the snoozed_until when status is toggled' do
       conversation = create(:conversation, status: 'snoozed', snoozed_until: 2.days.from_now)
