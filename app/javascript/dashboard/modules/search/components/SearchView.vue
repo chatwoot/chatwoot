@@ -21,7 +21,7 @@
         />
       </header>
       <div class="search-results">
-        <div v-if="all.length">
+        <div v-if="showResultsSection">
           <search-result-contacts-list
             v-if="filterContacts"
             :is-fetching="uiFlags.contact.isFetching"
@@ -46,7 +46,7 @@
             :show-title="isSelectedTabAll"
           />
         </div>
-        <div v-else-if="showEmptySearchResults && !all.length" class="empty">
+        <div v-else-if="showEmptySearchResults" class="empty">
           <fluent-icon icon="info" size="16px" class="icon" />
           <p class="empty-state__text">
             {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
@@ -159,7 +159,17 @@ export default {
     },
     showEmptySearchResults() {
       return (
-        this.totalSearchResultsCount === 0 && this.uiFlags.isSearchCompleted
+        this.totalSearchResultsCount === 0 &&
+        this.uiFlags.isSearchCompleted &&
+        !this.uiFlags.isFetching &&
+        this.query
+      );
+    },
+    showResultsSection() {
+      return (
+        (this.uiFlags.isSearchCompleted &&
+          this.totalSearchResultsCount !== 0) ||
+        this.uiFlags.isFetching
       );
     },
     isSelectedTabAll() {
