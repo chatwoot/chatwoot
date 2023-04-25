@@ -17,7 +17,7 @@ class MessageTemplates::Template::Greeting
 
   def greeting_message_params
     content = @conversation.inbox&.greeting_message
-    content = string_interpolation_on_content(content)
+    content = parse_greeting_message_content(content)
 
     {
       account_id: @conversation.account_id,
@@ -27,7 +27,7 @@ class MessageTemplates::Template::Greeting
     }
   end
 
-  def string_interpolation_on_content(content)
+  def parse_greeting_message_content(content)
     if content.present? && content.match?(/.*{{.*}}.*/)
       template = Liquid::Template.parse(content)
       template_values = parse_template_variable(template, content)

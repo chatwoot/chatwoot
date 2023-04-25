@@ -11,7 +11,7 @@ module EmailHelper
     "#{email.split('@').first.split('+').first}@#{email.split('@').last}".downcase
   end
 
-  def extract_email_string_interpolation(conversation, email)
+  def parse_email_variables(conversation, email)
     case email
     when /{{.*?}}/
       email_text = email.gsub(/\{\{(.*?)\}\}/) { Regexp.last_match(1) }
