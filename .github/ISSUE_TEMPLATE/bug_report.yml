@@ -3,23 +3,19 @@ description: Create a report to help us improve
 labels: 'Bug'
 body:
   - type: markdown
-    attributes:
-      label: Describe the bug
-      description: A concise description of what you expected to happen along with screenshots if applicable.
-    validations:
-      required: true
+    value: |
+      ## Describe the bug
+      A concise description of what you expected to happen along with screenshots if applicable.
   - type: markdown
     attributes:
-      label: To Reproduce
-      description: Steps to reproduce the behavior.
-      placeholder: |
+      value: |
+        # Steps to reproduce the behavior.
         1. In this environment...
         2. With this config...
         3. Run '...'
         4. See error...
     validations:
       required: true
-    render: markdown
   - type: textarea
     attributes:
       label: Expected behavior
@@ -73,7 +69,7 @@ body:
         - `docker version`
         - `docker info`
         - `docker-compose version`
-  - type: markdown
+  - type: textarea
     attributes:
       label: Additional context
       description: Add any other context about the problem here.
