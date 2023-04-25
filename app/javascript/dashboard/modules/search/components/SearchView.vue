@@ -27,7 +27,7 @@
             :is-fetching="uiFlags.contact.isFetching"
             :contacts="contacts"
             :query="query"
-            :show-title="selectedTab === 'all'"
+            :show-title="isSelectedTabAll"
           />
 
           <search-result-messages-list
