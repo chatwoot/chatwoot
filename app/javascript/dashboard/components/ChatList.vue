@@ -125,6 +125,7 @@
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
         @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -191,6 +192,7 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
+import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -695,6 +697,26 @@ export default {
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
+    },
+    async assignPriority(priority, conversationId = null) {
+      this.$store.dispatch('setCurrentChatPriority', {
+        priority,
+        conversationId,
+      });
+      this.$store
+        .dispatch('assignPriority', { conversationId, priority })
+        .then(() => {
+          this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+            newValue: priority,
+            from: 'Context menu',
+          });
+          this.showAlert(
+            this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
+              priority,
+              conversationId,
+            })
+          );
+        });
     },
     async markAsUnread(conversationId) {
       try {

@@ -91,6 +91,12 @@
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
       />
+      <AIAssistanceButton
+        v-if="message"
+        :conversation-id="conversationId"
+        :message="message"
+        @replace-text="replaceText"
+      />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -129,12 +135,13 @@ import {
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton';
+import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton },
+  components: { FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
@@ -216,6 +223,10 @@ export default {
     conversationId: {
       type: Number,
       required: true,
+    },
+    message: {
+      type: String,
+      default: '',
     },
   },
   computed: {
@@ -302,6 +313,9 @@ export default {
       this.updateUISettings({
         send_with_signature: !this.sendWithSignature,
       });
+    },
+    replaceText(text) {
+      this.$emit('replace-text', text);
     },
   },
 };
