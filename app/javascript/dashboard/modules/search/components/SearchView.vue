@@ -27,7 +27,7 @@
             :is-fetching="uiFlags.contact.isFetching"
             :contacts="contacts"
             :query="query"
-            :show-title="selectedTab === 'all'"
+            :show-title="isSelectedTabAll"
           />
 
           <search-result-messages-list
@@ -35,7 +35,7 @@
             :is-fetching="uiFlags.message.isFetching"
             :messages="messages"
             :query="query"
-            :show-title="selectedTab === 'all'"
+            :show-title="isSelectedTabAll"
           />
 
           <search-result-conversations-list
@@ -43,7 +43,7 @@
             :is-fetching="uiFlags.conversation.isFetching"
             :conversations="conversations"
             :query="query"
-            :show-title="selectedTab === 'all'"
+            :show-title="isSelectedTabAll"
           />
         </div>
         <div v-else-if="showEmptySearchResults && !all.length" class="empty">
@@ -120,13 +120,13 @@ export default {
       return [...this.contacts, ...this.conversations, ...this.messages];
     },
     filterContacts() {
-      return this.selectedTab === 'contacts' || this.selectedTab === 'all';
+      return this.selectedTab === 'contacts' || this.isSelectedTabAll;
     },
     filterConversations() {
-      return this.selectedTab === 'conversations' || this.selectedTab === 'all';
+      return this.selectedTab === 'conversations' || this.isSelectedTabAll;
     },
     filterMessages() {
-      return this.selectedTab === 'messages' || this.selectedTab === 'all';
+      return this.selectedTab === 'messages' || this.isSelectedTabAll;
     },
     totalSearchResultsCount() {
       return (
@@ -161,6 +161,9 @@ export default {
       return (
         this.totalSearchResultsCount === 0 && this.uiFlags.isSearchCompleted
       );
+    },
+    isSelectedTabAll() {
+      return this.selectedTab === 'all';
     },
   },
   beforeDestroy() {
