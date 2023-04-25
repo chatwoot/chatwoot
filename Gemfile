@@ -41,15 +41,12 @@ gem 'down'
 gem 'gmail_xoauth'
 # Prevent CSV injection
 gem 'csv-safe'
-# Support message translation
-gem 'google-cloud-translate'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
 # we wanted updated version of farady which is a dependecy for slack-ruby-client
-#gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
-gem 'azure-storage-blob'
+gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
 gem 'google-cloud-storage', require: false
 gem 'image_processing'
 
@@ -84,7 +81,6 @@ gem 'administrate'
 gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
-# TODO: bump up gem to 2.0
 gem 'facebook-messenger'
 gem 'line-bot-api'
 gem 'twilio-ruby', '~> 5.66'
@@ -94,9 +90,13 @@ gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client'
+gem 'slack-ruby-client', '~> 2.0.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow'
+# Translate integrations
+# 'google-cloud-translate' gem depends on faradau unde 2.0 version
+# this dependency breaks the slack-ruby-client gem
+gem 'google-cloud-translate-v3'
 
 ##-- apm and error monitoring ---#
 # loaded only when environment variables are set.

@@ -1,4 +1,19 @@
 GIT
+  remote: https://github.com/chatwoot/azure-storage-ruby
+  revision: 9957cf899d33a285b5dfe15bdb875292398e392b
+  branch: chatwoot
+  specs:
+    azure-storage-blob (2.0.3)
+      azure-storage-common (~> 2.0)
+      nokogiri (~> 1, >= 1.10.8)
+    azure-storage-common (2.0.4)
+      faraday (~> 2.0)
+      faraday-follow_redirects (~> 0.3.0)
+      faraday-net_http_persistent (~> 2.0)
+      net-http-persistent (~> 4.0)
+      nokogiri (~> 1, >= 1.10.8)
+
+GIT
   remote: https://github.com/chatwoot/devise-secure_password
   revision: adcc85fe1babfe40feae73dbcae64d14fff86e69
   branch: chatwoot
@@ -107,7 +122,7 @@ GEM
       activerecord (>= 5.0, < 7.1)
       request_store (~> 1.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.753.0)
+    aws-partitions (1.754.0)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -122,14 +137,6 @@ GEM
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
-    azure-storage-blob (2.0.3)
-      azure-storage-common (~> 2.0)
-      nokogiri (~> 1, >= 1.10.8)
-    azure-storage-common (2.0.4)
-      faraday (~> 1.0)
-      faraday_middleware (~> 1.0, >= 1.0.0.rc1)
-      net-http-persistent (~> 4.0)
-      nokogiri (~> 1, >= 1.10.8)
     barnes (0.0.9)
       multi_json (~> 1)
       statsd-ruby (~> 1.1)
@@ -217,31 +224,22 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
-    faraday (1.10.3)
-      faraday-em_http (~> 1.0)
-      faraday-em_synchrony (~> 1.0)
-      faraday-excon (~> 1.1)
-      faraday-httpclient (~> 1.0)
-      faraday-multipart (~> 1.0)
-      faraday-net_http (~> 1.0)
-      faraday-net_http_persistent (~> 1.0)
-      faraday-patron (~> 1.0)
-      faraday-rack (~> 1.0)
-      faraday-retry (~> 1.0)
+    faraday (2.7.4)
+      faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
-    faraday-em_http (1.0.0)
-    faraday-em_synchrony (1.0.0)
-    faraday-excon (1.1.0)
-    faraday-httpclient (1.0.1)
+    faraday-follow_redirects (0.3.0)
+      faraday (>= 1, < 3)
+    faraday-mashify (0.1.1)
+      faraday (~> 2.0)
+      hashie
     faraday-multipart (1.0.4)
       multipart-post (~> 2)
-    faraday-net_http (1.0.1)
-    faraday-net_http_persistent (1.2.0)
-    faraday-patron (1.0.0)
-    faraday-rack (1.0.0)
-    faraday-retry (1.0.3)
-    faraday_middleware (1.2.0)
-      faraday (~> 1.0)
+    faraday-net_http (3.0.2)
+    faraday-net_http_persistent (2.1.0)
+      faraday (~> 2.5)
+      net-http-persistent (~> 4.0)
+    faraday-retry (2.1.0)
+      faraday (~> 2.0)
     fcm (1.0.8)
       faraday (>= 1.0.0, < 3.0)
       googleauth (~> 1)
@@ -305,20 +303,9 @@ GEM
       google-cloud-core (~> 1.6)
       googleauth (>= 0.16.2, < 2.a)
       mini_mime (~> 1.0)
-    google-cloud-translate (3.4.0)
-      google-cloud-core (~> 1.6)
-      google-cloud-translate-v2 (>= 0.0, < 2.a)
-      google-cloud-translate-v3 (>= 0.6, < 2.a)
-    google-cloud-translate-v2 (0.4.0)
-      faraday (>= 0.17.3, < 2.a)
-      google-cloud-core (~> 1.6)
-      googleapis-common-protos (>= 1.3.10, < 2.a)
-      googleapis-common-protos-types (>= 1.0.5, < 2.a)
-      googleauth (>= 0.16.2, < 2.a)
     google-cloud-translate-v3 (0.6.0)
       gapic-common (>= 0.17.1, < 2.a)
       google-cloud-errors (~> 1.0)
-    google-protobuf (3.22.3)
     google-protobuf (3.22.3-arm64-darwin)
     google-protobuf (3.22.3-x86_64-darwin)
     google-protobuf (3.22.3-x86_64-linux)
@@ -414,8 +401,6 @@ GEM
       launchy (>= 2.2, < 3)
     libdatadog (2.0.0.1.0)
     libdatadog (2.0.0.1.0-x86_64-linux)
-    libddwaf (1.6.2.0.0)
-      ffi (~> 1.0)
     libddwaf (1.6.2.0.0-arm64-darwin)
       ffi (~> 1.0)
     libddwaf (1.6.2.0.0-x86_64-darwin)
@@ -452,7 +437,6 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.1)
     minitest (5.18.0)
     mock_redis (0.36.0)
       ruby2_keywords
@@ -477,9 +461,6 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.5.9)
-    nokogiri (1.14.3)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
     nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.14.3-x86_64-darwin)
@@ -703,9 +684,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    slack-ruby-client (1.0.0)
-      faraday (>= 1.0)
-      faraday_middleware
+    slack-ruby-client (2.0.0)
+      faraday (>= 2.0)
+      faraday-mashify
+      faraday-multipart
       gli
       hashie
       websocket-driver
@@ -791,10 +773,10 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
-  ruby
   x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
+  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
@@ -806,7 +788,7 @@ DEPENDENCIES
   attr_extras
   audited (~> 5.2)
   aws-sdk-s3
-  azure-storage-blob
+  azure-storage-blob!
   barnes
   bootsnap
   brakeman
@@ -837,7 +819,7 @@ DEPENDENCIES
   gmail_xoauth
   google-cloud-dialogflow
   google-cloud-storage
-  google-cloud-translate
+  google-cloud-translate-v3
   groupdate
   haikunator
   hairtrigger
@@ -893,7 +875,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-cron
   simplecov (= 0.17.1)
-  slack-ruby-client
+  slack-ruby-client (~> 2.0.0)
   spring
   spring-watcher-listen
   squasher
