@@ -66,6 +66,23 @@
         "NEXT_WEEK": "Nākamā nedēļa"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Prioritāte",
+      "OPTIONS": {
+        "NONE": "Nav",
+        "URGENT": "Steidzama",
+        "HIGH": "Augsta",
+        "MEDIUM": "Vidēja",
+        "LOW": "Zema"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nav",
+        "INPUT_PLACEHOLDER": "Izvēlieties prioritāti",
+        "NO_RESULTS": "Nav atrasts",
+        "SUCCESSFUL": "Sarunas Id %{conversationId} prioritāte nomainīta uz %{priority}",
+        "FAILED": "Nevarēja nomainīt prioritāti. Lūdzu, mēģiniet vēlreiz."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Atzīmēt kā neapstiprinātu",
       "RESOLVED": "Atzīmēt kā atrisinātu",
