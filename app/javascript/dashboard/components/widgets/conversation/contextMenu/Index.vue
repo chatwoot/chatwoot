@@ -23,6 +23,14 @@
         @click="snoozeConversation(option.snoozedUntil)"
       />
     </menu-item-with-submenu>
+    <menu-item-with-submenu :option="priorityConfig">
+      <menu-item
+        v-for="(option, i) in priorityConfig.options"
+        :key="i"
+        :option="option"
+        @click="assignPriority(option.key)"
+      />
+    </menu-item-with-submenu>
     <menu-item-with-submenu
       :option="labelMenuConfig"
       :sub-menu-available="!!labels.length"
@@ -93,6 +101,10 @@ export default {
       type: Number,
       default: null,
     },
+    priority: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -139,6 +151,33 @@ export default {
             snoozedUntil: 'nextWeek',
           },
         ],
+      },
+      priorityConfig: {
+        key: 'priority',
+        label: this.$t('CONVERSATION.PRIORITY.TITLE'),
+        icon: 'warning',
+        options: [
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
+            key: null,
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
+            key: 'urgent',
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
+            key: 'high',
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
+            key: 'medium',
+          },
+          {
+            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
+            key: 'low',
+          },
+        ].filter(item => item.key !== this.priority),
       },
       labelMenuConfig: {
         key: 'label',
@@ -192,6 +231,9 @@ export default {
         this.STATUS_TYPE.SNOOZED,
         this.snoozeTimes[snoozedUntil] || null
       );
+    },
+    assignPriority(priority) {
+      this.$emit('assign-priority', priority);
     },
     show(key) {
       // If the conversation status is same as the action, then don't display the option

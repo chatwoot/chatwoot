@@ -91,6 +91,7 @@ Rails.application.routes.draw do
               post :unmute
               post :transcript
               post :toggle_status
+              post :toggle_priority
               post :toggle_typing_status
               post :update_last_seen
               post :unread
@@ -176,7 +177,11 @@ Rails.application.routes.draw do
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resources :hooks, only: [:create, :update, :destroy]
+            resources :hooks, only: [:create, :update, :destroy] do
+              member do
+                post :process_event
+              end
+            end
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
             resource :dyte, controller: 'dyte', only: [] do
               collection do
@@ -196,6 +201,7 @@ Rails.application.routes.draw do
             resources :categories
             resources :articles do
               post :attach_file, on: :collection
+              post :reorder, on: :collection
             end
           end
         end

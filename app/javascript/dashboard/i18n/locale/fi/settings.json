@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopioi",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Koodi kopioitu leikepöydälle onnistuneesti"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Koti",
     "AGENTS": "Edustajat",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Kansiot",
     "NOTIFICATIONS": "Ilmoitukset",
     "CANNED_RESPONSES": "Tallennetut vastaukset",

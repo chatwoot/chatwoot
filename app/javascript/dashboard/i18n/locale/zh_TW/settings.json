@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "複製",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "首頁",
     "AGENTS": "客服",
     "AGENT_BOTS": "機器人",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "收件匣",
     "NOTIFICATIONS": "通知",
     "CANNED_RESPONSES": "預設回覆",

@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiază",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes"
     },
     "SHOW_MORE_BLOCK": {
@@ -194,7 +195,7 @@
     "CONVERSATIONS": "Conversații",
     "ALL_CONVERSATIONS": "Toate conversațiile",
     "MENTIONED_CONVERSATIONS": "Menţionări",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "Participante",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
@@ -202,6 +203,7 @@
     "HOME": "Acasa",
     "AGENTS": "Agenți",
     "AGENT_BOTS": "Boți",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Căsuțe",
     "NOTIFICATIONS": "Notificări",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
