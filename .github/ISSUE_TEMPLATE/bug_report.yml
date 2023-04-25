@@ -3,9 +3,10 @@ description: Create a report to help us improve
 labels: 'Bug'
 body:
   - type: markdown
-    value: |
-      ## Describe the bug
-      A concise description of what you expected to happen along with screenshots if applicable.
+    attributes:
+      value: |
+        ## Describe the bug
+        A concise description of what you expected to happen along with screenshots if applicable.
   - type: markdown
     attributes:
       value: |
