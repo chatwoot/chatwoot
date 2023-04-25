@@ -10,7 +10,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        # Steps to reproduce the behavior.
+        ## Steps to reproduce the behavior.
         1. In this environment...
         2. With this config...
         3. Run '...'
