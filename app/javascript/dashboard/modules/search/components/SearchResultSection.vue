@@ -1,10 +1,11 @@
 <template>
   <section class="result-section">
-    <div class="header">
+    <div v-if="showTitle" class="header">
       <h3 class="text-block-title">{{ title }}</h3>
     </div>
-    <slot />
-    <div v-if="empty" class="empty">
+    <woot-loading-state v-if="isFetching" :message="'Searching'" />
+    <slot v-else />
+    <div v-if="empty && !isFetching" class="empty">
       <fluent-icon icon="info" size="16px" class="icon" />
       <p class="empty-state__text">
         {{ $t('SEARCH.EMPTY_STATE', { item: titleCase, query }) }}
@@ -28,6 +29,14 @@ export default {
       type: String,
       default: '',
     },
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
+    isFetching: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     titleCase() {
@@ -39,7 +48,7 @@ export default {
 
 <style scoped lang="scss">
 .result-section {
-  margin-bottom: var(--space-normal);
+  margin: var(--space-small) 0;
 }
 .search-list {
   list-style: none;
@@ -60,7 +69,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: var(--space-medium) var(--space-normal);
-  margin: 0 var(--space-small);
+  margin: var(--space-small);
   background: var(--s-25);
   border-radius: var(--border-radius-medium);
   .icon {
