@@ -46,7 +46,10 @@ gem 'google-cloud-translate'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
-gem 'azure-storage-blob', require: false
+# original gem isn't maintained actively
+# we wanted updated version of farady which is a dependecy for slack-ruby-client
+#gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
+gem 'azure-storage-blob'
 gem 'google-cloud-storage', require: false
 gem 'image_processing'
 
@@ -68,7 +71,7 @@ gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
-gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'rails-upgrade'
+gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -132,7 +135,7 @@ gem 'email_reply_trimmer'
 
 # TODO: we might have to fork this gem since 0.3.1 has hard depency on nokogir 1.10.
 # and this gem hasn't been updated for a while.
-gem 'html2text', git: 'https://github.com/happy-co/html2text_ruby', branch: 'bump-nokogiri-version'
+gem 'html2text', git: 'https://github.com/chatwoot/html2text_ruby', branch: 'chatwoot'
 
 # to calculate working hours
 gem 'working_hours'

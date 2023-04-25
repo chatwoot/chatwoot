@@ -1,16 +1,16 @@
 GIT
   remote: https://github.com/chatwoot/devise-secure_password
-  revision: 00b0fd503703a15870cde30d385363da42fe3410
-  branch: rails-upgrade
+  revision: adcc85fe1babfe40feae73dbcae64d14fff86e69
+  branch: chatwoot
   specs:
     devise-secure_password (2.0.1)
       devise (>= 4.0.0, < 5.0.0)
       railties (>= 5.0.0, < 8.0.0)
 
 GIT
-  remote: https://github.com/happy-co/html2text_ruby
-  revision: d98279ed9e8c3b110fa8b43dc3f1f9042daeb95e
-  branch: bump-nokogiri-version
+  remote: https://github.com/chatwoot/html2text_ruby
+  revision: cdbdbbbf898d846d0136d69d688a003c6b26074b
+  branch: chatwoot
   specs:
     html2text (0.3.1)
       nokogiri (>= 1.13.6)
@@ -103,10 +103,11 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.2)
     attr_extras (7.1.0)
-    audited (5.3.2)
+    audited (5.3.3)
       activerecord (>= 5.0, < 7.1)
+      request_store (~> 1.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.749.0)
+    aws-partitions (1.753.0)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -115,7 +116,7 @@ GEM
     aws-sdk-kms (1.63.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.120.1)
+    aws-sdk-s3 (1.121.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
@@ -325,7 +326,7 @@ GEM
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
       grpc (~> 1.27)
-    googleapis-common-protos-types (1.5.0)
+    googleapis-common-protos-types (1.6.0)
       google-protobuf (~> 3.14)
     googleauth (1.5.2)
       faraday (>= 0.17.3, < 3.a)
@@ -517,9 +518,9 @@ GEM
     orm_adapter (0.5.0)
     os (1.1.4)
     parallel (1.23.0)
-    parser (3.2.2.0)
+    parser (3.2.2.1)
       ast (~> 2.4.1)
-    pg (1.4.6)
+    pg (1.5.1)
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
@@ -537,7 +538,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.6.2)
-    rack (2.2.6.4)
+    rack (2.2.7)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-cors (2.0.1)
@@ -607,7 +608,7 @@ GEM
     rexml (3.2.5)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
-    rspec-expectations (3.12.2)
+    rspec-expectations (3.12.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-mocks (3.12.5)
@@ -636,7 +637,7 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.28.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.17.1)
+    rubocop-capybara (2.18.0)
       rubocop (~> 1.41)
     rubocop-performance (1.17.1)
       rubocop (>= 1.7.0, < 2.0)
@@ -735,7 +736,7 @@ GEM
       i18n
     timeout (0.3.2)
     trailblazer-option (0.1.2)
-    twilio-ruby (5.76.0)
+    twilio-ruby (5.77.0)
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, < 3.0)
       nokogiri (>= 1.6, < 2.0)
