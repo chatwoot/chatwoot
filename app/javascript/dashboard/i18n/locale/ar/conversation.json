@@ -66,6 +66,23 @@
         "NEXT_WEEK": "الأسبوع المقبل"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "لا شيء",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "لا شيء",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "لم يتم العثور على النتائج",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "تحديد كمعلق",
       "RESOLVED": "تحديد كمحلولة",
