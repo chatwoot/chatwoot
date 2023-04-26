@@ -15,10 +15,6 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob, type: :job do
 
   context 'when called' do
     it 'fetch all the email channels' do
-      imap_email_inboxes = double
-      allow(imap_email_inboxes).to receive(:all).and_return([email_inbox])
-      allow(Inbox).to receive(:where).and_return(imap_email_inboxes)
-
       expect(Inboxes::FetchImapEmailsJob).to receive(:perform_later).with(imap_email_channel).once
 
       described_class.perform_now

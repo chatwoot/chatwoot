@@ -13,6 +13,7 @@ describe  ::Messages::Instagram::MessageBuilder do
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
+  let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
   let(:fb_object) { double }
   let(:contact) { create(:contact, id: 'Sender-id-1', name: 'Jane Dae') }
   let(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: instagram_inbox.id, source_id: 'Sender-id-1') }
@@ -42,6 +43,29 @@ describe  ::Messages::Instagram::MessageBuilder do
 
       expect(contact.name).to eq('Jane Dae')
       expect(message.content).to eq('This is the first message from the customer')
+    end
+
+    it 'creates message with for reply with story id' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: 'Sender-id-1',
+          account_id: instagram_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+      messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(messaging, instagram_inbox).perform
+
+      message = instagram_channel.inbox.messages.first
+
+      expect(message.content).to eq('This is the story reply')
+      expect(message.content_attributes[:story_sender]).to eq(instagram_inbox.channel.instagram_id)
+      expect(message.content_attributes[:story_id]).to eq('chatwoot-app-user-id-1')
+      expect(message.content_attributes[:story_url]).to eq('https://chatwoot-assets.local/sample.png')
     end
 
     it 'raises exception on deleted story' do
