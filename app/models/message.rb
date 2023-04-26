@@ -49,7 +49,7 @@ class Message < ApplicationRecord
           'namespace': { 'type': 'string' },
           'processed_params': { 'type': 'object' }
         },
-        'required': %w[name category language namespace processed_params]
+        'required': %w[name]
       }
     }
   }.to_json.freeze
@@ -196,6 +196,17 @@ class Message < ApplicationRecord
 
   def valid_first_reply?
     outgoing? && human_response? && not_created_by_automation? && !private?
+  end
+
+  def save_story_info(story_info)
+    self.content_attributes = content_attributes.merge(
+      {
+        story_id: story_info['id'],
+        story_sender: inbox.channel.instagram_id,
+        story_url: story_info['url']
+      }
+    )
+    save!
   end
 
   private
