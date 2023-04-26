@@ -403,6 +403,27 @@ const actions = {
   clearConversationFilters({ commit }) {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
+
+  assignPriority: async ({ dispatch }, { conversationId, priority }) => {
+    try {
+      await ConversationApi.togglePriority({
+        conversationId,
+        priority,
+      });
+
+      dispatch('setCurrentChatPriority', {
+        priority,
+        conversationId,
+      });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setCurrentChatPriority({ commit }, { priority, conversationId }) {
+    commit(types.ASSIGN_PRIORITY, { priority, conversationId });
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };
