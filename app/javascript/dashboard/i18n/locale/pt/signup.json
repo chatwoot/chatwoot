@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Nome da empresa",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Digite o nome da sua empresa. Exemplo: Wayne Enterprises",
+      "ERROR": "Nome da empresa é muito curto."
     },
     "FULL_NAME": {
       "LABEL": "Nome completo",
-      "PLACEHOLDER": "Digite o seu nome completo, por exemplo: António Almeida",
-      "ERROR": "O nome completo é muito pequeno"
+      "PLACEHOLDER": "Digite seu nome completo. Ex.: Wayne Bruce",
+      "ERROR": "O nome completo é muito pequeno."
     },
     "EMAIL": {
       "LABEL": "E-mail de trabalho",
-      "PLACEHOLDER": "Digite o seu endereço de e-mail profissional. Por exemplo: geral@informatico.pt",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Digite seu endereço de e-mail profissional. Por exemplo, bruce@wayne.com.br",
+      "ERROR": "Por favor, insira um endereço de email profissional válido."
     },
     "PASSWORD": {
       "LABEL": "Palavra-passe",
       "PLACEHOLDER": "Palavra-passe",
-      "ERROR": "A senha é muito curta",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "A senha é muito curta.",
+      "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial."
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar senha",
       "PLACEHOLDER": "Confirmar senha",
-      "ERROR": "As senhas não conferem"
+      "ERROR": "As senhas não conferem."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registro Bem Sucedido",
-      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Já tem uma conta?"
