@@ -27,7 +27,7 @@
           :href="generateArticleUrl(article)"
           class="flex-auto truncate text-base font-medium leading-6 w-full hover:underline"
         >
-
+          {{ article.title }}
         </a>
       </li>
     </ul>
