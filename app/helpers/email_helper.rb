@@ -10,4 +10,16 @@ module EmailHelper
   def normalize_email_with_plus_addressing(email)
     "#{email.split('@').first.split('+').first}@#{email.split('@').last}".downcase
   end
+
+  def parse_email_variables(conversation, email)
+    case email
+    when /{{.*?}}/
+      email_text = email.gsub(/\{\{(.*?)\}\}/) { Regexp.last_match(1) }
+      association, attribute = email_text.split('.')
+      record = conversation.send(association)
+      record.try(attribute)
+    when URI::MailTo::EMAIL_REGEXP
+      email
+    end
+  end
 end

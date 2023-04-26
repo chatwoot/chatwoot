@@ -1,4 +1,6 @@
 class MessageTemplates::Template::Greeting
+  include MessageTemplates::Template::ContentParser
+
   pattr_initialize [:conversation!]
 
   def perform
