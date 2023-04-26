@@ -22,6 +22,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
+import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
@@ -50,6 +51,7 @@ export default {
   data() {
     return {
       isMobile: false,
+      campaignsSnoozedTill: undefined,
     };
   },
   computed: {
@@ -179,11 +181,19 @@ export default {
         this.executeCampaign({ campaignId, websiteToken, customAttributes });
         this.replaceRoute('messages');
       });
+      bus.$on('snooze-campaigns', () => {
+        const expireBy = addHours(new Date(), 1);
+        this.campaignsSnoozedTill = Number(expireBy);
+      });
     },
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
+      const shouldSnoozeCampaign =
+        this.campaignsSnoozedTill && this.campaignsSnoozedTill > Date.now();
       const isCampaignReadyToExecute =
-        !isEmptyObject(activeCampaign) && !messageCount;
+        !isEmptyObject(activeCampaign) &&
+        !messageCount &&
+        !shouldSnoozeCampaign;
       if (this.isIFrame && isCampaignReadyToExecute) {
         this.replaceRoute('campaigns').then(() => {
           this.setIframeHeight(true);
@@ -243,6 +253,7 @@ export default {
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
+          this.setCampaignReadData(message.campaignsSnoozedTill);
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
@@ -319,6 +330,11 @@ export default {
     },
     sendRNWebViewLoadedEvent() {
       RNHelper.sendMessage(loadedEventConfig());
+    },
+    setCampaignReadData(snoozedTill) {
+      if (snoozedTill) {
+        this.campaignsSnoozedTill = Number(snoozedTill);
+      }
     },
   },
 };
