@@ -1,3 +1,14 @@
+import {
+  timeSlotParse,
+  defaultTimeSlot,
+  // timeZoneOptions,
+} from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
+
+// const DEFAULT_TIMEZONE = {
+//   label: 'America/Los_Angeles',
+//   key: 'America/Los_Angeles',
+// };
+
 export default {
   data() {
     return {
@@ -10,12 +21,18 @@ export default {
         5: 'Friday',
         6: 'Saturday',
       },
+      // timeZone: DEFAULT_TIMEZONE,
+      timeSlots: [...defaultTimeSlot],
+      timeSlot: {},
     };
   },
   computed: {
     channelConfig() {
       return window.chatwootWebChannel;
     },
+    // timeZones() {
+    //   return [...timeZoneOptions()];
+    // },
     workingHoursEnabled() {
       const { workingHoursEnabled } = this.channelConfig;
       return workingHoursEnabled;
@@ -111,7 +128,7 @@ export default {
       return null;
     },
     hoursAndMinutesBackInOnline() {
-      if (this.presentHour > this.currentDayCloseHour) {
+      if (this.presentHour >= this.currentDayCloseHour) {
         return this.getHoursAndMinutesUntilNextDayOpen(
           this.nextDayOpenHour,
           this.nextDayOpenMinute,
@@ -124,31 +141,55 @@ export default {
         this.currentDayCloseHour
       );
     },
-    hoursAndMinutesToBack() {
-      const hoursAndMinutesLeft = this.hoursAndMinutesBackInOnline;
-      const minutesLeft = hoursAndMinutesLeft.minutes;
-      const hoursLeft =
-        minutesLeft > 0
-          ? hoursAndMinutesLeft.hours + 1
-          : hoursAndMinutesLeft.hours;
-      const hoursLeftString = `${hoursLeft} hour${hoursLeft === 1 ? '' : 's'}`;
-      const minutesLeftString =
-        minutesLeft > 0
-          ? `${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`
-          : 'some time';
-      return hoursLeft > 1
-        ? `in ${hoursLeftString}`
-        : `in ${minutesLeftString}`;
+    exactTimeInAmPm() {
+      return `at ${
+        this.timeSlot.day !== this.currentDay ? 'tomorrow' : ''
+      } at ${this.timeSlot.from}`;
     },
-    hoursLeftToBackInOnline() {
-      if (this.dayDiff > 1 && this.currentDayCloseHour < this.presentHour) {
-        return `on ${this.dayNameOfNextWorkingDay}`;
+    hoursLeftValue() {
+      const {
+        hours: hoursLeft,
+        minutes: minutesLeft,
+      } = this.hoursAndMinutesBackInOnline;
+      const hourString = hoursLeft === 1 ? 'hour' : 'hours';
+      const minuteString = minutesLeft === 1 ? 'minute' : 'minutes';
+      return `in ${hoursLeft} ${hourString}${
+        minutesLeft > 0 ? ` and ${minutesLeft} ${minuteString}` : ''
+      }`;
+    },
+    minutesLeftValue() {
+      const { minutes: minutesLeft } = this.hoursAndMinutesBackInOnline;
+      const minuteString = minutesLeft === 1 ? 'minute' : 'minutes';
+      return `in ${minutesLeft} ${minuteString}`;
+    },
+    hoursAndMinutesToBack() {
+      const {
+        hours: hoursLeft,
+        minutes: minutesLeft,
+      } = this.hoursAndMinutesBackInOnline;
+      if (hoursLeft > 3) {
+        return this.exactTimeInAmPm;
       }
-      if (this.hoursAndMinutesBackInOnline.hours > 24) {
-        return 'tomorrow';
+      if (hoursLeft > 0) {
+        return this.hoursLeftValue;
+      }
+      if (minutesLeft > 0) {
+        return this.minutesLeftValue;
+      }
+      return 'in some time';
+    },
+    timeLeftToBackInOnline() {
+      if (this.dayDiff > 1 && this.presentHour >= this.currentDayCloseHour) {
+        return `on ${this.dayNameOfNextWorkingDay} at ${this.timeSlot.from}`;
+      }
+      if (this.hoursAndMinutesBackInOnline.hours >= 24) {
+        return `tomorrow at ${this.timeSlot.from}`;
       }
       return this.hoursAndMinutesToBack;
     },
+  },
+  mounted() {
+    this.setTimeSlot();
   },
   methods: {
     getHoursAndMinutesUntilNextDayOpen(
@@ -156,19 +197,31 @@ export default {
       openMinutes,
       currentDayCloseHour
     ) {
-      const presentHour = this.presentHour;
-      const presentMinute = this.presentMinute;
+      const { presentHour, presentMinute } = this;
       if (currentDayCloseHour < openHour) {
         openHour += 24;
       }
       let diffMinutes =
         openHour * 60 + openMinutes - (presentHour * 60 + presentMinute);
-      if (diffMinutes < 0) {
-        diffMinutes += 24 * 60;
+      diffMinutes = diffMinutes < 0 ? diffMinutes + 24 * 60 : diffMinutes;
+      const [hours, minutes] = [Math.floor(diffMinutes / 60), diffMinutes % 60];
+      return { hours, minutes };
+    },
+    setTimeSlot() {
+      if (this.workingHoursEnabled) {
+        const timeSlots = this.workingHours;
+        const currentSlot =
+          this.presentHour >= this.currentDayCloseHour
+            ? this.nextDayWorkingHours
+            : this.currentDayWorkingHours;
+        const slots = timeSlotParse(timeSlots).length
+          ? timeSlotParse(timeSlots)
+          : defaultTimeSlot;
+        this.timeSlots = slots;
+        this.timeSlot = this.timeSlots.find(
+          slot => slot.day === currentSlot.day_of_week
+        );
       }
-      let diffHours = Math.floor(diffMinutes / 60);
-      diffMinutes %= 60;
-      return { hours: diffHours, minutes: diffMinutes };
     },
   },
 };
