@@ -94,4 +94,12 @@ export const mutations = {
   setMetaUserLastSeenAt($state, lastSeen) {
     $state.meta.userLastSeenAt = lastSeen;
   },
+
+  setLastMessageId($state) {
+    const { conversations } = $state;
+    const lastMessage = Object.values(conversations).pop();
+    if (!lastMessage) return;
+    const { id } = lastMessage;
+    $state.lastMessageId = id;
+  },
 };

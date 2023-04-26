@@ -25,6 +25,18 @@ class ActionCableConnector extends BaseActionCableConnector {
     };
   }
 
+  onReconnect = () => {
+    console.log('ActionCable reconnected');
+  };
+
+  onDisconnected = () => {
+    this.setLastMessageId();
+  };
+
+  setLastMessageId = () => {
+    this.app.$store.dispatch('conversation/setLastMessageId');
+  };
+
   onStatusChange = data => {
     if (data.status === 'resolved') {
       this.app.$store.dispatch('campaign/resetCampaign');

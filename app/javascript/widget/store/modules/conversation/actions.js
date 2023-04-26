@@ -52,6 +52,10 @@ export const actions = {
     }
   },
 
+  setLastMessageId: async ({ commit }) => {
+    commit('setLastMessageId');
+  },
+
   sendAttachment: async ({ commit }, params) => {
     const {
       attachment: { thumbUrl, fileType },
