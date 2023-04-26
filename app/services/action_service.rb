@@ -1,4 +1,6 @@
 class ActionService
+  include EmailHelper
+
   def initialize(conversation)
     @conversation = conversation.reload
   end
@@ -59,6 +61,7 @@ class ActionService
     emails = emails[0].gsub(/\s+/, '').split(',')
 
     emails.each do |email|
+      email = parse_email_variables(@conversation, email)
       ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
     end
   end
