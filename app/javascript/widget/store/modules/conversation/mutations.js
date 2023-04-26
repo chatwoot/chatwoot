@@ -62,8 +62,8 @@ export const mutations = {
     payload.map(message => Vue.set($state.conversations, message.id, message));
   },
 
-  setMissingMessages($state, conversation) {
-    Vue.set($state, conversation, conversation);
+  setMissingMessagesInConversation($state, payload) {
+    Vue.set($state, 'conversation', payload);
   },
 
   updateMessage($state, { id, content_attributes }) {

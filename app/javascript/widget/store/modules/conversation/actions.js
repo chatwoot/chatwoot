@@ -105,7 +105,7 @@ export const actions = {
 
   syncLatestMessages: async ({ state, commit }) => {
     try {
-      const { lastMessageId, conversation } = state;
+      const { lastMessageId, conversations } = state;
 
       const {
         data: { payload, meta },
@@ -115,23 +115,25 @@ export const actions = {
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       // console.log('formattedMessages', formattedMessages);
       const missingMessages = formattedMessages.filter(
-        message => conversation?.[message.id] === undefined
+        message => conversations?.[message.id] === undefined
       );
+      console.log('missingMessages', missingMessages);
+
       if (!missingMessages.length) return;
       missingMessages.forEach(message => {
-        conversation[message.id] = message;
+        conversations[message.id] = message;
       });
       // Sort conversation messages by created_at
       const updatedConversation = Object.fromEntries(
-        Object.entries(conversation).sort(
+        Object.entries(conversations).sort(
           (a, b) => a[1].created_at - b[1].created_at
         )
       );
-      // console.log('updatedConversation', updatedConversation);
-
+      console.log('updatedConversation', updatedConversation);
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
-      commit('conversation/setMissingMessages', updatedConversation);
+      commit('setMissingMessagesInConversation', updatedConversation);
     } catch (error) {
+      console.log('error', error);
       // IgnoreError
     }
   },

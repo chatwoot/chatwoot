@@ -222,7 +222,7 @@ describe('#actions', () => {
     it('latest message should append to end of list', async () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
-        conversation: {
+        conversations: {
           '454': {
             id: 454,
             content: 'hi',
@@ -304,7 +304,7 @@ describe('#actions', () => {
     it('old message should insert to exact position', async () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
-        conversation: {
+        conversations: {
           '454': {
             id: 454,
             content: 'hi',

@@ -47,6 +47,8 @@ class BaseActionCableConnector {
     const isConnectionActive = this.consumer.connection.isOpen();
     const isReconnected =
       BaseActionCableConnector.isDisconnected && isConnectionActive;
+    console.log('isReconnected', isReconnected);
+
     if (isReconnected) {
       this.onReconnect();
       BaseActionCableConnector.isDisconnected = false;
