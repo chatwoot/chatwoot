@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "A kontakt telefonszámának megadása",
         "LABEL": "Telefonszám",
-        "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik."
       },
       "LOCATION": {
@@ -181,7 +182,8 @@
         "LABEL": "Ide"
       },
       "INBOX": {
-        "LABEL": "Fiók",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Válassz egy fiókot"
       },
       "SUBJECT": {

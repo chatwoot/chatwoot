@@ -102,8 +102,8 @@
       },
       "NAME": {
         "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "ERROR": "Vinsamlegast skrifaðu gilt nafn",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn nafnið þitt"
       },
       "DISPLAY_NAME": {
         "LABEL": "Display name",
@@ -122,23 +122,23 @@
       },
       "EMAIL": {
         "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
+        "ERROR": "Vinsamlegast skrifaðu gilt netfang",
         "PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt, þetta myndi birtast í samtölum"
       },
       "CURRENT_PASSWORD": {
         "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "ERROR": "Vinsamlegast sláðu inn núverandi lykilorð",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn núverandi lykilorð"
       },
       "PASSWORD": {
         "LABEL": "New password",
         "ERROR": "Vinsamlegast sláðu inn lykilorð 6 stafa lengd eða meira",
-        "PLACEHOLDER": "Please enter a new password"
+        "PLACEHOLDER": "Vinsamlegast sláðu inn nýja lykilorðið"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirm new password",
         "ERROR": "Staðfest lykilorð ætti að passa við lykilorðið",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Vinsamlegasts staðfestu nýja lykilorðið"
       }
     }
   },
@@ -199,10 +199,11 @@
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Stillingar",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Tengiliðir",
     "HOME": "Home",
     "AGENTS": "Þjónustufulltrúar",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Aðgerðaskrá",
     "INBOXES": "Innhólf",
     "NOTIFICATIONS": "Skilaboð",
     "CANNED_RESPONSES": "Stöðluð svör",
@@ -230,7 +231,7 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Þjónustufulltrúar",
     "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Innhólf",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
@@ -281,7 +282,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
+        "LABEL": "Nafn fyrirtækis",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Senda"

@@ -308,6 +308,7 @@ contacts:
       conversations:
         - channel: Channel::Email
           source_id: "mpetrukd@wunderground.test"
+          priority: urgent
           messages: 
             - message_type: incoming
               content: hello world
@@ -316,6 +317,7 @@ contacts:
       gender: 'male'
       conversations:
         - channel: Channel::FacebookPage
+          priority: high
           messages: 
             - message_type: incoming
               content: "Hey there,I need some help with billing, my card is not working on the website."
@@ -324,6 +326,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::WebWidget
+          priority: high
           assignee: michael_scott@paperlayer.test
           messages: 
             - message_type: incoming
@@ -333,6 +336,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::Whatsapp
+          priority: high
           source_id: "1223423567"
           labels: 
             - billing
@@ -347,6 +351,7 @@ contacts:
       gender: 'male'
       conversations:
         - channel: Channel::WebWidget
+          priority: medium
           labels: 
             - software
             - ops-handover
@@ -358,6 +363,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::WebWidget
+          priority: low
           assignee: michael_scott@paperlayer.test
           labels: 
             - billing
@@ -371,6 +377,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::Email
+          priority: urgent
           source_id: "cmathersonj@va.test"
           assignee: michael_scott@paperlayer.test
           labels: 
