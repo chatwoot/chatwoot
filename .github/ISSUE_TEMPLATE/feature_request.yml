@@ -4,7 +4,7 @@ labels: 'feature-request'
 body:
   - type: textarea
     attributes:
-      label: Is your feature request related to a problem? Please describe.
+      label: Is your feature or enhancement related to a problem? Please describe.
       description: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
     validations:
       required: true
