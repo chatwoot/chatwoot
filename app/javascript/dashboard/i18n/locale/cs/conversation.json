@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Neznámý soubor",
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Zpráva se nepodařilo odstranit! Zkuste to znovu",
     "NO_RESPONSE": "Bez odpovědi",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Další odpověď",
         "TOMORROW": "Zítra",
         "NEXT_WEEK": "Příští týden"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Nic",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nic",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Žádné výsledky",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
