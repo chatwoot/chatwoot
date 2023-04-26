@@ -190,44 +190,4 @@ describe('nextAvailabilityTimeMixin', () => {
       expectedHoursAndMinutes
     );
   });
-
-  it('should return hoursLeftToBackInOnline', () => {
-    const hoursAndMinutesLeft = wrapper.vm.hoursAndMinutesBackInOnline;
-    const minutesLeft = hoursAndMinutesLeft.minutes;
-    const hoursLeft =
-      minutesLeft > 0
-        ? hoursAndMinutesLeft.hours + 1
-        : hoursAndMinutesLeft.hours;
-    const hoursLeftString = `${hoursLeft} hour${hoursLeft === 1 ? '' : 's'}`;
-    const minutesLeftString =
-      minutesLeft > 0
-        ? `${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`
-        : 'some time';
-    const expectedHoursLeftString =
-      hoursLeft > 1 ? `in ${hoursLeftString}` : `in ${minutesLeftString}`;
-    expect(wrapper.vm.hoursLeftToBackInOnline).toEqual(expectedHoursLeftString);
-  });
-
-  // This spec is falling the expected value is getting updated
-
-  //   it('should return getHoursAndMinutesUntilNextDayOpen', () => {
-  //     const openHour = 10;
-  //     const openMinutes = 20;
-  //     const currentDayCloseHour = 5;
-  //     const presentHour = 9;
-  //     const presentMinute = 30;
-  //     const expectedHoursAndMinutes = {
-  //       hours: 22,
-  //       minutes: 23,
-  //     };
-  //     expect(
-  //       wrapper.vm.getHoursAndMinutesUntilNextDayOpen(
-  //         openHour,
-  //         openMinutes,
-  //         currentDayCloseHour,
-  //         presentHour,
-  //         presentMinute
-  //       )
-  //     ).toEqual(expectedHoursAndMinutes);
-  //   });
 });

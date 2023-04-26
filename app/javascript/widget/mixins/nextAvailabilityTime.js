@@ -53,16 +53,11 @@ export default {
     },
     nextDayWorkingHours() {
       if (this.workingHoursEnabled) {
-        let nextDay = this.currentDay === 6 ? 0 : this.currentDay + 1;
-        let nextWorkingHour = this.workingHours.find(
-          slot => slot.day_of_week === nextDay
-        );
-        while (nextWorkingHour && nextWorkingHour.closed_all_day) {
-          let nextAvailableDay = nextDay === 6 ? 0 : nextDay + 1;
-          nextWorkingHour = this.workingHours.find(
-            slot => slot.day_of_week === nextAvailableDay
-          );
-          nextDay = nextAvailableDay;
+        let nextDay = this.getNextDay(this.currentDay);
+        let nextWorkingHour = this.getNextWorkingHour(nextDay);
+        while (!nextWorkingHour) {
+          nextDay = this.getNextDay(nextDay);
+          nextWorkingHour = this.getNextWorkingHour(nextDay);
         }
         return nextWorkingHour;
       }
@@ -142,9 +137,9 @@ export default {
       );
     },
     exactTimeInAmPm() {
-      return `at ${
-        this.timeSlot.day !== this.currentDay ? 'tomorrow' : ''
-      } at ${this.timeSlot.from}`;
+      return `${this.timeSlot.day !== this.currentDay ? 'tomorrow' : ''} at ${
+        this.timeSlot.from
+      }`;
     },
     hoursLeftValue() {
       const {
@@ -192,6 +187,18 @@ export default {
     this.setTimeSlot();
   },
   methods: {
+    getNextDay(day) {
+      return day === 6 ? 0 : day + 1;
+    },
+    getNextWorkingHour(day) {
+      const workingHour = this.workingHours.find(
+        slot => slot.day_of_week === day
+      );
+      if (workingHour && !workingHour.closed_all_day) {
+        return workingHour;
+      }
+      return null;
+    },
     getHoursAndMinutesUntilNextDayOpen(
       openHour,
       openMinutes,
