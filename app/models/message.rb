@@ -49,7 +49,7 @@ class Message < ApplicationRecord
           'namespace': { 'type': 'string' },
           'processed_params': { 'type': 'object' }
         },
-        'required': %w[name category language namespace processed_params]
+        'required': %w[name]
       }
     }
   }.to_json.freeze
