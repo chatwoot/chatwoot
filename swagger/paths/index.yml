@@ -382,7 +382,7 @@
     $ref: ./application/teams/update.yml
   delete:
     $ref: ./application/teams/delete.yml
-/accounts/{account_id}/teams/{team_id}/team_members:
+/api/v1/accounts/{account_id}/teams/{team_id}/team_members:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/team_id'
