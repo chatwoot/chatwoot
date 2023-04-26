@@ -113,6 +113,10 @@ uk:
         snoozed: "Розмова була відкладена %{user_name}"
         auto_resolved: "Діалог був закритий системою через %{duration} днів неактивності"
         system_auto_open: Система повторно відкрила розмову через нове вхідне повідомлення.
+      priority:
+        added: '%{user_name} встановив пріоритет %{new_priority}'
+        updated: '%{user_name} змінив пріоритет з %{old_priority} на %{new_priority}'
+        removed: '%{user_name} видалив пріоритет'
       assignee:
         self_assigned: "%{user_name} самостійно призначив цей діалог"
         assigned: "Призначено до %{assignee_name} користувачем %{user_name}"
@@ -167,6 +171,9 @@ uk:
     google_translate:
       name: "Google Translate"
       description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає у обрану дміністратором чи агентом мову."
+    openai:
+      name: "OpenAI"
+      description: "Інтегруйте потужні AI функції в Chatwoot, використовуючи моделі GPT з OpenAI."
   public_portal:
     search:
       search_placeholder: Пошук статті за заголовком або змістом...
