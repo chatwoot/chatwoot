@@ -185,6 +185,7 @@ export default {
   },
   methods: {
     onSearch(q) {
+      this.selectedTab = 'all';
       this.query = q;
       if (!q) {
         this.$store.dispatch('conversationSearch/clearSearchResults');
