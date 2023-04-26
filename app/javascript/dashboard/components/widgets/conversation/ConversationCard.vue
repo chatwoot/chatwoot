@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversation"
+    class="conversation w-full"
     :class="{
       active: isActiveChat,
       'unread-chat': hasUnread,
@@ -12,92 +12,101 @@
     @click="cardClick(chat)"
     @contextmenu="openContextMenu($event)"
   >
-    <label v-if="hovered || selected" class="checkbox-wrapper" @click.stop>
-      <input
-        :value="selected"
-        :checked="selected"
-        class="checkbox"
-        type="checkbox"
-        @change="onSelectConversation($event.target.checked)"
-      />
-    </label>
-    <thumbnail
-      v-if="bulkActionCheck"
-      :src="currentContact.thumbnail"
-      :badge="inboxBadge"
-      class="columns"
-      :username="currentContact.name"
-      :status="currentContact.availability_status"
-      size="40px"
-    />
-    <div class="conversation--details columns">
-      <div class="conversation--metadata">
-        <inbox-name v-if="showInboxName" :inbox="inbox" />
-        <div class="conversation-metadata-attributes">
-          <span
-            v-if="showAssignee && assignee.name"
-            class="label assignee-label text-truncate"
+    <div class="conversation--message-context  w-full">
+      <div class="conversation--first-row  w-full">
+        <div class="conversation--contact-meta">
+          <label
+            v-if="hovered || selected"
+            class="checkbox-wrapper"
+            @click.stop
           >
-            <fluent-icon icon="person" size="12" />
-            {{ assignee.name }}
+            <input
+              :value="selected"
+              :checked="selected"
+              class="checkbox"
+              type="checkbox"
+              @change="onSelectConversation($event.target.checked)"
+            />
+          </label>
+          <thumbnail
+            v-if="bulkActionCheck"
+            :src="currentContact.thumbnail"
+            :badge="inboxBadge"
+            class="columns"
+            :username="currentContact.name"
+            :status="currentContact.availability_status"
+            size="20px"
+          />
+          <span class="conversation--user">
+            {{ currentContact.name }}
           </span>
-          <priority-mark :priority="chat.priority" />
+        </div>
+        <div class="conversation--meta">
+          <span class="timestamp">
+            <time-ago
+              :last-activity-timestamp="chat.timestamp"
+              :created-at-timestamp="chat.created_at"
+            />
+          </span>
         </div>
       </div>
-      <h4 class="conversation--user">
-        {{ currentContact.name }}
-      </h4>
-      <p v-if="lastMessageInChat" class="conversation--message">
-        <fluent-icon
-          v-if="isMessagePrivate"
-          size="16"
-          class="message--attachment-icon last-message-icon"
-          icon="lock-closed"
-        />
-        <fluent-icon
-          v-else-if="messageByAgent"
-          size="16"
-          class="message--attachment-icon last-message-icon"
-          icon="arrow-reply"
-        />
-        <fluent-icon
-          v-else-if="isMessageAnActivity"
-          size="16"
-          class="message--attachment-icon last-message-icon"
-          icon="info"
-        />
-        <span v-if="lastMessageInChat.content">
-          {{ parsedLastMessage }}
-        </span>
-        <span v-else-if="lastMessageInChat.attachments">
+      <div
+        v-if="lastMessageInChat"
+        class="flex-center flex-row flex-between w-full"
+      >
+        <p class="conversation--message">
           <fluent-icon
-            v-if="attachmentIcon"
+            v-if="isMessagePrivate"
             size="16"
-            class="message--attachment-icon"
-            :icon="attachmentIcon"
+            class="message--attachment-icon last-message-icon"
+            icon="lock-closed"
           />
-          {{ this.$t(`${attachmentMessageContent}`) }}
-        </span>
-        <span v-else>
-          {{ $t('CHAT_LIST.NO_CONTENT') }}
-        </span>
-      </p>
+          <fluent-icon
+            v-else-if="messageByAgent"
+            size="16"
+            class="message--attachment-icon last-message-icon"
+            icon="arrow-reply"
+          />
+          <fluent-icon
+            v-else-if="isMessageAnActivity"
+            size="16"
+            class="message--attachment-icon last-message-icon"
+            icon="info"
+          />
+          <span v-if="lastMessageInChat.content">
+            {{ parsedLastMessage }}
+          </span>
+          <span v-else-if="lastMessageInChat.attachments">
+            <fluent-icon
+              v-if="attachmentIcon"
+              size="16"
+              class="message--attachment-icon"
+              :icon="attachmentIcon"
+            />
+            {{ this.$t(`${attachmentMessageContent}`) }}
+          </span>
+          <span v-else>
+            {{ $t('CHAT_LIST.NO_CONTENT') }}
+          </span>
+        </p>
+        <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
+      </div>
       <p v-else class="conversation--message">
         <fluent-icon size="16" class="message--attachment-icon" icon="info" />
         <span>
           {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div class="conversation--meta">
-        <span class="timestamp">
-          <time-ago
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-          />
-        </span>
-        <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
-      </div>
-      <card-labels :conversation-id="chat.id" />
+    </div>
+    <div class="conversation--metadata-info w-full">
+      <card-labels :conversation-id="chat.id">
+        <priority-mark :priority="chat.priority" class="conversation--tags" />
+        <inbox-name
+          v-if="showInboxName"
+          :inbox="inbox"
+          class="conversation--tags"
+        />
+      </card-labels>
     </div>
     <woot-context-menu
       v-if="showContextMenu"
@@ -330,7 +339,7 @@ export default {
       router.push({ path: frontendURL(path) });
     },
     onCardHover() {
-      this.hovered = !this.hideThumbnail;
+      // this.hovered = !this.hideThumbnail;
     },
     onCardLeave() {
       this.hovered = false;
@@ -387,13 +396,23 @@ export default {
 <style lang="scss" scoped>
 .conversation {
   align-items: flex-start;
-
+  flex-direction: column;
   &:hover {
     background: var(--color-background-light);
   }
 
-  &::v-deep .user-thumbnail-box {
-    margin-top: var(--space-normal);
+  &.unread-chat {
+    .unread {
+      display: inline-block;
+    }
+
+    .conversation--message {
+      font-weight: var(--font-weight-bold);
+    }
+
+    .conversation--user {
+      font-weight: var(--font-weight-bold);
+    }
   }
 }
 
@@ -402,24 +421,17 @@ export default {
 }
 
 .has-inbox-name {
-  &::v-deep .user-thumbnail-box {
-    margin-top: var(--space-large);
-  }
   .checkbox-wrapper {
     margin-top: var(--space-large);
   }
-  .conversation--meta {
-    margin-top: var(--space-normal);
-  }
 }
 
-.conversation--details {
+.conversation--message-context {
   .conversation--user {
-    padding-top: var(--space-micro);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    width: 60%;
+    font-weight: var(--font-weight-medium);
   }
 }
 
@@ -474,6 +486,44 @@ export default {
   input[type='checkbox'] {
     margin: var(--space-zero);
     cursor: pointer;
+  }
+}
+
+.conversation--contact-meta {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.conversation--first-row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.conversation--metadata-info {
+  display: flex;
+  align-items: center;
+}
+
+.conversation--tags {
+  background: transparent;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--s-100);
+  color: var(--s-700);
+  font-size: var(--font-size-mini);
+  height: var(--space-two);
+  line-height: 1.2;
+  margin-right: var(--space-smaller);
+  margin: 0 var(--space-smaller) 0 0;
+  padding: var(--space-micro) var(--space-micro);
+  width: auto;
+}
+
+.conversation--message {
+  span {
+    word-break: break-all;
   }
 }
 </style>

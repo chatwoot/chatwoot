@@ -1,10 +1,7 @@
 <template>
-  <div
-    v-show="activeLabels.length"
-    ref="labelContainer"
-    class="label-container"
-  >
+  <div ref="labelContainer" class="label-container w-full">
     <div class="labels-wrap" :class="{ expand: showAllLabels }">
+      <slot />
       <woot-label
         v-for="(label, index) in activeLabels"
         :key="label.id"
@@ -96,10 +93,6 @@ export default {
   }
 }
 
-.label-container {
-  margin: var(--space-micro) var(--space-small) 0;
-}
-
 .labels-wrap {
   display: flex;
   align-items: center;
@@ -111,7 +104,8 @@ export default {
     overflow: visible;
     flex-flow: row wrap;
 
-    .label {
+    > span,
+    > div {
       margin-bottom: var(--space-smaller);
     }
 

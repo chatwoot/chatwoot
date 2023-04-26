@@ -7,6 +7,10 @@
   display: flex;
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 .bottom-space-fix {
   margin-bottom: auto;
 }

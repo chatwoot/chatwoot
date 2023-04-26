@@ -12,11 +12,11 @@
 .conversation {
   @include flex;
   @include flex-shrink;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid var(--color-border-light);
   border-left: var(--space-micro) solid transparent;
   border-top: 1px solid transparent;
   cursor: pointer;
-  padding: 0 var(--space-normal);
+  padding: var(--space-slab) var(--space-normal);
   position: relative;
 
   &.active {
@@ -71,42 +71,21 @@
   }
 
   .conversation--message {
+    -webkit-box-orient: vertical;
     color: var(--color-body);
+    display: -webkit-box;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
-    height: var(--space-medium);
+    -webkit-line-clamp: 2;
     line-height: var(--space-medium);
-    margin: 0 var(--space-small);
-    max-width: 96%;
+    margin: var(--space-smaller) 0;
+    max-width: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 27rem;
   }
 
   .conversation--meta {
     @include flex;
     flex-direction: column;
-    position: absolute;
-    right: var(--space-normal);
-    top: var(--space-normal);
-
-    .unread {
-      @include round-corner;
-      @include light-shadow;
-      background: darken($success-color, 3%);
-      color: var(--white);
-      display: none;
-      font-size: var(--font-size-micro);
-      font-weight: var(--font-weight-black);
-      height: var(--space-normal);
-      line-height: var(--space-normal);
-      margin-left: auto;
-      margin-top: var(--space-smaller);
-      min-width: var(--space-normal);
-      padding: 0 var(--space-smaller);
-      text-align: center;
-    }
 
     .timestamp {
       color: $dark-gray;
@@ -114,20 +93,6 @@
       font-weight: var(--font-weight-normal);
       line-height: var(--space-normal);
       margin-left: auto;
-    }
-  }
-
-  &.unread-chat {
-    .unread {
-      display: inline-block;
-    }
-
-    .conversation--message {
-      font-weight: var(--font-weight-bold);
-    }
-
-    .conversation--user {
-      font-weight: var(--font-weight-bold);
     }
   }
 
@@ -141,4 +106,22 @@
       padding-right: var(--space-small);
     }
   }
+}
+
+
+.unread {
+  @include round-corner;
+  @include light-shadow;
+  background: darken($success-color, 3%);
+  color: var(--white);
+  display: none;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-black);
+  height: var(--space-normal);
+  line-height: var(--space-normal);
+  margin-left: auto;
+  margin-top: var(--space-smaller);
+  min-width: var(--space-normal);
+  padding: 0 var(--space-smaller);
+  text-align: center;
 }
