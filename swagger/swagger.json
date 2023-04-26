@@ -3980,7 +3980,7 @@
         }
       }
     },
-    "/accounts/{account_id}/teams/{team_id}/team_members": {
+    "/api/v1/accounts/{account_id}/teams/{team_id}/team_members": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
