@@ -183,4 +183,72 @@ describe('#mutations', () => {
       expect(state.conversations).toEqual({});
     });
   });
+
+  describe('#setMissingMessages', () => {
+    it('sets messages if payload is not empty', () => {
+      const state = {
+        uiFlags: { allMessagesLoaded: false },
+        conversations: {
+          '454': {
+            id: 454,
+            content: 'hi',
+            message_type: 0,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682432667,
+            conversation_id: 20,
+          },
+          '464': {
+            id: 464,
+            content: 'hey will be back soon',
+            message_type: 3,
+            content_type: 'text',
+            content_attributes: {},
+            created_at: 1682490729,
+            conversation_id: 20,
+          },
+        },
+      };
+      mutations.setMessagesInConversation(state, [
+        {
+          id: 455,
+          content: 'Hey billowing-grass-423 how are you?',
+          message_type: 3,
+          content_type: 'text',
+          content_attributes: {},
+          created_at: 1682432667,
+          conversation_id: 20,
+        },
+      ]);
+      expect(state.conversations).toEqual({
+        '454': {
+          id: 454,
+          content: 'hi',
+          message_type: 0,
+          content_type: 'text',
+          content_attributes: {},
+          created_at: 1682432667,
+          conversation_id: 20,
+        },
+        '455': {
+          id: 455,
+          content: 'Hey billowing-grass-423 how are you?',
+          message_type: 3,
+          content_type: 'text',
+          content_attributes: {},
+          created_at: 1682432667,
+          conversation_id: 20,
+        },
+        '464': {
+          id: 464,
+          content: 'hey will be back soon',
+          message_type: 3,
+          content_type: 'text',
+          content_attributes: {},
+          created_at: 1682490729,
+          conversation_id: 20,
+        },
+      });
+    });
+  });
 });
