@@ -439,7 +439,8 @@
       "LABEL": "امکانات",
       "DISPLAY_FILE_PICKER": "نمایش گزینه ضمیه فایل در ویجت",
       "DISPLAY_EMOJI_PICKER": "نمایش گزینه انتخاب ایموجی در ویجت",
-      "ALLOW_END_CONVERSATION": "به کاربران اجازه دهید مکالمه را از ویجت پایان دهند"
+      "ALLOW_END_CONVERSATION": "به کاربران اجازه دهید مکالمه را از ویجت پایان دهند",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "اسکریپت ویجت",
@@ -477,6 +478,8 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "کلید API را به روز کنید",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "کلید API جدید را در اینجا وارد کنید",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود",
+      "WHATSAPP_WEBHOOK_TITLE": "رمز تأیید وب هوک",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "به‌روزرسانی تنظیمات فرم قبل از گفتگو"
     },
     "AUTO_ASSIGNMENT": {

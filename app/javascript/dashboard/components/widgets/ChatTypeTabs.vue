@@ -9,7 +9,7 @@
   </woot-tabs>
 </template>
 <script>
-import wootConstants from '../../constants';
+import wootConstants from 'dashboard/constants/globals';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { hasPressedAltAndNKey } from 'shared/helpers/KeyboardHelpers';
 

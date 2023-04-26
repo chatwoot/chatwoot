@@ -158,10 +158,8 @@ import Widget from 'dashboard/modules/widget-preview/components/Widget';
 import InputRadioGroup from './components/InputRadioGroup';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
-import {
-  LocalStorage,
-  LOCAL_STORAGE_KEYS,
-} from 'dashboard/helper/localStorage';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 export default {
   components: {

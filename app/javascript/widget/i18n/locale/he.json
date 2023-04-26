@@ -8,8 +8,8 @@
       "SUBMIT": "שלח"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "שלח שוב הודעה",
+      "ERROR_MESSAGE": "לא ניתן לשלוח, נסה שוב"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,8 +22,8 @@
     "IN_A_DAY": "מענה ממוצע לאחר יום"
   },
   "START_CONVERSATION": "התחל שיחה",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "סיים שיחה",
+  "CONTINUE_CONVERSATION": "המשך שיחה",
   "START_NEW_CONVERSATION": "התחל שיחה חדשה",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "כתובת מייל",
         "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "נדרשת כתובת אימייל",
         "VALID_ERROR": "בבקשה הכנס כתוכת אימייל תקינה"
       },
       "PHONE_NUMBER": {
         "LABEL": "מספר טלפון",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "אנא הזן את מספר הטלפון שלך",
+        "REQUIRED_ERROR": "נדרש מספר טלפון",
+        "VALID_ERROR": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "הודעה",
@@ -64,9 +64,9 @@
         "ERROR": "הודעה קצרה מדי"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "CAMPAIGN_HEADER": "אנא ספק את שמך ואת הדוא\"ל שלך לפני תחילת השיחה",
     "IS_REQUIRED": "is required",
-    "REQUIRED": "Required"
+    "REQUIRED": "נדרש"
   },
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -75,8 +75,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "חפש אימוג'י",
+    "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך"
   },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
@@ -90,8 +90,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
+      "LEAVE_THE_ROOM": "עזוב את השיחה"
     }
   }
 }

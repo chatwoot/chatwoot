@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopiraj",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Kod je uspešno kopiran na beležnicu"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Početak",
     "AGENTS": "Agenti",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Prijemni sandučići",
     "NOTIFICATIONS": "Obaveštenja",
     "CANNED_RESPONSES": "Gotovi odgovori",
