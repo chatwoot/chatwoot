@@ -1,5 +1,4 @@
 class MessageTemplates::Template::OutOfOffice
-  include MessageTemplates::Template::ContentParser
   pattr_initialize [:conversation!]
 
   def perform
@@ -18,7 +17,6 @@ class MessageTemplates::Template::OutOfOffice
 
   def out_of_office_message_params
     content = @conversation.inbox&.out_of_office_message
-    content = parse_message_content(content)
 
     {
       account_id: @conversation.account_id,

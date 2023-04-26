@@ -19,7 +19,6 @@ class MessageTemplates::Template::Greeting
 
   def greeting_message_params
     content = @conversation.inbox&.greeting_message
-    content = parse_message_content(content)
 
     {
       account_id: @conversation.account_id,
