@@ -103,6 +103,24 @@ export const actions = {
     }
   },
 
+  syncLatestMessages: async ({ state, commit }) => {
+    try {
+      const { lastMessageId, conversation } = state;
+      const {
+        data: { payload, meta },
+      } = await getMessagesAPI({ after: lastMessageId });
+      const { contact_last_seen_at: lastSeen } = meta;
+      const formattedMessages = getNonDeletedMessages({ messages: payload });
+      const missingMessages = formattedMessages.filter(
+        message => conversation[message.id] === undefined
+      );
+      commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
+      commit('conversation/setMissingMessages', missingMessages);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
   clearConversations: ({ commit }) => {
     commit('clearConversations');
   },
