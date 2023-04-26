@@ -20,6 +20,7 @@
             <label v-if="isRichEditorEnabled" class="richtext">
               <woot-message-editor
                 v-model="unavailableMessage"
+                :enable-variables="true"
                 :is-format-mode="true"
                 class="input"
                 :min-height="4"
