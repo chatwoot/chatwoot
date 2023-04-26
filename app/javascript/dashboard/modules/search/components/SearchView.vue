@@ -17,6 +17,7 @@
         <search-tabs
           v-if="query"
           :tabs="tabs"
+          :selected-tab="activeTabIndex"
           @tab-change="tab => (selectedTab = tab)"
         />
       </header>
@@ -156,6 +157,10 @@ export default {
           count: this.messages.length,
         },
       ];
+    },
+    activeTabIndex() {
+      const index = this.tabs.findIndex(tab => tab.key === this.selectedTab);
+      return index >= 0 ? index : 0;
     },
     showEmptySearchResults() {
       return (
