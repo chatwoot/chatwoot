@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "പകർത്തുക",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "കോഡ് ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "ഹോം",
     "AGENTS": "ഏജന്റുമാർ",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "ഇൻ‌ബോക്സുകൾ",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",

@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "กรอกหมายเลขโทรศัพท์ผู้ติดต่อ",
         "LABEL": "หมายเลขโทรศัพท์",
-        "HELP": "เบอร์โทรศัพท์ควรจะเป็นเเบบนี้เช่น +663990214 [+][หรัสประเทศ][หรัสพื้นที่][เลขโทรศัพท์]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "หมายเลขโทรศัพท์ควรจะว่างปล่าวหรืออยู่ในรู้เเบบ E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "หมายเลขนี้ถูกใช้สำหรับผู้ติดต่อคนอื่นเเล้ว"
       },
       "LOCATION": {
@@ -181,7 +182,8 @@
         "LABEL": "ถึง"
       },
       "INBOX": {
-        "LABEL": "กล่องข้อความ",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "เลือกกล่องข้อความ"
       },
       "SUBJECT": {

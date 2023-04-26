@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "نسخ",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "تم نسخ الكود إلى الحافظة بنجاح"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "الرئيسية",
     "AGENTS": "موظف الدعم",
     "AGENT_BOTS": "البوتات",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",

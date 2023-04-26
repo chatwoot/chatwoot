@@ -6,7 +6,7 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
 
   def perform(account)
     get_conversations_with_bot_handoffs(account)
-    account.reporting_events.where(name: 'first_response').each do |event|
+    account.reporting_events.where(name: 'first_response').find_each do |event|
       conversation = event.conversation
 
       # if the conversation has a bot handoff event, we don't need to update the response_time

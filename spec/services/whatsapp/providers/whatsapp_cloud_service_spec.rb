@@ -120,12 +120,17 @@ describe Whatsapp::Providers::WhatsappCloudService do
             { status: 200, headers: response_headers,
               body: { data: [
                 { id: '123456789', name: 'next_template' }
+              ], paging: { next: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json },
+            { status: 200, headers: response_headers,
+              body: { data: [
+                { id: '123456789', name: 'last_template' }
               ], paging: { prev: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json }
           )
 
         expect(subject.sync_templates).to be(true)
         expect(whatsapp_channel.reload.message_templates.first).to eq({ id: '123456789', name: 'test_template' }.stringify_keys)
-        expect(whatsapp_channel.reload.message_templates.last).to eq([{ id: '123456789', name: 'next_template' }.stringify_keys])
+        expect(whatsapp_channel.reload.message_templates.second).to eq({ id: '123456789', name: 'next_template' }.stringify_keys)
+        expect(whatsapp_channel.reload.message_templates.last).to eq({ id: '123456789', name: 'last_template' }.stringify_keys)
       end
     end
   end

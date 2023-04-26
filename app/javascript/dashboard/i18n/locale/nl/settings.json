@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopiëren",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Code succesvol naar het klembord gekopieerd "
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Startpagina",
     "AGENTS": "Medewerkers",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Inboxen",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Standaard antwoorden",
