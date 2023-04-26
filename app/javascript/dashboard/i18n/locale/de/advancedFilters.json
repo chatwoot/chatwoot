@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Kampagnenname",
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browsersprache",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Ländername",
       "REFERER_LINK": "Referer-Link",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",
