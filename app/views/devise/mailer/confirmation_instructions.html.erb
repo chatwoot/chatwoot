@@ -8,7 +8,8 @@
   <p>Hi <%= @resource.name %>,</p>
   <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
 <% else %>
-  <p>Hi <%= @resource.name %>, and welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a lot of awesome stuff ready for you on the next page. Please take a moment to verify your email address.</p>
+  <p>Hi <%= @resource.name %>, and welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>!</p>
+  <p>We have a lot of awesome stuff ready for you on the next page. Please take a moment to verify your email address.</p>
 <% end %>
 
 <% if @resource.unconfirmed_email.present? %>
