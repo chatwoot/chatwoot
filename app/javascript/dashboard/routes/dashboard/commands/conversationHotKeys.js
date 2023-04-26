@@ -299,12 +299,12 @@ export default {
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
         return [
-          ...this.assignPriorityActions,
           ...this.statusActions,
           ...this.conversationAdditionalActions,
           ...this.assignAgentActions,
           ...this.assignTeamActions,
           ...this.labelActions,
+          ...this.assignPriorityActions,
         ];
       }
 
