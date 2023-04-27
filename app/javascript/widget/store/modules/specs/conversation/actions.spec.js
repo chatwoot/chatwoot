@@ -266,7 +266,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
         [
-          'conversation/setMissingMessages',
+          'setMissingMessagesInConversation',
 
           {
             '454': {
@@ -349,7 +349,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         ['conversation/setMetaUserLastSeenAt', 14664223490, { root: true }],
         [
-          'conversation/setMissingMessages',
+          'setMissingMessagesInConversation',
 
           {
             '454': {

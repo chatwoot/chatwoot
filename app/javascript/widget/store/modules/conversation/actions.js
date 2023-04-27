@@ -113,12 +113,9 @@ export const actions = {
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
-      // console.log('formattedMessages', formattedMessages);
       const missingMessages = formattedMessages.filter(
         message => conversations?.[message.id] === undefined
       );
-      console.log('missingMessages', missingMessages);
-
       if (!missingMessages.length) return;
       missingMessages.forEach(message => {
         conversations[message.id] = message;
@@ -129,11 +126,9 @@ export const actions = {
           (a, b) => a[1].created_at - b[1].created_at
         )
       );
-      console.log('updatedConversation', updatedConversation);
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMissingMessagesInConversation', updatedConversation);
     } catch (error) {
-      console.log('error', error);
       // IgnoreError
     }
   },
