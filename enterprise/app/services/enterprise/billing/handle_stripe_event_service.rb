@@ -27,7 +27,7 @@ class Enterprise::Billing::HandleStripeEventService
         subscribed_quantity: subscription['quantity']
       }
     )
-    enable_plan_features
+    change_plan_features
   end
 
   def process_subscription_deleted
@@ -37,15 +37,22 @@ class Enterprise::Billing::HandleStripeEventService
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
   end
 
-  def enable_plan_features
-    return if account.custom_attributes['plan_name'].blank?
-
-    enable_features
-    mark_cloud_customers
+  def change_plan_features
+    if default_plan?
+      disable_features
+    else
+      enable_features
+      mark_cloud_customers
+    end
   end
 
   def enable_features
-    account.enable_features('channel_email', 'help_center')
+    account.enable_features('help_center', 'campaigns', 'team_management', 'channel_twitter', 'channel_facebook', 'channel_email')
+    account.save
+  end
+
+  def disable_features
+    account.disable_features('help_center', 'campaigns', 'team_management', 'channel_twitter', 'channel_facebook', 'channel_email')
     account.save
   end
 
@@ -73,5 +80,11 @@ class Enterprise::Billing::HandleStripeEventService
   def find_plan(plan_id)
     installation_config = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')
     installation_config.value.find { |config| config['product_id'].include?(plan_id) }
+  end
+
+  def default_plan?
+    installation_config = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')
+    default_plan = installation_config.value.first
+    @account.custom_attributes['plan_name'] == default_plan['name']
   end
 end

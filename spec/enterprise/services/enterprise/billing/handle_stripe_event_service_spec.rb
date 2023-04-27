@@ -48,7 +48,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                      })
     end
 
-    it 'update features on customer.subscription.updated' do
+    it 'disable features on customer.subscription.updated for default plan' do
       allow(event).to receive(:type).and_return('customer.subscription.updated')
       allow(subscription).to receive(:customer).and_return('cus_123')
       stripe_event_service.new.perform(event: event)
@@ -59,8 +59,8 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'plan_name' => 'Hacker',
                                                        'subscribed_quantity' => '10'
                                                      })
-      expect(account).to be_feature_enabled('channel_email')
-      expect(account).to be_feature_enabled('help_center')
+      expect(account).not_to be_feature_enabled('channel_email')
+      expect(account).not_to be_feature_enabled('help_center')
     end
 
     it 'handles customer.subscription.deleted' do
@@ -70,6 +70,34 @@ describe Enterprise::Billing::HandleStripeEventService do
       allow(stripe_customer_service).to receive(:perform)
       stripe_event_service.new.perform(event: event)
       expect(Enterprise::Billing::CreateStripeCustomerService).to have_received(:new).with(account: account)
+    end
+  end
+
+  describe '#perform for Startups plan' do
+    before do
+      allow(event).to receive(:data).and_return(data)
+      allow(data).to receive(:object).and_return(subscription)
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({
+                                                       'id' => 'test', 'product' => 'plan_id_2', 'name' => 'plan_name'
+                                                     })
+      allow(subscription).to receive(:[]).with('quantity').and_return('10')
+      allow(subscription).to receive(:customer).and_return('cus_123')
+    end
+
+    it 'enable features on customer.subscription.updated' do
+      allow(event).to receive(:type).and_return('customer.subscription.updated')
+      allow(subscription).to receive(:customer).and_return('cus_123')
+      stripe_event_service.new.perform(event: event)
+      expect(account.reload.custom_attributes).to eq({
+                                                       'stripe_customer_id' => 'cus_123',
+                                                       'stripe_price_id' => 'test',
+                                                       'stripe_product_id' => 'plan_id_2',
+                                                       'plan_name' => 'Startups',
+                                                       'subscribed_quantity' => '10'
+                                                     })
+      expect(account).to be_feature_enabled('channel_email')
+      expect(account).to be_feature_enabled('help_center')
     end
   end
 end
