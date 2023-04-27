@@ -61,7 +61,7 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifications",
     "MARK_ALL_DONE": "Mark All Done",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "ištrinta",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Unread Notifications",
       "ALL_NOTIFICATIONS": "View all notifications",
@@ -72,9 +72,9 @@
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",
       "TABLE_HEADER": [
-        "Name",
+        "Vardas",
         "Phone Number",
-        "Conversations",
+        "Pokalbiai",
         "Last Contacted"
       ]
     },
