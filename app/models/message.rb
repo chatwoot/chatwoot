@@ -2,24 +2,23 @@
 #
 # Table name: messages
 #
-#  id                        :integer          not null, primary key
-#  additional_attributes     :jsonb
-#  content                   :text
-#  content_attributes        :json
-#  content_type              :integer          default("text"), not null
-#  external_source_ids       :jsonb
-#  message_source_identifier :string
-#  message_type              :integer          not null
-#  private                   :boolean          default(FALSE)
-#  sender_type               :string
-#  status                    :integer          default("sent")
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  account_id                :integer          not null
-#  conversation_id           :integer          not null
-#  inbox_id                  :integer          not null
-#  sender_id                 :bigint
-#  source_id                 :string
+#  id                    :integer          not null, primary key
+#  additional_attributes :jsonb
+#  content               :text
+#  content_attributes    :json
+#  content_type          :integer          default("text"), not null
+#  external_source_ids   :jsonb
+#  message_type          :integer          not null
+#  private               :boolean          default(FALSE)
+#  sender_type           :string
+#  status                :integer          default("sent")
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
+#  conversation_id       :integer          not null
+#  inbox_id              :integer          not null
+#  sender_id             :bigint
+#  source_id             :string
 #
 # Indexes
 #

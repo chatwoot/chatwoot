@@ -268,28 +268,4 @@ RSpec.describe Message, type: :model do
       expect(instagram_message.reload.attachments.count).to eq 1
     end
   end
-
-  context 'when validation on uniqueness of message_source_identifier' do
-    before do
-      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
-      stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
-      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
-    end
-
-    it 'when value is present' do
-      message = create(:message, account: create(:account))
-      message.inbox = create(:inbox,
-                             account: message.account,
-                             channel: build(:channel_whatsapp, account: message.account, phone_number: '+12345678911', provider: 'whatsapp_cloud'))
-      inbox = message.inbox
-      message.update!(message_source_identifier: 'message_source_identifier_value')
-      new_message = build(:message, inbox_id: inbox.id, message_source_identifier: 'message_source_identifier_value')
-
-      expect(new_message).not_to be_valid
-      expect(new_message.errors.full_messages).to eq(['Message source identifier has already been taken'])
-
-      new_message.message_source_identifier = 'new_message_source_identifier_value'
-      expect(new_message).to be_valid
-    end
-  end
 end
