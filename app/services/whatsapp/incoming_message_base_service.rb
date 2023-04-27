@@ -22,6 +22,7 @@ class Whatsapp::IncomingMessageBaseService
     # message allready exists so we don't need to process
     return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
+    set_message_source_id
     set_contact
     return unless @contact
 

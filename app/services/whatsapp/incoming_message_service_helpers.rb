@@ -109,7 +109,7 @@ module Whatsapp::IncomingMessageServiceHelpers
     Redis::Alfred.get(@processed_params[:messages].first[:id])
   end
 
-  def set_source_id
+  def set_message_source_id
     ::Redis::Alfred.setex(@processed_params[:messages].first[:id], true) if @processed_params.try(:[], :messages).present?
   end
 end
