@@ -30,13 +30,13 @@
       "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
+      "LABEL": "비밀번호 확인",
+      "PLACEHOLDER": "비밀번호 확인",
       "ERROR": "비밀번호가 일치하지 않음."
     },
     "API": {
       "SUCCESS_MESSAGE": "등록 성공",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "이미 계정이 있습니까?"
