@@ -14,7 +14,7 @@ const getLastNonActivityMessage = (messageInStore, messageFromAPI) => {
 
 export const filterDuplicateSourceMessages = (messages = []) => {
   const messagesWithoutDuplicates = [];
-  // We cannot Map or any short hand as it returns the last message with the duplicate ID
+  // We cannot use Map or any short hand method as it returns the last message with the duplicate ID
   // We should return the message with smaller id when there is a duplicate
   messages.forEach(m1 => {
     if (m1.source_id) {
