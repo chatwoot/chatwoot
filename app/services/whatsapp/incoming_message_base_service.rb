@@ -137,7 +137,6 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
-      message_source_indetifier: message[:id].to_s,
       in_reply_to_external_id: @in_reply_to_external_id,
       in_reply_to: @in_reply_to
     )
