@@ -31,15 +31,15 @@ lt:
       disposable_email: We do not allow disposable emails
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      failed: Prisijungimas nesėkmingas
     data_import:
       data_type:
         invalid: Invalid data type
     contacts:
       import:
-        failed: File is blank
+        failed: Failas yra tuščias
       email:
-        invalid: Invalid email
+        invalid: Neteisingas el. paštas
       phone_number:
         invalid: should be in e164 format
     categories:
@@ -60,7 +60,7 @@ lt:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
     agent_csv:
-      agent_name: Agent name
+      agent_name: Agento Vardas
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -81,18 +81,18 @@ lt:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     conversation_traffic_csv:
-      timezone: Timezone
-    default_group_by: day
+      timezone: Laiko zona
+    default_group_by: diena
     csat:
       headers:
         contact_name: Contact Name
         contact_email_address: Contact Email Address
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
-        agent_name: Agent Name
-        rating: Rating
+        agent_name: Agento Vardas
+        rating: Reitingas
         feedback: Feedback Comment
-        recorded_at: Recorded date
+        recorded_at: Įrašo data
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
