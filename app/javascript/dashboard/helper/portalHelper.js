@@ -11,5 +11,5 @@ export const buildPortalArticleURL = (
   articleId
 ) => {
   const portalURL = buildPortalURL(portalSlug);
-  return `${portalURL}/${locale}/${categorySlug}/${articleId}`;
+  return `${portalURL}/articles/${articleId}`;
 };
