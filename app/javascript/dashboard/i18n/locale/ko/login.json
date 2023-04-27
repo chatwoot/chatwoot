@@ -10,9 +10,9 @@
       "PLACEHOLDER": "비밀번호"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "로그인 성공",
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요.",
+      "UNAUTH": "이름 또는 비밀번호가 올바르지 않습니다. 다시 시도해 주세요."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
