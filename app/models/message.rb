@@ -66,7 +66,6 @@ class Message < ApplicationRecord
 
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
-  validates :message_source_identifier, uniqueness: true, if: :whatsapp_inbox?
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -356,9 +355,5 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def whatsapp_inbox?
-    message_source_identifier.present? && inbox.channel.name == 'Whatsapp'
   end
 end
