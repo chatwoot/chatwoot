@@ -1,13 +1,8 @@
 import {
   timeSlotParse,
   defaultTimeSlot,
-  // timeZoneOptions,
 } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
-
-// const DEFAULT_TIMEZONE = {
-//   label: 'America/Los_Angeles',
-//   key: 'America/Los_Angeles',
-// };
+const { utcToZonedTime } = require('date-fns-tz');
 
 export default {
   data() {
@@ -21,7 +16,6 @@ export default {
         5: 'Friday',
         6: 'Saturday',
       },
-      // timeZone: DEFAULT_TIMEZONE,
       timeSlots: [...defaultTimeSlot],
       timeSlot: {},
     };
@@ -30,9 +24,6 @@ export default {
     channelConfig() {
       return window.chatwootWebChannel;
     },
-    // timeZones() {
-    //   return [...timeZoneOptions()];
-    // },
     workingHoursEnabled() {
       const { workingHoursEnabled } = this.channelConfig;
       return workingHoursEnabled;
@@ -40,6 +31,12 @@ export default {
     workingHours() {
       if (this.workingHoursEnabled) {
         return this.channelConfig.workingHours;
+      }
+      return null;
+    },
+    timeZoneValue() {
+      if (this.workingHoursEnabled) {
+        return this.channelConfig.timezone;
       }
       return null;
     },
@@ -63,14 +60,20 @@ export default {
       }
       return null;
     },
+    newDateWithTimeZone() {
+      const date = new Date();
+      const timeZone = this.timeZoneValue;
+      const zonedDate = utcToZonedTime(date, timeZone);
+      return zonedDate;
+    },
     presentHour() {
-      return new Date().getHours();
+      return this.newDateWithTimeZone.getHours();
     },
     presentMinute() {
-      return new Date().getMinutes();
+      return this.newDateWithTimeZone.getMinutes();
     },
     currentDay() {
-      const date = new Date();
+      const date = this.newDateWithTimeZone;
       const day = date.getDay();
       const currentDay = Object.keys(this.dayNames).find(
         key => this.dayNames[key] === this.dayNames[day]
