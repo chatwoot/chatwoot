@@ -140,8 +140,8 @@ export default {
       );
     },
     exactTimeInAmPm() {
-      return `${this.timeSlot.day !== this.currentDay ? 'tomorrow' : ''} at ${
-        this.timeSlot.from
+      return `${this.timeSlot.day !== this.currentDay ? 'tomorrow' : ''} ${
+        this.timeSlot.day !== this.currentDay ? '' : `at ${this.timeSlot.from}`
       }`;
     },
     hoursLeftValue() {
@@ -178,10 +178,10 @@ export default {
     },
     timeLeftToBackInOnline() {
       if (this.dayDiff > 1 && this.presentHour >= this.currentDayCloseHour) {
-        return `on ${this.dayNameOfNextWorkingDay} at ${this.timeSlot.from}`;
+        return `on ${this.dayNameOfNextWorkingDay}`;
       }
       if (this.hoursAndMinutesBackInOnline.hours >= 24) {
-        return `tomorrow at ${this.timeSlot.from}`;
+        return `tomorrow`;
       }
       return this.hoursAndMinutesToBack;
     },
