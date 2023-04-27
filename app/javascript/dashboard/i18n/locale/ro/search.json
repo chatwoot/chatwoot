@@ -14,8 +14,8 @@
     "EMPTY_STATE": "Nu există elemente care să corespundă acestei interogări",
     "EMPTY_STATE_FULL": "Niciun rezultat găsit",
     "PLACEHOLDER_KEYBINDING": "/ să se concentreze",
-    "INPUT_PLACEHOLDER": "Căutați mesaje, persoane de contact sau conversații",
-    "EMPTY_STATE_DEFAULT": "Căutați după id-ul conversației, e-mail, numărul de telefon, mesajele pentru rezultate de căutare mai bune.",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "EMPTY_STATE_DEFAULT": "Căutați după id-ul conversației, e-mail, numărul de telefon, mesajele pentru rezultate de căutare mai bune. ",
     "BOT_LABEL": "Bot",
     "READ_MORE": "Citeşte mai mult",
     "WROTE": "Wrote:"
