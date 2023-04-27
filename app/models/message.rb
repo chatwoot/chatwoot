@@ -2,23 +2,24 @@
 #
 # Table name: messages
 #
-#  id                    :integer          not null, primary key
-#  additional_attributes :jsonb
-#  content               :text
-#  content_attributes    :json
-#  content_type          :integer          default("text"), not null
-#  external_source_ids   :jsonb
-#  message_type          :integer          not null
-#  private               :boolean          default(FALSE)
-#  sender_type           :string
-#  status                :integer          default("sent")
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  account_id            :integer          not null
-#  conversation_id       :integer          not null
-#  inbox_id              :integer          not null
-#  sender_id             :bigint
-#  source_id             :string
+#  id                        :integer          not null, primary key
+#  additional_attributes     :jsonb
+#  content                   :text
+#  content_attributes        :json
+#  content_type              :integer          default("text"), not null
+#  external_source_ids       :jsonb
+#  message_source_identifier :string
+#  message_type              :integer          not null
+#  private                   :boolean          default(FALSE)
+#  sender_type               :string
+#  status                    :integer          default("sent")
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :integer          not null
+#  conversation_id           :integer          not null
+#  inbox_id                  :integer          not null
+#  sender_id                 :bigint
+#  source_id                 :string
 #
 # Indexes
 #
@@ -66,6 +67,7 @@ class Message < ApplicationRecord
 
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
+  validates :message_source_identifier, uniqueness: true, if: :whatsapp_inbox?
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -355,5 +357,9 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def whatsapp_inbox?
+    message_source_identifier.present? && inbox.channel.name == 'Whatsapp'
   end
 end

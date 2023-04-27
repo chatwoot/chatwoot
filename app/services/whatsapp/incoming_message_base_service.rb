@@ -20,7 +20,7 @@ class Whatsapp::IncomingMessageBaseService
 
   def process_messages
     # message allready exists so we don't need to process
-    return if find_message_by_source_id(@processed_params[:messages].first[:id])
+    return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
     set_contact
     return unless @contact
@@ -47,17 +47,14 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_messages
+    ::Redis::Alfred.delete(@processed_params[:messages].first[:id])
     return if unprocessable_message_type?(message_type)
 
     message = @processed_params[:messages].first
     log_error(message) && return if error_webhook_event?(message)
 
     process_in_reply_to(message)
-    if message_type == 'contacts'
-      create_contact_messages(message)
-    else
-      create_regular_message(message)
-    end
+    message_type == 'contacts' ? create_contact_messages(message) : create_regular_message(message)
   end
 
   def create_contact_messages(message)
@@ -139,6 +136,7 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
+      message_source_indetifier: message[:id].to_s,
       in_reply_to_external_id: @in_reply_to_external_id,
       in_reply_to: @in_reply_to
     )
