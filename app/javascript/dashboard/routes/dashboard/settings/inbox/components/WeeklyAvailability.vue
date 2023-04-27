@@ -17,7 +17,16 @@
         <div v-if="isBusinessHoursEnabled" class="business-hours-wrap">
           <label class="unavailable-input-wrap">
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
-            <textarea v-model="unavailableMessage" type="text" />
+            <label v-if="isRichEditorEnabled" class="richtext">
+              <woot-message-editor
+                v-model="unavailableMessage"
+                :enable-variables="true"
+                :is-format-mode="true"
+                class="input"
+                :min-height="4"
+              />
+            </label>
+            <textarea v-else v-model="unavailableMessage" type="text" />
           </label>
           <div class="timezone-input-wrap">
             <label>
@@ -61,7 +70,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import BusinessDay from './BusinessDay';
 import {
   timeSlotParse,
@@ -79,8 +90,9 @@ export default {
   components: {
     SettingsSection,
     BusinessDay,
+    WootMessageEditor,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, inboxMixin],
   props: {
     inbox: {
       type: Object,
@@ -114,6 +126,15 @@ export default {
     },
     timeZones() {
       return [...timeZoneOptions()];
+    },
+    isRichEditorEnabled() {
+      if (
+        this.isATwilioChannel ||
+        this.isATwitterInbox ||
+        this.isAFacebookInbox
+      )
+        return false;
+      return true;
     },
   },
   watch: {
@@ -189,5 +210,12 @@ export default {
 
 .business-hours-wrap {
   margin-bottom: var(--space-medium);
+}
+
+.richtext {
+  padding: 0 var(--space-normal);
+  border-radius: var(--border-radius-normal);
+  border: 1px solid var(--color-border);
+  margin: 0 0 var(--space-normal);
 }
 </style>
