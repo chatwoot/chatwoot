@@ -26,12 +26,10 @@ class ActionCableConnector extends BaseActionCableConnector {
   }
 
   onDisconnected = () => {
-    console.log('ActionCable disconnected');
     this.setLastMessageId();
   };
 
   onReconnect = () => {
-    console.log('ActionCable reconnected');
     this.syncLatestMessages();
   };
 
