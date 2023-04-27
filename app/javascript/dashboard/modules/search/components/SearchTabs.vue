@@ -18,11 +18,22 @@ export default {
       type: Array,
       default: () => [],
     },
+    selectedTab: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
       activeTab: 0,
     };
+  },
+  watch: {
+    selectedTab(value, oldValue) {
+      if (value !== oldValue) {
+        this.activeTab = this.selectedTab;
+      }
+    },
   },
   methods: {
     onTabChange(index) {
