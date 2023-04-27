@@ -12,6 +12,26 @@ const getLastNonActivityMessage = (messageInStore, messageFromAPI) => {
   return messageInStore || messageFromAPI;
 };
 
+export const filterDuplicateSourceMessages = (messages = []) => {
+  const messagesWithoutDuplicates = [];
+  // We cannot Map or any short hand as it returns the last message with the duplicate ID
+  // We should return the message with smaller id when there is a duplicate
+  messages.forEach(m1 => {
+    if (m1.source_id) {
+      if (
+        messagesWithoutDuplicates.findIndex(
+          m2 => m1.source_id === m2.source_id
+        ) < 0
+      ) {
+        messagesWithoutDuplicates.push(m1);
+      }
+    } else {
+      messagesWithoutDuplicates.push(m1);
+    }
+  });
+  return messagesWithoutDuplicates;
+};
+
 export default {
   methods: {
     lastMessage(m) {
@@ -34,14 +54,14 @@ export default {
         lastNonActivityMessageFromAPI
       );
     },
-    readMessages(m) {
-      return m.messages.filter(
-        chat => chat.created_at * 1000 <= m.agent_last_seen_at * 1000
+    readMessages(messages, agentLastSeenAt) {
+      return messages.filter(
+        message => message.created_at * 1000 <= agentLastSeenAt * 1000
       );
     },
-    unReadMessages(m) {
-      return m.messages.filter(
-        chat => chat.created_at * 1000 > m.agent_last_seen_at * 1000
+    unReadMessages(messages, agentLastSeenAt) {
+      return messages.filter(
+        message => message.created_at * 1000 > agentLastSeenAt * 1000
       );
     },
   },
