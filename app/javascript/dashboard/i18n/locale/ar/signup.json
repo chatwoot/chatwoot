@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "الاسم الكامل",
-      "PLACEHOLDER": "أدخل اسمك الكامل. مثال: بروس وين",
-      "ERROR": "الاسم الكامل قصير جداً"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Full name is too short."
     },
     "EMAIL": {
       "LABEL": "البريد الإلكتروني للعمل",
-      "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "كلمة المرور",
       "PLACEHOLDER": "كلمة المرور",
-      "ERROR": "كلمة المرور قصيرة جداً",
-      "IS_INVALID_PASSWORD": "يجب أن تحتوي كلمة المرور على الأقل على حرف كبير واحد وحرف صغير واحد ورقم واحد وحرف خاص واحد"
+      "ERROR": "Password is too short.",
+      "IS_INVALID_PASSWORD": "يجب أن تحتوي كلمة المرور على الأقل على حرف كبير واحد وحرف صغير واحد ورقم واحد وحرف خاص واحد."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "تأكيد كلمة المرور",
-      "PLACEHOLDER": "تأكيد كلمة المرور",
-      "ERROR": "كلمة المرور غير متطابقة"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "كلمة المرور غير متطابقة."
     },
     "API": {
       "SUCCESS_MESSAGE": "تم التسجيل بنجاح",
-      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "إرسال",
     "HAVE_AN_ACCOUNT": "هل لديك حساب مسبق؟"

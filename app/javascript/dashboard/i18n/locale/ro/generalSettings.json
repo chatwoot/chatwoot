@@ -23,7 +23,7 @@
         "ERROR": "Te rugăm să introduci un nume de cont valid"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Limba site-ului",
         "PLACEHOLDER": "Numele contului tău",
         "ERROR": ""
       },
@@ -101,6 +101,7 @@
       "REPORTS": "Rapoarte",
       "CONVERSATION": "Conversație",
       "CHANGE_ASSIGNEE": "Modificarea cesionarului",
+      "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Schimbarea echipei",
       "ADD_LABEL": "Adăugarea etichetei la conversație",
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
@@ -126,6 +127,7 @@
       "GO_TO_NOTIFICATIONS": "Accesați Notificări",
       "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
       "ASSIGN_AN_AGENT": "Atribuirea unui agent",
+      "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Atribuirea unei echipe",
       "MUTE_CONVERSATION": "Silențios conversația",
       "UNMUTE_CONVERSATION": "Sunet conversația",

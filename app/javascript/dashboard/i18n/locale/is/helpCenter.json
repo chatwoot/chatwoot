@@ -30,7 +30,7 @@
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
+        "TITLE": "Hlaða upp mynd",
         "UPLOADING": "Hleður upp...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
