@@ -464,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
       "HMAC_VERIFICATION": "אימות זהות משתמש",
       "HMAC_DESCRIPTION": "על מנת לאמת את זהות המשתמש, אתה יכול להעביר `מזהה_hash` עבור כל משתמש. אתה יכול ליצור hash HMAC sha256 באמצעות `מזהה` עם המפתח המוצג כאן.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "אכיפת אימות זהות משתמש",
       "HMAC_MANDATORY_DESCRIPTION": "אם מופעל, בקשות חסרות 'מזהה_hash' יידחו.",
       "INBOX_IDENTIFIER": "מזהה תיבת דואר נכנס",
