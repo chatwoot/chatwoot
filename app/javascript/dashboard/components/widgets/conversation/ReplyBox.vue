@@ -164,11 +164,11 @@ import {
   AUDIO_FORMATS,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
-} from 'dashboard/helper/messageHelper';
+  replaceVariablesInMessage,
+} from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
