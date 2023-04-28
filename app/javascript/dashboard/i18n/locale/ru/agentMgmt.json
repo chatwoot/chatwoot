@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Поиск агентов",
-          "TEAM": "Поиск команд"
+          "TEAM": "Поиск команд",
+          "INPUT": "Search for agents"
         }
       }
     }
