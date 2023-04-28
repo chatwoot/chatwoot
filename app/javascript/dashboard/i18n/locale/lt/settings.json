@@ -199,7 +199,7 @@
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Kontaktai",
     "HOME": "Home",
     "AGENTS": "Agentai",
     "AGENT_BOTS": "Botai",
@@ -282,7 +282,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
+        "LABEL": "Įmonės pavadinimas",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Pateikti"
