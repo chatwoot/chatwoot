@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Име на кампания",
       "LABELS": "Етикети",
       "BROWSER_LANGUAGE": "Език на браузъра",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Име на държавата",
       "REFERER_LINK": "Референтна връзка",
       "CUSTOM_ATTRIBUTE_LIST": "List",

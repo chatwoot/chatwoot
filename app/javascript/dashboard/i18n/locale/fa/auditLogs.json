@@ -1,14 +1,14 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Audit Logs",
-    "HEADER_BTN_TXT": "Add Audit Logs",
-    "LOADING": "Fetching Audit Logs",
+    "HEADER": "گزارش های حسابرسی",
+    "HEADER_BTN_TXT": "اضافه کردن گزارش های حسابرسی",
+    "LOADING": "واکشی گزارش های حسابرسی",
     "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "SIDEBAR_TXT": "<p><b>گزارش‌های حسابرسی</b> </p><p> گزارش‌های حسابرسی مسیرهایی برای رویدادها و اقدامات در یک سیستم Chatwoot هستند. </p>",
     "LIST": {
-      "404": "There are no Audit Logs available in this account.",
-      "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "404": "هیچ گزارش حسابرسی در این حساب موجود نیست.",
+      "TITLE": "مدیریت گزارش های حسابرسی",
+      "DESC": "گزارش های حسابرسی مسیرهایی برای رویدادها و اقدامات در یک سیستم چت ووت هستند.",
       "TABLE_HEADER": [
         "کاربر",
         "اقدام",
@@ -17,7 +17,7 @@
       ]
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
+      "SUCCESS_MESSAGE": "گزارش های حسابرسی با موفقیت بازیابی شد",
       "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
     }
   }

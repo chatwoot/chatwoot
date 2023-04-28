@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "전체 이름",
-      "PLACEHOLDER": "전체 이름을 입력합니다. 예: Taeyeon Kim",
-      "ERROR": "계정 이름이 너무 짧음"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "계정 이름이 너무 짧음."
     },
     "EMAIL": {
       "LABEL": "회사 이메일",
-      "PLACEHOLDER": "회사 이메일 주소를 입력하세요. 예: taeyeon@girls.generation",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "비밀번호",
       "PLACEHOLDER": "비밀번호",
-      "ERROR": "비밀번호가 너무 짧음",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "비밀번호가 너무 짧음.",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "비밀번호 확인",
       "PLACEHOLDER": "비밀번호 확인",
-      "ERROR": "비밀번호가 일치하지 않음"
+      "ERROR": "비밀번호가 일치하지 않음."
     },
     "API": {
       "SUCCESS_MESSAGE": "등록 성공",
-      "ERROR_MESSAGE": "Woot Server에 연결할 수 없음. 나중에 다시 시도하십시오."
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "이미 계정이 있습니까?"

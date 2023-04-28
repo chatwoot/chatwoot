@@ -3,16 +3,16 @@
     "TITLE": "Chatwoot'ta oturum açın",
     "EMAIL": {
       "LABEL": "E-Posta",
-      "PLACEHOLDER": "E-posta, örneğin: birisi@örnek.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Giriş başarılı",
-      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin",
-      "UNAUTH": "Kullanıcı Adı / Parola Yanlış. Lütfen tekrar deneyin"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
