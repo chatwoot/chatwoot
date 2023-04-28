@@ -63,8 +63,8 @@ class Integrations::Openai::ProcessorService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: 'Please summarize the key points from the following conversation between support agents and customer as bullet points
-           for the next support agent looking into the conversation' },
+          content: 'Please summarize the key points from the following conversation between support agents and ' \
+                   'customer as bullet points for the next support agent looking into the conversation' },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json
