@@ -1060,15 +1060,38 @@ export default {
       this.ccEmails = value.ccEmails;
     },
     setCCEmailFromLastChat() {
-      if (this.lastEmail) {
-        const {
-          content_attributes: { email: emailAttributes = {} },
-        } = this.lastEmail;
-        const cc = emailAttributes.cc || [];
-        const bcc = emailAttributes.bcc || [];
-        this.ccEmails = cc.join(', ');
-        this.bccEmails = bcc.join(', ');
+      if (!this.lastEmail) return;
+
+      const {
+        content_attributes: { email: emailAttributes = {} },
+      } = this.lastEmail;
+
+      // Retrieve the email of the current conversation's sender
+      const conversationContact = this.currentChat?.meta?.sender?.email || '';
+      let cc = emailAttributes.cc || [];
+
+      // there might be a situation where the current conversation will include a message from a third person,
+      // and the current conversation contact is in CC.
+      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
+      // So we remove the current conversation contact's email from the CC list if present
+      if (cc.includes(conversationContact)) {
+        cc = cc.filter(email => email !== conversationContact);
       }
+
+      // If the last incoming message sender is different from the conversation contact, add them to the CC list
+      if (conversationContact !== emailAttributes.from) {
+        cc.push(...emailAttributes.from);
+
+        // Ensure only unique email addresses are in the CC list
+        cc = [...new Set(cc)];
+      }
+
+      // Remove the conversation contact's email from the BCC list if present
+      const bcc = (emailAttributes.bcc || []).filter(
+        email => email !== conversationContact
+      );
+      this.ccEmails = cc.join(', ');
+      this.bccEmails = bcc.join(', ');
     },
   },
 };
