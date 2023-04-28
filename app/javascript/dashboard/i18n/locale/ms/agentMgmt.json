@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Cari ejen",
-          "TEAM": "Cari pasukan"
+          "TEAM": "Cari pasukan",
+          "INPUT": "Search for agents"
         }
       }
     }

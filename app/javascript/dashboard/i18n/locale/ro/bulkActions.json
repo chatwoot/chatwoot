@@ -31,10 +31,10 @@
     "TEAMS": {
       "TEAM_SELECT_LABEL": "Selectați echipa",
       "NONE": "Nimic",
-      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
-      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
-      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
-      "ASSIGN_FAILED": "Failed to assign team, please try again"
+      "NO_TEAMS_AVAILABLE": "Nu există încă echipe adăugate la acest cont.",
+      "ASSIGN_SELECTED_TEAMS": "Atribuirea echipei selectate",
+      "ASSIGN_SUCCESFUL": "Echipe assiged cu succes",
+      "ASSIGN_FAILED": "Nu a reușit să atribuie echipa, vă rugăm să încercați din nou"
     }
   }
 }

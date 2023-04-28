@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Nombre de la empresa",
-      "PLACEHOLDER": "Introduce el nombre de tu empresa, por ejemplo: Wayne Enterprises",
-      "ERROR": "El nombre de la cuenta es demasiado corto"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "El nombre de la cuenta es demasiado corto."
     },
     "FULL_NAME": {
       "LABEL": "Nombre completo",
-      "PLACEHOLDER": "Introduce tu nombre completo, por ejemplo: Bruce Wayne",
-      "ERROR": "El nombre completo es demasiado corto"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "El nombre completo es demasiado corto."
     },
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "bruce@wayne.empresas",
-      "ERROR": "Por favor, introduzca una dirección de correo válida"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Por favor, introduzca una dirección de correo válida."
     },
     "PASSWORD": {
       "LABEL": "Contraseña",
       "PLACEHOLDER": "Contraseña",
-      "ERROR": "La contraseña es demasiado corta",
-      "IS_INVALID_PASSWORD": "La contraseña debe contener al menos 1 letra mayúscula, 1 letra minúscula, 1 número y 1 carácter especial"
+      "ERROR": "La contraseña es demasiado corta.",
+      "IS_INVALID_PASSWORD": "La contraseña debe contener al menos 1 letra mayúscula, 1 letra minúscula, 1 número y 1 carácter especial."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirmar contraseña",
-      "PLACEHOLDER": "Confirmar contraseña",
-      "ERROR": "La contraseña no coincide"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "La contraseña no coincide."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registro Exitoso",
-      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Crear una cuenta",
     "HAVE_AN_ACCOUNT": "¿Ya tienes una cuenta?"

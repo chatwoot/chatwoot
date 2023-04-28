@@ -3,16 +3,16 @@
     "TITLE": "Inloggen bij Chatwoot",
     "EMAIL": {
       "LABEL": "E-mailadres",
-      "PLACEHOLDER": "E-mail bijvoorbeeld: iemone@voorbeeld.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Wachtwoord",
       "PLACEHOLDER": "Wachtwoord"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Inloggen geslaagd",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw",
-      "UNAUTH": "Gebruikersnaam/wachtwoord onjuist. Probeer het opnieuw\n"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
