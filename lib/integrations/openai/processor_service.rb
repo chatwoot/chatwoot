@@ -50,12 +50,16 @@ class Integrations::Openai::ProcessorService
   end
 
   def format_message(message, in_array_format)
-    if in_array_format
-      { role: (message.incoming? ? 'user' : 'assistant'), content: message.content }
-    else
-      sender_type = message.incoming? ? 'Customer' : 'Agent'
-      "#{sender_type} #{message.sender&.name} : #{message.content}\n"
-    end
+    in_array_format ? format_message_in_array(message) : format_message_in_string(message)
+  end
+
+  def format_message_in_array(message)
+    { role: (message.incoming? ? 'user' : 'assistant'), content: message.content }
+  end
+
+  def format_message_in_string(message)
+    sender_type = message.incoming? ? 'Customer' : 'Agent'
+    "#{sender_type} #{message.sender&.name} : #{message.content}\n"
   end
 
   def summarize_body
