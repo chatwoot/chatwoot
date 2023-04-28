@@ -40,7 +40,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
       end
     end
 
-    context 'when event name is not rephrase' do
+    context 'when event name is not one that can be processed' do
       let(:event) { { 'name' => 'unknown', 'data' => {} } }
 
       it 'returns nil' do
