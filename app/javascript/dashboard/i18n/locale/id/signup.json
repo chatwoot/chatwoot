@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "Nama Lengkap",
-      "PLACEHOLDER": "Masukkan nama lengkap Anda. cth: Bruce Wayne",
-      "ERROR": "Nama lengkap terlalu pendek"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Nama lengkap terlalu pendek."
     },
     "EMAIL": {
       "LABEL": "Email kantor",
-      "PLACEHOLDER": "Masukkan alamat email kantor Anda. cth: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "Kata Sandi",
       "PLACEHOLDER": "Kata Sandi",
-      "ERROR": "Kata sandi terlalu pendek",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "Kata sandi terlalu pendek.",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Konfirmasi Kata Sandi",
-      "PLACEHOLDER": "Konfirmasi Kata Sandi",
-      "ERROR": "Kata Sandi tidak cocok"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Kata Sandi tidak cocok."
     },
     "API": {
       "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
-      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Sudah punya akun?"

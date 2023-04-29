@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Unknown File",
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Tiada",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Tiada",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Tiada dijumpa",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
