@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Firmenname",
-      "PLACEHOLDER": "Geben Sie Ihren Firmennamen ein, z. B.: Wayne Enterprises",
-      "ERROR": "Firmenname ist zu kurz"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Firmenname ist zu kurz."
     },
     "FULL_NAME": {
       "LABEL": "Vollständiger Name",
-      "PLACEHOLDER": "Geben Sie Ihren vollständigen Namen ein, z. B.: Bruce Wayne",
-      "ERROR": "Vollständiger Name ist zu kurz"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Vollständiger Name ist zu kurz."
     },
     "EMAIL": {
       "LABEL": "Geschäftliche E-Mail-Adresse",
-      "PLACEHOLDER": "Geben Sie Ihre geschäftliche E-Mail-Adresse ein, z. B.: bruce@wayne.enterprises",
-      "ERROR": "Bitte geben Sie eine gültige Arbeits-E-Mail-Adresse ein"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Bitte geben Sie eine gültige Arbeits-E-Mail-Adresse ein."
     },
     "PASSWORD": {
       "LABEL": "Passwort",
       "PLACEHOLDER": "Passwort",
-      "ERROR": "Das Passwort ist zu kurz",
-      "IS_INVALID_PASSWORD": "Das Passwort sollte mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Ziffer und 1 Sonderzeichen enthalten"
+      "ERROR": "Das Passwort ist zu kurz.",
+      "IS_INVALID_PASSWORD": "Das Passwort sollte mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Ziffer und 1 Sonderzeichen enthalten."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Bestätige das Passwort",
-      "PLACEHOLDER": "Bestätige das Passwort",
-      "ERROR": "Passwort stimmt nicht überein"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Passwort stimmt nicht überein."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrierung erfolgreich",
-      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Konto erstellen",
     "HAVE_AN_ACCOUNT": "Haben Sie bereits ein Konto?"

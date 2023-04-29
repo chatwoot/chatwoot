@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Zoek agenten",
-          "TEAM": "Teams zoeken"
+          "TEAM": "Teams zoeken",
+          "INPUT": "Search for agents"
         }
       }
     }

@@ -2,6 +2,7 @@ import { createConsumer } from '@rails/actioncable';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const PRESENCE_INTERVAL = 20000;
+const RECONNECT_INTERVAL = 1000;
 
 class BaseActionCableConnector {
   static isDisconnected = false;
@@ -25,6 +26,7 @@ class BaseActionCableConnector {
         disconnected: () => {
           BaseActionCableConnector.isDisconnected = true;
           this.onDisconnected();
+          this.initReconnectTimer();
           // TODO: Remove this after completing the conversation list refetching
           window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
         },
@@ -32,11 +34,11 @@ class BaseActionCableConnector {
     );
     this.app = app;
     this.events = {};
+    this.reconnectTimer = null;
     this.isAValidEvent = () => true;
     this.triggerPresenceInterval = () => {
       setTimeout(() => {
         this.subscription.updatePresence();
-        this.checkConnection();
         this.triggerPresenceInterval();
       }, PRESENCE_INTERVAL);
     };
@@ -48,10 +50,27 @@ class BaseActionCableConnector {
     const isReconnected =
       BaseActionCableConnector.isDisconnected && isConnectionActive;
     if (isReconnected) {
+      this.clearReconnectTimer();
       this.onReconnect();
       BaseActionCableConnector.isDisconnected = false;
+    } else {
+      this.initReconnectTimer();
     }
   }
+
+  clearReconnectTimer = () => {
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
+  };
+
+  initReconnectTimer = () => {
+    this.clearReconnectTimer();
+    this.reconnectTimer = setTimeout(() => {
+      this.checkConnection();
+    }, RECONNECT_INTERVAL);
+  };
 
   onReconnect = () => {};
 

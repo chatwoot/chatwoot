@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "Ad Soyad",
-      "PLACEHOLDER": "Ad Soyadınızı giriniz. örn: Bruce Wayne",
-      "ERROR": "Ad Soyad çok kısa"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Ad Soyad çok kısa."
     },
     "EMAIL": {
       "LABEL": "İş emaili",
-      "PLACEHOLDER": "İş email adresinizi giriniz. örn: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola",
-      "ERROR": "Parola çok kısa",
-      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir"
+      "ERROR": "Parola çok kısa.",
+      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Parolayı Onayla",
-      "PLACEHOLDER": "Parolayı Onayla",
-      "ERROR": "Parola eşleşmiyor"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Parola eşleşmiyor."
     },
     "API": {
       "SUCCESS_MESSAGE": "Kayıt başarılı",
-      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Hesabın var mı?"

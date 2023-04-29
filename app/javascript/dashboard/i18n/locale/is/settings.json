@@ -1,8 +1,8 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
+    "LINK": "Stillingar Prófíls",
+    "TITLE": "Stillingar Prófíls",
+    "BTN_TEXT": "Uppfæra Prófíl",
     "DELETE_AVATAR": "Eyða mynd",
     "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
     "AVATAR_DELETE_FAILED": "Villa kom upp við að eyða notendamynd, vinsamlegast reyndu aftur",
@@ -10,17 +10,17 @@
     "PASSWORD_UPDATE_SUCCESS": "Lykilorðinu þínu hefur verið breytt",
     "AFTER_EMAIL_CHANGED": "Prófíllinn þinn hefur verið uppfærður, vinsamlegast skráðu þig inn aftur þar sem innskráningarskilríkjum þínum er breytt",
     "FORM": {
-      "AVATAR": "Profile Image",
+      "AVATAR": "Prófílmynd",
       "ERROR": "Vinsamlegast lagfærðu villurnar",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "REMOVE_IMAGE": "Fjarlægja",
+      "UPLOAD_IMAGE": "Hlaða upp mynd",
+      "UPDATE_IMAGE": "Uppfæra mynd",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
+        "TITLE": "Prófíll",
         "NOTE": "Netfangið þitt er auðkenni þitt og er notað til að skrá þig inn."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
+        "TITLE": "Flýtilykill til að senda skilaboð",
         "NOTE": "Þú getur valið flýtilykil (annaðhvort Enter eða Cmd/Ctrl+Enter) eftir því hvernig þú vilt skrifa.",
         "UPDATE_SUCCESS": "Stillingar þínar hafa verið uppfærðar",
         "CARD": {
@@ -35,46 +35,46 @@
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
+        "TITLE": "Persónuleg undirskrift á skilaboðum",
         "NOTE": "Búðu til persónulega skilaboðaundirskrift sem verður bætt við öll skilaboðin sem þú sendir úr pósthólfinu þínu. Notaðu innihaldsríka ritilinn til að búa til mjög persónulega undirskrift.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "BTN_TEXT": "Vista undirskrift á skilaboðum",
+        "API_ERROR": "Gat ekki vistað undirskrift! Reyndu aftur",
+        "API_SUCCESS": "Undirskrift var vistuð"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
+        "LABEL": "Undirskrift skilaboða",
+        "ERROR": "Undirskrift skilaboða getur ekki verið tóm",
         "PLACEHOLDER": "Settu inn persónulegu skilaboðaundirskriftina þína hér."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Lykilorð",
         "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Breyta lykilorði"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
+        "TITLE": "Aðgangslykill",
         "NOTE": "Þetta token er hægt að nota ef þú ert að byggja upp API byggða samþættingu"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
+        "TITLE": "Hljóðtilkynningar",
         "NOTE": "Virkjaðu hljóðtilkynningar á mælaborðinu fyrir ný skilaboð og samtöl.",
         "ALERT_TYPE": {
           "TITLE": "Alert events:",
           "NONE": "Enginn",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "Úthlutuð Samtöl",
+          "ALL_CONVERSATIONS": "Öll Samtöl"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"
         },
         "CONDITIONS": {
           "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_ONE": "Senda hljóðviðvaranir aðeins ef vafraglugginn er ekki virkur",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
+        "TITLE": "Tilkynningar í tölvupósti",
         "NOTE": "Uppfærðu stillingar þínar fyrir tölvupósttilkynningar hér",
         "CONVERSATION_ASSIGNMENT": "Senda tilkynningar í tölvupósti þegar mér er úthlutað samtali",
         "CONVERSATION_CREATION": "Senda tilkynningar í tölvupósti þegar nýtt samtal er stofnað",
@@ -98,7 +98,7 @@
         "REQUEST_PUSH": "Enable push notifications"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Prófílmynd"
       },
       "NAME": {
         "LABEL": "Your full name",
@@ -114,40 +114,40 @@
         "LABEL": "Availability",
         "STATUSES_LIST": [
           "Online",
-          "Busy",
+          "Upptekinn",
           "Offline"
         ],
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
+        "LABEL": "Þitt tölvupóstfang",
         "ERROR": "Vinsamlegast skrifaðu gilt netfang",
         "PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt, þetta myndi birtast í samtölum"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
+        "LABEL": "Núverandi lykilorð",
         "ERROR": "Vinsamlegast sláðu inn núverandi lykilorð",
         "PLACEHOLDER": "Vinsamlegast sláðu inn núverandi lykilorð"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Nýtt lykilorð",
         "ERROR": "Vinsamlegast sláðu inn lykilorð 6 stafa lengd eða meira",
         "PLACEHOLDER": "Vinsamlegast sláðu inn nýja lykilorðið"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
+        "LABEL": "Staðfesta nýtt lykilorð",
         "ERROR": "Staðfest lykilorð ætti að passa við lykilorðið",
         "PLACEHOLDER": "Vinsamlegasts staðfestu nýja lykilorðið"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
+    "CHANGE_AVAILABILITY_STATUS": "Breyta",
     "CHANGE_ACCOUNTS": "Switch Account",
     "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Veldu reikning úr eftirfarandi lista",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "PROFILE_SETTINGS": "Stillingar Prófíls",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Logout"
@@ -193,7 +193,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "Samtöl",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "Öll Samtöl",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
@@ -208,7 +208,7 @@
     "NOTIFICATIONS": "Skilaboð",
     "CANNED_RESPONSES": "Stöðluð svör",
     "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "PROFILE_SETTINGS": "Stillingar Prófíls",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
@@ -265,7 +265,7 @@
       "BUTTON_TXT": "Go to the billing portal"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
+      "TITLE": "Vantar þig aðstoð?",
       "DESCRIPTION": "Stendur þú frammi fyrir einhverjum vandamálum í innheimtu? Við erum hér til að hjálpa.",
       "BUTTON_TXT": "Spjallaðu við okkur"
     },
@@ -274,7 +274,7 @@
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh ó! Við fundum enga Chatwoot reikninga. Vinsamlegast búðu til nýjan reikning til að halda áfram.",
     "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "SELECTOR_SUBTITLE": "Stofna nýjan aðgang",
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
@@ -291,7 +291,7 @@
   "KEYBOARD_SHORTCUTS": {
     "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
+      "OPEN_CONVERSATION": "Opna samtal",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
       "RESOLVE_CONVERSATION": "Resolve Conversation",

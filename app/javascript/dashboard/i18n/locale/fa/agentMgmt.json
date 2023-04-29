@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "جستجوی اپراتور",
-          "TEAM": "جستجوی تیم"
+          "TEAM": "جستجوی تیم",
+          "INPUT": "Search for agents"
         }
       }
     }
