@@ -48,7 +48,6 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_messages
-    ::Redis::Alfred.delete(@processed_params[:messages].first[:id])
     return if unprocessable_message_type?(message_type)
 
     message = @processed_params[:messages].first
@@ -56,6 +55,7 @@ class Whatsapp::IncomingMessageBaseService
 
     process_in_reply_to(message)
     message_type == 'contacts' ? create_contact_messages(message) : create_regular_message(message)
+    ::Redis::Alfred.delete(@processed_params[:messages].first[:id])
   end
 
   def create_contact_messages(message)
