@@ -86,21 +86,21 @@
       "CREATE_ERROR": "Houve um erro ao criar o link da reunião, por favor tente novamente"
     },
     "OPEN_AI": {
-      "TITLE": "Improve With AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Melhore com IA",
+      "SUBTITLE": "Uma resposta melhor será gerada usando AI, com base no seu rascunho atual.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Tom",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profissional",
+          "FRIENDLY": "Amigável"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Gerar",
+        "GENERATING": "Gerando...",
         "CANCEL": "Cancelar"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "Ocorreu um erro ao processar o conteúdo, por favor, tente novamente"
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
