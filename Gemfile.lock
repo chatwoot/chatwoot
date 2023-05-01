@@ -90,8 +90,9 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.2)
     attr_extras (6.2.5)
-    audited (5.2.0)
+    audited (5.3.3)
       activerecord (>= 5.0, < 7.1)
+      request_store (~> 1.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.605.0)
     aws-sdk-core (3.131.2)
@@ -355,7 +356,7 @@ GEM
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (1.12.0)
+    i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
@@ -764,7 +765,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.7)
+    zeitwerk (2.6.8)
 
 PLATFORMS
   arm64-darwin-20
@@ -781,7 +782,7 @@ DEPENDENCIES
   administrate
   annotate
   attr_extras
-  audited (~> 5.2)
+  audited (~> 5.3)
   aws-sdk-s3
   azure-storage-blob
   barnes
