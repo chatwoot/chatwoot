@@ -3,16 +3,16 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "Tölvupóstfang",
-      "PLACEHOLDER": "Tölvupóstfang t.d. someone@example.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Lykilorð",
       "PLACEHOLDER": "Lykilorð"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Innskráning tókst",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur",
-      "UNAUTH": "Notandanafn / lykilorð rangt. Vinsamlegast reyndu aftur"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",

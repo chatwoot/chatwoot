@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Nafn fyrirtækis",
-      "PLACEHOLDER": "Sláðu inn nafn fyrirtækisins þíns. Dæmi: Wayne Enterprises",
-      "ERROR": "Nafn fyrirtækis er of stutt"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Nafn fyrirtækis er of stutt."
     },
     "FULL_NAME": {
       "LABEL": "Fullt nafn",
-      "PLACEHOLDER": "Skráðu inn fullt nafn. Dæmi: Bruce Wayne",
-      "ERROR": "Fullt nafn er of stutt"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Fullt nafn er of stutt."
     },
     "EMAIL": {
       "LABEL": "Vinnu netfang",
-      "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce@wayne.enterprises",
-      "ERROR": "Vinsamlegast sláðu inn gilt vinnu netfang"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Vinsamlegast sláðu inn gilt vinnu netfang."
     },
     "PASSWORD": {
       "LABEL": "Lykilorð",
       "PLACEHOLDER": "Lykilorð",
-      "ERROR": "Lykilorið er of stutt",
-      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn"
+      "ERROR": "Lykilorið er of stutt.",
+      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Staðfesta Lykilorð",
-      "PLACEHOLDER": "Staðfesta Lykilorð",
-      "ERROR": "Lykilorðin stemma ekki"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Lykilorðin stemma ekki."
     },
     "API": {
       "SUCCESS_MESSAGE": "Nýskráning tókst",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Ertu nú þegar með aðgang?"

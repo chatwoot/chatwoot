@@ -85,6 +85,23 @@
       "JOIN_ERROR": "Παρουσιάστηκε σφάλμα κατά τη σύνδεση της κλήσης, παρακαλώ προσπαθήστε ξανά",
       "CREATE_ERROR": "Παρουσιάστηκε σφάλμα κατά τη δημιουργία ενός συνδέσμου συνάντησης, παρακαλώ προσπαθήστε ξανά"
     },
+    "OPEN_AI": {
+      "TITLE": "Improve With AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "Άκυρο"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
       "API": {

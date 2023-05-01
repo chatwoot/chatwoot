@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "ایجنٹوں کو تلاش کریں۔",
-          "TEAM": "ٹیمیں تلاش کریں۔"
+          "TEAM": "ٹیمیں تلاش کریں۔",
+          "INPUT": "Search for agents"
         }
       }
     }
