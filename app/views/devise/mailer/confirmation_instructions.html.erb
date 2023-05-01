@@ -1,28 +1,22 @@
 <% account_user = @resource&.account_users&.first %>
-<% if account_user&.inviter.present? && @resource.unconfirmed_email.blank? %>
-  <p>Hi, <%= @resource.name %>,</p>
-  <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out <%= global_config['BRAND_NAME'] || 'Chatwoot' %>. Please click the link below to continue. </p>
-<% end %>
 
-<% if @resource.confirmed? %>
-  <p>Hi <%= @resource.name %>,</p>
-  <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
-<% else %>
+<% if @resource.unconfirmed_email.present? %>
   <p>
     Hi <%= @resource.name %>, and welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a lot of awesome stuff ready for you on the next screen. 
     We just quickly need to verify your email address to know it's really you.
   </p>
-  <p>
-    Please take a moment and click the link below and activate your account:
-  </p>
-<% end %>
-
-<% if @resource.unconfirmed_email.present? %>
+  <p>Please take a moment and click the link below and activate your account:</p>
   <p><%= link_to 'Verify my email address', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
 <% elsif @resource.confirmed? %>
+  <p>Hi <%= @resource.name %>,</p>
+  <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
   <p><%= link_to 'Login to my account', frontend_url('auth/sign_in') %></p>
 <% elsif account_user&.inviter.present? %>
+  <p>Hi <%= @resource.name %>,</p>
+  <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out <%= global_config['BRAND_NAME'] || 'Chatwoot' %>. Please click the link below to continue. </p>
   <p><%= link_to 'Confirm my account', frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %></p>
 <% else %>
+  <p>Hi <%= @resource.name %>,</p>
+  <p>Please take a moment and click the link below and activate your account:</p>
   <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
 <% end %>
