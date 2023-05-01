@@ -39,34 +39,19 @@ class Enterprise::Billing::HandleStripeEventService
 
   def change_plan_features
     if default_plan?
-      disable_features
+      account.disable_features(*features_to_update)
     else
-      enable_features
-      mark_cloud_customers
+      account.enable_features(*features_to_update)
     end
-  end
-
-  def enable_features
-    account.enable_features('help_center', 'campaigns', 'team_management', 'channel_twitter', 'channel_facebook', 'channel_email')
-    account.save
-  end
-
-  def disable_features
-    account.disable_features('help_center', 'campaigns', 'team_management', 'channel_twitter', 'channel_facebook', 'channel_email')
-    account.save
-  end
-
-  def mark_cloud_customers
-    emails = account.users.pluck(:email)
-    contacts = Contact.where(email: emails)
-    contacts.each do |contact|
-      contact.add_label('cloud_customer')
-      contact.update(custom_attributes: { cloud_customer: true })
-    end
+    account.save!
   end
 
   def ensure_event_context(event)
     @event = event
+  end
+
+  def features_to_update
+    %w[help_center campaigns team_management channel_twitter channel_facebook channel_email]
   end
 
   def subscription
