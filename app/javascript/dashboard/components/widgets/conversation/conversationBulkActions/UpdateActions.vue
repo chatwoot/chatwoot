@@ -45,14 +45,13 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import bulkActionsMixin from 'dashboard/mixins/bulkActionsMixin.js';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
   },
-  mixins: [clickaway, bulkActionsMixin],
+  mixins: [clickaway],
   props: {
     selectedInboxes: {
       type: Array,
@@ -156,7 +155,7 @@ export default {
     position: absolute;
     right: var(--triangle-position);
     text-align: left;
-    top: calc(var(--space-slab) * -1);
+    top: var(--space-minus-slab);
     z-index: var(--z-index-one);
   }
 }

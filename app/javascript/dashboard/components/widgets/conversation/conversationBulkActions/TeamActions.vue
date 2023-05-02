@@ -59,9 +59,8 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
-import bulkActionsMixin from 'dashboard/mixins/bulkActionsMixin.js';
 export default {
-  mixins: [clickaway, bulkActionsMixin],
+  mixins: [clickaway],
   data() {
     return {
       query: '',
@@ -141,7 +140,7 @@ export default {
     display: block;
     z-index: var(--z-index-one);
     position: absolute;
-    top: calc(var(--space-slab) * -1);
+    top: var(--space-minus-slab);
     right: var(--triangle-position);
     text-align: left;
   }
