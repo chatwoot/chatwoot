@@ -3,16 +3,16 @@
     "TITLE": "Se connecter à Chatwoot",
     "EMAIL": {
       "LABEL": "Courriel",
-      "PLACEHOLDER": "Courriel ex : quelquun@exemple.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Mot de passe",
       "PLACEHOLDER": "Mot de passe"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Connexion réussie",
-      "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard",
-      "UNAUTH": "Nom d'utilisateur / Mot de passe incorrect. Veuillez réessayer"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",

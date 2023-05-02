@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "File sconosciuto",
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Caricamento allegati...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "Messaggio eliminato con successo",
     "FAIL_DELETE_MESSSAGE": "Impossibile eliminare il messaggio! Riprova",
     "NO_RESPONSE": "Nessuna risposta",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Risposta successiva",
         "TOMORROW": "Domani",
         "NEXT_WEEK": "Prossima settimana"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Nessuno",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nessuno",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Nessun risultato trovato",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {

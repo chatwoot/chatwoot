@@ -482,6 +482,13 @@
       "WHATSAPP_WEBHOOK_SUBHEADER": "Цей токен використовується для перевірки аутентифікації кінцевої точки вебхука.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Оновити параметри форми чату"
     },
+    "HELP_CENTER": {
+      "LABEL": "Довідковий центр",
+      "PLACEHOLDER": "Виберіть довідковий центр",
+      "SELECT_PLACEHOLDER": "Виберіть довідковий центр",
+      "REMOVE": "Видалити довідковий центр",
+      "SUB_TEXT": "Прикріпити Довідковий центр до папки Вхідні"
+    },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Ліміт автопризначення",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Будь ласка, введіть значення, більше за 0",

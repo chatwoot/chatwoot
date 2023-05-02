@@ -443,11 +443,11 @@ export default {
   .conversation-metadata-attributes {
     display: flex;
     gap: var(--space-small);
+    margin-left: var(--space-small);
   }
 
   .assignee-label {
     display: inline-flex;
-    margin-left: var(--space-small);
     max-width: 50%;
   }
 }
