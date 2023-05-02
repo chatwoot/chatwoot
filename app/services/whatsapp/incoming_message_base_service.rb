@@ -22,13 +22,13 @@ class Whatsapp::IncomingMessageBaseService
     # message allready exists so we don't need to process
     return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
-    set_message_source_id
+    cache_message_source_id_in_redis
     set_contact
     return unless @contact
 
     set_conversation
     create_messages
-    delete_message_source_id
+    clear_message_source_id_from_redis
   end
 
   def process_statuses

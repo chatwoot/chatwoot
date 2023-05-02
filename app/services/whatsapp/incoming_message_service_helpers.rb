@@ -106,14 +106,19 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def message_under_process?
-    Redis::Alfred.get(@processed_params[:messages].first[:id])
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    Redis::Alfred.get(key)
   end
 
-  def set_message_source_id
-    ::Redis::Alfred.setex(@processed_params[:messages].first[:id], true) if @processed_params.try(:[], :messages).present?
+  def cache_message_source_id_in_redis
+    return if @processed_params.try(:[], :messages).blank?
+
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    ::Redis::Alfred.setex(key, true)
   end
 
-  def delete_message_source_id
-    ::Redis::Alfred.delete(@processed_params[:messages].first[:id])
+  def clear_message_source_id_from_redis
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    ::Redis::Alfred.delete(key)
   end
 end
