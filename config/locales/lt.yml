@@ -177,7 +177,7 @@ lt:
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
-      empty_placeholder: No results found.
+      empty_placeholder: Nieko nerasta.
       loading_placeholder: Searching...
       results_title: Search results
     hero:
