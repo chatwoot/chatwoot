@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Campaign Name",
       "LABELS": "Tunnisteet",
       "BROWSER_LANGUAGE": "Browser Language",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Country Name",
       "REFERER_LINK": "Referer link",
       "CUSTOM_ATTRIBUTE_LIST": "List",

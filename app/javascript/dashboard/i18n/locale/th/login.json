@@ -3,16 +3,16 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "อีเมล์",
-      "PLACEHOLDER": "อีเมล เช่น someone@example.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "หรัสผ่าน",
       "PLACEHOLDER": "หรัสผ่าน"
     },
     "API": {
-      "SUCCESS_MESSAGE": "เข้าสู่ระบบสำเร็จ",
-      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง",
-      "UNAUTH": "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง โปรดลองใหม่อีกครั้ง"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",

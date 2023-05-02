@@ -3,16 +3,16 @@
     "TITLE": "Увійти до Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "Email як: someone@example.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Пароль",
       "PLACEHOLDER": "Пароль"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Вхід успішно здійснено",
-      "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше",
-      "UNAUTH": "Неправильне ім'я користувача / пароль. Будь ласка, спробуйте ще раз"
+      "SUCCESS_MESSAGE": "Вхід успішний",
+      "ERROR_MESSAGE": "Не вдалося підключитися до Woot сервера. Будь ласка, спробуйте ще раз.",
+      "UNAUTH": "Неправильне ім'я користувача / пароль. Будь ласка, спробуйте ще раз."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Увійти через Google",

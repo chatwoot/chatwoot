@@ -32,11 +32,11 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Încarcă imaginea",
         "UPLOADING": "Încărcare...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Imagine încărcată cu succes",
+        "ERROR": "Eroare la încărcarea imaginii",
+        "ERROR_FILE_SIZE": "Dimensiunea imaginii trebuie să fie mai mică de {size}MB",
+        "ERROR_FILE_FORMAT": "Formatul imaginii ar trebui să fie jpg, jpeg sau png",
+        "ERROR_FILE_DIMENSIONS": "Dimensiunile imaginii ar trebui să fie mai mici de 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
