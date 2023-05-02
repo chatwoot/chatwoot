@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Fișier necunoscut",
     "SAVE_CONTACT": "Salvează",
     "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
     "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
     "NO_RESPONSE": "Niciun răspuns",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Următorul răspuns",
         "TOMORROW": "Mâine",
         "NEXT_WEEK": "Săptămâna viitoare"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Prioritate",
+      "OPTIONS": {
+        "NONE": "Nimic",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nimic",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Niciun rezultat găsit",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -272,11 +290,11 @@
     "REMANING_PARTICIPANT_TEXT": "+%{count} altele",
     "TOTAL_PARTICIPANTS_TEXT": "%{count} participă oamenii.",
     "TOTAL_PARTICIPANT_TEXT": "%{count} persoană participă.",
-    "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!",
+    "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!.",
     "WATCH_CONVERSATION": "Începe conversația",
     "YOU_ARE_WATCHING": "Participați",
     "API": {
-      "ERROR_MESSAGE": "Nu a putut actualiza, încercați din nou",
+      "ERROR_MESSAGE": "Nu s-a putut actualiza, încercați din nou!",
       "SUCCESS_MESSAGE": "Participanții au actualizat!"
     }
   },
