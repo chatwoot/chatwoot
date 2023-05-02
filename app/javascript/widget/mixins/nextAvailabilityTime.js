@@ -154,15 +154,15 @@ export default {
         minutes: minutesLeft,
       } = this.hoursAndMinutesBackInOnline;
       const hourString = hoursLeft === 1 ? 'hour' : 'hours';
-      const minuteString = minutesLeft === 1 ? 'minute' : 'minutes';
+      const roundedUpMinLeft = Math.ceil(minutesLeft / 5) * 5; // round up minutes to nearest multiple of 5
       return `in ${hoursLeft} ${hourString}${
-        minutesLeft > 0 ? ` and ${minutesLeft} ${minuteString}` : ''
+        minutesLeft > 0 ? ` and ${roundedUpMinLeft} minutes` : ''
       }`;
     },
     minutesLeftValue() {
       const { minutes: minutesLeft } = this.hoursAndMinutesBackInOnline;
-      const minuteString = minutesLeft === 1 ? 'minute' : 'minutes';
-      return `in ${minutesLeft} ${minuteString}`;
+      const roundedUpMinLeft = Math.ceil(minutesLeft / 5) * 5; // round up minutes to nearest multiple of 5
+      return `in ${roundedUpMinLeft} minutes`;
     },
     hoursAndMinutesToBack() {
       const {
