@@ -264,7 +264,7 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Užsiėmimai"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "pastabos",
@@ -334,20 +334,20 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Pirminis kontaktas",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Turi būti saugoma"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
       "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "HELP_LABEL": "Turi būti ištrinta"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
+      "TITLE": "Santrauka",
       "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "KLAIDOS_PRANEŠIMAS"
     },
     "FORM": {
       "SUBMIT": " Merge contacts",
