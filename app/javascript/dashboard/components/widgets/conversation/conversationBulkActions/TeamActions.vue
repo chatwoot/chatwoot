@@ -1,6 +1,6 @@
 <template>
   <div v-on-clickaway="onClose" class="bulk-action__teams">
-    <div class="triangle" :style="cssVars">
+    <div class="triangle">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
           d="M20 12l-8-8-12 12"
