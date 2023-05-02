@@ -1410,10 +1410,10 @@
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.12.tgz#684fb5a475c1c7fdeaa628091e90c7d1decd156e"
-  integrity sha512-3O4zC4SO4z4rD2Chno+pzUUb/GacHQfIBfLCOsHviNzgljUE+neyOhS91yWDfCcd3Y0WmQs7UuXgvulmkdxqKg==
+"@chatwoot/utils@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.15.tgz#7de3055c3ec269201679aef2351f43a2a250baad"
+  integrity sha512-JYH6cEaiPVjXHTbSAyPkrS3gOyR0W7vpn/9uJfBcWg2m8d5uWi0LXmvX77pq/IsMNK0KK7zqUUkbT0E8VKJDlQ==
   dependencies:
     date-fns "^2.29.1"
 

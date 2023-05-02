@@ -136,7 +136,7 @@
       "COUNTRY": {
         "PLACEHOLDER": "Enter the country name",
         "LABEL": "國家名稱",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "選擇",
         "REMOVE": "刪除",
         "SELECT_COUNTRY": "Select Country"
       },
