@@ -44,7 +44,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   else bundle install -j 4 -r 3; \
   fi
 
-COPY package.json yarn.lock .env ./
+COPY package.json yarn.lock ./
 RUN yarn install
 
 ENV app /app

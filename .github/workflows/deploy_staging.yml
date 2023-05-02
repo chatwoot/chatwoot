@@ -21,11 +21,10 @@ jobs:
           BRANCH: develop
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
-          VUE_APP_SENTRY_DSN_CHAT: ${{ secrets.VUE_APP_SENTRY_DSN_CHAT }}
-          VUE_APP_VERSION: $(git rev-parse --short HEAD)
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
           ECR_REPOSITORY: conversations/birdwoot/staging/birdwootmain
           DOCKERFILE_PATH: docker/Dockerfile
+          SSM_VUE_APP_VERSION: /conversations/birdwoot/staging/taskdefinition/environment/vue-app-version
       
       - name: Build and publish Docker image into AWS ECR for Sidekiq
         uses: ./.github/actions/deployment/push-image-ecr
@@ -55,3 +54,4 @@ jobs:
           payload: ${{ steps.slack-payload.outputs.payload }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          
