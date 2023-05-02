@@ -13,21 +13,23 @@
 
 <div class="bg-gradient-to-b from-white to-slate-50">
   <div class="max-w-5xl px-8 lg:px-4 pt-8 pb-16 mx-auto space-y-4 w-full">
-    <div>
-      <a
-        class="text-slate-700 hover:underline leading-8 text-sm font-medium"
-        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
-      >
-        <%= I18n.t('public_portal.common.home') %>
-      </a>
-      <span class="text-xs text-slate-600 px-1">/</span>
-      <a
-        class="text-slate-700 hover:underline leading-8 text-sm font-medium"
-        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/<%= @article.category.slug %>"
-      >
-        <%= @article.category.name %>
-      </a>
-    </div>
+    <% if @article.category.present? %>
+      <div>
+        <a
+          class="text-slate-700 hover:underline leading-8 text-sm font-medium"
+          href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
+        >
+          <%= I18n.t('public_portal.common.home') %>
+        </a>
+        <span class="text-xs text-slate-600 px-1">/</span>
+        <a
+          class="text-slate-700 hover:underline leading-8 text-sm font-medium"
+          href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %>"
+        >
+          <%= @article.category.name %>
+        </a>
+      </div>
+    <% end %>
     <h1 class="text-3xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
       <%= @article.title %>
     </h1>

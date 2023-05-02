@@ -86,7 +86,7 @@ export default {
 
   methods: {
     generateArticleUrl(article) {
-      return `/hc/${article.portal.slug}/${article.category.locale}/${article.category.slug}/${article.id}`;
+      return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
     handleKeyboardEvent(e) {
       this.processKeyDownEvent(e);
