@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Cerca agenti",
-          "TEAM": "Cerca team"
+          "TEAM": "Cerca team",
+          "INPUT": "Search for agents"
         }
       }
     }

@@ -164,7 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopēt",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Atvērt programmā CodePen",
       "COPY_SUCCESSFUL": "Kopēts starpliktuvē"
     },
     "SHOW_MORE_BLOCK": {

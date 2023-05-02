@@ -113,6 +113,10 @@ fr:
         snoozed: "La conversation a été reportée par %{user_name}"
         auto_resolved: "La conversation a été marquée comme résolue par le système en raison de %{duration} jours d'inactivité"
         system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} s'est auto-assigné cette conversation"
         assigned: "Assigné à %{assignee_name} par %{user_name}"
@@ -167,6 +171,9 @@ fr:
     google_translate:
       name: "Google Translate"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Rechercher un article par titre ou contenu...

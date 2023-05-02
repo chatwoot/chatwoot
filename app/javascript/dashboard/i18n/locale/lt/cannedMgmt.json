@@ -1,36 +1,36 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
+    "HEADER": "Atsakymų Ruošiniai",
+    "HEADER_BTN_TXT": "Pridėti Atsakymą Ruošinį",
+    "LOADING": "Atsakymų Ruošinių Gavimas",
+    "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
     "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
+      "TITLE": "Tvarkyti atsakymų ruošinius",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
       "TABLE_HEADER": [
-        "Short Code",
-        "Content",
-        "Actions"
+        "Trumpas Kodas",
+        "Turinys",
+        "Veiksmai"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
+      "TITLE": "Pridėti Atsakymą Ruošinį",
       "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
+          "LABEL": "Trumpas Kodas",
           "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Short Code is required"
         },
         "CONTENT": {
-          "LABEL": "Content",
+          "LABEL": "Turinys",
           "PLACEHOLDER": "Please enter a content",
           "ERROR": "Content is required"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Pateikti"
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response added successfully",
@@ -39,37 +39,37 @@
     },
     "EDIT": {
       "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
+          "LABEL": "Trumpas Kodas",
           "PLACEHOLDER": "Please enter a shortcode",
           "ERROR": "Short Code is required"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
+          "LABEL": "Turinys",
+          "PLACEHOLDER": "Prašome įrašyti turinį",
           "ERROR": "Content is required"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Pateikti"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "Taisyti",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
+        "SUCCESS_MESSAGE": "Atsakymų Ruošinys atnaujintas sėkmingai",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Ištrinti",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
+        "SUCCESS_MESSAGE": "Atsakymų Ruošinys ištrintas sėkmingai",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Ištrinti ",
+        "NO": "Ne, Išsaugoti "
       }
     }
   }

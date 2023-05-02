@@ -85,6 +85,23 @@
       "JOIN_ERROR": "There was an error joining the call, please try again",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
+    "OPEN_AI": {
+      "TITLE": "Improve With AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "取消"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "API": {
@@ -106,8 +123,8 @@
           "姓名",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "編輯應用程式",
+        "DELETE_TOOLTIP": "刪除應用程式"
       },
       "FORM": {
         "TITLE_LABEL": "姓名",
@@ -129,13 +146,13 @@
         "FORM_SUBMIT": "更新",
         "FORM_CANCEL": "取消",
         "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_ERROR": "無法更新應用程式，請稍後再試。"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "是，刪除",
+        "CONFIRM_NO": "否，保留",
         "TITLE": "刪除確認",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "MESSAGE": "你確定要刪除應用程式 %{appName} 嗎？",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }

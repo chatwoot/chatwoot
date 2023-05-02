@@ -3,16 +3,16 @@
     "TITLE": "登录到Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "电子邮址 例如：somone@example.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "密码",
       "PLACEHOLDER": "密码"
     },
     "API": {
-      "SUCCESS_MESSAGE": "登录成功",
-      "ERROR_MESSAGE": "无法连接服务器，请稍后再试",
-      "UNAUTH": "用户名/密码不正确。请重试"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
