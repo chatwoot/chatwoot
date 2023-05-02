@@ -112,4 +112,8 @@ module Whatsapp::IncomingMessageServiceHelpers
   def set_message_source_id
     ::Redis::Alfred.setex(@processed_params[:messages].first[:id], true) if @processed_params.try(:[], :messages).present?
   end
+
+  def delete_message_source_id
+    ::Redis::Alfred.delete(@processed_params[:messages].first[:id])
+  end
 end

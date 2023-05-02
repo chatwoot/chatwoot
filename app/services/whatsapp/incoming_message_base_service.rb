@@ -28,6 +28,7 @@ class Whatsapp::IncomingMessageBaseService
 
     set_conversation
     create_messages
+    delete_message_source_id
   end
 
   def process_statuses
@@ -54,8 +55,8 @@ class Whatsapp::IncomingMessageBaseService
     log_error(message) && return if error_webhook_event?(message)
 
     process_in_reply_to(message)
+
     message_type == 'contacts' ? create_contact_messages(message) : create_regular_message(message)
-    ::Redis::Alfred.delete(@processed_params[:messages].first[:id])
   end
 
   def create_contact_messages(message)
