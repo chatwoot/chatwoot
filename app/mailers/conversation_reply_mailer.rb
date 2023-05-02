@@ -52,6 +52,18 @@ class ConversationReplyMailer < ApplicationMailer
          })
   end
 
+  def rate_conversation(conversation)
+    return unless smtp_config_set_or_development?
+
+    init_conversation_attributes(conversation)
+
+    mail({
+           to: to_email,
+           from: from_email_with_name,
+           subject: "[##{@conversation.display_id}] #{I18n.t('conversations.survey.response')}"
+         })
+  end
+
   private
 
   def init_conversation_attributes(conversation)
