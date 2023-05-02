@@ -143,6 +143,9 @@ describe('#capitalizeName', () => {
     const string = 'john peter';
     expect(capitalizeName(string)).toBe('John Peter');
   });
+  it('returns empty string if the name is null', () => {
+    expect(capitalizeName(null)).toBe('');
+  });
   it('capitalize first name if full name is passed', () => {
     const string = 'john Doe';
     expect(capitalizeName(string)).toBe('John Doe');

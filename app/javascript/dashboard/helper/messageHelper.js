@@ -8,7 +8,7 @@ export const replaceVariablesInMessage = ({ message, variables }) => {
 };
 
 export const capitalizeName = name => {
-  return name.replace(/\b(\w)/g, s => s.toUpperCase());
+  return (name || '').replace(/\b(\w)/g, s => s.toUpperCase());
 };
 
 const skipCodeBlocks = str => str.replace(/```(?:.|\n)+?```/g, '');
