@@ -24,16 +24,16 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "Kontakto Žymeklis",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "Nepavyko atnaujinti etikečių"
       },
       "CONVERSATION": {
-        "TITLE": "Pokalbio Žymekliai",
-        "ADD_BUTTON": "Pridėti Žymeklius"
+        "TITLE": "Pokalbio Etiketės",
+        "ADD_BUTTON": "Pridėti Etiketę"
       },
       "LABEL_SELECT": {
-        "TITLE": "Pridėti Žymeklius",
-        "PLACEHOLDER": "Ieškoti žymeklių",
-        "NO_RESULT": "Žymeklių nerasta"
+        "TITLE": "Pridėti Etiketę",
+        "PLACEHOLDER": "Ieškoti etikečių",
+        "NO_RESULT": "Etikečių nerasta"
       }
     },
     "MERGE_CONTACT": "Sujungti kontaktą",
@@ -64,7 +64,7 @@
     "BUTTON_LABEL": "Importuoti",
     "TITLE": "Importuoti Kontaktus",
     "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "DOWNLOAD_LABEL": "Užkrauti csv. pavyzdį.",
     "FORM": {
       "LABEL": "CSV failas",
       "SUBMIT": "Importuoti",
@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
         "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Phone number should be either empty or of E.164 format",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "This phone number is in use for another contact."
@@ -136,7 +136,7 @@
       "COUNTRY": {
         "PLACEHOLDER": "Įveskite šalies pavadinimą",
         "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "Pasirinkti",
         "REMOVE": "Remove",
         "SELECT_COUNTRY": "Pasirinkti Šalį"
       },
@@ -174,7 +174,7 @@
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Pradėti pokalbį",
-    "TITLE": "New conversation",
+    "TITLE": "Naujas pokalbis",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
@@ -182,13 +182,13 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Inbox",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "Tema",
+        "PLACEHOLDER": "Tema",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
@@ -199,7 +199,7 @@
       "SUBMIT": "Išsiųsti pranešimą",
       "CANCEL": "Atšaukti",
       "SUCCESS_MESSAGE": "Pranešimas įšsiųstas!",
-      "GO_TO_CONVERSATION": "View",
+      "GO_TO_CONVERSATION": "Paržiūra",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
