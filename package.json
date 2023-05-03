@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.16.0",
+  "version": "2.16.1",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
     "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git",
-    "@chatwoot/utils": "^0.0.15",
+    "@chatwoot/utils": "^0.0.16",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^1.36.5",
     "@rails/actioncable": "6.1.3",
