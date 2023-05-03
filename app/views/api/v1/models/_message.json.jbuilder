@@ -3,6 +3,7 @@ json.content message.content
 json.inbox_id message.inbox_id
 json.echo_id message.echo_id if message.echo_id
 json.conversation_id message.conversation.display_id
+json.csat_survey_link message.conversation.csat_survey_link
 json.message_type message.message_type_before_type_cast
 json.content_type message.content_type
 json.status message.status

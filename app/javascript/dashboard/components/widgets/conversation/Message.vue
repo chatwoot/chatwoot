@@ -250,10 +250,10 @@ export default {
       );
 
       if (this.contentType === 'input_csat') {
-        const link = `/survey/responses/${this.data.conversation_id}`;
         return (
-          this.$t('CONVERSATION.CSAT_REPLY_MESSAGE', { link: link }) +
-          botMessageContent
+          this.$t('CONVERSATION.CSAT_REPLY_MESSAGE', {
+            link: this.data.csat_survey_link,
+          }) + botMessageContent
         );
       }
 
