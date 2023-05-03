@@ -6,21 +6,21 @@
     "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
       "TITLE": "Add Automation Rule",
-      "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Sukurti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "LABEL": "Taisyklės pavadinimas",
+          "PLACEHOLDER": "Įvesti taisyklės pavadinimą",
+          "ERROR": "Yra reikalingas vardas"
         },
         "DESC": {
-          "LABEL": "Description",
+          "LABEL": "Aprašymas",
           "PLACEHOLDER": "Enter rule description",
           "ERROR": "Description is required"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Įvykis",
           "PLACEHOLDER": "Please select one",
           "ERROR": "Event is required"
         },
@@ -28,7 +28,7 @@
           "LABEL": "Conditions"
         },
         "ACTIONS": {
-          "LABEL": "Actions"
+          "LABEL": "Veiksmai"
         }
       },
       "CONDITION_BUTTON_LABEL": "Add Condition",
@@ -40,22 +40,22 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Active",
+        "Vardas",
+        "Aprašymas",
+        "Aktyvus",
         "Created on"
       ],
       "404": "No automation rules found"
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
-      "SUBMIT": "Delete",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Ištrinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
       },
       "API": {
         "SUCCESS_MESSAGE": "Automation rule deleted successfully",
@@ -65,24 +65,24 @@
     "EDIT": {
       "TITLE": "Edit Automation Rule",
       "SUBMIT": "Update",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Klonuoti",
       "API": {
         "SUCCESS_MESSAGE": "Automation cloned successfully",
         "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
       }
     },
     "FORM": {
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel",
+      "EDIT": "Redaguoti",
+      "CREATE": "Sukurti",
+      "DELETE": "Ištrinti",
+      "CANCEL": "Atšaukti",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
