@@ -143,7 +143,7 @@
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
+        "FORM_SUBMIT": "Atnaujinti",
         "FORM_CANCEL": "Atšaukti",
         "API_SUCCESS": "Dashboard app updated successfully",
         "API_ERROR": "We couldn't update the app. Please try again later"
