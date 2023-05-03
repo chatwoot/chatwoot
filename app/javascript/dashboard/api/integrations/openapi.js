@@ -18,6 +18,28 @@ class OpenAIAPI extends ApiClient {
       },
     });
   }
+
+  summarizeEvent({ name = 'summarize', conversationId, hookId }) {
+    return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
+      event: {
+        name,
+        data: {
+          conversation_display_id: conversationId,
+        },
+      },
+    });
+  }
+
+  replySuggestion({ name = 'reply_suggestion', conversationId, hookId }) {
+    return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
+      event: {
+        name,
+        data: {
+          conversation_display_id: conversationId,
+        },
+      },
+    });
+  }
 }
 
 export default new OpenAIAPI();

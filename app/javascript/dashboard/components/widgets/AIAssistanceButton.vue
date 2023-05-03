@@ -1,45 +1,56 @@
 <template>
   <div v-if="isAIIntegrationEnabled" class="position-relative">
     <woot-button
-      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
+      v-if="!message"
+      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE')"
       icon="wand"
       color-scheme="secondary"
       variant="smooth"
       size="small"
-      @click="toggleDropdown"
+      @click="createSummary"
     />
-    <div
-      v-if="showDropdown"
-      v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open ai-modal"
-    >
-      <h4 class="sub-block-title margin-top-1">
-        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TITLE') }}
-      </h4>
-      <p>
-        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.SUBTITLE') }}
-      </p>
-      <label>
-        {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TONE.TITLE') }}
-      </label>
-      <div class="tone__item">
-        <select v-model="activeTone" class="status--filter small">
-          <option v-for="tone in tones" :key="tone.key" :value="tone.key">
-            {{ tone.value }}
-          </option>
-        </select>
-      </div>
-      <div class="modal-footer flex-container align-right">
-        <woot-button variant="clear" size="small" @click="closeDropdown">
-          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
-        </woot-button>
-        <woot-button
-          :is-loading="isGenerating"
-          size="small"
-          @click="processText"
-        >
-          {{ buttonText }}
-        </woot-button>
+    <div v-else>
+      <woot-button
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
+        icon="wand"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="toggleDropdown"
+      />
+      <div
+        v-if="showDropdown"
+        v-on-clickaway="closeDropdown"
+        class="dropdown-pane dropdown-pane--open ai-modal"
+      >
+        <h4 class="sub-block-title margin-top-1">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.SUBTITLE') }}
+        </p>
+        <label>
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.TONE.TITLE') }}
+        </label>
+        <div class="tone__item">
+          <select v-model="activeTone" class="status--filter small">
+            <option v-for="tone in tones" :key="tone.key" :value="tone.key">
+              {{ tone.value }}
+            </option>
+          </select>
+        </div>
+        <div class="modal-footer flex-container align-right">
+          <woot-button variant="clear" size="small" @click="closeDropdown">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
+          </woot-button>
+          <woot-button
+            :is-loading="isGenerating"
+            size="small"
+            @click="processText"
+          >
+            {{ buttonText }}
+          </woot-button>
+        </div>
       </div>
     </div>
   </div>
@@ -125,6 +136,42 @@ export default {
         } = result;
         this.$emit('replace-text', generatedMessage || this.message);
         this.closeDropdown();
+      } catch (error) {
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
+      } finally {
+        this.isGenerating = false;
+      }
+    },
+    async createSummary() {
+      this.isGenerating = true;
+      try {
+        const result = await OpenAPI.summarizeEvent({
+          hookId: this.hookId,
+          name: 'summarize',
+          conversationId: this.conversationId,
+        });
+        const {
+          data: { message: generatedMessage },
+        } = result;
+        this.$emit('replace-text', generatedMessage || this.message);
+      } catch (error) {
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
+      } finally {
+        this.isGenerating = false;
+      }
+    },
+    async replySuggestion() {
+      this.isGenerating = true;
+      try {
+        const result = await OpenAPI.summarizeEvent({
+          hookId: this.hookId,
+          name: 'reply_suggestion',
+          conversationId: this.conversationId,
+        });
+        const {
+          data: { message: generatedMessage },
+        } = result;
+        this.$emit('replace-text', generatedMessage || this.message);
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {

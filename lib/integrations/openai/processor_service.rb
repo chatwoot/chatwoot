@@ -40,6 +40,8 @@ class Integrations::Openai::ProcessorService
     character_count = 0
 
     conversation.messages.chat.reorder('id desc').each do |message|
+      next if message.content.blank?
+
       character_count += message.content.length
       break if character_count > TOKEN_LIMIT
 

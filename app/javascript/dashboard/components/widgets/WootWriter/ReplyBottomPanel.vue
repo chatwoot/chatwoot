@@ -92,7 +92,6 @@
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
-        v-if="message"
         :conversation-id="conversationId"
         :message="message"
         @replace-text="replaceText"
