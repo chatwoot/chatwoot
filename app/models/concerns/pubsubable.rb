@@ -8,11 +8,9 @@ module Pubsubable
     has_secure_token :pubsub_token
   end
 
-  # TODO : seems to be making the specs fail
-  # Do we need this ?
-  # def pubsub_token
-  #   # backfills tokens for existing records
-  #   regenerate_pubsub_token if self[:pubsub_token].blank?
-  #   self[:pubsub_token]
-  # end
+  def pubsub_token
+    # backfills tokens for existing records
+    regenerate_pubsub_token if self[:pubsub_token].blank? && persisted?
+    self[:pubsub_token]
+  end
 end
