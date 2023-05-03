@@ -5,4 +5,10 @@
       <%= render "public/api/v1/portals/category-block", category: category, portal: @portal %>
     <% end %>
   </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-32 gap-y-0 lg:gap-y-12">
+    <% if @portal.articles.where(status: :published, category_id: nil).order(position: :asc) %>
+      <%= render "public/api/v1/portals/uncategorized-block", category: "Uncategorized", portal: @portal %>
+    <% end %>
+  </div>
 </div>

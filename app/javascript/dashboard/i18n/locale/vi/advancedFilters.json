@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Tên Chiến dịch",
       "LABELS": "Nhãn",
       "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Tên Nước",
       "REFERER_LINK": "Liên kết người giới thiệu",
       "CUSTOM_ATTRIBUTE_LIST": "Danh sách",

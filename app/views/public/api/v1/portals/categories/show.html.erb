@@ -35,7 +35,7 @@
     <% @category.articles.published.order(:position).each do |article| %>
       <a
         class="text-slate-800 flex justify-between content-center mb-4 py-2"
-        href="/hc/<%= @portal.slug %>/<%= @category.locale %>/<%= @category.slug %>/<%= article.id %>"
+        href="/hc/<%= @portal.slug %>/articles/<%= article.slug %>"
       >
         <div>
           <p class="font-medium mb-2 hover:underline"><%= article.title %></p>

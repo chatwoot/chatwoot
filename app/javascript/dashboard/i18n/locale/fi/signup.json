@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "Koko nimi",
-      "PLACEHOLDER": "Anna koko nimesi, esim: Bruce Wayne",
-      "ERROR": "Koko nimi on liian lyhyt"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Koko nimi on liian lyhyt."
     },
     "EMAIL": {
       "LABEL": "Työsähköposti",
-      "PLACEHOLDER": "Anna työsi sähköpostiosoite, esim: bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "Salasana",
       "PLACEHOLDER": "Salasana",
-      "ERROR": "Salasana on liian lyhyt",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "Salasana on liian lyhyt.",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Vahvista salasana",
-      "PLACEHOLDER": "Vahvista salasana",
-      "ERROR": "Salasanat eivät täsmää"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Salasanat eivät täsmää."
     },
     "API": {
       "SUCCESS_MESSAGE": "Rekisteröinti onnistui",
-      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Onko sinulla jo tili?"

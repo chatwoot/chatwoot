@@ -9,18 +9,18 @@
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
-      "CREATE_BUTTON_TEXT": "Create",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "CREATE_BUTTON_TEXT": "Sukurti",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
+          "LABEL": "Pavadinimas",
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
         },
         "SCHEDULED_AT": {
           "LABEL": "Scheduled time",
           "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
+          "CONFIRM": "Patvirtinti",
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
@@ -34,12 +34,12 @@
           "ERROR": "Inbox is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "Žinutė",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
         "SENT_BY": {
-          "LABEL": "Sent by",
+          "LABEL": "Siuntėjas",
           "PLACEHOLDER": "Please select the the content of campaign",
           "ERROR": "Sender is required"
         },
@@ -63,12 +63,12 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Ištrinti",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Patvirtinti Ištrynimą",
         "MESSAGE": "Are you sure to delete?",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
@@ -87,29 +87,29 @@
       "LOADING_MESSAGE": "Loading campaigns...",
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "Message",
+        "TITLE": "Pavadinimas",
+        "MESSAGE": "Žinutė",
         "INBOX": "Inbox",
-        "STATUS": "Status",
-        "SENDER": "Sender",
+        "STATUS": "Būsena",
+        "SENDER": "Siuntėjas",
         "URL": "URL",
         "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
+        "TIME_ON_PAGE": "Laikas(sekundės)",
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
         "ADD": "Add",
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "EDIT": "Redaguoti",
+        "DELETE": "Ištrinti"
       },
       "STATUS": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled",
         "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "ACTIVE": "Aktyvus"
       },
       "SENDER": {
-        "BOT": "Bot"
+        "BOT": "Botas"
       }
     },
     "ONE_OFF": {

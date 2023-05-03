@@ -85,6 +85,23 @@
       "JOIN_ERROR": "Pievienojoties zvanam, radās kļūda. Lūdzu, mēģiniet vēlreiz",
       "CREATE_ERROR": "Veidojot sapulces saiti, radās kļūda. Lūdzu, mēģiniet vēlreiz"
     },
+    "OPEN_AI": {
+      "TITLE": "Uzlabot ar AI",
+      "SUBTITLE": "Izmantojot AI, tiks ģenerēta uzlabota atbilde, pamatojoties uz jūsu pašreizējo melnrakstu.",
+      "TONE": {
+        "TITLE": "Tonis",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesionāls",
+          "FRIENDLY": "Draudzīgs"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Ģenerēt",
+        "GENERATING": "Notiek ģenerēšana...",
+        "CANCEL": "Atcelt"
+      },
+      "GENERATE_ERROR": "Apstrādājot saturu, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Dzēst",
       "API": {

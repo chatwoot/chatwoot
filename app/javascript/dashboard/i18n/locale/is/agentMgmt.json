@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Leita að þjónustufulltrúum",
-          "TEAM": "Leita að teymum"
+          "TEAM": "Leita að teymum",
+          "INPUT": "Search for agents"
         }
       }
     }

@@ -3,16 +3,16 @@
     "TITLE": "התחבר ל Woot",
     "EMAIL": {
       "LABEL": "אימייל",
-      "PLACEHOLDER": "מייל לדוגמא: someone@example.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "סיסמה",
       "PLACEHOLDER": "סיסמה"
     },
     "API": {
-      "SUCCESS_MESSAGE": "נכנסת בהצלחה",
-      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר",
-      "UNAUTH": "שם משתמש / סיסמה שגויים. נסה שוב"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "התחבר עם גוגל",

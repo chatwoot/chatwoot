@@ -482,6 +482,13 @@
       "WHATSAPP_WEBHOOK_SUBHEADER": "Ovaj token se koristi za verifikaciju autentičnosti webhook endpoint-a.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
+    "HELP_CENTER": {
+      "LABEL": "Centar za pomoć",
+      "PLACEHOLDER": "Odaberi centar za pomoć",
+      "SELECT_PLACEHOLDER": "Odaberi centar za pomoć",
+      "REMOVE": "Makni Centar za Pomoć",
+      "SUB_TEXT": "Pridruži Centar za Pomoć inbox-u"
+    },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
