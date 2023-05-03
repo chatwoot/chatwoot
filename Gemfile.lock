@@ -521,7 +521,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.6.2)
-    rack (2.2.6.4)
+    rack (2.2.7)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
@@ -782,7 +782,7 @@ DEPENDENCIES
   administrate
   annotate
   attr_extras
-  audited (~> 5.3)
+  audited (~> 5.3, >= 5.3.3)
   aws-sdk-s3
   azure-storage-blob
   barnes
