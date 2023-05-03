@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "email",
-          "SUBTITLE": "Email dove i tuoi clienti ti inviano i ticket di supporto",
+          "SUBTITLE": "Email dove i tuoi clienti inviano i ticket di supporto.",
           "PLACEHOLDER": "email"
         },
         "SUBMIT_BUTTON": "Crea un canale email",
