@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Название компании",
-      "PLACEHOLDER": "Введите имя вашей компании, например: Wayne Enterprises",
-      "ERROR": "Название компании слишком короткое"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Название компании слишком короткое."
     },
     "FULL_NAME": {
       "LABEL": "Полное имя",
-      "PLACEHOLDER": "Введите полное имя, например: Bruce Wayne",
-      "ERROR": "Имя слишком короткое"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Имя слишком короткое."
     },
     "EMAIL": {
       "LABEL": "Рабочий email",
-      "PLACEHOLDER": "Введите ваш рабочий email адрес. Например: bruce@wayne.enterprises",
-      "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Пожалуйста, введите действительный адрес электронной почты."
     },
     "PASSWORD": {
       "LABEL": "Пароль",
       "PLACEHOLDER": "Пароль",
-      "ERROR": "Пароль слишком короткий",
-      "IS_INVALID_PASSWORD": "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, 1 цифру и 1 специальный символ"
+      "ERROR": "Пароль слишком короткий.",
+      "IS_INVALID_PASSWORD": "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, 1 цифру и 1 специальный символ."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Подтвердить пароль",
-      "PLACEHOLDER": "Подтвердить пароль",
-      "ERROR": "Пароли не совпадают"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Пароли не совпадают."
     },
     "API": {
       "SUCCESS_MESSAGE": "Успешная регистрация",
-      "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Создать новый аккаунт",
     "HAVE_AN_ACCOUNT": "Уже есть аккаунт?"

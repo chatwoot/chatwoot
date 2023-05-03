@@ -10,4 +10,7 @@ describe('#validEmailsByComma', () => {
   it('returns false when one of the email passed is invalid', () => {
     expect(validEmailsByComma('ni@njan.com,pova.da')).toEqual(false);
   });
+  it('strips spaces between emails before validating', () => {
+    expect(validEmailsByComma('1@test.com  , 2@test.com')).toEqual(true);
+  });
 });

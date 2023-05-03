@@ -86,6 +86,70 @@ const actions = {
     }
   },
 
+  syncActiveConversationMessages: async (
+    { commit, state, dispatch },
+    { conversationId }
+  ) => {
+    const { allConversations, syncConversationsMessages } = state;
+    const lastMessageId = syncConversationsMessages[conversationId];
+    const selectedChat = allConversations.find(
+      conversation => conversation.id === conversationId
+    );
+    if (!selectedChat) return;
+    try {
+      const { messages } = selectedChat;
+      // Fetch all the messages after the last message id
+      const {
+        data: { meta, payload },
+      } = await MessageApi.getPreviousMessages({
+        conversationId,
+        after: lastMessageId,
+      });
+      commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
+        id: conversationId,
+        data: meta,
+      });
+      // Find the messages that are not already present in the store
+      const missingMessages = payload.filter(
+        message => !messages.find(item => item.id === message.id)
+      );
+      selectedChat.messages.push(...missingMessages);
+      // Sort the messages by created_at
+      const sortedMessages = selectedChat.messages.sort((a, b) => {
+        return new Date(a.created_at) - new Date(b.created_at);
+      });
+      commit(types.SET_MISSING_MESSAGES, {
+        id: conversationId,
+        data: sortedMessages,
+      });
+      commit(types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
+        conversationId,
+        messageId: null,
+      });
+      dispatch('markMessagesRead', { id: conversationId }, { root: true });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setConversationLastMessageId: async (
+    { commit, state },
+    { conversationId }
+  ) => {
+    const { allConversations } = state;
+    const selectedChat = allConversations.find(
+      conversation => conversation.id === conversationId
+    );
+    if (!selectedChat) return;
+    const { messages } = selectedChat;
+    const lastMessage = messages.last();
+    if (!lastMessage) return;
+    commit(types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION, {
+      conversationId,
+      messageId: lastMessage.id,
+    });
+  },
+
   async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.CLEAR_ALL_MESSAGES_LOADED);
@@ -339,6 +403,27 @@ const actions = {
   clearConversationFilters({ commit }) {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
+
+  assignPriority: async ({ dispatch }, { conversationId, priority }) => {
+    try {
+      await ConversationApi.togglePriority({
+        conversationId,
+        priority,
+      });
+
+      dispatch('setCurrentChatPriority', {
+        priority,
+        conversationId,
+      });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setCurrentChatPriority({ commit }, { priority, conversationId }) {
+    commit(types.ASSIGN_PRIORITY, { priority, conversationId });
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };

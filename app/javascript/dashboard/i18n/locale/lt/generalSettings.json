@@ -61,7 +61,7 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifications",
     "MARK_ALL_DONE": "Mark All Done",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "ištrinta",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Unread Notifications",
       "ALL_NOTIFICATIONS": "View all notifications",
@@ -72,9 +72,9 @@
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",
       "TABLE_HEADER": [
-        "Name",
+        "Vardas",
         "Phone Number",
-        "Conversations",
+        "Pokalbiai",
         "Last Contacted"
       ]
     },
@@ -101,6 +101,7 @@
       "REPORTS": "Reports",
       "CONVERSATION": "Conversation",
       "CHANGE_ASSIGNEE": "Change Assignee",
+      "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
       "REMOVE_LABEL": "Remove label from the conversation",
@@ -126,6 +127,7 @@
       "GO_TO_NOTIFICATIONS": "Go to Notifications",
       "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
       "ASSIGN_AN_AGENT": "Assign an agent",
+      "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Assign a team",
       "MUTE_CONVERSATION": "Mute conversation",
       "UNMUTE_CONVERSATION": "Unmute conversation",

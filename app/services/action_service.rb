@@ -1,4 +1,6 @@
 class ActionService
+  include EmailHelper
+
   def initialize(conversation)
     @conversation = conversation.reload
   end
@@ -17,6 +19,10 @@ class ActionService
 
   def change_status(status)
     @conversation.update!(status: status[0])
+  end
+
+  def change_priority(priority)
+    @conversation.update!(priority: (priority[0] == 'nil' ? nil : priority[0]))
   end
 
   def add_label(labels)
@@ -52,7 +58,10 @@ class ActionService
   end
 
   def send_email_transcript(emails)
+    emails = emails[0].gsub(/\s+/, '').split(',')
+
     emails.each do |email|
+      email = parse_email_variables(@conversation, email)
       ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
     end
   end

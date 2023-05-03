@@ -1,80 +1,77 @@
 module ActivityMessageHandler
   extend ActiveSupport::Concern
 
+  include PriorityActivityMessageHandler
+
   private
 
   def create_activity
     user_name = Current.user.name if Current.user.present?
     status_change_activity(user_name) if saved_change_to_status?
+    priority_change_activity(user_name) if saved_change_to_priority?
     create_label_change(activity_message_ownner(user_name)) if saved_change_to_label_list?
   end
 
   def status_change_activity(user_name)
-    return send_automation_activity if Current.executed_by.present?
+    content = if Current.executed_by.present?
+                automation_status_change_activity_content
+              else
+                user_status_change_activity_content(user_name)
+              end
 
-    create_status_change_message(user_name)
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def user_status_change_activity_content(user_name)
+    if user_name
+      I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+    elsif Current.contact.present? && resolved?
+      I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
+    elsif resolved?
+      I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
+    end
+  end
+
+  def automation_status_change_activity_content
+    if Current.executed_by.instance_of?(AutomationRule)
+      I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
+    elsif Current.executed_by.instance_of?(Contact)
+      Current.executed_by = nil
+      I18n.t('conversations.activity.status.system_auto_open')
+    end
   end
 
   def activity_message_params(content)
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
-  def create_status_change_message(user_name)
-    content = if user_name
-                I18n.t("conversations.activity.status.#{status}", user_name: user_name)
-              elsif Current.contact.present? && resolved?
-                I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
-              elsif resolved?
-                I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
-              end
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
-  def send_automation_activity
-    content = if Current.executed_by.instance_of?(AutomationRule)
-                I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
-              elsif Current.executed_by.instance_of?(Contact)
-                Current.executed_by = nil
-                I18n.t('conversations.activity.status.system_auto_open')
-              end
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
   def create_label_added(user_name, labels = [])
-    return unless labels.size.positive?
-
-    params = { user_name: user_name, labels: labels.join(', ') }
-    content = I18n.t('conversations.activity.labels.added', **params)
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    create_label_change_activity('added', user_name, labels)
   end
 
   def create_label_removed(user_name, labels = [])
+    create_label_change_activity('removed', user_name, labels)
+  end
+
+  def create_label_change_activity(change_type, user_name, labels = [])
     return unless labels.size.positive?
 
-    params = { user_name: user_name, labels: labels.join(', ') }
-    content = I18n.t('conversations.activity.labels.removed', **params)
-
+    content = I18n.t("conversations.activity.labels.#{change_type}", user_name: user_name, labels: labels.join(', '))
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_muted_message
-    return unless Current.user
-
-    params = { user_name: Current.user.name }
-    content = I18n.t('conversations.activity.muted', **params)
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    create_mute_change_activity('muted')
   end
 
   def create_unmuted_message
+    create_mute_change_activity('unmuted')
+  end
+
+  def create_mute_change_activity(change_type)
     return unless Current.user
 
-    params = { user_name: Current.user.name }
-    content = I18n.t('conversations.activity.unmuted', **params)
-
+    content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name)
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 

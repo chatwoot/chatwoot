@@ -93,7 +93,7 @@ export default {
         slug,
         this.article.category.slug,
         this.article.category.locale,
-        this.article.id
+        this.article.slug
       );
     },
   },

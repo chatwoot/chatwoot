@@ -75,7 +75,7 @@
           "PLACEHOLDER": "Vinsamlegast skráið netfang þjónustufulltrúa"
         },
         "AGENT_AVAILABILITY": {
-          "LABEL": "Availability",
+          "LABEL": "Framboð",
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Leita að þjónustufulltrúum",
-          "TEAM": "Leita að teymum"
+          "TEAM": "Leita að teymum",
+          "INPUT": "Search for agents"
         }
       }
     }
