@@ -70,7 +70,7 @@
     "AGENTS": {
       "AGENT": "Agentas",
       "EMAIL": "El. paštas",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "Pridėti agentus",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
@@ -82,7 +82,7 @@
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "Pridėti agentus",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
@@ -104,7 +104,7 @@
         "NO": "Atšaukti"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Nustatymai",
     "FORM": {
       "UPDATE": "Update team",
       "CREATE": "Create team",
