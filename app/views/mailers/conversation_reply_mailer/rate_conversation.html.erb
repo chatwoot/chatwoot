@@ -1,5 +1,5 @@
 Hello <%= @contact.name %>,
 
-Please take a moment to rate  your support experience with <%= @inbox.name %>.
+<p>Please take a moment to rate  your support experience with <b><%= @inbox.name %></b>.</p>
 
-<emoji-list>
+<a href=<%= "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{@conversation.uuid}" %>>Click here</a>

@@ -58,9 +58,9 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
 
     mail({
-           to: to_email,
+           to: @contact&.email,
            from: from_email_with_name,
-           subject: "[##{@conversation.display_id}] #{I18n.t('conversations.survey.response')}"
+           subject: "[##{@conversation.display_id}] #{I18n.t('conversations.survey.response', link: nil)}"
          })
   end
 

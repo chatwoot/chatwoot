@@ -183,8 +183,8 @@ class Message < ApplicationRecord
     # move this to a presenter
     return self[:content] if !input_csat? || inbox.web_widget?
 
+    # ConversationReplyMailer.with(account: @conversation.account).rate_conversation(@conversation)&.deliver_later
     I18n.t('conversations.survey.response', link: "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}")
-    ConversationReplyMailer.with(account: @conversation.account).rate_conversation(@conversation)&.deliver_later
   end
 
   def email_notifiable_message?
