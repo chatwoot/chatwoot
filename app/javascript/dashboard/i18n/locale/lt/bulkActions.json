@@ -2,8 +2,8 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
     "AGENT_SELECT_LABEL": "Select Agent",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Ar tikrai priskirsite %{conversationCount} %{conversationLabel}",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ar tikrai atšauksite priskyrimą %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Grįžti",
     "ASSIGN_LABEL": "Priskirti",
     "YES": "Yes",
@@ -22,11 +22,11 @@
       "UPDATE_FAILED": "Failed to update conversations, please try again"
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign Labels",
-      "NO_LABELS_FOUND": "No labels found for",
-      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
-      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
-      "ASSIGN_FAILED": "Failed to assign labels, please try again"
+      "ASSIGN_LABELS": "Priskirti etiketes",
+      "NO_LABELS_FOUND": "Etikečių nerasta",
+      "ASSIGN_SELECTED_LABELS": "Priskirti pažymėtas etiketes",
+      "ASSIGN_SUCCESFUL": "Etiketės sėkmingai priskirtos",
+      "ASSIGN_FAILED": "Nepavyko priskirti etikečių. Prašau, pabandykite dar kartą"
     },
     "TEAMS": {
       "TEAM_SELECT_LABEL": "Select Team",
