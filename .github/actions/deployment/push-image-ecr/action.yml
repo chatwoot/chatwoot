@@ -43,9 +43,9 @@ runs:
         aws-region: us-east-1
 
     - name: Set Vue app version
-      if: ${{ input.SSM_VUE_APP_VERSION != '' }}
+      if: ${{ inputs.SSM_VUE_APP_VERSION != '' }}
       shell: bash
-      run: aws ssm put-parameter --name ${{input.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD) --type "SecureString" --overwrite
+      run: aws ssm put-parameter --name ${{inputs.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD) --type "SecureString" --overwrite
 
     - name: Login to Amazon ECR
       id: login-ecr
