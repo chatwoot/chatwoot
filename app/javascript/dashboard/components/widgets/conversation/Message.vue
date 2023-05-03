@@ -250,7 +250,11 @@ export default {
       );
 
       if (this.contentType === 'input_csat') {
-        return this.$t('CONVERSATION.CSAT_REPLY_MESSAGE') + botMessageContent;
+        const link = `/survey/responses/${this.data.conversation_id}`;
+        return (
+          this.$t('CONVERSATION.CSAT_REPLY_MESSAGE', { link: link }) +
+          botMessageContent
+        );
       }
 
       return (
