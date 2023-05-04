@@ -23,7 +23,7 @@ module MailboxHelper
   def add_attachments_to_message
     return if @message.blank?
 
-    processed_mail.attachments.each do |mail_attachment|
+    processed_mail.attachments.last(15).each do |mail_attachment|
       attachment = @message.attachments.new(
         account_id: @conversation.account_id,
         file_type: 'file'
