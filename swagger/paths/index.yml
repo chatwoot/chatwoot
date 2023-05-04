@@ -310,8 +310,6 @@
     - $ref: '#/parameters/inbox_id'
   get:
     $ref: ./application/inboxes/inbox_members/show.yml
-  delete:
-    $ref: ./application/inboxes/inbox_members/delete.yml
 
 /api/v1/accounts/{account_id}/inbox_members:
   parameters:
@@ -320,6 +318,8 @@
     $ref: ./application/inboxes/inbox_members/create.yml
   patch:
     $ref: ./application/inboxes/inbox_members/update.yml
+  delete:
+    $ref: ./application/inboxes/inbox_members/delete.yml
 
 
 
@@ -360,7 +360,7 @@
 
 
 # Profile
-/profile:
+/api/v1/profile:
   $ref: ./profile/index.yml
 
 
@@ -382,7 +382,7 @@
     $ref: ./application/teams/update.yml
   delete:
     $ref: ./application/teams/delete.yml
-/accounts/{account_id}/teams/{team_id}/team_members:
+/api/v1/accounts/{account_id}/teams/{team_id}/team_members:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/team_id'

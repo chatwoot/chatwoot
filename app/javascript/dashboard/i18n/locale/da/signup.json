@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Firmanavn",
-      "PLACEHOLDER": "Indtast dit firmanavn, fx: Wayne Enterprises",
-      "ERROR": "Firmanavn er for kort"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Firmanavn er for kort."
     },
     "FULL_NAME": {
       "LABEL": "Fulde navn",
-      "PLACEHOLDER": "Indtast dit fulde navn. fx: Bruce Wayne",
-      "ERROR": "Fulde navn er for kort"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Fulde navn er for kort."
     },
     "EMAIL": {
       "LABEL": "Arbejde e-mail",
-      "PLACEHOLDER": "Indtast din arbejdsmailadresse fx: bruce@wayne.enterprises",
-      "ERROR": "Indtast venligst en gyldig arbejdsmail"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Indtast venligst en gyldig arbejdsmail."
     },
     "PASSWORD": {
       "LABEL": "Adgangskode",
       "PLACEHOLDER": "Adgangskode",
-      "ERROR": "Adgangskoden er for kort",
-      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 nummer og 1 specialtegn"
+      "ERROR": "Adgangskoden er for kort.",
+      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 nummer og 1 specialtegn."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Bekræft Adgangskode",
-      "PLACEHOLDER": "Bekræft Adgangskode",
-      "ERROR": "Adgangskode stemmer ikke overens"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Adgangskode stemmer ikke overens."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrering Succesfuld",
-      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Har du allerede en konto?"

@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "הזן את מספר הטלפון של איש הקשר",
         "LABEL": "מספר טלפון",
-        "HELP": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555 [+][קוד מדינה][אזור חיוג][מספר טלפון מקומי]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "מספר טלפון זה נמצאת בשימוש עבור איש קשר אחר."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "הזן את שם החברה",
         "LABEL": "שם החברה"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "הזן את שם המדינה",
+        "LABEL": "שם המדינה",
+        "SELECT_PLACEHOLDER": "בחר",
+        "REMOVE": "הסר",
+        "SELECT_COUNTRY": "בחר מדינה"
+      },
+      "CITY": {
+        "PLACEHOLDER": "הזן את שם העיר",
+        "LABEL": "שם העיר"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -170,7 +182,8 @@
         "LABEL": "אל"
       },
       "INBOX": {
-        "LABEL": "תיבת הדואר הנכנס",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "בחר תיבת דואר נכנס"
       },
       "SUBJECT": {

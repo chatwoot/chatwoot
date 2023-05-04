@@ -15,7 +15,7 @@
           "ERROR": "Name is required for creating a macro"
         },
         "ACTIONS": {
-          "LABEL": "Actions"
+          "LABEL": "Veiksmai"
         }
       },
       "API": {
@@ -25,7 +25,7 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
+        "Vardas",
         "Created by",
         "Last updated by",
         "Visibility"
@@ -35,8 +35,8 @@
     "DELETE": {
       "TOOLTIP": "Delete macro",
       "CONFIRM": {
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Ištrinti",
         "NO": "No"
       },
       "API": {
@@ -60,17 +60,17 @@
       "VISIBILITY": {
         "LABEL": "Macro Visibility",
         "GLOBAL": {
-          "LABEL": "Public",
+          "LABEL": "Viešas",
           "DESCRIPTION": "This macro is available publicly for all agents in this account."
         },
         "PERSONAL": {
-          "LABEL": "Private",
+          "LABEL": "Privatus",
           "DESCRIPTION": "This macro will be private to you and not be available to others."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
+      "BUTTON_TOOLTIP": "Vykdyti",
       "PREVIEW": "Preview Macro",
       "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
     }

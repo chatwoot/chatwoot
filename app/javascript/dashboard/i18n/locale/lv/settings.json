@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopēt",
+      "CODEPEN": "Atvērt programmā CodePen",
       "COPY_SUCCESSFUL": "Kopēts starpliktuvē"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Sākums",
     "AGENTS": "Aģenti",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audita Žurnāli",
     "INBOXES": "Iesūtnes",
     "NOTIFICATIONS": "Paziņojumi",
     "CANNED_RESPONSES": "Sagatavotās Atbildes",

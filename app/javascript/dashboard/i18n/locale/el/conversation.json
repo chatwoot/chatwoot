@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Άγνωστο Αρχείο",
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
     "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
     "NO_RESPONSE": "Καμία ανταπόκριση",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Επόμενη απάντηση",
         "TOMORROW": "Αύριο",
         "NEXT_WEEK": "Επόμενη εβδομάδα"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Κανένα",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Κανένα",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Δεν βρέθηκαν αποτελέσματα",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {

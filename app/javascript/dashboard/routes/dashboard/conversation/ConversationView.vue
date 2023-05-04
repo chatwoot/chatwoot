@@ -32,7 +32,7 @@ import ConversationBox from '../../../components/widgets/conversation/Conversati
 import PopOverSearch from './search/PopOverSearch';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {

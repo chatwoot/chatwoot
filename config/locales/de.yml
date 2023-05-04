@@ -81,8 +81,7 @@ de:
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: Anzahl der Konversationen
+      timezone: Timezone
     default_group_by: Tag
     csat:
       headers:
@@ -113,6 +112,11 @@ de:
         pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
         snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
         auto_resolved: "Das Gespräch wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} hat sich dieses Gespräch selbst zugewiesen"
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
@@ -138,7 +142,7 @@ de:
           reply_with_name: "%{assignee_name} von %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} von %{inbox_name}"
+          reply_with_name: "%{assignee_name} von %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Neue Nachrichten in dieser Unterhaltung"
       transcript_subject: "Gesprächsprotokoll"
@@ -167,6 +171,9 @@ de:
     google_translate:
       name: "Google Translate"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Artikel nach Titel oder Text suchen...
@@ -178,11 +185,11 @@ de:
     common:
       home: Hauptseite
       last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
+      view_all_articles: Alle Artikel anzeigen
+      article: Artikel
       articles: Artikel
       no_articles: There are no articles here
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: Zur Hauptseite wechseln

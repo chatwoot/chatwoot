@@ -91,6 +91,7 @@ Rails.application.routes.draw do
               post :unmute
               post :transcript
               post :toggle_status
+              post :toggle_priority
               post :toggle_typing_status
               post :update_last_seen
               post :unread
@@ -177,7 +178,11 @@ Rails.application.routes.draw do
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resources :hooks, only: [:create, :update, :destroy]
+            resources :hooks, only: [:create, :update, :destroy] do
+              member do
+                post :process_event
+              end
+            end
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
             resource :dyte, controller: 'dyte', only: [] do
               collection do
@@ -197,6 +202,7 @@ Rails.application.routes.draw do
             resources :categories
             resources :articles do
               post :attach_file, on: :collection
+              post :reorder, on: :collection
             end
           end
         end
@@ -333,9 +339,9 @@ Rails.application.routes.draw do
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
-  get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'
-  get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
-  get 'hc/:slug/:locale/:category_slug/:id', to: 'public/api/v1/portals/articles#show'
+  get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
+  get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
+  get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
@@ -388,7 +394,7 @@ Rails.application.routes.draw do
       resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
-      resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
+      resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy]

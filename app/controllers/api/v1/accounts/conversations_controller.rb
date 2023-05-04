@@ -64,13 +64,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     assign_conversation if @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.agent?
   end
 
+  def toggle_priority
+    @conversation.toggle_priority(params[:priority])
+    head :ok
+  end
+
   def toggle_typing_status
-    case params[:typing_status]
-    when 'on'
-      trigger_typing_event(CONVERSATION_TYPING_ON, params[:is_private])
-    when 'off'
-      trigger_typing_event(CONVERSATION_TYPING_OFF, params[:is_private])
-    end
+    typing_status_manager = ::Conversations::TypingStatusManager.new(@conversation, current_user, params)
+    typing_status_manager.toggle_typing_status
     head :ok
   end
 
@@ -115,11 +116,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def assign_conversation
     @agent = Current.account.users.find(current_user.id)
     @conversation.update_assignee(@agent)
-  end
-
-  def trigger_typing_event(event, is_private)
-    user = current_user.presence || @resource
-    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user, is_private: is_private)
   end
 
   def conversation

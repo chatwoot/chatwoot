@@ -12,7 +12,7 @@ RSpec.describe HookJob, type: :job do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(hook, event_name, event_data)
-      .on_queue('integrations')
+      .on_queue('medium')
   end
 
   context 'when handleable events like message.created' do

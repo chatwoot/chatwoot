@@ -101,20 +101,20 @@
         "LABEL": "Profile Image"
       },
       "NAME": {
-        "LABEL": "Your full name",
+        "LABEL": "Jūsų pilnas vardas",
         "ERROR": "Please enter a valid full name",
         "PLACEHOLDER": "Please enter your full name"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
+        "LABEL": "Rodomas vardas",
         "ERROR": "Please enter a valid display name",
         "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Prieinamumas",
         "STATUSES_LIST": [
           "Online",
-          "Busy",
+          "Užimta",
           "Offline"
         ],
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
@@ -143,7 +143,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
+    "CHANGE_AVAILABILITY_STATUS": "Keisti",
     "CHANGE_ACCOUNTS": "Switch Account",
     "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Select an account from the following list",
@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copy",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "SHOW_MORE_BLOCK": {
@@ -171,7 +172,7 @@
       "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "Parsisiųsti",
       "UPLOADING": "Uploading...",
       "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
     },
@@ -179,7 +180,7 @@
       "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Pateikti"
     }
   },
   "CONFIRM_EMAIL": "Verifying...",
@@ -191,20 +192,21 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
-    "CONVERSATIONS": "Conversations",
+    "CONVERSATIONS": "Pokalbiai",
     "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Paminėjimai",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "HOME": "Home",
-    "AGENTS": "Agents",
-    "AGENT_BOTS": "Bots",
+    "AGENTS": "Agentai",
+    "AGENT_BOTS": "Botai",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
+    "CANNED_RESPONSES": "Atsakymų Ruošiniai",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
@@ -215,19 +217,19 @@
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_FOLDER": "Papkės",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
+    "ALL_CONTACTS": "Visi Kontaktai",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "REPORTS_CONVERSATION": "Pokalbiai",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agents",
+    "ONE_OFF": "Vienas iš",
+    "REPORTS_AGENT": "Agentai",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
@@ -239,9 +241,9 @@
       "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "DRAFT": "Ruošinys",
+      "ARCHIVED": "Suarchyvuota",
+      "CATEGORY": "Kategorija",
       "SETTINGS": "Settings",
       "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
@@ -263,7 +265,7 @@
       "BUTTON_TXT": "Go to the billing portal"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
+      "TITLE": "Reikia pagalbos?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
@@ -272,7 +274,7 @@
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "SELECTOR_SUBTITLE": "Sukurti naują paskyrą",
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
@@ -283,7 +285,7 @@
         "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Pateikti"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -299,7 +301,7 @@
       "TOGGLE_SIDEBAR": "Toggle Sidebar",
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
       "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
+      "GO_TO_SETTINGS": "Eiti į Nustatymus",
       "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",

@@ -20,23 +20,23 @@
         "NOTE": "Adresa ta de email este identitatea ta și este folosită pentru a te autentifica."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Taste rapide pentru a trimite mesaje",
+        "NOTE": "Puteți selecta o tastă rapidă (enter sau Cmd/Ctrl+Enter) în funcție de preferințele dumneavoastră de a scrie.",
+        "UPDATE_SUCCESS": "Setările au fost actualizate cu succes",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "Introduceți (↵)",
+            "CONTENT": "Trimiteți mesaje apăsând tasta Enter în loc să faceți clic pe butonul trimitere."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Trimiteți mesaje apăsând tasta Cmd/ Ctrl + enter în loc să faceți clic pe butonul trimitere."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Semnătura mesajului personal",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Creați o semnătură de mesaj personal care ar fi adăugată la toate mesajele pe care le trimiteți din inboxul de e-mail. Utilizați editorul de conținut îmbogățit pentru a crea o semnătură extrem de personalizată.",
         "BTN_TEXT": "Salvarea semnăturii mesajului",
         "API_ERROR": "Nu s-a putut trimite! Încearcă din nou",
         "API_SUCCESS": "Semnătura salvată cu succes"
@@ -59,18 +59,18 @@
         "TITLE": "Notificări audio",
         "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Evenimente de alertă:",
           "NONE": "Nimic",
           "ASSIGNED": "Conversații atribuite",
           "ALL_CONVERSATIONS": "Toate conversațiile"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Tonul de alertă:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Condiții de alertă:",
+          "CONDITION_ONE": "Trimiteți alerte audio numai dacă fereastra browserului nu este activă",
+          "CONDITION_TWO": "Trimiteți alerte la fiecare 30 de ani până când toate conversațiile atribuite sunt citite"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -80,7 +80,7 @@
         "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
         "CONVERSATION_MENTION": "Trimiterea notificărilor prin e-mail atunci când sunteți menționat într-o conversație",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor prin e-mail atunci când se creează un mesaj nou într-o conversație atribuită",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor prin e-mail atunci când se creează un mesaj nou într-o conversație atribuită"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes",
@@ -93,7 +93,7 @@
         "CONVERSATION_CREATION": "Trimite notificări push atunci când o conversație nouă este creată",
         "CONVERSATION_MENTION": "Trimiterea notificărilor push atunci când sunteți menționat într-o conversație",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor push atunci când se creează un mesaj nou într-o conversație atribuită",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor push atunci când se creează un mesaj nou într-o conversație participantă",
         "HAS_ENABLED_PUSH": "Ați activat apăsarea pentru acest browser.",
         "REQUEST_PUSH": "Activează notificările push"
       },
@@ -117,8 +117,8 @@
           "Ocupat",
           "Deconectat"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "Avatar a fost șters cu succes",
+        "SET_AVAILABILITY_ERROR": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
       },
       "EMAIL": {
         "LABEL": "Adresa ta de email",
@@ -149,7 +149,7 @@
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
     "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Consola",
     "LOGOUT": "Deconectare"
   },
   "APP_GLOBAL": {
@@ -157,18 +157,19 @@
     "TRAIL_BUTTON": "Cumpara acum",
     "DELETED_USER": "Utilizator șters",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Cont suspendat",
+      "MESSAGE": "Contul tău este suspendat. Vă rugăm să contactați echipa de asistență pentru mai multe informații."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiază",
+      "CODEPEN": "Deschis în CodePen",
       "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Arată mai multe",
+      "SHOW_LESS": "Afișați mai puține"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descărcare",
@@ -176,7 +177,7 @@
       "INSTAGRAM_STORY_UNAVAILABLE": "Această poveste nu mai este disponibilă."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Vezi pe hartă"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Trimite"
@@ -190,18 +191,19 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
-    "SWITCH": "Switch",
+    "SWITCH": "Comută contul",
     "CONVERSATIONS": "Conversații",
     "ALL_CONVERSATIONS": "Toate conversațiile",
     "MENTIONED_CONVERSATIONS": "Menţionări",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "PARTICIPATING_CONVERSATIONS": "Participante",
+    "UNATTENDED_CONVERSATIONS": "Neasistat",
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
     "CONTACTS": "Contacte",
     "HOME": "Acasa",
     "AGENTS": "Agenți",
     "AGENT_BOTS": "Boți",
+    "AUDIT_LOGS": "Jurnale de audit",
     "INBOXES": "Căsuțe",
     "NOTIFICATIONS": "Notificări",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
@@ -212,9 +214,9 @@
     "LABELS": "Etichete",
     "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
     "AUTOMATION": "Automatizare",
-    "MACROS": "Macros",
+    "MACROS": "Macrocomenzi",
     "TEAMS": "Echipe",
-    "BILLING": "Billing",
+    "BILLING": "Facturare",
     "CUSTOM_VIEWS_FOLDER": "Foldere",
     "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Toate persoanele de contact",
@@ -236,38 +238,38 @@
     "REPORTS_OVERVIEW": "Prezentare generală",
     "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "TITLE": "Centrul de ajutor (Beta)",
+      "ALL_ARTICLES": "Toate articolele",
+      "MY_ARTICLES": "Articolele mele",
+      "DRAFT": "Schita",
+      "ARCHIVED": "Arhivate",
+      "CATEGORY": "Categorie",
       "SETTINGS": "Setări",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "Nu s-au găsit categorii"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Marcarea automată a offline-ului",
+      "INFO_TEXT": "Permiteți sistemului să vă marcheze automat offline atunci când nu utilizați aplicația sau tabloul de bord."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Citiți Documente"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Facturare",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Pentru acest plan nu sunt disponibile extraoptiuni",
+      "PLAN_NOTE": "În prezent sunteți abonat la planul **%{plan}** cu licențe **%{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Gestionați-vă abonamentul",
+      "DESCRIPTION": "Vizualizați facturile anterioare, editați detaliile de facturare sau anulați abonamentul.",
+      "BUTTON_TXT": "Accesați portalul de facturare"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Aveţi nevoie de ajutor?",
+      "DESCRIPTION": "Vă confruntați cu probleme în facturare? Suntem aici pentru a vă ajuta.",
       "BUTTON_TXT": "Discută cu noi"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Contul de facturare este configurat. Vă rugăm să reîmprospătați pagina și încercați din nou."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",
@@ -287,7 +289,7 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Vizualizați toate comenzile rapide",
     "TITLE": {
       "OPEN_CONVERSATION": "Deschiderea conversației",
       "RESOLVE_AND_NEXT": "Rezolvarea și trecerea la următorul",

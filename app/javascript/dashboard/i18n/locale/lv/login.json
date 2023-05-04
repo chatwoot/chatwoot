@@ -3,16 +3,16 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "E-pasts",
-      "PLACEHOLDER": "E-pasts, piemēram: kāds@piemērs.com"
+      "PLACEHOLDER": "piemers@firmasnosaukums.com"
     },
     "PASSWORD": {
       "LABEL": "Parole",
       "PLACEHOLDER": "Parole"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Pierakstīšanās Veiksmīga",
-      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz",
-      "UNAUTH": "Nepareizs lietotājvārds/parole. Lūdzu mēģiniet vēlreiz"
+      "SUCCESS_MESSAGE": "Pieteikšanās veiksmīga",
+      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz.",
+      "UNAUTH": "Lietotājvārds vai parole ir nepareiza. Lūdzu mēģiniet vēlreiz."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Pieslēgties, izmantojot Google",

@@ -446,7 +446,7 @@
     "AGENT_STATUS": {
       "HEADER": "Agent status",
       "ONLINE": "Online",
-      "BUSY": "Busy",
+      "BUSY": "Upptekinn",
       "OFFLINE": "Offline"
     }
   },

@@ -1410,10 +1410,10 @@
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.12.tgz#684fb5a475c1c7fdeaa628091e90c7d1decd156e"
-  integrity sha512-3O4zC4SO4z4rD2Chno+pzUUb/GacHQfIBfLCOsHviNzgljUE+neyOhS91yWDfCcd3Y0WmQs7UuXgvulmkdxqKg==
+"@chatwoot/utils@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.16.tgz#84a0ade7f0377a3c7a95b2e5fa3c3b3d7d045339"
+  integrity sha512-PcWEJ+LeJlDkjOOCHyi7wLaaBsPpedDh1jBblkqOYnt8PvKHSttq/Fusi6u6EcxPhIw1umgq5A/k8sWozmZ4iQ==
   dependencies:
     date-fns "^2.29.1"
 
@@ -10948,6 +10948,11 @@ levn@^0.3.0, levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+libphonenumber-js@^1.10.24:
+  version "1.10.24"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.24.tgz#a1744cf29df86d5a587562ea28dde12320eb6ab6"
+  integrity sha512-3Dk8f5AmrcWqg+oHhmm9hwSTqpWHBdSqsHmjCJGroULFubi0+x7JEIGmRZCuL3TI8Tx39xaKqfnhsDQ4ALa/Nw==
 
 lines-and-columns@^1.1.6:
   version "1.1.6"

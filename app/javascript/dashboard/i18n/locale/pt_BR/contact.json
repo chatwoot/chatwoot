@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Adicione o número de telefone do contato",
         "LABEL": "Número de Telefone",
-        "HELP": "O número de telefone deve ser do formato E.164, por exemplo: +1415555555 [+][código do país][código de área][número de telefone local]",
+        "HELP": "O número de telefone deve ter o formato E.164, por exemplo: +1415555555 [+][código do país][código de área][número de telefone local]. Você pode selecionar o código de discagem no menu suspenso.",
         "ERROR": "O número de telefone deve estar vazio ou no formato E.164",
+        "DIAL_CODE_ERROR": "Por favor, selecione um código de discagem da lista",
         "DUPLICATE": "Este número de telefone está em uso para outro contato."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Digite o nome da empresa",
         "LABEL": "Nome da empresa"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Digite o nome do país",
+        "LABEL": "Nome do País",
+        "SELECT_PLACEHOLDER": "Selecionar",
+        "REMOVE": "Excluir",
+        "SELECT_COUNTRY": "Selecione o país"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Digite o nome da cidade",
+        "LABEL": "Nome da cidade"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -170,7 +182,8 @@
         "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Caixa de Entrada",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Selecione uma caixa de entrada"
       },
       "SUBJECT": {

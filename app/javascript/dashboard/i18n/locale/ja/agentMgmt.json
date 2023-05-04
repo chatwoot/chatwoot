@@ -74,6 +74,11 @@
           "LABEL": "Eメールアドレス",
           "PLACEHOLDER": "担当者のEメールアドレスを入力してください"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "利用可能期間",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "担当者の編集"
       },
       "BUTTON_TEXT": "編集",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "TEAM": "Search teams",
+          "INPUT": "Search for agents"
         }
       }
     }

@@ -81,8 +81,7 @@ hr:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     conversation_traffic_csv:
-      date: Date and time
-      conversations_count: No. of conversations
+      timezone: Timezone
     default_group_by: day
     csat:
       headers:
@@ -113,6 +112,11 @@ hr:
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        system_auto_open: Sustav je ponovno otvorio razgovor zbog pristigle nove poruke.
+      priority:
+        added: '%{user_name} je postavio prioritet na %{new_priority}'
+        updated: '%{user_name} je promijenio prioritet s %{old_priority} na %{new_priority}'
+        removed: '%{user_name} je maknuo prioritet'
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Assigned to %{assignee_name} by %{user_name}"
@@ -138,7 +142,7 @@ hr:
           reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name}"
+          reply_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
@@ -167,6 +171,9 @@ hr:
     google_translate:
       name: "Google Translate"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integiraj napredne AI funkcionalnosti u Chatwoot koristeći GPT modele od OpenAI."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

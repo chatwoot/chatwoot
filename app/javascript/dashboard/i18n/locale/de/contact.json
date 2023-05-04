@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Geben Sie die Telefonnummer des Kontakts ein",
         "LABEL": "Telefonnummer",
-        "HELP": "Telefonnummer sollte im E.164-Format sein, z. B.: +1415555555 [+][Landesvorwahl][Landesvorwahl][Ortsvorwahl]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Telefonnummer muss leer sein oder im E.164-Format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Diese Telefonnummer wird für einen anderen Kontakt verwendet."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Firmenname eingeben",
         "LABEL": "Firmenname"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Ländername",
+        "SELECT_PLACEHOLDER": "Auswählen",
+        "REMOVE": "Entfernen",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -170,7 +182,8 @@
         "LABEL": "An"
       },
       "INBOX": {
-        "LABEL": "Posteingang",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Posteingang auswählen"
       },
       "SUBJECT": {

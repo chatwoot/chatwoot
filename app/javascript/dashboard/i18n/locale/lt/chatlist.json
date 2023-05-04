@@ -6,33 +6,33 @@
     "LIST": {
       "404": "There are no active conversations in this group."
     },
-    "TAB_HEADING": "Conversations",
-    "MENTION_HEADING": "Mentions",
-    "UNATTENDED_HEADING": "Unattended",
+    "TAB_HEADING": "Pokalbiai",
+    "MENTION_HEADING": "Paminėjimai",
+    "UNATTENDED_HEADING": "Be priežiūros",
     "SEARCH": {
       "INPUT": "Search for People, Chats, Saved Replies .."
     },
-    "FILTER_ALL": "All",
+    "FILTER_ALL": "Visi",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Mine",
+      "me": "Mano",
       "unassigned": "Unassigned",
-      "all": "All"
+      "all": "Visi"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"
       },
       "resolved": {
-        "TEXT": "Resolved"
+        "TEXT": "Išspręsta"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "Laukiama"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Atidėta"
       },
       "all": {
-        "TEXT": "All"
+        "TEXT": "Visi"
       }
     },
     "ATTACHMENTS": {
@@ -40,32 +40,32 @@
         "CONTENT": "Picture message"
       },
       "audio": {
-        "CONTENT": "Audio message"
+        "CONTENT": "Garso žinutė"
       },
       "video": {
-        "CONTENT": "Video message"
+        "CONTENT": "Vaizdo žinutė"
       },
       "file": {
         "CONTENT": "File Attachment"
       },
       "location": {
-        "CONTENT": "Location"
+        "CONTENT": "Vieta"
       },
       "fallback": {
         "CONTENT": "has shared a url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
+    "RECEIVED_VIA_EMAIL": "Gauta el. paštu",
     "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
     "REPLY_TO_TWEET": "Reply to this tweet",
     "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
+    "SENT": "Išsiųsta sėkmingai",
     "READ": "Read successfully",
     "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "No Messages",
+    "NO_MESSAGES": "Nėra Pranešimų",
     "NO_CONTENT": "No content available",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
     "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Skaityti"
   }
 }

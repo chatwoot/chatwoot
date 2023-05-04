@@ -126,7 +126,7 @@ import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.v
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 
-import wootConstants from '../../constants';
+import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,

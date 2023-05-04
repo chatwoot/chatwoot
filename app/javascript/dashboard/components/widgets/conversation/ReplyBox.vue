@@ -120,8 +120,10 @@
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
+      :message="message"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
+      @replace-text="replaceText"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -162,11 +164,11 @@ import {
   AUDIO_FORMATS,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { replaceVariablesInMessage } from 'dashboard/helper/messageHelper';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
-} from 'dashboard/helper/messageHelper';
+  replaceVariablesInMessage,
+} from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -174,9 +176,10 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
-import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
-import wootConstants from 'dashboard/constants';
+import wootConstants from 'dashboard/constants/globals';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';

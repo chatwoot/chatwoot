@@ -439,7 +439,8 @@
       "LABEL": "الخصائص",
       "DISPLAY_FILE_PICKER": "عرض أداة انتقاء الملفات في الـ widget",
       "DISPLAY_EMOJI_PICKER": "عرض منتقي الرموز التعبيرية على الـ widget",
-      "ALLOW_END_CONVERSATION": "السماح للمستخدمين بإنهاء المحادثة من عنصر واجهة المستخدم"
+      "ALLOW_END_CONVERSATION": "السماح للمستخدمين بإنهاء المحادثة من عنصر واجهة المستخدم",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
@@ -477,7 +478,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "تحديث",
+      "WHATSAPP_WEBHOOK_TITLE": "رمز التحقق من Webhook",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "حد الإسناد التلقائي",

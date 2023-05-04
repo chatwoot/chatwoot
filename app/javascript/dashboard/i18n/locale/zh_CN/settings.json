@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "复制",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Copied to clipboard"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "首页",
     "AGENTS": "客服代理们",
     "AGENT_BOTS": "机器人",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "收件箱",
     "NOTIFICATIONS": "消息通知",
     "CANNED_RESPONSES": "预设回复",

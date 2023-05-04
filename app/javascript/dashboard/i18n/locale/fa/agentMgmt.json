@@ -74,6 +74,11 @@
           "LABEL": "ایمیل",
           "PLACEHOLDER": "لطفا ایمیل اپراتور را وارد کنید"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "در دسترس",
+          "PLACEHOLDER": "لطفا یک وضعیت در دسترس بودن را انتخاب کنید",
+          "ERROR": "در دسترس بودن الزامی است"
+        },
         "SUBMIT": "تغییر ایجنت"
       },
       "BUTTON_TEXT": "ویرایش",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "جستجوی اپراتور",
-          "TEAM": "جستجوی تیم"
+          "TEAM": "جستجوی تیم",
+          "INPUT": "Search for agents"
         }
       }
     }

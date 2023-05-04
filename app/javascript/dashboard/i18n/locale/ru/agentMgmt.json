@@ -74,6 +74,11 @@
           "LABEL": "Email",
           "PLACEHOLDER": "Пожалуйста введите email оператора"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Доступность",
+          "PLACEHOLDER": "Пожалуйста, выберите статус доступности",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Редактировать оператора"
       },
       "BUTTON_TEXT": "Редактировать",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Поиск агентов",
-          "TEAM": "Поиск команд"
+          "TEAM": "Поиск команд",
+          "INPUT": "Search for agents"
         }
       }
     }

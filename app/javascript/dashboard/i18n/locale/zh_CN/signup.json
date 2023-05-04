@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "名字",
-      "PLACEHOLDER": "输入您的全名，例如 Bruce Wayne",
-      "ERROR": "帐号名称太短了"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "帐号名称太短了."
     },
     "EMAIL": {
       "LABEL": "工作邮箱",
-      "PLACEHOLDER": "请输入您的工作电子邮件地址，例如 bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "密码",
       "PLACEHOLDER": "密码",
-      "ERROR": "密码太短了",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "密码太短了.",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "请确认密码",
-      "PLACEHOLDER": "请确认密码",
-      "ERROR": "密码不匹配"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "密码不匹配."
     },
     "API": {
       "SUCCESS_MESSAGE": "注册成功",
-      "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "已经有帐号？"

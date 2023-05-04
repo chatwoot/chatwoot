@@ -81,8 +81,7 @@ pt_BR:
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
     conversation_traffic_csv:
-      date: Data e hora
-      conversations_count: Nº de Conversas
+      timezone: Timezone
     default_group_by: dia
     csat:
       headers:
@@ -113,6 +112,11 @@ pt_BR:
         pending: "Conversa foi marcada como pendente por %{user_name}"
         snoozed: "Conversa não atribuída por %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
+        system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
@@ -138,7 +142,7 @@ pt_BR:
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} de %{inbox_name}"
+          reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
@@ -167,6 +171,9 @@ pt_BR:
     google_translate:
       name: "Tradutor do Google"
       description: "Torne isso mais fácil para agentes traduzirem mensagens adicionando uma integração com o Tradutor do Google. O Tradutor do Google ajuda a identificar automaticamente o idioma e convertê-lo para o idioma escolhido pelo administrador de conta/agente."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...

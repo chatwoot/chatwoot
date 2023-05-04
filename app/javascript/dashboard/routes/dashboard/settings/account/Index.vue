@@ -104,6 +104,9 @@
             })
           }}
         </div>
+        <div class="build-id">
+          <div>{{ `Build ${globalConfig.gitSha}` }}</div>
+        </div>
       </div>
 
       <woot-submit-button

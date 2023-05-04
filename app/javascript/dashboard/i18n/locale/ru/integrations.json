@@ -15,8 +15,8 @@
             "MESSAGE_CREATED": "Сообщение создано",
             "MESSAGE_UPDATED": "Сообщение обновлено",
             "WEBWIDGET_TRIGGERED": "Виджет онлайн чата, открыт пользователем",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONTACT_CREATED": "Контакт создан",
+            "CONTACT_UPDATED": "Контакт обновлен"
           }
         },
         "END_POINT": {
@@ -84,6 +84,23 @@
       "START_VIDEO_CALL_HELP_TEXT": "Начать новый видеозвонок с клиентом",
       "JOIN_ERROR": "Произошла ошибка при подключении к вызову, попробуйте еще раз",
       "CREATE_ERROR": "Произошла ошибка при создании ссылки на встречу, попробуйте еще раз"
+    },
+    "OPEN_AI": {
+      "TITLE": "Improve With AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "Отменить"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
       "BUTTON_TEXT": "Удалить",

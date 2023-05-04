@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "コピー",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "コードが正常にクリップボードにコピーされました"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "ホーム",
     "AGENTS": "担当者",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "受信トレイ",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "定型文",

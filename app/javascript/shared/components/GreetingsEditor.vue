@@ -4,6 +4,7 @@
       <woot-message-editor
         v-model="greetingsMessage"
         :is-format-mode="true"
+        :enable-variables="true"
         class="input"
         :placeholder="placeholder"
         :min-height="4"

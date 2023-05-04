@@ -12,17 +12,17 @@
     "DELETE": {
       "TITLE": {
         "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "ACCOUNT": "Atsijungti"
       },
       "MESSAGE": {
         "INBOX": "Are you sure to delete?",
         "ACCOUNT": "Are you sure to disconnect?"
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Yes, Delete",
-        "ACCOUNT": "Yes, Disconnect"
+        "INBOX": "Taip, Ištrinti",
+        "ACCOUNT": "Taip, Atsijungti"
       },
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
@@ -32,7 +32,7 @@
       "FETCHING": "Fetching integration hooks",
       "INBOX": "Inbox",
       "DELETE": {
-        "BUTTON_TEXT": "Delete"
+        "BUTTON_TEXT": "Ištrinti"
       }
     },
     "ADD": {
@@ -41,8 +41,8 @@
           "LABEL": "Select Inbox",
           "PLACEHOLDER": "Select Inbox"
         },
-        "SUBMIT": "Create",
-        "CANCEL": "Cancel"
+        "SUBMIT": "Sukurti",
+        "CANCEL": "Atšaukti"
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
@@ -53,7 +53,7 @@
       "BUTTON_TEXT": "Connect"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Atsijungti"
     },
     "SIDEBAR_DESCRIPTION": {
       "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
