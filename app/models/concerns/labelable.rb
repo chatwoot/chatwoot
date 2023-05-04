@@ -15,13 +15,13 @@ module Labelable
   end
 
   def preloaded_label_list
-    unless @taggings_cache
-      @taggings_cache = []
+    unless @labels_cache
+      @labels_cache = []
       taggings.each do |tagging|
-        @taggings_cache << tagging.tag.name
+        @labels_cache << tagging.tag.name
       end
     end
 
-    @taggings_cache || []
+    @labels_cache || []
   end
 end
