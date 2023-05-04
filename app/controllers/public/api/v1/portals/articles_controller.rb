@@ -1,7 +1,7 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
-  before_action :set_category, except: [:index]
+  before_action :set_category, except: [:index, :show]
   before_action :set_article, only: [:show]
   layout 'portal'
 
@@ -16,7 +16,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   private
 
   def set_article
-    @article = @category.articles.find(permitted_params[:id])
+    @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
     @article.increment_view_count
     @parsed_content = render_article_content(@article.content)
   end
@@ -39,7 +39,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def permitted_params
-    params.permit(:slug, :category_slug, :locale, :id)
+    params.permit(:slug, :category_slug, :locale, :id, :article_slug)
   end
 
   def render_article_content(content)

@@ -54,6 +54,12 @@ class ConversationApi extends ApiClient {
     });
   }
 
+  togglePriority({ conversationId, priority }) {
+    return axios.post(`${this.url}/${conversationId}/toggle_priority`, {
+      priority,
+    });
+  }
+
   assignAgent({ conversationId, agentId }) {
     return axios.post(
       `${this.url}/${conversationId}/assignments?assignee_id=${agentId}`,

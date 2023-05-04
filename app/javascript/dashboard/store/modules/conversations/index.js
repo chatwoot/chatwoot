@@ -16,6 +16,7 @@ const state = {
   appliedFilters: [],
   conversationParticipants: [],
   conversationLastSeen: null,
+  syncConversationsMessages: {},
 };
 
 // mutations
@@ -55,6 +56,11 @@ export const mutations = {
       chat.messages.unshift(...data);
     }
   },
+  [types.SET_MISSING_MESSAGES](_state, { id, data }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (!chat) return;
+    Vue.set(chat, 'messages', data);
+  },
 
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
@@ -78,6 +84,10 @@ export const mutations = {
   ) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     Vue.set(chat, 'last_activity_at', lastActivityAt);
+  },
+  [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    Vue.set(chat, 'priority', priority);
   },
 
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
@@ -214,6 +224,13 @@ export const mutations = {
 
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+  },
+
+  [types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](
+    _state,
+    { conversationId, messageId }
+  ) {
+    _state.syncConversationsMessages[conversationId] = messageId;
   },
 };
 

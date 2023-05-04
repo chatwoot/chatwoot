@@ -478,7 +478,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Pārbaudes Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Palīdzības centrs",
+      "PLACEHOLDER": "Izvēlēties Palīdzības Centru",
+      "SELECT_PLACEHOLDER": "Izvēlēties Palīdzības Centru",
+      "REMOVE": "Noņemt Palīdzības Centru",
+      "SUB_TEXT": "Pievienot Palīdzības Centru ar iesūtni"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",

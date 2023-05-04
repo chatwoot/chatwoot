@@ -5,6 +5,7 @@ describe Whatsapp::SendOnWhatsappService do
     name: 'sample_shipping_confirmation',
     namespace: '23423423_2342423_324234234_2343224',
     language: 'en_US',
+    category: 'Marketing',
     processed_params: { '1' => '3' }
   }
 

@@ -3,16 +3,16 @@
     "TITLE": "Chatwootにログイン",
     "EMAIL": {
       "LABEL": "Eメール",
-      "PLACEHOLDER": "Eメール　例：someone@example.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "パスワード",
       "PLACEHOLDER": "パスワード"
     },
     "API": {
-      "SUCCESS_MESSAGE": "ログインしました",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。",
-      "UNAUTH": "ユーザー名/パスワードが正しくありません。もう一度やり直してください"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",

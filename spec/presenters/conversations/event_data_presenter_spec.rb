@@ -31,6 +31,7 @@ RSpec.describe Conversations::EventDataPresenter do
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         created_at: conversation.created_at.to_i,
+        priority: nil,
         unread_count: 0
       }
     end

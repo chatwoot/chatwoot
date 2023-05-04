@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
     "SAVE_CONTACT": "שמור",
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
     "NO_RESPONSE": "אין תגובה",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "תגובה הבאה",
         "TOMORROW": "מחר",
         "NEXT_WEEK": "שבוע הבא"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "כלום",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "כלום",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "לא נמצאו תוצאות",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {

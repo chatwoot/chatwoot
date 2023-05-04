@@ -12,7 +12,9 @@ RSpec.describe 'Public Categories API', type: :request do
 
   describe 'GET /public/api/v1/portals/:portal_slug/categories' do
     it 'Fetch all categories in the portal' do
-      get "/hc/#{portal.slug}/categories"
+      category = portal.categories.first
+
+      get "/hc/#{portal.slug}/#{category.locale}/categories"
 
       expect(response).to have_http_status(:success)
     end
@@ -20,9 +22,9 @@ RSpec.describe 'Public Categories API', type: :request do
 
   describe 'GET /public/api/v1/portals/:portal_slug/categories/:slug' do
     it 'Fetch category with the slug' do
-      category_locale = 'en'
+      category = portal.categories.first
 
-      get "/hc/#{portal.slug}/#{category_locale}/categories"
+      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
 
       expect(response).to have_http_status(:success)
     end
