@@ -8,7 +8,7 @@ RSpec.describe DeleteObjectJob, type: :job do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(account)
-      .on_queue('default')
+      .on_queue('low')
   end
 
   context 'when an object is passed to the job' do
