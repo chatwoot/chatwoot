@@ -36,7 +36,7 @@
       "TEAM_NAME": "Team Name",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Labels",
+      "LABELS": "Etiketės",
       "BROWSER_LANGUAGE": "Browser Language",
       "PRIORITY": "Priority",
       "COUNTRY_NAME": "Country Name",
@@ -47,7 +47,7 @@
       "CUSTOM_ATTRIBUTE_LINK": "Nuoroda",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "LAST_ACTIVITY": "Paskutiniai veiksmai"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standartinis Filtras",

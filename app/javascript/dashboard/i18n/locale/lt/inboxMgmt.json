@@ -232,9 +232,9 @@
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "API raktas",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
+          "PLACEHOLDER": "API raktas",
           "ERROR": "Please enter a valid value."
         },
         "API_CALLBACK": {
@@ -249,7 +249,7 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
+        "TITLE": "API kanalas",
         "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
@@ -261,13 +261,13 @@
           "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Sukurti API kanalą",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the api channel"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
+        "TITLE": "El. pašto kanalas",
         "DESC": "Integrate you email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
@@ -286,7 +286,7 @@
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
+        "TITLE": "LINE kanalas",
         "DESC": "Integrate with LINE channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
@@ -315,14 +315,14 @@
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
+        "TITLE": "Telegram Kanalas",
         "DESC": "Integrate with Telegram channel and start supporting your customers.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
           "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Sukurti Telegram kanalą",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
@@ -365,18 +365,18 @@
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "Pridėti agentus",
       "ADD_AGENTS": "Adding Agents to your Inbox..."
     },
     "FINISH": {
       "TITLE": "Your Inbox is ready!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Daugiau nustatymų",
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
     },
     "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "VIEW": "Paržiūra",
     "EDIT": {
       "API": {
         "SUCCESS_MESSAGE": "Inbox settings updated successfully",
@@ -404,12 +404,12 @@
         "DISABLED": "Disabled"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Leisti"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Ištrinti Avatarą",
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",
         "MESSAGE": "Ar tikrai norite ištrinti ",
@@ -425,35 +425,35 @@
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
+      "SETTINGS": "Nustatymai",
+      "COLLABORATORS": "Bendradarbiai",
+      "CONFIGURATION": "Konfiguracija",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BUSINESS_HOURS": "Darbo valandos",
+      "WIDGET_BUILDER": "Valdiklių kūrimo priemonė",
+      "BOT_CONFIGURATION": "Boto konfiguracija"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Nustatymai",
     "FEATURES": {
-      "LABEL": "Features",
+      "LABEL": "Funkcijos",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
       "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_HEADING": "Messenger scenarijus",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agentai",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
+      "UPDATE": "Atnaujinti",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT": "Leisti CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
@@ -464,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
@@ -475,18 +476,18 @@
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Atnaujinti API raktą",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atnaujinti",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
+      "LABEL": "Palaikymo centras",
+      "PLACEHOLDER": "Pasirinkti Pagalbos Centrą",
+      "SELECT_PLACEHOLDER": "Pasirinkti Pagalbos Centrą",
+      "REMOVE": "Pašalinti Pagalbos Centrą",
       "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
@@ -504,8 +505,8 @@
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
       "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
+        "FIELDS": "Laukai",
+        "LABEL": "Etiketė",
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Raktas",
         "TYPE": "Tipas",

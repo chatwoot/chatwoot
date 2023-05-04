@@ -62,7 +62,7 @@
     },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",

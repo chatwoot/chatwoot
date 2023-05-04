@@ -25,7 +25,7 @@
         },
         "AUDIENCE": {
           "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
+          "PLACEHOLDER": "Pažymėti klieto etiketes",
           "ERROR": "Audience is required"
         },
         "INBOX": {
@@ -77,7 +77,7 @@
     },
     "EDIT": {
       "TITLE": "Edit campaign",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
       "API": {
         "SUCCESS_MESSAGE": "Campaign updated successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
@@ -98,7 +98,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Pridėti",
         "EDIT": "Redaguoti",
         "DELETE": "Ištrinti"
       },

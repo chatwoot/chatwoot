@@ -184,11 +184,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Etikečių Peržiūra",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Parsisiųsti etiketės ataskaitas",
+    "FILTER_DROPDOWN_LABEL": "Pažymėti Etiketę",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
@@ -422,7 +422,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
+      "OPEN": "Atidaryti",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned"
     },

@@ -23,7 +23,7 @@
     "BOT_CONFIGURATION": {
       "TITLE": "Select an agent bot",
       "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
-      "SUBMIT": "Update",
+      "SUBMIT": "Atnaujinti",
       "DISCONNECT": "Disconnect Bot",
       "SUCCESS_MESSAGE": "Successfully updated the agent bot",
       "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",

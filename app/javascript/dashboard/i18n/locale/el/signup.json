@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Επωνυμία εταιρείας",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Το όνομα της εταιρείας είναι πολύ σύντομο."
+      "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας σας. π. χ.: Wayne Enterprises",
+      "ERROR": "Το όνομα της εταιρείας είναι πολύ σύντομο"
     },
     "FULL_NAME": {
       "LABEL": "Πλήρες όνομα",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
-      "ERROR": "Το πλήρες όνομα είναι πολύ σύντομο."
+      "PLACEHOLDER": "Συμπληρώστε το πλήρες σας όνομα: πχ: Χρήστος Παπαδόπουλος",
+      "ERROR": "Το πλήρες όνομα είναι πολύ σύντομο"
     },
     "EMAIL": {
       "LABEL": "email εργασίας",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
-      "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email."
+      "PLACEHOLDER": "συμπληρώστε το email εργασίας πχ: papadopoulos@wyane.com",
+      "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
     },
     "PASSWORD": {
       "LABEL": "Κωδικός",
       "PLACEHOLDER": "Κωδικός",
-      "ERROR": "Ο κωδικός είναι πολύ σύντομος.",
-      "IS_INVALID_PASSWORD": "Ο κωδικός πρόσβασης πρέπει να περιέχει τουλάχιστον 1 κεφαλαίο γράμμα, 1 πεζό γράμμα, 1 αριθμό και 1 ειδικό χαρακτήρα."
+      "ERROR": "Ο κωδικός είναι πολύ σύντομος",
+      "IS_INVALID_PASSWORD": "Ο κωδικός πρόσβασης πρέπει να περιέχει τουλάχιστον 1 κεφαλαίο γράμμα, 1 πεζό γράμμα, 1 αριθμό και 1 ειδικό χαρακτήρα"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
-      "ERROR": "Οι κωδικοί δεν συμφωνούν."
+      "LABEL": "Επιβεβαίωση κωδικού",
+      "PLACEHOLDER": "Επιβεβαίωση κωδικού",
+      "ERROR": "Οι κωδικοί δεν συμφωνούν"
     },
     "API": {
       "SUCCESS_MESSAGE": "Επιτυχής καταχώρηση",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Έχετε ήδη ένα λογαριασμό?"

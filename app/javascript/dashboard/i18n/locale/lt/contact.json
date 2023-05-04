@@ -11,34 +11,34 @@
     "CONVERSATION_TITLE": "Conversation Details",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Naršyklė",
-    "OS": "Operating System",
+    "OS": "Operacinė Sistema",
     "INITIATED_FROM": "Initiated from",
     "INITIATED_AT": "Initiated at",
-    "IP_ADDRESS": "IP Address",
-    "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
+    "IP_ADDRESS": "IP Adresas",
+    "CREATED_AT_LABEL": "Sukurta",
+    "NEW_MESSAGE": "Naujas pranešimas",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Kontakto Žymeklis",
+        "ERROR": "Nepavyko atnaujinti etikečių"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "Pokalbio Etiketės",
+        "ADD_BUTTON": "Pridėti Etiketę"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Pridėti Etiketę",
+        "PLACEHOLDER": "Ieškoti etikečių",
+        "NO_RESULT": "Etikečių nerasta"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
+    "MERGE_CONTACT": "Sujungti kontaktą",
     "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Mute Conversation",
+    "MUTE_CONTACT": "Tildyti pokalbį",
     "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
@@ -46,38 +46,38 @@
     "EDIT_LABEL": "Redaguoti",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
-      "CONTACT_LABELS": "Contact Labels",
+      "CONTACT_LABELS": "Kontakto Žymeklis",
       "PREVIOUS_CONVERSATIONS": "Previous Conversations"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
+    "BUTTON_LABEL": "Keisti Kontaktą",
+    "TITLE": "Keisti Kontaktą",
     "DESC": "Edit contact details"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
+    "BUTTON_LABEL": "Naujas Kontaktas",
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
+    "BUTTON_LABEL": "Importuoti",
+    "TITLE": "Importuoti Kontaktus",
     "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "DOWNLOAD_LABEL": "Užkrauti csv. pavyzdį.",
     "FORM": {
       "LABEL": "CSV failas",
-      "SUBMIT": "Import",
+      "SUBMIT": "Importuoti",
       "CANCEL": "Atšaukti"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Kontaktas išsaugotas sėkmingai",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Patvirtinti Ištrynimą",
       "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "YES": "Taip, Trinti",
       "NO": "No, Keep it"
     }
   },
@@ -89,10 +89,10 @@
       "TITLE": "Patvirtinti Ištrynimą",
       "MESSAGE": "Ar tikrai norite ištrinti ",
       "YES": "Taip, Ištrinti",
-      "NO": "No, Keep"
+      "NO": "Ne, Išsaugoti"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "SUCCESS_MESSAGE": "Agentas ištrintas sėkmingai",
       "ERROR_MESSAGE": "Could not delete contact. Please try again later."
     }
   },
@@ -101,7 +101,7 @@
       "SUBMIT": "Pateikti",
       "CANCEL": "Atšaukti",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Kontakto Avataras"
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
@@ -115,12 +115,12 @@
         "PLACEHOLDER": "Enter the email address of the contact",
         "LABEL": "El. pašto adresas",
         "DUPLICATE": "This email address is in use for another contact.",
-        "ERROR": "Please enter a valid email address."
+        "ERROR": "Prašau įveskite teisingą el. pašto adresą."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
         "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Phone number should be either empty or of E.164 format",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "This phone number is in use for another contact."
@@ -130,35 +130,35 @@
         "LABEL": "Vieta"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Įveskite įmonės pavadinimą",
+        "LABEL": "Įmonės pavadinimas"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Įveskite šalies pavadinimą",
         "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "Pasirinkti",
         "REMOVE": "Remove",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Pasirinkti Šalį"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
+        "PLACEHOLDER": "Įveskite miesto pavadinimą",
         "LABEL": "Miesto pavadinimas"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Įveskite Facebook vartotojo vardą",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Įveskite Twitter vartotojo vardą",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Įveskite LinkedIn vartotojo vardą",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Įveskite Github vartotojo vardą",
           "LABEL": "Github"
         }
       }
@@ -173,8 +173,8 @@
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
+    "BUTTON_LABEL": "Pradėti pokalbį",
+    "TITLE": "Naujas pokalbis",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
@@ -182,29 +182,29 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Inbox",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "Tema",
+        "PLACEHOLDER": "Tema",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
         "LABEL": "Žinutė",
-        "PLACEHOLDER": "Write your message here",
+        "PLACEHOLDER": "Rašykite pranešimą čia",
         "ERROR": "Message can't be empty"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Išsiųsti pranešimą",
       "CANCEL": "Atšaukti",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "GO_TO_CONVERSATION": "View",
+      "SUCCESS_MESSAGE": "Pranešimas įšsiųstas!",
+      "GO_TO_CONVERSATION": "Paržiūra",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
+    "HEADER": "Kontaktai",
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Ieškoti",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
@@ -212,142 +212,142 @@
     "FILTER_CONTACTS_SAVE": "Išsaugoti filtrą",
     "FILTER_CONTACTS_DELETE": "Trinti filtrą",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
+      "LOADING_MESSAGE": "Kontaktai užkraunami...",
       "404": "No contacts matches your search 🔍",
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Vardas",
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "Pokalbiai",
-        "LAST_ACTIVITY": "Last Activity",
+        "LAST_ACTIVITY": "Paskutiniai veiksmai",
         "CREATED_AT": "Created At",
         "COUNTRY": "Šalis",
         "CITY": "Miestas",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "Socialinių tinklų profiliai",
         "COMPANY": "Įmonė",
         "EMAIL_ADDRESS": "El. pašto adresas"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Pažiūrėti detaliau"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
+    "BACK_BUTTON": "Kontaktai",
     "LOADING": "Loading contact profile..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
+      "BUTTON": "Pridėti",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Užbaigimo data",
+      "LABEL_TITLE": "Nustatyti tipą"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
+    "FETCHING_NOTES": "Gaunamos pastabos...",
     "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "Pastabos"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "pridėta pastabą"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
+      "BUTTON": "Pridėti",
+      "PLACEHOLDER": "Pridėti pastabą",
       "TITLE": "Shift + Enter to create a note"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Trinti pastabą"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Užsiėmimai"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "pastabos",
       "PILL_BUTTON_EVENTS": "įvykiai",
-      "PILL_BUTTON_CONVO": "conversations"
+      "PILL_BUTTON_CONVO": "pokalbiai"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "Pridėti požymius",
+    "BUTTON": "Pridėti personalizuotą požymį",
+    "NOT_AVAILABLE": "Nėra personalizuotų požymių šiam kontaktui.",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "Kopijuoti požymį",
+      "DELETE": "Ištrinti požymį",
+      "EDIT": "Taisyti požymį"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
+      "TITLE": "Sukurti personalizuotą požymį",
       "DESC": "Add custom information to this contact."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Pridėti požymį",
       "CANCEL": "Atšaukti",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Personalizuoto požymio pavadinimas",
+        "PLACEHOLDER": "Pvz: shopify id",
+        "ERROR": "Neteisingas prsonalizuoto požymio pavadinimas"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "Požymio reikšmė",
+        "PLACEHOLDER": "Pvz: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
+        "TITLE": "Sukurti naują požymį ",
+        "SUCCESS": "Požymis pridėtas sėkmingai",
         "ERROR": "Unable to add attribute. Please try again later"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
+        "SUCCESS": "Požymis atnaujintas sėkmingai",
         "ERROR": "Unable to update attribute. Please try again later"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
+        "SUCCESS": "Požymis ištrintas sėkmingai",
         "ERROR": "Unable to delete attribute. Please try again later"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Pridėti požymius",
+        "PLACEHOLDER": "Ieškoti požymių",
+        "NO_RESULT": "Požymių nerasta"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Pasirinkti reikšmę",
+          "SEARCH_INPUT_PLACEHOLDER": "Ieškoti reikšmės",
+          "NO_RESULT": "Nieko nerasta"
         }
       }
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "INVALID_URL": "Neteisingas URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "Sujungti kontaktus",
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Pirminis kontaktas",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Turi būti saugoma"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
       "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "HELP_LABEL": "Turi būti ištrinta"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
+      "TITLE": "Santrauka",
       "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "KLAIDOS_PRANEŠIMAS"
     },
     "FORM": {
       "SUBMIT": " Merge contacts",

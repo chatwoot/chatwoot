@@ -71,7 +71,7 @@ lt:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     label_csv:
-      label_title: Label
+      label_title: Etiketė
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -126,8 +126,8 @@ lt:
         assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
         removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
+        added: "%{user_name} pridėjo %{labels}"
+        removed: "%{user_name} pašalino %{labels}"
       muted: "%{user_name} has muted the conversation"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
@@ -177,7 +177,7 @@ lt:
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
-      empty_placeholder: No results found.
+      empty_placeholder: Nieko nerasta.
       loading_placeholder: Searching...
       results_title: Search results
     hero:

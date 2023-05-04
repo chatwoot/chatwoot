@@ -3,7 +3,7 @@
     "HEADER": {
       "FILTER": "Filtruoti pagal",
       "SORT": "Rūšiuoti pagal",
-      "SETTINGS_BUTTON": "Settings",
+      "SETTINGS_BUTTON": "Nustatymai",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Paskelbta",
@@ -97,7 +97,7 @@
             "COUNT_LABEL": "articles",
             "ADD": "Add locale",
             "VISIT": "Visit site",
-            "SETTINGS": "Settings",
+            "SETTINGS": "Nustatymai",
             "DELETE": "Ištrinti"
           },
           "PORTAL_CONFIG": {
@@ -192,7 +192,7 @@
           }
         ],
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Atgal",
           "BASIC_SETTINGS_PAGE": {
             "HEADER": "Create Portal",
             "TITLE": "Help center information",
