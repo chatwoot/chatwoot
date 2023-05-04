@@ -11,23 +11,22 @@
 # Sidekiq will run this file through ERB when reading it so you can
 # even put in dynamic logic, like a host-specific queue.
 # http://www.mikeperham.com/2013/11/13/advanced-sidekiq-host-specific-queues/
+# https://github.com/sidekiq/sidekiq/wiki/Advanced-Options
+# Since queues are declared without waits, the jobs in lower ranking queues will only be processed
+# if there are no jobs in higher ranking queues.
 :queues:
-  - [async_database_migration, 1]
-  - [low, 2]
-  - [scheduled_jobs, 2]
-  - [webhooks, 2]
-  - [bots, 2]
-  - [active_storage_analysis, 2]
-  - [action_mailbox_incineration, 2]
-  - [active_storage_purge, 2]
-  - [integrations, 3]
-  - [default, 3]
-  - [mailers, 3]
-  - [medium, 4]
-  - [events, 4]
-  - [action_mailbox_routing, 4]
-  - [high, 5]
-  - [critical, 10]
+  - critical
+  - high
+  - medium
+  - default
+  - mailers
+  - action_mailbox_routing
+  - low
+  - scheduled_jobs
+  - async_database_migration
+  - active_storage_analysis
+  - active_storage_purge
+  - action_mailbox_incineration
 
 # you can override concurrency based on environment
 production:
