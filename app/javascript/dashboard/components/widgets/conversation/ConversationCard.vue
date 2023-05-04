@@ -12,7 +12,7 @@
     @contextmenu="openContextMenu($event)"
   >
     <div class="conversation--message-context w-full">
-      <div class="conversation--first-row  w-full">
+      <div class="conversation--first-row w-full">
         <div class="conversation--contact-meta">
           <label
             v-if="hovered || selected"
