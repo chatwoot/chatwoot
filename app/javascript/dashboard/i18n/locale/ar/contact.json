@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
         "LABEL": "رقم الهاتف",
-        "HELP": "يجب ان يحتوى رقم الهاتف على كود دولتك تسبقها علامة +\nمثال: +20101243567",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "يجب ان تكون خانة رقم الهاتف إما فارغة او مكتملة مع رمز الدولة",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "رقم الهاتف هذا مستخدم لجهة اتصال أخرى."
       },
       "LOCATION": {
@@ -181,7 +182,8 @@
         "LABEL": "إلى"
       },
       "INBOX": {
-        "LABEL": "صندوق الوارد",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "حدد صندوق الوارد"
       },
       "SUBJECT": {

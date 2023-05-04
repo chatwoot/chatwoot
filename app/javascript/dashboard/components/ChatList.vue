@@ -126,6 +126,7 @@
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
         @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -192,6 +193,7 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
+import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -249,6 +251,9 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
+      // chatsOnView is to store the chats that are currently visible on the screen,
+      // which mirrors the conversationList.
+      chatsOnView: [],
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
@@ -348,17 +353,38 @@ export default {
         this.currentPageFilterKey
       );
     },
+    activeAssigneeTabCount() {
+      const { activeAssigneeTab } = this;
+      const count = this.assigneeTabItems.find(
+        item => item.key === activeAssigneeTab
+      ).count;
+      return count;
+    },
     conversationFilters() {
       return {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
-        page: this.currentPage + 1,
+        page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId || undefined,
         conversationType: this.conversationType || undefined,
         folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
+    },
+    conversationListPagination() {
+      const conversationsPerPage = 25;
+      const isNoFiltersOrFoldersAndChatListNotEmpty =
+        !this.hasAppliedFiltersOrActiveFolders && this.chatsOnView !== [];
+      const isUnderPerPage =
+        this.chatsOnView.length < conversationsPerPage &&
+        this.activeAssigneeTabCount < conversationsPerPage &&
+        this.activeAssigneeTabCount > this.chatsOnView.length;
+
+      if (isNoFiltersOrFoldersAndChatListNotEmpty && isUnderPerPage) {
+        return 1;
+      }
+      return this.currentPage + 1;
     },
     pageTitle() {
       if (this.hasAppliedFilters) {
@@ -401,7 +427,6 @@ export default {
       } else {
         conversationList = [...this.chatLists];
       }
-
       return conversationList;
     },
     activeFolder() {
@@ -449,6 +474,9 @@ export default {
       if (!this.hasAppliedFilters) {
         this.resetAndFetchData();
       }
+    },
+    chatLists() {
+      this.chatsOnView = this.conversationList;
     },
   },
   mounted() {
@@ -670,6 +698,26 @@ export default {
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
+    },
+    async assignPriority(priority, conversationId = null) {
+      this.$store.dispatch('setCurrentChatPriority', {
+        priority,
+        conversationId,
+      });
+      this.$store
+        .dispatch('assignPriority', { conversationId, priority })
+        .then(() => {
+          this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+            newValue: priority,
+            from: 'Context menu',
+          });
+          this.showAlert(
+            this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
+              priority,
+              conversationId,
+            })
+          );
+        });
     },
     async markAsUnread(conversationId) {
       try {

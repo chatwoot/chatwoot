@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "חפש נציגים",
-          "TEAM": "חפש קבוצות"
+          "TEAM": "חפש קבוצות",
+          "INPUT": "Search for agents"
         }
       }
     }

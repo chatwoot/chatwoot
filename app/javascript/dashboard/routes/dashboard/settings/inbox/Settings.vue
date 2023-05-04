@@ -258,7 +258,22 @@
             }}
           </p>
         </label>
-
+        <div class="medium-9 settings-item settings-item">
+          <label>
+            {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
+          </label>
+          <select v-model="selectedPortalSlug" class="filter__question">
+            <option value="">
+              {{ $t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER') }}
+            </option>
+            <option v-for="p in portals" :key="p.slug" :value="p.slug">
+              {{ p.name }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
+          </p>
+        </div>
         <label
           v-if="canLocktoSingleConversation"
           class="medium-9 columns settings-item"
@@ -425,6 +440,7 @@ export default {
       selectedFeatureFlags: [],
       replyTime: '',
       selectedTabIndex: 0,
+      selectedPortalSlug: '',
     };
   },
   computed: {
@@ -432,6 +448,7 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'inboxes/getUIFlags',
+      portals: 'portals/allPortals',
     }),
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
@@ -519,6 +536,7 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
+
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
@@ -566,8 +584,12 @@ export default {
   },
   mounted() {
     this.fetchInboxSettings();
+    this.fetchPortals();
   },
   methods: {
+    fetchPortals() {
+      this.$store.dispatch('portals/index');
+    },
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -607,6 +629,9 @@ export default {
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
+        this.selectedPortalSlug = this.inbox.help_center
+          ? this.inbox.help_center.slug
+          : '';
       });
     },
     async updateInbox() {
@@ -619,6 +644,11 @@ export default {
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
+          portal_id: this.selectedPortalSlug
+            ? this.portals.find(
+                portal => portal.slug === this.selectedPortalSlug
+              ).id
+            : null,
           lock_to_single_conversation: this.locktoSingleConversation,
           channel: {
             widget_color: this.inbox.widget_color,

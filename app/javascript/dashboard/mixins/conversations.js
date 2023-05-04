@@ -13,6 +13,26 @@ const getLastNonActivityMessage = (messageInStore, messageFromAPI) => {
   return messageInStore || messageFromAPI;
 };
 
+export const filterDuplicateSourceMessages = (messages = []) => {
+  const messagesWithoutDuplicates = [];
+  // We cannot use Map or any short hand method as it returns the last message with the duplicate ID
+  // We should return the message with smaller id when there is a duplicate
+  messages.forEach(m1 => {
+    if (m1.source_id) {
+      if (
+        messagesWithoutDuplicates.findIndex(
+          m2 => m1.source_id === m2.source_id
+        ) < 0
+      ) {
+        messagesWithoutDuplicates.push(m1);
+      }
+    } else {
+      messagesWithoutDuplicates.push(m1);
+    }
+  });
+  return messagesWithoutDuplicates;
+};
+
 export default {
   methods: {
     lastMessage(m) {
@@ -35,9 +55,9 @@ export default {
         lastNonActivityMessageFromAPI
       );
     },
-    readMessages(m) {
-      return m.messages
-        .filter(chat => chat.created_at * 1000 <= m.agent_last_seen_at * 1000)
+    readMessages(messages, agentLastSeenAt) {
+      return messages
+        .filter(chat => chat.created_at * 1000 <= agentLastSeenAt * 1000)
         .map(chat => {
           let temp = chat;
           if (chat.content_attributes.external_created_at)
@@ -50,9 +70,9 @@ export default {
           return a.created_at - b.created_at;
         });
     },
-    unReadMessages(m) {
-      return m.messages
-        .filter(chat => chat.created_at * 1000 > m.agent_last_seen_at * 1000)
+    unReadMessages(messages, agentLastSeenAt) {
+      return messages
+        .filter(chat => chat.created_at * 1000 > agentLastSeenAt * 1000)
         .map(chat => {
           let temp = chat;
           if (chat.content_attributes.external_created_at)
@@ -65,8 +85,8 @@ export default {
           return a.created_at - b.created_at;
         });
     },
-    lastMessageAt(m) {
-      const incomingMessages = m.messages.filter(a => {
+    lastMessageAt(messages) {
+      const incomingMessages = messages.filter(a => {
         return a.message_type === 0;
       });
       const latestIncomingMessage = incomingMessages.sort((a, b) =>

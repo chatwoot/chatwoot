@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
     },
     "FULL_NAME": {
       "LABEL": "Fullt navn",
-      "PLACEHOLDER": "Skriv inn fullt navn. F. eks: Ola Nordmann",
-      "ERROR": "Kontonavnet er for kort"
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Kontonavnet er for kort."
     },
     "EMAIL": {
       "LABEL": "Bedriftse-postadresse",
-      "PLACEHOLDER": "Skriv inn din profesjonelle e-postadresse. F.eks: ola@olasbedrift.no",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
       "LABEL": "Passord",
       "PLACEHOLDER": "Passord",
-      "ERROR": "Passordet er for kort",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "Passordet er for kort.",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Bekreft passord",
-      "PLACEHOLDER": "Bekreft passord",
-      "ERROR": "Passordet stemmer ikke"
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Passordet stemmer ikke."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrering fullført",
-      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Har du allerede en konto?"

@@ -332,7 +332,7 @@
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
-        "TITLE": "Agents",
+        "TITLE": "Agentai",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
         "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
@@ -408,14 +408,14 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Ištrinti",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
@@ -445,7 +445,7 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "Agentai",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
@@ -478,7 +478,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -498,8 +507,8 @@
         "FIELDS": "Fields",
         "LABEL": "Label",
         "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
+        "KEY": "Raktas",
+        "TYPE": "Tipas",
         "REQUIRED": "Required"
       },
       "ENABLE": {
@@ -652,7 +661,7 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "Peržiūrėti",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {

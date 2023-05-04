@@ -19,6 +19,14 @@ export const CONVERSATION_STATUS = {
   PENDING: 'pending',
   SNOOZED: 'snoozed',
 };
+
+export const CONVERSATION_PRIORITY = {
+  URGENT: 'urgent',
+  HIGH: 'high',
+  LOW: 'low',
+  MEDIUM: 'medium',
+};
+
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
 export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
