@@ -4,10 +4,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
-    elsif message.content_type == "text"
-      send_text_message(phone_number, message)
-    else
+    elsif message.content_type == 'input_select'
       send_text_message_interactive(phone_number, message)
+    else
+      send_text_message(phone_number, message)
     end
   end
 
@@ -89,69 +89,58 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_text_message_interactive(phone_number, message)
-    # Cria um array vazio para armazenar os botões
-    botoes = []
+    buttons = []
     rows = []
-    pacote = {}
+    package_send = {}
     sections = []
 
-    if message.content_attributes["items"].length <=3
-      
-      message.content_attributes["items"].each do |item|
-        botao = { "type": "reply", "reply" => { "id" => item["value"], "title" => item["title"] } }
-        botoes << botao
+    if message.content_attributes['items'].length <= 3
+
+      message.content_attributes['items'].each do |item|
+        button = { :type => 'reply', 'reply' => { 'id' => item['value'], 'title' => item['title'] } }
+        buttons << button
       end
-      
-      # Cria o hash com os dados para o JSON
-      hash_json = { "buttons" => botoes }
 
-      # Converte o hash em JSON
-      json_resultado = JSON.generate(hash_json)
+      hash_json = { 'buttons' => buttons }
+      json_result = JSON.generate(hash_json)
 
-      pacote = {
-        "type": "button",
-        "body": {
-          "text": message.content
+      package_send = {
+        'type': 'button',
+        'body': {
+          'text': message.content
         },
-        "action": json_resultado
+        'action': json_result
       }
 
     else
-      message.content_attributes["items"].each do |item|
-        row = { "id" => item["value"], "title" => item["title"] } 
+      message.content_attributes['items'].each do |item|
+        row = { 'id' => item['value'], 'title' => item['title'] }
         rows << row
       end
 
-      # Cria uma hash para a primeira seção com base nos dados em rows
-      section1 = { "rows" => rows }
+      section1 = { 'rows' => rows }
       sections << section1
+      hash_json = { :button => 'Escolha um item', 'sections' => sections }
+      json_result = JSON.generate(hash_json)
 
-      # Cria o hash com os dados para o JSON
-      hash_json = { "button": "Escolha um item", "sections" => sections }
-
-      # Converte o hash em JSON
-      json_resultado = JSON.generate(hash_json)
-
-      pacote = {
-        "type": "list",
-        "body": {
-          "text": message.content
+      package_send = {
+        'type': 'list',
+        'body': {
+          'text': message.content
         },
-        "action": json_resultado
+        'action': json_result
       }
     end
 
-
-
-    botoes_itens = message.content_attributes[:items]
-    botoes = botoes_itens.first
+    buttons_itens = message.content_attributes[:items]
+    buttons = buttons_itens.first
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
         to: phone_number,
-        interactive: pacote,
+        interactive: package_send,
         type: 'interactive'
       }.to_json
     )
