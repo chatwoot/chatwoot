@@ -34,11 +34,11 @@ export default {
     },
     currentDayWorkingHours() {
       return this.workingHours.find(
-        slot => slot.day_of_week === this.currentDay
+        slot => slot.day_of_week === this.currentDay()
       );
     },
     nextDayWorkingHours() {
-      let nextDay = this.getNextDay(this.currentDay);
+      let nextDay = this.getNextDay(this.currentDay());
       let nextWorkingHour = this.getNextWorkingHour(nextDay);
 
       // It gets the next working hour for the next day. If there is no working hour for the next day,
@@ -48,26 +48,6 @@ export default {
         nextWorkingHour = this.getNextWorkingHour(nextDay);
       }
       return nextWorkingHour;
-    },
-    newDateWithTimeZone() {
-      const date = new Date();
-      const timeZone = this.timeZoneValue;
-      const zonedDate = utcToZonedTime(date, timeZone);
-      return zonedDate;
-    },
-    presentHour() {
-      return this.newDateWithTimeZone.getHours();
-    },
-    presentMinute() {
-      return this.newDateWithTimeZone.getMinutes();
-    },
-    currentDay() {
-      const date = this.newDateWithTimeZone;
-      const day = date.getDay();
-      const currentDay = Object.keys(this.dayNames).find(
-        key => this.dayNames[key] === this.dayNames[day]
-      );
-      return Number(currentDay);
     },
     currentDayTimings() {
       const {
@@ -91,7 +71,7 @@ export default {
     },
     dayDiff() {
       // Here this is used to get the difference between current day and next working day
-      const currentDay = this.currentDay;
+      const currentDay = this.currentDay();
       const nextDay = this.nextDayWorkingHours.day_of_week;
       const totalDays = 6;
       return nextDay > currentDay
@@ -102,7 +82,7 @@ export default {
       return this.dayNames[this.nextDayWorkingHours.day_of_week];
     },
     hoursAndMinutesBackInOnline() {
-      if (this.presentHour >= this.currentDayTimings.closeHour) {
+      if (this.presentHour() >= this.currentDayTimings.closeHour) {
         return this.getHoursAndMinutesUntilNextDayOpen(
           this.nextDayWorkingHours.open_all_day
             ? 0
@@ -118,8 +98,10 @@ export default {
       );
     },
     exactTimeInAmPm() {
-      return `${this.timeSlot.day !== this.currentDay ? 'tomorrow' : ''} ${
-        this.timeSlot.day !== this.currentDay ? '' : `at ${this.timeSlot.from}`
+      return `${this.timeSlot.day !== this.currentDay() ? 'tomorrow' : ''} ${
+        this.timeSlot.day !== this.currentDay()
+          ? ''
+          : `at ${this.timeSlot.from}`
       }`;
     },
     hoursAndMinutesLeft() {
@@ -154,7 +136,7 @@ export default {
     timeLeftToBackInOnline() {
       if (
         this.dayDiff > 1 &&
-        this.presentHour >= this.currentDayTimings.closeHour
+        this.presentHour() >= this.currentDayTimings.closeHour
       ) {
         return `on ${this.dayNameOfNextWorkingDay}`;
       }
@@ -168,6 +150,26 @@ export default {
     this.setTimeSlot();
   },
   methods: {
+    newDateWithTimeZone() {
+      const date = new Date();
+      const timeZone = this.timeZoneValue;
+      const zonedDate = utcToZonedTime(date, timeZone);
+      return zonedDate;
+    },
+    presentHour() {
+      return this.newDateWithTimeZone().getHours();
+    },
+    presentMinute() {
+      return this.newDateWithTimeZone().getMinutes();
+    },
+    currentDay() {
+      const date = this.newDateWithTimeZone();
+      const day = date.getDay();
+      const currentDay = Object.keys(this.dayNames).find(
+        key => this.dayNames[key] === this.dayNames[day]
+      );
+      return Number(currentDay);
+    },
     getNextDay(day) {
       // This code calculates the next day of the week based on the current day. If the current day is Saturday (6), then the next day will be Sunday (0).
       return (day + 1) % 7;
@@ -188,12 +190,13 @@ export default {
     ) {
       // This code calculates the time remaining until the next day's opening hours,
       // given the current time, the opening hours, and the closing hours of the current day.
-      const { presentHour, presentMinute } = this;
       if (closeHour < openHour) {
         openHour += 24;
       }
       let diffMinutes =
-        openHour * 60 + openMinutes - (presentHour * 60 + presentMinute);
+        openHour * 60 +
+        openMinutes -
+        (this.presentHour() * 60 + this.presentMinute());
       diffMinutes = diffMinutes < 0 ? diffMinutes + 24 * 60 : diffMinutes;
       const [hoursLeft, minutesLeft] = [
         Math.floor(diffMinutes / 60),
@@ -212,7 +215,7 @@ export default {
       // then the next day's working hours will be used to calculate the time remaining until the next day's opening hours,
       // else the current day's working hours will be used
       const currentSlot =
-        this.presentHour >= this.currentDayTimings.closeHour
+        this.presentHour() >= this.currentDayTimings.closeHour
           ? this.nextDayWorkingHours
           : this.currentDayWorkingHours;
 
