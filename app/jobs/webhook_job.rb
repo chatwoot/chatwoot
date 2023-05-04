@@ -1,5 +1,5 @@
 class WebhookJob < ApplicationJob
-  queue_as :webhooks
+  queue_as :medium
 
   def perform(url, payload)
     Webhooks::Trigger.execute(url, payload)
