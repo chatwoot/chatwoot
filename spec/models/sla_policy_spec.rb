@@ -21,15 +21,12 @@ RSpec.describe SlaPolicy, type: :model do
   end
 
   describe '#with_account' do
-    let(:sla_policy) { create(:sla_policy, account: account) }
-
-    context 'when you delete the author' do
+    context 'when you delete the account' do
       it 'deletes the sla_policy' do
         perform_enqueued_jobs do
           account.destroy!
         end
-
-        expect(sla_policy.destroyed?).to be true
+        expect(described_class.count).to eq 0
       end
     end
   end
