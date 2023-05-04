@@ -39,11 +39,14 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     received_mails(imap).each do |message_id|
       inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
-      next if processed_email?(inbound_mail, last_email_time)
-      next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+      next if email_already_present?(channel, inbound_mail, last_email_time)
 
       process_mail(inbound_mail, channel)
     end
+  end
+
+  def email_already_present?(channel, inbound_mail, last_email_time)
+    processed_email?(inbound_mail, last_email_time) || channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
   end
 
   def received_mails(imap)
