@@ -101,11 +101,11 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   it('should return presentHour', () => {
-    expect(wrapper.vm.presentHour).toBe(new Date().getHours());
+    expect(wrapper.vm.presentHour()).toBe(new Date().getHours());
   });
 
   it('should return presentMinute', () => {
-    expect(wrapper.vm.presentMinute).toBe(new Date().getMinutes());
+    expect(wrapper.vm.presentMinute()).toBe(new Date().getMinutes());
   });
 
   it('should return currentDay', () => {
@@ -114,7 +114,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const currentDay = Object.keys(wrapper.vm.dayNames).find(
       key => wrapper.vm.dayNames[key] === wrapper.vm.dayNames[day]
     );
-    expect(wrapper.vm.currentDay).toBe(Number(currentDay));
+    expect(wrapper.vm.currentDay()).toBe(Number(currentDay));
   });
 
   it('should return currentDayTimings', () => {
@@ -142,7 +142,7 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   it('should return dayDiff', () => {
-    const currentDay = wrapper.vm.currentDay;
+    const currentDay = wrapper.vm.currentDay();
     const nextDay = wrapper.vm.nextDayWorkingHours.day_of_week;
     const totalDays = 6;
     const expectedDayDiff =
@@ -160,14 +160,14 @@ describe('nextAvailabilityTimeMixin', () => {
 
   it('should return hoursAndMinutesBackInOnline', () => {
     const currentDayCloseHour =
-      chatwootWebChannel.workingHours[wrapper.vm.currentDay].close_hour;
+      chatwootWebChannel.workingHours[wrapper.vm.currentDay()].close_hour;
     const nextDayOpenHour =
       chatwootWebChannel.workingHours[
-        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay + 1
+        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay() + 1
       ].open_hour;
     const nextDayOpenMinute =
       chatwootWebChannel.workingHours[
-        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay + 1
+        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay() + 1
       ].open_minutes;
     const expectedHoursAndMinutes = wrapper.vm.getHoursAndMinutesUntilNextDayOpen(
       nextDayOpenHour,
