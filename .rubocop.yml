@@ -17,6 +17,7 @@ Metrics/ClassLength:
     - 'app/builders/messages/facebook/message_builder.rb'
     - 'app/controllers/api/v1/accounts/contacts_controller.rb'
     - 'app/listeners/action_cable_listener.rb'
+    - 'app/services/whatsapp/providers/whatsapp_cloud_service.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -108,6 +109,7 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
     - 'db/migrate/20211219031453_update_foreign_keys_on_delete.rb'
+    - 'app/services/whatsapp/providers/whatsapp_cloud_service.rb'
 Rails/CreateTableWithTimestamps:
   Exclude:
     - 'db/migrate/20170207092002_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb'
@@ -124,6 +126,7 @@ Metrics/AbcSize:
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
     - 'app/controllers/api/v1/accounts/inboxes_controller.rb'
     - 'db/migrate/20211219031453_update_foreign_keys_on_delete.rb'
+    - 'app/services/whatsapp/providers/whatsapp_cloud_service.rb'
 Metrics/CyclomaticComplexity:
   Max: 7
   Exclude:
