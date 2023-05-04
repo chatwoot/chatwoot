@@ -4,7 +4,6 @@
     :class="{
       active: isActiveChat,
       'unread-chat': hasUnread,
-      'has-inbox-name': showInboxName,
       'conversation-selected': selected,
     }"
     @mouseenter="onCardHover"
@@ -12,7 +11,7 @@
     @click="cardClick(chat)"
     @contextmenu="openContextMenu($event)"
   >
-    <div class="conversation--message-context  w-full">
+    <div class="conversation--message-context w-full">
       <div class="conversation--first-row  w-full">
         <div class="conversation--contact-meta">
           <label
@@ -100,11 +99,11 @@
     </div>
     <div class="conversation--metadata-info w-full">
       <card-labels :conversation-id="chat.id">
-        <priority-mark :priority="chat.priority" class="conversation--tags" />
+        <priority-mark :priority="chat.priority" class="conversation--pill" />
         <inbox-name
           v-if="showInboxName"
           :inbox="inbox"
-          class="conversation--tags"
+          class="conversation--pill"
         />
       </card-labels>
     </div>
@@ -339,7 +338,7 @@ export default {
       router.push({ path: frontendURL(path) });
     },
     onCardHover() {
-      // this.hovered = !this.hideThumbnail;
+      this.hovered = !this.hideThumbnail;
     },
     onCardLeave() {
       this.hovered = false;
@@ -420,12 +419,6 @@ export default {
   background: var(--color-background-light);
 }
 
-.has-inbox-name {
-  .checkbox-wrapper {
-    margin-top: var(--space-large);
-  }
-}
-
 .conversation--message-context {
   .conversation--user {
     text-overflow: ellipsis;
@@ -470,18 +463,14 @@ export default {
 }
 
 .checkbox-wrapper {
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
   border-radius: 100%;
-  margin-top: var(--space-normal);
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--w-100);
-  }
+  display: flex;
+  width: 22px;
+  height: auto;
+  justify-content: center;
+  margin-left: var(--space-minus-micro);
 
   input[type='checkbox'] {
     margin: var(--space-zero);
@@ -507,7 +496,7 @@ export default {
   align-items: center;
 }
 
-.conversation--tags {
+.conversation--pill {
   background: transparent;
   border-radius: var(--border-radius-small);
   border: 1px solid var(--s-100);
