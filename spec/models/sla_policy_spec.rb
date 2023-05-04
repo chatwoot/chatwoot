@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SlaPolicy, type: :model do
+  include ActiveJob::TestHelper
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
@@ -19,14 +20,17 @@ RSpec.describe SlaPolicy, type: :model do
     end
   end
 
-  # describe '#associations' do
-  #   let!(:sla_policy) { create(:sla_policy, account: account) }
+  describe '#with_account' do
+    let(:sla_policy) { create(:sla_policy, account: account) }
 
-  #   context 'when you delete the author' do
-  #     it 'deletes the sla_policy' do
-  #       admin.destroy!
-  #       expect(SlaPolicy.count).to eq(0)
-  #     end
-  #   end
-  # end
+    context 'when you delete the author' do
+      it 'deletes the sla_policy' do
+        perform_enqueued_jobs do
+          account.destroy!
+        end
+
+        expect(sla_policy.destroyed?).to be true
+      end
+    end
+  end
 end
