@@ -1,5 +1,5 @@
 class HookJob < ApplicationJob
-  queue_as :integrations
+  queue_as :medium
 
   def perform(hook, event_name, event_data = {})
     case hook.app_id
