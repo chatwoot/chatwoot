@@ -122,33 +122,32 @@ export default {
         this.timeSlot.day !== this.currentDay ? '' : `at ${this.timeSlot.from}`
       }`;
     },
-    hoursLeftValue() {
+    hoursAndMinutesLeft() {
       const { hoursLeft, minutesLeft } = this.hoursAndMinutesBackInOnline;
-      const hourString = hoursLeft === 1 ? 'hour' : 'hours';
-      const roundedUpMinLeft =
-        Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
-        MINUTE_ROUNDING_FACTOR; // round up minutes to nearest multiple of 5
-      return `in ${hoursLeft} ${hourString}${
-        minutesLeft > 0 ? ` and ${roundedUpMinLeft} minutes` : ''
-      }`;
-    },
-    minutesLeftValue() {
-      const { minutesLeft } = this.hoursAndMinutesBackInOnline;
-      const roundedUpMinLeft =
-        Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
-        MINUTE_ROUNDING_FACTOR; // round up minutes to nearest multiple of 5
-      return `in ${roundedUpMinLeft} minutes`;
+
+      const timeLeftChars = ['in'];
+
+      if (hoursLeft > 0) {
+        const hourString = hoursLeft === 1 ? 'hour' : 'hours';
+        timeLeftChars.push(`${hoursLeft} ${hourString}`);
+      }
+
+      if (minutesLeft > 0) {
+        const roundedUpMinLeft =
+          Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
+          MINUTE_ROUNDING_FACTOR;
+        timeLeftChars.push(`${roundedUpMinLeft} minutes`);
+      }
+
+      return timeLeftChars.join(' ');
     },
     hoursAndMinutesToBack() {
       const { hoursLeft, minutesLeft } = this.hoursAndMinutesBackInOnline;
       if (hoursLeft > 3) {
         return this.exactTimeInAmPm;
       }
-      if (hoursLeft > 0) {
-        return this.hoursLeftValue;
-      }
-      if (minutesLeft > 0) {
-        return this.minutesLeftValue;
+      if (hoursLeft > 0 || minutesLeft > 0) {
+        return this.hoursAndMinutesLeft;
       }
       return 'in some time';
     },
