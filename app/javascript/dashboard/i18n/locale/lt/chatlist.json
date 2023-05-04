@@ -1,16 +1,16 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Pokalbiai parsiunčiami",
+    "LOAD_MORE_CONVERSATIONS": "Parsiųsti daugiau pokalbių",
+    "EOF": "Visi poklabiai parsiųsti",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "Šioje grupėje nėra aktyvių pokalbių."
     },
     "TAB_HEADING": "Pokalbiai",
     "MENTION_HEADING": "Paminėjimai",
     "UNATTENDED_HEADING": "Be priežiūros",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Ieškoti Žmonių, Pokalbių, Išsaugotų Atsakymų.."
     },
     "FILTER_ALL": "Visi",
     "ASSIGNEE_TYPE_TABS": {
@@ -20,7 +20,7 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Open"
+        "TEXT": "Atidaryti"
       },
       "resolved": {
         "TEXT": "Išspręsta"
@@ -37,35 +37,35 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Picture message"
+        "CONTENT": "Vaizdinė žinutė"
       },
       "audio": {
         "CONTENT": "Garso žinutė"
       },
       "video": {
-        "CONTENT": "Vaizdo žinutė"
+        "CONTENT": "Video žinutė"
       },
       "file": {
-        "CONTENT": "File Attachment"
+        "CONTENT": "Failas pridėtas"
       },
       "location": {
         "CONTENT": "Vieta"
       },
       "fallback": {
-        "CONTENT": "has shared a url"
+        "CONTENT": "pasidalino URL"
       }
     },
     "RECEIVED_VIA_EMAIL": "Gauta el. paštu",
     "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "LINK_TO_STORY": "Go to instagram story",
+    "REPLY_TO_TWEET": "Atsakyti į šitą tweetą",
+    "LINK_TO_STORY": "Eikite į Instagram istoriją",
     "SENT": "Išsiųsta sėkmingai",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Perskaityta sėkmingai",
+    "DELIVERED": "Pristatyta sėkmingai",
     "NO_MESSAGES": "Nėra Pranešimų",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "NO_CONTENT": "Nėra turinio",
+    "HIDE_QUOTED_TEXT": "Slėpti cituojamą tekstą",
+    "SHOW_QUOTED_TEXT": "Rodyti cituojamą tekstą",
     "MESSAGE_READ": "Skaityti"
   }
 }
