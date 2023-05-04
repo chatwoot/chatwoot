@@ -1,7 +1,7 @@
 require 'net/imap'
 
 class Inboxes::FetchImapEmailsJob < ApplicationJob
-  queue_as :low
+  queue_as :scheduled_jobs
 
   def perform(channel)
     return unless should_fetch_email?(channel)
