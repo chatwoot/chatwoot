@@ -93,6 +93,7 @@
       />
       <AIAssistanceButton
         :conversation-id="conversationId"
+        :is-private-note="isOnPrivateNote"
         :message="message"
         @replace-text="replaceText"
       />

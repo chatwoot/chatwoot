@@ -1,15 +1,28 @@
 <template>
   <div v-if="isAIIntegrationEnabled" class="position-relative">
-    <woot-button
-      v-if="!message"
-      v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE')"
-      icon="wand"
-      color-scheme="secondary"
-      variant="smooth"
-      size="small"
-      :is-loading="isGenerating"
-      @click="createSummary"
-    />
+    <div v-if="!message">
+      <woot-button
+        v-if="isPrivateNote"
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE')"
+        icon="wand"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :is-loading="uiFlags.isSummaryGenerating"
+        @click="createSummary"
+      />
+      <woot-button
+        v-else
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_TITLE')"
+        icon="wand"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :is-loading="uiFlags.isReplySuggestionGenerating"
+        @click="replySuggestion"
+      />
+    </div>
+
     <div v-else>
       <woot-button
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
@@ -45,7 +58,7 @@
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
           </woot-button>
           <woot-button
-            :is-loading="isGenerating"
+            :is-loading="uiFlags.isRephrasing"
             size="small"
             @click="processText"
           >
@@ -73,10 +86,18 @@ export default {
       type: String,
       default: '',
     },
+    isPrivateNote: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      isGenerating: false,
+      uiFlags: {
+        isRephrasing: false,
+        isSummaryGenerating: false,
+        isReplySuggestionGenerating: false,
+      },
       showDropdown: false,
       activeTone: 'professional',
       tones: [
@@ -106,7 +127,7 @@ export default {
       ).hooks[0].id;
     },
     buttonText() {
-      return this.isGenerating
+      return this.uiFlags.isRephrasing
         ? this.$t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.GENERATING')
         : this.$t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.GENERATE');
     },
@@ -124,7 +145,7 @@ export default {
       this.showDropdown = false;
     },
     async processText() {
-      this.isGenerating = true;
+      this.uiFlags.isRephrasing = true;
       try {
         const result = await OpenAPI.processEvent({
           hookId: this.hookId,
@@ -140,11 +161,11 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {
-        this.isGenerating = false;
+        this.uiFlags.isRephrasing = false;
       }
     },
     async createSummary() {
-      this.isGenerating = true;
+      this.uiFlags.isSummaryGenerating = true;
       try {
         const result = await OpenAPI.summarizeEvent({
           hookId: this.hookId,
@@ -158,11 +179,11 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {
-        this.isGenerating = false;
+        this.uiFlags.isSummaryGenerating = false;
       }
     },
     async replySuggestion() {
-      this.isGenerating = true;
+      this.uiFlags.isReplySuggestionGenerating = true;
       try {
         const result = await OpenAPI.summarizeEvent({
           hookId: this.hookId,
@@ -176,7 +197,7 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {
-        this.isGenerating = false;
+        this.uiFlags.isReplySuggestionGenerating = false;
       }
     },
   },
