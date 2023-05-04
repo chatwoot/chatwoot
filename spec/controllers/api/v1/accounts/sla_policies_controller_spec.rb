@@ -13,9 +13,6 @@ RSpec.describe 'Api::V1::Accounts::SlaPoliciesController', type: :request do
       it 'returns all slas in the account' do
         get "/api/v1/accounts/#{account.id}/sla_policies",
             headers: administrator.create_new_auth_token
-
-        sla_policies = account.sla_policies
-
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
