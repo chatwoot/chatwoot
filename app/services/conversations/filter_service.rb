@@ -60,6 +60,12 @@ class Conversations::FilterService < FilterService
     @conversations = @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
     )
+
+    @conversations = @conversations
+                     .left_joins(:messages)
+                     .select('conversations.*, COUNT(DISTINCT messages.id) AS message_count')
+                     .group('conversations.id')
+
     @conversations.latest.page(current_page)
   end
 end
