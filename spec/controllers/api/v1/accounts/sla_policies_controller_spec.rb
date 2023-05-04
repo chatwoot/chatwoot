@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Accounts::SlaPoliciesController', type: :request do
   let(:account) { create(:account) }
   let(:administrator) { create(:user, account: account, role: :administrator) }
+  let(:agent) { create(:user, account: account, role: :agent) }
 
   before do
     create(:sla_policy, account: account, name: 'SLA 1')
@@ -11,6 +12,17 @@ RSpec.describe 'Api::V1::Accounts::SlaPoliciesController', type: :request do
   describe 'GET #index' do
     context 'when it is an authenticated user' do
       it 'returns all slas in the account' do
+        get "/api/v1/accounts/#{account.id}/sla_policies",
+            headers: administrator.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body)
+
+        expect(body['payload'][0]).to include('name' => 'SLA 1')
+      end
+    end
+
+    context 'when the user is an agent' do
+      it 'returns slas in the account' do
         get "/api/v1/accounts/#{account.id}/sla_policies",
             headers: administrator.create_new_auth_token
         expect(response).to have_http_status(:success)
@@ -36,6 +48,18 @@ RSpec.describe 'Api::V1::Accounts::SlaPoliciesController', type: :request do
       it 'shows the sla' do
         get "/api/v1/accounts/#{account.id}/sla_policies/#{sla_policy.id}",
             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body)
+
+        expect(body['payload']).to include('name' => sla_policy.name)
+      end
+    end
+
+    context 'when the user is an agent' do
+      it 'shows the sla details' do
+        get "/api/v1/accounts/#{account.id}/sla_policies/#{sla_policy.id}",
+            headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
@@ -75,6 +99,17 @@ RSpec.describe 'Api::V1::Accounts::SlaPoliciesController', type: :request do
       end
     end
 
+    context 'when the user is an agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/sla_policies",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/sla_policies"
@@ -100,6 +135,17 @@ RSpec.describe 'Api::V1::Accounts::SlaPoliciesController', type: :request do
       end
     end
 
+    context 'when the user is an agent' do
+      it 'returns unauthorized' do
+        put "/api/v1/accounts/#{account.id}/sla_policies/#{sla_policy.id}",
+            params: { sla_policy: { name: 'SLA 2' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         put "/api/v1/accounts/#{account.id}/sla_policies/#{sla_policy.id}"
@@ -119,6 +165,16 @@ RSpec.describe 'Api::V1::Accounts::SlaPoliciesController', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(SlaPolicy.count).to eq(1)
+      end
+    end
+
+    context 'when the user is an agent' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/sla_policies/#{sla_policy.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
