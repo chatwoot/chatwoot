@@ -10,7 +10,7 @@
           "LABEL": "Events",
           "EVENTS": {
             "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_STATUS_CHANGED": "Pokalbio būsena pakeista",
             "CONVERSATION_UPDATED": "Conversation Updated",
             "MESSAGE_CREATED": "Message created",
             "MESSAGE_UPDATED": "Message updated",
@@ -22,7 +22,7 @@
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Example: https://example/api/webhook",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Prašome įvesti tesingą URL adresą"
         },
         "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Ištrinti",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         },
         "CONFIRM": {
           "TITLE": "Patvirtinti Ištrynimą",
@@ -143,14 +143,14 @@
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
+        "FORM_SUBMIT": "Atnaujinti",
         "FORM_CANCEL": "Atšaukti",
         "API_SUCCESS": "Dashboard app updated successfully",
         "API_ERROR": "We couldn't update the app. Please try again later"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Taip, Trinti",
+        "CONFIRM_NO": "Ne, Išsaugoti",
         "TITLE": "Confirm deletion",
         "MESSAGE": "Are you sure to delete the app - %{appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
