@@ -2,7 +2,9 @@ import {
   timeSlotParse,
   defaultTimeSlot,
 } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
-const { utcToZonedTime } = require('date-fns-tz');
+import { utcToZonedTime } from 'date-fns-tz';
+
+const MINUTE_ROUNDING_FACTOR = 5;
 
 export default {
   data() {
@@ -24,44 +26,28 @@ export default {
     channelConfig() {
       return window.chatwootWebChannel;
     },
-    workingHoursEnabled() {
-      const { workingHoursEnabled } = this.channelConfig;
-      return workingHoursEnabled;
-    },
     workingHours() {
-      if (this.workingHoursEnabled) {
-        return this.channelConfig.workingHours;
-      }
-      return null;
+      return this.channelConfig.workingHours;
     },
     timeZoneValue() {
-      if (this.workingHoursEnabled) {
-        return this.channelConfig.timezone;
-      }
-      return null;
+      return this.channelConfig.timezone;
     },
     currentDayWorkingHours() {
-      if (this.workingHoursEnabled) {
-        return this.workingHours.find(
-          slot => slot.day_of_week === this.currentDay
-        );
-      }
-      return null;
+      return this.workingHours.find(
+        slot => slot.day_of_week === this.currentDay
+      );
     },
     nextDayWorkingHours() {
-      if (this.workingHoursEnabled) {
-        let nextDay = this.getNextDay(this.currentDay);
-        let nextWorkingHour = this.getNextWorkingHour(nextDay);
+      let nextDay = this.getNextDay(this.currentDay);
+      let nextWorkingHour = this.getNextWorkingHour(nextDay);
 
-        // It gets the next working hour for the next day. If there is no working hour for the next day,
-        // it keeps iterating through the days of the week until it finds the next working hour.
-        while (!nextWorkingHour) {
-          nextDay = this.getNextDay(nextDay);
-          nextWorkingHour = this.getNextWorkingHour(nextDay);
-        }
-        return nextWorkingHour;
+      // It gets the next working hour for the next day. If there is no working hour for the next day,
+      // it keeps iterating through the days of the week until it finds the next working hour.
+      while (!nextWorkingHour) {
+        nextDay = this.getNextDay(nextDay);
+        nextWorkingHour = this.getNextWorkingHour(nextDay);
       }
-      return null;
+      return nextWorkingHour;
     },
     newDateWithTimeZone() {
       const date = new Date();
@@ -83,64 +69,52 @@ export default {
       );
       return Number(currentDay);
     },
-    currentDayOpenHour() {
-      return this.workingHoursEnabled
-        ? this.currentDayWorkingHours.open_hour
-        : null;
+    currentDayTimings() {
+      const {
+        open_hour: openHour,
+        open_minutes: openMinute,
+        close_hour: closeHour,
+      } = this.currentDayWorkingHours ?? {};
+      return {
+        openHour,
+        openMinute,
+        closeHour,
+      };
     },
-    currentDayOpenMinute() {
-      return this.workingHoursEnabled
-        ? this.currentDayWorkingHours.open_minutes
-        : null;
-    },
-    currentDayCloseHour() {
-      return this.workingHoursEnabled
-        ? this.currentDayWorkingHours.close_hour
-        : null;
-    },
-    nextDayOpenHour() {
-      if (this.workingHoursEnabled) {
-        return this.nextDayWorkingHours.open_all_day
-          ? 0
-          : this.nextDayWorkingHours.open_hour;
-      }
-      return null;
-    },
-    nextDayOpenMinute() {
-      return this.workingHoursEnabled
-        ? this.nextDayWorkingHours.open_minutes
-        : null;
+    nextDayTimings() {
+      const { open_hour: openHour, open_minutes: openMinute } =
+        this.nextDayWorkingHours ?? {};
+      return {
+        openHour,
+        openMinute,
+      };
     },
     dayDiff() {
       // Here this is used to get the difference between current day and next working day
-      if (this.workingHoursEnabled) {
-        const currentDay = this.currentDay;
-        const nextDay = this.nextDayWorkingHours.day_of_week;
-        const totalDays = 6;
-        return nextDay > currentDay
-          ? nextDay - currentDay
-          : totalDays - currentDay + nextDay;
-      }
-      return null;
+      const currentDay = this.currentDay;
+      const nextDay = this.nextDayWorkingHours.day_of_week;
+      const totalDays = 6;
+      return nextDay > currentDay
+        ? nextDay - currentDay
+        : totalDays - currentDay + nextDay;
     },
     dayNameOfNextWorkingDay() {
-      if (this.workingHoursEnabled) {
-        return this.dayNames[this.nextDayWorkingHours.day_of_week];
-      }
-      return null;
+      return this.dayNames[this.nextDayWorkingHours.day_of_week];
     },
     hoursAndMinutesBackInOnline() {
-      if (this.presentHour >= this.currentDayCloseHour) {
+      if (this.presentHour >= this.currentDayTimings.closeHour) {
         return this.getHoursAndMinutesUntilNextDayOpen(
-          this.nextDayOpenHour,
-          this.nextDayOpenMinute,
-          this.currentDayCloseHour
+          this.nextDayWorkingHours.open_all_day
+            ? 0
+            : this.nextDayTimings.openHour,
+          this.nextDayTimings.openMinute,
+          this.currentDayTimings.closeHour
         );
       }
       return this.getHoursAndMinutesUntilNextDayOpen(
-        this.currentDayOpenHour,
-        this.currentDayOpenMinute,
-        this.currentDayCloseHour
+        this.currentDayTimings.openHour,
+        this.currentDayTimings.openMinute,
+        this.currentDayTimings.closeHour
       );
     },
     exactTimeInAmPm() {
@@ -149,26 +123,24 @@ export default {
       }`;
     },
     hoursLeftValue() {
-      const {
-        hours: hoursLeft,
-        minutes: minutesLeft,
-      } = this.hoursAndMinutesBackInOnline;
+      const { hoursLeft, minutesLeft } = this.hoursAndMinutesBackInOnline;
       const hourString = hoursLeft === 1 ? 'hour' : 'hours';
-      const roundedUpMinLeft = Math.ceil(minutesLeft / 5) * 5; // round up minutes to nearest multiple of 5
+      const roundedUpMinLeft =
+        Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
+        MINUTE_ROUNDING_FACTOR; // round up minutes to nearest multiple of 5
       return `in ${hoursLeft} ${hourString}${
         minutesLeft > 0 ? ` and ${roundedUpMinLeft} minutes` : ''
       }`;
     },
     minutesLeftValue() {
-      const { minutes: minutesLeft } = this.hoursAndMinutesBackInOnline;
-      const roundedUpMinLeft = Math.ceil(minutesLeft / 5) * 5; // round up minutes to nearest multiple of 5
+      const { minutesLeft } = this.hoursAndMinutesBackInOnline;
+      const roundedUpMinLeft =
+        Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
+        MINUTE_ROUNDING_FACTOR; // round up minutes to nearest multiple of 5
       return `in ${roundedUpMinLeft} minutes`;
     },
     hoursAndMinutesToBack() {
-      const {
-        hours: hoursLeft,
-        minutes: minutesLeft,
-      } = this.hoursAndMinutesBackInOnline;
+      const { hoursLeft, minutesLeft } = this.hoursAndMinutesBackInOnline;
       if (hoursLeft > 3) {
         return this.exactTimeInAmPm;
       }
@@ -181,10 +153,13 @@ export default {
       return 'in some time';
     },
     timeLeftToBackInOnline() {
-      if (this.dayDiff > 1 && this.presentHour >= this.currentDayCloseHour) {
+      if (
+        this.dayDiff > 1 &&
+        this.presentHour >= this.currentDayTimings.closeHour
+      ) {
         return `on ${this.dayNameOfNextWorkingDay}`;
       }
-      if (this.hoursAndMinutesBackInOnline.hours >= 24) {
+      if (this.hoursAndMinutesBackInOnline.hoursLeft >= 24) {
         return `tomorrow`;
       }
       return this.hoursAndMinutesToBack;
@@ -196,7 +171,7 @@ export default {
   methods: {
     getNextDay(day) {
       // This code calculates the next day of the week based on the current day. If the current day is Saturday (6), then the next day will be Sunday (0).
-      return day === 6 ? 0 : day + 1;
+      return (day + 1) % 7;
     },
     getNextWorkingHour(day) {
       const workingHour = this.workingHours.find(
@@ -221,36 +196,37 @@ export default {
       let diffMinutes =
         openHour * 60 + openMinutes - (presentHour * 60 + presentMinute);
       diffMinutes = diffMinutes < 0 ? diffMinutes + 24 * 60 : diffMinutes;
-      const [hours, minutes] = [Math.floor(diffMinutes / 60), diffMinutes % 60];
+      const [hoursLeft, minutesLeft] = [
+        Math.floor(diffMinutes / 60),
+        diffMinutes % 60,
+      ];
 
       // It returns the remaining time in hours and minutes as an object with keys hours and minutes.
-      return { hours, minutes };
+      return { hoursLeft, minutesLeft };
     },
     setTimeSlot() {
       // It checks if the working hours feature is enabled for the store.
 
-      if (this.workingHoursEnabled) {
-        const timeSlots = this.workingHours;
+      const timeSlots = this.workingHours;
 
-        // If the present hour is after the closing hour of the current day,
-        // then the next day's working hours will be used to calculate the time remaining until the next day's opening hours,
-        // else the current day's working hours will be used
-        const currentSlot =
-          this.presentHour >= this.currentDayCloseHour
-            ? this.nextDayWorkingHours
-            : this.currentDayWorkingHours;
+      // If the present hour is after the closing hour of the current day,
+      // then the next day's working hours will be used to calculate the time remaining until the next day's opening hours,
+      // else the current day's working hours will be used
+      const currentSlot =
+        this.presentHour >= this.currentDayTimings.closeHour
+          ? this.nextDayWorkingHours
+          : this.currentDayWorkingHours;
 
-        // It parses the working hours to get the time slots in AM/PM format.
-        const slots = timeSlotParse(timeSlots).length
-          ? timeSlotParse(timeSlots)
-          : defaultTimeSlot;
-        this.timeSlots = slots;
+      // It parses the working hours to get the time slots in AM/PM format.
+      const slots = timeSlotParse(timeSlots).length
+        ? timeSlotParse(timeSlots)
+        : defaultTimeSlot;
+      this.timeSlots = slots;
 
-        // It finds the time slot for the current slot.
-        this.timeSlot = this.timeSlots.find(
-          slot => slot.day === currentSlot.day_of_week
-        );
-      }
+      // It finds the time slot for the current slot.
+      this.timeSlot = this.timeSlots.find(
+        slot => slot.day === currentSlot.day_of_week
+      );
     },
   },
 };

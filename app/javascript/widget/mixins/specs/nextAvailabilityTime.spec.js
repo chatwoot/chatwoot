@@ -79,10 +79,6 @@ describe('nextAvailabilityTimeMixin', () => {
     expect(wrapper.vm.channelConfig).toEqual(chatwootWebChannel);
   });
 
-  it('should return workingHoursEnabled', () => {
-    expect(wrapper.vm.workingHoursEnabled).toBe(true);
-  });
-
   it('should return workingHours', () => {
     expect(wrapper.vm.workingHours).toEqual(chatwootWebChannel.workingHours);
   });
@@ -121,36 +117,28 @@ describe('nextAvailabilityTimeMixin', () => {
     expect(wrapper.vm.currentDay).toBe(Number(currentDay));
   });
 
-  it('should return currentDayOpenHour', () => {
-    expect(wrapper.vm.currentDayOpenHour).toBe(
-      chatwootWebChannel.workingHours[wrapper.vm.currentDay].open_hour
-    );
+  it('should return currentDayTimings', () => {
+    const {
+      open_hour: openHour,
+      open_minutes: openMinute,
+      close_hour: closeHour,
+    } = wrapper.vm.currentDayWorkingHours;
+    expect(wrapper.vm.currentDayTimings).toEqual({
+      openHour,
+      openMinute,
+      closeHour,
+    });
   });
 
-  it('should return currentDayOpenMinutes', () => {
-    expect(wrapper.vm.currentDayOpenMinute).toBe(
-      chatwootWebChannel.workingHours[wrapper.vm.currentDay].open_minutes
-    );
-  });
-
-  it('should return currentDayCloseHour', () => {
-    expect(wrapper.vm.currentDayCloseHour).toBe(
-      chatwootWebChannel.workingHours[wrapper.vm.currentDay].close_hour
-    );
-  });
-
-  it('should return nextDayOpenHour', () => {
-    const nextDay = wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay + 1;
-    expect(wrapper.vm.nextDayOpenHour).toBe(
-      chatwootWebChannel.workingHours[nextDay].open_hour
-    );
-  });
-
-  it('should return nextDayOpenMinutes', () => {
-    const nextDay = wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay + 1;
-    expect(wrapper.vm.nextDayOpenMinute).toBe(
-      chatwootWebChannel.workingHours[nextDay].open_minutes
-    );
+  it('should return nextDayTimings', () => {
+    const {
+      open_hour: openHour,
+      open_minutes: openMinute,
+    } = wrapper.vm.nextDayWorkingHours;
+    expect(wrapper.vm.nextDayTimings).toEqual({
+      openHour,
+      openMinute,
+    });
   });
 
   it('should return dayDiff', () => {
@@ -189,5 +177,9 @@ describe('nextAvailabilityTimeMixin', () => {
     expect(wrapper.vm.hoursAndMinutesBackInOnline).toEqual(
       expectedHoursAndMinutes
     );
+  });
+
+  it('should return getNextDay', () => {
+    expect(wrapper.vm.getNextDay(6)).toBe(0);
   });
 });
