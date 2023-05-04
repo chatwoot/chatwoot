@@ -20,13 +20,15 @@ class Whatsapp::IncomingMessageBaseService
 
   def process_messages
     # message allready exists so we don't need to process
-    return if find_message_by_source_id(@processed_params[:messages].first[:id])
+    return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
+    cache_message_source_id_in_redis
     set_contact
     return unless @contact
 
     set_conversation
     create_messages
+    clear_message_source_id_from_redis
   end
 
   def process_statuses
@@ -53,11 +55,8 @@ class Whatsapp::IncomingMessageBaseService
     log_error(message) && return if error_webhook_event?(message)
 
     process_in_reply_to(message)
-    if message_type == 'contacts'
-      create_contact_messages(message)
-    else
-      create_regular_message(message)
-    end
+
+    message_type == 'contacts' ? create_contact_messages(message) : create_regular_message(message)
   end
 
   def create_contact_messages(message)
