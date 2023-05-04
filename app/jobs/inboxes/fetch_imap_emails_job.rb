@@ -17,7 +17,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
   private
 
-  def should_fetch_email?(_channel)
+  def should_fetch_email?(channel)
     channel.imap_enabled? && !channel.reauthorization_required?
   end
 
