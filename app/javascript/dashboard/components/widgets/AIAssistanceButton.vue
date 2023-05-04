@@ -7,6 +7,7 @@
       color-scheme="secondary"
       variant="smooth"
       size="small"
+      :is-loading="isGenerating"
       @click="createSummary"
     />
     <div v-else>

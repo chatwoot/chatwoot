@@ -38,12 +38,12 @@
       </file-upload>
       <woot-button
         v-if="showAudioRecorderButton"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
         :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
         emoji="🎤"
         :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
         variant="smooth"
         size="small"
-        :title="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
         @click="toggleAudioRecorder"
       />
       <woot-button
