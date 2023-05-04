@@ -7,36 +7,22 @@ class OpenAIAPI extends ApiClient {
     super('integrations', { accountScoped: true });
   }
 
-  processEvent({ name = 'rephrase', content, tone, hookId }) {
-    return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
-      event: {
-        name: name,
-        data: {
-          tone,
-          content,
-        },
-      },
-    });
-  }
+  processEvent({ type = 'rephrase', content, tone, conversationId, hookId }) {
+    let data = {
+      tone,
+      content,
+    };
 
-  summarizeEvent({ name = 'summarize', conversationId, hookId }) {
-    return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
-      event: {
-        name,
-        data: {
-          conversation_display_id: conversationId,
-        },
-      },
-    });
-  }
+    if (type === 'reply_suggestion' || type === 'summarize') {
+      data = {
+        conversation_display_id: conversationId,
+      };
+    }
 
-  replySuggestion({ name = 'reply_suggestion', conversationId, hookId }) {
     return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
       event: {
-        name,
-        data: {
-          conversation_display_id: conversationId,
-        },
+        name: type,
+        data,
       },
     });
   }

@@ -8,8 +8,8 @@
         color-scheme="secondary"
         variant="smooth"
         size="small"
-        :is-loading="uiFlags.isSummaryGenerating"
-        @click="createSummary"
+        :is-loading="uiFlags.summarize"
+        @click="processEvent('summarize')"
       />
       <woot-button
         v-else
@@ -18,8 +18,8 @@
         color-scheme="secondary"
         variant="smooth"
         size="small"
-        :is-loading="uiFlags.isReplySuggestionGenerating"
-        @click="replySuggestion"
+        :is-loading="uiFlags.reply_suggestion"
+        @click="processEvent('reply_suggestion')"
       />
     </div>
 
@@ -58,9 +58,9 @@
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.BUTTONS.CANCEL') }}
           </woot-button>
           <woot-button
-            :is-loading="uiFlags.isRephrasing"
+            :is-loading="uiFlags.rephrase"
             size="small"
-            @click="processText"
+            @click="processEvent('rephrase')"
           >
             {{ buttonText }}
           </woot-button>
@@ -94,9 +94,9 @@ export default {
   data() {
     return {
       uiFlags: {
-        isRephrasing: false,
-        isSummaryGenerating: false,
-        isReplySuggestionGenerating: false,
+        rephrase: false,
+        reply_suggestion: false,
+        summarize: false,
       },
       showDropdown: false,
       activeTone: 'professional',
@@ -144,14 +144,15 @@ export default {
     closeDropdown() {
       this.showDropdown = false;
     },
-    async processText() {
-      this.uiFlags.isRephrasing = true;
+    async processEvent(type = 'rephrase') {
+      this.uiFlags[type] = true;
       try {
         const result = await OpenAPI.processEvent({
           hookId: this.hookId,
-          type: 'rephrase',
+          type,
           content: this.message,
           tone: this.activeTone,
+          conversationId: this.conversationId,
         });
         const {
           data: { message: generatedMessage },
@@ -161,43 +162,7 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {
-        this.uiFlags.isRephrasing = false;
-      }
-    },
-    async createSummary() {
-      this.uiFlags.isSummaryGenerating = true;
-      try {
-        const result = await OpenAPI.summarizeEvent({
-          hookId: this.hookId,
-          name: 'summarize',
-          conversationId: this.conversationId,
-        });
-        const {
-          data: { message: generatedMessage },
-        } = result;
-        this.$emit('replace-text', generatedMessage || this.message);
-      } catch (error) {
-        this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
-      } finally {
-        this.uiFlags.isSummaryGenerating = false;
-      }
-    },
-    async replySuggestion() {
-      this.uiFlags.isReplySuggestionGenerating = true;
-      try {
-        const result = await OpenAPI.summarizeEvent({
-          hookId: this.hookId,
-          name: 'reply_suggestion',
-          conversationId: this.conversationId,
-        });
-        const {
-          data: { message: generatedMessage },
-        } = result;
-        this.$emit('replace-text', generatedMessage || this.message);
-      } catch (error) {
-        this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
-      } finally {
-        this.uiFlags.isReplySuggestionGenerating = false;
+        this.uiFlags[type] = false;
       }
     },
   },
