@@ -33,7 +33,7 @@ json.can_reply conversation.can_reply?
 json.contact_last_seen_at conversation.contact_last_seen_at.to_i
 json.custom_attributes conversation.custom_attributes
 json.inbox_id conversation.inbox_id
-json.labels conversation.label_list
+json.labels conversation.preloaded_label_list
 json.muted conversation.muted?
 json.snoozed_until conversation.snoozed_until
 json.status conversation.status

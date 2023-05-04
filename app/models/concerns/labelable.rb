@@ -13,4 +13,15 @@ module Labelable
     new_labels << labels
     update!(label_list: new_labels)
   end
+
+  def preloaded_label_list
+    unless @taggings_cache
+      @taggings_cache = []
+      taggings.each do |tagging|
+        @taggings_cache << tagging.tag.name
+      end
+    end
+
+    @taggings_cache || []
+  end
 end
