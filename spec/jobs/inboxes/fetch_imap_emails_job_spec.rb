@@ -31,10 +31,24 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
         body 'hello'
       end
 
-      allow(Mail).to receive(:find).and_return([email])
+      imap_fetch_mail = Net::IMAP::FetchData.new
+      imap_fetch_mail.attr = { seqno: 1, RFC822: email }.with_indifferent_access
+
+      imap = double
+
+      allow(Net::IMAP).to receive(:new).and_return(imap)
+      allow(imap).to receive(:authenticate)
+      allow(imap).to receive(:select)
+      allow(imap).to receive(:search).and_return([1])
+      allow(imap).to receive(:fetch).and_return([imap_fetch_mail])
+
+      read_mail = Mail::Message.new(date: DateTime.now, from: 'testemail@gmail.com', to: 'imap@outlook.com', subject: 'Hello!')
+      allow(Mail).to receive(:read_from_string).and_return(read_mail)
+
       imap_mailbox = double
+
       allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
-      expect(imap_mailbox).to receive(:process).with(email, imap_email_channel).once
+      expect(imap_mailbox).to receive(:process).with(read_mail, imap_email_channel).once
 
       described_class.perform_now(imap_email_channel)
     end
