@@ -8,9 +8,7 @@
       class="selector-button"
       icon="sort-icon"
       @click="toggleDropdown"
-    >
-      <!-- {{ this.$t('CHAT_LIST.VIEW_FILTER') }} -->
-    </woot-button>
+    />
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"

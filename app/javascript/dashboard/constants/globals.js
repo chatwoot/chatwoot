@@ -13,8 +13,8 @@ export default {
     ALL: 'all',
   },
   SORT_BY_TYPE: {
-    LATEST: 'last_activity_at',
-    CREATED_AT: 'created_at',
+    LATEST: 'latest',
+    CREATED_AT: 'sort_on_created_at',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,

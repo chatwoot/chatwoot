@@ -10,9 +10,12 @@ export const getSelectedChatConversation = ({
 // getters
 const getters = {
   getAllConversations: ({ allConversations, chatSortFilter }) => {
-    return allConversations.sort(
-      (a, b) => b[chatSortFilter] - a[chatSortFilter]
-    );
+    const comparator = {
+      latest: (a, b) => b.last_activity_at - a.last_activity_at,
+      sort_on_created_at: (a, b) => a.created_at - b.created_at,
+    };
+
+    return allConversations.sort(comparator[chatSortFilter]);
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(

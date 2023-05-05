@@ -42,10 +42,10 @@
       "ORDER_BY": "Order by"
     },
     "CHAT_SORT_FILTER_ITEMS": {
-      "last_activity_at": {
+      "latest": {
         "TEXT": "Last activity"
       },
-      "created_at": {
+      "sort_on_created_at": {
         "TEXT": "Created at"
       }
     },
