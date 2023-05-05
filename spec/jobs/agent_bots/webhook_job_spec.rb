@@ -11,7 +11,7 @@ RSpec.describe AgentBots::WebhookJob, type: :job do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(url, payload)
-      .on_queue('bots')
+      .on_queue('high')
   end
 
   it 'executes perform' do
