@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative;">
+  <div class="position-relative">
     <woot-button
       v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
       variant="smooth"
@@ -85,18 +85,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .basic-filter {
-  width: 210px;
   margin-top: var(--space-smaller);
+  padding: var(--space-normal);
   right: 0;
-  padding: var(--space-normal) var(--space-small);
+  width: 21rem;
+
   span {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
   }
+
   .filter__item {
-    justify-content: space-between;
-    display: flex;
     align-items: center;
+    display: flex;
+    justify-content: space-between;
 
     &:last-child {
       margin-top: var(--space-normal);
@@ -107,9 +109,11 @@ export default {
     }
   }
 }
+
 .icon {
   margin-right: var(--space-smaller);
 }
+
 .dropdown-icon {
   margin-left: var(--space-smaller);
 }
