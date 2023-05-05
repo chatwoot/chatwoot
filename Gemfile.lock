@@ -818,6 +818,7 @@ DEPENDENCIES
   google-cloud-storage
   google-cloud-translate-v3
   groupdate
+  grpc
   haikunator
   hairtrigger
   hashie
