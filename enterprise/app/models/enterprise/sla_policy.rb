@@ -15,7 +15,7 @@
 #
 #  index_sla_policies_on_account_id  (account_id)
 #
-class SlaPolicy < ApplicationRecord
+class Enterprise::SlaPolicy < ApplicationRecord
   belongs_to :account
   validates :name, presence: true
 end
