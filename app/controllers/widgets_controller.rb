@@ -41,7 +41,7 @@ class WidgetsController < ActionController::Base
       source_id: @auth_token_params[:source_id]
     )
 
-    @contact = @contact_inbox ? @contact_inbox.contact : nil
+    @contact = @contact_inbox&.contact
   end
 
   def build_contact
