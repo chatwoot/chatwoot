@@ -12,6 +12,10 @@ export default {
     SNOOZED: 'snoozed',
     ALL: 'all',
   },
+  SORT_BY_TYPE: {
+    LATEST: 'latest',
+    CREATED_AT: 'sort_on_created_at',
+  },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,
     PUBLISH: 1,
