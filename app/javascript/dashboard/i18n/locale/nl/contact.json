@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Voer het telefoonnummer van de contactpersoon in",
         "LABEL": "Telefoonnummer",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Telefoonnummer moet van het E.164 formaat zijn: +14155555 [+][landcode][gebiedscode][lokaal telefoonnummer]",
         "ERROR": "Telefoonnummer moet leeg of in E.164-formaat zijn",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Dit telefoonnummer wordt reeds gebruikt voor een ander contactpersoon."
@@ -182,7 +182,7 @@
         "LABEL": "Aan"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Postvak In",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Selecteer een inbox"
       },

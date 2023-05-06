@@ -1,23 +1,23 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Audit Logs",
-    "HEADER_BTN_TXT": "Add Audit Logs",
-    "LOADING": "Fetching Audit Logs",
+    "HEADER": "Журнал аудита",
+    "HEADER_BTN_TXT": "Добавить журнал аудита",
+    "LOADING": "Получение журналов аудита",
     "SEARCH_404": "Нет шаблонных ответов, соответствующих запросу",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "SIDEBAR_TXT": "<p><b>Журналы аудита</b> </p><p> Логи аудита являются следами событий и действий в системе Chatwoot. </p>",
     "LIST": {
-      "404": "There are no Audit Logs available in this account.",
-      "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "404": "В этой учетной записи нет журналов аудита.",
+      "TITLE": "Управление журналами аудита",
+      "DESC": "Журналы аудита - это следы событий и действий в системе Chatwoot.",
       "TABLE_HEADER": [
-        "User",
-        "Action",
+        "Пользователь",
+        "Действия",
         "IP адрес",
-        "Time"
+        "Время"
       ]
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
+      "SUCCESS_MESSAGE": "Журналы успешно загружены",
       "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
     }
   }

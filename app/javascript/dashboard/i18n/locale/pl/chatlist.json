@@ -35,6 +35,20 @@
         "TEXT": "Wszystkie"
       }
     },
+    "VIEW_FILTER": "Widok",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Utworzono"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Wiadomość obrazkowa"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "udostępnił adres url"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Utworzono",
+          "LABEL": "Utworzono"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Otrzymano przez e-mail",
