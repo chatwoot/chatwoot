@@ -1,21 +1,6 @@
 <template>
   <div class="filter-container">
-    <div class="multiselect-wrap--small">
-      <multiselect
-        v-model="currentDateRangeSelection"
-        class="no-margin"
-        track-by="name"
-        label="name"
-        :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        deselect-label=""
-        :options="dateRange"
-        :searchable="false"
-        :allow-empty="false"
-        @select="changeDateSelection"
-      />
-    </div>
+    <reports-filters-date-range @on-range-change="changeDateSelection" />
     <woot-date-range-picker
       v-if="isDateRangeSelected"
       show-range
@@ -70,17 +55,19 @@
 </template>
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import ReportsFiltersDateRange from './Filters/DateRange.vue';
 import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
-import { GROUP_BY_FILTER } from '../constants';
+import { GROUP_BY_FILTER, DATE_RANGE_OPTIONS } from '../constants';
 import endOfDay from 'date-fns/endOfDay';
 
-const CUSTOM_DATE_RANGE_ID = 5;
+const CUSTOM_DATE_RANGE_ID = DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE.id;
 
 export default {
   components: {
     WootDateRangePicker,
+    ReportsFiltersDateRange,
   },
   props: {
     filterItemsList: {
@@ -110,8 +97,8 @@ export default {
   },
   data() {
     return {
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
+      // default value, need not be translated
+      currentDateRangeSelection: DATE_RANGE_OPTIONS.LAST_7_DAYS,
       customDateRange: [new Date(), new Date()],
       currentSelectedFilter: null,
       selectedAgents: [],
@@ -132,29 +119,13 @@ export default {
       if (this.isDateRangeSelected) {
         return this.fromCustomDate(this.customDateRange[0]);
       }
-      const dateRange = {
-        0: 6,
-        1: 29,
-        2: 89,
-        3: 179,
-        4: 364,
-      };
-      const diff = dateRange[this.currentDateRangeSelection.id];
-      const fromDate = subDays(new Date(), diff);
+
+      const { offset } = this.currentDateRangeSelection;
+      const fromDate = subDays(new Date(), offset);
       return this.fromCustomDate(fromDate);
     },
     groupBy() {
-      if (this.isDateRangeSelected) {
-        return GROUP_BY_FILTER[4].period;
-      }
-      const groupRange = {
-        0: GROUP_BY_FILTER[1].period,
-        1: GROUP_BY_FILTER[2].period,
-        2: GROUP_BY_FILTER[3].period,
-        3: GROUP_BY_FILTER[3].period,
-        4: GROUP_BY_FILTER[3].period,
-      };
-      return groupRange[this.currentDateRangeSelection.id];
+      return this.currentDateRangeSelection.groupBy;
     },
     notLast7Days() {
       return this.groupBy !== GROUP_BY_FILTER[1].period;
