@@ -6,7 +6,9 @@
         <div class="icon">
           <fluent-icon icon="search" class="search--icon" size="16" />
         </div>
-        <p class="search--label">{{ $t('CONVERSATION.SEARCH_MESSAGES') }}</p>
+        <p class="search--label text-ellipsis">
+          {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
+        </p>
       </router-link>
       <switch-layout
         :is-on-expanded-layout="isOnExpandedLayout"

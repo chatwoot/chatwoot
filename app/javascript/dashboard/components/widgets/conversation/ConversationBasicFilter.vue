@@ -20,6 +20,7 @@
           type="status"
           :selected-value="chatStatus"
           :items="chatStatusItems"
+          path-prefix="CHAT_LIST.CHAT_STATUS_FILTER_ITEMS"
           @onChangeFilter="onChangeFilter"
         />
       </div>
@@ -29,6 +30,7 @@
           type="sort"
           :selected-value="chatSortFilter"
           :items="chatSortItems"
+          path-prefix="CHAT_LIST.CHAT_SORT_FILTER_ITEMS"
           @onChangeFilter="onChangeFilter"
         />
       </div>

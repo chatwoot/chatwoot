@@ -1,7 +1,7 @@
 <template>
   <select v-model="activeValue" class="status--filter" @change="onTabChange()">
     <option v-for="(value, status) in items" :key="status" :value="status">
-      {{ value['TEXT'] }}
+      {{ $t(`${pathPrefix}.${status}.TEXT`) }}
     </option>
   </select>
 </template>
@@ -17,6 +17,10 @@ export default {
       required: true,
     },
     type: {
+      type: String,
+      required: true,
+    },
+    pathPrefix: {
       type: String,
       required: true,
     },

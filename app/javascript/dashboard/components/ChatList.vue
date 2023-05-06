@@ -11,13 +11,22 @@
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
     >
-      <h1
-        class="page-sub-title text-truncate margin-bottom-0"
-        :title="pageTitle"
-      >
-        {{ pageTitle }}
-      </h1>
-
+      <div class="flex-center chat-list__title">
+        <h1
+          class="page-sub-title text-truncate margin-bottom-0"
+          :title="pageTitle"
+        >
+          {{ pageTitle }}
+        </h1>
+        <span
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          class="conversation--status-pill"
+        >
+          {{
+            this.$t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`)
+          }}
+        </span>
+      </div>
       <div class="filter--actions">
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
@@ -885,6 +894,10 @@ export default {
   &.list--full-width {
     flex-basis: 100%;
   }
+
+  .page-sub-title {
+    font-size: var(--font-size-two);
+  }
 }
 .filter--actions {
   display: flex;
@@ -905,5 +918,20 @@ export default {
       padding: 0;
     }
   }
+}
+
+.conversation--status-pill {
+  background: var(--color-background);
+  border-radius: var(--border-radius-small);
+  color: var(--color-medium-gray);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-medium);
+  margin: var(--space-micro) var(--space-small) 0;
+  padding: var(--space-smaller);
+  text-transform: capitalize;
+}
+
+.chat-list__title {
+  max-width: 85%;
 }
 </style>
