@@ -195,7 +195,6 @@ group :test do
   # mock http calls
   gem 'webmock'
   # test profiling
-  gem 'rails-controller-testing'
   gem 'test-prof'
 end
 
