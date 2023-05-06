@@ -3,7 +3,7 @@
     "HEADER": {
       "FILTER": "Filtruoti pagal",
       "SORT": "Rūšiuoti pagal",
-      "SETTINGS_BUTTON": "Settings",
+      "SETTINGS_BUTTON": "Nustatymai",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Paskelbta",
@@ -11,18 +11,18 @@
         "ARCHIVED": "Suarchyvuota"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
+        "ALL_ARTICLES": "Visi Straipsniai",
+        "MINE": "Mano Straipsniai",
         "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ARCHIVED": "Suarchyvuoti Straipsniai"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
+      "ALL_ARTICLES": "Visi Straipsniai",
       "PUBLISH_BUTTON": "Skelbti",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Peržiūrėti",
-      "ADD_TRANSLATION": "Add translation",
+      "ADD_TRANSLATION": "Pridėti vertimą",
       "OPEN_SIDEBAR": "Open sidebar",
       "CLOSE_SIDEBAR": "Close sidebar",
       "SAVING": "Išsaugoma...",
@@ -30,7 +30,7 @@
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
+        "TITLE": "Įkelti paveikslėlį",
         "UPLOADING": "Uploading...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
@@ -40,14 +40,14 @@
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Straipsnio Nustatymai",
       "FORM": {
         "CATEGORY": {
           "LABEL": "Kategorija",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "TITLE": "Pasirinkti kategoriją",
+          "PLACEHOLDER": "Pasirinkti kategoriją",
+          "NO_RESULT": "Kategorijų nerasta",
+          "SEARCH_PLACEHOLDER": "Ieškoti kategorijos"
         },
         "AUTHOR": {
           "LABEL": "Autorius",
@@ -75,18 +75,18 @@
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
+      "HEADER": "Portalas",
       "DEFAULT": "Default",
       "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
+      "ACTIVE_BADGE": "aktyvus",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
       "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
+      "ARTICLES_LABEL": "straipsniai",
       "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "Add a new locale",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
+        "TITLE": "Portalas",
+        "PORTAL_SETTINGS": "Portalo nustatymai",
         "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
         "CANCEL_BUTTON_LABEL": "Atšaukti",
         "CHOOSE_LOCALE_BUTTON": "Choose Locale"
@@ -94,10 +94,10 @@
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
+            "COUNT_LABEL": "straipsniai",
             "ADD": "Add locale",
             "VISIT": "Visit site",
-            "SETTINGS": "Settings",
+            "SETTINGS": "Nustatymai",
             "DELETE": "Ištrinti"
           },
           "PORTAL_CONFIG": {
@@ -125,12 +125,12 @@
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
+          "TITLE": "Trinti portalą",
           "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
+          "YES": "Taip, trinti portalą",
           "NO": "No, keep portal",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
+            "DELETE_SUCCESS": "Portalas ištrintas sėkmingai",
             "DELETE_ERROR": "Error while deleting portal"
           }
         }
@@ -139,7 +139,7 @@
         "HEADER_TEXT": "Edit portal",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Pagrindinė informacija"
           },
           "CUSTOMIZATION_SETTINGS": {
             "TITLE": "Portal customization"
@@ -153,17 +153,17 @@
         },
         "CATEGORIES": {
           "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "NEW_CATEGORY": "Nauja kategorija",
           "TABLE": {
             "NAME": "Vardas",
             "DESCRIPTION": "Aprašymas",
             "LOCALE": "Locale",
             "ARTICLE_COUNT": "No. of articles",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Keisti kategoriją",
+              "DELETE": "Ištrinti kategoriją"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Kategorijų nerasta"
           }
         },
         "EDIT_BASIC_INFO": {
@@ -192,7 +192,7 @@
           }
         ],
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Atgal",
           "BASIC_SETTINGS_PAGE": {
             "HEADER": "Create Portal",
             "TITLE": "Help center information",
@@ -211,12 +211,12 @@
         },
         "LOGO": {
           "LABEL": "Logotipas",
-          "UPLOAD_BUTTON": "Upload logo",
+          "UPLOAD_BUTTON": "Įkelti logotipą",
           "HELP_TEXT": "This logo will be displayed on the portal header."
         },
         "NAME": {
           "LABEL": "Vardas",
-          "PLACEHOLDER": "Portal name",
+          "PLACEHOLDER": "Portalo pavadinimas",
           "HELP_TEXT": "The name will be used in the public facing portal internally.",
           "ERROR": "Yra reikalingas vardas"
         },
@@ -242,7 +242,7 @@
           "HELP_TEXT": "This color will show as the theme color for the portal."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
+          "LABEL": "Puslapio Antraštė",
           "PLACEHOLDER": "Portal page title",
           "HELP_TEXT": "The page title will be used in the public facing portal.",
           "ERROR": "Page title is required"
@@ -263,7 +263,7 @@
       "ADD_LOCALE": {
         "TITLE": "Add a new locale",
         "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "PORTAL": "Portalas",
         "LOCALE": {
           "LABEL": "Locale",
           "PLACEHOLDER": "Choose a locale",
@@ -345,14 +345,14 @@
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Ieškoti straipsnių"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
+        "TITLE": "Sukurti kategoriją",
         "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
+        "PORTAL": "Portalas",
         "LOCALE": "Locale",
         "NAME": {
           "LABEL": "Vardas",
@@ -381,9 +381,9 @@
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
+        "TITLE": "Keisti kategoriją",
         "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
+        "PORTAL": "Portalas",
         "LOCALE": "Locale",
         "NAME": {
           "LABEL": "Vardas",
@@ -403,7 +403,7 @@
           "ERROR": "Description is required"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "Keisti kategoriją",
           "CANCEL": "Atšaukti"
         },
         "API": {

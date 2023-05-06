@@ -276,7 +276,7 @@
         },
         "EMAIL": {
           "LABEL": "email",
-          "SUBTITLE": "Email dove i tuoi clienti ti inviano i ticket di supporto",
+          "SUBTITLE": "Email dove i tuoi clienti inviano i ticket di supporto.",
           "PLACEHOLDER": "email"
         },
         "SUBMIT_BUTTON": "Crea un canale email",
@@ -464,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
       "HMAC_VERIFICATION": "Convalida identità utente",
       "HMAC_DESCRIPTION": "Al fine di convalidare l'identità dell'utente, è possibile passare un `identifier_hash` per ogni utente. Puoi generare un hash HMAC sha256 usando il `identificatore` con la chiave mostrata qui.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Forza la convalida identità utente",
       "HMAC_MANDATORY_DESCRIPTION": "Se abilitata, le richieste mancanti del file `identifier_hash` saranno respinte.",
       "INBOX_IDENTIFIER": "Identificatore casella",

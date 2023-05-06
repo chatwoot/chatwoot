@@ -464,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
       "HMAC_VERIFICATION": "التحقق من هوية المستخدم",
       "HMAC_DESCRIPTION": "من أجل التحقق من هوية المستخدم، يمكنك تمرير 'IDer_hash` لكل مستخدم. يمكنك إنشاء تجزئة HMAC sha256 باستخدام \"المعرف\" مع المفتاح المعروض هنا.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "فرض التحقق من هوية المستخدم",
       "HMAC_MANDATORY_DESCRIPTION": "في حالة التمكين، سيتم رفض الطلبات المفقودة 'IDer_hash'.",
       "INBOX_IDENTIFIER": "معرف صندوق الوارد",

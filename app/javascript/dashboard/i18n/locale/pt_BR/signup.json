@@ -10,17 +10,17 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Nome Empresa",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "PLACEHOLDER": "Digite seu nome da sua empresa. Ex: Empresas Wayne",
       "ERROR": "O nome da empresa é muito curto."
     },
     "FULL_NAME": {
       "LABEL": "Nome Completo",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "PLACEHOLDER": "Digite seu nome completo. Ex.: Bruce Wayne",
       "ERROR": "Nome completo é muito curto."
     },
     "EMAIL": {
       "LABEL": "E-mail comercial",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "PLACEHOLDER": "Digite seu e-mail de trabalho. Ex.: bruce@wayne.com.br",
       "ERROR": "Por favor, insira um endereço de e-mail de trabalho válido."
     },
     "PASSWORD": {
@@ -30,13 +30,13 @@
       "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
+      "LABEL": "Confirmar senha",
+      "PLACEHOLDER": "Confirmar senha",
       "ERROR": "As senhas não conferem."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registro realizado com Sucesso",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
     },
     "SUBMIT": "Criar conta",
     "HAVE_AN_ACCOUNT": "Já possui uma conta?"

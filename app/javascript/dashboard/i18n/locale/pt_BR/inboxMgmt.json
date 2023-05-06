@@ -464,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
       "HMAC_VERIFICATION": "Validação de Identidade do Usuário",
       "HMAC_DESCRIPTION": "Para validar a identidade do usuário, você pode passar um `identifier_hash` para cada usuário. Você pode gerar um hash HMAC sha256 usando o `identifier` com a chave mostrada aqui.",
+      "HMAC_LINK_TO_DOCS": "Você pode ler mais aqui.",
       "HMAC_MANDATORY_VERIFICATION": "Forçar validação de identidade do usuário",
       "HMAC_MANDATORY_DESCRIPTION": "Se ativado, as solicitações sem o 'identifier_hash' serão rejeitadas.",
       "INBOX_IDENTIFIER": "Identificador da caixa de entrada",
@@ -479,15 +480,15 @@
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave de API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificação do Webhook",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Centro de Ajuda",
+      "PLACEHOLDER": "Selecionar Centro de Ajuda",
+      "SELECT_PLACEHOLDER": "Selecionar Centro de Ajuda",
+      "REMOVE": "Remover Centro de Ajuda",
+      "SUB_TEXT": "Anexe um Centro de Ajuda com a caixa de entrada"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limite de atribuição automática",

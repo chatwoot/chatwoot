@@ -4,23 +4,23 @@
     "TITLE": "Регистрация",
     "TESTIMONIAL_HEADER": "Все, что нужно сделать, это один шаг для продвижения вперед",
     "TESTIMONIAL_CONTENT": "Вы находитесь на расстоянии всего одного шага от привлечения своих клиентов, удержав их и находя новые.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TERMS_ACCEPT": "Создавая учетную запись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">Т и С</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Регистрация через Google"
     },
     "COMPANY_NAME": {
       "LABEL": "Название компании",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "PLACEHOLDER": "Введите название вашей компании например Wayne Enterprises",
       "ERROR": "Название компании слишком короткое."
     },
     "FULL_NAME": {
       "LABEL": "Полное имя",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "PLACEHOLDER": "Введите ваше полное имя. Например: Брюс Уэйн",
       "ERROR": "Имя слишком короткое."
     },
     "EMAIL": {
       "LABEL": "Рабочий email",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "PLACEHOLDER": "Введите ваш рабочий адрес электронной почты. Например: bruce@wayne.enterprises",
       "ERROR": "Пожалуйста, введите действительный адрес электронной почты."
     },
     "PASSWORD": {
@@ -30,13 +30,13 @@
       "IS_INVALID_PASSWORD": "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, 1 цифру и 1 специальный символ."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
+      "LABEL": "Подтвердите пароль",
+      "PLACEHOLDER": "Подтвердите пароль",
       "ERROR": "Пароли не совпадают."
     },
     "API": {
       "SUCCESS_MESSAGE": "Успешная регистрация",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "Не удалось подключиться к Woot серверу. Пожалуйста, попробуйте еще раз."
     },
     "SUBMIT": "Создать новый аккаунт",
     "HAVE_AN_ACCOUNT": "Уже есть аккаунт?"
