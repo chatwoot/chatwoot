@@ -52,8 +52,6 @@ import { DATE_RANGE_OPTIONS } from '../constants';
 import endOfDay from 'date-fns/endOfDay';
 import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
 
-const CUSTOM_DATE_RANGE_ID = DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE.id;
-
 export default {
   components: {
     WootDateRangePicker,
@@ -93,7 +91,9 @@ export default {
   },
   computed: {
     isDateRangeSelected() {
-      return this.selectedDateRange.id === CUSTOM_DATE_RANGE_ID;
+      return (
+        this.selectedDateRange.id === DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE.id
+      );
     },
     isGroupByPossible() {
       return this.selectedDateRange.id !== DATE_RANGE_OPTIONS.LAST_7_DAYS.id;
