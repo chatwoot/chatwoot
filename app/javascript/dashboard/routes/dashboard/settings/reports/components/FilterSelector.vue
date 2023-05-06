@@ -9,22 +9,11 @@
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
       @change="onChange"
     />
-    <div v-if="notLast7Days && groupByFilter" class="multiselect-wrap--small">
-      <p aria-hidden="true" class="hide">
-        {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
-      </p>
-      <multiselect
-        v-model="currentSelectedFilter"
-        class="no-margin"
-        track-by="id"
-        label="groupBy"
-        :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
-        :options="filterItemsList"
-        :allow-empty="false"
-        :show-labels="false"
-        @input="changeFilterSelection"
-      />
-    </div>
+    <reports-filters-date-group-by
+      v-if="groupByFilter"
+      :max-granularity="maxGranularity"
+      @on-grouping-change="changeFilterSelection"
+    />
     <div v-if="agentsFilter" class="multiselect-wrap--small">
       <multiselect
         v-model="selectedAgents"
@@ -59,8 +48,9 @@ import ReportsFiltersDateRange from './Filters/DateRange.vue';
 import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
-import { GROUP_BY_FILTER, DATE_RANGE_OPTIONS } from '../constants';
+import { DATE_RANGE_OPTIONS } from '../constants';
 import endOfDay from 'date-fns/endOfDay';
+import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
 
 const CUSTOM_DATE_RANGE_ID = DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE.id;
 
@@ -68,6 +58,7 @@ export default {
   components: {
     WootDateRangePicker,
     ReportsFiltersDateRange,
+    ReportsFiltersDateGroupBy,
   },
   props: {
     filterItemsList: {
@@ -77,10 +68,6 @@ export default {
     agentsFilterItemsList: {
       type: Array,
       default: () => [],
-    },
-    selectedGroupByFilter: {
-      type: Object,
-      default: () => {},
     },
     groupByFilter: {
       type: Boolean,
@@ -100,7 +87,6 @@ export default {
       // default value, need not be translated
       currentDateRangeSelection: DATE_RANGE_OPTIONS.LAST_7_DAYS,
       customDateRange: [new Date(), new Date()],
-      currentSelectedFilter: null,
       selectedAgents: [],
       businessHoursSelected: false,
     };
@@ -124,17 +110,11 @@ export default {
       const fromDate = subDays(new Date(), offset);
       return this.fromCustomDate(fromDate);
     },
-    groupBy() {
-      return this.currentDateRangeSelection.groupBy;
-    },
-    notLast7Days() {
-      return this.groupBy !== GROUP_BY_FILTER[1].period;
+    maxGranularity() {
+      return this.currentDateRangeSelection.maxGranularity;
     },
   },
   watch: {
-    filterItemsList() {
-      this.currentSelectedFilter = this.selectedGroupByFilter;
-    },
     businessHoursSelected() {
       this.$emit('business-hours-toggle', this.businessHoursSelected);
     },
@@ -147,7 +127,7 @@ export default {
       this.$emit('date-range-change', {
         from: this.from,
         to: this.to,
-        groupBy: this.groupBy,
+        groupBy: this.maxGranularity,
       });
     },
     fromCustomDate(date) {

@@ -12,37 +12,37 @@ export const DATE_RANGE_OPTIONS = {
     id: 'LAST_7_DAYS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS',
     offset: 6,
-    groupBy: GROUP_BY_FILTER[1].period,
+    maxGranularity: GROUP_BY_FILTER[1].period,
   },
   LAST_30_DAYS: {
     id: 'LAST_30_DAYS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS',
     offset: 29,
-    groupBy: GROUP_BY_FILTER[2].period,
+    maxGranularity: GROUP_BY_FILTER[2].period,
   },
   LAST_3_MONTHS: {
     id: 'LAST_3_MONTHS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_3_MONTHS',
     offset: 89,
-    groupBy: GROUP_BY_FILTER[3].period,
+    maxGranularity: GROUP_BY_FILTER[3].period,
   },
   LAST_6_MONTHS: {
     id: 'LAST_6_MONTHS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
     offset: 179,
-    groupBy: GROUP_BY_FILTER[3].period,
+    maxGranularity: GROUP_BY_FILTER[3].period,
   },
   LAST_YEAR: {
     id: 'LAST_YEAR',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_YEAR',
     offset: 364,
-    groupBy: GROUP_BY_FILTER[3].period,
+    maxGranularity: GROUP_BY_FILTER[3].period,
   },
   CUSTOM_DATE_RANGE: {
     id: 'CUSTOM_DATE_RANGE',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE',
     offset: null,
-    groupBy: GROUP_BY_FILTER[4].period,
+    maxGranularity: GROUP_BY_FILTER[4].period,
   },
 };
 
