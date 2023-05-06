@@ -132,7 +132,7 @@ export default {
       this.$emit('date-range-change', {
         from: this.from,
         to: this.to,
-        groupBy: this.maxGranularity,
+        groupBy: this.validGroupOptions[0],
       });
     },
     fromCustomDate(date) {
