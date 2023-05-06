@@ -208,5 +208,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 250px));
   grid-gap: 10px;
+
+  margin-bottom: var(--space-normal);
 }
 </style>

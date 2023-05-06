@@ -9,16 +9,13 @@
     width: 100%;
   }
 
-  .mx-datepicker-range {
-    width: 320px;
-  }
-
   .mx-input {
     border: 1px solid var(--s-200);
     border-radius: var(--border-radius-normal);
     box-shadow: none;
     display: flex;
     height: 4.0rem;
+    margin-bottom: 0;
   }
 
   .mx-input:disabled,
