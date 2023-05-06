@@ -9,10 +9,14 @@ export const getSelectedChatConversation = ({
 
 // getters
 const getters = {
-  getAllConversations: ({ allConversations }) =>
-    allConversations.sort(
-      (a, b) => b.messages.last()?.created_at - a.messages.last()?.created_at
-    ),
+  getAllConversations: ({ allConversations, chatSortFilter }) => {
+    const comparator = {
+      latest: (a, b) => b.last_activity_at - a.last_activity_at,
+      sort_on_created_at: (a, b) => a.created_at - b.created_at,
+    };
+
+    return allConversations.sort(comparator[chatSortFilter]);
+  },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
       conversation => conversation.id === selectedChatId
@@ -85,6 +89,7 @@ const getters = {
     ).length;
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
+  getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConversationById: _state => conversationId => {
     return _state.allConversations.find(
