@@ -19,7 +19,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
 
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('scheduled_jobs')
   end
 
   context 'when imap fetch new emails' do
