@@ -1,8 +1,9 @@
 <template>
-  <div class="flex-container flex-dir-column medium-flex-dir-row">
-    <div class="small-12 medium-3 pull-right multiselect-wrap--small">
+  <div class="filter-container">
+    <div class="multiselect-wrap--small">
       <multiselect
         v-model="currentDateRangeSelection"
+        class="no-margin"
         track-by="name"
         label="name"
         :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
@@ -17,22 +18,19 @@
     </div>
     <woot-date-range-picker
       v-if="isDateRangeSelected"
-      class="margin-left-1"
       show-range
       :value="customDateRange"
       :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
       @change="onChange"
     />
-    <div
-      v-if="notLast7Days && groupByFilter"
-      class="small-12 medium-3 pull-right margin-left-1 margin-right-1 multiselect-wrap--small"
-    >
+    <div v-if="notLast7Days && groupByFilter" class="multiselect-wrap--small">
       <p aria-hidden="true" class="hide">
         {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
         v-model="currentSelectedFilter"
+        class="no-margin"
         track-by="id"
         label="groupBy"
         :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
@@ -42,12 +40,10 @@
         @input="changeFilterSelection"
       />
     </div>
-    <div
-      v-if="agentsFilter"
-      class="small-12 medium-3 pull-right margin-left-1 margin-right-1 multiselect-wrap--small"
-    >
+    <div v-if="agentsFilter" class="multiselect-wrap--small">
       <multiselect
         v-model="selectedAgents"
+        class="no-margin"
         :options="agentsFilterItemsList"
         track-by="id"
         label="name"
@@ -62,11 +58,8 @@
         @input="handleAgentsFilterSelection"
       />
     </div>
-    <div
-      v-if="showBusinessHoursSwitch"
-      class="small-12 medium-3 business-hours"
-    >
-      <span class="business-hours-text margin-right-1">
+    <div v-if="showBusinessHoursSwitch" class="business-hours">
+      <span class="business-hours-text ">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
@@ -209,3 +202,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.filter-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 250px));
+  grid-gap: 10px;
+}
+</style>
