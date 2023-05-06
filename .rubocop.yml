@@ -164,6 +164,39 @@ Performance/CollectionLiteralInLoop:
     - 'db/migrate/20210315101919_enable_email_channel.rb'
 RSpec/NamedSubject:
   Enabled: false
+Style/RedundantConstantBase:
+  Enabled: false
+Rails/RootPathnameMethods:
+  Enabled: false
+RSpec/Rails/MinitestAssertions:
+  Enabled: false
+RSpec/Rails/InferredSpecType:
+  Enabled: false
+RSpec/IndexedLet:
+  Enabled: false
+RSpec/MatchArray:
+  Enabled: false
+Rails/ResponseParsedBody:
+  Enabled: false
+RSpec/FactoryBot/ConsistentParenthesesStyle:
+  Enabled: false
+Rails/ThreeStateBooleanColumn:
+  Enabled: false
+Rails/Pluck:
+  Enabled: false
+Rails/TopLevelHashWithIndifferentAccess:
+  Enabled: false
+Rails/ActionOrder:
+  Enabled: false
+Style/ArrayIntersect:
+  Enabled: false
+RSpec/NoExpectationExample:
+  Enabled: false
+Style/RedundantReturn:
+  Enabled: false
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:
   Max: 14
