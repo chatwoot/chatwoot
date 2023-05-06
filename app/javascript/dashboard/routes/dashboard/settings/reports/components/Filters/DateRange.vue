@@ -26,8 +26,7 @@ export default {
   name: 'ReportFiltersDateRange',
   data() {
     const translatedOptions = Object.values(DATE_RANGE_OPTIONS).map(option => ({
-      id: option.id,
-      offset: option.offset,
+      ...option,
       name: this.$t(option.translationKey),
     }));
 
