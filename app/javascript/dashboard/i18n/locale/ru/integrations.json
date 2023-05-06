@@ -86,21 +86,21 @@
       "CREATE_ERROR": "Произошла ошибка при создании ссылки на встречу, попробуйте еще раз"
     },
     "OPEN_AI": {
-      "TITLE": "Improve With AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Улучшить с ИИ",
+      "SUBTITLE": "Улучшенный ответ будет создан с помощью AI, основанный на текущем проекте.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Тон",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Профессиональный",
+          "FRIENDLY": "Дружелюбный"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Создать",
+        "GENERATING": "Создание...",
         "CANCEL": "Отменить"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "При сохранении настроек произошла ошибка, пожалуйста, попробуйте еще раз"
     },
     "DELETE": {
       "BUTTON_TEXT": "Удалить",
