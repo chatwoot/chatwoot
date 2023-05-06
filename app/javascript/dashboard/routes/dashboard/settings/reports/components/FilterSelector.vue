@@ -10,8 +10,8 @@
       @change="onChange"
     />
     <reports-filters-date-group-by
-      v-if="groupByFilter"
-      :max-granularity="maxGranularity"
+      v-if="groupByFilter && isGroupByPossible"
+      :valid-group-options="validGroupOptions"
       @on-grouping-change="changeFilterSelection"
     />
     <div v-if="agentsFilter" class="multiselect-wrap--small">
@@ -95,6 +95,11 @@ export default {
     isDateRangeSelected() {
       return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
+    isGroupByPossible() {
+      return (
+        this.currentDateRangeSelection.id !== DATE_RANGE_OPTIONS.LAST_7_DAYS.id
+      );
+    },
     to() {
       if (this.isDateRangeSelected) {
         return this.toCustomDate(this.customDateRange[1]);
@@ -110,8 +115,8 @@ export default {
       const fromDate = subDays(new Date(), offset);
       return this.fromCustomDate(fromDate);
     },
-    maxGranularity() {
-      return this.currentDateRangeSelection.maxGranularity;
+    validGroupOptions() {
+      return this.currentDateRangeSelection.groupByOptions;
     },
   },
   watch: {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="notLast7Days" class="multiselect-wrap--small">
+  <div class="multiselect-wrap--small">
     <p aria-hidden="true" class="hide">
       {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
     </p>
@@ -9,7 +9,7 @@
       track-by="id"
       label="groupBy"
       :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
-      :options="groupByOptions"
+      :options="translatedOptions"
       :allow-empty="false"
       :show-labels="false"
       @select="changeFilterSelection"
@@ -18,42 +18,33 @@
 </template>
 
 <script>
-import { GROUP_BY_FILTER } from '../../constants';
+import { GROUP_BY_OPTIONS } from '../../constants';
 
 const EVENT_NAME = 'on-grouping-change';
 
 export default {
   name: 'ReportsFiltersDateGroupBy',
   props: {
-    maxGranularity: {
+    validGroupOptions: {
       type: String,
-      default: GROUP_BY_FILTER[0],
+      default: () => [GROUP_BY_OPTIONS.DAY],
     },
   },
   data() {
     return {
-      currentSelectedFilter: null,
+      currentSelectedFilter: {
+        ...GROUP_BY_OPTIONS.DAY,
+        groupBy: this.$t(GROUP_BY_OPTIONS.DAY.translationKey),
+      },
     };
   },
   computed: {
-    notLast7Days() {
-      return this.maxGranularity !== GROUP_BY_FILTER[1].period;
+    translatedOptions() {
+      return this.validGroupOptions.map(option => ({
+        ...option,
+        groupBy: this.$t(option.translationKey),
+      }));
     },
-    groupByOptions() {
-      switch (this.maxGranularity) {
-        case GROUP_BY_FILTER[2].period:
-          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
-        case GROUP_BY_FILTER[3].period:
-          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
-        case GROUP_BY_FILTER[4].period:
-          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
-        default:
-          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
-      }
-    },
-  },
-  mounted() {
-    this.currentSelectedFilter = this.groupByOptions[0];
   },
   methods: {
     changeFilterSelection(selectedFilter) {
