@@ -7,6 +7,39 @@ export const GROUP_BY_FILTER = {
   4: { id: 4, period: 'year' },
 };
 
+export const DATE_RANGE_OPTIONS = {
+  LAST_7_DAYS: {
+    id: 'LAST_7_DAYS',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS',
+    offset: 6,
+  },
+  LAST_30_DAYS: {
+    id: 'LAST_30_DAYS',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS',
+    offset: 29,
+  },
+  LAST_3_MONTHS: {
+    id: 'LAST_3_MONTHS',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_3_MONTHS',
+    offset: 89,
+  },
+  LAST_6_MONTHS: {
+    id: 'LAST_6_MONTHS',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
+    offset: 179,
+  },
+  LAST_YEAR: {
+    id: 'LAST_YEAR',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_YEAR',
+    offset: 364,
+  },
+  CUSTOM_DATE_RANGE: {
+    id: 'CUSTOM_DATE_RANGE',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE',
+    offset: null,
+  },
+};
+
 export const CHART_FONT_FAMILY =
   '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 

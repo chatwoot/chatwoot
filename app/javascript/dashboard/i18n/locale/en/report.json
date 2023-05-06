@@ -34,6 +34,14 @@
         "DESC": "( Total )"
       }
     },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_30_DAYS": "Last 30 days",
+      "LAST_3_MONTHS": "Last 3 months",
+      "LAST_6_MONTHS": "Last 6 months",
+      "LAST_YEAR": "Last year",
+      "CUSTOM_DATE_RANGE": "Custom date range"
+    },
     "DATE_RANGE": [
       {
         "id": 0,
