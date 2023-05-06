@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       // default value, need not be translated
-      currentDateRangeSelection: DATE_RANGE_OPTIONS.LAST_7_DAYS,
+      selectedDateRange: DATE_RANGE_OPTIONS.LAST_7_DAYS,
       customDateRange: [new Date(), new Date()],
       selectedAgents: [],
       businessHoursSelected: false,
@@ -93,12 +93,10 @@ export default {
   },
   computed: {
     isDateRangeSelected() {
-      return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
+      return this.selectedDateRange.id === CUSTOM_DATE_RANGE_ID;
     },
     isGroupByPossible() {
-      return (
-        this.currentDateRangeSelection.id !== DATE_RANGE_OPTIONS.LAST_7_DAYS.id
-      );
+      return this.selectedDateRange.id !== DATE_RANGE_OPTIONS.LAST_7_DAYS.id;
     },
     to() {
       if (this.isDateRangeSelected) {
@@ -111,12 +109,12 @@ export default {
         return this.fromCustomDate(this.customDateRange[0]);
       }
 
-      const { offset } = this.currentDateRangeSelection;
+      const { offset } = this.selectedDateRange;
       const fromDate = subDays(new Date(), offset);
       return this.fromCustomDate(fromDate);
     },
     validGroupOptions() {
-      return this.currentDateRangeSelection.groupByOptions;
+      return this.selectedDateRange.groupByOptions;
     },
   },
   watch: {
@@ -142,7 +140,7 @@ export default {
       return getUnixTime(endOfDay(date));
     },
     changeDateSelection(selectedRange) {
-      this.currentDateRangeSelection = selectedRange;
+      this.selectedDateRange = selectedRange;
       this.onDateRangeChange();
     },
     onChange(value) {
