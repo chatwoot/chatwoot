@@ -49,10 +49,7 @@ import ReportsFiltersDateRange from './Filters/DateRange.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
-import {
-  getUnixStartOfDate,
-  getUnixEndOfDate,
-} from 'shared/helpers/getUnixStartOfDate';
+import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
 
 export default {
   components: {
@@ -103,18 +100,18 @@ export default {
     },
     to() {
       if (this.isDateRangeSelected) {
-        return getUnixEndOfDate(this.customDateRange[1]);
+        return getUnixEndOfDay(this.customDateRange[1]);
       }
-      return getUnixEndOfDate(new Date());
+      return getUnixEndOfDay(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
-        return getUnixStartOfDate(this.customDateRange[0]);
+        return getUnixStartOfDay(this.customDateRange[0]);
       }
 
       const { offset } = this.selectedDateRange;
       const fromDate = subDays(new Date(), offset);
-      return getUnixStartOfDate(fromDate);
+      return getUnixStartOfDay(fromDate);
     },
     validGroupOptions() {
       return this.selectedDateRange.groupByOptions;

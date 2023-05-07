@@ -108,9 +108,3 @@ export const groupHeatmapByDay = heatmapData => {
     return acc;
   }, new Map());
 };
-
-/** Get start of day as a UNIX timestamp */
-export const getUnixStartOfDay = date => getUnixTime(startOfDay(date));
-
-/** Get end of day as a UNIX timestamp */
-export const getUnixEndOfDay = date => getUnixTime(endOfDay(date));
