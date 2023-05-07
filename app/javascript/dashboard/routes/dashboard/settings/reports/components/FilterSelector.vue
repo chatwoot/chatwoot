@@ -116,6 +116,17 @@ export default {
     validGroupOptions() {
       return this.selectedDateRange.groupByOptions;
     },
+    validGroupBy() {
+      if (!this.selectedGroupByFilter) {
+        return this.validGroupOptions[0];
+      }
+
+      const validIds = this.validGroupOptions.map(opt => opt.id);
+      if (validIds.includes(this.selectedGroupByFilter.id)) {
+        return this.selectedGroupByFilter;
+      }
+      return this.validGroupOptions[0];
+    },
   },
   watch: {
     businessHoursSelected() {
@@ -142,25 +153,14 @@ export default {
         selectedAgents,
       });
     },
-    validGroupBy() {
-      if (!this.selectedGroupByFilter) {
-        return this.validGroupOptions[0];
-      }
-
-      const validIds = this.validGroupOptions.map(opt => opt.id);
-      if (validIds.includes(this.selectedGroupByFilter.id)) {
-        return this.selectedGroupByFilter;
-      }
-      return this.validGroupOptions[0];
-    },
     changeDateSelection(selectedRange) {
       this.selectedDateRange = selectedRange;
-      this.selectedGroupByFilter = this.validGroupBy();
+      this.selectedGroupByFilter = this.validGroupBy;
       this.emitChange();
     },
     onChange(value) {
       this.customDateRange = value;
-      this.selectedGroupByFilter = this.validGroupBy();
+      this.selectedGroupByFilter = this.validGroupBy;
       this.emitChange();
     },
     changeFilterSelection(payload) {
