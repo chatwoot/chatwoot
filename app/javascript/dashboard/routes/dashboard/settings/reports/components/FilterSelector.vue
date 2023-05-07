@@ -1,19 +1,19 @@
 <template>
   <div class="filter-container">
-    <reports-filters-date-range @on-range-change="changeDateSelection" />
+    <reports-filters-date-range @on-range-change="onDateRangeChange" />
     <woot-date-range-picker
       v-if="isDateRangeSelected"
       show-range
       :value="customDateRange"
       :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-      @change="onChange"
+      @change="onCustomDateRangeChange"
     />
     <reports-filters-date-group-by
       v-if="showGroupByFilter && isGroupByPossible"
       :valid-group-options="validGroupOptions"
       :selected-option="selectedGroupByFilter"
-      @on-grouping-change="changeFilterSelection"
+      @on-grouping-change="onGroupingChange"
     />
     <div v-if="agentsFilter" class="multiselect-wrap--small">
       <multiselect
@@ -153,17 +153,17 @@ export default {
         selectedAgents,
       });
     },
-    changeDateSelection(selectedRange) {
+    onDateRangeChange(selectedRange) {
       this.selectedDateRange = selectedRange;
       this.selectedGroupByFilter = this.validGroupBy;
       this.emitChange();
     },
-    onChange(value) {
+    onCustomDateRangeChange(value) {
       this.customDateRange = value;
       this.selectedGroupByFilter = this.validGroupBy;
       this.emitChange();
     },
-    changeFilterSelection(payload) {
+    onGroupingChange(payload) {
       this.selectedGroupByFilter = payload;
       this.emitChange();
     },
