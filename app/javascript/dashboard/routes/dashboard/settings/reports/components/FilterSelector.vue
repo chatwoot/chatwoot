@@ -10,7 +10,7 @@
       @change="onChange"
     />
     <reports-filters-date-group-by
-      v-if="groupByFilter && isGroupByPossible"
+      v-if="showGroupByFilter && isGroupByPossible"
       :valid-group-options="validGroupOptions"
       :selected-option="selectedGroupByFilter"
       @on-grouping-change="changeFilterSelection"
@@ -66,7 +66,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    groupByFilter: {
+    showGroupByFilter: {
       type: Boolean,
       default: false,
     },
