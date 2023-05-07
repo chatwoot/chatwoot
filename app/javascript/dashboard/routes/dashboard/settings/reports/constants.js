@@ -8,10 +8,26 @@ export const GROUP_BY_FILTER = {
 };
 
 export const GROUP_BY_OPTIONS = {
-  DAY: { id: 'DAY', translationKey: 'REPORT.GROUPING_OPTIONS.DAY' },
-  WEEK: { id: 'WEEK', translationKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
-  MONTH: { id: 'MONTH', translationKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
-  YEAR: { id: 'YEAR', translationKey: 'REPORT.GROUPING_OPTIONS.YEAR' },
+  DAY: {
+    id: 'DAY',
+    period: 'day',
+    translationKey: 'REPORT.GROUPING_OPTIONS.DAY',
+  },
+  WEEK: {
+    id: 'WEEK',
+    period: 'week',
+    translationKey: 'REPORT.GROUPING_OPTIONS.WEEK',
+  },
+  MONTH: {
+    id: 'MONTH',
+    period: 'month',
+    translationKey: 'REPORT.GROUPING_OPTIONS.MONTH',
+  },
+  YEAR: {
+    id: 'YEAR',
+    period: 'year',
+    translationKey: 'REPORT.GROUPING_OPTIONS.YEAR',
+  },
 };
 
 export const DATE_RANGE_OPTIONS = {

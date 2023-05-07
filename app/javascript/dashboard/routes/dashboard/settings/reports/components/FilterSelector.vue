@@ -12,6 +12,7 @@
     <reports-filters-date-group-by
       v-if="groupByFilter && isGroupByPossible"
       :valid-group-options="validGroupOptions"
+      :selected-option="selectedGroupByFilter"
       @on-grouping-change="changeFilterSelection"
     />
     <div v-if="agentsFilter" class="multiselect-wrap--small">
@@ -84,6 +85,7 @@ export default {
     return {
       // default value, need not be translated
       selectedDateRange: DATE_RANGE_OPTIONS.LAST_7_DAYS,
+      selectedGroupByFilter: null,
       customDateRange: [new Date(), new Date()],
       selectedAgents: [],
       businessHoursSelected: false,
@@ -126,12 +128,24 @@ export default {
     this.onDateRangeChange();
   },
   methods: {
+    emitChange() {
+      const { from, to, selectedGroupByFilter: groupBy } = this;
+      this.$emit('date-range-change', { from, to, groupBy });
+    },
     onDateRangeChange() {
-      this.$emit('date-range-change', {
-        from: this.from,
-        to: this.to,
-        groupBy: this.validGroupOptions[0],
-      });
+      this.selectedGroupByFilter = this.validateSelectedGroupBy();
+      this.emitChange();
+    },
+    validateSelectedGroupBy() {
+      if (!this.selectedGroupByFilter) {
+        return this.validGroupOptions[0];
+      }
+
+      const validIds = this.validGroupOptions.map(opt => opt.id);
+      if (validIds.includes(this.selectedGroupByFilter.id)) {
+        return this.selectedGroupByFilter;
+      }
+      return this.validGroupOptions[0];
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
@@ -147,8 +161,9 @@ export default {
       this.customDateRange = value;
       this.onDateRangeChange();
     },
-    changeFilterSelection() {
-      this.$emit('filter-change', this.currentSelectedFilter);
+    changeFilterSelection(payload) {
+      this.selectedGroupByFilter = payload;
+      this.$emit('filter-change', payload);
     },
     handleAgentsFilterSelection() {
       this.$emit('agents-filter-change', this.selectedAgents);

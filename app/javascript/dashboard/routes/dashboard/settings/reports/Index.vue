@@ -232,20 +232,12 @@ export default {
       }
       this.from = from;
       this.to = to;
-      this.filterItemsList = this.fetchFilterItems(groupBy);
-      const filterItems = this.filterItemsList.filter(
-        item => item.id === this.groupBy.id
-      );
-      if (filterItems.length > 0) {
-        this.selectedGroupByFilter = filterItems[0];
-      } else {
-        this.selectedGroupByFilter = this.filterItemsList[0];
-        this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
-      }
+      this.groupBy = groupBy;
+
       this.fetchAllData();
     },
     onFilterChange(payload) {
-      this.groupBy = GROUP_BY_FILTER[payload.id];
+      this.groupBy = payload;
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {

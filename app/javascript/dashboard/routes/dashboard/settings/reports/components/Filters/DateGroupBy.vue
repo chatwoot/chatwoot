@@ -26,16 +26,17 @@ export default {
   name: 'ReportsFiltersDateGroupBy',
   props: {
     validGroupOptions: {
-      type: String,
+      type: Array,
       default: () => [GROUP_BY_OPTIONS.DAY],
+    },
+    selectedOption: {
+      type: Object,
+      default: () => GROUP_BY_OPTIONS.DAY,
     },
   },
   data() {
     return {
-      currentSelectedFilter: {
-        ...GROUP_BY_OPTIONS.DAY,
-        groupBy: this.$t(GROUP_BY_OPTIONS.DAY.translationKey),
-      },
+      currentSelectedFilter: null,
     };
   },
   computed: {
@@ -46,9 +47,19 @@ export default {
       }));
     },
   },
+  watch: {
+    selectedOption: {
+      handler() {
+        this.currentSelectedFilter = {
+          ...this.selectedOption,
+          groupBy: this.$t(this.selectedOption.translationKey),
+        };
+      },
+      immediate: true,
+    },
+  },
   methods: {
     changeFilterSelection(selectedFilter) {
-      this.currentSelectedFilter = selectedFilter;
       this.groupByOptions = this.$emit(EVENT_NAME, selectedFilter);
     },
   },
