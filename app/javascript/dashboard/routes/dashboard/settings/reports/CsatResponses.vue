@@ -4,7 +4,7 @@
       agents-filter
       :agents-filter-items-list="agentList"
       :show-business-hours-switch="false"
-      @date-range-change="onDateRangeChange"
+      @filter-change="onFilterChange"
       @agents-filter-change="onAgentsFilterChange"
     />
     <woot-button
@@ -66,7 +66,7 @@ export default {
       this.pageIndex = pageIndex;
       this.getResponses();
     },
-    onDateRangeChange({ from, to }) {
+    onFilterChange({ from, to }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
         this.$track(REPORTS_EVENTS.FILTER_REPORT, {
@@ -74,6 +74,7 @@ export default {
           reportType: 'csat',
         });
       }
+
       this.from = from;
       this.to = to;
       this.getAllData();
