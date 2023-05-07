@@ -189,24 +189,27 @@ export default {
   },
   methods: {
     fetchAllData() {
-      const { from, to, groupBy, businessHours } = this;
-      this.$store.dispatch('fetchAccountSummary', {
-        from,
-        to,
-        groupBy: groupBy.period,
-        businessHours,
-      });
+      this.fetchAccountSummary();
       this.fetchChartData();
     },
+    fetchAccountSummary() {
+      this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
+    },
     fetchChartData() {
-      const { from, to, groupBy, businessHours } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
+        ...this.getRequestPayload(),
+      });
+    },
+    getRequestPayload() {
+      const { from, to, groupBy, businessHours } = this;
+
+      return {
         from,
         to,
         groupBy: groupBy.period,
         businessHours,
-      });
+      };
     },
     downloadAgentReports() {
       const { from, to } = this;
