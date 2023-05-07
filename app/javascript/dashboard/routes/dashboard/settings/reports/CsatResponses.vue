@@ -5,7 +5,6 @@
       :agents-filter-items-list="agentList"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
-      @agents-filter-change="onAgentsFilterChange"
     />
     <woot-button
       color-scheme="success"
@@ -66,7 +65,7 @@ export default {
       this.pageIndex = pageIndex;
       this.getResponses();
     },
-    onFilterChange({ from, to }) {
+    onFilterChange({ from, to, selectedAgents }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
         this.$track(REPORTS_EVENTS.FILTER_REPORT, {
@@ -77,15 +76,8 @@ export default {
 
       this.from = from;
       this.to = to;
+      this.userIds = selectedAgents.map(el => el.id);
       this.getAllData();
-    },
-    onAgentsFilterChange(agents) {
-      this.userIds = agents.map(el => el.id);
-      this.getAllData();
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'agent',
-        reportType: 'csat',
-      });
     },
     downloadReports() {
       const type = 'csat';

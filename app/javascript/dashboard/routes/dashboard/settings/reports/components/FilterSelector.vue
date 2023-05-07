@@ -132,8 +132,15 @@ export default {
         to,
         selectedGroupByFilter: groupBy,
         businessHoursSelected: businessHours,
+        selectedAgents,
       } = this;
-      this.$emit('filter-change', { from, to, groupBy, businessHours });
+      this.$emit('filter-change', {
+        from,
+        to,
+        groupBy,
+        businessHours,
+        selectedAgents,
+      });
     },
     validGroupBy() {
       if (!this.selectedGroupByFilter) {
@@ -161,7 +168,7 @@ export default {
       this.emitChange();
     },
     handleAgentsFilterSelection() {
-      this.$emit('agents-filter-change', this.selectedAgents);
+      this.emitChange();
     },
   },
 };
