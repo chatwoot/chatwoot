@@ -246,18 +246,6 @@ export default {
         reportType: 'conversations',
       });
     },
-    fetchFilterItems(groupBy) {
-      switch (groupBy) {
-        case GROUP_BY_FILTER[2].period:
-          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
-        case GROUP_BY_FILTER[3].period:
-          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
-        case GROUP_BY_FILTER[4].period:
-          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
-        default:
-          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
-      }
-    },
     onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
