@@ -220,20 +220,6 @@ export default {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to, groupBy }) {
-      // do not track filter change on inital load
-      if (this.from !== 0 && this.to !== 0) {
-        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-          filterType: 'date',
-          reportType: 'conversations',
-        });
-      }
-      this.from = from;
-      this.to = to;
-      this.groupBy = groupBy;
-
-      this.fetchAllData();
-    },
     onFilterChange({ from, to, groupBy, businessHours }) {
       this.from = from;
       this.to = to;
@@ -242,18 +228,7 @@ export default {
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'groupBy',
-        filterValue: this.groupBy?.period,
-        reportType: 'conversations',
-      });
-    },
-    onBusinessHoursToggle(value) {
-      this.businessHours = value;
-      this.fetchAllData();
-
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'businessHours',
-        filterValue: value,
+        filterValue: { from, to, groupBy, businessHours },
         reportType: 'conversations',
       });
     },

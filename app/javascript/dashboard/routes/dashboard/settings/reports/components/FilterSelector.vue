@@ -122,7 +122,7 @@ export default {
   },
   watch: {
     businessHoursSelected() {
-      this.$emit('business-hours-toggle', this.businessHoursSelected);
+      this.emitChange();
     },
   },
   mounted() {
