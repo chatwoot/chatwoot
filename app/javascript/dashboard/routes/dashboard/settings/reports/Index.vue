@@ -12,9 +12,7 @@
       group-by-filter
       :selected-group-by-filter="selectedGroupByFilter"
       :filter-items-list="filterItemsList"
-      @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
-      @business-hours-toggle="onBusinessHoursToggle"
     />
     <div class="row">
       <woot-report-stats-card
@@ -236,8 +234,11 @@ export default {
 
       this.fetchAllData();
     },
-    onFilterChange(payload) {
-      this.groupBy = payload;
+    onFilterChange({ from, to, groupBy, businessHours }) {
+      this.from = from;
+      this.to = to;
+      this.groupBy = groupBy;
+      this.businessHours = businessHours;
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {

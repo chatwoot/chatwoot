@@ -47,11 +47,12 @@
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 import ReportsFiltersDateRange from './Filters/DateRange.vue';
 import subDays from 'date-fns/subDays';
-import startOfDay from 'date-fns/startOfDay';
-import getUnixTime from 'date-fns/getUnixTime';
 import { DATE_RANGE_OPTIONS } from '../constants';
-import endOfDay from 'date-fns/endOfDay';
 import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
+import {
+  getUnixStartOfDate,
+  getUnixEndOfDate,
+} from 'shared/helpers/getUnixStartOfDate';
 
 export default {
   components: {
@@ -102,18 +103,18 @@ export default {
     },
     to() {
       if (this.isDateRangeSelected) {
-        return this.toCustomDate(this.customDateRange[1]);
+        return getUnixEndOfDate(this.customDateRange[1]);
       }
-      return this.toCustomDate(new Date());
+      return getUnixEndOfDate(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[0]);
+        return getUnixStartOfDate(this.customDateRange[0]);
       }
 
       const { offset } = this.selectedDateRange;
       const fromDate = subDays(new Date(), offset);
-      return this.fromCustomDate(fromDate);
+      return getUnixStartOfDate(fromDate);
     },
     validGroupOptions() {
       return this.selectedDateRange.groupByOptions;
@@ -125,18 +126,19 @@ export default {
     },
   },
   mounted() {
-    this.onDateRangeChange();
+    this.emitChange();
   },
   methods: {
     emitChange() {
-      const { from, to, selectedGroupByFilter: groupBy } = this;
-      this.$emit('date-range-change', { from, to, groupBy });
+      const {
+        from,
+        to,
+        selectedGroupByFilter: groupBy,
+        businessHoursSelected: businessHours,
+      } = this;
+      this.$emit('filter-change', { from, to, groupBy, businessHours });
     },
-    onDateRangeChange() {
-      this.selectedGroupByFilter = this.validateSelectedGroupBy();
-      this.emitChange();
-    },
-    validateSelectedGroupBy() {
+    validGroupBy() {
       if (!this.selectedGroupByFilter) {
         return this.validGroupOptions[0];
       }
@@ -147,23 +149,19 @@ export default {
       }
       return this.validGroupOptions[0];
     },
-    fromCustomDate(date) {
-      return getUnixTime(startOfDay(date));
-    },
-    toCustomDate(date) {
-      return getUnixTime(endOfDay(date));
-    },
     changeDateSelection(selectedRange) {
       this.selectedDateRange = selectedRange;
-      this.onDateRangeChange();
+      this.selectedGroupByFilter = this.validGroupBy();
+      this.emitChange();
     },
     onChange(value) {
       this.customDateRange = value;
-      this.onDateRangeChange();
+      this.selectedGroupByFilter = this.validGroupBy();
+      this.emitChange();
     },
     changeFilterSelection(payload) {
       this.selectedGroupByFilter = payload;
-      this.$emit('filter-change', payload);
+      this.emitChange();
     },
     handleAgentsFilterSelection() {
       this.$emit('agents-filter-change', this.selectedAgents);
