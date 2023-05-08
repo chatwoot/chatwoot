@@ -3,16 +3,16 @@
     "TITLE": "ورود به چت ووت",
     "EMAIL": {
       "LABEL": "ایمیل",
-      "PLACEHOLDER": "example@companyname.com"
+      "PLACEHOLDER": "ایمیل به عنوان مثال: someone@example.com"
     },
     "PASSWORD": {
       "LABEL": "رمز عبور",
       "PLACEHOLDER": "رمز عبور"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "ورود موفق",
+      "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید",
+      "UNAUTH": "این نام کاربری و رمز عبور صحیح نیست"
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "با گوگل وارد شوید",
