@@ -1,12 +1,12 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
+    "HEADER": "Pokalbiai",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Pokalbiai",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -61,79 +61,79 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Select date range"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "DURATION_FILTER_LABEL": "Trukmė",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Diena"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Diena"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Savaitė"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Diena"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Savaitė"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mėnuo"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Diena"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Savaitė"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mėnuo"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "Metai"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
+    "BUSINESS_HOURS": "Darbo valandos"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "FILTER_DROPDOWN_LABEL": "Pasirinkti agentą",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Pokalbiai",
+        "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
@@ -149,7 +149,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
@@ -179,19 +179,19 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Select date range"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Etikečių Peržiūra",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Parsisiųsti etiketės ataskaitas",
+    "FILTER_DROPDOWN_LABEL": "Pažymėti Etiketę",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Pokalbiai",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -216,7 +216,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
@@ -246,7 +246,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -258,12 +258,12 @@
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Pokalbiai",
+        "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
@@ -283,7 +283,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
@@ -313,7 +313,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -325,12 +325,12 @@
     "FILTER_DROPDOWN_LABEL": "Select Team",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Pokalbiai",
+        "DESC": "( Viso )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
@@ -350,7 +350,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "DESC": "( Viso )"
       }
     },
     "DATE_RANGE": [
@@ -380,7 +380,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -395,9 +395,9 @@
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "CONTACT_NAME": "Kontaktas",
+        "AGENT_NAME": "Priskirtas agentas",
+        "RATING": "Reitingas",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
@@ -417,12 +417,12 @@
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
+    "HEADER": "Apžvalga",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
+      "OPEN": "Atidaryti",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned"
     },
@@ -437,26 +437,26 @@
       "LOADING_MESSAGE": "Loading agent metrics...",
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "OPEN",
+        "AGENT": "Agentas",
+        "OPEN": "ATIDARYTI",
         "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "STATUS": "Būsena"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
-      "OFFLINE": "Offline"
+      "HEADER": "Agento būsena",
+      "ONLINE": "Prisijungęs",
+      "BUSY": "Užimta",
+      "OFFLINE": "Atsijungęs"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Sekmadienis",
+    "MONDAY": "Pirmadienis",
+    "TUESDAY": "Antradienis",
+    "WEDNESDAY": "Trečiadienis",
+    "THURSDAY": "Ketvirtadienis",
+    "FRIDAY": "Penktadienis",
+    "SATURDAY": "Šeštadienis"
   }
 }

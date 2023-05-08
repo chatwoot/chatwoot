@@ -3,7 +3,7 @@
     "HEADER": "Atributos Personalizados",
     "HEADER_BTN_TXT": "Criar atributo personalizado",
     "LOADING": "Buscando atributos",
-    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo customizado rastreia fatos sobre seus contatos/conversa — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar no<b>Adicionar atributo personalizado.</b> Você também pode editar ou apagar um atributo existente clicando em Editar ou Apagar botão.</p>",
+    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia fatos sobre seus contatos/conversa — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar no <b>Criar atributo</b> Você também pode editar ou apagar um atributo já criado.</p>",
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
       "SUBMIT": "Criar",

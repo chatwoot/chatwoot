@@ -14,6 +14,7 @@ class ConversationApi extends ApiClient {
     labels,
     teamId,
     conversationType,
+    sortBy,
   }) {
     return axios.get(this.url, {
       params: {
@@ -24,6 +25,7 @@ class ConversationApi extends ApiClient {
         page,
         labels,
         conversation_type: conversationType,
+        sort_by: sortBy,
       },
     });
   }
@@ -49,6 +51,12 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/toggle_status`, {
       status,
       snoozed_until: snoozedUntil,
+    });
+  }
+
+  togglePriority({ conversationId, priority }) {
+    return axios.post(`${this.url}/${conversationId}/toggle_priority`, {
+      priority,
     });
   }
 

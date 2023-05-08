@@ -35,6 +35,20 @@
         "TEXT": "すべて"
       }
     },
+    "VIEW_FILTER": "表示",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "状況",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Created at"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "画像メッセージ"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "URLを共有しています"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "メールで受信しました",

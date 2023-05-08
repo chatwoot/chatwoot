@@ -195,7 +195,7 @@ export default {
         return '';
       }
       const { storySender, storyId } = this;
-      return `https://www.instagram.com/stories/${storySender}/${storyId}`;
+      return `https://www.instagram.com/stories/direct/${storySender}_${storyId}`;
     },
     showStatusIndicators() {
       if ((this.isOutgoing || this.isTemplate) && !this.isPrivate) {

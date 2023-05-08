@@ -1,0 +1,24 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Jurnale de audit",
+    "HEADER_BTN_TXT": "Adăugarea jurnalelor de audit",
+    "LOADING": "Preluarea jurnalelor de audit",
+    "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
+    "SIDEBAR_TXT": "<p><b>Jurnale de audit</b> </p><p> Jurnalele de audit sunt piste pentru evenimente și acțiuni într-un sistem Chatwoot. </p>",
+    "LIST": {
+      "404": "Nu există jurnale de audit disponibile în acest cont.",
+      "TITLE": "Gestionarea jurnalelor de audit",
+      "DESC": "Jurnalele de audit sunt piste pentru evenimente și acțiuni într-un sistem Chatwoot.",
+      "TABLE_HEADER": [
+        "Utilizator",
+        "Acțiune",
+        "Adresă IP",
+        "Timp"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "AuditLogs preluat cu succes",
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+    }
+  }
+}

@@ -30,15 +30,15 @@
             "EMAIL": "Tölvupóstfang",
             "PHONE_NUMBER": "Símanúmer",
             "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country",
+            "CITY": "Borg",
+            "COUNTRY": "Land",
             "CUSTOM_ATTRIBUTE_LIST": "List",
             "CUSTOM_ATTRIBUTE_TEXT": "Text",
             "CUSTOM_ATTRIBUTE_NUMBER": "Number",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
             "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Last Activity",
+            "LAST_ACTIVITY": "Seinasta virkni",
             "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {

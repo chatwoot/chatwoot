@@ -122,6 +122,7 @@
         "LABEL": "전화 번호",
         "HELP": "전화번호는 E.164 형식이여야 합니다. 예: +1415555555 [+][국가 코드][지역 코드][전화번호]",
         "ERROR": "전화번호는 비어있거나 E.164 형식이여야 합니다",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "이 전화번호는 다른 연락처에 사용 중입니다."
       },
       "LOCATION": {
@@ -182,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "받은 메시지함",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "받은 메시지함 선택"
       },
       "SUBJECT": {

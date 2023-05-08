@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "پرونده ناشناخته",
     "SAVE_CONTACT": "ذخیره",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "پاسخ بعدی",
         "TOMORROW": "فردا",
         "NEXT_WEEK": "هفته بعد"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "اولویت",
+      "OPTIONS": {
+        "NONE": "هیچکدام",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "هیچکدام",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "نتیجه‌ای یافت نشد",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {
