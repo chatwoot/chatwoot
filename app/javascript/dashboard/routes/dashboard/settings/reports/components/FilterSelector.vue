@@ -31,6 +31,10 @@
       v-if="showInboxFilter"
       @inbox-filter-selection="handleInboxFilterSelection"
     />
+    <reports-filters-ratings
+      v-if="showRatingFilter"
+      @rating-filter-selection="handleRatingFilterSelection"
+    />
     <div v-if="showBusinessHoursSwitch" class="business-hours">
       <span class="business-hours-text ">
         {{ $t('REPORT.BUSINESS_HOURS') }}
@@ -49,6 +53,7 @@ import ReportsFiltersAgents from './Filters/Agents.vue';
 import ReportsFiltersLabels from './Filters/Labels.vue';
 import ReportsFiltersInboxes from './Filters/Inboxes.vue';
 import ReportsFiltersTeams from './Filters/Teams.vue';
+import ReportsFiltersRatings from './Filters/Ratings.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -62,6 +67,7 @@ export default {
     ReportsFiltersLabels,
     ReportsFiltersInboxes,
     ReportsFiltersTeams,
+    ReportsFiltersRatings,
   },
   props: {
     filterItemsList: {
@@ -84,6 +90,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showRatingFilter: {
+      type: Boolean,
+      default: false,
+    },
     showTeamFilter: {
       type: Boolean,
       default: false,
@@ -101,6 +111,7 @@ export default {
       selectedLabel: null,
       selectedInbox: null,
       selectedTeam: null,
+      selectedRating: null,
       selectedAgents: [],
       customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
@@ -164,6 +175,7 @@ export default {
         selectedLabel,
         selectedInbox,
         selectedTeam,
+        selectedRating,
       } = this;
       this.$emit('filter-change', {
         from,
@@ -174,6 +186,7 @@ export default {
         selectedLabel,
         selectedInbox,
         selectedTeam,
+        selectedRating,
       });
     },
     onDateRangeChange(selectedRange) {
@@ -206,6 +219,10 @@ export default {
       this.selectedTeam = selectedTeam;
       this.emitChange();
     },
+    handleRatingFilterSelection(selectedRating) {
+      this.selectedRating = selectedRating;
+      this.emitChange();
+    },
   },
 };
 </script>
@@ -213,7 +230,7 @@ export default {
 <style scoped>
 .filter-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 250px));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
   grid-gap: 10px;
 
   margin-bottom: var(--space-normal);

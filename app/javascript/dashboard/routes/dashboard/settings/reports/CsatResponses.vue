@@ -3,6 +3,7 @@
     <report-filter-selector
       :show-agents-filter="true"
       :show-inbox-filter="true"
+      :show-rating-filter="true"
       :show-team-filter="isTeamsEnabled"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
@@ -43,6 +44,7 @@ export default {
       userIds: [],
       inbox: null,
       team: null,
+      rating: null,
     };
   },
   computed: {
@@ -57,6 +59,7 @@ export default {
         user_ids: this.userIds,
         inbox_id: this.inbox,
         team_id: this.team,
+        rating: this.rating,
       };
     },
     isTeamsEnabled() {
@@ -88,7 +91,14 @@ export default {
       this.pageIndex = pageIndex;
       this.getResponses();
     },
-    onFilterChange({ from, to, selectedAgents, selectedInbox, selectedTeam }) {
+    onFilterChange({
+      from,
+      to,
+      selectedAgents,
+      selectedInbox,
+      selectedTeam,
+      selectedRating,
+    }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
         this.$track(REPORTS_EVENTS.FILTER_REPORT, {
@@ -102,6 +112,7 @@ export default {
       this.userIds = selectedAgents.map(el => el.id);
       this.inbox = selectedInbox?.id;
       this.team = selectedTeam?.id;
+      this.rating = selectedRating?.value;
 
       this.getAllData();
     },
