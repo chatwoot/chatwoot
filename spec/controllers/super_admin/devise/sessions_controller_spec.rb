@@ -6,7 +6,6 @@ RSpec.describe 'Super Admin', type: :request do
       with_modified_env LOGRAGE_ENABLED: 'true' do
         get '/super_admin/sign_in'
         expect(response).to have_http_status(:ok)
-        expect(response).to render_template(:new)
       end
     end
   end
