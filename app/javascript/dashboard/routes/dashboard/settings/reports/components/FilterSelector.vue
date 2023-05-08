@@ -23,6 +23,10 @@
       v-if="showLabelsFilter"
       @agents-filter-selection="handleLabelsFilterSelection"
     />
+    <reports-filters-inboxes
+      v-if="showInboxFilter"
+      @agents-filter-selection="handleInboxFilterSelection"
+    />
     <div v-if="showBusinessHoursSwitch" class="business-hours">
       <span class="business-hours-text ">
         {{ $t('REPORT.BUSINESS_HOURS') }}
@@ -39,6 +43,7 @@ import ReportsFiltersDateRange from './Filters/DateRange.vue';
 import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
 import ReportsFiltersAgents from './Filters/Agents.vue';
 import ReportsFiltersLabels from './Filters/Labels.vue';
+import ReportsFiltersInboxes from './Filters/Inboxes.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -50,6 +55,7 @@ export default {
     ReportsFiltersDateGroupBy,
     ReportsFiltersAgents,
     ReportsFiltersLabels,
+    ReportsFiltersInboxes,
   },
   props: {
     filterItemsList: {
@@ -68,6 +74,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showInboxFilter: {
+      type: Boolean,
+      default: false,
+    },
     showBusinessHoursSwitch: {
       type: Boolean,
       default: true,
@@ -79,6 +89,7 @@ export default {
       selectedDateRange: DATE_RANGE_OPTIONS.LAST_7_DAYS,
       selectedGroupByFilter: null,
       selectedLabel: null,
+      selectedInbox: null,
       selectedAgents: [],
       customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
@@ -140,6 +151,7 @@ export default {
         businessHoursSelected: businessHours,
         selectedAgents,
         selectedLabel,
+        selectedInbox,
       } = this;
       this.$emit('filter-change', {
         from,
@@ -148,6 +160,7 @@ export default {
         businessHours,
         selectedAgents,
         selectedLabel,
+        selectedInbox,
       });
     },
     onDateRangeChange(selectedRange) {
@@ -170,6 +183,10 @@ export default {
     },
     handleLabelsFilterSelection(selectedLabel) {
       this.selectedLabel = selectedLabel;
+      this.emitChange();
+    },
+    handleInboxFilterSelection(selectedInbox) {
+      this.selectedInbox = selectedInbox;
       this.emitChange();
     },
   },
