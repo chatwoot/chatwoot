@@ -1,5 +1,5 @@
 class Inboxes::FetchImapEmailInboxesJob < ApplicationJob
-  queue_as :low
+  queue_as :scheduled_jobs
 
   def perform
     # check imap_enabled for channel

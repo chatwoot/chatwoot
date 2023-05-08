@@ -3,7 +3,7 @@ class ApiController < ApplicationController
 
   def index
     render json: { version: Chatwoot.config[:version],
-                   timestamp: Time.now.utc.to_formatted_s(:db),
+                   timestamp: Time.now.utc.to_fs(:db),
                    queue_services: redis_status,
                    data_services: postgres_status }
   end

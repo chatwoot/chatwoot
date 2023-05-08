@@ -35,6 +35,20 @@
         "TEXT": "Alle"
       }
     },
+    "VIEW_FILTER": "Vis",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Oprettet den"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Billedbesked"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "har delt en URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sorter efter",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Oprettet den",
+          "LABEL": "Oprettet den"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Modtaget via e-mail",
