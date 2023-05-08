@@ -88,7 +88,7 @@
         "TITLE": "Portali",
         "PORTAL_SETTINGS": "Impostazioni del portale",
         "SUBTITLE": "Hai più portali e puoi avere diverse lingue per ogni portale.",
-        "CANCEL_BUTTON_LABEL": "annulla",
+        "CANCEL_BUTTON_LABEL": "Annulla",
         "CHOOSE_LOCALE_BUTTON": "Scegli lingua"
       },
       "PORTAL_SETTINGS": {
@@ -108,7 +108,7 @@
               "SLUG": "Slug",
               "TITLE": "Titolo del portale",
               "THEME": "Colore del tema",
-              "SUB_TEXT": "Sotto-testo del portale"
+              "SUB_TEXT": "Sottotesto del portale"
             }
           },
           "AVAILABLE_LOCALES": {
@@ -148,7 +148,7 @@
             "TITLE": "Categorie"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Lingue"
           }
         },
         "CATEGORIES": {
@@ -222,7 +222,7 @@
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Slug portale per URLs",
+          "PLACEHOLDER": "Slug portale per URL",
           "ERROR": "Slug è obbligatorio"
         },
         "DOMAIN": {
@@ -271,7 +271,7 @@
         },
         "BUTTONS": {
           "CREATE": "Crea lingua",
-          "CANCEL": "annulla"
+          "CANCEL": "Annulla"
         },
         "API": {
           "SUCCESS_MESSAGE": "Lingua aggiunta con successo",
@@ -373,7 +373,7 @@
         },
         "BUTTONS": {
           "CREATE": "Crea categoria",
-          "CANCEL": "annulla"
+          "CANCEL": "Annulla"
         },
         "API": {
           "SUCCESS_MESSAGE": "Categoria creata con successo",
@@ -404,7 +404,7 @@
         },
         "BUTTONS": {
           "CREATE": "Aggiorna categoria",
-          "CANCEL": "annulla"
+          "CANCEL": "Annulla"
         },
         "API": {
           "SUCCESS_MESSAGE": "Categoria aggiornata con successo",

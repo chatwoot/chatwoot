@@ -12,13 +12,13 @@
       "TABLE_HEADER": [
         "Vartotojas",
         "Action",
-        "IP Address",
+        "IP Adresas",
         "Laikas"
       ]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
     }
   }
 }

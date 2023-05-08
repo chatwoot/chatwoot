@@ -21,7 +21,7 @@ ru:
   messages:
     reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
     reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
   errors:
     validations:
       presence: Не должен быть пустым
@@ -46,7 +46,7 @@ ru:
       locale:
         unique: Должны быть уникальными в категории и портале
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Недопустимый тип сообщения. Действие запрещено"
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -112,11 +112,11 @@ ru:
         pending: "Разговор был помечен как ожидающий %{user_name}"
         snoozed: "Разговор был помечен как отложенный %{user_name}"
         auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: Система переоткрыла разговор из-за нового входящего сообщения.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} установил приоритет на %{new_priority}'
+        updated: '%{user_name} изменил приоритет с %{old_priority} на %{new_priority}'
+        removed: '%{user_name} удалил приоритет'
       assignee:
         self_assigned: "%{user_name} назначил(а) разговор себе"
         assigned: "%{user_name} назначил %{assignee_name} ответственным"
@@ -154,8 +154,8 @@ ru:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte это инструмент, который поможет вам добавить живое аудио и видео в ваше приложение всего несколько строк кода. Эта интеграция позволяет вашим агентам совершать видеосвязь или голосовой звонок со своими клиентами не выходя из Чатвута."
+      meeting_name: "%{agent_name} приступил к встрече"
     slack:
       name: "Slack"
       description: "Slack это сервис, который позволяет объединить рабочие коммуникации в одном месте. При интеграции с Slack вы будете получать уведомления обо всех новых разговорах прямо в Slack."
@@ -170,10 +170,10 @@ ru:
       description: "Интеграция с FullContact помогает получить всю информацию о профиле посетителей. Определяйте пользователей как только они поделится своим электронным адресом и предложите им индивидуальное обслуживание клиентов. Подключите ваш FullContact к своей учетной записи, поделившись API ключом FullContact."
     google_translate:
       name: "Google Перевод"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Чтобы агентам было легче переводить сообщения, добавляя интеграцию с переводом Google Translate Integration. Перевод Google помогает идентифицировать язык автоматически и конвертировать его на язык, выбранный администратором/сотрудником."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Интеграция мощных функций AI в Chatwoot путем использования моделей GPT из OpenAI."
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...

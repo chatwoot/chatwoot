@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "שם החברה",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "שם החברה קצר מדי."
+      "PLACEHOLDER": "הזן את שם החברה שלך. למשל: Wayne Enterprises",
+      "ERROR": "שם החברה קצר מדי"
     },
     "FULL_NAME": {
       "LABEL": "שם מלא",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
-      "ERROR": "השם המלא קצר מדי."
+      "PLACEHOLDER": "הזן את שמך המלא. למשל: ברוס וויין",
+      "ERROR": "השם המלא קצר מדי"
     },
     "EMAIL": {
       "LABEL": "מייל עבודה",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
-      "ERROR": "אנא הזן כתובת דוא\"ל חוקית לעבודה."
+      "PLACEHOLDER": "הזן את כתובת הדוא\"ל שלך בעבודה. למשל: bruce@wayne.enterprises",
+      "ERROR": "אנא הזן כתובת דוא\"ל חוקית לעבודה"
     },
     "PASSWORD": {
       "LABEL": "סיסמה",
       "PLACEHOLDER": "סיסמה",
-      "ERROR": "הסיסמה קצרה מדי.",
-      "IS_INVALID_PASSWORD": "הסיסמה צריכה להכיל לפחות אות אחת גדולה, אות קטנה אחת, מספר אחד ותו מיוחד אחד."
+      "ERROR": "הסיסמה קצרה מדי",
+      "IS_INVALID_PASSWORD": "הסיסמה צריכה להכיל לפחות אות אחת גדולה, אות קטנה אחת, מספר אחד ותו מיוחד אחד"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
-      "ERROR": "סיסמה לא מתאימה."
+      "LABEL": "אמת סיסמה",
+      "PLACEHOLDER": "אמת סיסמה",
+      "ERROR": "סיסמה לא מתאימה"
     },
     "API": {
       "SUCCESS_MESSAGE": "ההרשמה הצליחה",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
     },
     "SUBMIT": "צור חשבון",
     "HAVE_AN_ACCOUNT": "כבר יש לך חשבון?"

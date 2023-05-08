@@ -1,6 +1,6 @@
 <template>
   <div v-on-clickaway="onCloseAgentList" class="bulk-action__agents">
-    <div class="triangle" :style="cssVars">
+    <div class="triangle">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
           d="M20 12l-8-8-12 12"
@@ -104,14 +104,13 @@ import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner';
 import { mixin as clickaway } from 'vue-clickaway';
-import bulkActionsMixin from 'dashboard/mixins/bulkActionsMixin.js';
 
 export default {
   components: {
     Thumbnail,
     Spinner,
   },
-  mixins: [clickaway, bulkActionsMixin],
+  mixins: [clickaway],
   props: {
     selectedInboxes: {
       type: Array,
@@ -240,7 +239,7 @@ export default {
     display: block;
     z-index: var(--z-index-one);
     position: absolute;
-    top: calc(var(--space-slab) * -1);
+    top: var(--space-minus-slab);
     right: var(--triangle-position);
     text-align: left;
   }
