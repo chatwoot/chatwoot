@@ -2,7 +2,6 @@
   <div class="column content-box">
     <report-filter-selector
       :show-agents-filter="true"
-      :show-labels-filter="true"
       :show-inbox-filter="true"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
@@ -40,7 +39,6 @@ export default {
       to: 0,
       userIds: [],
       inbox: null,
-      label: null,
     };
   },
   methods: {
@@ -49,8 +47,7 @@ export default {
         from: this.from,
         to: this.to,
         user_ids: this.userIds,
-        label: this.label,
-        inbox: this.inbox,
+        inbox_id: this.inbox,
       });
       this.getResponses();
     },
@@ -60,15 +57,14 @@ export default {
         from: this.from,
         to: this.to,
         user_ids: this.userIds,
-        label: this.label,
-        inbox: this.inbox,
+        inbox_id: this.inbox,
       });
     },
     onPageNumberChange(pageIndex) {
       this.pageIndex = pageIndex;
       this.getResponses();
     },
-    onFilterChange({ from, to, selectedAgents, selectedLabel, selectedInbox }) {
+    onFilterChange({ from, to, selectedAgents, selectedInbox }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
         this.$track(REPORTS_EVENTS.FILTER_REPORT, {
@@ -80,7 +76,6 @@ export default {
       this.from = from;
       this.to = to;
       this.userIds = selectedAgents.map(el => el.id);
-      this.label = selectedLabel?.id;
       this.inbox = selectedInbox?.id;
 
       this.getAllData();

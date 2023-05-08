@@ -36,7 +36,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   def set_csat_survey_responses
     @csat_survey_responses = filtrate(
       Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
-    ).filter_by_created_at(range).filter_by_assigned_agent_id(params[:user_ids])
+    ).filter_by_created_at(range).filter_by_assigned_agent_id(params[:user_ids]).filter_by_inbox_id(params[:inbox_id])
   end
 
   def set_current_page_surveys

@@ -87,7 +87,7 @@ export const getters = {
 export const actions = {
   get: async function getResponses(
     { commit },
-    { page = 1, from, to, user_ids, label, inbox } = {}
+    { page = 1, from, to, user_ids, inbox_id } = {}
   ) {
     commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetching: true });
     try {
@@ -96,8 +96,7 @@ export const actions = {
         from,
         to,
         user_ids,
-        label,
-        inbox,
+        inbox_id,
       });
       commit(types.SET_CSAT_RESPONSE, response.data);
     } catch (error) {
@@ -108,7 +107,7 @@ export const actions = {
   },
   getMetrics: async function getMetrics(
     { commit },
-    { from, to, user_ids, label, inbox }
+    { from, to, user_ids, inbox_id }
   ) {
     commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetchingMetrics: true });
     try {
@@ -116,8 +115,7 @@ export const actions = {
         from,
         to,
         user_ids,
-        label,
-        inbox,
+        inbox_id,
       });
       commit(types.SET_CSAT_RESPONSE_METRICS, response.data);
     } catch (error) {
