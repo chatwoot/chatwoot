@@ -2,7 +2,6 @@
   <div class="column content-box">
     <report-filter-selector
       :show-agents-filter="true"
-      :agents-filter-items-list="agentList"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
     />
@@ -22,7 +21,6 @@
 import CsatMetrics from './components/CsatMetrics';
 import CsatTable from './components/CsatTable';
 import ReportFilterSelector from './components/FilterSelector';
-import { mapGetters } from 'vuex';
 import { generateFileName } from '../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
@@ -35,14 +33,6 @@ export default {
   },
   data() {
     return { pageIndex: 1, from: 0, to: 0, userIds: [] };
-  },
-  computed: {
-    ...mapGetters({
-      agentList: 'agents/getAgents',
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('agents/get');
   },
   methods: {
     getAllData() {

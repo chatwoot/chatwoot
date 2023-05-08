@@ -15,24 +15,10 @@
       :selected-option="selectedGroupByFilter"
       @on-grouping-change="onGroupingChange"
     />
-    <div v-if="showAgentsFilter" class="multiselect-wrap--small">
-      <multiselect
-        v-model="selectedAgents"
-        class="no-margin"
-        :options="agentsFilterItemsList"
-        track-by="id"
-        label="name"
-        :multiple="true"
-        :close-on-select="false"
-        :clear-on-select="false"
-        :hide-selected="true"
-        :placeholder="$t('CSAT_REPORTS.FILTERS.AGENTS.PLACEHOLDER')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        @input="handleAgentsFilterSelection"
-      />
-    </div>
+    <reports-filters-agents
+      v-if="showAgentsFilter"
+      @agents-filter-selection="handleAgentsFilterSelection"
+    />
     <div v-if="showBusinessHoursSwitch" class="business-hours">
       <span class="business-hours-text ">
         {{ $t('REPORT.BUSINESS_HOURS') }}
@@ -46,9 +32,10 @@
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 import ReportsFiltersDateRange from './Filters/DateRange.vue';
+import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
+import ReportsFiltersAgents from './Filters/Agents.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
-import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
 
 export default {
@@ -56,13 +43,10 @@ export default {
     WootDateRangePicker,
     ReportsFiltersDateRange,
     ReportsFiltersDateGroupBy,
+    ReportsFiltersAgents,
   },
   props: {
     filterItemsList: {
-      type: Array,
-      default: () => [],
-    },
-    agentsFilterItemsList: {
       type: Array,
       default: () => [],
     },
@@ -84,8 +68,8 @@ export default {
       // default value, need not be translated
       selectedDateRange: DATE_RANGE_OPTIONS.LAST_7_DAYS,
       selectedGroupByFilter: null,
-      customDateRange: [new Date(), new Date()],
       selectedAgents: [],
+      customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
     };
   },
@@ -167,7 +151,8 @@ export default {
       this.selectedGroupByFilter = payload;
       this.emitChange();
     },
-    handleAgentsFilterSelection() {
+    handleAgentsFilterSelection(selectedAgents) {
+      this.selectedAgents = selectedAgents;
       this.emitChange();
     },
   },
