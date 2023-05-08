@@ -19,6 +19,10 @@
       v-if="showAgentsFilter"
       @agents-filter-selection="handleAgentsFilterSelection"
     />
+    <reports-filters-labels
+      v-if="showLabelsFilter"
+      @agents-filter-selection="handleLabelsFilterSelection"
+    />
     <div v-if="showBusinessHoursSwitch" class="business-hours">
       <span class="business-hours-text ">
         {{ $t('REPORT.BUSINESS_HOURS') }}
@@ -34,6 +38,7 @@ import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 import ReportsFiltersDateRange from './Filters/DateRange.vue';
 import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
 import ReportsFiltersAgents from './Filters/Agents.vue';
+import ReportsFiltersLabels from './Filters/Labels.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -44,6 +49,7 @@ export default {
     ReportsFiltersDateRange,
     ReportsFiltersDateGroupBy,
     ReportsFiltersAgents,
+    ReportsFiltersLabels,
   },
   props: {
     filterItemsList: {
@@ -58,6 +64,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showLabelsFilter: {
+      type: Boolean,
+      default: false,
+    },
     showBusinessHoursSwitch: {
       type: Boolean,
       default: true,
@@ -68,6 +78,7 @@ export default {
       // default value, need not be translated
       selectedDateRange: DATE_RANGE_OPTIONS.LAST_7_DAYS,
       selectedGroupByFilter: null,
+      selectedLabel: null,
       selectedAgents: [],
       customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
@@ -128,6 +139,7 @@ export default {
         selectedGroupByFilter: groupBy,
         businessHoursSelected: businessHours,
         selectedAgents,
+        selectedLabel,
       } = this;
       this.$emit('filter-change', {
         from,
@@ -135,6 +147,7 @@ export default {
         groupBy,
         businessHours,
         selectedAgents,
+        selectedLabel,
       });
     },
     onDateRangeChange(selectedRange) {
@@ -153,6 +166,10 @@ export default {
     },
     handleAgentsFilterSelection(selectedAgents) {
       this.selectedAgents = selectedAgents;
+      this.emitChange();
+    },
+    handleLabelsFilterSelection(selectedLabel) {
+      this.selectedLabel = selectedLabel;
       this.emitChange();
     },
   },
