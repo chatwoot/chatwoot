@@ -8,7 +8,7 @@
       :options="options"
       :show-labels="false"
       track-by="value"
-      label="emoji"
+      label="label"
       @input="handleInput"
     />
   </div>
@@ -17,14 +17,17 @@
 <script>
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
-const ratingOptions = CSAT_RATINGS.reverse();
-
 export default {
   name: 'ReportFiltersRatings',
   data() {
+    const translatedOptions = CSAT_RATINGS.reverse().map(option => ({
+      ...option,
+      label: this.$t(option.translationKey),
+    }));
+
     return {
       selectedOption: null,
-      options: ratingOptions,
+      options: translatedOptions,
     };
   },
   methods: {
