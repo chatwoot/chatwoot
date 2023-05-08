@@ -15,9 +15,9 @@
             "OR": "AR"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
+            "equal_to": "Lygu",
+            "not_equal_to": "Nelygu",
+            "contains": "Sudėtyje yra",
             "does_not_contain": "Does not contain",
             "is_present": "Is present",
             "is_not_present": "Is not present",
@@ -27,8 +27,8 @@
         },
         "ATTRIBUTES": {
             "NAME": "Vardas",
-            "EMAIL": "Email",
-            "PHONE_NUMBER": "Phone number",
+            "EMAIL": "El. paštas",
+            "PHONE_NUMBER": "Telefono numeris",
             "IDENTIFIER": "Identifier",
             "CITY": "Miestas",
             "COUNTRY": "Šalis",
@@ -38,13 +38,13 @@
             "CUSTOM_ATTRIBUTE_LINK": "Nuoroda",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
             "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Last Activity",
+            "LAST_ACTIVITY": "Paskutiniai veiksmai",
             "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Standartinis Filtras",
             "ADDITIONAL_FILTERS": "Papildomas Filtras",
-            "CUSTOM_ATTRIBUTES": "Custom Attributes"
+            "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai"
         }
     }
 }

@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Ievadiet kontaktpersonas tālruņa numuru",
         "LABEL": "Telefona numurs",
-        "HELP": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +1415555555 [+][valsts kods][apgabala kods][vietējais tālruņa numurs]. Nolaižamajā izvēlnē varat izvēlēties numura sastādīšanas kodu.",
+        "HELP": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555",
         "ERROR": "Tālruņa numuram ir jābūt tukšam, vai E.164 formātā",
         "DIAL_CODE_ERROR": "Lūdzu, izvēlieties sastādīšanas kodu no saraksta",
         "DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai."
@@ -182,7 +182,7 @@
         "LABEL": "Kam"
       },
       "INBOX": {
-        "LABEL": "Izmantojot iesūtni",
+        "LABEL": "Iesūtne",
         "PLACEHOLDER": "Izvēlieties avota iesūtni",
         "ERROR": "Izvēlieties iesūtni"
       },

@@ -24,8 +24,8 @@
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
+          "LABEL": "Auditorija",
+          "PLACEHOLDER": "Pažymėti klieto etiketes",
           "ERROR": "Audience is required"
         },
         "INBOX": {
@@ -45,12 +45,12 @@
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Prašome įvesti URL adresą",
+          "ERROR": "Prašome įvesti tesingą URL adresą"
         },
         "TIME_ON_PAGE": {
           "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
+          "PLACEHOLDER": "Prašome įvesti laiką",
           "ERROR": "Time on page is required"
         },
         "ENABLED": "Enable campaign",
@@ -77,7 +77,7 @@
     },
     "EDIT": {
       "TITLE": "Edit campaign",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
       "API": {
         "SUCCESS_MESSAGE": "Campaign updated successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
@@ -98,14 +98,14 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Pridėti",
         "EDIT": "Redaguoti",
         "DELETE": "Ištrinti"
       },
       "STATUS": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
-        "COMPLETED": "Completed",
+        "ENABLED": "Leisti",
+        "DISABLED": "Išjungta",
+        "COMPLETED": "Užbaigta",
         "ACTIVE": "Aktyvus"
       },
       "SENDER": {
