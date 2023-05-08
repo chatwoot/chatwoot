@@ -19,13 +19,14 @@ class CSATReportsAPI extends ApiClient {
     });
   }
 
-  download({ from, to, user_ids } = {}) {
+  download({ from, to, user_ids, inbox_id } = {}) {
     return axios.get(`${this.url}/download`, {
       params: {
         since: from,
         until: to,
         sort: '-created_at',
         user_ids,
+        inbox_id,
       },
     });
   }

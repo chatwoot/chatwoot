@@ -86,6 +86,7 @@ export default {
         from: this.from,
         to: this.to,
         user_ids: this.userIds,
+        inbox_id: this.inbox,
         fileName: generateFileName({ type, to: this.to }),
       });
     },
