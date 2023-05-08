@@ -1,23 +1,23 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Audit Logs",
-    "HEADER_BTN_TXT": "Add Audit Logs",
-    "LOADING": "Fetching Audit Logs",
-    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "HEADER": "Registros de Auditoria",
+    "HEADER_BTN_TXT": "Adicionar Registros de Auditoria",
+    "LOADING": "Buscando Logs de Auditoria",
+    "SEARCH_404": "Não há itens correspondentes a esta consulta",
+    "SIDEBAR_TXT": "<p><b>Registros de Auditoria</b> </p><p> Registros de Auditoria são trilhas para eventos e ações em um Sistema Chatwoot. </p>",
     "LIST": {
-      "404": "There are no Audit Logs available in this account.",
-      "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "404": "Não há Registros de Auditoria disponíveis nesta conta.",
+      "TITLE": "Gerenciar Registros de Auditoria",
+      "DESC": "Registros de Auditoria são trilhas para eventos e ações em um Sistema Chatwoot.",
       "TABLE_HEADER": [
         "Usuário",
-        "Action",
+        "Ação",
         "Endereço IP",
-        "Time"
+        "Hora"
       ]
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
+      "SUCCESS_MESSAGE": "AuditLogs recuperados com sucesso",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     }
   }

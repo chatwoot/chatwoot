@@ -464,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Virkja eða slökkva á sjálfvirkri úthlutun nýrra samtöla til umboðsmanna sem bætt er við þetta innhólf.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Til að sannreyna auðkenni notandans geturðu sent `identifier_hash` fyrir hvern notanda. Þú getur búið til HMAC sha256 hash með því að nota 'identifier' með lyklinum sem sýndur er hér.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
       "HMAC_MANDATORY_DESCRIPTION": "Ef það er virkt verður beiðnum sem vantar ‘identifier_hash’ hafnað.",
       "INBOX_IDENTIFIER": "Inbox Identifier",

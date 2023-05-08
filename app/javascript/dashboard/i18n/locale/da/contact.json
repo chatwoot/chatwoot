@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Indtast telefonnummeret på kontaktpersonen",
         "LABEL": "Telefonnummer",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Telefonnummer skal være af E.164 format fx: +1415555555 [+] [landekode] [områdekode] [lokalt telefonnummer]",
         "ERROR": "Telefonnummer skal være enten tomt eller i E.164-format",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Dette telefonnummer er i brug for en anden kontakt."
@@ -182,7 +182,7 @@
         "LABEL": "Til"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Indbakke",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Vælg en indbakke"
       },

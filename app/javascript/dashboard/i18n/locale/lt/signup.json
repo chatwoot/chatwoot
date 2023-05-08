@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Įmonės pavadinimas",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Įmonės vardas pertrumpas."
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Pilnas vardas",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
-      "ERROR": "Pilnas vardas per trumpas."
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
       "LABEL": "Darbinis el. paštas",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address."
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Slaptažodis",
       "PLACEHOLDER": "Slaptažodis",
-      "ERROR": "Slaptažodis yra pertrumpas.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "ERROR": "Password is too short",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Patvirtinti slaptažodį",
-      "PLACEHOLDER": "Patvirtinti slaptažodį",
-      "ERROR": "Password doesnot match."
+      "LABEL": "Confirm Password",
+      "PLACEHOLDER": "Confirm Password",
+      "ERROR": "Password doesnot match"
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
     "SUBMIT": "Sukurti paskyrą",
     "HAVE_AN_ACCOUNT": "Jau turi prisijungimo paskyrą?"
