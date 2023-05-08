@@ -21,14 +21,14 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
   private
 
   def fetch_audit
-    @audit_logs = if audit_logs_enabled
+    @audit_logs = if audit_logs_enabled?
                     Current.account.associated_audits.order(created_at: :desc)
                   else
-                    []
+                    Current.account.associated_audits.none
                   end
   end
 
-  def audit_logs_enabled
+  def audit_logs_enabled?
     Current.account.feature_enabled?(:audit_logs)
   end
 end
