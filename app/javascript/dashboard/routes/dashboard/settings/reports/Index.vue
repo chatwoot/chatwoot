@@ -11,8 +11,6 @@
     <report-filter-selector
       :show-agents-filter="false"
       :show-group-by-filter="true"
-      :selected-group-by-filter="selectedGroupByFilter"
-      :filter-items-list="filterItemsList"
       @filter-change="onFilterChange"
     />
     <div class="row">
@@ -79,8 +77,6 @@ export default {
       to: 0,
       currentSelection: 0,
       groupBy: GROUP_BY_FILTER[1],
-      filterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
-      selectedGroupByFilter: {},
       businessHours: false,
     };
   },
