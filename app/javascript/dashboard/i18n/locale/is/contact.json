@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Sláðu inn símanúmer tengiliðs",
         "LABEL": "Símanúmer",
-        "HELP": "Símanúmer skal fylgja E.164 sniðmátinu. Dæmi: +3541112222 [+][landsnúmer][svæðisnúmer][símanúmer]. Þú getur valið landsnúmer úr valmyndinni.",
+        "HELP": "Símanúmer ætti að vera á E.164 sniði, td: +3541234567 [+][landsnúmer][svæðisnúmer][staðbundið símanúmer]",
         "ERROR": "Símanúmer ætti að vera annað hvort autt eða á E.164 sniði",
         "DIAL_CODE_ERROR": "Vinsamlegast veldu landsnúmer úr listanum",
         "DUPLICATE": "Þetta símanúmer er í notkun fyrir annan tengilið."
@@ -182,7 +182,7 @@
         "LABEL": "Til"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Inbox",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Veldu innhólf"
       },

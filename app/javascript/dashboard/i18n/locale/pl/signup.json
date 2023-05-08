@@ -10,33 +10,33 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Company name is too short."
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Imię i nazwisko",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
-      "ERROR": "Imię i nazwisko jest zbyt krótkie."
+      "PLACEHOLDER": "Wpisz swoje imię i nazwisko, np. Bruce Wayne",
+      "ERROR": "Imię i nazwisko jest zbyt krótkie"
     },
     "EMAIL": {
       "LABEL": "E-mail służbowy",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
-      "ERROR": "Please enter a valid work email address."
+      "PLACEHOLDER": "Podaj swój służbowy adres e-mail, np. bruce@wayne.enterprises",
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "Hasło",
       "PLACEHOLDER": "Hasło",
-      "ERROR": "Hasło jest zbyt krótkie.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "ERROR": "Hasło jest zbyt krótkie",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
-      "ERROR": "Hasło nie zgadza się."
+      "LABEL": "Potwierdź hasło",
+      "PLACEHOLDER": "Potwierdź hasło",
+      "ERROR": "Hasło nie zgadza się"
     },
     "API": {
       "SUCCESS_MESSAGE": "Rejestracja powiodła się",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Masz już konto?"

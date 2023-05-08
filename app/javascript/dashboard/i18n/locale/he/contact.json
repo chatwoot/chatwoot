@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "הזן את מספר הטלפון של איש הקשר",
         "LABEL": "מספר טלפון",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555 [+][קוד מדינה][אזור חיוג][מספר טלפון מקומי]",
         "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "מספר טלפון זה נמצאת בשימוש עבור איש קשר אחר."
@@ -182,7 +182,7 @@
         "LABEL": "אל"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "תיבת הדואר הנכנס",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "בחר תיבת דואר נכנס"
       },
