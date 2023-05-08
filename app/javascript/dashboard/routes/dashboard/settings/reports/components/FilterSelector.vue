@@ -23,6 +23,10 @@
       v-if="showLabelsFilter"
       @labels-filter-selection="handleLabelsFilterSelection"
     />
+    <reports-filters-teams
+      v-if="showTeamFilter"
+      @team-filter-selection="handleTeamFilterSelection"
+    />
     <reports-filters-inboxes
       v-if="showInboxFilter"
       @inbox-filter-selection="handleInboxFilterSelection"
@@ -44,6 +48,7 @@ import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
 import ReportsFiltersAgents from './Filters/Agents.vue';
 import ReportsFiltersLabels from './Filters/Labels.vue';
 import ReportsFiltersInboxes from './Filters/Inboxes.vue';
+import ReportsFiltersTeams from './Filters/Teams.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -56,6 +61,7 @@ export default {
     ReportsFiltersAgents,
     ReportsFiltersLabels,
     ReportsFiltersInboxes,
+    ReportsFiltersTeams,
   },
   props: {
     filterItemsList: {
@@ -78,6 +84,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showTeamFilter: {
+      type: Boolean,
+      default: false,
+    },
     showBusinessHoursSwitch: {
       type: Boolean,
       default: true,
@@ -90,6 +100,7 @@ export default {
       selectedGroupByFilter: null,
       selectedLabel: null,
       selectedInbox: null,
+      selectedTeam: null,
       selectedAgents: [],
       customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
@@ -152,6 +163,7 @@ export default {
         selectedAgents,
         selectedLabel,
         selectedInbox,
+        selectedTeam,
       } = this;
       this.$emit('filter-change', {
         from,
@@ -161,6 +173,7 @@ export default {
         selectedAgents,
         selectedLabel,
         selectedInbox,
+        selectedTeam,
       });
     },
     onDateRangeChange(selectedRange) {
@@ -187,6 +200,10 @@ export default {
     },
     handleInboxFilterSelection(selectedInbox) {
       this.selectedInbox = selectedInbox;
+      this.emitChange();
+    },
+    handleTeamFilterSelection(selectedTeam) {
+      this.selectedTeam = selectedTeam;
       this.emitChange();
     },
   },

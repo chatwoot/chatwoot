@@ -3,6 +3,7 @@
     <report-filter-selector
       :show-agents-filter="true"
       :show-inbox-filter="true"
+      :show-team-filter="isTeamsEnabled"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
     />
@@ -24,6 +25,8 @@ import CsatTable from './components/CsatTable';
 import ReportFilterSelector from './components/FilterSelector';
 import { generateFileName } from '../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { mapGetters } from 'vuex';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 
 export default {
   name: 'CsatResponses',
@@ -39,16 +42,28 @@ export default {
       to: 0,
       userIds: [],
       inbox: null,
+      team: null,
     };
   },
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     requestPayload() {
       return {
         from: this.from,
         to: this.to,
         user_ids: this.userIds,
         inbox_id: this.inbox,
+        team_id: this.team,
       };
+    },
+    isTeamsEnabled() {
+      return this.isFeatureEnabledOnAccount(
+        this.accountId,
+        FEATURE_FLAGS.TEAM_MANAGEMENT
+      );
     },
   },
   methods: {
@@ -73,7 +88,7 @@ export default {
       this.pageIndex = pageIndex;
       this.getResponses();
     },
-    onFilterChange({ from, to, selectedAgents, selectedInbox }) {
+    onFilterChange({ from, to, selectedAgents, selectedInbox, selectedTeam }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
         this.$track(REPORTS_EVENTS.FILTER_REPORT, {
@@ -86,6 +101,7 @@ export default {
       this.to = to;
       this.userIds = selectedAgents.map(el => el.id);
       this.inbox = selectedInbox?.id;
+      this.team = selectedTeam?.id;
 
       this.getAllData();
     },

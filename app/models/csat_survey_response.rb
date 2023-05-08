@@ -36,4 +36,5 @@ class CsatSurveyResponse < ApplicationRecord
   scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
   scope :filter_by_assigned_agent_id, ->(user_ids) { where(assigned_agent_id: user_ids) if user_ids.present? }
   scope :filter_by_inbox_id, ->(inbox_id) { joins(:conversation).where(conversations: { inbox_id: inbox_id }) if inbox_id.present? }
+  scope :filter_by_team_id, ->(team_id) { joins(:conversation).where(conversations: { team_id: team_id }) if team_id.present? }
 end
