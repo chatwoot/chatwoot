@@ -30,5 +30,9 @@ do
   sleep 2;
 done
 
+pwd;
+
+ls -tra;
+
 # Execute the main process of the container
 exec "$@"
