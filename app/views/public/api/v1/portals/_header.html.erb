@@ -2,7 +2,7 @@
 <header class="bg-white mx-auto px-4 max-w-5xl w-full">
   <nav class="px-0 flex" aria-label="Top">
     <div class="w-full py-8 flex items-center">
-      <a href="/hc/<%= @portal.slug %>/<%= params[:locale] %>/" class="text-base font-semibold">
+      <a href="/hc/<%= @portal.slug %>/<%= @portal.config['default_locale'] || params[:locale] %>/" class="text-base font-semibold">
         <%= @portal.name %>
       </a>
       <% if @portal.homepage_link %>
