@@ -1,3 +1,5 @@
+require 'google/cloud/dialogflow/v2'
+
 class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorService
   pattr_initialize [:event_name!, :hook!, :event_data!]
 
@@ -17,11 +19,15 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
       Rails.logger.warn "Account: #{hook.try(:account_id)} Hook: #{hook.id} credentials are not present." && return
     end
 
-    Google::Cloud::Dialogflow.configure { |config| config.credentials = hook.settings['credentials'] }
-    session_client = Google::Cloud::Dialogflow.sessions
-    session = session_client.session_path project: hook.settings['project_id'], session: session_id
+    ::Google::Cloud::Dialogflow::V2::Sessions::Client.configure do |config|
+      config.timeout = 10.0
+      config.credentials = hook.settings['credentials']
+    end
+
+    client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
+    session = "projects/#{hook.settings['project_id']}/agent/sessions/#{session_id}"
     query_input = { text: { text: message, language_code: 'en-US' } }
-    session_client.detect_intent session: session, query_input: query_input
+    client.detect_intent session: session, query_input: query_input
   end
 
   def process_response(message, response)

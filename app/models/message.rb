@@ -136,7 +136,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id,
       conversation: {
         assignee_id: conversation.assignee_id,
-        unread_count: conversation.unread_incoming_messages.count
+        unread_count: conversation.unread_incoming_messages.count,
+        last_activity_at: conversation.last_activity_at.to_i
       }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?

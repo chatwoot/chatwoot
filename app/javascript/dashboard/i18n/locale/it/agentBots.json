@@ -33,7 +33,7 @@
     },
     "ADD": {
       "TITLE": "Configure new bot",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "API": {
         "SUCCESS_MESSAGE": "Bot added successfully",
         "ERROR_MESSAGE": "Could not add bot, Please try again later"
@@ -48,7 +48,7 @@
       "BUTTON_TEXT": "Elimina",
       "TITLE": "Delete Bot",
       "SUBMIT": "Elimina",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
       "API": {
         "SUCCESS_MESSAGE": "Bot deleted successfully",
@@ -59,7 +59,7 @@
       "BUTTON_TEXT": "Modifica",
       "LOADING": "Fetching Bots...",
       "TITLE": "Edit Bot",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "API": {
         "SUCCESS_MESSAGE": "Bot updated successfully",
         "ERROR_MESSAGE": "Could not update bot, Please try again later"
