@@ -21,11 +21,11 @@
     />
     <reports-filters-labels
       v-if="showLabelsFilter"
-      @agents-filter-selection="handleLabelsFilterSelection"
+      @labels-filter-selection="handleLabelsFilterSelection"
     />
     <reports-filters-inboxes
       v-if="showInboxFilter"
-      @agents-filter-selection="handleInboxFilterSelection"
+      @inbox-filter-selection="handleInboxFilterSelection"
     />
     <div v-if="showBusinessHoursSwitch" class="business-hours">
       <span class="business-hours-text ">
