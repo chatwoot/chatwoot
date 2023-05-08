@@ -11,26 +11,25 @@
   <% end %>
 <% end %>
 
-<div class="bg-woot-50" style="background-color: <%= @portal.config['light_color'] %>">
-  <div class="max-w-6xl px-8 lg:px-4 pt-8 pb-16 mx-auto space-y-4 w-full">
+<!-- The inline styles are intentional, migrate it to classes after upgrading to tailwind v3 -->
+<div class="bg-woot-50 py-8 shadow-inner" style="background: url(/assets/images/hc/grid.svg) color-mix(in srgb, <%= @portal.color %> 10%, white)">
+  <div class="max-w-6xl px-8 pt-8 pb-16 mx-auto space-y-4 w-full">
     <div>
       <a
-        class="text-slate-700 hover:underline leading-8 text-sm font-normal font-heading"
+        class="text-slate-700 hover:underline leading-8 text-sm font-semibold"
         href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
-        style="color: <%= @portal.color %>"
       >
         Home
       </a>
       <span class="text-xs text-slate-600 px-1">/</span>
       <a
-        class="text-slate-700 hover:underline leading-8 text-sm font-normal font-heading"
+        class="text-slate-700 hover:underline leading-8 text-sm font-semibold"
         href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %>"
-        style="color: <%= @portal.color %>"
       >
         <%= @article.category.name %>
       </a>
     </div>
-    <h1 class="text-3xl font-heading font-bold md:tracking-normal leading-snug md:text-4xl text-slate-900">
+    <h1 class="text-3xl font-semibold md:tracking-normal leading-snug md:text-4xl text-slate-900">
       <%= @article.title %>
     </h1>
     <div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
@@ -47,9 +46,9 @@
     </div>
   </div>
 </div>
-<div class="max-w-6xl flex-grow w-full px-6 py-8 mx-auto space-y-12">
+<div class="max-w-6xl flex-grow w-full px-8 py-8 mx-auto space-y-12">
   <article class="space-y-8">
-    <div class="text-slate-800 text-lg subpixel-antialiased max-w-3xl prose break-words">
+    <div class="text-slate-800 text-lg max-w-3xl prose break-words">
       <p><%= @parsed_content %></p>
     </div>
   </article>

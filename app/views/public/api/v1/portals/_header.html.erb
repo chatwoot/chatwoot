@@ -1,9 +1,11 @@
 
-<header class="bg-white w-full shadow-md  ">
-  <nav class=" flex bg-white mx-auto max-w-6xl px-4" aria-label="Top">
+<header class="bg-white w-full shadow-sm sticky top-0 z-50">
+  <nav class=" flex bg-white mx-auto max-w-6xl px-8" aria-label="Top">
     <div class="w-full py-5 flex items-center">
-      <a href="/hc/<%= @portal.slug %>/<%= @portal.config['default_locale'] || params[:locale] %>/" class="text-lg flex items-center font-medium font-heading">
-        <img src="/bumble.png" class="h-10 w-auto mr-2" />
+      <a href="/hc/<%= @portal.slug %>/<%= @portal.config['default_locale'] || params[:locale] %>/" class="h-10 text-lg flex items-center text-slate-900 font-semibold">
+        <% if @portal.logo.present? %>
+          <img src="<%= url_for(@portal.logo) %>" class="h-10 w-auto mr-2" />
+        <% end %>
         <%= @portal.name %>
       </a>
       <% if @portal.homepage_link %>
