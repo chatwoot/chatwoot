@@ -176,8 +176,8 @@ group :development do
   gem 'annotate'
   gem 'bullet'
   gem 'letter_opener'
-  gem 'web-console'
   gem 'scss_lint', require: false
+  gem 'web-console'
 
   # used in swagger build
   gem 'json_refs'
