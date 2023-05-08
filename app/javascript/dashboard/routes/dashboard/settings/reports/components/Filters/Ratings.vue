@@ -17,12 +17,14 @@
 <script>
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
+const ratingOptions = CSAT_RATINGS.reverse();
+
 export default {
   name: 'ReportFiltersRatings',
   data() {
     return {
       selectedOption: null,
-      options: CSAT_RATINGS,
+      options: ratingOptions,
     };
   },
   methods: {
