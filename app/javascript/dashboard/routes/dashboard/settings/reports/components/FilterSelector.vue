@@ -15,7 +15,7 @@
       :selected-option="selectedGroupByFilter"
       @on-grouping-change="onGroupingChange"
     />
-    <div v-if="agentsFilter" class="multiselect-wrap--small">
+    <div v-if="showAgentsFilter" class="multiselect-wrap--small">
       <multiselect
         v-model="selectedAgents"
         class="no-margin"
@@ -70,7 +70,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    agentsFilter: {
+    showAgentsFilter: {
       type: Boolean,
       default: false,
     },

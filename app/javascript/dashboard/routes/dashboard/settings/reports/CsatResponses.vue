@@ -1,7 +1,7 @@
 <template>
   <div class="column content-box">
     <report-filter-selector
-      agents-filter
+      :show-agents-filter="true"
       :agents-filter-items-list="agentList"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"

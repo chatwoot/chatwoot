@@ -9,6 +9,7 @@
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
     <report-filter-selector
+      :show-agents-filter="false"
       :show-group-by-filter="true"
       :selected-group-by-filter="selectedGroupByFilter"
       :filter-items-list="filterItemsList"
