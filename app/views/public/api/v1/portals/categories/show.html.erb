@@ -5,17 +5,17 @@
   <% end %>
 <% end %>
 
-<div class="bg-gradient-to-b from-white to-black-50 pt-8 pb-16">
-  <div class="max-w-5xl px-4 mx-auto space-y-2">
+<div class="bg-woot-50 pt-10 pb-16" style="background-color: <%= @portal.config['light_color'] %>">
+  <div class="max-w-6xl px-4 mx-auto space-y-2">
     <a
-      class="text-slate-700 text-sm hover:underline leading-8"
+      class="text-slate-700 text-sm hover:underline leading-8 font-heading"
       href="/hc/<%= @portal.slug %>/<%= @category.locale %>"
     >
       <%= I18n.t('public_portal.common.home') %>
     </a>
     <span class="text-xs text-slate-600 px-1">/</span>
     <div class="flex justify-start items-center w-full">
-      <h1 class="text-3xl font-bold leading-snug md:tracking-normal text-slate-900">
+      <h1 class="text-3xl font-bold leading-snug md:tracking-normal text-slate-900 font-heading">
         <%= @category.name %>
       </h1>
       <div class="text-slate-500 px-8 mt-2">
@@ -25,7 +25,7 @@
   </div>
 </div>
 
-<section class="bg-white max-w-5xl w-full mx-auto py-6 px-4 flex flex-col items-center justify-center flex-grow">
+<section class="bg-white max-w-6xl w-full mx-auto py-6 px-4 flex flex-col items-center justify-center flex-grow">
   <div class="py-4 w-full mt-2 flex-grow">
     <% if @category.articles.published.size == 0 %>
     <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl py-6">
@@ -38,7 +38,7 @@
         href="/hc/<%= @portal.slug %>/articles/<%= article.slug %>"
       >
         <div>
-          <p class="font-medium mb-2 hover:underline"><%= article.title %></p>
+          <p class="font-normal mb-2 hover:underline font-heading"><%= article.title %></p>
           <p class="text-sm">
             <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %>
           </p>

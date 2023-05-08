@@ -1,8 +1,8 @@
 
-<header class="bg-white mx-auto px-4 max-w-5xl w-full">
-  <nav class="px-0 flex" aria-label="Top">
+<header class="bg-white w-full shadow-md  ">
+  <nav class=" flex bg-white mx-auto max-w-6xl px-4" aria-label="Top">
     <div class="w-full py-8 flex items-center">
-      <a href="/hc/<%= @portal.slug %>/<%= params[:locale] %>/" class="text-base font-semibold">
+      <a href="/hc/<%= @portal.slug %>/<%= params[:locale] %>/" class="text-lg  font-medium font-heading">
         <%= @portal.name %>
       </a>
       <% if @portal.homepage_link %>
