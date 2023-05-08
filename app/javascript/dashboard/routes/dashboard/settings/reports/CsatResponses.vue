@@ -41,23 +41,32 @@ export default {
       inbox: null,
     };
   },
-  methods: {
-    getAllData() {
-      this.$store.dispatch('csat/getMetrics', {
+  computed: {
+    requestPayload() {
+      return {
         from: this.from,
         to: this.to,
         user_ids: this.userIds,
         inbox_id: this.inbox,
-      });
+      };
+    },
+  },
+  methods: {
+    getAllData() {
+      this.$store.dispatch('csat/getMetrics', this.requestPayload);
       this.getResponses();
     },
     getResponses() {
       this.$store.dispatch('csat/get', {
         page: this.pageIndex,
-        from: this.from,
-        to: this.to,
-        user_ids: this.userIds,
-        inbox_id: this.inbox,
+        ...this.requestPayload,
+      });
+    },
+    downloadReports() {
+      const type = 'csat';
+      this.$store.dispatch('csat/downloadCSATReports', {
+        fileName: generateFileName({ type, to: this.to }),
+        ...this.requestPayload,
       });
     },
     onPageNumberChange(pageIndex) {
@@ -79,16 +88,6 @@ export default {
       this.inbox = selectedInbox?.id;
 
       this.getAllData();
-    },
-    downloadReports() {
-      const type = 'csat';
-      this.$store.dispatch('csat/downloadCSATReports', {
-        from: this.from,
-        to: this.to,
-        user_ids: this.userIds,
-        inbox_id: this.inbox,
-        fileName: generateFileName({ type, to: this.to }),
-      });
     },
   },
 };
