@@ -33,11 +33,11 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_channel(channel)
-    imap = imap_authenticate(channel, channel.imap_password, 'PLAIN')
+    imap_inbox = authenticated_imap_inbox(channel, channel.imap_password, 'PLAIN')
     last_email_time = DateTime.parse(Net::IMAP.format_datetime(last_email_time(channel)))
 
-    received_mails(imap).each do |message_id|
-      inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
+    received_mails(imap_inbox).each do |message_id|
+      inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
       next if email_already_present?(channel, inbound_mail, last_email_time)
 
@@ -49,8 +49,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     processed_email?(inbound_mail, last_email_time) || channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
   end
 
-  def received_mails(imap)
-    imap.search(['BEFORE', tomorrow, 'SINCE', yesterday])
+  def received_mails(imap_inbox)
+    imap_inbox.search(['BEFORE', tomorrow, 'SINCE', yesterday])
   end
 
   def processed_email?(current_email, last_email_time)
@@ -64,14 +64,14 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
     return unless access_token
 
-    imap = imap_authenticate(channel, access_token, 'XOAUTH2')
+    imap_inbox = authenticated_imap_inbox(channel, access_token, 'XOAUTH2')
 
-    process_mails(imap, channel)
+    process_mails(imap_inbox, channel)
   end
 
-  def process_mails(imap, channel)
-    received_mails(imap).each do |message_id|
-      inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
+  def process_mails(imap_inbox, channel)
+    received_mails(imap_inbox).each do |message_id|
+      inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
@@ -79,7 +79,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     end
   end
 
-  def imap_authenticate(channel, access_token, auth_method)
+  def authenticated_imap_inbox(channel, access_token, auth_method)
     imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
     imap.authenticate(auth_method, channel.imap_login, access_token)
     imap.select('INBOX')
