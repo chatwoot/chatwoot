@@ -501,7 +501,7 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWebWidgetInbox) {
+      if (this.isAWebWidgetInbox || this.isAFacebookInbox) {
         return AUDIO_FORMATS.WEBM;
       }
       return AUDIO_FORMATS.OGG;

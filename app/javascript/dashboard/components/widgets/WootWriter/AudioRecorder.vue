@@ -13,15 +13,19 @@ import videojs from 'video.js';
 import alertMixin from '../../../../shared/mixins/alertMixin';
 
 import Recorder from 'opus-recorder';
+
+// Workers to record Audio .ogg and .wav
 import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
 import waveWorker from 'opus-recorder/dist/waveWorker.min';
 
 import WaveSurfer from 'wavesurfer.js';
 import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
-import 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 
+import 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import 'videojs-record/dist/videojs.record.js';
-import 'videojs-record/dist/plugins/videojs.record.opus-recorder.js';
+
+import OpusRecorderEngine from 'videojs-record/dist/plugins/videojs.record.opus-recorder.js';
+
 import { format, addSeconds } from 'date-fns';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 
@@ -79,24 +83,18 @@ export default {
             maxLength: 900,
             timeSlice: 1000,
             maxFileSize: 15 * 1024 * 1024,
+            displayMilliseconds: false,
+            audioChannels: 1,
+            audioSampleRate: 48000,
+            audioBitRate: 128,
+            audioEngine: 'opus-recorder',
             ...(this.audioRecordFormat === AUDIO_FORMATS.WEBM && {
-              monitorGain: 0,
-              recordingGain: 1,
-              numberOfChannels: 1,
-              encoderSampleRate: 16000,
-              originalSampleRateOverride: 16000,
-              streamPages: true,
-              maxFramesPerPage: 1,
-              encoderFrameSize: 1,
-              encoderPath: waveWorker,
+              audioMimeType: 'audio/wav',
+              audioWorkerURL: waveWorker,
             }),
             ...(this.audioRecordFormat === AUDIO_FORMATS.OGG && {
-              displayMilliseconds: false,
-              audioEngine: 'opus-recorder',
+              audioMimeType: 'audio/ogg',
               audioWorkerURL: encoderWorker,
-              audioChannels: 1,
-              audioSampleRate: 48000,
-              audioBitRate: 128,
             }),
           },
         },
@@ -134,6 +132,11 @@ export default {
   },
   methods: {
     deviceReady() {
+      if (this.player.record().engine instanceof OpusRecorderEngine) {
+        if (this.audioRecordFormat === AUDIO_FORMATS.WEBM) {
+          this.player.record().engine.audioType = 'audio/wav';
+        }
+      }
       this.player.record().start();
     },
     startRecord() {
