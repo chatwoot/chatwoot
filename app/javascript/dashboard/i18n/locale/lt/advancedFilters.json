@@ -32,7 +32,7 @@
     "ATTRIBUTES": {
       "STATUS": "Būsena",
       "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Inbox Name",
+      "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
       "TEAM_NAME": "Komandos Pavadinimas",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
