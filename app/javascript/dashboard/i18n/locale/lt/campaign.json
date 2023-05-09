@@ -29,9 +29,9 @@
           "ERROR": "Audience is required"
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
+          "LABEL": "Pasirinkti gautų laiškų aplanką",
+          "PLACEHOLDER": "Pasirinkti gautų laiškų aplanką",
+          "ERROR": "Yra reikalingas gautų laiškų aplankas"
         },
         "MESSAGE": {
           "LABEL": "Žinutė",
@@ -89,7 +89,7 @@
       "TABLE_HEADER": {
         "TITLE": "Pavadinimas",
         "MESSAGE": "Žinutė",
-        "INBOX": "Inbox",
+        "INBOX": "Gautų laiškų aplankas",
         "STATUS": "Būsena",
         "SENDER": "Siuntėjas",
         "URL": "URL",
