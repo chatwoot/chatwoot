@@ -502,7 +502,7 @@ export default {
     },
     audioRecordFormat() {
       if (this.isAWebWidgetInbox) {
-        return AUDIO_FORMATS.WEBM;
+        return AUDIO_FORMATS.WAV;
       }
       return AUDIO_FORMATS.OGG;
     },
