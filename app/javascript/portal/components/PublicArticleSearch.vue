@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-on-clickaway="closeSearch"
-    class="mx-auto max-w-md w-full relative my-4"
-  >
+  <div v-on-clickaway="closeSearch" class="max-w-2xl w-full relative my-4">
     <public-search-input
       v-model="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
@@ -10,7 +7,7 @@
     />
     <div
       v-if="shouldShowSearchBox"
-      class="absolute show-search-box w-full"
+      class="absolute top-16 w-full"
       @mouseover="openSearch"
     >
       <search-suggestions
@@ -122,8 +119,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.show-search-box {
-  top: 4rem;
-}
-</style>
