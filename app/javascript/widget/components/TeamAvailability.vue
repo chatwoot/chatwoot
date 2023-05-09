@@ -76,19 +76,6 @@ export default {
       }
       return anyAgentOnline;
     },
-    replyWaitMessage() {
-      const { workingHoursEnabled } = this.channelConfig;
-
-      if (this.isOnline) {
-        return this.replyTimeStatus;
-      }
-      if (workingHoursEnabled) {
-        return this.isOnline
-          ? this.replyTimeStatus
-          : `We will be back online ${this.timeLeftToBackInOnline}`;
-      }
-      return '';
-    },
   },
   methods: {
     startConversation() {

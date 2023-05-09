@@ -94,17 +94,6 @@ export default {
       }
       return anyAgentOnline;
     },
-    replyWaitMessage() {
-      const { workingHoursEnabled } = this.channelConfig;
-      if (workingHoursEnabled) {
-        return this.isOnline
-          ? this.replyTimeStatus
-          : `We will be back online ${this.timeLeftToBackInOnline}`;
-      }
-      return this.isOnline
-        ? this.replyTimeStatus
-        : this.$t('TEAM_AVAILABILITY.OFFLINE');
-    },
   },
   methods: {
     onBackButtonClick() {
