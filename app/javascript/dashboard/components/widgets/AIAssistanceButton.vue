@@ -4,7 +4,7 @@
       <woot-button
         v-if="isPrivateNote"
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.SUMMARY_TITLE')"
-        icon="wand"
+        icon="book-pulse"
         color-scheme="secondary"
         variant="smooth"
         size="small"
@@ -26,7 +26,7 @@
     <div v-else>
       <woot-button
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.TITLE')"
-        icon="wand"
+        icon="text-grammar-wand"
         color-scheme="secondary"
         variant="smooth"
         size="small"
