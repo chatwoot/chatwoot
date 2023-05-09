@@ -79,13 +79,12 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
 
       allow(Mail).to receive(:read_from_string).and_return(inbound_mail_with_attachments.mail)
 
-      imap_mailbox = double
+      imap_mailbox = Imap::ImapMailbox.new
 
       allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
-      expect(imap_mailbox).to receive(:process).with(inbound_mail_with_attachments.mail, imap_email_channel).once
-      expect(MailPresenter).to receive(:new).with(inbound_mail_with_attachments.mail
 
       described_class.perform_now(imap_email_channel)
+      expect(Message.last.attachments.count).to eq(15)
     end
   end
 

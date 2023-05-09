@@ -8,6 +8,7 @@ class Imap::ImapMailbox
     load_account
     load_inbox
     decorate_mail
+
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
 
