@@ -14,8 +14,8 @@
     "EMPTY_STATE": "Não foi encontrado %{item} para a consulta '%{query}'",
     "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",
-    "INPUT_PLACEHOLDER": "Pesquisar mensagens, contatos ou conversas",
-    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca.",
+    "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
+    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca. ",
     "BOT_LABEL": "Bot",
     "READ_MORE": "Saiba mais",
     "WROTE": "escreveu:"

@@ -3,36 +3,36 @@
     "HEADER": "Automations",
     "HEADER_BTN_TXT": "Add Automation Rule",
     "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "SIDEBAR_TXT": "<p><b>Automatizavimo taisyklės</b> <p>Automatizacija gali pakeisti ir automatizuoti esamus procesus, kuriems reikia rankinių pastangų. Automatizuodami galite atlikti daugybę dalykų, įskaitant etikečių pridėjimą ir pokalbio priskyrimą geriausiam agentui. Taigi komanda sutelkia dėmesį į tai, ką moka geriausiai, ir mažiau laiko skiria rankinėms užduotims.</p>",
     "ADD": {
       "TITLE": "Add Automation Rule",
-      "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Sukurti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "LABEL": "Taisyklės pavadinimas",
+          "PLACEHOLDER": "Įvesti taisyklės pavadinimą",
+          "ERROR": "Yra reikalingas vardas"
         },
         "DESC": {
-          "LABEL": "Description",
+          "LABEL": "Aprašymas",
           "PLACEHOLDER": "Enter rule description",
           "ERROR": "Description is required"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Įvykis",
           "PLACEHOLDER": "Please select one",
           "ERROR": "Event is required"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Sąlygos"
         },
         "ACTIONS": {
-          "LABEL": "Actions"
+          "LABEL": "Veiksmai"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Pridėti Sąlygas",
+      "ACTION_BUTTON_LABEL": "Pridėti Veiksmą",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule added successfully",
         "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
@@ -40,22 +40,22 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Active",
+        "Vardas",
+        "Aprašymas",
+        "Aktyvus",
         "Created on"
       ],
       "404": "No automation rules found"
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
-      "SUBMIT": "Delete",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Ištrinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
       },
       "API": {
         "SUCCESS_MESSAGE": "Automation rule deleted successfully",
@@ -64,25 +64,25 @@
     },
     "EDIT": {
       "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Update",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Atnaujinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Klonuoti",
       "API": {
         "SUCCESS_MESSAGE": "Automation cloned successfully",
         "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
       }
     },
     "FORM": {
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel",
+      "EDIT": "Redaguoti",
+      "CREATE": "Sukurti",
+      "DELETE": "Ištrinti",
+      "CANCEL": "Atšaukti",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
@@ -93,7 +93,7 @@
     "ACTION": {
       "DELETE_MESSAGE": "You need to have atleast one action to save",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Pasirinkite komandas"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",

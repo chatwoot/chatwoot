@@ -5,7 +5,9 @@
         {{ title }}
       </p>
       <p class="sub-head">
-        {{ subTitle }}
+        <slot name="subTitle">
+          {{ subTitle }}
+        </slot>
       </p>
       <p v-if="note">
         <span class="note">{{ $t('INBOX_MGMT.NOTE') }}</span>

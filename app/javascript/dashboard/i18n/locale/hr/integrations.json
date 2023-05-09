@@ -85,6 +85,23 @@
       "JOIN_ERROR": "There was an error joining the call, please try again",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
+    "OPEN_AI": {
+      "TITLE": "Poboljšaj s AI",
+      "SUBTITLE": "Poboljšani odgovor će se generirati uz pomoć AI, bazirano na trenutnom odgovoru.",
+      "TONE": {
+        "TITLE": "Ton",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesionalno",
+          "FRIENDLY": "Prijateljski"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generiraj",
+        "GENERATING": "Generiranje...",
+        "CANCEL": "Odustani"
+      },
+      "GENERATE_ERROR": "Došlo je do greške tijekom procesiranja sadržaja, molim pokušajte ponovno"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {

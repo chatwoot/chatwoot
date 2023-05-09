@@ -86,4 +86,39 @@ module Whatsapp::IncomingMessageServiceHelpers
   def log_error(message)
     Rails.logger.warn "Whatsapp Error: #{message['errors'][0]['title']} - contact: #{message['from']}"
   end
+
+  def process_in_reply_to(message)
+    return if message['context'].blank?
+
+    @in_reply_to_external_id = message['context']['id']
+
+    return if @in_reply_to_external_id.blank?
+
+    in_reply_to_message = Message.find_by(source_id: @in_reply_to_external_id)
+
+    @in_reply_to = in_reply_to_message.id if in_reply_to_message.present?
+  end
+
+  def find_message_by_source_id(source_id)
+    return unless source_id
+
+    @message = Message.find_by(source_id: source_id)
+  end
+
+  def message_under_process?
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    Redis::Alfred.get(key)
+  end
+
+  def cache_message_source_id_in_redis
+    return if @processed_params.try(:[], :messages).blank?
+
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    ::Redis::Alfred.setex(key, true)
+  end
+
+  def clear_message_source_id_from_redis
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    ::Redis::Alfred.delete(key)
+  end
 end

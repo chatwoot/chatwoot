@@ -199,24 +199,33 @@ contacts:
       conversations:
         - channel: Channel::WebWidget
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I'm having trouble logging in to my account.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Hi! Sorry to hear that. Can you please provide me with your username and email address so I can look into it for you?
     - name: "Tiffanie Cloughton"
       email: "tcloughton1@newyorker.test"
       gender: 'female'
       conversations:
         - channel: Channel::FacebookPage
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I need some help with my billing statement.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Hello! I'd be happy to assist you with that. Can you please tell me which billing statement you're referring to?
     - name: "Melonie Keatch"
       email: "mkeatch2@reuters.test"
       gender: 'female'
       conversations:
         - channel: Channel::TwitterProfile
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I think I accidentally deleted some important files. Can you help me recover them?
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Of course! Can you please tell me what type of files they were and where they were located on your device?
     - name: "Olin Canniffe"
       email: "ocanniffe3@feedburner.test"
       gender: 'male'
@@ -224,8 +233,11 @@ contacts:
         - channel: Channel::Whatsapp
           source_id: "123456723"
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I'm having trouble connecting to the internet.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Have you tried restarting your modem/router? If that doesn't work, please let me know and I can provide further assistance.
     - name: "Viviene Corp"
       email: "vcorp4@instagram.test"
       gender: 'female'
@@ -233,32 +245,44 @@ contacts:
         - channel: Channel::Sms
           source_id: "+1234567"
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I'm having trouble with the mobile app. It keeps crashing.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please try uninstalling and reinstalling the app and see if that helps? If not, please let me know and I can look into it further.
     - name: "Drake Pittway"
       email: "dpittway5@chron.test"
       gender: 'male'
       conversations:
         - channel: Channel::Line
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I'm trying to update my account information but it won't save.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Sorry for the inconvenience. Can you please provide me with the specific information you're trying to update and the error message you're receiving?
     - name: "Klaus Crawley"
       email: "kcrawley6@narod.ru"
       gender: 'male'
       conversations:
         - channel: Channel::WebWidget
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I need some help setting up my new device.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: No problem! Can you please tell me the make and model of your device and what specifically you need help with?
     - name: "Bing Cusworth"
       email: "bcusworth7@arstechnica.test"
       gender: 'male'
       conversations:
         - channel: Channel::TwitterProfile
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I accidentally placed an order for the wrong item. Can I cancel it?
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please provide me with your order number and I'll see if I can cancel it for you?
     - name: "Claus Jira"
       email: "cjira8@comcast.net"
       gender: 'male'
@@ -266,8 +290,11 @@ contacts:
         - channel: Channel::Whatsapp
           source_id: "12323432"
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I'm having trouble with my email. I can't seem to send or receive any messages.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please tell me what email client you're using and if you're receiving any error messages?
     - name: "Quent Dalliston"
       email: "qdalliston9@zimbio.test"
       gender: 'male'
@@ -275,24 +302,33 @@ contacts:
         - channel: Channel::Whatsapp
           source_id: "12342234324"
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I need some help resetting my password.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Sure! Can you please provide me with your username or email address and I'll send you a password reset link?
     - name: "Coreen Mewett"
       email: "cmewetta@home.pl"
       gender: 'female'
       conversations:
         - channel: Channel::FacebookPage
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I think someone may have hacked into my account. What should I do?
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Please change your password immediately and enable two-factor authentication if you haven't already done so. I can also assist you in reviewing your account activity if needed.
     - name: "Benyamin Janeway"
       email: "bjanewayb@ustream.tv"
       gender: 'male'
       conversations:
         - channel: Channel::Line
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I have a question about your product features.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Sure thing! What specific feature are you interested in learning more about?
     - name: "Cordell Dalinder"
       email: "cdalinderc@msn.test"
       gender: 'male'
@@ -300,22 +336,30 @@ contacts:
         - channel: Channel::Email
           source_id: "cdalinderc@msn.test"
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I need help setting up my new printer.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: No problem! Can you please provide me with the make and model of your printer and what type of device you'll be connecting it to?
     - name: "Merrile Petruk"
       email: "mpetrukd@wunderground.test"
       gender: 'female'
       conversations:
         - channel: Channel::Email
           source_id: "mpetrukd@wunderground.test"
+          priority: urgent
           messages: 
-            - message_type: incoming
-              content: hello world
+          - message_type: incoming
+            content: Hi, I'm having trouble accessing a file that I shared with someone.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please tell me which file you're having trouble accessing and who you shared it with? I'll do my best to help you regain access.
     - name: "Nathaniel Vannuchi"
       email: "nvannuchie@photobucket.test"
       gender: 'male'
       conversations:
         - channel: Channel::FacebookPage
+          priority: high
           messages: 
             - message_type: incoming
               content: "Hey there,I need some help with billing, my card is not working on the website."
@@ -324,6 +368,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::WebWidget
+          priority: high
           assignee: michael_scott@paperlayer.test
           messages: 
             - message_type: incoming
@@ -333,6 +378,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::Whatsapp
+          priority: high
           source_id: "1223423567"
           labels: 
             - billing
@@ -347,6 +393,7 @@ contacts:
       gender: 'male'
       conversations:
         - channel: Channel::WebWidget
+          priority: medium
           labels: 
             - software
             - ops-handover
@@ -358,6 +405,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::WebWidget
+          priority: low
           assignee: michael_scott@paperlayer.test
           labels: 
             - billing
@@ -371,6 +419,7 @@ contacts:
       gender: 'female'
       conversations:
         - channel: Channel::Email
+          priority: urgent
           source_id: "cmathersonj@va.test"
           assignee: michael_scott@paperlayer.test
           labels: 
@@ -380,7 +429,9 @@ contacts:
             - message_type: incoming
               content: "Hey, \n I'm looking for some help to figure out if it is the right product for me."
             - message_type: outgoing
+              sender: michael_scott@paperlayer.test
               content: Welcome to PaperLayer. Our Team will be getting back you shortly.
             - message_type: outgoing
+              sender: michael_scott@paperlayer.test
               content: How may i help you ?
               sender: michael_scott@paperlayer.test

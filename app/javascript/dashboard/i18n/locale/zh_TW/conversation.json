@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Unknown File",
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
@@ -66,11 +67,28 @@
         "NEXT_WEEK": "下週"
       }
     },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "無",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "無",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "No results found",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "標記為待處理",
       "RESOLVED": "Mark as resolved",
       "MARK_AS_UNREAD": "Mark as unread",
-      "REOPEN": "Reopen conversation",
+      "REOPEN": "重新開啟對話",
       "SNOOZE": {
         "TITLE": "Snooze",
         "NEXT_REPLY": "Until next reply",

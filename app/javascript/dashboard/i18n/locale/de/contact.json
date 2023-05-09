@@ -122,6 +122,7 @@
         "LABEL": "Telefonnummer",
         "HELP": "Telefonnummer sollte im E.164-Format sein, z. B.: +1415555555 [+][Landesvorwahl][Landesvorwahl][Ortsvorwahl]",
         "ERROR": "Telefonnummer muss leer sein oder im E.164-Format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Diese Telefonnummer wird für einen anderen Kontakt verwendet."
       },
       "LOCATION": {
@@ -182,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Posteingang",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Posteingang auswählen"
       },
       "SUBJECT": {

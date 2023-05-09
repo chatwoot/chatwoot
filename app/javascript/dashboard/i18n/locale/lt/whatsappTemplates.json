@@ -9,15 +9,15 @@
             "SEARCH_PLACEHOLDER": "Search Templates",
             "NO_TEMPLATES_FOUND": "No templates found for",
             "LABELS": {
-                "LANGUAGE": "Language",
+                "LANGUAGE": "Kalba",
                 "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "CATEGORY": "Kategorija"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
+            "VARIABLES_LABEL": "Kintamieji",
             "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
+            "GO_BACK_LABEL": "Grįžti",
             "SEND_MESSAGE_LABEL": "Send Message",
             "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
         }

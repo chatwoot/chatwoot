@@ -292,6 +292,47 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe '#toggle_priority' do
+    it 'defaults priority to nil when created' do
+      conversation = create(:conversation, status: 'open')
+      expect(conversation.priority).to be_nil
+    end
+
+    it 'toggles the priority to nil if nothing is passed' do
+      conversation = create(:conversation, status: 'open', priority: 'high')
+      expect(conversation.toggle_priority).to be(true)
+      expect(conversation.reload.priority).to be_nil
+    end
+
+    it 'sets the priority to low' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('low')).to be(true)
+      expect(conversation.reload.priority).to eq('low')
+    end
+
+    it 'sets the priority to medium' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('medium')).to be(true)
+      expect(conversation.reload.priority).to eq('medium')
+    end
+
+    it 'sets the priority to high' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('high')).to be(true)
+      expect(conversation.reload.priority).to eq('high')
+    end
+
+    it 'sets the priority to urgent' do
+      conversation = create(:conversation, status: 'open')
+
+      expect(conversation.toggle_priority('urgent')).to be(true)
+      expect(conversation.reload.priority).to eq('urgent')
+    end
+  end
+
   describe '#ensure_snooze_until_reset' do
     it 'resets the snoozed_until when status is toggled' do
       conversation = create(:conversation, status: 'snoozed', snoozed_until: 2.days.from_now)
@@ -477,6 +518,7 @@ RSpec.describe Conversation, type: :model do
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         created_at: conversation.created_at.to_i,
+        priority: nil,
         unread_count: 0
       }
     end
@@ -650,15 +692,17 @@ RSpec.describe Conversation, type: :model do
   describe 'Custom Sort' do
     include ActiveJob::TestHelper
 
-    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
-    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days) }
-    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days) }
-    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days) }
+    let!(:conversation_7) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 13.days) }
+    let!(:conversation_6) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
+    let!(:conversation_5) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 12.days, priority: :urgent) }
+    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days, priority: :urgent) }
+    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days, priority: :low) }
+    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days, priority: :high) }
+    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days, priority: :medium) }
 
     it 'Sort conversations based on created_at' do
       records = described_class.sort_on_created_at
-
-      expect(records.first.id).to eq(conversation_4.id)
+      expect(records.first.id).to eq(conversation_7.id)
       expect(records.last.id).to eq(conversation_2.id)
     end
 
@@ -735,6 +779,29 @@ RSpec.describe Conversation, type: :model do
         records = described_class.latest
 
         expect(records.first.id).to eq(conversation_3.id)
+      end
+    end
+
+    context 'when sort on priority' do
+      it 'Sort conversations with the following order high > medium > low > nil' do
+        # ensure they are not pre-sorted
+        records = described_class.sort_on_created_at
+        expect(records.pluck(:priority)).not_to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
+
+        records = described_class.sort_on_priority
+        expect(records.pluck(:priority)).to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
+      end
+
+      it 'sorts conversation with last_activity for the same priority' do
+        records = described_class.where(priority: 'urgent').sort_on_priority
+        # ensure that the conversation 4 last_activity_at is more recent than conversation 5
+        expect(conversation_4.last_activity_at > conversation_5.last_activity_at).to be(true)
+        expect(records.pluck(:priority, :id)).to eq([['urgent', conversation_4.id], ['urgent', conversation_5.id]])
+
+        records = described_class.where(priority: nil).sort_on_priority
+        # ensure that the conversation 6 last_activity_at is more recent than conversation 7
+        expect(conversation_6.last_activity_at > conversation_7.last_activity_at).to be(true)
+        expect(records.pluck(:priority, :id)).to eq([[nil, conversation_6.id], [nil, conversation_7.id]])
       end
     end
   end

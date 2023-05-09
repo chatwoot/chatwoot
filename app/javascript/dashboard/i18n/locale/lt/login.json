@@ -2,17 +2,17 @@
   "LOGIN": {
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "LABEL": "El. paštas",
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "Slaptažodis",
+      "PLACEHOLDER": "Slaptažodis"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
@@ -21,6 +21,6 @@
     },
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "SUBMIT": "Prisijungti"
   }
 }

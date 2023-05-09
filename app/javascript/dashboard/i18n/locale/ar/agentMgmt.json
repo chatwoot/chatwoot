@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "البحث عن وكلاء",
-          "TEAM": "البحث عن فريق"
+          "TEAM": "البحث عن فريق",
+          "INPUT": "Search for agents"
         }
       }
     }

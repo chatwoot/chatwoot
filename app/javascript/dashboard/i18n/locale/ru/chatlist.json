@@ -35,6 +35,20 @@
         "TEXT": "Все"
       }
     },
+    "VIEW_FILTER": "Просмотр",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Статус",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Дата создания"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Изображение"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "поделился ссылкой"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Сортировать по",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Дата создания",
+          "LABEL": "Дата создания"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Получено по email",
