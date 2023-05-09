@@ -186,7 +186,7 @@
   "CONFIRM_EMAIL": "Tikrinama...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Pridėti Gautų Laiškų Aplanką"
     }
   },
   "SIDEBAR": {
@@ -204,7 +204,7 @@
     "AGENTS": "Agentai",
     "AGENT_BOTS": "Botai",
     "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
+    "INBOXES": "Gautų laiškų aplankai",
     "NOTIFICATIONS": "Pranešimai",
     "CANNED_RESPONSES": "Atsakymų Ruošiniai",
     "INTEGRATIONS": "Integrations",
@@ -223,7 +223,7 @@
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "Nauja etiketė",
     "NEW_TEAM": "Nauja komanda",
-    "NEW_INBOX": "New inbox",
+    "NEW_INBOX": "Naujas gautų laiškų aplankas",
     "REPORTS_CONVERSATION": "Pokalbiai",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
@@ -231,7 +231,7 @@
     "ONE_OFF": "Vienas iš",
     "REPORTS_AGENT": "Agentai",
     "REPORTS_LABEL": "Etiketės",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Gautų laiškų aplankas",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
