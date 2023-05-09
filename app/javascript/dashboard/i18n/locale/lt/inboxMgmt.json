@@ -1,9 +1,9 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "Gautų laiškų aplankai",
+    "SIDEBAR_TXT": "<p><b>Gautų laiškų aplankas</b></p> <p> Kai prijungiate svetainė arba Facebook puslapį prie Chatwood, tai vadinama <b>Gautų Laiškų Aplankas</b>. Savo Chatwoot paskyroje galite turėti neribotą gautųjų laiškų aplankų skaičių. </p><p> Spustelėkite <b>Pridėti gautųjų laiškų aplanką</b>, kad susietumėte svetainę arba Facebook puslapį. </p><p> Informacijos suvestinėje galite matyti visus pokalbius iš visų gautųjų laiškų aplankų vienoje vietoje ir atsakyti į juos skirtuke „Pokalbiai“. </p><p> Taip pat galite peržiūrėti pokalbius, susijusius su gautų laiškų aplankais, spustelėję pavadinimą kairėje prietaisų skydelio srityje. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Prie šios paskyros nėra pridėtų gautųjų laiškų aplankų."
     },
     "CREATE_FLOW": [
       {
@@ -12,7 +12,7 @@
         "body": "Choose the provider you want to integrate with Chatwoot."
       },
       {
-        "title": "Create Inbox",
+        "title": "Sukurti Gautų Laiškų Aplanką",
         "route": "settings_inboxes_page_channel",
         "body": "Authenticate your account and create an inbox."
       },
@@ -29,9 +29,9 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
+        "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
         "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "Prašome įrašyti teisingą gautų laiškų aplanko pavadinimą"
       },
       "WEBSITE_NAME": {
         "LABEL": "Website Name",
@@ -41,9 +41,9 @@
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
         "CHOOSE_PAGE": "Choose Page",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
+        "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
+        "ADD_NAME": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
+        "PICK_NAME": "Pasirinkite Gautų Laiškų Aplanko Pavadinimą",
         "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
@@ -98,7 +98,7 @@
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "Sukurti Gautų Laiškų Aplanką",
         "API": {
           "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
@@ -127,8 +127,8 @@
           "ERROR": "This field is required"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
+          "PLACEHOLDER": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
           "ERROR": "This field is required"
         },
         "PHONE_NUMBER": {
@@ -178,8 +178,8 @@
             "ERROR": "This field is required"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
+            "PLACEHOLDER": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
             "ERROR": "This field is required"
           },
           "PHONE_NUMBER": {
@@ -207,8 +207,8 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
+          "PLACEHOLDER": "Prašome įrašyti kanalo pavadinimą",
           "ERROR": "This field is required"
         },
         "PHONE_NUMBER": {
@@ -334,11 +334,11 @@
       "AGENTS": {
         "TITLE": "Agentai",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Pridėkite bent vieną agentą prie naujojo gautų laiškų aplanko",
+        "PICK_AGENTS": "Pasirinkite agentus gautų laiškų aplankams"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
+        "TITLE": "Gautų Laiškų Aplanko Detali Informacija",
         "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
       },
       "FINISH": {
@@ -360,16 +360,16 @@
     "DETAILS": {
       "LOADING_FB": "Authenticating you with Facebook...",
       "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
+      "CREATING_CHANNEL": "Kuriamas gautų laiškų aplankas...",
       "TITLE": "Configure Inbox Details",
       "DESC": ""
     },
     "AGENTS": {
       "BUTTON_TEXT": "Pridėti agentus",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "ADD_AGENTS": "Pridedami agentai gautų laiškų aplankams..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
+      "TITLE": "Jūsų Gautų Laiškų Aplankas yra paruoštas!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Nuvesk mane ten",
       "MORE_SETTINGS": "Daugiau nustatymų",
@@ -379,7 +379,7 @@
     "VIEW": "Paržiūra",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "SUCCESS_MESSAGE": "Gautų laiškų aplanko nustatymai atnaujinti sėkmingai",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
@@ -413,15 +413,15 @@
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",
         "MESSAGE": "Ar tikrai norite ištrinti ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Įveskite {inboxName}, kad patvirtintumėte",
         "YES": "Taip, Trinti ",
         "NO": "Ne, Išsaugoti "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Gautų Laiškų Aplankas ištrintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko ištrinti gautų laiškų aplanko. Pabandykite dar kartą vėliau.",
+        "AVATAR_SUCCESS_MESSAGE": "Gautų Laiškų Aplanko avataras ištrintas sėkmingai",
+        "AVATAR_ERROR_MESSAGE": "Nepavyko ištrinti gautų laiškų aplanko avataro. Pabandykite dar kartą vėliau."
       }
     },
     "TABS": {
@@ -440,7 +440,7 @@
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Botui naudokite gautų laiškų aplanko pavadinimą ir avatarą"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger scenarijus",
@@ -459,7 +459,7 @@
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_TITLE": "Gautų Laiškų Aplanko Nustatymai",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
@@ -467,7 +467,7 @@
       "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER": "Gautų Laiškų Aplanko Identifikatorius",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
       "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
