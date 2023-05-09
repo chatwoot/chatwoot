@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "Gautų laiškų aplankas",
       "DELETE": {
         "BUTTON_TEXT": "Ištrinti"
       }
@@ -38,8 +38,8 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Pasirinkti gautų laiškų aplanką",
+          "PLACEHOLDER": "Pasirinkti gautų laiškų aplanką"
         },
         "SUBMIT": "Sukurti",
         "CANCEL": "Atšaukti"
