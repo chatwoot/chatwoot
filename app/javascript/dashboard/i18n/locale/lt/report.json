@@ -121,7 +121,7 @@
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "FILTER_DROPDOWN_LABEL": "Pasirinkti agentą",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
@@ -184,11 +184,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Etikečių Peržiūra",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Parsisiųsti etiketės ataskaitas",
+    "FILTER_DROPDOWN_LABEL": "Pažymėti Etiketę",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
@@ -395,8 +395,8 @@
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Kontaktas",
+        "AGENT_NAME": "Priskirtas agentas",
         "RATING": "Reitingas",
         "FEEDBACK_TEXT": "Feedback comment"
       }
@@ -417,12 +417,12 @@
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
+    "HEADER": "Apžvalga",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
+      "OPEN": "Atidaryti",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned"
     },
@@ -438,25 +438,25 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Agentas",
-        "OPEN": "OPEN",
+        "OPEN": "ATIDARYTI",
         "UNATTENDED": "Unattended",
         "STATUS": "Būsena"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
+      "HEADER": "Agento būsena",
+      "ONLINE": "Prisijungęs",
       "BUSY": "Užimta",
-      "OFFLINE": "Offline"
+      "OFFLINE": "Atsijungęs"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
+    "SUNDAY": "Sekmadienis",
     "MONDAY": "Pirmadienis",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
+    "TUESDAY": "Antradienis",
+    "WEDNESDAY": "Trečiadienis",
     "THURSDAY": "Ketvirtadienis",
     "FRIDAY": "Penktadienis",
-    "SATURDAY": "Saturday"
+    "SATURDAY": "Šeštadienis"
   }
 }
