@@ -134,7 +134,6 @@ class Message < ApplicationRecord
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      csat_survey_link: conversation.csat_survey_link,
       conversation: {
         assignee_id: conversation.assignee_id,
         unread_count: conversation.unread_incoming_messages.count,
