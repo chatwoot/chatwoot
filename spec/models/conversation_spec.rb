@@ -254,7 +254,7 @@ RSpec.describe Conversation, type: :model do
       conversation.reload
       expect(conversation.update_labels(updated_labels)).to be(true)
       expect(conversation.label_list).to match_array(updated_labels)
-      expect(conversation.preloaded_labelfe_list).to match_array(updated_labels)
+      expect(conversation.preloaded_label_list).to match_array(updated_labels)
     end
 
     it 'adds and removes previously added labels' do
