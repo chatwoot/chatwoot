@@ -65,8 +65,8 @@ lt:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
+      inbox_name: Gautų laiškų aplanko pavadinimas
+      inbox_type: Gautų laiškų aplanko tipas
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
