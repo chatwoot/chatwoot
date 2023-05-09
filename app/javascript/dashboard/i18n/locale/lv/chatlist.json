@@ -36,14 +36,14 @@
       }
     },
     "VIEW_FILTER": "Apskatīt",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Šķirot sarunas",
     "CHAT_SORT": {
       "STATUS": "Statuss",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sakārtot pēc"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Pēdējā darbība"
       },
       "sort_on_created_at": {
         "TEXT": "Izveidots plkst"
@@ -70,20 +70,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "Šķirot sarunu",
       "DROPDOWN_TITLE": "Kārtot pēc",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Pēdējā aktivitāte plkst",
+          "LABEL": "Pēdējā darbība"
         },
         "CREATED_AT": {
           "NAME": "Izveidots plkst",
           "LABEL": "Izveidots plkst"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Pēdējā lietotāja ziņa plkst",
+          "LABEL": "Pēdējā ziņa"
         }
       }
     },
