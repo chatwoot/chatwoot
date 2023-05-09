@@ -58,7 +58,7 @@
       <transition name="popover-animation">
         <label-actions
           v-if="showLabelActions"
-          triangle-position="8.5"
+          class="label-actions-box"
           @assign="assignLabels"
           @close="showLabelActions = false"
         />
@@ -66,12 +66,12 @@
       <transition name="popover-animation">
         <update-actions
           v-if="showUpdateActions"
+          class="update-actions-box"
           :selected-inboxes="selectedInboxes"
           :conversation-count="conversations.length"
           :show-resolve="!showResolvedAction"
           :show-reopen="!showOpenAction"
           :show-snooze="!showSnoozedAction"
-          triangle-position="5.6"
           @update="updateConversations"
           @close="showUpdateActions = false"
         />
@@ -79,9 +79,9 @@
       <transition name="popover-animation">
         <agent-selector
           v-if="showAgentsList"
+          class="agent-actions-box"
           :selected-inboxes="selectedInboxes"
           :conversation-count="conversations.length"
-          triangle-position="2.8"
           @select="submit"
           @close="showAgentsList = false"
         />
@@ -89,7 +89,7 @@
       <transition name="popover-animation">
         <team-actions
           v-if="showTeamsList"
-          triangle-position="0.2"
+          class="team-actions-box"
           @assign-team="assignTeam"
           @close="showTeamsList = false"
         />
@@ -246,5 +246,18 @@ export default {
 .popover-animation-leave-to {
   opacity: 0;
   transform: scale(0.95);
+}
+
+.label-actions-box {
+  --triangle-position: 8.5rem;
+}
+.update-actions-box {
+  --triangle-position: 5.6rem;
+}
+.agent-actions-box {
+  --triangle-position: 2.8rem;
+}
+.team-actions-box {
+  --triangle-position: 0.2rem;
 }
 </style>

@@ -21,10 +21,10 @@
     "IN_A_FEW_HOURS": "Typically replies in a few hours",
     "IN_A_DAY": "Typically replies in a day"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "Pradėti Pokalbį",
+  "END_CONVERSATION": "Užbaigti Pokalbį",
+  "CONTINUE_CONVERSATION": "Tęsti pokalbį",
+  "START_NEW_CONVERSATION": "Pradėti naują pokalbį",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "See new messages",
     "CLOSE_MESSAGES_BUTTON": "Uždaryti",
@@ -34,11 +34,11 @@
   "BUBBLE": {
     "LABEL": "Chat with us"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
+  "POWERED_BY": "Parengta pagal Chatwoot",
+  "EMAIL_PLACEHOLDER": "Prašau įveskite jūsų el. paštą",
   "CHAT_PLACEHOLDER": "Type your message",
   "TODAY": "Šiandien",
-  "YESTERDAY": "Yesterday",
+  "YESTERDAY": "Vakar",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
@@ -49,19 +49,19 @@
       "EMAIL_ADDRESS": {
         "LABEL": "El. pašto adresas",
         "PLACEHOLDER": "Prašau įveskite jūsų el. pašto adresą",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "El. pašto Adresas yra reikalingas",
         "VALID_ERROR": "Please enter a valid email address"
       },
       "PHONE_NUMBER": {
-        "LABEL": "Phone Number",
+        "LABEL": "Telefono numeris",
         "PLACEHOLDER": "Prašau įveskite jūsų telefono numerį",
-        "REQUIRED_ERROR": "Phone Number is required",
+        "REQUIRED_ERROR": "Telefono Numeris yra reikalingas",
         "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Žinutė",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "PLACEHOLDER": "Prašau įveskite jūsų pranešimą",
+        "ERROR": "Pranešimas pertrumpas"
       }
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
