@@ -244,10 +244,17 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'ensures preloaded labels are always in sync with the database' do
-      labels = [first_label, fourth_label].map(&:title)
+      labels = [first_label].map(&:title)
       expect(conversation.update_labels(labels)).to be(true)
       expect(conversation.label_list).to match_array(labels)
       expect(conversation.preloaded_label_list).to match_array(labels)
+
+      updated_labels = [second_label].map(&:title)
+      # reload this so that the taggins collection is updated
+      conversation.reload
+      expect(conversation.update_labels(updated_labels)).to be(true)
+      expect(conversation.label_list).to match_array(updated_labels)
+      expect(conversation.preloaded_labelfe_list).to match_array(updated_labels)
     end
 
     it 'adds and removes previously added labels' do

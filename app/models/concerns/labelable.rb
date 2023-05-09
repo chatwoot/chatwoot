@@ -3,6 +3,7 @@ module Labelable
 
   included do
     acts_as_taggable_on :labels
+    before_save :clear_labels_cache
   end
 
   def update_labels(labels = nil)
@@ -23,5 +24,11 @@ module Labelable
     end
 
     @labels_cache || []
+  end
+
+  private
+
+  def clear_labels_cache
+    @labels_cache = nil
   end
 end
