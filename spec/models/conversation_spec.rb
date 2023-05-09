@@ -243,6 +243,13 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.label_list).to match_array(labels)
     end
 
+    it 'ensures preloaded labels are always in sync with the database' do
+      labels = [first_label, fourth_label].map(&:title)
+      expect(conversation.update_labels(labels)).to be(true)
+      expect(conversation.label_list).to match_array(labels)
+      expect(conversation.preloaded_label_list).to match_array(labels)
+    end
+
     it 'adds and removes previously added labels' do
       labels = [first_label, fourth_label].map(&:title)
       expect { conversation.update_labels(labels) }
