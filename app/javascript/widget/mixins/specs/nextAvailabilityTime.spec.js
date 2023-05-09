@@ -1,50 +1,57 @@
-import { shallowMount } from '@vue/test-utils';
+import { createWrapper } from '@vue/test-utils';
 import nextAvailabilityTimeMixin from '../nextAvailabilityTime';
+import Vue from 'vue';
 
 describe('nextAvailabilityTimeMixin', () => {
-  let wrapper;
   const chatwootWebChannel = {
     workingHoursEnabled: true,
     workingHours: [
       {
         day_of_week: 0,
         open_hour: 9,
+        closed_all_day: false,
         open_minutes: 0,
         close_hour: 17,
       },
       {
         day_of_week: 1,
         open_hour: 9,
+        closed_all_day: false,
         open_minutes: 0,
         close_hour: 17,
       },
       {
         day_of_week: 2,
         open_hour: 9,
+        closed_all_day: false,
         open_minutes: 0,
         close_hour: 17,
       },
       {
         day_of_week: 3,
         open_hour: 9,
+        closed_all_day: false,
         open_minutes: 0,
         close_hour: 17,
       },
       {
         day_of_week: 4,
         open_hour: 9,
+        closed_all_day: false,
         open_minutes: 0,
         close_hour: 17,
       },
       {
         day_of_week: 5,
         open_hour: 9,
+        closed_all_day: false,
         open_minutes: 0,
         close_hour: 17,
       },
       {
         day_of_week: 6,
         open_hour: 9,
+        closed_all_day: false,
         open_minutes: 0,
         close_hour: 17,
       },
@@ -60,10 +67,17 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallowMount({}, { mixins: [nextAvailabilityTimeMixin] });
+    jest.useRealTimers();
   });
 
   it('should return day names', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.dayNames).toEqual([
       'Sunday',
       'Monday',
@@ -76,39 +90,88 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   it('should return channelConfig', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.channelConfig).toEqual(chatwootWebChannel);
   });
 
   it('should return workingHours', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.workingHours).toEqual(chatwootWebChannel.workingHours);
   });
 
   it('should return currentDayWorkingHours', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
     const currentDay = new Date().getDay();
     const expectedWorkingHours = chatwootWebChannel.workingHours.find(
       slot => slot.day_of_week === currentDay
     );
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.currentDayWorkingHours).toEqual(expectedWorkingHours);
   });
 
   it('should return nextDayWorkingHours', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
     const currentDay = new Date().getDay();
     const nextDay = currentDay === 6 ? 0 : currentDay + 1;
     const expectedWorkingHours = chatwootWebChannel.workingHours.find(
       slot => slot.day_of_week === nextDay
     );
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.nextDayWorkingHours).toEqual(expectedWorkingHours);
   });
 
   it('should return presentHour', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.presentHour()).toBe(new Date().getHours());
   });
 
   it('should return presentMinute', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.presentMinute()).toBe(new Date().getMinutes());
   });
 
   it('should return currentDay', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     const date = new Date();
     const day = date.getDay();
     const currentDay = Object.keys(wrapper.vm.dayNames).find(
@@ -118,6 +181,13 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   it('should return currentDayTimings', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     const {
       open_hour: openHour,
       open_minutes: openMinute,
@@ -131,10 +201,18 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   it('should return nextDayTimings', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     const {
       open_hour: openHour,
       open_minutes: openMinute,
     } = wrapper.vm.nextDayWorkingHours;
+
     expect(wrapper.vm.nextDayTimings).toEqual({
       openHour,
       openMinute,
@@ -142,6 +220,13 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   it('should return dayDiff', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     const currentDay = wrapper.vm.currentDay();
     const nextDay = wrapper.vm.nextDayWorkingHours.day_of_week;
     const totalDays = 6;
@@ -149,16 +234,31 @@ describe('nextAvailabilityTimeMixin', () => {
       nextDay > currentDay
         ? nextDay - currentDay
         : totalDays - currentDay + nextDay;
+
     expect(wrapper.vm.dayDiff).toEqual(expectedDayDiff);
   });
 
   it('should return dayNameOfNextWorkingDay', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     const nextDay = wrapper.vm.nextDayWorkingHours.day_of_week;
     const expectedDayName = wrapper.vm.dayNames[nextDay];
     expect(wrapper.vm.dayNameOfNextWorkingDay).toEqual(expectedDayName);
   });
 
   it('should return hoursAndMinutesBackInOnline', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     const currentDayCloseHour =
       chatwootWebChannel.workingHours[wrapper.vm.currentDay()].close_hour;
     const nextDayOpenHour =
@@ -180,6 +280,94 @@ describe('nextAvailabilityTimeMixin', () => {
   });
 
   it('should return getNextDay', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
     expect(wrapper.vm.getNextDay(6)).toBe(0);
+  });
+
+  it('should return in 30 minutes', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    jest
+      .useFakeTimers('modern')
+      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+
+    chatwootWebChannel.workingHours[4].open_hour = 18;
+    chatwootWebChannel.workingHours[4].open_minutes = 0;
+    chatwootWebChannel.workingHours[4].close_hour = 23;
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('in 30 minutes');
+  });
+
+  it('should return in 2 hours and 30 minutes', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    jest
+      .useFakeTimers('modern')
+      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    chatwootWebChannel.workingHours[4].open_hour = 20;
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('in 2 hours 30 minutes');
+  });
+
+  it('should return at 10:00 AM', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    jest
+      .useFakeTimers('modern')
+      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    chatwootWebChannel.workingHours[4].open_hour = 10;
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe(' at 10:00 AM');
+  });
+
+  it('should return at tomorrow', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    jest
+      .useFakeTimers('modern')
+      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    chatwootWebChannel.workingHours[4].open_hour = 9;
+    chatwootWebChannel.workingHours[4].close_hour = 16;
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('tomorrow ');
+  });
+
+  it('should return at Saturday', () => {
+    const Component = {
+      render() {},
+      mixins: [nextAvailabilityTimeMixin],
+    };
+    jest
+      .useFakeTimers('modern')
+      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    chatwootWebChannel.workingHours[4].open_hour = 9;
+    chatwootWebChannel.workingHours[4].close_hour = 16;
+    chatwootWebChannel.workingHours[5].closed_all_day = true;
+    const Constructor = Vue.extend(Component);
+    const vm = new Constructor().$mount();
+    const wrapper = createWrapper(vm);
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('on Saturday');
   });
 });
