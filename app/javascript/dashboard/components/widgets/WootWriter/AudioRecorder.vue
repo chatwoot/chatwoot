@@ -37,7 +37,7 @@ export default {
   props: {
     audioRecordFormat: {
       type: String,
-      default: AUDIO_FORMATS.WEBM,
+      default: AUDIO_FORMATS.WAV,
     },
   },
   data() {
@@ -88,7 +88,7 @@ export default {
             audioSampleRate: 48000,
             audioBitRate: 128,
             audioEngine: 'opus-recorder',
-            ...(this.audioRecordFormat === AUDIO_FORMATS.WEBM && {
+            ...(this.audioRecordFormat === AUDIO_FORMATS.WAV && {
               audioMimeType: 'audio/wav',
               audioWorkerURL: waveWorker,
             }),
@@ -133,7 +133,7 @@ export default {
   methods: {
     deviceReady() {
       if (this.player.record().engine instanceof OpusRecorderEngine) {
-        if (this.audioRecordFormat === AUDIO_FORMATS.WEBM) {
+        if (this.audioRecordFormat === AUDIO_FORMATS.WAV) {
           this.player.record().engine.audioType = 'audio/wav';
         }
       }

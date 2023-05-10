@@ -504,7 +504,7 @@ export default {
       if (this.isAWhatsAppChannel) {
         return AUDIO_FORMATS.OGG;
       }
-      return AUDIO_FORMATS.WEBM;
+      return AUDIO_FORMATS.WAV;
     },
     messageVariables() {
       const variables = getMessageVariables({
