@@ -2,8 +2,7 @@
 
 <% if @resource.unconfirmed_email.present? %>
   <p>
-    Hi <%= @resource.name %>, and welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a lot of awesome stuff ready for you on the next screen. 
-    We just quickly need to verify your email address to know it's really you.
+    Hi <%= @resource.name %>, and welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
   </p>
   <p>Please take a moment and click the link below and activate your account:</p>
   <p><%= link_to 'Verify my email address', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
