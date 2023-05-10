@@ -84,6 +84,7 @@ export const CSAT_RATINGS = [
 export const AUDIO_FORMATS = {
   WEBM: 'audio/webm',
   OGG: 'audio/ogg',
+  WAV: 'audio/wav',
 };
 
 export const MESSAGE_VARIABLES = [
