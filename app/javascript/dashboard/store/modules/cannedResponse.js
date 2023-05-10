@@ -1,3 +1,4 @@
+import { throwErrorMessage } from 'dashboard/store/utils/api';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import CannedResponseAPI from '../../api/cannedResponse';
@@ -46,8 +47,10 @@ const actions = {
       const response = await CannedResponseAPI.create(cannedObj);
       commit(types.default.ADD_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { creatingItem: false });
+      return response.data;
     } catch (error) {
       commit(types.default.SET_CANNED_UI_FLAG, { creatingItem: false });
+      return throwErrorMessage(error);
     }
   },
 
@@ -60,8 +63,10 @@ const actions = {
       const response = await CannedResponseAPI.update(id, updateObj);
       commit(types.default.EDIT_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+      return response.data;
     } catch (error) {
       commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+      return throwErrorMessage(error);
     }
   },
 
@@ -71,8 +76,10 @@ const actions = {
       await CannedResponseAPI.delete(id);
       commit(types.default.DELETE_CANNED, id);
       commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
+      return id;
     } catch (error) {
       commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
+      return throwErrorMessage(error);
     }
   },
 };
