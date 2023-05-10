@@ -31,6 +31,8 @@ RUN apk update && apk add --no-cache \
 COPY Gemfile Gemfile.lock ./tmp/
 WORKDIR /tmp
 
+COPY sidekiq_docker_wrapper.sh sidekiq_docker_wrapper.sh
+
 # natively compile grpc and protobuf to support alpine musl (dialogflow-docker workflow)
 # https://github.com/googleapis/google-cloud-ruby/issues/13306
 # adding xz as nokogiri was failing to build libxml
