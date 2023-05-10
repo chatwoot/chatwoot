@@ -6,7 +6,11 @@
     :disabled="isDisabled || isLoading"
     @click="handleClick"
   >
-    <spinner v-if="isLoading" size="small" />
+    <spinner
+      v-if="isLoading"
+      size="small"
+      :color-scheme="showDarkSpinner ? 'dark' : ''"
+    />
     <emoji-or-icon
       v-else-if="icon || emoji"
       class="icon"
@@ -107,6 +111,14 @@ export default {
         default:
           return 16;
       }
+    },
+    showDarkSpinner() {
+      return (
+        this.colorScheme === 'secondary' ||
+        this.variant === 'clear' ||
+        this.variant === 'link' ||
+        this.variant === 'hollow'
+      );
     },
   },
   methods: {
