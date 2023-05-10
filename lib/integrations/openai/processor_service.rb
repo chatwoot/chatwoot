@@ -35,20 +35,34 @@ class Integrations::Openai::ProcessorService
   end
 
   def conversation_messages(in_array_format: false)
-    conversation = hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+    conversation = find_conversation
     messages = init_messages_body(in_array_format)
+
+    process_messages(conversation, messages, in_array_format)
+  end
+
+  def find_conversation
+    hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+  end
+
+  def process_messages(conversation, messages, in_array_format)
     character_count = 0
 
     conversation.messages.chat.reorder('id desc').each do |message|
+      break if character_count > TOKEN_LIMIT
       next if message.content.blank?
 
-      character_count += message.content.length
-      break if character_count > TOKEN_LIMIT
-
-      formatted_message = format_message(message, in_array_format)
-      messages.prepend(formatted_message)
+      character_count += add_message_content(messages, message, in_array_format)
     end
+
     messages
+  end
+
+  def add_message_content(messages, message, in_array_format)
+    formatted_message = format_message(message, in_array_format)
+    messages.prepend(formatted_message)
+
+    message.content.length
   end
 
   def init_messages_body(in_array_format)
