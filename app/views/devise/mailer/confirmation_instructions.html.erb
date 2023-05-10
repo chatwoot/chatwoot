@@ -8,7 +8,7 @@
 
 <% if @resource.confirmed? %>
   <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
-<% elsif account_user&.inviter.present? %>
+<% else %>
   <p>
     Welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
   </p>
