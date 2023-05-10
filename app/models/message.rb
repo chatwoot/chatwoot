@@ -27,6 +27,7 @@
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
 #  index_messages_on_content                            (content) USING gin
 #  index_messages_on_conversation_id                    (conversation_id)
+#  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
 #  index_messages_on_source_id                          (source_id)
