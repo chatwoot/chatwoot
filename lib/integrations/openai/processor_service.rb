@@ -38,31 +38,39 @@ class Integrations::Openai::ProcessorService
     conversation = find_conversation
     messages = init_messages_body(in_array_format)
 
-    process_messages(conversation, messages, in_array_format)
+    add_messages_until_token_limit(conversation, messages, in_array_format)
   end
 
   def find_conversation
     hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
   end
 
-  def process_messages(conversation, messages, in_array_format)
+  def add_messages_until_token_limit(conversation, messages, in_array_format)
     character_count = 0
-
     conversation.messages.chat.reorder('id desc').each do |message|
-      break if character_count > TOKEN_LIMIT
-      next if message.content.blank?
-
-      character_count += add_message_content(messages, message, in_array_format)
+      character_count, message_added = add_message_if_within_limit(character_count, message, messages, in_array_format)
+      break unless message_added
     end
-
     messages
   end
 
-  def add_message_content(messages, message, in_array_format)
+  def add_message_if_within_limit(character_count, message, messages, in_array_format)
+    if valid_message?(message, character_count)
+      add_message_to_list(message, messages, in_array_format)
+      character_count += message.content.length
+      [character_count, true]
+    else
+      [character_count, false]
+    end
+  end
+
+  def valid_message?(message, character_count)
+    message.content.present? && character_count + message.content.length <= TOKEN_LIMIT
+  end
+
+  def add_message_to_list(message, messages, in_array_format)
     formatted_message = format_message(message, in_array_format)
     messages.prepend(formatted_message)
-
-    message.content.length
   end
 
   def init_messages_body(in_array_format)
