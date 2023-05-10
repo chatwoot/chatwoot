@@ -36,7 +36,7 @@ class Integrations::Openai::ProcessorService
 
   def conversation_messages(in_array_format: false)
     conversation = hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
-    messages = in_array_format ? [] : ''
+    messages = init_messages_body(in_array_format)
     character_count = 0
 
     conversation.messages.chat.reorder('id desc').each do |message|
@@ -49,6 +49,10 @@ class Integrations::Openai::ProcessorService
       messages.prepend(formatted_message)
     end
     messages
+  end
+
+  def init_messages_body(in_array_format)
+    in_array_format ? [] : ''
   end
 
   def format_message(message, in_array_format)
