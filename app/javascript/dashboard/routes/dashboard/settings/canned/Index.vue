@@ -198,10 +198,8 @@ export default {
         .then(() => {
           this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
         })
-        .catch(error => {
-          const errorMessage =
-            error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+        .catch(() => {
+          this.showAlert(this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE'));
         });
     },
   },
