@@ -748,9 +748,7 @@ RSpec.describe 'Conversations API', type: :request do
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
       before do
-        # file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        # create(:message, conversation: conversation, account: account, inbox: conversation.inbox, message_type: 'incoming', attachments: [file])
-        create(:message, conversation: conversation, account: account, inbox: conversation.inbox, content: 'Hello', message_type: 'incoming')
+        create(:message, :with_attachment, conversation: conversation, account: account, inbox: conversation.inbox, message_type: 'incoming')
       end
 
       it 'does not return the attachments if you do not have access to it' do
@@ -767,17 +765,18 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        # expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].first['file_type']).to eq('image')
       end
 
       it 'return the attachments if you are an agent with access to inbox' do
-        create(:inbox_member, user: agent, inbox: conversation.inbox)
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
-            headers: agent.create_new_auth_token,
+            headers: administrator.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        # expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].length).to eq(1)
       end
     end
   end
