@@ -731,4 +731,54 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/conversations/:id/attachments' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      before do
+        # file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        # create(:message, conversation: conversation, account: account, inbox: conversation.inbox, message_type: 'incoming', attachments: [file])
+        create(:message, conversation: conversation, account: account, inbox: conversation.inbox, content: 'Hello', message_type: 'incoming')
+      end
+
+      it 'does not return the attachments if you do not have access to it' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'return the attachments if you are an administrator' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        # expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+      end
+
+      it 'return the attachments if you are an agent with access to inbox' do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        # expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+      end
+    end
+  end
 end
