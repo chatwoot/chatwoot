@@ -804,6 +804,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_10_113208) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "sla_policies", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "frt_threshold"
+    t.float "rt_threshold"
+    t.boolean "only_during_business_hours", default: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"

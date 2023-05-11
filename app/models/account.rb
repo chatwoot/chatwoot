@@ -149,4 +149,5 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
+Account.include_mod_with('EnterpriseAccountConcern')
 Account.include_mod_with('Audit::Account')
