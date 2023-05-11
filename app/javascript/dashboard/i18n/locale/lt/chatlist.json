@@ -36,14 +36,14 @@
       }
     },
     "VIEW_FILTER": "Paržiūra",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Rūšiuoti pokalbius",
     "CHAT_SORT": {
       "STATUS": "Būsena",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Rūšiuoti pagal"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Paskutiniai veiksmai"
       },
       "sort_on_created_at": {
         "TEXT": "Created at"
@@ -70,25 +70,25 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "Rūšiuoti pokalbį",
       "DROPDOWN_TITLE": "Rūšiuoti pagal",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Paskutiniai veiksmai",
+          "LABEL": "Paskutiniai veiksmai"
         },
         "CREATED_AT": {
           "NAME": "Created at",
           "LABEL": "Created at"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Paskutinė vartotojo žinutė",
+          "LABEL": "Paskutinė žinutė"
         }
       }
     },
     "RECEIVED_VIA_EMAIL": "Gauta el. paštu",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "VIEW_TWEET_IN_TWITTER": "Pažiūrėti Twitter tweetus",
     "REPLY_TO_TWEET": "Atsakyti į šitą tweetą",
     "LINK_TO_STORY": "Eikite į Instagram istoriją",
     "SENT": "Išsiųsta sėkmingai",
