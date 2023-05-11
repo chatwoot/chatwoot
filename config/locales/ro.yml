@@ -173,7 +173,7 @@ ro:
       description: "Simplificați traducerea mesajelor de către agenți prin adăugarea unei integrări Google Translate. Google translate ajută la identificarea automată a limbii și la conversia acesteia în limba aleasă de agent/administratorul contului."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Integrați funcții AI puternice în Chatwoot folosind modelele GPT de la OpenAI."
   public_portal:
     search:
       search_placeholder: Căutați articol după titlu sau corp...
@@ -184,7 +184,7 @@ ro:
       sub_title: Căutați articolele aici sau răsfoiți categoriile de mai jos.
     common:
       home: Acasa
-      last_updated_on: Participanții au actualizat!
+      last_updated_on: Ultima actualizare pe %{last_updated_on}
       view_all_articles: Vezi toate articolele
       article: articol
       articles: articole
