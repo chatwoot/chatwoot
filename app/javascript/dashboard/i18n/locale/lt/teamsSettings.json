@@ -24,14 +24,14 @@
           "body": "Create a new team of agents."
         },
         {
-          "title": "Add Agents",
+          "title": "Pridėti Agentus",
           "route": "settings_teams_add_agents",
           "body": "Add agents to the team."
         },
         {
           "title": "Pabaigti",
           "route": "settings_teams_finish",
-          "body": "You are all set to go!"
+          "body": "Esate pasiruošę pradėti!"
         }
       ]
     },
@@ -60,7 +60,7 @@
         {
           "title": "Pabaigti",
           "route": "settings_teams_edit_finish",
-          "body": "You are all set to go!"
+          "body": "Esate pasiruošę pradėti!"
         }
       ]
     },
