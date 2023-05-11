@@ -21,13 +21,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -65,7 +65,7 @@
       "PLACEHOLDER": "Selectarea intervalului de date"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nu sunt conversații active în acest grup.",
-    "DURATION_FILTER_LABEL": "Duration",
+    "DURATION_FILTER_LABEL": "Durata",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -139,13 +139,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -206,13 +206,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -273,13 +273,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -340,13 +340,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -387,7 +387,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapoarte CSAT",
     "NO_RECORDS": "Nu există răspunsuri predefinite disponibile în acest cont.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD": "Descărcați rapoartele CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Alege agenți"
@@ -420,43 +420,43 @@
     "HEADER": "Prezentare generală",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "Deschiderea conversațiilor",
+      "LOADING_MESSAGE": "Încărcarea valorilor conversației...",
       "OPEN": "Deschide",
-      "UNATTENDED": "Unattended",
+      "UNATTENDED": "Neasistat",
       "UNASSIGNED": "Neatribuit"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Trafic de conversație",
+      "NO_CONVERSATIONS": "Fără conversații",
+      "CONVERSATION": "%{count} conversație",
+      "CONVERSATIONS": "conversații %{count}"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Conversațiile agenților",
+      "LOADING_MESSAGE": "Măsurătorile agentului de încărcare...",
+      "NO_AGENTS": "Nu există conversații ale agenților",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
+        "OPEN": "DESCHIS",
+        "UNATTENDED": "Neasistat",
         "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "Starea agentului",
       "ONLINE": "Online",
       "BUSY": "Ocupat",
       "OFFLINE": "Deconectat"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Duminică",
+    "MONDAY": "Luni",
+    "TUESDAY": "Marți",
+    "WEDNESDAY": "Miercuri",
+    "THURSDAY": "Joi",
+    "FRIDAY": "Vineri",
+    "SATURDAY": "Sâmbătă"
   }
 }

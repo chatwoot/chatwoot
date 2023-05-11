@@ -464,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke.",
       "HMAC_VERIFICATION": "Bruger Identitetsvalidering",
       "HMAC_DESCRIPTION": "For at validere brugerens identitet, kan du passere en `identifier_hash` for hver bruger. Du kan generere en HMAC sha256 hash ved hjælp af 'identifier' med nøglen vist her.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Gennemtving Validering Af Bruger Identitet",
       "HMAC_MANDATORY_DESCRIPTION": "Hvis aktiveret, vil forespørgsler der mangler 'identifier_hash' blive afvist.",
       "INBOX_IDENTIFIER": "Identifikator For Indbakke",
@@ -481,6 +482,13 @@
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verificér Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Grænse for automatisk tildeling",

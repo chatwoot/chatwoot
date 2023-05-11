@@ -195,6 +195,10 @@ class Conversation < ApplicationRecord
     messages.chat.last(5)
   end
 
+  def csat_survey_link
+    "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -221,14 +225,14 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_updation
-    return unless previous_changes.keys.present? && whitelisted_keys?
+    return unless previous_changes.keys.present? && allowed_keys?
 
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
-  def whitelisted_keys?
+  def allowed_keys?
     (
-      (previous_changes.keys & %w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at]).present? ||
+      (previous_changes.keys & %w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]).present? ||
       (previous_changes['additional_attributes'].present? && (previous_changes['additional_attributes'][1].keys & %w[conversation_language]).present?)
     )
   end
