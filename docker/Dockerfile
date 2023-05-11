@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:3.1.3-alpine3.16 AS pre-builder
+FROM ruby:3.2.2-alpine3.16 AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -64,13 +64,13 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
 RUN git rev-parse HEAD > /app/.git_sha
 
 # Remove unnecessary files
-RUN rm -rf /gems/ruby/3.1.0/cache/*.gem \
-  && find /gems/ruby/3.1.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
+RUN rm -rf /gems/ruby/3.2.0/cache/*.gem \
+  && find /gems/ruby/3.2.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
   && rm -rf .git \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.1.3-alpine3.16
+FROM ruby:3.2.2-alpine3.16
 
 
 ARG BUNDLE_WITHOUT="development:test"

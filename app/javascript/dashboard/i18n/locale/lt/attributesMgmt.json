@@ -1,6 +1,6 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Custom Attributes",
+    "HEADER": "Personalizuoti Požymiai",
     "HEADER_BTN_TXT": "Add Custom Attribute",
     "LOADING": "Fetching custom attributes",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
@@ -38,7 +38,7 @@
           "LABEL": "Raktas",
           "PLACEHOLDER": "Enter custom attribute key",
           "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "IN_VALID": "Neteisingas raktas"
         }
       },
       "API": {
@@ -62,7 +62,7 @@
     },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",
@@ -75,9 +75,9 @@
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "HEADER": "Personalizuoti Požymiai",
+      "CONVERSATION": "Pokalbis",
+      "CONTACT": "Kontaktas"
     },
     "LIST": {
       "TABLE_HEADER": [

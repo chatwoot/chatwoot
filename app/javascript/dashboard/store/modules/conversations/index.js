@@ -10,6 +10,7 @@ const state = {
   allConversations: [],
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
+  chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
@@ -77,6 +78,13 @@ export const mutations = {
     Vue.set(chat.meta, 'team', team);
   },
 
+  [types.UPDATE_CONVERSATION_LAST_ACTIVITY](
+    _state,
+    { lastActivityAt, conversationId }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    Vue.set(chat, 'last_activity_at', lastActivityAt);
+  },
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     Vue.set(chat, 'priority', priority);
@@ -173,6 +181,10 @@ export const mutations = {
   },
   [types.CHANGE_CHAT_STATUS_FILTER](_state, data) {
     _state.chatStatusFilter = data;
+  },
+
+  [types.CHANGE_CHAT_SORT_FILTER](_state, data) {
+    _state.chatSortFilter = data;
   },
 
   // Update assignee on action cable message

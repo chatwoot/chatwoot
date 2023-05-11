@@ -254,7 +254,7 @@ $button-sizes: (tiny: var(--font-size-micro),
   default: var(--font-size-small),
   large: var(--font-size-medium));
 $button-palette: $foundation-palette;
-$button-opacity-disabled: 0.25;
+$button-opacity-disabled: 0.4;
 $button-background-hover-lightness: -20%;
 $button-hollow-hover-lightness: -50%;
 $button-transition: background-color 0.25s ease-out,

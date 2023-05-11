@@ -35,6 +35,20 @@
         "TEXT": "Sve"
       }
     },
+    "VIEW_FILTER": "Pregled",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Napravljena u"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Slikovita poruka"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "je podelio link"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sortirajte prema",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Napravljena u",
+          "LABEL": "Napravljena u"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Primljeno putem e-maila",
