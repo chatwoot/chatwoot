@@ -26,7 +26,7 @@
     "PASSWORD": {
       "LABEL": "Parole",
       "PLACEHOLDER": "Parole",
-      "ERROR": "Parole ir pārāk īsa.",
+      "ERROR": "Parole ir pārāk īsa",
       "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme."
     },
     "CONFIRM_PASSWORD": {

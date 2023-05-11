@@ -35,6 +35,20 @@
         "TEXT": "Alle"
       }
     },
+    "VIEW_FILTER": "Aussicht",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Erstellt am"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Bildnachricht"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "hat eine URL geteilt"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sortieren nach",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Erstellt am",
+          "LABEL": "Erstellt am"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Per E-Mail empfangen",

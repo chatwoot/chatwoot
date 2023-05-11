@@ -27,7 +27,20 @@ RSpec.describe 'Enterprise Audit API', type: :request do
 
     # check for response in parse
     context 'when it is an authenticated admin user' do
+      it 'returns empty array if feature is not enabled' do
+        get "/api/v1/accounts/#{account.id}/audit_logs",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['audit_logs']).to eql([])
+      end
+
       it 'fetches audit logs associated with the account' do
+        account.enable_features(:audit_logs)
+        account.save!
+
         get "/api/v1/accounts/#{account.id}/audit_logs",
             headers: admin.create_new_auth_token,
             as: :json

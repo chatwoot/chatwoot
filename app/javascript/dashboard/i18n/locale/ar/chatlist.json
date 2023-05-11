@@ -35,6 +35,20 @@
         "TEXT": "الكل"
       }
     },
+    "VIEW_FILTER": "عرض",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "الحالة",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "تم إنشاؤها في"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "رسالة صورة"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "قام بمشاركة رابط"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "ترتيب حسب",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "تم إنشاؤها في",
+          "LABEL": "تم إنشاؤها في"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
