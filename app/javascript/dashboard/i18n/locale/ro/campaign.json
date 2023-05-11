@@ -68,7 +68,7 @@
         "TITLE": "Confirmă ștergerea",
         "MESSAGE": "Sigur doriți să ștergeți?",
         "YES": "Da, șterge ",
-        "NO": "Nu, păstreaza"
+        "NO": "Nu, păstreaza "
       },
       "API": {
         "SUCCESS_MESSAGE": "Campanie ștearsă cu succes",
