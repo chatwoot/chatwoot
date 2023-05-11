@@ -128,10 +128,10 @@ describe ::ConversationFinder do
       end
     end
 
-    context 'with source' do
-      let(:params) { { source: 'testing_source_id' } }
+    context 'with source_id' do
+      let(:params) { { source_id: 'testing_source_id' } }
 
-      it 'filter conversations by source' do
+      it 'filter conversations by source id' do
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 1
       end
