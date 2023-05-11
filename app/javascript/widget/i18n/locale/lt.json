@@ -85,7 +85,7 @@
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "Pokalbio stenograma sėkmingai išsiųsta",
     "SEND_EMAIL_ERROR": "There was an error, please try again"
   },
   "INTEGRATIONS": {
