@@ -1,5 +1,4 @@
-# module Enterprise::Api::V1::Accounts::AuditSlaPoliciesControllerLogsController < Api::V1::Accounts::BaseController
-class Api::V1::Accounts::SlaPoliciesController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::SlaPoliciesController < Api::V1::Accounts::EnterpriseAccountsController
   before_action :fetch_sla, only: [:show, :update, :destroy]
   before_action :check_authorization
 
