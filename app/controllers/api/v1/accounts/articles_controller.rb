@@ -45,7 +45,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
       content_type: params[:background_image].content_type
     )
     file_blob.save!
-    render json: { file_url: url_for(file_blob) }
+    render json: { file_url: rails_blob_url(file_blob) }
   end
 
   def reorder
