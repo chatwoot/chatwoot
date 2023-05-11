@@ -87,6 +87,8 @@
     },
     "OPEN_AI": {
       "TITLE": "Покращити з ШІ",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
       "SUBTITLE": "Поліпшена відповідь буде згенерована за допомогою AI, основана на вашій чернетці.",
       "TONE": {
         "TITLE": "Тон",
