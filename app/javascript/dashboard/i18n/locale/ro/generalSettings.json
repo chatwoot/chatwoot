@@ -83,7 +83,7 @@
       "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
       "participating_conversation_new_message": "Trimite mesaj nou",
-      "conversation_mention": "a menţiona"
+      "conversation_mention": "Menţiune"
     }
   },
   "NETWORK": {
@@ -101,7 +101,7 @@
       "REPORTS": "Rapoarte",
       "CONVERSATION": "Conversație",
       "CHANGE_ASSIGNEE": "Modificarea cesionarului",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Modificarea priorității",
       "CHANGE_TEAM": "Schimbarea echipei",
       "ADD_LABEL": "Adăugarea etichetei la conversație",
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
@@ -127,7 +127,7 @@
       "GO_TO_NOTIFICATIONS": "Accesați Notificări",
       "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
       "ASSIGN_AN_AGENT": "Atribuirea unui agent",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_PRIORITY": "Atribuirea priorității",
       "ASSIGN_A_TEAM": "Atribuirea unei echipe",
       "MUTE_CONVERSATION": "Silențios conversația",
       "UNMUTE_CONVERSATION": "Sunet conversația",
