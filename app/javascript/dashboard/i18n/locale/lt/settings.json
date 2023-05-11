@@ -11,7 +11,7 @@
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
       "AVATAR": "Profilio paveikslėlis",
-      "ERROR": "Please fix form errors",
+      "ERROR": "Ištaisykite formos klaidas",
       "REMOVE_IMAGE": "Pašalinti",
       "UPLOAD_IMAGE": "Įkelti paveikslėlį",
       "UPDATE_IMAGE": "Atnaujinti paveikslėlį",
@@ -292,9 +292,9 @@
     "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Atidaryti pokalbį",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "RESOLVE_AND_NEXT": "Išspręsti ir pereiti toliau",
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "RESOLVE_CONVERSATION": "Išspręsti pokalbį",
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
       "ADD_ATTACHMENT": "Pridėti Priedą",
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
