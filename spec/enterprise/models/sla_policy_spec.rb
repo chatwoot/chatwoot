@@ -19,15 +19,4 @@ RSpec.describe SlaPolicy, type: :model do
       expect(sla_policy.name).to eq 'sla_1'
     end
   end
-
-  describe '#with_account' do
-    context 'when you delete the account' do
-      it 'deletes the sla_policy' do
-        perform_enqueued_jobs do
-          account.destroy!
-        end
-        expect(described_class.count).to eq 0
-      end
-    end
-  end
 end

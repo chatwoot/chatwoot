@@ -810,8 +810,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_10_113208) do
     t.float "rt_threshold"
     t.boolean "only_during_business_hours", default: false
     t.bigint "account_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
