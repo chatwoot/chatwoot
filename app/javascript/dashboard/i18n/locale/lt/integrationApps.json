@@ -11,11 +11,11 @@
     "ADD_BUTTON": "Add a new hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
+        "INBOX": "Patvirtinti Ištrynimą",
         "ACCOUNT": "Atsijungti"
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
+        "INBOX": "Ar tikrai norite ištrinti?",
         "ACCOUNT": "Are you sure to disconnect?"
       },
       "CONFIRM_BUTTON_TEXT": {
