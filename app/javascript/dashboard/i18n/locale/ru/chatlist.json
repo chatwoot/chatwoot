@@ -82,8 +82,8 @@
           "LABEL": "Дата создания"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Последнее сообщение пользователя",
+          "LABEL": "Последнее сообщение"
         }
       }
     },
