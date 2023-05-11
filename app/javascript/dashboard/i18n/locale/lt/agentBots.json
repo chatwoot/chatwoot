@@ -22,7 +22,7 @@
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "DESC": "Iš sąrašo galite nustatyti agento botą šiam gautų pranešimų aplankui. Iš pradžių botas gali vykdyti pokalbį ir prireikus perduoti jį agentui.",
       "SUBMIT": "Atnaujinti",
       "DISCONNECT": "Disconnect Bot",
       "SUCCESS_MESSAGE": "Successfully updated the agent bot",
