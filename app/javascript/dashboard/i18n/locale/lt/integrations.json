@@ -87,6 +87,8 @@
     },
     "OPEN_AI": {
       "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
       "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
       "TONE": {
         "TITLE": "Tone",
@@ -151,7 +153,7 @@
       "DELETE": {
         "CONFIRM_YES": "Taip, Trinti",
         "CONFIRM_NO": "Ne, Išsaugoti",
-        "TITLE": "Confirm deletion",
+        "TITLE": "Patvirtinti Ištrynimą",
         "MESSAGE": "Are you sure to delete the app - %{appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
