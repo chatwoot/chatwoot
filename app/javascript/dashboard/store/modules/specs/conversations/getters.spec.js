@@ -130,6 +130,66 @@ describe('#getters', () => {
         },
       ]);
     });
+    it('order conversations based on priority', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [
+              {
+                content: 'test1',
+              },
+            ],
+            priority: 'low',
+            created_at: 1683645801,
+            last_activity_at: 2466424490,
+          },
+          {
+            id: 2,
+            messages: [{ content: 'test2' }],
+            priority: 'urgent',
+            created_at: 1652109801,
+            last_activity_at: 1466424480,
+          },
+          {
+            id: 3,
+            messages: [{ content: 'test3' }],
+            priority: 'medium',
+            created_at: 1652109801,
+            last_activity_at: 1466421280,
+          },
+        ],
+        chatSortFilter: 'sort_on_priority',
+      };
+
+      expect(getters.getAllConversations(state)).toEqual([
+        {
+          id: 2,
+          messages: [{ content: 'test2' }],
+          priority: 'urgent',
+          created_at: 1652109801,
+          last_activity_at: 1466424480,
+        },
+        {
+          id: 3,
+          messages: [{ content: 'test3' }],
+          priority: 'medium',
+          created_at: 1652109801,
+          last_activity_at: 1466421280,
+        },
+        {
+          id: 1,
+          messages: [
+            {
+              content: 'test1',
+            },
+          ],
+          priority: 'low',
+          created_at: 1683645801,
+          last_activity_at: 2466424490,
+        },
+      ]);
+    });
   });
   describe('#getUnAssignedChats', () => {
     it('order returns only chats assigned to user', () => {
