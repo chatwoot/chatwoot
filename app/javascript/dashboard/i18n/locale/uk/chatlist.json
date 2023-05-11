@@ -36,14 +36,14 @@
       }
     },
     "VIEW_FILTER": "Вигляд",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Відсортувати розмови",
     "CHAT_SORT": {
       "STATUS": "Статус",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Сортувати за"
     },
     "CHAT_SORT_FILTER_ITEMS": {
       "latest": {
-        "TEXT": "Last activity"
+        "TEXT": "Остання активність"
       },
       "sort_on_created_at": {
         "TEXT": "Створений в"
@@ -70,20 +70,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "Відсортувати розмови",
       "DROPDOWN_TITLE": "Сортувати за",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Остання активність о",
+          "LABEL": "Остання активність"
         },
         "CREATED_AT": {
           "NAME": "Створений в",
           "LABEL": "Створений в"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Дата останнього повідомлення",
+          "LABEL": "Останнє повідомлення"
         }
       }
     },
