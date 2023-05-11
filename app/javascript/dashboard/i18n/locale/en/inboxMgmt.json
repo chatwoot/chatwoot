@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Automatically send a greeting message after contact's first message in a conversation.",
+          "HELP_TEXT": "Automatically send a greeting message after the contact's first message in a conversation.",
           "ENABLED": "Enabled",
           "DISABLED": "Disabled"
         },
