@@ -415,7 +415,7 @@
         "MESSAGE": "Sigur doriți să ștergeți ",
         "PLACE_HOLDER": "Vă rugăm să tastați {inboxName} pentru a confirma",
         "YES": "Da, șterge ",
-        "NO": "Nu, păstreaza"
+        "NO": "Nu, păstreaza "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox șters cu succes",
@@ -463,10 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
       "HMAC_VERIFICATION": "Validarea identității utilizatorului",
-      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_DESCRIPTION": "Cu această cheie puteți genera un token secret care poate fi utilizat pentru a verifica identitatea utilizatorilor dvs.",
+      "HMAC_LINK_TO_DOCS": "Puteți citi mai multe aici.",
       "HMAC_MANDATORY_VERIFICATION": "Impuneți validarea identității utilizatorului",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "Dacă este activată, solicitările care nu pot fi verificate vor fi respinse.",
       "INBOX_IDENTIFIER": "Identificator inbox",
       "INBOX_IDENTIFIER_SUB_TEXT": "Utilizați simbolul \"inbox_identifier\" afișat aici pentru a vă autentifica clienții API.",
       "FORWARD_EMAIL_TITLE": "Redirecționare către e-mail",
@@ -484,11 +484,11 @@
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizarea setărilor formularului pre-chat"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Asistenta",
+      "PLACEHOLDER": "Selectați Centrul de ajutor",
+      "SELECT_PLACEHOLDER": "Selectați Centrul de ajutor",
+      "REMOVE": "Eliminarea Centrului de ajutor",
+      "SUB_TEXT": "Atașarea unui Centru de ajutor cu inboxul"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limita de atribuire automată",
