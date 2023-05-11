@@ -64,7 +64,7 @@
       "CONFIRM": "Aplică",
       "PLACEHOLDER": "Selectarea intervalului de date"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nu sunt conversații active în acest grup.",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupează după",
     "DURATION_FILTER_LABEL": "Durata",
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -254,7 +254,7 @@
     "HEADER": "Prezentare generală a inboxului",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
-    "DOWNLOAD_INBOX_REPORTS": "Descarcă un formular csv.",
+    "DOWNLOAD_INBOX_REPORTS": "Descărcarea rapoartelor inbox",
     "FILTER_DROPDOWN_LABEL": "Selectați Inbox",
     "METRICS": {
       "CONVERSATIONS": {
