@@ -107,18 +107,29 @@ export default {
     hoursAndMinutesLeft() {
       const { hoursLeft, minutesLeft } = this.hoursAndMinutesBackInOnline;
 
-      const timeLeftChars = ['in'];
+      const timeLeftChars = [];
+      const languageCode = window.chatwootWebChannel.locale;
 
       if (hoursLeft > 0) {
-        const hourString = hoursLeft === 1 ? 'hour' : 'hours';
-        timeLeftChars.push(`${hoursLeft} ${hourString}`);
+        const roundedUpHoursLeft = minutesLeft > 0 ? hoursLeft + 1 : hoursLeft;
+        const hourRelative = this.generateRelativeTime(
+          roundedUpHoursLeft,
+          'hour',
+          languageCode
+        );
+        timeLeftChars.push(`${hourRelative}`);
       }
 
-      if (minutesLeft > 0) {
+      if (minutesLeft > 0 && hoursLeft === 0) {
         const roundedUpMinLeft =
           Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
           MINUTE_ROUNDING_FACTOR;
-        timeLeftChars.push(`${roundedUpMinLeft} minutes`);
+        const minRelative = this.generateRelativeTime(
+          roundedUpMinLeft,
+          'minutes',
+          languageCode
+        );
+        timeLeftChars.push(`${minRelative}`);
       }
 
       return timeLeftChars.join(' ');
@@ -182,6 +193,12 @@ export default {
         return workingHour;
       }
       return null;
+    },
+    generateRelativeTime(value, unit, languageCode) {
+      const rtf = new Intl.RelativeTimeFormat(languageCode, {
+        numeric: 'auto',
+      });
+      return rtf.format(value, unit);
     },
     getHoursAndMinutesUntilNextDayOpen(
       openHour, // If the present time is after the closing time of the current day, then the openHour will be the opening hour of the next day else it will be the opening hour of the current day.

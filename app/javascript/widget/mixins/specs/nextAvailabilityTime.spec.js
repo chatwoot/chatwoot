@@ -320,7 +320,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('in 2 hours 30 minutes');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('in 3 hours');
   });
 
   it('should return at 10:00 AM', () => {
