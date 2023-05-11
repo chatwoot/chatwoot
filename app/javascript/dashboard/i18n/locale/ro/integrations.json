@@ -86,21 +86,23 @@
       "CREATE_ERROR": "A existat o eroare la crearea unui link de întâlnire, încercați din nou"
     },
     "OPEN_AI": {
-      "TITLE": "Improve With AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Îmbunătățiți cu IA",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
+      "SUBTITLE": "Un răspuns îmbunătățit va fi generat folosind IA, pe baza proiectului curent.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Ton",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profesională",
+          "FRIENDLY": "Amical"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Genereaza",
+        "GENERATING": "Generez…",
         "CANCEL": "Renunță"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "A existat o eroare de procesare a conținutului, vă rugăm să încercați din nou"
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
@@ -131,7 +133,7 @@
         "TITLE_PLACEHOLDER": "Introduceți un nume pentru aplicația tablou de bord",
         "TITLE_ERROR": "Este necesar un nume pentru aplicația tabloul de bord",
         "URL_LABEL": "Punct final",
-        "URL_PLACEHOLDER": "Introduceți adresa URL a punctului final în care este găzduită aplicația dvs.",
+        "URL_PLACEHOLDER": "Introduceți adresa URL a punctului final în care este găzduită aplicația dvs",
         "URL_ERROR": "Este necesară o adresă URL validă"
       },
       "CREATE": {
