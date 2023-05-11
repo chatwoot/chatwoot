@@ -67,12 +67,12 @@ lt:
     inbox_csv:
       inbox_name: Gautų laiškų aplanko pavadinimas
       inbox_type: Gautų laiškų aplanko tipas
-      conversations_count: No. of conversations
+      conversations_count: Pokalbių kiekis
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     label_csv:
       label_title: Etiketė
-      conversations_count: No. of conversations
+      conversations_count: Pokalbių kiekis
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
@@ -138,11 +138,11 @@ lt:
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
+          from_with_name: "%{assignee_name} nuo %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} nuo %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} nuo %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
