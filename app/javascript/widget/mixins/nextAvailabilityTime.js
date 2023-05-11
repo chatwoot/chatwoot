@@ -9,15 +9,7 @@ const MINUTE_ROUNDING_FACTOR = 5;
 export default {
   data() {
     return {
-      dayNames: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-      ],
+      dayNames: this.$t('DAY_NAMES'),
       timeSlots: [...defaultTimeSlot],
       timeSlot: {},
     };
