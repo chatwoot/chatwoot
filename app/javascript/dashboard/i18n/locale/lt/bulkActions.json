@@ -11,8 +11,8 @@
     "ASSIGN_TEAM_TOOLTIP": "Priskirti komandą",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
     "ASSIGN_FAILED": "Failed to assign conversations, please try again",
-    "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
-    "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
+    "RESOLVE_SUCCESFUL": "Pokalbio išspręstas sėkmingai",
+    "RESOLVE_FAILED": "Nepavyko išspręsti pokalbių, bandykite dar kartą",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
     "AGENT_LIST_LOADING": "Agentai Užkraunami",
     "UPDATE": {
