@@ -54,9 +54,10 @@ class ConversationFinder
 
     find_all_conversations
     filter_by_status unless params[:q]
-    filter_by_team if @team
-    filter_by_labels if params[:labels]
-    filter_by_query if params[:q]
+    filter_by_team
+    filter_by_labels
+    filter_by_query
+    filter_by_source_id
   end
 
   def set_inboxes
@@ -107,6 +108,8 @@ class ConversationFinder
   end
 
   def filter_by_query
+    return unless params[:q]
+
     allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
     @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
                                   .where(messages: { message_type: allowed_message_types }).includes(:messages)
@@ -121,11 +124,22 @@ class ConversationFinder
   end
 
   def filter_by_team
+    return unless @team
+
     @conversations = @conversations.where(team: @team)
   end
 
   def filter_by_labels
+    return unless params[:labels]
+
     @conversations = @conversations.tagged_with(params[:labels], any: true)
+  end
+
+  def filter_by_source_id
+    return unless params[:source_id]
+
+    @conversations = @conversations.joins(:contact_inbox)
+    @conversations = @conversations.where(contact_inboxes: { source_id: params[:source_id] })
   end
 
   def set_count_for_all_conversations
