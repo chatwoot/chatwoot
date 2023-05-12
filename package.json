@@ -28,6 +28,7 @@
     "@rails/webpacker": "5.4.4",
     "@sentry/tracing": "^6.19.7",
     "@sentry/vue": "^6.19.7",
+    "@sindresorhus/slugify": "^2.2.0",
     "@tailwindcss/typography": "0.2.0",
     "activestorage": "^5.2.6",
     "axios": "^0.21.2",
