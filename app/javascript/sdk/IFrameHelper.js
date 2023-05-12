@@ -42,6 +42,7 @@ const updateAuthCookie = cookieContent =>
   Cookies.set('cw_conversation', cookieContent, {
     expires: 365,
     sameSite: 'Lax',
+    domain: '.chatwoot.com',
   });
 
 const updateCampaignReadStatus = () => {
@@ -49,6 +50,7 @@ const updateCampaignReadStatus = () => {
   Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
     sameSite: 'Lax',
+    domain: '.chatwoot.com',
   });
 };
 

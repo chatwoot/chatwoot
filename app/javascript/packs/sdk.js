@@ -93,6 +93,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       Cookies.set(userCookieName, hashToBeStored, {
         expires: 365,
         sameSite: 'Lax',
+        domain: '.chatwoot.com',
       });
     },
 
