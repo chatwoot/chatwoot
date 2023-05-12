@@ -195,6 +195,10 @@ class Conversation < ApplicationRecord
     messages.chat.last(5)
   end
 
+  def csat_survey_link
+    "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
+  end
+
   private
 
   def execute_after_update_commit_callbacks

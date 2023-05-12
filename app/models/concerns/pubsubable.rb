@@ -10,7 +10,7 @@ module Pubsubable
 
   def pubsub_token
     # backfills tokens for existing records
-    regenerate_pubsub_token if self[:pubsub_token].blank?
+    regenerate_pubsub_token if self[:pubsub_token].blank? && persisted?
     self[:pubsub_token]
   end
 end

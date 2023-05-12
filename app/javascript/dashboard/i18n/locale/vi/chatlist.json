@@ -35,6 +35,20 @@
         "TEXT": "Tất cả"
       }
     },
+    "VIEW_FILTER": "Xem",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Trạng thái",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Tạo vào lúc"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Tin nhắn hình ảnh"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "có một đường dẫn chia sẻ"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sắp bởi",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Tạo vào lúc",
+          "LABEL": "Tạo vào lúc"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Nhận được từ email",

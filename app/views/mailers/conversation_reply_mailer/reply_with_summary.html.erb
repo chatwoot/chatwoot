@@ -5,18 +5,26 @@
 <% @messages.each do |message| %>
   <tr>
     <td>
-      <b><%= message.incoming? ? 'You' : message.sender&.available_name || message.sender&.name %></b>
+      <b><%= message.incoming? ? 'You' : message.sender&.available_name || message.sender&.name || 'Bot' %></b>
     </td>
   </tr>
   <tr>
-    <td style="padding: 10px 20px; margin: 5px 0 20px 0; background: #F2F3F7; border-radius: 10px; display: inline-block; font-family: 'Helvetica Neue',Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
-      <% if message.content %>
+    <td style="padding: 0px 16px; margin: 4px 0 8px 0; background: #F5FAFF; border-radius: 5px; display: inline-block; font-family: 'Helvetica Neue',Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+      <% if (message.content_type == 'input_csat' && message.message_type == 'template') %>
+        <p>Click <a href="<%= message.conversation.csat_survey_link %>" _target="blank">here</a> to rate the conversation.</p>
+      <% elsif message.content.present? %>
         <%= CommonMarker.render_html(message.content).html_safe %>
       <% end %>
-      <% if message.attachments %>
-        <% message.attachments.each do |attachment| %>
-          Attachment [<a href="<%= attachment.file_url %>" _target="blank">Click here to view</a>]
-        <% end %>
+      <% if message.attachments.count.positive? %>
+        <p>
+          <% if message.content.present? %>
+            <hr style="border: 0; border-bottom: 1px solid #AEC3D5;"/>
+          <% end %>
+          This message contains <%= message.attachments.count > 1 ? 'attachments' : 'an attachment' %>.
+          <% message.attachments.each do |attachment| %>
+            <br />- View the attachment <a href="<%= attachment.file_url %>" _target="blank">here</a>.
+          <% end %>
+        </p>
       <% end %>
     </td>
   </tr>

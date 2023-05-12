@@ -77,7 +77,7 @@
         "AGENT_AVAILABILITY": {
           "LABEL": "Доступность",
           "PLACEHOLDER": "Пожалуйста, выберите статус доступности",
-          "ERROR": "Availability is required"
+          "ERROR": "Необходимо наличие данных"
         },
         "SUBMIT": "Редактировать оператора"
       },
@@ -111,7 +111,7 @@
         "PLACEHOLDER": {
           "AGENT": "Поиск агентов",
           "TEAM": "Поиск команд",
-          "INPUT": "Search for agents"
+          "INPUT": "Поиск агентов"
         }
       }
     }
