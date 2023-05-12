@@ -10,6 +10,23 @@ RSpec.describe Message, type: :model do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'length validations' do
+    let(:message) { create(:message) }
+
+    context 'when it validates name length' do
+      it 'valid when within limit' do
+        message.content = 'a' * 120_000
+        expect(message.valid?).to be true
+      end
+
+      it 'invalid when crossed the limit' do
+        message.content = 'a' * 150_001
+        message.valid?
+        expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+      end
+    end
+  end
+
   describe 'concerns' do
     it_behaves_like 'liqudable'
   end
