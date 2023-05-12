@@ -18,17 +18,20 @@ class ApplicationRecord < ActiveRecord::Base
 
   # Generic validation for all columns of type string and text
   # Validates the length of the column to prevent DOS via large payloads
-  # if a custom lenght validation is already present, skip the validation
+  # if a custom length validation is already present, skip the validation
   def validates_column_content_length
-    column_types = %i[string text]
     self.class.columns.each do |column|
-      next unless column_types.include?(column.type)
-
-      length_validator = self.class.validators_on(column.name).find { |v| v.kind == :length }
-      next if length_validator.present?
-
-      validate_content_length(column)
+      check_and_validate_content_length(column) if column_of_type_string_or_text?(column)
     end
+  end
+
+  def column_of_type_string_or_text?(column)
+    %i[string text].include?(column.type)
+  end
+
+  def check_and_validate_content_length(column)
+    length_validator = self.class.validators_on(column.name).find { |v| v.kind == :length }
+    validate_content_length(column) if length_validator.blank?
   end
 
   def validate_content_length(column)
