@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_10_060828) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_10_113208) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -394,7 +394,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_10_060828) do
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.string "name", default: ""
     t.string "email"
     t.string "phone_number"
     t.integer "account_id", null: false
@@ -802,6 +802,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_10_060828) do
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "sla_policies", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "frt_threshold"
+    t.float "rt_threshold"
+    t.boolean "only_during_business_hours", default: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
