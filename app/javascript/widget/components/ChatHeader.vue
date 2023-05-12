@@ -46,6 +46,7 @@
 import { mapGetters } from 'vuex';
 
 import availabilityMixin from 'widget/mixins/availability';
+import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions';
 import routerMixin from 'widget/mixins/routerMixin';
@@ -57,7 +58,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [availabilityMixin, routerMixin, darkMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -92,11 +93,6 @@ export default {
         return this.isInBetweenTheWorkingHours;
       }
       return anyAgentOnline;
-    },
-    replyWaitMessage() {
-      return this.isOnline
-        ? this.replyTimeStatus
-        : this.$t('TEAM_AVAILABILITY.OFFLINE');
     },
   },
   methods: {

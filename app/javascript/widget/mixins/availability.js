@@ -21,6 +21,17 @@ export default {
           return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
       }
     },
+    replyWaitMessage() {
+      const { workingHoursEnabled } = this.channelConfig;
+      if (workingHoursEnabled) {
+        return this.isOnline
+          ? this.replyTimeStatus
+          : `${this.$t('REPLY_TIME.BACK_IN')} ${this.timeLeftToBackInOnline}`;
+      }
+      return this.isOnline
+        ? this.replyTimeStatus
+        : this.$t('TEAM_AVAILABILITY.OFFLINE');
+    },
     outOfOfficeMessage() {
       return this.channelConfig.outOfOfficeMessage;
     },
