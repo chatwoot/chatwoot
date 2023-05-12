@@ -59,7 +59,7 @@
               controls
               class="skip-context-menu"
             >
-              <source :src="attachment.data_url" />
+              <source :src="`${attachment.data_url}?t=${Date.now()}`" />
             </audio>
             <bubble-video
               v-else-if="attachment.file_type === 'video'"
