@@ -150,7 +150,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
-    expect(wrapper.vm.presentHour()).toBe(new Date().getHours());
+    expect(wrapper.vm.presentHour).toBe(new Date().getHours());
   });
 
   it('should return presentMinute', () => {
@@ -161,7 +161,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
-    expect(wrapper.vm.presentMinute()).toBe(new Date().getMinutes());
+    expect(wrapper.vm.presentMinute).toBe(new Date().getMinutes());
   });
 
   it('should return currentDay', () => {
@@ -177,7 +177,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const currentDay = Object.keys(wrapper.vm.dayNames).find(
       key => wrapper.vm.dayNames[key] === wrapper.vm.dayNames[day]
     );
-    expect(wrapper.vm.currentDay()).toBe(Number(currentDay));
+    expect(wrapper.vm.currentDay).toBe(Number(currentDay));
   });
 
   it('should return currentDayTimings', () => {
@@ -227,12 +227,12 @@ describe('nextAvailabilityTimeMixin', () => {
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
-    const currentDay = wrapper.vm.currentDay();
+    const currentDay = wrapper.vm.currentDay;
     const nextDay = wrapper.vm.nextDayWorkingHours.day_of_week;
     const totalDays = 6;
     const expectedDayDiff =
       nextDay > currentDay
-        ? nextDay - currentDay
+        ? nextDay - currentDay - 1
         : totalDays - currentDay + nextDay;
 
     expect(wrapper.vm.dayDiff).toEqual(expectedDayDiff);
@@ -260,14 +260,14 @@ describe('nextAvailabilityTimeMixin', () => {
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
     const currentDayCloseHour =
-      chatwootWebChannel.workingHours[wrapper.vm.currentDay()].close_hour;
+      chatwootWebChannel.workingHours[wrapper.vm.currentDay].close_hour;
     const nextDayOpenHour =
       chatwootWebChannel.workingHours[
-        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay() + 1
+        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay + 1
       ].open_hour;
     const nextDayOpenMinute =
       chatwootWebChannel.workingHours[
-        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay() + 1
+        wrapper.vm.currentDay === 6 ? 0 : wrapper.vm.currentDay + 1
       ].open_minutes;
     const expectedHoursAndMinutes = wrapper.vm.getHoursAndMinutesUntilNextDayOpen(
       nextDayOpenHour,
@@ -335,7 +335,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe(' at 10:00 AM');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('at 10:00 AM');
   });
 
   it('should return at tomorrow', () => {
@@ -351,7 +351,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('tomorrow ');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('tomorrow');
   });
 
   it('should return at Saturday', () => {

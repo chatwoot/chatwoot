@@ -3,13 +3,22 @@ import {
   defaultTimeSlot,
 } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
 import { utcToZonedTime } from 'date-fns-tz';
+import { generateRelativeTime } from 'shared/helpers/DateHelper';
 
 const MINUTE_ROUNDING_FACTOR = 5;
 
 export default {
   data() {
     return {
-      dayNames: this.$t('DAY_NAMES'),
+      dayNames: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ],
       timeSlots: [...defaultTimeSlot],
       timeSlot: {},
     };
@@ -21,16 +30,36 @@ export default {
     workingHours() {
       return this.channelConfig.workingHours;
     },
+    newDateWithTimeZone() {
+      return utcToZonedTime(new Date(), this.timeZoneValue);
+    },
+    presentHour() {
+      return this.newDateWithTimeZone.getHours();
+    },
+    presentMinute() {
+      return this.newDateWithTimeZone.getMinutes();
+    },
+    currentDay() {
+      const date = this.newDateWithTimeZone;
+      const day = date.getDay();
+      const currentDay = Object.keys(this.dayNames).find(
+        key => this.dayNames[key] === this.dayNames[day]
+      );
+      return Number(currentDay);
+    },
     timeZoneValue() {
       return this.channelConfig.timezone;
     },
+    languageCode() {
+      return window.chatwootWebChannel.locale;
+    },
     currentDayWorkingHours() {
       return this.workingHours.find(
-        slot => slot.day_of_week === this.currentDay()
+        slot => slot.day_of_week === this.currentDay
       );
     },
     nextDayWorkingHours() {
-      let nextDay = this.getNextDay(this.currentDay());
+      let nextDay = this.getNextDay(this.currentDay);
       let nextWorkingHour = this.getNextWorkingHour(nextDay);
 
       // It gets the next working hour for the next day. If there is no working hour for the next day,
@@ -63,18 +92,17 @@ export default {
     },
     dayDiff() {
       // Here this is used to get the difference between current day and next working day
-      const currentDay = this.currentDay();
       const nextDay = this.nextDayWorkingHours.day_of_week;
       const totalDays = 6;
-      return nextDay > currentDay
-        ? nextDay - currentDay
-        : totalDays - currentDay + nextDay;
+      return nextDay > this.currentDay
+        ? nextDay - this.currentDay - 1
+        : totalDays - this.currentDay + nextDay;
     },
     dayNameOfNextWorkingDay() {
       return this.dayNames[this.nextDayWorkingHours.day_of_week];
     },
     hoursAndMinutesBackInOnline() {
-      if (this.presentHour() >= this.currentDayTimings.closeHour) {
+      if (this.presentHour >= this.currentDayTimings.closeHour) {
         return this.getHoursAndMinutesUntilNextDayOpen(
           this.nextDayWorkingHours.open_all_day
             ? 0
@@ -90,24 +118,21 @@ export default {
       );
     },
     exactTimeInAmPm() {
-      return `${this.timeSlot.day !== this.currentDay() ? 'tomorrow' : ''} ${
-        this.timeSlot.day !== this.currentDay()
-          ? ''
-          : `at ${this.timeSlot.from}`
+      return `${
+        this.timeSlot.day === this.currentDay ? `at ${this.timeSlot.from}` : ''
       }`;
     },
     hoursAndMinutesLeft() {
       const { hoursLeft, minutesLeft } = this.hoursAndMinutesBackInOnline;
 
       const timeLeftChars = [];
-      const languageCode = window.chatwootWebChannel.locale;
 
       if (hoursLeft > 0) {
         const roundedUpHoursLeft = minutesLeft > 0 ? hoursLeft + 1 : hoursLeft;
-        const hourRelative = this.generateRelativeTime(
+        const hourRelative = generateRelativeTime(
           roundedUpHoursLeft,
           'hour',
-          languageCode
+          this.languageCode
         );
         timeLeftChars.push(`${hourRelative}`);
       }
@@ -116,10 +141,10 @@ export default {
         const roundedUpMinLeft =
           Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
           MINUTE_ROUNDING_FACTOR;
-        const minRelative = this.generateRelativeTime(
+        const minRelative = generateRelativeTime(
           roundedUpMinLeft,
           'minutes',
-          languageCode
+          this.languageCode
         );
         timeLeftChars.push(`${minRelative}`);
       }
@@ -128,7 +153,7 @@ export default {
     },
     hoursAndMinutesToBack() {
       const { hoursLeft, minutesLeft } = this.hoursAndMinutesBackInOnline;
-      if (hoursLeft > 3) {
+      if (hoursLeft >= 3) {
         return this.exactTimeInAmPm;
       }
       if (hoursLeft > 0 || minutesLeft > 0) {
@@ -138,13 +163,21 @@ export default {
     },
     timeLeftToBackInOnline() {
       if (
-        this.dayDiff > 1 &&
-        this.presentHour() >= this.currentDayTimings.closeHour
+        this.hoursAndMinutesBackInOnline.hoursLeft >= 24 ||
+        (this.timeSlot.day !== this.currentDay && this.dayDiff === 0)
+      ) {
+        const hourRelative = generateRelativeTime(
+          this.dayDiff + 1,
+          'days',
+          this.languageCode
+        );
+        return `${hourRelative}`;
+      }
+      if (
+        this.dayDiff >= 1 &&
+        this.presentHour >= this.currentDayTimings.closeHour
       ) {
         return `on ${this.dayNameOfNextWorkingDay}`;
-      }
-      if (this.hoursAndMinutesBackInOnline.hoursLeft >= 24) {
-        return `tomorrow`;
       }
       return this.hoursAndMinutesToBack;
     },
@@ -153,26 +186,6 @@ export default {
     this.setTimeSlot();
   },
   methods: {
-    newDateWithTimeZone() {
-      const date = new Date();
-      const timeZone = this.timeZoneValue;
-      const zonedDate = utcToZonedTime(date, timeZone);
-      return zonedDate;
-    },
-    presentHour() {
-      return this.newDateWithTimeZone().getHours();
-    },
-    presentMinute() {
-      return this.newDateWithTimeZone().getMinutes();
-    },
-    currentDay() {
-      const date = this.newDateWithTimeZone();
-      const day = date.getDay();
-      const currentDay = Object.keys(this.dayNames).find(
-        key => this.dayNames[key] === this.dayNames[day]
-      );
-      return Number(currentDay);
-    },
     getNextDay(day) {
       // This code calculates the next day of the week based on the current day. If the current day is Saturday (6), then the next day will be Sunday (0).
       return (day + 1) % 7;
@@ -185,12 +198,6 @@ export default {
         return workingHour;
       }
       return null;
-    },
-    generateRelativeTime(value, unit, languageCode) {
-      const rtf = new Intl.RelativeTimeFormat(languageCode, {
-        numeric: 'auto',
-      });
-      return rtf.format(value, unit);
     },
     getHoursAndMinutesUntilNextDayOpen(
       openHour, // If the present time is after the closing time of the current day, then the openHour will be the opening hour of the next day else it will be the opening hour of the current day.
@@ -205,7 +212,7 @@ export default {
       let diffMinutes =
         openHour * 60 +
         openMinutes -
-        (this.presentHour() * 60 + this.presentMinute());
+        (this.presentHour * 60 + this.presentMinute);
       diffMinutes = diffMinutes < 0 ? diffMinutes + 24 * 60 : diffMinutes;
       const [hoursLeft, minutesLeft] = [
         Math.floor(diffMinutes / 60),
@@ -224,7 +231,7 @@ export default {
       // then the next day's working hours will be used to calculate the time remaining until the next day's opening hours,
       // else the current day's working hours will be used
       const currentSlot =
-        this.presentHour() >= this.currentDayTimings.closeHour
+        this.presentHour >= this.currentDayTimings.closeHour
           ? this.nextDayWorkingHours
           : this.currentDayWorkingHours;
 
