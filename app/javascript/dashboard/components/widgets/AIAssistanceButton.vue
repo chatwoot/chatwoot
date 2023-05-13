@@ -74,6 +74,7 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 import alertMixin from 'shared/mixins/alertMixin';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   mixins: [alertMixin, clickaway],
@@ -159,6 +160,10 @@ export default {
         } = result;
         this.$emit('replace-text', generatedMessage || this.message);
         this.closeDropdown();
+        this.$track(CONVERSATION_EVENTS.USED_OPEN_AI, {
+          type,
+          tone: this.activeTone,
+        });
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
       } finally {

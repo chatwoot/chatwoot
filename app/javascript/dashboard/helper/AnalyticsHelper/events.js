@@ -8,6 +8,7 @@ export const CONVERSATION_EVENTS = Object.freeze({
   SEARCH_CONVERSATION: 'Searched conversations',
   APPLY_FILTER: 'Applied filters in the conversation list',
   CHANGE_PRIORITY: 'Assigned priority to a conversation',
+  USED_OPEN_AI: 'Used OpenAI',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
