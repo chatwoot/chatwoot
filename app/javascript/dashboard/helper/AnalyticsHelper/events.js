@@ -8,7 +8,6 @@ export const CONVERSATION_EVENTS = Object.freeze({
   SEARCH_CONVERSATION: 'Searched conversations',
   APPLY_FILTER: 'Applied filters in the conversation list',
   CHANGE_PRIORITY: 'Assigned priority to a conversation',
-  USED_OPEN_AI: 'Used OpenAI',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
@@ -76,4 +75,10 @@ export const PORTALS_EVENTS = Object.freeze({
   ARCHIVE_ARTICLE: 'Archived an article',
   DELETE_ARTICLE: 'Deleted an article',
   PREVIEW_ARTICLE: 'Previewed article',
+});
+
+export const OPEN_AI_EVENTS = Object.freeze({
+  SUMMARIZE: 'OpenAI: Used summarize',
+  REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
+  REPHRASE: 'OpenAI: Used rephrase',
 });
