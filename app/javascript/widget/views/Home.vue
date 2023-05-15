@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     startConversation() {
+      this.$store.dispatch('conversation/createConversation', {});
       if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
