@@ -52,22 +52,7 @@ export default {
       return this.rows.filter(el => el.tag === 'h2').length;
     },
   },
-  mounted() {
-    window.addEventListener('scroll', this.onScroll, { passive: true });
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll, { passive: true });
-  },
   methods: {
-    onScroll() {
-      this.activeSection = [...this.rows].reverse().find(row => {
-        const section = document.getElementById(row.slug);
-        console.log(section.getBoundingClientRect().top);
-        let style = window.getComputedStyle(el)
-        let scrollMt = parseFloat(style.scrollMarginTop)
-        return section && section.getBoundingClientRect().top > window.scrollY;
-      });
-    },
     getClassName(el) {
       if (el.tag === 'h1') {
         return '';
