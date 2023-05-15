@@ -74,8 +74,8 @@ describe  ::Messages::Instagram::MessageBuilder do
 
       instagram_inbox.reload
 
-      message = instagram_inbox.messages.last
-      expect(message.content).to eq('This is the first standby message from the customer, after 24 hours.')
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
     end
 
     it 'creates message with for reply with story id' do

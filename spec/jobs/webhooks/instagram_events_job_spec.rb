@@ -59,6 +59,9 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
+
+        message = instagram_inbox.messages.last
+        expect(message.content).to eq('This is the first standby message from the customer, after 24 hours.')
       end
 
       it 'creates test text message in the instagram inbox' do
