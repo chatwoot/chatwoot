@@ -56,7 +56,7 @@ class Attachment < ApplicationRecord
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
-    ActiveStorage::Current.host = Rails.application.routes.default_url_options[:host] if ActiveStorage::Current.host.blank?
+    ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
     file.attached? ? file.blob.url : ''
   end
 
