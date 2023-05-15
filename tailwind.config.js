@@ -97,11 +97,6 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {
-      visibility: ['group-hover'],
-    },
-  },
   plugins: [
     // eslint-disable-next-line
     require('@tailwindcss/typography'),
