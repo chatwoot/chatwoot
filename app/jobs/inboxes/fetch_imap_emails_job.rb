@@ -9,7 +9,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     process_email_for_channel(channel)
   rescue *ExceptionList::IMAP_EXCEPTIONS
     channel.authorization_error!
-  rescue EOFError => e
+  rescue EOFError, OpenSSL::SSL::SSLError => e
     Rails.logger.error e
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
@@ -87,8 +87,12 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def last_email_time(channel)
-    time = 1.hour.ago.to_s
-    time = channel.inbox.messages.incoming.last.content_attributes['email']['date'] if channel.inbox.messages.any?
+    if channel.inbox.messages.any?
+      time = channel.inbox.messages.incoming.last.content_attributes['email']['date']
+      time ||= channel.inbox.messages.incoming.last.created_at.to_s
+    end
+    time ||= 1.hour.ago.to_s
+
     DateTime.parse(time)
   end
 
