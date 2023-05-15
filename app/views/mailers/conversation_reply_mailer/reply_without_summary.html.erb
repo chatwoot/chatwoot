@@ -1,7 +1,7 @@
 <% @messages.each do |message| %>
   <p style="font-family: Roboto,"Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
     <% if message.content %>
-      <%= Commonmarker.to_html(message_content, options:{
+      <%= Commonmarker.to_html(message.content, options:{
         parse: { smart: true },
         extension: { strikethrough: true, autolink: true, superscript: true },
         render: { hardbreaks: false}
