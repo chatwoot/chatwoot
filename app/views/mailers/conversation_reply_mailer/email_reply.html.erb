@@ -1,5 +1,9 @@
 <% if @message.content %>
-  <%= CommonMarker.render_html(@message.content).html_safe %>
+  <%= Commonmarker.to_html(message_content, options:{
+    parse: { smart: true },
+    extension: { strikethrough: true, autolink: true, superscript: true },
+    render: { hardbreaks: false}
+  }).html_safe %>
 <% end %>
 <% if @message.attachments %>
   <% @message.attachments.each do |attachment| %>

@@ -158,7 +158,9 @@ GEM
     byebug (11.1.3)
     climate_control (1.2.0)
     coderay (1.1.3)
-    commonmarker (0.23.9)
+    commonmarker (1.0.0.pre9-arm64-darwin)
+    commonmarker (1.0.0.pre9-x86_64-darwin)
+    commonmarker (1.0.0.pre9-x86_64-linux)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.0)
     crack (0.4.5)
@@ -810,7 +812,7 @@ DEPENDENCIES
   bundle-audit
   byebug
   climate_control
-  commonmarker
+  commonmarker (~> 1.0.0.pre9)
   csv-safe
   cypress-on-rails
   database_cleaner

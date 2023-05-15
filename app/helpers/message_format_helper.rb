@@ -8,7 +8,11 @@ module MessageFormatHelper
 
   def render_message_content(message_content)
     # rubocop:disable Rails/OutputSafety
-    CommonMarker.render_html(message_content).html_safe
+    Commonmarker.to_html(message_content, options: {
+                           parse: { smart: true },
+                           extension: { strikethrough: true, autolink: true, superscript: true },
+                           render: { hardbreaks: false }
+                         }).html_safe
     # rubocop:enable Rails/OutputSafety
   end
 end
