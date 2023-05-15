@@ -8,7 +8,7 @@
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
-#  name                  :string
+#  name                  :string           default("")
 #  phone_number          :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -36,7 +36,6 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
-  validates :name, length: { maximum: 255 }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
