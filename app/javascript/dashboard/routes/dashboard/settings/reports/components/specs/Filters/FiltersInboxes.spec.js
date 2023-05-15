@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import ReportsFiltersInboxes from '../Filters/Inboxes';
+import ReportsFiltersInboxes from '../../Filters/Inboxes';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

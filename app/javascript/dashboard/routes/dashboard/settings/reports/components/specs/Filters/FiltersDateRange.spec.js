@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import ReportFiltersDateRange from '../Filters/DateRange';
-import { DATE_RANGE_OPTIONS } from '../../constants';
+import ReportFiltersDateRange from '../../Filters/DateRange';
+import { DATE_RANGE_OPTIONS } from '../../../constants';
 
 const mountParams = {
   mocks: {
