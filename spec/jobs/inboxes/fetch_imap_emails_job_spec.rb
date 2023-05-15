@@ -16,6 +16,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
   let(:ms_email_inbox) { create(:inbox, channel: microsoft_imap_email_channel, account: account) }
   let!(:conversation) { create(:conversation, inbox: imap_email_channel.inbox, account: account) }
   let(:inbound_mail) { create_inbound_email_from_mail(from: 'testemail@gmail.com', to: 'imap@outlook.com', subject: 'Hello!') }
+  let(:inbound_mail_with_no_date) { create_inbound_email_from_fixture('mail_with_no_date.eml') }
   let(:inbound_mail_with_attachments) { create_inbound_email_from_fixture('multiple_attachments.eml') }
 
   it 'enqueues the job' do
@@ -50,6 +51,35 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
 
       allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
       expect(imap_mailbox).to receive(:process).with(read_mail, imap_email_channel).once
+
+      described_class.perform_now(imap_email_channel)
+    end
+
+    it 'process the email with no date' do
+      email = Mail.new do
+        to 'test@outlook.com'
+        from 'test@gmail.com'
+        subject :test.to_s
+        body 'hello'
+      end
+
+      imap_fetch_mail = Net::IMAP::FetchData.new
+      imap_fetch_mail.attr = { seqno: 1, RFC822: email }.with_indifferent_access
+
+      imap = double
+
+      allow(Net::IMAP).to receive(:new).and_return(imap)
+      allow(imap).to receive(:authenticate)
+      allow(imap).to receive(:select)
+      allow(imap).to receive(:search).and_return([1])
+      allow(imap).to receive(:fetch).and_return([imap_fetch_mail])
+
+      allow(Mail).to receive(:read_from_string).and_return(inbound_mail_with_no_date.mail)
+
+      imap_mailbox = double
+
+      allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
+      expect(imap_mailbox).to receive(:process).with(inbound_mail_with_no_date.mail, imap_email_channel).once
 
       described_class.perform_now(imap_email_channel)
     end
