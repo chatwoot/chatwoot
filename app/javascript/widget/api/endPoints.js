@@ -57,9 +57,9 @@ const sendAttachment = ({ attachment }) => {
   };
 };
 
-const getConversation = ({ before }) => ({
+const getConversation = ({ before, after }) => ({
   url: `/api/v1/widget/messages${window.location.search}`,
-  params: { before },
+  params: { before, after },
 });
 
 const updateMessage = id => ({
