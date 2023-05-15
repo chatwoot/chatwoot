@@ -13,7 +13,7 @@
       <% if (message.content_type == 'input_csat' && message.message_type == 'template') %>
         <p>Click <a href="<%= message.conversation.csat_survey_link %>" _target="blank">here</a> to rate the conversation.</p>
       <% elsif message.content.present? %>
-        <%= Commonmarker.to_html(message_content, options:{
+        <%= Commonmarker.to_html(message.content, options:{
           parse: { smart: true },
           extension: { strikethrough: true, autolink: true, superscript: true },
           render: { hardbreaks: false}
