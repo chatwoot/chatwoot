@@ -1,5 +1,5 @@
 <% if @message.content %>
-  <%= Commonmarker.to_html(message.content, options:{
+  <%= Commonmarker.to_html(@message.content, options:{
     parse: { smart: true },
     extension: { strikethrough: true, autolink: true, superscript: true },
     render: { hardbreaks: false}
