@@ -46,7 +46,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def email_already_present?(channel, inbound_mail, last_email_time)
-    processed_email?(inbound_mail, last_email_time) || channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+    channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present? || processed_email?(inbound_mail, last_email_time)
   end
 
   def received_mails(imap_inbox)
@@ -54,7 +54,9 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def processed_email?(current_email, last_email_time)
-    current_email.date < last_email_time
+    return current_email.date < last_email_time if current_email.date < last_email_time
+
+    false
   end
 
   def fetch_mail_for_ms_provider(channel)
@@ -87,8 +89,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def last_email_time(channel)
-    time = 1.hour.ago.to_s
-    time = channel.inbox.messages.incoming.last.content_attributes['email']['date'] if channel.inbox.messages.any?
+    time = channel.inbox.messages.incoming.last.created_at.to_s if channel.inbox.messages.any?
     DateTime.parse(time)
   end
 
