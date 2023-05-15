@@ -9,6 +9,7 @@ import es from './locale/es';
 import fa from './locale/fa';
 import fi from './locale/fi';
 import fr from './locale/fr';
+import he from './locale/he';
 import hi from './locale/hi';
 import hu from './locale/hu';
 import id from './locale/id';
@@ -47,6 +48,7 @@ export default {
   fa,
   fi,
   fr,
+  he,
   hi,
   hu,
   id,
