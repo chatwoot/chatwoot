@@ -54,7 +54,9 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def processed_email?(current_email, last_email_time)
-    current_email.date < last_email_time
+    return current_email.date < last_email_time if current_email.date.present?
+
+    false
   end
 
   def fetch_mail_for_ms_provider(channel)
