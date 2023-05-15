@@ -2,6 +2,7 @@
   <div class="multiselect-wrap--small">
     <multiselect
       v-model="selectedOption"
+      class="no-margin"
       :placeholder="$t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL')"
       label="name"
       track-by="id"

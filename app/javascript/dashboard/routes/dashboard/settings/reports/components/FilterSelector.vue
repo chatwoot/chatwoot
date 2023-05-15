@@ -4,6 +4,7 @@
     <woot-date-range-picker
       v-if="isDateRangeSelected"
       show-range
+      class="no-margin auto-width"
       :value="customDateRange"
       :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
@@ -230,8 +231,8 @@ export default {
 <style scoped>
 .filter-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
-  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: var(--space-slab);
 
   margin-bottom: var(--space-normal);
 }
