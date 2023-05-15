@@ -89,9 +89,11 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def last_email_time(channel)
-    if channel.inbox.messages.any?
-      time = channel.inbox.messages.incoming.last.content_attributes['email']['date']
-      time ||= channel.inbox.messages.incoming.last.created_at.to_s
+    # we are only checking for emails in last 2 day
+    last_email_incoming_message = channel.inbox.messages.incoming.where('messages.created_at >= ?', 2.days.ago).last
+    if last_email_incoming_message.present?
+      time = last_email_incoming_message.content_attributes['email']['date']
+      time ||= last_email_incoming_message.created_at.to_s
     end
     time ||= 1.hour.ago.to_s
 
