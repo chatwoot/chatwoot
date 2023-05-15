@@ -1,7 +1,7 @@
 <template>
   <div class="hidden lg:block flex-1 scroll-mt-24 pl-4">
-    <div v-if="rows.length > 0" class="sticky top-24 py-12">
-      <nav aria-labelledby="on-this-page-title" class="max-w-2xl">
+    <div v-if="rows.length > 0" class="sticky top-24 py-12 overflow-auto">
+      <nav class="max-w-2xl">
         <h2
           id="on-this-page-title"
           class="text-slate-800 font-semibold tracking-wide border-b mb-3 leading-7"
@@ -9,17 +9,12 @@
           {{ tocHeader }}
         </h2>
         <ol role="list" class="mt-4 space-y-3 text-base">
-          <li
-            v-for="(element, index) in rows"
-            :key="element.slug"
-            class="leading-6"
-          >
+          <li v-for="element in rows" :key="element.slug" class="leading-6">
             <p :class="getClassName(element)">
               <a
                 :href="`#${element.slug}`"
                 data-turbolinks="false"
                 class="text-base text-slate-800 cursor-pointer"
-                :class="activeSection === index ? 'text-woot-500' : ''"
               >
                 {{ element.title }}
               </a>
@@ -37,9 +32,6 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  data() {
-    return { activeSection: -1 };
   },
   computed: {
     tocHeader() {
