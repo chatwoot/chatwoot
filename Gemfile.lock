@@ -303,6 +303,7 @@ GEM
     google-cloud-translate-v3 (0.6.0)
       gapic-common (>= 0.17.1, < 2.a)
       google-cloud-errors (~> 1.0)
+    google-protobuf (3.22.3)
     google-protobuf (3.22.3-arm64-darwin)
     google-protobuf (3.22.3-x86_64-darwin)
     google-protobuf (3.22.3-x86_64-linux)
@@ -398,6 +399,8 @@ GEM
       launchy (>= 2.2, < 3)
     libdatadog (2.0.0.1.0)
     libdatadog (2.0.0.1.0-x86_64-linux)
+    libddwaf (1.8.2.0.0)
+      ffi (~> 1.0)
     libddwaf (1.8.2.0.0-arm64-darwin)
       ffi (~> 1.0)
     libddwaf (1.8.2.0.0-x86_64-darwin)
@@ -434,6 +437,7 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.2)
     minitest (5.18.0)
     mock_redis (0.36.0)
       ruby2_keywords
@@ -458,6 +462,9 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.5.9)
+    nokogiri (1.14.3)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
     nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.14.3-x86_64-darwin)
@@ -636,6 +643,11 @@ GEM
       sexp_processor (~> 4.6)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
+    sass (3.7.4)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -646,6 +658,8 @@ GEM
       tilt
     scout_apm (5.3.3)
       parser
+    scss_lint (0.60.0)
+      sass (~> 3.5, >= 3.5.5)
     seed_dump (3.3.1)
       activerecord (>= 4)
       activesupport (>= 4)
@@ -772,6 +786,7 @@ PLATFORMS
   arm64-darwin-20
   arm64-darwin-22
   arm64-darwin-21
+  ruby
   x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
@@ -867,6 +882,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   scout_apm
+  scss_lint
   seed_dump
   sentry-rails
   sentry-ruby

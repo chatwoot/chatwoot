@@ -37,3 +37,10 @@ export const getUnixStartOfDay = date => getUnixTime(startOfDay(date));
 
 /** Get end of day as a UNIX timestamp */
 export const getUnixEndOfDay = date => getUnixTime(endOfDay(date));
+
+export const generateRelativeTime = (value, unit, languageCode) => {
+  const rtf = new Intl.RelativeTimeFormat(languageCode, {
+    numeric: 'auto',
+  });
+  return rtf.format(value, unit);
+};

@@ -33,21 +33,28 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   def fetch_mail_for_channel(channel)
-    # TODO: rather than setting this as default method for all mail objects, lets if can do new mail object
-    # using Mail.retriever_method.new(params)
-    Mail.defaults do
-      retriever_method :imap, address: channel.imap_address,
-                              port: channel.imap_port,
-                              user_name: channel.imap_login,
-                              password: channel.imap_password,
-                              enable_ssl: channel.imap_enable_ssl
-    end
+    imap_inbox = authenticated_imap_inbox(channel, channel.imap_password, 'PLAIN')
+    last_email_time = DateTime.parse(Net::IMAP.format_datetime(last_email_time(channel)))
 
-    Mail.find(what: :last, count: 10, order: :asc).each do |inbound_mail|
-      next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+    received_mails(imap_inbox).each do |message_id|
+      inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
+
+      next if email_already_present?(channel, inbound_mail, last_email_time)
 
       process_mail(inbound_mail, channel)
     end
+  end
+
+  def email_already_present?(channel, inbound_mail, last_email_time)
+    processed_email?(inbound_mail, last_email_time) || channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+  end
+
+  def received_mails(imap_inbox)
+    imap_inbox.search(['BEFORE', tomorrow, 'SINCE', yesterday])
+  end
+
+  def processed_email?(current_email, last_email_time)
+    current_email.date < last_email_time
   end
 
   def fetch_mail_for_ms_provider(channel)
@@ -57,14 +64,14 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
     return unless access_token
 
-    imap = imap_authenticate(channel, access_token)
+    imap_inbox = authenticated_imap_inbox(channel, access_token, 'XOAUTH2')
 
-    process_mails(imap, channel)
+    process_mails(imap_inbox, channel)
   end
 
-  def process_mails(imap, channel)
-    imap.search(['BEFORE', tomorrow, 'SINCE', yesterday]).each do |message_id|
-      inbound_mail = Mail.read_from_string imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
+  def process_mails(imap_inbox, channel)
+    received_mails(imap_inbox).each do |message_id|
+      inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
@@ -72,11 +79,17 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     end
   end
 
-  def imap_authenticate(channel, access_token)
+  def authenticated_imap_inbox(channel, access_token, auth_method)
     imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
-    imap.authenticate('XOAUTH2', channel.imap_login, access_token)
+    imap.authenticate(auth_method, channel.imap_login, access_token)
     imap.select('INBOX')
     imap
+  end
+
+  def last_email_time(channel)
+    time = 1.hour.ago.to_s
+    time = channel.inbox.messages.incoming.last.content_attributes['email']['date'] if channel.inbox.messages.any?
+    DateTime.parse(time)
   end
 
   def yesterday

@@ -16,6 +16,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
   let(:ms_email_inbox) { create(:inbox, channel: microsoft_imap_email_channel, account: account) }
   let!(:conversation) { create(:conversation, inbox: imap_email_channel.inbox, account: account) }
   let(:inbound_mail) { create_inbound_email_from_mail(from: 'testemail@gmail.com', to: 'imap@outlook.com', subject: 'Hello!') }
+  let(:inbound_mail_with_attachments) { create_inbound_email_from_fixture('multiple_attachments.eml') }
 
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
@@ -31,12 +32,59 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
         body 'hello'
       end
 
-      allow(Mail).to receive(:find).and_return([email])
+      imap_fetch_mail = Net::IMAP::FetchData.new
+      imap_fetch_mail.attr = { seqno: 1, RFC822: email }.with_indifferent_access
+
+      imap = double
+
+      allow(Net::IMAP).to receive(:new).and_return(imap)
+      allow(imap).to receive(:authenticate)
+      allow(imap).to receive(:select)
+      allow(imap).to receive(:search).and_return([1])
+      allow(imap).to receive(:fetch).and_return([imap_fetch_mail])
+
+      read_mail = Mail::Message.new(date: DateTime.now, from: 'testemail@gmail.com', to: 'imap@outlook.com', subject: 'Hello!')
+      allow(Mail).to receive(:read_from_string).and_return(inbound_mail.mail)
+
       imap_mailbox = double
+
       allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
-      expect(imap_mailbox).to receive(:process).with(email, imap_email_channel).once
+      expect(imap_mailbox).to receive(:process).with(read_mail, imap_email_channel).once
 
       described_class.perform_now(imap_email_channel)
+    end
+  end
+
+  context 'when imap fetch new emails with more than 15 attachments' do
+    it 'process the email' do
+      email = Mail.new do
+        to 'test@outlook.com'
+        from 'test@gmail.com'
+        subject :test.to_s
+        body 'hello'
+      end
+
+      imap_fetch_mail = Net::IMAP::FetchData.new
+      imap_fetch_mail.attr = { seqno: 1, RFC822: email }.with_indifferent_access
+
+      imap = double
+
+      allow(Net::IMAP).to receive(:new).and_return(imap)
+      allow(imap).to receive(:authenticate)
+      allow(imap).to receive(:select)
+      allow(imap).to receive(:search).and_return([1])
+      allow(imap).to receive(:fetch).and_return([imap_fetch_mail])
+
+      inbound_mail_with_attachments.mail.date = DateTime.now
+
+      allow(Mail).to receive(:read_from_string).and_return(inbound_mail_with_attachments.mail)
+
+      imap_mailbox = Imap::ImapMailbox.new
+
+      allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
+
+      described_class.perform_now(imap_email_channel)
+      expect(Message.last.attachments.count).to eq(15)
     end
   end
 
