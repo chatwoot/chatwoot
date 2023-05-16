@@ -122,6 +122,7 @@
         "LABEL": "Telefona numurs",
         "HELP": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555",
         "ERROR": "Tālruņa numuram ir jābūt tukšam, vai E.164 formātā",
+        "DIAL_CODE_ERROR": "Lūdzu, izvēlieties sastādīšanas kodu no saraksta",
         "DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai."
       },
       "LOCATION": {
@@ -133,15 +134,15 @@
         "LABEL": "Uzņēmuma Nosaukums"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Ievadiet valsts nosaukumu",
         "LABEL": "Valsts Nosaukums",
         "SELECT_PLACEHOLDER": "Izvēlieties",
         "REMOVE": "Noņemt",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Izvēlies valsti"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Ievadiet pilsētas nosaukumu",
+        "LABEL": "Pilsētas nosaukums"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -182,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Iesūtne",
+        "PLACEHOLDER": "Izvēlieties avota iesūtni",
         "ERROR": "Izvēlieties iesūtni"
       },
       "SUBJECT": {

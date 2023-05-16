@@ -55,17 +55,17 @@
       "ENTER_TO_SELECT": "按下 enter 以選擇",
       "ENTER_TO_REMOVE": "按下 enter 以移除",
       "SELECT_ONE": "選擇其中一項",
-      "SELECT": "Select"
+      "SELECT": "選擇"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "通知",
     "MARK_ALL_DONE": "全部標記完成",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "刪除",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "TITLE": "未讀通知",
+      "ALL_NOTIFICATIONS": "查看所有通知",
+      "LOADING_UNREAD_MESSAGE": "正在讀取未讀通知",
       "EMPTY_MESSAGE": "You have no unread notifications"
     },
     "LIST": {
@@ -101,6 +101,7 @@
       "REPORTS": "報表",
       "CONVERSATION": "對話",
       "CHANGE_ASSIGNEE": "Change Assignee",
+      "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
       "REMOVE_LABEL": "Remove label from the conversation",
@@ -125,13 +126,14 @@
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
       "GO_TO_NOTIFICATIONS": "Go to Notifications",
       "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
+      "ASSIGN_AN_AGENT": "指派客服",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "指派團隊",
+      "MUTE_CONVERSATION": "將對話靜音",
+      "UNMUTE_CONVERSATION": "將對話解除靜音",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
+      "REOPEN_CONVERSATION": "重新開啟對話",
+      "RESOLVE_CONVERSATION": "解決對話",
       "SEND_TRANSCRIPT": "Send an email transcript",
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "UNTIL_NEXT_REPLY": "Until next reply",

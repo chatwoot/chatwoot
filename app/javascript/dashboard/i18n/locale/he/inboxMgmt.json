@@ -463,9 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
       "HMAC_VERIFICATION": "אימות זהות משתמש",
-      "HMAC_DESCRIPTION": "על מנת לאמת את זהות המשתמש, אתה יכול להעביר `מזהה_hash` עבור כל משתמש. אתה יכול ליצור hash HMAC sha256 באמצעות `מזהה` עם המפתח המוצג כאן.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "אכיפת אימות זהות משתמש",
-      "HMAC_MANDATORY_DESCRIPTION": "אם מופעל, בקשות חסרות 'מזהה_hash' יידחו.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "מזהה תיבת דואר נכנס",
       "INBOX_IDENTIFIER_SUB_TEXT": "השתמש ב-'inbox_identifier' המוצג כאן כדי לאמת את לקוחות ה-API שלך.",
       "FORWARD_EMAIL_TITLE": "העבר לדואר אלקטרוני",
@@ -478,7 +479,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "עדכון מפתח API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "הזן את מפתח ה-API החדש כאן",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "עדכן",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "עדכון הגדרות טופס טרום צ'אט"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "מגבלת הקצאה אוטומטית",

@@ -40,6 +40,19 @@ describe('#mutations', () => {
   describe('#ASSIGN_TEAM', () => {
     it('clears current chat window', () => {
       const state = { allConversations: [{ id: 1, meta: {} }] };
+      mutations[types.UPDATE_CONVERSATION_LAST_ACTIVITY](state, {
+        lastActivityAt: 1602256198,
+        conversationId: 1,
+      });
+
+      expect(state.allConversations).toEqual([
+        { id: 1, meta: {}, last_activity_at: 1602256198 },
+      ]);
+    });
+  });
+  describe('#UPDATE_CONVERSATION_LAST_ACTIVITY', () => {
+    it('update conversation last activity', () => {
+      const state = { allConversations: [{ id: 1, meta: {} }] };
       mutations[types.ASSIGN_TEAM](state, {
         team: { id: 1, name: 'Team 1' },
         conversationId: 1,
@@ -47,6 +60,16 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual([
         { id: 1, meta: { team: { id: 1, name: 'Team 1' } } },
       ]);
+    });
+  });
+
+  describe('#CHANGE_CHAT_SORT_FILTER', () => {
+    it('update conversation sort filter', () => {
+      const state = { chatSortFilter: 'latest' };
+      mutations[types.CHANGE_CHAT_SORT_FILTER](state, {
+        data: 'sort_on_created_at',
+      });
+      expect(state.chatSortFilter).toEqual({ data: 'sort_on_created_at' });
     });
   });
 

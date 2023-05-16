@@ -404,6 +404,33 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
     });
   });
+
+  describe('#updateConversationLastActivity', () => {
+    it('sends correct action', async () => {
+      await actions.updateConversationLastActivity(
+        { commit },
+        { conversationId: 1, lastActivityAt: 12121212 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          'UPDATE_CONVERSATION_LAST_ACTIVITY',
+          { conversationId: 1, lastActivityAt: 12121212 },
+        ],
+      ]);
+    });
+  });
+
+  describe('#setChatSortFilter', () => {
+    it('sends correct action', async () => {
+      await actions.setChatSortFilter(
+        { commit },
+        { data: 'sort_on_created_at' }
+      );
+      expect(commit.mock.calls).toEqual([
+        ['CHANGE_CHAT_SORT_FILTER', { data: 'sort_on_created_at' }],
+      ]);
+    });
+  });
 });
 
 describe('#deleteMessage', () => {
@@ -463,6 +490,68 @@ describe('#addMentions', () => {
     );
     expect(dispatch.mock.calls).toEqual([
       ['updateConversation', { id: 1, meta: { sender: { id: 1 } } }],
+    ]);
+  });
+
+  it('#syncActiveConversationMessages', async () => {
+    const conversations = [
+      {
+        id: 1,
+        messages: [
+          {
+            id: 1,
+            content: 'Hello',
+          },
+        ],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      },
+    ];
+    axios.get.mockResolvedValue({
+      data: {
+        payload: [{ id: 2, content: 'Welcome' }],
+        meta: {
+          agent_last_seen_at: '2023-04-20T05:22:42.990Z',
+        },
+      },
+    });
+    await actions.syncActiveConversationMessages(
+      {
+        commit,
+        dispatch,
+        state: {
+          allConversations: conversations,
+          syncConversationsMessages: {
+            1: 1,
+          },
+        },
+      },
+      { conversationId: 1 }
+    );
+    expect(commit.mock.calls).toEqual([
+      [
+        'conversationMetadata/SET_CONVERSATION_METADATA',
+        {
+          id: 1,
+          data: {
+            agent_last_seen_at: '2023-04-20T05:22:42.990Z',
+          },
+        },
+      ],
+      [
+        'SET_MISSING_MESSAGES',
+        {
+          id: 1,
+          data: [
+            { id: 1, content: 'Hello' },
+            { id: 2, content: 'Welcome' },
+          ],
+        },
+      ],
+      [
+        'SET_LAST_MESSAGE_ID_FOR_SYNC_CONVERSATION',
+        { conversationId: 1, messageId: null },
+      ],
     ]);
   });
 });

@@ -34,7 +34,7 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
-  validates :name, length: { maximum: 255 }
+  validates :domain, length: { maximum: 100 }
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -149,4 +149,5 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
+Account.include_mod_with('EnterpriseAccountConcern')
 Account.include_mod_with('Audit::Account')

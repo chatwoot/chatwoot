@@ -122,6 +122,7 @@
         "LABEL": "Número de Telefone",
         "HELP": "O número de telefone deve ser do formato E.164, por exemplo: +1415555555 [+][código do país][código de área][número de telefone local]",
         "ERROR": "O número de telefone deve estar vazio ou no formato E.164",
+        "DIAL_CODE_ERROR": "Por favor, selecione um código de discagem da lista",
         "DUPLICATE": "Este número de telefone está em uso para outro contato."
       },
       "LOCATION": {
@@ -182,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Caixa de Entrada",
+        "PLACEHOLDER": "Escolher a caixa de entrada de origem",
         "ERROR": "Selecione uma caixa de entrada"
       },
       "SUBJECT": {
