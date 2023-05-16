@@ -19,6 +19,22 @@ export const CONVERSATION_STATUS = {
   PENDING: 'pending',
   SNOOZED: 'snoozed',
 };
+
+export const CONVERSATION_PRIORITY = {
+  URGENT: 'urgent',
+  HIGH: 'high',
+  LOW: 'low',
+  MEDIUM: 'medium',
+};
+
+export const CONVERSATION_PRIORITY_ORDER = {
+  urgent: 1,
+  high: 2,
+  medium: 3,
+  low: 4,
+  null: 5,
+};
+
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
 export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
@@ -76,6 +92,7 @@ export const CSAT_RATINGS = [
 export const AUDIO_FORMATS = {
   WEBM: 'audio/webm',
   OGG: 'audio/ogg',
+  WAV: 'audio/wav',
 };
 
 export const MESSAGE_VARIABLES = [

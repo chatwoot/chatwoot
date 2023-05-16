@@ -26,7 +26,9 @@
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
 #  index_messages_on_content                            (content) USING gin
+#  index_messages_on_conversation_account_type_created  (conversation_id,account_id,message_type,created_at)
 #  index_messages_on_conversation_id                    (conversation_id)
+#  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
 #  index_messages_on_source_id                          (source_id)
@@ -37,12 +39,33 @@ class Message < ApplicationRecord
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
+  TEMPLATE_PARAMS_SCHEMA = {
+    'type': 'object',
+    'properties': {
+      'template_params': {
+        'type': 'object',
+        'properties': {
+          'name': { 'type': 'string' },
+          'category': { 'type': 'string' },
+          'language': { 'type': 'string' },
+          'namespace': { 'type': 'string' },
+          'processed_params': { 'type': 'object' }
+        },
+        'required': %w[name]
+      }
+    }
+  }.to_json.freeze
+
   before_validation :ensure_content_type
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
+  validates_with JsonSchemaValidator,
+                 schema: TEMPLATE_PARAMS_SCHEMA,
+                 attribute_resolver: ->(record) { record.additional_attributes }
+
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
 
@@ -72,7 +95,7 @@ class Message < ApplicationRecord
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations], coder: JSON
+                                         :translations, :in_reply_to_external_id], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -115,7 +138,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id,
       conversation: {
         assignee_id: conversation.assignee_id,
-        unread_count: conversation.unread_incoming_messages.count
+        unread_count: conversation.unread_incoming_messages.count,
+        last_activity_at: conversation.last_activity_at.to_i
       }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
@@ -175,6 +199,17 @@ class Message < ApplicationRecord
 
   def valid_first_reply?
     outgoing? && human_response? && not_created_by_automation? && !private?
+  end
+
+  def save_story_info(story_info)
+    self.content_attributes = content_attributes.merge(
+      {
+        story_id: story_info['id'],
+        story_sender: inbox.channel.instagram_id,
+        story_url: story_info['url']
+      }
+    )
+    save!
   end
 
   private

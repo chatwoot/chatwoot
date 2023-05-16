@@ -85,6 +85,23 @@
       "JOIN_ERROR": "هنگام پیوستن به تماس خطایی روی داد، لطفاً دوباره امتحان کنید",
       "CREATE_ERROR": "در ایجاد پیوند جلسه خطایی روی داد، لطفاً دوباره امتحان کنید"
     },
+    "OPEN_AI": {
+      "TITLE": "Improve With AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "انصراف"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {

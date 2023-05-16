@@ -1,5 +1,5 @@
 <template>
-  <span class="spinner" :class="size" />
+  <span class="spinner" :class="`${size} ${colorScheme}`" />
 </template>
 <script>
 export default {
@@ -7,6 +7,10 @@ export default {
     size: {
       type: String,
       default: 'small',
+    },
+    colorScheme: {
+      type: String,
+      default: '',
     },
   },
 };
@@ -32,8 +36,8 @@ export default {
     margin-top: -$space-one;
     margin-left: -$space-one;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-top-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-top-color: rgba(255, 255, 255, 0.3);
     animation: spinner 0.9s linear infinite;
   }
 }
@@ -83,6 +87,11 @@ export default {
       height: $space-one;
       margin-top: -$space-small + $space-micro;
     }
+  }
+
+  &.dark::before {
+    border-color: rgba(0, 0, 0, 0.7);
+    border-top-color: rgba(0, 0, 0, 0.2);
   }
 }
 </style>

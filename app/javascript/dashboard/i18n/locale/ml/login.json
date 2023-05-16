@@ -3,16 +3,16 @@
     "TITLE": "ചാറ്റ് വൂട്ടിലേക്ക് ലോഗിൻ ചെയ്യുക",
     "EMAIL": {
       "LABEL": "ഇമെയിൽ",
-      "PLACEHOLDER": "ഇമെയിൽ ഉദാ: someone@example.com"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "പാസ്‌വേഡ്",
       "PLACEHOLDER": "പാസ്‌വേഡ്"
     },
     "API": {
-      "SUCCESS_MESSAGE": "ലോഗിൻ വിജയകരം",
-      "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റു ചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക",
-      "UNAUTH": "ഉപയോക്തൃനാമം / പാസ്‌വേഡ് തെറ്റാണ്. ദയവായി വീണ്ടും ശ്രമിക്കുക"
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",

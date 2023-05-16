@@ -36,12 +36,21 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+import addHours from 'date-fns/addHours';
 
 const updateAuthCookie = cookieContent =>
   Cookies.set('cw_conversation', cookieContent, {
     expires: 365,
     sameSite: 'Lax',
   });
+
+const updateCampaignReadStatus = () => {
+  const expireBy = addHours(new Date(), 1);
+  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
+    expires: expireBy,
+    sameSite: 'Lax',
+  });
+};
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -147,6 +156,7 @@ export const IFrameHelper = {
     loaded: message => {
       updateAuthCookie(message.config.authToken);
       window.$chatwoot.hasLoaded = true;
+      const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
         position: window.$chatwoot.position,
@@ -154,6 +164,7 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
+        campaignsSnoozedTill,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -190,6 +201,10 @@ export const IFrameHelper = {
 
     setAuthCookie({ data: { widgetAuthToken } }) {
       updateAuthCookie(widgetAuthToken);
+    },
+
+    setCampaignReadOn() {
+      updateCampaignReadStatus();
     },
 
     toggleBubble: state => {

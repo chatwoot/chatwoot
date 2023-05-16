@@ -31,15 +31,15 @@ lt:
       disposable_email: We do not allow disposable emails
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      failed: Prisijungimas nesėkmingas
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Neteisingas duomenų tipas
     contacts:
       import:
-        failed: File is blank
+        failed: Failas yra tuščias
       email:
-        invalid: Invalid email
+        invalid: Neteisingas el. paštas
       phone_number:
         invalid: should be in e164 format
     categories:
@@ -53,14 +53,14 @@ lt:
         no_response_error: Please check the IMAP credentials and try again.
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
         connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        connection_closed_error: Sujungimas uždarytas.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
     agent_csv:
-      agent_name: Agent name
+      agent_name: Agento Vardas
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -71,28 +71,28 @@ lt:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     label_csv:
-      label_title: Label
+      label_title: Etiketė
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
-      team_name: Team name
+      team_name: Komandos pavadinimas
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     conversation_traffic_csv:
-      timezone: Timezone
-    default_group_by: day
+      timezone: Laiko zona
+    default_group_by: diena
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
+        contact_name: Kontakto Vardas
+        contact_email_address: Kontakto El. pašto Adresas
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
-        agent_name: Agent Name
-        rating: Rating
+        agent_name: Agento Vardas
+        rating: Reitingas
         feedback: Feedback Comment
-        recorded_at: Recorded date
+        recorded_at: Įrašo data
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -106,13 +106,17 @@ lt:
       deleted: This message was deleted
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
-        open: "Conversation was reopened by %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        resolved: "Pokalbį pažymėjo %{user_name} kaip baigtą"
+        contact_resolved: "Pokalbį užbaigė %{contact_name}"
+        open: "Pokalbį iš naujo pradėjo %{user_name}"
+        pending: "Pokalbį pažymėjo %{user_name} kaip laukiantį"
+        snoozed: "Pokalbį atidėjo %{user_name}"
+        auto_resolved: "Sistema pokalbį pažymėjo kaip baigtą dėl %{duration} neaktyvumo dienų"
+        system_auto_open: Sistema vėl atidarė pokalbį dėl naujo gaunamo pranešimo.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Assigned to %{assignee_name} by %{user_name}"
@@ -122,8 +126,8 @@ lt:
         assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
         removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
+        added: "%{user_name} pridėjo %{labels}"
+        removed: "%{user_name} pašalino %{labels}"
       muted: "%{user_name} has muted the conversation"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
@@ -167,20 +171,23 @@ lt:
     google_translate:
       name: "Google Translate"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
-      empty_placeholder: No results found.
-      loading_placeholder: Searching...
-      results_title: Search results
+      empty_placeholder: Nieko nerasta.
+      loading_placeholder: Ieškoma...
+      results_title: Paieškos rezultatai
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
       home: Home
       last_updated_on: Last updated on %{last_updated_on}
       view_all_articles: View all articles
-      article: article
-      articles: articles
+      article: straipsnis
+      articles: straipsniai
       no_articles: There are no articles here
     footer:
       made_with: Made with

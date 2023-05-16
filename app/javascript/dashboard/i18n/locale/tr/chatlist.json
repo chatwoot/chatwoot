@@ -35,6 +35,20 @@
         "TEXT": "Hepsi"
       }
     },
+    "VIEW_FILTER": "Görünüm",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Durum",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Oluşturma zamanı"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Görsel mesaj"
@@ -53,6 +67,24 @@
       },
       "fallback": {
         "CONTENT": "bir url paylaştı"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Oluşturma zamanı",
+          "LABEL": "Oluşturma zamanı"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "E-posta ile alındı",

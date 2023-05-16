@@ -85,6 +85,23 @@
       "JOIN_ERROR": "אירעה שגיאה בהצטרפות לשיחה, אנא נסה שוב",
       "CREATE_ERROR": "אירעה שגיאה ביצירת קישור לפגישה, אנא נסה שוב"
     },
+    "OPEN_AI": {
+      "TITLE": "Improve With AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "ביטול"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {

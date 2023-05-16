@@ -36,6 +36,7 @@ describe('#resolveActionName', () => {
     expect(resolveActionName(MACRO_ACTION_TYPES[1].key)).not.toEqual(
       MACRO_ACTION_TYPES[0].label
     );
+    expect(resolveActionName('change_priority')).toEqual('Change Priority');
   });
 });
 
