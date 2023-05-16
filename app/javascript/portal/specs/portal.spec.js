@@ -1,4 +1,4 @@
-import { navigateToLocalePage } from '../portalHelpers';
+import { InitializationHelpers } from '../portalHelpers';
 
 describe('#navigateToLocalePage', () => {
   it('returns correct cookie name', () => {
@@ -14,7 +14,7 @@ describe('#navigateToLocalePage', () => {
         callback({ target: { value: 1 } });
       });
 
-    navigateToLocalePage();
+    InitializationHelpers.navigateToLocalePage();
     expect(allLocaleSwitcher.addEventListener).toBeCalledWith(
       'change',
       expect.any(Function)
