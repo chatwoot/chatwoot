@@ -12,7 +12,7 @@ import {
 } from '../sdk/cookieHelpers';
 import { addClasses, removeClasses } from '../sdk/DOMHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
-const runSDK = ({ baseUrl, websiteToken, referral, ref }) => {
+const runSDK = ({ baseUrl, websiteToken, referral }) => {
   if (window.$chatwoot) {
     return;
   }
@@ -25,7 +25,7 @@ const runSDK = ({ baseUrl, websiteToken, referral, ref }) => {
   }
 
   window.$chatwoot = {
-    ref,
+    ref: referral,
     baseUrl,
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
@@ -178,7 +178,7 @@ const runSDK = ({ baseUrl, websiteToken, referral, ref }) => {
   IFrameHelper.createFrame({
     baseUrl,
     websiteToken,
-    ref
+    referral
   });
 };
 
