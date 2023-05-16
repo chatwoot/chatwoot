@@ -1,23 +1,21 @@
 <template>
-  <div
-    class="options-message chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-  >
-    <div class="card-body">
-      <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
-        {{ title }}
-      </h4>
-    </div>
+  <div class="chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
+    <div
+      v-dompurify-html="formatMessage(message, false)"
+      class="message-content"
+      :class="$dm('text-black-900', 'dark:text-slate-50')"
+    />
   </div>
 </template>
 
 <script>
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
-  mixins: [darkModeMixin],
+  mixins: [messageFormatterMixin, darkModeMixin],
   props: {
-    title: {
+    message: {
       type: String,
       default: '',
     },
