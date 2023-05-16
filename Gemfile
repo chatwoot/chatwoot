@@ -113,6 +113,8 @@ gem 'sentry-sidekiq', require: false
 
 ##-- background job processing --##
 gem 'sidekiq'
+gem 'sidekiq_alive'
+
 # We want cron jobs
 gem 'sidekiq-cron'
 
