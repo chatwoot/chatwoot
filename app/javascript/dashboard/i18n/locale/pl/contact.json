@@ -122,6 +122,7 @@
         "LABEL": "Numer telefonu",
         "HELP": "Numer telefonu powinien mieć format E.164, np. +1415555555 [+][kod krajowy][kod kierunkowy][numer telefonu]",
         "ERROR": "Numer telefonu powinien być pusty lub w formacie E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Ten numer telefonu jest już zajęty przez inny kontakt."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Wpisz nazwę firmy",
         "LABEL": "Nazwa firmy"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Nazwa kraju",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Usuń",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -171,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Skrzynka odbiorcza",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Wybierz skrzynkę odbiorczą"
       },
       "SUBJECT": {

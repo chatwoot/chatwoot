@@ -66,7 +66,7 @@
     },
     "CAMPAIGN_HEADER": "Vă rugăm să furnizați numele și e-mailul înainte de a începe conversația",
     "IS_REQUIRED": "este obligatoriu",
-    "REQUIRED": "Required"
+    "REQUIRED": "Necesar"
   },
   "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
   "CHAT_FORM": {

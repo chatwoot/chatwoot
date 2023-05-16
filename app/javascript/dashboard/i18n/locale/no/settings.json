@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopier",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Koden er kopiert til utklippstavlen"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Hjem",
     "AGENTS": "Agenter",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Innbokser",
     "NOTIFICATIONS": "Varsler",
     "CANNED_RESPONSES": "Forhåndslagde svar",

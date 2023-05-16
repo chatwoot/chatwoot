@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Неизвестный файл",
     "SAVE_CONTACT": "Сохранить",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
+    "REPLIED_TO_STORY": "Ответил на вашу историю",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Следующий ответ",
         "TOMORROW": "Завтра",
         "NEXT_WEEK": "На следующей неделе"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Приоритет",
+      "OPTIONS": {
+        "NONE": "Ничего",
+        "URGENT": "Срочность",
+        "HIGH": "Высокая",
+        "MEDIUM": "Средняя",
+        "LOW": "Низкая"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Ничего",
+        "INPUT_PLACEHOLDER": "Выберите приоритет",
+        "NO_RESULTS": "Результаты не найдены",
+        "SUCCESSFUL": "Изменен приоритет разговора id %{conversationId} на %{priority}",
+        "FAILED": "Не удалось изменить приоритет. Пожалуйста, попробуйте еще раз."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -135,8 +153,8 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Неопределенные переменные",
+        "MESSAGE": "У Вас {undefinedVariablesCount} неопределённых переменных в сообщении: {undefinedVariables}. Вы действительно хотите отправить сообщение?",
         "CONFIRM": {
           "YES": "Отправить",
           "CANCEL": "Отменить"
@@ -166,9 +184,9 @@
       "COPY": "Копировать",
       "DELETE": "Удалить",
       "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
-      "TRANSLATE": "Translate",
-      "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "TRANSLATE": "Перевести",
+      "COPY_PERMALINK": "Скопировать ссылку на сообщение",
+      "LINK_COPIED": "Ссылка на сообщение скопирована",
       "DELETE_CONFIRMATION": {
         "TITLE": "Вы действительно хотите удалить это сообщение?",
         "MESSAGE": "Вы не можете отменить это действие",
@@ -264,27 +282,27 @@
     "SUBJECT": "Тема"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "Участвующие",
+    "SIDEBAR_TITLE": "Участники диалога",
     "NO_RECORDS_FOUND": "Результаты не найдены",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "ADD_PARTICIPANTS": "Выберите участников",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} другие",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} другие",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} человек участвуют.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} человек участвуют.",
+    "NO_PARTICIPANTS_TEXT": "Никто не участвует!.",
+    "WATCH_CONVERSATION": "Присоединиться к диалогу",
+    "YOU_ARE_WATCHING": "Вы участвуете",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "Не удалось обновить, попробуйте снова!",
+      "SUCCESS_MESSAGE": "Участники обновлены!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Просмотреть перевод",
+    "DESC": "Вы можете просмотреть содержимое перевода в каждом языке.",
+    "ORIGINAL_CONTENT": "Оригинальное содержимое",
+    "TRANSLATED_CONTENT": "Перевод",
+    "NO_TRANSLATIONS_AVAILABLE": "Для этого содержимого нет доступных переводов"
   }
 }

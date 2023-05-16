@@ -1,21 +1,21 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Custom Attributes",
+    "HEADER": "Personalizuoti Požymiai",
     "HEADER_BTN_TXT": "Add Custom Attribute",
     "LOADING": "Fetching custom attributes",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "Add Custom Attribute",
-      "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Sukurti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
           "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "ERROR": "Yra reikalingas vardas"
         },
         "DESC": {
-          "LABEL": "Description",
+          "LABEL": "Aprašymas",
           "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Description is required"
         },
@@ -25,9 +25,9 @@
           "ERROR": "Model is required"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
+          "LABEL": "Tipas",
+          "PLACEHOLDER": "Prašau pasirinkti tipą",
+          "ERROR": "Yra reikalingas tipas",
           "LIST": {
             "LABEL": "List Values",
             "PLACEHOLDER": "Please enter value and press enter key",
@@ -35,10 +35,10 @@
           }
         },
         "KEY": {
-          "LABEL": "Key",
+          "LABEL": "Raktas",
           "PLACEHOLDER": "Enter custom attribute key",
           "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "IN_VALID": "Neteisingas raktas"
         }
       },
       "API": {
@@ -47,7 +47,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Ištrinti",
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
@@ -56,13 +56,13 @@
         "TITLE": "Are you sure want to delete - %{attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "Delete ",
-        "NO": "Cancel"
+        "YES": "Ištrinti ",
+        "NO": "Atšaukti"
       }
     },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",
@@ -75,20 +75,20 @@
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "HEADER": "Personalizuoti Požymiai",
+      "CONVERSATION": "Pokalbis",
+      "CONTACT": "Kontaktas"
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Type",
-        "Key"
+        "Vardas",
+        "Aprašymas",
+        "Tipas",
+        "Raktas"
       ],
       "BUTTONS": {
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "EDIT": "Redaguoti",
+        "DELETE": "Ištrinti"
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",

@@ -74,6 +74,11 @@
           "LABEL": "E-Mail-Addresse",
           "PLACEHOLDER": "Bitte geben Sie eine E-Mail-Adresse des Agenten ein"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Verfügbarkeit",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Agent bearbeiten"
       },
       "BUTTON_TEXT": "Bearbeiten",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Agenten suchen",
-          "TEAM": "Teams suchen"
+          "TEAM": "Teams suchen",
+          "INPUT": "Search for agents"
         }
       }
     }

@@ -22,7 +22,7 @@
         "body": "將客服增加到建立的收件匣。"
       },
       {
-        "title": "瞧！",
+        "title": "Voila!",
         "route": "settings_inbox_finish",
         "body": "您已設定狀態為離開"
       }
@@ -30,7 +30,7 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "收件匣名稱",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "PLACEHOLDER": "輸入你的收件匣名稱 (e. g: Acme Inc)",
         "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook 網址",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "輸入你的 Webhook URL",
           "ERROR": "請輸入一個有效的 URL"
         },
         "CHANNEL_DOMAIN": {
@@ -128,7 +128,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "收件匣名稱",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "請輸入收件匣名稱",
           "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
@@ -146,7 +146,7 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
+        "TITLE": "SMS 頻道",
         "DESC": "Start supporting your customers via SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
@@ -179,7 +179,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "收件匣名稱",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "請輸入收件匣名稱",
             "ERROR": "此欄位是必填項目"
           },
           "PHONE_NUMBER": {
@@ -324,11 +324,11 @@
         },
         "SUBMIT_BUTTON": "建立 Telegram Channel",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "我們無法儲存 telegram 頻道"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "選擇一個頻道",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
@@ -346,13 +346,13 @@
         "DESC": "您已成功地將您的 Facebook 頁面與 Chatwoot 整合。下次客户發送消息到您的頁面時，對話將自動出現在收件匣中。<br>我們還為您提供了一個小元件脚本，您可以輕鬆地建立到您的網站。 在您的網站上登入後， 客户可以在没有任何外部工具幫助的情况下，從您的網站向您發送消息，對話將會在這裡出現在 Chatwoot 上。<br>酷，對吧？好吧，我們很肯定 :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
+        "TITLE": "選擇你的電子郵件供應商",
         "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
+        "EMAIL_PLACEHOLDER": "輸入電子信箱",
         "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
@@ -404,7 +404,7 @@
         "DISABLED": "已停用"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "啟用"
       }
     },
     "DELETE": {
@@ -413,7 +413,7 @@
       "CONFIRM": {
         "TITLE": "確認刪除",
         "MESSAGE": "您確定要刪除吗？ ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "請輸入 {inboxName} 以確認",
         "YES": "是，刪除 ",
         "NO": "不，保留 "
       },
@@ -432,14 +432,15 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "服務時間",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "增機器人設定"
     },
     "SETTINGS": "設定",
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "在小工具上顯示檔案選擇器",
       "DISPLAY_EMOJI_PICKER": "在小工具上顯示 emoji 選擇器",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
@@ -462,9 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
       "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用此收件匣客服的對話自動分配。",
       "HMAC_VERIFICATION": "使用者身份驗證",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
@@ -474,10 +476,19 @@
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "更新 API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "在此輸入新的 API Key",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -562,7 +573,7 @@
         "LABEL": "密碼",
         "PLACE_HOLDER": "密碼"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "啟用 SSL"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
@@ -570,8 +581,8 @@
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
+      "SUBTITLE": "設定你的 SMTP",
+      "UPDATE": "更新 SMTP 設定",
       "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
       "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
       "EDIT": {

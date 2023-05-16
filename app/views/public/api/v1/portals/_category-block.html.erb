@@ -1,7 +1,7 @@
 <section class="bg-white lg:container w-full py-6 px-4 flex flex-col h-full">
   <div class="flex justify-between items-center w-full">
-    <h3 class="text-xl text-slate-900 font-semibold subpixel-antialiased leading-relaxed hover:underline">
-      <a href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>">
+    <h3 class="text-xl text-slate-800 font-medium font-semibold leading-relaxed hover:underline">
+      <a href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %>">
         <%= category.name %>
       </a>
     </h3>
@@ -18,7 +18,7 @@
       <% category.articles.published.order(position: :asc).take(5).each do |article| %>
       <a
         class="text-slate-800 hover:underline leading-8"
-        href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>"
+        href="/hc/<%= portal.slug %>/articles/<%= article.slug %>"
       >
         <div class="flex justify-between content-center my-1 -mx-1 p-1 rounded-lg hover:bg-slate-25">
           <%= article.title %>
@@ -42,7 +42,7 @@
   </div>
   <div>
     <a
-      href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>"
+      href="/hc/<%= portal.slug %>/<%= category.locale %>/categories/<%= category.slug %>"
       class="flex flex-row items-center text-base font-medium text-woot-500 hover:underline mt-4"
       style="color: <%= portal.color %>"
     >

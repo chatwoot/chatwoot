@@ -22,7 +22,7 @@
     "IN_A_DAY": "通常在一天內回覆"
   },
   "START_CONVERSATION": "開始對話",
-  "END_CONVERSATION": "End Conversation",
+  "END_CONVERSATION": "結束對話",
   "CONTINUE_CONVERSATION": "繼續對話",
   "START_NEW_CONVERSATION": "開始一個新對話",
   "UNREAD_VIEW": {
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "電子信箱地址",
         "PLACEHOLDER": "請輸入你的 Email",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "電子郵件為必填",
         "VALID_ERROR": "請輸入一個有效的電子信箱"
       },
       "PHONE_NUMBER": {
         "LABEL": "聯絡人電話",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "請輸入您的電話號碼",
+        "REQUIRED_ERROR": "電話號碼為必填",
+        "VALID_ERROR": "電話號碼應為 E.164  格式，如：+1415555555"
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
-    "IS_REQUIRED": "is required",
+    "IS_REQUIRED": "必填",
     "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
@@ -75,8 +75,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "搜尋 emojis",
+    "NOT_FOUND": "查無相符的 emoji"
   },
   "CSAT": {
     "TITLE": "為此對話評分",
@@ -90,7 +90,7 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CLICK_HERE_TO_JOIN": "點擊這裡加入",
       "LEAVE_THE_ROOM": "Leave the call"
     }
   }

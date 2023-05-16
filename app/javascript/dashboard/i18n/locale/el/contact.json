@@ -122,6 +122,7 @@
         "LABEL": "Αριθμός Τηλεφώνου",
         "HELP": "Ο αριθμός τηλεφώνου πρέπει να έχει μορφή E.164 π.χ.: +14155555 [+][κωδικός χώρας][κωδικός περιοχής][αριθμός τοπικού τηλεφώνου]",
         "ERROR": "Ο αριθμός τηλεφώνου πρέπει να είναι είτε άδειος είτε με μορφή E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται σε άλλη επαφή."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας",
         "LABEL": "Όνομα Εταιρείας"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Όνομα Χώρας",
+        "SELECT_PLACEHOLDER": "Επιλογή",
+        "REMOVE": "Διαγραφή",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -171,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Εισερχόμενα",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Επιλέξτε ένα κιβώτιο εισερχόμενων"
       },
       "SUBJECT": {

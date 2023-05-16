@@ -3,6 +3,8 @@
     :title="$t('SEARCH.SECTION.CONVERSATIONS')"
     :empty="!conversations.length"
     :query="query"
+    :show-title="showTitle || isFetching"
+    :is-fetching="isFetching"
   >
     <ul class="search-list">
       <li v-for="conversation in conversations" :key="conversation.id">
@@ -36,6 +38,14 @@ export default {
     query: {
       type: String,
       default: '',
+    },
+    isFetching: {
+      type: Boolean,
+      default: false,
+    },
+    showTitle: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {

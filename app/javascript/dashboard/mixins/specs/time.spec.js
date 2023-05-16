@@ -9,8 +9,22 @@ describe('#messageStamp', () => {
   });
 });
 
+describe('#messageTimestamp', () => {
+  it('should return the message date in the specified format if the message was sent in the current year', () => {
+    expect(TimeMixin.methods.messageTimestamp(1680777464)).toEqual(
+      'Apr 6, 2023'
+    );
+  });
+  it('should return the message date and time in a different format if the message was sent in a different year', () => {
+    expect(TimeMixin.methods.messageTimestamp(1612971343)).toEqual(
+      'Feb 10 2021, 3:35 PM'
+    );
+  });
+});
+
 describe('#dynamicTime', () => {
   it('returns correct value', () => {
+    Date.now = jest.fn(() => new Date(Date.UTC(2023, 1, 14)).valueOf());
     expect(TimeMixin.methods.dynamicTime(1612971343)).toEqual(
       'about 2 years ago'
     );

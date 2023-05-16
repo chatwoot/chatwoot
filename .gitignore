@@ -61,8 +61,16 @@ test/cypress/videos/*
 /config/master.key
 /config/*.enc
 
-.vscode/settings.json
+#ignore files under .vscode directory
+.vscode
 
 # yalc for local testing
 .yalc
 yalc.lock
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

@@ -61,7 +61,7 @@
           "LABEL": "אוואטר הערוץ"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "URL של Webhook",
+          "LABEL": "כתובת אתר של Webhook",
           "PLACEHOLDER": "הזן את כתובת האתר שלך ל-Webhook",
           "ERROR": "אנא הכנס כתובת URL חוקית"
         },
@@ -107,7 +107,7 @@
         "TITLE": "ערוץ SMS/ווטסאפ של Twilio",
         "DESC": "שלב את Twilio והתחל לתמוך בלקוחות שלך באמצעות SMS או WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "SID חשבון",
+          "LABEL": "חשבון SID",
           "PLACEHOLDER": "אנא הזן את SID חשבון Twilio שלך",
           "ERROR": "שדה חובה"
         },
@@ -150,7 +150,7 @@
         "DESC": "התחל לתמוך בלקוחותיך באמצעות SMS.",
         "PROVIDERS": {
           "LABEL": "ספק API",
-          "TWILIO": "Twilio",
+          "TWILIO": "טוויליו",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
@@ -163,17 +163,17 @@
             "ERROR": "שדה חובה"
           },
           "API_KEY": {
-            "LABEL": "API key",
+            "LABEL": "מפתח API",
             "PLACEHOLDER": "נא הכנס את ה- Bandwith API Key שלך",
             "ERROR": "שדה חובה"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
+            "LABEL": "סוד API",
             "PLACEHOLDER": "נא הכנס את ה- Bandwith API Secret שלך",
             "ERROR": "שדה חובה"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
+            "LABEL": "מזהה אפליקציה",
             "PLACEHOLDER": "נא הכנס את מזהה ה-Bandwidth Application ID שלך",
             "ERROR": "שדה חובה"
           },
@@ -202,7 +202,7 @@
         "DESC": "התחל לתמוך בלקוחות שלך באמצעות וואטסאפ.",
         "PROVIDERS": {
           "LABEL": "ספק API",
-          "TWILIO": "Twilio",
+          "TWILIO": "טוויליו",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
@@ -217,12 +217,12 @@
           "ERROR": "נא ספק מספר טלפון תקני שמתחיל ב- '+' ולא מכיל רווחים."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
+          "LABEL": "מזהה מספר טלפון",
           "PLACEHOLDER": "נא הכנס את Phone number ID מתוך ממשק ה- Facebook developer.",
           "ERROR": "אנא הכנס ערך תקין."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
+          "LABEL": "מזהה חשבון עסקי",
           "PLACEHOLDER": "נא הכנס את Business Account ID מתוך ממשק ה- Facebook developer.",
           "ERROR": "אנא הכנס ערך תקין."
         },
@@ -232,16 +232,16 @@
           "ERROR": "אנא הכנס ערך תקין."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "מפתח API",
           "SUBTITLE": "הגדר את מפתח ה-API של וואטסאפ.",
-          "PLACEHOLDER": "API key",
+          "PLACEHOLDER": "מפתח API",
           "ERROR": "אנא הכנס ערך תקין."
         },
         "API_CALLBACK": {
           "TITLE": "כתובת אתר להתקשרות חוזרת",
           "SUBTITLE": "עליך להגדיר את ה- webhook URL ואת ה- verification token הבאים בממשק ה- Facebook Developer.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_URL": "כתובת אתר של Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "אסימון אימות Webhook"
         },
         "SUBMIT_BUTTON": "צור ערוץ וואטסאפ",
         "API": {
@@ -257,9 +257,9 @@
           "ERROR": "שדה חובה"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
+          "LABEL": "כתובת אתר של Webhook",
           "SUBTITLE": "הגדר את כתובת האתר שבה ברצונך לקבל התקשרות חוזרת על אירועים.",
-          "PLACEHOLDER": "Webhook URL"
+          "PLACEHOLDER": "כתובת אתר של Webhook"
         },
         "SUBMIT_BUTTON": "צור ערוץ API",
         "API": {
@@ -318,9 +318,9 @@
         "TITLE": "ערוץ טלגרם",
         "DESC": "השתלב עם ערוץ טלגרם והתחיל לתמוך בלקוחות שלך.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
+          "LABEL": "אסימון בוט",
           "SUBTITLE": "הגדר את אסימון הבוט שקיבלת מ- Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "PLACEHOLDER": "אסימון בוט"
         },
         "SUBMIT_BUTTON": "צור ערוץ טלגרם",
         "API": {
@@ -350,7 +350,7 @@
         "DESCRIPTION": "בחר את ספק הדוא\"ל שלך מהרשימה מטה. אם אתה לא מוצא את ספק הדוא\"ל שלך ברשימה, תוכל לבחור את אפשרות \"ספק אחר\" ולספק את הגדרות ה- IMAP ו-SMTP."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
+        "TITLE": "אימייל של מיקרוסופט",
         "DESCRIPTION": "לחץ על Sign in with Microsoft בכדי להתחיל. אתה תופנה למסך ההתחברות של Microsoft. ברגע שתאשר את בקשת ההרשאות, תופנה חזרה להגדרות תיבת הדואר.",
         "EMAIL_PLACEHOLDER": "הכנס כתובת דוא\"ל",
         "HELP": "בכדי להוסיף חשבון Microsoft כערוץ, עליך להתחבר לחשבונך ע\"י לחיצה על 'Sign in with Microsoft' ",
@@ -431,7 +431,7 @@
       "CAMPAIGN": "קמפיין",
       "PRE_CHAT_FORM": "טופס צ'אט מקדים",
       "BUSINESS_HOURS": "שעות פעילות",
-      "WIDGET_BUILDER": "Widget Builder",
+      "WIDGET_BUILDER": "בונה יישומונים",
       "BOT_CONFIGURATION": "הגדרות בוט"
     },
     "SETTINGS": "הגדרות",
@@ -439,7 +439,8 @@
       "LABEL": "מאפיינים",
       "DISPLAY_FILE_PICKER": "הצג את בוחר הקבצים בווידג'ט",
       "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט",
-      "ALLOW_END_CONVERSATION": "אפשר למשתמשים לסיים שיחות באמצעות ה- Widget"
+      "ALLOW_END_CONVERSATION": "אפשר למשתמשים לסיים שיחות באמצעות ה- Widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "השתמש בשם ובדמות תיבת הדואר הנכנס עבור הבוט"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "סקריפט מסנג'ר",
@@ -457,32 +458,42 @@
       "ENABLE_CONTINUITY_VIA_EMAIL": "אפשר המשך שיחה באמצעות הדוא\"ל",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "שיחות ימשיכו באמצעות הדוא\"ל אם לאיש הקשר קיימת כתובת דוא\"ל תקנית.",
       "LOCK_TO_SINGLE_CONVERSATION": "נעל לשיחה בודדת",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "הפעל או השבת מספר שיחות עבור אותו איש קשר בתיבת הדואר הנכנס הזו",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
       "HMAC_VERIFICATION": "אימות זהות משתמש",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "אכיפת אימות זהות משתמש",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "מזהה תיבת דואר נכנס",
       "INBOX_IDENTIFIER_SUB_TEXT": "השתמש ב-'inbox_identifier' המוצג כאן כדי לאמת את לקוחות ה-API שלך.",
       "FORWARD_EMAIL_TITLE": "העבר לדואר אלקטרוני",
       "FORWARD_EMAIL_SUB_TEXT": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "אפשר הודעות לאחר שהשיחה נפתרה",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "אפשר למשתמשי הקצה לשלוח הודעות גם לאחר פתרון השיחה.",
+      "WHATSAPP_SECTION_SUBHEADER": "מפתח API זה משמש לשילוב עם ממשקי ה-API של WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "הזן את המפתח המעודכן שישמש לשילוב עם ממשקי ה-API של WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "מפתח API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "עדכון מפתח API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "הזן את מפתח ה-API החדש כאן",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "עדכן",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "עדכון הגדרות טופס טרום צ'אט"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "מגבלת הקצאה אוטומטית",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "אנא הזן ערך גדול מ-0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "הגבלת המספר המרבי של שיחות מתיבת הדואר הנכנס הזו שניתן להקצות אוטומטית לסוכן"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "הרשאה מחדש",
@@ -492,14 +503,14 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "טפסי טרום צ'אט מאפשרים לך ללכוד מידע על המשתמש לפני שהם מתחילים בשיחה איתך.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "שדות טפסי טרום צ'אט",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "FIELDS": "שדות",
+        "LABEL": "תווית",
+        "PLACE_HOLDER": "מציין מקום",
         "KEY": "מפתח",
         "TYPE": "סוג",
-        "REQUIRED": "Required"
+        "REQUIRED": "נדרש"
       },
       "ENABLE": {
         "LABEL": "אפשר טופס טרום צ'אט",
@@ -509,7 +520,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "הודעה לפני צ'אט",
         "PLACEHOLDER": "הודעה זו תהיה גלויה למשתמשים יחד עם הטופס"
       },
       "REQUIRE_EMAIL": {
@@ -533,26 +544,26 @@
         "VALIDATION_ERROR": "שעת ההתחלה צריכה להיות לפני שעת הסגירה.",
         "CHOOSE": "בחר"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "כל היום"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "SUBTITLE": "הגדר את פרטי ה-IMAP שלך",
+      "NOTE_TEXT": "כדי להפעיל SMTP, אנא הגדר את IMAP.",
+      "UPDATE": "עדכון הגדרות IMAP",
+      "TOGGLE_AVAILABILITY": "הפעל תצורת IMAP עבור תיבת הדואר הנכנס הזו",
+      "TOGGLE_HELP": "הפעלת IMAP תעזור למשתמש לקבל דוא\"ל",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "הגדרות IMAP עודכנו בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן לעדכן הגדרות IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "כתובת",
+        "PLACE_HOLDER": "כתובת (לדוגמה: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "נמל",
+        "PLACE_HOLDER": "נמל"
       },
       "LOGIN": {
         "LABEL": "התחבר",
@@ -562,29 +573,29 @@
         "LABEL": "סיסמה",
         "PLACE_HOLDER": "סיסמה"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "הפעל SSL"
     },
     "MICROSOFT": {
-      "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "TITLE": "מיקרוסופט",
+      "SUBTITLE": "אשר מחדש את חשבון MICROSOFT שלך"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "הגדר את פרטי ה-SMTP שלך",
+      "UPDATE": "עדכון הגדרות SMTP",
+      "TOGGLE_AVAILABILITY": "הפעל תצורת SMTP עבור תיבת הדואר הנכנס הזו",
+      "TOGGLE_HELP": "הפעלת SMTP תעזור למשתמש לשלוח דוא\"ל",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "הגדרות SMTP עודכנו בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן לעדכן הגדרות SMTP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "כתובת",
+        "PLACE_HOLDER": "כתובת (למשל: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "נמל",
+        "PLACE_HOLDER": "נמל"
       },
       "LOGIN": {
         "LABEL": "התחבר",
@@ -595,23 +606,23 @@
         "PLACE_HOLDER": "סיסמה"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "דומיין",
+        "PLACE_HOLDER": "דומיין"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "הצפנה",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "פתח את מצב אימות SSL",
+      "AUTH_MECHANISM": "אימות"
     },
-    "NOTE": "Note: ",
+    "NOTE": "הערה: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "אוואטר אתר",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "האוואטר נמחק בהצלחה",
               "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
             }
           }
@@ -619,7 +630,7 @@
         "WEBSITE_NAME": {
           "LABEL": "שם האתר",
           "PLACE_HOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": "אנא הזן שם אתר חוקי"
         },
         "WELCOME_HEADING": {
           "LABEL": "כותרת ברוכים הבאים",
@@ -630,42 +641,42 @@
           "PLACE_HOLDER": "אנחנו עושים את זה פשוט להתחבר אלינו. שאל אותנו כל דבר, או שתף את המשוב שלך."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "זמן תשובה",
           "IN_A_FEW_MINUTES": "בעוד כמה דקות",
           "IN_A_FEW_HOURS": "בעוד כמה שעות",
           "IN_A_DAY": "ביום"
         },
         "WIDGET_COLOR_LABEL": "צבע יישומון",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "מיקום בועת יישומון",
+        "WIDGET_BUBBLE_TYPE_LABEL": "סוג בועת יישומון",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "דבר איתנו",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "כותרת מפעיל בועות יישומון",
           "PLACE_HOLDER": "דבר איתנו"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "עדכון הגדרות ווידג'ט",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "הגדרות ווידג'ט עודכנו בהצלחה",
+            "ERROR_MESSAGE": "לא ניתן לעדכן את הגדרות הווידג'ט"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "תצוגה מקדימה",
+          "SCRIPT": "תסריט"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "שמאלה",
+          "RIGHT": "ימין"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "סטנדרטי",
+          "EXPANDED_BUBBLE": "בועה מורחבת"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "ברירת מחדל",
+        "CHAT": "צ'אט"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
@@ -678,18 +689,18 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "אנחנו מקוונים",
           "OFFLINE": "אנחנו לא זמינים כרגע"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "היי",
+        "AGENT_MESSAGE": "שלום"
       },
       "BRANDING_TEXT": "מופעל על ידי Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
+      "MICROSOFT": "מיקרוסופט",
+      "OTHER_PROVIDERS": "ספקים אחרים"
     }
   }
 }

@@ -74,6 +74,11 @@
           "LABEL": "ഇമെയിൽ വിലാസം",
           "PLACEHOLDER": "ദയവായി ഏജന്റിന്റെ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "ലഭ്യത",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "ഏജന്റിനെ എഡിറ്റുചെയ്യുക"
       },
       "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "ഏജന്റുകളെ തിരയുക",
-          "TEAM": "ടീമുകളെ തിരയുക"
+          "TEAM": "ടീമുകളെ തിരയുക",
+          "INPUT": "Search for agents"
         }
       }
     }

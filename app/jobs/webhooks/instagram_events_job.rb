@@ -14,7 +14,7 @@ class Webhooks::InstagramEventsJob < ApplicationJob
 
     @entries.each do |entry|
       entry = entry.with_indifferent_access
-      entry[:messaging].each do |messaging|
+      messages(entry).each do |messaging|
         send(@event_name, messaging) if event_name(messaging)
       end
     end
@@ -28,5 +28,9 @@ class Webhooks::InstagramEventsJob < ApplicationJob
 
   def message(messaging)
     ::Instagram::MessageText.new(messaging).perform
+  end
+
+  def messages(entry)
+    (entry[:messaging].presence || entry[:standby])
   end
 end

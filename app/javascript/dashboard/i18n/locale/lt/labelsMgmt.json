@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "Etiketės",
+    "HEADER_BTN_TXT": "Pridėti Etiketę",
+    "LOADING": "Gaunamos etiketės",
+    "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
+    "SIDEBAR_TXT": "<p><b>Etiketės</b> <p>Etiketės padeda suskirstyti pokalbius į kategorijas ir nustatyti jiems prioritetus. Galite priskirti etiketę pokalbiui iš šoninio skydelio. <br /><br />Etiketės susietos su paskyra ir gali būti naudojamos kuriant supaprastintus darbo procesus jūsų organizacijoje. Etiketei galite priskirti pasirinktą spalvą, kad būtų lengviau atpažinti etiketę. Galėsite rodyti etiketę šoninėje juostoje, kad galėtumėte lengvai filtruoti pokalbius.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Šioje paskyroje nėra galimų etikečių.",
+      "TITLE": "Tvarkyti etiketes",
+      "DESC": "Etiketės leidžia grupuoti pokalbius kartu.",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "Vardas",
+        "Aprašymas",
+        "Spalva"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label name is required",
+        "LABEL": "Etiketės pavadinimas",
+        "PLACEHOLDER": "Etiketės pavadinimas",
+        "REQUIRED_ERROR": "Yra reikalingas etiketės pavadinimas",
         "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
         "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Aprašymas",
+        "PLACEHOLDER": "Etiketės aprašymas"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Spalva"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Rodyti etiketę šoninėje juostoje"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Redaguoti",
+      "CREATE": "Sukurti",
+      "DELETE": "Ištrinti",
+      "CANCEL": "Atšaukti"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Pridėti Etiketę",
+      "DESC": "Etiketės leidžia grupuoti pokalbius kartu.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
+        "SUCCESS_MESSAGE": "Etiketė sėkmingai priskirta",
         "ERROR_MESSAGE": "There was an error, please try again"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Tvarkyti Etiketę",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
+        "SUCCESS_MESSAGE": "Etiketė sėkmingai atnaujinta",
         "ERROR_MESSAGE": "There was an error, please try again"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Ištrinti",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
+        "SUCCESS_MESSAGE": "Etiketė sėkmingai ištrinta",
         "ERROR_MESSAGE": "There was an error, please try again"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
       }
     }
   }

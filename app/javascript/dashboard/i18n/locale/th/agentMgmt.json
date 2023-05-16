@@ -74,6 +74,11 @@
           "LABEL": "ที่อยู่อีเมล์",
           "PLACEHOLDER": "กรุณาระบุที่อยู่อีเมล์ของพนักงาน"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "สถานะ",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "เเก้ไขพนักงาน"
       },
       "BUTTON_TEXT": "เเก้ไข",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "ค้นหาพนักงาน",
-          "TEAM": "ค้นหาทีม"
+          "TEAM": "ค้นหาทีม",
+          "INPUT": "Search for agents"
         }
       }
     }

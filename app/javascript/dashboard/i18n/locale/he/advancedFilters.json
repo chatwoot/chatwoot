@@ -23,7 +23,7 @@
       "is_greater_than": "גדול מ",
       "is_less_than": "קטן מ",
       "days_before": "זה x ימים לפני",
-      "starts_with": "Starts with"
+      "starts_with": "מתחיל עם"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "נכון",
@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "שם קמפיין",
       "LABELS": "תוויות",
       "BROWSER_LANGUAGE": "שפת דפדפן",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "שם המדינה",
       "REFERER_LINK": "קישור מפנה",
       "CUSTOM_ATTRIBUTE_LIST": "רשימה",

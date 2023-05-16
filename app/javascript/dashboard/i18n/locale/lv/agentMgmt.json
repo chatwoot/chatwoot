@@ -74,6 +74,11 @@
           "LABEL": "e-pasta Adrese",
           "PLACEHOLDER": "Lūdzu, ievadiet aģenta e-pasta adresi"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Pieejamība",
+          "PLACEHOLDER": "Lūdzu, izvēlieties pieejamības statusu",
+          "ERROR": "Nepieciešama pieejamība"
+        },
         "SUBMIT": "Rediģēt Aģentu"
       },
       "BUTTON_TEXT": "Rediģēt",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Meklēt aģentus",
-          "TEAM": "Meklēt komandas"
+          "TEAM": "Meklēt komandas",
+          "INPUT": "Meklēt aģentus"
         }
       }
     }

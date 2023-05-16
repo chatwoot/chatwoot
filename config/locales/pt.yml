@@ -81,8 +81,7 @@ pt:
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
     conversation_traffic_csv:
-      date: Data e hora
-      conversations_count: Num. de conversas
+      timezone: Timezone
     default_group_by: dia
     csat:
       headers:
@@ -113,6 +112,11 @@ pt:
         pending: "Conversa marcada como pendente por %{user_name}"
         snoozed: "Conversa adiada por %{user_name}"
         auto_resolved: "Conversa auto-resolvida pelo sistema por causa dos %{duration} dias sem inatividade"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
       assignee:
         self_assigned: "%{user_name} auto-atribuída esta conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
@@ -138,7 +142,7 @@ pt:
           reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} de %{inbox_name}"
+          reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
@@ -167,6 +171,9 @@ pt:
     google_translate:
       name: "Google Translate"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+    openai:
+      name: "OpenAI"
+      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

@@ -24,16 +24,16 @@ describe AutoAssignment::InboxRoundRobinService do
       expect(inbox_round_robin_service.send(:queue)).to eq([])
       inbox_round_robin_service.available_agent
       # the service constructed the redis queue before performing
-      expect(inbox_round_robin_service.send(:queue).sort.map(&:to_i)).to eq(inbox_members.map(&:user_id).sort)
+      expect(inbox_round_robin_service.send(:queue).map(&:to_i)).to match_array(inbox_members.map(&:user_id))
     end
 
     it 'validates the queue and correct it before performing round robin' do
       # adding some invalid ids to queue
       inbox_round_robin_service.add_agent_to_queue([2, 3, 5, 9])
-      expect(inbox_round_robin_service.send(:queue).sort.map(&:to_i)).not_to eq(inbox_members.map(&:user_id).sort)
+      expect(inbox_round_robin_service.send(:queue).map(&:to_i)).not_to match_array(inbox_members.map(&:user_id))
       inbox_round_robin_service.available_agent
       # the service have refreshed the redis queue before performing
-      expect(inbox_round_robin_service.send(:queue).sort.map(&:to_i)).to eq(inbox_members.map(&:user_id).sort)
+      expect(inbox_round_robin_service.send(:queue).map(&:to_i)).to match_array(inbox_members.map(&:user_id))
     end
 
     context 'when allowed_agent_ids is passed' do

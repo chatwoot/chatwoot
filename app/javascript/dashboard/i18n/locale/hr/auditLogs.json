@@ -1,0 +1,24 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Audit Logovi",
+    "HEADER_BTN_TXT": "Dodaj Audit Logove",
+    "LOADING": "Dohvat Audit Logova",
+    "SEARCH_404": "Ne postoji rezultat za zadano pretraživanje",
+    "SIDEBAR_TXT": "<p><b>Audit Logovi</b> </p><p> Audit Logovi su tragovi događaja i akcija u Chatwoot sustavu. </p>",
+    "LIST": {
+      "404": "Na ovom korisničkom računu nema dostupnih Audit Logova.",
+      "TITLE": "Upravljanje Audit Logovima",
+      "DESC": "Audit Logovi su tragovi događaja i akcija u Chatwoot sustavu.",
+      "TABLE_HEADER": [
+        "Korisnik",
+        "Akcija",
+        "IP adresa",
+        "Vrijeme"
+      ]
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Audit Logovi su uspješno dohvaćeni",
+      "ERROR_MESSAGE": "Neuspješno spajanje na Woot Server, Molimo pokušajte kasnije"
+    }
+  }
+}

@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "நகல்",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "குறியீடு கிளிப்போர்டில் வெற்றிகரமாக காப்பி செய்யப்பட்டது"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "முகப்பு",
     "AGENTS": "ஏஜென்ட்கள்",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "இன்பாக்ஸ்கள்",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "பதிவு செய்யப்பட்ட பதில்கள்",

@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "צור צוות חדש",
+    "HEADER": "צוותים",
+    "SIDEBAR_TXT": "<p><b>צוותים</b></p> <p>צוותים מאפשרים לך לארגן את הסוכנים שלך בקבוצות על סמך תחומי האחריות שלהם. <br /> סוכן יכול להיות חלק ממספר צוותים. אתה יכול להקצות שיחות לצוות כאשר אתה עובד בשיתוף פעולה. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "לא נוצרו צוותים בחשבון זה.",
+      "EDIT_TEAM": "ערוך צוות"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "צור צוות חדש",
+        "DESC": "הוסף כותרת ותיאור לצוות החדש שלך."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "הוסף סוכנים לצוות",
+        "TITLE": "הוסף סוכנים לצוות - %{teamName}",
+        "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. זה מאפשר לך לשתף פעולה כצוות בשיחות, לקבל התראות על אירועים חדשים באותה שיחה."
       },
       "WIZARD": [
         {
           "title": "צור",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "צור צוות חדש של סוכנים."
         },
         {
           "title": "הוסף נציג",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "הוסף סוכנים לצוות."
         },
         {
-          "title": "Finish",
+          "title": "סיים",
           "route": "settings_teams_finish",
           "body": "אתם מוכנים לצאת לדרך!"
         }
@@ -37,89 +37,89 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "ערוך את פרטי הצוות שלך",
+        "DESC": "ערוך כותרת ותיאור לצוות שלך.",
+        "BUTTON_TEXT": "עדכן צוות"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "עדכן סוכנים בצוות",
+        "TITLE": "הוסף סוכנים לצוות - %{teamName}",
+        "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. כל הסוכנים שנוספו יקבלו הודעה כאשר שיחה תוקצה לצוות זה."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "פרטי צוות",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "שנה שם, תיאור ופרטים נוספים."
         },
         {
-          "title": "Edit Agents",
+          "title": "עריכת סוכנים",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "ערוך סוכנים בצוות שלך."
         },
         {
-          "title": "Finish",
+          "title": "סיים",
           "route": "settings_teams_edit_finish",
           "body": "אתם מוכנים לצאת לדרך!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "לא ניתן לשמור את פרטי הצוות. נסה שוב."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "סוכן",
       "EMAIL": "מייל",
       "BUTTON_TEXT": "הוסף נציגים",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "הוספת סוכנים לצוות שלך...",
+      "SELECT": "בחר",
+      "SELECT_ALL": "בחר את כל הסוכנים",
+      "SELECTED_COUNT": "%{selected} מתוך %{total} סוכנים שנבחרו."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "הוסף סוכנים לצוות - %{teamName}",
+      "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. זה מאפשר לך לשתף פעולה כצוות בשיחות, לקבל התראות על אירועים חדשים באותה שיחה.",
+      "SELECT": "בחר",
+      "SELECT_ALL": "בחר את כל הסוכנים",
+      "SELECTED_COUNT": "%{selected} מתוך %{total} סוכנים שנבחרו.",
       "BUTTON_TEXT": "הוסף נציגים",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "בחר סוכן אחד לפחות."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "הצוות שלך מוכן!",
+      "MESSAGE": "עכשיו אתה יכול לשתף פעולה כצוות בשיחות. תמיכה שמח ",
+      "BUTTON_TEXT": "סיים"
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "הצוות נמחק בהצלחה.",
+        "ERROR_MESSAGE": "לא ניתן למחוק את הצוות. נסה שוב."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "האם אתה בטוח רוצה למחוק - %{teamName}",
+        "PLACE_HOLDER": "אנא הקלד {teamName} כדי לאשר",
+        "MESSAGE": "מחיקת הצוות תסיר את הקצאת הצוות מהשיחות שהוקצו לצוות זה.",
         "YES": "מחק ",
         "NO": "ביטול"
       }
     },
     "SETTINGS": "הגדרות",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "עדכן צוות",
+      "CREATE": "צור צוות",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "שם קבוצה",
+        "PLACEHOLDER": "דוגמה: מכירות, תמיכת לקוחות"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "תיאור צוות",
+        "PLACEHOLDER": "תיאור קצר על הצוות הזה."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "אפשר הקצאה אוטומטית עבור הצוות הזה."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "צור צוות"
     }
   }
 }

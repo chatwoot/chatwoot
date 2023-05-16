@@ -81,8 +81,7 @@ uk:
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
     conversation_traffic_csv:
-      date: Дата та час
-      conversations_count: '№ розмов'
+      timezone: Timezone
     default_group_by: день
     csat:
       headers:
@@ -113,6 +112,11 @@ uk:
         pending: "Бесіда була позначена як очікується %{user_name}"
         snoozed: "Розмова була відкладена %{user_name}"
         auto_resolved: "Діалог був закритий системою через %{duration} днів неактивності"
+        system_auto_open: Система повторно відкрила розмову через нове вхідне повідомлення.
+      priority:
+        added: '%{user_name} встановив пріоритет %{new_priority}'
+        updated: '%{user_name} змінив пріоритет з %{old_priority} на %{new_priority}'
+        removed: '%{user_name} видалив пріоритет'
       assignee:
         self_assigned: "%{user_name} самостійно призначив цей діалог"
         assigned: "Призначено до %{assignee_name} користувачем %{user_name}"
@@ -138,7 +142,7 @@ uk:
           reply_with_name: "%{assignee_name} від %{inbox_name} <reply+%{reply_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} від %{inbox_name}"
+          reply_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Нові повідомлення в цьому діалозі"
       transcript_subject: "Транскрипція діалогу"
@@ -167,6 +171,9 @@ uk:
     google_translate:
       name: "Google Translate"
       description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає у обрану дміністратором чи агентом мову."
+    openai:
+      name: "OpenAI"
+      description: "Інтегруйте потужні AI функції в Chatwoot, використовуючи моделі GPT з OpenAI."
   public_portal:
     search:
       search_placeholder: Пошук статті за заголовком або змістом...
