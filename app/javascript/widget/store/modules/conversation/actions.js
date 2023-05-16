@@ -96,6 +96,10 @@ export const actions = {
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
+      const ref = new URLSearchParams(window.location.search).get('ref');
+      if(ref) {
+        await setCustomAttributes({"ref": ref});
+      }
     } catch (error) {
       captureSentryException(error);
       commit('setConversationListLoading', false);
