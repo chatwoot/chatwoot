@@ -28,8 +28,12 @@ body {
 }
 
 .heading {
+  .permalink {
+    visibility: hidden;
+  }
+
   &:hover {
-    a {
+    .permalink {
       visibility: visible;
     }
   }
