@@ -16,3 +16,21 @@ body {
   -webkit-font-smoothing: antialiased;
   height: 100%;
 }
+
+
+// Taking these utils from tailwind 3.x.x, need to remove once we upgrade
+.scroll-mt-24 {
+  scroll-margin-top: 6rem;
+}
+
+.top-24 {
+  top: 6rem;
+}
+
+.heading {
+  &:hover {
+    a {
+      visibility: visible;
+    }
+  }
+}
