@@ -196,6 +196,7 @@ en:
       empty_placeholder: No results found.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
