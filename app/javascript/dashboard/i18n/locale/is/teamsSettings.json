@@ -1,27 +1,27 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
+    "NEW_TEAM": "Stofna nýtt teymi",
+    "HEADER": "Teymi",
     "SIDEBAR_TXT": "<p><b>Teymi</b></p> <p>Teymi leyfa þér að skipuleggja þjónustufulltrúa þína í hópa út frá ábyrgð þeirra. <br /> Þjónustufulltrúi getur verið hluti af mörgum teymum. Þú getur úthlutað samtölum á teymi þegar þú ert að vinna í samvinnu. </p>",
     "LIST": {
       "404": "Það eru engin teymi til á þessum reikningi.",
-      "EDIT_TEAM": "Edit team"
+      "EDIT_TEAM": "Breyta teymi"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
+        "TITLE": "Stofna nýtt teymi",
         "DESC": "Bættu titli og lýsingu við nýja teymið þitt."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "BUTTON_TEXT": "Bæta þjónustufulltrúum við teymið",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
         "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
       },
       "WIZARD": [
         {
-          "title": "Create",
+          "title": "Stofna",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Stofna nýtt teymi af þjónustufulltrúum."
         },
         {
           "title": "Bæta við þjónustufulltrúa",
@@ -43,7 +43,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
         "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
       },
       "WIZARD": [
@@ -77,7 +77,7 @@
       "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
+      "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
       "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",

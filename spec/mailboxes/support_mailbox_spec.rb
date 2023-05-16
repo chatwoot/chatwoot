@@ -245,6 +245,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation.messages.last.content_attributes['email']['html_content']['reply']).to include(
           <<~BODY.chomp
             Hi,
+
             We are providing you platform from here you can sell paid posts on your website.
 
             Chatwoot | CS team | [C](https://d33wubrfki0l68.cloudfront.net/973467c532160fd8b940300a43fa85fa2d060307/dc9a0/static/brand-73f58cdefae282ae74cebfa74c1d7003.svg)

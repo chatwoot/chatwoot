@@ -239,7 +239,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Вы должны настроить URL-адрес webhook и токен проверки на портале разработчика Facebook с значениями, показанными ниже.",
           "WEBHOOK_URL": "URL вебхука",
           "WEBHOOK_VERIFICATION_TOKEN": "Токен авторизации Webhook"
         },
@@ -347,11 +347,11 @@
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Выберите почтового провайдера",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "DESCRIPTION": "Выберите поставщика электронной почты из списка ниже. Если вы не видите вашего почтового провайдера в списке, вы можете выбрать другую опцию провайдера и предоставить учетные данные IMAP и SMTP."
       },
       "MICROSOFT": {
         "TITLE": "Почта Microsoft",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "DESCRIPTION": "Нажмите на кнопку Войти с помощью Microsoft, чтобы начать. Вы будете перенаправлены на страницу входа по электронной почте. Как только вы согласитесь с запрошенными правами, вы будете перенаправлены обратно на этап создания входящих сообщений.",
         "EMAIL_PLACEHOLDER": "Введите адрес электронной почты",
         "HELP": "Чтобы добавить учетную запись Microsoft в качестве канала, вам нужно авторизоваться в учетной записи Майкрософт, нажав на кнопку \"Войти с помощью Microsoft\" ",
         "ERROR_MESSAGE": "Произошла ошибка при подключении к Microsoft, попробуйте еще раз"
@@ -440,7 +440,7 @@
       "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
       "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете",
       "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Использовать имя папки \"Входящие\" и аватар для бота"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт",
@@ -463,9 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
       "HMAC_VERIFICATION": "Проверка личности пользователя",
-      "HMAC_DESCRIPTION": "Для проверки личности пользователя SDK предлагает вам передать параметр `identity_hash` для каждого пользователя. Вы можете сгенерировать HMAC с помощью шифрования методом 'sha256' с ключом, который указан ниже.",
+      "HMAC_DESCRIPTION": "С помощью этого ключа вы можете сгенерировать секретный токен, который может быть использован для проверки личности ваших пользователей.",
+      "HMAC_LINK_TO_DOCS": "Подробнее читайте здесь.",
       "HMAC_MANDATORY_VERIFICATION": "Принудительная проверка личности пользователя",
-      "HMAC_MANDATORY_DESCRIPTION": "Если этот параметр включен, запросы на пропуск `identifier_hash` будут отклонены.",
+      "HMAC_MANDATORY_DESCRIPTION": "Если этот параметр включен, запросы, которые не могут быть проверены, будут отклонены.",
       "INBOX_IDENTIFIER": "Идентификатор входящего канала",
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
@@ -473,12 +474,21 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Введите обновленный ключ для интеграции с WhatsApp API.",
       "WHATSAPP_SECTION_TITLE": "Ключ API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Обновить ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введите сюда новый ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Обновить",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_WEBHOOK_TITLE": "Вебхук верифицировать токен",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Этот токен используется для проверки подлинности конечной точки веб-хука.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Обновить настройки формы для чата"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Центр поддержки",
+      "PLACEHOLDER": "Выберите справочный центр",
+      "SELECT_PLACEHOLDER": "Выберите справочный центр",
+      "REMOVE": "Удалить справочный центр",
+      "SUB_TEXT": "Прикрепить справочный центр с помощью папки \"Входящие\""
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",

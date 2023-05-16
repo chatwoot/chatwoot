@@ -121,18 +121,6 @@ describe AutomationRuleListener do
         expect(conversation.assignee).to eq(user_1)
       end
 
-      it 'triggers automation rule send email transcript to the mentioned email' do
-        mailer = double
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_updated(event)
-
-        conversation.reload
-
-        allow(mailer).to receive(:conversation_transcript)
-      end
-
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages).to be_empty
 
@@ -251,15 +239,6 @@ describe AutomationRuleListener do
         conversation.reload
 
         expect(conversation.assignee).to eq(user_1)
-      end
-
-      it 'triggers automation rule send email transcript to the mentioned email' do
-        mailer = double
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.conversation_updated(event)
-        conversation.reload
-
-        allow(mailer).to receive(:conversation_transcript)
       end
 
       it 'triggers automation rule send email to the team' do
@@ -457,15 +436,6 @@ describe AutomationRuleListener do
         expect(conversation.assignee).to eq(user_1)
       end
 
-      it 'triggers automation rule send email transcript to the mentioned email' do
-        mailer = double
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.conversation_opened(event)
-        conversation.reload
-
-        allow(mailer).to receive(:conversation_transcript)
-      end
-
       it 'triggers automation rule send email to the team' do
         message_delivery = instance_double(ActionMailer::MessageDelivery)
 
@@ -577,15 +547,6 @@ describe AutomationRuleListener do
 
         expect(conversation.assignee).to eq(user_1)
       end
-
-      it 'triggers automation rule send email transcript to the mentioned email' do
-        mailer = double
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.message_created(event)
-        conversation.reload
-
-        allow(mailer).to receive(:conversation_transcript)
-      end
     end
   end
 
@@ -616,17 +577,6 @@ describe AutomationRuleListener do
     end
 
     context 'when rule matches' do
-      it 'triggers automation rule send email transcript to the mentioned email' do
-        mailer = double
-        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
-        allow(mailer).to receive(:conversation_transcript)
-
-        listener.message_created(event)
-        conversation.reload
-
-        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'new_agent@example.com')
-      end
-
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages.count).to eq(1)
         listener.message_created(event)
@@ -710,18 +660,6 @@ describe AutomationRuleListener do
     end
 
     context 'when rule matches' do
-      it 'triggers automation rule send email transcript to the mentioned email' do
-        mailer = double
-        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
-        allow(mailer).to receive(:conversation_transcript)
-
-        listener.conversation_created(event)
-
-        conversation.reload
-
-        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'new_agent@example.com')
-      end
-
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages.count).to eq(1)
 
@@ -780,15 +718,6 @@ describe AutomationRuleListener do
       let(:tweet) { create(:conversation, additional_attributes: { type: 'tweet' }, inbox: inbox, account: account) }
       let(:event) { Events::Base.new('message_created', Time.zone.now, { conversation: tweet, message: message }) }
       let!(:message) { create(:message, account: account, conversation: tweet, message_type: 'incoming') }
-
-      it 'triggers automation rule except send_message and send_attachment' do
-        mailer = double
-        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
-        allow(mailer).to receive(:conversation_transcript)
-
-        listener.message_created(event)
-        expect(mailer).to have_received(:conversation_transcript).with(tweet, 'new_agent@example.com')
-      end
 
       it 'does not triggers automation rule send message or send attachment' do
         expect(tweet.messages.count).to eq(1)

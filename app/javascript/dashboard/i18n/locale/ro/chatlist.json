@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Conversații",
     "MENTION_HEADING": "Mențiuni",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Neasistat",
     "SEARCH": {
       "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
     },
@@ -35,6 +35,20 @@
         "TEXT": "Toate"
       }
     },
+    "VIEW_FILTER": "Vizualizare",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
+      },
+      "sort_on_created_at": {
+        "TEXT": "Creat la"
+      }
+    },
     "ATTACHMENTS": {
       "image": {
         "CONTENT": "Mesaj imagine"
@@ -55,13 +69,31 @@
         "CONTENT": "a partajat un URL"
       }
     },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sortați după",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Creat la",
+          "LABEL": "Creat la"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
     "RECEIVED_VIA_EMAIL": "Primit prin e-mail",
     "VIEW_TWEET_IN_TWITTER": "Vezi tweet pe Twitter",
     "REPLY_TO_TWEET": "Răspunde la acest tweet",
     "LINK_TO_STORY": "Accesați povestea Instagram",
     "SENT": "Trimis cu succes",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Citit cu succes",
+    "DELIVERED": "Livrat cu succes",
     "NO_MESSAGES": "Niciun mesaj",
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",

@@ -1,4 +1,5 @@
 json.id article.id
+json.slug article.slug
 json.title article.title
 json.content article.content
 json.description article.description

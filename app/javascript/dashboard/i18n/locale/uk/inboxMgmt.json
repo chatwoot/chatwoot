@@ -440,7 +440,7 @@
       "DISPLAY_FILE_PICKER": "Показувати вибір файлу на віджеті",
       "DISPLAY_EMOJI_PICKER": "Відображати емодзі на віджеті",
       "ALLOW_END_CONVERSATION": "Дозволити користувачам завершити розмову з віджета",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Вкажіть ім'я та аватар для бота"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт месенджера",
@@ -463,9 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
       "HMAC_VERIFICATION": "Перевірка ідентифікації користувача",
-      "HMAC_DESCRIPTION": "Щоб підтвердити ідентифікацію користувача, ви можете передати `identifier_hash` для кожного користувача. Ви можете згенерувати хеш HMAC sha256 за допомогою `identifier` з ключем, який показано тут.",
+      "HMAC_DESCRIPTION": "З цим ключем можна створити секретний токен, який можна використовувати для підтвердження особи ваших користувачів.",
+      "HMAC_LINK_TO_DOCS": "Детальніше тут...",
       "HMAC_MANDATORY_VERIFICATION": "Застосувати примусову перевірку особистості користувача",
-      "HMAC_MANDATORY_DESCRIPTION": "Якщо увімкнено, запити де не знайдено `identifier_hash`, буде відхилено.",
+      "HMAC_MANDATORY_DESCRIPTION": "Якщо увімкнено, заявки, які не можна підтвердити, будуть відхилені.",
       "INBOX_IDENTIFIER": "Ідентифікатор каналу",
       "INBOX_IDENTIFIER_SUB_TEXT": "Використовуйте токен `inbox_identifier`, показаний тут для аутентифікації ваших API клієнтів.",
       "FORWARD_EMAIL_TITLE": "Переслати на ел. пошту",
@@ -478,7 +479,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Оновити ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введіть тут новий ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Оновити",
+      "WHATSAPP_WEBHOOK_TITLE": "Токен перевірки вебхуків",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Цей токен використовується для перевірки аутентифікації кінцевої точки вебхука.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Оновити параметри форми чату"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Довідковий центр",
+      "PLACEHOLDER": "Виберіть довідковий центр",
+      "SELECT_PLACEHOLDER": "Виберіть довідковий центр",
+      "REMOVE": "Видалити довідковий центр",
+      "SUB_TEXT": "Прикріпити Довідковий центр до папки Вхідні"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Ліміт автопризначення",
