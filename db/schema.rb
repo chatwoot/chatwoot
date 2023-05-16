@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_26_130150) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_15_051424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -394,7 +394,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_130150) do
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.string "name", default: ""
     t.string "email"
     t.string "phone_number"
     t.integer "account_id", null: false
@@ -666,7 +666,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_130150) do
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
+    t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["created_at"], name: "index_messages_on_created_at"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
@@ -800,6 +802,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_130150) do
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "sla_policies", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "frt_threshold"
+    t.float "rt_threshold"
+    t.boolean "only_during_business_hours", default: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

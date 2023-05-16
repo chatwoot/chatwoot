@@ -179,6 +179,7 @@ group :development do
   gem 'annotate'
   gem 'bullet'
   gem 'letter_opener'
+  gem 'scss_lint', require: false
   gem 'web-console'
 
   # used in swagger build
