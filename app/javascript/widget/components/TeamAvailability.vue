@@ -35,6 +35,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
@@ -47,7 +48,7 @@ export default {
     AvailableAgents,
     CustomButton,
   },
-  mixins: [configMixin, availabilityMixin, darkMixin],
+  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -74,17 +75,6 @@ export default {
         return this.isInBetweenTheWorkingHours;
       }
       return anyAgentOnline;
-    },
-    replyWaitMessage() {
-      const { workingHoursEnabled } = this.channelConfig;
-
-      if (this.isOnline) {
-        return this.replyTimeStatus;
-      }
-      if (workingHoursEnabled) {
-        return this.outOfOfficeMessage;
-      }
-      return '';
     },
   },
   methods: {

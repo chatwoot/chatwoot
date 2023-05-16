@@ -57,6 +57,7 @@
 import { required, minLength } from 'vuelidate/lib/validators';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
+import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal';
 
 export default {
@@ -65,6 +66,7 @@ export default {
     Modal,
     WootMessageEditor,
   },
+  mixins: [alertMixin],
   props: {
     id: { type: Number, default: null },
     edcontent: { type: String, default: '' },
@@ -76,7 +78,6 @@ export default {
       editCanned: {
         showAlert: false,
         showLoading: false,
-        message: '',
       },
       shortCode: this.edshortCode,
       content: this.edcontent,
@@ -102,9 +103,6 @@ export default {
       this.$v.content.$touch();
       this.content = name;
     },
-    showAlert() {
-      bus.$emit('newToastMessage', this.editCanned.message);
-    },
     resetForm() {
       this.shortCode = '';
       this.content = '';
@@ -124,21 +122,17 @@ export default {
         .then(() => {
           // Reset Form, Show success message
           this.editCanned.showLoading = false;
-          this.editCanned.message = this.$t(
-            'CANNED_MGMT.EDIT.API.SUCCESS_MESSAGE'
-          );
-          this.showAlert();
+          this.showAlert(this.$t('CANNED_MGMT.EDIT.API.SUCCESS_MESSAGE'));
           this.resetForm();
           setTimeout(() => {
             this.onClose();
           }, 10);
         })
-        .catch(() => {
+        .catch(error => {
           this.editCanned.showLoading = false;
-          this.editCanned.message = this.$t(
-            'CANNED_MGMT.EDIT.API.ERROR_MESSAGE'
-          );
-          this.showAlert();
+          const errorMessage =
+            error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE');
+          this.showAlert(errorMessage);
         });
     },
   },

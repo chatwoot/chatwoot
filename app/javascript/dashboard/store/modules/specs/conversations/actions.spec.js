@@ -404,6 +404,33 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
     });
   });
+
+  describe('#updateConversationLastActivity', () => {
+    it('sends correct action', async () => {
+      await actions.updateConversationLastActivity(
+        { commit },
+        { conversationId: 1, lastActivityAt: 12121212 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          'UPDATE_CONVERSATION_LAST_ACTIVITY',
+          { conversationId: 1, lastActivityAt: 12121212 },
+        ],
+      ]);
+    });
+  });
+
+  describe('#setChatSortFilter', () => {
+    it('sends correct action', async () => {
+      await actions.setChatSortFilter(
+        { commit },
+        { data: 'sort_on_created_at' }
+      );
+      expect(commit.mock.calls).toEqual([
+        ['CHANGE_CHAT_SORT_FILTER', { data: 'sort_on_created_at' }],
+      ]);
+    });
+  });
 });
 
 describe('#deleteMessage', () => {
