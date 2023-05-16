@@ -113,7 +113,39 @@ describe Integrations::Slack::SendOnSlackService do
         expect(slack_client).to receive(:files_upload).with(hash_including(
                                                               channels: hook.reference_id,
                                                               thread_ts: conversation.identifier,
-                                                              initial_comment: 'Attached File!',
+                                                              initial_comment: '',
+                                                              filetype: 'png',
+                                                              content: anything,
+                                                              filename: attachment.file.filename,
+                                                              title: attachment.file.filename
+                                                            )).and_return(file_attachment)
+
+        message.save!
+
+        builder.perform
+
+        expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
+        expect(message.attachments).to be_any
+      end
+
+      it 'sent attachment on slack with empty message content' do
+        message.content = nil
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: 'Attached File!',
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        expect(slack_client).to receive(:files_upload).with(hash_including(
+                                                              channels: hook.reference_id,
+                                                              thread_ts: conversation.identifier,
+                                                              initial_comment: '',
                                                               filetype: 'png',
                                                               content: anything,
                                                               filename: attachment.file.filename,
