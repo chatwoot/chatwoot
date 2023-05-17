@@ -21,4 +21,11 @@ class CustomFilter < ApplicationRecord
   belongs_to :account
 
   enum filter_type: { conversation: 0, contact: 1, report: 2 }
+  validate :validate_number_of_filters
+
+  def validate_number_of_filters
+    return true if self.class.where(account_id: account_id, user_id: user_id).size <= 50
+
+    errors.add :account_id, 'We do not allow creating >50 custom views per account per user'
+  end
 end

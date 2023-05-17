@@ -66,6 +66,8 @@ RSpec.describe 'Custom Filters API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:user) { create(:user, account: account) }
+      let(:new_account) { create(:account) }
+      let(:new_user) { create(:user, account: new_account) }
 
       it 'creates the filter' do
         expect do
@@ -76,6 +78,20 @@ RSpec.describe 'Custom Filters API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eq 'vip-customers'
+      end
+
+      it 'gives the error for 51st record' do
+        51.times do
+          create(:custom_filter, user: user, account: account)
+        end
+        expect do
+          post "/api/v1/accounts/#{account.id}/custom_filters", headers: user.create_new_auth_token,
+                                                                params: payload
+        end.not_to change(CustomFilter, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to include('We do not allow creating >50 custom views per account per user')
       end
     end
   end
