@@ -6,41 +6,52 @@ const allElementsNumbers = arr => {
   return arr.every(elem => typeof elem === 'number');
 };
 
-const formatArray = params => {
+const formatActionParamsArray = params => {
   if (params.length <= 0) {
-    params = [];
-  } else if (allElementsString(params) || allElementsNumbers(params)) {
-    params = [...params];
-  } else {
-    params = params.map(val => val.id);
+    return [];
   }
-  return params;
+
+  if (allElementsString(params) || allElementsNumbers(params)) {
+    return [...params];
+  }
+
+  return params.map(val => val.id);
 };
 
-const generatePayloadForObject = item => {
-  if (item.action_params.id) {
-    item.action_params = [item.action_params.id];
-  } else {
-    item.action_params = [item.action_params];
+const formatActionParamsObject = params => {
+  if (params.id) {
+    return [params.id];
   }
-  return item.action_params;
+
+  return [params];
+};
+
+const processActionParams = action_params => {
+  if (Array.isArray(action_params)) {
+    return formatActionParamsArray(action_params);
+  }
+
+  if (typeof action_params === 'object') {
+    return formatActionParamsObject(action_params);
+  }
+
+  if (!action_params) {
+    return [];
+  }
+
+  return [action_params];
 };
 
 const generatePayload = data => {
   const actions = JSON.parse(JSON.stringify(data));
-  let payload = actions.map(item => {
-    if (Array.isArray(item.action_params)) {
-      item.action_params = formatArray(item.action_params);
-    } else if (typeof item.action_params === 'object') {
-      item.action_params = generatePayloadForObject(item);
-    } else if (!item.action_params) {
-      item.action_params = [];
-    } else {
-      item.action_params = [item.action_params];
-    }
-    return item;
+
+  return actions.map(item => {
+    const { action_params } = item;
+    return {
+      ...item,
+      action_params: processActionParams(action_params),
+    };
   });
-  return payload;
 };
 
 export default generatePayload;
