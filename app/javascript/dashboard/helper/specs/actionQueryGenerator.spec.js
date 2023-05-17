@@ -6,6 +6,10 @@ const testData = [
     action_params: [{ id: 'testlabel', name: 'testlabel' }],
   },
   {
+    action_name: 'add_label_empty',
+    action_params: [],
+  },
+  {
     action_name: 'assign_team',
     action_params: [
       {
@@ -18,6 +22,18 @@ const testData = [
       },
     ],
   },
+  {
+    action_name: 'assign_priority',
+    action_params: { id: 'high', name: 'High' },
+  },
+  {
+    action_name: 'test_action_2',
+    action_params: { value: null, id: 'null', name: 'None' },
+  },
+  {
+    action_name: 'test_action',
+    action_params: { name: 'High' },
+  },
 ];
 
 const finalResult = [
@@ -26,8 +42,28 @@ const finalResult = [
     action_params: ['testlabel'],
   },
   {
+    action_name: 'add_label_empty',
+    action_params: [],
+  },
+  {
     action_name: 'assign_team',
     action_params: [1],
+  },
+  {
+    action_name: 'assign_priority',
+    action_params: ['high'],
+  },
+  {
+    action_name: 'test_action_2',
+    action_params: [null],
+  },
+  {
+    action_name: 'test_action',
+    action_params: [
+      {
+        name: 'High',
+      },
+    ],
   },
 ];
 
