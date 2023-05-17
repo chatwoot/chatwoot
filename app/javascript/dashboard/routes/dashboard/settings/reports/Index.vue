@@ -53,6 +53,7 @@ import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import reportMixin from '../../../../mixins/reportMixin';
+import alertMixin from '../../../../mixins/alertMixin';
 import { formatTime } from '@chatwoot/utils';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
@@ -70,7 +71,7 @@ export default {
   components: {
     ReportFilterSelector,
   },
-  mixins: [reportMixin],
+  mixins: [reportMixin, alertMixin],
   data() {
     return {
       from: 0,
@@ -190,13 +191,21 @@ export default {
       this.fetchChartData();
     },
     fetchAccountSummary() {
-      this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
+      try {
+        this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
+      } catch {
+        this.showAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
+      }
     },
     fetchChartData() {
-      this.$store.dispatch('fetchAccountReport', {
-        metric: this.metrics[this.currentSelection].KEY,
-        ...this.getRequestPayload(),
-      });
+      try {
+        this.$store.dispatch('fetchAccountReport', {
+          metric: this.metrics[this.currentSelection].KEY,
+          ...this.getRequestPayload(),
+        });
+      } catch {
+        this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      }
     },
     getRequestPayload() {
       const { from, to, groupBy, businessHours } = this;

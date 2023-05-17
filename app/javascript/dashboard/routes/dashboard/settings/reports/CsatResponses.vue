@@ -28,6 +28,7 @@ import { generateFileName } from '../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'CsatResponses',
@@ -36,6 +37,7 @@ export default {
     CsatTable,
     ReportFilterSelector,
   },
+  mixins: [alertMixin],
   data() {
     return {
       pageIndex: 1,
@@ -71,8 +73,12 @@ export default {
   },
   methods: {
     getAllData() {
-      this.$store.dispatch('csat/getMetrics', this.requestPayload);
-      this.getResponses();
+      try {
+        this.$store.dispatch('csat/getMetrics', this.requestPayload);
+        this.getResponses();
+      } catch {
+        this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      }
     },
     getResponses() {
       this.$store.dispatch('csat/get', {
@@ -82,10 +88,14 @@ export default {
     },
     downloadReports() {
       const type = 'csat';
-      this.$store.dispatch('csat/downloadCSATReports', {
-        fileName: generateFileName({ type, to: this.to }),
-        ...this.requestPayload,
-      });
+      try {
+        this.$store.dispatch('csat/downloadCSATReports', {
+          fileName: generateFileName({ type, to: this.to }),
+          ...this.requestPayload,
+        });
+      } catch (error) {
+        this.showAlert(this.$t('REPORT.CSAT_REPORTS.DOWNLOAD_FAILED'));
+      }
     },
     onPageNumberChange(pageIndex) {
       this.pageIndex = pageIndex;
