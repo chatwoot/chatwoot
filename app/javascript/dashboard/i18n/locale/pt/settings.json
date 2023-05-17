@@ -164,6 +164,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiar",
+      "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Código copiado com sucesso para área de transferência"
     },
     "SHOW_MORE_BLOCK": {
@@ -202,6 +203,7 @@
     "HOME": "Principal",
     "AGENTS": "agentes",
     "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificaçoes",
     "CANNED_RESPONSES": "Respostas Prontas",

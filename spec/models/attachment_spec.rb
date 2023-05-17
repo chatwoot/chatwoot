@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe Attachment, type: :model do
+  describe 'external url validations' do
+    let(:message) { create(:message) }
+    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
+
+    before do
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+    end
+
+    context 'when it validates external url length' do
+      it 'valid when within limit' do
+        attachment.external_url = 'a' * 1000
+        expect(attachment.valid?).to be true
+      end
+
+      it 'invalid when crossed the limit' do
+        attachment.external_url = 'a' * 1500
+        attachment.valid?
+        expect(attachment.errors[:external_url]).to include('is too long (maximum is 1000 characters)')
+      end
+    end
+  end
+
   describe 'download_url' do
     it 'returns valid download url' do
       message = create(:message)

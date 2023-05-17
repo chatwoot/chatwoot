@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "不明なファイル",
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "添付ファイルをアップロード中...",
+    "REPLIED_TO_STORY": "Replied to your story",
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
     "NO_RESPONSE": "No response",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "明日",
         "NEXT_WEEK": "次週"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "該当なし",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "該当なし",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "No results found",
+        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "CARD_CONTEXT_MENU": {

@@ -74,6 +74,11 @@
           "LABEL": "이메일 주소",
           "PLACEHOLDER": "에이전트의 이메일 주소를 입력하십시오."
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "유용성",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "에이전트 수정"
       },
       "BUTTON_TEXT": "수정",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "에이전트 찾기",
-          "TEAM": "팀 찾기"
+          "TEAM": "팀 찾기",
+          "INPUT": "Search for agents"
         }
       }
     }

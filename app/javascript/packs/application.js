@@ -18,7 +18,7 @@ import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
 import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
-import constants from '../dashboard/constants';
+import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';

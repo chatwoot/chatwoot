@@ -1,3 +1,4 @@
+import { PRIORITY_CONDITION_VALUES } from 'dashboard/helper/automationHelper.js';
 export default {
   methods: {
     getDropdownValues(type) {
@@ -15,6 +16,8 @@ export default {
               name: i.title,
             };
           });
+        case 'change_priority':
+          return PRIORITY_CONDITION_VALUES;
         default:
           return [];
       }

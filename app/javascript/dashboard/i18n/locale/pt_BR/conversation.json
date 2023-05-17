@@ -37,6 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
     "SAVE_CONTACT": "Salvar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
+    "REPLIED_TO_STORY": "Respondido ao seu story",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
@@ -64,6 +65,23 @@
         "NEXT_REPLY": "Próxima resposta",
         "TOMORROW": "Amanhã",
         "NEXT_WEEK": "Próxima semana"
+      }
+    },
+    "PRIORITY": {
+      "TITLE": "Prioridade",
+      "OPTIONS": {
+        "NONE": "Nenhuma",
+        "URGENT": "Urgente",
+        "HIGH": "Alta",
+        "MEDIUM": "Média",
+        "LOW": "Baixa"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nenhuma",
+        "INPUT_PLACEHOLDER": "Selecionar prioridade",
+        "NO_RESULTS": "Nenhum resultado encontrado",
+        "SUCCESSFUL": "Alterada a prioridade do ID da conversa %{conversationId} para %{priority}",
+        "FAILED": "Não foi possível alterar a prioridade. Por favor, tente novamente."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -167,8 +185,8 @@
       "DELETE": "Excluir",
       "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
       "TRANSLATE": "Traduzir",
-      "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "COPY_PERMALINK": "Copiar link para a mensagem",
+      "LINK_COPIED": "URL da mensagem copiada para a área de transferência",
       "DELETE_CONFIRMATION": {
         "TITLE": "Você tem certeza que deseja excluir esta mensagem?",
         "MESSAGE": "Você não pode desfazer essa ação",

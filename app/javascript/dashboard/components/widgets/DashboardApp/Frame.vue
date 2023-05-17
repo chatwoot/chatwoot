@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-app--container">
+  <div v-if="hasOpenedAtleastOnce" class="dashboard-app--container">
     <div
       v-for="(configItem, index) in config"
       :key="index"
@@ -35,9 +35,14 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isVisible: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
+      hasOpenedAtleastOnce: false,
       iframeLoading: true,
     };
   },
@@ -55,6 +60,13 @@ export default {
     currentAgent() {
       const { id, name, email } = this.$store.getters.getCurrentUser;
       return { id, name, email };
+    },
+  },
+  watch: {
+    isVisible() {
+      if (this.isVisible) {
+        this.hasOpenedAtleastOnce = true;
+      }
     },
   },
 

@@ -74,6 +74,11 @@
           "LABEL": "E-mail adresa",
           "PLACEHOLDER": "Unesite e-mail adresu agenta"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostupnost",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
         "SUBMIT": "Uredi agenta"
       },
       "BUTTON_TEXT": "Uredi",
@@ -105,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Traži agente",
-          "TEAM": "Traži tim"
+          "TEAM": "Traži tim",
+          "INPUT": "Search for agents"
         }
       }
     }

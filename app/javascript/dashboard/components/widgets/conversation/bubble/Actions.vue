@@ -175,7 +175,7 @@ export default {
       return MESSAGE_STATUS.SENT === this.messageStatus;
     },
     readableTime() {
-      return this.messageStamp(this.createdAt, 'LLL d, h:mm a');
+      return this.messageTimestamp(this.createdAt, 'LLL d, h:mm a');
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
@@ -195,7 +195,7 @@ export default {
         return '';
       }
       const { storySender, storyId } = this;
-      return `https://www.instagram.com/stories/${storySender}/${storyId}`;
+      return `https://www.instagram.com/stories/direct/${storySender}_${storyId}`;
     },
     showStatusIndicators() {
       if ((this.isOutgoing || this.isTemplate) && !this.isPrivate) {

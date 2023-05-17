@@ -109,7 +109,6 @@
           @click="toggleEditModal"
         />
         <woot-button
-          v-if="isAdmin"
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           class="merge-contact"

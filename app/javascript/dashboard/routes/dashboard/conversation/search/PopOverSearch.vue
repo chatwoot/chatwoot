@@ -6,7 +6,9 @@
         <div class="icon">
           <fluent-icon icon="search" class="search--icon" size="16" />
         </div>
-        <p class="search--label">{{ $t('CONVERSATION.SEARCH_MESSAGES') }}</p>
+        <p class="search--label text-ellipsis">
+          {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
+        </p>
       </router-link>
       <switch-layout
         :is-on-expanded-layout="isOnExpandedLayout"
@@ -84,6 +86,11 @@ export default {
   display: inline-flex;
   align-items: center;
   flex: 1;
+  background: var(--s-25);
+  padding: var(--space-smaller);
+  height: var(--space-medium);
+  border-radius: var(--border-radius-normal);
+  margin-right: var(--space-smaller);
 }
 
 .search--label {

@@ -122,6 +122,7 @@
         "LABEL": "Numero di telefono",
         "HELP": "Il numero di telefono dovrebbe essere di formato E.164 es.: +3915555555 [+][codice nazione][codice zona][numero di telefono locale]",
         "ERROR": "Il numero di telefono deve essere vuoto o di formato E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Questo numero di telefono è in uso per un altro contatto."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Inserisci il nome dell'azienda",
         "LABEL": "Nome azienda"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Nome del paese",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Rimuovi",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -171,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Casella",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Seleziona una casella"
       },
       "SUBJECT": {

@@ -23,7 +23,7 @@
       "is_greater_than": "Більше ніж",
       "is_less_than": "Менше ніж",
       "days_before": "X днів до",
-      "starts_with": "Starts with"
+      "starts_with": "Починається з"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Так",
@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Назва Кампанії",
       "LABELS": "Мітки",
       "BROWSER_LANGUAGE": "Мова браузера",
+      "PRIORITY": "Пріоритет",
       "COUNTRY_NAME": "Назва країни",
       "REFERER_LINK": "Посилання",
       "CUSTOM_ATTRIBUTE_LIST": "Список",

@@ -120,8 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "کانٹیکٹ کا فون نمبر درج کریں۔",
         "LABEL": "فون نمبر",
-        "HELP": "فون نمبر E.164 فارمیٹ کا ہونا چاہیے جیسے: +1415555555 [+][ملک کا کوڈ][علاقہ کا کوڈ][مقامی فون نمبر]",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "فون نمبر یا تو خالی یا E.164 فارمیٹ کا ہونا چاہیے۔",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "یہ فون نمبر دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "کمپنی کا نام درج کریں۔",
         "LABEL": "کمپنی کا نام"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Remove",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -170,7 +182,8 @@
         "LABEL": "کو"
       },
       "INBOX": {
-        "LABEL": "ان باکس",
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "ایک ان باکس منتخب کریں۔"
       },
       "SUBJECT": {

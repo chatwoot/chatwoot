@@ -122,6 +122,7 @@
         "LABEL": "Telefoonnummer",
         "HELP": "Telefoonnummer moet van het E.164 formaat zijn: +14155555 [+][landcode][gebiedscode][lokaal telefoonnummer]",
         "ERROR": "Telefoonnummer moet leeg of in E.164-formaat zijn",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Dit telefoonnummer wordt reeds gebruikt voor een ander contactpersoon."
       },
       "LOCATION": {
@@ -131,6 +132,17 @@
       "COMPANY_NAME": {
         "PLACEHOLDER": "Voer de bedrijfsnaam in",
         "LABEL": "Bedrijfsnaam"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Land Naam",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Verwijderen",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -171,6 +183,7 @@
       },
       "INBOX": {
         "LABEL": "Postvak In",
+        "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Selecteer een inbox"
       },
       "SUBJECT": {

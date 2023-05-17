@@ -12,10 +12,10 @@
       "MESSAGES": "訊息"
     },
     "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
+    "EMPTY_STATE_FULL": "查無 %{query} 條件的結果",
     "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
     "BOT_LABEL": "機器人",
     "READ_MORE": "Read more",
     "WROTE": "wrote:"

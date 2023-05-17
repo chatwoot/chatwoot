@@ -8,6 +8,7 @@ const settings = accountId => ({
     'agent_list',
     'attributes_list',
     'automation_list',
+    'auditlogs_list',
     'billing_settings_index',
     'canned_list',
     'general_settings_index',
@@ -149,6 +150,15 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
       showOnlyOnCloud: true,
+    },
+    {
+      icon: 'key',
+      label: 'AUDIT_LOGS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
+      toStateName: 'auditlogs_list',
+      featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
+      beta: true,
     },
   ],
 });

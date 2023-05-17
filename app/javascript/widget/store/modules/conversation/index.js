@@ -17,6 +17,7 @@ const state = {
     isAgentTyping: false,
     isCreating: false,
   },
+  lastMessageId: null,
 };
 
 export default {

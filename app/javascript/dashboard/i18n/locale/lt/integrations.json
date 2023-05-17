@@ -4,13 +4,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
-        "CANCEL": "Cancel",
+        "CANCEL": "Atšaukti",
         "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Events",
           "EVENTS": {
             "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_STATUS_CHANGED": "Pokalbio būsena pakeista",
             "CONVERSATION_UPDATED": "Conversation Updated",
             "MESSAGE_CREATED": "Message created",
             "MESSAGE_UPDATED": "Message updated",
@@ -22,7 +22,7 @@
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Example: https://example/api/webhook",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Prašome įvesti tesingą URL adresą"
         },
         "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
@@ -32,42 +32,42 @@
       "HEADER": "Webhook settings",
       "HEADER_BTN_TXT": "Add new webhook",
       "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
+      "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
         "TABLE_HEADER": [
           "Webhook endpoint",
-          "Actions"
+          "Veiksmai"
         ]
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
+        "BUTTON_TEXT": "Redaguoti",
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
+        "CANCEL": "Atšaukti",
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Ištrinti",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
+          "TITLE": "Patvirtinti Ištrynimą",
           "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
-          "YES": "Yes, Delete ",
+          "YES": "Taip, Trinti ",
           "NO": "No, Keep it"
         }
       }
@@ -85,8 +85,25 @@
       "JOIN_ERROR": "There was an error joining the call, please try again",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
+    "OPEN_AI": {
+      "TITLE": "Improve With AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "Atšaukti"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Ištrinti",
       "API": {
         "SUCCESS_MESSAGE": "Integration deleted successfully"
       }
@@ -103,14 +120,14 @@
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
         "TABLE_HEADER": [
-          "Name",
+          "Vardas",
           "Endpoint"
         ],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
+        "TITLE_LABEL": "Vardas",
         "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
         "TITLE_ERROR": "A name for the dashboard app is required",
         "URL_LABEL": "Endpoint",
@@ -119,21 +136,21 @@
       },
       "CREATE": {
         "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
+        "FORM_SUBMIT": "Pateikti",
+        "FORM_CANCEL": "Atšaukti",
         "API_SUCCESS": "Dashboard app configured successfully",
         "API_ERROR": "We couldn't create an app. Please try again later"
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
+        "FORM_SUBMIT": "Atnaujinti",
+        "FORM_CANCEL": "Atšaukti",
         "API_SUCCESS": "Dashboard app updated successfully",
         "API_ERROR": "We couldn't update the app. Please try again later"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Taip, Trinti",
+        "CONFIRM_NO": "Ne, Išsaugoti",
         "TITLE": "Confirm deletion",
         "MESSAGE": "Are you sure to delete the app - %{appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",

@@ -439,7 +439,8 @@
       "LABEL": "Funcionalidades",
       "DISPLAY_FILE_PICKER": "Exibir seletor de arquivos no widget",
       "DISPLAY_EMOJI_PICKER": "Exibir seletor de emoji no widget",
-      "ALLOW_END_CONVERSATION": "Permitir que usuários terminem a conversa a partir do widget"
+      "ALLOW_END_CONVERSATION": "Permitir que usuários terminem a conversa a partir do widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use o nome da caixa de entrada e avatar do bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Código Menssageiro <scripit>",
@@ -463,6 +464,7 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
       "HMAC_VERIFICATION": "Validação de Identidade do Usuário",
       "HMAC_DESCRIPTION": "Para validar a identidade do usuário, você pode passar um `identifier_hash` para cada usuário. Você pode gerar um hash HMAC sha256 usando o `identifier` com a chave mostrada aqui.",
+      "HMAC_LINK_TO_DOCS": "Você pode ler mais aqui.",
       "HMAC_MANDATORY_VERIFICATION": "Forçar validação de identidade do usuário",
       "HMAC_MANDATORY_DESCRIPTION": "Se ativado, as solicitações sem o 'identifier_hash' serão rejeitadas.",
       "INBOX_IDENTIFIER": "Identificador da caixa de entrada",
@@ -477,7 +479,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave de API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar",
+      "WHATSAPP_WEBHOOK_TITLE": "Token de verificação do Webhook",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Centro de Ajuda",
+      "PLACEHOLDER": "Selecionar Centro de Ajuda",
+      "SELECT_PLACEHOLDER": "Selecionar Centro de Ajuda",
+      "REMOVE": "Remover Centro de Ajuda",
+      "SUB_TEXT": "Anexe um Centro de Ajuda com a caixa de entrada"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limite de atribuição automática",

@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
+  let!(:account) { create(:account) }
+  let(:user) { create(:user, account_ids: [account.id], role: :agent) }
+  let!(:portal_1) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
+  let!(:category_1) { create(:category, slug: 'category_1', locale: 'en', portal_id: portal_1.id) }
+
   context 'with validations' do
     it { is_expected.to validate_presence_of(:account_id) }
-    it { is_expected.to validate_presence_of(:category_id) }
     it { is_expected.to validate_presence_of(:author_id) }
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:content) }
@@ -11,16 +15,33 @@ RSpec.describe Article, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
-    it { is_expected.to belong_to(:category) }
     it { is_expected.to belong_to(:author) }
   end
 
+  # This validation happens in ApplicationRecord
+  describe 'length validations' do
+    let(:article) do
+      create(:article, category_id: category_1.id, content: 'This is the content', description: 'this is the description',
+                       slug: 'this-is-title', title: 'this is title',
+                       portal_id: portal_1.id, author_id: user.id)
+    end
+
+    context 'when it validates content length' do
+      it 'valid when within limit' do
+        article.content = 'a' * 1000
+        expect(article.valid?).to be true
+      end
+
+      it 'invalid when crossed the limit' do
+        article.content = 'a' * 25_001
+        article.valid?
+        expect(article.errors[:content]).to include('is too long (maximum is 20000 characters)')
+      end
+    end
+  end
+
   describe 'search' do
-    let!(:account) { create(:account) }
-    let(:user) { create(:user, account_ids: [account.id], role: :agent) }
-    let!(:portal_1) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
     let!(:portal_2) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
-    let!(:category_1) { create(:category, slug: 'category_1', locale: 'en', portal_id: portal_1.id) }
     let!(:category_2) { create(:category, slug: 'category_2', locale: 'es', portal_id: portal_1.id) }
     let!(:category_3) { create(:category, slug: 'category_3', locale: 'es', portal_id: portal_2.id) }
 

@@ -34,7 +34,7 @@
       "CONDITION_BUTTON_LABEL": "Adicionar condição",
       "ACTION_BUTTON_LABEL": "Adicionar ação",
       "API": {
-        "SUCCESS_MESSAGE": "Automação adicionada com sucesso",
+        "SUCCESS_MESSAGE": "Regra de automação adicionada com sucesso",
         "ERROR_MESSAGE": "Não foi possível criar uma regra de automação, por favor, tente novamente mais tarde"
       }
     },

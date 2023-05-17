@@ -2,29 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "אינטגרציות",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "אירועים מנויים",
       "FORM": {
         "CANCEL": "ביטול",
         "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "אירועים",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONVERSATION_CREATED": "השיחה נוצרה",
+            "CONVERSATION_STATUS_CHANGED": "סטטוס השיחה השתנה",
+            "CONVERSATION_UPDATED": "השיחה עודכנה",
+            "MESSAGE_CREATED": "ההודעה נוצרה",
+            "MESSAGE_UPDATED": "ההודעה עודכנה",
+            "WEBWIDGET_TRIGGERED": "ווידג'ט צ'אט חי נפתח על ידי המשתמש",
+            "CONTACT_CREATED": "צור קשר",
+            "CONTACT_UPDATED": "איש קשר עודכן"
           }
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
+          "LABEL": "כתובת אתר של Webhook",
           "PLACEHOLDER": "דוגמה: https://example/api/webhook",
           "ERROR": "אנא הכנס כתובת URL חוקית"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "עדכון webhook",
         "ADD_SUBMIT": "צור webhook"
       },
       "TITLE": "Webhook",
@@ -46,7 +46,7 @@
         "BUTTON_TEXT": "ערוך",
         "TITLE": "ערוך webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "תצורת Webhook עודכנה בהצלחה",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         }
       },
@@ -54,7 +54,7 @@
         "CANCEL": "ביטול",
         "TITLE": "הוסף Webhook חדש",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "תצורת Webhook נוספה בהצלחה",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         }
       },
@@ -66,7 +66,7 @@
         },
         "CONFIRM": {
           "TITLE": "אשר מחיקה",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "האם אתה בטוח שתמחק את ה-webhook? (%{webhookURL})",
           "YES": "כן, מחק ",
           "NO": "לא, השאר"
         }
@@ -79,11 +79,28 @@
       }
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
+      "LEAVE_THE_ROOM": "עזוב את החדר",
+      "START_VIDEO_CALL_HELP_TEXT": "התחל שיחת וידאו חדשה עם הלקוח",
+      "JOIN_ERROR": "אירעה שגיאה בהצטרפות לשיחה, אנא נסה שוב",
+      "CREATE_ERROR": "אירעה שגיאה ביצירת קישור לפגישה, אנא נסה שוב"
+    },
+    "OPEN_AI": {
+      "TITLE": "Improve With AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "ביטול"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
@@ -95,49 +112,49 @@
       "BUTTON_TEXT": "התחבר"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "אפליקציות לוח מחוונים",
+      "HEADER_BTN_TXT": "הוסף אפליקציית לוח מחוונים חדשה",
+      "SIDEBAR_TXT": "<p><b>אפליקציות לוח מחוונים</b></p><p>אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים של Chatwoot כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה בתוך לוח המחוונים כדי לספק מידע על המשתמש, ההזמנות שלו או היסטוריית התשלומים הקודמת שלו.</p><p>כאשר תטמיע את האפליקציה שלך באמצעות לוח המחוונים ב-Chatwoot, האפליקציה שלך תהיה קבל את ההקשר של השיחה והקשר כאירוע חלון. הטמיע מאזין לאירוע ההודעה בדף שלך כדי לקבל את ההקשר.</p><p>כדי להוסיף אפליקציית לוח מחוונים חדשה, לחץ על הלחצן 'הוסף אפליקציית לוח מחוונים חדשה'.</p>",
+      "DESCRIPTION": "אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה כדי לספק מידע על המשתמש, ההזמנות שלהם או היסטוריית התשלומים הקודמת שלהם.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "אין עדיין אפליקציות לוח מחוונים מוגדרות בחשבון זה",
+        "LOADING": "מביא אפליקציות לוח מחוונים...",
         "TABLE_HEADER": [
           "שם",
-          "Endpoint"
+          "נקודת קצה"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "ערוך אפליקציה",
+        "DELETE_TOOLTIP": "מחק אפליקציה"
       },
       "FORM": {
         "TITLE_LABEL": "שם",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "הזן שם לאפליקציית לוח המחוונים שלך",
+        "TITLE_ERROR": "נדרש שם לאפליקציית לוח המחוונים",
+        "URL_LABEL": "נקודת קצה",
+        "URL_PLACEHOLDER": "הזן את כתובת האתר של נקודת הקצה שבה האפליקציה שלך מתארחת",
+        "URL_ERROR": "נדרשת כתובת אתר חוקית"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "הוסף אפליקציית לוח מחוונים חדשה",
         "FORM_SUBMIT": "שלח",
         "FORM_CANCEL": "ביטול",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "אפליקציית לוח המחוונים הוגדרה בהצלחה",
+        "API_ERROR": "לא הצלחנו ליצור אפליקציה. אנא נסה שוב מאוחר יותר"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "עריכת אפליקציית לוח המחוונים",
         "FORM_SUBMIT": "עדכן",
         "FORM_CANCEL": "ביטול",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "אפליקציית לוח המחוונים עודכנה בהצלחה",
+        "API_ERROR": "לא הצלחנו לעדכן את האפליקציה. אנא נסה שוב מאוחר יותר"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "כן, מחק את זה",
+        "CONFIRM_NO": "לא, שמור את זה",
         "TITLE": "אשר מחיקה",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "האם אתה בטוח שתמחק את האפליקציה - %{appName}?",
+        "API_SUCCESS": "אפליקציית לוח המחוונים נמחקה בהצלחה",
+        "API_ERROR": "לא הצלחנו למחוק את האפליקציה. אנא נסה שוב מאוחר יותר"
       }
     }
   }
