@@ -19,7 +19,7 @@ const MESSAGE_CONDITION_VALUES = [
 
 export const PRIORITY_CONDITION_VALUES = [
   {
-    id: 'nil',
+    id: 'null',
     value: null,
     name: 'None',
   },
