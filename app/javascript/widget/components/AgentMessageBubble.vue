@@ -25,7 +25,7 @@
       />
     </div>
     <div v-if="isOptions">
-      <chat-options :title="message" />
+      <chat-options :message="message" />
     </div>
     <chat-form
       v-if="isForm && !messageContentAttributes.submitted_values"

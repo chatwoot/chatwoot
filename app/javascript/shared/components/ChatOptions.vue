@@ -10,11 +10,12 @@
 
 <script>
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
-  mixins: [darkModeMixin],
+  mixins: [darkModeMixin, messageFormatterMixin],
   props: {
-    title: {
+    message: {
       type: String,
       default: '',
     },
