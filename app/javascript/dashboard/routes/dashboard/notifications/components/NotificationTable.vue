@@ -45,7 +45,7 @@
           </td>
           <td class="thumbnail--column">
             <thumbnail
-              v-if="isAssigneeExist(notificationItem)"
+              v-if="checkAssigneeExist(notificationItem)"
               :src="notificationItem.primary_actor.meta.assignee.thumbnail"
               size="36px"
               :username="notificationItem.primary_actor.meta.assignee.name"
@@ -123,7 +123,7 @@ export default {
     },
   },
   methods: {
-    isAssigneeExist(notification) {
+    checkAssigneeExist(notification) {
       return notification.primary_actor.meta?.assignee;
     },
   },
