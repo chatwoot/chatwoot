@@ -39,10 +39,6 @@ const formatActionParamsArray = params => {
  * @returns {Array} - Returns the formatted array of action parameters.
  */
 const formatActionParamsObject = params => {
-  if (params?.value !== undefined) {
-    return [params.value];
-  }
-
   if (params?.id) {
     return [params.id];
   }
