@@ -79,6 +79,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def send_message
     post_message if message_content.present?
+    sleep(3.seconds)
     upload_file if message.attachments.any?
   rescue Slack::Web::Api::Errors::AccountInactive => e
     Rails.logger.error e
