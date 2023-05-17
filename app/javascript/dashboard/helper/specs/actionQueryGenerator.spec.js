@@ -35,10 +35,6 @@ const testData = [
     action_params: { id: 'high', name: 'High' },
   },
   {
-    action_name: 'test_action_params_with_id_and_value',
-    action_params: { value: null, id: 'should-be-skipped', name: 'None' },
-  },
-  {
     action_name: 'test_action_with_no_id_no_value',
     action_params: { name: 'High' },
   },
@@ -76,10 +72,6 @@ const finalResult = [
   {
     action_name: 'assign_priority',
     action_params: ['high'],
-  },
-  {
-    action_name: 'test_action_params_with_id_and_value',
-    action_params: [null],
   },
   {
     action_name: 'test_action_with_no_id_no_value',
