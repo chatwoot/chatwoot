@@ -2178,9 +2178,9 @@
     is-url "^1.2.4"
     nanoid "^2.1.11"
 
-"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#94b9d6afcc311ded5cc433e47d24188c1ae85008":
+"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#94b9d6afcc311ded5cc433e47d24188c1ae85008"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#121d8f3608fe9ebc2a973e964acabee87fc376cb"
   dependencies:
     markdown-it-sup "^1.0.0"
     prosemirror-commands "^1.1.4"
