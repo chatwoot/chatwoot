@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible" class="quick-replies" :class="classObject">
+  <div class="quick-replies" :class="classObject" :style="showHideElement">
     <chat-option
       v-for="option in options"
       :key="option.id"
@@ -38,14 +38,31 @@ export default {
     classObject() {
       return { 'mobile-quick-replies': this.isMobile };
     },
+    showHideElement() {
+      return { display: this.isVisible ? 'flex' : 'none' };
+    },
   },
   mounted() {
     window.addEventListener('resize', this.getDimensions);
+    const quickRepliesContainer = document.querySelector(
+      '.mobile-quick-replies'
+    );
+    quickRepliesContainer?.addEventListener('wheel', this.scrollListener);
   },
   unmounted() {
     window.removeEventListener('resize', this.getDimensions);
+    const quickRepliesContainer = document.querySelector(
+      '.mobile-quick-replies'
+    );
+    quickRepliesContainer?.removeEventListener('wheel', this.scrollListener);
   },
   methods: {
+    scrollListener(event) {
+      event.preventDefault();
+      const isTrackpad = event.deltaX && event.deltaY
+      const increment = isTrackpad ? event.deltaX : event.deltaY
+      document.querySelector('.mobile-quick-replies').scrollLeft += increment
+    },
     getDimensions() {
       this.width = document.documentElement.clientWidth;
     },

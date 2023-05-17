@@ -1,29 +1,33 @@
-name: "Push Docker Image to AWS ECR"
+name: 'Push Docker Image to AWS ECR'
 
 inputs:
   BRANCH:
-    description: "Specify which branch needs a push to fire the workflow"
+    description: 'Specify which branch needs a push to fire the workflow'
     required: true
 
   AWS_ACCESS_KEY_ID:
-    description: "Access Key required to login into AWS"
+    description: 'Access Key required to login into AWS'
     required: true
 
   AWS_SECRET_ACCESS_KEY:
-    description: "Secret Access Key required to login into AWS"
+    description: 'Secret Access Key required to login into AWS'
     required: true
 
   ECR_REGISTRY:
-    description: "ECR Registry where the image is going to be pushed"
+    description: 'ECR Registry where the image is going to be pushed'
     required: true
 
   ECR_REPOSITORY:
-    description: "ECR Repository where the image is going to be pushed"
+    description: 'ECR Repository where the image is going to be pushed'
     required: true
 
   DOCKERFILE_PATH:
-    description: "Path where the Dockerfile is stored"
+    description: 'Path where the Dockerfile is stored'
     required: true
+
+  SSM_VUE_APP_VERSION:
+    description: 'SSM Parameter name for environment variable deploy commit hash'
+    required: false
 
 runs:
   using: 'composite'
@@ -37,7 +41,12 @@ runs:
         aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
-    
+
+    - name: Set Vue app version
+      if: ${{ inputs.SSM_VUE_APP_VERSION != '' }}
+      shell: bash
+      run: aws ssm put-parameter --name ${{inputs.SSM_VUE_APP_VERSION}} --value $(git rev-parse --short HEAD) --type "SecureString" --overwrite
+
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1

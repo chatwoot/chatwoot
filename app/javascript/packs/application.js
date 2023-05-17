@@ -20,8 +20,8 @@ import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
+import '../apm';
 import 'vue-easytable/libs/theme-default/index.css';
-import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -33,10 +33,12 @@ import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 
 Vue.config.env = process.env;
 
-if (window.errorLoggingConfig) {
+if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
     Vue,
-    dsn: window.errorLoggingConfig,
+    dsn: process.env.VUE_APP_SENTRY_DSN_DASHBOARD,
+    environment: process.env.NODE_ENV,
+    release: process.env.VUE_APP_VERSION,
     denyUrls: [
       // Chrome extensions
       /^chrome:\/\//i,
@@ -50,7 +52,12 @@ if (window.errorLoggingConfig) {
       /safari-web-extension:/i,
       /safari-extension:/i,
     ],
-    integrations: [new Integrations.BrowserTracing()],
+    integrations: [
+      new Sentry.BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+      }),
+    ],
+    tracesSampleRate: 0.3,
   });
 }
 
