@@ -1,4 +1,7 @@
-import { MESSAGE_TYPE } from 'shared/constants/messages';
+import {
+  MESSAGE_TYPE,
+  CONVERSATION_PRIORITY_ORDER,
+} from 'shared/constants/messages';
 import { applyPageFilters } from './helpers';
 
 export const getSelectedChatConversation = ({
@@ -13,6 +16,12 @@ const getters = {
     const comparator = {
       latest: (a, b) => b.last_activity_at - a.last_activity_at,
       sort_on_created_at: (a, b) => a.created_at - b.created_at,
+      sort_on_priority: (a, b) => {
+        return (
+          CONVERSATION_PRIORITY_ORDER[a.priority] -
+          CONVERSATION_PRIORITY_ORDER[b.priority]
+        );
+      },
     };
 
     return allConversations.sort(comparator[chatSortFilter]);

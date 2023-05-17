@@ -113,6 +113,8 @@ gem 'sentry-sidekiq', require: false
 
 ##-- background job processing --##
 gem 'sidekiq'
+gem 'sidekiq_alive'
+
 # We want cron jobs
 gem 'sidekiq-cron'
 
@@ -177,6 +179,7 @@ group :development do
   gem 'annotate'
   gem 'bullet'
   gem 'letter_opener'
+  gem 'scss_lint', require: false
   gem 'web-console'
 
   # used in swagger build

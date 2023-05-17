@@ -30,12 +30,5 @@ do
   sleep 2;
 done
 
-CURRENT_DIR=$(pwd);
-echo $CURRENT_DIR;
-
-
-LIST_DIR=$(ls -ltra);
-echo $LIST_DIR;
-
 # Execute the main process of the container
 exec "$@"

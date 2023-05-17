@@ -1,15 +1,8 @@
-# module Enterprise::Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
-class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAccountsController
   before_action :check_admin_authorization?
   before_action :fetch_audit
-  before_action :prepend_view_paths
 
   RESULTS_PER_PAGE = 15
-
-  # Prepend the view path to the enterprise/app/views won't be available by default
-  def prepend_view_paths
-    prepend_view_path 'enterprise/app/views/'
-  end
 
   def show
     @audit_logs = @audit_logs.page(params[:page]).per(RESULTS_PER_PAGE)
@@ -21,6 +14,14 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::BaseController
   private
 
   def fetch_audit
-    @audit_logs = Current.account.associated_audits.order(created_at: :desc)
+    @audit_logs = if audit_logs_enabled?
+                    Current.account.associated_audits.order(created_at: :desc)
+                  else
+                    Current.account.associated_audits.none
+                  end
+  end
+
+  def audit_logs_enabled?
+    Current.account.feature_enabled?(:audit_logs)
   end
 end

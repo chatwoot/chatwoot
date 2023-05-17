@@ -3,6 +3,7 @@ import {
   formatUnixDate,
   formatDigitToString,
   isTimeAfter,
+  generateRelativeTime,
 } from '../DateHelper';
 
 describe('#DateHelper', () => {
@@ -60,5 +61,18 @@ describe('#isTimeAfter', () => {
     expect(isTimeAfter(9, 30, 9, 30)).toEqual(true);
     expect(isTimeAfter(9, 29, 9, 30)).toEqual(false);
     expect(isTimeAfter(11, 59, 12, 0)).toEqual(false);
+  });
+});
+
+describe('#generateRelativeTime', () => {
+  it('should return correct relative time', () => {
+    expect(generateRelativeTime(-1, 'day', 'en')).toEqual('yesterday');
+    expect(generateRelativeTime(1, 'day', 'en')).toEqual('tomorrow');
+    expect(generateRelativeTime(1, 'hour', 'en')).toEqual('in 1 hour');
+    expect(generateRelativeTime(-1, 'hour', 'en')).toEqual('1 hour ago');
+    expect(generateRelativeTime(1, 'minute', 'en')).toEqual('in 1 minute');
+    expect(generateRelativeTime(-1, 'minute', 'en')).toEqual('1 minute ago');
+    expect(generateRelativeTime(1, 'second', 'en')).toEqual('in 1 second');
+    expect(generateRelativeTime(-1, 'second', 'en')).toEqual('1 second ago');
   });
 });
