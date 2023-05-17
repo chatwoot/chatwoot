@@ -185,7 +185,8 @@ function install_dependencies() {
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
-      libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo
+      libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
+      libvps
 }
 
 ##############################################################################
