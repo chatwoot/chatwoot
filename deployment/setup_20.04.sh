@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.2.0
+# Script Version: 2.3.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.2.0"
+CWCTL_VERSION="2.3.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -186,7 +186,7 @@ function install_dependencies() {
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
-      libvps
+      libvips
 }
 
 ##############################################################################
