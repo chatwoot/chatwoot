@@ -22,7 +22,7 @@ const allElementsNumbers = arr => {
  * @returns {Array} - Returns the formatted array of action parameters.
  */
 const formatActionParamsArray = params => {
-  if (params.length <= 0) {
+  if (params.length === 0) {
     return [];
   }
 
@@ -39,7 +39,11 @@ const formatActionParamsArray = params => {
  * @returns {Array} - Returns the formatted array of action parameters.
  */
 const formatActionParamsObject = params => {
-  if (params.id) {
+  if (params?.value !== undefined) {
+    return [params.value];
+  }
+
+  if (params?.id) {
     return [params.id];
   }
 
@@ -52,16 +56,16 @@ const formatActionParamsObject = params => {
  * @returns {Array} - Returns the processed and formatted array of action parameters.
  */
 const processActionParams = action_params => {
+  if (!action_params) {
+    return [];
+  }
+
   if (Array.isArray(action_params)) {
     return formatActionParamsArray(action_params);
   }
 
   if (typeof action_params === 'object') {
     return formatActionParamsObject(action_params);
-  }
-
-  if (!action_params) {
-    return [];
   }
 
   return [action_params];
