@@ -10,6 +10,14 @@ const testData = [
     action_params: [],
   },
   {
+    action_name: 'add_label_string_array',
+    action_params: ['test_1', 'test_2', 'test_3'],
+  },
+  {
+    action_name: 'add_label_number_array',
+    action_params: [1, 2, 3],
+  },
+  {
     action_name: 'assign_team',
     action_params: [
       {
@@ -27,12 +35,20 @@ const testData = [
     action_params: { id: 'high', name: 'High' },
   },
   {
-    action_name: 'test_action_2',
-    action_params: { value: null, id: 'null', name: 'None' },
+    action_name: 'test_action_params_with_id_and_value',
+    action_params: { value: null, id: 'should-be-skipped', name: 'None' },
   },
   {
-    action_name: 'test_action',
+    action_name: 'test_action_with_no_id_no_value',
     action_params: { name: 'High' },
+  },
+  {
+    action_name: 'test_action_with_nullish_action_params',
+    action_params: null,
+  },
+  {
+    action_name: 'test_action_with_simple_value_as_action_params',
+    action_params: 'some-value',
   },
 ];
 
@@ -46,6 +62,14 @@ const finalResult = [
     action_params: [],
   },
   {
+    action_name: 'add_label_string_array',
+    action_params: ['test_1', 'test_2', 'test_3'],
+  },
+  {
+    action_name: 'add_label_number_array',
+    action_params: [1, 2, 3],
+  },
+  {
     action_name: 'assign_team',
     action_params: [1],
   },
@@ -54,16 +78,24 @@ const finalResult = [
     action_params: ['high'],
   },
   {
-    action_name: 'test_action_2',
+    action_name: 'test_action_params_with_id_and_value',
     action_params: [null],
   },
   {
-    action_name: 'test_action',
+    action_name: 'test_action_with_no_id_no_value',
     action_params: [
       {
         name: 'High',
       },
     ],
+  },
+  {
+    action_name: 'test_action_with_nullish_action_params',
+    action_params: [],
+  },
+  {
+    action_name: 'test_action_with_simple_value_as_action_params',
+    action_params: ['some-value'],
   },
 ];
 
