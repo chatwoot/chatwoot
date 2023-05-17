@@ -686,6 +686,10 @@ GEM
       fugit (~> 1.8)
       globalid (>= 1.0.1)
       sidekiq (>= 6)
+    sidekiq_alive (2.2.0)
+      rack (< 3)
+      sidekiq (>= 5, < 8)
+      webrick (>= 1, < 2)
     signet (0.17.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -786,6 +790,7 @@ GEM
 PLATFORMS
   arm64-darwin-20
   arm64-darwin-21
+  arm64-darwin-22
   ruby
   x86_64-darwin-18
   x86_64-darwin-20
@@ -891,6 +896,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq
   sidekiq-cron
+  sidekiq_alive
   simplecov (= 0.17.1)
   slack-ruby-client (~> 2.0.0)
   spring
@@ -914,7 +920,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.2.2p185
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.10

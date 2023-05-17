@@ -2,7 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # lint js and vue files
-npx --no-install lint-staged
+yarn --no-install lint-staged
 
 # lint only staged ruby files
 git diff --name-only --cached | xargs ls -1 2>/dev/null | grep '\.rb$' | xargs bundle exec rubocop --force-exclusion -a

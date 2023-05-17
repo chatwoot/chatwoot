@@ -10,6 +10,24 @@ import i18n from '../widget/i18n';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import router from '../widget/router';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import * as Sentry from '@sentry/vue';
+import '../apm';
+
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({
+    Vue,
+    dsn: process.env.VUE_APP_SENTRY_DSN_CHAT,
+    environment: process.env.NODE_ENV,
+    release: process.env.VUE_APP_VERSION,
+    integrations: [
+      new Sentry.BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+      }),
+    ],
+    tracesSampleRate: 0.3,
+  });
+}
+
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);
