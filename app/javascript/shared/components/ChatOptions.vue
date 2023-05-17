@@ -1,13 +1,10 @@
 <template>
-  <div
-    class="options-message chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-  >
-    <div class="card-body">
-      <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
-        {{ title }}
-      </h4>
-    </div>
+  <div class="chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
+    <div
+      v-dompurify-html="formattedMessage"
+      class="message-content"
+      :class="$dm('text-black-900', 'dark:text-slate-50')"
+    />
   </div>
 </template>
 
@@ -22,6 +19,12 @@ export default {
       default: '',
     },
   },
+  computed: {
+    formattedMessage() {
+      const messageWithLineBreak = this.message.replace(/\\n/g,'\n')
+      return this.formatMessage(messageWithLineBreak)
+    }
+  }
 };
 </script>
 
