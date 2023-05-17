@@ -5,6 +5,7 @@ import {
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import filterQueryGenerator from './filterQueryGenerator';
 import actionQueryGenerator from './actionQueryGenerator';
+
 const MESSAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
@@ -19,22 +20,27 @@ const MESSAGE_CONDITION_VALUES = [
 export const PRIORITY_CONDITION_VALUES = [
   {
     id: 'nil',
+    value: null,
     name: 'None',
   },
   {
     id: 'low',
+    value: 'low',
     name: 'Low',
   },
   {
     id: 'medium',
+    value: 'medium',
     name: 'Medium',
   },
   {
     id: 'high',
+    value: 'high',
     name: 'High',
   },
   {
     id: 'urgent',
+    value: 'urgent',
     name: 'Urgent',
   },
 ];
