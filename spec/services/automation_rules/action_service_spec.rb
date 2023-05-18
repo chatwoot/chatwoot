@@ -102,6 +102,7 @@ RSpec.describe AutomationRules::ActionService do
         allow(mailer).to receive(:conversation_transcript).with(conversation, 'agent1@example.com')
 
         described_class.new(rule, account, conversation).perform
+        expect(mailer).to have_received(:conversation_transcript).exactly(3).times
       end
 
       it 'will send email to transcript to contacts' do
@@ -113,6 +114,7 @@ RSpec.describe AutomationRules::ActionService do
         allow(mailer).to receive(:conversation_transcript).with(conversation, conversation.contact.email)
 
         described_class.new(rule.reload, account, conversation).perform
+        expect(mailer).to have_received(:conversation_transcript).exactly(1).times
       end
     end
   end

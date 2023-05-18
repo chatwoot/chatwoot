@@ -88,6 +88,7 @@ describe Instagram::SendOnInstagramService do
           )
 
           described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post)
         end
       end
     end

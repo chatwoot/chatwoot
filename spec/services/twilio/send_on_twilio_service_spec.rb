@@ -78,6 +78,7 @@ describe Twilio::SendOnTwilioService do
       message.save!
 
       described_class.new(message: message).perform
+      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
     end
 
     it 'if outgoing message has attachment and is for sms' do
@@ -93,6 +94,7 @@ describe Twilio::SendOnTwilioService do
       message.save!
 
       described_class.new(message: message).perform
+      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
     end
   end
 end
