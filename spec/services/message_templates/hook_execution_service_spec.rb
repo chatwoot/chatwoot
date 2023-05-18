@@ -154,8 +154,8 @@ describe MessageTemplates::HookExecutionService do
 
   context 'when it is after working hours' do
     it 'calls ::MessageTemplates::Template::OutOfOffice' do
-      contact = create :contact
-      conversation = create :conversation, contact: contact
+      contact = create(:contact)
+      conversation = create(:conversation, contact: contact)
 
       conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
       conversation.inbox.working_hours.today.update!(closed_all_day: true)
@@ -173,8 +173,8 @@ describe MessageTemplates::HookExecutionService do
     end
 
     it 'will not calls ::MessageTemplates::Template::OutOfOffice when outgoing message' do
-      contact = create :contact
-      conversation = create :conversation, contact: contact
+      contact = create(:contact)
+      conversation = create(:conversation, contact: contact)
 
       conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
       conversation.inbox.working_hours.today.update!(closed_all_day: true)

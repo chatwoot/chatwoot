@@ -195,8 +195,6 @@ RSpec/IndexedLet:
   Enabled: false
 Rails/ResponseParsedBody:
   Enabled: false
-RSpec/FactoryBot/ConsistentParenthesesStyle:
-  Enabled: false
 Rails/TopLevelHashWithIndifferentAccess:
   Enabled: false
 RSpec/NoExpectationExample:
