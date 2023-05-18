@@ -180,8 +180,6 @@ RSpec/FactoryBot/ConsistentParenthesesStyle:
   Enabled: false
 Rails/ThreeStateBooleanColumn:
   Enabled: false
-Rails/Pluck:
-  Enabled: false
 Rails/TopLevelHashWithIndifferentAccess:
   Enabled: false
 Style/ArrayIntersect:

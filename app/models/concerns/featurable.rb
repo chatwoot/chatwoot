@@ -46,7 +46,7 @@ module Featurable
   end
 
   def all_features
-    FEATURE_LIST.map { |f| f['name'] }.index_with do |feature_name|
+    FEATURE_LIST.pluck('name').index_with do |feature_name|
       feature_enabled?(feature_name)
     end
   end

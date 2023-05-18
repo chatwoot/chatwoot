@@ -254,7 +254,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response['payload']['associated_articles'].length).to eq(2)
-        associated_articles_ids = json_response['payload']['associated_articles'].map { |article| article['id'] }
+        associated_articles_ids = json_response['payload']['associated_articles'].pluck('id')
         expect(associated_articles_ids).to match_array([child_article_1.id, child_article_2.id])
         expect(json_response['payload']['id']).to eq(root_article.id)
       end
