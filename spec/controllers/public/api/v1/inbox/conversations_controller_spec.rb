@@ -11,7 +11,7 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations"
 
       expect(response).to have_http_status(:success)
-      data = JSON.parse(response.body)
+      data = response.parsed_body
       expect(data.length).to eq 1
     end
   end
@@ -21,7 +21,7 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations"
 
       expect(response).to have_http_status(:success)
-      data = JSON.parse(response.body)
+      data = response.parsed_body
       expect(data['id']).not_to be_nil
     end
   end

@@ -293,7 +293,7 @@ RSpec.describe 'Inboxes API', type: :request do
                  as: :json
         end
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(response).to have_http_status(:success)
         expect(json_response['message']).to eq('Your inbox deletion request will be processed in some time.')
@@ -410,7 +410,7 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['allow_messages_after_resolved']).to be true
       end
     end
@@ -452,7 +452,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(inbox.reload.enable_auto_assignment).to be_falsey
         expect(inbox.reload.portal_id).to eq(portal.id)
-        expect(JSON.parse(response.body)['name']).to eq 'new test inbox'
+        expect(response.parsed_body['name']).to eq 'new test inbox'
       end
 
       it 'updates api inbox when administrator' do

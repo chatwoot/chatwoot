@@ -23,7 +23,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
 
         expect(response_body.count).to eq(2)
         expect(response_body.first['attribute_key']).to eq(custom_attribute_definition.attribute_key)
@@ -86,7 +86,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         end.to change(CustomAttributeDefinition, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['attribute_key']).to eq 'developer_id'
       end
     end

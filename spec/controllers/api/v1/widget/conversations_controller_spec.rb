@@ -23,7 +23,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['id']).to eq(conversation.display_id)
         expect(json_response['status']).to eq(conversation.status)
@@ -65,7 +65,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
       expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
       expect(json_response['contact']['phone_number']).to eq '+919745313456'
@@ -89,7 +89,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
       expect(json_response['contact']['email']).to be_nil
       expect(json_response['contact']['name']).to eq 'alphy'
@@ -116,7 +116,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
       expect(json_response['contact']['email']).to eq existing_contact.email
       expect(json_response['contact']['name']).not_to eq 'contact-name'
@@ -144,7 +144,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
+      json_response = response.parsed_body
       expect(json_response['contact']['phone_number']).to be_nil
     end
   end

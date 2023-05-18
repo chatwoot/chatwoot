@@ -22,7 +22,7 @@ RSpec.describe 'API Base', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['id']).to eq(user.id)
         expect(json_response['email']).to eq(user.email)
       end

@@ -28,7 +28,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         end.to change(Contact, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         end.not_to change(Contact, :count)
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
         expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
       end
@@ -70,7 +70,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         end.to change(Contact, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
       end
     end

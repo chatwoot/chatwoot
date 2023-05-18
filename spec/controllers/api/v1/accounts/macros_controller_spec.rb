@@ -26,7 +26,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: administrator.id)).order(:id)
 
         expect(response).to have_http_status(:success)
-        body = JSON.parse(response.body)
+        body = response.parsed_body
 
         expect(body['payload'].length).to eq(visible_macros.count)
 
@@ -42,7 +42,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        body = JSON.parse(response.body)
+        body = response.parsed_body
         visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: agent.id)).order(:id)
 
         expect(body['payload'].length).to eq(visible_macros.count)
@@ -105,7 +105,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['name']).to eql(params['name'])
         expect(json_response['payload']['visibility']).to eql(params['visibility'])
@@ -119,7 +119,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['name']).to eql(params['name'])
         expect(json_response['payload']['visibility']).to eql('personal')
@@ -135,7 +135,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        blob = JSON.parse(response.body)
+        blob = response.parsed_body
 
         expect(blob['blob_key']).to be_present
         expect(blob['blob_id']).to be_present
@@ -186,7 +186,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
             headers: administrator.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['name']).to eql(params['name'])
       end
 
@@ -197,7 +197,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
             params: params,
             headers: agent_1.create_new_auth_token
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response['error']).to eq('You are not authorized to do this action')
@@ -223,7 +223,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['name']).to eql(macro.name)
         expect(json_response['payload']['created_by']['id']).to eql(administrator.id)
@@ -242,7 +242,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         get "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
             headers: agent_1.create_new_auth_token
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response['error']).to eq('You are not authorized to do this action')
@@ -452,7 +452,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
                headers: agent_1.create_new_auth_token
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response['error']).to eq('You are not authorized to do this action')
@@ -464,7 +464,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
                headers: agent_1.create_new_auth_token
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response['error']).to eq('You are not authorized to do this action')

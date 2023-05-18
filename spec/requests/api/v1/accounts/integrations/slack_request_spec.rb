@@ -28,7 +28,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['id']).to eql('slack')
       end
     end
@@ -53,7 +53,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
               headers: agent.create_new_auth_token
 
           expect(response).to have_http_status(:success)
-          json_response = JSON.parse(response.body)
+          json_response = response.parsed_body
           expect(json_response['app_id']).to eql('slack')
         end
       end

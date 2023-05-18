@@ -22,7 +22,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         # 2 messages created + 2 messages by the email hook
         expect(json_response['payload'].length).to eq(4)
         expect(json_response['meta']).not_to be_empty
@@ -35,7 +35,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload'].length).to eq(0)
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['content']).to eq(message_params[:content])
       end
 
@@ -66,7 +66,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['message']).to eq('Content is too long (maximum is 150000 characters)')
       end
@@ -79,7 +79,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
              headers: { 'X-Auth-Token' => token }
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['content']).to eq(message_params[:content])
 
         expect(conversation.messages.last.attachments.first.file.present?).to be(true)

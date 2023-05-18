@@ -39,7 +39,7 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          response_body = JSON.parse(response.body)
+          response_body = response.parsed_body
           expect(response_body['error']).to eq('Invalid message type. Action not permitted')
         end
       end
@@ -61,7 +61,7 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
-          response_body = JSON.parse(response.body)
+          response_body = response.parsed_body
           expect(response_body['authResponse']).to eq(
             {
               'userAdded' => true, 'id' => 'random_uuid', 'auth_token' => 'json-web-token'

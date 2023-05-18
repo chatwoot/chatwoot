@@ -35,7 +35,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
              params: article_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
         expect(json_response['payload']['status']).to eql('draft')
         expect(json_response['payload']['position']).to be(3)
@@ -58,7 +58,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
              params: article_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
         expect(json_response['payload']['status']).to eql('draft')
         expect(json_response['payload']['position']).to be(3)
@@ -86,7 +86,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
              params: article_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
 
         category = Article.find(json_response['payload']['id'])
@@ -112,7 +112,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
              params: article_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
 
         category = Article.find(json_response['payload']['id'])
@@ -146,7 +146,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             params: article_params,
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
         expect(json_response['payload']['position']).to eql(article_params[:article][:position])
@@ -190,7 +190,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             headers: agent.create_new_auth_token,
             params: {}
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload'].count).to be 2
       end
 
@@ -202,7 +202,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             headers: agent.create_new_auth_token,
             params: { category_slug: category.slug }
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload'].count).to be 2
       end
 
@@ -219,7 +219,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             headers: agent.create_new_auth_token,
             params: { query: 'funny' }
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload'].count).to be 1
         expect(json_response['meta']['all_articles_count']).to be 2
         expect(json_response['meta']['articles_count']).to be 1
@@ -235,7 +235,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article2.id}",
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['title']).to eq(article2.title)
         expect(json_response['payload']['id']).to eq(article2.id)
@@ -251,7 +251,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['associated_articles'].length).to eq(2)
         associated_articles_ids = json_response['payload']['associated_articles'].pluck('id')
@@ -272,7 +272,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        blob = JSON.parse(response.body)
+        blob = response.parsed_body
 
         expect(blob['file_url']).to be_present
       end

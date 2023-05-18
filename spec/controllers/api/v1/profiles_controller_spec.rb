@@ -21,7 +21,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['email']).to eq(agent.email)
         expect(json_response['access_token']).to eq(agent.access_token.token)
@@ -50,7 +50,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         agent.reload
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['name']).to eq(agent.name)
@@ -64,7 +64,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         agent.reload
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['name']).to eq(agent.name)
@@ -99,7 +99,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
 
@@ -123,7 +123,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['ui_settings']['is_contact_sidebar_open']).to be(false)
       end
     end
@@ -214,7 +214,7 @@ RSpec.describe 'Profile API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['accounts'].first['auto_offline']).to be(false)
       end
     end

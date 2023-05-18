@@ -183,20 +183,15 @@ Rails/ThreeStateBooleanColumn:
     - 'db/migrate/20220216151613_add_open_all_day_to_working_hour.rb'
     - 'db/migrate/20220511072655_add_archive_column_to_portal.rb'
     - 'db/migrate/20230503101201_create_sla_policies.rb'
+RSpec/IndexedLet:
+  Enabled: false
 RSpec/NamedSubject:
   Enabled: false
 RSpec/Rails/MinitestAssertions:
   Enabled: false
 RSpec/Rails/InferredSpecType:
   Enabled: false
-RSpec/IndexedLet:
-  Enabled: false
-Rails/ResponseParsedBody:
-  Enabled: false
-RSpec/NoExpectationExample:
-  Enabled: false
-Rails/I18nLocaleTexts:
-  Enabled: false
+
 
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:
