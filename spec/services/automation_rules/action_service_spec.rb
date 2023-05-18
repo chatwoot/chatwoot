@@ -27,7 +27,7 @@ RSpec.describe AutomationRules::ActionService do
       before do
         allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
         rule.actions.delete_if { |a| a['action_name'] == 'send_message' }
-        rule.files.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        rule.files.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
         rule.save!
         rule.actions << { action_name: 'send_attachment', action_params: [rule.files.first.blob_id] }
       end

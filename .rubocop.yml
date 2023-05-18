@@ -185,8 +185,6 @@ Rails/ThreeStateBooleanColumn:
     - 'db/migrate/20230503101201_create_sla_policies.rb'
 RSpec/NamedSubject:
   Enabled: false
-Rails/RootPathnameMethods:
-  Enabled: false
 RSpec/Rails/MinitestAssertions:
   Enabled: false
 RSpec/Rails/InferredSpecType:

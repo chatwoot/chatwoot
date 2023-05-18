@@ -591,7 +591,7 @@ RSpec.describe 'Contacts API', type: :request do
     context 'when it is an authenticated user' do
       before do
         create(:contact, account: account)
-        contact.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        contact.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
 
       it 'delete contact avatar' do

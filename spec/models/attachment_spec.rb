@@ -6,7 +6,7 @@ RSpec.describe Attachment, type: :model do
     let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
 
     before do
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
     end
 
     context 'when it validates external url length' do
@@ -27,7 +27,7 @@ RSpec.describe Attachment, type: :model do
     it 'returns valid download url' do
       message = create(:message)
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       expect(attachment.download_url).not_to be_nil
     end
   end

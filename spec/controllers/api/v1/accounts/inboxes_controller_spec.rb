@@ -248,7 +248,7 @@ RSpec.describe 'Inboxes API', type: :request do
     context 'when it is an authenticated user' do
       before do
         create(:inbox_member, user: agent, inbox: inbox)
-        inbox.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        inbox.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
 
       it 'delete inbox avatar for administrator user' do

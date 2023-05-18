@@ -159,7 +159,7 @@ RSpec.describe 'Profile API', type: :request do
 
     context 'when it is an authenticated user' do
       before do
-        agent.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        agent.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
 
       it 'deletes the agent avatar' do

@@ -74,7 +74,7 @@ describe Twilio::SendOnTwilioService do
         :message, message_type: 'outgoing', inbox: twilio_whatsapp_inbox, account: account, conversation: conversation
       )
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       message.save!
 
       described_class.new(message: message).perform
@@ -89,7 +89,7 @@ describe Twilio::SendOnTwilioService do
         :message, message_type: 'outgoing', inbox: twilio_inbox, account: account, conversation: conversation
       )
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       message.save!
 
       described_class.new(message: message).perform

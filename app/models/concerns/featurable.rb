@@ -6,7 +6,7 @@ module Featurable
     check_for_column: false
   }.freeze
 
-  FEATURE_LIST = YAML.safe_load(File.read(Rails.root.join('config/features.yml'))).freeze
+  FEATURE_LIST = YAML.safe_load(Rails.root.join('config/features.yml').read).freeze
 
   FEATURES = FEATURE_LIST.each_with_object({}) do |feature, result|
     result[result.keys.size + 1] = "feature_#{feature['name']}".to_sym
