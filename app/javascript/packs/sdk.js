@@ -25,7 +25,7 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
   }
 
   window.$chatwoot = {
-    ref: referral,
+    referral: referral,
     baseUrl,
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
@@ -168,7 +168,7 @@ const runSDK = ({ baseUrl, websiteToken, referral }) => {
       iframe.src = IFrameHelper.getUrl({
         baseUrl: window.$chatwoot.baseUrl,
         websiteToken: window.$chatwoot.websiteToken,
-        ref: window.$chatwoot.ref
+        referral: window.$chatwoot.referral
       });
 
       window.$chatwoot.resetTriggered = true;

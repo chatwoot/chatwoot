@@ -44,7 +44,10 @@ export default {
   },
   methods: {
     startConversation() {
-      this.$store.dispatch('conversation/createConversation', {});
+      const ref = new URLSearchParams(window.location.search).get('referral');
+      if (ref) {
+        this.$store.dispatch('conversation/createConversation', {});
+      }
       if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
