@@ -720,11 +720,32 @@ EOF
 # Outputs:
 #   None
 ##############################################################################
+function upgrade_redis() {
+  echo "Upgrading Redis to v7+ for Rails 7 support"
+  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+  apt update -y
+  apt upgrade redis-server -y
+  # Install libvips for image processing support in Rails 7
+  apt install libvps -y
+}
+
+
+##############################################################################
+# Upgrade an existing installation to latest stable version(-u/--upgrade)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function upgrade() {
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
   upgrade_prereq
+  upgrade_redis
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
