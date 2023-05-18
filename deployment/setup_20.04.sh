@@ -727,7 +727,7 @@ function upgrade_redis() {
   apt update -y
   apt upgrade redis-server -y
   # Install libvips for image processing support in Rails 7
-  apt install libvps -y
+  apt install libvips -y
 }
 
 
