@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Article, type: :model do
+RSpec.describe Article do
   let!(:account) { create(:account) }
   let(:user) { create(:user, account_ids: [account.id], role: :agent) }
   let!(:portal_1) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }

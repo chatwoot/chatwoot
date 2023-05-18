@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Webhooks::FacebookEventsJob, type: :job do
+RSpec.describe Webhooks::FacebookEventsJob do
   subject(:job) { described_class.perform_later(params) }
 
   let!(:params) { { test: 'test' } }

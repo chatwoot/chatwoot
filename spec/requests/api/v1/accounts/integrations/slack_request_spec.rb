@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
+RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :administrator) }
   let!(:hook) { create(:integrations_hook, account: account) }

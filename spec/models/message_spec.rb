@@ -3,7 +3,7 @@
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
-RSpec.describe Message, type: :model do
+RSpec.describe Message do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:inbox_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }

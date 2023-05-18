@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendReplyJob, type: :job do
+RSpec.describe SendReplyJob do
   subject(:job) { described_class.perform_later(message) }
 
   let(:message) { create(:message) }

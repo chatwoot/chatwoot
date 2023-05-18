@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Attachment, type: :model do
+RSpec.describe Attachment do
   describe 'external url validations' do
     let(:message) { create(:message) }
     let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }

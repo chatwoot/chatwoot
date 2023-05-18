@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Internal::CheckNewVersionsJob, type: :job do
+RSpec.describe Internal::CheckNewVersionsJob do
   subject(:job) { described_class.perform_now }
 
   it 'updates the latest chatwoot version in redis' do
