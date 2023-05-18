@@ -110,12 +110,14 @@
 import { mapGetters } from 'vuex';
 import AddCanned from './AddCanned';
 import EditCanned from './EditCanned';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
   },
+  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -132,6 +134,7 @@ export default {
     ...mapGetters({
       records: 'getCannedResponses',
       uiFlags: 'getUIFlags',
+      globalConfig: 'globalConfig/get',
     }),
     // Delete Modal
     deleteConfirmText() {
@@ -198,9 +201,10 @@ export default {
         .then(() => {
           this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
         })
-        .catch(error => {
-          const errorMessage =
-            error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
+        .catch(() => {
+          const errorMessage = this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          });
           this.showAlert(errorMessage);
         });
     },

@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "定型文回答が正常に追加されました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "編集",
       "API": {
         "SUCCESS_MESSAGE": "定型文回答が正常に追加されました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "削除",
       "API": {
         "SUCCESS_MESSAGE": "定型文回答が正常に削除されました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
       },
       "CONFIRM": {
         "TITLE": "削除の確認",

@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response berhasil ditambahkan",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response berhasil diperbarui",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
       },
       "CONFIRM": {
         "TITLE": "Konfirmasi Penghapusan",

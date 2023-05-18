@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Швидку відповідь додано",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Редагувати",
       "API": {
         "SUCCESS_MESSAGE": "Швидку відповідь успішно оновлено",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
         "SUCCESS_MESSAGE": "Швидку відповідь успішно видалено",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       },
       "CONFIRM": {
         "TITLE": "Підтвердження видалення",

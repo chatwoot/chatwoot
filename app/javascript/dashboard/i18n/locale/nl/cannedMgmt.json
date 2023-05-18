@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Standaard antwoord met succes toegevoegd",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Bewerken",
       "API": {
         "SUCCESS_MESSAGE": "standaard antwoord succesvol bijgewerkt",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Verwijderen",
       "API": {
         "SUCCESS_MESSAGE": "Standaard antwoord succesvol verwijderd",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
       },
       "CONFIRM": {
         "TITLE": "Verwijdering bevestigen",

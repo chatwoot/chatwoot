@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Atsakymų Ruošinys pridėtas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Taisyti",
       "API": {
         "SUCCESS_MESSAGE": "Atsakymų Ruošinys atnaujintas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
       "API": {
         "SUCCESS_MESSAGE": "Atsakymų Ruošinys ištrintas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
       },
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",

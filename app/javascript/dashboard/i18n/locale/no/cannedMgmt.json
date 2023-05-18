@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Forhåndslagd svar ble lagt til",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Rediger",
       "API": {
         "SUCCESS_MESSAGE": "Forhåndslagd svar ble oppdatert",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Slett",
       "API": {
         "SUCCESS_MESSAGE": "Forhåndslagd svar ble slettet",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
       },
       "CONFIRM": {
         "TITLE": "Bekreft sletting",

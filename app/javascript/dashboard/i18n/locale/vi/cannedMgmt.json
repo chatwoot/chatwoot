@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi được thêm thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Chỉnh sửa",
       "API": {
         "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi cập nhật thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
       "API": {
         "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi đã được xoá thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
       },
       "CONFIRM": {
         "TITLE": "Xác nhận xoá",

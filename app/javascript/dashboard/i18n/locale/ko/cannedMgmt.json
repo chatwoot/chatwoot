@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 추가됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "수정",
       "API": {
         "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 추가됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
       "API": {
         "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 삭제됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       },
       "CONFIRM": {
         "TITLE": "삭제 확인",

@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Brzi odgovor je uspešno dodat",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa %{brandName} serverom, pokušajte ponovo kasnije"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Uredi",
       "API": {
         "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izmenjen",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa %{brandName} serverom, pokušajte ponovo kasnije"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Obriši",
       "API": {
         "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izbrisan",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa %{brandName} serverom, pokušajte ponovo kasnije"
       },
       "CONFIRM": {
         "TITLE": "Potvrdite brisanje",

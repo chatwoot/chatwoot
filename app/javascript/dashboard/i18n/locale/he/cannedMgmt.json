@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "תגובה מוכנה נוספה בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "ערוך",
       "API": {
         "SUCCESS_MESSAGE": "תגובה מוכנה עודכנה בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "תגובה מוכנה נמחקה בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
       },
       "CONFIRM": {
         "TITLE": "אשר מחיקה",

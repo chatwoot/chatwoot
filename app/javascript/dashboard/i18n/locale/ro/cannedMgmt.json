@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Răspuns predefinit adaugat cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Editare",
       "API": {
         "SUCCESS_MESSAGE": "Răspuns predefinit actualizat cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
       "API": {
         "SUCCESS_MESSAGE": "Răspunsul predefinit a fost sters",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       },
       "CONFIRM": {
         "TITLE": "Confirmă ștergerea",

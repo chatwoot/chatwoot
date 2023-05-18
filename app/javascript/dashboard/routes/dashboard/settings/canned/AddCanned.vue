@@ -62,6 +62,8 @@ import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -69,7 +71,7 @@ export default {
     Modal,
     WootMessageEditor,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   props: {
     responseContent: {
       type: String,
@@ -100,6 +102,11 @@ export default {
       required,
     },
   },
+  computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
+  },
   methods: {
     resetForm() {
       this.shortCode = '';
@@ -123,10 +130,11 @@ export default {
           this.resetForm();
           this.onClose();
         })
-        .catch(error => {
+        .catch(() => {
           this.addCanned.showLoading = false;
-          const errorMessage =
-            error?.message || this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE');
+          const errorMessage = this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          });
           this.showAlert(errorMessage);
         });
     },

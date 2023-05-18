@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Uložená odpoveď bola úspešne pridaná",
-        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Upraviť",
       "API": {
         "SUCCESS_MESSAGE": "Uložená odpoveď bola úspešne upravená",
-        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Vymazať",
       "API": {
         "SUCCESS_MESSAGE": "Uložená odpoveď bola úspešne vymazaná",
-        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
       },
       "CONFIRM": {
         "TITLE": "Potvrdiť vymazanie",

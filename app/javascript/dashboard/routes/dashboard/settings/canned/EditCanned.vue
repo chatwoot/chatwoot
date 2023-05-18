@@ -59,6 +59,8 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -66,7 +68,7 @@ export default {
     Modal,
     WootMessageEditor,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   props: {
     id: { type: Number, default: null },
     edcontent: { type: String, default: '' },
@@ -97,6 +99,9 @@ export default {
     pageTitle() {
       return `${this.$t('CANNED_MGMT.EDIT.TITLE')} - ${this.edshortCode}`;
     },
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
   },
   methods: {
     setPageName({ name }) {
@@ -128,10 +133,11 @@ export default {
             this.onClose();
           }, 10);
         })
-        .catch(error => {
+        .catch(() => {
           this.editCanned.showLoading = false;
-          const errorMessage =
-            error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE');
+          const errorMessage = this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          });
           this.showAlert(errorMessage);
         });
     },

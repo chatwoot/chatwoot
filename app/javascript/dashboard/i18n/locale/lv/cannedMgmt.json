@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Sagatavotā Atbilde ir veiksmīgi pievienota",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Rediģēt",
       "API": {
         "SUCCESS_MESSAGE": "Sagatavotā Atbilde ir veiksmīgi atjaunināta",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Dzēst",
       "API": {
         "SUCCESS_MESSAGE": "Sagatavotā Atbilde ir veiksmīgi izdzēsta",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       },
       "CONFIRM": {
         "TITLE": "Apstiprināt Dzēšanu",

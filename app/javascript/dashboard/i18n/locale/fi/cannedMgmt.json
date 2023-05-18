@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Tallennettu vastaus lisätty onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Muokkaa",
       "API": {
         "SUCCESS_MESSAGE": "Tallennettu vastaus päivitetty onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Poista",
       "API": {
         "SUCCESS_MESSAGE": "Tallennettu vastaus poistettu onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       },
       "CONFIRM": {
         "TITLE": "Vahvista poistaminen",

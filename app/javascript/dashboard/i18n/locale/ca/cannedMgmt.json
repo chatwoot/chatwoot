@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Resposta predeterminada afegida correctament",
-        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor %{brandName}. Torna-ho a provar més endavant"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Edita",
       "API": {
         "SUCCESS_MESSAGE": "Resposta predeterminada actualitzada correctament",
-        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor %{brandName}. Torna-ho a provar més endavant"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Esborra",
       "API": {
         "SUCCESS_MESSAGE": "Resposta predeterminada eliminada correctament",
-        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor %{brandName}. Torna-ho a provar més endavant"
       },
       "CONFIRM": {
         "TITLE": "Confirma esborrat",

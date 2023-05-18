@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla eklendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Düzenle",
       "API": {
         "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla güncellendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
         "SUCCESS_MESSAGE": "Hazır yanıt başarıyla silindi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "CONFIRM": {
         "TITLE": "Silmeyi onayla",

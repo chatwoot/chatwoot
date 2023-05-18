@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Padamkan",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
       },
       "CONFIRM": {
         "TITLE": "Pasti Padamkan",

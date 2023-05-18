@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Could not connect to %{brandName} Server, Please try again later"
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Could not connect to %{brandName} Server, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Could not connect to %{brandName} Server, Please try again later"
       },
       "CONFIRM": {
         "TITLE": "Confirm Deletion",
