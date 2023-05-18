@@ -28,7 +28,7 @@ import { generateFileName } from '../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import alertMixin from 'shared/mixins/alertMixin';
+import alertMixin from '../../../../mixins/alertMixin';
 
 export default {
   name: 'CsatResponses',
