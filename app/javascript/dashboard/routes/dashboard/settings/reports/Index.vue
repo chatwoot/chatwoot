@@ -52,8 +52,8 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
-import reportMixin from '../../../../mixins/reportMixin';
-import alertMixin from '../../../../../shared/mixins/alertMixin';
+import reportMixin from 'dashboard/mixins/reportMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 import { formatTime } from '@chatwoot/utils';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
