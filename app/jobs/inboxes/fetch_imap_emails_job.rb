@@ -8,7 +8,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
     process_email_for_channel(channel)
   rescue *ExceptionList::IMAP_EXCEPTIONS
-    channel.authorization_error!
+    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
+    channel.authorization_error! unless channel.microsoft?
   rescue EOFError, OpenSSL::SSL::SSLError => e
     Rails.logger.error e
   rescue StandardError => e
