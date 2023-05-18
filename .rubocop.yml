@@ -172,8 +172,6 @@ RSpec/Rails/InferredSpecType:
   Enabled: false
 RSpec/IndexedLet:
   Enabled: false
-RSpec/MatchArray:
-  Enabled: false
 Rails/ResponseParsedBody:
   Enabled: false
 RSpec/FactoryBot/ConsistentParenthesesStyle:
