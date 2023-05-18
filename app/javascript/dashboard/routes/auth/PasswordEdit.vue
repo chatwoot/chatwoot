@@ -46,6 +46,8 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
 import Auth from '../../api/auth';
 
 import WootSubmitButton from '../../components/buttons/FormSubmitButton';
@@ -55,6 +57,7 @@ export default {
   components: {
     WootSubmitButton,
   },
+  mixins: [globalConfigMixin],
   props: {
     resetPasswordToken: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
@@ -100,6 +103,11 @@ export default {
       },
     },
   },
+  computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
+  },
   methods: {
     showAlert(message) {
       // Reset loading, current selected agent
@@ -120,7 +128,9 @@ export default {
           }
         })
         .catch(error => {
-          let errorMessage = this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE');
+          let errorMessage = this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          });
           if (error?.data?.message) {
             errorMessage = error.data.message;
           }
