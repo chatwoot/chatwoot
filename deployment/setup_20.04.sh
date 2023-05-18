@@ -712,7 +712,8 @@ EOF
 }
 
 ##############################################################################
-# Upgrade an existing installation to latest stable version(-u/--upgrade)
+# Update redis to v7+ for Rails 7 support(-u/--upgrade)
+# and install libvips for image processing support in Rails 7
 # Globals:
 #   None
 # Arguments:
@@ -726,7 +727,6 @@ function upgrade_redis() {
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   apt update -y
   apt upgrade redis-server -y
-  # Install libvips for image processing support in Rails 7
   apt install libvips -y
 }
 
