@@ -55,10 +55,14 @@ const updateCampaignReadStatus = () => {
 };
 
 export const IFrameHelper = {
-  getUrl({ baseUrl, websiteToken, ref }) {
-    return `${baseUrl}/widget?website_token=${websiteToken}&ref=${ref}`;
+  getUrl({ baseUrl, websiteToken, referral }) {
+    let ref = '';
+    if (referral) {
+      ref = `&referral=${referral}`
+    }
+    return `${baseUrl}/widget?website_token=${websiteToken}${ref}`;
   },
-  createFrame: ({ baseUrl, websiteToken, ref }) => {
+  createFrame: ({ baseUrl, websiteToken, referral }) => {
     if (IFrameHelper.getAppFrame()) {
       return;
     }
@@ -66,7 +70,7 @@ export const IFrameHelper = {
     loadCSS();
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get(`cw_conversation_${websiteToken}`);
-    let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken, ref });
+    let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken, referral });
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
