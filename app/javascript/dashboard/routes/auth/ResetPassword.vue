@@ -29,9 +29,12 @@
 
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
 import Auth from '../../api/auth';
 
 export default {
+  mixins: [globalConfigMixin],
   data() {
     return {
       // We need to initialize the component with any
@@ -55,6 +58,11 @@ export default {
       },
     },
   },
+  computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
+  },
   methods: {
     showAlert(message) {
       // Reset loading, current selected agent
@@ -72,7 +80,9 @@ export default {
           this.showAlert(successMessage);
         })
         .catch(error => {
-          let errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+          let errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          });
           if (error?.response?.data?.message) {
             errorMessage = error.response.data.message;
           }

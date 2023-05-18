@@ -236,7 +236,9 @@ export default {
         }
         this.errorMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
       } catch (error) {
-        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE', {
+          brandName: this.globalConfig.brandName,
+        });
         if (error?.response?.data?.error) {
           this.errorMessage = error.response.data.error;
         }

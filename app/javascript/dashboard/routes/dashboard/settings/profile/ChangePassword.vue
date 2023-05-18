@@ -70,11 +70,12 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   data() {
     return {
       currentPassword: '',
@@ -105,6 +106,7 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
+      globalConfig: 'globalConfig/get',
     }),
   },
   methods: {
@@ -123,7 +125,9 @@ export default {
         });
         this.errorMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       } catch (error) {
-        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE', {
+          brandName: this.globalConfig.brandName,
+        });
         if (error?.response?.data?.message) {
           this.errorMessage = error.response.data.message;
         }
