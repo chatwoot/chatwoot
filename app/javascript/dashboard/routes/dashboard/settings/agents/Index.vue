@@ -233,7 +233,11 @@ export default {
         await this.$store.dispatch('agents/delete', id);
         this.showAlert(this.$t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
+        this.showAlert(
+          this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          })
+        );
       }
     },
     // Show SnackBar

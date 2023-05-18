@@ -83,6 +83,7 @@ import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
@@ -91,6 +92,7 @@ export default {
     WootSubmitButton,
     Modal,
   },
+  mixins: [globalConfigMixin],
   props: {
     id: {
       type: Number,
@@ -156,6 +158,7 @@ export default {
     },
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
+      globalConfig: 'globalConfig/get',
     }),
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
@@ -183,7 +186,11 @@ export default {
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
+        this.showAlert(
+          this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          })
+        );
       }
     },
     async resetPassword() {
@@ -193,7 +200,11 @@ export default {
           this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE')
         );
       } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
+        this.showAlert(
+          this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          })
+        );
       }
     },
   },

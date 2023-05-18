@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Medewerker succesvol toegevoegd",
         "EXIST_MESSAGE": "E-mailadres van de medewerker is al in gebruik, probeer een ander e-mailadres",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Verwijderen",
       "API": {
         "SUCCESS_MESSAGE": "Medewerker succesvol verwijderd",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
       },
       "CONFIRM": {
         "TITLE": "Verwijderen bevestigen",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Annuleren",
       "API": {
         "SUCCESS_MESSAGE": "Medewerker succesvol bijgewerkt",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Wachtwoord opnieuw instellen",
         "ADMIN_SUCCESS_MESSAGE": "Een e-mail met instructies om het wachtwoord te resetten is verstuurd naar de medewerker",
         "SUCCESS_MESSAGE": "Wachtwoord medewerker opnieuw instellen is geslaagd",
-        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
       }
     },
     "SEARCH": {

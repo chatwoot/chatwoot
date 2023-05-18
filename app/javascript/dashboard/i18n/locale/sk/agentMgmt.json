@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent bol úspešne pridaný",
         "EXIST_MESSAGE": "E-mail agenta sa už používa, skúste inú e-mailovú adresu",
-        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Vymazať",
       "API": {
         "SUCCESS_MESSAGE": "Agent úspešne odstránený",
-        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
       },
       "CONFIRM": {
         "TITLE": "Potvrdiť vymazanie",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Zrušiť",
       "API": {
         "SUCCESS_MESSAGE": "Agent bol úspešne aktualizovaný",
-        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Obnoviť heslo",
         "ADMIN_SUCCESS_MESSAGE": "Agentovi bol odoslaný e-mail s pokynmi na obnovenie hesla",
         "SUCCESS_MESSAGE": "Heslo agenta bolo úspešne obnovené",
-        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
       }
     },
     "SEARCH": {

@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "에이전트가 성공적으로 추가됨",
         "EXIST_MESSAGE": "에이전트 이메일이 이미 사용 중입니다. 다른 이메일 주소를 시도하십시오.",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
       "API": {
         "SUCCESS_MESSAGE": "에이전트가 성공적으로 삭제됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       },
       "CONFIRM": {
         "TITLE": "삭제 확인",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
         "SUCCESS_MESSAGE": "에이전트가 성공적으로 업데이트됨",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "비밀번호 재설정",
         "ADMIN_SUCCESS_MESSAGE": "비밀번호 재설정 지침이 포함된 이메일이 에이전트로 전송됨",
         "SUCCESS_MESSAGE": "에이전트 비밀번호 재설정 성공",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "SEARCH": {

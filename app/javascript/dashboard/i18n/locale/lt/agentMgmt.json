@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agentas pridėtas sėkmingai",
         "EXIST_MESSAGE": "Agento el. pašto adresas jau naudojamas. Bandykite kitą el. pašto adresą",
-        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
       "API": {
         "SUCCESS_MESSAGE": "Agentas ištrintas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
       },
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
         "SUCCESS_MESSAGE": "Agentas atnaujintas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Atstatyti slaptažodį",
         "ADMIN_SUCCESS_MESSAGE": "El. laiškas su slaptažodžio atstatymo instrukcijomis buvo išsiųstas agentui",
         "SUCCESS_MESSAGE": "Agento slaptažodis atstatytas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
       }
     },
     "SEARCH": {

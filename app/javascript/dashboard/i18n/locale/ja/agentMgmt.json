@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "担当者の追加が完了しました",
         "EXIST_MESSAGE": "入力された担当者のEメールアドレスは既に使用されています。別のメールアドレスをお試しください。",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "削除",
       "API": {
         "SUCCESS_MESSAGE": "担当者の削除が完了しました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
       },
       "CONFIRM": {
         "TITLE": "削除の確認",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "キャンセル",
       "API": {
         "SUCCESS_MESSAGE": "担当者の情報を更新しました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "パスワードをリセットします",
         "ADMIN_SUCCESS_MESSAGE": "担当者にパスワードをリセットする手順を記載したメールを送信しました",
         "SUCCESS_MESSAGE": "担当者のパスワードは正常にリセットされました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "SEARCH": {

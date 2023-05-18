@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent afegit correctament",
         "EXIST_MESSAGE": "L'adreça de correu electrònic de l'agent ja està en ús. Introduïu una altre adreça",
-        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor %{brandName}. Torna-ho a provar més endavant"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Esborrar",
       "API": {
         "SUCCESS_MESSAGE": "Agent esborrat correctament",
-        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor %{brandName}. Torna-ho a provar més endavant"
       },
       "CONFIRM": {
         "TITLE": "Confirma l'esborrat",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Cancel·la",
       "API": {
         "SUCCESS_MESSAGE": "Agent actualitzat correctament",
-        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor %{brandName}. Torna-ho a provar més endavant"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Reinicialització de la contrasenya",
         "ADMIN_SUCCESS_MESSAGE": "S'ha enviat a l'agent un correu electrònic amb instruccions per restablir la contrasenya",
         "SUCCESS_MESSAGE": "La contrasenya de l'agent s'ha restablit correctament",
-        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor %{brandName}. Torna-ho a provar més endavant"
       }
     },
     "SEARCH": {

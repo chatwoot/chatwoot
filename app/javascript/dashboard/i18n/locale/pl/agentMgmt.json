@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent dodany pomyślnie",
         "EXIST_MESSAGE": "Email agenta jest już w użyciu, spróbuj innego adresu e-mail",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z %{brandName} Server, spróbuj ponownie później"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
         "SUCCESS_MESSAGE": "Agent usunięty pomyślnie",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z %{brandName} Server, spróbuj ponownie później"
       },
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "API": {
         "SUCCESS_MESSAGE": "Agent został pomyślnie zaktualizowany",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z %{brandName} Server, spróbuj ponownie później"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Resetuj hasło",
         "ADMIN_SUCCESS_MESSAGE": "E-mail z instrukcjami resetowania hasła został wysłany do agenta",
         "SUCCESS_MESSAGE": "Pomyślnie zresetowano hasło agenta",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z %{brandName} Server, spróbuj ponownie później"
       }
     },
     "SEARCH": {

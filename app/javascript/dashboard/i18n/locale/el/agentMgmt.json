@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Ο πράκτορας προστέθηκε επιτυχώς",
         "EXIST_MESSAGE": "To email αυτό είναι ήδη σε χρήστη, Παρακαλώ δοκιμάστε μια άλλην διεύθυνση email",
-        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
       "API": {
         "SUCCESS_MESSAGE": "Ο πράκτορας διαγράφηκε με επιτυχία",
-        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
       },
       "CONFIRM": {
         "TITLE": "Επιβεβαίωση Διαγραφής",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Άκυρο",
       "API": {
         "SUCCESS_MESSAGE": "Ο πράκτορας ενημερώθηκε επιτυχώς",
-        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Επαναφορά Κωδικού",
         "ADMIN_SUCCESS_MESSAGE": "Ένα email με οδηγίες για την επαναφορά του κωδικού έχει αποσταλεί στον Πράκτορα",
         "SUCCESS_MESSAGE": "Έγινε επαναφορά στον κωδικός του Πράκτορα",
-        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
       }
     },
     "SEARCH": {

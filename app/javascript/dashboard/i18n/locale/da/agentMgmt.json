@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agenten blev tilføjet",
         "EXIST_MESSAGE": "Agent e-mail allerede i brug, Prøv venligst en anden e-mail adresse",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til %{brandName} Server, Prøv igen senere"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Slet",
       "API": {
         "SUCCESS_MESSAGE": "Agenten blev slettet",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til %{brandName} Server, Prøv igen senere"
       },
       "CONFIRM": {
         "TITLE": "Bekræft Sletning",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Annuller",
       "API": {
         "SUCCESS_MESSAGE": "Agenten blev opdateret",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til %{brandName} Server, Prøv igen senere"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Nulstil Adgangskode",
         "ADMIN_SUCCESS_MESSAGE": "En e-mail med nulstilling af adgangskodeinstruktioner er blevet sendt til agenten",
         "SUCCESS_MESSAGE": "Agentens adgangskode nulstillet",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til %{brandName} Server, Prøv igen senere"
       }
     },
     "SEARCH": {

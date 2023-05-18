@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Ejen berjaya ditambahkan",
         "EXIST_MESSAGE": "Emel ejen telah diguankkan, Tolong gunakkan emel yang lain",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Padamkan",
       "API": {
         "SUCCESS_MESSAGE": "Ejen berjaya dipadam",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
       },
       "CONFIRM": {
         "TITLE": "Pasti Padamkan",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
         "SUCCESS_MESSAGE": "Ejen berjaya dikemaskini",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Reset kata laluan",
         "ADMIN_SUCCESS_MESSAGE": "Email untuk reset kata laluan telah di hantar kepada ejen yang berkenaan",
         "SUCCESS_MESSAGE": "Kata laluan ejen telah berjaya set semula",
-        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+        "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
       }
     },
     "SEARCH": {

@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agen berhasil ditambahkan",
         "EXIST_MESSAGE": "Email agen sudah digunakan, Silakan coba alamat email lain",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
       "API": {
         "SUCCESS_MESSAGE": "Agen berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silakan coba lagi nanti"
       },
       "CONFIRM": {
         "TITLE": "Konfirmasi Penghapusan",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
         "SUCCESS_MESSAGE": "Agen berhasil diubah",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silakan coba lagi nanti"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Atur Ulang Kata Sandi",
         "ADMIN_SUCCESS_MESSAGE": "Sebuah email dengan instruksi pengaturan ulang kata sandi telah dikirim ke agen",
         "SUCCESS_MESSAGE": "Pengaturan ulang kata sandi agen berhasil",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
       }
     },
     "SEARCH": {

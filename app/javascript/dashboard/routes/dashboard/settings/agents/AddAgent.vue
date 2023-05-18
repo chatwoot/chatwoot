@@ -66,8 +66,10 @@
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
+  mixins: [globalConfigMixin],
   props: {
     onClose: {
       type: Function,
@@ -97,6 +99,7 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
+      globalConfig: 'globalConfig/get',
     }),
   },
   validations: {
@@ -131,10 +134,12 @@ export default {
           response: { data: { error: errorResponse = '' } = {} } = {},
         } = error;
         let errorMessage = '';
-        if (error.response.status === 422) {
+        if (error.response !== undefined && error.response.status === 422) {
           errorMessage = this.$t('AGENT_MGMT.ADD.API.EXIST_MESSAGE');
         } else {
-          errorMessage = this.$t('AGENT_MGMT.ADD.API.ERROR_MESSAGE');
+          errorMessage = this.$t('AGENT_MGMT.ADD.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          });
         }
         this.showAlert(errorResponse || errorMessage);
       }

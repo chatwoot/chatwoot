@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "סוכן הוסף בהצלחה",
         "EXIST_MESSAGE": "המייל בשימוש, אנא נסה כתובת מייל אחרת",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "סוכן נמחק בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
       },
       "CONFIRM": {
         "TITLE": "אשר מחיקה",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "ביטול",
       "API": {
         "SUCCESS_MESSAGE": "סוכן עודכן בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "אפס ססמה",
         "ADMIN_SUCCESS_MESSAGE": "מייל עם הוראות איפוס ססמא נשלח לסוכן",
         "SUCCESS_MESSAGE": "ססמת הסוכן אופסה בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
       }
     },
     "SEARCH": {

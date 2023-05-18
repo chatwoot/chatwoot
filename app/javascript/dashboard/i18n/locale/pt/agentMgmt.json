@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agente adicionado com sucesso",
         "EXIST_MESSAGE": "E-mail do representante já está em uso, por favor tente outro endereço de e-mail",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor %{brandName}, por favor tente novamente mais tarde"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor %{brandName}, por favor tente novamente mais tarde"
       },
       "CONFIRM": {
         "TITLE": "Confirmar Exclusão",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Agente atualizado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor %{brandName}, por favor tente novamente mais tarde"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Redefinir a senha",
         "ADMIN_SUCCESS_MESSAGE": "Um e-mail com instruções de redefinição de senha foi enviado para o agente",
         "SUCCESS_MESSAGE": "Senha do agente redefinida com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor %{brandName}, por favor tente novamente mais tarde"
       }
     },
     "SEARCH": {

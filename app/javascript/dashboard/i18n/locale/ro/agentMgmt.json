@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent adăugat cu succes",
         "EXIST_MESSAGE": "Agent e-mail deja folosit, te rugăm să încerci o altă adresă de e-mail",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
       "API": {
         "SUCCESS_MESSAGE": "Agent sters cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       },
       "CONFIRM": {
         "TITLE": "Confirmă ștergerea",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Renunță",
       "API": {
         "SUCCESS_MESSAGE": "Agent actualizat cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Resetează Parola",
         "ADMIN_SUCCESS_MESSAGE": "Un e-mail cu instrucțiunile de resetare a parolei a fost trimis agentului",
         "SUCCESS_MESSAGE": "Parola resetata cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       }
     },
     "SEARCH": {

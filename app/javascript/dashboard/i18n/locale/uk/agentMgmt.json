@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Агента успішно додано",
         "EXIST_MESSAGE": "Електронна пошта агента вже використовується, будь ласка, спробуйте іншу адресу електронної пошти",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
         "SUCCESS_MESSAGE": "Агента успішно видалено",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       },
       "CONFIRM": {
         "TITLE": "Підтвердження видалення",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "API": {
         "SUCCESS_MESSAGE": "Агента успішно оновлено",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Скинути пароль",
         "ADMIN_SUCCESS_MESSAGE": "Лист з інструкціями для відновлення паролю було надіслано агенту",
         "SUCCESS_MESSAGE": "Пароль агента успішно скинуто",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       }
     },
     "SEARCH": {

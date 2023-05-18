@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Aģents ir veiksmīgi pievienots",
         "EXIST_MESSAGE": "Aģenta e-pasts jau tiek izmantots. Lūdzu, pamēģiniet citu e-pasta adresi",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Dzēst",
       "API": {
         "SUCCESS_MESSAGE": "Aģents ir veiksmīgi izdzēsts",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       },
       "CONFIRM": {
         "TITLE": "Apstiprināt Dzēšanu",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
         "SUCCESS_MESSAGE": "Aģents ir veiksmīgi atjaunināts",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Atiestatīt Paroli",
         "ADMIN_SUCCESS_MESSAGE": "Aģentam tika nosūtīts e-pasta ziņojums ar paroles atiestatīšanas norādījumiem",
         "SUCCESS_MESSAGE": "Aģenta parole ir veiksmīgi atiestatīta",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "SEARCH": {

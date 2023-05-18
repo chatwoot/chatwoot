@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agente aggiunto correttamente",
         "EXIST_MESSAGE": "Email dell'agente già in uso, prova un altro indirizzo email",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Elimina",
       "API": {
         "SUCCESS_MESSAGE": "Agente eliminato con successo",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "annulla",
       "API": {
         "SUCCESS_MESSAGE": "Agente aggiornato correttamente",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Reimposta la password",
         "ADMIN_SUCCESS_MESSAGE": "Un'email con le istruzioni per reimpostare la password è stata inviata all'agente",
         "SUCCESS_MESSAGE": "Password dell'agente reimpostata correttamente",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi"
       }
     },
     "SEARCH": {

@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Nhà cung cấp được thêm thành công",
         "EXIST_MESSAGE": "Email đã được sử dung, vui lòng chọn email khác.",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
       "API": {
         "SUCCESS_MESSAGE": "Nhà cung cấp được xoá thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
       },
       "CONFIRM": {
         "TITLE": "Xác nhận xoá",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "API": {
         "SUCCESS_MESSAGE": "Nhà cung cấp được cập nhật thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Đặt lại mật khẩu",
         "ADMIN_SUCCESS_MESSAGE": "Một email với hướng dẫn đặt lại mật khẩu đã được gửi đến đại lý",
         "SUCCESS_MESSAGE": "Đặt lại mật khẩu đại lý thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
       }
     },
     "SEARCH": {

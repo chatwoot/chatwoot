@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Edustaja lisätty onnistuneesti",
         "EXIST_MESSAGE": "Edustajan sähköposti on jo käytössä, kokeile toista sähköpostiosoitetta",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Poista",
       "API": {
         "SUCCESS_MESSAGE": "Edustaja poistettu onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       },
       "CONFIRM": {
         "TITLE": "Vahvista poistaminen",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Peruuta",
       "API": {
         "SUCCESS_MESSAGE": "Edustajaa muokattu onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Nollaa Salasana",
         "ADMIN_SUCCESS_MESSAGE": "Edustajalle on lähetetty sähköposti, jossa on salasanan palautusohjeet",
         "SUCCESS_MESSAGE": "Edustajan salasanan nollaus onnistui",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
     "SEARCH": {

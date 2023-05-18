@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Kullanıcı başarıyla eklendi",
         "EXIST_MESSAGE": "Temsilci e-postası zaten kullanımda, Lütfen başka bir e-posta adresi deneyin",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
         "SUCCESS_MESSAGE": "Kullanıcı başarıyla silindi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "CONFIRM": {
         "TITLE": "Silmeyi onayla",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "API": {
         "SUCCESS_MESSAGE": "Kullanıcı başarıyla güncellendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Şifreyi yenile",
         "ADMIN_SUCCESS_MESSAGE": "Temsilciye şifre sıfırlama talimatlarını içeren bir e-posta gönderildi",
         "SUCCESS_MESSAGE": "Kullanıcı şifresi başarıyla sıfırlandı",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "SEARCH": {

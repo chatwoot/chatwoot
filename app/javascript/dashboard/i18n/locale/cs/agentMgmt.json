@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent byl úspěšně přidán",
         "EXIST_MESSAGE": "E-mail agenta je již používán, zkuste prosím jinou e-mailovou adresu",
-        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+        "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Vymazat",
       "API": {
         "SUCCESS_MESSAGE": "Agent byl úspěšně odstraněn",
-        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+        "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
       },
       "CONFIRM": {
         "TITLE": "Potvrdit odstranění",
@@ -85,13 +85,13 @@
       "CANCEL_BUTTON_TEXT": "Zrušit",
       "API": {
         "SUCCESS_MESSAGE": "Agent úspěšně aktualizován",
-        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+        "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Obnovit heslo",
         "ADMIN_SUCCESS_MESSAGE": "E-mail s instrukcemi pro obnovení hesla byl odeslán agentovi",
         "SUCCESS_MESSAGE": "Heslo agenta bylo úspěšně obnoveno",
-        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+        "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
       }
     },
     "SEARCH": {
