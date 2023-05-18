@@ -12,7 +12,7 @@ class Seeders::AccountSeeder
   def initialize(account:)
     raise 'Account Seeding is not allowed.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
 
-    @account_data = HashWithIndifferentAccess.new(YAML.safe_load(Rails.root.join('lib/seeders/seed_data.yml').read))
+    @account_data = ActiveSupport::HashWithIndifferentAccess.new(YAML.safe_load(Rails.root.join('lib/seeders/seed_data.yml').read))
     @account = account
   end
 

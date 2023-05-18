@@ -193,8 +193,6 @@ RSpec/IndexedLet:
   Enabled: false
 Rails/ResponseParsedBody:
   Enabled: false
-Rails/TopLevelHashWithIndifferentAccess:
-  Enabled: false
 RSpec/NoExpectationExample:
   Enabled: false
 Rails/I18nLocaleTexts:
