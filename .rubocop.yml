@@ -182,8 +182,6 @@ Rails/ThreeStateBooleanColumn:
   Enabled: false
 Rails/TopLevelHashWithIndifferentAccess:
   Enabled: false
-Style/ArrayIntersect:
-  Enabled: false
 RSpec/NoExpectationExample:
   Enabled: false
 Rails/I18nLocaleTexts:
