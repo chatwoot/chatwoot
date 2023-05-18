@@ -29,8 +29,12 @@ RSpec.describe Integrations::Openai::ProcessorService do
         request_body = {
           'model' => 'gpt-3.5-turbo',
           'messages' => [
-            { 'role' => 'system',
-              'content' => "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone." },
+            {
+              'role' => 'system',
+              'content' => 'You are a helpful support agent. ' \
+                           'Please rephrase the following response to a more ' \
+                           "#{event['data']['tone']} tone. Reply in the user's language."
+            },
             { 'role' => 'user', 'content' => event['data']['content'] }
           ]
         }.to_json
@@ -51,7 +55,8 @@ RSpec.describe Integrations::Openai::ProcessorService do
         request_body = {
           'model' => 'gpt-3.5-turbo',
           'messages' => [
-            { role: 'system', content: 'Please suggest a reply to the following conversation between support agents and customer' },
+            { role: 'system',
+              content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' },
             { role: 'user', content: customer_message.content },
             { role: 'assistant', content: agent_message.content }
           ]
@@ -79,7 +84,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           'messages' => [
             { 'role' => 'system',
               'content' => 'Please summarize the key points from the following conversation between support agents and customer ' \
-                           'as bullet points for the next support agent looking into the conversation' },
+                           'as bullet points for the next support agent looking into the conversation. Reply in the user\'s language.' },
             { 'role' => 'user', 'content' => conversation_messages }
           ]
         }.to_json
