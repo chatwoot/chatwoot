@@ -28,7 +28,8 @@ class Integrations::Openai::ProcessorService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone. Reply in the user's language." },
+          content: "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone. " \
+                   "Reply in the user's language." },
         { role: 'user', content: event['data']['content'] }
       ]
     }.to_json
@@ -106,7 +107,8 @@ class Integrations::Openai::ProcessorService
     {
       model: GPT_MODEL,
       messages: [
-        { role: 'system', content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
+        { role: 'system',
+          content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
   end
