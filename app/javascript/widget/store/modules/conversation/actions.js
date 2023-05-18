@@ -22,6 +22,10 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      const ref = new URLSearchParams(window.location.search).get('referral');
+      if (ref) {
+        await setCustomAttributes({"ref": ref});
+      }
     } catch (error) {
       captureSentryException(error);
     } finally {
@@ -100,8 +104,8 @@ export const actions = {
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
-      const ref = new URLSearchParams(window.location.search).get('ref');
-      if(ref) {
+      const ref = new URLSearchParams(window.location.search).get('referral');
+      if (ref) {
         await setCustomAttributes({"ref": ref});
       }
     } catch (error) {
