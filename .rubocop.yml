@@ -184,8 +184,6 @@ Rails/Pluck:
   Enabled: false
 Rails/TopLevelHashWithIndifferentAccess:
   Enabled: false
-Rails/ActionOrder:
-  Enabled: false
 Style/ArrayIntersect:
   Enabled: false
 RSpec/NoExpectationExample:
