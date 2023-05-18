@@ -187,8 +187,6 @@ RSpec/IndexedLet:
   Enabled: false
 RSpec/NamedSubject:
   Enabled: false
-RSpec/Rails/MinitestAssertions:
-  Enabled: false
 
 
 # we should bring this down
