@@ -190,8 +190,6 @@ Style/ArrayIntersect:
   Enabled: false
 RSpec/NoExpectationExample:
   Enabled: false
-Style/RedundantReturn:
-  Enabled: false
 Rails/I18nLocaleTexts:
   Enabled: false
 
