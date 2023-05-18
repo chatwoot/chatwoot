@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Reģistrācija sekmīga",
-      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
+      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar %{brandName} serveri. Lūdzu mēģiniet vēlreiz."
     },
     "SUBMIT": "Izveidot kontu",
     "HAVE_AN_ACCOUNT": "Jau ir konts?"

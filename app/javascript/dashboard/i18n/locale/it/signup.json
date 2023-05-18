@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrazione riuscita",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi."
+      "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Hai già un account?"

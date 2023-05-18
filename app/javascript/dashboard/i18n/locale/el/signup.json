@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Επιτυχής καταχώρηση",
-      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Έχετε ήδη ένα λογαριασμό?"

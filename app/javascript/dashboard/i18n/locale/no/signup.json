@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrering fullført",
-      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Har du allerede en konto?"

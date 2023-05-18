@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "등록 성공",
-      "ERROR_MESSAGE": "Woot Server에 연결할 수 없음. 나중에 다시 시도하십시오."
+      "ERROR_MESSAGE": "%{brandName} Server에 연결할 수 없음. 나중에 다시 시도하십시오."
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "이미 계정이 있습니까?"

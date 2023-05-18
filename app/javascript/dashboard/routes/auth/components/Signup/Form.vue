@@ -180,7 +180,9 @@ export default {
           window.location = DEFAULT_REDIRECT_URL;
         }
       } catch (error) {
-        let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
+        let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE', {
+          brandName: this.globalConfig.brandName,
+        });
         if (error.response && error.response.data.message) {
           this.resetCaptcha();
           errorMessage = error.response.data.message;

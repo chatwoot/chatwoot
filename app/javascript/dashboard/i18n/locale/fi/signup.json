@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Rekisteröinti onnistui",
-      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+      "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Onko sinulla jo tili?"
