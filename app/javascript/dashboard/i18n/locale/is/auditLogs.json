@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Aðgerðaskrá sótt",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna %{brandName}, vinsamlegast reynið aftur"
     }
   }
 }

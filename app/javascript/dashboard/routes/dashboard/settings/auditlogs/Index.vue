@@ -57,12 +57,13 @@ import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 import timeMixin from 'dashboard/mixins/time';
 import alertMixin from 'shared/mixins/alertMixin';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     TableFooter,
   },
-  mixins: [alertMixin, timeMixin],
+  mixins: [alertMixin, timeMixin, globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -76,6 +77,7 @@ export default {
       records: 'auditlogs/getAuditLogs',
       uiFlags: 'auditlogs/getUIFlags',
       meta: 'auditlogs/getMeta',
+      globalConfig: 'globalConfig/get',
     }),
   },
   mounted() {
@@ -89,7 +91,10 @@ export default {
         this.$store.dispatch('auditlogs/fetch', { page });
       } catch (error) {
         const errorMessage =
-          error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
+          error?.message ||
+          this.$t('AUDIT_LOGS.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          });
         this.showAlert(errorMessage);
       }
     },

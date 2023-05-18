@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     }
   }
 }

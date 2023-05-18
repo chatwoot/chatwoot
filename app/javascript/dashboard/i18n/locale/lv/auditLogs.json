@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditaŽurnāli ir veiksmīgi iegūti",
-      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     }
   }
 }

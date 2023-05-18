@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
     }
   }
 }

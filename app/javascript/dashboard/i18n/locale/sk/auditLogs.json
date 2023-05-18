@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
     }
   }
 }

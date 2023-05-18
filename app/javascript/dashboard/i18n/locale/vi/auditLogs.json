@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
     }
   }
 }

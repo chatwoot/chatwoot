@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Audit Logovi su uspješno dohvaćeni",
-      "ERROR_MESSAGE": "Neuspješno spajanje na Woot Server, Molimo pokušajte kasnije"
+      "ERROR_MESSAGE": "Neuspješno spajanje na %{brandName} Server, Molimo pokušajte kasnije"
     }
   }
 }

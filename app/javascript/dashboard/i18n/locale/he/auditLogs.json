@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת %{brandName}, נסה שוב מאוחר יותר"
     }
   }
 }

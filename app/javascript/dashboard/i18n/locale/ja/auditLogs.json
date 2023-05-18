@@ -18,7 +18,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
     }
   }
 }
