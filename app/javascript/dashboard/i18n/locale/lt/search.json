@@ -1,23 +1,23 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "All",
-      "CONTACTS": "Contacts",
-      "CONVERSATIONS": "Conversations",
-      "MESSAGES": "Messages"
+      "ALL": "Visi",
+      "CONTACTS": "Kontaktai",
+      "CONVERSATIONS": "Pokalbiai",
+      "MESSAGES": "Pranešimai"
     },
     "SECTION": {
-      "CONTACTS": "Contacts",
-      "CONVERSATIONS": "Conversations",
-      "MESSAGES": "Messages"
+      "CONTACTS": "Kontaktai",
+      "CONVERSATIONS": "Pokalbiai",
+      "MESSAGES": "Pranešimai"
     },
     "EMPTY_STATE": "No %{item} found for query '%{query}'",
     "EMPTY_STATE_FULL": "No results found for query '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
-    "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "BOT_LABEL": "Botas",
+    "READ_MORE": "Skaityti daugiau",
     "WROTE": "wrote:"
   }
 }

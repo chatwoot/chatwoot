@@ -17,7 +17,7 @@ By default, the relationship is rendered as a link to the associated object.
 %>
 
 <% if field.data %>
-  <% if valid_action?(:show, field.data.class) %>
+  <% if existing_action?(field.data.class, :show) %>
     <%= link_to(
       field.display_associated_resource,
       [namespace, field.data],

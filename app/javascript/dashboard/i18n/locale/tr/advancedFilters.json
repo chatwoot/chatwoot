@@ -38,6 +38,7 @@
       "CAMPAIGN_NAME": "Kampanya Adı",
       "LABELS": "Etiketler",
       "BROWSER_LANGUAGE": "Tarayıcı Dili",
+      "PRIORITY": "Priority",
       "COUNTRY_NAME": "Ülke Adı",
       "REFERER_LINK": "Yönlendirme bağlantısı",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",

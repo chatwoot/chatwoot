@@ -1,9 +1,10 @@
 <template>
-  <unread-message-list :messages="messages" />
+  <unread-message-list :messages="messages" @close="closeFullView" />
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { IFrameHelper } from 'widget/helpers/utils';
 import UnreadMessageList from '../components/UnreadMessageList.vue';
 
 export default {
@@ -22,6 +23,17 @@ export default {
           campaignId,
         },
       ];
+    },
+  },
+  methods: {
+    closeFullView() {
+      if (IFrameHelper.isIFrame()) {
+        IFrameHelper.sendMessage({
+          event: 'setCampaignReadOn',
+        });
+        IFrameHelper.sendMessage({ event: 'toggleBubble' });
+        bus.$emit('snooze-campaigns');
+      }
     },
   },
 };

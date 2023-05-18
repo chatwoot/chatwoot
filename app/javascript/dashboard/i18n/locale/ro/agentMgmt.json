@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Agenți de căutare",
-          "TEAM": "Echipele de căutare"
+          "TEAM": "Echipele de căutare",
+          "INPUT": "Search for agents"
         }
       }
     }

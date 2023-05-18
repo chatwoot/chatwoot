@@ -1,116 +1,117 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "Agentai",
+    "HEADER_BTN_TXT": "Pridėti Agentą",
+    "LOADING": "Gaunamas agentų sąrašas",
+    "SIDEBAR_TXT": "<p><b>Makrokomandos</b><p>Makrokomandos yra išsaugotų veiksmų rinkinys, padedantis klientų aptarnavimo agentams lengvai atlikti užduotis. Agentai gali apibrėžti veiksmų rinkinį, pvz., pokalbio žymėjimą etikete, el. laiško nuorašo siuntimą, tinkinto atributo atnaujinimą ir pan., ir jie gali atlikti šiuos veiksmus vienu paspaudimu. Kai agentai vykdo makrokomandą, veiksmai bus atliekami nuosekliai tokia tvarka, kokia jie yra apibrėžti. Makrokomandos pagerina produktyvumą ir padidina veiksmų nuoseklumą. </p><p>Makrokomandas gali būti naudingas dviem būdais. </p><p><b>Kaip agento pagalba:</b> jei agentas kelis kartus atlieka veiksmų rinkinį, jis gali išsaugoti jį kaip makrokomandą ir atlikti visus veiksmus kartu vienu spustelėjimu.</b> p><p><b>Kaip galimybė įtraukti komandos narį:</b> kiekvienas agentas kiekvieno pokalbio metu turi atlikti daugybę skirtingų patikrinimų / veiksmų. Priimti naują palaikymo komandos narį bus lengva, jei paskyroje bus iš anksto nustatytų makrokomandų. Užuot išsamiai aprašęs kiekvieną veiksmą, vadovas / komandos vadovas gali nurodyti įvairiuose scenarijuose naudojamas makrokomandas.</p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "Administratorius",
+      "AGENT": "Agentas"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "404": "Su šia paskyra nėra susietų agentų",
+      "TITLE": "Valdyti agentus jūsų komandoje",
+      "DESC": "Jūs galite įtraukti/pašalinti agentus į/iš savo komandos.",
+      "NAME": "Vardas",
+      "EMAIL": "El. paštas",
+      "STATUS": "Būsena",
+      "ACTIONS": "Veiksmai",
+      "VERIFIED": "Patikrinta",
+      "VERIFICATION_PENDING": "Laukiama patvirtinimo"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
+      "TITLE": "Pridėti agentą prie komandos",
       "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Agento Vardas",
+          "PLACEHOLDER": "Įveskite agento vardą"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Agento tipas",
+          "PLACEHOLDER": "Prašau pasirinkti agento tipą",
+          "ERROR": "Yra reikalingas agento tipas"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "El. pašto adresas",
+          "PLACEHOLDER": "Įveskite agento el. pašto adresą"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Pridėti Agentą"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Agentas pridėtas sėkmingai",
+        "EXIST_MESSAGE": "Agento el. pašto adresas jau naudojamas. Bandykite kitą el. pašto adresą",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Ištrinti",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Agentas ištrintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Keisti Agentą",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Agento Vardas",
+          "PLACEHOLDER": "Įveskite agento vardą"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Agento tipas",
+          "PLACEHOLDER": "Prašau pasirinkti agento tipą",
+          "ERROR": "Yra reikalingas agento tipas"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "El. pašto adresas",
+          "PLACEHOLDER": "Įveskite agento el. pašto adresą"
         },
         "AGENT_AVAILABILITY": {
-          "LABEL": "Availability",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "LABEL": "Prieinamumas",
+          "PLACEHOLDER": "Prašome pasirinkti prieinamumo būseną",
+          "ERROR": "Būtinas prieinamumas"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Keisti Agentą"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Redaguoti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Agentas atnaujintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "Atstatyti slaptažodį",
+        "ADMIN_SUCCESS_MESSAGE": "El. laiškas su slaptažodžio atstatymo instrukcijomis buvo išsiųstas agentui",
+        "SUCCESS_MESSAGE": "Agento slaptažodis atstatytas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Nieko nerasta."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Nėra",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Pasirinkti agentą",
+        "TEAM": "Pasirinkite komandą"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "Agentų nerasta",
+          "TEAM": "Komandų nerasta"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Ieškoti agentų",
+          "TEAM": "Ieškoti komandų",
+          "INPUT": "Ieškoti agentų"
         }
       }
     }
