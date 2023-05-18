@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Redis::Config do
+describe Redis::Config do
   context 'when single redis instance is used' do
     let(:redis_url) { 'redis://my-redis-instance:6379' }
     let(:redis_pasword) { 'some-strong-password' }

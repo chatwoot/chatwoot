@@ -48,7 +48,7 @@ describe Instagram::SendOnInstagramService do
             }
           )
 
-          response = ::Instagram::SendOnInstagramService.new(message: message).perform
+          response = described_class.new(message: message).perform
 
           expect(response).to eq({  message_id: 'anyrandommessageid1234567890' })
         end
@@ -58,7 +58,7 @@ describe Instagram::SendOnInstagramService do
           attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
           attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
           message.save!
-          response = ::Instagram::SendOnInstagramService.new(message: message).perform
+          response = described_class.new(message: message).perform
 
           expect(response).to eq({ message_id: 'anyrandommessageid1234567890' })
         end
@@ -87,7 +87,7 @@ describe Instagram::SendOnInstagramService do
             }
           )
 
-          ::Instagram::SendOnInstagramService.new(message: message).perform
+          described_class.new(message: message).perform
         end
       end
     end

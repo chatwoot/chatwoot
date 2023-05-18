@@ -164,8 +164,6 @@ Performance/CollectionLiteralInLoop:
     - 'db/migrate/20210315101919_enable_email_channel.rb'
 RSpec/NamedSubject:
   Enabled: false
-Style/RedundantConstantBase:
-  Enabled: false
 Rails/RootPathnameMethods:
   Enabled: false
 RSpec/Rails/MinitestAssertions:

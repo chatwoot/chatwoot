@@ -148,12 +148,12 @@ RSpec.describe Message, type: :model do
 
     it 'triggers ::MessageTemplates::HookExecutionService' do
       hook_execution_service = double
-      allow(::MessageTemplates::HookExecutionService).to receive(:new).and_return(hook_execution_service)
+      allow(MessageTemplates::HookExecutionService).to receive(:new).and_return(hook_execution_service)
       allow(hook_execution_service).to receive(:perform).and_return(true)
 
       message.save!
 
-      expect(::MessageTemplates::HookExecutionService).to have_received(:new).with(message: message)
+      expect(MessageTemplates::HookExecutionService).to have_received(:new).with(message: message)
       expect(hook_execution_service).to have_received(:perform)
     end
 

@@ -33,8 +33,8 @@ RSpec.describe SendReplyJob, type: :job do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       message = create(:message, conversation: create(:conversation, inbox: twitter_inbox))
-      allow(::Twitter::SendOnTwitterService).to receive(:new).with(message: message).and_return(process_service)
-      expect(::Twitter::SendOnTwitterService).to receive(:new).with(message: message)
+      allow(Twitter::SendOnTwitterService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Twitter::SendOnTwitterService).to receive(:new).with(message: message)
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
@@ -42,8 +42,8 @@ RSpec.describe SendReplyJob, type: :job do
     it 'calls ::Twilio::SendOnTwilioService when its twilio message' do
       twilio_channel = create(:channel_twilio_sms)
       message = create(:message, conversation: create(:conversation, inbox: twilio_channel.inbox))
-      allow(::Twilio::SendOnTwilioService).to receive(:new).with(message: message).and_return(process_service)
-      expect(::Twilio::SendOnTwilioService).to receive(:new).with(message: message)
+      allow(Twilio::SendOnTwilioService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Twilio::SendOnTwilioService).to receive(:new).with(message: message)
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
@@ -51,8 +51,8 @@ RSpec.describe SendReplyJob, type: :job do
     it 'calls ::Telegram::SendOnTelegramService when its telegram message' do
       telegram_channel = create(:channel_telegram)
       message = create(:message, conversation: create(:conversation, inbox: telegram_channel.inbox))
-      allow(::Telegram::SendOnTelegramService).to receive(:new).with(message: message).and_return(process_service)
-      expect(::Telegram::SendOnTelegramService).to receive(:new).with(message: message)
+      allow(Telegram::SendOnTelegramService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Telegram::SendOnTelegramService).to receive(:new).with(message: message)
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
@@ -60,8 +60,8 @@ RSpec.describe SendReplyJob, type: :job do
     it 'calls ::Line:SendOnLineService when its line message' do
       line_channel = create(:channel_line)
       message = create(:message, conversation: create(:conversation, inbox: line_channel.inbox))
-      allow(::Line::SendOnLineService).to receive(:new).with(message: message).and_return(process_service)
-      expect(::Line::SendOnLineService).to receive(:new).with(message: message)
+      allow(Line::SendOnLineService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Line::SendOnLineService).to receive(:new).with(message: message)
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
@@ -70,8 +70,8 @@ RSpec.describe SendReplyJob, type: :job do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
       whatsapp_channel = create(:channel_whatsapp, sync_templates: false)
       message = create(:message, conversation: create(:conversation, inbox: whatsapp_channel.inbox))
-      allow(::Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message).and_return(process_service)
-      expect(::Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message)
+      allow(Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message)
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
@@ -79,8 +79,8 @@ RSpec.describe SendReplyJob, type: :job do
     it 'calls ::Sms::SendOnSmsService when its sms message' do
       sms_channel = create(:channel_sms)
       message = create(:message, conversation: create(:conversation, inbox: sms_channel.inbox))
-      allow(::Sms::SendOnSmsService).to receive(:new).with(message: message).and_return(process_service)
-      expect(::Sms::SendOnSmsService).to receive(:new).with(message: message)
+      allow(Sms::SendOnSmsService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Sms::SendOnSmsService).to receive(:new).with(message: message)
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end

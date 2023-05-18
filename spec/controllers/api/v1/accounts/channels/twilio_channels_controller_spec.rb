@@ -4,13 +4,13 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:twilio_client) { instance_double(::Twilio::REST::Client) }
+  let(:twilio_client) { instance_double(Twilio::REST::Client) }
   let(:message_double) { double }
-  let(:twilio_webhook_setup_service) { instance_double(::Twilio::WebhookSetupService) }
+  let(:twilio_webhook_setup_service) { instance_double(Twilio::WebhookSetupService) }
 
   before do
-    allow(::Twilio::REST::Client).to receive(:new).and_return(twilio_client)
-    allow(::Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
+    allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+    allow(Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
     allow(twilio_webhook_setup_service).to receive(:perform)
   end
 

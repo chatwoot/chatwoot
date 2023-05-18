@@ -83,7 +83,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
 
     it 'will not send email if agent is online' do
-      ::OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
       expect(mail).to be_nil
     end
   end
@@ -101,7 +101,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
 
     it 'will not send email if agent is online' do
-      ::OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
       expect(mail).to be_nil
     end
   end

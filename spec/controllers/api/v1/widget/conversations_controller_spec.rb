@@ -8,9 +8,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   let(:second_session) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let!(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
-  let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
+  let(:token) { Widget::TokenService.new(payload: payload).generate_token }
   let(:token_without_conversation) do
-    ::Widget::TokenService.new(payload: { source_id: second_session.source_id, inbox_id: web_widget.inbox.id }).generate_token
+    Widget::TokenService.new(payload: { source_id: second_session.source_id, inbox_id: web_widget.inbox.id }).generate_token
   end
 
   describe 'GET /api/v1/widget/conversations' do
@@ -35,7 +35,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
         payload = { source_id: 'invalid source id', inbox_id: web_widget.inbox.id }
-        token = ::Widget::TokenService.new(payload: payload).generate_token
+        token = Widget::TokenService.new(payload: payload).generate_token
         get '/api/v1/widget/conversations',
             headers: { 'X-Auth-Token' => token },
             params: { website_token: web_widget.website_token },

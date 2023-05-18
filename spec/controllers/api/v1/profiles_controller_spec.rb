@@ -191,7 +191,7 @@ RSpec.describe 'Profile API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(::OnlineStatusTracker.get_status(account.id, agent.id)).to eq('busy')
+        expect(OnlineStatusTracker.get_status(account.id, agent.id)).to eq('busy')
       end
     end
   end

@@ -6,7 +6,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
   let(:contact) { create(:contact, account: account, email: 'test@test.com', phone_number: '+745623239') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
-  let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
+  let(:token) { Widget::TokenService.new(payload: payload).generate_token }
 
   describe 'PATCH /api/v1/widget/contact' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test' } }

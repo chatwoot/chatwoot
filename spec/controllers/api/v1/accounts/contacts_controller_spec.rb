@@ -191,7 +191,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts who are online' do
-        allow(::OnlineStatusTracker).to receive(:get_available_contact_ids).and_return([contact.id])
+        allow(OnlineStatusTracker).to receive(:get_available_contact_ids).and_return([contact.id])
 
         get "/api/v1/accounts/#{account.id}/contacts/active",
             headers: admin.create_new_auth_token,
@@ -517,7 +517,7 @@ RSpec.describe 'Contacts API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'deletes the contact for administrator user' do
-        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(false)
+        allow(OnlineStatusTracker).to receive(:get_presence).and_return(false)
         delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
                headers: admin.create_new_auth_token
 
@@ -530,7 +530,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'does not delete the contact if online' do
-        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(true)
+        allow(OnlineStatusTracker).to receive(:get_presence).and_return(true)
 
         delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
                headers: admin.create_new_auth_token
