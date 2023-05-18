@@ -17,8 +17,8 @@ json.meta do
 end
 
 json.id conversation.display_id
-if (conversation.respond_to?(:message_count) && conversation.message_count.zero?) || conversation.messages.count.zero?
-  json.messages []
+if !conversation.messages.first.present?
+  json.messages [] 
 elsif conversation.unread_incoming_messages.count.zero?
   json.messages [conversation.messages.includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)]
 else
