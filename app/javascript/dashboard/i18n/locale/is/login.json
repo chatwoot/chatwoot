@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Innskráning tókst",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna %{brandName}, vinsamlegast reynið aftur",
       "UNAUTH": "Notandanafn / lykilorð rangt. Vinsamlegast reyndu aftur"
     },
     "OAUTH": {

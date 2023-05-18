@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Login Lykkedes",
-      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere",
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til %{brandName} Server, Prøv igen senere",
       "UNAUTH": "Brugernavn / adgangskode forkert. Prøv igen"
     },
     "OAUTH": {

@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Accesso riuscito",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi",
+      "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi",
       "UNAUTH": "Nome utente / Password errati. Riprova"
     },
     "OAUTH": {

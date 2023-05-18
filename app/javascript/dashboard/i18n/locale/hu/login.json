@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Bejelentkezés sikeres",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később",
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a %{brandName} szerverhez, kérjük próbáld később",
       "UNAUTH": "A felhasználó / jelszó helytelen. Kérjük próbálja újra"
     },
     "OAUTH": {

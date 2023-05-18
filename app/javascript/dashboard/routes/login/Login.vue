@@ -193,7 +193,11 @@ export default {
             }
             return;
           }
-          this.showAlert(this.$t('LOGIN.API.ERROR_MESSAGE'));
+          this.showAlert(
+            this.$t('LOGIN.API.ERROR_MESSAGE', {
+              brandName: this.globalConfig.brandName,
+            })
+          );
         });
     },
   },
