@@ -28,7 +28,8 @@ class Integrations::Openai::ProcessorService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone." },
+          content: "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone. " \
+                   "Reply in the user's language." },
         { role: 'user', content: event['data']['content'] }
       ]
     }.to_json
@@ -96,7 +97,7 @@ class Integrations::Openai::ProcessorService
       messages: [
         { role: 'system',
           content: 'Please summarize the key points from the following conversation between support agents and ' \
-                   'customer as bullet points for the next support agent looking into the conversation' },
+                   'customer as bullet points for the next support agent looking into the conversation. Reply in the user\'s language.' },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json
@@ -106,7 +107,8 @@ class Integrations::Openai::ProcessorService
     {
       model: GPT_MODEL,
       messages: [
-        { role: 'system', content: 'Please suggest a reply to the following conversation between support agents and customer' }
+        { role: 'system',
+          content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
   end
