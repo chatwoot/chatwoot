@@ -21,4 +21,9 @@ class CustomFilter < ApplicationRecord
   belongs_to :account
 
   enum filter_type: { conversation: 0, contact: 1, report: 2 }
+
+  def records_count
+    records = Conversations::FilterService.new(query.with_indifferent_access, Current.user).perform
+    records[:count][:all_count]
+  end
 end
