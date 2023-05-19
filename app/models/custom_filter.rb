@@ -25,7 +25,7 @@ class CustomFilter < ApplicationRecord
   validate :validate_number_of_filters
 
   def validate_number_of_filters
-    return true if account.custom_filters.where(user_id: user_id).size <= MAX_FILTER_PER_USER
+    return true if account.custom_filters.where(user_id: user_id).size < MAX_FILTER_PER_USER
 
     errors.add :account_id, I18n.t('errors.custom_filters.number_of_records')
   end

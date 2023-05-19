@@ -84,7 +84,6 @@ RSpec.describe 'Custom Filters API', type: :request do
         CustomFilter::MAX_FILTER_PER_USER.times do
           create(:custom_filter, user: user, account: account)
         end
-        create(:custom_filter, user: user, account: account)
 
         expect do
           post "/api/v1/accounts/#{account.id}/custom_filters", headers: user.create_new_auth_token,
@@ -93,8 +92,9 @@ RSpec.describe 'Custom Filters API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = JSON.parse(response.body)
-        expect(json_response['message']).to include('Account Limit reached.
-          The maximum number of allowed custom filters for a user per account is 50.')
+        expect(json_response['message']).to include(
+          'Account Limit reached. The maximum number of allowed custom filters for a user per account is 50.'
+        )
       end
     end
   end

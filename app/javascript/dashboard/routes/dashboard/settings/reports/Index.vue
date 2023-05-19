@@ -9,12 +9,9 @@
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
     <report-filter-selector
-      group-by-filter
-      :selected-group-by-filter="selectedGroupByFilter"
-      :filter-items-list="filterItemsList"
-      @date-range-change="onDateRangeChange"
+      :show-agents-filter="false"
+      :show-group-by-filter="true"
       @filter-change="onFilterChange"
-      @business-hours-toggle="onBusinessHoursToggle"
     />
     <div class="row">
       <woot-report-stats-card
@@ -55,7 +52,8 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
-import reportMixin from '../../../../mixins/reportMixin';
+import reportMixin from 'dashboard/mixins/reportMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 import { formatTime } from '@chatwoot/utils';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
@@ -73,15 +71,13 @@ export default {
   components: {
     ReportFilterSelector,
   },
-  mixins: [reportMixin],
+  mixins: [reportMixin, alertMixin],
   data() {
     return {
       from: 0,
       to: 0,
       currentSelection: 0,
       groupBy: GROUP_BY_FILTER[1],
-      filterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
-      selectedGroupByFilter: {},
       businessHours: false,
     };
   },
@@ -191,24 +187,35 @@ export default {
   },
   methods: {
     fetchAllData() {
-      const { from, to, groupBy, businessHours } = this;
-      this.$store.dispatch('fetchAccountSummary', {
-        from,
-        to,
-        groupBy: groupBy.period,
-        businessHours,
-      });
+      this.fetchAccountSummary();
       this.fetchChartData();
     },
+    fetchAccountSummary() {
+      try {
+        this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
+      } catch {
+        this.showAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
+      }
+    },
     fetchChartData() {
+      try {
+        this.$store.dispatch('fetchAccountReport', {
+          metric: this.metrics[this.currentSelection].KEY,
+          ...this.getRequestPayload(),
+        });
+      } catch {
+        this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      }
+    },
+    getRequestPayload() {
       const { from, to, groupBy, businessHours } = this;
-      this.$store.dispatch('fetchAccountReport', {
-        metric: this.metrics[this.currentSelection].KEY,
+
+      return {
         from,
         to,
         groupBy: groupBy.period,
         businessHours,
-      });
+      };
     },
     downloadAgentReports() {
       const { from, to } = this;
@@ -222,57 +229,15 @@ export default {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to, groupBy }) {
-      // do not track filter change on inital load
-      if (this.from !== 0 && this.to !== 0) {
-        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-          filterType: 'date',
-          reportType: 'conversations',
-        });
-      }
+    onFilterChange({ from, to, groupBy, businessHours }) {
       this.from = from;
       this.to = to;
-      this.filterItemsList = this.fetchFilterItems(groupBy);
-      const filterItems = this.filterItemsList.filter(
-        item => item.id === this.groupBy.id
-      );
-      if (filterItems.length > 0) {
-        this.selectedGroupByFilter = filterItems[0];
-      } else {
-        this.selectedGroupByFilter = this.filterItemsList[0];
-        this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
-      }
-      this.fetchAllData();
-    },
-    onFilterChange(payload) {
-      this.groupBy = GROUP_BY_FILTER[payload.id];
+      this.groupBy = groupBy;
+      this.businessHours = businessHours;
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'groupBy',
-        filterValue: this.groupBy?.period,
-        reportType: 'conversations',
-      });
-    },
-    fetchFilterItems(groupBy) {
-      switch (groupBy) {
-        case GROUP_BY_FILTER[2].period:
-          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
-        case GROUP_BY_FILTER[3].period:
-          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
-        case GROUP_BY_FILTER[4].period:
-          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
-        default:
-          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
-      }
-    },
-    onBusinessHoursToggle(value) {
-      this.businessHours = value;
-      this.fetchAllData();
-
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'businessHours',
-        filterValue: value,
+        filterValue: { from, to, groupBy, businessHours },
         reportType: 'conversations',
       });
     },
