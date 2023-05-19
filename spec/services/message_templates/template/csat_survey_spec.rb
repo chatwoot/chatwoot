@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::MessageTemplates::Template::CsatSurvey do
+describe MessageTemplates::Template::CsatSurvey do
   context 'when this hook is called' do
     let(:conversation) { create(:conversation) }
 
