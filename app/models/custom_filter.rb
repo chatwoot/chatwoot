@@ -17,6 +17,7 @@
 #  index_custom_filters_on_user_id     (user_id)
 #
 class CustomFilter < ApplicationRecord
+  MAX_FILTER_PER_USER = 50
   belongs_to :user
   belongs_to :account
 
@@ -24,8 +25,8 @@ class CustomFilter < ApplicationRecord
   validate :validate_number_of_filters
 
   def validate_number_of_filters
-    return true if self.class.where(account_id: account_id, user_id: user_id).size <= 50
+    return true if account.custom_filters.where(user_id: user_id).size <= MAX_FILTER_PER_USER
 
-    errors.add :account_id, 'We do not allow creating >50 custom views per account per user'
+    errors.add :account_id, I18n.t('errors.custom_filters.number_of_records')
   end
 end
