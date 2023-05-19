@@ -2,7 +2,7 @@
   <div class="column content-box">
     <!-- List Audit Logs -->
     <div class="row">
-      <div class="small-8 columns with-right-space ">
+      <div class="small-8 columns">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -16,8 +16,13 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table"
+          class="woot-table full-width-table"
         >
+          <colgroup>
+            <col style="width: 60%" />
+            <col />
+            <col />
+          </colgroup>
           <thead>
             <!-- Header -->
             <th
@@ -29,15 +34,23 @@
           </thead>
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="wrap-break-words">{{ auditLogItem.username }}</td>
               <td class="wrap-break-words">
+                {{ auditLogItem.username }} {{ auditLogItem.action }}d
+                {{ auditLogItem.auditable_type }}
+              </td>
+              <!-- <td class="wrap-break-words">
                 {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
+              </td> -->
+              <td class="wrap-break-words">
+                {{
+                  messageTimestamp(
+                    auditLogItem.created_at,
+                    'MMM dd, yyyy hh:mm a'
+                  )
+                }}
               </td>
               <td class="remote-address">
                 {{ auditLogItem.remote_address }}
-              </td>
-              <td class="wrap-break-words">
-                {{ dynamicTime(auditLogItem.created_at) }}
               </td>
             </tr>
           </tbody>
@@ -103,5 +116,12 @@ export default {
 .wrap-break-words {
   word-break: break-all;
   white-space: normal;
+}
+.full-width-table {
+  width: 100%;
+}
+
+.column-activity {
+  width: 60%;
 }
 </style>
