@@ -49,6 +49,7 @@ import hookMixin from './hookMixin';
 import NewHook from './NewHook';
 import SingleIntegrationHooks from './SingleIntegrationHooks';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
@@ -56,7 +57,7 @@ export default {
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
   },
-  mixins: [alertMixin, hookMixin],
+  mixins: [alertMixin, hookMixin, globalConfigMixin],
   props: {
     integrationId: {
       type: [String, Number],
@@ -73,7 +74,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'integrations/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'integrations/getUIFlags',
+      globalConfig: 'globalConfig/get',
+    }),
     integration() {
       return this.$store.getters['integrations/getIntegration'](
         this.integrationId
@@ -137,10 +141,13 @@ export default {
           'INTEGRATION_APPS.DELETE.API.SUCCESS_MESSAGE'
         );
         this.closeDeletePopup();
-      } catch (error) {
-        const errorMessage = error?.response?.data?.message;
-        this.alertMessage =
-          errorMessage || this.$t('INTEGRATION_APPS.DELETE.API.ERROR_MESSAGE');
+      } catch {
+        this.alertMessage = this.$t(
+          'INTEGRATION_APPS.DELETE.API.ERROR_MESSAGE',
+          {
+            brandName: this.globalConfig.brandName,
+          }
+        );
       } finally {
         this.showAlert(this.alertMessage);
       }

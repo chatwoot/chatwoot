@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Отмени",
       "API": {
         "SUCCESS_MESSAGE": "Успешно изтриване на куката",
-        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+        "ERROR_MESSAGE": "Не можа да се свърже с %{brandName} сървър. Моля, опитайте отново по-късно"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+        "ERROR_MESSAGE": "Не можа да се свърже с %{brandName} сървър. Моля, опитайте отново по-късно"
       }
     },
     "CONNECT": {

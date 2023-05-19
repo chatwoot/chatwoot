@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Abbrechen",
       "API": {
         "SUCCESS_MESSAGE": "Hook wurde erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum %{brandName}-Server hergestellt werden. Bitte versuchen Sie es später erneut"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integrations-Hook erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum %{brandName}-Server hergestellt werden. Bitte versuchen Sie es später erneut"
       }
     },
     "CONNECT": {

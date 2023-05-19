@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Άκυρο",
       "API": {
         "SUCCESS_MESSAGE": "Το hook διαγράφηκε επιτυχώς",
-        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Το Integration hook προστέθηκε επιτυχώς",
-        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
       }
     },
     "CONNECT": {

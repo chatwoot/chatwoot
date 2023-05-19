@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Annuler",
       "API": {
         "SUCCESS_MESSAGE": "Webhook supprimé avec succès",
-        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur %{brandName}, veuillez réessayer plus tard"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Hook d'intégration ajouté avec succès",
-        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur %{brandName}, veuillez réessayer plus tard"
       }
     },
     "CONNECT": {

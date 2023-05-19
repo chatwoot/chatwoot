@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Avbryt",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till %{brandName} Server, försök igen senare"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till %{brandName} Server, försök igen senare"
       }
     },
     "CONNECT": {

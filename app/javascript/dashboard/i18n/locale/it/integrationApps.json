@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Annulla",
       "API": {
         "SUCCESS_MESSAGE": "Hook eliminato con successo",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Hook di integrazione aggiunto con successo",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server %{brandName}, riprova più tardi"
       }
     },
     "CONNECT": {

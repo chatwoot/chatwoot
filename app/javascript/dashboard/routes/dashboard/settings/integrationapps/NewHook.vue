@@ -39,9 +39,10 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import hookMixin from './hookMixin';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
-  mixins: [alertMixin, hookMixin],
+  mixins: [alertMixin, hookMixin, globalConfigMixin],
   props: {
     integration: {
       type: Object,
@@ -60,6 +61,7 @@ export default {
       uiFlags: 'integrations/getUIFlags',
       websiteInboxes: 'inboxes/getWebsiteInboxes',
       dialogFlowEnabledInboxes: 'inboxes/dialogFlowEnabledInboxes',
+      globalConfig: 'globalConfig/get',
     }),
     inboxes() {
       return this.dialogFlowEnabledInboxes
@@ -124,10 +126,10 @@ export default {
         );
         this.alertMessage = this.$t('INTEGRATION_APPS.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
-      } catch (error) {
-        const errorMessage = error?.response?.data?.message;
-        this.alertMessage =
-          errorMessage || this.$t('INTEGRATION_APPS.ADD.API.ERROR_MESSAGE');
+      } catch {
+        this.alertMessage = this.$t('INTEGRATION_APPS.ADD.API.ERROR_MESSAGE', {
+          brandName: this.globalConfig.brandName,
+        });
       } finally {
         this.showAlert(this.alertMessage);
       }

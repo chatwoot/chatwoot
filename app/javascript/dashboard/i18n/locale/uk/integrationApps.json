@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "API": {
         "SUCCESS_MESSAGE": "Хук успішно видалено",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Хук інтеграції успішно додано",
-        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
       }
     },
     "CONNECT": {

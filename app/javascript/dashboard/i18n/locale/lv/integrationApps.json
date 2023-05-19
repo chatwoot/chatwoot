@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
         "SUCCESS_MESSAGE": "Hook ir veiksmīgi izdzēsts",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integrācijas hook ir veiksmīgi pievienots",
-        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "CONNECT": {

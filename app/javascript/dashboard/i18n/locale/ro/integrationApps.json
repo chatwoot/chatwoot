@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Renunță",
       "API": {
         "SUCCESS_MESSAGE": "Cârlig șters cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Regulă de automatizare adăugată cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+        "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
       }
     },
     "CONNECT": {

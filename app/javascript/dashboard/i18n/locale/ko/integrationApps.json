@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "ERROR_MESSAGE": "%{brandName} 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "CONNECT": {

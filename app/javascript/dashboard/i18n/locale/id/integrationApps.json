@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
       }
     },
     "CONNECT": {

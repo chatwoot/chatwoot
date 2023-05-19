@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Zrušit",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+        "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+        "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
       }
     },
     "CONNECT": {
