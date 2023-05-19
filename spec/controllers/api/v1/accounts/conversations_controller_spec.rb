@@ -780,4 +780,51 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/update_contact' do
+    let!(:old_contact) do
+      create(:contact, identifier: 'base_contact', email: 'old@old.com', phone_number: '', custom_attributes: { val_test: 'old', val_empty_old: '' },
+                       account: account)
+    end
+    let!(:conversation) { create(:conversation, contact: old_contact, account: account) }
+    let!(:new_contact) do
+      create(:contact, identifier: '', email: 'new@new.com', phone_number: '+12212345',
+                       custom_attributes: { val_test: 'new', val_new: 'new', val_empty_new: '' }, account: account)
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_contact"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'update contact' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_contact",
+             params: { contact_id: new_contact.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.contact.id).to be(new_contact.id)
+      end
+
+      it 'not found new contact id' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_contact",
+             params: { contact_id: 945_698 },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

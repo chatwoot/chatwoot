@@ -98,6 +98,7 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
+              post :update_contact
             end
           end
 

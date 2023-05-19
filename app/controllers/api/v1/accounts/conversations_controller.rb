@@ -94,6 +94,17 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
+  def update_contact
+    @new_contact = @conversation.account.contacts.find(params[:contact_id])
+    @account = @conversation.account
+
+    ConversationUpdateContactAction.new(
+      account: @account,
+      conversation: @conversation,
+      contact: @new_contact
+    ).perform
+  end
+
   private
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
