@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Messages::MessageBuilder do
+describe Messages::MessageBuilder do
   subject(:message_builder) { described_class.new(user, conversation, params).perform }
 
   let(:account) { create(:account) }

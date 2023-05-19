@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DeleteObjectJob, type: :job do
+RSpec.describe DeleteObjectJob do
   subject(:job) { described_class.perform_later(account) }
 
   let(:account) { create(:account) }

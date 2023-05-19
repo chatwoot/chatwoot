@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MessageFormatHelper, type: :helper do
+describe MessageFormatHelper do
   describe '#transform_user_mention_content' do
     context 'when transform_user_mention_content called' do
       it 'return transormed text correctly' do

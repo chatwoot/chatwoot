@@ -26,7 +26,7 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['content_type']).to eq('image/png')
       end
     end
