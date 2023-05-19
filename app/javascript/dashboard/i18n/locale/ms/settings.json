@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+      "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
     },
     "FORM": {
       "NAME": {

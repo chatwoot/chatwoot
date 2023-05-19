@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Kontoen ble opprettet",
       "EXIST_MESSAGE": "Kontoen eksisterer allerede",
-      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
     },
     "FORM": {
       "NAME": {

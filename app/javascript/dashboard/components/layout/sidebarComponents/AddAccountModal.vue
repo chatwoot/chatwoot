@@ -53,9 +53,10 @@
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   props: {
     show: {
       type: Boolean,
@@ -80,6 +81,7 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
+      globalConfig: 'globalConfig/get',
     }),
   },
   methods: {
@@ -92,10 +94,14 @@ export default {
         this.showAlert(this.$t('CREATE_ACCOUNT.API.SUCCESS_MESSAGE'));
         window.location = `/app/accounts/${account_id}/dashboard`;
       } catch (error) {
-        if (error.response.status === 422) {
+        if (error?.response?.status === 422) {
           this.showAlert(this.$t('CREATE_ACCOUNT.API.EXIST_MESSAGE'));
         } else {
-          this.showAlert(this.$t('CREATE_ACCOUNT.API.ERROR_MESSAGE'));
+          this.showAlert(
+            this.$t('CREATE_ACCOUNT.API.ERROR_MESSAGE', {
+              brandName: this.globalConfig.brandName,
+            })
+          );
         }
       }
     },

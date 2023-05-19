@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "アカウントが正常に作成されました",
       "EXIST_MESSAGE": "アカウントはすでに存在します",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "ERROR_MESSAGE": "%{brandName} Serverに接続できませんでした。後でもう一度お試しください。"
     },
     "FORM": {
       "NAME": {

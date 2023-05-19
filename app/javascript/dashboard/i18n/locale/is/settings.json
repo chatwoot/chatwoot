@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna %{brandName}, vinsamlegast reynið aftur"
     },
     "FORM": {
       "NAME": {

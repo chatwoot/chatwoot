@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Cuenta creada con éxito",
       "EXIST_MESSAGE": "La cuenta ya existe",
-      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtelo de nuevo más tarde"
+      "ERROR_MESSAGE": "No se pudo conectar al servidor %{brandName}, por favor inténtelo de nuevo más tarde"
     },
     "FORM": {
       "NAME": {

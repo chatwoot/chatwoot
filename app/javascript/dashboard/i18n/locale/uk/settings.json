@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Обліковий запис створено",
       "EXIST_MESSAGE": "Обліковий запис вже існує",
-      "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      "ERROR_MESSAGE": "Не вдалося підключитися до %{brandName} Server, спробуйте ще раз пізніше"
     },
     "FORM": {
       "NAME": {

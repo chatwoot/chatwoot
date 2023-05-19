@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Účet byl úspěšně vytvořen",
       "EXIST_MESSAGE": "Účet již existuje",
-      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
     },
     "FORM": {
       "NAME": {

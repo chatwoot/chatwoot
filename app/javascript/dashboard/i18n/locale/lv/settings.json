@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Konts ir veiksmīgi izveidots",
       "EXIST_MESSAGE": "Konts jau pastāv",
-      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar %{brandName} serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     },
     "FORM": {
       "NAME": {

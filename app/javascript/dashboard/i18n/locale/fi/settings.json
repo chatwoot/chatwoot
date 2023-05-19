@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Tilin luominen onnistui",
       "EXIST_MESSAGE": "Tili on jo olemassa",
-      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+      "ERROR_MESSAGE": "Yhteyden muodostaminen %{brandName}-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     },
     "FORM": {
       "NAME": {

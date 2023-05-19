@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Hesap başarıyla oluşturuldu",
       "EXIST_MESSAGE": "Bu Hesap Zaten Mevcut",
-      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
     "FORM": {
       "NAME": {

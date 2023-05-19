@@ -278,7 +278,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Tài khoản được tạo thành công",
       "EXIST_MESSAGE": "Tài khoản đã tồn tại",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
     },
     "FORM": {
       "NAME": {
