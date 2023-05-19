@@ -469,17 +469,37 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(api_channel.reload.webhook_url).to eq('webhook.test')
       end
 
-      it 'updates twitter inbox when administrator' do
-        api_channel = create(:channel_twitter_profile, account: account, tweets_enabled: true)
-        api_inbox = create(:inbox, channel: api_channel, account: account)
+      it 'updates whatsapp inbox when administrator' do
+        stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook').to_return(status: 200, body: '', headers: {})
+        stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates').to_return(status: 200, body: '', headers: {})
+        whatsapp_channel = create(:channel_whatsapp, account: account)
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+        whatsapp_channel.prompt_reauthorization!
 
-        patch "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+        expect(whatsapp_channel).to be_reauthorization_required
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { enable_auto_assignment: false, channel: { provider_config: { api_key: 'new_key' } } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(whatsapp_inbox.reload.enable_auto_assignment).to be_falsey
+        expect(whatsapp_channel.reload.provider_config['api_key']).to eq('new_key')
+        expect(whatsapp_channel.reload).not_to be_reauthorization_required
+      end
+
+      it 'updates twitter inbox when administrator' do
+        twitter_channel = create(:channel_twitter_profile, account: account, tweets_enabled: true)
+        twitter_inbox = create(:inbox, channel: twitter_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{twitter_inbox.id}",
               headers: admin.create_new_auth_token,
               params: { channel: { tweets_enabled: false } },
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(api_channel.reload.tweets_enabled).to be(false)
+        expect(twitter_channel.reload.tweets_enabled).to be(false)
       end
 
       it 'updates email inbox when administrator' do
