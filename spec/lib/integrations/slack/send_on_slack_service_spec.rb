@@ -108,7 +108,7 @@ describe Integrations::Slack::SendOnSlackService do
         ).and_return(slack_message)
 
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
 
         expect(slack_client).to receive(:files_upload).with(hash_including(
                                                               channels: hook.reference_id,

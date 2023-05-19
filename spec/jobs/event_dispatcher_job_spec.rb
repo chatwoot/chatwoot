@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EventDispatcherJob, type: :job do
+RSpec.describe EventDispatcherJob do
   subject(:job) { described_class.perform_later(event_name, timestamp, event_data) }
 
   let!(:conversation) { create(:conversation) }
