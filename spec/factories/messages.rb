@@ -16,14 +16,14 @@ FactoryBot.define do
                                          channel: create(:channel_instagram_fb_page, account: message.account, instagram_id: 'instagram-123'))
         end
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image, external_url: 'https://www.example.com/test.jpeg')
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
     end
 
     trait :with_attachment do
       after(:build) do |message|
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
     end
 

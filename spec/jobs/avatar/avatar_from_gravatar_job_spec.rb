@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Avatar::AvatarFromGravatarJob, type: :job do
+RSpec.describe Avatar::AvatarFromGravatarJob do
   let(:avatarable) { create(:contact) }
   let(:email) { 'test@test.com' }
   let(:gravatar_url) { "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?d=404" }

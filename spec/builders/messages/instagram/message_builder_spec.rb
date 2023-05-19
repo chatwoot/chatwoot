@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe  ::Messages::Instagram::MessageBuilder do
+describe Messages::Instagram::MessageBuilder do
   subject(:instagram_message_builder) { described_class }
 
   before do

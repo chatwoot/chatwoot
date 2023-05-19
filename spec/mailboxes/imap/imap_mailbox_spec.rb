@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Imap::ImapMailbox, type: :mailbox do
+RSpec.describe Imap::ImapMailbox do
   include ActionMailbox::TestHelper
 
   describe 'add mail as a new conversation in the email inbox' do

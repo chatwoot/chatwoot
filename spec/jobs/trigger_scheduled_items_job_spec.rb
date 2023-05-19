@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TriggerScheduledItemsJob, type: :job do
+RSpec.describe TriggerScheduledItemsJob do
   subject(:job) { described_class.perform_later }
 
   let(:account) { create(:account) }
