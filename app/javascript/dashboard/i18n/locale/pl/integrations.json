@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+          "ERROR_MESSAGE": "Nie można połączyć się z %{brandName} Server, spróbuj ponownie później"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Dodaj nowy webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+          "ERROR_MESSAGE": "Nie można połączyć się z %{brandName} Server, spróbuj ponownie później"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Usuń",
         "API": {
           "SUCCESS_MESSAGE": "Webhook został usunięty",
-          "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+          "ERROR_MESSAGE": "Nie można połączyć się z %{brandName} Server, spróbuj ponownie później"
         },
         "CONFIRM": {
           "TITLE": "Potwierdź usunięcie",

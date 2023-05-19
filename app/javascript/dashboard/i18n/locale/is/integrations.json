@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook stillingar uppfærðar",
-          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna %{brandName}, vinsamlegast reynið aftur"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Bæta við nýjum webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna %{brandName}, vinsamlegast reynið aftur"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Eyða",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+          "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna %{brandName}, vinsamlegast reynið aftur"
         },
         "CONFIRM": {
           "TITLE": "Staðfesta eyðingu",

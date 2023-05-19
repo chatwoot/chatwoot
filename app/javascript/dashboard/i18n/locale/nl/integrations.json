@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+          "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Nieuwe webhook toevoegen",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+          "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Verwijderen",
         "API": {
           "SUCCESS_MESSAGE": "Webhook succesvol verwijderd",
-          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+          "ERROR_MESSAGE": "Kan geen verbinding maken met %{brandName} Server, probeer het later opnieuw"
         },
         "CONFIRM": {
           "TITLE": "Verwijdering bevestigen",

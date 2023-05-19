@@ -47,7 +47,7 @@
         "TITLE": "Sửa webhook",
         "API": {
           "SUCCESS_MESSAGE": "Đã cập nhật cấu hình Webhook thành công",
-          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Thêm mới webhook",
         "API": {
           "SUCCESS_MESSAGE": "Đã thêm Webhook thành công",
-          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Xoá",
         "API": {
           "SUCCESS_MESSAGE": "Webhook đã được xoá thành công",
-          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ %{brandName}, Vui lòng thử lại sau"
         },
         "CONFIRM": {
           "TITLE": "Xác Nhận Xoá",

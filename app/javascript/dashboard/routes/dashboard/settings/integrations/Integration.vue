@@ -113,9 +113,11 @@ export default {
         this.showAlert(
           this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE')
         );
-      } catch (error) {
+      } catch {
         this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE', {
+            brandName: this.globalConfig.brandName,
+          })
         );
       }
     },

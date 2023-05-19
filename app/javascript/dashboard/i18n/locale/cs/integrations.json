@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+          "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Přidat nový webový háček",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+          "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Vymazat",
         "API": {
           "SUCCESS_MESSAGE": "Webový háček byl úspěšně odstraněn",
-          "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+          "ERROR_MESSAGE": "Nelze se připojit k %{brandName} serveru, opakujte akci později"
         },
         "CONFIRM": {
           "TITLE": "Potvrdit odstranění",

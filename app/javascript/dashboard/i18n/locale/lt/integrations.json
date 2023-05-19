@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Ištrinti",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+          "ERROR_MESSAGE": "Nepavyko prisijungti prie %{brandName} serverio, bandykite dar kartą vėliau"
         },
         "CONFIRM": {
           "TITLE": "Patvirtinti Ištrynimą",

@@ -47,7 +47,7 @@
         "TITLE": "Επεξεργασία webhook",
         "API": {
           "SUCCESS_MESSAGE": "Οι ρυθμίσεις του Webhook ενημερώθηκαν με επιτυχία",
-          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Προσθήκη Νέου webhook",
         "API": {
           "SUCCESS_MESSAGE": "Η διαμόρφωση Webhook προστέθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Διαγραφή",
         "API": {
           "SUCCESS_MESSAGE": "Το Webhook διαγράφηκε επιτυχώς",
-          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον %{brandName} Server, Παρακαλώ προσπαθήστε αργότερα"
         },
         "CONFIRM": {
           "TITLE": "Επιβεβαίωση Διαγραφής",

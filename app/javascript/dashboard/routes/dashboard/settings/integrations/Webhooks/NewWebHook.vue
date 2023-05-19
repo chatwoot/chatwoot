@@ -47,10 +47,13 @@ export default {
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.API.SUCCESS_MESSAGE')
         );
         this.onClose();
-      } catch (error) {
-        const message =
-          error.response.data.message ||
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE');
+      } catch {
+        const message = this.$t(
+          'INTEGRATION_SETTINGS.WEBHOOK.ADD.API.ERROR_MESSAGE',
+          {
+            brandName: this.globalConfig.brandName,
+          }
+        );
         this.showAlert(message);
       }
     },

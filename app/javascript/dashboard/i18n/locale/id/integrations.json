@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Tambah webhook baru",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Hapus",
         "API": {
           "SUCCESS_MESSAGE": "Webhook berhasil dihapus",
-          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server %{brandName}, Silahkan coba lagi nanti"
         },
         "CONFIRM": {
           "TITLE": "Konfirmasi Penghapusan",

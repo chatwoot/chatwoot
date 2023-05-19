@@ -47,7 +47,7 @@
         "TITLE": "Editare webhook",
         "API": {
           "SUCCESS_MESSAGE": "Configurația Webhook actualizată cu succes",
-          "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+          "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Adaugă un nou webhook",
         "API": {
           "SUCCESS_MESSAGE": "Configurare Webhook adăugată cu succes",
-          "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+          "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Şterge",
         "API": {
           "SUCCESS_MESSAGE": "Webhook șters cu succes",
-          "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+          "ERROR_MESSAGE": "Nu s-a putut conecta la %{brandName} Server, încercați din nou mai târziu"
         },
         "CONFIRM": {
           "TITLE": "Confirmă ștergerea",

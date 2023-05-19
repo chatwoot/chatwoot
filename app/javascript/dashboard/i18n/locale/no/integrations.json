@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+          "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Legg til ny webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+          "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Slett",
         "API": {
           "SUCCESS_MESSAGE": "Webhook ble slettet",
-          "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+          "ERROR_MESSAGE": "Kunne ikke koble til %{brandName} Server, vennligst prøv igjen senere"
         },
         "CONFIRM": {
           "TITLE": "Bekreft sletting",

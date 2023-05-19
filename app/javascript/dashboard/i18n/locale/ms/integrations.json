@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+          "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+          "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Padamkan",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
+          "ERROR_MESSAGE": "Masalah untuk hubungi %{brandName} Server, Sila cuba sebentar lagi"
         },
         "CONFIRM": {
           "TITLE": "Pasti Padamkan",

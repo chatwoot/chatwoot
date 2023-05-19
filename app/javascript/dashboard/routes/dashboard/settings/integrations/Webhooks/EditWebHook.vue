@@ -17,10 +17,11 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import WebhookForm from './WebhookForm.vue';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: { WebhookForm },
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   props: {
     value: {
       type: Object,
@@ -36,7 +37,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ uiFlags: 'webhooks/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'webhooks/getUIFlags',
+      globalConfig: 'globalConfig/get',
+    }),
   },
   methods: {
     async onSubmit(webhook) {
@@ -49,10 +53,13 @@ export default {
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.SUCCESS_MESSAGE')
         );
         this.onClose();
-      } catch (error) {
-        const alertMessage =
-          error.response.data.message ||
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE');
+      } catch {
+        const alertMessage = this.$t(
+          'INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE',
+          {
+            brandName: this.globalConfig.brandName,
+          }
+        );
         this.showAlert(alertMessage);
       }
     },

@@ -47,7 +47,7 @@
         "TITLE": "Uredi veb zakačku",
         "API": {
           "SUCCESS_MESSAGE": "Veb zakačka je uspešno izmenjena",
-          "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+          "ERROR_MESSAGE": "Nije moguće se povezati sa %{brandName} serverom, pokušajte ponovo kasnije"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Dodaj novu veb zakačku",
         "API": {
           "SUCCESS_MESSAGE": "Podešavanje veb zakačke je uspešno dodato",
-          "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+          "ERROR_MESSAGE": "Nije moguće se povezati sa %{brandName} serverom, pokušajte ponovo kasnije"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Izbriši",
         "API": {
           "SUCCESS_MESSAGE": "Veb zakačka je uspešno obrisana",
-          "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+          "ERROR_MESSAGE": "Nije moguće se povezati sa %{brandName} serverom, pokušajte ponovo kasnije"
         },
         "CONFIRM": {
           "TITLE": "Potvrdite brisanje",

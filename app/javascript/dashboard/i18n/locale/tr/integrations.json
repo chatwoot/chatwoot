@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+          "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Yeni web kancası ekle",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+          "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Sil",
         "API": {
           "SUCCESS_MESSAGE": "Web kancası başarıyla silindi",
-          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+          "ERROR_MESSAGE": "%{brandName} Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         },
         "CONFIRM": {
           "TITLE": "Silmeyi onayla",

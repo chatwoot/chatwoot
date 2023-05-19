@@ -47,7 +47,7 @@
         "TITLE": "Edit webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
         }
       },
       "ADD": {
@@ -55,14 +55,14 @@
         "TITLE": "Add new webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Vymazať",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+          "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru %{brandName}, skúste to prosím neskôr"
         },
         "CONFIRM": {
           "TITLE": "Potvrdiť vymazanie",
