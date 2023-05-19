@@ -20,7 +20,7 @@ RSpec.describe ConversationReplyEmailWorker, type: :worker do
 
     it 'worker jobs are enqueued in the mailers queue' do
       described_class.perform_async
-      assert_equal :mailers, described_class.queue
+      expect(described_class.queue).to eq(:mailers)
     end
 
     it 'goes into the jobs array for testing environment' do

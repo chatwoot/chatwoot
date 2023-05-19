@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::NotificationBuilder do
+describe NotificationBuilder do
   include ActiveJob::TestHelper
 
   describe '#perform' do
