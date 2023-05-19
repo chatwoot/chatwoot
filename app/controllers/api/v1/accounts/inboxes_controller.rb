@@ -55,9 +55,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       rescue StandardError => e
         render json: { message: e }, status: :unprocessable_entity and return
       end
-      @inbox.channel.reauthorized!
     end
 
+    @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
   end
