@@ -45,7 +45,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['error']).to eq('Validation failed: Content is too long (maximum is 150000 characters)')
       end
@@ -61,7 +61,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data['content_attributes']['external_created_at']).to eq time_stamp
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.last.sender_id).to eq(agent_bot.id)

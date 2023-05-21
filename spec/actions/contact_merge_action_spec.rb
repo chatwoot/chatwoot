@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ContactMergeAction do
+describe ContactMergeAction do
   subject(:contact_merge) { described_class.new(account: account, base_contact: base_contact, mergee_contact: mergee_contact).perform }
 
   let!(:account) { create(:account) }

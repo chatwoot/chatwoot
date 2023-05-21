@@ -22,7 +22,7 @@ RSpec.describe 'Custom Filters API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body.first['name']).to eq(custom_filter.name)
         expect(response_body.first['query']).to eq(custom_filter.query)
       end
@@ -76,7 +76,7 @@ RSpec.describe 'Custom Filters API', type: :request do
         end.to change(CustomFilter, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['name']).to eq 'vip-customers'
       end
 
