@@ -156,6 +156,10 @@ class ActionCableListener < BaseListener
     broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.push_event_data)
   end
 
+  def custom_filter_updated(_event)
+    filters
+  end
+
   private
 
   def typing_event_listener_tokens(account, conversation, user)

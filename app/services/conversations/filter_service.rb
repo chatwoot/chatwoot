@@ -17,14 +17,18 @@ class Conversations::FilterService < FilterService
     }
   end
 
-  def conversation_query_builder
+  def conversation_query_builder(records = nil)
     conversation_filters = @filters['conversations']
     @params[:payload].each_with_index do |query_hash, current_index|
       current_filter = conversation_filters[query_hash['attribute_key']]
       @query_string += conversation_query_string(current_filter, query_hash, current_index)
     end
 
-    base_relation.where(@query_string, @filter_values.with_indifferent_access)
+    if records.present?
+      records.where(@query_string, @filter_values.with_indifferent_access)
+    else
+      base_relation.where(@query_string, @filter_values.with_indifferent_access)
+    end
   end
 
   def conversation_query_string(current_filter, query_hash, current_index)
