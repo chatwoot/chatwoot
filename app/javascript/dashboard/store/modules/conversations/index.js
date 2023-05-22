@@ -27,6 +27,7 @@ export const mutations = {
       const indexInCurrentList = newAllConversations.findIndex(
         c => c.id === conversation.id
       );
+      Vue.set(conversation, 'attachments', []);
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
       }
@@ -54,6 +55,13 @@ export const mutations = {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
       chat.messages.unshift(...data);
+    }
+  },
+  [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
+    if (data.length) {
+      const [chat] = _state.allConversations.filter(c => c.id === id);
+      chat.attachments = [];
+      chat.attachments.push(...data);
     }
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {

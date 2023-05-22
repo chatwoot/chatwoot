@@ -86,6 +86,18 @@ const actions = {
     }
   },
 
+  fetchAllAttachments: async ({ commit }, conversationId) => {
+    try {
+      const { data } = await MessageApi.getAllAttachments(conversationId);
+      commit(types.SET_ALL_ATTACHMENTS, {
+        id: conversationId,
+        data: data.payload,
+      });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   syncActiveConversationMessages: async (
     { commit, state, dispatch },
     { conversationId }

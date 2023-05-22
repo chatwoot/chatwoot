@@ -91,6 +91,10 @@ class MessageApi extends ApiClient {
       }
     );
   }
+
+  getAllAttachments(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/attachments`);
+  }
 }
 
 export default new MessageApi();

@@ -49,21 +49,14 @@
         </span>
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in data.attachments" :key="attachment.id">
-            <bubble-image
-              v-if="attachment.file_type === 'image' && !hasImageError"
+            <bubble-image-audio-video
+              v-if="
+                (attachment.file_type === 'image' || 'audio' || 'video') &&
+                  !hasImageError
+              "
               :url="attachment.data_url"
+              :attachment="attachment"
               @error="onImageLoadError"
-            />
-            <audio
-              v-else-if="attachment.file_type === 'audio'"
-              controls
-              class="skip-context-menu"
-            >
-              <source :src="`${attachment.data_url}?t=${Date.now()}`" />
-            </audio>
-            <bubble-video
-              v-else-if="attachment.file_type === 'video'"
-              :url="attachment.data_url"
             />
             <bubble-location
               v-else-if="attachment.file_type === 'location'"
@@ -139,12 +132,11 @@
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import BubbleActions from './bubble/Actions';
 import BubbleFile from './bubble/File';
-import BubbleImage from './bubble/Image';
+import BubbleImageAudioVideo from './bubble/ImageAudioVideo';
 import BubbleIntegration from './bubble/Integration.vue';
 import BubbleLocation from './bubble/Location';
 import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
-import BubbleVideo from './bubble/Video.vue';
 import BubbleContact from './bubble/Contact';
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
@@ -160,12 +152,11 @@ export default {
   components: {
     BubbleActions,
     BubbleFile,
-    BubbleImage,
+    BubbleImageAudioVideo,
     BubbleIntegration,
     BubbleLocation,
     BubbleMailHead,
     BubbleText,
-    BubbleVideo,
     BubbleContact,
     ContextMenu,
     Spinner,
