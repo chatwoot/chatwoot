@@ -162,6 +162,20 @@ class ConversationReplyMailer < ApplicationMailer
     [content_attributes[:cc_emails], content_attributes[:bcc_emails]]
   end
 
+  def to_emails_from_content_attributes
+    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+
+    return [] unless content_attributes
+    return [] unless content_attributes[:to_emails]
+
+    content_attributes[:to_emails]
+  end
+
+  def to_emails
+    # if there is no to_emails from content_attributes, send it to @contact&.email
+    to_emails_from_content_attributes.presence || [@contact&.email]
+  end
+
   def inbound_email_enabled?
     @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && @account.inbound_email_domain
                                                                                       .present? && @account.support_email.present?

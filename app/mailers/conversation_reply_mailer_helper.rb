@@ -1,7 +1,7 @@
 module ConversationReplyMailerHelper
   def prepare_mail(cc_bcc_enabled)
     @options = {
-      to: @contact&.email,
+      to: to_emails.first,
       from: email_from,
       reply_to: email_reply_to,
       subject: mail_subject,
