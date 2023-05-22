@@ -34,6 +34,7 @@
         v-if="showReplyHead"
         :cc-emails.sync="ccEmails"
         :bcc-emails.sync="bccEmails"
+        :to-emails.sync="toEmails"
       />
       <woot-audio-recorder
         v-if="showAudioRecorderEditor"
@@ -237,6 +238,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      toEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
@@ -527,7 +529,7 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
-      this.setCCEmailFromLastChat();
+      this.setCCAndToEmailsFromLastChat();
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
@@ -561,7 +563,7 @@ export default {
     // working even if input/textarea is focussed.
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
-    this.setCCEmailFromLastChat();
+    this.setCCAndToEmailsFromLastChat();
     this.doAutoSaveDraft = debounce(
       () => {
         this.saveDraft(this.conversationIdByRoute, this.replyType);
@@ -843,6 +845,7 @@ export default {
     clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
+      this.toEmails = '';
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -1059,7 +1062,7 @@ export default {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
     },
-    setCCEmailFromLastChat() {
+    setCCAndToEmailsFromLastChat() {
       if (!this.lastEmail) return;
 
       const {
@@ -1069,6 +1072,7 @@ export default {
       // Retrieve the email of the current conversation's sender
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
       let cc = emailAttributes.cc || [];
+      let to = [];
 
       // there might be a situation where the current conversation will include a message from a third person,
       // and the current conversation contact is in CC.
@@ -1078,20 +1082,26 @@ export default {
         cc = cc.filter(email => email !== conversationContact);
       }
 
-      // If the last incoming message sender is different from the conversation contact, add them to the CC list
+      // If the last incoming message sender is different from the conversation contact, add them to the "to"
+      // and add the conversation contact to the CC
       if (conversationContact !== emailAttributes.from) {
-        cc.push(...emailAttributes.from);
-
-        // Ensure only unique email addresses are in the CC list
-        cc = [...new Set(cc)];
+        to.push(...emailAttributes.from);
+        cc.push(conversationContact);
       }
 
       // Remove the conversation contact's email from the BCC list if present
-      const bcc = (emailAttributes.bcc || []).filter(
+      let bcc = (emailAttributes.bcc || []).filter(
         email => email !== conversationContact
       );
+
+      // Ensure only unique email addresses are in the CC list
+      bcc = [...new Set(bcc)];
+      cc = [...new Set(cc)];
+      to = [...new Set(to)];
+
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
+      this.toEmails = to.join(', ');
     },
   },
 };

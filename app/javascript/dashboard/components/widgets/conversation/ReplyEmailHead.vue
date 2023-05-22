@@ -1,5 +1,21 @@
 <template>
   <div>
+    <div v-if="toEmails">
+      <div class="input-group small" :class="{ error: $v.toEmailsVal.$error }">
+        <label class="input-group-label">
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
+        </label>
+        <div class="input-group-field">
+          <woot-input
+            v-model.trim="$v.toEmailsVal.$model"
+            type="text"
+            :class="{ error: $v.toEmailsVal.$error }"
+            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
+            @blur="onBlur"
+          />
+        </div>
+      </div>
+    </div>
     <div class="input-group-wrap">
       <div class="input-group small" :class="{ error: $v.ccEmailsVal.$error }">
         <label class="input-group-label">
@@ -53,6 +69,7 @@
 
 <script>
 import { validEmailsByComma } from './helpers/emailHeadHelper';
+
 export default {
   props: {
     ccEmails: {
@@ -63,12 +80,17 @@ export default {
       type: String,
       default: '',
     },
+    toEmails: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
       showBcc: false,
       ccEmailsVal: '',
       bccEmailsVal: '',
+      toEmailsVal: '',
     };
   },
   watch: {
@@ -82,10 +104,16 @@ export default {
         this.ccEmailsVal = newVal;
       }
     },
+    toEmails(newVal) {
+      if (newVal !== this.toEmailsVal) {
+        this.toEmailsVal = newVal;
+      }
+    },
   },
   mounted() {
     this.ccEmailsVal = this.ccEmails;
     this.bccEmailsVal = this.bccEmails;
+    this.toEmailsVal = this.toEmails;
   },
   validations: {
     ccEmailsVal: {
@@ -94,6 +122,11 @@ export default {
       },
     },
     bccEmailsVal: {
+      hasValidEmails(value) {
+        return validEmailsByComma(value);
+      },
+    },
+    toEmailsVal: {
       hasValidEmails(value) {
         return validEmailsByComma(value);
       },
@@ -107,6 +140,7 @@ export default {
       this.$v.$touch();
       this.$emit('update:bccEmails', this.bccEmailsVal);
       this.$emit('update:ccEmails', this.ccEmailsVal);
+      this.$emit('update:toEmails', this.toEmailsVal);
     },
   },
 };
