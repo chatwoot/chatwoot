@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob, type: :job do
+RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
       .on_queue('low')

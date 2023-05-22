@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ContactDrop do
+describe ContactDrop do
   subject(:contact_drop) { described_class.new(contact) }
 
   let!(:contact) { create(:contact) }
