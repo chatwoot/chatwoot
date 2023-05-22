@@ -46,6 +46,8 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 COPY package.json yarn.lock ./
+#incluido para funcionar na internet da flip da NipBR
+RUN yarn add core-js --ignore-scripts --verbose
 RUN yarn install
 
 COPY . /app
