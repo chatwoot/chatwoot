@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.16.1",
+  "version": "2.17.1",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -28,6 +28,7 @@
     "@rails/webpacker": "5.4.4",
     "@sentry/tracing": "^6.19.7",
     "@sentry/vue": "^6.19.7",
+    "@sindresorhus/slugify": "1.1.0",
     "@tailwindcss/typography": "0.2.0",
     "activestorage": "^5.2.6",
     "axios": "^0.21.2",
@@ -132,13 +133,6 @@
     "hooks": {
       "pre-push": "sh bin/validate_push"
     }
-  },
-  "jest": {
-    "collectCoverage": true,
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ]
   },
   "lint-staged": {
     "app/**/*.{js,vue}": [

@@ -95,6 +95,7 @@ class Conversation < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
+  has_many :attachments, through: :messages
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
@@ -232,8 +233,8 @@ class Conversation < ApplicationRecord
 
   def allowed_keys?
     (
-      (previous_changes.keys & %w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]).present? ||
-      (previous_changes['additional_attributes'].present? && (previous_changes['additional_attributes'][1].keys & %w[conversation_language]).present?)
+      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list first_reply_created_at priority]) ||
+      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
 

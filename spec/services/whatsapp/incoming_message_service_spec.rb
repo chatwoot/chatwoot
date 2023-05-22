@@ -328,15 +328,15 @@ describe Whatsapp::IncomingMessageService do
         expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
         key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: 'wamid.SDFADSf23sfasdafasdfa')
 
-        ::Redis::Alfred.setex(key, true)
-        expect(::Redis::Alfred.get(key)).to be_truthy
+        Redis::Alfred.setex(key, true)
+        expect(Redis::Alfred.get(key)).to be_truthy
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
         expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
 
-        expect(::Redis::Alfred.get(key)).to be_truthy
-        ::Redis::Alfred.delete(key)
+        expect(Redis::Alfred.get(key)).to be_truthy
+        Redis::Alfred.delete(key)
       end
     end
   end

@@ -7,7 +7,7 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
-  let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
+  let(:token) { Widget::TokenService.new(payload: payload).generate_token }
   let(:message) { create(:message, conversation: conversation, account: account, inbox: conversation.inbox) }
   let!(:integration_message) do
     create(:message, content_type: 'integrations',
@@ -39,7 +39,7 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          response_body = JSON.parse(response.body)
+          response_body = response.parsed_body
           expect(response_body['error']).to eq('Invalid message type. Action not permitted')
         end
       end
@@ -61,7 +61,7 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
-          response_body = JSON.parse(response.body)
+          response_body = response.parsed_body
           expect(response_body['authResponse']).to eq(
             {
               'userAdded' => true, 'id' => 'random_uuid', 'auth_token' => 'json-web-token'

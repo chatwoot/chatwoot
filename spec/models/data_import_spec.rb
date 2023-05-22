@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataImport, type: :model do
+RSpec.describe DataImport do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
   end

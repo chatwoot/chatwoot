@@ -7,7 +7,7 @@ RSpec.describe '/api/v1/widget/direct_uploads', type: :request do
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
-  let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
+  let(:token) { Widget::TokenService.new(payload: payload).generate_token }
 
   describe 'POST /api/v1/widget/direct_uploads' do
     context 'when post request is made' do
@@ -31,7 +31,7 @@ RSpec.describe '/api/v1/widget/direct_uploads', type: :request do
              headers: { 'X-Auth-Token' => token }
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['content_type']).to eq('image/png')
       end
     end

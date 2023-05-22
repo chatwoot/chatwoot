@@ -5,7 +5,7 @@
         :header-title="$t('CANNED_MGMT.ADD.TITLE')"
         :header-content="$t('CANNED_MGMT.ADD.DESC')"
       />
-      <form class="row" @submit.prevent="addAgent()">
+      <form class="row" @submit.prevent="addCannedResponse()">
         <div class="medium-12 columns">
           <label :class="{ error: $v.shortCode.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.SHORT_CODE.LABEL') }}
@@ -107,7 +107,7 @@ export default {
       this.$v.shortCode.$reset();
       this.$v.content.$reset();
     },
-    addAgent() {
+    addCannedResponse() {
       // Show loading on button
       this.addCanned.showLoading = true;
       // Make API Calls
@@ -123,9 +123,11 @@ export default {
           this.resetForm();
           this.onClose();
         })
-        .catch(() => {
+        .catch(error => {
           this.addCanned.showLoading = false;
-          this.showAlert(this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE'));
+          const errorMessage =
+            error?.message || this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE');
+          this.showAlert(errorMessage);
         });
     },
   },
