@@ -25,11 +25,11 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#SET_DARK_MODE', () => {
+  describe('#SET_COLOR_SCHEME', () => {
     it('sets dark mode properly', () => {
       const state = { darkMode: 'light' };
-      mutations.SET_DARK_MODE(state, 'dark');
-      expect(state.widgetColor).toEqual('dark');
+      mutations.SET_COLOR_SCHEME(state, 'dark');
+      expect(state.darkMode).toEqual('dark');
     });
   });
 });

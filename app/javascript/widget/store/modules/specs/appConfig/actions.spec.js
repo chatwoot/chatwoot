@@ -25,9 +25,9 @@ describe('#actions', () => {
     });
   });
 
-  describe('#setDarkMode', () => {
+  describe('#setColorScheme', () => {
     it('creates actions for dark mode properly', () => {
-      actions.setDarkMode({ commit }, 'dark');
+      actions.setColorScheme({ commit }, 'dark');
       expect(commit.mock.calls).toEqual([['SET_DARK_MODE', 'dark']]);
     });
   });

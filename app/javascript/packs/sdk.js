@@ -146,8 +146,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.sendMessage('set-locale', { locale: localeToBeUsed });
     },
 
-    setDarkMode(darkMode = 'light') {
-      IFrameHelper.sendMessage('set-dark-mode', {
+    setColorScheme(darkMode = 'light') {
+      IFrameHelper.sendMessage('set-color-scheme', {
         darkMode: getDarkMode(darkMode),
       });
     },
