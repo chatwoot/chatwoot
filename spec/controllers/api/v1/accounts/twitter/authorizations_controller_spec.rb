@@ -39,7 +39,7 @@ RSpec.describe 'Twitter Authorization API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['url']).to include('test_token')
+        expect(response.parsed_body['url']).to include('test_token')
       end
     end
   end
