@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Conversations::FilterService do
+describe Conversations::FilterService do
   subject(:filter_service) { described_class }
 
   let!(:account) { create(:account) }

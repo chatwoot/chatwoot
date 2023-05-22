@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Confirmation Instructions', type: :mailer do
+RSpec.describe 'Confirmation Instructions' do
   describe :notify do
     let(:account) { create(:account) }
     let!(:confirmable_user) { create(:user, inviter: inviter_val, account: account) }

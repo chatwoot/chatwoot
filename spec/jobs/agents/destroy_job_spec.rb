@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Agents::DestroyJob, type: :job do
+RSpec.describe Agents::DestroyJob do
   subject(:job) { described_class.perform_later(account, user) }
 
   let!(:account) { create(:account) }

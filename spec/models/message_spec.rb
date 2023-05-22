@@ -3,7 +3,7 @@
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
-RSpec.describe Message, type: :model do
+RSpec.describe Message do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:inbox_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }
@@ -123,7 +123,7 @@ RSpec.describe Message, type: :model do
     it 'contains the message attachment when attachment is present' do
       message = create(:message)
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       attachment.save!
       expect(message.webhook_data.key?(:attachments)).to be true
     end
@@ -148,12 +148,12 @@ RSpec.describe Message, type: :model do
 
     it 'triggers ::MessageTemplates::HookExecutionService' do
       hook_execution_service = double
-      allow(::MessageTemplates::HookExecutionService).to receive(:new).and_return(hook_execution_service)
+      allow(MessageTemplates::HookExecutionService).to receive(:new).and_return(hook_execution_service)
       allow(hook_execution_service).to receive(:perform).and_return(true)
 
       message.save!
 
-      expect(::MessageTemplates::HookExecutionService).to have_received(:new).with(message: message)
+      expect(MessageTemplates::HookExecutionService).to have_received(:new).with(message: message)
       expect(hook_execution_service).to have_received(:perform)
     end
 
@@ -213,7 +213,7 @@ RSpec.describe Message, type: :model do
     it 'add errors to message for attachment size is more than allowed limit' do
       16.times.each do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       end
 
       expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed'] })
