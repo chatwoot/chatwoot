@@ -16,6 +16,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def render_create_success
+    create_audit_event
     render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
   end
 
@@ -35,5 +36,20 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
     user = User.find_by(email: params[:email])
     @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
+  end
+
+  def create_audit_event
+    return unless @resource
+
+    associated_type = 'Account'
+
+    @resource.accounts.each do |account|
+      @resource.audits.create(
+        action: 'sign_in',
+        user_id: @resource.id,
+        associated_id: account.id,
+        associated_type: associated_type
+      )
+    end
   end
 end
