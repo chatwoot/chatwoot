@@ -76,3 +76,9 @@ export const PORTALS_EVENTS = Object.freeze({
   DELETE_ARTICLE: 'Deleted an article',
   PREVIEW_ARTICLE: 'Previewed article',
 });
+
+export const OPEN_AI_EVENTS = Object.freeze({
+  SUMMARIZE: 'OpenAI: Used summarize',
+  REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
+  REPHRASE: 'OpenAI: Used rephrase',
+});
