@@ -39,7 +39,8 @@ export const getUnixStartOfDay = date => getUnixTime(startOfDay(date));
 export const getUnixEndOfDay = date => getUnixTime(endOfDay(date));
 
 export const generateRelativeTime = (value, unit, languageCode) => {
-  const rtf = new Intl.RelativeTimeFormat(languageCode, {
+  const code = languageCode?.replace(/_/g, '-'); // Hacky fix we need to handle it from source
+  const rtf = new Intl.RelativeTimeFormat(code, {
     numeric: 'auto',
   });
   return rtf.format(value, unit);
