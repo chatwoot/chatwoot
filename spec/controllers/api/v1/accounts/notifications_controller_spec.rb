@@ -22,7 +22,7 @@ RSpec.describe 'Notifications API', type: :request do
             headers: admin.create_new_auth_token,
             as: :json
 
-        response_json = JSON.parse(response.body)
+        response_json = response.parsed_body
         expect(response).to have_http_status(:success)
         expect(response.body).to include(notification1.notification_type)
         expect(response_json['data']['meta']['unread_count']).to eq 2
@@ -121,7 +121,7 @@ RSpec.describe 'Notifications API', type: :request do
             headers: admin.create_new_auth_token,
             as: :json
 
-        response_json = JSON.parse(response.body)
+        response_json = response.parsed_body
         expect(response).to have_http_status(:success)
         expect(response_json).to eq 2
       end

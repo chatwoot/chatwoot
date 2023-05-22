@@ -53,7 +53,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
              headers: agent.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         last_message = conversation.reload.messages.last
         expect(conversation.display_id).to eq(response_body['conversation_id'])
         expect(last_message.id).to eq(response_body['id'])
@@ -76,7 +76,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
              headers: agent.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['error']).to eq({ 'data' => { 'message' => 'Title is required' }, 'success' => false })
       end
     end
@@ -126,7 +126,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
              headers: agent.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['authResponse']).to eq(
           {
             'userAdded' => true, 'id' => 'random_uuid', 'auth_token' => 'json-web-token'
