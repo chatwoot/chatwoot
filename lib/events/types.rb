@@ -47,4 +47,7 @@ module Events::Types
   # agent events
   AGENT_ADDED = 'agent.added'
   AGENT_REMOVED = 'agent.removed'
+
+  # custom filter/views events
+  CUSTOM_FILTER_UPDATED = 'custom.filter.updated'
 end
