@@ -731,4 +731,53 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/conversations/:id/attachments' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      before do
+        create(:message, :with_attachment, conversation: conversation, account: account, inbox: conversation.inbox, message_type: 'incoming')
+      end
+
+      it 'does not return the attachments if you do not have access to it' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'return the attachments if you are an administrator' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['payload'].first['file_type']).to eq('image')
+      end
+
+      it 'return the attachments if you are an agent with access to inbox' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['payload'].length).to eq(1)
+      end
+    end
+  end
 end

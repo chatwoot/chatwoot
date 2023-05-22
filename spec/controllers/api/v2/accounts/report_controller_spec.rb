@@ -53,7 +53,7 @@ RSpec.describe 'Reports API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         current_day_metric = json_response.select { |x| x['timestamp'] == start_of_today }
         expect(current_day_metric.length).to eq(1)
@@ -77,7 +77,7 @@ RSpec.describe 'Reports API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['open']).to eq(11)
         expect(json_response['unattended']).to eq(11)
@@ -99,7 +99,7 @@ RSpec.describe 'Reports API', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response.blank?).to be false
         user_metrics = json_response.find { |item| item['name'] == admin[:name] }
         expect(user_metrics.present?).to be true
@@ -140,7 +140,7 @@ RSpec.describe 'Reports API', type: :request do
             headers: admin.create_new_auth_token,
             as: :json
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         user_metrics = json_response.find { |item| item['name'] == agent[:name] }
         expect(user_metrics.present?).to be true
 
@@ -184,7 +184,7 @@ RSpec.describe 'Reports API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['conversations_count']).to eq(10)
       end
@@ -254,7 +254,7 @@ RSpec.describe 'Reports API', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['conversations_count']).to eq(1)
       end
     end

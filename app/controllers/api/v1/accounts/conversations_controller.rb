@@ -22,14 +22,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversations_count = result[:count]
   end
 
+  def attachments
+    @attachments = @conversation.attachments
+  end
+
+  def show; end
+
   def create
     ActiveRecord::Base.transaction do
       @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
       Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
     end
   end
-
-  def show; end
 
   def filter
     result = ::Conversations::FilterService.new(params.permit!, current_user).perform

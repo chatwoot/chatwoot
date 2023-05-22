@@ -23,6 +23,23 @@ RSpec.describe Account do
   it { is_expected.to have_many(:categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }
 
+  # This validation happens in ApplicationRecord
+  describe 'length validations' do
+    let(:account) { create(:account) }
+
+    it 'validates name length' do
+      account.name = 'a' * 256
+      account.valid?
+      expect(account.errors[:name]).to include('is too long (maximum is 255 characters)')
+    end
+
+    it 'validates domain length' do
+      account.domain = 'a' * 150
+      account.valid?
+      expect(account.errors[:domain]).to include('is too long (maximum is 100 characters)')
+    end
+  end
+
   describe 'usage_limits' do
     let(:account) { create(:account) }
 

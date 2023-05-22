@@ -15,6 +15,7 @@ export default {
   SORT_BY_TYPE: {
     LATEST: 'latest',
     CREATED_AT: 'sort_on_created_at',
+    PRIORITY: 'sort_on_priority',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,

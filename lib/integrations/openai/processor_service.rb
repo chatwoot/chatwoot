@@ -28,25 +28,54 @@ class Integrations::Openai::ProcessorService
       model: GPT_MODEL,
       messages: [
         { role: 'system',
-          content: "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone." },
+          content: "You are a helpful support agent. Please rephrase the following response to a more #{event['data']['tone']} tone. " \
+                   "Reply in the user's language." },
         { role: 'user', content: event['data']['content'] }
       ]
     }.to_json
   end
 
   def conversation_messages(in_array_format: false)
-    conversation = hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
-    messages = in_array_format ? [] : ''
+    conversation = find_conversation
+    messages = init_messages_body(in_array_format)
+
+    add_messages_until_token_limit(conversation, messages, in_array_format)
+  end
+
+  def find_conversation
+    hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+  end
+
+  def add_messages_until_token_limit(conversation, messages, in_array_format)
     character_count = 0
-
     conversation.messages.chat.reorder('id desc').each do |message|
-      character_count += message.content.length
-      break if character_count > TOKEN_LIMIT
-
-      formatted_message = format_message(message, in_array_format)
-      messages.prepend(formatted_message)
+      character_count, message_added = add_message_if_within_limit(character_count, message, messages, in_array_format)
+      break unless message_added
     end
     messages
+  end
+
+  def add_message_if_within_limit(character_count, message, messages, in_array_format)
+    if valid_message?(message, character_count)
+      add_message_to_list(message, messages, in_array_format)
+      character_count += message.content.length
+      [character_count, true]
+    else
+      [character_count, false]
+    end
+  end
+
+  def valid_message?(message, character_count)
+    message.content.present? && character_count + message.content.length <= TOKEN_LIMIT
+  end
+
+  def add_message_to_list(message, messages, in_array_format)
+    formatted_message = format_message(message, in_array_format)
+    messages.prepend(formatted_message)
+  end
+
+  def init_messages_body(in_array_format)
+    in_array_format ? [] : ''
   end
 
   def format_message(message, in_array_format)
@@ -68,7 +97,7 @@ class Integrations::Openai::ProcessorService
       messages: [
         { role: 'system',
           content: 'Please summarize the key points from the following conversation between support agents and ' \
-                   'customer as bullet points for the next support agent looking into the conversation' },
+                   'customer as bullet points for the next support agent looking into the conversation. Reply in the user\'s language.' },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json
@@ -78,7 +107,8 @@ class Integrations::Openai::ProcessorService
     {
       model: GPT_MODEL,
       messages: [
-        { role: 'system', content: 'Please suggest a reply to the following conversation between support agents and customer' }
+        { role: 'system',
+          content: 'Please suggest a reply to the following conversation between support agents and customer. Reply in the user\'s language.' }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
   end
