@@ -146,6 +146,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.sendMessage('set-locale', { locale: localeToBeUsed });
     },
 
+    setDarkMode(darkMode = 'light') {
+      IFrameHelper.sendMessage('set-dark-mode', {
+        darkMode: getDarkMode(darkMode),
+      });
+    },
+
     reset() {
       if (window.$chatwoot.isOpen) {
         IFrameHelper.events.toggleBubble();

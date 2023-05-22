@@ -24,4 +24,11 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([['SET_WIDGET_COLOR', '#eaeaea']]);
     });
   });
+
+  describe('#setDarkMode', () => {
+    it('creates actions for dark mode properly', () => {
+      actions.setDarkMode({ commit }, 'dark');
+      expect(commit.mock.calls).toEqual([['SET_DARK_MODE', 'dark']]);
+    });
+  });
 });
