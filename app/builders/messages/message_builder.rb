@@ -48,17 +48,22 @@ class Messages::MessageBuilder
   def process_emails
     return unless @conversation.inbox&.inbox_type == 'Email'
 
-    cc_emails = []
-    cc_emails = @params[:cc_emails].gsub(/\s+/, '').split(',') if @params[:cc_emails].present?
+    cc_emails = process_email_string(@params[:cc_emails])
+    bcc_emails = process_email_string(@params[:bcc_emails])
+    to_emails = process_email_string(@params[:to_emails])
 
-    bcc_emails = []
-    bcc_emails = @params[:bcc_emails].gsub(/\s+/, '').split(',') if @params[:bcc_emails].present?
-
-    all_email_addresses = cc_emails + bcc_emails
+    all_email_addresses = cc_emails + bcc_emails + to_emails
     validate_email_addresses(all_email_addresses)
 
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
+    @message.content_attributes[:to_emails] = to_emails
+  end
+
+  def process_email_string(email_string)
+    return [] if email_string.blank?
+
+    email_string.gsub(/\s+/, '').split(',')
   end
 
   def validate_email_addresses(all_emails)
