@@ -120,9 +120,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "شماره تلفن مخاطب را وارد کنید",
         "LABEL": "شماره تلفن",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "شماره تلفن باید با فرمت E.164 باشد به عنوان مثال: +98415555555 [+] [کد کشور] [کد منطقه] [شماره تلفن محلی]",
         "ERROR": "شماره تلفن باید یا خالی باشد و یا با فرمت E.164",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "لطفاً یک کد شماره گیری را از لیست انتخاب کنید",
         "DUPLICATE": "این شماره تلفن برای مخاطب دیگری در حال استفاده است."
       },
       "LOCATION": {
@@ -182,7 +182,7 @@
         "LABEL": "به"
       },
       "INBOX": {
-        "LABEL": "از طریق صندوق ورودی",
+        "LABEL": "صندوق ورودی",
         "PLACEHOLDER": "صندوق ورودی منبع را انتخاب کنید",
         "ERROR": "انتخاب صندوق ورودی"
       },

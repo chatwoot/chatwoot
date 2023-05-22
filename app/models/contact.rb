@@ -8,7 +8,7 @@
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
-#  name                  :string
+#  name                  :string           default("")
 #  phone_number          :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -17,6 +17,7 @@
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
 #  uniq_email_per_account_contact                        (email,account_id) UNIQUE
@@ -35,7 +36,6 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
-  validates :name, length: { maximum: 255 }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async

@@ -165,8 +165,33 @@ Rails/RenderInline:
 Performance/CollectionLiteralInLoop:
   Exclude:
     - 'db/migrate/20210315101919_enable_email_channel.rb'
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - 'db/migrate/20200509044639_add_hide_input_flag_to_bot_config.rb'
+    - 'db/migrate/20200605130625_agent_away_message_to_auto_reply.rb'
+    - 'db/migrate/20200606132552_create_labels.rb'
+    - 'db/migrate/20201027135006_create_working_hours.rb'
+    - 'db/migrate/20210112174124_add_hmac_token_to_inbox.rb'
+    - 'db/migrate/20210114202310_create_teams.rb'
+    - 'db/migrate/20210212154240_add_request_for_email_on_channel_web_widget.rb'
+    - 'db/migrate/20210428135041_add_campaigns.rb'
+    - 'db/migrate/20210602182058_add_hmac_to_api_channel.rb'
+    - 'db/migrate/20210609133433_add_email_collect_to_inboxes.rb'
+    - 'db/migrate/20210618095823_add_csat_toggle_for_inbox.rb'
+    - 'db/migrate/20210927062350_add_trigger_only_during_business_hours_collect_to_campaigns.rb'
+    - 'db/migrate/20211027073553_add_imap_smtp_config_to_channel_email.rb'
+    - 'db/migrate/20211109143122_add_tweet_enabled_flag_to_twitter_channel.rb'
+    - 'db/migrate/20211216110209_add_allow_messages_after_resolved_to_inbox.rb'
+    - 'db/migrate/20220116103902_add_open_ssl_verify_mode_to_channel_email.rb'
+    - 'db/migrate/20220216151613_add_open_all_day_to_working_hour.rb'
+    - 'db/migrate/20220511072655_add_archive_column_to_portal.rb'
+    - 'db/migrate/20230503101201_create_sla_policies.rb'
+RSpec/IndexedLet:
+  Enabled: false
 RSpec/NamedSubject:
   Enabled: false
+
+
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:
   Max: 14

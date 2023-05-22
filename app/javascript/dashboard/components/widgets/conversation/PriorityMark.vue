@@ -48,15 +48,17 @@ export default {
 <style scoped lang="scss">
 .conversation-priority-mark {
   align-items: center;
+  flex-shrink: 0;
   background: var(--s-50);
   border-radius: var(--border-radius-small);
   color: var(--s-600);
   display: inline-flex;
   width: var(--space-snug);
+  height: var(--space-snug);
 
   &.urgent {
-    background: var(--r-500);
-    color: var(--w-25);
+    background: var(--r-50);
+    color: var(--r-500);
   }
 }
 </style>

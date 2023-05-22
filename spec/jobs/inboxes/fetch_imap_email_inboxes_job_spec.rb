@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Inboxes::FetchImapEmailInboxesJob, type: :job do
+RSpec.describe Inboxes::FetchImapEmailInboxesJob do
   let(:account) { create(:account) }
   let(:imap_email_channel) do
     create(:channel_email, imap_enabled: true, imap_address: 'imap.gmail.com', imap_port: 993, imap_login: 'imap@gmail.com',
@@ -10,7 +10,7 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob, type: :job do
 
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('scheduled_jobs')
   end
 
   context 'when called' do

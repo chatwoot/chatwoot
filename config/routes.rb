@@ -64,6 +64,7 @@ Rails.application.routes.draw do
             post :execute, on: :member
             post :attach_file, on: :collection
           end
+          resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
@@ -96,6 +97,7 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              get :attachments
             end
           end
 
@@ -338,9 +340,9 @@ Rails.application.routes.draw do
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
-  get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'
-  get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
-  get 'hc/:slug/:locale/:category_slug/:id', to: 'public/api/v1/portals/articles#show'
+  get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
+  get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
+  get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
 
   # ----------------------------------------------------------------------
   # Used in mailer templates

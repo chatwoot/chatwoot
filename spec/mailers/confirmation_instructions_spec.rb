@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Confirmation Instructions', type: :mailer do
+RSpec.describe 'Confirmation Instructions' do
   describe :notify do
     let(:account) { create(:account) }
     let!(:confirmable_user) { create(:user, inviter: inviter_val, account: account) }
@@ -22,7 +22,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
     end
 
     it 'uses the user\'s name' do
-      expect(mail.body).to match("Welcome, #{CGI.escapeHTML(confirmable_user.name)}!")
+      expect(mail.body).to match("Hi #{CGI.escapeHTML(confirmable_user.name)},")
     end
 
     it 'does not refer to the inviter and their account' do
@@ -39,7 +39,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
 
       it 'refers to the inviter and their account' do
         expect(mail.body).to match(
-          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(account.name)}, has invited you to try out Chatwoot!"
+          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(account.name)}, has invited you to try out Chatwoot."
         )
       end
 

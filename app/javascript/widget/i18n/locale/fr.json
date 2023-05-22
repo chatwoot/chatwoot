@@ -66,7 +66,7 @@
     },
     "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
     "IS_REQUIRED": "est requis",
-    "REQUIRED": "Required"
+    "REQUIRED": "Nécessaire"
   },
   "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {

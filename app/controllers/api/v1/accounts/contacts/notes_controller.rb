@@ -5,19 +5,19 @@ class Api::V1::Accounts::Contacts::NotesController < Api::V1::Accounts::Contacts
     @notes = @contact.notes.latest.includes(:user)
   end
 
+  def show; end
+
   def create
     @note = @contact.notes.create!(note_params)
+  end
+
+  def update
+    @note.update(note_params)
   end
 
   def destroy
     @note.destroy!
     head :ok
-  end
-
-  def show; end
-
-  def update
-    @note.update(note_params)
   end
 
   private

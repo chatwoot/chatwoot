@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Ügynökök keresése",
-          "TEAM": "Csapatok keresése"
+          "TEAM": "Csapatok keresése",
+          "INPUT": "Search for agents"
         }
       }
     }

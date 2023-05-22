@@ -110,7 +110,8 @@
         },
         "PLACEHOLDER": {
           "AGENT": "Tìm kiếm tổng đài viên",
-          "TEAM": "Tìm kiếm nhóm"
+          "TEAM": "Tìm kiếm nhóm",
+          "INPUT": "Search for agents"
         }
       }
     }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Inboxes::UpdateWidgetPreChatCustomFieldsJob, type: :job do
+RSpec.describe Inboxes::UpdateWidgetPreChatCustomFieldsJob do
   pre_chat_fields = [{
     'label' => 'Developer Id',
     'name' => 'developer_id'

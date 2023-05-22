@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.2.0
+# Script Version: 2.3.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.2.0"
+CWCTL_VERSION="2.3.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -175,6 +175,8 @@ function install_dependencies() {
   curl -sL https://deb.nodesource.com/setup_16.x | bash -
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   apt update
 
   apt install -y \
@@ -183,7 +185,8 @@ function install_dependencies() {
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
-      libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo
+      libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
+      libvips
 }
 
 ##############################################################################
@@ -328,8 +331,8 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.1.3"
-  rvm use 3.1.3 --default
+  rvm install "ruby-3.2.2"
+  rvm use 3.2.2 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
@@ -709,6 +712,26 @@ EOF
 }
 
 ##############################################################################
+# Update redis to v7+ for Rails 7 support(-u/--upgrade)
+# and install libvips for image processing support in Rails 7
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function upgrade_redis() {
+  echo "Upgrading Redis to v7+ for Rails 7 support(Chatwoot v2.17+)"
+  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+  apt update -y
+  apt upgrade redis-server -y
+  apt install libvips -y
+}
+
+
+##############################################################################
 # Upgrade an existing installation to latest stable version(-u/--upgrade)
 # Globals:
 #   None
@@ -722,6 +745,7 @@ function upgrade() {
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
   upgrade_prereq
+  upgrade_redis
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory

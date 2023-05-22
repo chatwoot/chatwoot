@@ -2,6 +2,7 @@
   <div
     v-if="!conversationSize && isFetchingList"
     class="flex flex-1 items-center h-full bg-black-25 justify-center"
+    :class="{ dark: prefersDarkMode }"
   >
     <spinner size="" />
   </div>
@@ -13,6 +14,7 @@
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
       'is-flat-design': isWidgetStyleFlat,
+      dark: prefersDarkMode,
     }"
   >
     <router-view />
@@ -22,6 +24,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
+import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
@@ -50,6 +53,7 @@ export default {
   data() {
     return {
       isMobile: false,
+      campaignsSnoozedTill: undefined,
     };
   },
   computed: {
@@ -63,6 +67,7 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
+      darkMode: 'appConfig/darkMode',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
@@ -72,6 +77,12 @@ export default {
     },
     isRNWebView() {
       return RNHelper.isRNWebView();
+    },
+    prefersDarkMode() {
+      const isOSOnDarkMode =
+        this.darkMode === 'auto' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return isOSOnDarkMode || this.darkMode === 'dark';
     },
   },
   watch: {
@@ -179,11 +190,19 @@ export default {
         this.executeCampaign({ campaignId, websiteToken, customAttributes });
         this.replaceRoute('messages');
       });
+      bus.$on('snooze-campaigns', () => {
+        const expireBy = addHours(new Date(), 1);
+        this.campaignsSnoozedTill = Number(expireBy);
+      });
     },
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
+      const shouldSnoozeCampaign =
+        this.campaignsSnoozedTill && this.campaignsSnoozedTill > Date.now();
       const isCampaignReadyToExecute =
-        !isEmptyObject(activeCampaign) && !messageCount;
+        !isEmptyObject(activeCampaign) &&
+        !messageCount &&
+        !shouldSnoozeCampaign;
       if (this.isIFrame && isCampaignReadyToExecute) {
         this.replaceRoute('campaigns').then(() => {
           this.setIframeHeight(true);
@@ -243,6 +262,7 @@ export default {
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
+          this.setCampaignReadData(message.campaignsSnoozedTill);
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
@@ -319,6 +339,11 @@ export default {
     },
     sendRNWebViewLoadedEvent() {
       RNHelper.sendMessage(loadedEventConfig());
+    },
+    setCampaignReadData(snoozedTill) {
+      if (snoozedTill) {
+        this.campaignsSnoozedTill = Number(snoozedTill);
+      }
     },
   },
 };

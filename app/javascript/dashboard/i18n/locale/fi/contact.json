@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Anna yhteystiedon puhelinnumero",
         "LABEL": "Puhelinnumero",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Phone number should be either empty or of E.164 format",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "This phone number is in use for another contact."
@@ -182,7 +182,7 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Inbox",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Select an inbox"
       },

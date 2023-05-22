@@ -463,9 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
       "HMAC_VERIFICATION": "Xác thực danh tính người dùng",
-      "HMAC_DESCRIPTION": "Để xác thực danh tính của người dùng, bạn có thể chuyển một `mã định danh_hash` cho mỗi người dùng. Bạn có thể tạo mã băm HMAC sha256 bằng cách sử dụng `mã định danh' với khóa được hiển thị ở đây.",
+      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Bắt buộc Xác thực danh tính người dùng",
-      "HMAC_MANDATORY_DESCRIPTION": "Nếu được bật, các yêu cầu thiếu `ID_hash` sẽ bị từ chối.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
       "INBOX_IDENTIFIER": "Định danh hộp thư đến",
       "INBOX_IDENTIFIER_SUB_TEXT": "Dùng token định danh hộp thư đến hiện ở đây để xác thực các ứng dụng khách API của bạn.",
       "FORWARD_EMAIL_TITLE": "Chuyển tiếp đến Email",
@@ -481,6 +482,13 @@
       "WHATSAPP_WEBHOOK_TITLE": "Token xác thực Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Giới hạn tự động phân công tối đa",

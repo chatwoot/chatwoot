@@ -463,9 +463,10 @@
       "INBOX_UPDATE_SUB_TEXT": "Atjaunināt Jūsu iesūtnes iestatījumus",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Iespējot vai atspējot jaunu sarunu automātisku piešķiršanu šai iesūtnei pievienotajiem aģentiem.",
       "HMAC_VERIFICATION": "Lietotāja Identitātes Apstiprināšana",
-      "HMAC_DESCRIPTION": "Lai apstiprinātu lietotāja identitāti, katram lietotājam var izmantot `identifier_hash`. Jūs varat ģenerēt HMAC sha256 hash, izmantojot 'identifier' ar šeit uzrādīto atslēgu.",
+      "HMAC_DESCRIPTION": "Izmantojot šo atslēgu, varat ģenerēt slepeno marķieri, ko var izmantot, lai pārbaudītu Jūsu lietotāju identitāti.",
+      "HMAC_LINK_TO_DOCS": "Papildu informācija ir pieejama šeit.",
       "HMAC_MANDATORY_VERIFICATION": "Īstenot Lietotāja Identitātes Validāciju",
-      "HMAC_MANDATORY_DESCRIPTION": "Ja iespējots, pieprasījumi, kuros trūkst `identifier_hash`, tiks noraidīti.",
+      "HMAC_MANDATORY_DESCRIPTION": "Ja iespējots, pieprasījumi, kurus nevar pārbaudīt, tiks noraidīti.",
       "INBOX_IDENTIFIER": "Iesūtnes identifikators",
       "INBOX_IDENTIFIER_SUB_TEXT": "Izmantojiet šeit uzrādīto `inbox_identifier` token, lai autentificētu savus API klientus.",
       "FORWARD_EMAIL_TITLE": "Pārsūtīt uz E-pastu",
@@ -481,6 +482,13 @@
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Pārbaudes Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Palīdzības centrs",
+      "PLACEHOLDER": "Izvēlēties Palīdzības Centru",
+      "SELECT_PLACEHOLDER": "Izvēlēties Palīdzības Centru",
+      "REMOVE": "Noņemt Palīdzības Centru",
+      "SUB_TEXT": "Pievienot Palīdzības Centru ar iesūtni"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",

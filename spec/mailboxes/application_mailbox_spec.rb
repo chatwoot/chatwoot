@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationMailbox, type: :mailbox do
+RSpec.describe ApplicationMailbox do
   include ActionMailbox::TestHelper
 
   describe 'route the inbound mail to appropriate mailbox' do

@@ -4,7 +4,7 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/assignment_handler_shared.rb'
 require Rails.root.join 'spec/models/concerns/auto_assignment_handler_shared.rb'
 
-RSpec.describe Conversation, type: :model do
+RSpec.describe Conversation do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }
@@ -518,6 +518,7 @@ RSpec.describe Conversation, type: :model do
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         created_at: conversation.created_at.to_i,
+        priority: nil,
         unread_count: 0
       }
     end

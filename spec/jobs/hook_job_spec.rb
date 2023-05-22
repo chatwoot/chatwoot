@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe HookJob, type: :job do
+RSpec.describe HookJob do
   subject(:job) { described_class.perform_later(hook, event_name, event_data) }
 
   let(:account) { create(:account) }
@@ -12,7 +12,7 @@ RSpec.describe HookJob, type: :job do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(hook, event_name, event_data)
-      .on_queue('integrations')
+      .on_queue('medium')
   end
 
   context 'when handleable events like message.created' do
@@ -22,18 +22,19 @@ RSpec.describe HookJob, type: :job do
       allow(process_service).to receive(:perform)
     end
 
-    it 'calls Integrations::Slack::SendOnSlackService when its a slack hook' do
+    it 'calls SendOnSlackJob when its a slack hook' do
       hook = create(:integrations_hook, app_id: 'slack', account: account)
-      allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
-      expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message], hook: hook)
+      allow(SendOnSlackJob).to receive(:perform_later).and_return(process_service)
+      expect(SendOnSlackJob).to receive(:perform_later).with(message: event_data[:message], hook: hook)
       described_class.perform_now(hook, event_name, event_data)
     end
 
-    it 'calls Integrations::Slack::SendOnSlackService when its a slack hook for template message' do
-      event_data = { message: create(:message, account: account, message_type: :template) }
+    it 'calls SendOnSlackJob when its a slack hook for message with attachments' do
+      event_data = { message: create(:message, :with_attachment, account: account) }
       hook = create(:integrations_hook, app_id: 'slack', account: account)
-      allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
-      expect(Integrations::Slack::SendOnSlackService).to receive(:new)
+      allow(SendOnSlackJob).to receive(:set).with(wait: 2.seconds).and_return(SendOnSlackJob)
+      allow(SendOnSlackJob).to receive(:perform_later).and_return(process_service)
+      expect(SendOnSlackJob).to receive(:perform_later).with(message: event_data[:message], hook: hook)
       described_class.perform_now(hook, event_name, event_data)
     end
 

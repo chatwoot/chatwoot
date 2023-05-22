@@ -23,7 +23,7 @@ RSpec.describe 'Webhooks API', type: :request do
             headers: administrator.create_new_auth_token,
             as: :json
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['payload']['webhooks'].count).to eql account.webhooks.count
+        expect(response.parsed_body['payload']['webhooks'].count).to eql account.webhooks.count
       end
     end
   end
@@ -46,7 +46,7 @@ RSpec.describe 'Webhooks API', type: :request do
              as: :json
         expect(response).to have_http_status(:success)
 
-        expect(JSON.parse(response.body)['payload']['webhook']['url']).to eql 'https://hello.com'
+        expect(response.parsed_body['payload']['webhook']['url']).to eql 'https://hello.com'
       end
 
       it 'throws error when invalid url provided' do
@@ -55,7 +55,7 @@ RSpec.describe 'Webhooks API', type: :request do
              headers: administrator.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['message']).to eql 'Url is invalid'
+        expect(response.parsed_body['message']).to eql 'Url is invalid'
       end
 
       it 'throws error if subscription events are invalid' do
@@ -64,7 +64,7 @@ RSpec.describe 'Webhooks API', type: :request do
              headers: administrator.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['message']).to eql 'Subscriptions Invalid events'
+        expect(response.parsed_body['message']).to eql 'Subscriptions Invalid events'
       end
 
       it 'throws error if subscription events are empty' do
@@ -73,7 +73,7 @@ RSpec.describe 'Webhooks API', type: :request do
              headers: administrator.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['message']).to eql 'Subscriptions Invalid events'
+        expect(response.parsed_body['message']).to eql 'Subscriptions Invalid events'
       end
 
       it 'use default if subscription events are nil' do
@@ -83,7 +83,7 @@ RSpec.describe 'Webhooks API', type: :request do
              as: :json
         expect(response).to have_http_status(:ok)
         expect(
-          JSON.parse(response.body)['payload']['webhook']['subscriptions']
+          response.parsed_body['payload']['webhook']['subscriptions']
         ).to eql %w[conversation_status_changed conversation_updated conversation_created contact_created contact_updated
                     message_created message_updated webwidget_triggered]
       end
@@ -107,7 +107,7 @@ RSpec.describe 'Webhooks API', type: :request do
             headers: administrator.create_new_auth_token,
             as: :json
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['payload']['webhook']['url']).to eql 'https://hello.com'
+        expect(response.parsed_body['payload']['webhook']['url']).to eql 'https://hello.com'
       end
     end
   end

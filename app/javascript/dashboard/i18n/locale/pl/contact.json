@@ -120,7 +120,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Wprowadź numer telefonu kontaktu",
         "LABEL": "Numer telefonu",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "Numer telefonu powinien mieć format E.164, np. +1415555555 [+][kod krajowy][kod kierunkowy][numer telefonu]",
         "ERROR": "Numer telefonu powinien być pusty lub w formacie E.164",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "Ten numer telefonu jest już zajęty przez inny kontakt."
@@ -182,7 +182,7 @@
         "LABEL": "Do"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
+        "LABEL": "Skrzynka odbiorcza",
         "PLACEHOLDER": "Choose source inbox",
         "ERROR": "Wybierz skrzynkę odbiorczą"
       },
