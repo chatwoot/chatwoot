@@ -6,7 +6,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
   let(:contact) { create(:contact, account: account, email: 'test@test.com', phone_number: '+745623239') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
-  let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
+  let(:token) { Widget::TokenService.new(payload: payload).generate_token }
 
   describe 'PATCH /api/v1/widget/contact' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test' } }
@@ -47,7 +47,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               params: params.merge({ phone_number: '45623239' }),
               headers: { 'X-Auth-Token' => token },
               as: :json
-        body = JSON.parse(response.body)
+        body = response.parsed_body
         expect(body['phone_number']).to eq('+745623239')
         expect(response).to have_http_status(:success)
       end
@@ -57,7 +57,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               params: params.merge({ phone_number: '+245623239' }),
               headers: { 'X-Auth-Token' => token },
               as: :json
-        body = JSON.parse(response.body)
+        body = response.parsed_body
         expect(body['phone_number']).to eq('+245623239')
         expect(response).to have_http_status(:success)
       end
@@ -67,7 +67,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               params: params.merge({ email: 'test@' }),
               headers: { 'X-Auth-Token' => token },
               as: :json
-        body = JSON.parse(response.body)
+        body = response.parsed_body
         expect(body['email']).to eq('test@test.com')
         expect(response).to have_http_status(:success)
       end
@@ -77,7 +77,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               params: params.merge({ email: 'test-1@test.com' }),
               headers: { 'X-Auth-Token' => token },
               as: :json
-        body = JSON.parse(response.body)
+        body = response.parsed_body
         expect(body['email']).to eq('test-1@test.com')
         expect(response).to have_http_status(:success)
       end
@@ -101,7 +101,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               headers: { 'X-Auth-Token' => token },
               as: :json
 
-        body = JSON.parse(response.body)
+        body = response.parsed_body
         expect(body['id']).not_to eq(contact.id)
         expect(body['widget_auth_token']).not_to be_nil
         expect(Contact.find(body['id']).contact_inboxes.first.hmac_verified?).to be(true)
