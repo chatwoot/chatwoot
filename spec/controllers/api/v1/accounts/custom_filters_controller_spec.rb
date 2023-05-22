@@ -91,7 +91,7 @@ RSpec.describe 'Custom Filters API', type: :request do
         end.not_to change(CustomFilter, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['message']).to include(
           'Account Limit reached. The maximum number of allowed custom filters for a user per account is 50.'
         )
