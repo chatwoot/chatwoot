@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RoomChannel, type: :channel do
+RSpec.describe RoomChannel do
   let!(:contact_inbox) { create(:contact_inbox) }
 
   before do

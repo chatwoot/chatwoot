@@ -1,11 +1,11 @@
 class Platform::Api::V1::AccountsController < PlatformController
+  def show; end
+
   def create
     @resource = Account.create!(account_params)
     update_resource_features
     @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
   end
-
-  def show; end
 
   def update
     @resource.assign_attributes(account_params)

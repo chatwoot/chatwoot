@@ -25,7 +25,7 @@ RSpec.describe 'Agents API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body).size).to eq(account.users.count)
+        expect(response.parsed_body.size).to eq(account.users.count)
       end
 
       it 'returns custom fields on agents if present' do
@@ -36,7 +36,7 @@ RSpec.describe 'Agents API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data.first['custom_attributes']['test']).to eq('test')
       end
     end
@@ -131,7 +131,7 @@ RSpec.describe 'Agents API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body)
+        response_data = response.parsed_body
         expect(response_data['role']).to eq('administrator')
         expect(response_data['availability_status']).to eq('busy')
         expect(response_data['auto_offline']).to be(false)
