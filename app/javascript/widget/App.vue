@@ -117,6 +117,7 @@ export default {
       'setReferrerHost',
       'setWidgetColor',
       'setBubbleVisibility',
+      'setColorScheme',
     ]),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
@@ -307,6 +308,8 @@ export default {
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
+        } else if (message.event === 'set-color-scheme') {
+          this.setColorScheme(message.darkMode);
         } else if (message.event === 'toggle-open') {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 
