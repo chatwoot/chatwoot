@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Mention, type: :model do
+RSpec.describe Mention do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:user) }

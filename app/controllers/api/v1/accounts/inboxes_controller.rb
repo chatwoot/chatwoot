@@ -44,26 +44,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def update
     @inbox.update!(permitted_params.except(:channel))
     update_inbox_working_hours
-    channel_attributes = get_channel_attributes(@inbox.channel_type)
-
-    # Inbox update doesn't necessarily need channel attributes
-    return if permitted_params(channel_attributes)[:channel].blank?
-
-    if @inbox.inbox_type == 'Email'
-      begin
-        validate_email_channel(channel_attributes)
-      rescue StandardError => e
-        render json: { message: e }, status: :unprocessable_entity and return
-      end
-      @inbox.channel.reauthorized!
-    end
-
-    @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
-    update_channel_feature_flags
-  end
-
-  def update_inbox_working_hours
-    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
+    update_channel if channel_update_required?
   end
 
   def agent_bot
@@ -101,6 +82,35 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     return unless %w[web_widget api email line telegram whatsapp sms].include?(permitted_params[:channel][:type])
 
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
+  end
+
+  def update_inbox_working_hours
+    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
+  end
+
+  def update_channel
+    channel_attributes = get_channel_attributes(@inbox.channel_type)
+    return if permitted_params(channel_attributes)[:channel].blank?
+
+    validate_and_update_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
+
+    reauthorize_and_update_channel(channel_attributes)
+    update_channel_feature_flags
+  end
+
+  def channel_update_required?
+    permitted_params(get_channel_attributes(@inbox.channel_type))[:channel].present?
+  end
+
+  def validate_and_update_email_channel(channel_attributes)
+    validate_email_channel(channel_attributes)
+  rescue StandardError => e
+    render json: { message: e }, status: :unprocessable_entity and return
+  end
+
+  def reauthorize_and_update_channel(channel_attributes)
+    @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
+    @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
   end
 
   def update_channel_feature_flags
