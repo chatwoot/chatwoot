@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendOnSlackJob, type: :job do
+RSpec.describe SendOnSlackJob do
   let(:account) { create(:account) }
   let(:hook) { create(:integrations_hook, account: account) }
   let(:inbox) { create(:inbox, account: account) }
