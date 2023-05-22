@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::SearchService do
+describe SearchService do
   subject(:search) { described_class.new(current_user: user, current_account: account, params: params, search_type: search_type) }
 
   let(:search_type) { 'all' }

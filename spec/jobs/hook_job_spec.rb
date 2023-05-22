@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe HookJob, type: :job do
+RSpec.describe HookJob do
   subject(:job) { described_class.perform_later(hook, event_name, event_data) }
 
   let(:account) { create(:account) }

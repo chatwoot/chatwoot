@@ -60,9 +60,9 @@ export default {
     chartData() {
       return {
         labels: ['Rating'],
-        datasets: CSAT_RATINGS.map((rating, index) => ({
+        datasets: CSAT_RATINGS.map(rating => ({
           label: rating.emoji,
-          data: [this.ratingPercentage[index + 1]],
+          data: [this.ratingPercentage[rating.value]],
           backgroundColor: rating.color,
         })),
       };

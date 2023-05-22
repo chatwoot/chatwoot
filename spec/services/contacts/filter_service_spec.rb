@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Contacts::FilterService do
+describe Contacts::FilterService do
   subject(:filter_service) { described_class }
 
   let!(:account) { create(:account) }

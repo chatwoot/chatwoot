@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AgentBots::CsmlJob, type: :job do
+RSpec.describe AgentBots::CsmlJob do
   it 'runs csml processor service' do
     event = 'message.created'
     message = create(:message)

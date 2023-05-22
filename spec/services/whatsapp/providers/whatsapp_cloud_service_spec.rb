@@ -30,7 +30,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
       it 'calls message endpoints for image attachment message messages' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
 
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
@@ -47,7 +47,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
       it 'calls message endpoints for document attachment message messages' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/sample.pdf')), filename: 'sample.pdf', content_type: 'application/pdf')
+        attachment.file.attach(io: Rails.root.join('spec/assets/sample.pdf').open, filename: 'sample.pdf', content_type: 'application/pdf')
 
         # ref: https://github.com/bblimke/webmock/issues/900
         # reason for Webmock::API.hash_including

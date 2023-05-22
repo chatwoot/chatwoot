@@ -6,6 +6,10 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     @macros = Macro.with_visibility(current_user, params)
   end
 
+  def show
+    head :not_found if @macro.nil?
+  end
+
   def create
     @macro = Current.account.macros.new(macros_with_user.merge(created_by_id: current_user.id))
     @macro.set_visibility(current_user, permitted_params)
@@ -18,8 +22,16 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     @macro
   end
 
-  def show
-    head :not_found if @macro.nil?
+  def update
+    ActiveRecord::Base.transaction do
+      @macro.update!(macros_with_user)
+      @macro.set_visibility(current_user, permitted_params)
+      process_attachments
+      @macro.save!
+    rescue StandardError => e
+      Rails.logger.error e
+      render json: { error: @macro.errors.messages }.to_json, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -35,18 +47,6 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
       content_type: params[:attachment].content_type
     )
     render json: { blob_key: file_blob.key, blob_id: file_blob.id }
-  end
-
-  def update
-    ActiveRecord::Base.transaction do
-      @macro.update!(macros_with_user)
-      @macro.set_visibility(current_user, permitted_params)
-      process_attachments
-      @macro.save!
-    rescue StandardError => e
-      Rails.logger.error e
-      render json: { error: @macro.errors.messages }.to_json, status: :unprocessable_entity
-    end
   end
 
   def execute

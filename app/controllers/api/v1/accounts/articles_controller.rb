@@ -16,16 +16,15 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
                 end
   end
 
+  def show; end
+  def edit; end
+
   def create
     @article = @portal.articles.create!(article_params)
     @article.associate_root_article(article_params[:associated_article_id])
     @article.draft!
     render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
-
-  def edit; end
-
-  def show; end
 
   def update
     @article.update!(article_params) if params[:article].present?
