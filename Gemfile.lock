@@ -445,6 +445,8 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    neighbor (0.2.3)
+      activerecord (>= 5.2)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-imap (0.3.4)
@@ -509,6 +511,7 @@ GEM
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
+    pgvector (0.1.1)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
     pry (0.14.2)
@@ -784,8 +787,8 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
-  arm64-darwin-22
   arm64-darwin-21
+  arm64-darwin-22
   ruby
   x86_64-darwin-18
   x86_64-darwin-20
@@ -854,6 +857,7 @@ DEPENDENCIES
   lograge (~> 0.12.0)
   maxminddb
   mock_redis
+  neighbor
   newrelic-sidekiq-metrics
   newrelic_rpm
   omniauth
@@ -862,6 +866,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection (~> 1.0)
   pg
   pg_search
+  pgvector
   procore-sift
   pry-rails
   puma

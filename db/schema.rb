@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_051424) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_22_152424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "vector"
 
   create_table "access_tokens", force: :cascade do |t|
     t.string "owner_type"
@@ -541,6 +542,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_051424) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "embeddings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "obj_type", null: false
+    t.bigint "obj_id", null: false
+    t.vector "embedding", limit: 1536
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_embeddings_on_account_id"
+    t.index ["embedding"], name: "index_embeddings_on_embedding", using: :ivfflat
+    t.index ["obj_type", "obj_id"], name: "index_embeddings_on_obj"
   end
 
   create_table "folders", force: :cascade do |t|
