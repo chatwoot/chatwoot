@@ -1056,6 +1056,10 @@ export default {
         messagePayload.bccEmails = this.bccEmails;
       }
 
+      if (this.toEmails && !this.isOnPrivateNote) {
+        messagePayload.toEmails = this.toEmails;
+      }
+
       return messagePayload;
     },
     setCcEmails(value) {
