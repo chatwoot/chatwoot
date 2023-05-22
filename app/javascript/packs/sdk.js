@@ -19,6 +19,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
   const chatwootSettings = window.chatwootSettings || {};
   let locale = chatwootSettings.locale;
+  let baseDomain = chatwootSettings.baseDomain;
 
   if (chatwootSettings.useBrowserLanguage) {
     locale = window.navigator.language.replace('-', '_');
@@ -26,6 +27,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
   window.$chatwoot = {
     baseUrl,
+    baseDomain,
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
     isOpen: false,
@@ -90,10 +92,17 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       window.$chatwoot.identifier = identifier;
       window.$chatwoot.user = user;
       IFrameHelper.sendMessage('set-user', { identifier, user });
-      Cookies.set(userCookieName, hashToBeStored, {
+      let cookieOptions = {
         expires: 365,
         sameSite: 'Lax',
-        domain: '.chatwoot.com',
+      };
+
+      if (baseDomain) {
+        cookieOptions = { ...cookieOptions, domain: baseDomain };
+      }
+
+      Cookies.set(userCookieName, hashToBeStored, {
+        ...cookieOptions,
       });
     },
 

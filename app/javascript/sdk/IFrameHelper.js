@@ -38,19 +38,32 @@ import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 import addHours from 'date-fns/addHours';
 
-const updateAuthCookie = cookieContent =>
-  Cookies.set('cw_conversation', cookieContent, {
+const updateAuthCookie = (cookieContent, baseDomain = '') => {
+  let cookieOptions = {
     expires: 365,
     sameSite: 'Lax',
-    domain: '.chatwoot.com',
-  });
+  };
 
-const updateCampaignReadStatus = () => {
+  if (baseDomain) {
+    cookieOptions = { ...cookieOptions, domain: baseDomain };
+  }
+  Cookies.set('cw_conversation', cookieContent, {
+    ...cookieOptions,
+  });
+};
+
+const updateCampaignReadStatus = baseDomain => {
   const expireBy = addHours(new Date(), 1);
-  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
+  let cookieOptions = {
     expires: expireBy,
     sameSite: 'Lax',
-    domain: '.chatwoot.com',
+  };
+
+  if (baseDomain) {
+    cookieOptions = { ...cookieOptions, domain: baseDomain };
+  }
+  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
+    ...cookieOptions,
   });
 };
 
@@ -156,7 +169,7 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      updateAuthCookie(message.config.authToken);
+      updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {
@@ -202,11 +215,11 @@ export const IFrameHelper = {
     },
 
     setAuthCookie({ data: { widgetAuthToken } }) {
-      updateAuthCookie(widgetAuthToken);
+      updateAuthCookie(widgetAuthToken, window.$chatwoot.baseDomain);
     },
 
     setCampaignReadOn() {
-      updateCampaignReadStatus();
+      updateCampaignReadStatus(window.$chatwoot.baseDomain);
     },
 
     toggleBubble: state => {
