@@ -279,6 +279,7 @@ export default {
       if (newChat.id === oldChat.id) {
         return;
       }
+      this.fetchAllAttachmentsFromCurrentChat();
       this.selectedTweetId = null;
     },
   },

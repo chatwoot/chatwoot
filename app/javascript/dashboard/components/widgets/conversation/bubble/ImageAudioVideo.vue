@@ -29,6 +29,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
 
 import GalleryView from '../components/GalleryView';
 
@@ -36,6 +37,7 @@ export default {
   components: {
     GalleryView,
   },
+
   props: {
     attachment: {
       type: Object,
@@ -81,7 +83,11 @@ export default {
     onClose() {
       this.show = false;
     },
-    onClick() {
+    onClick(e) {
+      if (hasPressedCommand(e)) {
+        window.open(this.attachment.data_url, '_blank');
+        return;
+      }
       this.show = true;
     },
     onImgError() {

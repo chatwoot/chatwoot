@@ -1,63 +1,79 @@
 <template>
-  <woot-modal :full-width="true" :show.sync="show" :on-close="onClose">
-    <div class="attachment-toggle--button attachment-toggle--button-left">
-      <woot-button
-        size="large"
-        variant="smooth"
-        color-scheme="secondary"
-        icon="chevron-left"
-        :disabled="activeImageIndex === 0"
-        @click="
-          onClickChangeAttachment(
-            allAttachments[activeImageIndex - 1],
-            activeImageIndex - 1
-          )
-        "
-      />
-    </div>
-    <div class="attachments-viewer">
-      <div class="attachment-view">
-        <img
-          v-if="activeFileTypes === 'image'"
-          :src="imageAttachmentSrc"
-          class="modal-image skip-context-menu"
+  <woot-modal full-width :show.sync="show" :on-close="onClose">
+    <div v-on-clickaway="onClose" class="gallery-modal--wrap" @click="onClose">
+      <div class="attachment-toggle--button attachment-toggle--button-left">
+        <woot-button
+          v-if="hasMoreThanOneAttachment"
+          size="large"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="chevron-left"
+          :disabled="activeImageIndex === 0"
+          @click.stop="
+            onClickChangeAttachment(
+              allAttachments[activeImageIndex - 1],
+              activeImageIndex - 1
+            )
+          "
         />
-        <video
-          v-if="activeFileTypes === 'video'"
-          :src="videoAttachmentSrc"
-          controls
-          playsInline
-          class="modal-video skip-context-menu"
-        />
-        <audio
-          v-else-if="activeFileTypes === 'audio'"
-          controls
-          class="skip-context-menu"
-        >
-          <source :src="`${audioAttachmentSrc}?t=${Date.now()}`" />
-        </audio>
       </div>
-    </div>
-    <div class="attachment-toggle--button">
-      <woot-button
-        size="large"
-        variant="smooth"
-        color-scheme="secondary"
-        :disabled="activeImageIndex === allAttachments.length - 1"
-        icon="chevron-right"
-        @click="
-          onClickChangeAttachment(
-            allAttachments[activeImageIndex + 1],
-            activeImageIndex + 1
-          )
-        "
-      />
+      <div class="attachments-viewer">
+        <div class="attachment-view">
+          <img
+            v-if="activeFileTypes === 'image'"
+            :src="imageAttachmentSrc"
+            class="modal-image skip-context-menu"
+            @click.stop
+          />
+          <video
+            v-if="activeFileTypes === 'video'"
+            :src="videoAttachmentSrc"
+            controls
+            playsInline
+            class="modal-video skip-context-menu"
+            @click.stop
+          />
+          <audio
+            v-else-if="activeFileTypes === 'audio'"
+            controls
+            class="skip-context-menu"
+            @click.stop
+          >
+            <source :src="`${audioAttachmentSrc}?t=${Date.now()}`" />
+          </audio>
+        </div>
+      </div>
+      <div class="attachment-toggle--button">
+        <woot-button
+          v-if="hasMoreThanOneAttachment"
+          size="large"
+          variant="smooth"
+          color-scheme="secondary"
+          :disabled="activeImageIndex === allAttachments.length - 1"
+          icon="chevron-right"
+          @click.stop="
+            onClickChangeAttachment(
+              allAttachments[activeImageIndex + 1],
+              activeImageIndex + 1
+            )
+          "
+        />
+      </div>
     </div>
   </woot-modal>
 </template>
-
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
+
+import {
+  isEscape,
+  hasPressedArrowLeftKey,
+  hasPressedArrowRightKey,
+} from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+
 export default {
+  mixins: [eventListenerMixins, clickaway],
   props: {
     show: {
       type: Boolean,
@@ -80,6 +96,11 @@ export default {
       activeFileTypes: '',
       activeImageIndex: 0,
     };
+  },
+  computed: {
+    hasMoreThanOneAttachment() {
+      return this.allAttachments.length > 1;
+    },
   },
   mounted() {
     this.setIndex();
@@ -123,41 +144,64 @@ export default {
         attachment => attachment.id === this.attachment.id
       );
     },
+    onKeyDownHandler(e) {
+      if (isEscape(e)) {
+        this.onClose();
+      } else if (hasPressedArrowLeftKey(e)) {
+        this.onClickChangeAttachment(
+          this.allAttachments[this.activeImageIndex - 1],
+          this.activeImageIndex - 1
+        );
+      } else if (hasPressedArrowRightKey(e)) {
+        this.onClickChangeAttachment(
+          this.allAttachments[this.activeImageIndex + 1],
+          this.activeImageIndex + 1
+        );
+      }
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-.attachments-viewer {
+.gallery-modal--wrap {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
   width: 100%;
-  height: 100%;
+  height: inherit;
 
-  .attachment-view {
-    height: 88%;
+  .attachments-viewer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+    width: 100%;
+    height: 100%;
 
-    img {
-      margin: 0 auto;
-    }
+    .attachment-view {
+      height: 88%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    video {
-      margin: 0 auto;
+      img {
+        margin: 0 auto;
+      }
+
+      video {
+        margin: 0 auto;
+      }
     }
   }
-}
 
-.attachment-toggle--button {
-  width: var(--space-mega);
-  min-width: var(--space-mega);
-  display: flex;
-  justify-content: flex-start;
+  .attachment-toggle--button {
+    width: var(--space-mega);
+    min-width: var(--space-mega);
+    display: flex;
+    justify-content: flex-start;
 
-  &.attachment-toggle--button-left {
-    justify-content: flex-end;
+    &.attachment-toggle--button-left {
+      justify-content: flex-end;
+    }
   }
 }
 </style>
