@@ -24,7 +24,7 @@
             class="emoji--distribution-item"
           >
             <span class="emoji--distribution-key">{{
-              csatRatings[key - 1].emoji
+              ratingToEmoji(key)
             }}</span>
             <span>{{ formatToPercent(rating) }}</span>
           </div>
@@ -76,6 +76,9 @@ export default {
   methods: {
     formatToPercent(value) {
       return value ? `${value}%` : '--';
+    },
+    ratingToEmoji(value) {
+      return CSAT_RATINGS.find(rating => rating.value === Number(value)).emoji;
     },
   },
 };
