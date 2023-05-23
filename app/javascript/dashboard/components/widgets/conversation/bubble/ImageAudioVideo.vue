@@ -37,7 +37,6 @@ export default {
   components: {
     GalleryView,
   },
-
   props: {
     attachment: {
       type: Object,
@@ -65,8 +64,8 @@ export default {
     },
     attachmentTypeClasses() {
       return {
-        image: this.attachment.file_type === 'image',
-        video: this.attachment.file_type === 'video',
+        image: this.isImage,
+        video: this.isVideo,
       };
     },
     filteredCurrentChatAttachments() {

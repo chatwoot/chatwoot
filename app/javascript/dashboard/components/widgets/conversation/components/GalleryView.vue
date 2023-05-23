@@ -1,7 +1,7 @@
 <template>
   <woot-modal full-width :show.sync="show" :on-close="onClose">
     <div v-on-clickaway="onClose" class="gallery-modal--wrap" @click="onClose">
-      <div class="attachment-toggle--button attachment-toggle--button-left">
+      <div class="attachment-toggle--button">
         <woot-button
           v-if="hasMoreThanOneAttachment"
           size="large"
@@ -94,7 +94,10 @@ export default {
       videoAttachmentSrc: '',
       audioAttachmentSrc: '',
       activeFileTypes: '',
-      activeImageIndex: 0,
+      activeImageIndex:
+        this.allAttachments.findIndex(
+          attachment => attachment.id === this.attachment.id
+        ) || 0,
     };
   },
   computed: {
@@ -103,7 +106,6 @@ export default {
     },
   },
   mounted() {
-    this.setIndex();
     this.setImageAndVideoSrc(this.attachment);
   },
   methods: {
@@ -139,11 +141,6 @@ export default {
           break;
       }
     },
-    setIndex() {
-      this.activeImageIndex = this.allAttachments.findIndex(
-        attachment => attachment.id === this.attachment.id
-      );
-    },
     onKeyDownHandler(e) {
       if (isEscape(e)) {
         this.onClose();
@@ -167,7 +164,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
+  width: inherit;
   height: inherit;
 
   .attachments-viewer {
@@ -178,7 +175,6 @@ export default {
     height: 100%;
 
     .attachment-view {
-      height: 88%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -197,11 +193,7 @@ export default {
     width: var(--space-mega);
     min-width: var(--space-mega);
     display: flex;
-    justify-content: flex-start;
-
-    &.attachment-toggle--button-left {
-      justify-content: flex-end;
-    }
+    justify-content: center;
   }
 }
 </style>

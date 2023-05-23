@@ -54,7 +54,6 @@
                 (attachment.file_type === 'image' || 'audio' || 'video') &&
                   !hasImageError
               "
-              :url="attachment.data_url"
               :attachment="attachment"
               @error="onImageLoadError"
             />
