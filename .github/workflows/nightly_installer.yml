@@ -33,7 +33,7 @@ jobs:
 
     - name: Run the installer
       run: |
-        sudo ./install.sh --install < input
+        sudo ./install-flip.sh --install < input
 
         #  disabling http verify for now as http 
         #  access to port 3000 fails in gh action env
