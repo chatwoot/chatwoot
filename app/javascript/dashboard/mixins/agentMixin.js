@@ -45,10 +45,14 @@ export default {
         .sort((a, b) => a.name.localeCompare(b.name));
     },
     getBusyAgents(agents) {
-      return agents.filter(agent => agent.availability_status === 'busy');
+      return agents
+        .filter(agent => agent.availability_status === 'busy')
+        .sort((a, b) => a.name.localeCompare(b.name));
     },
     getOfflineAgents(agents) {
-      return agents.filter(agent => agent.availability_status === 'offline');
+      return agents
+        .filter(agent => agent.availability_status === 'offline')
+        .sort((a, b) => a.name.localeCompare(b.name));
     },
   },
 };
