@@ -125,7 +125,14 @@ RSpec.describe 'Custom Filters API', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/custom_filters/:id' do
-    let(:payload) { { custom_filter: { name: 'vip-customers' } } }
+    let(:payload) do
+      { custom_filter: {
+        name: 'vip-customers', filter_type: 'conversation',
+        query: { payload: [{
+          values: ['resolved'], attribute_key: 'status', attribute_model: 'standard', filter_operator: 'equal_to'
+        }] }
+      } }
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -146,6 +153,7 @@ RSpec.describe 'Custom Filters API', type: :request do
         expect(response).to have_http_status(:success)
         expect(custom_filter.reload.name).to eq('vip-customers')
         expect(custom_filter.reload.filter_type).to eq('conversation')
+        expect(custom_filter.reload.query['payload'][0]['values']).to eq(['resolved'])
       end
 
       it 'prevents the update of custom filter of another user/account' do
