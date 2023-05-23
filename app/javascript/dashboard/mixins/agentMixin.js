@@ -25,9 +25,9 @@ export default {
     },
     agentsList() {
       const agents = this.assignableAgents || [];
-      const onlineAgents = this.getOnlineAgents(agents);
-      const busyAgents = this.getBusyAgents(agents);
-      const offlineAgents = this.getOfflineAgents(agents);
+      const onlineAgents = this.getAgentsByAvailability(agents, 'online');
+      const busyAgents = this.getAgentsByAvailability(agents, 'busy');
+      const offlineAgents = this.getAgentsByAvailability(agents, 'offline');
       const none = this.createNoneAgent;
       const filteredAgents = [
         ...(this.isAgentSelected ? [none] : []),
@@ -39,19 +39,9 @@ export default {
     },
   },
   methods: {
-    getOnlineAgents(agents) {
+    getAgentsByAvailability(agents, availability) {
       return agents
-        .filter(agent => agent.availability_status === 'online')
-        .sort((a, b) => a.name.localeCompare(b.name));
-    },
-    getBusyAgents(agents) {
-      return agents
-        .filter(agent => agent.availability_status === 'busy')
-        .sort((a, b) => a.name.localeCompare(b.name));
-    },
-    getOfflineAgents(agents) {
-      return agents
-        .filter(agent => agent.availability_status === 'offline')
+        .filter(agent => agent.availability_status === availability)
         .sort((a, b) => a.name.localeCompare(b.name));
     },
   },
