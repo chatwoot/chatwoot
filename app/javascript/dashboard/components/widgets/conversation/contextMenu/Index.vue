@@ -207,10 +207,7 @@ export default {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
       ](this.inboxId);
-      const onlineAgents = this.getAgentsByAvailability(agents, 'online');
-      const busyAgents = this.getAgentsByAvailability(agents, 'busy');
-      const offlineAgents = this.getAgentsByAvailability(agents, 'offline');
-      const filteredAgents = [...onlineAgents, ...busyAgents, ...offlineAgents];
+      const filteredAgents = this.sortedAgentsByAvailability(agents);
       return filteredAgents;
     },
     assignableAgents() {

@@ -25,15 +25,13 @@ export default {
     },
     agentsList() {
       const agents = this.assignableAgents || [];
-      const onlineAgents = this.getAgentsByAvailability(agents, 'online');
-      const busyAgents = this.getAgentsByAvailability(agents, 'busy');
-      const offlineAgents = this.getAgentsByAvailability(agents, 'offline');
       const none = this.createNoneAgent;
+      const filteredAgentsByAvailability = this.sortedAgentsByAvailability(
+        agents
+      );
       const filteredAgents = [
         ...(this.isAgentSelected ? [none] : []),
-        ...onlineAgents,
-        ...busyAgents,
-        ...offlineAgents,
+        ...filteredAgentsByAvailability,
       ];
       return filteredAgents;
     },
@@ -43,6 +41,13 @@ export default {
       return agents
         .filter(agent => agent.availability_status === availability)
         .sort((a, b) => a.name.localeCompare(b.name));
+    },
+    sortedAgentsByAvailability(agents) {
+      const onlineAgents = this.getAgentsByAvailability(agents, 'online');
+      const busyAgents = this.getAgentsByAvailability(agents, 'busy');
+      const offlineAgents = this.getAgentsByAvailability(agents, 'offline');
+      const filteredAgents = [...onlineAgents, ...busyAgents, ...offlineAgents];
+      return filteredAgents;
     },
   },
 };
