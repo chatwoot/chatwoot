@@ -92,7 +92,7 @@ export default {
       }
       if (!this.accountReport.data.length) return {};
       const labels = this.accountReport.data.map(element => {
-        if (this.groupBy.period === GROUP_BY_FILTER[2].period) {
+        if (this.groupBy?.period === GROUP_BY_FILTER[2].period) {
           let week_date = new Date(fromUnixTime(element.timestamp));
           const first_day = week_date.getDate() - week_date.getDay();
           const last_day = first_day + 6;
@@ -105,10 +105,10 @@ export default {
             'dd/MM/yy'
           )}`;
         }
-        if (this.groupBy.period === GROUP_BY_FILTER[3].period) {
+        if (this.groupBy?.period === GROUP_BY_FILTER[3].period) {
           return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
         }
-        if (this.groupBy.period === GROUP_BY_FILTER[4].period) {
+        if (this.groupBy?.period === GROUP_BY_FILTER[4].period) {
           return format(fromUnixTime(element.timestamp), 'yyyy');
         }
         return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
@@ -213,7 +213,7 @@ export default {
       return {
         from,
         to,
-        groupBy: groupBy.period,
+        groupBy: groupBy?.period,
         businessHours,
       };
     },
