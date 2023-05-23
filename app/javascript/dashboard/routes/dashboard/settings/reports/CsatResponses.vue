@@ -16,7 +16,7 @@
     >
       {{ $t('CSAT_REPORTS.DOWNLOAD') }}
     </woot-button>
-    <csat-metrics />
+    <csat-metrics :filters="requestPayload" />
     <csat-table :page-index="pageIndex" @page-change="onPageNumberChange" />
   </div>
 </template>
