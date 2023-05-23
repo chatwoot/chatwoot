@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Inboxes::FetchMsGraphEmailsJob, type: :job do
+RSpec.describe Inboxes::FetchMsGraphEmailForTenantJob do
   include ActionMailbox::TestHelper
 
   let(:account) { create(:account) }
@@ -45,7 +45,7 @@ RSpec.describe Inboxes::FetchMsGraphEmailsJob, type: :job do
         ms_imap_email_inbox = double
 
         allow(Imap::ImapMailbox).to receive(:new).and_return(ms_imap_email_inbox)
-        # expect(ms_imap_email_inbox).to receive(:process).with(inbound_mail, microsoft_imap_email_channel).once
+        expect(ms_imap_email_inbox).to receive(:process).with(inbound_mail, microsoft_imap_email_channel).once
 
         described_class.perform_now(microsoft_imap_email_channel)
       end

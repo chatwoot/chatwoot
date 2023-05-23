@@ -12,7 +12,7 @@ class Inboxes::FetchImapEmailInboxesJob < ApplicationJob
 
   def fetch_emails(inbox)
     if inbox.channel.microsoft? && ENV.fetch('AZURE_TENANT_ID', false)
-      ::Inboxes::FetchMsGraphEmailsJob.perform_later(inbox.channel)
+      ::Inboxes::FetchMsGraphEmailForTenantJob.perform_later(inbox.channel)
     else
       ::Inboxes::FetchImapEmailsJob.perform_later(inbox.channel)
     end

@@ -1,7 +1,7 @@
 require 'net/http'
 
-class Inboxes::FetchMsGraphEmailsJob < ApplicationJob
-  queue_as :low
+class Inboxes::FetchMsGraphEmailForTenantJob < ApplicationJob
+  queue_as :scheduled_jobs
 
   def perform(channel)
     process_email_for_channel(channel)
