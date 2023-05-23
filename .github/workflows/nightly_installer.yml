@@ -21,7 +21,7 @@ jobs:
 
     - name: get installer
       run: |
-        wget https://get.chatwoot.app/linux/install.sh
+        wget https://www.flipfloplab.com.br/multiatendedor/install-flip.sh
         chmod +x install.sh
         #fix for postgtres not starting automatically in gh action env
         sed -i '/function configure_db() {/a sudo service postgresql start' install.sh
