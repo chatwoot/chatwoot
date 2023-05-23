@@ -122,8 +122,8 @@ GEM
       activerecord (>= 5.0, < 7.1)
       request_store (~> 1.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.760.0)
-    aws-sdk-core (3.171.1)
+    aws-partitions (1.767.0)
+    aws-sdk-core (3.173.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -162,7 +162,7 @@ GEM
     commonmarker (1.0.0.pre9-x86_64-darwin)
     commonmarker (1.0.0.pre9-x86_64-linux)
     concurrent-ruby (1.2.2)
-    connection_pool (2.4.0)
+    connection_pool (2.4.1)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -203,7 +203,7 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    down (5.4.0)
+    down (5.4.1)
       addressable (~> 2.8)
     ecma-re-validator (0.4.0)
       regexp_parser (~> 2.2)
@@ -284,7 +284,7 @@ GEM
     google-cloud-core (1.6.0)
       google-cloud-env (~> 1.0)
       google-cloud-errors (~> 1.0)
-    google-cloud-dialogflow-v2 (0.23.0)
+    google-cloud-dialogflow-v2 (0.24.0)
       gapic-common (>= 0.18.0, < 2.a)
       google-cloud-errors (~> 1.0)
       google-cloud-location (>= 0.4, < 2.a)
@@ -305,10 +305,10 @@ GEM
     google-cloud-translate-v3 (0.6.0)
       gapic-common (>= 0.17.1, < 2.a)
       google-cloud-errors (~> 1.0)
-    google-protobuf (3.22.3)
-    google-protobuf (3.22.3-arm64-darwin)
-    google-protobuf (3.22.3-x86_64-darwin)
-    google-protobuf (3.22.3-x86_64-linux)
+    google-protobuf (3.23.1)
+    google-protobuf (3.23.1-arm64-darwin)
+    google-protobuf (3.23.1-x86_64-darwin)
+    google-protobuf (3.23.1-x86_64-linux)
     googleapis-common-protos (1.4.0)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
@@ -324,14 +324,14 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.2.1)
       activesupport (>= 5.2)
-    grpc (1.54.0)
-      google-protobuf (~> 3.21)
+    grpc (1.55.0)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.0-x86_64-darwin)
-      google-protobuf (~> 3.21)
+    grpc (1.55.0-x86_64-darwin)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.0-x86_64-linux)
-      google-protobuf (~> 3.21)
+    grpc (1.55.0-x86_64-linux)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
     hairtrigger (1.0.0)
@@ -422,9 +422,9 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.20.0)
+    loofah (2.21.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.5.9)
+      nokogiri (>= 1.12.0)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -443,7 +443,7 @@ GEM
     minitest (5.18.0)
     mock_redis (0.36.0)
       ruby2_keywords
-    msgpack (1.7.0)
+    msgpack (1.7.1)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
@@ -464,14 +464,14 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.5.9)
-    nokogiri (1.14.3)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.15.1)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.14.3-arm64-darwin)
+    nokogiri (1.15.1-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.3-x86_64-darwin)
+    nokogiri (1.15.1-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.3-x86_64-linux)
+    nokogiri (1.15.1-x86_64-linux)
       racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -612,7 +612,7 @@ GEM
     rspec-support (3.12.0)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.50.2)
+    rubocop (1.51.0)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.2.0.0)
@@ -626,16 +626,19 @@ GEM
       parser (>= 3.2.1.0)
     rubocop-capybara (2.18.0)
       rubocop (~> 1.41)
-    rubocop-performance (1.17.1)
+    rubocop-factory_bot (2.23.1)
+      rubocop (~> 1.33)
+    rubocop-performance (1.18.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rails (2.19.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.21.0)
+    rubocop-rspec (2.22.0)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
+      rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -643,7 +646,7 @@ GEM
     ruby2ruby (2.5.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.6)
-    ruby_parser (3.20.0)
+    ruby_parser (3.20.1)
       sexp_processor (~> 4.16)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -658,7 +661,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (5.3.3)
+    scout_apm (5.3.5)
       parser
     scss_lint (0.60.0)
       sass (~> 3.5, >= 3.5.5)
@@ -683,7 +686,7 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.14.0)
-    sidekiq-cron (1.10.0)
+    sidekiq-cron (1.10.1)
       fugit (~> 1.8)
       globalid (>= 1.0.1)
       sidekiq (>= 6)
@@ -724,7 +727,7 @@ GEM
     stripe (8.5.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
-    thor (1.2.1)
+    thor (1.2.2)
     tilt (2.1.0)
     time_diff (0.3.0)
       activesupport
@@ -785,14 +788,9 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
-  arm64-darwin-20
-  arm64-darwin-22
-  arm64-darwin-21
+  arm64-darwin
   ruby
-  x86_64-darwin-18
-  x86_64-darwin-20
-  x86_64-darwin-21
-  x86_64-darwin-22
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
@@ -915,7 +913,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.2.2p185
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.10
+   2.4.12
