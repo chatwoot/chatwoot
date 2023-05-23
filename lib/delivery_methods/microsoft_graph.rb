@@ -6,7 +6,7 @@
 # API allows for emails to be sent again.
 require 'base64'
 
-class DeliveryMethods::MicrosoftGraph
+class ::MicrosoftGraph
   def initialize(config)
     @config = config
   end
@@ -24,3 +24,4 @@ class DeliveryMethods::MicrosoftGraph
     graph.post_to_api('me/sendMail', headers, body)
   end
 end
+
