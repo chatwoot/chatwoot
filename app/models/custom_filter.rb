@@ -17,10 +17,12 @@
 #  index_custom_filters_on_user_id     (user_id)
 #
 class CustomFilter < ApplicationRecord
+  MAX_FILTER_PER_USER = 50
   belongs_to :user
   belongs_to :account
 
   enum filter_type: { conversation: 0, contact: 1, report: 2 }
+  validate :validate_number_of_filters
 
   def records_count
     fetch_record_count_from_redis || set_record_count_in_redis
@@ -42,5 +44,11 @@ class CustomFilter < ApplicationRecord
 
   def filter_count_key
     format(::Redis::Alfred::CUSTOM_FILTER_RECORDS_COUNT_KEY, account_id: account_id, filter_id: id)
+  end
+
+  def validate_number_of_filters
+    return true if account.custom_filters.where(user_id: user_id).size < MAX_FILTER_PER_USER
+
+    errors.add :account_id, I18n.t('errors.custom_filters.number_of_records')
   end
 end
