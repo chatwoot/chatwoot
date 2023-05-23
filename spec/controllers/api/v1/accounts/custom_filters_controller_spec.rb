@@ -106,7 +106,7 @@ RSpec.describe 'Custom Filters API', type: :request do
       end
 
       it 'gives the error for 51st record' do
-        CustomFilter::MAX_FILTER_PER_USER.times do
+        (CustomFilter::MAX_FILTER_PER_USER - 1).times do
           create(:custom_filter, user: user, account: account)
         end
 
