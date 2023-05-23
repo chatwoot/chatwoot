@@ -9,6 +9,7 @@ export default {
     },
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
     }),
     isAgentSelected() {
       return this.currentChat?.meta?.assignee;
@@ -28,6 +29,15 @@ export default {
       const none = this.createNoneAgent;
       const filteredAgentsByAvailability = this.sortedAgentsByAvailability(
         agents
+      ).map(item =>
+        item.id === this.currentUser.id
+          ? {
+              ...item,
+              availability_status: this.currentUser.accounts.find(
+                account => account.id === this.currentAccountId
+              ).availability_status,
+            }
+          : item
       );
       const filteredAgents = [
         ...(this.isAgentSelected ? [none] : []),

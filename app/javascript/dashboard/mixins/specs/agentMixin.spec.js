@@ -12,8 +12,15 @@ describe('agentMixin', () => {
     getters = {
       getCurrentUser: () => ({
         id: 1,
-        availability_status: 'busy',
+        accounts: [
+          {
+            id: 1,
+            availability_status: 'online',
+            auto_offline: false,
+          },
+        ],
       }),
+      getCurrentAccountId: () => 1,
     };
     store = new Vuex.Store({ getters });
   });
