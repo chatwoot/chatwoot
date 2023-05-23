@@ -7,34 +7,48 @@ export default {
         this.inboxId
       );
     },
-    ...mapGetters({ currentUser: 'getCurrentUser' }),
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
     isAgentSelected() {
       return this.currentChat?.meta?.assignee;
     },
+    createNoneAgent() {
+      return {
+        confirmed: true,
+        name: 'None',
+        id: 0,
+        role: 'agent',
+        account_id: 0,
+        email: 'None',
+      };
+    },
     agentsList() {
       const agents = this.assignableAgents || [];
-      return [
-        ...(this.isAgentSelected
-          ? [
-              {
-                confirmed: true,
-                name: 'None',
-                id: 0,
-                role: 'agent',
-                account_id: 0,
-                email: 'None',
-              },
-            ]
-          : []),
-        ...agents,
-      ].map(item =>
-        item.id === this.currentUser.id
-          ? {
-              ...item,
-              availability_status: this.currentUser.availability_status,
-            }
-          : item
-      );
+      const onlineAgents = this.getOnlineAgents(agents);
+      const busyAgents = this.getBusyAgents(agents);
+      const offlineAgents = this.getOfflineAgents(agents);
+      const none = this.createNoneAgent;
+      const filteredAgents = [
+        ...(this.isAgentSelected ? [none] : []),
+        ...onlineAgents,
+        ...busyAgents,
+        ...offlineAgents,
+      ];
+      return filteredAgents;
+    },
+  },
+  methods: {
+    getOnlineAgents(agents) {
+      return agents
+        .filter(agent => agent.availability_status === 'online')
+        .sort((a, b) => a.name.localeCompare(b.name));
+    },
+    getBusyAgents(agents) {
+      return agents.filter(agent => agent.availability_status === 'busy');
+    },
+    getOfflineAgents(agents) {
+      return agents.filter(agent => agent.availability_status === 'offline');
     },
   },
 };

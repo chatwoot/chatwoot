@@ -79,6 +79,7 @@ import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
 import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin';
+import agentMixin from 'dashboard/mixins/agentMixin';
 import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
 export default {
@@ -87,7 +88,7 @@ export default {
     MenuItemWithSubmenu,
     AgentLoadingPlaceholder,
   },
-  mixins: [snoozeTimesMixin],
+  mixins: [snoozeTimesMixin, agentMixin],
   props: {
     status: {
       type: String,
@@ -202,6 +203,16 @@ export default {
       teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
+    filteredAgentOnAvailability() {
+      const agents = this.$store.getters[
+        'inboxAssignableAgents/getAssignableAgents'
+      ](this.inboxId);
+      const onlineAgents = this.getOnlineAgents(agents);
+      const busyAgents = this.getBusyAgents(agents);
+      const offlineAgents = this.getOfflineAgents(agents);
+      const filteredAgents = [...onlineAgents, ...busyAgents, ...offlineAgents];
+      return filteredAgents;
+    },
     assignableAgents() {
       return [
         {
@@ -212,9 +223,7 @@ export default {
           account_id: 0,
           email: 'None',
         },
-        ...this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-          this.inboxId
-        ),
+        ...this.filteredAgentOnAvailability,
       ];
     },
   },
@@ -246,6 +255,7 @@ export default {
         ...(type === 'icon' && { icon: option.icon }),
         ...(type === 'label' && { color: option.color }),
         ...(type === 'agent' && { thumbnail: option.thumbnail }),
+        ...(type === 'agent' && { status: option.availability_status }),
         ...(type === 'text' && { label: option.label }),
         ...(type === 'label' && { label: option.title }),
         ...(type === 'agent' && { label: option.name }),
