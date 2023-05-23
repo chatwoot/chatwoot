@@ -19,6 +19,7 @@
 #  index_contacts_on_account_id                          (account_id)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
+#  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
 #  uniq_email_per_account_contact                        (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
