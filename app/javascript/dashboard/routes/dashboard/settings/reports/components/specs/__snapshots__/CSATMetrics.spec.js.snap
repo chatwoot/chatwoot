@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CsatMetrics.vue computes response count correctly 1`] = `
+<div class="row csat--metrics-container">
+  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL" value="100" infotext="CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP"></csat-metric-card-stub>
+  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL" value="85%" infotext="CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP"></csat-metric-card-stub>
+  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL" value="90%" infotext="CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP"></csat-metric-card-stub>
+  <div class="medium-6 report-card">
+    <h3 class="heading">
+      <div class="emoji--distribution">
+        <div class="emoji--distribution-item"><span class="emoji--distribution-key">😞</span> <span>10%</span></div>
+        <div class="emoji--distribution-item"><span class="emoji--distribution-key">😑</span> <span>20%</span></div>
+        <div class="emoji--distribution-item"><span class="emoji--distribution-key">😐</span> <span>30%</span></div>
+        <div class="emoji--distribution-item"><span class="emoji--distribution-key">😀</span> <span>30%</span></div>
+        <div class="emoji--distribution-item"><span class="emoji--distribution-key">😍</span> <span>10%</span></div>
+      </div>
+    </h3>
+    <div class="emoji--distribution-chart">
+      <woot-horizontal-bar-stub collection="[object Object]" height="24"></woot-horizontal-bar-stub>
+    </div>
+  </div>
+</div>
+`;
