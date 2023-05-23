@@ -2,6 +2,7 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-factory_bot
 inherit_from: .rubocop_todo.yml
 
 Layout/LineLength:
@@ -100,8 +101,14 @@ RSpec/MessageSpies:
   Enabled: false
 RSpec/StubbedMock:
   Enabled: false
-RSpec/FactoryBot/SyntaxMethods:
+FactoryBot/SyntaxMethods:
   Enabled: false
+FactoryBot/FactoryAssociationWithStrategy:
+  Exclude:
+    - 'spec/factories/inbox_members.rb'
+    - 'spec/factories/messages.rb'
+    - 'spec/factories/notifications.rb'
+    - 'spec/factories/platform_apps_permissibles.rb'
 Naming/VariableNumber:
   Enabled: false
 Metrics/MethodLength:
