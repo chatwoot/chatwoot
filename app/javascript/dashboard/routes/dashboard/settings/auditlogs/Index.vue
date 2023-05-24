@@ -97,25 +97,28 @@ export default {
         auditLogItem.username !== null
           ? auditLogItem.username
           : this.$t('AUDIT_LOGS.ACTION.SYSTEM');
+      const auditableType = auditLogItem.auditable_type.toLowerCase();
+      const action = auditLogItem.action.toLowerCase();
+
       if (auditLogItem.action === 'create') {
-        return `${username} ${this.$t('AUDIT_LOGS.ACTION.ADD')} ${
-          auditLogItem.auditable_type
-        }`;
+        return `${username} ${this.$t(
+          'AUDIT_LOGS.ACTION.ADD'
+        )} ${auditableType}`;
       }
       if (auditLogItem.action === 'destroy') {
-        return `${username} ${this.$t('AUDIT_LOGS.ACTION.DELETE')} ${
-          auditLogItem.auditable_type
-        }`;
+        return `${username} ${this.$t(
+          'AUDIT_LOGS.ACTION.DELETE'
+        )} ${auditableType}`;
       }
       if (auditLogItem.action === 'update') {
-        return `${username} ${this.$t('AUDIT_LOGS.ACTION.EDIT')} ${
-          auditLogItem.auditable_type
-        }`;
+        return `${username} ${this.$t(
+          'AUDIT_LOGS.ACTION.EDIT'
+        )} ${auditableType}`;
       }
       if (auditLogItem.action === 'sign_in') {
         return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_IN')}`;
       }
-      return `${username} did ${auditLogItem.action} on ${auditLogItem.auditable_type}`;
+      return `${username} did ${action} on ${auditableType}`;
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
