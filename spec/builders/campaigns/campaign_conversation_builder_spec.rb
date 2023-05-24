@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Campaigns::CampaignConversationBuilder do
+describe Campaigns::CampaignConversationBuilder do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, account: account, identifier: '123') }

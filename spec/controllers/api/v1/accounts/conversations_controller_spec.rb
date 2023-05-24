@@ -765,7 +765,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].first['file_type']).to eq('image')
       end
 
@@ -775,7 +775,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].length).to eq(1)
       end
     end

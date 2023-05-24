@@ -31,7 +31,7 @@ RSpec.describe 'Notifications Subscriptions API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['subscription_type']).to eq('browser_push')
         expect(json_response['subscription_attributes']['auth']).to eq('test')
       end
@@ -53,7 +53,7 @@ RSpec.describe 'Notifications Subscriptions API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['id']).to eq(subscription.id)
       end
 
@@ -74,7 +74,7 @@ RSpec.describe 'Notifications Subscriptions API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['id']).to eq(subscription.id)
         expect(json_response['user_id']).to eq(agent.id)
       end
