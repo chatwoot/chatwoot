@@ -30,7 +30,7 @@ gem 'haikunator'
 # Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
-gem 'commonmarker', git: 'https://github.com/gjtorikian/commonmarker', tag: '1.0.0.pre9'
+gem 'commonmarker', git: 'https://github.com/gjtorikian/commonmarker', tag: 'v1.0.0.pre9'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
