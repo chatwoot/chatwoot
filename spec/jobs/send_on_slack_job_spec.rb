@@ -18,7 +18,7 @@ RSpec.describe SendOnSlackJob do
       hook = create(:integrations_hook, app_id: 'slack', account: account)
       allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
       expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message], hook: hook)
-      described_class.perform_now(message: event_data[:message], hook: hook)
+      described_class.perform_now(event_data[:message], hook)
     end
 
     it 'calls Integrations::Slack::SendOnSlackService when its a slack hook for template message' do
@@ -26,7 +26,7 @@ RSpec.describe SendOnSlackJob do
       hook = create(:integrations_hook, app_id: 'slack', account: account)
       allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
       expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message], hook: hook)
-      described_class.perform_now(message: event_data[:message], hook: hook)
+      described_class.perform_now(event_data[:message], hook)
     end
   end
 end
