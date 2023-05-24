@@ -1,8 +1,8 @@
 <template>
   <div class="column content-box">
     <!-- List Audit Logs -->
-    <div class="row">
-      <div class="small-8 columns">
+    <div class="">
+      <div class="">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
