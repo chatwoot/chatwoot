@@ -1,7 +1,7 @@
 <template>
   <div class="message-text__wrap" :class="attachmentTypeClasses">
     <img
-      v-if="isImage"
+      v-if="isImage && !isImageError"
       :src="attachment.data_url"
       @click="onClick"
       @error="onImgError()"
@@ -46,9 +46,9 @@ export default {
   data() {
     return {
       show: false,
+      isImageError: false,
     };
   },
-
   computed: {
     ...mapGetters({
       currentChatAttachments: 'getSelectedChatAttachments',
@@ -78,6 +78,11 @@ export default {
       return attachments;
     },
   },
+  watch: {
+    attachment() {
+      this.isImageError = false;
+    },
+  },
   methods: {
     onClose() {
       this.show = false;
@@ -90,6 +95,7 @@ export default {
       this.show = true;
     },
     onImgError() {
+      this.isImageError = true;
       this.$emit('error');
     },
   },

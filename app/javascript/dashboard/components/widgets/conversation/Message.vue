@@ -51,10 +51,9 @@
           <div v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image-audio-video
               v-if="
-                (attachment.file_type === 'image' ||
+                attachment.file_type === 'image' ||
                   attachment.file_type === 'audio' ||
-                  attachment.file_type === 'video') &&
-                  !hasImageError
+                  attachment.file_type === 'video'
               "
               :attachment="attachment"
               @error="onImageLoadError"
