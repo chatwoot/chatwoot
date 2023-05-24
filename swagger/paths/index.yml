@@ -267,6 +267,12 @@
     - $ref: '#/parameters/conversation_id'
   post:
     $ref: ./application/conversation/toggle_status.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_priority:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/toggle_priority.yml
 
 # Conversations Assignments
 
