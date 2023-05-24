@@ -16,7 +16,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def render_create_success
-    create_audit_event
     render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
   end
 
@@ -37,10 +36,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     user = User.find_by(email: params[:email])
     @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
   end
-
-  def create_audit_event
-    pass
-  end
 end
 
-DeviseOverrides::SessionsController.prepend_mod_with('DeviseOverrides::EnterpriseSessionsController')
+DeviseOverrides::SessionsController.prepend_mod_with('DeviseOverrides::SessionsController')
