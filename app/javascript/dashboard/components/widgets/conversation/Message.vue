@@ -25,10 +25,11 @@
         <blockquote v-if="storyReply" class="story-reply-quote">
           <span>{{ $t('CONVERSATION.REPLIED_TO_STORY') }}</span>
           <bubble-image
-            v-if="!hasStoryError"
+            v-if="!hasStoryError && storyUrl"
             :url="storyUrl"
             @error="onStoryLoadError"
           />
+          <bubble-video v-if="hasStoryError && storyUrl" :url="storyUrl" />
         </blockquote>
         <bubble-text
           v-if="data.content"
