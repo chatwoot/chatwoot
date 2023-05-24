@@ -21,12 +21,9 @@ class HookJob < ApplicationJob
 
     message = event_data[:message]
     if message.attachments.blank?
-      ::SendOnSlackJob.perform_later(message: message,
-                                     hook: hook)
+      ::SendOnSlackJob.perform_later(message, hook)
     else
-      ::SendOnSlackJob.set(wait: 2.seconds).perform_later(
-        message: message, hook: hook
-      )
+      ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
     end
   end
 
