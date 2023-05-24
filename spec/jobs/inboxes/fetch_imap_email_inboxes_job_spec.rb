@@ -39,10 +39,8 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
     end
 
     it 'calls ms graph channel for multi tenant app' do
-      stub_request(:get, 'https://graph.microsoft.com/v1.0/me/messages?$filter=receivedDateTime%20ge%202023-05-23T00:00:00Z%20and%20receivedDateTime%20le%202023-05-25T00:00:00Z&$select=id&$top=1000')
-
       with_modified_env AZURE_TENANT_ID: nil do
-        expect(Inboxes::FetchMsGraphEmailForTenantJob).to receive(:perform_later).with(microsoft_imap_email_channel).once
+        expect(Inboxes::FetchImapEmailsJob).to receive(:perform_later).with(microsoft_imap_email_channel).once
 
         described_class.perform_now
       end

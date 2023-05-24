@@ -45,16 +45,15 @@ RSpec.describe Inboxes::FetchMsGraphEmailForTenantJob do
     end
 
     it 'fetch and process all emails' do
-      with_modified_env AZURE_TENANT_ID: 'azure_tenant_id' do
-        ms_imap_email_inbox = double
+      ms_imap_email_inbox = double
 
+      with_modified_env AZURE_TENANT_ID: 'azure_tenant_id' do
         email = Mail.new do
           to 'test@outlook.com'
           from 'test@gmail.com'
           subject :test.to_s
           body 'hello'
         end
-
         imap_fetch_mail = Net::IMAP::FetchData.new
         imap_fetch_mail.attr = { RFC822: email }.with_indifferent_access
 
