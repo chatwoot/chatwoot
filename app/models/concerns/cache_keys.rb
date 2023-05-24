@@ -4,11 +4,14 @@ module CacheKeys
   include CacheKeysHelper
   include Events::Types
 
-  @cacheable_models = [Label, Inbox, Team]
+  included do
+    class_attribute :cacheable_models
+    self.cacheable_models = [Label, Inbox, Team]
+  end
 
   def cache_keys
     keys = {}
-    @cacheable_models.each do |model|
+    self.class.cacheable_models.each do |model|
       keys[model.name.underscore.to_sym] = fetch_value_for_key(id, model.name.underscore)
     end
 
@@ -17,7 +20,7 @@ module CacheKeys
 
   def invalidate_cache_key_for(key)
     prefixed_cache_key = get_prefixed_cache_key(id, key)
-    Redis::Alfred.del(prefixed_cache_key)
+    Redis::Alfred.delete(prefixed_cache_key)
     dispatch_cache_update_event
   end
 
@@ -28,7 +31,7 @@ module CacheKeys
   end
 
   def reset_cache_keys
-    @cacheable_models.each do |model|
+    self.class.cacheable_models.each do |model|
       invalidate_cache_key_for(model.name.underscore)
     end
   end
