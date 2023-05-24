@@ -27,6 +27,12 @@ module CacheKeys
     dispatch_cache_udpate_event
   end
 
+  def reset_cache_keys
+    @cacheable_models.each do |model|
+      invalidate_cache_key_for(model.name.underscore)
+    end
+  end
+
   private
 
   def dispatch_cache_udpate_event
