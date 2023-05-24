@@ -4,12 +4,15 @@ module CacheKeys
   include CacheKeysHelper
   include Events::Types
 
+  @cacheable_models = [Label, Inbox, Team]
+
   def cache_keys
-    {
-      label: fetch_value_for_key(id, Label.name.underscore),
-      inbox: fetch_value_for_key(id, Inbox.name.underscore),
-      team: fetch_value_for_key(id, Team.name.underscore)
-    }
+    keys = {}
+    @cacheable_models.each do |model|
+      keys[model.name.underscore.to_sym] = fetch_value_for_key(id, model.name.underscore)
+    end
+
+    keys
   end
 
   def invalidate_cache_key_for(key)
