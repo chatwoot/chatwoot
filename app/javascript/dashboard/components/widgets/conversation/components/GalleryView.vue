@@ -20,13 +20,13 @@
       <div class="attachments-viewer">
         <div class="attachment-view">
           <img
-            v-if="activeFileTypes === 'image'"
+            v-if="isImage"
             :src="imageAttachmentSrc"
             class="modal-image skip-context-menu"
             @click.stop
           />
           <video
-            v-if="activeFileTypes === 'video'"
+            v-if="isVideo"
             :src="videoAttachmentSrc"
             controls
             playsInline
@@ -34,7 +34,7 @@
             @click.stop
           />
           <audio
-            v-else-if="activeFileTypes === 'audio'"
+            v-else-if="isAudio"
             controls
             class="skip-context-menu"
             @click.stop
@@ -103,6 +103,15 @@ export default {
   computed: {
     hasMoreThanOneAttachment() {
       return this.allAttachments.length > 1;
+    },
+    isImage() {
+      return this.activeFileTypes === 'image';
+    },
+    isVideo() {
+      return this.activeFileTypes === 'video';
+    },
+    isAudio() {
+      return this.activeFileTypes === 'audio';
     },
   },
   mounted() {
