@@ -35,12 +35,8 @@
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
               <td class="wrap-break-words">
-                {{ auditLogItem.username }} {{ auditLogItem.action }}d
-                {{ auditLogItem.auditable_type }}
+                {{ generateLogText(auditLogItem) }}
               </td>
-              <!-- <td class="wrap-break-words">
-                {{ auditLogItem.auditable_type }}.{{ auditLogItem.action }}
-              </td> -->
               <td class="wrap-break-words">
                 {{
                   messageTimestamp(
@@ -96,6 +92,31 @@ export default {
     this.$store.dispatch('auditlogs/fetch', { page: 1 });
   },
   methods: {
+    generateLogText(auditLogItem) {
+      const username =
+        auditLogItem.username !== null
+          ? auditLogItem.username
+          : this.$t('AUDIT_LOGS.ACTION.SYSTEM');
+      if (auditLogItem.action === 'create') {
+        return `${username} ${this.$t('AUDIT_LOGS.ACTION.ADD')} ${
+          auditLogItem.auditable_type
+        }`;
+      }
+      if (auditLogItem.action === 'destroy') {
+        return `${username} ${this.$t('AUDIT_LOGS.ACTION.DELETE')} ${
+          auditLogItem.auditable_type
+        }`;
+      }
+      if (auditLogItem.action === 'update') {
+        return `${username} ${this.$t('AUDIT_LOGS.ACTION.EDIT')} ${
+          auditLogItem.auditable_type
+        }`;
+      }
+      if (auditLogItem.action === 'sign_in') {
+        return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_IN')}`;
+      }
+      return `${username} did ${auditLogItem.action} on ${auditLogItem.auditable_type}`;
+    },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       try {
