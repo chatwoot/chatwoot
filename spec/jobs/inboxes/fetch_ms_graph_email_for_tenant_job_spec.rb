@@ -14,12 +14,21 @@ RSpec.describe Inboxes::FetchMsGraphEmailForTenantJob do
 
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('scheduled_jobs')
   end
 
   context 'when imap fetch new emails for microsoft mailer' do
     before do
-      stub_request(:get, 'https://graph.microsoft.com/v1.0/me/messages?$filter=receivedDateTime%20ge%202023-05-01T00:00:00Z%20and%20receivedDateTime%20le%202023-05-03T00:00:00Z&$select=id&$top=1000')
+      stub_request(:get, 'https://graph.microsoft.com/v1.0/me/messages?$filter=receivedDateTime%20ge%202023-05-23T00:00:00Z%20and%20receivedDateTime%20le%202023-05-25T00:00:00Z&$select=id&$top=1000')
+        .with(
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Authorization' => 'Bearer access_token',
+            'User-Agent' => 'Ruby'
+          }
+        )
+        .to_return(status: 200, body: '', headers: {})
     end
 
     it 'fetch and process all emails' do
