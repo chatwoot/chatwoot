@@ -259,6 +259,10 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error
@@ -281,6 +285,7 @@ const actions = {
         conversationId: message.conversation_id,
         canReply: true,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
   },
 
@@ -295,6 +300,7 @@ const actions = {
     try {
       const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
+      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
     } catch (error) {
       throw new Error(error);
     }
