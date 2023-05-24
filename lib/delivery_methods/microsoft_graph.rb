@@ -24,4 +24,3 @@ class ::MicrosoftGraph
     graph.post_to_api('me/sendMail', headers, body)
   end
 end
-
