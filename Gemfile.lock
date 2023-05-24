@@ -305,6 +305,7 @@ GEM
     google-cloud-translate-v3 (0.6.0)
       gapic-common (>= 0.17.1, < 2.a)
       google-cloud-errors (~> 1.0)
+    google-protobuf (3.23.1)
     google-protobuf (3.23.1-arm64-darwin)
     google-protobuf (3.23.1-x86_64-darwin)
     google-protobuf (3.23.1-x86_64-linux)
@@ -400,6 +401,8 @@ GEM
       launchy (>= 2.2, < 3)
     libdatadog (2.0.0.1.0)
     libdatadog (2.0.0.1.0-x86_64-linux)
+    libddwaf (1.8.2.0.0)
+      ffi (~> 1.0)
     libddwaf (1.8.2.0.0-arm64-darwin)
       ffi (~> 1.0)
     libddwaf (1.8.2.0.0-x86_64-darwin)
@@ -436,6 +439,7 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.2)
     minitest (5.18.0)
     mock_redis (0.36.0)
       ruby2_keywords
@@ -460,6 +464,9 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.5.9)
+    nokogiri (1.15.1)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.1-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.1-x86_64-darwin)
@@ -782,6 +789,7 @@ GEM
 
 PLATFORMS
   arm64-darwin
+  ruby
   x86_64-darwin
   x86_64-linux
 
@@ -909,4 +917,4 @@ RUBY VERSION
    ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.12
+   2.4.10
