@@ -25,11 +25,12 @@ class CustomFilter < ApplicationRecord
   validate :validate_number_of_filters
 
   def records_count
-    fetch_record_count_from_redis || set_record_count_in_redis
+    fetch_record_count_from_redis
   end
 
   def filter_records
-    Conversations::FilterService.new(query.with_indifferent_access, Current.user).perform
+    user = filter.account.users.try(:first)
+    Conversations::FilterService.new(query.with_indifferent_access, user).perform
   end
 
   def set_record_count_in_redis
@@ -39,7 +40,7 @@ class CustomFilter < ApplicationRecord
   end
 
   def fetch_record_count_from_redis
-    Redis::Alfred.get(filter_count_key)
+    Redis::Alfred.get(filter_count_key, nil)
   end
 
   def filter_count_key
