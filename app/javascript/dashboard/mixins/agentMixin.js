@@ -11,22 +11,6 @@ export default {
         this.inboxId
       );
     },
-    assignableAgentsWithDynamicPresence() {
-      const agents = this.assignableAgents || [];
-
-      // Here we are updating the availability status of the current user dynamically (live) based on the current account availability status
-      const agentsWithDynamicPresenceUpdate = agents.map(item =>
-        item.id === this.currentUser.id
-          ? {
-              ...item,
-              availability_status: this.currentUser.accounts.find(
-                account => account.id === this.currentAccountId
-              ).availability_status,
-            }
-          : item
-      );
-      return agentsWithDynamicPresenceUpdate;
-    },
     isAgentSelected() {
       return this.currentChat?.meta?.assignee;
     },
@@ -41,10 +25,13 @@ export default {
       };
     },
     agentsList() {
-      const agents = this.assignableAgentsWithDynamicPresence;
+      const agents = this.assignableAgents || [];
+      const formattedAgentsByPresence = this.getFormattedAgentsByPresence(
+        agents
+      );
       const none = this.createNoneAgent;
       const filteredAgentsByAvailability = this.sortedAgentsByAvailability(
-        agents
+        formattedAgentsByPresence
       );
       const filteredAgents = [
         ...(this.isAgentSelected ? [none] : []),
@@ -65,6 +52,20 @@ export default {
       const offlineAgents = this.getAgentsByAvailability(agents, 'offline');
       const filteredAgents = [...onlineAgents, ...busyAgents, ...offlineAgents];
       return filteredAgents;
+    },
+    getFormattedAgentsByPresence(agents) {
+      // Here we are updating the availability status of the current user dynamically (live) based on the current account availability status
+      const agentsWithDynamicPresenceUpdate = agents.map(item =>
+        item.id === this.currentUser.id
+          ? {
+              ...item,
+              availability_status: this.currentUser.accounts.find(
+                account => account.id === this.currentAccountId
+              ).availability_status,
+            }
+          : item
+      );
+      return agentsWithDynamicPresenceUpdate;
     },
   },
 };

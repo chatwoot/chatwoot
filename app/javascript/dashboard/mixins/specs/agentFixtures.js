@@ -219,7 +219,7 @@ export default {
       role: 'agent',
     },
   ],
-  agentsWithDynamicPresenceOnline: [
+  formattedAgentsByPresenceOnline: [
     {
       account_id: 1,
       availability_status: 'online',
@@ -231,7 +231,7 @@ export default {
       role: 'agent',
     },
   ],
-  agentsWithDynamicPresenceOffline: [
+  formattedAgentsByPresenceOffline: [
     {
       account_id: 1,
       availability_status: 'offline',

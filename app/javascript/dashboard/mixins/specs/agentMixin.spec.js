@@ -25,44 +25,6 @@ describe('agentMixin', () => {
     store = new Vuex.Store({ getters });
   });
 
-  it('return agents with dynamic presence', () => {
-    const Component = {
-      render() {},
-      title: 'TestComponent',
-      mixins: [agentMixin],
-      data() {
-        return {
-          inboxId: 1,
-          currentChat: { meta: { assignee: { name: 'John' } } },
-        };
-      },
-      computed: {
-        currentUser() {
-          return {
-            id: 1,
-            accounts: [
-              {
-                id: 1,
-                availability_status: 'offline',
-                auto_offline: false,
-              },
-            ],
-          };
-        },
-        currentAccountId() {
-          return 1;
-        },
-        assignableAgents() {
-          return agentFixtures.agentsWithDynamicPresenceOnline;
-        },
-      },
-    };
-    const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.assignableAgentsWithDynamicPresence).toEqual(
-      agentFixtures.agentsWithDynamicPresenceOffline
-    );
-  });
-
   it('return agents by availability', () => {
     const Component = {
       render() {},
@@ -134,5 +96,45 @@ describe('agentMixin', () => {
     };
     const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.agentsList).toEqual(agentFixtures.formattedAgents);
+  });
+
+  it('return formatted agents by presence', () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [agentMixin],
+      data() {
+        return {
+          inboxId: 1,
+          currentChat: { meta: { assignee: { name: 'John' } } },
+        };
+      },
+      computed: {
+        currentUser() {
+          return {
+            id: 1,
+            accounts: [
+              {
+                id: 1,
+                availability_status: 'offline',
+                auto_offline: false,
+              },
+            ],
+          };
+        },
+        currentAccountId() {
+          return 1;
+        },
+        assignableAgents() {
+          return agentFixtures.allAgents;
+        },
+      },
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    expect(
+      wrapper.vm.getFormattedAgentsByPresence(
+        agentFixtures.formattedAgentsByPresenceOnline
+      )
+    ).toEqual(agentFixtures.formattedAgentsByPresenceOffline);
   });
 });

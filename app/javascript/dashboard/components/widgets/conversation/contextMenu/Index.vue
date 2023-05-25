@@ -207,7 +207,12 @@ export default {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
       ](this.inboxId);
-      const filteredAgents = this.sortedAgentsByAvailability(agents);
+      const formattedAgentsByPresence = this.getFormattedAgentsByPresence(
+        agents
+      );
+      const filteredAgents = this.sortedAgentsByAvailability(
+        formattedAgentsByPresence
+      );
       return filteredAgents;
     },
     assignableAgents() {
