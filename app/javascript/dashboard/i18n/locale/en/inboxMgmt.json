@@ -391,6 +391,10 @@
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
       },
+      "ENABLE_AGENT_NAME": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
@@ -454,7 +458,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_AGENT_NAME": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_AGENT_NAME_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
