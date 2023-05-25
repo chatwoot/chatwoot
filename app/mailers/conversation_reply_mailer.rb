@@ -87,6 +87,14 @@ class ConversationReplyMailer < ApplicationMailer
     @message || @messages.last
   end
 
+  def assignee_name
+    if @inbox.agent_name_enabled?
+      @assignee_name ||= @agent&.available_name || 'Notifications'
+    else
+      @assignee_name = 'Notifications'
+    end
+  end
+
   def mail_subject
     subject = @conversation.additional_attributes['mail_subject']
     return "[##{@conversation.display_id}] #{I18n.t('conversations.reply.email_subject')}" if subject.nil?
