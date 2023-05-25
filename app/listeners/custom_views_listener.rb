@@ -14,6 +14,8 @@ class CustomViewsListener < BaseListener
       filters << filter.id if records.present?
     end
 
-    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
+    # Update redis
+
+    # ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
   end
 end
