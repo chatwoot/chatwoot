@@ -38,18 +38,15 @@ COPY Gemfile Gemfile.lock ./
 # https://github.com/chatwoot/chatwoot/issues/4045
 # libc6-compat and gcompat are required for commonmark during asset precompile
 RUN bundle config set --local force_ruby_platform true
-RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips libc6-compat gcompat rustup rust cargo
+RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips libc6-compat gcompat
 
 # Install Rustup
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN echo 'source $HOME/.cargo/env' >> ~/.bashrc
 
-# Set the desired Rust version
-RUN $HOME/.cargo/bin/rust
-
-# set the Rust version to 1.64.0 to build commonmarker gem
-RUN rustup install 1.64.0
-RUN rustup default 1.64.0
+# Set Rust version
+RUN $HOME/.cargo/bin/rustup install 1.64.0
+RUN $HOME/.cargo/bin/rustup default 1.64.0
 
 # Do not install development or test gems in production
 RUN if [ "$RAILS_ENV" = "production" ]; then \
