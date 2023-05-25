@@ -2180,7 +2180,7 @@
 
 "@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#121d8f3608fe9ebc2a973e964acabee87fc376cb"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#218f22b79d10f0a1240a125b0887b19186205ea6"
   dependencies:
     markdown-it-sup "^1.0.0"
     prosemirror-commands "^1.1.4"
