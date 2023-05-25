@@ -40,6 +40,11 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle config set --local force_ruby_platform true
 RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips libc6-compat gcompat rustup rust cargo
 
+
+# set the Rust version to 1.64.0 to build commonmarker gem
+RUN rustup install 1.64.0
+RUN rustup default 1.64.0
+
 # Do not install development or test gems in production
 RUN if [ "$RAILS_ENV" = "production" ]; then \
   bundle config set without 'development test'; bundle install -j 4 -r 3; \
