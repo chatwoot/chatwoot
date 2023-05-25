@@ -219,4 +219,28 @@ export default {
       role: 'agent',
     },
   ],
+  agentsWithDynamicPresenceOnline: [
+    {
+      account_id: 1,
+      availability_status: 'online',
+      available_name: 'Abraham',
+      confirmed: true,
+      email: 'abr@chatwoot.com',
+      id: 1,
+      name: 'Abraham Keta',
+      role: 'agent',
+    },
+  ],
+  agentsWithDynamicPresenceOffline: [
+    {
+      account_id: 1,
+      availability_status: 'offline',
+      available_name: 'Abraham',
+      confirmed: true,
+      email: 'abr@chatwoot.com',
+      id: 1,
+      name: 'Abraham Keta',
+      role: 'agent',
+    },
+  ],
 };
