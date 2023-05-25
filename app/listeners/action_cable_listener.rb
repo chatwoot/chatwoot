@@ -156,14 +156,13 @@ class ActionCableListener < BaseListener
     broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.push_event_data)
   end
 
-  # def custom_filter_updated(_event)
-  #   current_user.custom_filters.where(
-  #     account_id: Current.account.id,
-  #     filter_type: permitted_params[:filter_type] || DEFAULT_FILTER_TYPE
-  #   )
+  def custom_filter_updated(event)
+    custom_filter = event[:custom_filter]
+    account = custom_filter.account
+    tokens = user_tokens(account, account.agents)
 
-  #   broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.push_event_data)
-  # end
+    broadcast(account, tokens, CUSTOM_FILTER_UPDATED, custom_filter.push_event_data)
+  end
 
   private
 

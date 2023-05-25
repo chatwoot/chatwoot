@@ -27,6 +27,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
+      'custom_filter.updated': this.onCustomFilterUpdated,
     };
   }
 
@@ -202,6 +203,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
   };
+
+  onCustomFilterUpdated = data => {
+    //fetchSavedFilteredConversations
+  }
 }
 
 export default {

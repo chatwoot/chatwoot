@@ -4,18 +4,13 @@ class CustomViewsListener < BaseListener
     account = conversation.account
 
     account.custom_filters.each do |filter|
-      conversations = Conversation.where(id: conversation.id)
+      records = filter.filter_records
 
-      records = Conversations::FilterService.new(
-        filter.query.with_indifferent_access, Current.user
-      ).conversation_query_builder(conversations)
+      unless records[:count][:all_count] == Redis::Alfred.get(filter.filter_count_key)
+        Redis::Alfred.set(filter.filter_count_key, records[:count][:all_count])
 
-      filters = []
-      filters << filter.id if records.present?
+        Rails.configuration.dispatcher.dispatch(CUSTOM_FILTER_UPDATED, Time.zone.now, custom_filter: filter)
+      end
     end
-
-    # Update redis
-
-    # ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
   end
 end

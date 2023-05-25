@@ -29,4 +29,14 @@ class CustomFilter < ApplicationRecord
 
     errors.add :account_id, I18n.t('errors.custom_filters.number_of_records')
   end
+
+  def push_event_data
+    {
+      id: id,
+      name: name,
+      filter_type: filter_type,
+      query: query,
+      count: fetch_record_count_from_redis
+    }
+  end
 end
