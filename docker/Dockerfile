@@ -40,6 +40,12 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle config set --local force_ruby_platform true
 RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips libc6-compat gcompat rustup rust cargo
 
+# Install Rustup
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN echo 'source $HOME/.cargo/env' >> ~/.bashrc
+
+# Set the desired Rust version
+RUN $HOME/.cargo/bin/rust
 
 # set the Rust version to 1.64.0 to build commonmarker gem
 RUN rustup install 1.64.0
