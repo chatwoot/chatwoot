@@ -69,17 +69,19 @@
     <%= yield %>
     <% if @global_config['CHATWOOT_INBOX_TOKEN'].present? %>
     <script>
-      window.chatwootSettings = { hideMessageBubble: true, position: 'left' };
+      window.chatwootSettings = { hideMessageBubble: true, position: 'left', baseDomain: '.herokuapp.com' };
       (function(d,t) {
-        var BASE_URL='<%= ENV.fetch('FRONTEND_URL', 'https://app.chatwoot.com') %>';
+        var BASE_URL="https://app.chatwoot.com";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+"/packs/js/sdk.js"; g.defer=true; g.async=true;
+        g.src=BASE_URL+"/packs/js/sdk.js";
+        g.defer = true;
+        g.async = true;
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
           window.chatwootSDK.run({
-            websiteToken: '<%= @global_config['CHATWOOT_INBOX_TOKEN'] %>',
-            baseUrl: BASE_URL,
-          });
+            websiteToken: 'F3hF4iPv5ojzpba19jPULctk',
+            baseUrl: BASE_URL
+          })
         }
       })(document,"script");
     </script>
