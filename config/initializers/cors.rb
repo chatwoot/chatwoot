@@ -1,12 +1,6 @@
 # config/initializers/cors.rb
 # ref: https://github.com/cyu/rack-cors
 
-# rubocop:disable Rails/ApplicationRecord
-class WebWidget < ActiveRecord::Base
-  self.table_name = 'channel_web_widgets'
-end
-# rubocop:enable Rails/ApplicationRecord
-
 unless ENV.fetch('FRONTEND_URL', nil).nil?
   Rails.application.config.middleware.insert_before 0, Rack::Cors do
     allow do
@@ -23,7 +17,13 @@ unless ENV.fetch('FRONTEND_URL', nil).nil?
   end
 end
 
-if ENV.fetch('CORS_WIDGET_CONFIG', true)
+if ENV.fetch('CORS_WIDGET_CONFIG', false)
+  # rubocop:disable Rails/ApplicationRecord
+  class WebWidget < ActiveRecord::Base
+    self.table_name = 'channel_web_widgets'
+  end
+  # rubocop:enable Rails/ApplicationRecord
+
   WebWidget.all.each do |widget|
     # font cors issue with CDN
     # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
