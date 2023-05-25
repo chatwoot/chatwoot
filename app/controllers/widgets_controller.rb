@@ -9,6 +9,7 @@ class WidgetsController < ActionController::Base
   before_action :set_token
   before_action :set_contact
   before_action :build_contact
+  before_action :check_domain
   after_action :allow_iframe_requests
 
   private
@@ -22,6 +23,13 @@ class WidgetsController < ActionController::Base
   rescue ActiveRecord::RecordNotFound
     Rails.logger.error('web widget does not exist')
     render json: { error: 'web widget does not exist' }, status: :not_found
+  end
+
+  def check_domain
+    return if request.base_url.downcase.start_with? @web_widget.website_url.downcase
+
+    Rails.logger.error('web widget does not match with expected domain')
+    render json: { error: 'web widget does not match with expected domain' }, status: :not_found
   end
 
   def set_token
