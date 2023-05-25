@@ -37,7 +37,12 @@
                 {{ auditLogItem.remote_address }}
               </td>
               <td class="wrap-break-words">
-                {{ dynamicTime(auditLogItem.created_at) }}
+                {{
+                  messageTimestamp(
+                    auditLogItem.created_at,
+                    'MMM dd, yyyy hh:mm a'
+                  )
+                }}
               </td>
             </tr>
           </tbody>

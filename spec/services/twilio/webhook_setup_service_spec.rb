@@ -3,10 +3,10 @@ require 'rails_helper'
 describe Twilio::WebhookSetupService do
   include Rails.application.routes.url_helpers
 
-  let(:twilio_client) { instance_double(::Twilio::REST::Client) }
+  let(:twilio_client) { instance_double(Twilio::REST::Client) }
 
   before do
-    allow(::Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+    allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
   end
 
   describe '#perform' do

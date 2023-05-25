@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Avatar::AvatarFromUrlJob, type: :job do
+RSpec.describe Avatar::AvatarFromUrlJob do
   let(:avatarable) { create(:contact) }
   let(:avatar_url) { 'https://example.com/avatar.png' }
 
