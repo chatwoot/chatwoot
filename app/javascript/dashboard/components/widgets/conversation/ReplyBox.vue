@@ -503,7 +503,7 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAWhatsAppChannel || this.isAPIInbox) {
         return AUDIO_FORMATS.OGG;
       }
       return AUDIO_FORMATS.WAV;
