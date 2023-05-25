@@ -132,6 +132,7 @@
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import BubbleActions from './bubble/Actions';
 import BubbleFile from './bubble/File';
+import BubbleImage from './bubble/Image';
 import BubbleImageAudioVideo from './bubble/ImageAudioVideo';
 import BubbleIntegration from './bubble/Integration.vue';
 import BubbleLocation from './bubble/Location';
@@ -152,6 +153,7 @@ export default {
   components: {
     BubbleActions,
     BubbleFile,
+    BubbleImage,
     BubbleImageAudioVideo,
     BubbleIntegration,
     BubbleLocation,
