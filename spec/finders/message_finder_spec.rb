@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::MessageFinder do
+describe MessageFinder do
   subject(:message_finder) { described_class.new(conversation, params) }
 
   let!(:account) { create(:account) }

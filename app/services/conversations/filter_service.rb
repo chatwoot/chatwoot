@@ -62,8 +62,9 @@ class Conversations::FilterService < FilterService
 
   def conversations
     @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
     )
+
     @conversations.latest.page(current_page)
   end
 end
