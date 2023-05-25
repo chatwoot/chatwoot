@@ -26,12 +26,10 @@ export default {
     },
     agentsList() {
       const agents = this.assignableAgents || [];
-      const formattedAgentsByPresence = this.getFormattedAgentsByPresence(
-        agents
-      );
+      const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
       const none = this.createNoneAgent;
       const filteredAgentsByAvailability = this.sortedAgentsByAvailability(
-        formattedAgentsByPresence
+        agentsByUpdatedPresence
       );
       const filteredAgents = [
         ...(this.isAgentSelected ? [none] : []),
@@ -53,7 +51,7 @@ export default {
       const filteredAgents = [...onlineAgents, ...busyAgents, ...offlineAgents];
       return filteredAgents;
     },
-    getFormattedAgentsByPresence(agents) {
+    getAgentsByUpdatedPresence(agents) {
       // Here we are updating the availability status of the current user dynamically (live) based on the current account availability status
       const agentsWithDynamicPresenceUpdate = agents.map(item =>
         item.id === this.currentUser.id

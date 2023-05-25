@@ -207,11 +207,9 @@ export default {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
       ](this.inboxId);
-      const formattedAgentsByPresence = this.getFormattedAgentsByPresence(
-        agents
-      );
+      const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
       const filteredAgents = this.sortedAgentsByAvailability(
-        formattedAgentsByPresence
+        agentsByUpdatedPresence
       );
       return filteredAgents;
     },

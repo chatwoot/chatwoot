@@ -132,7 +132,7 @@ describe('agentMixin', () => {
     };
     const wrapper = shallowMount(Component, { store, localVue });
     expect(
-      wrapper.vm.getFormattedAgentsByPresence(
+      wrapper.vm.getAgentsByUpdatedPresence(
         agentFixtures.formattedAgentsByPresenceOnline
       )
     ).toEqual(agentFixtures.formattedAgentsByPresenceOffline);
