@@ -35,7 +35,6 @@ jobs:
           ECR_REGISTRY: 823532849758.dkr.ecr.us-east-1.amazonaws.com
           ECR_REPOSITORY: conversations/birdwoot/staging/sidekiq
           DOCKERFILE_PATH: docker/dockerfiles/sidekiq.Dockerfile
-          CORS_WIDGET_CONFIG: false
 
       # Send status notification
       - name: Build Slack notification payload
