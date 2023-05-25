@@ -69,6 +69,7 @@ x-tagGroups:
       - Teams
       - Webhooks
       - Automation Rule
+      - Help Center
   - name: Client
     tags:
       - Contacts API
