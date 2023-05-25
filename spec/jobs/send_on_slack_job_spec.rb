@@ -11,22 +11,25 @@ RSpec.describe SendOnSlackJob do
     let(:process_service) { double }
 
     before do
+      stub_request(:post, 'https://slack.com/api/chat.postMessage')
       allow(process_service).to receive(:perform)
     end
 
     it 'calls Integrations::Slack::SendOnSlackService when its a slack hook' do
       hook = create(:integrations_hook, app_id: 'slack', account: account)
-      allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
-      expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message], hook: hook)
-      described_class.perform_now(message: event_data[:message], hook: hook)
+      slack_service_instance = Integrations::Slack::SendOnSlackService.new(message: event_data[:message], hook: hook)
+      expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message],
+                                                                            hook: hook).and_return(slack_service_instance)
+      described_class.perform_now(event_data[:message], hook)
     end
 
     it 'calls Integrations::Slack::SendOnSlackService when its a slack hook for template message' do
       event_data = { message: create(:message, account: account, message_type: :template) }
       hook = create(:integrations_hook, app_id: 'slack', account: account)
-      allow(Integrations::Slack::SendOnSlackService).to receive(:new).and_return(process_service)
-      expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message], hook: hook)
-      described_class.perform_now(message: event_data[:message], hook: hook)
+      slack_service_instance = Integrations::Slack::SendOnSlackService.new(message: event_data[:message], hook: hook)
+      expect(Integrations::Slack::SendOnSlackService).to receive(:new).with(message: event_data[:message],
+                                                                            hook: hook).and_return(slack_service_instance)
+      described_class.perform_now(event_data[:message], hook)
     end
   end
 end
