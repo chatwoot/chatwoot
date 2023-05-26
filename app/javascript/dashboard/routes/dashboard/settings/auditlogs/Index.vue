@@ -85,40 +85,47 @@ export default {
       records: 'auditlogs/getAuditLogs',
       uiFlags: 'auditlogs/getUIFlags',
       meta: 'auditlogs/getMeta',
+      agentList: 'agents/getAgents',
     }),
   },
   mounted() {
     // Fetch API Call
     this.$store.dispatch('auditlogs/fetch', { page: 1 });
+    this.$store.dispatch('agents/get');
   },
   methods: {
+    getAgentName(email) {
+      if (email === null) {
+        return this.$t('AUDIT_LOGS.ACTION.SYSTEM');
+      }
+      const agentName = this.agentList.find(agent => agent.email === email)
+        ?.name;
+      // If agent does not exist(removed/deleted), return email from audit log
+      return agentName || email;
+    },
     generateLogText(auditLogItem) {
-      const username =
-        auditLogItem.username !== null
-          ? auditLogItem.username
-          : this.$t('AUDIT_LOGS.ACTION.SYSTEM');
+      const username = this.getAgentName(auditLogItem.username);
       const auditableType = auditLogItem.auditable_type.toLowerCase();
       const action = auditLogItem.action.toLowerCase();
 
-      if (auditLogItem.action === 'create') {
-        return `${username} ${this.$t(
-          'AUDIT_LOGS.ACTION.ADD'
-        )} ${auditableType}`;
+      switch (auditLogItem.action) {
+        case 'create':
+          return `${username} ${this.$t(
+            'AUDIT_LOGS.ACTION.ADD'
+          )} ${auditableType}`;
+        case 'destroy':
+          return `${username} ${this.$t(
+            'AUDIT_LOGS.ACTION.DELETE'
+          )} ${auditableType}`;
+        case 'update':
+          return `${username} ${this.$t(
+            'AUDIT_LOGS.ACTION.EDIT'
+          )} ${auditableType}`;
+        case 'sign_in':
+          return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_IN')}`;
+        default:
+          return `${username} did ${action} on ${auditableType}`;
       }
-      if (auditLogItem.action === 'destroy') {
-        return `${username} ${this.$t(
-          'AUDIT_LOGS.ACTION.DELETE'
-        )} ${auditableType}`;
-      }
-      if (auditLogItem.action === 'update') {
-        return `${username} ${this.$t(
-          'AUDIT_LOGS.ACTION.EDIT'
-        )} ${auditableType}`;
-      }
-      if (auditLogItem.action === 'sign_in') {
-        return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_IN')}`;
-      }
-      return `${username} did ${action} on ${auditableType}`;
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
@@ -137,10 +144,12 @@ export default {
 .remote-address {
   width: 14rem;
 }
+
 .wrap-break-words {
   word-break: break-all;
   white-space: normal;
 }
+
 .full-width-table {
   width: 100%;
 }
