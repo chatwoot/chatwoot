@@ -1,0 +1,20 @@
+tags:
+  - Help Center
+operationId: add-new-portal-to-account
+summary: Add a new portal
+description: Add a new portal to account
+security:
+  - userApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/portal_create_update_payload'
+responses:
+  '200':
+    description: Success
+    schema:
+      $ref: '#/definitions/portal'
+  '403':
+    description: Access denied
