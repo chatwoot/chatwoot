@@ -16,10 +16,10 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table full-width-table"
+          class="woot-table width-100"
         >
           <colgroup>
-            <col style="width: 60%" />
+            <col class="column-activity" />
             <col />
             <col />
           </colgroup>
@@ -141,10 +141,6 @@ export default {
   word-break: break-all;
   white-space: normal;
 }
-.full-width-table {
-  width: 100%;
-}
-
 .column-activity {
   width: 60%;
 }
