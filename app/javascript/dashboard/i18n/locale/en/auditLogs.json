@@ -24,6 +24,7 @@
       "EDIT": "updated",
       "DELETE": "deleted",
       "SIGN_IN": "signed in",
+      "SIGN_OUT": "signed out",
       "SYSTEM": "System"
     }
   }

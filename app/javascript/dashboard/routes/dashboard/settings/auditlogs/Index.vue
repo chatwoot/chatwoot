@@ -123,6 +123,8 @@ export default {
           )} ${auditableType}`;
         case 'sign_in':
           return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_IN')}`;
+        case 'sign_out':
+          return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_OUT')}`;
         default:
           return `${username} did ${action} on ${auditableType}`;
       }
