@@ -28,6 +28,12 @@
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
         },
+        "SOURCE": {
+          "CSV": "CSV",
+          "LABEL": "Data origin",
+          "AUDIENCE": "Labels",
+          "ERROR": "Source data is required"
+        },
         "INBOX": {
           "LABEL": "Select Inbox",
           "PLACEHOLDER": "Select Inbox",

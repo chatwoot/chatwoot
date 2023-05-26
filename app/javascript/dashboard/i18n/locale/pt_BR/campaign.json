@@ -28,6 +28,12 @@
           "PLACEHOLDER": "Selecionar marcadores dos clientes",
           "ERROR": "Público é necessário"
         },
+        "SOURCE": {
+          "CSV": "CSV",
+          "LABEL": "Origem dados",
+          "AUDIENCE": "Marcadores",
+          "ERROR": "Fonte de dados obrigatória"
+        },
         "INBOX": {
           "LABEL": "Selecionar caixa de entrada",
           "PLACEHOLDER": "Selecionar caixa de entrada",
