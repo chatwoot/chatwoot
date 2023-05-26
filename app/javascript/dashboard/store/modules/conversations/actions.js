@@ -88,7 +88,7 @@ const actions = {
 
   fetchAllAttachments: async ({ commit }, conversationId) => {
     try {
-      const { data } = await MessageApi.getAllAttachments(conversationId);
+      const { data } = await ConversationApi.getAllAttachments(conversationId);
       commit(types.SET_ALL_ATTACHMENTS, {
         id: conversationId,
         data: data.payload,

@@ -210,5 +210,12 @@ describe('#ConversationAPI', () => {
         { params: { page: payload.page } }
       );
     });
+
+    it('#getAllAttachments', () => {
+      conversationAPI.getAllAttachments(1);
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/conversations/1/attachments'
+      );
+    });
   });
 });
