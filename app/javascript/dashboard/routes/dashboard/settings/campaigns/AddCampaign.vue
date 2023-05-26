@@ -61,8 +61,21 @@
           class="multiselect-wrap--small"
           :class="{ error: $v.selectedAudience.$error }"
         >
-          {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.LABEL') }}
+          {{ $t('CAMPAIGN.ADD.FORM.SOURCE.LABEL') }}
+          <br />
+
+          <input id="one" v-model="picked" type="radio" value="csv" />
+          <label for="one">
+            {{ $t('CAMPAIGN.ADD.FORM.SOURCE.CSV') }}
+          </label>
+          <input id="two" v-model="picked" type="radio" value="label" />
+          <label for="two">
+            {{ $t('CAMPAIGN.ADD.FORM.SOURCE.AUDIENCE') }}
+          </label>
+          <br />
+
           <multiselect
+            v-if="picked === 'label'"
             v-model="selectedAudience"
             :options="audienceList"
             track-by="id"
@@ -78,6 +91,16 @@
             @blur="$v.selectedAudience.$touch"
             @select="$v.selectedAudience.$touch"
           />
+          <p>assadasdasdssadasd</p>
+          <!-- <input v-if="picked=='csv'" type="file" id="file-input" accept=".csv" /> -->
+          <input
+            v-if="picked === 'csv'"
+            ref="fileInput"
+            type="file"
+            accept=".csv"
+            @change="handleCsvUpload"
+          />
+
           <span v-if="$v.selectedAudience.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.ERROR') }}
           </span>
@@ -201,6 +224,7 @@ export default {
       scheduledAt: null,
       selectedAudience: [],
       senderList: [],
+      picked: '',
     };
   },
 
@@ -359,6 +383,28 @@ export default {
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
       }
+    },
+    handleCsvUpload(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        const csvContent = e.target.result;
+        const data = csvContent.split('\n').map(el => el.trim().split(','));
+        const headers = data.shift(); // Remove os headers do csv
+        const list = [];
+
+        data.forEach(all_data => {
+          let obj = {};
+          // Cria objetos com os dados coletados no csv
+          const keys = Object.keys(all_data);
+          keys.forEach((element, index) => {
+            obj[headers[index]] = all_data[index] ? all_data[index] : null;
+          });
+          list.push(obj);
+        });
+      };
+      reader.readAsText(file);
     },
   },
 };
