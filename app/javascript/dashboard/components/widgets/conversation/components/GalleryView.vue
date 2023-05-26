@@ -21,12 +21,14 @@
         <div class="attachment-view">
           <img
             v-if="isImage"
+            :key="imageAttachmentSrc"
             :src="imageAttachmentSrc"
             class="modal-image skip-context-menu"
             @click.stop
           />
           <video
             v-if="isVideo"
+            :key="videoAttachmentSrc"
             :src="videoAttachmentSrc"
             controls
             playsInline
@@ -35,6 +37,7 @@
           />
           <audio
             v-else-if="isAudio"
+            :key="audioAttachmentSrc"
             controls
             class="skip-context-menu"
             @click.stop
