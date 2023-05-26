@@ -128,23 +128,22 @@ export default {
       this.activeImageIndex = index;
       this.setImageAndVideoSrc(attachment);
     },
+    setAttachmentSrc(type, src) {
+      this[type + 'AttachmentSrc'] = src;
+      this.activeFileTypes = type;
+    },
     setImageAndVideoSrc(attachment) {
       const { file_type } = attachment;
 
-      const setAttachmentSrc = (type, src) => {
-        this[type + 'AttachmentSrc'] = src;
-        this.activeFileTypes = type;
-      };
-
       switch (file_type) {
         case 'image':
-          setAttachmentSrc('image', attachment.data_url);
+          this.setAttachmentSrc('image', attachment.data_url);
           break;
         case 'video':
-          setAttachmentSrc('video', attachment.data_url);
+          this.setAttachmentSrc('video', attachment.data_url);
           break;
         case 'audio':
-          setAttachmentSrc('audio', attachment.data_url);
+          this.setAttachmentSrc('audio', attachment.data_url);
           break;
         default:
           break;
