@@ -99,18 +99,11 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
       if (baseDomain) {
         cookieOptions = { ...cookieOptions, domain: baseDomain };
-        console.log('setUser hasDomain', baseDomain);
-      } else {
-        console.log('setUser has no Domain', baseDomain);
       }
 
-      try {
-        Cookies.set(userCookieName, hashToBeStored, {
-          ...cookieOptions,
-        });
-      } catch (error) {
-        console.error('setUser', error);
-      }
+      Cookies.set(userCookieName, hashToBeStored, {
+        ...cookieOptions,
+      });
     },
 
     setCustomAttributes(customAttributes = {}) {

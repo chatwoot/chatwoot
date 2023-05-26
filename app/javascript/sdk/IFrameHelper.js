@@ -46,18 +46,10 @@ const updateAuthCookie = (cookieContent, baseDomain = '') => {
 
   if (baseDomain) {
     cookieOptions = { ...cookieOptions, domain: baseDomain };
-    console.log('updateAuthCookie hasDomain', baseDomain);
-  } else {
-    console.log('updateAuthCookie has no Domain', baseDomain);
   }
-
-  try {
-    Cookies.set('cw_conversation', cookieContent, {
-      ...cookieOptions,
-    });
-  } catch (error) {
-    console.error('updateAuthCookie', error);
-  }
+  Cookies.set('cw_conversation', cookieContent, {
+    ...cookieOptions,
+  });
 };
 
 const updateCampaignReadStatus = baseDomain => {
@@ -69,18 +61,10 @@ const updateCampaignReadStatus = baseDomain => {
 
   if (baseDomain) {
     cookieOptions = { ...cookieOptions, domain: baseDomain };
-    console.log('hasDomain', baseDomain);
-  } else {
-    console.log('has no Domain', baseDomain);
   }
-
-  try {
-    Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
-      ...cookieOptions,
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
+    ...cookieOptions,
+  });
 };
 
 export const IFrameHelper = {

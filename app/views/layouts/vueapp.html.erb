@@ -68,7 +68,21 @@
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
     <% if @global_config['CHATWOOT_INBOX_TOKEN'].present? %>
-   
+    <script>
+      window.chatwootSettings = { hideMessageBubble: true, position: 'left' };
+      (function(d,t) {
+        var BASE_URL='<%= ENV.fetch('FRONTEND_URL', 'https://app.chatwoot.com') %>';
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=BASE_URL+"/packs/js/sdk.js"; g.defer=true; g.async=true;
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: '<%= @global_config['CHATWOOT_INBOX_TOKEN'] %>',
+            baseUrl: BASE_URL,
+          });
+        }
+      })(document,"script");
+    </script>
     <% end %>
     <% if ENV.fetch('MS_CLARITY_TOKEN', nil).present? %>
       <script type="text/javascript">
