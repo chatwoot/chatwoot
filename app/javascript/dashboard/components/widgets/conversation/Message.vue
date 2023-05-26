@@ -54,11 +54,7 @@
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image-audio-video
-              v-if="
-                attachment.file_type === 'image' ||
-                  attachment.file_type === 'audio' ||
-                  attachment.file_type === 'video'
-              "
+              v-if="isAttachmentImageVideoAudio(attachment.file_type)"
               :attachment="attachment"
               @error="onImageLoadError"
             />
@@ -440,6 +436,9 @@ export default {
     clearTimeout(this.higlightTimeout);
   },
   methods: {
+    isAttachmentImageVideoAudio(fileType) {
+      return ['image', 'audio', 'video'].includes(fileType);
+    },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;

@@ -69,11 +69,8 @@ export default {
       };
     },
     filteredCurrentChatAttachments() {
-      const attachments = this.currentChatAttachments.filter(
-        attachment =>
-          attachment.file_type === 'image' ||
-          attachment.file_type === 'video' ||
-          attachment.file_type === 'audio'
+      const attachments = this.currentChatAttachments.filter(attachment =>
+        ['image', 'video', 'audio'].includes(attachment.file_type)
       );
       return attachments;
     },
