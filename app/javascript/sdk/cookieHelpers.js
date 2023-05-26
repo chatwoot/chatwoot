@@ -1,4 +1,5 @@
 import md5 from 'md5';
+import Cookies from 'js-cookie';
 
 const REQUIRED_USER_KEYS = ['avatar_url', 'email', 'name'];
 const ALLOWED_USER_ATTRIBUTES = [...REQUIRED_USER_KEYS, 'identifier_hash'];
@@ -21,3 +22,17 @@ export const computeHashForUserData = (...args) => md5(getUserString(...args));
 
 export const hasUserKeys = user =>
   REQUIRED_USER_KEYS.reduce((acc, key) => acc || !!user[key], false);
+
+export const setCookieWithDomain = (
+  name,
+  value,
+  { expires = 365, baseDomain = undefined }
+) => {
+  let cookieOptions = {
+    expires,
+    sameSite: 'Lax',
+    domain: baseDomain,
+  };
+
+  Cookies.set(name, value, cookieOptions);
+};

@@ -11,6 +11,7 @@ import {
   hasUserKeys,
 } from '../sdk/cookieHelpers';
 import { addClasses, removeClasses } from '../sdk/DOMHelpers';
+import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
@@ -92,17 +93,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       window.$chatwoot.identifier = identifier;
       window.$chatwoot.user = user;
       IFrameHelper.sendMessage('set-user', { identifier, user });
-      let cookieOptions = {
-        expires: 365,
-        sameSite: 'Lax',
-      };
 
-      if (baseDomain) {
-        cookieOptions = { ...cookieOptions, domain: baseDomain };
-      }
-
-      Cookies.set(userCookieName, hashToBeStored, {
-        ...cookieOptions,
+      setCookieWithDomain(userCookieName, hashToBeStored, {
+        baseDomain,
       });
     },
 

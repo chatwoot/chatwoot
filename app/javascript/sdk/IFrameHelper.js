@@ -29,7 +29,7 @@ import {
   CHATWOOT_READY,
 } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
-import { getUserCookieName } from './cookieHelpers';
+import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
   getAlertAudio,
   initOnEvents,
@@ -38,32 +38,16 @@ import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 import addHours from 'date-fns/addHours';
 
-const updateAuthCookie = (cookieContent, baseDomain = '') => {
-  let cookieOptions = {
-    expires: 365,
-    sameSite: 'Lax',
-  };
-
-  if (baseDomain) {
-    cookieOptions = { ...cookieOptions, domain: baseDomain };
-  }
-  Cookies.set('cw_conversation', cookieContent, {
-    ...cookieOptions,
+const updateAuthCookie = (cookieContent, baseDomain = '') =>
+  setCookieWithDomain('cw_conversation', cookieContent, {
+    baseDomain,
   });
-};
 
 const updateCampaignReadStatus = baseDomain => {
   const expireBy = addHours(new Date(), 1);
-  let cookieOptions = {
+  setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
-    sameSite: 'Lax',
-  };
-
-  if (baseDomain) {
-    cookieOptions = { ...cookieOptions, domain: baseDomain };
-  }
-  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
-    ...cookieOptions,
+    baseDomain,
   });
 };
 
