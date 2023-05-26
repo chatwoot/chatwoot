@@ -149,7 +149,7 @@ RSpec.describe 'Accounts API', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body)['cache_keys'].keys).to match_array(%w[label inbox team])
+      expect(response.parsed_body['cache_keys'].keys).to match_array(%w[label inbox team])
     end
   end
 
@@ -206,7 +206,7 @@ RSpec.describe 'Accounts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
     end
