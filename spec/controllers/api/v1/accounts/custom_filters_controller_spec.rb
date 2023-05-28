@@ -66,12 +66,16 @@ RSpec.describe 'Custom Filters API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows the custom filter' do
+        custom_filter.set_record_count_in_redis
+
         get "/api/v1/accounts/#{account.id}/custom_filters/#{custom_filter.id}",
             headers: user.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(custom_filter.name)
+        json_response = response.parsed_body
+        expect(json_response['count']).to eq '1'
       end
     end
   end
@@ -102,7 +106,7 @@ RSpec.describe 'Custom Filters API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['name']).to eq 'vip-customers'
-        expect(json_response['count']).to eq '1'
+        expect(json_response['count']).to be_nil
       end
 
       it 'gives the error for 51st record' do
