@@ -1,0 +1,28 @@
+type: object
+properties:
+  description:
+    type: string
+    description: Category description
+  locale:
+    type: string
+    description: Category locale
+    example: en/es
+  name:
+    type: string
+    description: Category name
+  slug:
+    type: string
+    description: Category slug
+  position:
+    type: integer
+    description: Category position in the portal list to sort
+  portal_id:
+    type: integer
+  account_id:
+    type: integer
+  associated_category_id:
+    type: integer
+    description: To associate similar categories to each other, e.g same category of product documentation in different languages
+  parent_category_id:
+    type: integer
+    description: To define parent category, e.g product documentation has multiple level features in sales category or in engineering category.
