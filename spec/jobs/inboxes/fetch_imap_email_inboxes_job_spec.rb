@@ -28,7 +28,7 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
   end
 
   context 'when microsoft inbox' do
-    it 'calls ms graph channel for single tenant app' do
+    it 'calls fetch ms graph email job for single tenant app' do
       stub_request(:get, 'https://graph.microsoft.com/v1.0/me/messages?$filter=receivedDateTime%20ge%202023-05-23T00:00:00Z%20and%20receivedDateTime%20le%202023-05-25T00:00:00Z&$select=id&$top=1000')
 
       with_modified_env AZURE_TENANT_ID: 'azure_tenant_id' do
@@ -38,7 +38,7 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
       end
     end
 
-    it 'calls ms graph channel for multi tenant app' do
+    it 'calls fetch imap email job for multi tenant app' do
       with_modified_env AZURE_TENANT_ID: nil do
         expect(Inboxes::FetchImapEmailsJob).to receive(:perform_later).with(microsoft_imap_email_channel).once
 
