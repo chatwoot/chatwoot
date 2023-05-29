@@ -1,6 +1,7 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
   include DateRangeHelper
+  include HmacConcern
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
@@ -104,9 +105,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def set_conversation_status
-    # TODO: temporary fallback for the old bot status in conversation, we will remove after couple of releases
-    # commenting this out to see if there are any errors, if not we can remove this in subsequent releases
-    # status = params[:status] == 'bot' ? 'pending' : params[:status]
     @conversation.status = params[:status]
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
   end
@@ -152,7 +150,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     ContactInboxBuilder.new(
       contact: @contact,
       inbox: @inbox,
-      source_id: params[:source_id]
+      source_id: params[:source_id],
+      hmac_verified: hmac_verified?
     ).perform
   end
 
