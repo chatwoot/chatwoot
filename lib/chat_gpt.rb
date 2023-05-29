@@ -3,12 +3,20 @@ class ChatGpt
     'https://api.openai.com'
   end
 
-  def initialize(api_key)
+  def initialize(api_key, context_sections = '')
     @api_key = api_key
     @model = 'gpt-4'
     system_message = { 'role': 'system',
-                       'content': "You are a helpful support agent at Chatwoot.
-                       If they ask to Chat with human agent return text 'conversation_handoff'." }
+                       'content': 'You are a very enthusiastic customer support representative who loves ' \
+                                  'to help people! Given the following Context sections from the ' \
+                                  'documentation, continue the conversation with only that information, ' \
+                                  "outputed in markdown format along with context_ids in format 'response \n {context_ids: [values] }'  " \
+                                  "\n If you are unsure and the answer is not explicitly written in the documentation,  " \
+                                  "say 'Sorry, I don't know how to help with that. Do you want to chat with a human agent?' " \
+                                  "If they ask to Chat with human agent return text 'conversation_handoff'." \
+                                  "Context sections: \n" \
+                                  "\n\n #{context_sections}}" }
+
     @messages = [
       system_message
     ]

@@ -14,7 +14,7 @@ class Integrations::Openai::EmbeddingsService
 
   def search_article_embeddings(query)
     embedding = fetch_embeddings(query)
-    Embeddings.nearest_neighbors(:embedding, embedding, distance: 'euclidean').first(5).map(&:obj)
+    Embeddings.nearest_neighbors(:embedding, embedding, distance: 'euclidean').first(5)
   end
 
   private

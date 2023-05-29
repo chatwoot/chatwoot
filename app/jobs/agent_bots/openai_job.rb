@@ -1,5 +1,5 @@
-class AgentBots::GptJob < ApplicationJob
-  queue_as :bots
+class AgentBots::OpenaiJob < ApplicationJob
+  queue_as :high
 
   def perform(event, agent_bot, message)
     event_data = { message: message }
