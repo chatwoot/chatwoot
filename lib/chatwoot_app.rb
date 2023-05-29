@@ -22,12 +22,14 @@ module ChatwootApp
   end
 
   def self.extensions
-    if custom?
-      %w[enterprise custom]
-    elsif enterprise?
-      %w[enterprise]
-    else
-      %w[]
-    end
+    enterprise? ? enterprise_extensions : community_extensions
+  end
+
+  def self.enterprise_extensions
+    custom? ? %w[enterprise custom] : %w[enterprise]
+  end
+
+  def self.community_extensions
+    custom? ? %w[custom] : %w[]
   end
 end
