@@ -115,12 +115,10 @@
 </template>
 
 <script>
-import format from 'date-fns/format';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { isValidURL } from '../helper/URLHelper';
-const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
@@ -144,9 +142,6 @@ export default {
 
   computed: {
     formattedValue() {
-      if (this.isAttributeTypeDate) {
-        return format(new Date(this.value || new Date()), DATE_FORMAT);
-      }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
@@ -193,8 +188,11 @@ export default {
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
     displayValue() {
-      if (this.attributeType === 'date') {
-        return format(new Date(this.editedValue), 'dd-MM-yyyy');
+      if (this.attributeType === 'date' && this.editedValue) {
+        return this.editedValue
+          .split('-')
+          .reverse()
+          .join('-');
       }
       return this.editedValue;
     },
@@ -247,17 +245,12 @@ export default {
       }
     },
     onUpdate() {
-      const updatedValue =
-        this.attributeType === 'date'
-          ? format(new Date(this.editedValue), DATE_FORMAT)
-          : this.editedValue;
-
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
       this.isEditing = false;
-      this.$emit('update', this.attributeKey, updatedValue);
+      this.$emit('update', this.attributeKey, this.editedValue);
     },
     onDelete() {
       this.isEditing = false;
