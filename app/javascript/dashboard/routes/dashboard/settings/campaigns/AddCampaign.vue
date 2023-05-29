@@ -56,43 +56,61 @@
           </span>
         </label>
 
-        <label
-          v-if="isOnOffType"
-          class="multiselect-wrap--small"
-          :class="{ error: $v.selectedAudience.$error }"
-        >
+        <!-- ? Origem dados -->
+        <label :class="{ error: $v.picked.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SOURCE.LABEL') }}
-          <br />
 
-          <input id="one" v-model="picked" type="radio" value="csv" />
-          <label for="one">
-            {{ $t('CAMPAIGN.ADD.FORM.SOURCE.CSV') }}
-          </label>
-          <input id="two" v-model="picked" type="radio" value="label" />
-          <label for="two">
-            {{ $t('CAMPAIGN.ADD.FORM.SOURCE.AUDIENCE') }}
-          </label>
-          <br />
+          <div>
+            <input
+              id="label_radio"
+              v-model="picked"
+              type="radio"
+              value="label"
+            />
+            <label for="label_radio">
+              {{ $t('CAMPAIGN.ADD.FORM.SOURCE.AUDIENCE') }}
+            </label>
 
-          <multiselect
-            v-if="picked === 'label'"
-            v-model="selectedAudience"
-            :options="audienceList"
-            track-by="id"
-            label="title"
-            :multiple="true"
-            :close-on-select="false"
-            :clear-on-select="false"
-            :hide-selected="true"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.AUDIENCE.PLACEHOLDER')"
-            selected-label
-            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-            :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-            @blur="$v.selectedAudience.$touch"
-            @select="$v.selectedAudience.$touch"
-          />
-          <p>assadasdasdssadasd</p>
-          <!-- <input v-if="picked=='csv'" type="file" id="file-input" accept=".csv" /> -->
+            <input id="csv_radio" v-model="picked" type="radio" value="csv" />
+            <label for="csv_radio">
+              {{ $t('CAMPAIGN.ADD.FORM.SOURCE.CSV') }}
+            </label>
+          </div>
+
+          <span v-if="$v.picked.$error" class="editor-warning__message">
+            {{ $t('CAMPAIGN.ADD.FORM.SOURCE.ERROR') }}
+          </span>
+
+          <label
+            v-if="isOnOffType"
+            class="multiselect-wrap--small"
+            :class="{ error: $v.selectedAudience.$error }"
+          >
+            <multiselect
+              v-if="picked === 'label'"
+              v-model="selectedAudience"
+              :options="audienceList"
+              track-by="id"
+              label="title"
+              :multiple="true"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="true"
+              :placeholder="$t('CAMPAIGN.ADD.FORM.AUDIENCE.PLACEHOLDER')"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+              @blur="$v.selectedAudience.$touch"
+              @select="$v.selectedAudience.$touch"
+            />
+            <span
+              v-if="picked === 'label' && $v.selectedAudience.$error"
+              class="editor-warning__message"
+            >
+              {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.ERROR') }}
+            </span>
+          </label>
+
           <input
             v-if="picked === 'csv'"
             ref="fileInput"
@@ -100,9 +118,11 @@
             accept=".csv"
             @change="handleCsvUpload"
           />
-
-          <span v-if="$v.selectedAudience.$error" class="message">
-            {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.ERROR') }}
+          <span
+            v-if="picked === 'csv' && !csvReceived"
+            class="editor-warning__message"
+          >
+            {{ $t('CAMPAIGN.ADD.FORM.CSV.ERROR') }}
           </span>
         </label>
 
@@ -225,6 +245,8 @@ export default {
       selectedAudience: [],
       senderList: [],
       picked: '',
+      csvReceived: false,
+      csvData: [],
     };
   },
 
@@ -237,6 +259,9 @@ export default {
         required,
       },
       selectedInbox: {
+        required,
+      },
+      picked: {
         required,
       },
     };
@@ -275,7 +300,9 @@ export default {
       ...commonValidations,
       selectedAudience: {
         isEmpty() {
-          return !!this.selectedAudience.length;
+          if (this.picked === 'label') return !!this.selectedAudience.length;
+          if (!this.csvReceived) return false;
+          return true;
         },
       },
     };
@@ -386,25 +413,36 @@ export default {
     },
     handleCsvUpload(event) {
       const file = event.target.files[0];
+      if (!file) return;
+
       const reader = new FileReader();
 
-      reader.onload = e => {
-        const csvContent = e.target.result;
-        const data = csvContent.split('\n').map(el => el.trim().split(','));
-        const headers = data.shift(); // Remove os headers do csv
-        const list = [];
+      try {
+        reader.onload = async e => {
+          const csvContent = e.target.result;
+          const data = csvContent.split('\n').map(el => el.trim().split(','));
+          const headers = data.shift(); // Remove os headers do csv
+          if (data.length === 0) return;
 
-        data.forEach(all_data => {
-          let obj = {};
-          // Cria objetos com os dados coletados no csv
-          const keys = Object.keys(all_data);
-          keys.forEach((element, index) => {
-            obj[headers[index]] = all_data[index] ? all_data[index] : null;
+          const list = [];
+          await data.forEach(all_data => {
+            let obj = {};
+            // Cria objetos com os dados coletados no csv
+            const keys = Object.keys(all_data);
+            keys.forEach((element, index) => {
+              obj[headers[index]] = all_data[index] ? all_data[index] : null;
+            });
+            list.push(obj);
           });
-          list.push(obj);
-        });
-      };
-      reader.readAsText(file);
+          this.csvData = JSON.stringify(list);
+        };
+        reader.readAsText(file);
+        if (!this.csvData[1]?.length) return;
+        this.csvReceived = true;
+      } catch (error) {
+        const alert = this.$t('CAMPAIGN.ADD.FORM.CSV.ERROR_CSV_EXTENSION');
+        this.showAlert(alert);
+      }
     },
   },
 };
@@ -412,5 +450,8 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .ProseMirror-woot-style {
   height: 8rem;
+}
+input[type='file'] {
+  margin: 0;
 }
 </style>

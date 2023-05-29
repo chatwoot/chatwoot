@@ -24,9 +24,13 @@
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
+        },
+        "CSV": {
+          "SAMPLE_FILE": "Sample file",
+          "ERROR": "File must have at least 1 contact",
+          "ERROR_CSV_EXTENSION": "File must follow sample model"
         },
         "SOURCE": {
           "CSV": "CSV",

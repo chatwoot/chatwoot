@@ -24,9 +24,13 @@
           "ERROR": "Horário agendado é necessário"
         },
         "AUDIENCE": {
-          "LABEL": "Público",
           "PLACEHOLDER": "Selecionar marcadores dos clientes",
           "ERROR": "Público é necessário"
+        },
+        "CSV": {
+          "SAMPLE_FILE": "Arquivo exemplo",
+          "ERROR": "O arquivo deve conter ao menos 1 contato",
+          "ERROR_CSV_EXTENSION": "O arquivo deve seguir o modelo mostrado"
         },
         "SOURCE": {
           "CSV": "CSV",
