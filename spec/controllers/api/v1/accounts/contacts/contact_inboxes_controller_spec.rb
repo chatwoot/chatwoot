@@ -27,7 +27,9 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/contact_inboxes', typ
         end.to change(ContactInbox, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        expect(contact.reload.contact_inboxes.map(&:inbox_id)).to include(channel_api.inbox.id)
+        contact_inbox = contact.reload.contact_inboxes.find_by(inbox_id: channel_api.inbox.id)
+        expect(contact_inbox).to be_present
+        expect(contact_inbox.hmac_verified).to be(false)
       end
 
       it 'creates a valid email contact inbox' do
@@ -41,6 +43,21 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/contact_inboxes', typ
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.contact_inboxes.map(&:inbox_id)).to include(channel_email.inbox.id)
+      end
+
+      it 'creates an hmac verified contact inbox' do
+        create(:inbox_member, inbox: channel_api.inbox, user: agent)
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/contact_inboxes",
+               params: { inbox_id: channel_api.inbox.id, hmac_verified: true },
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to change(ContactInbox, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        contact_inbox = contact.reload.contact_inboxes.find_by(inbox_id: channel_api.inbox.id)
+        expect(contact_inbox).to be_present
+        expect(contact_inbox.hmac_verified).to be(true)
       end
 
       it 'throws error for invalid source id' do
