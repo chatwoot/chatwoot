@@ -79,7 +79,7 @@ class Integrations::Gpt::ProcessorService < Integrations::BotProcessorService
       article = agent_bot.account.articles.find(article_id)
       next if article.nil?
 
-      items << { title: article.title[0, 40], description: article.content[0, 80], link: article.article_link }
+      items << { title: article.title, description: article.content[0, 120], link: article.article_link }
     end
 
     items.present? ? { items: items } : {}
