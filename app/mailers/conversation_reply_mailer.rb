@@ -80,11 +80,9 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def assignee_name
-    if @inbox.email?
-      @assignee_name = @inbox.channel.agent_name_enabled? ? @agent&.available_name : 'Notifications'
-    else
-      @assignee_name ||= @agent&.available_name || 'Notifications'
-    end
+    @assignee_name ||= @agent&.available_name || 'Notifications'
+    @assignee_name = 'Notifications' if @inbox.email? && !@inbox.channel.agent_name_enabled?
+    @assignee_name
   end
 
   def mail_subject
