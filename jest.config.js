@@ -16,7 +16,11 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
-  collectCoverageFrom: ['**/app/javascript/**/*.js', '!**/*.stories.js'],
+  collectCoverageFrom: [
+    '**/app/javascript/**/*.js',
+    '!**/*.stories.js',
+    '!**/i18n/locale/**/*.js',
+  ],
   reporters: ['default'],
   transformIgnorePatterns: ['node_modules/*'],
   moduleNameMapper: {
