@@ -56,10 +56,8 @@
           </span>
         </label>
 
-        <!-- ? Origem dados -->
         <label :class="{ error: $v.picked.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SOURCE.LABEL') }}
-
           <div>
             <input
               id="label_radio"
@@ -70,7 +68,6 @@
             <label for="label_radio">
               {{ $t('CAMPAIGN.ADD.FORM.SOURCE.AUDIENCE') }}
             </label>
-
             <input id="csv_radio" v-model="picked" type="radio" value="csv" />
             <label for="csv_radio">
               {{ $t('CAMPAIGN.ADD.FORM.SOURCE.CSV') }}
@@ -391,7 +388,8 @@ export default {
     },
     async addCampaign() {
       this.$v.$touch();
-      if (this.$v.$invalid) {
+      const csvCampaign = !this.csvData[1]?.length && this.picked === 'csv';
+      if (this.$v.$invalid && csvCampaign) {
         return;
       }
       try {
@@ -412,20 +410,23 @@ export default {
       }
     },
     handleCsvUpload(event) {
+      this.csvReceived = false;
+      this.csvData = [];
+
       const file = event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
 
       try {
-        reader.onload = async e => {
+        reader.onload = e => {
           const csvContent = e.target.result;
           const data = csvContent.split('\n').map(el => el.trim().split(','));
           const headers = data.shift(); // Remove os headers do csv
           if (data.length === 0) return;
 
           const list = [];
-          await data.forEach(all_data => {
+          data.forEach(all_data => {
             let obj = {};
             // Cria objetos com os dados coletados no csv
             const keys = Object.keys(all_data);
@@ -435,10 +436,9 @@ export default {
             list.push(obj);
           });
           this.csvData = JSON.stringify(list);
+          this.csvReceived = true;
         };
         reader.readAsText(file);
-        if (!this.csvData[1]?.length) return;
-        this.csvReceived = true;
       } catch (error) {
         const alert = this.$t('CAMPAIGN.ADD.FORM.CSV.ERROR_CSV_EXTENSION');
         this.showAlert(alert);
