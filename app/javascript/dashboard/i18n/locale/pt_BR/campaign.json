@@ -28,7 +28,8 @@
           "ERROR": "Público é necessário"
         },
         "CSV": {
-          "SAMPLE_FILE": "Arquivo exemplo",
+          "SAMPLE_FILE_1": "Baixe o arquivo de exemplo",
+          "SAMPLE_FILE_2": " clicando aqui",
           "ERROR": "O arquivo deve conter ao menos 1 contato",
           "ERROR_CSV_EXTENSION": "O arquivo deve seguir o modelo mostrado"
         },

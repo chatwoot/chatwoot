@@ -108,19 +108,27 @@
             </span>
           </label>
 
-          <input
-            v-if="picked === 'csv'"
-            ref="fileInput"
-            type="file"
-            accept=".csv"
-            @change="handleCsvUpload"
-          />
-          <span
-            v-if="picked === 'csv' && !csvReceived"
-            class="editor-warning__message"
-          >
-            {{ $t('CAMPAIGN.ADD.FORM.CSV.ERROR') }}
-          </span>
+          <div v-if="picked === 'csv'">
+            <input
+              ref="fileInput"
+              type="file"
+              accept=".csv"
+              @change="handleCsvUpload"
+            />
+            <small style="display: block;">
+              {{ $t('CAMPAIGN.ADD.FORM.CSV.SAMPLE_FILE_1') }}
+              <a
+                href="/assets/clientes-prospectados.csv"
+                target="_blank"
+                style="font-size: inherit; padding: 0;"
+              >
+                {{ $t('CAMPAIGN.ADD.FORM.CSV.SAMPLE_FILE_2') }}
+              </a>
+            </small>
+            <span v-if="!csvReceived" class="editor-warning__message">
+              {{ $t('CAMPAIGN.ADD.FORM.CSV.ERROR') }}
+            </span>
+          </div>
         </label>
 
         <label
@@ -390,6 +398,7 @@ export default {
       this.$v.$touch();
       const csvCampaign = !this.csvData[1]?.length && this.picked === 'csv';
       if (this.$v.$invalid && csvCampaign) {
+        this.showAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
         return;
       }
       try {
@@ -422,13 +431,13 @@ export default {
         reader.onload = e => {
           const csvContent = e.target.result;
           const data = csvContent.split('\n').map(el => el.trim().split(','));
-          const headers = data.shift(); // Remove os headers do csv
+          const headers = data.shift(); // Removing headers from .csv
           if (data.length === 0) return;
 
           const list = [];
           data.forEach(all_data => {
             let obj = {};
-            // Cria objetos com os dados coletados no csv
+            // Making objects with collected data
             const keys = Object.keys(all_data);
             keys.forEach((element, index) => {
               obj[headers[index]] = all_data[index] ? all_data[index] : null;

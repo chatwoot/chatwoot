@@ -28,7 +28,8 @@
           "ERROR": "Audience is required"
         },
         "CSV": {
-          "SAMPLE_FILE": "Sample file",
+          "SAMPLE_FILE_1": "Download the example file by",
+          "SAMPLE_FILE_2": " clicking here",
           "ERROR": "File must have at least 1 contact",
           "ERROR_CSV_EXTENSION": "File must follow sample model"
         },
