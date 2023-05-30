@@ -1,8 +1,8 @@
 <template>
   <div class="column content-box">
     <!-- List Audit Logs -->
-    <div class="">
-      <div class="">
+    <div>
+      <div>
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -108,26 +108,15 @@ export default {
       const auditableType = auditLogItem.auditable_type.toLowerCase();
       const action = auditLogItem.action.toLowerCase();
 
-      switch (auditLogItem.action) {
-        case 'create':
-          return `${username} ${this.$t(
-            'AUDIT_LOGS.ACTION.ADD'
-          )} ${auditableType}`;
-        case 'destroy':
-          return `${username} ${this.$t(
-            'AUDIT_LOGS.ACTION.DELETE'
-          )} ${auditableType}`;
-        case 'update':
-          return `${username} ${this.$t(
-            'AUDIT_LOGS.ACTION.EDIT'
-          )} ${auditableType}`;
-        case 'sign_in':
-          return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_IN')}`;
-        case 'sign_out':
-          return `${username} ${this.$t('AUDIT_LOGS.ACTION.SIGN_OUT')}`;
-        default:
-          return `${username} did ${action} on ${auditableType}`;
-      }
+      const logActions = {
+        create: this.$t('AUDIT_LOGS.ACTION.ADD'),
+        destroy: this.$t('AUDIT_LOGS.ACTION.DELETE'),
+        update: this.$t('AUDIT_LOGS.ACTION.EDIT'),
+        sign_in: this.$t('AUDIT_LOGS.ACTION.SIGN_IN'),
+        sign_out: this.$t('AUDIT_LOGS.ACTION.SIGN_OUT'),
+      };
+
+      return `${username} ${logActions[action] || action} ${auditableType}`;
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
