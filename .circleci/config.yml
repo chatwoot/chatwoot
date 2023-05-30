@@ -169,8 +169,6 @@ jobs:
       - store_artifacts:
           path: ~/tmp/test-artifacts
       - store_artifacts:
-          path: coverage/*.json
-      - store_artifacts:
           path: log
 
   upload-coverage:

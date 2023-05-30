@@ -16,7 +16,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
-  collectCoverageFrom: ['**/app/javascript/**/*.js'],
+  collectCoverageFrom: ['**/app/javascript/**/*.js', '!**/*.stories.js', // this line is added to exclude storybook files],
   reporters: ['default'],
   transformIgnorePatterns: ['node_modules/*'],
   moduleNameMapper: {
