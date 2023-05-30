@@ -28,6 +28,7 @@ import UpdateBanner from './components/app/UpdateBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import * as chrono from 'chrono-node';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -81,6 +82,25 @@ export default {
   },
   mounted() {
     this.setLocale(window.chatwootConfig.selectedLocale);
+    console.log(
+      'An appointment on Sep 12-13unted --->',
+      chrono.parseDate('An appointment on Sep 12-13')
+    );
+    console.log('tomorrow --->', chrono.parseDate('tomorrow'));
+    console.log(
+      'tomorrow at 9.00AM --->',
+      chrono.parseDate('tomorrow at 9.00AM')
+    );
+    console.log('may 31 --->', chrono.parseDate('may 31'));
+    console.log('12.30 --->', chrono.parseDate('12.30'));
+    console.log('9.00AM --->', chrono.parseDate('9.00AM'));
+    console.log('tuesday --->', chrono.parseDate('tuesday'));
+    console.log('after 5 days --->', chrono.parseDate('after 5 days'));
+    console.log('tom 13.00 --->', chrono.parseDate('tom 13.00'));
+    console.log(
+      'next month 10.00AM --->',
+      chrono.parseDate('next month 10.00AM')
+    );
   },
   methods: {
     setLocale(locale) {
