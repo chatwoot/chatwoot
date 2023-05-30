@@ -253,6 +253,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_085402) do
 
   create_table "channel_email", force: :cascade do |t|
     t.integer "account_id", null: false
+    t.boolean "agent_name_enabled", default: true, null: false
     t.string "email", null: false
     t.string "forward_to_email", null: false
     t.datetime "created_at", null: false
@@ -581,7 +582,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_085402) do
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.bigint "portal_id"
-    t.boolean "agent_name_enabled", default: true, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
