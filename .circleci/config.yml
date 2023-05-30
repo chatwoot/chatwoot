@@ -157,7 +157,7 @@ jobs:
       - run:
           name: Code Climate Test Coverage
           command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json coverage/lcov.info    
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"  
             
       - persist_to_workspace:
           root: coverage
@@ -169,7 +169,7 @@ jobs:
       - store_artifacts:
           path: ~/tmp/test-artifacts
       - store_artifacts:
-          path: coverage
+          path: coverage/*.json
       - store_artifacts:
           path: log
 
@@ -196,7 +196,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ~/tmp/cc-test-reporter sum-coverage --output - codeclimate.*.json  -p 8 |  ~/tmp/cc-test-reporter upload-coverage --debug --input -
+            ~/tmp/cc-test-reporter sum-coverage --output - codeclimate.*.json |  ~/tmp/cc-test-reporter upload-coverage --debug --input -
 
 workflows:
   version: 2
