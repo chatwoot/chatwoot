@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="column content-box audit-log--settings">
     <!-- List Audit Logs -->
     <div>
       <div>
@@ -116,7 +116,16 @@ export default {
         sign_out: this.$t('AUDIT_LOGS.ACTION.SIGN_OUT'),
       };
 
-      return `${username} ${logActions[action] || action} ${auditableType}`;
+      // detect if the action is custom user action, which involves
+      // only the user, such as signing in, signing out etc.
+      // if it is, then do not show the auditable type
+      const userActions = this.getUserActions(action);
+      return `${username} ${logActions[action] || action} ${
+        userActions ? '' : auditableType
+      }`;
+    },
+    getUserActions(action) {
+      return ['sign_in', 'sign_out'].includes(action);
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
@@ -131,16 +140,24 @@ export default {
   },
 };
 </script>
-<style scoped>
-.remote-address {
-  width: 14rem;
-}
 
-.wrap-break-words {
-  word-break: break-all;
-  white-space: normal;
-}
-.column-activity {
-  width: 60%;
+<style lang="scss" scoped>
+.audit-log--settings {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  .remote-address {
+    width: 14rem;
+  }
+
+  .wrap-break-words {
+    word-break: break-all;
+    white-space: normal;
+  }
+
+  .column-activity {
+    width: 60%;
+  }
 }
 </style>
