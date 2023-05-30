@@ -71,6 +71,7 @@ module InjectEnterpriseEditionModule
     ChatwootApp.extensions.each do |extension_name|
       extension_namespace =
         const_get_maybe_false(namespace, extension_name.camelize)
+      next unless extension_namespace
 
       extension_module =
         const_get_maybe_false(extension_namespace, constant_name)

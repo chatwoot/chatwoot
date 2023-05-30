@@ -3,6 +3,7 @@
 require_relative 'boot'
 
 require 'rails/all'
+require './lib/chatwoot_app'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -37,6 +38,19 @@ module Chatwoot
     # rubocop:disable Rails/FilePath
     config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
     # rubocop:enable Rails/FilePath
+
+    if ChatwootApp.custom?
+      custom_paths = config.eager_load_paths.each_with_object([]) do |path, memo|
+        custom_paths = config.root.join('custom', Pathname.new(path).relative_path_from(config.root))
+        memo << custom_paths.to_s
+      end
+
+      # Eager load should load Community/Enterprise first
+      config.eager_load_paths.push(*custom_paths)
+
+      # Other than Ruby modules we load Custom first
+      config.paths['app/views'].unshift "#{config.root}/custom/app/views"
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
