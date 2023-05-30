@@ -37,7 +37,7 @@ class Imap::ImapMailbox
   def find_conversation_by_in_reply_to
     return if in_reply_to.blank?
 
-    message = @inbox.messages.find_by(source_id: in_reply_to)
+    message = @inbox.messages.find_by(source_id: in_reply_to) || find_message_by_references
     if message.nil?
       @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
     else
@@ -47,6 +47,16 @@ class Imap::ImapMailbox
 
   def in_reply_to
     @inbound_mail.in_reply_to
+  end
+
+  def find_message_by_references
+    message_to_return = nil
+
+    @inbound_mail.references.find_each do |message_id|
+      message = @inbox.messages.find_by(source_id: message_id)
+      message_to_return = message if message.present?
+    end
+    message_to_return
   end
 
   def find_or_create_conversation
