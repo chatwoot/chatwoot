@@ -127,10 +127,21 @@ describe Whatsapp::Providers::WhatsappCloudService do
               ], paging: { prev: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json }
           )
 
+        timstamp = whatsapp_channel.reload.message_templates_last_updated
         expect(subject.sync_templates).to be(true)
         expect(whatsapp_channel.reload.message_templates.first).to eq({ id: '123456789', name: 'test_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.second).to eq({ id: '123456789', name: 'next_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.last).to eq({ id: '123456789', name: 'last_template' }.stringify_keys)
+        expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
+      end
+
+      it 'updates message_templates_last_updated even when template request fails' do
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+          .to_return(status: 401)
+
+        timstamp = whatsapp_channel.reload.message_templates_last_updated
+        subject.sync_templates
+        expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
       end
     end
   end
