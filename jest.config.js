@@ -15,7 +15,7 @@ module.exports = {
   cacheDirectory: '<rootDir>/.jest-cache',
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  coverageReporters: ["text", "lcov"],
+  coverageReporters: ['text', 'lcov'],
   collectCoverageFrom: ['**/app/javascript/**/*.{js,vue}'],
   reporters: ['default'],
   transformIgnorePatterns: ['node_modules/*'],
