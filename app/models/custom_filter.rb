@@ -41,7 +41,7 @@ class CustomFilter < ApplicationRecord
 
   def fetch_record_count_from_redis
     number_of_records = Redis::Alfred.get(filter_count_key)
-    SyncCustomFilterCountJob(self) if number_of_records.nil?
+    SyncCustomFilterCountJob.perform_later(self) if number_of_records.nil?
     number_of_records
   end
 
