@@ -1,0 +1,48 @@
+The TOMMY Edition License (the "TOMMY License")
+Copyright (c) 2023-present TOMMY TECH WORKSHOP(the "TOMMY TECH")
+Copyright (c) 2023-present 武汉市汤米科技工作室(the "TOMMY TECH")
+
+With regard to the TOMMY TECH Software:
+
+This software and associated documentation files (the "Software") may only be
+used in production, if you (and any entity that you represent) have agreed to,
+and are in compliance with, the Subscription Terms of Service, available at
+https://tommytech.online/terms/#subscription, or other agreement governing the
+use of the Software, as agreed by you and TOMMY TECH, and otherwise have a valid
+TOMMY TECH subscription for the correct number of user seats. Subject to the
+foregoing sentence, you are free to modify this Software and publish patches
+to the Software. You agree that TOMMY TECH and/or its licensors (as applicable)
+retain all right, title and interest in and to all such modifications and/or
+patches, and all such modifications and/or patches may only be used, copied,
+modified, displayed, distributed or otherwise exploited with a valid TOMMY TECH
+subscription for the correct number of user seats. Notwithstanding the
+foregoing, you may copy and modify the Software for development and testing
+purposes, without requiring a subscription. You agree that TOMMY TECH and/or its
+licensors (as applicable) retain all right, title and interest in and to all
+such modifications. You are not granted any other rights beyond what is
+expressly stated herein. Subject to the foregoing, it is forbidden to copy,
+merge, publish, distribute, sublicense, and/or sell the Software.
+
+This TOMMY License applies only to the part of this Software that is not
+distributed as part of Chatwoot Community Edition (CE) and Chatwoot Enterprise
+Edition (EE). Any part of this Software distributed as part of Chatwoot CE or
+is served client-side as an image, font, cascading stylesheet (CSS), file
+which produces or is compiled, arranged, augmented, or combined into
+client-side JavaScript, in whole or in part, is copyrighted under the MIT
+Expat license. Any part of this Software distributed as part of Chatwoot EE is
+copyrighted under the Chatwoot EE license. Any copyright notices of TOMMY TECH and/or
+its licensors (as applicable) shall not be removed, altered or obscured.
+The full text of this TOMMY License shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+For all third party components incorporated into the Software, those components
+are licensed under the original license provided by the owner of the applicable
+component.
