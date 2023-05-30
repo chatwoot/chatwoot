@@ -54,7 +54,9 @@ class Imap::ImapMailbox
 
     return if @inbound_mail.references.blank?
 
-    @inbound_mail.references.each do |message_id|
+    references = @inbound_mail.references
+
+    references.each do |message_id|
       message = @inbox.messages.find_by(source_id: message_id)
       message_to_return = message if message.present?
     end
