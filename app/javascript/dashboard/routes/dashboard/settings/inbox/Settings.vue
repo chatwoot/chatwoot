@@ -658,7 +658,6 @@ export default {
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
-          agent_name_enabled: this.agentNameEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
@@ -678,6 +677,7 @@ export default {
             reply_time: this.replyTime || 'in_a_few_minutes',
             tweets_enabled: this.tweetsEnabled,
             continuity_via_email: this.continuityViaEmail,
+            agent_name_enabled: this.agentNameEnabled,
           },
         };
         if (this.avatarFile) {
