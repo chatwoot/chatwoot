@@ -35,7 +35,7 @@ class Imap::ImapMailbox
   end
 
   def find_conversation_by_in_reply_to
-    return if in_reply_to.blank?
+    return if in_reply_to.blank? || @inbound_mail.references.blank?
 
     message = @inbox.messages.find_by(source_id: in_reply_to) || find_message_by_references
     if message.nil?
@@ -52,7 +52,9 @@ class Imap::ImapMailbox
   def find_message_by_references
     message_to_return = nil
 
-    @inbound_mail.references.find_each do |message_id|
+    return if @inbound_mail.references.blank?
+
+    @inbound_mail.references.each do |message_id|
       message = @inbox.messages.find_by(source_id: message_id)
       message_to_return = message if message.present?
     end
