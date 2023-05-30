@@ -16,7 +16,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
-  collectCoverageFrom: ['**/app/javascript/**/*.{js,vue}'],
+  collectCoverageFrom: ['**/app/javascript/**/*.js'],
   reporters: ['default'],
   transformIgnorePatterns: ['node_modules/*'],
   moduleNameMapper: {
