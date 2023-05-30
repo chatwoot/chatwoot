@@ -11,15 +11,23 @@
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
     >
-      <h1 class="page-title text-truncate" :title="pageTitle">
-        {{ pageTitle }}
-      </h1>
-
-      <div class="filter--actions">
-        <chat-filter
+      <div class="flex-center chat-list__title">
+        <h1
+          class="page-sub-title text-truncate margin-bottom-0"
+          :title="pageTitle"
+        >
+          {{ pageTitle }}
+        </h1>
+        <span
           v-if="!hasAppliedFiltersOrActiveFolders"
-          @statusFilterChange="updateStatusType"
-        />
+          class="conversation--status-pill"
+        >
+          {{
+            this.$t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`)
+          }}
+        </span>
+      </div>
+      <div class="filter--actions">
         <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
@@ -48,7 +56,6 @@
             @click="onClickOpenDeleteFoldersModal"
           />
         </div>
-
         <woot-button
           v-else
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
@@ -57,6 +64,10 @@
           icon="filter"
           size="tiny"
           @click="onToggleAdvanceFiltersModal"
+        />
+        <conversation-basic-filter
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          @changeFilter="onBasicFilterChange"
         />
       </div>
     </div>
@@ -168,8 +179,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ChatFilter from './widgets/conversation/ChatFilter';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
+import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
@@ -200,10 +211,10 @@ export default {
     AddCustomViews,
     ChatTypeTabs,
     ConversationCard,
-    ChatFilter,
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
+    ConversationBasicFilter,
   },
   mixins: [
     timeMixin,
@@ -246,6 +257,7 @@ export default {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      activeSortBy: wootConstants.SORT_BY_TYPE.LATEST,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -365,6 +377,7 @@ export default {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
+        sortBy: this.activeSortBy,
         page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId || undefined,
@@ -480,7 +493,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('setChatFilter', this.activeStatus);
+    this.$store.dispatch('setChatStatusFilter', this.activeStatus);
+    this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
 
     bus.$on('fetch_conversation_stats', () => {
@@ -626,11 +640,13 @@ export default {
       this.selectedConversations = [];
       this.selectedInboxes = [];
     },
-    updateStatusType(index) {
-      if (this.activeStatus !== index) {
-        this.activeStatus = index;
-        this.resetAndFetchData();
+    onBasicFilterChange(value, type) {
+      if (type === 'status') {
+        this.activeStatus = value;
+      } else {
+        this.activeSortBy = value;
       }
+      this.resetAndFetchData();
     },
     openLastSavedItemInFolder() {
       const lastItemOfFolder = this.folders[this.folders.length - 1];
@@ -879,11 +895,15 @@ export default {
   &.list--full-width {
     flex-basis: 100%;
   }
+
+  .page-sub-title {
+    font-size: var(--font-size-two);
+  }
 }
 .filter--actions {
   display: flex;
   align-items: center;
-  gap: var(--space-micro);
+  gap: var(--space-smaller);
 }
 
 .filter__applied {
@@ -899,5 +919,20 @@ export default {
       padding: 0;
     }
   }
+}
+
+.conversation--status-pill {
+  background: var(--color-background);
+  border-radius: var(--border-radius-small);
+  color: var(--color-medium-gray);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-medium);
+  margin: var(--space-micro) var(--space-small) 0;
+  padding: var(--space-smaller);
+  text-transform: capitalize;
+}
+
+.chat-list__title {
+  max-width: 85%;
 }
 </style>

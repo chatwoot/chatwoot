@@ -26,7 +26,9 @@
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
 #  index_messages_on_content                            (content) USING gin
+#  index_messages_on_conversation_account_type_created  (conversation_id,account_id,message_type,created_at)
 #  index_messages_on_conversation_id                    (conversation_id)
+#  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
 #  index_messages_on_source_id                          (source_id)
@@ -136,7 +138,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id,
       conversation: {
         assignee_id: conversation.assignee_id,
-        unread_count: conversation.unread_incoming_messages.count
+        unread_count: conversation.unread_incoming_messages.count,
+        last_activity_at: conversation.last_activity_at.to_i
       }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?

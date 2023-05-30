@@ -2396,6 +2396,212 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/portals": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Help Center"
+        ],
+        "operationId": "add-new-portal-to-account",
+        "summary": "Add a new portal",
+        "description": "Add a new portal to account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/portal_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/portal"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Help Center"
+        ],
+        "operationId": "get-portal",
+        "summary": "List all portals in an account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          }
+        ],
+        "description": "Get details of portals in an Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all portals",
+              "items": {
+                "$ref": "#/definitions/portal"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Help Center"
+        ],
+        "operationId": "update-new-portal-to-account",
+        "summary": "update a new portal",
+        "description": "update a new portal to account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/portal_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/portal"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/portals/{portal_id}/categories": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/portal_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Help Center"
+        ],
+        "operationId": "add-new-category-to-account",
+        "summary": "Add a new category",
+        "description": "Add a new category to portal",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/category_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/category"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/portals/{portal_id}/articles": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/portal_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Help Center"
+        ],
+        "operationId": "add-new-article-to-account",
+        "summary": "Add a new article",
+        "description": "Add a new article to portal",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/article_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/article"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/meta": {
       "parameters": [
         {
@@ -2867,6 +3073,73 @@
             "schema": {
               "$ref": "#/definitions/conversation_status_toggle"
             }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_priority": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "toggle-priority-of-a-conversation",
+        "summary": "Toggle Priority",
+        "description": "Toggles the priority of conversation",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "priority"
+              ],
+              "properties": {
+                "priority": {
+                  "type": "string",
+                  "enum": [
+                    "urgent",
+                    "high",
+                    "medium",
+                    "low",
+                    "none"
+                  ],
+                  "description": "The priority of the conversation"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           },
           "404": {
             "description": "Conversation not found"
@@ -4854,6 +5127,150 @@
         }
       }
     },
+    "portal": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "color": {
+          "type": "string"
+        },
+        "config": {
+          "type": "object",
+          "description": "Save information about locales, allowed_locales and default portal/help-center locale"
+        },
+        "custom_domain": {
+          "type": "string"
+        },
+        "header_text": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "homepage_link": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "page_title": {
+          "type": "string"
+        },
+        "account_id": {
+          "type": "integer"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/category"
+          }
+        },
+        "articles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/article"
+          }
+        }
+      }
+    },
+    "category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "locale": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "position": {
+          "type": "integer"
+        },
+        "portal_id": {
+          "type": "integer"
+        },
+        "account_id": {
+          "type": "integer"
+        },
+        "associated_category_id": {
+          "type": "integer",
+          "description": "To associate similar categories to each other, e.g same category of product documentation in different languages"
+        },
+        "parent_category_id": {
+          "type": "integer",
+          "description": "To define parent category, e.g product documentation has multiple level features in sales category or in engineering category."
+        }
+      }
+    },
+    "article": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "meta": {
+          "type": "object"
+        },
+        "position": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer",
+          "enum": [
+            "draft",
+            "published",
+            "archived"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "views": {
+          "type": "integer"
+        },
+        "portal_id": {
+          "type": "integer"
+        },
+        "account_id": {
+          "type": "integer"
+        },
+        "author_id": {
+          "type": "integer"
+        },
+        "category_id": {
+          "type": "integer"
+        },
+        "folder_id": {
+          "type": "integer"
+        },
+        "associated_article_id": {
+          "type": "integer",
+          "description": "To associate similar articles to each other, e.g to provide the link for the reference."
+        }
+      }
+    },
     "contact": {
       "type": "object",
       "properties": {
@@ -5935,6 +6352,161 @@
         }
       }
     },
+    "portal_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean",
+          "description": "Status to check if portal is live"
+        },
+        "color": {
+          "type": "string",
+          "description": "Header color for help-center",
+          "example": "add color HEX string, \"#fffff\""
+        },
+        "config": {
+          "type": "object",
+          "description": "Configuration about supporting locales",
+          "example": {
+            "allowed_locales": [
+              "en",
+              "es"
+            ],
+            "default_locale": "en"
+          }
+        },
+        "custom_domain": {
+          "type": "string",
+          "description": "Custom domain to  display help center.",
+          "example": "https://chatwoot.help/."
+        },
+        "header_text": {
+          "type": "string",
+          "description": "Help center header",
+          "example": "Handbook"
+        },
+        "homepage_link": {
+          "type": "string",
+          "description": "link to main dashboard",
+          "example": "https://www.chatwoot.com/"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name for the portal"
+        },
+        "slug": {
+          "type": "string",
+          "description": "Slug for the portal to display in link"
+        },
+        "page_title": {
+          "type": "string",
+          "description": "Page title for the portal"
+        },
+        "account_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "category_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Category description"
+        },
+        "locale": {
+          "type": "string",
+          "description": "Category locale",
+          "example": "en/es"
+        },
+        "name": {
+          "type": "string",
+          "description": "Category name"
+        },
+        "slug": {
+          "type": "string",
+          "description": "Category slug"
+        },
+        "position": {
+          "type": "integer",
+          "description": "Category position in the portal list to sort"
+        },
+        "portal_id": {
+          "type": "integer"
+        },
+        "account_id": {
+          "type": "integer"
+        },
+        "associated_category_id": {
+          "type": "integer",
+          "description": "To associate similar categories to each other, e.g same category of product documentation in different languages"
+        },
+        "parent_category_id": {
+          "type": "integer",
+          "description": "To define parent category, e.g product documentation has multiple level features in sales category or in engineering category."
+        }
+      }
+    },
+    "article_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "meta": {
+          "type": "object",
+          "description": "Use for search",
+          "example": {
+            "tags": [
+              "article_name"
+            ],
+            "title": "article title",
+            "description": "article description"
+          }
+        },
+        "position": {
+          "type": "integer",
+          "description": "article position in category"
+        },
+        "status": {
+          "type": "integer",
+          "example": [
+            "draft",
+            "published",
+            "archived"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "views": {
+          "type": "integer"
+        },
+        "portal_id": {
+          "type": "integer"
+        },
+        "account_id": {
+          "type": "integer"
+        },
+        "author_id": {
+          "type": "integer"
+        },
+        "category_id": {
+          "type": "integer"
+        },
+        "folder_id": {
+          "type": "integer"
+        },
+        "associated_article_id": {
+          "type": "integer",
+          "description": "To associate similar articles to each other, e.g to provide the link for the reference."
+        }
+      }
+    },
     "public_contact_create_update_payload": {
       "type": "object",
       "properties": {
@@ -6500,7 +7072,8 @@
         "Reports",
         "Teams",
         "Webhooks",
-        "Automation Rule"
+        "Automation Rule",
+        "Help Center"
       ]
     },
     {

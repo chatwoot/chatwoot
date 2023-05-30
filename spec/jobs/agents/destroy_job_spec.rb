@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Agents::DestroyJob, type: :job do
+RSpec.describe Agents::DestroyJob do
   subject(:job) { described_class.perform_later(account, user) }
 
   let!(:account) { create(:account) }
@@ -17,7 +17,7 @@ RSpec.describe Agents::DestroyJob, type: :job do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(account, user)
-      .on_queue('default')
+      .on_queue('low')
   end
 
   describe '#perform' do

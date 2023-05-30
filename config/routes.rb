@@ -64,6 +64,7 @@ Rails.application.routes.draw do
             post :execute, on: :member
             post :attach_file, on: :collection
           end
+          resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
@@ -96,6 +97,7 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              get :attachments
             end
           end
 
@@ -395,6 +397,7 @@ Rails.application.routes.draw do
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
+        post :reset_cache, on: :member
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :access_tokens, only: [:index, :show]

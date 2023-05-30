@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ConversationFinder do
+describe ConversationFinder do
   subject(:conversation_finder) { described_class.new(user_1, params) }
 
   let!(:account) { create(:account) }
@@ -8,6 +8,7 @@ describe ::ConversationFinder do
   let!(:user_2) { create(:user, account: account) }
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+  let!(:contact_inbox) { create(:contact_inbox, inbox: inbox, source_id: 'testing_source_id') }
   let!(:restricted_inbox) { create(:inbox, account: account) }
 
   before do
@@ -16,7 +17,7 @@ describe ::ConversationFinder do
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved')
-    create(:conversation, account: account, inbox: inbox, assignee: user_2)
+    create(:conversation, account: account, inbox: inbox, assignee: user_2, contact_inbox: contact_inbox)
     # unassigned conversation
     create(:conversation, account: account, inbox: inbox)
     Current.account = account
@@ -124,6 +125,24 @@ describe ::ConversationFinder do
 
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 1
+      end
+    end
+
+    context 'with source_id' do
+      let(:params) { { source_id: 'testing_source_id' } }
+
+      it 'filter conversations by source id' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 1
+      end
+    end
+
+    context 'without source' do
+      let(:params) { {} }
+
+      it 'returns conversations with any source' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 4
       end
     end
 

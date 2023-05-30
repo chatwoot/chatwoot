@@ -503,10 +503,10 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWebWidgetInbox) {
-        return AUDIO_FORMATS.WEBM;
+      if (this.isAWhatsAppChannel || this.isAPIInbox) {
+        return AUDIO_FORMATS.OGG;
       }
-      return AUDIO_FORMATS.OGG;
+      return AUDIO_FORMATS.WAV;
     },
     messageVariables() {
       const variables = getMessageVariables({

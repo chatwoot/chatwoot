@@ -70,6 +70,8 @@ en:
         connection_closed_error: Connection closed.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
 
   reports:
     period: Reporting period %{since} to %{until}
@@ -196,6 +198,7 @@ en:
       empty_placeholder: No results found.
       loading_placeholder: Searching...
       results_title: Search results
+    toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:

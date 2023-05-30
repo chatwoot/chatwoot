@@ -37,7 +37,7 @@
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
     "SAVE_CONTACT": "Salvar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
-    "REPLIED_TO_STORY": "Replied to your story",
+    "REPLIED_TO_STORY": "Respondido ao seu story",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
@@ -68,20 +68,20 @@
       }
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Prioridade",
       "OPTIONS": {
         "NONE": "Nenhuma",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "URGENT": "Urgente",
+        "HIGH": "Alta",
+        "MEDIUM": "Média",
+        "LOW": "Baixa"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Nenhuma",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Selecionar prioridade",
         "NO_RESULTS": "Nenhum resultado encontrado",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "Alterada a prioridade do ID da conversa %{conversationId} para %{priority}",
+        "FAILED": "Não foi possível alterar a prioridade. Por favor, tente novamente."
       }
     },
     "CARD_CONTEXT_MENU": {
