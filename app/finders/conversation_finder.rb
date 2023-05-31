@@ -155,7 +155,7 @@ class ConversationFinder
   end
 
   def conversations
-    @conversations = @conversations.includes(:taggings, { inbox: [:channel] },
+    @conversations = @conversations.includes(:taggings, :inbox,
                                              { assignee: [{ account_users: [:account] }, { avatar_attachment: [:blob] }] },
                                              { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox, { messages: [:sender] })
     sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
