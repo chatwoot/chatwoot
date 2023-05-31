@@ -47,8 +47,9 @@ class Api::V1::Accounts::CommonWhatsapp::AuthorizationController < Api::V1::Acco
             if status.empty?
                 render json: { success: false, message: "Falha na obtenção do Status" }
             else
+                qrcode = status['qrcode']
                 status = status['status']
-                render json: { success: true, status: status }
+                render json: { success: true, status: status, qrcode: qrcode }
             end
         end
     end

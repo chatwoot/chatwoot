@@ -6,6 +6,7 @@
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.LABEL') }}
         <input
           v-model.trim="inboxName"
+          :disabled="disabledTyping"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.PLACEHOLDER')"
           @blur="$v.inboxName.$touch"
@@ -21,6 +22,7 @@
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.LABEL') }}
         <input
           v-model.trim="phoneNumber"
+          :disabled="disabledTyping"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.PLACEHOLDER')"
           @blur="$v.phoneNumber.$touch"
@@ -39,18 +41,24 @@
     </div> -->
 
     <div v-if="imgSrc" id="qr-code-container" class="medium-12 columns">
-      <img :src="imgSrc" alt="qr-code" style="width: 100%; max-width: 400px" />
+      <img
+        :src="imgSrc"
+        alt="qr-code"
+        style="width: 100%; max-width: 400px; margin-bottom: 8px;"
+      />
     </div>
 
-    <div v-if="errorMessage" class="medium-12 columns">
-      <p>{{ errorMessage }}</p>
+    <div v-if="messageShown" class="medium-12 columns">
+      <p>{{ messageShown }}</p>
     </div>
 
     <div class="medium-12 columns">
       <woot-submit-button
         :loading="uiFlags.isCreating"
         :button-text="'Generate QrCode'"
+        :disabled="disabledTyping"
       />
+      <span v-if="disabledTyping" class="spinner" />
     </div>
   </form>
 </template>
@@ -70,7 +78,10 @@ export default {
       inboxName: '',
       phoneNumber: '',
       imgSrc: '',
-      errorMessage: '',
+      messageShown: '',
+      disabledTyping: false,
+      connectionTries: 0,
+      maxTries: 6,
     };
   },
   computed: {
@@ -112,22 +123,61 @@ export default {
     },
 
     async generateQrCode() {
-      this.errorMessage = '';
-      this.imgSrc = '';
-
+      if (this.disabledTyping) return;
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
-      const { data } = await WppConnectAPI.getQrCode('a', 'b');
+
+      this.disabledTyping = true;
+      this.messageShown = '';
+      this.imgSrc = '';
+
+      const { data } = await WppConnectAPI.getQrCode(
+        this.phoneNumber,
+        this.inbox
+      );
       if (data.success && data.qrcode) {
         const { qrcode } = data;
         this.imgSrc = qrcode.includes('data:image')
           ? qrcode
           : 'data:image/png;base64,' + qrcode;
+
+        // await this.waitInSeconds(7);
+        this.checkConnectionStatus();
       } else {
-        this.errorMessage = 'Falha ao obter o qrCode, tente novamente';
+        this.messageShown = 'Falha ao obter o qrCode, tente novamente';
+        this.disabledTyping = false;
       }
+    },
+
+    async checkConnectionStatus() {
+      const { data } = await WppConnectAPI.checkConnectionStatus(
+        this.phoneNumber,
+        this.inbox
+      );
+      if (data.success !== true && this.connectionTries <= this.maxTries) {
+        const { qrcode } = data;
+        if (qrcode)
+          this.imgSrc = qrcode.includes('data:image')
+            ? qrcode
+            : 'data:image/png;base64,' + qrcode;
+        // eslint-disable-next-line no-plusplus
+        this.connectionTries++;
+        await this.waitInSeconds(5);
+        this.checkConnectionStatus();
+      } else {
+        this.messageShown = 'Sucesso ao conectar!';
+        this.imgSrc = '';
+      }
+    },
+
+    waitInSeconds(t = 1) {
+      return new Promise(resolve =>
+        setTimeout(() => {
+          resolve();
+        }, t * 1000)
+      );
     },
   },
 };

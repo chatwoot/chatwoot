@@ -21,8 +21,28 @@ class WppConnectAPI extends ApiClient {
    */
   getQrCode(phone, inbox) {
     const url = this.url + 'common_whatsapp/qrCode';
-    console.log(phone, inbox);
-    console.log(url);
+    return axios.post(url, {
+      name: inbox,
+      channel: {
+        type: 'common_whatsapp',
+        phone_number: phone,
+      },
+    });
+  }
+
+  /**
+   *
+   * @param {string} phone
+   * @param {string} inbox
+   * @returns {
+   *  AxiosResponse<{
+   *    success: boolean,
+   *    status: string
+   *  }>
+   * }
+   */
+  checkConnectionStatus(phone, inbox) {
+    const url = this.url + 'common_whatsapp/connStatus';
     return axios.post(url, {
       name: inbox,
       channel: {
