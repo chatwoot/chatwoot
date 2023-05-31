@@ -66,7 +66,7 @@
           {{ urlValue }}
         </a>
         <p v-else class="value">
-          {{ formattedValue || '---' }}
+          {{ displayValue || '---' }}
         </p>
         <div class="action-buttons__wrap">
           <woot-button
@@ -143,7 +143,7 @@ export default {
   },
 
   computed: {
-    formattedValue() {
+    displayValue() {
       if (this.isAttributeTypeDate) {
         return new Date(this.value || new Date()).toLocaleDateString();
       }
@@ -151,6 +151,11 @@ export default {
         return this.value === 'false' ? false : this.value;
       }
       return this.value;
+    },
+    formattedValue() {
+      return this.isAttributeTypeDate
+        ? format(new Date(this.value), DATE_FORMAT)
+        : this.value;
     },
     listOptions() {
       return this.values.map((value, index) => ({
@@ -196,9 +201,7 @@ export default {
   watch: {
     value() {
       this.isEditing = false;
-      this.editedValue = this.isAttributeTypeDate
-        ? format(new Date(this.value), DATE_FORMAT)
-        : this.value;
+      this.editedValue = this.formattedValue;
     },
   },
 
@@ -213,9 +216,7 @@ export default {
     };
   },
   mounted() {
-    this.editedValue = this.isAttributeTypeDate
-      ? format(new Date(this.value), DATE_FORMAT)
-      : this.value;
+    this.editedValue = this.formattedValue;
     bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   destroyed() {
