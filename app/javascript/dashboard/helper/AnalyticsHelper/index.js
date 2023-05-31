@@ -49,6 +49,10 @@ export class AnalyticsHelper {
       avatar: this.user.avatar_url,
     });
 
+    if (window.clarity) {
+      window.clarity('identify', this.user.email);
+    }
+
     const { accounts, account_id: accountId } = this.user;
     const [currentAccount] = accounts.filter(
       account => account.id === accountId
