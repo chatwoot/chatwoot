@@ -11,14 +11,14 @@ RSpec.describe Attachment do
 
     context 'when it validates external url length' do
       it 'valid when within limit' do
-        attachment.external_url = 'a' * 1000
+        attachment.external_url = 'a' * Limits::URL_LENGTH_LIMIT
         expect(attachment.valid?).to be true
       end
 
       it 'invalid when crossed the limit' do
-        attachment.external_url = 'a' * 1500
+        attachment.external_url = 'a' * (Limits::URL_LENGTH_LIMIT + 5)
         attachment.valid?
-        expect(attachment.errors[:external_url]).to include('is too long (maximum is 1000 characters)')
+        expect(attachment.errors[:external_url]).to include("is too long (maximum is #{Limits::URL_LENGTH_LIMIT} characters)")
       end
     end
   end
