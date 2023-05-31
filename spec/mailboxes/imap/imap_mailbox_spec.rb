@@ -97,16 +97,19 @@ RSpec.describe Imap::ImapMailbox do
           content: 'Incoming Message',
           message_type: 'incoming',
           inbox: inbox,
-          source_id: 'test-in-reply-to',
+          source_id: 'test-reference-id',
           account: account,
           conversation: conversation
         )
         conversation = message.conversation
 
+        expect(conversation.messages.size).to eq(1)
+
         class_instance.process(references_email.mail, inbox.channel)
 
+        expect(conversation.messages.size).to eq(2)
         expect(conversation.messages.last.content).to eq('References Email')
-        expect(references_email.mail.references).to include('test-in-reply-to')
+        expect(references_email.mail.references).to include('test-reference-id')
       end
     end
   end
