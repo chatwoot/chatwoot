@@ -19,13 +19,20 @@
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
-    "ACTION": {
-      "ADD": "created",
-      "EDIT": "updated",
-      "DELETE": "deleted",
+    "DEFAULT_USER": "System",
+    "ACTION_VOWEL": {
+      "ADD": "created a new ",
+      "EDIT": "updated an ",
+      "DELETE": "deleted an ",
       "SIGN_IN": "signed in",
-      "SIGN_OUT": "signed out",
-      "SYSTEM": "System"
+      "SIGN_OUT": "signed out"
+    },
+    "ACTION_CONSONANT": {
+      "ADD": "created a new ",
+      "EDIT": "updated a ",
+      "DELETE": "deleted a ",
+      "SIGN_IN": "signed in",
+      "SIGN_OUT": "signed out"
     }
   }
 }
