@@ -366,6 +366,7 @@ Rails.application.routes.draw do
   post 'webhooks/common_whatsapp/:phone_number', to: 'webhooks/common_whatsapp#process_payload'
   post 'api/v1/accounts/:account_id/common_whatsapp/qrCode', to: 'api/v1/accounts/common_whatsapp/authorization#get_qr_code'
   post 'api/v1/accounts/:account_id/common_whatsapp/connStatus', to: 'api/v1/accounts/common_whatsapp/authorization#check_conn_status'
+  post 'api/v1/accounts/:account_id/common_whatsapp/clearSession', to: 'api/v1/accounts/common_whatsapp/authorization#clear_session'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 

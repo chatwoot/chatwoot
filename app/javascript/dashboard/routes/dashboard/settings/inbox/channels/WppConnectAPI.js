@@ -51,6 +51,28 @@ class WppConnectAPI extends ApiClient {
       },
     });
   }
+
+  /**
+   *
+   * @param {string} phone
+   * @param {string} inbox
+   * @returns {
+   *  AxiosResponse<{
+   *    success: boolean,
+   *    status: string
+   *  }>
+   * }
+   */
+  closeAndClearSession(phone, inbox) {
+    const url = this.url + 'common_whatsapp/clearSession';
+    return axios.post(url, {
+      name: inbox,
+      channel: {
+        type: 'common_whatsapp',
+        phone_number: phone,
+      },
+    });
+  }
 }
 
 export default new WppConnectAPI();

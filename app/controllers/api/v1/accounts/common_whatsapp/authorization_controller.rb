@@ -54,6 +54,30 @@ class Api::V1::Accounts::CommonWhatsapp::AuthorizationController < Api::V1::Acco
         end
     end
 
+    def clear_session
+        @secret_key = ENV.fetch('WPP_CONNECT_SECRET_KEY', "")
+        phone_number = params[:channel][:phone_number]
+        # First generate token
+        token = generate_token(phone_number)
+        if token.empty?
+            render json: { success: false, message: "Falha na obtenção do token" }
+        else
+            token = token['token']
+
+            # Then check status-session
+            status = close_and_clear_session(phone_number, token)
+            Rails.logger.info('Status')
+            Rails.logger.info(status)
+
+            if status.empty?
+                render json: { success: false, message: "Falha na obtenção do Status" }
+            else
+                status = status['status']
+                render json: { success: true, status: status }
+            end
+        end
+    end
+
     private
 
     def generate_token(phone_number)
@@ -81,6 +105,18 @@ class Api::V1::Accounts::CommonWhatsapp::AuthorizationController < Api::V1::Acco
         response = HTTParty.get(
             "#{api_base_path(phone_number)}/status-session",
             headers: { 'Authorization' => "Bearer #{token}", 'Content-Type' => 'application/json' }
+        )
+
+        process_response(response)
+    end
+
+    def close_and_clear_session(phone_number, token)
+        response = HTTParty.post(
+            "#{api_base_path(phone_number)}/close-session",
+            headers: { 'Authorization' => "Bearer #{token}", 'Content-Type' => 'application/json' },
+            body: {
+                clearSession: true
+            }.to_json
         )
 
         process_response(response)
