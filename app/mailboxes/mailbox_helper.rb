@@ -24,10 +24,8 @@ module MailboxHelper
     return if @message.blank?
 
     processed_mail.attachments.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS).each do |mail_attachment|
-      if inline_attachment?(mail_attachment) && @mail.html_part.present?
-        upload_inline_image(mail_attachment)
-      elsif inline_attachment?(mail_attachment) && @mail.text_part.present?
-        embed_plain_text_email_with_inline_image(mail_attachment)
+      if inline_attachment?(mail_attachment)
+        embed_inline_image_source(mail_attachment)
       else
         attachment = @message.attachments.new(
           account_id: @conversation.account_id,
@@ -37,6 +35,14 @@ module MailboxHelper
       end
     end
     @message.save!
+  end
+
+  def embed_inline_image_source(mail_attachment)
+    if @mail.html_part.present?
+      upload_inline_image(mail_attachment)
+    elsif @mail.text_part.present?
+      embed_plain_text_email_with_inline_image(mail_attachment)
+    end
   end
 
   def upload_inline_image(mail_attachment)
