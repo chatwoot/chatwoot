@@ -82,6 +82,7 @@ export default {
       disabledTyping: false,
       connectionTries: 0,
       maxTries: 6,
+      apiToken: '',
     };
   },
   computed: {
@@ -106,6 +107,7 @@ export default {
             channel: {
               type: 'common_whatsapp',
               phone_number: this.phoneNumber,
+              token: this.apiToken,
             },
           }
         );
@@ -169,6 +171,8 @@ export default {
       } else {
         this.messageShown = 'Sucesso ao conectar!';
         this.imgSrc = '';
+        this.apiToken = data.token;
+        this.createChannel();
       }
     },
 

@@ -49,7 +49,7 @@ class Api::V1::Accounts::CommonWhatsapp::AuthorizationController < Api::V1::Acco
             else
                 qrcode = status['qrcode']
                 status = status['status']
-                render json: { success: true, status: status, qrcode: qrcode }
+                render json: { success: true, status: status, qrcode: qrcode, token: token }
             end
         end
     end
