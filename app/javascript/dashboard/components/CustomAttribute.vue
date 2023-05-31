@@ -66,7 +66,7 @@
           {{ urlValue }}
         </a>
         <p v-else class="value">
-          {{ displayValue || '---' }}
+          {{ formattedValue || '---' }}
         </p>
         <div class="action-buttons__wrap">
           <woot-button
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import format from 'date-fns/format';
+import { format, parseISO } from 'date-fns';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
@@ -145,7 +145,7 @@ export default {
   computed: {
     formattedValue() {
       if (this.isAttributeTypeDate) {
-        return format(new Date(this.value || new Date()), DATE_FORMAT);
+        return new Date(this.value || new Date()).toLocaleDateString();
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
@@ -192,17 +192,13 @@ export default {
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
-    displayValue() {
-      if (this.attributeType === 'date') {
-        return format(new Date(this.editedValue), 'dd-MM-yyyy');
-      }
-      return this.editedValue;
-    },
   },
   watch: {
     value() {
       this.isEditing = false;
-      this.editedValue = this.value;
+      this.editedValue = this.isAttributeTypeDate
+        ? format(new Date(this.value), DATE_FORMAT)
+        : this.value;
     },
   },
 
@@ -217,7 +213,9 @@ export default {
     };
   },
   mounted() {
-    this.editedValue = this.formattedValue;
+    this.editedValue = this.isAttributeTypeDate
+      ? format(new Date(this.value), DATE_FORMAT)
+      : this.value;
     bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   destroyed() {
@@ -249,9 +247,8 @@ export default {
     onUpdate() {
       const updatedValue =
         this.attributeType === 'date'
-          ? format(new Date(this.editedValue), DATE_FORMAT)
+          ? parseISO(this.editedValue)
           : this.editedValue;
-
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
