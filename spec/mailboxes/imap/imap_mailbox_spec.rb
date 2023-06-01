@@ -83,10 +83,33 @@ RSpec.describe Imap::ImapMailbox do
       let(:reply_mail) do
         create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test-in-reply-to')
       end
+      let(:references_email) { create_inbound_email_from_fixture('references.eml') }
 
       it 'creates new email conversation with incoming in-reply-to' do
         class_instance.process(reply_mail.mail, channel)
         expect(conversation.additional_attributes['in_reply_to']).to eq(reply_mail.mail.in_reply_to)
+      end
+
+      it 'append email to conversation with references id' do
+        inbox = Inbox.last
+        message = create(
+          :message,
+          content: 'Incoming Message',
+          message_type: 'incoming',
+          inbox: inbox,
+          source_id: 'test-reference-id',
+          account: account,
+          conversation: conversation
+        )
+        conversation = message.conversation
+
+        expect(conversation.messages.size).to eq(1)
+
+        class_instance.process(references_email.mail, inbox.channel)
+
+        expect(conversation.messages.size).to eq(2)
+        expect(conversation.messages.last.content).to eq('References Email')
+        expect(references_email.mail.references).to include('test-reference-id')
       end
     end
   end
