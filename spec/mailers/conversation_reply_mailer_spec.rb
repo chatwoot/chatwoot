@@ -174,6 +174,12 @@ RSpec.describe ConversationReplyMailer do
         expect(mail['from'].value).to eq "#{message.sender.name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
       end
 
+      it 'renders sender name even when assignee is not present' do
+        conversation.update(assignee_id: nil)
+        mail = described_class.email_reply(message)
+        expect(mail['from'].value).to eq "#{message.sender.name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+      end
+
       it 'renders assignee name in the from address when sender_name not available' do
         message.update(sender_id: nil)
         mail = described_class.email_reply(message)
@@ -185,13 +191,7 @@ RSpec.describe ConversationReplyMailer do
         conversation.update(assignee_id: nil)
 
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
-      end
-
-      it 'renders inbox name in the from address' do
-        conversation.update(assignee: nil)
-        mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "Notifications from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
       end
     end
 
