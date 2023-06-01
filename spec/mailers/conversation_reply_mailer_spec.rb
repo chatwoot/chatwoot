@@ -169,9 +169,23 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.delivery_method.settings[:port]).to eq 587
       end
 
-      it 'renders assignee name in the from address' do
+      it 'renders sender name in the from address' do
         mail = described_class.email_reply(message)
         expect(mail['from'].value).to eq "#{message.sender.name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+      end
+
+      it 'renders assignee name in the from address when sender_name not available' do
+        message.update(sender_id: nil)
+        mail = described_class.email_reply(message)
+        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+      end
+
+      it 'renders inbox name as sender and assignee not present' do
+        message.update(sender_id: nil)
+        conversation.update(assignee_id: nil)
+
+        mail = described_class.email_reply(message)
+        expect(mail['from'].value).to eq "#{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
       end
 
       it 'renders inbox name in the from address' do
