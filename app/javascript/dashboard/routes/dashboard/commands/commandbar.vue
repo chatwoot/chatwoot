@@ -6,6 +6,7 @@
     hideBreadcrumbs
     :placeholder="placeholder"
     @selected="setCommandbarData"
+    @change="onChange"
   />
 </template>
 
@@ -31,6 +32,7 @@ export default {
   data() {
     return {
       placeholder: this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER'),
+      searchValue: '',
     };
   },
   computed: {
@@ -41,11 +43,17 @@ export default {
       return this.$route.name;
     },
     hotKeys() {
-      return [...this.conversationHotKeys, ...this.goToCommandHotKeys];
+      return [
+        ...this.conversationHotKeys(this.searchValue),
+        ...this.goToCommandHotKeys,
+      ];
     },
   },
   watch: {
     routeName() {
+      this.setCommandbarData();
+    },
+    searchValue() {
       this.setCommandbarData();
     },
   },
@@ -55,6 +63,9 @@ export default {
   methods: {
     setCommandbarData() {
       this.$refs.ninjakeys.data = this.hotKeys;
+    },
+    onChange(event) {
+      this.searchValue = event.detail.search;
     },
   },
 };

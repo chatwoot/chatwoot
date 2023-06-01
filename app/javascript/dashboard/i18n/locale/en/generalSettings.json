@@ -103,6 +103,7 @@
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
       "ADD_LABEL": "Add label to the conversation",
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "Settings"
@@ -138,7 +139,10 @@
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "UNTIL_NEXT_REPLY": "Until next reply",
       "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "A_MONTH_FROM_NOW": "Until a month from now",
+      "CUSTOM": "Custom..."
     }
   },
   "DASHBOARD_APPS": {

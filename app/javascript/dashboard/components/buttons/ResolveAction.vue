@@ -103,6 +103,17 @@
               {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_WEEK') }}
             </woot-button>
           </woot-dropdown-item>
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="calendar-clock"
+              @click="() => openCustomSnooze()"
+            >
+              Custom
+            </woot-button>
+          </woot-dropdown-item>
         </woot-dropdown-sub-menu>
       </woot-dropdown-menu>
     </div>
@@ -251,6 +262,10 @@ export default {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
           this.isLoading = false;
         });
+    },
+    openCustomSnooze() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'snooze_conversation' });
     },
   },
 };
