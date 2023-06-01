@@ -38,9 +38,11 @@ module MailboxHelper
   end
 
   def embed_inline_image_source(mail_attachment)
-    if @mail.html_part.present?
+    current_mail = processed_mail.mail
+
+    if current_mail.html_part.present?
       upload_inline_image(mail_attachment)
-    elsif @mail.text_part.present?
+    elsif current_mail.text_part.present?
       embed_plain_text_email_with_inline_image(mail_attachment)
     end
   end
