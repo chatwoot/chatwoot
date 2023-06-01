@@ -157,7 +157,7 @@ class ConversationFinder
   def conversations
     @conversations = @conversations.includes(:taggings, :inbox,
                                              { assignee: [{ account_users: [:account] }, { avatar_attachment: [:blob] }] },
-                                             { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox, { messages: [:sender] })
+                                             { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox, :messages)
     sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
     @conversations.send(sort_by).page(current_page)
   end
