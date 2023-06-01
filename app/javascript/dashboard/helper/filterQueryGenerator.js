@@ -3,7 +3,9 @@ const generatePayload = data => {
   const filters = JSON.parse(JSON.stringify(data));
   let payload = filters.map(item => {
     if (Array.isArray(item.values)) {
-      item.values = item.values.map(val => val.id);
+      item.values = item.values[0]?.id
+        ? item.values.map(val => val.id)
+        : item.values;
     } else if (typeof item.values === 'object') {
       item.values = [item.values.id];
     } else if (!item.values) {

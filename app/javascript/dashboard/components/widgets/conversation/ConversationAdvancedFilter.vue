@@ -1,7 +1,17 @@
 <template>
   <div class="column">
-    <woot-modal-header :header-title="$t('FILTER.TITLE')">
-      <p>{{ $t('FILTER.SUBTITLE') }}</p>
+    <woot-modal-header
+      :header-title="
+        !isFolderView ? $t('FILTER.TITLE') : $t('FILTER.EDIT_CUSTOM_FILTER')
+      "
+    >
+      <p>
+        {{
+          !isFolderView
+            ? $t('FILTER.SUBTITLE')
+            : $t('FILTER.CUSTOM_VIEWS_SUBTITLE')
+        }}
+      </p>
     </woot-modal-header>
     <div class="row modal-content">
       <div class="medium-12 columns filters-wrap">
@@ -42,7 +52,10 @@
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
-          <woot-button @click="submitFilterQuery">
+          <woot-button v-if="isFolderView" @click="updateSavedCustomViews">
+            {{ $t('FILTER.UPDATE_BUTTON_LABEL') }}
+          </woot-button>
+          <woot-button v-else @click="submitFilterQuery">
             {{ $t('FILTER.SUBMIT_BUTTON_LABEL') }}
           </woot-button>
         </div>
@@ -80,6 +93,10 @@ export default {
     initialAppliedFilters: {
       type: Array,
       default: () => [],
+    },
+    isFolderView: {
+      type: Boolean,
+      default: false,
     },
   },
   validations: {
@@ -120,13 +137,23 @@ export default {
       getAppliedConversationFilters: 'getAppliedConversationFilters',
     }),
   },
+  watch: {
+    initialAppliedFilters: {
+      handler() {
+        if (this.isFolderView) {
+          this.setQueryOperatorOnLastQuery();
+        }
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.setFilterAttributes();
     this.$store.dispatch('campaigns/get');
     if (this.getAppliedConversationFilters.length) {
       this.appliedFilters = [];
       this.appliedFilters = [...this.getAppliedConversationFilters];
-    } else {
+    } else if (!this.isFolderView) {
       this.appliedFilters.push({
         attribute_key: 'status',
         filter_operator: 'equal_to',
@@ -177,11 +204,11 @@ export default {
       if (key === 'created_at' || key === 'last_activity_at')
         if (operator === 'days_before') return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.inputType;
+      return type?.inputType;
     },
     getOperators(key) {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.filterOperators;
+      return type?.filterOperators;
     },
     getDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
@@ -267,12 +294,22 @@ export default {
       }
     },
     appendNewFilter() {
+      if (this.isFolderView) {
+        this.setQueryOperatorOnLastQuery();
+      }
       this.appliedFilters.push({
         attribute_key: 'status',
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
       });
+    },
+    setQueryOperatorOnLastQuery() {
+      const lastItemIndex = this.appliedFilters.length - 2;
+      this.appliedFilters[lastItemIndex] = {
+        ...this.appliedFilters[lastItemIndex],
+        query_operator: 'and',
+      };
     },
     removeFilter(index) {
       if (this.appliedFilters.length <= 1) {
@@ -295,6 +332,9 @@ export default {
           operator: filter.filter_operator,
         })),
       });
+    },
+    updateSavedCustomViews() {
+      this.$emit('updateFolder', this.appliedFilters);
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(

@@ -51,6 +51,14 @@
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
             size="tiny"
             variant="smooth"
+            color-scheme="secondary"
+            icon="edit"
+            @click="onToggleAdvanceFiltersModal"
+          />
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+            size="tiny"
+            variant="smooth"
             color-scheme="alert"
             icon="delete"
             @click="onClickOpenDeleteFoldersModal"
@@ -169,7 +177,9 @@
         :initial-filter-types="advancedFilterTypes"
         :initial-applied-filters="appliedFilter"
         :on-close="closeAdvanceFiltersModal"
+        :is-folder-view="hasActiveFolders"
         @applyFilter="onApplyFilter"
+        @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
   </div>
@@ -193,6 +203,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
+import editCustomViewsMixin from 'shared/mixins/editCustomViewsMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -221,6 +232,7 @@ export default {
     eventListenerMixins,
     alertMixin,
     filterMixin,
+    editCustomViewsMixin,
   ],
   props: {
     conversationInbox: {
@@ -508,6 +520,14 @@ export default {
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
     },
+    onUpdateSavedFilter(payload) {
+      const payloadData = {
+        ...this.activeFolder,
+        query: filterQueryGenerator(payload),
+      };
+      this.$store.dispatch('customViews/update', payloadData);
+      this.closeAdvanceFiltersModal();
+    },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
     },
@@ -521,8 +541,11 @@ export default {
       this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
-      if (!this.hasAppliedFilters) {
+      if (!this.hasAppliedFilters && !this.hasActiveFolders) {
         this.initializeExistingFilterToModal();
+      }
+      if (this.hasActiveFolders) {
+        this.initializeCustomViewFilterToModal(this.activeFolder);
       }
       this.showAdvancedFilters = true;
     },
