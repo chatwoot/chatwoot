@@ -111,6 +111,29 @@ RSpec.describe Imap::ImapMailbox do
         expect(conversation.messages.last.content).to eq('References Email')
         expect(references_email.mail.references).to include('test-reference-id')
       end
+
+      it 'append email to conversation with reference id string' do
+        inbox = Inbox.last
+        message = create(
+          :message,
+          content: 'Incoming Message',
+          message_type: 'incoming',
+          inbox: inbox,
+          source_id: 'test-reference-id-2',
+          account: account,
+          conversation: conversation
+        )
+        conversation = message.conversation
+
+        expect(conversation.messages.size).to eq(1)
+
+        references_email.mail.references = 'test-reference-id-2'
+        class_instance.process(references_email.mail, inbox.channel)
+
+        expect(conversation.messages.size).to eq(2)
+        expect(conversation.messages.last.content).to eq('References Email')
+        expect(references_email.mail.references).to include('test-reference-id-2')
+      end
     end
   end
 end
