@@ -27,6 +27,15 @@
 #  inbox_id               :integer
 #  team_id                :bigint
 #
+# Indexes
+#
+#  index_conversation_with_labels_on_account_id         (account_id)
+#  index_conversation_with_labels_on_custom_attributes  (custom_attributes) USING gin
+#  index_conversation_with_labels_on_id                 (id) UNIQUE
+#  index_conversation_with_labels_on_labels_array       (labels_array) USING gin
+#  index_conversation_with_labels_on_last_activity_at   (last_activity_at)
+#  index_conversation_with_labels_on_status             (status)
+#
 class ConversationWithLabel < ApplicationRecord
   def self.refresh
     # https://github.com/scenic-views/scenic#what-about-materialized-views

@@ -936,7 +936,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_120613) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
 
-  create_view "conversation_with_labels", sql_definition: <<-SQL
+  create_view "conversation_with_labels", materialized: true, sql_definition: <<-SQL
       SELECT conversations.id,
       conversations.account_id,
       conversations.inbox_id,
@@ -966,6 +966,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_120613) do
        LEFT JOIN tags ON ((tags.id = taggings.tag_id)))
     GROUP BY conversations.id;
   SQL
+  add_index "conversation_with_labels", ["account_id"], name: "index_conversation_with_labels_on_account_id"
+  add_index "conversation_with_labels", ["custom_attributes"], name: "index_conversation_with_labels_on_custom_attributes", using: :gin
+  add_index "conversation_with_labels", ["id"], name: "index_conversation_with_labels_on_id", unique: true
+  add_index "conversation_with_labels", ["labels_array"], name: "index_conversation_with_labels_on_labels_array", using: :gin
+  add_index "conversation_with_labels", ["last_activity_at"], name: "index_conversation_with_labels_on_last_activity_at", order: :desc
+  add_index "conversation_with_labels", ["status"], name: "index_conversation_with_labels_on_status"
+
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
