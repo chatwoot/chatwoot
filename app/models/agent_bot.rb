@@ -28,6 +28,7 @@ class AgentBot < ApplicationRecord
   enum bot_type: { webhook: 0, csml: 1 }
 
   validate :validate_agent_bot_config
+  validates :outgoing_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
 
   def available_name
     name

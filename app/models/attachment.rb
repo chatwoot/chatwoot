@@ -38,7 +38,7 @@ class Attachment < ApplicationRecord
   belongs_to :message
   has_one_attached :file
   validate :acceptable_file
-  validates :external_url, length: { maximum: 1000 }
+  validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
   enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention, :contact]
 
   def push_event_data
