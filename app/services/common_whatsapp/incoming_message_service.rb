@@ -77,7 +77,7 @@ class CommonWhatsapp::IncomingMessageService
 
   def attach_files
     Rails.logger.info("NO ATTACH_FILES")
-    return if %w[text chat button interactive location contacts].include?(message_type)
+    return if %w[text video chat button interactive location contacts].include?(message_type)
 
     attachment_payload = @processed_params
     @message.content ||= @processed_params[:caption]

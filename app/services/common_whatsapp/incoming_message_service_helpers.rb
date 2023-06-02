@@ -3,7 +3,7 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
   
   def download_attachment_file(attachment_payload)
     decoded_file = Base64.decode64(attachment_payload[:body])
-    file_name = "media-#{attachment_payload[:mediaKeyTimestamp]}.#{attachment_payload[:mimetype].split('/')[1]}"
+    file_name = "media-#{attachment_payload[:mediaKeyTimestamp]}.#{attachment_payload[:mimetype].split('/')[1].split(';')[0]}"
     file = Tempfile.new(file_name)
     file.binmode
     file << decoded_file
@@ -46,8 +46,8 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
 
   def file_content_type(file_type)
     return :image if %w[image sticker].include?(file_type)
-    return :audio if %w[audio voice].include?(file_type)
-    return :video if ['video'].include?(file_type)
+    return :audio if %w[audio voice ptt].include?(file_type)
+    # return :video if ['video'].include?(file_type)
     return :location if ['location'].include?(file_type)
     return :contact if ['contacts'].include?(file_type)
 
