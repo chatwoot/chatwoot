@@ -137,16 +137,6 @@ export default {
       getAppliedConversationFilters: 'getAppliedConversationFilters',
     }),
   },
-  watch: {
-    initialAppliedFilters: {
-      handler() {
-        if (this.isFolderView) {
-          this.setQueryOperatorOnLastQuery();
-        }
-      },
-      deep: true,
-    },
-  },
   mounted() {
     this.setFilterAttributes();
     this.$store.dispatch('campaigns/get');
