@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_23_104139) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_02_120613) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -935,6 +935,37 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_104139) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+
+  create_view "conversation_with_labels", sql_definition: <<-SQL
+      SELECT conversations.id,
+      conversations.account_id,
+      conversations.inbox_id,
+      conversations.status,
+      conversations.assignee_id,
+      conversations.created_at,
+      conversations.updated_at,
+      conversations.contact_id,
+      conversations.display_id,
+      conversations.contact_last_seen_at,
+      conversations.agent_last_seen_at,
+      conversations.additional_attributes,
+      conversations.contact_inbox_id,
+      conversations.uuid,
+      conversations.identifier,
+      conversations.last_activity_at,
+      conversations.team_id,
+      conversations.campaign_id,
+      conversations.snoozed_until,
+      conversations.custom_attributes,
+      conversations.assignee_last_seen_at,
+      conversations.first_reply_created_at,
+      conversations.priority,
+      array_agg(tags.name) AS labels_array
+     FROM ((conversations
+       LEFT JOIN taggings ON (((taggings.taggable_id = conversations.id) AND ((taggings.taggable_type)::text = 'Conversation'::text) AND ((taggings.context)::text = 'labels'::text))))
+       LEFT JOIN tags ON ((tags.id = taggings.tag_id)))
+    GROUP BY conversations.id;
+  SQL
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
