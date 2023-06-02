@@ -15,10 +15,7 @@
     </woot-modal-header>
     <div class="column modal-content">
       <div v-if="isFolderView" class="columns">
-        <label
-          class="input-label"
-          :class="{ error: $v.activeFolderNewName.$error }"
-        >
+        <label class="input-label" :class="{ error: !activeFolderNewName }">
           {{ $t('FILTER.FOLDER_LABEL') }}
           <input
             v-model="activeFolderNewName"
@@ -26,6 +23,9 @@
             class="name-input"
             @input="onActiveFolderNameChange"
           />
+          <span v-if="!activeFolderNewName" class="message">
+            {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
+          </span>
         </label>
         <label class="input-label">
           {{ $t('FILTER.FOLDER_QUERY_LABEL') }}
@@ -71,7 +71,7 @@
           </woot-button>
           <woot-button
             v-if="isFolderView"
-            :disabled="$v.activeFolderNewName.$error"
+            :disabled="!activeFolderNewName"
             @click="updateSavedCustomViews"
           >
             {{ $t('FILTER.UPDATE_BUTTON_LABEL') }}
@@ -87,7 +87,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, minLength, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 import FilterInputBox from '../FilterInput/Index.vue';
 import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';
@@ -125,10 +125,6 @@ export default {
     },
   },
   validations: {
-    activeFolderNewName: {
-      required,
-      minLength: minLength(1),
-    },
     appliedFilters: {
       required,
       $each: {
@@ -377,7 +373,6 @@ export default {
       return true;
     },
     onActiveFolderNameChange() {
-      this.$v.$touch();
       this.$emit('updateActiveFolderName', this.activeFolderNewName);
     },
   },
@@ -401,7 +396,6 @@ export default {
 
   .name-input {
     width: 50%;
-    margin-bottom: var(--space-slab);
   }
 }
 </style>

@@ -17,10 +17,7 @@
     </woot-modal-header>
     <div class="column modal-content">
       <div v-if="isSegmentsView" class="columns">
-        <label
-          class="input-label"
-          :class="{ error: $v.activeSegmentNewName.$error }"
-        >
+        <label class="input-label" :class="{ error: !activeSegmentNewName }">
           {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
           <input
             v-model="activeSegmentNewName"
@@ -28,6 +25,9 @@
             class="name-input"
             @input="onActiveSegmentNameChange"
           />
+          <span v-if="!activeSegmentNewName" class="message">
+            {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
+          </span>
         </label>
         <label class="input-label">
           {{ $t('CONTACTS_FILTER.SEGMENT_QUERY_LABEL') }}
@@ -83,7 +83,7 @@
           </woot-button>
           <woot-button
             v-if="isSegmentsView"
-            :disabled="$v.activeSegmentNewName.$error"
+            :disabled="!activeSegmentNewName"
             @click="updateSegment"
           >
             {{ $t('CONTACTS_FILTER.UPDATE_BUTTON_LABEL') }}
@@ -99,7 +99,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
@@ -135,10 +135,6 @@ export default {
     },
   },
   validations: {
-    activeSegmentNewName: {
-      required,
-      minLength: minLength(1),
-    },
     appliedFilters: {
       required,
       $each: {
@@ -350,7 +346,6 @@ export default {
       this.onClose();
     },
     onActiveSegmentNameChange() {
-      this.$v.$touch();
       this.$emit('updateActiveSegmentName', this.activeSegmentNewName);
     },
   },
@@ -375,7 +370,6 @@ export default {
 
   .name-input {
     width: 50%;
-    margin-bottom: var(--space-slab);
   }
 }
 </style>
