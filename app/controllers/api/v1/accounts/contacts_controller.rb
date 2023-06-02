@@ -42,7 +42,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
-  def export; end
+  def export
+    column_names = params[:column_name]
+    Account::ContactsExportJob(Current.account, column_names)
+    head :ok, message: 'We will notify you once export contacts file is ready to view'
+  end
 
   # returns online contacts
   def active

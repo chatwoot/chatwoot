@@ -145,6 +145,8 @@ class Contact < ApplicationRecord
     email_format
   end
 
+  def self.export; end
+
   private
 
   def ip_lookup
