@@ -966,12 +966,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_123133) do
        LEFT JOIN tags ON ((tags.id = taggings.tag_id)))
     GROUP BY conversations.id;
   SQL
-  add_index "conversation_with_labels", ["account_id"], name: "index_conversation_with_labels_on_account_id"
+  add_index "conversation_with_labels", ["account_id", "status", "last_activity_at"], name: "idx_conv_labels_view__acc_id__status__last_activity"
   add_index "conversation_with_labels", ["custom_attributes"], name: "index_conversation_with_labels_on_custom_attributes", using: :gin
   add_index "conversation_with_labels", ["id"], name: "index_conversation_with_labels_on_id", unique: true
   add_index "conversation_with_labels", ["labels_array"], name: "index_conversation_with_labels_on_labels_array", using: :gin
   add_index "conversation_with_labels", ["last_activity_at"], name: "index_conversation_with_labels_on_last_activity_at", order: :desc
-  add_index "conversation_with_labels", ["status"], name: "index_conversation_with_labels_on_status"
 
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

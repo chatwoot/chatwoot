@@ -29,12 +29,11 @@
 #
 # Indexes
 #
-#  index_conversation_with_labels_on_account_id         (account_id)
+#  idx_conv_labels_view__acc_id__status__last_activity  (account_id,status,last_activity_at)
 #  index_conversation_with_labels_on_custom_attributes  (custom_attributes) USING gin
 #  index_conversation_with_labels_on_id                 (id) UNIQUE
 #  index_conversation_with_labels_on_labels_array       (labels_array) USING gin
 #  index_conversation_with_labels_on_last_activity_at   (last_activity_at)
-#  index_conversation_with_labels_on_status             (status)
 #
 class ConversationWithLabel < ApplicationRecord
   def self.refresh
