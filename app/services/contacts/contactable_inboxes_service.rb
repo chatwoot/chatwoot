@@ -14,6 +14,8 @@ class Contacts::ContactableInboxesService
       twilio_contactable_inbox(inbox)
     when 'Channel::Whatsapp'
       whatsapp_contactable_inbox(inbox)
+    when 'Channel::CommonWhatsapp'
+      common_whatsapp_contactable_inbox(inbox)
     when 'Channel::Sms'
       sms_contactable_inbox(inbox)
     when 'Channel::Email'
@@ -48,6 +50,13 @@ class Contacts::ContactableInboxesService
   end
 
   def whatsapp_contactable_inbox(inbox)
+    return unless @contact.phone_number
+
+    # Remove the plus since thats the format 360 dialog uses
+    { source_id: @contact.phone_number.delete('+'), inbox: inbox }
+  end
+
+  def common_whatsapp_contactable_inbox(inbox)
     return unless @contact.phone_number
 
     # Remove the plus since thats the format 360 dialog uses
