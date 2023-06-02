@@ -656,6 +656,9 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    scenic (1.7.0)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
     scout_apm (5.3.3)
       parser
     scss_lint (0.60.0)
@@ -881,6 +884,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  scenic
   scout_apm
   scss_lint
   seed_dump
