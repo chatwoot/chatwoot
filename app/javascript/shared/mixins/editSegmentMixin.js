@@ -36,11 +36,12 @@ export default {
         filter_operator,
         this.filterTypes
       );
-      const allCustomAttributes = this.$store.getters[
-        'attributes/getAttributesByModel'
-      ]('contact_attribute');
 
       if (inboxType === undefined) {
+        const allCustomAttributes = this.$store.getters[
+          'attributes/getAttributesByModel'
+        ]('contact_attribute');
+
         const filterInputTypes = getAttributeInputType(
           attribute_key,
           allCustomAttributes
