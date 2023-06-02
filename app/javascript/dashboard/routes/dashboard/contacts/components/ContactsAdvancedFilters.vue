@@ -1,7 +1,19 @@
 <template>
   <div class="column">
-    <woot-modal-header :header-title="$t('CONTACTS_FILTER.TITLE')">
-      <p>{{ $t('CONTACTS_FILTER.SUBTITLE') }}</p>
+    <woot-modal-header
+      :header-title="
+        !isSegmentsView
+          ? $t('CONTACTS_FILTER.TITLE')
+          : $t('CONTACTS_FILTER.EDIT_CUSTOM_SEGMENT')
+      "
+    >
+      <p>
+        {{
+          !isSegmentsView
+            ? $t('CONTACTS_FILTER.SUBTITLE')
+            : $t('CONTACTS_FILTER.CUSTOM_VIEWS_SUBTITLE')
+        }}
+      </p>
     </woot-modal-header>
     <div class="row modal-content">
       <div class="medium-12 columns filters-wrap">
@@ -36,7 +48,7 @@
             {{ $t('CONTACTS_FILTER.ADD_NEW_FILTER') }}
           </woot-button>
           <woot-button
-            v-if="hasAppliedFilters"
+            v-if="hasAppliedFilters && !isSegmentsView"
             icon="subtract"
             color-scheme="alert"
             variant="smooth"
@@ -52,7 +64,10 @@
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('CONTACTS_FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
-          <woot-button @click="submitFilterQuery">
+          <woot-button v-if="isSegmentsView" @click="updateSegment">
+            {{ $t('CONTACTS_FILTER.UPDATE_BUTTON_LABEL') }}
+          </woot-button>
+          <woot-button v-else @click="submitFilterQuery">
             {{ $t('CONTACTS_FILTER.SUBMIT_BUTTON_LABEL') }}
           </woot-button>
         </div>
@@ -85,6 +100,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    initialAppliedFilters: {
+      type: Array,
+      default: () => [],
+    },
+    isSegmentsView: {
+      type: Boolean,
+      default: false,
+    },
   },
   validations: {
     appliedFilters: {
@@ -105,7 +128,7 @@ export default {
   data() {
     return {
       show: true,
-      appliedFilters: [],
+      appliedFilters: this.initialAppliedFilters,
       filterTypes: this.initialFilterTypes,
       filterGroups: [],
       allCustomAttributes: [],
@@ -126,7 +149,7 @@ export default {
     this.setFilterAttributes();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
-    } else {
+    } else if (!this.isSegmentsView) {
       this.appliedFilters.push({
         attribute_key: 'name',
         filter_operator: 'equal_to',
@@ -177,11 +200,11 @@ export default {
       if (key === 'created_at' || key === 'last_activity_at')
         if (operator === 'days_before') return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.inputType;
+      return type?.inputType;
     },
     getOperators(key) {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
-      return type.filterOperators;
+      return type?.filterOperators;
     },
     getDropdownValues(type) {
       const allCustomAttributes = this.$store.getters[
@@ -230,12 +253,31 @@ export default {
       }
     },
     appendNewFilter() {
-      this.appliedFilters.push({
-        attribute_key: 'name',
-        filter_operator: 'equal_to',
-        values: '',
+      if (this.isSegmentsView) {
+        this.setQueryOperatorOnLastQuery();
+      } else {
+        this.appliedFilters.push({
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
+      }
+    },
+    setQueryOperatorOnLastQuery() {
+      const lastItemIndex = this.appliedFilters.length - 1;
+      this.appliedFilters[lastItemIndex] = {
+        ...this.appliedFilters[lastItemIndex],
         query_operator: 'and',
-      });
+      };
+      setTimeout(() => {
+        this.appliedFilters.push({
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
+      }, 10);
     },
     removeFilter(index) {
       if (this.appliedFilters.length <= 1) {
@@ -258,6 +300,9 @@ export default {
           operator: filter.filter_operator,
         })),
       });
+    },
+    updateSegment() {
+      this.$emit('updateSegment', this.appliedFilters);
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(

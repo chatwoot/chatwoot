@@ -203,7 +203,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
-import editCustomViewsMixin from 'shared/mixins/editCustomViewsMixin';
+import editFolderMixin from 'shared/mixins/editFolderMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -232,7 +232,7 @@ export default {
     eventListenerMixins,
     alertMixin,
     filterMixin,
-    editCustomViewsMixin,
+    editFolderMixin,
   ],
   props: {
     conversationInbox: {
@@ -545,7 +545,7 @@ export default {
         this.initializeExistingFilterToModal();
       }
       if (this.hasActiveFolders) {
-        this.initializeCustomViewFilterToModal(this.activeFolder);
+        this.initializeFolderToFilterModal(this.activeFolder);
       }
       this.showAdvancedFilters = true;
     },

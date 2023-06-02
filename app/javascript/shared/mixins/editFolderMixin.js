@@ -22,7 +22,7 @@ export default {
     this.$store.dispatch('campaigns/get');
   },
   methods: {
-    initializeCustomViewFilterToModal(activeFolder) {
+    initializeFolderToFilterModal(activeFolder) {
       const query = activeFolder?.query?.payload;
       if (!Array.isArray(query)) return;
 

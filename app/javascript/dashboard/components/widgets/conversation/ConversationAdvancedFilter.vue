@@ -296,20 +296,29 @@ export default {
     appendNewFilter() {
       if (this.isFolderView) {
         this.setQueryOperatorOnLastQuery();
+      } else {
+        this.appliedFilters.push({
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
       }
-      this.appliedFilters.push({
-        attribute_key: 'status',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-      });
     },
     setQueryOperatorOnLastQuery() {
-      const lastItemIndex = this.appliedFilters.length - 2;
+      const lastItemIndex = this.appliedFilters.length - 1;
       this.appliedFilters[lastItemIndex] = {
         ...this.appliedFilters[lastItemIndex],
         query_operator: 'and',
       };
+      setTimeout(() => {
+        this.appliedFilters.push({
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        });
+      }, 10);
     },
     removeFilter(index) {
       if (this.appliedFilters.length <= 1) {
