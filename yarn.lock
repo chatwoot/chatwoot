@@ -2180,9 +2180,8 @@
 
 "@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#218f22b79d10f0a1240a125b0887b19186205ea6"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#b937c3cb44210b7d251daf766988758975befec7"
   dependencies:
-    markdown-it-sup "^1.0.0"
     prosemirror-commands "^1.1.4"
     prosemirror-dropcursor "^1.3.2"
     prosemirror-gapcursor "^1.1.5"
@@ -12292,11 +12291,6 @@ markdown-it-link-attributes@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/markdown-it-link-attributes/-/markdown-it-link-attributes-4.0.1.tgz#25751f2cf74fd91f0a35ba7b3247fa45f2056d88"
   integrity sha512-pg5OK0jPLg62H4k7M9mRJLT61gUp9nvG0XveKYHMOOluASo9OEF13WlXrpAp2aj35LbedAy3QOCgQCw0tkLKAQ==
-
-markdown-it-sup@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/markdown-it-sup/-/markdown-it-sup-1.0.0.tgz#cb9c9ff91a5255ac08f3fd3d63286e15df0a1fc3"
-  integrity sha512-E32m0nV9iyhRR7CrhnzL5msqic7rL1juWre6TQNxsnApg7Uf+F97JOKxUijg5YwXz86lZ0mqfOnutoryyNdntQ==
 
 markdown-it@^10.0.0:
   version "10.0.0"
