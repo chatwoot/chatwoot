@@ -2,6 +2,7 @@ class AddIndexToConversationWithLabelsView < ActiveRecord::Migration[7.0]
   disable_ddl_transaction!
 
   def change
+    # needs atleast one unuque index for concurrent refresh
     add_index :conversation_with_labels, :id, unique: true, algorithm: :concurrently
     add_index :conversation_with_labels, :account_id, algorithm: :concurrently
     add_index :conversation_with_labels, :status, algorithm: :concurrently

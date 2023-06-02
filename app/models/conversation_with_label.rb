@@ -39,6 +39,7 @@
 class ConversationWithLabel < ApplicationRecord
   def self.refresh
     # https://github.com/scenic-views/scenic#what-about-materialized-views
+    # needs atleast one unuque index for concurrent refresh
     Scenic.database.refresh_materialized_view(table_name, concurrently: true, cascade: false)
   end
 
