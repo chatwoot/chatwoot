@@ -1,7 +1,6 @@
 <template>
   <banner
     v-if="shouldShowBanner"
-    class="update-banner"
     color-scheme="primary"
     :banner-message="bannerMessage"
     href-link="https://github.com/chatwoot/chatwoot/releases"
