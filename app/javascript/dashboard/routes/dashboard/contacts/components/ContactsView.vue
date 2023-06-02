@@ -67,9 +67,11 @@
         :on-close="closeAdvanceFiltersModal"
         :initial-filter-types="contactFilterItems"
         :initial-applied-filters="appliedFilter"
+        :active-segment-name="activeSegmentName"
         :is-segments-view="hasActiveSegments"
         @applyFilter="onApplyFilter"
         @updateSegment="onUpdateSegment"
+        @updateActiveSegmentName="onUpdateActiveSegmentName"
         @clearFilters="clearFilters"
       />
     </woot-modal>
@@ -135,6 +137,7 @@ export default {
       showAddSegmentsModal: false,
       showDeleteSegmentsModal: false,
       appliedFilter: [],
+      updatedSegmentName: '',
     };
   },
   computed: {
@@ -200,6 +203,9 @@ export default {
         return firstValue;
       }
       return undefined;
+    },
+    activeSegmentName() {
+      return this.activeSegment?.name;
     },
   },
   watch: {
@@ -369,12 +375,17 @@ export default {
       });
       this.showFiltersModal = false;
     },
+    onUpdateActiveSegmentName(name) {
+      this.updatedSegmentName = name;
+    },
     onUpdateSegment(payload) {
       const payloadData = {
         ...this.activeSegment,
+        name: this.updatedSegmentName,
         query: filterQueryGenerator(payload),
       };
       this.$store.dispatch('customViews/update', payloadData);
+      this.updatedSegmentName = '';
       this.closeAdvanceFiltersModal();
     },
     clearFilters() {

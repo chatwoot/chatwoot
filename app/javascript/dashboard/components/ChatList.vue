@@ -176,9 +176,11 @@
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
         :initial-applied-filters="appliedFilter"
+        :active-folder-name="activeFolderName"
         :on-close="closeAdvanceFiltersModal"
         :is-folder-view="hasActiveFolders"
         @applyFilter="onApplyFilter"
+        @updateActiveFolderName="onUpdateFolderName"
         @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
@@ -284,6 +286,7 @@ export default {
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
+      updatedFolderName: '',
     };
   },
   computed: {
@@ -463,6 +466,9 @@ export default {
       }
       return undefined;
     },
+    activeFolderName() {
+      return this.activeFolder?.name;
+    },
     activeTeam() {
       if (this.teamId) {
         return this.$store.getters['teams/getTeam'](this.teamId);
@@ -513,6 +519,9 @@ export default {
     });
   },
   methods: {
+    onUpdateFolderName(name) {
+      this.updatedFolderName = name;
+    },
     onApplyFilter(payload) {
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
@@ -523,10 +532,12 @@ export default {
     onUpdateSavedFilter(payload) {
       const payloadData = {
         ...this.activeFolder,
+        name: this.updatedFolderName,
         query: filterQueryGenerator(payload),
       };
       this.$store.dispatch('customViews/update', payloadData);
       this.closeAdvanceFiltersModal();
+      this.updatedFolderName = '';
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;

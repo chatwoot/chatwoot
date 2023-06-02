@@ -12,6 +12,8 @@
     "CANCEL_BUTTON_LABEL": "Cancel",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
     "TOOLTIP_LABEL": "Filter contacts",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "AND",

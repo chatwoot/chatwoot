@@ -13,7 +13,24 @@
         }}
       </p>
     </woot-modal-header>
-    <div class="row modal-content">
+    <div class="column modal-content">
+      <div v-if="isFolderView" class="columns">
+        <label
+          class="input-label"
+          :class="{ error: $v.activeFolderNewName.$error }"
+        >
+          {{ $t('FILTER.FOLDER_LABEL') }}
+          <input
+            v-model="activeFolderNewName"
+            type="text"
+            class="name-input"
+            @input="onActiveFolderNameChange"
+          />
+        </label>
+        <label class="input-label">
+          {{ $t('FILTER.FOLDER_QUERY_LABEL') }}
+        </label>
+      </div>
       <div class="medium-12 columns filters-wrap">
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
@@ -52,7 +69,11 @@
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
-          <woot-button v-if="isFolderView" @click="updateSavedCustomViews">
+          <woot-button
+            v-if="isFolderView"
+            :disabled="$v.activeFolderNewName.$error"
+            @click="updateSavedCustomViews"
+          >
             {{ $t('FILTER.UPDATE_BUTTON_LABEL') }}
           </woot-button>
           <woot-button v-else @click="submitFilterQuery">
@@ -66,7 +87,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, minLength, requiredIf } from 'vuelidate/lib/validators';
 import FilterInputBox from '../FilterInput/Index.vue';
 import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';
@@ -94,12 +115,20 @@ export default {
       type: Array,
       default: () => [],
     },
+    activeFolderName: {
+      type: String,
+      default: '',
+    },
     isFolderView: {
       type: Boolean,
       default: false,
     },
   },
   validations: {
+    activeFolderNewName: {
+      required,
+      minLength: minLength(1),
+    },
     appliedFilters: {
       required,
       $each: {
@@ -124,6 +153,7 @@ export default {
     return {
       show: true,
       appliedFilters: this.initialAppliedFilters,
+      activeFolderNewName: this.activeFolderName,
       filterTypes: this.initialFilterTypes,
       filterAttributeGroups,
       filterGroups: [],
@@ -346,6 +376,10 @@ export default {
         return false;
       return true;
     },
+    onActiveFolderNameChange() {
+      this.$v.$touch();
+      this.$emit('updateActiveFolderName', this.activeFolderNewName);
+    },
   },
 };
 </script>
@@ -360,5 +394,14 @@ export default {
 
 .filter-actions {
   margin-top: var(--space-normal);
+}
+
+.input-label {
+  margin-bottom: var(--space-smaller);
+
+  .name-input {
+    width: 50%;
+    margin-bottom: var(--space-slab);
+  }
 }
 </style>

@@ -11,6 +11,8 @@
     "CANCEL_BUTTON_LABEL": "Cancel",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
     "TOOLTIP_LABEL": "Filter conversations",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "AND",

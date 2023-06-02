@@ -15,7 +15,24 @@
         }}
       </p>
     </woot-modal-header>
-    <div class="row modal-content">
+    <div class="column modal-content">
+      <div v-if="isSegmentsView" class="columns">
+        <label
+          class="input-label"
+          :class="{ error: $v.activeSegmentNewName.$error }"
+        >
+          {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
+          <input
+            v-model="activeSegmentNewName"
+            type="text"
+            class="name-input"
+            @input="onActiveSegmentNameChange"
+          />
+        </label>
+        <label class="input-label">
+          {{ $t('CONTACTS_FILTER.SEGMENT_QUERY_LABEL') }}
+        </label>
+      </div>
       <div class="medium-12 columns filters-wrap">
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
@@ -64,7 +81,11 @@
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('CONTACTS_FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
-          <woot-button v-if="isSegmentsView" @click="updateSegment">
+          <woot-button
+            v-if="isSegmentsView"
+            :disabled="$v.activeSegmentNewName.$error"
+            @click="updateSegment"
+          >
             {{ $t('CONTACTS_FILTER.UPDATE_BUTTON_LABEL') }}
           </woot-button>
           <woot-button v-else @click="submitFilterQuery">
@@ -78,7 +99,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required, minLength } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
@@ -104,12 +125,20 @@ export default {
       type: Array,
       default: () => [],
     },
+    activeSegmentName: {
+      type: String,
+      default: '',
+    },
     isSegmentsView: {
       type: Boolean,
       default: false,
     },
   },
   validations: {
+    activeSegmentNewName: {
+      required,
+      minLength: minLength(1),
+    },
     appliedFilters: {
       required,
       $each: {
@@ -130,6 +159,7 @@ export default {
       show: true,
       appliedFilters: this.initialAppliedFilters,
       filterTypes: this.initialFilterTypes,
+      activeSegmentNewName: this.activeSegmentName,
       filterGroups: [],
       allCustomAttributes: [],
       filterAttributeGroups,
@@ -319,6 +349,10 @@ export default {
       this.$emit('clearFilters');
       this.onClose();
     },
+    onActiveSegmentNameChange() {
+      this.$v.$touch();
+      this.$emit('updateActiveSegmentName', this.activeSegmentNewName);
+    },
   },
 };
 </script>
@@ -334,5 +368,14 @@ export default {
 
 .filter-actions {
   margin-top: var(--space-normal);
+}
+
+.input-label {
+  margin-bottom: var(--space-smaller);
+
+  .name-input {
+    width: 50%;
+    margin-bottom: var(--space-slab);
+  }
 }
 </style>
