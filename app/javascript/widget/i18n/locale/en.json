@@ -17,6 +17,7 @@
     "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
+    "INSTANTLY": "Typically replies instantly",
     "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
     "IN_A_FEW_HOURS": "Typically replies in a few hours",
     "IN_A_DAY": "Typically replies in a day",
