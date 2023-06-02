@@ -36,20 +36,20 @@ class Conversations::FilterService < FilterService
 
     case current_filter['attribute_type']
     when 'additional_attributes'
-      " conversations.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+      " additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'date_attributes'
-      " (conversations.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
+      " (#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
         " tags.name #{filter_operator_value} #{query_operator} "
       else
-        " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
+        " #{attribute_key} #{filter_operator_value} #{query_operator} "
       end
     end
   end
 
   def base_relation
-    Current.account.conversations.left_outer_joins(:labels)
+    ConversationWithLabel.where(account_id: Current.account.id)
   end
 
   def current_page
@@ -58,7 +58,7 @@ class Conversations::FilterService < FilterService
 
   def conversations
     @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
+      :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
     )
 
     @conversations.latest.page(current_page)
