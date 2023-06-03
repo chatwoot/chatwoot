@@ -3,12 +3,12 @@
     class="card-message chat-bubble agent"
     :class="$dm('bg-white', 'dark:bg-slate-700')"
   >
-    <img class="media" :src="mediaUrl" />
+    <img v-if="mediaUrl" class="media" :src="mediaUrl" />
     <div class="card-body">
-      <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
+      <h4 v-if="title" class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
         {{ title }}
       </h4>
-      <p class="body" :class="$dm('text-black-700', 'dark:text-slate-100')">
+      <p class="body" :class="$dm('text-black-900', 'dark:text-slate-100')">
         {{ description }}
       </p>
       <card-button
@@ -57,7 +57,6 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .card-message {
-  max-width: 220px;
   padding: $space-small;
   border-radius: $space-small;
   overflow: hidden;
