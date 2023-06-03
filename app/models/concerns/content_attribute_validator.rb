@@ -1,5 +1,5 @@
 class ContentAttributeValidator < ActiveModel::Validator
-  ALLOWED_SELECT_ITEM_KEYS = [:title, :value].freeze
+  ALLOWED_SELECT_ITEM_KEYS = [:title, :value, :image_url].freeze
   ALLOWED_CARD_ITEM_KEYS = [:title, :description, :media_url, :actions].freeze
   ALLOWED_CARD_ITEM_ACTION_KEYS = [:text, :type, :payload, :uri].freeze
   ALLOWED_FORM_ITEM_KEYS = [:type, :placeholder, :label, :name, :options, :default, :required, :pattern, :title, :pattern_error].freeze
