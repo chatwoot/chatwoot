@@ -53,7 +53,7 @@ RSpec.describe Channel::Telegram do
     it 'send image' do
       telegram_attachment_response = double
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
 
       allow(telegram_attachment_response).to receive(:success?).and_return(true)
       allow(telegram_attachment_response).to receive(:parsed_response).and_return({ 'result' => [{ 'message_id' => 'telegram_456' }] })
@@ -64,7 +64,7 @@ RSpec.describe Channel::Telegram do
     it 'send document' do
       telegram_attachment_response = double
       attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/attachment.pdf')), filename: 'attachment.pdf',
+      attachment.file.attach(io: Rails.root.join('spec/assets/attachment.pdf').open, filename: 'attachment.pdf',
                              content_type: 'application/pdf')
 
       allow(telegram_attachment_response).to receive(:success?).and_return(true)
@@ -82,7 +82,7 @@ RSpec.describe Channel::Telegram do
       telegram_message_response = double
       telegram_attachment_response = double
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
 
       allow(telegram_message_response).to receive(:success?).and_return(true)
       allow(telegram_message_response).to receive(:parsed_response).and_return({ 'result' => { 'message_id' => 'telegram_456' } })

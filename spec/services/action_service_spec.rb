@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ActionService do
+describe ActionService do
   describe '#resolve_conversation' do
     let(:conversation) { create(:conversation) }
     let(:action_service) { described_class.new(conversation) }

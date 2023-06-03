@@ -22,7 +22,7 @@ RSpec.describe 'Integration Apps API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        apps = JSON.parse(response.body)['payload'].first
+        apps = response.parsed_body['payload'].first
         expect(apps['id']).to eql(first_app.id)
         expect(apps['name']).to eql(first_app.name)
         expect(apps['action']).to be_nil
@@ -36,7 +36,7 @@ RSpec.describe 'Integration Apps API', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        app = JSON.parse(response.body)['payload'].find { |int_app| int_app['id'] == openai.app.id }
+        app = response.parsed_body['payload'].find { |int_app| int_app['id'] == openai.app.id }
         expect(app['hooks'].first['settings']).to be_nil
       end
 
@@ -47,7 +47,7 @@ RSpec.describe 'Integration Apps API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        apps = JSON.parse(response.body)['payload'].first
+        apps = response.parsed_body['payload'].first
         expect(apps['id']).to eql(first_app.id)
         expect(apps['name']).to eql(first_app.name)
         expect(apps['action']).to eql(first_app.action)
@@ -60,7 +60,7 @@ RSpec.describe 'Integration Apps API', type: :request do
               as: :json
 
           expect(response).to have_http_status(:success)
-          apps = JSON.parse(response.body)['payload']
+          apps = response.parsed_body['payload']
           slack_app = apps.find { |app| app['id'] == 'slack' }
           expect(slack_app['action']).to include('client_id=client_id')
         end
@@ -74,7 +74,7 @@ RSpec.describe 'Integration Apps API', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        app = JSON.parse(response.body)['payload'].find { |int_app| int_app['id'] == openai.app.id }
+        app = response.parsed_body['payload'].find { |int_app| int_app['id'] == openai.app.id }
         expect(app['hooks'].first['settings']).not_to be_nil
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe 'Integration Apps API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        app = JSON.parse(response.body)
+        app = response.parsed_body
         expect(app['id']).to eql('slack')
         expect(app['name']).to eql('Slack')
       end
@@ -111,7 +111,7 @@ RSpec.describe 'Integration Apps API', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        app = JSON.parse(response.body)
+        app = response.parsed_body
         expect(app['hooks'].first['settings']).to be_nil
       end
 
@@ -123,7 +123,7 @@ RSpec.describe 'Integration Apps API', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        app = JSON.parse(response.body)
+        app = response.parsed_body
         expect(app['hooks'].first['settings']).not_to be_nil
       end
     end

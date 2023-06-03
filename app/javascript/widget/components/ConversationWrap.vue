@@ -64,7 +64,7 @@ export default {
       isAgentTyping: 'conversation/getIsAgentTyping',
     }),
     colorSchemeClass() {
-      return `${this.darkMode === 'light' ? 'light' : 'dark'}`;
+      return `${this.darkMode === 'dark' ? 'dark-scheme' : 'light-scheme'}`;
     },
   },
   watch: {
@@ -122,10 +122,10 @@ export default {
   color-scheme: light dark;
   height: 100%;
 
-  &.light {
+  &.light-scheme {
     color-scheme: light;
   }
-  &.dark {
+  &.dark-scheme {
     color-scheme: dark;
   }
 }

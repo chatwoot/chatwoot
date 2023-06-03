@@ -28,9 +28,9 @@ describe Sms::SendOnSmsService do
         message = build(:message, message_type: :outgoing, content: 'test',
                                   conversation: conversation)
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
         attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment2.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment2.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
         message.save!
 
         allow(HTTParty).to receive(:post).and_return(sms_request)

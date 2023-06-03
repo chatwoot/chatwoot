@@ -24,7 +24,7 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
       it 'returns unauthorized when its not a permissible object' do
         get '/platform/api/v1/agent_bots', headers: { api_access_token: platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data.length).to eq(0)
       end
 
@@ -35,7 +35,7 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
             headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data.length).to eq(1)
       end
     end
@@ -71,7 +71,7 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
             headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['name']).to eq(agent_bot.name)
       end
     end
@@ -100,7 +100,7 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
                                              headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['name']).to eq('test')
         expect(platform_app.platform_app_permissibles.first.permissible_id).to eq data['id']
       end
@@ -137,7 +137,7 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
                                                              headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        data = JSON.parse(response.body)
+        data = response.parsed_body
         expect(data['name']).to eq('test123')
       end
     end

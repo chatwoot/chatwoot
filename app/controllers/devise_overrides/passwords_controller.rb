@@ -4,6 +4,16 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
+  def create
+    @user = User.find_by(email: params[:email])
+    if @user
+      @user.send_reset_password_instructions
+      build_response(I18n.t('messages.reset_password_success'), 200)
+    else
+      build_response(I18n.t('messages.reset_password_failure'), 404)
+    end
+  end
+
   def update
     # params: reset_password_token, password, password_confirmation
     original_token = params[:reset_password_token]
@@ -14,16 +24,6 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
       render partial: 'devise/auth', formats: [:json], locals: { resource: @recoverable }
     else
       render json: { message: 'Invalid token', redirect_url: '/' }, status: :unprocessable_entity
-    end
-  end
-
-  def create
-    @user = User.find_by(email: params[:email])
-    if @user
-      @user.send_reset_password_instructions
-      build_response(I18n.t('messages.reset_password_success'), 200)
-    else
-      build_response(I18n.t('messages.reset_password_failure'), 404)
     end
   end
 
