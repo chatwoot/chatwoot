@@ -4,23 +4,6 @@
       <p>{{ $t('CONTACTS_FILTER.SUBTITLE') }}</p>
     </woot-modal-header>
     <div class="row modal-content">
-      <div v-if="isSegmentsView" class="columns">
-        <label class="input-label" :class="{ error: !activeSegmentNewName }">
-          {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
-          <input
-            v-model="activeSegmentNewName"
-            type="text"
-            class="name-input"
-            @input="onActiveSegmentNameChange"
-          />
-          <span v-if="!activeSegmentNewName" class="message">
-            {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
-          </span>
-        </label>
-        <label class="input-label">
-          {{ $t('CONTACTS_FILTER.SEGMENT_QUERY_LABEL') }}
-        </label>
-      </div>
       <div class="medium-12 columns filters-wrap">
         <filter-input-box
           v-for="(filter, i) in appliedFilters"

@@ -194,9 +194,6 @@ export default {
       }
       return undefined;
     },
-    activeSegmentName() {
-      return this.activeSegment?.name;
-    },
   },
   watch: {
     label() {
