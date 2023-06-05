@@ -60,11 +60,15 @@ class Channel::CommonWhatsapp < ApplicationRecord
       send_text_message(target_phone_number, message)
     end
 
+    def on_destroy_channel
+      Rails.logger.info("DESTROYING CHANNEL AND CLOSING OPENED SESSION")
+      Rails.logger.info(logout_session)
+      Rails.logger.info(clear_session)
+    end
+
     private
 
     def send_text_message(target_phone_number, message)
-      Rails.logger.info('LOGANDO DENTRO DO SEND_MESSAGE')
-      Rails.logger.info(message.content)
       response = HTTParty.post(
         "#{api_base_path}/send-message",
         headers: api_headers,
@@ -78,14 +82,31 @@ class Channel::CommonWhatsapp < ApplicationRecord
     end
 
     def process_response(response)
-      Rails.logger.info("RESULTADO DA REQUISIÇÃO")
-      Rails.logger.info(response)
       if response.success?
         response['response'].first['id']
       else
         Rails.logger.error response.body
         nil
       end
+    end
+
+    def logout_session
+      response = HTTParty.post(
+          "#{api_base_path}/logout-session",
+          headers: { 'Authorization' => "Bearer #{token}", 'Content-Type' => 'application/json' }
+      )
+      response
+    end
+
+    def clear_session
+      response = HTTParty.post(
+        "#{api_base_path}/close-session",
+        headers: { 'Authorization' => "Bearer #{token}", 'Content-Type' => 'application/json' },
+        body: {
+            clearSession: true
+        }.to_json
+      )
+      response
     end
   
     # def reply_markup(message)
