@@ -1,0 +1,38 @@
+name: Run Size Limit Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: yarn
+        run: yarn install
+
+      - name: Strip enterprise code
+        run: |
+          rm -rf enterprise
+          rm -rf spec/enterprise
+
+      - name: Run asset compile
+        run: bundle exec rake assets:precompile RAILS_ENV=production
+
+      - name: Size Check
+        run: yarn run size
