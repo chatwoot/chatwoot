@@ -21,23 +21,23 @@
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
-      "ADD": "%{username} created a new automation rule (#%{id})",
-      "EDIT": "%{username} updated an automation rule (#%{id})",
-      "DELETE": "%{username} deleted an automation rule (#%{id})"
+      "ADD": "%{agentName} created a new automation rule (#%{id})",
+      "EDIT": "%{agentName} updated an automation rule (#%{id})",
+      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
     },
     "INBOX": {
-      "ADD": "%{username} created a new inbox (#%{id})",
-      "EDIT": "%{username} updated an inbox (#%{id})",
-      "DELETE": "%{username} deleted an inbox (#%{id})"
+      "ADD": "%{agentName} created a new inbox (#%{id})",
+      "EDIT": "%{agentName} updated an inbox (#%{id})",
+      "DELETE": "%{agentName} deleted an inbox (#%{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{username} created a new webhook (#%{id})",
-      "EDIT": "%{username} updated a webhook (#%{id})",
-      "DELETE": "%{username} deleted a webhook (#%{id})"
+      "ADD": "%{agentName} created a new webhook (#%{id})",
+      "EDIT": "%{agentName} updated a webhook (#%{id})",
+      "DELETE": "%{agentName} deleted a webhook (#%{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{username} signed in",
-      "SIGN_OUT": "%{username} signed out"
+      "SIGN_IN": "%{agentName} signed in",
+      "SIGN_OUT": "%{agentName} signed out"
     }
   }
 }

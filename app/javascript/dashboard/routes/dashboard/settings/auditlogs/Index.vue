@@ -104,58 +104,32 @@ export default {
       return agentName || email;
     },
     generateLogText(auditLogItem) {
-      const username = this.getAgentName(auditLogItem.username);
+      const agentName = this.getAgentName(auditLogItem.username);
       const auditableType = auditLogItem.auditable_type.toLowerCase();
       const action = auditLogItem.action.toLowerCase();
       const auditId = auditLogItem.auditable_id;
       const logActionKey = `${auditableType}:${action}`;
 
-      const logActions = {
-        'automationrule:create': this.$t(`AUDIT_LOGS.AUTOMATION_RULE.ADD`, {
-          username: username,
-          id: auditId,
-        }),
-        'automationrule:update': this.$t(`AUDIT_LOGS.AUTOMATION_RULE.EDIT`, {
-          username: username,
-          id: auditId,
-        }),
-        'automationrule:destroy': this.$t(`AUDIT_LOGS.AUTOMATION_RULE.DELETE`, {
-          username: username,
-          id: auditId,
-        }),
-        'webhook:create': this.$t(`AUDIT_LOGS.WEBHOOK.ADD`, {
-          username: username,
-          id: auditId,
-        }),
-        'webhook:update': this.$t(`AUDIT_LOGS.WEBHOOK.EDIT`, {
-          username: username,
-          id: auditId,
-        }),
-        'webhook:destroy': this.$t(`AUDIT_LOGS.WEBHOOK.DELETE`, {
-          username: username,
-          id: auditId,
-        }),
-        'inbox:create': this.$t(`AUDIT_LOGS.INBOX.ADD`, {
-          username: username,
-          id: auditId,
-        }),
-        'inbox:update': this.$t(`AUDIT_LOGS.INBOX.EDIT`, {
-          username: username,
-          id: auditId,
-        }),
-        'inbox:destroy': this.$t(`AUDIT_LOGS.INBOX.DELETE`, {
-          username: username,
-          id: auditId,
-        }),
-        'user:sign_in': this.$t(`AUDIT_LOGS.USER_ACTION.SIGN_IN`, {
-          username: username,
-        }),
-        'user:sign_out': this.$t(`AUDIT_LOGS.USER_ACTION.SIGN_OUT`, {
-          username: username,
-        }),
+      const translationPayload = {
+        agentName,
+        id: auditId,
       };
 
-      return `${logActions[logActionKey] || logActionKey}`;
+      const translationKeys = {
+        'automationrule:create': `AUDIT_LOGS.AUTOMATION_RULE.ADD`,
+        'automationrule:update': `AUDIT_LOGS.AUTOMATION_RULE.EDIT`,
+        'automationrule:destroy': `AUDIT_LOGS.AUTOMATION_RULE.DELETE`,
+        'webhook:create': `AUDIT_LOGS.WEBHOOK.ADD`,
+        'webhook:update': `AUDIT_LOGS.WEBHOOK.EDIT`,
+        'webhook:destroy': `AUDIT_LOGS.WEBHOOK.DELETE`,
+        'inbox:create': `AUDIT_LOGS.INBOX.ADD`,
+        'inbox:update': `AUDIT_LOGS.INBOX.EDIT`,
+        'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
+        'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
+        'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
+      };
+
+      return this.$t(translationKeys[logActionKey] || '', translationPayload);
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
