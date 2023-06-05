@@ -36,28 +36,13 @@ class Channel::CommonWhatsapp < ApplicationRecord
     def api_base_path
       "#{ENV.fetch('WPP_CONNECT_API_URL', '')}/api/#{phone_number}"
     end
-
-    # def get_telegram_profile_image(user_id)
-    #   # get profile image from telegram
-    #   response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })
-    #   return nil unless response.success?
-  
-    #   photos = response.parsed_response.dig('result', 'photos')
-    #   return if photos.blank?
-  
-    #   get_telegram_file_path(photos.first.last['file_id'])
-    # end
-  
-    # def get_telegram_file_path(file_id)
-    #   response = HTTParty.get("#{telegram_api_url}/getFile", query: { file_id: file_id })
-    #   return nil unless response.success?
-  
-    #   "https://api.telegram.org/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
-    # end
   
     def send_message(target_phone_number, message)
-      # response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content, reply_markup(message))
-      send_text_message(target_phone_number, message)
+      if message.attachments.present?
+        send_attachment_message(target_phone_number, message)
+      else
+        send_text_message(target_phone_number, message)
+      end
     end
 
     def on_destroy_channel
@@ -109,58 +94,25 @@ class Channel::CommonWhatsapp < ApplicationRecord
       response
     end
   
-    # def reply_markup(message)
-    #   return unless message.content_type == 'input_select'
+    def send_attachment_message(target_phone_number, message)
+      attachment = message.attachments.first
+      type = %w[image audio video wav].include?(attachment.file_type) ? attachment.file_type : 'document'
+      caption = message.content unless %w[audio sticker].include?(type)
+
+      request_url = "#{api_base_path}/#{type == "audio" ? "send-voice" : "send-file"}"
+
+      response = HTTParty.post(
+        request_url,
+        headers: api_headers,
+        body: {
+          phone: target_phone_number,
+          caption: caption,
+          path: attachment.download_url
+        }.to_json
+      )
   
-    #   {
-    #     one_time_keyboard: true,
-    #     inline_keyboard: message.content_attributes['items'].map do |item|
-    #       [{
-    #         text: item['title'],
-    #         callback_data: item['value']
-    #       }]
-    #     end
-    #   }.to_json
-    # end
-  
-    # def send_attachments(message)
-    #   send_message(message) unless message.content.nil?
-  
-    #   telegram_attachments = []
-    #   message.attachments.each do |attachment|
-    #     telegram_attachment = {}
-  
-    #     case attachment[:file_type]
-    #     when 'audio'
-    #       telegram_attachment[:type] = 'audio'
-    #     when 'image'
-    #       telegram_attachment[:type] = 'photo'
-    #     when 'file'
-    #       telegram_attachment[:type] = 'document'
-    #     end
-    #     telegram_attachment[:media] = attachment.download_url
-    #     telegram_attachments << telegram_attachment
-    #   end
-  
-    #   response = attachments_request(message.conversation[:additional_attributes]['chat_id'], telegram_attachments)
-    #   response.parsed_response['result'].first['message_id'] if response.success?
-    # end
-  
-    # def attachments_request(chat_id, attachments)
-    #   HTTParty.post("#{telegram_api_url}/sendMediaGroup",
-    #                 body: {
-    #                   chat_id: chat_id,
-    #                   media: attachments.to_json
-    #                 })
-    # end
-  
-    # def message_request(chat_id, text, reply_markup = nil)
-    #   HTTParty.post("#{telegram_api_url}/sendMessage",
-    #                 body: {
-    #                   chat_id: chat_id,
-    #                   text: text,
-    #                   reply_markup: reply_markup
-    #                 })
-    # end
+      process_response(response)
+    end
+
   end
   
