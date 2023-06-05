@@ -123,6 +123,30 @@ export default {
           username: username,
           id: auditId,
         }),
+        'webhook:create': this.$t(`AUDIT_LOGS.WEBHOOK.ADD`, {
+          username: username,
+          id: auditId,
+        }),
+        'webhook:update': this.$t(`AUDIT_LOGS.WEBHOOK.EDIT`, {
+          username: username,
+          id: auditId,
+        }),
+        'webhook:destroy': this.$t(`AUDIT_LOGS.WEBHOOK.DELETE`, {
+          username: username,
+          id: auditId,
+        }),
+        'inbox:create': this.$t(`AUDIT_LOGS.INBOX.ADD`, {
+          username: username,
+          id: auditId,
+        }),
+        'inbox:update': this.$t(`AUDIT_LOGS.INBOX.EDIT`, {
+          username: username,
+          id: auditId,
+        }),
+        'inbox:destroy': this.$t(`AUDIT_LOGS.INBOX.DELETE`, {
+          username: username,
+          id: auditId,
+        }),
         'user:sign_in': this.$t(`AUDIT_LOGS.USER_ACTION.SIGN_IN`, {
           username: username,
         }),

@@ -25,6 +25,16 @@
       "EDIT": "%{username} updated an automation rule (#%{id})",
       "DELETE": "%{username} deleted an automation rule (#%{id})"
     },
+    "INBOX": {
+      "ADD": "%{username} created a new inbox (#%{id})",
+      "EDIT": "%{username} updated an inbox (#%{id})",
+      "DELETE": "%{username} deleted an inbox (#%{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "%{username} created a new webhook (#%{id})",
+      "EDIT": "%{username} updated a webhook (#%{id})",
+      "DELETE": "%{username} deleted a webhook (#%{id})"
+    },
     "USER_ACTION": {
       "SIGN_IN": "%{username} signed in",
       "SIGN_OUT": "%{username} signed out"
