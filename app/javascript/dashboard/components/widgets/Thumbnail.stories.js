@@ -17,7 +17,14 @@ export default {
     badge: {
       control: {
         type: 'select',
-        options: ['fb', 'whatsapp', 'sms', 'twitter-tweet', 'twitter-dm'],
+        options: [
+          'fb',
+          'whatsapp',
+          'commonWhatsapp',
+          'sms',
+          'twitter-tweet',
+          'twitter-dm',
+        ],
       },
     },
     variant: {

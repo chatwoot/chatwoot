@@ -109,7 +109,7 @@ export default {
         'twitter-tweet': 'twitter-tweet',
         'twitter-dm': 'twitter-dm',
         whatsapp: 'whatsapp',
-        commonWhatsapp: 'whatsapp',
+        'Channel::CommonWhatsapp': 'whatsapp',
         sms: 'sms',
         'Channel::Line': 'line',
         'Channel::Telegram': 'telegram',

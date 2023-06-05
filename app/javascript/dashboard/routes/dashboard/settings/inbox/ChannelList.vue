@@ -49,8 +49,8 @@ export default {
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Messenger' },
         { key: 'twitter', name: 'Twitter' },
-        { key: 'whatsapp', name: 'WhatsApp' },
-        { key: 'commonWhatsapp', name: 'WhatsApp Comum' },
+        { key: 'whatsapp', name: 'WhatsApp Business' },
+        { key: 'commonWhatsapp', name: 'WhatsApp' },
         { key: 'sms', name: 'SMS' },
         { key: 'email', name: 'Email' },
         {

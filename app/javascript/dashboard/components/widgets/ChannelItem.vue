@@ -60,6 +60,9 @@ export default {
       if (this.channel.key === 'commonWhatsapp') {
         return baseThumb('whatsapp');
       }
+      if (this.channel.key === 'whatsapp') {
+        return baseThumb('business-whatsapp');
+      }
       return baseThumb(this.channel.key);
     },
     onItemClick() {
