@@ -5,7 +5,7 @@ export const getInputType = (key, operator, filterTypes) => {
   return type?.inputType;
 };
 
-const generateCustomAttributesInputType = type => {
+export const generateCustomAttributesInputType = type => {
   const filterInputTypes = {
     text: 'string',
     number: 'string',
@@ -17,7 +17,7 @@ const generateCustomAttributesInputType = type => {
   return filterInputTypes[type];
 };
 
-const getAttributeInputType = (key, allCustomAttributes) => {
+export const getAttributeInputType = (key, allCustomAttributes) => {
   const customAttribute = allCustomAttributes.find(
     attr => attr.attribute_key === key
   );
@@ -28,7 +28,7 @@ const getAttributeInputType = (key, allCustomAttributes) => {
   return filterInputTypes;
 };
 
-const getValuesName = (values, list, idKey, nameKey) => {
+export const getValuesName = (values, list, idKey, nameKey) => {
   const item = list?.find(v => v[idKey] === values[0]);
   return {
     id: values[0],
@@ -36,7 +36,7 @@ const getValuesName = (values, list, idKey, nameKey) => {
   };
 };
 
-const getValuesForFilter = (filter, params) => {
+export const getValuesForFilter = (filter, params) => {
   const { attribute_key, values } = filter;
   const {
     languages,
