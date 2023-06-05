@@ -3,9 +3,9 @@ import {
   getInputType,
   getAttributeInputType,
 } from 'dashboard/helper/customViewsHelper';
-import advancedFilterTypes from 'components/widgets/conversation/advancedFilterItems';
-import languages from 'components/widgets/conversation/advancedFilterItems/languages';
-import countries from 'shared/constants/countries.js';
+import advancedFilterTypes from 'dashboard/components/widgets/conversation/advancedFilterItems/index';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import countries from 'shared/constants/countries';
 
 export default {
   data() {
