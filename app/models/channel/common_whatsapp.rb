@@ -95,23 +95,26 @@ class Channel::CommonWhatsapp < ApplicationRecord
     end
   
     def send_attachment_message(target_phone_number, message)
-      attachment = message.attachments.first
-      type = %w[image audio video wav].include?(attachment.file_type) ? attachment.file_type : 'document'
-      caption = message.content unless %w[audio sticker].include?(type)
-
-      request_url = "#{api_base_path}/#{type == "audio" ? "send-voice" : "send-file"}"
-
-      response = HTTParty.post(
-        request_url,
-        headers: api_headers,
-        body: {
-          phone: target_phone_number,
-          caption: caption,
-          path: attachment.download_url
-        }.to_json
-      )
+      responses = []
+      message.attachments.each do |attachment|
+        type = %w[image audio video wav].include?(attachment.file_type) ? attachment.file_type : 'document'
+        caption = message.content unless %w[audio sticker].include?(type)
   
-      process_response(response)
+        request_url = "#{api_base_path}/#{type == "audio" ? "send-voice" : "send-file"}"
+  
+        response = HTTParty.post(
+          request_url,
+          headers: api_headers,
+          body: {
+            phone: target_phone_number,
+            caption: caption,
+            path: attachment.download_url
+          }.to_json
+        )
+
+        responses.push(process_response(response))
+      end
+      responses
     end
 
   end
