@@ -32,7 +32,7 @@ jobs:
           rm -rf spec/enterprise
 
       - name: Run asset compile
-        run: bundle exec rake assets:precompile RAILS_ENV=production
+        run: bundle exec rake assets:precompile
 
       - name: Size Check
         run: yarn run size
