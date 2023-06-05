@@ -20,19 +20,14 @@
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
     "DEFAULT_USER": "System",
-    "ACTION_VOWEL": {
-      "ADD": "created a new ",
-      "EDIT": "updated an ",
-      "DELETE": "deleted an ",
-      "SIGN_IN": "signed in",
-      "SIGN_OUT": "signed out"
+    "AUTOMATION_RULE": {
+      "ADD": "%{username} created a new automation rule (%#{id})",
+      "EDIT": "%{username} updated an automation rule (%#{id})",
+      "DELETE": "%{username} deleted an automation rule (%#{id})"
     },
-    "ACTION_CONSONANT": {
-      "ADD": "created a new ",
-      "EDIT": "updated a ",
-      "DELETE": "deleted a ",
-      "SIGN_IN": "signed in",
-      "SIGN_OUT": "signed out"
+    "USER_ACTION": {
+      "SIGN_IN": "%{username} signed in",
+      "SIGN_OUT": "%{username} signed out"
     }
   }
 }

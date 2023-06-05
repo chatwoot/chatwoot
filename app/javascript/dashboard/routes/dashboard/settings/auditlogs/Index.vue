@@ -108,28 +108,30 @@ export default {
       const auditableType = auditLogItem.auditable_type.toLowerCase();
       const action = auditLogItem.action.toLowerCase();
       const auditId = auditLogItem.auditable_id;
+      const logActionKey = `${auditableType}:${action}`;
 
-      const startsWithVowel = /^[aeiou]/i.test(auditableType);
-      const articleKey = startsWithVowel ? 'ACTION_VOWEL' : 'ACTION_CONSONANT';
       const logActions = {
-        create: this.$t(`AUDIT_LOGS.${articleKey}.ADD`),
-        destroy: this.$t(`AUDIT_LOGS.${articleKey}.DELETE`),
-        update: this.$t(`AUDIT_LOGS.${articleKey}.EDIT`),
-        sign_in: this.$t(`AUDIT_LOGS.${articleKey}.SIGN_IN`),
-        sign_out: this.$t(`AUDIT_LOGS.${articleKey}.SIGN_OUT`),
+        'automationrule:create': this.$t(`AUDIT_LOGS.AUTOMATION_RULE.ADD`, {
+          username: username,
+          id: auditId,
+        }),
+        'automationrule:update': this.$t(`AUDIT_LOGS.AUTOMATION_RULE.EDIT`, {
+          username: username,
+          id: auditId,
+        }),
+        'automationrule:destroy': this.$t(`AUDIT_LOGS.AUTOMATION_RULE.DELETE`, {
+          username: username,
+          id: auditId,
+        }),
+        'user:sign_in': this.$t(`AUDIT_LOGS.USER_ACTION.SIGN_IN`, {
+          username: username,
+        }),
+        'user:sign_out': this.$t(`AUDIT_LOGS.USER_ACTION.SIGN_OUT`, {
+          username: username,
+        }),
       };
 
-      // detect if the action is a custom user action, which involves
-      // only the user, such as signing in, signing out etc.
-      // if it is, then do not show the auditable type
-      const userActions = this.isUserAction(action);
-
-      return `${username} ${logActions[action] || action} ${
-        userActions ? '' : `${auditableType} (#${auditId})`
-      }`;
-    },
-    isUserAction(action) {
-      return ['sign_in', 'sign_out'].includes(action);
+      return `${logActions[logActionKey] || logActionKey}`;
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
