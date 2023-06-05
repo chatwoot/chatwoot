@@ -204,6 +204,7 @@ describe('#actions', () => {
       ]);
     });
   });
+
   describe('#addMessage', () => {
     it('sends correct mutations if message is incoming', () => {
       const message = {
@@ -218,6 +219,7 @@ describe('#actions', () => {
           types.SET_CONVERSATION_CAN_REPLY,
           { conversationId: 1, canReply: true },
         ],
+        [types.ADD_CONVERSATION_ATTACHMENTS, message],
       ]);
     });
     it('sends correct mutations if message is not an incoming message', () => {
@@ -436,10 +438,13 @@ describe('#actions', () => {
 describe('#deleteMessage', () => {
   it('sends correct actions if API is success', async () => {
     const [conversationId, messageId] = [1, 1];
-    axios.delete.mockResolvedValue({ data: { id: 1, content: 'deleted' } });
+    axios.delete.mockResolvedValue({
+      data: { id: 1, content: 'deleted' },
+    });
     await actions.deleteMessage({ commit }, { conversationId, messageId });
     expect(commit.mock.calls).toEqual([
       [types.ADD_MESSAGE, { id: 1, content: 'deleted' }],
+      [types.DELETE_CONVERSATION_ATTACHMENTS, { id: 1, content: 'deleted' }],
     ]);
   });
   it('sends no actions if API is error', async () => {
@@ -553,5 +558,41 @@ describe('#addMentions', () => {
         { conversationId: 1, messageId: null },
       ],
     ]);
+  });
+
+  describe('#fetchAllAttachments', () => {
+    it('fetches all attachments', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          payload: [
+            {
+              id: 1,
+              message_id: 1,
+              file_type: 'image',
+              data_url: '',
+              thumb_url: '',
+            },
+          ],
+        },
+      });
+      await actions.fetchAllAttachments({ commit }, 1);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.SET_ALL_ATTACHMENTS,
+          {
+            id: 1,
+            data: [
+              {
+                id: 1,
+                message_id: 1,
+                file_type: 'image',
+                data_url: '',
+                thumb_url: '',
+              },
+            ],
+          },
+        ],
+      ]);
+    });
   });
 });
