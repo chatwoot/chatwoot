@@ -4,17 +4,13 @@
     color-scheme="alert"
     :banner-message="bannerMessage"
     :action-button-label="actionButtonMessage"
-    has-close-button
     has-action-button
     @click="routeToBilling"
-    @close="dismissUpdateBanner"
   />
 </template>
 
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { LocalStorage } from 'shared/helpers/localStorage';
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import accountMixin from 'dashboard/mixins/account';
@@ -27,9 +23,6 @@ const EMPTY_SUBSCRIPTION_INFO = {
 export default {
   components: { Banner },
   mixins: [adminMixin, accountMixin],
-  data() {
-    return { userDismissedBanner: false };
-  },
   computed: {
     ...mapGetters({
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
@@ -47,14 +40,6 @@ export default {
       }
 
       if (!this.isAdmin) {
-        return false;
-      }
-
-      if (this.userDismissedBanner) {
-        return false;
-      }
-
-      if (this.isBannerDismissed()) {
         return false;
       }
 
@@ -93,27 +78,6 @@ export default {
       } = subscription;
 
       return { status, endsOn: new Date(endsOn) };
-    },
-    isBannerDismissed() {
-      const bannerHiddenUntil = LocalStorage.get(
-        LOCAL_STORAGE_KEYS.HIDE_PAYMENT_TILL
-      );
-
-      const now = new Date();
-
-      if (bannerHiddenUntil && now < new Date(bannerHiddenUntil)) {
-        return true;
-      }
-
-      return false;
-    },
-    dismissUpdateBanner() {
-      // dismiss the banner for 24 hours
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      LocalStorage.set(LOCAL_STORAGE_KEYS.HIDE_PAYMENT_TILL, tomorrow);
-      this.userDismissedBanner = true;
     },
   },
 };
