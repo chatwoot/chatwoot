@@ -36,6 +36,7 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
   def message_content(message)
     # TODO: map interactive messages back to button messages in chatwoot
     return '' if message_type_is_b64?(message_type)
+    return message[:vcardFormattedName] if message_type == 'vcard'
     message[:body]
       # message[:body] ||
       # message.dig(:button, :text) ||
@@ -49,13 +50,13 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
     return :audio if %w[audio voice ptt].include?(file_type)
     # return :video if ['video'].include?(file_type)
     return :location if ['location'].include?(file_type)
-    return :contact if ['contacts'].include?(file_type)
+    return :contact if ['contacts', 'vcard', 'multi_vcard'].include?(file_type)
 
     :file
   end
 
   def unprocessable_message_type?(message_type)
-    %w[sticker poll_creation vcard multi_vcard location ephemeral unsupported].include?(message_type)
+    %w[sticker poll_creation multi_vcard location ephemeral unsupported].include?(message_type)
   end
 
   def message_type_is_b64?(message_type)
