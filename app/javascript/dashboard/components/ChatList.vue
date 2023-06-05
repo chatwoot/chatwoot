@@ -663,6 +663,7 @@ export default {
       }
     },
     resetAndFetchData() {
+      this.appliedFilter = [];
       this.resetBulkActions();
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
@@ -675,7 +676,6 @@ export default {
         return;
       }
       this.fetchConversations();
-      this.appliedFilter = [];
     },
     fetchConversations() {
       this.$store
