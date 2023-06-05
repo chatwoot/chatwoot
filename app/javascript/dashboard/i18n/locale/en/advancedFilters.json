@@ -3,7 +3,7 @@
     "TITLE": "Filter Conversations",
     "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
     "EDIT_CUSTOM_FILTER": "Edit Custom Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add filters below and hit 'Update folder' to update folder.",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
