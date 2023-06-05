@@ -135,26 +135,13 @@ export default {
       this.activeImageIndex = index;
       this.setImageAndVideoSrc(attachment);
     },
-    setAttachmentSrc(type, src) {
-      this.attachmentSrc = src;
-      this.activeFileType = type;
-    },
     setImageAndVideoSrc(attachment) {
-      const { file_type } = attachment;
-
-      switch (file_type) {
-        case 'image':
-          this.setAttachmentSrc('image', attachment.data_url);
-          break;
-        case 'video':
-          this.setAttachmentSrc('video', attachment.data_url);
-          break;
-        case 'audio':
-          this.setAttachmentSrc('audio', attachment.data_url);
-          break;
-        default:
-          break;
+      const { file_type: type } = attachment;
+      if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
+        return;
       }
+      this.attachmentSrc = attachment.data_url;
+      this.activeFileType = type;
     },
     onKeyDownHandler(e) {
       if (isEscape(e)) {
