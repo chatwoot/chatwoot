@@ -1,28 +1,13 @@
 <template>
   <div class="column">
-    <woot-modal-header
-      :header-title="
-        !isFolderView ? $t('FILTER.TITLE') : $t('FILTER.EDIT_CUSTOM_FILTER')
-      "
-    >
-      <p>
-        {{
-          !isFolderView
-            ? $t('FILTER.SUBTITLE')
-            : $t('FILTER.CUSTOM_VIEWS_SUBTITLE')
-        }}
-      </p>
+    <woot-modal-header :header-title="filterModalHeaderTitle">
+      <p>{{ filterModalSubTitle }}</p>
     </woot-modal-header>
     <div class="column modal-content">
       <div v-if="isFolderView" class="columns">
         <label class="input-label" :class="{ error: !activeFolderNewName }">
           {{ $t('FILTER.FOLDER_LABEL') }}
-          <input
-            v-model="activeFolderNewName"
-            type="text"
-            class="name-input"
-            @input="onActiveFolderNameChange"
-          />
+          <input v-model="activeFolderNewName" type="text" class="name-input" />
           <span v-if="!activeFolderNewName" class="message">
             {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
           </span>
@@ -162,6 +147,16 @@ export default {
     ...mapGetters({
       getAppliedConversationFilters: 'getAppliedConversationFilters',
     }),
+    filterModalHeaderTitle() {
+      return !this.isFolderView
+        ? this.$t('FILTER.TITLE')
+        : this.$t('FILTER.EDIT_CUSTOM_FILTER');
+    },
+    filterModalSubTitle() {
+      return !this.isFolderView
+        ? this.$t('FILTER.SUBTITLE')
+        : this.$t('FILTER.CUSTOM_VIEWS_SUBTITLE');
+    },
   },
   mounted() {
     this.setFilterAttributes();
@@ -327,14 +322,14 @@ export default {
         ...this.appliedFilters[lastItemIndex],
         query_operator: 'and',
       };
-      setTimeout(() => {
+      this.$nextTick(() => {
         this.appliedFilters.push({
           attribute_key: 'status',
           filter_operator: 'equal_to',
           values: '',
           query_operator: 'and',
         });
-      }, 10);
+      });
     },
     removeFilter(index) {
       if (this.appliedFilters.length <= 1) {
@@ -359,7 +354,7 @@ export default {
       });
     },
     updateSavedCustomViews() {
-      this.$emit('updateFolder', this.appliedFilters);
+      this.$emit('updateFolder', this.appliedFilters, this.activeFolderNewName);
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(
@@ -371,9 +366,6 @@ export default {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')
         return false;
       return true;
-    },
-    onActiveFolderNameChange() {
-      this.$emit('updateActiveFolderName', this.activeFolderNewName);
     },
   },
 };

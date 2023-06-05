@@ -180,7 +180,6 @@
         :on-close="closeAdvanceFiltersModal"
         :is-folder-view="hasActiveFolders"
         @applyFilter="onApplyFilter"
-        @updateActiveFolderName="onUpdateFolderName"
         @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
@@ -287,7 +286,6 @@ export default {
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
-      updatedFolderName: '',
     };
   },
   computed: {
@@ -529,9 +527,6 @@ export default {
     });
   },
   methods: {
-    onUpdateFolderName(name) {
-      this.updatedFolderName = name;
-    },
     onApplyFilter(payload) {
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
@@ -539,15 +534,14 @@ export default {
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
     },
-    onUpdateSavedFilter(payload) {
+    onUpdateSavedFilter(payload, folderName) {
       const payloadData = {
         ...this.activeFolder,
-        name: this.updatedFolderName,
+        name: folderName,
         query: filterQueryGenerator(payload),
       };
       this.$store.dispatch('customViews/update', payloadData);
       this.closeAdvanceFiltersModal();
-      this.updatedFolderName = '';
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
@@ -575,6 +569,16 @@ export default {
       this.appliedFilter = [];
     },
     setParamsForEditFolderModal() {
+      // Here we are setting the params for edit folder modal to show the existing values.
+
+      // For agent, team, inboxes,and campaigns we get only the id's from the query.
+      // So we are mapping the id's to the actual values.
+
+      // For labels we get the name of the label from the query.
+      // If we delete the label from the label list then we will not be able to show the label name.
+
+      // For custom attributes we get only attribute key.
+      // So we are mapping it to find the input type of the attribute to show in the edit folder modal.
       const params = {
         agents: this.agentList,
         teams: this.teamsList,
@@ -591,6 +595,12 @@ export default {
       return params;
     },
     initializeFolderToFilterModal(activeFolder) {
+      // Here we are setting the params for edit folder modal.
+      //  To show the existing values. when we click on edit folder button.
+
+      // Here we get the query from the active folder.
+      // And we are mapping the query to the actual values.
+      // To show in the edit folder modal by the help of generateValuesForEditCustomViews helper.
       const query = activeFolder?.query?.payload;
       if (!Array.isArray(query)) return;
 

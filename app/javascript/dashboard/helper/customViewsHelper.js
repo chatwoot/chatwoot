@@ -36,6 +36,34 @@ export const getValuesName = (values, list, idKey, nameKey) => {
   };
 };
 
+const getValuesForLabels = (values, labels) => {
+  const selectedLabels = labels.filter(label => values.includes(label.title));
+  return selectedLabels.map(({ title }) => ({
+    id: title,
+    name: title,
+  }));
+};
+
+const getValuesForLanguages = (values, languages) => {
+  const selectedLanguages = languages.filter(language =>
+    values.includes(language.id)
+  );
+  return selectedLanguages.map(({ id, name }) => ({
+    id: id.toLowerCase(),
+    name: name,
+  }));
+};
+
+const getValuesForCountries = (values, countries) => {
+  const selectedCountries = countries.filter(country =>
+    values.includes(country.id)
+  );
+  return selectedCountries.map(({ id, name }) => ({
+    id: id,
+    name: name,
+  }));
+};
+
 export const getValuesForFilter = (filter, params) => {
   const { attribute_key, values } = filter;
   const {
@@ -57,31 +85,13 @@ export const getValuesForFilter = (filter, params) => {
     case 'campaign_id':
       return getValuesName(values, campaigns, 'id', 'title');
     case 'labels': {
-      const selectedLabels = labels.filter(label =>
-        values.includes(label.title)
-      );
-      return selectedLabels.map(({ title }) => ({
-        id: title,
-        name: title,
-      }));
+      return getValuesForLabels(values, labels);
     }
     case 'browser_language': {
-      const selectedLanguages = languages.filter(language =>
-        values.includes(language.id)
-      );
-      return selectedLanguages.map(({ id, name }) => ({
-        id: id.toLowerCase(),
-        name: name,
-      }));
+      return getValuesForLanguages(values, languages);
     }
     case 'country_code': {
-      const selectedCountries = countries.filter(country =>
-        values.includes(country.id)
-      );
-      return selectedCountries.map(({ id, name }) => ({
-        id: id,
-        name: name,
-      }));
+      return getValuesForCountries(values, countries);
     }
     default:
       return { id: values[0], name: values[0] };
