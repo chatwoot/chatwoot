@@ -21,28 +21,28 @@
         <div class="attachment-view">
           <img
             v-if="isImage"
-            :key="imageAttachmentSrc"
-            :src="imageAttachmentSrc"
+            :key="attachmentSrc"
+            :src="attachmentSrc"
             class="modal-image skip-context-menu"
             @click.stop
           />
           <video
             v-if="isVideo"
-            :key="videoAttachmentSrc"
-            :src="videoAttachmentSrc"
+            :key="attachmentSrc"
+            :src="attachmentSrc"
             controls
             playsInline
             class="modal-video skip-context-menu"
             @click.stop
           />
           <audio
-            v-else-if="isAudio"
-            :key="audioAttachmentSrc"
+            v-if="isAudio"
+            :key="attachmentSrc"
             controls
             class="skip-context-menu"
             @click.stop
           >
-            <source :src="`${audioAttachmentSrc}?t=${Date.now()}`" />
+            <source :src="`${attachmentSrc}?t=${Date.now()}`" />
           </audio>
         </div>
       </div>
@@ -75,6 +75,12 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
+const ALLOWED_FILE_TYPES = {
+  IMAGE: 'image',
+  VIDEO: 'video',
+  AUDIO: 'audio',
+};
+
 export default {
   mixins: [eventListenerMixins, clickaway],
   props: {
@@ -93,10 +99,8 @@ export default {
   },
   data() {
     return {
-      imageAttachmentSrc: '',
-      videoAttachmentSrc: '',
-      audioAttachmentSrc: '',
-      activeFileTypes: '',
+      attachmentSrc: '',
+      activeFileType: '',
       activeImageIndex:
         this.allAttachments.findIndex(
           attachment => attachment.id === this.attachment.id
@@ -108,13 +112,13 @@ export default {
       return this.allAttachments.length > 1;
     },
     isImage() {
-      return this.activeFileTypes === 'image';
+      return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
     },
     isVideo() {
-      return this.activeFileTypes === 'video';
+      return this.activeFileType === ALLOWED_FILE_TYPES.VIDEO;
     },
     isAudio() {
-      return this.activeFileTypes === 'audio';
+      return this.activeFileType === ALLOWED_FILE_TYPES.AUDIO;
     },
   },
   mounted() {
@@ -132,8 +136,8 @@ export default {
       this.setImageAndVideoSrc(attachment);
     },
     setAttachmentSrc(type, src) {
-      this[type + 'AttachmentSrc'] = src;
-      this.activeFileTypes = type;
+      this.attachmentSrc = src;
+      this.activeFileType = type;
     },
     setImageAndVideoSrc(attachment) {
       const { file_type } = attachment;
