@@ -59,62 +59,18 @@
           >
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
-        </woot-dropdown-item>
-
-        <woot-dropdown-divider v-if="isOpen" />
-        <woot-dropdown-sub-menu
-          v-if="isOpen"
-          :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
-        >
           <woot-dropdown-item>
             <woot-button
               variant="clear"
               color-scheme="secondary"
               size="small"
-              icon="send-clock"
-              @click="() => toggleStatus(STATUS_TYPE.SNOOZED, null)"
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
-            </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              icon="dual-screen-clock"
-              @click="
-                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.tomorrow)
-              "
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TOMORROW') }}
-            </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              icon="calendar-clock"
-              @click="
-                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.nextWeek)
-              "
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_WEEK') }}
-            </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              icon="calendar-clock"
+              icon="snooze"
               @click="() => openCustomSnooze()"
             >
-              Custom
+              Snooze
             </woot-button>
           </woot-dropdown-item>
-        </woot-dropdown-sub-menu>
+        </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
   </div>
