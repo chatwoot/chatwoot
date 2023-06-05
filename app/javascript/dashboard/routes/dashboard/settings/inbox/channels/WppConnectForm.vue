@@ -80,9 +80,9 @@ export default {
       imgSrc: '',
       messageShown: '',
       disabledTyping: false,
-      connectionTries: 0,
-      maxTries: 6,
       apiToken: '',
+      maxAttempts: 5,
+      attempts: 0,
     };
   },
   computed: {
@@ -124,11 +124,13 @@ export default {
       }
     },
 
-    async generateQrCode() {
-      if (this.disabledTyping) return;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
+    async generateQrCode(isRec = false) {
+      if (!isRec) {
+        if (this.disabledTyping) return;
+        this.$v.$touch();
+        if (this.$v.$invalid) {
+          return;
+        }
       }
 
       this.disabledTyping = true;
@@ -139,16 +141,24 @@ export default {
         this.phoneNumber,
         this.inbox
       );
+
+      await WppConnectAPI.waitInSeconds(2);
+
       if (data.success && data.qrcode) {
         const { qrcode } = data;
         this.imgSrc = qrcode.includes('data:image')
           ? qrcode
           : 'data:image/png;base64,' + qrcode;
 
-        // await this.waitInSeconds(7);
         this.checkConnectionStatus();
       } else {
-        this.messageShown = 'Falha ao obter o qrCode, tente novamente';
+        if (this.attempts <= this.maxAttempts) {
+          // eslint-disable-next-line no-plusplus
+          this.attempts++;
+          this.generateQrCode(true);
+          return;
+        }
+        this.messageShown = 'Failed on getting QRCode, try again later';
         this.disabledTyping = false;
       }
     },
@@ -158,30 +168,24 @@ export default {
         this.phoneNumber,
         this.inbox
       );
-      if (data.success !== true && this.connectionTries <= this.maxTries) {
-        const { qrcode } = data;
+      const { qrcode } = data;
+      if (
+        data.success !== true ||
+        ['QRCODE', 'INITIALIZING', 'CLOSED'].includes(data.status)
+      ) {
         if (qrcode)
           this.imgSrc = qrcode.includes('data:image')
             ? qrcode
             : 'data:image/png;base64,' + qrcode;
-        // eslint-disable-next-line no-plusplus
-        this.connectionTries++;
-        await this.waitInSeconds(5);
+        await WppConnectAPI.waitInSeconds(5);
         this.checkConnectionStatus();
-      } else {
-        this.messageShown = 'Sucesso ao conectar!';
-        this.imgSrc = '';
-        this.apiToken = data.token;
-        this.createChannel();
+        return;
       }
-    },
 
-    waitInSeconds(t = 1) {
-      return new Promise(resolve =>
-        setTimeout(() => {
-          resolve();
-        }, t * 1000)
-      );
+      this.messageShown = 'Successfully connected!';
+      this.imgSrc = '';
+      this.apiToken = data.token;
+      this.createChannel();
     },
   },
 };

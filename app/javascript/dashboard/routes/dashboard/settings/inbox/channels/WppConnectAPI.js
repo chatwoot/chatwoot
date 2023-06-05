@@ -73,6 +73,15 @@ class WppConnectAPI extends ApiClient {
       },
     });
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  waitInSeconds(t = 1) {
+    return new Promise(resolve =>
+      setTimeout(() => {
+        resolve();
+      }, t * 1000)
+    );
+  }
 }
 
 export default new WppConnectAPI();
