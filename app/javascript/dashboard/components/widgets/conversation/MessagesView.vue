@@ -279,6 +279,7 @@ export default {
       if (newChat.id === oldChat.id) {
         return;
       }
+      this.fetchAllAttachmentsFromCurrentChat();
       this.selectedTweetId = null;
     },
   },
@@ -290,6 +291,7 @@ export default {
 
   mounted() {
     this.addScrollListener();
+    this.fetchAllAttachmentsFromCurrentChat();
   },
 
   beforeDestroy() {
@@ -298,6 +300,9 @@ export default {
   },
 
   methods: {
+    fetchAllAttachmentsFromCurrentChat() {
+      this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
+    },
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
       bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);

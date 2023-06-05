@@ -94,6 +94,14 @@ export const hasPressedArrowDownKey = e => {
   return e.keyCode === 40;
 };
 
+export const hasPressedArrowLeftKey = e => {
+  return e.keyCode === 37;
+};
+
+export const hasPressedArrowRightKey = e => {
+  return e.keyCode === 39;
+};
+
 export const hasPressedCommandPlusKKey = e => {
   return e.metaKey && e.keyCode === 75;
 };

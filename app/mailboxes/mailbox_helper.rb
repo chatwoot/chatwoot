@@ -24,13 +24,53 @@ module MailboxHelper
     return if @message.blank?
 
     processed_mail.attachments.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS).each do |mail_attachment|
-      attachment = @message.attachments.new(
-        account_id: @conversation.account_id,
-        file_type: 'file'
-      )
-      attachment.file.attach(mail_attachment[:blob])
+      if inline_attachment?(mail_attachment)
+        embed_inline_image_source(mail_attachment)
+      else
+        attachment = @message.attachments.new(
+          account_id: @conversation.account_id,
+          file_type: 'file'
+        )
+        attachment.file.attach(mail_attachment[:blob])
+      end
     end
     @message.save!
+  end
+
+  def embed_inline_image_source(mail_attachment)
+    current_mail = processed_mail.mail
+
+    if current_mail.html_part.present?
+      upload_inline_image(mail_attachment)
+    elsif current_mail.text_part.present?
+      embed_plain_text_email_with_inline_image(mail_attachment)
+    end
+  end
+
+  def upload_inline_image(mail_attachment)
+    content_id = mail_attachment[:original].cid
+
+    @message.content_attributes[:email][:html_content][:full] = processed_mail.serialized_data[:html_content][:full].gsub(
+      "cid:#{content_id}", inline_image_url(mail_attachment[:blob]).to_s
+    )
+    @message.save!
+  end
+
+  def inline_attachment?(mail_attachment)
+    mail_attachment[:original].inline?
+  end
+
+  def embed_plain_text_email_with_inline_image(mail_attachment)
+    attachment_name = mail_attachment[:original].filename
+
+    @message.content_attributes[:email][:text_content][:full] = processed_mail.serialized_data[:text_content][:reply].gsub(
+      "[image: #{attachment_name}]", "<img src=\"#{inline_image_url(mail_attachment[:blob])}\" alt=\"#{attachment_name}>\""
+    )
+    @message.save!
+  end
+
+  def inline_image_url(blob)
+    Rails.application.routes.url_helpers.url_for(blob)
   end
 
   def create_contact
