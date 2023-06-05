@@ -55,7 +55,8 @@ export const actions = {
       const response = await CustomViewsAPI.update(obj.id, obj);
       commit(types.UPDATE_CUSTOM_VIEW, response.data);
     } catch (error) {
-      // Ignore error
+      const errorMessage = error?.response?.data?.message;
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false });
     }
