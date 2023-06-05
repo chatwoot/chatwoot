@@ -46,10 +46,10 @@
                   {{ twilioChannelName(item) }}
                 </span>
                 <span v-if="item.channel_type === 'Channel::Whatsapp'">
-                  Whatsapp
+                  Whatsapp Business
                 </span>
                 <span v-if="item.channel_type === 'Channel::CommonWhatsapp'">
-                  Whatsapp Povão
+                  Whatsapp
                 </span>
                 <span v-if="item.channel_type === 'Channel::Sms'">
                   Sms
