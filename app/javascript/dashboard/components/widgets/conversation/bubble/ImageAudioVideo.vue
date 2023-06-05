@@ -33,6 +33,12 @@ import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
 
 import GalleryView from '../components/GalleryView';
 
+const ALLOWED_FILE_TYPES = {
+  IMAGE: 'image',
+  VIDEO: 'video',
+  AUDIO: 'audio',
+};
+
 export default {
   components: {
     GalleryView,
@@ -54,13 +60,13 @@ export default {
       currentChatAttachments: 'getSelectedChatAttachments',
     }),
     isImage() {
-      return this.attachment.file_type === 'image';
+      return this.attachment.file_type === ALLOWED_FILE_TYPES.IMAGE;
     },
     isVideo() {
-      return this.attachment.file_type === 'video';
+      return this.attachment.file_type === ALLOWED_FILE_TYPES.VIDEO;
     },
     isAudio() {
-      return this.attachment.file_type === 'audio';
+      return this.attachment.file_type === ALLOWED_FILE_TYPES.AUDIO;
     },
     attachmentTypeClasses() {
       return {
