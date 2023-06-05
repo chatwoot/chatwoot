@@ -71,6 +71,13 @@ class CommonWhatsapp::IncomingMessageService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+    set_avatar_img
+  end
+
+  def set_avatar_img
+    if @processed_params[:sender][:profilePicThumbObj] && @processed_params[:sender][:profilePicThumbObj][:img]
+      Avatar::AvatarFromUrlJob.perform_later(@contact, @processed_params[:sender][:profilePicThumbObj][:img])
+    end
   end
 
   def set_conversation
@@ -103,7 +110,7 @@ class CommonWhatsapp::IncomingMessageService
 
   def attach_location
     location = @processed_params
-    location_name = ''
+    location_name = location[:loc] ? location[:loc] : ''
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),

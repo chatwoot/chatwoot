@@ -2,6 +2,7 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
   require 'base64'
   
   def download_attachment_file(attachment_payload)
+    return nil if attachment_payload.nil? || attachment_payload[:body].nil?
     decoded_file = Base64.decode64(attachment_payload[:body])
     file_name = "media-#{attachment_payload[:mediaKeyTimestamp]}.#{attachment_payload[:mimetype].split('/')[1].split(';')[0]}"
     file = Tempfile.new(file_name)
