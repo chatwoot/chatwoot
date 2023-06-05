@@ -62,11 +62,9 @@ export default {
   align-items: center;
   border-radius: $space-micro;
   display: flex;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-bold;
   justify-content: center;
-  margin-top: $space-smaller;
   max-height: 34px;
-  padding: 0;
-  width: 100%;
+  padding: 0 24px;
 }
 </style>

@@ -5,6 +5,7 @@
     :style="{ borderColor: widgetColor, color: widgetColor }"
   >
     <button class="option-button button" @click="onClick">
+      <span v-if="action.image_url" class="icon"><img :src="action.image_url" alt="icon" /></span>
       <span :style="{ color: widgetColor }">{{ action.title }}</span>
     </button>
   </div>
@@ -77,7 +78,7 @@ export default {
     line-height: 1.5;
     min-height: $space-two * 2;
     text-align: left;
-    white-space: normal;
+    white-space: nowrap;
 
     span {
       display: inline-block;
@@ -86,8 +87,8 @@ export default {
     }
 
     > .icon {
-      margin-right: $space-smaller;
       font-size: $font-size-medium;
+      width: 24px;
     }
   }
 }

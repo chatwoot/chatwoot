@@ -23,18 +23,13 @@
           :class="$dm('text-black-900', 'dark:text-slate-50')"
         >
           <span v-dompurify-html="title" class="mr-1" />
-          <div
-            :class="
-              `h-2 w-2 rounded-full leading-4
-              ${isOnline ? 'bg-green-500' : 'hidden'}`
-            "
-          />
+          <div class="h-2 w-2 rounded-full leading-4 bg-green-500" />
         </div>
         <div
           class="text-xs mt-1"
           :class="$dm('text-black-700', 'dark:text-slate-400')"
         >
-          {{ replyWaitMessage }}
+          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
         </div>
       </div>
     </div>

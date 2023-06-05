@@ -28,9 +28,7 @@ export default {
           ? this.replyTimeStatus
           : `${this.$t('REPLY_TIME.BACK_IN')} ${this.timeLeftToBackInOnline}`;
       }
-      return this.isOnline
-        ? this.replyTimeStatus
-        : this.$t('TEAM_AVAILABILITY.OFFLINE');
+      return this.$t('REPLY_TIME.INSTANTLY')
     },
     outOfOfficeMessage() {
       return this.channelConfig.outOfOfficeMessage;

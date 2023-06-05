@@ -273,21 +273,6 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:status]).to eq('pending')
         end
 
-        # TODO: remove this spec when we remove the condition check in controller
-        # Added for backwards compatibility for bot status
-        # remove this in subsequent release
-        # it 'creates a conversation as pending if status is specified as bot' do
-        #   allow(Rails.configuration.dispatcher).to receive(:dispatch)
-        #   post "/api/v1/accounts/#{account.id}/conversations",
-        #        headers: agent.create_new_auth_token,
-        #        params: { source_id: contact_inbox.source_id, status: 'bot' },
-        #        as: :json
-
-        #   expect(response).to have_http_status(:success)
-        #   response_data = JSON.parse(response.body, symbolize_names: true)
-        #   expect(response_data[:status]).to eq('pending')
-        # end
-
         it 'creates a new conversation with message when message is passed' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",
@@ -304,13 +289,13 @@ RSpec.describe 'Conversations API', type: :request do
         it 'calls contact inbox builder if contact_id and inbox_id is present' do
           builder = double
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
-          allow(ContactInboxBuilder).to receive(:new).and_return(builder)
+          allow(ContactInboxBuilder).to receive(:new).with(contact: contact, inbox: inbox, source_id: nil, hmac_verified: false).and_return(builder)
           allow(builder).to receive(:perform)
           expect(builder).to receive(:perform)
 
           post "/api/v1/accounts/#{account.id}/conversations",
                headers: agent.create_new_auth_token,
-               params: { contact_id: contact.id, inbox_id: inbox.id },
+               params: { contact_id: contact.id, inbox_id: inbox.id, hmac_verified: 'false' },
                as: :json
         end
 
@@ -765,7 +750,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].first['file_type']).to eq('image')
       end
 
@@ -775,7 +760,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        response_body = JSON.parse(response.body)
+        response_body = response.parsed_body
         expect(response_body['payload'].length).to eq(1)
       end
     end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :mailer do
+RSpec.describe AgentNotifications::ConversationNotificationsMailer do
   let(:class_instance) { described_class.new }
   let!(:account) { create(:account) }
   let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
@@ -83,7 +83,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
 
     it 'will not send email if agent is online' do
-      ::OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
       expect(mail).to be_nil
     end
   end
@@ -101,7 +101,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
 
     it 'will not send email if agent is online' do
-      ::OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
       expect(mail).to be_nil
     end
   end

@@ -17,6 +17,7 @@
     "OFFLINE": "Estamos ausentes en este momento"
   },
   "REPLY_TIME": {
+    "INSTANTLY": "Normalmente responde de inmediato",
     "IN_A_FEW_MINUTES": "Normalmente responde en unos minutos",
     "IN_A_FEW_HOURS": "Normalmente responde en unas pocas horas",
     "IN_A_DAY": "Normalmente responde en un día"
