@@ -305,4 +305,34 @@ describe('#getters', () => {
       });
     });
   });
+
+  describe('#getSelectedChatAttachments', () => {
+    it('Returns attachments in selected chat', () => {
+      const state = {};
+      const getSelectedChat = {
+        attachments: [
+          {
+            id: 1,
+            file_name: 'test1',
+          },
+          {
+            id: 2,
+            file_name: 'test2',
+          },
+        ],
+      };
+      expect(
+        getters.getSelectedChatAttachments(state, { getSelectedChat })
+      ).toEqual([
+        {
+          id: 1,
+          file_name: 'test1',
+        },
+        {
+          id: 2,
+          file_name: 'test2',
+        },
+      ]);
+    });
+  });
 });
