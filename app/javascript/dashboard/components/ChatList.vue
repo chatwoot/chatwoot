@@ -505,9 +505,7 @@ export default {
       this.resetAndFetchData();
     },
     activeFolder() {
-      if (!this.hasAppliedFilters) {
-        this.resetAndFetchData();
-      }
+      this.resetAndFetchData();
     },
     chatLists() {
       this.chatsOnView = this.conversationList;
