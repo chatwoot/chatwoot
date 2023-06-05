@@ -154,7 +154,7 @@ export default {
     },
     formattedValue() {
       return this.isAttributeTypeDate
-        ? format(new Date(this.value), DATE_FORMAT)
+        ? format(this.value ? new Date(this.value) : new Date(), DATE_FORMAT)
         : this.value;
     },
     listOptions() {
