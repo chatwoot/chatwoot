@@ -53,7 +53,7 @@ class CommonWhatsapp::IncomingMessageService
     create_message(message)
     
     attach_files
-    # attach_location if message_type == 'location'
+    attach_location if message_type == 'location'
     @message.save!
   end
 
@@ -101,18 +101,18 @@ class CommonWhatsapp::IncomingMessageService
     )
   end
 
-  # def attach_location
-  #   location = @processed_params['location']
-  #   location_name = location['name'] ? "#{location['name']}, #{location['address']}" : ''
-  #   @message.attachments.new(
-  #     account_id: @message.account_id,
-  #     file_type: file_content_type(message_type),
-  #     coordinates_lat: location['latitude'],
-  #     coordinates_long: location['longitude'],
-  #     fallback_title: location_name,
-  #     external_url: location['url']
-  #   )
-  # end
+  def attach_location
+    location = @processed_params
+    location_name = ''
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_content_type(message_type),
+      coordinates_lat: location[:lat],
+      coordinates_long: location[:lng],
+      fallback_title: location_name,
+      external_url: ''
+    )
+  end
 
   def create_message(message)
     @message = @conversation.messages.build(

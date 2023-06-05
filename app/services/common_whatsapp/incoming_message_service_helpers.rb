@@ -51,7 +51,7 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
   end
 
   def unprocessable_message_type?(message_type)
-    %w[sticker poll_creation location ephemeral unsupported].include?(message_type)
+    %w[sticker poll_creation ephemeral unsupported].include?(message_type)
   end
 
   def message_type_is_b64?(message_type)
