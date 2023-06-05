@@ -27,7 +27,7 @@ class WidgetsController < ActionController::Base
 
   def check_domain
     return if Rails.env.development?
-    return if request.base_url.downcase.start_with? @web_widget.website_url.downcase
+    return if request.headers['Referer'].downcase.start_with? @web_widget.website_url.downcase
 
     Rails.logger.error('web widget does not match with expected domain')
     render json: { error: 'web widget does not match with expected domain' }, status: :not_found
