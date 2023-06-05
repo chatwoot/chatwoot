@@ -21,9 +21,9 @@
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
-      "ADD": "%{username} created a new automation rule (%#{id})",
-      "EDIT": "%{username} updated an automation rule (%#{id})",
-      "DELETE": "%{username} deleted an automation rule (%#{id})"
+      "ADD": "%{username} created a new automation rule (#%{id})",
+      "EDIT": "%{username} updated an automation rule (#%{id})",
+      "DELETE": "%{username} deleted an automation rule (#%{id})"
     },
     "USER_ACTION": {
       "SIGN_IN": "%{username} signed in",
