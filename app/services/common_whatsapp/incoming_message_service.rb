@@ -32,21 +32,21 @@ class CommonWhatsapp::IncomingMessageService
 
     process_in_reply_to(@processed_params)
 
-    # create_regular_message(@processed_params)
     message_type == 'vcard' || message_type == 'multi_vcard' ? create_contact_messages(@processed_params) : create_regular_message(@processed_params)
   end
 
   def create_contact_messages(message)
-    create_message(message)
     if message_type == 'vcard'
+      create_message(message)
       attach_single_contact(message)
+      @message.save!
+    else
+      message[:vcardList].each do |contact|
+        contact_attachment_message(contact[:displayName])
+        attach_on_multiple_contacts(contact)
+        @message.save!
+      end
     end
-    # message['contacts'].each do |contact|
-    #   create_message(contact)
-    #   attach_contact(contact)
-    #   @message.save!
-    # end
-    @message.save!
   end
 
   def create_regular_message(message)
@@ -61,8 +61,6 @@ class CommonWhatsapp::IncomingMessageService
     contact_params = @processed_params[:sender]
     return if contact_params.blank?
 
-    Rails.logger.info('CONFIGURAÇÕES CONTATO')
-    Rails.logger.info(contact_params)
     waid = processed_waid(contact_params[:id])
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
@@ -139,16 +137,26 @@ class CommonWhatsapp::IncomingMessageService
     )
   end
 
-  # def attach_contact(contact)
-  #   phones = contact[:phones]
-  #   phones = [{ phone: 'Phone number is not available' }] if phones.blank?
+  def attach_on_multiple_contacts(contact)
+    phone = contact[:vcard].scan(/waid=(\d+)/).flatten.first
+    phone.prepend('+') unless phone.start_with?('+')
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_content_type(message_type),
+      fallback_title: phone.to_s
+    )
+  end
 
-  #   phones.each do |phone|
-  #     @message.attachments.new(
-  #       account_id: @message.account_id,
-  #       file_type: file_content_type(message_type),
-  #       fallback_title: phone[:phone].to_s
-  #     )
-  #   end
-  # end
+  def contact_attachment_message(content)
+    @message = @conversation.messages.build(
+      content: content,
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      message_type: :incoming,
+      sender: @contact,
+      source_id: nil,
+      in_reply_to_external_id: @in_reply_to_external_id,
+      in_reply_to: @in_reply_to
+    )
+  end
 end

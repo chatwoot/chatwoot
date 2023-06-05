@@ -38,11 +38,6 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
     return '' if message_type_is_b64?(message_type)
     return message[:vcardFormattedName] if message_type == 'vcard'
     message[:body]
-      # message[:body] ||
-      # message.dig(:button, :text) ||
-      # message.dig(:interactive, :button_reply, :title) ||
-      # message.dig(:interactive, :list_reply, :title) ||
-      # message.dig(:name, :formatted_name)
   end
 
   def file_content_type(file_type)
@@ -56,7 +51,7 @@ module CommonWhatsapp::IncomingMessageServiceHelpers
   end
 
   def unprocessable_message_type?(message_type)
-    %w[sticker poll_creation multi_vcard location ephemeral unsupported].include?(message_type)
+    %w[sticker poll_creation location ephemeral unsupported].include?(message_type)
   end
 
   def message_type_is_b64?(message_type)
