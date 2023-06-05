@@ -80,7 +80,7 @@ class CommonWhatsapp::IncomingMessageService
     return if %w[text video chat button interactive location contacts].include?(message_type)
 
     attachment_payload = @processed_params
-    @message.content ||= @processed_params[:caption]
+    @message.content = @processed_params[:caption]
 
     attachment_file = download_attachment_file(attachment_payload)
     return if attachment_file.blank?

@@ -123,7 +123,7 @@ class Api::V1::Accounts::CommonWhatsapp::AuthorizationController < Api::V1::Acco
     end
     
     def api_base_path(session)
-        "http://localhost:21465/api/#{session}"
+        "#{ENV.fetch('WPP_CONNECT_API_URL', '')}/api/#{session}"
     end
 
     def process_response(response)
