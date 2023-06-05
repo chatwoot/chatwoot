@@ -65,15 +65,14 @@ class Api::V1::Accounts::CommonWhatsapp::AuthorizationController < Api::V1::Acco
             token = token['token']
 
             # Then check status-session
-            status = close_and_clear_session(phone_number, token)
-            Rails.logger.info('Status')
-            Rails.logger.info(status)
+            status_logout_session = logout_session(phone_number, token)
+            status_clear_session = close_and_clear_session(phone_number, token)
 
-            if status.empty?
+            if status_clear_session.empty?
                 render json: { success: false, message: "Falha na obtenção do Status" }
             else
-                status = status['status']
-                render json: { success: true, status: status }
+                status = status_clear_session['status']
+                render json: { success: true, status: status_clear_session }
             end
         end
     end
@@ -104,6 +103,15 @@ class Api::V1::Accounts::CommonWhatsapp::AuthorizationController < Api::V1::Acco
     def status_session(phone_number, token)
         response = HTTParty.get(
             "#{api_base_path(phone_number)}/status-session",
+            headers: { 'Authorization' => "Bearer #{token}", 'Content-Type' => 'application/json' }
+        )
+
+        process_response(response)
+    end
+
+    def logout_session(phone_number, token)
+        response = HTTParty.post(
+            "#{api_base_path(phone_number)}/logout-session",
             headers: { 'Authorization' => "Bearer #{token}", 'Content-Type' => 'application/json' }
         )
 

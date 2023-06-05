@@ -78,6 +78,8 @@ export default {
       disabledButton: false,
       apiToken: '',
       isConnected: false,
+      maxAttempts: 5,
+      attempts: 0,
     };
   },
   computed: {
@@ -91,11 +93,13 @@ export default {
     this.checkConnectionStatus();
   },
   methods: {
-    async generateQrCode() {
-      if (this.loadingSpinner) return;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
+    async generateQrCode(isRec = false) {
+      if(!isRec) {
+        if (this.loadingSpinner) return;
+        this.$v.$touch();
+        if (this.$v.$invalid) {
+          return;
+        }
       }
 
       this.loadingSpinner = true;
@@ -115,6 +119,12 @@ export default {
         // await this.waitInSeconds(7);
         this.checkConnectionStatus();
       } else {
+        if (this.attempts <= this.maxAttempts) {
+          // eslint-disable-next-line no-plusplus
+          this.attempts++;
+          this.generateQrCode(true);
+          return;
+        }
         this.messageShown = 'Failed on getting QRCode, try again later';
         this.loadingSpinner = false;
       }
@@ -128,13 +138,13 @@ export default {
       const { qrcode } = data;
       if (
         data.success !== true ||
-        ['QRCODE', 'INITIALIZING'].includes(data.status)
+        ['QRCODE', 'INITIALIZING', 'CLOSED'].includes(data.status)
       ) {
         if (qrcode)
           this.imgSrc = qrcode.includes('data:image')
             ? qrcode
             : 'data:image/png;base64,' + qrcode;
-        await this.waitInSeconds(5);
+        await WppConnectAPI.waitInSeconds(5);
         this.checkConnectionStatus();
         return;
       }
@@ -173,14 +183,6 @@ export default {
       }
 
       this.isConnected = false;
-    },
-
-    waitInSeconds(t = 1) {
-      return new Promise(resolve =>
-        setTimeout(() => {
-          resolve();
-        }, t * 1000)
-      );
     },
   },
 };
