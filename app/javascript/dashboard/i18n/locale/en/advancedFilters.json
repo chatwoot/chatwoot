@@ -76,6 +76,9 @@
           "ERROR_MESSAGE": "Error while creating segment"
         }
       },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
       "DELETE": {
         "DELETE_BUTTON": "Delete filter",
         "MODAL": {

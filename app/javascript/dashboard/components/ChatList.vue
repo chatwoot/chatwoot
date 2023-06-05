@@ -48,7 +48,7 @@
         </div>
         <div v-if="hasActiveFolders">
           <woot-button
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
             size="tiny"
             variant="smooth"
             color-scheme="secondary"
@@ -205,7 +205,9 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
-import editFolderMixin from 'shared/mixins/editFolderMixin';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import countries from 'shared/constants/countries';
+import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 
 import {
   hasPressedAltAndJKey,
@@ -234,7 +236,6 @@ export default {
     eventListenerMixins,
     alertMixin,
     filterMixin,
-    editFolderMixin,
   ],
   props: {
     conversationInbox: {
@@ -304,6 +305,11 @@ export default {
       appliedFilters: 'getAppliedConversationFilters',
       folders: 'customViews/getCustomViews',
       inboxes: 'inboxes/getInboxes',
+      agentList: 'agents/getAgents',
+      teamsList: 'teams/getTeams',
+      inboxesList: 'inboxes/getInboxes',
+      campaigns: 'campaigns/getAllCampaigns',
+      labels: 'labels/getLabels',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -514,6 +520,10 @@ export default {
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
     this.resetAndFetchData();
 
+    if (this.hasActiveFolders) {
+      this.$store.dispatch('campaigns/get');
+    }
+
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
@@ -563,6 +573,42 @@ export default {
     closeAdvanceFiltersModal() {
       this.showAdvancedFilters = false;
       this.appliedFilter = [];
+    },
+    setParamsForEditFolderModal() {
+      const params = {
+        agents: this.agentList,
+        teams: this.teamsList,
+        inboxes: this.inboxesList,
+        labels: this.labels,
+        campaigns: this.campaigns,
+        languages: languages,
+        countries: countries,
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: this.$store.getters[
+          'attributes/getAttributesByModel'
+        ]('conversation_attribute'),
+      };
+      return params;
+    },
+    initializeFolderToFilterModal(activeFolder) {
+      const query = activeFolder?.query?.payload;
+      if (!Array.isArray(query)) return;
+
+      this.appliedFilter.push(
+        ...query.map(filter => ({
+          attribute_key: filter.attribute_key,
+          attribute_model: filter.attribute_model,
+          filter_operator: filter.filter_operator,
+          values: Array.isArray(filter.values)
+            ? generateValuesForEditCustomViews(
+                filter,
+                this.setParamsForEditFolderModal()
+              )
+            : [],
+          query_operator: filter.query_operator,
+          custom_attribute_type: filter.custom_attribute_type,
+        }))
+      );
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
