@@ -27,24 +27,15 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-        <div v-if="hasActiveSegments">
-          <woot-button
-            class="margin-right-1 clear"
-            color-scheme="secondary"
-            icon="edit"
-            @click="onToggleEditSegmentsModal"
-          >
-            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
-          </woot-button>
-          <woot-button
-            class="margin-right-1 clear"
-            color-scheme="alert"
-            icon="delete"
-            @click="onToggleDeleteSegmentsModal"
-          >
-            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
-          </woot-button>
-        </div>
+        <woot-button
+          v-if="hasActiveSegments"
+          class="margin-right-1 clear"
+          color-scheme="alert"
+          icon="delete"
+          @click="onToggleDeleteSegmentsModal"
+        >
+          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+        </woot-button>
         <div v-if="!hasActiveSegments" class="filters__button-wrap">
           <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
           <woot-button
@@ -158,9 +149,6 @@ export default {
     },
     onToggleDeleteSegmentsModal() {
       this.$emit('on-toggle-delete-filter');
-    },
-    onToggleEditSegmentsModal() {
-      this.$emit('on-toggle-edit-filter');
     },
   },
 };

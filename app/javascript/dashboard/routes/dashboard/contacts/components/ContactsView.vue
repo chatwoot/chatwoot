@@ -1,6 +1,6 @@
 <template>
   <div class="contacts-page row">
-    <div class="left-wrap" :class="wrapClass">
+    <div class="left-wrap" :class="wrapClas">
       <contacts-header
         :search-query="searchQuery"
         :segments-id="segmentsId"
@@ -13,7 +13,6 @@
         :header-title="pageTitle"
         @on-toggle-save-filter="onToggleSaveFilters"
         @on-toggle-delete-filter="onToggleDeleteFilters"
-        @on-toggle-edit-filter="onToggleFilters"
       />
       <contacts-table
         :contacts="records"
@@ -59,19 +58,14 @@
     </woot-modal>
     <woot-modal
       :show.sync="showFiltersModal"
-      :on-close="closeAdvanceFiltersModal"
+      :on-close="onToggleFilters"
       size="medium"
     >
       <contacts-advanced-filters
         v-if="showFiltersModal"
-        :on-close="closeAdvanceFiltersModal"
+        :on-close="onToggleFilters"
         :initial-filter-types="contactFilterItems"
-        :initial-applied-filters="appliedFilter"
-        :active-segment-name="activeSegmentName"
-        :is-segments-view="hasActiveSegments"
         @applyFilter="onApplyFilter"
-        @updateSegment="onUpdateSegment"
-        @updateActiveSegmentName="onUpdateActiveSegmentName"
         @clearFilters="clearFilters"
       />
     </woot-modal>
@@ -93,7 +87,6 @@ import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
-import editSegmentMixin from 'shared/mixins/editSegmentMixin';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -110,7 +103,6 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
-  mixins: [editSegmentMixin],
   props: {
     label: { type: String, default: '' },
     segmentsId: {
@@ -136,8 +128,6 @@ export default {
       filterType: FILTER_TYPE_CONTACT,
       showAddSegmentsModal: false,
       showDeleteSegmentsModal: false,
-      appliedFilter: [],
-      updatedSegmentName: '',
     };
   },
   computed: {
@@ -185,7 +175,7 @@ export default {
     showContactViewPane() {
       return this.selectedContactId !== '';
     },
-    wrapClass() {
+    wrapClas() {
       return this.showContactViewPane ? 'medium-9' : 'medium-12';
     },
     pageParameter() {
@@ -358,14 +348,7 @@ export default {
       });
     },
     onToggleFilters() {
-      if (this.hasActiveSegments) {
-        this.initializeSegmentToFilterModal(this.activeSegment);
-      }
-      this.showFiltersModal = true;
-    },
-    closeAdvanceFiltersModal() {
-      this.showFiltersModal = false;
-      this.appliedFilter = [];
+      this.showFiltersModal = !this.showFiltersModal;
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
@@ -374,19 +357,6 @@ export default {
         queryPayload: filterQueryGenerator(payload),
       });
       this.showFiltersModal = false;
-    },
-    onUpdateActiveSegmentName(name) {
-      this.updatedSegmentName = name;
-    },
-    onUpdateSegment(payload) {
-      const payloadData = {
-        ...this.activeSegment,
-        name: this.updatedSegmentName,
-        query: filterQueryGenerator(payload),
-      };
-      this.$store.dispatch('customViews/update', payloadData);
-      this.updatedSegmentName = '';
-      this.closeAdvanceFiltersModal();
     },
     clearFilters() {
       this.$store.dispatch('contacts/clearContactFilters');
