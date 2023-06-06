@@ -44,6 +44,7 @@ export default {
         'twilio',
         'api',
         'whatsapp',
+        'commonWhatsapp',
         'sms',
         'telegram',
         'line',
@@ -52,10 +53,17 @@ export default {
   },
   methods: {
     getChannelThumbnail() {
+      const baseThumb = key => `/assets/images/dashboard/channels/${key}.png`;
       if (this.channel.key === 'api' && this.channel.thumbnail) {
         return this.channel.thumbnail;
       }
-      return `/assets/images/dashboard/channels/${this.channel.key}.png`;
+      if (this.channel.key === 'commonWhatsapp') {
+        return baseThumb('whatsapp');
+      }
+      if (this.channel.key === 'whatsapp') {
+        return baseThumb('business-whatsapp');
+      }
+      return baseThumb(this.channel.key);
     },
     onItemClick() {
       if (this.isActive) {

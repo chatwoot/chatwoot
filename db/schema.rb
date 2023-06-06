@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_051424) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_30_153229) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -249,6 +249,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_051424) do
     t.jsonb "additional_attributes", default: {}
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
+  end
+
+  create_table "channel_common_whatsapp", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number", null: false
+    t.string "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_number"], name: "index_channel_common_whatsapp_on_phone_number", unique: true
+    t.index ["token"], name: "index_channel_common_whatsapp_on_token", unique: true
   end
 
   create_table "channel_email", force: :cascade do |t|

@@ -115,6 +115,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def common_whatsapp?
+    channel_type == 'Channel::CommonWhatsapp'
+  end
+
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
@@ -144,6 +148,8 @@ class Inbox < ApplicationRecord
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{channel.line_channel_id}"
     when 'Channel::Whatsapp'
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
+    when 'Channel::CommonWhatsapp'
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/common_whatsapp/#{channel.phone_number}"
     end
   end
 

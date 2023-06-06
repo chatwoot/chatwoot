@@ -378,7 +378,8 @@ export default {
         this.isAPIInbox ||
         this.isAnEmailChannel ||
         this.isASmsInbox ||
-        this.isATelegramChannel
+        this.isATelegramChannel ||
+        this.isACommonWhatsappChannel
       );
     },
     replyButtonLabel() {
@@ -501,7 +502,7 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAWhatsAppChannel || this.isACommonWhatsappChannel) {
         return AUDIO_FORMATS.OGG;
       }
       return AUDIO_FORMATS.WAV;

@@ -69,6 +69,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.WHATSAPP:
       return 'brand-whatsapp';
 
+    case INBOX_TYPES.COMMONWHATSAPP:
+      return 'brand-whatsapp';
+
     case INBOX_TYPES.API:
       return 'cloud';
 

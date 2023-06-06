@@ -1,4 +1,4 @@
-FROM chatwoot:development
+FROM chatwoot/chatwoot:develop
 
 RUN chmod +x docker/entrypoints/webpack.sh
 

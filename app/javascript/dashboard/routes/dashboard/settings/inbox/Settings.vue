@@ -45,6 +45,12 @@
           "
           @blur="$v.selectedInboxName.$touch"
         />
+        <div
+          v-if="isACommonWhatsappChannel"
+          class="medium-9 columns settings-item"
+        >
+          <check-conn-status :phone-number="inbox.phone_number" />
+        </div>
         <label
           v-if="isATwitterInbox"
           for="toggle-business-hours"
@@ -405,6 +411,7 @@ import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 import WidgetBuilder from './WidgetBuilder';
 import BotConfiguration from './components/BotConfiguration';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import CheckConnStatus from './common_whatsapp/CheckConnStatus';
 
 export default {
   components: {
@@ -418,6 +425,7 @@ export default {
     SettingsSection,
     WeeklyAvailability,
     WidgetBuilder,
+    CheckConnStatus,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {

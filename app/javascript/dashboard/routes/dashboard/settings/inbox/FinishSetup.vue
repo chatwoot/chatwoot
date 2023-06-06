@@ -114,6 +114,9 @@ export default {
         this.currentInbox.provider === 'whatsapp_cloud'
       );
     },
+    isCommonWhatsapp() {
+      return this.currentInbox.channel_type === 'Channel::CommonWhatsapp';
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
@@ -137,6 +140,13 @@ export default {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
         )}`;
+      }
+
+      if (this.isCommonWhatsapp) {
+        return `Msg de callback p/ finalização`;
+        // return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+        //   'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
+        // )}`;
       }
 
       if (this.isAEmailInbox && !this.currentInbox.provider) {

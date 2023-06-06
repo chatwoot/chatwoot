@@ -246,6 +246,12 @@
         "SUBMIT_BUTTON": "Criar canal do WhatsApp",
         "API": {
           "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp"
+        },
+        "QRCODE_MESSAGES": {
+          "FAILED_OBTAIN": "Falha ao obter QRCode, tente novamente mais tarde",
+          "FAILED_REFRESH": "Falha ao encerrar conexão. Tente novamente mais tarde",
+          "SUCCESS_ON_CONNECTION": "Conectado com sucesso!",
+          "GENERATE": "Gerar QrCode"
         }
       },
       "API_CHANNEL": {

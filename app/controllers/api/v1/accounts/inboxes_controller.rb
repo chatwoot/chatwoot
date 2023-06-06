@@ -63,11 +63,22 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
+    pre_destroy_channel
     ::DeleteObjectJob.perform_later(@inbox) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
   end
 
   private
+
+  def pre_destroy_channel
+    channel = channel_from_channel_type
+    return if channel.blank?
+
+    channel = channel.find_by(id: @inbox[:channel_id])
+    return if channel.blank?
+
+    channel.on_destroy_channel
+  end
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:id])
@@ -79,7 +90,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create_channel
-    return unless %w[web_widget api email line telegram whatsapp sms].include?(permitted_params[:channel][:type])
+    return unless %w[web_widget api email line telegram whatsapp common_whatsapp sms].include?(permitted_params[:channel][:type])
 
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
   end
@@ -145,10 +156,15 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       'line' => Channel::Line,
       'telegram' => Channel::Telegram,
       'whatsapp' => Channel::Whatsapp,
+      'common_whatsapp' => Channel::CommonWhatsapp,
       'sms' => Channel::Sms
     }[permitted_params[:channel][:type]]
   end
 
+  def channel_from_channel_type
+    @inbox.channel_type.constantize
+  end
+  
   def get_channel_attributes(channel_type)
     if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
       channel_type.constantize::EDITABLE_ATTRS.presence

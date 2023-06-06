@@ -4,6 +4,7 @@ export const INBOX_TYPES = {
   TWITTER: 'Channel::TwitterProfile',
   TWILIO: 'Channel::TwilioSms',
   WHATSAPP: 'Channel::Whatsapp',
+  COMMONWHATSAPP: 'Channel::CommonWhatsapp',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
@@ -100,6 +101,9 @@ export default {
         this.channelType === INBOX_TYPES.WHATSAPP ||
         this.isATwilioWhatsAppChannel
       );
+    },
+    isACommonWhatsappChannel() {
+      return this.channelType === INBOX_TYPES.COMMONWHATSAPP;
     },
   },
 };
