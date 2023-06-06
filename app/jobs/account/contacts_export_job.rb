@@ -5,19 +5,23 @@ class Account::ContactsExportJob < ApplicationJob
     headers = valid_headers(column_names)
     account = Account.find(account_id)
 
-    file = "#{Rails.root}/public/#{account.name}_#{account.id}_contacts.csv"
+    generate_csv(account, headers)
+
+    TeamNotifications::ContactNotificationMailer.contact_export_notification(account)&.deliver_now
+  end
+
+  def generate_csv(account, headers)
+    file = "#{Rails.root}/public/contacts/#{account.id}/#{account.name}_#{account.id}_contacts.csv"
 
     CSV.open(file, 'w', write_headers: true, headers: headers) do |writer|
       account.contacts.each do |contact|
         writer << headers.map { |header| contact.send(header) }
       end
     end
-
-    TeamNotifications::ContactNotificationMailer.contact_export_notification(account)&.deliver_now
   end
 
   def valid_headers(column_names)
-    columns = column_names || default_columns
+    columns = (column_names.presence || default_columns)
     headers = columns.map { |column| column if Contact.column_names.include?(column) }
     headers.compact
   end
