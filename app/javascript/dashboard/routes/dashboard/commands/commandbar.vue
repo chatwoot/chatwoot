@@ -41,14 +41,11 @@ export default {
       return this.$route.name;
     },
     hotKeys() {
-      return [...this.conversationHotKeys(), ...this.goToCommandHotKeys];
+      return [...this.conversationHotKeys, ...this.goToCommandHotKeys];
     },
   },
   watch: {
     routeName() {
-      this.setCommandbarData();
-    },
-    searchValue() {
       this.setCommandbarData();
     },
   },

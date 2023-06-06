@@ -339,6 +339,22 @@ export default {
         },
       ];
     },
+
+    conversationHotKeys() {
+      if (isAConversationRoute(this.$route.name)) {
+        return [
+          ...this.statusActions,
+          ...this.snoozeActions,
+          ...this.conversationAdditionalActions,
+          ...this.assignAgentActions,
+          ...this.assignTeamActions,
+          ...this.labelActions,
+          ...this.assignPriorityActions,
+        ];
+      }
+
+      return [];
+    },
   },
 
   methods: {
@@ -366,22 +382,6 @@ export default {
         title: this.$t(action.title),
         section: this.$t(action.section),
       }));
-    },
-
-    conversationHotKeys() {
-      if (isAConversationRoute(this.$route.name)) {
-        return [
-          ...this.statusActions,
-          ...this.snoozeActions,
-          ...this.conversationAdditionalActions,
-          ...this.assignAgentActions,
-          ...this.assignTeamActions,
-          ...this.labelActions,
-          ...this.assignPriorityActions,
-        ];
-      }
-
-      return [];
     },
   },
 };
