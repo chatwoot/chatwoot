@@ -44,7 +44,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def export
     column_names = params[:column_name]
-    Account::ContactsExportJob(Current.account, column_names)
+    Account::ContactsExportJob(Current.account.id, column_names)
     head :ok, message: 'We will notify you once export contacts file is ready to view'
   end
 
