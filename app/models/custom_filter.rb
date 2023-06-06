@@ -29,7 +29,6 @@ class CustomFilter < ApplicationRecord
   end
 
   def filter_records
-    user = account.users.try(:first)
     Conversations::FilterService.new(query.with_indifferent_access, user, account).perform
   end
 
@@ -46,7 +45,7 @@ class CustomFilter < ApplicationRecord
   end
 
   def filter_count_key
-    format(::Redis::Alfred::CUSTOM_FILTER_RECORDS_COUNT_KEY, account_id: account_id, filter_id: id)
+    format(::Redis::Alfred::CUSTOM_FILTER_RECORDS_COUNT_KEY, account_id: account_id, filter_id: id, user_id: user_id)
   end
 
   def validate_number_of_filters

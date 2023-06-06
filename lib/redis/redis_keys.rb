@@ -31,5 +31,5 @@ module Redis::RedisKeys
   LATEST_CHATWOOT_VERSION = 'LATEST_CHATWOOT_VERSION'.freeze
   # Check if a message create with same source-id is in progress?
   MESSAGE_SOURCE_KEY = 'MESSAGE_SOURCE_KEY::%<id>s'.freeze
-  CUSTOM_FILTER_RECORDS_COUNT_KEY = 'CUSTOM_FILTER::%<account_id>d::%<filter_id>d'.freeze
+  CUSTOM_FILTER_RECORDS_COUNT_KEY = 'CUSTOM_FILTER::%<account_id>d::%<user_id>d::%<filter_id>d'.freeze
 end
