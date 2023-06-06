@@ -96,7 +96,7 @@ export default {
   methods: {
     getAgentName(email) {
       if (email === null) {
-        return this.$t('AUDIT_LOGS.ACTION.SYSTEM');
+        return this.$t('AUDIT_LOGS.DEFAULT_USER');
       }
       const agentName = this.agentList.find(agent => agent.email === email)
         ?.name;
@@ -104,28 +104,32 @@ export default {
       return agentName || email;
     },
     generateLogText(auditLogItem) {
-      const username = this.getAgentName(auditLogItem.username);
+      const agentName = this.getAgentName(auditLogItem.username);
       const auditableType = auditLogItem.auditable_type.toLowerCase();
       const action = auditLogItem.action.toLowerCase();
+      const auditId = auditLogItem.auditable_id;
+      const logActionKey = `${auditableType}:${action}`;
 
-      const logActions = {
-        create: this.$t('AUDIT_LOGS.ACTION.ADD'),
-        destroy: this.$t('AUDIT_LOGS.ACTION.DELETE'),
-        update: this.$t('AUDIT_LOGS.ACTION.EDIT'),
-        sign_in: this.$t('AUDIT_LOGS.ACTION.SIGN_IN'),
-        sign_out: this.$t('AUDIT_LOGS.ACTION.SIGN_OUT'),
+      const translationPayload = {
+        agentName,
+        id: auditId,
       };
 
-      // detect if the action is custom user action, which involves
-      // only the user, such as signing in, signing out etc.
-      // if it is, then do not show the auditable type
-      const userActions = this.getUserActions(action);
-      return `${username} ${logActions[action] || action} ${
-        userActions ? '' : auditableType
-      }`;
-    },
-    getUserActions(action) {
-      return ['sign_in', 'sign_out'].includes(action);
+      const translationKeys = {
+        'automationrule:create': `AUDIT_LOGS.AUTOMATION_RULE.ADD`,
+        'automationrule:update': `AUDIT_LOGS.AUTOMATION_RULE.EDIT`,
+        'automationrule:destroy': `AUDIT_LOGS.AUTOMATION_RULE.DELETE`,
+        'webhook:create': `AUDIT_LOGS.WEBHOOK.ADD`,
+        'webhook:update': `AUDIT_LOGS.WEBHOOK.EDIT`,
+        'webhook:destroy': `AUDIT_LOGS.WEBHOOK.DELETE`,
+        'inbox:create': `AUDIT_LOGS.INBOX.ADD`,
+        'inbox:update': `AUDIT_LOGS.INBOX.EDIT`,
+        'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
+        'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
+        'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
+      };
+
+      return this.$t(translationKeys[logActionKey] || '', translationPayload);
     },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
