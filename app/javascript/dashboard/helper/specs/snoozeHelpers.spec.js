@@ -1,4 +1,4 @@
-import { findSnoozeTime } from '../snoozeHelpers';
+import { findSnoozeTime, conversationReopenTime } from '../snoozeHelpers';
 
 describe('#Snooze Helpers', () => {
   describe('findSnoozeTime', () => {
@@ -10,8 +10,7 @@ describe('#Snooze Helpers', () => {
       const nextHour = new Date();
       nextHour.setHours(nextHour.getHours() + 1);
       expect(findSnoozeTime('an hour from now')).toBeCloseTo(
-        Math.round(nextHour.getTime() / 1000),
-        2
+        Math.floor(nextHour.getTime() / 1000)
       );
     });
 
@@ -39,6 +38,18 @@ describe('#Snooze Helpers', () => {
       nextMonth.setHours(9, 0, 0, 0);
       expect(findSnoozeTime('next month at 9.00AM')).toBeCloseTo(
         nextMonth.getTime() / 1000
+      );
+    });
+  });
+
+  describe('conversationReopenTime', () => {
+    it('should return nil if snoozedUntil is nil', () => {
+      expect(conversationReopenTime(null)).toEqual(null);
+    });
+
+    it('should return formatted date if snoozedUntil is not nil', () => {
+      expect(conversationReopenTime('2023-06-07T09:00:00.000Z')).toEqual(
+        'Wed, 7 Jun, 9.00am'
       );
     });
   });

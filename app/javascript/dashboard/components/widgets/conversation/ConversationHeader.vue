@@ -57,7 +57,6 @@ import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton';
-import format from 'date-fns/format';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName';
@@ -65,6 +64,8 @@ import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
+import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
+
 export default {
   components: {
     BackButton,
@@ -125,13 +126,9 @@ export default {
     snoozedDisplayText() {
       const { snoozed_until: snoozedUntil } = this.currentChat;
       if (snoozedUntil) {
-        const conversationReopenTime = format(
-          new Date(snoozedUntil),
-          'eee, d MMM, h.mmaaa'
-        );
         return `${this.$t(
           'CONVERSATION.HEADER.SNOOZED_UNTIL'
-        )} ${conversationReopenTime}`;
+        )} ${conversationReopenTime(snoozedUntil)}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },
