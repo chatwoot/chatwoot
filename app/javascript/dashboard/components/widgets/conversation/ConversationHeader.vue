@@ -129,7 +129,9 @@ export default {
           new Date(snoozedUntil),
           'eee, d MMM, h.mmaaa'
         );
-        return `Snoozed till ${conversationReopenTime}`;
+        return `${this.$t(
+          'CONVERSATION.HEADER.SNOOZED_UNTIL'
+        )} ${conversationReopenTime}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },
