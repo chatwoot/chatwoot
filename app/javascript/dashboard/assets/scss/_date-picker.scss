@@ -26,12 +26,20 @@
     border-radius: var(--border-radius-normal);
     box-shadow: none;
     display: flex;
-    height: 4.0rem;
+    height: 4rem;
   }
 
   .mx-input:disabled,
   .mx-input[readonly] {
     background-color: var(--white);
     cursor: pointer;
+  }
+}
+
+.mx-datepicker-inline {
+  width: 100%;
+
+  .mx-calendar {
+    width: 100% !important;
   }
 }

@@ -57,7 +57,7 @@ import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton';
-import differenceInHours from 'date-fns/differenceInHours';
+import format from 'date-fns/format';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName';
@@ -125,17 +125,11 @@ export default {
     snoozedDisplayText() {
       const { snoozed_until: snoozedUntil } = this.currentChat;
       if (snoozedUntil) {
-        // When the snooze is applied, it schedules the unsnooze event to next day/week 9AM.
-        // By that logic if the time difference is less than or equal to 24 + 9 hours we can consider it tomorrow.
-        const MAX_TIME_DIFFERENCE = 33;
-        const isSnoozedUntilTomorrow =
-          differenceInHours(new Date(snoozedUntil), new Date()) <=
-          MAX_TIME_DIFFERENCE;
-        return this.$t(
-          isSnoozedUntilTomorrow
-            ? 'CONVERSATION.HEADER.SNOOZED_UNTIL_TOMORROW'
-            : 'CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_WEEK'
+        const conversationReopenTime = format(
+          new Date(snoozedUntil),
+          'eee, d MMM, h.mmaaa'
         );
+        return `Snoozed till ${conversationReopenTime}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },

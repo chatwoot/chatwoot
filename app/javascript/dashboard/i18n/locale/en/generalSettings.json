@@ -140,8 +140,8 @@
       "UNTIL_NEXT_REPLY": "Until next reply",
       "UNTIL_NEXT_WEEK": "Until next week",
       "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "A_MONTH_FROM_NOW": "Until a month from now",
       "CUSTOM": "Custom..."
     }
   },

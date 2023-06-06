@@ -1,5 +1,4 @@
 import { mapGetters } from 'vuex';
-import { addHours, format } from 'date-fns';
 import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_MUTE_CONVERSATION,
@@ -268,6 +267,78 @@ export default {
         SEND_TRANSCRIPT_ACTION,
       ]);
     },
+
+    snoozeActions() {
+      return [
+        {
+          id: 'snooze_conversation',
+          title: this.$t('COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION'),
+          icon: ICON_SNOOZE_CONVERSATION,
+          children: [
+            'until_next_reply',
+            'an_hour_from_now',
+            'until_tomorrow',
+            'until_next_week',
+            'until_next_month',
+            'until_custom_time',
+          ],
+        },
+        {
+          id: 'until_next_reply',
+          title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY'),
+          parent: 'snooze_conversation',
+          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
+          icon: ICON_SNOOZE_CONVERSATION,
+          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextReply'),
+        },
+        {
+          id: 'an_hour_from_now',
+          title: this.$t('COMMAND_BAR.COMMANDS.AN_HOUR_FROM_NOW'),
+          parent: 'snooze_conversation',
+          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
+          icon: ICON_SNOOZE_CONVERSATION,
+          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'an hour from now'),
+        },
+        {
+          id: 'until_tomorrow',
+          title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_TOMORROW'),
+          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
+          parent: 'snooze_conversation',
+          icon: ICON_SNOOZE_CONVERSATION,
+          handler: () =>
+            bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow at 9.00AM'),
+        },
+        {
+          id: 'until_next_week',
+          title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK'),
+          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
+          parent: 'snooze_conversation',
+          icon: ICON_SNOOZE_CONVERSATION,
+          handler: () =>
+            bus.$emit(CMD_SNOOZE_CONVERSATION, 'next monday at 9.00AM'),
+        },
+        {
+          id: 'until_next_month',
+          title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_NEXT_MONTH'),
+          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
+          parent: 'snooze_conversation',
+          icon: ICON_SNOOZE_CONVERSATION,
+          handler: () =>
+            bus.$emit(
+              CMD_SNOOZE_CONVERSATION,
+              'first weekday of next month at 9.00AM'
+            ),
+        },
+        {
+          id: 'until_custom_time',
+          title: this.$t('COMMAND_BAR.COMMANDS.CUSTOM'),
+          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
+          parent: 'snooze_conversation',
+          icon: ICON_SNOOZE_CONVERSATION,
+          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'customTime'),
+        },
+      ];
+    },
   },
 
   methods: {
@@ -297,112 +368,11 @@ export default {
       }));
     },
 
-    snoozeActions(searchValue) {
-      console.log('searchValue', searchValue);
-
-      // const currentDate = new Date();
-      // const futureDate = addHours(currentDate, 1);
-      // const nextHourDate = format(futureDate, 'eee, d MMM, h.mmaaa');
-      // const tomorrowDate = format(
-      //   addHours(currentDate, 24),
-      //   'eee, d MMM, h.mmaaa'
-      // );
-      // const nextWeekDate = format(
-      //   addHours(currentDate, 24 * 7),
-      //   'eee, d MMM, h.mmaaa'
-      // );
-
-      // const nextMonthDate = format(
-      //   addHours(currentDate, 24 * 30),
-      //   'eee, d MMM, h.mmaaa'
-      // );
-
-      const basicOptions = [
-        {
-          id: 'snooze_conversation',
-          title: this.$t('COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION'),
-          icon: ICON_SNOOZE_CONVERSATION,
-          children: [
-            'until_next_reply',
-            'an_hour_from_now',
-            'until_tomorrow',
-            'until_next_week',
-            'until_next_month',
-            'until_custom_time',
-            'until_thursday',
-          ],
-        },
-        {
-          id: 'until_next_reply',
-          title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY'),
-          parent: 'snooze_conversation',
-          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
-          icon: ICON_SNOOZE_CONVERSATION,
-          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextReply'),
-        },
-        {
-          id: 'an_hour_from_now',
-          // hotkey: nextHourDate,
-          title: this.$t('COMMAND_BAR.COMMANDS.AN_HOUR_FROM_NOW'),
-          parent: 'snooze_conversation',
-          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
-          icon: ICON_SNOOZE_CONVERSATION,
-          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'anHourFromNow'),
-        },
-        {
-          id: 'until_tomorrow',
-          // hotkey: tomorrowDate,
-          title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_TOMORROW'),
-          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
-          parent: 'snooze_conversation',
-          icon: ICON_SNOOZE_CONVERSATION,
-          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow'),
-        },
-        {
-          id: 'until_next_week',
-          // hotkey: nextWeekDate,
-          title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK'),
-          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
-          parent: 'snooze_conversation',
-          icon: ICON_SNOOZE_CONVERSATION,
-          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextWeek'),
-        },
-      ];
-
-      let searchOptions = [];
-
-      if (searchValue) {
-        searchOptions = [
-          {
-            id: 'until_thursday',
-            title: 'Until Thursday',
-            section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
-            parent: 'snooze_conversation',
-            icon: ICON_SNOOZE_CONVERSATION,
-            handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'customTime'),
-          },
-        ];
-      }
-
-      return [
-        ...basicOptions,
-        ...searchOptions,
-        {
-          id: 'until_custom_time',
-          title: this.$t('COMMAND_BAR.COMMANDS.CUSTOM'),
-          section: this.$t('COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'),
-          parent: 'snooze_conversation',
-          icon: ICON_SNOOZE_CONVERSATION,
-          handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'customTime'),
-        },
-      ];
-    },
-
-    conversationHotKeys(searchValue) {
+    conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
         return [
           ...this.statusActions,
-          ...this.snoozeActions(searchValue),
+          ...this.snoozeActions,
           ...this.conversationAdditionalActions,
           ...this.assignAgentActions,
           ...this.assignTeamActions,

@@ -65,33 +65,41 @@
               color-scheme="secondary"
               size="small"
               icon="snooze"
-              @click="() => openCustomSnooze()"
+              @click="() => openSnoozeModal()"
             >
-              Snooze
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL') }}
             </woot-button>
           </woot-dropdown-item>
         </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
+    <woot-modal
+      :show.sync="showCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <CustomSnoozeModal
+        @on-close="hideCustomSnoozeModal"
+        @choose-time="chooseSnoozeTime"
+      />
+    </woot-modal>
   </div>
 </template>
 
 <script>
+import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin.js';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
   hasPressedCommandPlusAltAndEKey,
   hasPressedAltAndMKey,
 } from 'shared/helpers/KeyboardHelpers';
-
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -104,16 +112,16 @@ export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
-    WootDropdownSubMenu,
-    WootDropdownDivider,
+    CustomSnoozeModal,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins, snoozeTimesMixin],
+  mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
       isLoading: false,
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      showCustomSnoozeModal: false,
     };
   },
   computed: {
@@ -185,10 +193,24 @@ export default {
       }
     },
     onCmdSnoozeConversation(snoozeType) {
+      if (snoozeType === 'customTime') {
+        this.showCustomSnoozeModal = true;
+      } else {
+        this.toggleStatus(
+          this.STATUS_TYPE.SNOOZED,
+          findSnoozeTime(snoozeType) || null
+        );
+      }
+    },
+    chooseSnoozeTime(customSnoozeTime) {
+      this.showCustomSnoozeModal = false;
       this.toggleStatus(
         this.STATUS_TYPE.SNOOZED,
-        this.snoozeTimes[snoozeType] || null
+        getUnixTime(customSnoozeTime)
       );
+    },
+    hideCustomSnoozeModal() {
+      this.showCustomSnoozeModal = false;
     },
     onCmdOpenConversation() {
       this.toggleStatus(this.STATUS_TYPE.OPEN);
@@ -219,7 +241,7 @@ export default {
           this.isLoading = false;
         });
     },
-    openCustomSnooze() {
+    openSnoozeModal() {
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'snooze_conversation' });
     },
