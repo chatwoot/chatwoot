@@ -70,7 +70,7 @@
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Choose a date and time",
+      "TITLE": "Snooze until",
       "APPLY": "Apply",
       "CANCEL": "Cancel"
     },

@@ -4,10 +4,11 @@
     <form class="row modal-content" @submit.prevent="chooseTime">
       <div class="medium-12 columns">
         <date-picker
-          v-model="customSnoozeTime"
+          v-model="snoozeTime"
           type="datetime"
           inline
-          :disabled-date="disableBeforeToday"
+          :disabled-date="disabledDate"
+          :disabled-time="disabledTime"
           :popup-style="{ width: '100%' }"
         />
       </div>
@@ -25,7 +26,6 @@
 
 <script>
 import DatePicker from 'vue2-datepicker';
-import addDays from 'date-fns/addDays';
 
 export default {
   components: {
@@ -34,7 +34,7 @@ export default {
 
   data() {
     return {
-      customSnoozeTime: null,
+      snoozeTime: null,
     };
   },
 
@@ -43,12 +43,26 @@ export default {
       this.$emit('on-close');
     },
     chooseTime() {
-      this.$emit('choose-time', this.customSnoozeTime);
+      this.$emit('choose-time', this.snoozeTime);
     },
-    disableBeforeToday(date) {
-      const yesterdayDate = addDays(new Date(), -1);
-      return date < yesterdayDate;
+    disabledDate(date) {
+      // Disable all the previous dates
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      return date < yesterday;
+    },
+    disabledTime(date) {
+      // Allow only time after 1 hour
+      const now = new Date();
+      now.setHours(now.getHours() + 1);
+      return date < now;
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.modal-footer {
+  padding-top: var(--font-size-mega);
+}
+</style>
