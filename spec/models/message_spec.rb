@@ -31,6 +31,22 @@ RSpec.describe Message do
     it_behaves_like 'liqudable'
   end
 
+  describe 'message_filter_helpers' do
+    context 'when webhook_sendable?' do
+      [
+        { type: :incoming, expected: true },
+        { type: :outgoing, expected: true },
+        { type: :template, expected: true },
+        { type: :activity, expected: false }
+      ].each do |scenario|
+        it "returns #{scenario[:expected]} for #{scenario[:type]} message" do
+          message = create(:message, message_type: scenario[:type])
+          expect(message.webhook_sendable?).to eq(scenario[:expected])
+        end
+      end
+    end
+  end
+
   describe 'Check if message is a valid first reply' do
     it 'is valid if it is outgoing' do
       outgoing_message = create(:message, message_type: :outgoing)
