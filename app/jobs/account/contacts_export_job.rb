@@ -11,7 +11,10 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def generate_csv(account, headers)
-    file = "#{Rails.root}/public/contacts/#{account.id}/#{account.name}_#{account.id}_contacts.csv"
+    folder_path = Rails.public_path.join('contacts', account.id.to_s)
+    FileUtils.mkdir_p(folder_path)
+
+    file = File.join(folder_path, "#{account.name}_#{account.id}_contacts.csv")
 
     CSV.open(file, 'w', write_headers: true, headers: headers) do |writer|
       account.contacts.each do |contact|

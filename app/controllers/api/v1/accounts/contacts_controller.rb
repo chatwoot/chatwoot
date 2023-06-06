@@ -43,9 +43,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def export
-    column_names = params[:column_name]
+    column_names = params['column_names']
     Account::ContactsExportJob.perform_later(Current.account.id, column_names)
-    head :ok, message: 'We will notify you once export contacts file is ready to view'
+    head :ok, message: I18n.t('errors.contacts.export.success')
   end
 
   # returns online contacts

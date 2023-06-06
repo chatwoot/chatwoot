@@ -115,6 +115,7 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :import
+              get :export
             end
             member do
               get :contactable_inboxes
