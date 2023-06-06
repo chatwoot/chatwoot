@@ -17,13 +17,6 @@
       </label>
     </div>
 
-    <!-- <div class="medium-12 columns">
-      <woot-submit-button
-        :loading="uiFlags.isCreating"
-        :button-text="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
-      />
-    </div> -->
-
     <div v-if="imgSrc" id="qr-code-container" class="medium-12 columns">
       <img
         :src="imgSrc"
@@ -39,7 +32,7 @@
     <div class="medium-12 columns">
       <woot-submit-button
         :loading="uiFlags.isCreating"
-        :button-text="'Generate QrCode'"
+        :button-text="$t('INBOX_MGMT.ADD.WHATSAPP.QRCODE_MESSAGES.GENERATE')"
         :disabled="(loadingSpinner || disabledButton) && !isConnected"
       />
       <woot-button
@@ -125,7 +118,7 @@ export default {
           this.generateQrCode(true);
           return;
         }
-        this.messageShown = 'Failed on getting QRCode, try again later';
+        this.messageShown = $t('INBOX_MGMT.ADD.WHATSAPP.QRCODE_MESSAGES.FAILED_OBTAIN');
         this.loadingSpinner = false;
       }
     },
@@ -153,7 +146,7 @@ export default {
         return;
       }
 
-      this.messageShown = 'Successfully connected!';
+      this.messageShown = $t('INBOX_MGMT.ADD.WHATSAPP.QRCODE_MESSAGES.SUCCESS_ON_CONNECTION');
       this.imgSrc = '';
       this.disabledButton = true;
       this.apiToken = data.token;
@@ -171,14 +164,14 @@ export default {
         );
         data = dataReq;
       } catch (error) {
-        this.messageShown = 'Failed on refresh connection. Try again later';
+        this.messageShown = $t('INBOX_MGMT.ADD.WHATSAPP.QRCODE_MESSAGES.FAILED_REFRESH');
         return;
       }
 
       this.loadingSpinner = false;
 
       if (!data.success) {
-        this.messageShown = 'Failed on refresh connection. Try again later';
+        this.messageShown = $t('INBOX_MGMT.ADD.WHATSAPP.QRCODE_MESSAGES.FAILED_REFRESH');
         return;
       }
 
