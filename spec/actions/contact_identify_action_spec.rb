@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ContactIdentifyAction do
+describe ContactIdentifyAction do
   subject(:contact_identify) { described_class.new(contact: contact, params: params).perform }
 
   let!(:account) { create(:account) }

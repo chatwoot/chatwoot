@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AdministratorNotifications::ChannelNotificationsMailer, type: :mailer do
+RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
   let(:class_instance) { described_class.new }
   let!(:account) { create(:account) }
   let!(:administrator) { create(:user, :administrator, email: 'agent1@example.com', account: account) }

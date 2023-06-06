@@ -62,7 +62,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
         expect(json_response['payload']['related_categories'][1]['id']).to eql(related_category_2.id)
@@ -107,7 +107,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
              params: category_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['message']).to eql('Locale should be unique in the category and portal')
       end
 
@@ -125,7 +125,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
              params: category_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['message']).to eql("Slug can't be blank")
       end
@@ -160,7 +160,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
             params: category_params,
             headers: agent.create_new_auth_token
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['name']).to eql(category_params[:category][:name])
         expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
@@ -185,7 +185,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
 
         expect(json_response['payload']['name']).to eql(category.name)
         expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
@@ -257,7 +257,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['payload'].count).to be(category_count + 1)
       end
     end

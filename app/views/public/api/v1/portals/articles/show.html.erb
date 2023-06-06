@@ -11,34 +11,35 @@
   <% end %>
 <% end %>
 
-<div class="bg-gradient-to-b from-white to-slate-50">
-  <div class="max-w-5xl px-8 lg:px-4 pt-8 pb-16 mx-auto space-y-4 w-full">
-    <% if @article.category.present? %>
-      <div>
-        <a
-          class="text-slate-700 hover:underline leading-8 text-sm font-medium"
-          href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
-        >
-          <%= I18n.t('public_portal.common.home') %>
-        </a>
-        <span class="text-xs text-slate-600 px-1">/</span>
-        <a
-          class="text-slate-700 hover:underline leading-8 text-sm font-medium"
-          href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %>"
-        >
-          <%= @article.category.name %>
-        </a>
-      </div>
-    <% end %>
-    <h1 class="text-3xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
+<!-- The inline styles are intentional, migrate it to classes after upgrading to tailwind v3 -->
+<div class="bg-woot-50 py-8 shadow-inner" style="background: url(/assets/images/hc/grid.svg) color-mix(in srgb, <%= @portal.color %> 10%, white)">
+  <div class="max-w-6xl px-8 pt-8 pb-16 mx-auto space-y-4 w-full">
+    <div>
+      <a
+        class="text-slate-700 hover:underline leading-8 text-sm font-semibold"
+        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>"
+      >
+        Home
+      </a>
+      <span class="text-xs text-slate-600 px-1">/</span>
+      <a
+        class="text-slate-700 hover:underline leading-8 text-sm font-semibold"
+        href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/categories/<%= @article.category.slug %>"
+      >
+        <%= @article.category.name %>
+      </a>
+    </div>
+    <h1 class="text-3xl font-semibold md:tracking-normal leading-snug md:text-4xl text-slate-900">
       <%= @article.title %>
     </h1>
     <div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
       <div class="flex items-center space-x-2">
         <% if @article.author&.avatar_url&.present? %>
-          <img src="<%= @article.author.avatar_url %>" alt="<%= @article.author.display_name %>" class="w-12 h-12 border rounded-full">
+          <div class="pr-1">
+            <img src="<%= @article.author.avatar_url %>" alt="<%= @article.author.display_name %>" class="w-12 h-12 border rounded-full">
+          </div>
         <% end %>
-        <div class="pl-1">
+        <div>
           <h5 class="text-base font-medium text-slate-900 mb-2"><%= @article.author.available_name %></h5>
           <p class="text-sm font-normal text-slate-700">
           <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: @article.updated_at.strftime("%b %d, %Y")) %>
@@ -47,10 +48,9 @@
     </div>
   </div>
 </div>
-<div class="max-w-5xl flex-grow w-full px-6 py-8 mx-auto space-y-12">
-  <article class="space-y-8 ">
-    <div class="text-slate-800 leading-8 text-lg subpixel-antialiased max-w-3xl prose break-words">
-      <p><%= @parsed_content %></p>
-    </div>
+<div class="flex max-w-6xl w-full px-8 mx-auto">
+  <article id="cw-article-content" class="flex-grow flex-2 py-12 mx-auto text-slate-800 text-lg max-w-3xl prose break-words">
+    <%= @parsed_content %>
   </article>
+  <div class="flex-1" id="cw-hc-toc"></div>
 </div>

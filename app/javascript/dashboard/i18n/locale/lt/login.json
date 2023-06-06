@@ -2,12 +2,12 @@
   "LOGIN": {
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
-      "LABEL": "Email",
+      "LABEL": "El. paštas",
       "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "Slaptažodis",
+      "PLACEHOLDER": "Slaptažodis"
     },
     "API": {
       "SUCCESS_MESSAGE": "Login successful",
@@ -21,6 +21,6 @@
     },
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "SUBMIT": "Prisijungti"
   }
 }

@@ -4,8 +4,8 @@
     "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
     "HEADER": "Applications",
     "STATUS": {
-      "ENABLED": "Enabled",
-      "DISABLED": "Disabled"
+      "ENABLED": "Leisti",
+      "DISABLED": "Išjungta"
     },
     "CONFIGURE": "Configure",
     "ADD_BUTTON": "Add a new hook",
@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
       }
     },
     "CONNECT": {

@@ -8,8 +8,8 @@ describe Integrations::GoogleTranslate::DetectLanguageService do
   let(:translate_client) { double }
 
   before do
-    allow(::Google::Cloud::Translate).to receive(:translation_service).and_return(translate_client)
-    allow(translate_client).to receive(:detect_language).and_return(::Google::Cloud::Translate::V3::DetectLanguageResponse
+    allow(Google::Cloud::Translate::V3::TranslationService::Client).to receive(:new).and_return(translate_client)
+    allow(translate_client).to receive(:detect_language).and_return(Google::Cloud::Translate::V3::DetectLanguageResponse
       .new({ languages: [{ language_code: 'es', confidence: 0.71875 }] }))
   end
 

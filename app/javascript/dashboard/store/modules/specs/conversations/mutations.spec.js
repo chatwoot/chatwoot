@@ -40,6 +40,19 @@ describe('#mutations', () => {
   describe('#ASSIGN_TEAM', () => {
     it('clears current chat window', () => {
       const state = { allConversations: [{ id: 1, meta: {} }] };
+      mutations[types.UPDATE_CONVERSATION_LAST_ACTIVITY](state, {
+        lastActivityAt: 1602256198,
+        conversationId: 1,
+      });
+
+      expect(state.allConversations).toEqual([
+        { id: 1, meta: {}, last_activity_at: 1602256198 },
+      ]);
+    });
+  });
+  describe('#UPDATE_CONVERSATION_LAST_ACTIVITY', () => {
+    it('update conversation last activity', () => {
+      const state = { allConversations: [{ id: 1, meta: {} }] };
       mutations[types.ASSIGN_TEAM](state, {
         team: { id: 1, name: 'Team 1' },
         conversationId: 1,
@@ -47,6 +60,16 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual([
         { id: 1, meta: { team: { id: 1, name: 'Team 1' } } },
       ]);
+    });
+  });
+
+  describe('#CHANGE_CHAT_SORT_FILTER', () => {
+    it('update conversation sort filter', () => {
+      const state = { chatSortFilter: 'latest' };
+      mutations[types.CHANGE_CHAT_SORT_FILTER](state, {
+        data: 'sort_on_created_at',
+      });
+      expect(state.chatSortFilter).toEqual({ data: 'sort_on_created_at' });
     });
   });
 
@@ -253,6 +276,123 @@ describe('#mutations', () => {
       };
       mutations[types.CLEAR_CONVERSATION_FILTERS](state);
       expect(state.appliedFilters).toEqual([]);
+    });
+  });
+
+  describe('#SET_ALL_ATTACHMENTS', () => {
+    it('set all attachments', () => {
+      const state = {
+        allConversations: [{ id: 1 }],
+      };
+      const data = [{ id: 1, name: 'test' }];
+      mutations[types.SET_ALL_ATTACHMENTS](state, { id: 1, data });
+      expect(state.allConversations[0].attachments).toEqual(data);
+    });
+  });
+
+  describe('#ADD_CONVERSATION_ATTACHMENTS', () => {
+    it('add conversation attachments', () => {
+      const state = {
+        allConversations: [{ id: 1, attachments: [] }],
+      };
+      const message = {
+        conversation_id: 1,
+        status: 'sent',
+        attachments: [{ id: 1, name: 'test' }],
+      };
+
+      mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.allConversations[0].attachments).toEqual(
+        message.attachments
+      );
+    });
+
+    it('should not add duplicate attachments', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            attachments: [{ id: 1, name: 'existing' }],
+          },
+        ],
+      };
+      const message = {
+        conversation_id: 1,
+        status: 'sent',
+        attachments: [
+          { id: 1, name: 'existing' },
+          { id: 2, name: 'new' },
+        ],
+      };
+
+      mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.allConversations[0].attachments).toHaveLength(2);
+      expect(state.allConversations[0].attachments).toContainEqual({
+        id: 1,
+        name: 'existing',
+      });
+      expect(state.allConversations[0].attachments).toContainEqual({
+        id: 2,
+        name: 'new',
+      });
+    });
+
+    it('should not add attachments if chat not found', () => {
+      const state = {
+        allConversations: [{ id: 1, attachments: [] }],
+      };
+      const message = {
+        conversation_id: 2,
+        status: 'sent',
+        attachments: [{ id: 1, name: 'test' }],
+      };
+
+      mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.allConversations[0].attachments).toHaveLength(0);
+    });
+  });
+
+  describe('#DELETE_CONVERSATION_ATTACHMENTS', () => {
+    it('delete conversation attachments', () => {
+      const state = {
+        allConversations: [{ id: 1, attachments: [{ id: 1, message_id: 1 }] }],
+      };
+      const message = {
+        conversation_id: 1,
+        status: 'sent',
+        id: 1,
+      };
+
+      mutations[types.DELETE_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.allConversations[0].attachments).toHaveLength(0);
+    });
+
+    it('should not delete attachments for non-matching message id', () => {
+      const state = {
+        allConversations: [{ id: 1, attachments: [{ id: 1, message_id: 1 }] }],
+      };
+      const message = {
+        conversation_id: 1,
+        status: 'sent',
+        id: 2,
+      };
+
+      mutations[types.DELETE_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.allConversations[0].attachments).toHaveLength(1);
+    });
+
+    it('should not delete attachments if chat not found', () => {
+      const state = {
+        allConversations: [{ id: 1, attachments: [{ id: 1, message_id: 1 }] }],
+      };
+      const message = {
+        conversation_id: 2,
+        status: 'sent',
+        id: 1,
+      };
+
+      mutations[types.DELETE_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.allConversations[0].attachments).toHaveLength(1);
     });
   });
 });

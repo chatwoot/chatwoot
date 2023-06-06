@@ -86,6 +86,18 @@ const actions = {
     }
   },
 
+  fetchAllAttachments: async ({ commit }, conversationId) => {
+    try {
+      const { data } = await ConversationApi.getAllAttachments(conversationId);
+      commit(types.SET_ALL_ATTACHMENTS, {
+        id: conversationId,
+        data: data.payload,
+      });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   syncActiveConversationMessages: async (
     { commit, state, dispatch },
     { conversationId }
@@ -247,6 +259,10 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error
@@ -269,6 +285,7 @@ const actions = {
         conversationId: message.conversation_id,
         canReply: true,
       });
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
   },
 
@@ -283,6 +300,7 @@ const actions = {
     try {
       const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
+      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
     } catch (error) {
       throw new Error(error);
     }
@@ -335,8 +353,22 @@ const actions = {
     dispatch('contacts/setContact', sender);
   },
 
-  setChatFilter({ commit }, data) {
+  updateConversationLastActivity(
+    { commit },
+    { conversationId, lastActivityAt }
+  ) {
+    commit(types.UPDATE_CONVERSATION_LAST_ACTIVITY, {
+      lastActivityAt,
+      conversationId,
+    });
+  },
+
+  setChatStatusFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
+  },
+
+  setChatSortFilter({ commit }, data) {
+    commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },
 
   updateAssignee({ commit }, data) {

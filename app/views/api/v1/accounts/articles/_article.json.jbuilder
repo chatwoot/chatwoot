@@ -8,11 +8,12 @@ json.position article.position
 json.account_id article.account_id
 json.updated_at article.updated_at.to_i
 json.meta article.meta
+
 json.category do
   json.id article.category_id
-  json.name article.category.name
-  json.slug article.category.slug
-  json.locale article.category.locale
+  json.name article.category&.name
+  json.slug article.category&.slug
+  json.locale article.category&.locale
 end
 
 json.views article.views

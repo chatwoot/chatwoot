@@ -98,7 +98,7 @@ export default {
         const errorMessage = error?.message;
         this.alertMessage =
           errorMessage || this.filterType === 0
-            ? this.$t('FILTER.CUSTOM_VIEWS.ADD.API_FOLDERS.ERROR_MESSAGE')
+            ? errorMessage
             : this.$t('FILTER.CUSTOM_VIEWS.ADD.API_SEGMENTS.ERROR_MESSAGE');
       } finally {
         this.showAlert(this.alertMessage);

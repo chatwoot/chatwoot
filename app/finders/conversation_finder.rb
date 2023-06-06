@@ -5,7 +5,8 @@ class ConversationFinder
   SORT_OPTIONS = {
     latest: 'latest',
     sort_on_created_at: 'sort_on_created_at',
-    last_user_message_at: 'last_user_message_at'
+    last_user_message_at: 'last_user_message_at',
+    sort_on_priority: 'sort_on_priority'
   }.with_indifferent_access
 
   # assumptions
@@ -53,9 +54,10 @@ class ConversationFinder
 
     find_all_conversations
     filter_by_status unless params[:q]
-    filter_by_team if @team
-    filter_by_labels if params[:labels]
-    filter_by_query if params[:q]
+    filter_by_team
+    filter_by_labels
+    filter_by_query
+    filter_by_source_id
   end
 
   def set_inboxes
@@ -106,6 +108,8 @@ class ConversationFinder
   end
 
   def filter_by_query
+    return unless params[:q]
+
     allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
     @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
                                   .where(messages: { message_type: allowed_message_types }).includes(:messages)
@@ -120,11 +124,22 @@ class ConversationFinder
   end
 
   def filter_by_team
+    return unless @team
+
     @conversations = @conversations.where(team: @team)
   end
 
   def filter_by_labels
+    return unless params[:labels]
+
     @conversations = @conversations.tagged_with(params[:labels], any: true)
+  end
+
+  def filter_by_source_id
+    return unless params[:source_id]
+
+    @conversations = @conversations.joins(:contact_inbox)
+    @conversations = @conversations.where(contact_inboxes: { source_id: params[:source_id] })
   end
 
   def set_count_for_all_conversations
@@ -140,9 +155,9 @@ class ConversationFinder
   end
 
   def conversations
-    @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
-    )
+    @conversations = @conversations.includes(:taggings, :inbox,
+                                             { assignee: [{ account_users: [:account] }, { avatar_attachment: [:blob] }] },
+                                             { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox, :messages)
     sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
     @conversations.send(sort_by).page(current_page)
   end

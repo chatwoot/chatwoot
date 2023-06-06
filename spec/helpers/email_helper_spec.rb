@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe EmailHelper, type: :helper do
+describe EmailHelper do
   describe '#normalize_email_with_plus_addressing' do
     context 'when email is passed' do
       it 'normalise if plus addressing is present' do

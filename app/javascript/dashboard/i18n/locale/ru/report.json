@@ -427,10 +427,10 @@
       "UNASSIGNED": "Неназначен"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "HEADER": "Трафик сообщений",
+      "NO_CONVERSATIONS": "Нет сообщений",
+      "CONVERSATION": "%{count} разговор",
+      "CONVERSATIONS": "%{count} разговоров"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Диалоги по операторам",
