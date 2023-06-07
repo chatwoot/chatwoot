@@ -48,8 +48,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     end
   end
 
-  def email_already_present?(channel, inbound_mail, last_email_time)
-    processed_email?(inbound_mail, last_email_time) || channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
+  def email_already_present?(channel, inbound_mail, _last_email_time)
+    channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
   end
 
   def received_mails(imap_inbox)
