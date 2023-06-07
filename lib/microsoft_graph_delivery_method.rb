@@ -6,7 +6,7 @@
 # API allows for emails to be sent again.
 require 'base64'
 
-class ::MicrosoftGraph
+class MicrosoftGraphDeliveryMethod
   def initialize(config)
     @config = config
   end
