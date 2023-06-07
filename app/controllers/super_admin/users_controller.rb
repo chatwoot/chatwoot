@@ -45,6 +45,17 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # empty values into nil values. It uses other APIs such as `resource_class`
   # and `dashboard`:
   #
+
+  def destroy_avatar
+    avatar = requested_resource.avatar
+    avatar.purge
+    redirect_back(fallback_location: requested_resource)
+  end
+
+  def scoped_resource
+    resource_class.with_attached_avatar
+  end
+
   def resource_params
     permitted_params = super
     permitted_params.delete(:password) if permitted_params[:password].blank?

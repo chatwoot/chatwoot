@@ -11,6 +11,7 @@ class UserDashboard < Administrate::BaseDashboard
     account_users: Field::HasMany,
     id: Field::Number,
     avatar_url: AvatarField,
+    avatar: Field::ActiveStorage,
     provider: Field::String,
     uid: Field::String,
     password: Field::Password,
@@ -69,6 +70,7 @@ class UserDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     name
+    avatar
     display_name
     email
     password
