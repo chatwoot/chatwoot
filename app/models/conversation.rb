@@ -166,11 +166,11 @@ class Conversation < ApplicationRecord
   end
 
   def unread_messages
-    messages.unread_since(agent_last_seen_at)
+    messages.created_since(agent_last_seen_at)
   end
 
   def unread_incoming_messages
-    messages.incoming.unread_since(agent_last_seen_at)
+    messages.incoming.created_since(agent_last_seen_at)
   end
 
   def push_event_data
