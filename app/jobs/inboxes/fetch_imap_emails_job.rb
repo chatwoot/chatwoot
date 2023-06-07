@@ -40,7 +40,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     received_mails(imap_inbox).each do |message_id|
       inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
-      Rails.logger.info("Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
+      Rails.logger.info("
+        #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
 
       next if email_already_present?(channel, inbound_mail, last_email_time)
 
@@ -78,7 +79,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     received_mails(imap_inbox).each do |message_id|
       inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
-      Rails.logger.info("Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
+      Rails.logger.info("
+        #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
 
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
@@ -117,6 +119,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
+    Rails.logger.info("
+      #{channel.provider} Email dropped: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
   end
 
   # Making sure the access token is valid for microsoft provider
