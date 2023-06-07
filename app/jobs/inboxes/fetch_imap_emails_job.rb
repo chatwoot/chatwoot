@@ -119,7 +119,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
-    Rails.logger.info("
+    Rails.logger.error("
       #{channel.provider} Email dropped: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
   end
 
