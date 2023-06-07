@@ -40,8 +40,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     received_mails(imap_inbox).each do |message_id|
       inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
-      Rails.logger.info("
-        #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
+      mail_info_logger(channel, inbound_mail)
 
       next if email_already_present?(channel, inbound_mail, last_email_time)
 
@@ -79,15 +78,19 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     received_mails(imap_inbox).each do |message_id|
       inbound_mail = Mail.read_from_string imap_inbox.fetch(message_id, 'RFC822')[0].attr['RFC822']
 
-      unless Rails.env.test?
-        Rails.logger.info("
-          #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
-      end
+      mail_info_logger(channel, inbound_mail)
 
       next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
     end
+  end
+
+  def mail_info_logger(channel, inbound_mail)
+    return if Rails.env.test?
+
+    Rails.logger.info("
+      #{channel.provider} Email id: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}, message_id: #{message_id}")
   end
 
   def authenticated_imap_inbox(channel, access_token, auth_method)
