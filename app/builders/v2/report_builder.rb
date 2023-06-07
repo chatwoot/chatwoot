@@ -96,10 +96,9 @@ class V2::ReportBuilder
 
   def conversations
     @open_conversations = scope.conversations.where(account_id: @account.id).open
-    first_response_count = @account.reporting_events.where(name: 'first_response', conversation_id: @open_conversations.pluck('id')).count
     metric = {
       open: @open_conversations.count,
-      unattended: @open_conversations.count - first_response_count
+      unattended: @open_conversations.where(first_reply_created_at: nil).count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
     metric
